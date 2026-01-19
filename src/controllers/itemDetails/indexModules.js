@@ -14,12 +14,18 @@ export {
 export {
     renderVideoSelections,
     renderAudioSelections,
-    renderSubtitleSelections,
-    reloadPlayButtons
+    renderSubtitleSelections
 } from './renderers/mediaSelectionRenderer';
 
 export {
-    renderOverview,
+    reloadPlayButtons
+} from './renderers/playbackButtonRenderer';
+
+export {
+    renderOverview
+} from './renderers/overviewRenderer';
+
+export {
     renderGenres,
     renderWriter,
     renderDirector,

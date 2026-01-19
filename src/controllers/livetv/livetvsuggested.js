@@ -263,7 +263,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../livetv/${depends}`).then(({ default: ControllerFactory }) => {
+        import(`../livetv/${depends}.js`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === 0) {

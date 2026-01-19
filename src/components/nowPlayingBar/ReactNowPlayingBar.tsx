@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useAudioStore } from '../../store/audioStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import './nowPlayingBar.scss'; // Reuse existing styles
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -9,6 +10,7 @@ import IconButton from '@mui/material/IconButton/IconButton';
 
 export const NowPlayingBar: React.FC = () => {
     const { currentTrack, isPlaying, setIsPlaying, currentTime, duration, volume, setVolume } = useAudioStore();
+    const navigate = useNavigate();
 
     if (!currentTrack) {
         return null;
@@ -17,6 +19,10 @@ export const NowPlayingBar: React.FC = () => {
     const togglePlay = () => {
         // This will be connected to the actual player logic later
         setIsPlaying(!isPlaying); 
+    };
+
+    const openNowPlaying = () => {
+        navigate('/nowplaying');
     };
 
     return (
@@ -41,7 +47,7 @@ export const NowPlayingBar: React.FC = () => {
                         />
                     </div>
 
-                    <div className="nowPlayingBarInfoContainer">
+                    <div className="nowPlayingBarInfoContainer" onClick={openNowPlaying} style={{ cursor: 'pointer' }}>
                         <motion.div 
                             layoutId="now-playing-art"
                             className="nowPlayingImage"

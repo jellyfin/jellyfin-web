@@ -16,15 +16,35 @@ export interface AsyncRoute {
     type?: AppType
 }
 
+const routeModules = import.meta.glob('../../apps/**/routes/**/*.{ts,tsx,js,jsx}');
+
 const importRoute = (page: string, type: AppType) => {
+    let folder = '';
     switch (type) {
         case AppType.Dashboard:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
+            folder = 'dashboard';
+            break;
         case AppType.Experimental:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${page}`);
+            folder = 'experimental';
+            break;
         case AppType.Stable:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/stable/routes/${page}`);
+            folder = 'stable';
+            break;
     }
+
+    const path = `../../apps/${folder}/routes/${page}`;
+    const loader = routeModules[`${path}.tsx`] 
+        || routeModules[`${path}.ts`] 
+        || routeModules[`${path}/index.tsx`] 
+        || routeModules[`${path}/index.ts`]
+        || routeModules[`${path}.jsx`]
+        || routeModules[`${path}.js`];
+
+    if (!loader) {
+        throw new Error(`Route module not found: ${path}`);
+    }
+
+    return loader() as Promise<any>;
 };
 
 export const toAsyncPageRoute = ({

@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 export declare global {
     import { ApiClient, Events } from 'jellyfin-apiclient';
 

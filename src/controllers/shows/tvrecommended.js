@@ -267,7 +267,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../shows/${depends}`).then(({ default: ControllerFactory }) => {
+        import(`../shows/${depends}.js`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === 1) {

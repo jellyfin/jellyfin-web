@@ -1,0 +1,52 @@
+   0.003316416s  INFO prepare_target{force=false package_id=rust-audio v0.1.0 (/Users/carlos/Documents/jellyfin-web/rust-audio) target="rust_audio"}: cargo::core::compiler::fingerprint: fingerprint error for rust-audio v0.1.0 (/Users/carlos/Documents/jellyfin-web/rust-audio)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rust_audio", ["cdylib"], "/Users/carlos/Documents/jellyfin-web/rust-audio/src/lib.rs", Edition2021) }
+   0.003514458s  INFO prepare_target{force=false package_id=rust-audio v0.1.0 (/Users/carlos/Documents/jellyfin-web/rust-audio) target="rust_audio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/carlos/Documents/jellyfin-web/rust-audio/target/debug/.fingerprint/rust-audio-61efca85855b39db/lib-rust_audio`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.012199000s  INFO prepare_target{force=false package_id=rust-audio v0.1.0 (/Users/carlos/Documents/jellyfin-web/rust-audio) target="rust_audio"}: cargo::core::compiler::fingerprint: fingerprint error for rust-audio v0.1.0 (/Users/carlos/Documents/jellyfin-web/rust-audio)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("rust_audio", ["cdylib"], "/Users/carlos/Documents/jellyfin-web/rust-audio/src/lib.rs", Edition2021) }
+   0.012208333s  INFO prepare_target{force=false package_id=rust-audio v0.1.0 (/Users/carlos/Documents/jellyfin-web/rust-audio) target="rust_audio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/carlos/Documents/jellyfin-web/rust-audio/target/debug/.fingerprint/rust-audio-577617f44962b3a8/test-lib-rust_audio`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+    Checking rust-audio v0.1.0 (/Users/carlos/Documents/jellyfin-web/rust-audio)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s

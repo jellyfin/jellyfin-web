@@ -48,9 +48,8 @@ class HomeView extends TabbedView {
                 depends = 'favorites';
         }
 
-        const instance = this;
-        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}`).then(({ default: ControllerFactory }) => {
-            let controller = instance.tabControllers[index];
+        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}.js`).then(({ default: ControllerFactory }) => {
+            let controller = tabControllers[index];
 
             if (!controller) {
                 controller = new ControllerFactory(instance.view.querySelector(".tabContent[data-index='" + index + "']"), instance.params);

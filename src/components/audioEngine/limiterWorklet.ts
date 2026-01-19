@@ -24,7 +24,7 @@ class LimiterProcessor extends AudioWorkletProcessor {
         try {
             // Note: In a real environment, the URL might need to be resolved correctly.
             // Since this runs in a Worklet, we fetch from the origin assets.
-            const response = await fetch('/assets/audio/limiter.wasm');
+            const response = await fetch('/assets/audio/audio-engine.wasm');
             if (!response.ok) throw new Error('Failed to fetch Wasm');
 
             const bytes = await response.arrayBuffer();

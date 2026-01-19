@@ -33,31 +33,46 @@ interface ViewOptions {
     }
 }
 
+const legacyModules = import.meta.glob('../../**/{controllers,controllers}/**/*.{js,ts,html}');
+
+const resolveModule = (path: string) => {
+    const loader = legacyModules[`${path}.ts`] 
+        || legacyModules[`${path}.js`] 
+        || legacyModules[`${path}/index.ts`] 
+        || legacyModules[`${path}/index.js`]
+        || legacyModules[`${path}.html`]
+        || legacyModules[path];
+
+    if (!loader) {
+        throw new Error(`Legacy module not found: ${path}`);
+    }
+
+    return loader();
+};
+
 const importController = (
     appType: AppType,
     controller: string,
     view: string
 ) => {
+    let folder = '';
     switch (appType) {
         case AppType.Dashboard:
-            return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${view}`)
-                    .then(html => globalize.translateHtml(html))
-            ]);
+            folder = 'apps/dashboard/controllers';
+            break;
         case AppType.Wizard:
-            return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../apps/wizard/controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../apps/wizard/controllers/${view}`)
-                    .then(html => globalize.translateHtml(html))
-            ]);
+            folder = 'apps/wizard/controllers';
+            break;
         default:
-            return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
-                    .then(html => globalize.translateHtml(html))
-            ]);
+            folder = 'controllers';
+            break;
     }
+
+    return Promise.all([
+        resolveModule(`../../${folder}/${controller}`),
+        resolveModule(`../../${folder}/${view}`)
+            .then((html: any) => globalize.translateHtml(html))
+    ]);
 };
 
 const loadView = async (

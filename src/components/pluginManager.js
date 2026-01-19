@@ -14,6 +14,8 @@ import * as dashboard from '../utils/dashboard';
 // TODO: replace with each plugin version
 const cacheParam = new Date().getTime();
 
+const pluginModules = import.meta.glob('../plugins/*/plugin.{js,ts}');
+
 class PluginManager {
     pluginsList = [];
 
@@ -94,7 +96,11 @@ class PluginManager {
                 });
             } else {
                 console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
-                const pluginResult = await import(/* webpackChunkName: "[request]" */ `../plugins/${pluginSpec}`);
+                const moduleLoader = pluginModules[`../plugins/${pluginSpec}.js`] || pluginModules[`../plugins/${pluginSpec}.ts`];
+                if (!moduleLoader) {
+                    throw new Error(`Plugin not found: ${pluginSpec}`);
+                }
+                const pluginResult = await moduleLoader();
                 plugin = new pluginResult.default;
             }
         } else if (pluginSpec.then) {

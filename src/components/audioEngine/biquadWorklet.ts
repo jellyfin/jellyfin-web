@@ -1,81 +1,75 @@
-// biquadWorklet.ts - AudioWorkletProcessor for biquad filter
-
-interface AudioWorkletParameters {
-    frequency: Float32Array;
-    Q: Float32Array;
-    gain: Float32Array;
-}
-
-interface AudioWorkletInputs extends Array<Float32Array[]> {}
-interface AudioWorkletOutputs extends Array<Float32Array[]> {}
+// biquadWorklet.ts - Wasm-powered AudioWorkletProcessor for high-performance Biquad filtering
 
 class BiquadProcessor extends AudioWorkletProcessor {
-    private frequency: number = 1000;
-    private Q: number = 1;
-    private gain: number = 0;
-    private type: string = 'lowpass'; // lowpass, highpass, bandpass, etc.
-    private sampleRate: number = 44100;
-    private b0: number = 1;
-    private b1: number = 0;
-    private b2: number = 0;
-    private a1: number = 0;
-    private a2: number = 0;
+    // Wasm state
+    private wasmInstance: WebAssembly.Instance | null = null;
+    private wasmMemory: WebAssembly.Memory | null = null;
+    private inputPtr: number = 0;
+    private outputPtr: number = 0;
+    private statePtrs: number[] = []; // One per channel
+    private bufferSize: number = 0;
+    private wasmReady: boolean = false;
 
     constructor() {
         super();
-        this.updateCoefficients();
+        void this.loadWasm();
+    }
+
+    private async loadWasm() {
+        try {
+            const response = await fetch('/assets/audio/audio-engine.wasm');
+            if (!response.ok) throw new Error('Failed to fetch Wasm');
+
+            const bytes = await response.arrayBuffer();
+            const { instance } = await WebAssembly.instantiate(bytes);
+
+            this.wasmInstance = instance;
+            this.wasmMemory = (instance.exports.memory as WebAssembly.Memory);
+
+            this.bufferSize = 128;
+
+            const allocate = this.wasmInstance.exports.allocate as (size: number) => number;
+            this.inputPtr = allocate(this.bufferSize);
+            this.outputPtr = allocate(this.bufferSize);
+
+            this.wasmReady = true;
+        } catch {
+            // Fallback to JS if Wasm fails
+        }
     }
 
     static get parameterDescriptors(): AudioParamDescriptor[] {
         return [
-            { name: 'frequency', defaultValue: 1000, minValue: 20, maxValue: 20000 },
-            { name: 'Q', defaultValue: 1, minValue: 0.1, maxValue: 10 },
-            { name: 'gain', defaultValue: 0, minValue: -40, maxValue: 40 }
+            { name: 'b0', defaultValue: 1, minValue: -10, maxValue: 10 },
+            { name: 'b1', defaultValue: 0, minValue: -10, maxValue: 10 },
+            { name: 'b2', defaultValue: 0, minValue: -10, maxValue: 10 },
+            { name: 'a1', defaultValue: 0, minValue: -10, maxValue: 10 },
+            { name: 'a2', defaultValue: 0, minValue: -10, maxValue: 10 }
         ];
     }
 
-    updateCoefficients(): void {
-        const f0 = this.frequency;
-        const Q = this.Q;
-        const gain = this.gain;
-        const sampleRate = this.sampleRate;
+    // JS Fallback state
+    private z1: number[] = [];
+    private z2: number[] = [];
 
-        const A = Math.pow(10, gain / 40);
-        const omega = 2 * Math.PI * f0 / sampleRate;
-        const alpha = Math.sin(omega) / (2 * Q);
+    private processJsFallback(input: Float32Array[], output: Float32Array[], b0: number, b1: number, b2: number, a1: number, a2: number) {
+        for (let channel = 0; channel < input.length; ++channel) {
+            const inputChannel = input[channel];
+            const outputChannel = output[channel];
+            
+            if (this.z1[channel] === undefined) {
+                this.z1[channel] = 0;
+                this.z2[channel] = 0;
+            }
 
-        let b0: number; let b1: number; let b2: number; let a0: number; let a1: number; let a2: number;
-
-        switch (this.type) {
-            case 'lowpass':
-                b0 = (1 - Math.cos(omega)) / 2;
-                b1 = 1 - Math.cos(omega);
-                b2 = (1 - Math.cos(omega)) / 2;
-                a0 = 1 + alpha;
-                a1 = -2 * Math.cos(omega);
-                a2 = 1 - alpha;
-                break;
-            case 'highpass':
-                b0 = (1 + Math.cos(omega)) / 2;
-                b1 = -(1 + Math.cos(omega));
-                b2 = (1 + Math.cos(omega)) / 2;
-                a0 = 1 + alpha;
-                a1 = -2 * Math.cos(omega);
-                a2 = 1 - alpha;
-                break;
-            default:
-                // Identity filter
-                b0 = 1; b1 = 0; b2 = 0;
-                a0 = 1; a1 = 0; a2 = 0;
+            for (let i = 0; i < inputChannel.length; ++i) {
+                const x = inputChannel[i];
+                const y = b0 * x + this.z1[channel];
+                this.z1[channel] = b1 * x - a1 * y + this.z2[channel];
+                this.z2[channel] = b2 * x - a2 * y;
+                outputChannel[i] = y;
+            }
         }
-
-        // Normalize
-        b0 /= a0; b1 /= a0; b2 /= a0;
-        a1 /= a0; a2 /= a0;
-        a0 = 1;
-
-        this.b0 = b0; this.b1 = b1; this.b2 = b2;
-        this.a1 = a1; this.a2 = a2;
     }
 
     process(
@@ -86,34 +80,43 @@ class BiquadProcessor extends AudioWorkletProcessor {
         const input = inputs[0];
         const output = outputs[0];
 
-        if (!input || !output) return true;
+        if (!input || !output || input.length === 0) return true;
 
-        const frequency = parameters.frequency[0] ?? this.frequency;
-        const Q = parameters.Q[0] ?? this.Q;
-        const gain = parameters.gain[0] ?? this.gain;
+        const b0 = parameters.b0[0];
+        const b1 = parameters.b1[0];
+        const b2 = parameters.b2[0];
+        const a1 = parameters.a1[0];
+        const a2 = parameters.a2[0];
 
-        if (frequency !== this.frequency || Q !== this.Q || gain !== this.gain) {
-            this.frequency = frequency;
-            this.Q = Q;
-            this.gain = gain;
-            this.updateCoefficients();
-        }
+        if (this.wasmReady && this.wasmInstance && this.wasmMemory) {
+            const processFn = this.wasmInstance.exports.process_biquad as Function;
+            const allocateState = this.wasmInstance.exports.allocate_state as () => number;
+            const memoryBuffer = new Float32Array(this.wasmMemory.buffer);
 
-        for (let channel = 0; channel < input.length; ++channel) {
-            const inputChannel = input[channel];
-            const outputChannel = output[channel];
-
-            let x1 = 0; let x2 = 0; let y1 = 0; let y2 = 0;
-
-            for (let i = 0; i < inputChannel.length; ++i) {
-                const x0 = inputChannel[i];
-                const y0 = this.b0 * x0 + this.b1 * x1 + this.b2 * x2 - this.a1 * y1 - this.a2 * y2;
-
-                outputChannel[i] = y0;
-
-                x2 = x1; x1 = x0;
-                y2 = y1; y1 = y0;
+            // Ensure we have state pointers for all channels
+            while (this.statePtrs.length < input.length) {
+                this.statePtrs.push(allocateState());
             }
+
+            for (let channel = 0; channel < input.length; ++channel) {
+                const inputChannel = input[channel];
+                const outputChannel = output[channel];
+
+                memoryBuffer.set(inputChannel, this.inputPtr / 4);
+
+                processFn(
+                    this.inputPtr,
+                    this.outputPtr,
+                    inputChannel.length,
+                    this.statePtrs[channel],
+                    b0, b1, b2, a1, a2
+                );
+
+                const result = memoryBuffer.subarray(this.outputPtr / 4, (this.outputPtr / 4) + inputChannel.length);
+                outputChannel.set(result);
+            }
+        } else {
+            this.processJsFallback(input, output, b0, b1, b2, a1, a2);
         }
 
         return true;

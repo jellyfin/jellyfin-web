@@ -20,7 +20,7 @@
     <meta name="msapplication-TileImage" content="../node_modules/@jellyfin/ux-web/favicons/touchicon144.png">
     <meta name="msapplication-TileColor" content="#333333">
 
-     <title>Jellyfin</title>
+     <title>Jellyfin Web Next</title>
 
      <!-- Resource hints for better performance -->
      <link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -29,9 +29,6 @@
 
        <!-- Preload critical fonts for better text rendering -->
        <link rel="preload" href="../node_modules/@fontsource-variable/roboto-flex/standard.css" as="style">
-
-      <!-- Preload critical JavaScript modules -->
-      <link rel="modulepreload" href="jellyfin-apiclient.bundle.js">
 
      <style>
          /* Critical CSS - Inline styles for initial load performance */
@@ -206,5 +203,6 @@
              loadCSS('main.jellyfin.css');
          }
      </script>
+     <script type="module" src="/index.jsx"></script>
  </body>
 </html>

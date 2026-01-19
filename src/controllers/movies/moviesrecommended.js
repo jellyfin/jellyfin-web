@@ -282,7 +282,7 @@ export default function (view, params) {
 
         switch (index) {
             case 1:
-                depends = 'moviesrecommended.js';
+                depends = 'moviesrecommended';
                 break;
 
             case 3:
@@ -294,7 +294,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../movies/${depends}`).then(({ default: ControllerFactory }) => {
+        import(`../movies/${depends}.js`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === suggestionsTabIndex) {

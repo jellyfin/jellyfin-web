@@ -1,10 +1,11 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'path';
+import fs from 'fs';
 import { globSync } from 'fast-glob';
 import { execSync } from 'child_process';
 import packageJson from './package.json';
@@ -18,17 +19,33 @@ try {
 }
 
 // Plugin to handle HTML template imports as raw text (Webpack html-loader compatibility)
-const htmlAsStringPlugin = {
+const htmlAsStringPlugin: Plugin = {
     name: 'html-as-string',
-    enforce: 'pre' as const,
-    transform(code: string, id: string) {
+    enforce: 'pre',
+    async resolveId(id, importer) {
         if (id.endsWith('.html') && !id.endsWith('index.html')) {
-            return {
-                code: `export default ${JSON.stringify(code)};`,
-                map: null,
-            };
+            const res = await this.resolve(id, importer, { skipSelf: true });
+            if (res) return res.id + '?html-string';
         }
     },
+    load(id: string) {
+        if (id.endsWith('?html-string')) {
+            const file = id.replace('?html-string', '');
+            const code = fs.readFileSync(file, 'utf-8');
+            return `export default ${JSON.stringify(code)};`;
+        }
+    },
+};
+
+// Plugin to handle Webpack-style '~' prefix in CSS imports
+const scssTildePlugin: Plugin = {
+    name: 'scss-tilde-import',
+    enforce: 'pre',
+    resolveId(source) {
+        if (source.startsWith('~@fontsource')) {
+            return source.replace('~', '');
+        }
+    }
 };
 
 const Assets = [
@@ -60,6 +77,7 @@ export default defineConfig(({ mode }) => {
         root: 'src', // Webpack context was 'src'
         publicDir: false, // We handle static assets manually to match Webpack structure
         build: {
+            target: 'es2015',
             outDir: '../dist', // Since root is src
             emptyOutDir: true,
             rollupOptions: {
@@ -83,6 +101,22 @@ export default defineConfig(({ mode }) => {
                             return '[name].js';
                         }
                         return 'assets/[name]-[hash].js';
+                    },
+                    manualChunks(id) {
+                        if (id.includes('node_modules')) {
+                            if (id.includes('@mui')) return 'vendor-mui';
+                            if (id.includes('three') || id.includes('@react-three')) return 'vendor-graphics';
+                            if (id.includes('butterchurn')) return 'vendor-visualizers';
+                            if (id.includes('hls.js') || id.includes('flv.js') || id.includes('wavesurfer.js')) return 'vendor-media';
+                            if (id.includes('epubjs') || id.includes('pdfjs-dist') || id.includes('libarchive.js')) return 'vendor-docs';
+                            if (id.includes('@jellyfin/libass-wasm') || id.includes('libpgs')) return 'vendor-subtitles';
+                            if (id.includes('lodash-es') || id.includes('date-fns') || id.includes('dompurify') || id.includes('markdown-it')) return 'vendor-utils';
+                            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom') || id.includes('@tanstack/react-query') || id.includes('zustand') || id.includes('framer-motion')) return 'vendor-framework';
+                            if (id.includes('core-js')) return 'vendor-corejs';
+                            if (id.includes('@jellyfin/sdk') || id.includes('jellyfin-apiclient')) return 'vendor-jellyfin';
+                            if (id.includes('swiper') || id.includes('jstree') || id.includes('sortablejs')) return 'vendor-ui-libs';
+                            return 'vendor';
+                        }
                     }
                 }
             }
@@ -107,6 +141,7 @@ export default defineConfig(({ mode }) => {
                 root: '..' // Since vite root is src, tsconfig is in parent
             }),
             htmlAsStringPlugin,
+            scssTildePlugin,
             viteStaticCopy({
                 targets: [
                     { src: 'assets', dest: '.' },

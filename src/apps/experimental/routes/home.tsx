@@ -70,7 +70,7 @@ const Home = () => {
                 depends = 'favorites';
         }
 
-        return import(/* webpackChunkName: "[request]" */ `../../../controllers/${depends}`).then(({ default: ControllerFactory }) => {
+        return import(/* webpackChunkName: "[request]" */ `../../../controllers/${depends}.js`).then(({ default: ControllerFactory }) => {
             let controller = tabControllers[index];
 
             if (!controller) {

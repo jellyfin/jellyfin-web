@@ -1,10 +1,9 @@
 // @ts-check
 
 import eslint from '@eslint/js';
-import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
+import eslintComments from '@eslint-community/eslint-plugin-eslint-comments';
 import compat from 'eslint-plugin-compat';
 import globals from 'globals';
-// @ts-expect-error Missing type definition
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactPlugin from 'eslint-plugin-react';
@@ -12,14 +11,12 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import restrictedGlobals from 'confusing-browser-globals';
 import sonarjs from 'eslint-plugin-sonarjs';
 import stylistic from '@stylistic/eslint-plugin';
-// eslint-disable-next-line import/no-unresolved
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
     eslint.configs.recommended,
     tseslint.configs.recommended,
-    // @ts-expect-error Harmless type mismatch in dependency
-    comments.recommended,
+    eslintComments.configs.recommended,
     compat.configs['flat/recommended'],
     importPlugin.flatConfigs.errors,
     sonarjs.configs.recommended,
@@ -34,18 +31,18 @@ export default tseslint.config(
     },
     jsxA11y.flatConfigs.recommended,
 
-    // Global ignores
     {
         ignores: [
             'node_modules',
             'coverage',
             'dist',
             '.idea',
-            '.vscode'
+            '.vscode',
+            '*.min.js',
+            '*.d.ts'
         ]
     },
 
-    // Global style rules
     {
         plugins: {
             '@stylistic': stylistic
@@ -55,7 +52,7 @@ export default tseslint.config(
             'array-callback-return': ['error', { 'checkForEach': true }],
             'curly': ['error', 'multi-line', 'consistent'],
             'default-case-last': 'error',
-            'max-params': ['error', 7],
+            'max-params': ['error', 5],
             'new-cap': [
                 'error',
                 {
@@ -63,6 +60,7 @@ export default tseslint.config(
                     'newIsCapExceptionPattern': '\\.default$'
                 }
             ],
+            'no-console': ['error', { 'allow': ['debug', 'info', 'warn'] }],
             'no-duplicate-imports': 'error',
             'no-empty-function': 'error',
             'no-extend-native': 'error',
@@ -70,7 +68,7 @@ export default tseslint.config(
             'no-nested-ternary': 'error',
             'no-redeclare': 'off',
             '@typescript-eslint/no-redeclare': ['error', { builtinGlobals: false }],
-            'no-restricted-globals': ['error'].concat(restrictedGlobals),
+            'no-restricted-globals': ['error', ...restrictedGlobals],
             'no-return-assign': 'error',
             'no-return-await': 'error',
             'no-sequences': ['error', { 'allowInParentheses': false }],
@@ -80,17 +78,24 @@ export default tseslint.config(
             'no-undef-init': 'error',
             'no-unneeded-ternary': 'error',
             'no-unused-expressions': 'off',
-            '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true, 'allowTaggedTemplates': true }],
+            '@typescript-eslint/no-unused-expressions': ['error', {
+                'allowShortCircuit': true,
+                'allowTernary': true,
+                'allowTaggedTemplates': true
+            }],
             'no-unused-private-class-members': 'error',
-            '@typescript-eslint/no-unused-vars': 'error',
+            '@typescript-eslint/no-unused-vars': ['error', {
+                'argsIgnorePattern': '^_',
+                'varsIgnorePattern': '^_',
+                'destructuredIgnorePattern': '^_'
+            }],
             'no-useless-rename': 'error',
             'no-useless-constructor': 'off',
             '@typescript-eslint/no-useless-constructor': 'error',
-            'no-console': 'error',
-            'prefer-arrow-callback': 'error',
+            'prefer-arrow-callback': ['error', { 'allowNamedFunctions': false }],
             'no-var': 'error',
             'no-void': ['error', { 'allowAsStatement': true }],
-            'no-warning-comments': ['warn', { 'terms': ['hack', 'xxx'] }],
+            'no-warning-comments': ['warn', { 'terms': ['hack', 'xxx', 'fixme'] }],
             'one-var': ['error', 'never'],
             'prefer-const': ['error', { 'destructuring': 'all' }],
             'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
@@ -105,11 +110,9 @@ export default tseslint.config(
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
-            // TODO: Enable the following sonarjs rules and fix issues
             'sonarjs/no-duplicate-string': 'off',
-            'sonarjs/no-nested-functions': 'warn',
+            'sonarjs/no-nested-functions': ['error', { 'maxDepth': 2 }],
 
-            // TODO: Replace with stylistic.configs.customize()
             '@stylistic/block-spacing': 'error',
             '@stylistic/brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
             '@stylistic/comma-dangle': ['error', 'never'],
@@ -121,16 +124,27 @@ export default tseslint.config(
             '@stylistic/max-statements-per-line': 'error',
             '@stylistic/no-floating-decimal': 'error',
             '@stylistic/no-mixed-spaces-and-tabs': 'error',
-            '@stylistic/no-multi-spaces': 'error',
+            '@stylistic/no-multi-spaces': ['error', { 'ignoreEOLComments': true }],
             '@stylistic/no-multiple-empty-lines': ['error', { 'max': 1 }],
             '@stylistic/no-trailing-spaces': 'error',
             '@stylistic/object-curly-spacing': ['error', 'always'],
-            '@stylistic/operator-linebreak': ['error', 'before', { overrides: { '?': 'after', ':': 'after', '=': 'after' } }],
+            '@stylistic/operator-linebreak': ['error', 'before', {
+                overrides: {
+                    '?': 'after',
+                    ':': 'after',
+                    '=': 'after'
+                }
+            }],
             '@stylistic/padded-blocks': ['error', 'never'],
-            '@stylistic/quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': false }],
+            '@stylistic/quotes': ['error', 'single', {
+                'avoidEscape': true,
+                'allowTemplateLiterals': false
+            }],
             '@stylistic/semi': 'error',
             '@stylistic/space-before-blocks': 'error',
             '@stylistic/space-infix-ops': 'error',
+            '@stylistic/type-generic-spacing': 'error',
+            '@stylistic/type-named-tuple': 'error',
 
             '@typescript-eslint/no-restricted-imports': [
                 'error',
@@ -160,6 +174,11 @@ export default tseslint.config(
                             name: '@mui/material',
                             message: 'Use direct file imports for tree-shaking',
                             allowTypeImports: true
+                        },
+                        {
+                            name: '@mui/material',
+                            importNames: ['Grid'],
+                            message: 'Grid is deprecated. Use Grid2 instead'
                         }
                     ]
                 }
@@ -167,7 +186,6 @@ export default tseslint.config(
         }
     },
 
-    // Config files use node globals
     {
         ignores: [ 'src' ],
         languageOptions: {
@@ -177,7 +195,6 @@ export default tseslint.config(
         }
     },
 
-    // Config files are commonjs by default
     {
         files: [ '**/*.{cjs,js}' ],
         ignores: [ 'src' ],
@@ -189,7 +206,6 @@ export default tseslint.config(
         }
     },
 
-    // Scripts directory - less strict for analysis tools
     {
         files: [ 'scripts/**/*.{js,cjs}' ],
         rules: {
@@ -197,15 +213,13 @@ export default tseslint.config(
             '@stylistic/indent': 'off',
             'sonarjs/cognitive-complexity': 'off',
             'compat/compat': 'off',
-            '@typescript-eslint/no-shadow': 'off'
+            '@typescript-eslint/no-shadow': 'off',
+            '@typescript-eslint/no-unused-vars': 'off'
         }
     },
 
-    // App files
     {
-        files: [
-            'src/**/*.{js,jsx,ts,tsx}'
-        ],
+        files: [ 'src/**/*.{js,jsx,ts,tsx}' ],
         languageOptions: {
             parserOptions: {
                 projectService: true,
@@ -213,15 +227,11 @@ export default tseslint.config(
             },
             globals: {
                 ...globals.browser,
-                // Tizen globals
                 'tizen': false,
                 'webapis': false,
-                // WebOS globals
                 'webOS': false,
-                // Dependency globals
                 '$': false,
                 'jQuery': false,
-                // Jellyfin globals
                 'ApiClient': true,
                 'Events': true,
                 'chrome': true,
@@ -229,115 +239,49 @@ export default tseslint.config(
                 'Hls': true,
                 'LibraryMenu': true,
                 'Windows': false,
-                // Build time definitions
-                __COMMIT_SHA__: false,
-                __JF_BUILD_VERSION__: false,
-                __PACKAGE_JSON_NAME__: false,
-                __PACKAGE_JSON_VERSION__: false,
-                __USE_SYSTEM_FONTS__: false,
-                __WEBPACK_SERVE__: false
+                '__COMMIT_SHA__': false,
+                '__JF_BUILD_VERSION__': false,
+                '__PACKAGE_JSON_NAME__': false,
+                '__PACKAGE_JSON_VERSION__': false,
+                '__USE_SYSTEM_FONTS__': false,
+                '__WEBPACK_SERVE__': false
             }
         },
         settings: {
             'import/resolver': {
                 node: {
-                    extensions: [
-                        '.js',
-                        '.ts',
-                        '.jsx',
-                        '.tsx'
-                    ],
-                    moduleDirectory: [
-                        'node_modules',
-                        'src'
-                    ]
+                    extensions: ['.js', '.ts', '.jsx', '.tsx'],
+                    moduleDirectory: ['node_modules', 'src']
                 }
             },
             polyfills: [
-                'Promise',
-                // whatwg-fetch
-                'fetch',
-                // document-register-element
-                'document.registerElement',
-                // resize-observer-polyfill
-                'ResizeObserver',
-                // fast-text-encoding
-                'TextEncoder',
-                // intersection-observer
-                'IntersectionObserver',
-                // Core-js
-                'Object.assign',
-                'Object.is',
-                'Object.setPrototypeOf',
-                'Object.toString',
-                'Object.freeze',
-                'Object.seal',
-                'Object.preventExtensions',
-                'Object.isFrozen',
-                'Object.isSealed',
-                'Object.isExtensible',
-                'Object.getOwnPropertyDescriptor',
-                'Object.getPrototypeOf',
-                'Object.keys',
-                'Object.entries',
-                'Object.getOwnPropertyNames',
-                'Function.name',
-                'Function.hasInstance',
-                'Array.from',
-                'Array.arrayOf',
-                'Array.copyWithin',
-                'Array.fill',
-                'Array.find',
-                'Array.findIndex',
-                'Array.iterator',
-                'String.fromCodePoint',
-                'String.raw',
-                'String.iterator',
-                'String.codePointAt',
-                'String.endsWith',
-                'String.includes',
-                'String.repeat',
-                'String.startsWith',
-                'String.trim',
-                'String.anchor',
-                'String.big',
-                'String.blink',
-                'String.bold',
-                'String.fixed',
-                'String.fontcolor',
-                'String.fontsize',
-                'String.italics',
-                'String.link',
-                'String.small',
-                'String.strike',
-                'String.sub',
-                'String.sup',
-                'RegExp',
-                'Number',
-                'Math',
-                'Date',
-                'async',
-                'Symbol',
-                'Map',
-                'Set',
-                'WeakMap',
-                'WeakSet',
-                'ArrayBuffer',
-                'DataView',
-                'Int8Array',
-                'Uint8Array',
-                'Uint8ClampedArray',
-                'Int16Array',
-                'Uint16Array',
-                'Int32Array',
-                'Uint32Array',
-                'Float32Array',
-                'Float64Array',
-                'Reflect'
+                'Promise', 'fetch', 'document.registerElement',
+                'ResizeObserver', 'TextEncoder', 'IntersectionObserver',
+                'Object.assign', 'Object.is', 'Object.setPrototypeOf',
+                'Object.toString', 'Object.freeze', 'Object.seal',
+                'Object.preventExtensions', 'Object.isFrozen', 'Object.isSealed',
+                'Object.isExtensible', 'Object.getOwnPropertyDescriptor',
+                'Object.getPrototypeOf', 'Object.keys', 'Object.entries',
+                'Object.getOwnPropertyNames', 'Function.name',
+                'Function.hasInstance', 'Array.from', 'Array.arrayOf',
+                'Array.copyWithin', 'Array.fill', 'Array.find',
+                'Array.findIndex', 'Array.iterator', 'String.fromCodePoint',
+                'String.raw', 'String.iterator', 'String.codePointAt',
+                'String.endsWith', 'String.includes', 'String.repeat',
+                'String.startsWith', 'String.trim', 'String.anchor',
+                'String.big', 'String.blink', 'String.bold',
+                'String.fixed', 'String.fontcolor', 'String.fontsize',
+                'String.italics', 'String.link', 'String.small',
+                'String.strike', 'String.sub', 'String.sup',
+                'RegExp', 'Number', 'Math', 'Date', 'async',
+                'Symbol', 'Map', 'Set', 'WeakMap', 'WeakSet',
+                'ArrayBuffer', 'DataView', 'Int8Array', 'Uint8Array',
+                'Uint8ClampedArray', 'Int16Array', 'Uint16Array',
+                'Int32Array', 'Uint32Array', 'Float32Array',
+                'Float64Array', 'Reflect'
             ]
         },
         rules: {
-            // TODO: Add typescript recommended typed rules
             '@typescript-eslint/naming-convention': [
                 'error',
                 {
@@ -365,7 +309,6 @@ export default tseslint.config(
                     leadingUnderscore: 'allowSingleOrDouble',
                     trailingUnderscore: 'allowSingleOrDouble'
                 },
-                // Ignore numbers, locale strings (en-us), aria/data attributes and CSS selectors
                 {
                     selector: [ 'objectLiteralProperty', 'typeProperty' ],
                     format: null,
@@ -379,11 +322,26 @@ export default tseslint.config(
             '@typescript-eslint/no-explicit-any': 'error',
             '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/prefer-string-starts-ends-with': 'error',
-            '@typescript-eslint/strict-boolean-expressions': 'error'
+            '@typescript-eslint/strict-boolean-expressions': [
+                'error',
+                {
+                    allowAny: false,
+                    allowUnknown: false,
+                    allowNumber: false,
+                    allowString: false
+                }
+            ],
+            '@typescript-eslint/consistent-type-imports': ['error', {
+                'prefer': 'type-imports',
+                'fixStyle': 'inline-type-imports'
+            }],
+            '@typescript-eslint/consistent-type-exports': 'error',
+            '@typescript-eslint/no-inferrable-types': 'error',
+            '@typescript-eslint/non-nullable-type-assertion-style': 'error',
+            '@typescript-eslint/prefer-optional-chain': 'error'
         }
     },
 
-    // React files
     {
         files: [ 'src/**/*.{jsx,tsx}' ],
         plugins: {
@@ -395,11 +353,12 @@ export default tseslint.config(
             'react/jsx-no-useless-fragment': 'error',
             'react/no-array-index-key': 'error',
             'react-hooks/rules-of-hooks': 'error',
-            'react-hooks/exhaustive-deps': 'warn'
+            'react-hooks/exhaustive-deps': 'error',
+            'react/jsx-uses-react': 'off',
+            'react/react-in-jsx-scope': 'off'
         }
     },
 
-    // Service worker
     {
         files: [ 'src/serviceworker.js' ],
         languageOptions: {
@@ -409,16 +368,12 @@ export default tseslint.config(
         }
     },
 
-    // Legacy JS (less strict)
     {
         files: [ 'src/**/*.{js,jsx}' ],
         rules: {
             '@typescript-eslint/no-floating-promises': 'off',
             '@typescript-eslint/no-this-alias': 'off',
-
             'sonarjs/public-static-readonly': 'off',
-
-            // TODO: Enable the following rules and fix issues
             'sonarjs/cognitive-complexity': 'off',
             'sonarjs/constructor-for-side-effects': 'off',
             'sonarjs/function-return-type': 'off',

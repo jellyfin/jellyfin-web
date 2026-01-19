@@ -12,6 +12,8 @@ const Direction = {
 export const FALLBACK_CULTURE = 'en-us';
 const RTL_LANGS = ['ar', 'fa', 'ur', 'he'];
 
+const stringModules = import.meta.glob('../../strings/*.json');
+
 const allTranslations = {};
 let currentCulture;
 let currentDateTimeCulture;
@@ -195,7 +197,13 @@ function loadTranslation(translations, lang) {
 
         const url = filtered[0].path;
 
-        import(/* webpackChunkName: "[request]" */ `../../strings/${url}`).then((fileContent) => {
+        const moduleLoader = stringModules[`../../strings/${url}`];
+        if (!moduleLoader) {
+            resolve({});
+            return;
+        }
+
+        moduleLoader().then((fileContent) => {
             resolve(fileContent);
         }).catch(() => {
             resolve({});
