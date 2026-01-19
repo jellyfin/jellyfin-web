@@ -323,3 +323,43 @@ export function synchronizeVolumeUI(): void {
         }).catch(() => {});
     }
 }
+
+/**
+ * Smoothly fade the mixer volume to prevent abrupt sound changes.
+ * This protects audiophile systems from damaging volume spikes.
+ *
+ * @param targetGain - Target gain value (0-1)
+ * @param duration - Fade duration in seconds
+ * @returns Promise that resolves when fade completes
+ */
+export async function fadeMixerVolume(targetGain: number, duration: number = 0.15): Promise<void> {
+    try {
+        const { masterAudioOutput } = await import('./master.logic');
+        const audioCtx = masterAudioOutput.audioContext;
+
+        if (!audioCtx || !masterAudioOutput.mixerNode) {
+            console.debug('[fadeMixerVolume] No audio context or mixer node available');
+            return;
+        }
+
+        const currentTime = audioCtx.currentTime;
+        const gainParam = masterAudioOutput.mixerNode.gain;
+
+        // Cancel any scheduled ramps
+        gainParam.cancelScheduledValues(currentTime);
+
+        // Set current value explicitly to avoid jumps
+        gainParam.setValueAtTime(gainParam.value, currentTime);
+
+        // Smooth linear ramp to target
+        gainParam.linearRampToValueAtTime(
+            clamp(targetGain, 0, 1),
+            currentTime + duration
+        );
+
+        // Wait for fade to complete
+        await new Promise(resolve => setTimeout(resolve, duration * 1000));
+    } catch (error) {
+        console.error('[fadeMixerVolume] Error fading volume:', error);
+    }
+}

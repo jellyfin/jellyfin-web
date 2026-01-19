@@ -722,11 +722,11 @@ export interface Player {
     getSupportedCommands(): string[];
     getPlayerState(): any;
     play(options: any): Promise<any>;
-    pause(): void;
-    stop(): void;
+    pause(): void | Promise<void>;
+    stop(): void | Promise<void>;
     endSession?(): void;
-    nextTrack(): void;
-    previousTrack(): void;
+    nextTrack(): void | Promise<void>;
+    previousTrack(): void | Promise<void>;
     setVolume(volume: number): void;
     toggleMute(): void;
     setPositionTicks(position: number): void;
@@ -1365,31 +1365,74 @@ export class PlaybackManager {
         return Promise.resolve();
     }
 
-    pause(player?: Player): void {
+    async pause(player?: Player): Promise<void> {
         const targetPlayer = player || this._currentPlayer;
         if (targetPlayer?.pause) {
-            targetPlayer.pause();
+            // Fade out smoothly before pausing to protect audio equipment
+            try {
+                const { fadeMixerVolume } = await import('../audioEngine/audioUtils');
+                const { masterAudioOutput } = await import('../audioEngine/master.logic');
+
+                if (masterAudioOutput.mixerNode) {
+                    const currentGain = masterAudioOutput.mixerNode.gain.value;
+                    await fadeMixerVolume(0, 0.1);
+                    targetPlayer.pause();
+                    // Restore gain for when playback resumes
+                    masterAudioOutput.mixerNode.gain.value = currentGain;
+                } else {
+                    targetPlayer.pause();
+                }
+            } catch (error) {
+                console.warn('[PlaybackManager] Fade failed, pausing without crossfade:', error);
+                targetPlayer.pause();
+            }
         }
     }
 
-    stop(player?: Player): void {
+    async stop(player?: Player): Promise<void> {
         const targetPlayer = player || this._currentPlayer;
         if (targetPlayer?.stop) {
-            targetPlayer.stop();
+            // Fade out smoothly before stopping to protect audio equipment
+            try {
+                const { fadeMixerVolume } = await import('../audioEngine/audioUtils');
+                await fadeMixerVolume(0, 0.15);
+                targetPlayer.stop();
+            } catch (error) {
+                console.warn('[PlaybackManager] Fade failed, stopping without crossfade:', error);
+                targetPlayer.stop();
+            }
         }
     }
 
-    nextTrack(player?: Player): void {
+    async nextTrack(player?: Player): Promise<void> {
         const targetPlayer = player || this._currentPlayer;
         if (targetPlayer?.nextTrack) {
-            targetPlayer.nextTrack();
+            // Fade out current track before switching
+            try {
+                const { fadeMixerVolume } = await import('../audioEngine/audioUtils');
+                await fadeMixerVolume(0, 0.1);
+                targetPlayer.nextTrack();
+                // New track will fade in automatically via crossfade system
+            } catch (error) {
+                console.warn('[PlaybackManager] Fade failed, switching without crossfade:', error);
+                targetPlayer.nextTrack();
+            }
         }
     }
 
-    previousTrack(player?: Player): void {
+    async previousTrack(player?: Player): Promise<void> {
         const targetPlayer = player || this._currentPlayer;
         if (targetPlayer?.previousTrack) {
-            targetPlayer.previousTrack();
+            // Fade out current track before switching
+            try {
+                const { fadeMixerVolume } = await import('../audioEngine/audioUtils');
+                await fadeMixerVolume(0, 0.1);
+                targetPlayer.previousTrack();
+                // New track will fade in automatically via crossfade system
+            } catch (error) {
+                console.warn('[PlaybackManager] Fade failed, switching without crossfade:', error);
+                targetPlayer.previousTrack();
+            }
         }
     }
 
