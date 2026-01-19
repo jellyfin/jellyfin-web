@@ -8,6 +8,7 @@ import { useAudioStore } from '../../store/audioStore';
 
 type MasterAudioTypes = {
     mixerNode?: GainNode;
+    biquadNode?: AudioNode;
     buffered?: DelayNode
     makeupGain: number;
     muted: boolean;
@@ -45,6 +46,7 @@ function applyDbReduction(originalVolume: number, reductionDb: number) {
 
 const _masterAudioState = {
     mixerNode: undefined as GainNode | undefined,
+    biquadNode: undefined as AudioNode | undefined,
     audioContext: undefined as AudioContext | undefined,
     buffered: undefined as DelayNode | undefined,
 };
@@ -57,6 +59,9 @@ const _masterAudioState = {
 export const masterAudioOutput = {
     get mixerNode() { return _masterAudioState.mixerNode; },
     set mixerNode(v: GainNode | undefined) { _masterAudioState.mixerNode = v; },
+
+    get biquadNode() { return _masterAudioState.biquadNode; },
+    set biquadNode(v: AudioNode | undefined) { _masterAudioState.biquadNode = v; },
 
     get audioContext() { return _masterAudioState.audioContext; },
     set audioContext(v: AudioContext | undefined) {
@@ -198,6 +203,12 @@ export function initializeMasterAudio(unbind: () => void) {
         // Attempt to load and use worklet limiter for multithreading
         loadAudioWorklets(audioCtx).catch(() => {}); // Load asynchronously
 
+        try {
+            masterAudioOutput.biquadNode = new AudioWorkletNode(audioCtx, 'biquad-processor');
+        } catch {
+            masterAudioOutput.biquadNode = audioCtx.createBiquadFilter();
+        }
+
         let limiter: AudioNode;
         try {
             limiter = new AudioWorkletNode(audioCtx, 'limiter-processor');
@@ -216,7 +227,8 @@ export function initializeMasterAudio(unbind: () => void) {
             (limiter as DynamicsCompressorNode).release.setValueAtTime(0.25, audioCtx.currentTime);
         }
 
-        safeConnect(masterAudioOutput.mixerNode, limiter);
+        safeConnect(masterAudioOutput.mixerNode, masterAudioOutput.biquadNode);
+        safeConnect(masterAudioOutput.biquadNode, limiter);
         limiter.connect(audioCtx.destination);
     }
 }

@@ -99,11 +99,13 @@ const Visualizers: React.FC = () => {
     const { butterchurn, frequencyAnalyzer, threeJs } = visualizerSettings;
 
     return (
-        <Suspense fallback={<VisualizerLoading />}>
-            {frequencyAnalyzer.enabled && (<FrequencyAnalyzer />)}
-            {butterchurn.enabled && (<ButterchurnVisualizer />)}
-            {threeJs?.enabled && (<ThreeDimensionVisualizer />)}
-        </Suspense>
+        <div id="visualizerContainer">
+            <Suspense fallback={<VisualizerLoading />}>
+                {frequencyAnalyzer.enabled && (<FrequencyAnalyzer />)}
+                {butterchurn.enabled && (<ButterchurnVisualizer />)}
+                {threeJs?.enabled && (<ThreeDimensionVisualizer />)}
+            </Suspense>
+        </div>
     );
 };
 

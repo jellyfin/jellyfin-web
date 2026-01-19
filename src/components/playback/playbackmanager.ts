@@ -787,14 +787,36 @@ export class PlaybackManager {
             // Only update if it's an audio track
             if (item.MediaType !== 'Audio') return;
 
+            const playlist = this.getPlaylistSync(player);
+            const currentIndex = playlist.findIndex((i: any) => i.Id === item.Id);
+            
+            const getTrackSummary = (trackItem: any) => {
+                if (!trackItem) return undefined;
+                return {
+                    name: trackItem.Name,
+                    artist: trackItem.Artists ? trackItem.Artists[0] : (trackItem.AlbumArtist || ''),
+                    imageUrl: (trackItem.ImageTags && trackItem.ImageTags.Primary) ? 
+                        ServerConnections.getApiClient(trackItem.ServerId).getScaledImageUrl(trackItem.Id, { type: 'Primary', maxWidth: 200 }) : 
+                        undefined
+                };
+            };
+
             useAudioStore.getState().setCurrentTrack({
                 id: item.Id,
                 name: item.Name,
                 artist: item.Artists ? item.Artists[0] : (item.AlbumArtist || ''),
+                album: item.Album,
+                albumArtist: item.AlbumArtist,
                 imageUrl: (item.ImageTags && item.ImageTags.Primary) ? 
-                    ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.Id, { type: 'Primary', maxWidth: 400 }) : 
+                    ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.Id, { type: 'Primary', maxWidth: 600 }) : 
                     undefined,
-                runtimeTicks: item.RunTimeTicks
+                runtimeTicks: item.RunTimeTicks,
+                streamInfo: {
+                    codec: item.Codec,
+                    bitrate: item.Bitrate
+                },
+                nextTrack: currentIndex >= 0 && currentIndex < playlist.length - 1 ? getTrackSummary(playlist[currentIndex + 1]) : undefined,
+                prevTrack: currentIndex > 0 ? getTrackSummary(playlist[currentIndex - 1]) : undefined
             });
             
             useAudioStore.getState().setDuration(item.RunTimeTicks ? item.RunTimeTicks / 10000000 : 0);

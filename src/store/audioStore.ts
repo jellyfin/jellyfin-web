@@ -5,8 +5,18 @@ export interface Track {
     id: string;
     name: string;
     artist?: string;
+    album?: string;
+    albumArtist?: string;
     imageUrl?: string;
     runtimeTicks?: number; // Jellyfin uses ticks
+    streamInfo?: {
+        bitrate?: number;
+        container?: number;
+        codec?: string;
+        isExternal?: boolean;
+    };
+    nextTrack?: { name: string; artist?: string; imageUrl?: string };
+    prevTrack?: { name: string; artist?: string; imageUrl?: string };
 }
 
 interface AudioState {
