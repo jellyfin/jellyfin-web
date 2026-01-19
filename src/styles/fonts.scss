@@ -1,3 +1,5 @@
+@import "@fontsource-variable/roboto-flex/standard.css";
+
 @mixin font($weight: null, $size: null) {
     font-weight: $weight;
     font-size: $size;
@@ -8,6 +10,7 @@ html {
     text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    font-family: "Roboto Flex Variable", "Roboto Flex", "Roboto", sans-serif;
 }
 
 h1 {

@@ -91,7 +91,7 @@
     "@fontsource/noto-sans-kr": "5.2.6",
     "@fontsource/noto-sans-sc": "5.2.6",
     "@fontsource/noto-sans-tc": "5.2.6",
-    "@fontsource/roboto": "5.2.9",
+    "@fontsource-variable/roboto-flex": "^5.2.8",
     "@jellyfin/libass-wasm": "4.2.3",
     "@jellyfin/sdk": "0.0.0-unstable.202512091852",
     "@jellyfin/ux-web": "1.0.0",
