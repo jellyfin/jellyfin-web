@@ -1,15 +1,17 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+/**
+ * Legacy browser support module
+ *
+ * Note: Most polyfills have been removed as we now target ES2022+ evergreen browsers.
+ * The following are native in all supported browsers:
+ * - Promise, fetch, AbortController
+ * - IntersectionObserver, ResizeObserver
+ * - TextEncoder, Proxy, classList, Element.closest()
+ *
+ * jQuery is retained temporarily for legacy component compatibility.
+ */
 import 'jquery';
-import 'element-closest-polyfill';
-import 'fast-text-encoding';
-import 'intersection-observer';
-import 'classlist.js';
-import 'whatwg-fetch';
-import 'abortcontroller-polyfill'; // requires fetch
-import 'resize-observer-polyfill';
-import 'proxy-polyfill';
 
+// Legacy DOM patches (still needed for some edge cases)
 import './domParserTextHtml';
 import './elementAppendPrepend';
 import './focusPreventScroll';

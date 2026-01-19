@@ -1,9 +1,33 @@
 {
-  "name": "jellyfin-web",
+  "name": "jellyfin-web-modernized",
   "version": "10.12.0",
-  "description": "Advanced, high-performance web interface for Jellyfin with Wasm-powered audio and Vite build system",
-  "repository": "https://github.com/jellyfin/jellyfin-web",
+  "description": "Premium Jellyfin web client with WASM audio processing, React/TypeScript architecture, and Vite build system",
+  "author": "Carlos Velasco",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jellyfin/jellyfin-web"
+  },
+  "homepage": "https://github.com/jellyfin/jellyfin-web#readme",
+  "bugs": {
+    "url": "https://github.com/jellyfin/jellyfin-web/issues"
+  },
   "license": "GPL-2.0-or-later",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.6.4 <11.0.0",
+    "yarn": "YARN NO LONGER USED - use npm instead."
+  },
+  "keywords": [
+    "jellyfin",
+    "media-server",
+    "web-client",
+    "react",
+    "typescript",
+    "vite",
+    "wasm",
+    "audio",
+    "music-player"
+  ],
   "devDependencies": {
     "@babel/core": "7.27.4",
     "@babel/plugin-transform-modules-umd": "7.27.1",
@@ -72,7 +96,7 @@
     "@fontsource/noto-sans-sc": "5.2.6",
     "@fontsource/noto-sans-tc": "5.2.6",
     "@jellyfin/libass-wasm": "4.2.3",
-    "@jellyfin/sdk": "0.0.0-unstable.202512091852",
+    "@jellyfin/sdk": "0.13.0",
     "@jellyfin/ux-web": "1.0.0",
     "@mui/icons-material": "6.4.12",
     "@mui/material": "6.4.12",
@@ -83,25 +107,19 @@
     "@tanstack/react-query": "5.80.10",
     "@tanstack/react-query-devtools": "5.80.10",
     "@types/three": "0.182.0",
-    "abortcontroller-polyfill": "1.7.8",
     "blurhash": "2.0.5",
     "butterchurn": "2.6.7",
     "butterchurn-presets": "2.4.7",
-    "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "2.5.1",
-    "core-js": "3.43.0",
     "date-fns": "2.30.0",
     "dompurify": "3.3.1",
-    "element-closest-polyfill": "1.0.7",
     "epubjs": "0.3.93",
     "escape-html": "1.0.3",
-    "fast-text-encoding": "1.0.6",
     "flv.js": "1.6.2",
     "framer-motion": "12.27.0",
     "headroom.js": "0.12.0",
     "history": "5.3.0",
     "hls.js": "1.6.13",
-    "intersection-observer": "0.12.2",
     "jellyfin-apiclient": "1.11.0",
     "jstree": "3.3.17",
     "libarchive.js": "2.0.2",
@@ -110,15 +128,12 @@
     "markdown-it": "14.1.0",
     "material-design-icons-iconfont": "6.7.0",
     "material-react-table": "3.2.1",
-    "native-promise-only": "0.8.1",
     "pdfjs-dist": "5.4.530",
-    "proxy-polyfill": "0.3.2",
     "react": "18.3.1",
     "react-blurhash": "0.3.0",
     "react-dom": "18.3.1",
     "react-lazy-load-image-component": "1.6.3",
     "react-router-dom": "6.30.3",
-    "resize-observer-polyfill": "1.5.1",
     "screenfull": "6.0.2",
     "sortablejs": "1.15.6",
     "swiper": "11.2.8",
@@ -126,7 +141,6 @@
     "usehooks-ts": "3.1.1",
     "wavesurfer.js": "7.12.1",
     "webcomponents.js": "0.7.24",
-    "whatwg-fetch": "3.6.20",
     "zustand": "5.0.10"
   },
   "optionalDependencies": {
@@ -162,10 +176,5 @@
     "*.{css,scss}": [
       "stylelint --fix"
     ]
-  },
-  "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=9.6.4 <11.0.0",
-    "yarn": "YARN NO LONGER USED - use npm instead."
   }
 }
