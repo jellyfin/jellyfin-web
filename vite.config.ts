@@ -241,7 +241,7 @@ export default defineConfig(({ mode }) => {
             }
         },
         build: {
-            target: "es2015",
+            target: "es2022",
             outDir: "../dist", // Since root is src
             emptyOutDir: true,
             commonjsOptions: {

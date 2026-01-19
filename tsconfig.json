@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "ES5",
-    "lib": ["DOM", "DOM.Iterable", "ES2015"],
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -10,13 +10,13 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "outDir": "./dist/",
     "checkJs": false,
     "strictNullChecks": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true,
+    "useDefineForClassFields": true,
     "types": ["vitest/globals"]
   },
   "include": [

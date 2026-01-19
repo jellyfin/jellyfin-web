@@ -1,5 +1,5 @@
 {
-    "ecmaVersion": "es5",
+    "ecmaVersion": "es2022",
     "files": "./dist/**/*.js",
     "not": [
         "./dist/libraries/pdf.worker.js",
