@@ -124,15 +124,15 @@ const FilterButton: FC<FilterButtonProps> = ({
         }));
     }, [setLibraryViewSettings]);
 
-    const getFilterCount = useCallback((filterKey: keyof Filters): number => {
-        const filter = libraryViewSettings?.Filters?.[filterKey];
-        if (!filter) return 0;
-        return Array.isArray(filter) ? filter.length : 0;
+    const displayFilterCount = useCallback((filterKey: keyof Filters): string => {
+        const count = libraryViewSettings?.Filters?.[filterKey]?.length;
+        return count && count > 0 ? ` (${count})` : '';
     }, [libraryViewSettings?.Filters]);
 
-    const getVideoTypesCount = useCallback((): number => {
-        return (libraryViewSettings?.Filters?.VideoBasicFilter?.length ?? 0)
+    const displayVideoTypesCount = useCallback((): string => {
+        const count = (libraryViewSettings?.Filters?.VideoBasicFilter?.length ?? 0)
             + (libraryViewSettings?.Filters?.VideoTypes?.length ?? 0);
+        return count > 0 ? ` (${count})` : '';
     }, [libraryViewSettings?.Filters]);
 
     const isFiltersLegacyEnabled = () => {
@@ -237,7 +237,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                     >
                         <Typography>
                             {globalize.translate('Filters')}
-                            {getFilterCount('Status') > 0 && ` (${getFilterCount('Status')})`}
+                            {displayFilterCount('Status')}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -259,7 +259,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('HeaderSeriesStatus')}
-                                {getFilterCount('SeriesStatus') > 0 && ` (${getFilterCount('SeriesStatus')})`}
+                                {displayFilterCount('SeriesStatus')}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -283,7 +283,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('HeaderEpisodesStatus')}
-                                {getFilterCount('EpisodeFilter') > 0 && ` (${getFilterCount('EpisodeFilter')})`}
+                                {displayFilterCount('EpisodeFilter')}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -307,7 +307,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('Features')}
-                                {getFilterCount('Features') > 0 && ` (${getFilterCount('Features')})`}
+                                {displayFilterCount('Features')}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -332,7 +332,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('HeaderVideoType')}
-                                {getVideoTypesCount() > 0 && ` (${getVideoTypesCount()})`}
+                                {displayVideoTypesCount()}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -359,7 +359,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 >
                                     <Typography>
                                         {globalize.translate('Genres')}
-                                        {getFilterCount('Genres') > 0 && ` (${getFilterCount('Genres')})`}
+                                        {displayFilterCount('Genres')}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -392,7 +392,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 >
                                     <Typography>
                                         {globalize.translate('HeaderParentalRatings')}
-                                        {getFilterCount('OfficialRatings') > 0 && ` (${getFilterCount('OfficialRatings')})`}
+                                        {displayFilterCount('OfficialRatings')}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -420,7 +420,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 >
                                     <Typography>
                                         {globalize.translate('Tags')}
-                                        {getFilterCount('Tags') > 0 && ` (${getFilterCount('Tags')})`}
+                                        {displayFilterCount('Tags')}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -448,7 +448,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 >
                                     <Typography>
                                         {globalize.translate('HeaderYears')}
-                                        {getFilterCount('Years') > 0 && ` (${getFilterCount('Years')})`}
+                                        {displayFilterCount('Years')}
                                     </Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -477,7 +477,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('Studios')}
-                                {getFilterCount('StudioIds') > 0 && ` (${getFilterCount('StudioIds')})`}
+                                {displayFilterCount('StudioIds')}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -502,7 +502,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         >
                             <Typography>
                                 {globalize.translate('HeaderAudioLanguages')}
-                                {getFilterCount('AudioLanguages') > 0 && ` (${getFilterCount('AudioLanguages')})`}
+                                {displayFilterCount('AudioLanguages')}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
