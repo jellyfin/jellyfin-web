@@ -1,4 +1,4 @@
-@use '../styles/mixins' as *;
+@use '../../styles/mixins' as *;
 @use './palette' as palette;
 
 // Theme options
@@ -426,7 +426,7 @@ a[data-role=button],
 
 .ratingbutton-icon-withrating,
 .playstatebutton-icon-played {
-    @include var(background-color, --jf-palette-error-light, $error-light);
+    @include var(color, --jf-palette-error-light, $error-light);
 }
 
 .buttonActive {

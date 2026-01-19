@@ -414,7 +414,7 @@
     "MoreMediaInfo": "Multimediaren informazioa",
     "MoreFromValue": "{0}(r)en beste batzuk",
     "Monday": "Astelehena",
-    "Mobile": "Mugikorra",
+    "Mobile": "Mugikorra (Legatua)",
     "Mixer": "Nahasgailua",
     "MinutesBefore": "Minutu batzuk lehenago",
     "MinutesAfter": "Minutu batzuk geroago",
@@ -1408,7 +1408,7 @@
     "Director": "Zuzendaria",
     "DeviceAccessHelp": "Hori bereziki identifika daitezkeen ekipoei bakarrik aplikatzen zaie, eta ez du nabigatzailera sartzea aurreikusten. Erabiltzailearen ekipamenduen sarbidea iragazteak ekipo berriak erabiltzea aurreikusiko die, hemen onartzen diren arte.",
     "DetectingDevices": "Gailuak detektatzen",
-    "Desktop": "Mahaigaina",
+    "Desktop": "Mahaigaina (Legatua)",
     "Descending": "Ondorengoa",
     "Depressed": "Deprimitua",
     "DeleteUserConfirmation": "Ziur zaude erabiltzaile hau ezabatu nahi duzula?",
@@ -2052,5 +2052,7 @@
     "ManageRepositories": "Kudeatu biltegiak",
     "ViewAllPlugins": "Ikusi plugin guztiak",
     "ButtonAddProvider": "Gehitu hornitzailea",
-    "ButtonAddTunerDevice": "Gehitu sintonizatzaile gailua"
+    "ButtonAddTunerDevice": "Gehitu sintonizatzaile gailua",
+    "LabelSlideshowInterval": "Argazkien diapositiba-aurkezpenaren tartea",
+    "LabelSlideshowIntervalHelp": "Argazki bakoitza aurkezpenetan bistaratzen den denbora segundotan."
 }

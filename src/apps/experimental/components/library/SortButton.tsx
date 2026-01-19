@@ -22,6 +22,14 @@ type SortOption = {
 
 type SortOptionsMapping = Record<string, SortOption[]>;
 
+const collectionMovieOptions: SortOption[] = [
+    { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
+    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
+];
+
 const movieOrFavoriteOptions = [
     { label: 'Name', value: ItemSortBy.SortName },
     { label: 'OptionRandom', value: ItemSortBy.Random },
@@ -43,6 +51,7 @@ const photosOrPhotoAlbumsOptions = [
 
 const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Movies]: movieOrFavoriteOptions,
+    [LibraryTab.Collections]: collectionMovieOptions,
     [LibraryTab.Favorites]: movieOrFavoriteOptions,
     [LibraryTab.Series]: [
         { label: 'Name', value: ItemSortBy.SortName },

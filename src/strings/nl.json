@@ -768,7 +768,7 @@
     "MetadataSettingChangeHelp": "Het aanpassen van metadata-instellingen zal enkel nieuw toegevoegde inhoud beïnvloeden. Om bestaande inhoud te vernieuwen, open je het detailscherm en klik je op de knop 'Vernieuwen', of voer je een bulkvernieuwing uit met behulp van de metadata-beheerder.",
     "MinutesAfter": "minuten na",
     "MinutesBefore": "minuten voor",
-    "Mobile": "Mobiel",
+    "Mobile": "Mobiel (verouderd)",
     "Monday": "Maandag",
     "MoreFromValue": "Meer van {0}",
     "MoreUsersCanBeAddedLater": "Meer gebruikers kunnen later worden toegevoegd vanuit het controlepaneel.",
@@ -1097,7 +1097,7 @@
     "ButtonTrailer": "Trailer",
     "ButtonUninstall": "Deïnstalleren",
     "ButtonWebsite": "Website",
-    "Desktop": "Bureaublad",
+    "Desktop": "Desktop (verouderd)",
     "DownloadsValue": "{0} downloads",
     "Filters": "Filters",
     "Genre": "Genre",
@@ -2070,5 +2070,7 @@
     "LabelBundled": "Gebundeld",
     "ManageRepositories": "Repository's beheren",
     "ButtonAddProvider": "Provider toevoegen",
-    "ButtonAddTunerDevice": "Tuner-apparaat toevoegen"
+    "ButtonAddTunerDevice": "Tuner-apparaat toevoegen",
+    "LabelSlideshowIntervalHelp": "De weergavetijd per foto in diavoorstellingen (in seconden).",
+    "LabelSlideshowInterval": "Interval diavoorstelling"
 }

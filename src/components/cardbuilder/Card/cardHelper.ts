@@ -7,6 +7,7 @@ import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import itemHelper from 'components/itemHelper';
+import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import datetime from 'scripts/datetime';
 import { isUsingLiveTvNaming } from '../cardBuilderUtils';
@@ -88,7 +89,7 @@ export function getTextActionButton(
 
     const dataAttributes = getDataAttributes(
         {
-            action: 'link',
+            action: ItemAction.Link,
             itemServerId: serverId ?? item.ServerId,
             itemId: item.Id,
             itemChannelId: item.ChannelId,

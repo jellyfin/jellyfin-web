@@ -2071,5 +2071,6 @@
     "ManageRepositories": "Spravovať repozitáre",
     "ViewAllPlugins": "Zobraziť všetky zásuvné moduly",
     "ButtonAddProvider": "Pridať poskytovateľa",
-    "ButtonAddTunerDevice": "Pridať zariadenie s tunerom"
+    "ButtonAddTunerDevice": "Pridať zariadenie s tunerom",
+    "LabelSlideshowIntervalHelp": "Čas v sekundách, počas ktorého sa každá fotografia zobrazí v prezentácii."
 }

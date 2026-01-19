@@ -4,6 +4,8 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import Box from '@mui/material/Box';
 
 import useIndicator from 'components/indicators/useIndicator';
+import { ItemAction } from 'constants/itemAction';
+
 import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
 import ListContentWrapper from './ListContentWrapper';
 import ListItemBody from './ListItemBody';
@@ -20,7 +22,7 @@ interface ListContentProps {
     enableOverview?: boolean;
     enableSideMediaInfo?: boolean;
     clickEntireItem?: boolean;
-    action?: string;
+    action?: ItemAction;
     isLargeStyle: boolean;
     downloadWidth?: number;
 }

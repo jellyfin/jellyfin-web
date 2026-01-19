@@ -300,5 +300,8 @@
     "AllowContentWithTagsHelp": "Hanya tunjukkan media yang mempunyai sekurang-kurangnya salah satu tag yang ditetapkan.",
     "AllowSubtitleManagement": "Benarkan pengguna ini mengedit sari kata",
     "AllowFmp4TranscodingContainerHelp": "Benarkan penukaran kontena fMP4 untuk penala ini bagi mengaktifkan kandungan HEVC dan HDR. Tidak semua penala serasi dengan kontena ini. Nyahdayakan ini jika anda mengalami masalah main balik.",
-    "AllowStreamSharingHelp": "Benarkan Jellyfin menggandakan aliran mpegts daripada penala dan berkongsi aliran yang digandakan ini kepada kliennya. Ini berguna apabila penala mempunyai had jumlah aliran tetapi juga boleh menyebabkan masalah main balik."
+    "AllowStreamSharingHelp": "Benarkan Jellyfin menggandakan aliran mpegts daripada penala dan berkongsi aliran yang digandakan ini kepada kliennya. Ini berguna apabila penala mempunyai had jumlah aliran tetapi juga boleh menyebabkan masalah main balik.",
+    "LabelSlideshowIntervalHelp": "Masa dalam saat, setiap gambar dipaparkan dalam persembahan slaid.",
+    "LabelBindToLocalNetworkAddress": "Pautkan ke alamat rangkaian tempatan",
+    "LabelBirthYear": "Tahun kelahiran"
 }

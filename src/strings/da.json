@@ -967,7 +967,7 @@
     "DefaultSubtitlesHelp": "Undertekster bliver indlæst baseret på standard- og tvungne flag i de integrerede metadata. Sprogpræferencer bliver overvejet når flere valg er tilgængelige.",
     "Depressed": "Ikke Trykket",
     "Descending": "Faldene",
-    "Desktop": "Skrivebord",
+    "Desktop": "Skrivebord (Legacy)",
     "DirectPlaying": "Afspiller direkte",
     "DirectStreamHelp1": "Video strømmen er kompatibel med enheden, men har et ikke kompatibelt lyd format (DTS, TrueHD osv.) eller et forkert antal kanaler. Video stømmen vil blive genpakket tabsfrit før den streames til enheden. Kun lyd strømmen vil blive genpakket.",
     "DirectStreamHelp2": "Strømforbruget ved direkte streaming afhænger oftest af lydprofilen. Kun video er ukomprimeret.",
@@ -1102,7 +1102,7 @@
     "MessageImageTypeNotSelected": "Vælg venligst en type af billede i drop-down menuen.",
     "MessagePlayAccessRestricted": "Afspilning af dette indhold er begrænset. Kontakt venligst server administratoren for mere information.",
     "Metadata": "Metadata",
-    "Mobile": "Mobil",
+    "Mobile": "Mobil (Legacy)",
     "Next": "Næste",
     "No": "Nej",
     "NoSubtitlesHelp": "Undertekster vil ikke blive indlæst som standard. De kan slåes til manuelt under afspilning.",
@@ -1986,7 +1986,7 @@
     "UseCustomTagDelimitersHelp": "Opdel kunstner- og genre-mærkater med brugerdefinerede tegn.",
     "VideoCodecTagNotSupported": "Videokodek-mærkatet understøttes ikke",
     "HeaderMediaSegmentActions": "Mediesegmenthandlinger",
-    "Anime": "",
+    "Anime": "Anime",
     "MoviesAndShows": "Film og TV-serier",
     "HeaderNextEpisode": "Næste afsnit",
     "HeaderNextVideo": "Næste video",
@@ -2069,5 +2069,7 @@
     "LabelAvailable": "Tilgængelig",
     "LabelBundled": "Inkluderet",
     "ButtonAddProvider": "Tilføj Leverandør",
-    "ButtonAddTunerDevice": "Tilføj Tuner Enhed"
+    "ButtonAddTunerDevice": "Tilføj Tuner Enhed",
+    "LabelSlideshowInterval": "Billede Slideshow Interval",
+    "LabelSlideshowIntervalHelp": "Mængden af tid i sekunder hvert billede er vist slideshows."
 }

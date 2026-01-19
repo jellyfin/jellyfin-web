@@ -133,7 +133,7 @@
     "DeleteUserConfirmation": "Voulez-vous vraiment supprimer cet utilisateur ?",
     "Depressed": "Enfoncé",
     "Descending": "Décroissant",
-    "Desktop": "Ordinateur",
+    "Desktop": "Ordinateur ( Ancienne version )",
     "DetectingDevices": "Détection des appareils",
     "DeviceAccessHelp": "Ceci ne s'applique qu'aux appareils pouvant être identifiés de manière unique et ne bloquera pas les accès via un navigateur. Le filtrage empêchera l'utilisation de nouveaux appareils jusqu'à ce qu'ils soient approuvés ici.",
     "DirectPlaying": "Lecture directe",
@@ -815,7 +815,7 @@
     "MetadataSettingChangeHelp": "Les modifications des paramètres des métadonnées ne concernent que le contenu à venir. Pour actualiser le contenu existant, ouvrez l'écran des détails et cliquez sur le bouton 'Actualiser', ou bien effectuez des actualisations en masse en utilisant le gestionnaire de métadonnées.",
     "MinutesAfter": "minutes après",
     "MinutesBefore": "minutes avant",
-    "Mobile": "Appareil mobile",
+    "Mobile": "Appareil mobile ( Ancienne version )",
     "Monday": "Lundi",
     "MoreFromValue": "Plus de {0}",
     "MoreUsersCanBeAddedLater": "D'autres utilisateurs pourront être ajoutés ultérieurement depuis le tableau de bord.",
@@ -2071,5 +2071,7 @@
     "ManageRepositories": "Gérer les dépôts",
     "ViewAllPlugins": "Voir tous les plugins",
     "ButtonAddProvider": "Ajouter un fournisseur",
-    "ButtonAddTunerDevice": "Ajouter un tuner"
+    "ButtonAddTunerDevice": "Ajouter un tuner",
+    "LabelSlideshowInterval": "Intervalle du Diaporama",
+    "LabelSlideshowIntervalHelp": "Le temps en secondes entre l'affichage de chaque photo dans le diaporama."
 }

@@ -1,6 +1,8 @@
 import React, { type FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 
+import { ItemAction } from 'constants/itemAction';
+
 interface RightIconButtonsProps {
     className?: string;
     id: string;
@@ -12,7 +14,7 @@ const RightIconButtons: FC<RightIconButtonsProps> = ({ className, id, title, ico
     return (
         <IconButton
             className={className}
-            data-action='custom'
+            data-action={ItemAction.Custom}
             data-customaction={id}
             title={title}
         >

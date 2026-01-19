@@ -338,7 +338,7 @@
     "Directors": "Réalisateurs",
     "Director": "Réalisateur",
     "DetectingDevices": "Détection des appareils",
-    "Desktop": "Bureau",
+    "Desktop": "Bureau ( Ancienne version )",
     "DeleteUserConfirmation": "Voulez-vous vraiment supprimer cet utilisateur ?",
     "DeleteUser": "Supprimer l'utilisateur",
     "DeleteMedia": "Supprimer le média",
@@ -870,7 +870,7 @@
     "MoveLeft": "Déplacer à gauche",
     "MoreMediaInfo": "Media Info",
     "MoreFromValue": "Plus de {0}",
-    "Mobile": "Appareil mobile",
+    "Mobile": "Appareil mobile ( Ancienne version )",
     "Mixer": "Mixeur",
     "MinutesBefore": "minutes avant",
     "MinutesAfter": "minutes après",
@@ -2015,5 +2015,7 @@
     "ManageRepositories": "Gérer les dépôts",
     "ViewAllPlugins": "Voir tous les plugiciels",
     "ButtonAddProvider": "Ajouter Fournisseur",
-    "ButtonAddTunerDevice": "Ajouter un Syntoniseur"
+    "ButtonAddTunerDevice": "Ajouter un Syntoniseur",
+    "LabelSlideshowInterval": "Interval du diaporama des photos",
+    "LabelSlideshowIntervalHelp": "Le temps en secondes auquel chaque photo est affichée dans les diaporamas."
 }
