@@ -1,20 +1,27 @@
-import browser from '../browser';
+import browser from '../../browser';
 import { canPlayHevc } from './videoCodecs';
 
-export function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
+export interface DirectPlayProfile {
+    Container: string;
+    Type: string;
+    VideoCodec: string;
+    AudioCodec: string;
+}
+
+export function getDirectPlayProfileForVideoContainer(container: string, videoAudioCodecs: string[], videoTestElement: HTMLMediaElement, options: any): DirectPlayProfile | null {
     let supported = false;
     let profileContainer = container;
-    const videoCodecs = [];
+    const videoCodecs: string[] = [];
 
     switch (container) {
         case 'asf':
         case 'wmv':
-            supported = browser.tizen || browser.web0s || browser.edgeUwp;
+            supported = (browser as any).tizen || browser.web0s || browser.edgeUwp;
             videoAudioCodecs = [];
             break;
         case 'avi':
-            supported = browser.tizen || browser.web0s || browser.edgeUwp;
-            if (browser.tizenVersion >= 4) {
+            supported = (browser as any).tizen || browser.web0s || browser.edgeUwp;
+            if ((browser as any).tizenVersion >= 4) {
                 videoCodecs.push('h264');
                 if (canPlayHevc(videoTestElement, options)) {
                     videoCodecs.push('hevc');
@@ -23,24 +30,24 @@ export function getDirectPlayProfileForVideoContainer(container, videoAudioCodec
             break;
         case 'mpg':
         case 'mpeg':
-            supported = browser.tizen || browser.web0s || browser.edgeUwp;
+            supported = (browser as any).tizen || browser.web0s || browser.edgeUwp;
             break;
         case 'flv':
-            supported = browser.tizen;
+            supported = (browser as any).tizen;
             break;
         case '3gp':
         case 'mts':
         case 'trp':
         case 'vob':
         case 'vro':
-            supported = browser.tizen;
+            supported = (browser as any).tizen;
             break;
         case 'mov':
-            supported = browser.safari || browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
+            supported = browser.safari || (browser as any).tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
             videoCodecs.push('h264');
             break;
         case 'm2ts':
-            supported = browser.tizen || browser.web0s || browser.edgeUwp;
+            supported = (browser as any).tizen || browser.web0s || browser.edgeUwp;
             videoCodecs.push('h264');
             if (supportsVc1(videoTestElement)) {
                 videoCodecs.push('vc1');
@@ -52,7 +59,7 @@ export function getDirectPlayProfileForVideoContainer(container, videoAudioCodec
         case 'ts':
             supported = testCanPlayTs();
             videoCodecs.push('h264');
-            if ((browser.tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
+            if (((browser as any).tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
                 videoCodecs.push('hevc');
             }
             if (supportsVc1(videoTestElement)) {
@@ -75,12 +82,12 @@ export function getDirectPlayProfileForVideoContainer(container, videoAudioCodec
     } : null;
 }
 
-export function testCanPlayMkv(videoTestElement) {
-    if (browser.vidaa) {
+export function testCanPlayMkv(videoTestElement: HTMLMediaElement): boolean {
+    if ((browser as any).vidaa) {
         return false;
     }
 
-    if (browser.tizen || browser.web0s) {
+    if ((browser as any).tizen || browser.web0s) {
         return true;
     }
 
@@ -93,21 +100,21 @@ export function testCanPlayMkv(videoTestElement) {
         return true;
     }
 
-    if (browser.edgeChromium && browser.windows) {
+    if (browser.edgeChromium && (browser as any).windows) {
         return true;
     }
 
     return !!browser.edgeUwp;
 }
 
-export function testCanPlayTs() {
-    return browser.tizen || browser.web0s || browser.edgeUwp;
+export function testCanPlayTs(): boolean {
+    return (browser as any).tizen || browser.web0s || browser.edgeUwp;
 }
 
-export function supportsMpeg2Video() {
-    return browser.tizen || browser.web0s || browser.edgeUwp;
+export function supportsMpeg2Video(): boolean {
+    return (browser as any).tizen || browser.web0s || browser.edgeUwp;
 }
 
-export function supportsVc1(videoTestElement) {
-    return browser.tizen || browser.web0s || browser.edgeUwp || videoTestElement.canPlayType('video/mp4; codecs="vc-1"').replace(/no/, '');
+export function supportsVc1(videoTestElement: HTMLMediaElement): string | boolean {
+    return (browser as any).tizen || browser.web0s || browser.edgeUwp || videoTestElement.canPlayType('video/mp4; codecs="vc-1"').replace(/no/, '');
 }

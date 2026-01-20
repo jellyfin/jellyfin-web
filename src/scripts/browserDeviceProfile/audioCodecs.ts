@@ -1,19 +1,19 @@
-import browser from '../browser';
+import browser from '../../browser';
 
-export function supportsAc3(videoTestElement) {
-    if (browser.edgeUwp || browser.tizen || browser.web0s) {
+export function supportsAc3(videoTestElement: HTMLMediaElement): string | boolean {
+    if (browser.edgeUwp || (browser as any).tizen || browser.web0s) {
         return true;
     }
 
-    if (browser.iOS && browser.iOSVersion < 11) {
+    if (browser.iOS && (browser as any).iOSVersion < 11) {
         return false;
     }
 
     return videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '');
 }
 
-export function canPlayDts(videoTestElement) {
-    if (browser.tizenVersion >= 4 || (browser.web0sVersion >= 5 && browser.web0sVersion < 23)) {
+export function canPlayDts(videoTestElement: HTMLMediaElement): boolean | null {
+    if ((browser as any).tizenVersion >= 4 || ((browser as any).web0sVersion >= 5 && (browser as any).web0sVersion < 23)) {
         return false;
     }
 
@@ -25,20 +25,20 @@ export function canPlayDts(videoTestElement) {
     return null;
 }
 
-export function supportsEac3(videoTestElement) {
-    if (browser.tizen || browser.web0s) {
+export function supportsEac3(videoTestElement: HTMLMediaElement): string | boolean {
+    if ((browser as any).tizen || browser.web0s) {
         return true;
     }
 
-    if (browser.iOS && browser.iOSVersion < 11) {
+    if (browser.iOS && (browser as any).iOSVersion < 11) {
         return false;
     }
 
     return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
 }
 
-export function supportsAc3InHls(videoTestElement) {
-    if (browser.tizen || browser.web0s) {
+export function supportsAc3InHls(videoTestElement: HTMLMediaElement): string | boolean {
+    if ((browser as any).tizen || browser.web0s) {
         return true;
     }
 
@@ -50,7 +50,7 @@ export function supportsAc3InHls(videoTestElement) {
     return false;
 }
 
-export function supportsMp3InHls(videoTestElement) {
+export function supportsMp3InHls(videoTestElement: HTMLMediaElement): string | boolean {
     if (videoTestElement.canPlayType) {
         return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '')
                 || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '');
@@ -59,26 +59,26 @@ export function supportsMp3InHls(videoTestElement) {
     return false;
 }
 
-export function canPlayAudioFormat(format) {
-    let typeString;
+export function canPlayAudioFormat(format: string): boolean {
+    let typeString: string | undefined;
 
     if (format === 'flac' || format === 'asf') {
-        if (browser.tizen || browser.web0s || browser.edgeUwp) {
+        if ((browser as any).tizen || browser.web0s || browser.edgeUwp) {
             return true;
         }
         typeString = 'audio/flac';
     } else if (format === 'wma') {
-        if (browser.tizen || browser.edgeUwp) {
+        if ((browser as any).tizen || browser.edgeUwp) {
             return true;
         }
     } else if (format === 'opus') {
         if (browser.web0s) {
-            return browser.web0sVersion >= 3.5;
+            return (browser as any).web0sVersion >= 3.5;
         }
 
         typeString = 'audio/ogg; codecs="opus"';
     } else if (format === 'alac') {
-        if (browser.iOS || browser.osx && browser.safari) {
+        if (browser.iOS || (browser as any).osx && browser.safari) {
             return true;
         }
     } else if (format === 'mp2') {

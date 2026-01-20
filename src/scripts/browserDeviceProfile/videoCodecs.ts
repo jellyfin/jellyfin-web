@@ -1,11 +1,11 @@
-import browser from '../browser';
+import browser from '../../browser';
 
-export function canPlayH264(videoTestElement) {
+export function canPlayH264(videoTestElement: HTMLMediaElement): boolean {
     return !!(videoTestElement.canPlayType?.('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
 }
 
-export function canPlayHevc(videoTestElement, options) {
-    if (browser.tizen || browser.xboxOne || browser.web0s || options.supportsHevc) {
+export function canPlayHevc(videoTestElement: HTMLMediaElement, options: any): boolean {
+    if ((browser as any).tizen || browser.xboxOne || browser.web0s || options.supportsHevc) {
         return true;
     }
 
@@ -20,8 +20,8 @@ export function canPlayHevc(videoTestElement, options) {
         || videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''));
 }
 
-export function canPlayAv1(videoTestElement) {
-    if (browser.tizenVersion >= 5.5 || browser.web0sVersion >= 5) {
+export function canPlayAv1(videoTestElement: HTMLMediaElement): boolean {
+    if ((browser as any).tizenVersion >= 5.5 || (browser as any).web0sVersion >= 5) {
         return true;
     }
 

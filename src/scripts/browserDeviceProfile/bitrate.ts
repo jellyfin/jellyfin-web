@@ -1,56 +1,57 @@
-import browser from '../browser';
-import * as userSettings from '../settings/userSettings';
+import browser from '../../browser';
+import * as userSettings from '../../settings/userSettings';
 
-function getMaxBitrate() {
+declare const webapis: any;
+
+export function getMaxBitrate(): number {
     return 120000000;
 }
 
-function getGlobalMaxVideoBitrate() {
+export function getGlobalMaxVideoBitrate(): number | null {
     let isTizenFhd = false;
-    if (browser.tizen) {
+    if ((browser as any).tizen) {
         try {
             const isTizenUhd = webapis.productinfo.isUdPanelSupported();
             isTizenFhd = !isTizenUhd;
             console.debug('isTizenFhd = ' + isTizenFhd);
-        } catch (error) {
+        } catch (error: any) {
             console.error('isUdPanelSupported() error code = ' + error.code);
         }
     }
 
-    let bitrate = null;
+    let bitrate: number | null = null;
     if (browser.ps4) {
         bitrate = 8000000;
     } else if (browser.xboxOne) {
         bitrate = 12000000;
-    } else if (browser.tizen && isTizenFhd) {
+    } else if ((browser as any).tizen && isTizenFhd) {
         bitrate = 20000000;
     }
 
     return bitrate;
 }
 
-let maxChannelCount = null;
+let maxChannelCount: number | null = null;
 
-function getSpeakerCount() {
+export function getSpeakerCount(): number {
     if (maxChannelCount != null) {
         return maxChannelCount;
     }
 
     maxChannelCount = -1;
 
-    const AudioContext = window.AudioContext || window.webkitAudioContext || false;
+    const AudioContextClass = (window.AudioContext || (window as any).webkitAudioContext);
 
-    if (AudioContext) {
-        const audioCtx = new AudioContext();
-
+    if (AudioContextClass) {
+        const audioCtx = new AudioContextClass();
         maxChannelCount = audioCtx.destination.maxChannelCount;
     }
 
     return maxChannelCount;
 }
 
-function getPhysicalAudioChannels(options, videoTestElement) {
-    const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels(), 10);
+export function getPhysicalAudioChannels(options: any, _videoTestElement: HTMLMediaElement): number {
+    const allowedAudioChannels = parseInt((userSettings as any).allowedAudioChannels(), 10);
 
     if (allowedAudioChannels > 0) {
         return allowedAudioChannels;
@@ -81,5 +82,3 @@ function getPhysicalAudioChannels(options, videoTestElement) {
 
     return 2;
 }
-
-export { getMaxBitrate, getGlobalMaxVideoBitrate, getSpeakerCount, getPhysicalAudioChannels };
