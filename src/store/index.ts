@@ -19,6 +19,7 @@ export { useSettingsStore, selectAudioSettings, selectVisualizerSettings, select
 export { useUiStore } from './uiStore';
 export { useNotificationStore } from './notificationStore';
 export { useSyncPlayStore } from './syncPlayStore';
+export { useBookStore } from './bookStore';
 
 // Audio store (legacy - for backward compatibility)
 export { useAudioStore } from './audioStore';

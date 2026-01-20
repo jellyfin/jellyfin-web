@@ -286,6 +286,11 @@ build: ${__JF_BUILD_VERSION__}`,
     // Initialize crossfade preloader for track preloading and smooth transitions
     await initializeCrossfadePreloader();
 
+    // Start playback behavior synchronization
+    import("./audio-driver/bridge/PlaybackSync").then(({ playbackSync }) => {
+        playbackSync.start();
+    });
+
     // Load platform specific features
     loadPlatformFeatures();
 
