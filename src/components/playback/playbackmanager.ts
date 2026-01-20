@@ -27,7 +27,7 @@ import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { bindSkipSegment } from './skipsegment';
-import { useAudioStore } from '../../store/audioStore';
+import { useMediaStore } from '../../store/mediaStore';
 import logger from '../../utils/logger';
 
 const UNLIMITED_ITEMS = -1;
@@ -780,79 +780,60 @@ export class PlaybackManager {
     }
 
     private bindToAudioStore() {
+        // Start the StoreSync bridge
+        import('../../audio-driver/bridge/StoreSync').then(({ storeSync }) => {
+            storeSync.start();
+        });
+
         const updateCurrentTrack = (player: Player) => {
             if (!player) return;
             const item = this.currentItem(player);
             if (!item) return;
 
-            // Only update if it's an audio track
-            if (item.MediaType !== 'Audio') return;
-
-            const playlist = this.getPlaylistSync(player);
-            const currentIndex = playlist.findIndex((i: any) => i.Id === item.Id);
-            
-            const getTrackSummary = (trackItem: any) => {
-                if (!trackItem) return undefined;
-                return {
-                    name: trackItem.Name,
-                    artist: trackItem.Artists ? trackItem.Artists[0] : (trackItem.AlbumArtist || ''),
-                    imageUrl: (trackItem.ImageTags && trackItem.ImageTags.Primary) ? 
-                        ServerConnections.getApiClient(trackItem.ServerId).getScaledImageUrl(trackItem.Id, { type: 'Primary', maxWidth: 200 }) : 
-                        undefined
-                };
-            };
-
-            useAudioStore.getState().setCurrentTrack({
-                id: item.Id,
-                name: item.Name,
-                artist: item.Artists ? item.Artists[0] : (item.AlbumArtist || ''),
-                album: item.Album,
-                albumArtist: item.AlbumArtist,
-                imageUrl: (item.ImageTags && item.ImageTags.Primary) ? 
-                    ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.Id, { type: 'Primary', maxWidth: 600 }) : 
-                    undefined,
-                runtimeTicks: item.RunTimeTicks,
-                streamInfo: {
-                    url: '',
-                    codec: item.Codec,
-                    bitrate: item.Bitrate
-                },
-                nextTrack: currentIndex >= 0 && currentIndex < playlist.length - 1 ? getTrackSummary(playlist[currentIndex + 1]) : undefined,
-                prevTrack: currentIndex > 0 ? getTrackSummary(playlist[currentIndex - 1]) : undefined
-            });
-            
-            useAudioStore.getState().setDuration(item.RunTimeTicks ? item.RunTimeTicks / 10000000 : 0);
+            // Update new store
+            // Note: MediaStore expects PlayableItem, we might need to map it if types differ significantly
+            // For now, we assume basic compatibility or partial updates
+            useMediaStore.getState().play(item);
         };
 
         Events.on(this, 'playbackstart', (e: any, player: Player) => {
             updateCurrentTrack(player);
-            useAudioStore.getState().setIsPlaying(true);
+            // The status update will happen via StoreSync -> AudioDriver -> HTML5Player events
+            // But for legacy players (video), we might need to set it manually
+            if (player.name !== 'Html Audio Player') {
+                 useMediaStore.getState().play();
+            }
         });
 
         Events.on(this, 'playbackstop', () => {
-            useAudioStore.getState().setIsPlaying(false);
-            useAudioStore.getState().setCurrentTrack(null);
-            useAudioStore.getState().setCurrentTime(0);
+            useMediaStore.getState().stop();
         });
 
         Events.on(this, 'pause', () => {
-            useAudioStore.getState().setIsPlaying(false);
+            useMediaStore.getState().pause();
         });
 
         Events.on(this, 'unpause', () => {
-            useAudioStore.getState().setIsPlaying(true);
+            // Check if we have an item, if so play
+            const currentItem = useMediaStore.getState().currentItem;
+            if (currentItem) {
+                useMediaStore.getState().play();
+            }
         });
 
         Events.on(this, 'timeupdate', (e: any, player: Player) => {
-             // We can get time update from the event or the player
-             const time = player ? (player.currentTime() as number) / 1000 : 0;
-             useAudioStore.getState().setCurrentTime(time);
+             // For audio player, the driver handles this.
+             // For video player, we need to sync manually.
+             if (player && player.name !== 'Html Audio Player') {
+                 const time = (player.currentTime() as number) / 1000;
+                 const duration = (player.duration() as number) / 1000;
+                 useMediaStore.getState().updateProgress(time, duration);
+             }
         });
         
         Events.on(this, 'playerchange', (e: any, newPlayer: Player) => {
              if (newPlayer) {
                  updateCurrentTrack(newPlayer);
-                 useAudioStore.getState().setIsPlaying(!newPlayer.paused());
              }
         });
     }
