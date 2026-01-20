@@ -1,4 +1,5 @@
 import { HTML5Player } from './html5/HTML5Player';
+import { VideoPlayer } from './html5/VideoPlayer';
 import { MediaSessionController } from './session/MediaSession';
 import { useMediaStore, useQueueStore, useSettingsStore } from '../store';
 import { PlaybackStatus } from '../store/types';
@@ -6,12 +7,17 @@ import { logger } from '../utils/logger';
 
 export class AudioDriver {
     private static instance: AudioDriver;
-    private player: HTML5Player;
+    private audioPlayer: HTML5Player;
+    private videoPlayer: VideoPlayer;
+    private activePlayer: HTML5Player; // VideoPlayer extends HTML5Player
     private mediaSession: MediaSessionController;
     private isInitialized = false;
 
     private constructor() {
-        this.player = new HTML5Player('audio');
+        this.audioPlayer = new HTML5Player('audio');
+        this.videoPlayer = new VideoPlayer();
+        this.activePlayer = this.audioPlayer; // Default to audio
+
         this.mediaSession = new MediaSessionController({
             onPlay: () => this.play(),
             onPause: () => this.pause(),
@@ -23,7 +29,8 @@ export class AudioDriver {
             onStop: () => this.stop()
         });
 
-        this.setupPlayerEvents();
+        this.setupPlayerEvents(this.audioPlayer);
+        this.setupPlayerEvents(this.videoPlayer);
         this.setupStoreSubscriptions();
     }
 
@@ -41,24 +48,41 @@ export class AudioDriver {
     }
 
     async loadAndPlay(url: string, item: any) {
-        this.player.load(url, true);
+        // Determine player type based on item or explicitly passed type
+        const isVideo = item?.mediaType === 'Video' || item?.MediaType === 'Video';
+        
+        // Stop current player if switching types
+        if (isVideo && this.activePlayer !== this.videoPlayer) {
+            this.audioPlayer.stop();
+            this.activePlayer = this.videoPlayer;
+        } else if (!isVideo && this.activePlayer !== this.audioPlayer) {
+            this.videoPlayer.stop();
+            this.activePlayer = this.audioPlayer;
+        }
+
+        this.activePlayer.load(url, true);
         this.mediaSession.updateMetadata(item);
+        
+        // Sync volume to new player
+        const { volume, muted } = useSettingsStore.getState().audio;
+        this.activePlayer.setVolume(volume);
+        this.activePlayer.setMuted(muted);
     }
 
     play() {
-        return this.player.play();
+        return this.activePlayer.play();
     }
 
     pause() {
-        this.player.pause();
+        this.activePlayer.pause();
     }
 
     stop() {
-        this.player.stop();
+        this.activePlayer.stop();
     }
 
     seek(timeSeconds: number) {
-        this.player.seek(timeSeconds);
+        this.activePlayer.seek(timeSeconds);
     }
 
     seekRelative(seconds: number) {
@@ -69,7 +93,6 @@ export class AudioDriver {
     next() {
         const { next } = useQueueStore.getState();
         next();
-        // The store subscription will trigger loading the next track
     }
 
     previous() {
@@ -77,31 +100,37 @@ export class AudioDriver {
         prev();
     }
 
-    private setupPlayerEvents() {
-        this.player.setEvents({
+    private setupPlayerEvents(player: HTML5Player) {
+        player.setEvents({
             onTimeUpdate: (time) => {
+                if (player !== this.activePlayer) return;
                 useMediaStore.getState().setProgress({ currentTime: time });
                 this.updateMediaSessionPosition();
             },
             onDurationChange: (duration) => {
+                if (player !== this.activePlayer) return;
                 useMediaStore.getState().setProgress({ duration });
                 this.updateMediaSessionPosition();
             },
             onStatusChange: (status) => {
+                if (player !== this.activePlayer) return;
                 useMediaStore.getState().setStatus(status);
                 this.mediaSession.updatePlaybackState(status === 'playing' ? 'playing' : status === 'paused' ? 'paused' : 'none');
             },
             onBufferedChange: (buffered) => {
+                if (player !== this.activePlayer) return;
                 useMediaStore.getState().setProgress({ buffered });
             },
             onVolumeChange: (volume, muted) => {
+                if (player !== this.activePlayer) return;
                 // Sync back to store if changed externally (e.g. OS volume)
-                // Note: be careful about loops
             },
             onError: (err) => {
+                if (player !== this.activePlayer) return;
                 useMediaStore.getState().setError(err.message);
             },
             onEnded: () => {
+                if (player !== this.activePlayer) return;
                 this.next();
             }
         });
@@ -114,7 +143,6 @@ export class AudioDriver {
             (item) => {
                 if (item) {
                     this.mediaSession.updateMetadata(item);
-                    // Actual loading happens in the bridge or here depending on logic
                 }
             }
         );
@@ -122,12 +150,12 @@ export class AudioDriver {
         // Subscribe to volume changes
         useSettingsStore.subscribe(
             (state) => state.audio.volume,
-            (volume) => this.player.setVolume(volume)
+            (volume) => this.activePlayer.setVolume(volume)
         );
 
         useSettingsStore.subscribe(
             (state) => state.audio.muted,
-            (muted) => this.player.setMuted(muted)
+            (muted) => this.activePlayer.setMuted(muted)
         );
     }
 
@@ -138,7 +166,12 @@ export class AudioDriver {
     }
 
     getElement() {
-        return this.player.getElement();
+        return this.activePlayer.getElement();
+    }
+    
+    // Explicitly for Video Player access
+    getVideoPlayer(): VideoPlayer {
+        return this.videoPlayer;
     }
 }
 
