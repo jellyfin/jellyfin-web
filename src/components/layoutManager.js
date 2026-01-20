@@ -1,83 +1,43 @@
 import { LayoutMode } from 'constants/layoutMode';
-
-import { appHost } from './apphost';
-import browser from '../scripts/browser';
-import appSettings from '../scripts/settings/appSettings';
+import { useUiStore } from '../store/uiStore';
 import Events from '../utils/events';
-import { logger } from '../utils/logger';
 
-function setLayout(instance, layout, selectedLayout) {
-    if (layout === selectedLayout) {
-        instance[layout] = true;
-        document.documentElement.classList.add('layout-' + layout);
-    } else {
-        instance[layout] = false;
-        document.documentElement.classList.remove('layout-' + layout);
-    }
-}
-
-export const SETTING_KEY = 'layout';
-
+/**
+ * LayoutManager (Refactored)
+ * 
+ * Legacy wrapper around useUiStore. Maintains compatibility with 
+ * existing code while delegating state to the reactive store.
+ */
 class LayoutManager {
-    tv = false;
-    mobile = false;
-    desktop = false;
-    experimental = false;
+    get tv() {
+        return useUiStore.getState().effectiveLayout === 'tv';
+    }
 
-    setLayout(layout = '', save = true) {
-        const layoutValue = (!layout || layout === LayoutMode.Auto) ? '' : layout;
+    get mobile() {
+        return useUiStore.getState().effectiveLayout === 'mobile';
+    }
 
-        if (!layoutValue) {
-            this.autoLayout();
-        } else {
-            setLayout(this, LayoutMode.Mobile, layoutValue);
-            setLayout(this, LayoutMode.Tv, layoutValue);
-            setLayout(this, LayoutMode.Desktop, layoutValue);
-        }
+    get desktop() {
+        return useUiStore.getState().effectiveLayout === 'desktop';
+    }
 
-        logger.debug(`[LayoutManager] Using layout mode: ${layoutValue}`, { component: 'LayoutManager' });
-        this.experimental = layoutValue === LayoutMode.Experimental;
-        if (this.experimental) {
-            const legacyLayoutMode = browser.mobile ? LayoutMode.Mobile : LayoutMode.Desktop;
-            logger.debug(`[LayoutManager] Using legacy layout mode: ${legacyLayoutMode}`, { component: 'LayoutManager' });
-            setLayout(this, legacyLayoutMode, legacyLayoutMode);
-        }
+    get experimental() {
+        return useUiStore.getState().layout === LayoutMode.Experimental;
+    }
 
-        if (save) appSettings.set(SETTING_KEY, layoutValue);
-
+    setLayout(layout, save = true) {
+        useUiStore.getState().setLayout(layout || LayoutMode.Auto);
+        
+        // Trigger legacy event for non-reactive components
         Events.trigger(this, 'modechange');
     }
 
-    getSavedLayout() {
-        return appSettings.get(SETTING_KEY);
-    }
-
-    autoLayout() {
-        // Take a guess at initial layout. The consuming app can override.
-        // NOTE: The fallback to TV mode seems like an outdated choice. TVs should be detected properly or override the
-        // default layout.
-        this.setLayout(browser.tv ? LayoutMode.Tv : this.defaultLayout || LayoutMode.Tv, false);
-    }
-
     init() {
-        const saved = this.getSavedLayout();
-        if (saved) {
-            this.setLayout(saved, false);
-        } else {
-            this.autoLayout();
-        }
+        // Initialized by the store's autoDetectLayout on rehydration
     }
 }
 
 const layoutManager = new LayoutManager();
-
-if (appHost && typeof appHost.getDefaultLayout === 'function') {
-    layoutManager.defaultLayout = appHost.getDefaultLayout();
-} else {
-    layoutManager.defaultLayout = LayoutMode.Experimental;
-}
-
-layoutManager.init();
 
 export { layoutManager };
 export default layoutManager;
