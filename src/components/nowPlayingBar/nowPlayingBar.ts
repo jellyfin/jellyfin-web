@@ -5,11 +5,10 @@ import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import datetime from '../../scripts/datetime';
-import Events from '../../utils/events';
-import browser from '../../scripts/browser';
+import Events, { type Event as EventsEvent } from '../../utils/events';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
-import { playbackManager } from '../playback/playbackmanager';
+import { playbackManager, type Player as PlaybackPlayer } from '../playback/playbackmanager';
 import { appHost } from '../apphost';
 import { destroyWaveSurferInstance, waveSurferInitialization } from 'components/visualizer/WaveSurfer';
 import dom from '../../utils/dom';
@@ -26,7 +25,7 @@ import { synchronizeVolumeUI } from 'components/audioEngine/audioUtils';
 import { logger } from 'utils/logger';
 
 // Store imports for migration
-import { usePlaybackActions, useQueueActions, useVolume, useIsMuted, usePlaybackStatus, useProgress, useCurrentTime, useDuration, useRepeatMode, useShuffleMode, useIsShuffled, useCurrentItem, useCurrentQueueIndex } from 'store';
+import { usePlaybackActions, useQueueActions, usePlaybackStatus, useCurrentTime, useDuration, useIsShuffled, useCurrentQueueIndex } from 'store';
 
 interface PlayerState {
     NowPlayingItem?: NowPlayingItem;
@@ -55,14 +54,14 @@ interface PlayState {
     PositionTicks?: number;
 }
 
-interface Player {
+// Extend the base Player interface from playbackmanager with local-only fields
+type Player = PlaybackPlayer & {
     isLocalPlayer?: boolean;
-    paused(): boolean;
-    isMuted(): boolean;
-    getVolume(): number;
-    setVolume(volume: number): void;
-    duration?(): number;
-}
+    paused?(): boolean;
+    isMuted?(): boolean;
+    getVolume?(): number;
+    getBufferedRanges?(): BufferedRange[];
+};
 
 interface BufferedRange {
     start: number;
@@ -99,45 +98,15 @@ let isLyricPageActive = false;
 
 // Store-backed control functions (migration layer)
 function getStoreDuration(): number {
-    const duration = useDuration();
-    return duration || 0;
-}
-
-function getStoreCurrentTime(): number {
-    return useCurrentTime();
+    return useDuration() || 0;
 }
 
 function getStoreIsPlaying(): boolean {
     return usePlaybackStatus() === 'playing';
 }
 
-function getStoreIsPaused(): boolean {
-    const status = usePlaybackStatus();
-    return status === 'paused' || status === 'idle';
-}
-
-function getStoreVolume(): number {
-    return useVolume();
-}
-
-function getStoreIsMuted(): boolean {
-    return useIsMuted();
-}
-
-function getStoreRepeatMode(): string {
-    return useRepeatMode();
-}
-
-function getStoreShuffleMode(): string {
-    return useShuffleMode();
-}
-
-function getStoreIsShuffled(): boolean {
-    return useIsShuffled();
-}
-
-function getStoreCurrentItem(): ReturnType<typeof useCurrentItem> {
-    return useCurrentItem();
+function getStoreCurrentTime(): number {
+    return useCurrentTime();
 }
 
 export function getNowPlayingBarHtml(): string {
@@ -300,8 +269,8 @@ export function bindEvents(elem: HTMLElement): void {
 
     toggleAirPlayButton = elem.querySelector('.btnAirPlay');
     toggleAirPlayButton?.addEventListener('click', () => {
-        if (currentPlayer) {
-            playbackManager.toggleAirPlay(currentPlayer);
+        if (currentPlayer && (currentPlayer as Player & { toggleAirPlay?: () => void }).toggleAirPlay) {
+            (currentPlayer as Player & { toggleAirPlay: () => void }).toggleAirPlay();
         }
     });
 
@@ -390,10 +359,6 @@ function getNowPlayingBar(): HTMLElement | null {
                 nowPlayingBarElement.querySelector('.nowPlayingBarCenter')?.classList.add('hide');
             }
 
-            if (browser.safari && browser.slow) {
-                nowPlayingBarElement.classList.add('noMediaProgress');
-            }
-
             itemShortcuts.on(nowPlayingBarElement);
             bindEvents(nowPlayingBarElement);
             synchronizeVolumeUI();
@@ -416,7 +381,7 @@ export function updatePlayPauseState(isPaused: boolean): void {
     }
 }
 
-function updatePlayerStateInternal(event: Event, state: PlayerState, player: Player): void {
+function updatePlayerStateInternal(_event: EventsEvent, state: PlayerState, player: Player): void {
     showNowPlayingBar();
 
     lastPlayerState = state;
@@ -455,7 +420,7 @@ function updatePlayerStateInternal(event: Event, state: PlayerState, player: Pla
     updateTimeDisplay(
         playState.PositionTicks ?? 0,
         nowPlayingItem.RunTimeTicks ?? 0,
-        playbackManager.getBufferedRanges(player)
+        player.getBufferedRanges?.() || []
     );
 
     updateNowPlayingInfo(state);
@@ -564,7 +529,8 @@ function setLyricButtonActiveStatus(): void {
 export function updateNowPlayingInfo(state: PlayerState): void {
     const nowPlayingItem = state.NowPlayingItem;
 
-    const textLines = nowPlayingItem ? getItemTextLines(nowPlayingItem) : undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const textLines = nowPlayingItem ? getItemTextLines(nowPlayingItem as any) : undefined;
     if (nowPlayingTextElement) {
         nowPlayingTextElement.innerHTML = '';
         if (textLines) {
@@ -591,7 +557,8 @@ export function updateNowPlayingInfo(state: PlayerState): void {
 
     const imgHeight = 70;
 
-    const url = nowPlayingItem ? getImageUrl(nowPlayingItem, { height: imgHeight }) : null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const url = nowPlayingItem ? getImageUrl(nowPlayingItem as any, { height: imgHeight }) : null;
 
     if (url !== nowPlayingImageUrl && nowPlayingImageElement) {
         if (url) {
@@ -609,7 +576,8 @@ export function updateNowPlayingInfo(state: PlayerState): void {
 
     if (nowPlayingItem?.Id && nowPlayingItem.ServerId && nowPlayingUserData && nowPlayingBarElement) {
         const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
-        apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then((item: { UserData?: { Likes?: boolean; IsFavorite?: boolean }; Id: string; ServerId: string; Type: string }) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then((item: any) => {
             const userData = item.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
 
@@ -650,7 +618,7 @@ export function updateNowPlayingInfo(state: PlayerState): void {
     }
 }
 
-function onPlaybackStart(this: Player, e: Event, state: PlayerState): void {
+function onPlaybackStart(this: Player, e: EventsEvent, state: PlayerState): void {
     logger.debug('nowplaying event: ' + e.type, { component: 'nowPlayingBar' });
     onStateChanged.call(this, e, state);
 }
@@ -663,18 +631,15 @@ function onRepeatModeChange(): void {
 function onQueueShuffleModeChange(): void {
     if (!isEnabled || !nowPlayingBarElement) return;
 
-    const shuffleMode = playbackManager.getQueueShuffleMode();
+    // Use store-backed shuffle state
+    const isShuffled = useIsShuffled();
     const cssClass = 'buttonActive';
     const toggleShuffleButton = nowPlayingBarElement.querySelector('.btnShuffleQueue');
 
-    switch (shuffleMode) {
-        case 'Shuffle':
-            toggleShuffleButton?.classList.add(cssClass);
-            break;
-        case 'Sorted':
-        default:
-            toggleShuffleButton?.classList.remove(cssClass);
-            break;
+    if (isShuffled) {
+        toggleShuffleButton?.classList.add(cssClass);
+    } else {
+        toggleShuffleButton?.classList.remove(cssClass);
     }
 }
 
@@ -700,7 +665,7 @@ export function hideNowPlayingBar(): void {
     }
 }
 
-function onPlaybackStopped(this: Player, e: Event, state: PlayerState): void {
+function onPlaybackStopped(this: Player, e: EventsEvent, state: PlayerState): void {
     logger.debug('[nowPlayingBar:onPlaybackStopped] event: ' + e.type, { component: 'nowPlayingBar' });
 
     if (this.isLocalPlayer) {
@@ -714,10 +679,10 @@ function onPlaybackStopped(this: Player, e: Event, state: PlayerState): void {
 
 function onPlayPauseStateChanged(this: Player): void {
     if (!isEnabled) return;
-    updatePlayPauseState(this.paused());
+    updatePlayPauseState(this.paused?.() ?? false);
 }
 
-export function onStateChanged(this: Player, event: Event, state: PlayerState): void {
+export function onStateChanged(this: Player, event: EventsEvent, state: PlayerState): void {
     if (event.type === 'init') {
         // skip non-ready state
         return;
@@ -757,11 +722,11 @@ function onTimeUpdate(this: Player): void {
     }
     lastUpdateTime = now;
 
-    currentRuntimeTicks = playbackManager.duration(this);
+    currentRuntimeTicks = this.duration?.() ?? 0;
     updateTimeDisplay(
         playbackManager.currentTime(this) * 10000,
         currentRuntimeTicks,
-        playbackManager.getBufferedRanges(this)
+        this.getBufferedRanges?.() || []
     );
 }
 
@@ -786,7 +751,7 @@ function releaseCurrentPlayer(): void {
 
 function onVolumeChanged(this: Player): void {
     if (!isEnabled) return;
-    updatePlayerVolumeState(this.isMuted(), this.getVolume());
+    updatePlayerVolumeState(this.isMuted?.() ?? false, this.getVolume?.() ?? 0);
 }
 
 function refreshFromPlayer(player: Player, type: string): void {
@@ -794,7 +759,7 @@ function refreshFromPlayer(player: Player, type: string): void {
     onStateChanged.call(player, { type } as unknown as Event, state);
 }
 
-function bindToPlayer(player: Player | null): void {
+function bindToPlayer(player: Player | null | undefined): void {
     isLyricPageActive = isLyricsPage();
 
     if (player === currentPlayer) {
@@ -803,7 +768,7 @@ function bindToPlayer(player: Player | null): void {
 
     releaseCurrentPlayer();
 
-    currentPlayer = player;
+    currentPlayer = player ?? null;
 
     if (!player) {
         return;

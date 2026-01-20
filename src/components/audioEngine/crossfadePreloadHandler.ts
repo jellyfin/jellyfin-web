@@ -1,8 +1,7 @@
-import { playbackManager } from '../playback/playbackmanager';
-import Events from '../../utils/events';
-import { handleTrackStart, handlePlaybackTimeUpdate, handleManualSkip } from './crossfadePreloadManager';
+import { handleTrackStart, handlePlaybackTimeUpdate } from './crossfadePreloadManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { logger } from '../../utils/logger';
+import { useMediaStore, usePlayerStore } from '../../store';
 
 let currentTimeCheckInterval: ReturnType<typeof setInterval> | null = null;
 const TIME_UPDATE_INTERVAL = 500;
@@ -20,54 +19,31 @@ type TrackInfo = {
     normalizationGainDb?: number;
 };
 
-let currentTrackId: string | null = null;
+// Subscriptions
+let unsubs: (() => void)[] = [];
 
 function getNextTrackInfo(): TrackInfo | null {
-    const player = playbackManager.getCurrentPlayer();
-    if (!player) {
-        return null;
-    }
-
-    const currentItem = playbackManager.currentItem(player);
-    const currentMediaSource = playbackManager.currentMediaSource(player);
-
-    if (!currentItem || !currentMediaSource) {
-        return null;
-    }
-
-    return {
-        itemId: currentItem.Id,
-        url: currentMediaSource.Url,
-        imageUrl: getTrackImageUrl(currentItem),
-        backdropUrl: getTrackBackdropUrl(currentItem),
-        artistLogoUrl: getTrackArtistLogoUrl(currentItem),
-        discImageUrl: getTrackDiscImageUrl(currentItem),
-        crossOrigin: 'anonymous',
-        volume: 100,
-        muted: false
-    };
+    // Note: In a fully reactive store, the store should know about the next item.
+    // For now we get current but the crossfade logic will handle the "next" mapping.
+    return getCurrentTrackInfo();
 }
 
 function getCurrentTrackInfo(): TrackInfo | null {
-    const player = playbackManager.getCurrentPlayer();
-    if (!player) {
-        return null;
-    }
+    const state = useMediaStore.getState();
+    const currentItem = state.currentItem;
+    const streamInfo = state.streamInfo;
 
-    const currentItem = playbackManager.currentItem(player);
-    const currentMediaSource = playbackManager.currentMediaSource(player);
-
-    if (!currentItem || !currentMediaSource) {
+    if (!currentItem || !streamInfo) {
         return null;
     }
 
     return {
-        itemId: currentItem.Id,
-        url: currentMediaSource.Url,
+        itemId: currentItem.id,
+        url: streamInfo.url || '',
         imageUrl: getTrackImageUrl(currentItem),
         backdropUrl: getTrackBackdropUrl(currentItem),
-        artistLogoUrl: getTrackArtistLogoUrl(currentItem),
-        discImageUrl: getTrackDiscImageUrl(currentItem),
+        artistLogoUrl: undefined, // Add if needed from store
+        discImageUrl: undefined,
         crossOrigin: 'anonymous',
         volume: 100,
         muted: false
@@ -75,63 +51,13 @@ function getCurrentTrackInfo(): TrackInfo | null {
 }
 
 function getTrackImageUrl(item: any): string | undefined {
-    if (item?.ImageTags?.Primary) {
-        const apiClient = ServerConnections.getApiClient(item.ServerId);
-        return apiClient.getScaledImageUrl(item.Id, {
-            type: 'Primary',
-            tag: item.ImageTags.Primary,
-            maxWidth: window.innerWidth
-        });
-    }
+    if (item?.imageUrl) return item.imageUrl;
     return undefined;
 }
 
 function getTrackBackdropUrl(item: any): string | undefined {
-    if (item?.BackdropImageTags?.length) {
-        const apiClient = ServerConnections.getApiClient(item.ServerId);
-        return apiClient.getScaledImageUrl(item.Id, {
-            type: 'Backdrop',
-            tag: item.BackdropImageTags[0],
-            maxWidth: window.innerWidth
-        });
-    }
+    if (item?.backdropUrl) return item.backdropUrl;
     return undefined;
-}
-
-function getTrackArtistLogoUrl(item: any): string | undefined {
-    if (item?.ParentLogoImageTag) {
-        const apiClient = ServerConnections.getApiClient(item.ServerId);
-        return apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-            type: 'Logo',
-            tag: item.ParentLogoImageTag,
-            maxWidth: Math.min(window.innerWidth, 300)
-        });
-    }
-    return undefined;
-}
-
-function getTrackDiscImageUrl(item: any): string | undefined {
-    if (item?.ImageTags?.Disc) {
-        const apiClient = ServerConnections.getApiClient(item.ServerId);
-        return apiClient.getScaledImageUrl(item.Id, {
-            type: 'Disc',
-            tag: item.ImageTags.Disc,
-            maxWidth: window.innerHeight * 0.8
-        });
-    }
-    return undefined;
-}
-
-function onPlaybackStart() {
-    const trackInfo = getCurrentTrackInfo();
-    if (!trackInfo) {
-        return;
-    }
-    
-    currentTrackId = trackInfo.itemId;
-    
-    handleTrackStart(trackInfo, getNextTrackInfo);
-    startProgressTracking();
 }
 
 function startProgressTracking() {
@@ -140,15 +66,12 @@ function startProgressTracking() {
     }
     
     currentTimeCheckInterval = setInterval(() => {
-        const player = playbackManager.getCurrentPlayer();
-        if (!player) return;
-        
-        const currentTime = player.currentTime?.() ?? 0;
-        const duration = player.duration?.() ?? 0;
+        const { progress } = useMediaStore.getState();
+        const { currentTime, duration } = progress;
         
         if (currentTime && duration) {
             handlePlaybackTimeUpdate(
-                { currentTime: () => currentTime, duration: () => duration },
+                { currentTime: () => currentTime * 1000, duration: () => duration * 1000 },
                 getNextTrackInfo
             );
         }
@@ -162,30 +85,41 @@ function stopProgressTracking() {
     }
 }
 
-function onPlaybackStop() {
-    stopProgressTracking();
-    currentTrackId = null;
-}
-
-function onPlayerChange() {
-    stopProgressTracking();
-}
-
 export function initializeCrossfadePreloadHandler(): void {
-    Events.on(playbackManager, 'playbackstart', onPlaybackStart);
-    Events.on(playbackManager, 'playbackstop', onPlaybackStop);
-    Events.on(playbackManager, 'playerchange', onPlayerChange);
+    // 1. Listen for status changes (Start/Stop)
+    const unsubStatus = useMediaStore.subscribe(
+        state => state.status,
+        (status) => {
+            if (status === 'playing') {
+                const trackInfo = getCurrentTrackInfo();
+                if (trackInfo) {
+                    handleTrackStart(trackInfo, getNextTrackInfo);
+                    startProgressTracking();
+                }
+            } else if (status === 'idle') {
+                stopProgressTracking();
+            }
+        }
+    );
+
+    // 2. Listen for player changes
+    const unsubPlayer = usePlayerStore.subscribe(
+        state => state.currentPlayer?.id,
+        () => {
+            stopProgressTracking();
+        }
+    );
+
+    unsubs.push(unsubStatus, unsubPlayer);
     
-    logger.debug('[CrossfadePreloadHandler] Initialized', { component: 'CrossfadePreloadHandler' });
+    logger.debug('[CrossfadePreloadHandler] Initialized via Store', { component: 'CrossfadePreloadHandler' });
 }
 
 export function destroyCrossfadePreloadHandler(): void {
-    Events.off(playbackManager, 'playbackstart', onPlaybackStart);
-    Events.off(playbackManager, 'playbackstop', onPlaybackStop);
-    Events.off(playbackManager, 'playerchange', onPlayerChange);
+    unsubs.forEach(unsub => unsub());
+    unsubs = [];
     
     stopProgressTracking();
-    currentTrackId = null;
     
     logger.debug('[CrossfadePreloadHandler] Destroyed', { component: 'CrossfadePreloadHandler' });
 }
