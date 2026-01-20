@@ -1,11 +1,10 @@
+import globalize from '../../../lib/globalize';
+import datetime from '../../../scripts/datetime';
+
 /**
  * Returns air time text for item based on given times.
- * @param {object} item - Item used to generate the air time text.
- * @param {boolean} showAirDateTime - ISO8601 date for start of show.
- * @param {boolean} showAirEndTime - ISO8601 date for end of show.
- * @returns {string} The air time text for item based on given dates.
  */
-export function getAirTimeText(item, showAirDateTime, showAirEndTime) {
+export function getAirTimeText(item: any, showAirDateTime: boolean, showAirEndTime: boolean): string {
     let html = '';
 
     if (showAirDateTime && item.StartDate) {
@@ -18,9 +17,7 @@ export function getAirTimeText(item, showAirDateTime, showAirEndTime) {
     }
 
     if (showAirEndTime && item.EndDate) {
-        if (html) {
-            html += '<br/>';
-        }
+        if (html) html += '<br/>';
         html += '<div class="cardText cardText-secondary">';
         html += '<span class="cardText-ontime">';
         html += globalize.translate('Off');

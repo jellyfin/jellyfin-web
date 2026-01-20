@@ -1,6 +1,9 @@
 export {
-    getCardImageUrl
-} from './utils/cardImageUtils';
+    getCardImageUrl,
+    getCardsHtml,
+    getDefaultText,
+    setCardData
+} from './cardBuilder';
 
 export {
     getImageWidth
@@ -35,3 +38,7 @@ export {
     onTimerCancelled,
     onSeriesTimerCancelled
 } from './utils/timerHandlers';
+
+export { buildCardImage } from './cardImage';
+export { default as BaseCard } from './Card/BaseCard';
+export { CardBuilder, PeopleCardBuilder, ChapterCardBuilder } from './builders';

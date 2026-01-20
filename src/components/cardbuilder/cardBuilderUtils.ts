@@ -185,11 +185,6 @@ export const getDesiredAspect = (shape: string | null | undefined): null | numbe
 
 /**
  * Computes the number of posters per row.
- * @param {string} shape - Shape of the cards.
- * @param {number} screenWidth - Width of the screen.
- * @param {boolean} isOrientationLandscape - Flag for the orientation of the screen.
- * @param {boolean} isTV - Flag to denote if posters are rendered on a television screen.
- * @returns {number} Number of cards per row for an itemsContainer.
  */
 export const getPostersPerRow = (shape: string, screenWidth: number, isOrientationLandscape: boolean, isTV: boolean): number => {
     switch (shape) {
