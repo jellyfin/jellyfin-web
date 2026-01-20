@@ -2,25 +2,23 @@ import { clearBackdrop, setBackdropImages, setBackdrops } from '../components/ba
 import * as userSettings from './settings/userSettings';
 import libraryMenu from './libraryMenu';
 import { pageClassOn } from '../utils/dashboard';
-import { queryClient } from 'utils/query/queryClient';
-import { getBrandingOptionsQuery } from 'apps/dashboard/features/branding/api/useBrandingOptions';
-import { SPLASHSCREEN_URL } from 'constants/branding';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from '../utils/query/queryClient';
+import { getBrandingOptionsQuery } from '../apps/dashboard/features/branding/api/useBrandingOptions';
+import { SPLASHSCREEN_URL } from '../constants/branding';
+import { ServerConnections } from '../lib/jellyfin-apiclient';
 
-const cache = {};
+const cache: Record<string, string> = {};
 
-function enabled() {
-    return userSettings.enableBackdrops();
+function enabled(): boolean {
+    return (userSettings as any).enableBackdrops();
 }
 
-function getBackdropItemIds(apiClient, userId, types, parentId) {
-    const key = `backdrops2_${userId + (types || '') + (parentId || '')}`;
-    let data = cache[key];
+function getBackdropItemIds(apiClient: any, _userId: string, types?: string, parentId?: string): Promise<any[]> {
+    const key = `backdrops2_${apiClient.getCurrentUserId() + (types || '') + (parentId || '')}`;
+    const cachedData = cache[key];
 
-    if (data) {
-        console.debug(`Found backdrop id list in cache. Key: ${key}`);
-        data = JSON.parse(data);
-        return Promise.resolve(data);
+    if (cachedData) {
+        return Promise.resolve(JSON.parse(cachedData));
     }
 
     const options = {
@@ -33,26 +31,24 @@ function getBackdropItemIds(apiClient, userId, types, parentId) {
         EnableTotalRecordCount: false,
         MaxOfficialRating: parentId ? '' : 'PG-13'
     };
-    return apiClient.getItems(apiClient.getCurrentUserId(), options).then((result) => {
-        const images = result.Items.map((i) => {
-            return {
-                Id: i.Id,
-                tag: i.BackdropImageTags[0],
-                ServerId: i.ServerId
-            };
-        });
+    
+    return apiClient.getItems(apiClient.getCurrentUserId(), options).then((result: any) => {
+        const images = result.Items.map((i: any) => ({
+            Id: i.Id,
+            tag: i.BackdropImageTags[0],
+            ServerId: i.ServerId
+        }));
         cache[key] = JSON.stringify(images);
         return images;
     });
 }
 
-function showBackdrop(type, parentId) {
+function showBackdrop(type?: string, parentId?: string) {
     const apiClient = ServerConnections.currentApiClient();
-
     if (apiClient) {
         getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then((images) => {
             if (images.length) {
-                setBackdrops(images.map((i) => {
+                setBackdrops(images.map((i: any) => {
                     i.BackdropImageTags = [i.tag];
                     return i;
                 }));
@@ -75,19 +71,17 @@ async function showSplashScreen() {
     }
 }
 
-pageClassOn('pageshow', 'page', function () {
-    const page = this;
-
-    if (!page.classList.contains('selfBackdropPage')) {
-        if (page.classList.contains('backdropPage')) {
-            const type = page.getAttribute('data-backdroptype');
+pageClassOn('pageshow', 'page', function (this: HTMLElement) {
+    if (!this.classList.contains('selfBackdropPage')) {
+        if (this.classList.contains('backdropPage')) {
+            const type = this.getAttribute('data-backdroptype') || undefined;
             if (type === 'splashscreen') {
                 showSplashScreen();
             } else if (enabled()) {
-                const parentId = page.classList.contains('globalBackdropPage') ? '' : libraryMenu.getTopParentId();
+                const parentId = this.classList.contains('globalBackdropPage') ? undefined : libraryMenu.getTopParentId() || undefined;
                 showBackdrop(type, parentId);
             } else {
-                page.classList.remove('backdropPage');
+                this.classList.remove('backdropPage');
                 clearBackdrop();
             }
         } else {
@@ -95,4 +89,3 @@ pageClassOn('pageshow', 'page', function () {
         }
     }
 });
-
