@@ -18,6 +18,7 @@ export { useControlsStore, selectActiveControlSource, selectIsRemoteActive, sele
 export { useSettingsStore, selectAudioSettings, selectVisualizerSettings, selectPlaybackSettings, selectUiSettings, selectVolume as selectSettingsVolume, selectIsMuted as selectSettingsIsMuted, selectTheme, selectVisualizerEnabled } from './settingsStore';
 export { useUiStore } from './uiStore';
 export { useNotificationStore } from './notificationStore';
+export { useSyncPlayStore } from './syncPlayStore';
 
 // Audio store (legacy - for backward compatibility)
 export { useAudioStore } from './audioStore';

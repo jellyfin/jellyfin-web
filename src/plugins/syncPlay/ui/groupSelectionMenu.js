@@ -7,7 +7,7 @@ import playbackPermissionManager from './playbackPermissionManager';
 import { pluginManager } from '../../../components/pluginManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../../types/plugin';
-import Events from '../../../utils/events';
+import { useSyncPlayStore } from '../../../store/syncPlayStore';
 
 import './groupSelectionMenu.scss';
 
@@ -16,25 +16,12 @@ import './groupSelectionMenu.scss';
  */
 class GroupSelectionMenu {
     constructor() {
-        // Register to SyncPlay events.
-        this.syncPlayEnabled = false;
+        // State is now managed by useSyncPlayStore
         this.SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+    }
 
-        if (this.SyncPlay) {
-            Events.on(this.SyncPlay.Manager, 'enabled', (_event, enabled) => {
-                this.syncPlayEnabled = enabled;
-            });
-        }
-
-        Events.on(pluginManager, 'registered', (_event0, plugin) => {
-            if (plugin.type === PluginType.SyncPlay) {
-                this.SyncPlay = plugin.instance;
-
-                Events.on(plugin.instance.Manager, 'enabled', (_event1, enabled) => {
-                    this.syncPlayEnabled = enabled;
-                });
-            }
-        });
+    get syncPlayEnabled() {
+        return useSyncPlayStore.getState().isEnabled;
     }
 
     /**
@@ -118,8 +105,13 @@ class GroupSelectionMenu {
      * @param {Object} apiClient - ApiClient.
      */
     showLeaveGroupSelection(button, user, apiClient) {
-        const groupInfo = this.SyncPlay?.Manager.getGroupInfo();
+        const groupInfo = useSyncPlayStore.getState().groupInfo;
         const menuItems = [];
+
+        if (!groupInfo) {
+            loading.hide();
+            return;
+        }
 
         if (!this.SyncPlay?.Manager.isPlaylistEmpty()
             && !this.SyncPlay?.Manager.isPlaybackActive()) {
@@ -157,8 +149,8 @@ class GroupSelectionMenu {
         });
 
         const menuOptions = {
-            title: groupInfo.GroupName,
-            text: groupInfo.Participants.join(', '),
+            title: groupInfo.groupName,
+            text: groupInfo.participants.join(', '),
             dialogClass: 'syncPlayGroupMenu',
             items: menuItems,
             positionTo: button,
@@ -197,7 +189,6 @@ class GroupSelectionMenu {
     show(button) {
         loading.show();
 
-        // TODO: should feature be disabled if playback permission is missing?
         playbackPermissionManager.check().then(() => {
             console.debug('Playback is allowed.');
         }).catch((error) => {
