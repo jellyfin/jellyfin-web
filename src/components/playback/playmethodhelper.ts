@@ -1,4 +1,16 @@
-export function getDisplayPlayMethod(session) {
+export interface PlaybackSession {
+    NowPlayingItem?: any;
+    TranscodingInfo?: {
+        IsVideoDirect?: boolean;
+        IsAudioDirect?: boolean;
+        VideoCodec?: string;
+    };
+    PlayState: {
+        PlayMethod: 'Transcode' | 'DirectStream' | 'DirectPlay';
+    };
+}
+
+export function getDisplayPlayMethod(session: PlaybackSession): string | null {
     if (!session.NowPlayingItem) {
         return null;
     }
@@ -14,6 +26,8 @@ export function getDisplayPlayMethod(session) {
     } else if (session.PlayState.PlayMethod === 'DirectPlay') {
         return 'DirectPlay';
     }
+    
+    return null;
 }
 
 export default {

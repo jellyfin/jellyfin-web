@@ -8,6 +8,7 @@ import { WebConfigProvider } from 'hooks/useWebConfig';
 import browser from 'scripts/browser';
 import { queryClient } from 'utils/query/queryClient';
 import { JoyThemeProvider } from 'themes/joyTheme';
+import { OSDOverlay } from './components/joy-ui/playback';
 
 import './components/visualizer/visualizers.scss';
 
@@ -23,6 +24,7 @@ const RootApp = () => (
                 <WebConfigProvider>
                     <JoyThemeProvider>
                         <RootAppRouter />
+                        <OSDOverlay />
                     </JoyThemeProvider>
                 </WebConfigProvider>
             </UserSettingsProvider>
