@@ -1,22 +1,19 @@
 import browser from '../scripts/browser';
 
-function fallback(urls) {
+function fallback(urls: string[]) {
     let i = 0;
 
-    (function createIframe() {
+    const createIframe = () => {
         const frame = document.createElement('iframe');
         frame.style.display = 'none';
         frame.src = urls[i++];
         document.documentElement.appendChild(frame);
 
-        // the download init has to be sequential otherwise IE only use the first
         const interval = setInterval(() => {
-            if (frame.contentWindow.document.readyState === 'complete' || frame.contentWindow.document.readyState === 'interactive') {
+            if (frame.contentWindow?.document.readyState === 'complete' || frame.contentWindow?.document.readyState === 'interactive') {
                 clearInterval(interval);
-
-                // Safari needs a timeout
                 setTimeout(() => {
-                    frame.parentNode.removeChild(frame);
+                    frame.parentNode?.removeChild(frame);
                 }, 1000);
 
                 if (i < urls.length) {
@@ -24,28 +21,30 @@ function fallback(urls) {
                 }
             }
         }, 100);
-    })();
+    };
+    
+    createIframe();
 }
 
-function download(url) {
+function download(url: string) {
     const a = document.createElement('a');
     a.download = '';
     a.href = url;
     a.click();
 }
 
-export default function (urls) {
+export default function multiDownload(urls: string[]): void {
     if (!urls) {
         throw new Error('`urls` required');
     }
 
     if (typeof document.createElement('a').download === 'undefined' || browser.iOS) {
-        return fallback(urls);
+        fallback(urls);
+        return;
     }
 
     let delay = 0;
-
     urls.forEach((url) => {
-        setTimeout(download.bind(null, url), 100 * ++delay);
+        setTimeout(() => download(url), 100 * ++delay);
     });
 }

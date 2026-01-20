@@ -1,17 +1,16 @@
-
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import alert from '../components/alert';
+import confirm from '../components/confirm/confirm';
+import { appRouter } from '../components/router/appRouter';
+import globalize from '../lib/globalize';
+import { ServerConnections } from '../lib/jellyfin-apiclient';
 
-import alert from 'components/alert';
-import confirm from 'components/confirm/confirm';
-import { appRouter } from 'components/router/appRouter';
-import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-
-function alertText(options) {
-    return alert(options);
+export interface DeleteOptions {
+    item: any;
+    navigate?: boolean;
 }
 
-function getDeletionConfirmContent(item) {
+function getDeletionConfirmContent(item: any) {
     if (item.Type === BaseItemKind.Series) {
         const totalEpisodes = item.RecursiveItemCount;
         return {
@@ -30,10 +29,9 @@ function getDeletionConfirmContent(item) {
     };
 }
 
-export function deleteItem(options) {
-    const item = options.item;
+export function deleteItem(options: DeleteOptions): Promise<void> {
+    const { item } = options;
     const parentId = item.SeasonId || item.SeriesId || item.ParentId;
-
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
     return confirm(getDeletionConfirmContent(item)).then(() => {
@@ -45,17 +43,14 @@ export function deleteItem(options) {
                     appRouter.goHome();
                 }
             }
-        }, (err) => {
-            const result = function () {
-                return Promise.reject(err);
-            };
-
-            return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
+        }, (err: any) => {
+            alert(globalize.translate('ErrorDeletingItem'));
+            throw err;
         });
     });
 }
 
-export function deleteLyrics (item) {
+export function deleteLyrics(item: any): Promise<void> {
     return confirm({
         title: globalize.translate('HeaderDeleteLyrics'),
         text: globalize.translate('ConfirmDeleteLyrics'),
@@ -66,17 +61,12 @@ export function deleteLyrics (item) {
         return apiClient.ajax({
             url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
             type: 'DELETE'
-        }).catch((err) => {
-            const result = function () {
-                return Promise.reject(err);
-            };
-
-            return alertText(globalize.translate('ErrorDeletingLyrics')).then(result, result);
+        }).catch((err: any) => {
+            alert(globalize.translate('ErrorDeletingLyrics'));
+            throw err;
         });
     });
 }
 
-export default {
-    deleteItem,
-    deleteLyrics
-};
+const deleteHelper = { deleteItem, deleteLyrics };
+export default deleteHelper;
