@@ -1,18 +1,17 @@
 import Dashboard from '@mui/icons-material/Dashboard';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import LibraryAdd from '@mui/icons-material/LibraryAdd';
 import Palette from '@mui/icons-material/Palette';
 import People from '@mui/icons-material/People';
 import PlayCircle from '@mui/icons-material/PlayCircle';
 import Settings from '@mui/icons-material/Settings';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/joy/List';
+import ListItem from '@mui/joy/ListItem';
+import ListItemButton from '@mui/joy/ListItemButton';
+import ListItemDecorator from '@mui/joy/ListItemDecorator';
+import ListItemContent from '@mui/joy/ListItemContent';
+import ListSubheader from '@mui/joy/ListSubheader';
 import React, { type MouseEvent, useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -53,93 +52,116 @@ const ServerDrawerSection = () => {
 
     return (
         <List
-            aria-labelledby='server-subheader'
-            subheader={
-                <ListSubheader component='div' id='server-subheader'>
-                    {globalize.translate('TabServer')}
-                </ListSubheader>
-            }
+            size="sm"
+            sx={{ '--ListItem-radius': '8px', '--List-gap': '4px', '--List-padding': '8px' }}
         >
-            <ListItem disablePadding>
+            <ListSubheader sticky>
+                {globalize.translate('TabServer')}
+            </ListSubheader>
+            
+            <ListItem>
                 <ListItemLink to='/dashboard'>
-                    <ListItemIcon>
+                    <ListItemDecorator>
                         <Dashboard />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabDashboard')} />
+                    </ListItemDecorator>
+                    <ListItemContent>{globalize.translate('TabDashboard')}</ListItemContent>
                 </ListItemLink>
             </ListItem>
-            <ListItem disablePadding>
+            
+            <ListItem>
                 <ListItemLink to='/dashboard/settings'>
-                    <ListItemIcon>
+                    <ListItemDecorator>
                         <Settings />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('General')} />
+                    </ListItemDecorator>
+                    <ListItemContent>{globalize.translate('General')}</ListItemContent>
                 </ListItemLink>
             </ListItem>
-            <ListItemLink to='/dashboard/branding'>
-                <ListItemIcon>
-                    <Palette />
-                </ListItemIcon>
-                <ListItemText primary={globalize.translate('HeaderBranding')} />
-            </ListItemLink>
-            <ListItem disablePadding>
+            
+            <ListItem>
+                <ListItemLink to='/dashboard/branding'>
+                    <ListItemDecorator>
+                        <Palette />
+                    </ListItemDecorator>
+                    <ListItemContent>{globalize.translate('HeaderBranding')}</ListItemContent>
+                </ListItemLink>
+            </ListItem>
+            
+            <ListItem>
                 <ListItemLink to='/dashboard/users'>
-                    <ListItemIcon>
+                    <ListItemDecorator>
                         <People />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderUsers')} />
+                    </ListItemDecorator>
+                    <ListItemContent>{globalize.translate('HeaderUsers')}</ListItemContent>
                 </ListItemLink>
             </ListItem>
-            <ListItem disablePadding>
+            
+            <ListItem nested>
                 <ListItemButton onClick={onLibrarySectionClick}>
-                    <ListItemIcon>
+                    <ListItemDecorator>
                         <LibraryAdd />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderLibraries')} />
-                    {isLibrarySectionOpen ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemDecorator>
+                    <ListItemContent>{globalize.translate('HeaderLibraries')}</ListItemContent>
+                    {isLibrarySectionOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                 </ListItemButton>
+                {isLibrarySectionOpen && (
+                    <List sx={{ '--List-gap': '0px' }}>
+                        <ListItem>
+                            <ListItemLink to='/dashboard/libraries' sx={{ pl: 4 }}>
+                                <ListItemContent>{globalize.translate('HeaderLibraries')}</ListItemContent>
+                            </ListItemLink>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemLink to='/dashboard/libraries/display' sx={{ pl: 4 }}>
+                                <ListItemContent>{globalize.translate('Display')}</ListItemContent>
+                            </ListItemLink>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
+                                <ListItemContent>{globalize.translate('LabelMetadata')}</ListItemContent>
+                            </ListItemLink>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
+                                <ListItemContent>{globalize.translate('TabNfoSettings')}</ListItemContent>
+                            </ListItemLink>
+                        </ListItem>
+                    </List>
+                )}
             </ListItem>
-            <Collapse in={isLibrarySectionOpen} timeout='auto' unmountOnExit>
-                <List component='div' disablePadding>
-                    <ListItemLink to='/dashboard/libraries' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('HeaderLibraries')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/libraries/display' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('Display')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('LabelMetadata')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('TabNfoSettings')} />
-                    </ListItemLink>
-                </List>
-            </Collapse>
-            <ListItem disablePadding>
+            
+            <ListItem nested>
                 <ListItemButton onClick={onPlaybackSectionClick}>
-                    <ListItemIcon>
+                    <ListItemDecorator>
                         <PlayCircle />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TitlePlayback')} />
-                    {isPlaybackSectionOpen ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemDecorator>
+                    <ListItemContent>{globalize.translate('TitlePlayback')}</ListItemContent>
+                    {isPlaybackSectionOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                 </ListItemButton>
+                {isPlaybackSectionOpen && (
+                    <List sx={{ '--List-gap': '0px' }}>
+                        <ListItem>
+                            <ListItemLink to='/dashboard/playback/transcoding' sx={{ pl: 4 }}>
+                                <ListItemContent>{globalize.translate('Transcoding')}</ListItemContent>
+                            </ListItemLink>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemLink to='/dashboard/playback/resume' sx={{ pl: 4 }}>
+                                <ListItemContent>{globalize.translate('ButtonResume')}</ListItemContent>
+                            </ListItemLink>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemLink to='/dashboard/playback/streaming' sx={{ pl: 4 }}>
+                                <ListItemContent>{globalize.translate('TabStreaming')}</ListItemContent>
+                            </ListItemLink>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemLink to='/dashboard/playback/trickplay' sx={{ pl: 4 }}>
+                                <ListItemContent>{globalize.translate('Trickplay')}</ListItemContent>
+                            </ListItemLink>
+                        </ListItem>
+                    </List>
+                )}
             </ListItem>
-            <Collapse in={isPlaybackSectionOpen} timeout='auto' unmountOnExit>
-                <List component='div' disablePadding>
-                    <ListItemLink to='/dashboard/playback/transcoding' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('Transcoding')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/playback/resume' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('ButtonResume')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/playback/streaming' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('TabStreaming')} />
-                    </ListItemLink>
-                    <ListItemLink to='/dashboard/playback/trickplay' sx={{ pl: 4 }}>
-                        <ListItemText inset primary={globalize.translate('Trickplay')} />
-                    </ListItemLink>
-                </List>
-            </Collapse>
         </List>
     );
 };

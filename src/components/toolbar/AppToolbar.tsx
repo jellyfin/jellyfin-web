@@ -1,9 +1,9 @@
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import MenuIcon from '@mui/icons-material/Menu';
-import Box from '@mui/material/Box/Box';
-import IconButton from '@mui/material/IconButton/IconButton';
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/joy/Box';
+import IconButton from '@mui/joy/IconButton';
+import Tooltip from '@mui/joy/Tooltip';
+import Stack from '@mui/joy/Stack';
 import React, { type FC, type PropsWithChildren, ReactNode } from 'react';
 
 import { appRouter } from 'components/router/appRouter';
@@ -41,29 +41,27 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     const isUserLoggedIn = Boolean(user);
 
     return (
-        <Toolbar
-            variant='dense'
+        <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
             sx={{
+                minHeight: '64px',
+                px: {
+                    xs: 'max(16px, env(safe-area-inset-left))',
+                    sm: 'max(24px, env(safe-area-inset-left))'
+                },
                 flexWrap: {
                     xs: 'wrap',
                     lg: 'nowrap'
-                },
-                pl: {
-                    xs: 'max(16px, env(safe-area-inset-left))',
-                    sm: 'max(24px, env(safe-area-inset-left))'
-                },
-                pr: {
-                    xs: 'max(16px, env(safe-area-inset-left))',
-                    sm: 'max(24px, env(safe-area-inset-left))'
                 }
             }}
         >
             {isUserLoggedIn && isDrawerAvailable && (
-                <Tooltip title={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}>
+                <Tooltip title={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')} variant="soft">
                     <IconButton
-                        size='large'
-                        edge='start'
-                        color='inherit'
+                        variant="plain"
+                        color="neutral"
                         aria-label={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}
                         onClick={onDrawerButtonClick}
                     >
@@ -73,12 +71,10 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
             )}
 
             {isBackButtonAvailable && (
-                <Tooltip title={globalize.translate('ButtonBack')}>
+                <Tooltip title={globalize.translate('ButtonBack')} variant="soft">
                     <IconButton
-                        size='large'
-                        // Set the edge if the drawer button is not shown
-                        edge={!(isUserLoggedIn && isDrawerAvailable) ? 'start' : undefined}
-                        color='inherit'
+                        variant="plain"
+                        color="neutral"
                         aria-label={globalize.translate('ButtonBack')}
                         onClick={onBackButtonClick}
                     >
@@ -87,18 +83,19 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                 </Tooltip>
             )}
 
-            {children}
-
-            <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-                {buttons}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                {children}
             </Box>
 
-            {isUserLoggedIn && isUserMenuAvailable && (
-                <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 1 }} />
+
+            <Stack direction="row" spacing={1} alignItems="center">
+                {buttons}
+                {isUserLoggedIn && isUserMenuAvailable && (
                     <UserMenuButton />
-                </Box>
-            )}
-        </Toolbar>
+                )}
+            </Stack>
+        </Stack>
     );
 };
 

@@ -1,11 +1,13 @@
-import ListItemButton, { ListItemButtonBaseProps } from '@mui/material/ListItemButton';
+import ListItemButton from '@mui/joy/ListItemButton';
 import React, { FC } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-interface ListItemLinkProps extends ListItemButtonBaseProps {
-    to: string
-    includePaths?: string[]
-    excludePaths?: string[]
+interface ListItemLinkProps {
+    to: string;
+    includePaths?: string[];
+    excludePaths?: string[];
+    children: React.ReactNode;
+    sx?: any;
 }
 
 const isMatchingParams = (routeParams: URLSearchParams, currentParams: URLSearchParams) => {
@@ -23,6 +25,7 @@ const ListItemLink: FC<ListItemLinkProps> = ({
     to,
     includePaths = [],
     excludePaths = [],
+    sx,
     ...params
 }) => {
     const location = useLocation();
@@ -42,6 +45,17 @@ const ListItemLink: FC<ListItemLinkProps> = ({
             component={Link}
             to={to}
             selected={selected}
+            sx={{
+                borderRadius: 'sm',
+                ...(selected && {
+                    bgcolor: 'primary.softBg',
+                    color: 'primary.plainColor',
+                    '&:hover': {
+                        bgcolor: 'primary.softHoverBg',
+                    },
+                }),
+                ...sx
+            }}
             {...params}
         >
             {children}

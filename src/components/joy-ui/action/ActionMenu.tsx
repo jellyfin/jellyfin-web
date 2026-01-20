@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import Box from '@mui/material/Box/Box';
-import Menu from '@mui/material/Menu/Menu';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import Typography from '@mui/joy/Typography/Typography';
-import Divider from '@mui/material/Divider/Divider';
-import Fade from '@mui/material/Fade/Fade';
+import React, { useState, useCallback, useEffect } from 'react';
+import Box from '@mui/joy/Box';
+import Menu from '@mui/joy/Menu';
+import MenuItem from '@mui/joy/MenuItem';
+import ListItemDecorator from '@mui/joy/ListItemDecorator';
+import ListItemContent from '@mui/joy/ListItemContent';
+import Typography from '@mui/joy/Typography';
+import Divider from '@mui/joy/Divider';
+import List from '@mui/joy/List';
 
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -35,7 +35,6 @@ export interface ActionMenuProps {
     showCancel?: boolean;
     onCancel?: () => void;
     dialogClass?: string;
-    positionY?: 'top' | 'bottom';
 }
 
 export const ActionMenu: React.FC<ActionMenuProps> = ({
@@ -48,18 +47,8 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
     text,
     showCancel = false,
     onCancel,
-    dialogClass,
-    positionY
+    dialogClass
 }) => {
-    const menuRef = useRef<HTMLDivElement>(null);
-    const [focusedIndex, setFocusedIndex] = useState(0);
-
-    useEffect(() => {
-        if (open) {
-            setFocusedIndex(0);
-        }
-    }, [open]);
-
     const handleItemClick = useCallback((item: ActionMenuItem) => {
         const itemId = item.id == null || item.id === '' ? item.value : item.id;
         if (itemId) {
@@ -75,55 +64,14 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
         onClose();
     }, [onCancel, onClose]);
 
-    const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
-        const visibleItems = items.filter(item => !item.divider);
-
-        switch (event.key) {
-            case 'ArrowDown': {
-                event.preventDefault();
-                setFocusedIndex(prev => (prev + 1) % visibleItems.length);
-                break;
-            }
-            case 'ArrowUp': {
-                event.preventDefault();
-                setFocusedIndex(prev => (prev - 1 + visibleItems.length) % visibleItems.length);
-                break;
-            }
-            case 'Enter': {
-                event.preventDefault();
-                const focusedItem = visibleItems[focusedIndex];
-                if (focusedItem) {
-                    handleItemClick(focusedItem);
-                }
-                break;
-            }
-            case 'Escape': {
-                event.preventDefault();
-                handleCancel();
-                break;
-            }
-        }
-    }, [items, focusedIndex, handleItemClick, handleCancel]);
-
-    const getItemId = useCallback((item: ActionMenuItem): string => {
-        return item.id == null || item.id === '' ? (item.value || '') : (item.id || '');
-    }, []);
-
     const renderIcon = (icon: string | undefined, isSelected: boolean) => {
         if (!icon) {
             if (isSelected) {
-                return <CheckIcon fontSize="small" />;
+                return <CheckIcon />;
             }
             return null;
         }
         return <span className={`material-icons ${icon}`}>{icon}</span>;
-    };
-
-    const visibleItems = items.filter(item => !item.divider);
-
-    const getMenuItemKey = (item: ActionMenuItem, index: number): string => {
-        const itemId = item.id == null || item.id === '' ? item.value : item.id;
-        return itemId || `item-${index}`;
     };
 
     return (
@@ -131,34 +79,20 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
             anchorEl={anchorEl}
             open={open}
             onClose={onClose}
-            anchorOrigin={{
-                vertical: positionY === 'top' ? 'top' : 'bottom',
-                horizontal: 'left'
+            className={dialogClass}
+            placement="bottom-start"
+            sx={{
+                minWidth: 240,
+                maxHeight: 400,
+                overflow: 'auto',
+                borderRadius: 'md',
+                boxShadow: 'md',
+                zIndex: 1300
             }}
-            transformOrigin={{
-                vertical: positionY === 'top' ? 'bottom' : 'top',
-                horizontal: 'left'
-            }}
-            MenuListProps={{
-                onKeyDown: handleKeyDown,
-                sx: {
-                    minWidth: 240,
-                    maxHeight: 400,
-                    overflow: 'auto'
-                }
-            }}
-            PaperProps={{
-                className: dialogClass,
-                sx: {
-                    borderRadius: 2,
-                    boxShadow: 3
-                }
-            }}
-            TransitionComponent={Fade}
         >
             {title && (
-                <Box sx={{ px: 2, py: 1.5, borderBottom: 1, borderColor: 'divider' }}>
-                    <Typography level="title-sm" sx={{ fontWeight: 'bold' }}>
+                <Box sx={{ px: 2, py: 1.5 }}>
+                    <Typography level="title-sm" fontWeight="bold">
                         {title}
                     </Typography>
                 </Box>
@@ -166,90 +100,66 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
 
             {text && (
                 <Box sx={{ px: 2, py: 1 }}>
-                    <Typography level="body-sm" sx={{ color: 'text.secondary' }}>
+                    <Typography level="body-sm" color="neutral">
                         {text}
                     </Typography>
                 </Box>
             )}
 
-            <Box
-                ref={menuRef}
-                className="actionSheetScroller"
-                sx={{
-                    py: 1,
-                    maxHeight: 320,
-                    overflow: 'auto'
-                }}
-            >
+            {(title || text) && <Divider />}
+
+            <List sx={{ '--ListItem-radius': '8px', p: 1 }}>
                 {items.map((item, index) => {
                     if (item.divider) {
-                        // Dividers are structural elements without stable IDs
-                        // Using index is acceptable here
                         return <Divider key={`divider-${index}`} sx={{ my: 1 }} />;
                     }
 
                     const itemKey = item.id || item.value || `item-${index}`;
-                    const isFocused = visibleItems[focusedIndex] === item;
 
                     return (
                         <MenuItem
                             key={itemKey}
-                            selected={item.selected || false}
+                            selected={item.selected}
                             onClick={() => handleItemClick(item)}
-                            autoFocus={isFocused}
-                            sx={{
-                                py: 1.5,
-                                mx: 1,
-                                borderRadius: 1,
-                                '&:hover': {
-                                    bgcolor: 'action.hover'
-                                },
-                                '&.Mui-selected': {
-                                    bgcolor: 'action.selected'
-                                }
-                            }}
                         >
                             {(item.icon || item.selected) && (
-                                <ListItemIcon sx={{ minWidth: 40 }}>
+                                <ListItemDecorator>
                                     {renderIcon(item.icon, !!item.selected)}
-                                </ListItemIcon>
+                                </ListItemDecorator>
                             )}
-                            <ListItemText
-                                primary={item.name || item.textContent || item.innerText}
-                                secondary={item.secondaryText}
-                                secondaryTypographyProps={{
-                                    sx: { color: 'text.secondary' }
-                                }}
-                            />
+                            <ListItemContent>
+                                <Typography level="body-md">
+                                    {item.name || item.textContent || item.innerText}
+                                </Typography>
+                                {item.secondaryText && (
+                                    <Typography level="body-xs" color="neutral">
+                                        {item.secondaryText}
+                                    </Typography>
+                                )}
+                            </ListItemContent>
                             {item.asideText && (
-                                <Typography level="body-xs" sx={{ color: 'text.secondary', ml: 2 }}>
+                                <Typography level="body-xs" color="neutral" sx={{ ml: 2 }}>
                                     {item.asideText}
                                 </Typography>
                             )}
                         </MenuItem>
                     );
                 })}
-            </Box>
+            </List>
 
             {showCancel && (
-                <Box sx={{ px: 2, py: 1.5, borderTop: 1, borderColor: 'divider' }}>
+                <>
+                    <Divider />
                     <MenuItem
                         onClick={handleCancel}
-                        autoFocus
-                        sx={{
-                            py: 1.5,
-                            borderRadius: 1,
-                            '&:hover': {
-                                bgcolor: 'action.hover'
-                            }
-                        }}
+                        sx={{ color: 'danger.plainColor' }}
                     >
-                        <ListItemIcon sx={{ minWidth: 40 }}>
-                            <CloseIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary="Cancel" />
+                        <ListItemDecorator>
+                            <CloseIcon />
+                        </ListItemDecorator>
+                        Cancel
                     </MenuItem>
-                </Box>
+                </>
             )}
         </Menu>
     );

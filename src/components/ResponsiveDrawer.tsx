@@ -1,7 +1,6 @@
-import type { Theme } from '@mui/material/styles';
-import Box from '@mui/material/Box/Box';
-import Drawer from '@mui/material/Drawer';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Box from '@mui/joy/Box';
+import Drawer from '@mui/joy/Drawer';
+import ModalClose from '@mui/joy/ModalClose';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { type FC, type PropsWithChildren } from 'react';
 
@@ -18,51 +17,58 @@ export interface ResponsiveDrawerProps {
 const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
     children,
     open = false,
-    onClose,
-    onOpen
+    onClose
 }) => {
-    const isMediumScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+    const isMediumScreen = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
 
-    return ( isMediumScreen ? (
-        /* DESKTOP DRAWER */
-        <Drawer
-            sx={{
-                width: DRAWER_WIDTH,
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                    width: DRAWER_WIDTH,
-                    paddingBottom: '12rem', // Padding for now playing bar
-                    boxSizing: 'border-box'
-                }
-            }}
-            variant='permanent'
-            anchor='left'
-        >
-            {children}
-        </Drawer>
-    ) : (
-        /* MOBILE DRAWER */
-        <SwipeableDrawer
-            anchor='left'
-            open={open}
-            onClose={onClose}
-            onOpen={onOpen}
-            // Disable swipe to open on iOS since it interferes with back navigation
-            disableDiscovery={browser.mobile}
-            ModalProps={{
-                keepMounted: true // Better open performance on mobile.
-            }}
-        >
+    if (isMediumScreen) {
+        return (
             <Box
-                role='presentation'
-                // Close the drawer when the content is clicked
-                onClick={onClose}
-                onKeyDown={onClose}
+                component="nav"
+                sx={{
+                    width: DRAWER_WIDTH,
+                    flexShrink: 0,
+                    height: '100vh',
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
+                    borderRight: '1px solid',
+                    borderColor: 'divider',
+                    bgcolor: 'background.surface',
+                    overflowY: 'auto',
+                    pb: '12rem', // Padding for now playing bar
+                    zIndex: 1200
+                }}
             >
                 {children}
             </Box>
-        </SwipeableDrawer>
-    ));
+        );
+    }
+
+    return (
+        <Drawer
+            anchor='left'
+            open={open}
+            onClose={onClose}
+            sx={{
+                zIndex: 1300,
+                '& .MuiDrawer-content': {
+                    width: DRAWER_WIDTH,
+                    p: 0
+                }
+            }}
+        >
+            <ModalClose />
+            <Box
+                role='presentation'
+                onClick={onClose}
+                onKeyDown={onClose}
+                sx={{ height: '100%', overflowY: 'auto' }}
+            >
+                {children}
+            </Box>
+        </Drawer>
+    );
 };
 
 export default ResponsiveDrawer;

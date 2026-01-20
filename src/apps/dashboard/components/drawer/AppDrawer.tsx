@@ -1,5 +1,5 @@
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
+import List from '@mui/joy/List';
+import ListItem from '@mui/joy/ListItem';
 import React, { FC } from 'react';
 
 import DrawerHeaderLink from 'apps/experimental/components/drawers/DrawerHeaderLink';
@@ -21,8 +21,8 @@ const AppDrawer: FC<ResponsiveDrawerProps> = ({
         onClose={onClose}
         onOpen={onOpen}
     >
-        <List disablePadding>
-            <ListItem disablePadding>
+        <List sx={{ '--List-padding': '0px' }}>
+            <ListItem>
                 <DrawerHeaderLink />
             </ListItem>
         </List>

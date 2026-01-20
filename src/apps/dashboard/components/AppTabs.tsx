@@ -1,13 +1,13 @@
-import { Theme } from '@mui/material/styles';
-import Tab from '@mui/material/Tab/Tab';
-import Tabs from '@mui/material/Tabs/Tabs';
+import Tabs from '@mui/joy/Tabs';
+import TabList from '@mui/joy/TabList';
+import Tab from '@mui/joy/Tab';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { debounce, isEqual } from '../../../utils/lodashUtils';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { EventType } from 'constants/eventType';
-import Events, { type Event } from 'utils/events';
+import Events from 'utils/events';
 
 interface AppTabsParams {
     isDrawerOpen: boolean
@@ -27,10 +27,10 @@ const AppTabs: FC<AppTabsParams> = ({
     const [ activeIndex, setActiveIndex ] = useState(0);
     const [ tabs, setTabs ] = useState<TabDefinition[]>();
 
-    const isBigScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const isBigScreen = useMediaQuery((theme: any) => theme.breakpoints.up('sm'));
 
     const onTabsUpdate = useCallback((
-        _e: Event,
+        _e: any,
         _newView?: string,
         newIndex: number | undefined = 0,
         newTabs?: TabDefinition[]
@@ -53,7 +53,6 @@ const AppTabs: FC<AppTabsParams> = ({
     }, [ onTabsUpdate ]);
 
     // HACK: Force resizing to workaround upstream bug with tab resizing
-    // https://github.com/mui/material-ui/issues/24011
     useEffect(() => {
         handleResize();
     }, [ isDrawerOpen ]);
@@ -63,31 +62,47 @@ const AppTabs: FC<AppTabsParams> = ({
     return (
         <Tabs
             value={activeIndex}
+            onChange={(_, value) => setActiveIndex(value as number)}
             sx={{
-                width: '100%',
-                flexShrink: {
-                    xs: 0,
-                    lg: 'unset'
-                },
-                order: {
-                    xs: 100,
-                    lg: 'unset'
-                }
+                flexGrow: 1,
+                bgcolor: 'transparent',
+                '--Tabs-gap': '0px',
+                '--Tab-indicatorThickness': '2px',
+                '--Tab-indicatorRadius': '0px',
+                '--TabList-padding': '0px',
+                '--Tab-paddingX': '16px',
+                '--Tab-minHeight': '48px',
             }}
-            variant={isBigScreen ? 'standard' : 'scrollable'}
-            centered={isBigScreen}
         >
-            {
-                tabs.map(({ href, name }, index) => (
+            <TabList
+                variant="plain"
+                sx={{
+                    justifyContent: isBigScreen ? 'center' : 'flex-start',
+                    overflowAuto: 'auto',
+                    border: 'none',
+                    bgcolor: 'transparent'
+                }}
+            >
+                {tabs.map(({ href, name }, index) => (
                     <Tab
                         key={`tab-${name}`}
-                        label={name}
-                        data-tab-index={`${index}`}
+                        value={index}
                         component={Link}
                         to={href}
-                    />
-                ))
-            }
+                        variant="plain"
+                        sx={{
+                            fontWeight: activeIndex === index ? 'bold' : 'normal',
+                            color: activeIndex === index ? 'primary.plainColor' : 'neutral.plainColor',
+                            '&:hover': {
+                                bgcolor: 'transparent',
+                                color: 'primary.plainColor',
+                            },
+                        }}
+                    >
+                        {name}
+                    </Tab>
+                ))}
+            </TabList>
         </Tabs>
     );
 };
