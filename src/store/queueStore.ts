@@ -8,6 +8,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { PlayableItem, QueueItem, QueueState, RepeatMode, ShuffleMode } from './types';
+import { logger } from '../utils/logger';
 
 export interface QueueStoreState extends Omit<QueueState, 'shuffleMode' | 'repeatMode'> {
     // Queue state (extends base QueueState)
@@ -96,7 +97,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 persistedState = JSON.parse(stored);
             }
         } catch (e) {
-            console.warn('Failed to load persisted queue state:', e);
+            logger.warn('Failed to load persisted queue state', { component: 'queueStore' }, e as Error);
         }
 
         const initialState = getInitialState();
@@ -399,7 +400,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
 
                     localStorage.setItem(PERSISTENCE_KEY, JSON.stringify(stateToSave));
                 } catch (e) {
-                    console.warn('Failed to save queue state:', e);
+                    logger.warn('Failed to save queue state', { component: 'queueStore' }, e as Error);
                 }
             },
 
@@ -429,7 +430,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                         });
                     }
                 } catch (e) {
-                    console.warn('Failed to load persisted queue state:', e);
+                    logger.warn('Failed to load persisted queue state', { component: 'queueStore' }, e as Error);
                 }
             }
         };

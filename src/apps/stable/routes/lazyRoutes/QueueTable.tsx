@@ -1,30 +1,24 @@
 import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react';
+
+// Joy UI Components
 import Box from '@mui/joy/Box';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Avatar from '@mui/material/Avatar';
+import Sheet from '@mui/joy/Sheet';
+import Avatar from '@mui/joy/Avatar';
+import Menu from '@mui/joy/Menu';
+import MenuItem from '@mui/joy/MenuItem';
+import MenuButton from '@mui/joy/MenuButton';
+import Dropdown from '@mui/joy/Dropdown';
+
+// Material Icons
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+
 import { useVirtualizer } from '@tanstack/react-virtual';
-import {
-    useReactTable,
-    getCoreRowModel,
-    ColumnDef,
-    flexRender,
-    Row
-} from '@tanstack/react-table';
 import {
     DndContext,
     closestCenter,
@@ -69,38 +63,174 @@ interface QueueTableProps {
     onPlay: (item: QueueItem) => void;
 }
 
-const SortableRow = ({
-    row,
-    children
-}: {
-    row: Row<QueueItem>;
-    children: React.ReactNode
+interface SortableRowProps {
+    item: QueueItem;
+    index: number;
+    isCurrent: boolean;
+    isNext: boolean;
+    imageUrl: string | undefined;
+    playbackTime: number;
+    formatDuration: (ticks?: number) => string;
+    getWaveformPeaks: (item: QueueItem) => number[][] | undefined;
+    onPlay: (item: QueueItem) => void;
+    onRemove: (item: QueueItem) => void;
+}
+
+const SortableRow: React.FC<SortableRowProps> = ({
+    item,
+    index,
+    isCurrent,
+    isNext,
+    imageUrl,
+    playbackTime,
+    formatDuration,
+    getWaveformPeaks,
+    onPlay,
+    onRemove
 }) => {
     const {
+        attributes,
+        listeners,
         setNodeRef,
         transform,
         transition,
         isDragging
-    } = useSortable({
-        id: row.id
-    });
+    } = useSortable({ id: item.Id });
 
-    const style = {
+    const style: React.CSSProperties = {
         transform: CSS.Transform.toString(transform),
         transition,
-        opacity: isDragging ? 0.5 : 1,
-        '--Table-row-hover-bg': 'rgba(0, 164, 220, 0.08)'
-    } as React.CSSProperties;
+        opacity: isDragging ? 0.5 : 1
+    };
+
+    const artist = item.Artists?.[0] || item.AlbumArtist || '';
+    const peaks = getWaveformPeaks(item);
 
     return (
-        <TableRow
+        <Sheet
             ref={setNodeRef}
             style={style}
-            hover
-            sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'rgba(0, 164, 220, 0.08)' } }}
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                px: 2,
+                py: 1,
+                bgcolor: isDragging ? 'rgba(0, 164, 220, 0.15)' : 'transparent',
+                borderBottom: '1px solid',
+                borderColor: 'neutral.800',
+                cursor: 'pointer',
+                '&:hover': {
+                    bgcolor: 'rgba(255, 255, 255, 0.05)'
+                }
+            }}
         >
-            {children}
-        </TableRow>
+            {/* Drag Handle */}
+            <Box sx={{ width: 40, flexShrink: 0 }} {...attributes} {...listeners}>
+                <IconButton
+                    variant="plain"
+                    size="sm"
+                    sx={{ color: 'neutral.500', cursor: 'grab' }}
+                >
+                    <DragIndicatorIcon fontSize="small" />
+                </IconButton>
+            </Box>
+
+            {/* Index/Avatar */}
+            <Box sx={{ width: 50, flexShrink: 0 }}>
+                <Avatar
+                    src={imageUrl}
+                    size="sm"
+                    sx={{
+                        bgcolor: isCurrent ? 'primary.500' : 'neutral.700',
+                        width: 36,
+                        height: 36
+                    }}
+                >
+                    {isCurrent ? (
+                        <PlayArrowIcon sx={{ color: 'white', fontSize: 16 }} />
+                    ) : imageUrl ? null : (
+                        <MusicNoteIcon sx={{ fontSize: 14 }} />
+                    )}
+                </Avatar>
+            </Box>
+
+            {/* Title & Artist */}
+            <Box sx={{ flex: '1 1 auto', minWidth: 0, px: 2 }}>
+                <Typography
+                    level="body-sm"
+                    sx={{
+                        color: isCurrent ? 'primary.400' : 'neutral.50',
+                        fontWeight: isCurrent ? 600 : 400,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                    }}
+                >
+                    {item.Name}
+                </Typography>
+                <Typography
+                    level="body-xs"
+                    sx={{
+                        color: 'neutral.400',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                    }}
+                >
+                    {artist}{item.Album ? ` • ${item.Album}` : ''}
+                </Typography>
+            </Box>
+
+            {/* Waveform */}
+            <Box sx={{ width: 150, flexShrink: 0, display: { xs: 'none', md: 'block' } }}>
+                <WaveformCell
+                    itemId={item.Id}
+                    peaks={peaks}
+                    duration={item.RunTimeTicks}
+                    currentTime={isCurrent ? playbackTime : 0}
+                    isCurrentTrack={isCurrent}
+                    isNextTrack={isNext}
+                    height={36}
+                />
+            </Box>
+
+            {/* Duration */}
+            <Box sx={{ width: 60, flexShrink: 0, textAlign: 'right', pr: 1 }}>
+                <Typography level="body-xs" sx={{ color: 'neutral.500' }}>
+                    {formatDuration(item.RunTimeTicks)}
+                </Typography>
+            </Box>
+
+            {/* Actions Menu */}
+            <Box sx={{ width: 40, flexShrink: 0 }}>
+                <Dropdown>
+                    <MenuButton
+                        slots={{ root: IconButton }}
+                        slotProps={{
+                            root: {
+                                variant: 'plain',
+                                size: 'sm',
+                                sx: { color: 'neutral.500' }
+                            }
+                        }}
+                    >
+                        <MoreVertIcon fontSize="small" />
+                    </MenuButton>
+                    {/* @ts-expect-error Joy UI Menu type complexity */}
+                    <Menu>
+                        {/* @ts-expect-error Joy UI MenuItem type complexity */}
+                        <MenuItem onClick={() => onPlay(item)}>
+                            <PlayArrowIcon sx={{ mr: 1 }} />
+                            Play
+                        </MenuItem>
+                        <MenuItem onClick={() => onRemove(item)}>
+                            <DeleteIcon sx={{ mr: 1, color: 'danger.500' }} />
+                            Remove
+                        </MenuItem>
+                    </Menu>
+                </Dropdown>
+            </Box>
+        </Sheet>
     );
 };
 
@@ -111,11 +241,9 @@ export const QueueTable: React.FC<QueueTableProps> = ({
     onRemove,
     onPlay
 }) => {
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedItem, setSelectedItem] = useState<QueueItem | null>(null);
     const [playbackTime, setPlaybackTime] = useState(0);
-    const parentRef = React.useRef<HTMLDivElement>(null);
-    const previousIndexRef = React.useRef(currentIndex);
+    const parentRef = useRef<HTMLDivElement>(null);
+    const previousIndexRef = useRef(currentIndex);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -124,40 +252,17 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         })
     );
 
-    const handleContextMenu = useCallback((event: React.MouseEvent<HTMLElement>, item: QueueItem) => {
-        event.preventDefault();
-        setAnchorEl(event.currentTarget);
-        setSelectedItem(item);
-    }, []);
-
-    const handleCloseMenu = useCallback(() => {
-        setAnchorEl(null);
-        setSelectedItem(null);
-    }, []);
-
-    const handleMenuPlay = useCallback(() => {
-        if (selectedItem) {
-            onPlay(selectedItem);
-        }
-        handleCloseMenu();
-    }, [selectedItem, onPlay, handleCloseMenu]);
-
-    const handleMenuRemove = useCallback(() => {
-        if (selectedItem) {
-            onRemove(selectedItem);
-        }
-        handleCloseMenu();
-    }, [selectedItem, onRemove, handleCloseMenu]);
-
     const handleDragEnd = useCallback((event: DragEndEvent) => {
         const { active, over } = event;
 
         if (over && active.id !== over.id) {
-            const oldIndex = parseInt(active.id as string, 10);
-            const newIndex = parseInt(over.id as string, 10);
-            onReorder(oldIndex, newIndex);
+            const oldIndex = queueData.findIndex(item => item.Id === active.id);
+            const newIndex = queueData.findIndex(item => item.Id === over.id);
+            if (oldIndex !== -1 && newIndex !== -1) {
+                onReorder(oldIndex, newIndex);
+            }
         }
-    }, [onReorder]);
+    }, [onReorder, queueData]);
 
     const formatDuration = useCallback((ticks?: number): string => {
         if (!ticks) return '--:--';
@@ -184,6 +289,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         return cached?.peaks;
     }, []);
 
+    // Restore scroll position
     useEffect(() => {
         const savedScroll = localStorage.getItem(SCROLL_POSITION_KEY);
         if (savedScroll && parentRef.current) {
@@ -191,6 +297,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         }
     }, []);
 
+    // Track playback time for waveform
     useEffect(() => {
         const handleTimeUpdate = () => {
             const player = playbackManager.getCurrentPlayer();
@@ -205,175 +312,22 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         };
     }, []);
 
-    const columns = useMemo<ColumnDef<QueueItem>[]>(() => [
-        {
-            id: 'drag',
-            header: '',
-            cell: ({ row }) => (
-                <IconButton
-                    size='sm'
-                    variant='plain'
-                    sx={{ color: 'neutral.600', cursor: 'grab' }}
-                >
-                    <DragIndicatorIcon />
-                </IconButton>
-            ),
-            size: 40
-        },
-        {
-            id: 'index',
-            header: '#',
-            cell: ({ row }) => {
-                const index = parseInt(row.id, 10);
-                const isCurrentTrack = index === currentIndex;
-                return (
-                    <Avatar
-                        src={getImageUrl(row.original)}
-                        sx={{
-                            bgcolor: isCurrentTrack ? '#00a4dc' : 'neutral.600',
-                            width: 36,
-                            height: 36,
-                            fontSize: '0.75rem'
-                        }}
-                    >
-                        {isCurrentTrack ? (
-                            <PlayArrowIcon sx={{ color: 'white', fontSize: 16 }} />
-                        ) : (
-                            <Typography sx={{ color: 'white', fontSize: '0.75rem' }}>
-                                {index + 1}
-                            </Typography>
-                        )}
-                    </Avatar>
-                );
-            },
-            size: 50
-        },
-        {
-            accessorKey: 'Name',
-            header: 'Title',
-            cell: ({ row }) => {
-                const index = parseInt(row.id, 10);
-                const isCurrent = index === currentIndex;
-                const artist = row.original.Artists?.[0] || row.original.AlbumArtist || '';
-                return (
-                    <Box>
-                        <Typography
-                            level='body-md'
-                            sx={{
-                                color: isCurrent ? 'var(--joy-palette-primary-500)' : 'text.primary',
-                                fontWeight: isCurrent ? 600 : 400,
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                maxWidth: 200
-                            }}
-                        >
-                            {row.original.Name}
-                        </Typography>
-                        <Typography
-                            level='body-xs'
-                            sx={{
-                                color: 'text.secondary',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                maxWidth: 200
-                            }}
-                        >
-                            {artist}{row.original.Album ? ` • ${row.original.Album}` : ''}
-                        </Typography>
-                    </Box>
-                );
-            },
-            size: 250
-        },
-        {
-            id: 'waveform',
-            header: '',
-            cell: ({ row }) => {
-                const index = parseInt(row.id, 10);
-                const isCurrent = index === currentIndex;
-                const isNext = index === currentIndex + 1;
-                const peaks = getWaveformPeaks(row.original);
-                return (
-                    <WaveformCell
-                        itemId={row.original.Id}
-                        peaks={peaks}
-                        duration={row.original.RunTimeTicks}
-                        currentTime={isCurrent ? playbackTime : 0}
-                        isCurrentTrack={isCurrent}
-                        isNextTrack={isNext}
-                        height={36}
-                    />
-                );
-            },
-            size: 150
-        },
-        {
-            accessorKey: 'RunTimeTicks',
-            header: 'Duration',
-            cell: ({ row }) => (
-                <Typography level='body-sm' sx={{ color: 'text.secondary', width: 50 }}>
-                    {formatDuration(row.original.RunTimeTicks)}
-                </Typography>
-            ),
-            size: 50
-        },
-        {
-            id: 'actions',
-            header: '',
-            cell: ({ row }) => (
-                <IconButton
-                    size='sm'
-                    variant='plain'
-                    onClick={(e) => handleContextMenu(e, row.original)}
-                    sx={{ color: 'neutral.500', '&:hover': { color: 'danger.main' } }}
-                >
-                    <MoreVertIcon />
-                </IconButton>
-            ),
-            size: 40
-        }
-    ], [currentIndex, getImageUrl, formatDuration, getWaveformPeaks, handleContextMenu, playbackTime]);
-
-    const table = useReactTable({
-        data: queueData,
-        columns,
-        getCoreRowModel: getCoreRowModel()
-    });
-
-    const { rows } = table.getRowModel();
-
     const rowVirtualizer = useVirtualizer({
-        count: rows.length,
+        count: queueData.length,
         getScrollElement: () => parentRef.current,
-        estimateSize: () => 70,
+        estimateSize: () => 64,
         overscan: 5
     });
 
+    // Auto-scroll to current track when it changes
     useEffect(() => {
         if (currentIndex !== previousIndexRef.current && currentIndex >= 0) {
-            const virtualItems = rowVirtualizer.getVirtualItems();
-            const currentItem = virtualItems.find(
-                item => {
-                    const row = rows[item.index];
-                    return row && parseInt(row.id, 10) === currentIndex;
-                }
-            );
-
-            if (currentItem && parentRef.current) {
-                const firstItem = virtualItems[0];
-                const scrollToIndex = currentItem.start - (firstItem?.start || 0);
-                parentRef.current.scrollTo({
-                    top: scrollToIndex,
-                    behavior: 'smooth'
-                });
-            }
-
+            rowVirtualizer.scrollToIndex(currentIndex, { align: 'center', behavior: 'smooth' });
             previousIndexRef.current = currentIndex;
         }
-    }, [currentIndex, rows, rowVirtualizer]);
+    }, [currentIndex, rowVirtualizer]);
 
+    // Save scroll position
     useEffect(() => {
         const container = parentRef.current;
         if (!container) return;
@@ -388,115 +342,121 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         };
     }, []);
 
+    const sortableIds = useMemo(() => queueData.map(item => item.Id), [queueData]);
+
     return (
-        <Box sx={{ width: '100%', height: '100%' }}>
+        <Sheet
+            sx={{
+                width: '100%',
+                height: 'calc(100vh - 280px)',
+                overflow: 'hidden',
+                bgcolor: 'transparent'
+            }}
+        >
+            {/* Header */}
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    px: 2,
+                    py: 1.5,
+                    borderBottom: '1px solid',
+                    borderColor: 'neutral.800',
+                    bgcolor: 'rgba(0,0,0,0.4)'
+                }}
+            >
+                <Box sx={{ width: 40 }} />
+                <Box sx={{ width: 50 }}>
+                    <Typography level="body-xs" sx={{ color: 'neutral.500', textTransform: 'uppercase', letterSpacing: 1 }}>
+                        #
+                    </Typography>
+                </Box>
+                <Box sx={{ flex: '1 1 auto', px: 2 }}>
+                    <Typography level="body-xs" sx={{ color: 'neutral.500', textTransform: 'uppercase', letterSpacing: 1 }}>
+                        Title
+                    </Typography>
+                </Box>
+                <Box sx={{ width: 150, display: { xs: 'none', md: 'block' } }} />
+                <Box sx={{ width: 60, textAlign: 'right', pr: 1 }}>
+                    <Typography level="body-xs" sx={{ color: 'neutral.500', textTransform: 'uppercase', letterSpacing: 1 }}>
+                        Time
+                    </Typography>
+                </Box>
+                <Box sx={{ width: 40 }} />
+            </Box>
+
+            {/* Virtualized List */}
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
             >
-                <TableContainer
-                    component='div'
-                    ref={parentRef}
-                    sx={{
-                        height: 'calc(100vh - 200px)',
-                        overflow: 'auto'
-                    }}
+                <SortableContext
+                    items={sortableIds}
+                    strategy={verticalListSortingStrategy}
                 >
-                    <Table stickyHeader size='small'>
-                        <TableHead>
-                            {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id}>
-                                    {headerGroup.headers.map((header) => (
-                                        <TableCell
-                                            key={header.id}
-                                            sx={{
-                                                bgcolor: 'rgba(0, 0, 0, 0.8)',
-                                                color: 'text.secondary',
-                                                fontSize: '0.75rem',
-                                                py: 1,
-                                                borderBottom: 'none'
-                                            }}
-                                        >
-                                            {flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            ))}
-                        </TableHead>
-                        <TableBody
+                    <Box
+                        ref={parentRef}
+                        sx={{
+                            height: 'calc(100% - 48px)',
+                            overflow: 'auto',
+                            '&::-webkit-scrollbar': {
+                                width: 8
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                bgcolor: 'transparent'
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                bgcolor: 'neutral.700',
+                                borderRadius: 4,
+                                '&:hover': {
+                                    bgcolor: 'neutral.600'
+                                }
+                            }
+                        }}
+                    >
+                        <Box
                             sx={{
-                                position: 'relative',
-                                height: `${rowVirtualizer.getTotalSize()}px`
+                                height: rowVirtualizer.getTotalSize(),
+                                position: 'relative'
                             }}
                         >
-                            <SortableContext
-                                items={rows.map((row) => row.id)}
-                                strategy={verticalListSortingStrategy}
-                            >
-                                {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                                    const row = rows[virtualRow.index];
-                                    return (
-                                        <Box
-                                            key={row.id}
-                                            sx={{
-                                                position: 'absolute',
-                                                top: 0,
-                                                left: 0,
-                                                width: '100%',
-                                                height: `${virtualRow.size}px`,
-                                                transform: `translateY(${virtualRow.start}px)`
-                                            }}
-                                        >
-                                            <SortableRow row={row}>
-                                                {row.getVisibleCells().map((cell) => (
-                                                    <TableCell
-                                                        key={cell.id}
-                                                        sx={{
-                                                            bgcolor: 'transparent',
-                                                            borderBottom: '1px solid rgba(255,255,255,0.1)',
-                                                            py: 1,
-                                                            verticalAlign: 'middle'
-                                                        }}
-                                                    >
-                                                        {flexRender(
-                                                            cell.column.columnDef.cell,
-                                                            cell.getContext()
-                                                        )}
-                                                    </TableCell>
-                                                ))}
-                                            </SortableRow>
-                                        </Box>
-                                    );
-                                })}
-                            </SortableContext>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </DndContext>
+                            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                                const item = queueData[virtualRow.index];
+                                const isCurrent = virtualRow.index === currentIndex;
+                                const isNext = virtualRow.index === currentIndex + 1;
 
-            <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleCloseMenu}
-            >
-                <MenuItem onClick={handleMenuPlay}>
-                    <ListItemIcon>
-                        <PlayArrowIcon />
-                    </ListItemIcon>
-                    <ListItemText>Play</ListItemText>
-                </MenuItem>
-                <MenuItem onClick={handleMenuRemove} sx={{ color: 'error.main' }}>
-                    <ListItemIcon>
-                        <DeleteIcon />
-                    </ListItemIcon>
-                    <ListItemText>Remove</ListItemText>
-                </MenuItem>
-            </Menu>
-        </Box>
+                                return (
+                                    <Box
+                                        key={item.Id}
+                                        sx={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            width: '100%',
+                                            transform: `translateY(${virtualRow.start}px)`
+                                        }}
+                                    >
+                                        <SortableRow
+                                            item={item}
+                                            index={virtualRow.index}
+                                            isCurrent={isCurrent}
+                                            isNext={isNext}
+                                            imageUrl={getImageUrl(item)}
+                                            playbackTime={playbackTime}
+                                            formatDuration={formatDuration}
+                                            getWaveformPeaks={getWaveformPeaks}
+                                            onPlay={onPlay}
+                                            onRemove={onRemove}
+                                        />
+                                    </Box>
+                                );
+                            })}
+                        </Box>
+                    </Box>
+                </SortableContext>
+            </DndContext>
+        </Sheet>
     );
 };
 

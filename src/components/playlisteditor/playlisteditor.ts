@@ -28,6 +28,7 @@ import 'elements/emby-select/emby-select';
 
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
+import { logger } from '../../utils/logger';
 
 interface DialogElement extends HTMLDivElement {
     playlistId?: string
@@ -56,27 +57,27 @@ function onSubmit(this: HTMLElement, e: Event) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
             addToPlaylist(panel, playlistId)
                 .catch(err => {
-                    console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
+                    logger.error(`Failed to add to playlist ${playlistId}`, { component: 'PlaylistEditor' }, err as Error);
                     toast(globalize.translate('PlaylistError.AddFailed'));
                 })
                 .finally(loading.hide);
         } else if (panel.playlistId) {
             updatePlaylist(panel)
                 .catch(err => {
-                    console.error('[PlaylistEditor] Failed to update to playlist %s', panel.playlistId, err);
+                    logger.error(`Failed to update to playlist ${panel.playlistId}`, { component: 'PlaylistEditor' }, err as Error);
                     toast(globalize.translate('PlaylistError.UpdateFailed'));
                 })
                 .finally(loading.hide);
         } else {
             createPlaylist(panel)
                 .catch(err => {
-                    console.error('[PlaylistEditor] Failed to create playlist', err);
+                    logger.error('Failed to create playlist', { component: 'PlaylistEditor' }, err as Error);
                     toast(globalize.translate('PlaylistError.CreateFailed'));
                 })
                 .finally(loading.hide);
         }
     } else {
-        console.error('[PlaylistEditor] Dialog element is missing!');
+        logger.error('Dialog element is missing', { component: 'PlaylistEditor' });
     }
 
     e.preventDefault();
@@ -146,7 +147,7 @@ function addToPlaylist(dlg: DialogElement, id: string) {
             serverId: currentServerId,
             ids: itemIds.split(',')
         }).catch((err: unknown) => {
-            console.error('[PlaylistEditor] failed to add to queue', err);
+            logger.error('Failed to add to queue', { component: 'PlaylistEditor' }, err as Error);
         });
         dlg.submitted = true;
         dialogHelper.close(dlg);
