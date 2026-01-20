@@ -1,59 +1,49 @@
-
 /**
  * Useful DOM utilities.
  */
 
 /**
  * Returns parent of element with specified attribute value.
- * @param {HTMLElement} elem - Element whose parent need to find.
- * @param {string} name - Attribute name.
- * @param {mixed} [value] - Attribute value.
- * @returns {HTMLElement} Parent with specified attribute value.
  */
-export function parentWithAttribute(elem, name, value) {
-    while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
-        elem = elem.parentNode;
+export function parentWithAttribute(elem: HTMLElement, name: string, value?: string): HTMLElement | null {
+    let current: HTMLElement | null = elem;
+    while (current && (value ? current.getAttribute(name) !== value : !current.getAttribute(name))) {
+        const parent = current.parentNode as HTMLElement;
 
-        if (!elem?.getAttribute) {
+        if (!parent?.getAttribute) {
             return null;
         }
+        current = parent;
     }
 
-    return elem;
+    return current;
 }
 
 /**
  * Returns parent of element with one of specified tag names.
- * @param {HTMLElement} elem - Element whose parent need to find.
- * @param {(string|Array)} tagNames - Tag name or array of tag names.
- * @returns {HTMLElement} Parent with one of specified tag names.
  */
-export function parentWithTag(elem, tagNames) {
-    // accept both string and array passed in
-    if (!Array.isArray(tagNames)) {
-        tagNames = [tagNames];
-    }
+export function parentWithTag(elem: HTMLElement, tagNames: string | string[]): HTMLElement | null {
+    const tags = Array.isArray(tagNames) ? tagNames : [tagNames];
+    const normalizedTags = tags.map(t => t.toUpperCase());
 
-    while (tagNames.indexOf(elem.tagName || '') === -1) {
-        elem = elem.parentNode;
+    let current: HTMLElement | null = elem;
+    while (current && !normalizedTags.includes(current.tagName || '')) {
+        current = current.parentNode as HTMLElement;
 
-        if (!elem) {
+        if (!current || !current.tagName) {
             return null;
         }
     }
 
-    return elem;
+    return current;
 }
 
 /**
  * Returns _true_ if class list contains one of specified names.
- * @param {DOMTokenList} classList - Class list.
- * @param {Array} classNames - Array of class names.
- * @returns {boolean} _true_ if class list contains one of specified names.
  */
-function containsAnyClass(classList, classNames) {
-    for (let i = 0, length = classNames.length; i < length; i++) {
-        if (classList.contains(classNames[i])) {
+function containsAnyClass(classList: DOMTokenList, classNames: string[]): boolean {
+    for (const className of classNames) {
+        if (classList.contains(className)) {
             return true;
         }
     }
@@ -62,25 +52,20 @@ function containsAnyClass(classList, classNames) {
 
 /**
  * Returns parent of element with one of specified class names.
- * @param {HTMLElement} elem - Element whose parent need to find.
- * @param {(string|Array)} classNames - Class name or array of class names.
- * @returns {HTMLElement|null} Parent with one of specified class names.
  */
-export function parentWithClass(elem, classNames) {
-    // accept both string and array passed in
-    if (!Array.isArray(classNames)) {
-        classNames = [classNames];
-    }
+export function parentWithClass(elem: HTMLElement, classNames: string | string[]): HTMLElement | null {
+    const classes = Array.isArray(classNames) ? classNames : [classNames];
 
-    while (!elem.classList || !containsAnyClass(elem.classList, classNames)) {
-        elem = elem.parentNode;
+    let current: HTMLElement | null = elem;
+    while (current && (!current.classList || !containsAnyClass(current.classList, classes))) {
+        current = current.parentNode as HTMLElement;
 
-        if (!elem) {
+        if (!current || !current.classList) {
             return null;
         }
     }
 
-    return elem;
+    return current;
 }
 
 let supportsCaptureOption = false;
@@ -91,20 +76,16 @@ try {
             return null;
         }
     });
-    window.addEventListener('test', null, opts);
+    window.addEventListener('test', (() => {}) as any, opts);
 } catch {
     // no capture support
 }
 
 /**
  * Adds event listener to specified target.
- * @param {EventTarget} target - Event target.
- * @param {string} type - Event type.
- * @param {function} handler - Event handler.
- * @param {Object} [options] - Listener options.
  */
-export function addEventListener(target, type, handler, options) {
-    let optionsOrCapture = options || {};
+export function addEventListener(target: EventTarget, type: string, handler: EventListenerOrEventListenerObject, options?: AddEventListenerOptions): void {
+    let optionsOrCapture: any = options || {};
     if (!supportsCaptureOption) {
         optionsOrCapture = optionsOrCapture.capture;
     }
@@ -113,13 +94,9 @@ export function addEventListener(target, type, handler, options) {
 
 /**
  * Removes event listener from specified target.
- * @param {EventTarget} target - Event target.
- * @param {string} type - Event type.
- * @param {function} handler - Event handler.
- * @param {Object} [options] - Listener options.
  */
-export function removeEventListener(target, type, handler, options) {
-    let optionsOrCapture = options || {};
+export function removeEventListener(target: EventTarget, type: string, handler: EventListenerOrEventListenerObject, options?: EventListenerOptions): void {
+    let optionsOrCapture: any = options || {};
     if (!supportsCaptureOption) {
         optionsOrCapture = optionsOrCapture.capture;
     }
@@ -129,12 +106,12 @@ export function removeEventListener(target, type, handler, options) {
 /**
  * Cached window size.
  */
-let windowSize;
+let windowSize: { innerHeight: number; innerWidth: number } | null = null;
 
 /**
  * Flag of event listener bound.
  */
-let windowSizeEventsBound;
+let windowSizeEventsBound = false;
 
 /**
  * Resets cached window size.
@@ -144,21 +121,13 @@ function clearWindowSize() {
 }
 
 /**
- * @typedef {Object} windowSize
- * @property {number} innerHeight - window innerHeight.
- * @property {number} innerWidth - window innerWidth.
- */
-
-/**
  * Returns window size.
- * @returns {windowSize} Window size.
  */
-export function getWindowSize() {
+export function getWindowSize(): { innerHeight: number; innerWidth: number } {
     if (!windowSize) {
         const innerWidth = window.innerWidth;
         const innerHeight = window.innerHeight;
 
-        // NOTE: webOS has a bug that reports window size as infinite on page load, so we use a fallback size of 4K
         if (!Number.isFinite(innerWidth) || !Number.isFinite(innerHeight)) {
             return {
                 innerWidth: Number.isFinite(innerWidth) ? innerWidth : 3840,
@@ -188,9 +157,8 @@ const standardWidths = [480, 720, 1280, 1440, 1920, 2560, 3840, 5120, 7680];
 
 /**
  * Returns screen width.
- * @returns {number} Screen width.
  */
-export function getScreenWidth() {
+export function getScreenWidth(): number {
     let width = Number.isFinite(window.innerWidth) ? window.innerWidth : 3840;
     const height = Number.isFinite(window.innerHeight) ? window.innerHeight : 2160;
 
@@ -198,34 +166,33 @@ export function getScreenWidth() {
         width = height * (16.0 / 9.0);
     }
 
-    standardWidths.sort((a, b) => Math.abs(width - a) - Math.abs(width - b));
+    const sortedWidths = [...standardWidths].sort((a, b) => Math.abs(width - a) - Math.abs(width - b));
 
-    return standardWidths[0];
+    return sortedWidths[0];
 }
 
 /**
  * Name of animation end event.
  */
-let _animationEvent;
+let _animationEvent: string | undefined;
 
 /**
  * Returns name of animation end event.
- * @returns {string} Name of animation end event.
  */
-export function whichAnimationEvent() {
+export function whichAnimationEvent(): string {
     if (_animationEvent) {
         return _animationEvent;
     }
 
     const el = document.createElement('div');
-    const animations = {
+    const animations: Record<string, string> = {
         'animation': 'animationend',
         'OAnimation': 'oAnimationEnd',
         'MozAnimation': 'animationend',
         'WebkitAnimation': 'webkitAnimationEnd'
     };
     for (const t in animations) {
-        if (el.style[t] !== undefined) {
+        if ((el.style as any)[t] !== undefined) {
             _animationEvent = animations[t];
             return animations[t];
         }
@@ -237,35 +204,33 @@ export function whichAnimationEvent() {
 
 /**
  * Returns name of animation cancel event.
- * @returns {string} Name of animation cancel event.
  */
-export function whichAnimationCancelEvent() {
+export function whichAnimationCancelEvent(): string {
     return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
 }
 
 /**
  * Name of transition end event.
  */
-let _transitionEvent;
+let _transitionEvent: string | undefined;
 
 /**
  * Returns name of transition end event.
- * @returns {string} Name of transition end event.
  */
-export function whichTransitionEvent() {
+export function whichTransitionEvent(): string {
     if (_transitionEvent) {
         return _transitionEvent;
     }
 
     const el = document.createElement('div');
-    const transitions = {
+    const transitions: Record<string, string> = {
         'transition': 'transitionend',
         'OTransition': 'oTransitionEnd',
         'MozTransition': 'transitionend',
         'WebkitTransition': 'webkitTransitionEnd'
     };
     for (const t in transitions) {
-        if (el.style[t] !== undefined) {
+        if ((el.style as any)[t] !== undefined) {
             _transitionEvent = transitions[t];
             return transitions[t];
         }
@@ -277,16 +242,17 @@ export function whichTransitionEvent() {
 
 /**
  * Sets title and ARIA-label of element.
- * @param {HTMLElement} elem - Element to set the title and ARIA-label.
- * @param {string} title - Title.
- * @param {string?} [ariaLabel] - ARIA-label.
  */
-export function setElementTitle(elem, title, ariaLabel) {
+export function setElementTitle(elem: HTMLElement, title: string, ariaLabel?: string): void {
     elem.setAttribute('title', title);
-    elem.setAttribute('aria-label', ariaLabel);
+    if (ariaLabel) {
+        elem.setAttribute('aria-label', ariaLabel);
+    } else {
+        elem.setAttribute('aria-label', title);
+    }
 }
 
-export default {
+const dom = {
     parentWithAttribute,
     parentWithClass,
     parentWithTag,
@@ -299,3 +265,5 @@ export default {
     whichAnimationEvent,
     whichAnimationCancelEvent
 };
+
+export default dom;

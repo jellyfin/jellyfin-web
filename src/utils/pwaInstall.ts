@@ -1,11 +1,17 @@
 // PWA Installation Manager
 import { logger } from './logger';
 
-class PWAInstallManager {
-    static init() {
-        this.deferredPrompt = null;
-        this.installButton = null;
+declare global {
+    interface Window {
+        gtag?: (...args: any[]) => void;
+        PWAInstallManager: typeof PWAInstallManager;
+    }
+}
 
+class PWAInstallManager {
+    private static deferredPrompt: any = null;
+
+    static init() {
         // Listen for the beforeinstallprompt event
         window.addEventListener('beforeinstallprompt', (e) => {
             logger.info('[PWA] Install prompt available', { component: 'pwaInstall' });
@@ -15,7 +21,7 @@ class PWAInstallManager {
         });
 
         // Listen for successful installation
-        window.addEventListener('appinstalled', (e) => {
+        window.addEventListener('appinstalled', () => {
             logger.info('[PWA] App installed successfully', { component: 'pwaInstall' });
             this.hideInstallPrompt();
             this.trackInstallation();
@@ -31,14 +37,14 @@ class PWAInstallManager {
         this.setupAutoPrompt();
     }
 
-    static isInstalled() {
+    static isInstalled(): boolean {
         // Check if running in standalone mode
         return window.matchMedia('(display-mode: standalone)').matches
-               || window.navigator.standalone === true;
+               || (window.navigator as any).standalone === true;
     }
 
-    static setupAutoPrompt() {
-        // Show install prompt after 30 seconds of interaction
+    private static setupAutoPrompt() {
+        // Show install prompt after 3 seconds of interaction
         let interactionCount = 0;
         const handleInteraction = () => {
             interactionCount++;
@@ -54,7 +60,7 @@ class PWAInstallManager {
     }
 
     static showInstallPrompt() {
-        if (!this.deferredPrompt) return;
+        if (!this.deferredPrompt || sessionStorage.getItem('pwa-install-dismissed') === 'true') return;
 
         // Create and show install banner
         const banner = document.createElement('div');
@@ -107,7 +113,7 @@ class PWAInstallManager {
         document.body.appendChild(banner);
 
         // Handle install button
-        document.getElementById('install-btn').addEventListener('click', async () => {
+        document.getElementById('install-btn')?.addEventListener('click', async () => {
             this.deferredPrompt.prompt();
             const { outcome } = await this.deferredPrompt.userChoice;
             logger.info('[PWA] Install outcome', { component: 'pwaInstall', outcome });
@@ -116,7 +122,7 @@ class PWAInstallManager {
         });
 
         // Handle dismiss button
-        document.getElementById('dismiss-btn').addEventListener('click', () => {
+        document.getElementById('dismiss-btn')?.addEventListener('click', () => {
             this.hideInstallPrompt();
             // Don't show again for this session
             sessionStorage.setItem('pwa-install-dismissed', 'true');
@@ -149,13 +155,9 @@ class PWAInstallManager {
             isInstalled: this.isInstalled(),
             installDate: installDate,
             daysSinceInstall: installDate ?
-                Math.floor((Date.now() - new Date(installDate)) / (1000 * 60 * 60 * 24)) : null
+                Math.floor((Date.now() - new Date(installDate).getTime()) / (1000 * 60 * 60 * 24)) : null
         };
     }
 }
 
-// Initialize PWA install manager
-// PWAInstallManager.init();
-
-// Export for debugging
-window.PWAInstallManager = PWAInstallManager;
+export default PWAInstallManager;

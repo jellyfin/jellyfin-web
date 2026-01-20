@@ -17,12 +17,22 @@ import { getLocationSearch } from './url';
 import { queryClient } from './query/queryClient';
 import { logger } from './logger';
 
+declare global {
+    interface Window {
+        ApiClient: any;
+        Dashboard: any;
+        appMode?: string;
+        NativeShell?: any;
+    }
+    const ApiClient: any;
+}
+
 export function getCurrentUser() {
     return window.ApiClient.getCurrentUser(false);
 }
 
 // TODO: investigate url prefix support for serverAddress function
-export async function serverAddress() {
+export async function serverAddress(): Promise<string | undefined> {
     const apiClient = window.ApiClient;
 
     if (apiClient) {
@@ -36,7 +46,7 @@ export async function serverAddress() {
         // Otherwise use computed base URL
         let url;
         const index = window.location.href.toLowerCase().lastIndexOf('/web');
-        if (index != -1) {
+        if (index !== -1) {
             url = window.location.href.substring(0, index);
         } else {
             // fallback to location without path
@@ -45,18 +55,18 @@ export async function serverAddress() {
 
         // Don't use bundled app URL (file:) as server URL
         if (url.startsWith('file:')) {
-            return Promise.resolve();
+            return Promise.resolve(undefined);
         }
 
         // Don't use the current origin as server URL since that's where the client is hosted
         if (url === window.location.origin) {
-            return Promise.resolve();
+            return Promise.resolve(undefined);
         }
 
         urls.push(url);
     }
 
-    console.debug('URL candidates:', urls);
+    logger.debug('URL candidates:', { component: 'Dashboard', urls });
 
     const promises = urls.map(url => {
         return fetch(`${url}/System/Info/Public`, { cache: 'no-cache' })
@@ -77,17 +87,18 @@ export async function serverAddress() {
                     config
                 };
             }).catch(error => {
-                console.error(error);
+                logger.error('Error fetching server info', { component: 'Dashboard', url }, error);
             });
     });
 
     return Promise.all(promises).then(responses => {
-        return responses.filter(obj => obj?.config);
+        return (responses as any[]).filter(obj => obj?.config);
     }).then(configs => {
         const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
         return selection?.url;
     }).catch(error => {
-        console.error(error);
+        logger.error('Error selecting server address', { component: 'Dashboard' }, error);
+        return undefined;
     });
 }
 
@@ -101,7 +112,7 @@ export function getCurrentUserId() {
     return null;
 }
 
-export function onServerChanged(_userId, _accessToken, apiClient) {
+export function onServerChanged(_userId: string, _accessToken: string, apiClient: any) {
     ServerConnections.setLocalApiClient(apiClient);
 }
 
@@ -116,23 +127,20 @@ export function logout() {
     });
 }
 
-export function getPluginUrl(name) {
+export function getPluginUrl(name: string) {
     return 'configurationpage?name=' + encodeURIComponent(name);
 }
 
-export function getConfigurationResourceUrl(name) {
-    return ApiClient.getUrl('web/ConfigurationPage', {
+export function getConfigurationResourceUrl(name: string) {
+    return window.ApiClient.getUrl('web/ConfigurationPage', {
         name: name
     });
 }
 
 /**
  * Navigate to a url.
- * @param {string} url - The url to navigate to.
- * @param {boolean} [preserveQueryString] - A flag to indicate the current query string should be appended to the new url.
- * @returns {Promise<any>}
  */
-export function navigate(url, preserveQueryString) {
+export function navigate(url: string, preserveQueryString?: boolean): Promise<void> {
     if (!url) {
         throw new Error('url cannot be null or empty');
     }
@@ -156,7 +164,7 @@ export function processServerConfigurationUpdateResult() {
     logger.info('Server configuration saved', { component: 'Dashboard' });
 }
 
-export function processErrorResponse(response) {
+export function processErrorResponse(response: Response) {
     loading.hide();
 
     let status = '' + response.status;
@@ -176,8 +184,8 @@ export function processErrorResponse(response) {
     );
 }
 
-export function alert(options) {
-    if (typeof options == 'string') {
+export function alert(options: string | { title?: string; message?: string; callback?: () => void }) {
+    if (typeof options === 'string') {
         logger.info(options, { component: 'Dashboard' });
     } else {
         if (options.callback) {
@@ -193,7 +201,7 @@ export function alert(options) {
     }
 }
 
-export function capabilities(host) {
+export function capabilities(host: any) {
     return Object.assign({
         PlayableMediaTypes: ['Audio', 'Video'],
         SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
@@ -218,7 +226,7 @@ export function showLoadingMsg() {
     loading.show();
 }
 
-export function confirm(message, title, callback) {
+export function confirm(message: string, title: string, callback: (result: boolean) => void) {
     baseConfirm(message, title).then(() => {
         callback(true);
     }).catch(() => {
@@ -226,9 +234,9 @@ export function confirm(message, title, callback) {
     });
 }
 
-export const pageClassOn = function(eventName, className, fn) {
+export const pageClassOn = function(eventName: string, className: string, fn: (this: HTMLElement, event: Event) => void) {
     document.addEventListener(eventName, (event) => {
-        const target = event.target;
+        const target = event.target as HTMLElement;
 
         if (target.classList.contains(className)) {
             fn.call(target, event);
@@ -236,9 +244,9 @@ export const pageClassOn = function(eventName, className, fn) {
     });
 };
 
-export const pageIdOn = function(eventName, id, fn) {
+export const pageIdOn = function(eventName: string, id: string, fn: (this: HTMLElement, event: Event) => void) {
     document.addEventListener(eventName, (event) => {
-        const target = event.target;
+        const target = event.target as HTMLElement;
 
         if (target.id === id) {
             fn.call(target, event);
@@ -273,7 +281,9 @@ const Dashboard = {
 
 // This is used in plugins and templates, so keep it defined for now.
 // TODO: Remove once plugins don't need it
-window.Dashboard = Dashboard;
+if (typeof window !== 'undefined') {
+    window.Dashboard = Dashboard;
+}
 
 export { Dashboard };
 export default Dashboard;

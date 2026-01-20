@@ -1,18 +1,24 @@
 // PWA Update Manager
 import { logger } from './logger';
 
-class PWAUpdateManager {
-    static init() {
-        this.registration = null;
-        this.updateAvailable = false;
+declare global {
+    interface Window {
+        PWAUpdateManager: typeof PWAUpdateManager;
+    }
+}
 
+class PWAUpdateManager {
+    private static registration: ServiceWorkerRegistration | null = null;
+    private static updateAvailable = false;
+
+    static init() {
         // Skip service worker in development to avoid issues with dev server
         if (import.meta.env.DEV) {
             logger.info('[PWA] Service worker registration skipped in development', { component: 'pwaUpdate' });
             return;
         }
 
-        if ('serviceWorker' in navigator && window.appMode !== 'cordova' && window.appMode !== 'android') {
+        if ('serviceWorker' in navigator && (window as any).appMode !== 'cordova' && (window as any).appMode !== 'android') {
             navigator.serviceWorker.register('/serviceworker.js')
                 .then((registration) => {
                     this.registration = registration;
@@ -25,11 +31,11 @@ class PWAUpdateManager {
         }
     }
 
-    static setupUpdateListener() {
+    private static setupUpdateListener() {
         if (!this.registration) return;
 
         this.registration.addEventListener('updatefound', () => {
-            const newWorker = this.registration.installing;
+            const newWorker = this.registration?.installing;
             if (newWorker) {
                 newWorker.addEventListener('statechange', () => {
                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
@@ -101,11 +107,11 @@ class PWAUpdateManager {
 
         document.body.appendChild(updateBanner);
 
-        document.getElementById('update-btn').addEventListener('click', () => {
+        document.getElementById('update-btn')?.addEventListener('click', () => {
             this.applyUpdate();
         });
 
-        document.getElementById('dismiss-update-btn').addEventListener('click', () => {
+        document.getElementById('dismiss-update-btn')?.addEventListener('click', () => {
             this.hideUpdatePrompt();
         });
     }
@@ -138,8 +144,4 @@ class PWAUpdateManager {
     }
 }
 
-// Initialize PWA update manager
-PWAUpdateManager.init();
-
-// Export for debugging
-window.PWAUpdateManager = PWAUpdateManager;
+export default PWAUpdateManager;
