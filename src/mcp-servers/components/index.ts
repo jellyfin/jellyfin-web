@@ -13,6 +13,115 @@ function createTool(name: string, description: string, schema: object, handler: 
 }
 
 createTool(
+    'get_component_relationships',
+    'Understand how components relate to other MCP servers',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    relatedMcpServers: [
+                        {
+                            server: 'store-architecture',
+                            relationship: 'Components subscribe to stores for data',
+                            direction: 'Store → Component',
+                            integration: 'useStore() hooks provide reactive data'
+                        },
+                        {
+                            server: 'playback-manager',
+                            relationship: 'Components trigger playback actions',
+                            direction: 'Component → Playback',
+                            integration: 'NowPlayingBar, playerSelectionMenu'
+                        },
+                        {
+                            server: 'joy-ui',
+                            relationship: 'Components use Joy UI for styling',
+                            direction: 'Component uses UI',
+                            integration: '@mui/joy imports for all new components'
+                        },
+                        {
+                            server: 'audio-engine',
+                            relationship: 'Visualizer components display audio',
+                            direction: 'Audio → Component',
+                            integration: 'Butterchurn, WaveformCell, FrequencyAnalyzer'
+                        },
+                        {
+                            server: 'api',
+                            relationship: 'Forms submit data via API',
+                            direction: 'Component → API',
+                            integration: 'SettingsForm submits to apiClient'
+                        },
+                        {
+                            server: 'architecture',
+                            relationship: 'Components are the UI layer',
+                            direction: 'Components present data to users',
+                            integration: 'All user-facing code in this layer'
+                        }
+                    ],
+                    componentToStoreBindings: [
+                        {
+                            component: 'NowPlayingBar',
+                            stores: ['mediaStore', 'audioStore', 'queueStore', 'playerStore'],
+                            pattern: 'useStore() hooks for reactive updates'
+                        },
+                        {
+                            component: 'QueueTable',
+                            stores: ['queueStore', 'mediaStore'],
+                            pattern: 'TanStack Table with store data'
+                        },
+                        {
+                            component: 'SettingsForm',
+                            stores: ['settingsStore'],
+                            pattern: 'Form state syncs with store'
+                        },
+                        {
+                            component: 'VisualizerControls',
+                            stores: ['settingsStore'],
+                            pattern: 'Settings drive visualization type'
+                        }
+                    ],
+                    componentToPlaybackActions: [
+                        {
+                            component: 'NowPlayingBar',
+                            actions: ['play()', 'pause()', 'seek()', 'next()', 'prev()'],
+                            file: 'src/components/nowPlayingBar/nowPlayingBar.ts'
+                        },
+                        {
+                            component: 'playerSelectionMenu',
+                            actions: ['selectPlayer()', 'initiateTransfer()'],
+                            file: 'src/components/playback/playerSelectionMenu.ts'
+                        },
+                        {
+                            component: 'QueueTable',
+                            actions: ['moveItem()', 'shuffle()', 'removeFromQueue()'],
+                            file: 'src/apps/stable/routes/lazyRoutes/QueueTable.tsx'
+                        }
+                    ],
+                    componentToAudioFlow: [
+                        {
+                            component: 'Butterchurn',
+                            audioData: 'Frequency analyzer output',
+                            purpose: '3D visualization of music'
+                        },
+                        {
+                            component: 'WaveformCell',
+                            audioData: 'Decoded audio peaks',
+                            purpose: 'Visual representation of audio waveform'
+                        },
+                        {
+                            component: 'FrequencyAnalyzer',
+                            audioData: 'Real-time FFT data',
+                            purpose: 'Bar-graph spectrum display'
+                        }
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
     'get_component_overview',
     'Get overview of Jellyfin component organization',
     { _dummy: z.literal(0).optional() },
@@ -508,129 +617,735 @@ createTool(
     }
 );
 
-server.resource(
-    'components-docs',
-    'jellyfin://components/architecture',
+createTool(
+    'get_layout_patterns',
+    'Understand responsive layout patterns and responsive design',
+    { _dummy: z.literal(0).optional() },
     async () => {
         return {
-            contents: [{
-                uri: 'jellyfin://components/architecture',
-                mimeType: 'text/markdown',
-                text: `# Jellyfin Component Architecture
-
-## Overview
-Modular component system with store-based state management and plugin extensibility.
-
-## Component Organization
-\`\`\`
-src/components/
-├── audioEngine/          # Core audio processing
-│   ├── crossfader.logic.ts
-│   ├── crossfadeController.ts
-│   ├── master.logic.ts
-│   └── audioWorklets.ts
-├── playback/             # Playback management
-│   ├── playbackmanager.ts
-│   ├── playqueuemanager.ts
-│   └── playerSelectionMenu.ts
-├── visualizer/           # Music visualization
-│   ├── visualizers.logic.ts
-│   ├── butterchurn.logic.ts
-│   └── WaveformCell.tsx        # Canvas-based waveform for playlists
-├── nowPlayingBar/        # Playback controls
-│   └── nowPlayingBar.ts
-├── sitbackMode/          # Queue-focused UI
-│   └── sitback.logic.ts
-├── layoutManager/        # Responsive layout
-├── loading/              # Loading states
-└── forms/                # NEW: Form components
-    └── SettingsForm.tsx  # MUI + Zod validation example
-
-src/apps/stable/routes/lazyRoutes/
-├── QueuePage.tsx         # Queue view using QueueTable
-└── QueueTable.tsx        # TanStack Table with drag-and-drop
-
-src/apps/dashboard/routes/users/
-└── add.tsx               # MODERNIZED: MUI + React state (was querySelector)
-\`\`\`
-
-## Modernization Progress
-
-### Playlist View Migration ✅
-- **WaveformCell**: Canvas-based waveform rendering
-- **QueueTable**: TanStack Table + @dnd-kit + @tanstack/react-virtual
-- Features: Drag-and-drop, virtualization, scroll persistence, auto-center
-
-### Form Modernization ✅
-- **UserNew**: Migrated from querySelector to React state + MUI
-- **SettingsForm**: Example form with Zod validation
-- Pattern: Zod schema → useState → MUI components → async handlers
-
-## Best Practices
-
-### Do: React State for Forms
-\`\`\`typescript
-// ✅ GOOD: Use React state
-const [formData, setFormData] = useState({ username: '', password: '' });
-<TextField value={formData.username} onChange={(e) => setFormData(...)} />
-\`\`\`
-
-### Don't: querySelector
-\`\`\`typescript
-// ❌ BAD: Direct DOM manipulation
-const username = (page.querySelector('#txtUsername') as HTMLInputElement).value;
-\`\`\`
-
-### Do: Zod Validation
-\`\`\`typescript
-// ✅ GOOD: Zod schema validation
-const userSchema = z.object({
-    username: z.string().min(1, 'Required'),
-    password: z.string().optional()
-});
-type UserFormData = z.infer<typeof userSchema>;
-\`\`\`
-
-### Do: MUI Components
-\`\`\`typescript
-// ✅ GOOD: Use MUI
-<TextField label='Username' required />
-<Button type='submit' variant='contained'>Save</Button>
-\`\`\`
-
-### Do: Async/Await for Mutations
-\`\`\`typescript
-// ✅ GOOD: Async/await pattern
-try {
-    const response = await createUser.mutateAsync({ name: username });
-    await updateUserPolicy.mutateAsync({ ... });
-    navigate('/success');
-} catch (error) {
-    setErrorToastOpen(true);
-}
-\`\`\`
-
-## TanStack Libraries Available
-
-| Library | Purpose | Usage |
-|---------|---------|-------|
-| @tanstack/react-table | Data tables | QueueTable |
-| @tanstack/react-virtual | Virtualization | Large lists |
-| @tanstack/react-query | Data fetching | useFetchItems, useUsers |
-| @tanstack/react-form | Form state | SettingsForm |
-| @dnd-kit/* | Drag-and-drop | QueueTable reordering |
-
-## Files
-- \`src/components/layoutManager.ts\` - Layout coordination
-- \`src/components/pluginManager.ts\` - Plugin system
-- \`src/components/sitbackMode/sitback.logic.ts\` - Sit back mode
-- \`src/components/forms/SettingsForm.tsx\` - Form pattern example
-- \`src/apps/dashboard/routes/users/add.tsx\` - Modernized user form
-`
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    breakpoints: {
+                        xs: '0px',
+                        sm: '600px',
+                        md: '900px',
+                        lg: '1200px',
+                        xl: '1536px'
+                    },
+                    layoutPatterns: [
+                        {
+                            name: 'Responsive Grid',
+                            code: `<Grid container spacing={2}>
+    <Grid size={{ xs: 12, md: 6 }}>Sidebar</Grid>
+    <Grid size={{ xs: 12, md: 6 }}>Content</Grid>
+</Grid>`
+                        },
+                        {
+                            name: 'Responsive Stack',
+                            code: `<Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+    <Box>Item 1</Box>
+    <Box>Item 2</Box>
+</Stack>`
+                        },
+                        {
+                            name: 'Hide/Show Pattern',
+                            code: `<Box sx={{ display: { xs: 'none', md: 'block' } }}>
+    Desktop only
+</Box>`
+                        }
+                    ],
+                    deviceDetection: [
+                        {
+                            type: 'Mobile',
+                            condition: 'max-width: 599px',
+                            features: ['Touch controls', 'Full-width buttons', 'Bottom navigation']
+                        },
+                        {
+                            type: 'Tablet',
+                            condition: '600px - 1199px',
+                            features: ['Touch + pointer', 'Adaptive layouts', 'Side panel optional']
+                        },
+                        {
+                            type: 'Desktop',
+                            condition: '1200px+',
+                            features: ['Full controls', 'Hover states', 'Multi-column layouts']
+                        }
+                    ],
+                    layoutManager: {
+                        file: 'src/components/layoutManager.ts',
+                        features: [
+                            'Device type detection',
+                            'Orientation tracking',
+                            'Breakpoint subscription',
+                            'Touch capability detection'
+                        ]
+                    }
+                }, null, 2)
             }]
         };
     }
 );
+
+createTool(
+    'get_animation_patterns',
+    'Understand animation and transition patterns in Jellyfin',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    animationLibraries: [
+                        {
+                            name: 'framer-motion',
+                            version: '11.x',
+                            purpose: 'Declarative animations and gestures',
+                            usage: 'Page transitions, enter/exit animations'
+                        },
+                        {
+                            name: '@react-spring/web',
+                            version: '9.x',
+                            purpose: 'Physics-based animations',
+                            usage: 'Interactive UI elements, drag gestures'
+                        }
+                    ],
+                    animationPatterns: [
+                        {
+                            name: 'Page Transition',
+                            code: `<motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0 }}
+>
+    {children}
+</motion.div>`
+                        },
+                        {
+                            name: 'Hover Scale',
+                            code: `<motion.div
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+>
+    <Card>{children}</Card>
+</motion.div>`
+                        },
+                        {
+                            name: 'List Stagger',
+                            code: `<motion.div
+    initial="hidden"
+    animate="visible"
+    variants={{
+        visible: { transition: { staggerChildren: 0.1 } }
+    }}
+>
+    {items.map(item => (
+        <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
+            {item.name}
+        </motion.div>
+    ))}
+</motion.div>`
+                        }
+                    ],
+                    performanceGuidelines: [
+                        'Use transform/opacity for 60fps animations',
+                        'Avoid animating layout properties (width, height)',
+                        'Use will-change CSS property sparingly',
+                        'Consider reduced motion preferences'
+                    ],
+                    reducedMotion: [
+                        'Check prefers-reduced-motion media query',
+                        'Disable complex animations for accessibility',
+                        'Provide static alternatives',
+                        'Use CSS prefers-reduced-motion: reduce'
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_context_patterns',
+    'Understand React context patterns for shared state',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    contexts: [
+                        {
+                            name: 'PlaybackContext',
+                            purpose: 'Playback state and controls',
+                            values: ['isPlaying', 'currentTime', 'volume', 'playbackRate'],
+                            methods: ['play', 'pause', 'seek', 'setVolume']
+                        },
+                        {
+                            name: 'ThemeContext',
+                            purpose: 'Theme and styling preferences',
+                            values: ['mode', 'primaryColor', 'compactMode'],
+                            methods: ['setMode', 'setPrimaryColor']
+                        },
+                        {
+                            name: 'UserContext',
+                            purpose: 'Current user state',
+                            values: ['user', 'permissions', 'settings'],
+                            methods: ['updateSettings']
+                        }
+                    ],
+                    contextPatterns: [
+                        {
+                            name: 'Provider Pattern',
+                            code: `interface PlaybackContextType {
+    isPlaying: boolean;
+    play: () => void;
+    pause: () => void;
+}
+
+export const PlaybackContext = createContext<PlaybackContextType | null>(null);
+
+export function PlaybackProvider({ children }) {
+    const [isPlaying, setIsPlaying] = useState(false);
+    
+    const play = useCallback(() => setIsPlaying(true), []);
+    const pause = useCallback(() => setIsPlaying(false), []);
+    
+    return (
+        <PlaybackContext.Provider value={{ isPlaying, play, pause }}>
+            {children}
+        </PlaybackContext.Provider>
+    );
+}`
+                        },
+                        {
+                            name: 'Custom Hook Pattern',
+                            code: `export function usePlayback() {
+    const context = useContext(PlaybackContext);
+    if (!context) {
+        throw new Error('usePlayback must be used within PlaybackProvider');
+    }
+    return context;
+}`
+                        },
+                        {
+                            name: 'Optimized Context',
+                            code: `// Split contexts by update frequency
+const PlaybackControlsContext = createContext({ play, pause, seek });
+const PlaybackInfoContext = createContext({ currentItem, progress });
+
+// Components subscribe only to what they need
+const Controls = () => {
+    const { play, pause } = useContext(PlaybackControlsContext);
+};
+const Info = () => {
+    const { currentItem } = useContext(PlaybackInfoContext);
+};`
+                        }
+                    ],
+                    contextVsStore: {
+                        useContext: [
+                            'Static configuration',
+                            'Rarely changing data',
+                            'Component tree globals',
+                            'Theme, user settings'
+                        ],
+                        useStore: [
+                            'Frequent updates',
+                            'Complex state logic',
+                            'Cross-component sharing',
+                            'Playback, queue, player'
+                        ]
+                    }
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_mui_table_patterns',
+    'Understand TanStack Table integration patterns',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    librarySetup: [
+                        {
+                            package: '@tanstack/react-table',
+                            version: '8.x',
+                            purpose: 'Headless table logic'
+                        },
+                        {
+                            package: '@tanstack/react-virtual',
+                            version: '3.x',
+                            purpose: 'Virtual scrolling for large lists'
+                        },
+                        {
+                            package: '@tanstack/react-query',
+                            version: '5.x',
+                            purpose: 'Server state and caching'
+                        }
+                    ],
+                    tablePattern: [
+                        {
+                            step: 'Define column defs',
+                            code: `const columns = [
+    { accessorKey: 'name', header: 'Name' },
+    { 
+        accessorKey: 'artist', 
+        header: 'Artist',
+        cell: ({ row }) => <span>{row.original.artistName}</span>
+    },
+    {
+        id: 'actions',
+        header: '',
+        cell: ({ row }) => <Button onClick={() => play(row.original)}>Play</Button>
+    }
+];`
+                        },
+                        {
+                            step: 'Create table instance',
+                            code: `const table = useReactTable({
+    data,
+    columns,
+    getRowId: row => row.id,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+});`
+                        },
+                        {
+                            step: 'Render virtualized rows',
+                            code: "const { rows } = table.getRowModel();\nconst rowVirtualizer = useVirtualizer({\n    count: rows.length,\n    getScrollElement: () => parentRef.current,\n    estimateSize: () => 60,\n});\n\nreturn (\n    <div ref={parentRef} style={{ height: '400px', overflow: 'auto' }}>\n        <div style={{ height: rowVirtualizer.getTotalSize() + 'px' }}>\n            {rowVirtualizer.getVirtualItems().map(virtualRow => {\n                const row = rows[virtualRow.index];\n                return (\n                    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: virtualRow.size, transform: 'translateY(' + virtualRow.start + 'px)' }}>\n                        {row.getVisibleCells().map(cell => (\n                            <div>{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>\n                        ))}\n                    </div>\n                );\n            })}\n        </div>\n    </div>\n);"
+                        }
+                    ],
+                    jellyfinTableExamples: [
+                        {
+                            name: 'QueueTable',
+                            file: 'src/apps/stable/routes/lazyRoutes/QueueTable.tsx',
+                            features: ['Drag-and-drop sorting', 'WaveformCell per row', 'Scroll persistence']
+                        },
+                        {
+                            name: 'Library Browser',
+                            file: 'src/apps/stable/routes/library.tsx',
+                            features: ['Infinite scroll', 'Column sorting', 'Row selection']
+                        }
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_react_now_playing_bar',
+    'Understand the React NowPlayingBar component (React + Joy UI + Zustand)',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    purpose: 'Modern React NowPlayingBar component with Joy UI, Zustand stores, and buffer progress overlay',
+                    files: {
+                        component: 'src/components/nowPlayingBar/ReactNowPlayingBar.tsx',
+                        mount: 'src/components/nowPlayingBar/mountNowPlayingBar.tsx',
+                        scss: 'src/components/nowPlayingBar/nowPlayingBar.scss'
+                    },
+                    keyFeatures: [
+                        'React functional component with hooks',
+                        'Joy UI components (IconButton, Stack, Slider, AspectRatio)',
+                        'Zustand store hooks for all playback state',
+                        'Buffer progress overlay with CSS custom properties',
+                        'WaveSurfer container compatibility (id="barSurfer")',
+                        'Favorites API integration',
+                        'Lyrics button with hash-based page detection',
+                        'AirPlay and context menu buttons',
+                        'Framer Motion animations (AnimatePresence)',
+                        'Responsive layout with layoutManager.mobile'
+                    ],
+                    stateManagement: {
+                        hooks: [
+                            'useIsPlaying() - Playing state',
+                            'useCurrentItem() - Current track',
+                            'useCurrentTime() - Playback position',
+                            'useDuration() - Track duration',
+                            'useVolume() / useIsMuted() - Audio settings',
+                            'useRepeatMode() / useShuffleMode() - Playback modes',
+                            'usePlaybackActions() - play, pause, seek, etc.',
+                            'useQueueActions() - next, prev, toggle modes',
+                            'useFormattedTime() - Time display formatting',
+                            'useProgress() - Full progress with buffered data'
+                        ],
+                        local: [
+                            'isMobile - layoutManager.mobile',
+                            'isDragging - slider drag state',
+                            'localSeekValue - temporary seek value',
+                            'isVisible - visibility control',
+                            'isLyricsActive - lyrics page detection',
+                            'isFavorite - favorite state',
+                            'showContextMenu - menu visibility',
+                            'isFavoritesLoading - API loading state',
+                            'bufferedRanges - buffer progress data'
+                        ]
+                    },
+                    eventHandling: [
+                        {
+                            event: 'layoutManager modechange',
+                            handler: 'handleLayoutChange',
+                            purpose: 'Update isMobile state'
+                        },
+                        {
+                            event: 'window hashchange',
+                            handler: 'checkLyricsPage',
+                            purpose: 'Detect lyrics page navigation'
+                        },
+                        {
+                            event: 'document viewbeforeshow',
+                            handler: 'handleViewBeforeShow',
+                            purpose: 'Visibility control for TV/fullscreen'
+                        },
+                        {
+                            event: 'serverNotifications UserDataChanged',
+                            handler: 'handleUserDataChanged',
+                            purpose: 'Real-time favorite updates from other tabs'
+                        }
+                    ],
+                    bufferProgress: {
+                        implementation: 'CSS overlay with custom properties',
+                        dataSource: 'playbackManagerBridge.getBufferedRanges()',
+                        polling: 'setInterval every 500ms',
+                        normalization: 'Ranges converted to percentages (0-100)',
+                        cssProperties: {
+                            '--buffer-start': 'Start position %',
+                            '--buffer-end': 'End position %'
+                        },
+                        containerId: 'barSurfer (for WaveSurfer compatibility)'
+                    },
+                    apiIntegration: {
+                        favorites: {
+                            import: "ServerConnections from 'lib/jellyfin-apiclient'",
+                            method: 'apiClient.updateFavoriteStatus(userId, itemId, isFavorite)',
+                            optimistic: 'Updates UI immediately, reverts on error',
+                            events: 'Listens for UserDataChanged for real-time sync'
+                        }
+                    },
+                    componentStructure: {
+                        'AnimatePresence': 'Framer Motion for slide-in/out',
+                        '.nowPlayingBar': 'Main container with motion',
+                        '.nowPlayingBarTop': 'Progress slider container',
+                        '#barSurfer': 'Slider + buffer overlay wrapper',
+                        '.nowPlayingBarInfoContainer': 'Album art + track info',
+                        '.nowPlayingBarCenter': 'Playback controls',
+                        '.nowPlayingBarRight': 'Secondary controls (volume, repeat, etc.)'
+                    },
+                    migrationStatus: {
+                        legacyFile: 'src/components/nowPlayingBar/nowPlayingBar.ts',
+                        status: 'React version ready, legacy still active',
+                        featuresComplete: [
+                            'Playback controls',
+                            'Progress slider',
+                            'Volume control',
+                            'Repeat/Shuffle',
+                            'Album art',
+                            'Lyrics button',
+                            'Favorites (API integrated)',
+                            'Buffer progress overlay',
+                            'Visibility control'
+                        ],
+                        remaining: [
+                            'Context menu content',
+                            'Full WaveSurfer integration'
+                        ]
+                    },
+                    performance: {
+                        buffering: 'Polling every 500ms (not every frame)',
+                        animations: 'Framer Motion with spring config',
+                        stateBatching: 'React automatic batching in 18+'
+                    }
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_joy_ui_playback_components',
+    'Understand Joy UI playback components (PlaybackIconButton, PlaybackSlider, VolumeSlider)',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    purpose: 'Joy UI components for playback UI (NowPlayingBar, player selection)',
+                    directory: 'src/components/joy-ui/playback/',
+                    components: [
+                        {
+                            name: 'PlaybackIconButton',
+                            file: 'PlaybackIconButton.tsx',
+                            purpose: 'IconButton wrapper for playback controls',
+                            replaces: 'paper-icon-button-light, emby-button',
+                            props: {
+                                icon: {
+                                    type: 'play | pause | previous | next | stop | volume-up | volume-off | repeat | repeat-one | shuffle | favorite | favorite-border | lyrics | airplay | more-vert',
+                                    required: false,
+                                    description: 'Icon type to display'
+                                },
+                                active: {
+                                    type: 'boolean',
+                                    default: false,
+                                    description: 'Whether button is in active state'
+                                },
+                                size: {
+                                    type: 'sm | md | lg',
+                                    default: 'sm'
+                                },
+                                variant: {
+                                    type: 'plain | soft | outlined | solid',
+                                    default: 'plain'
+                                }
+                            },
+                            usage: `<PlaybackIconButton
+    icon="play"
+    active={isPlaying}
+    onClick={togglePlay}
+    aria-label="Play"
+/>`
+                        },
+                        {
+                            name: 'PlaybackSlider',
+                            file: 'PlaybackSlider.tsx',
+                            purpose: 'Progress slider with buffer overlay support',
+                            replaces: 'emby-slider',
+                            features: [
+                                'Buffer overlay via CSS custom properties',
+                                'WaveSurfer-compatible container (id="barSurfer")',
+                                'Pass-through Slider props'
+                            ],
+                            props: {
+                                value: {
+                                    type: 'number',
+                                    required: true,
+                                    description: 'Current position value'
+                                },
+                                max: {
+                                    type: 'number',
+                                    default: 100,
+                                    description: 'Maximum value'
+                                },
+                                bufferedRanges: {
+                                    type: '{ start: number; end: number }[]',
+                                    default: '[]',
+                                    description: 'Buffer ranges as percentages (0-100)'
+                                },
+                                showBuffer: {
+                                    type: 'boolean',
+                                    default: true,
+                                    description: 'Whether to show buffer overlay'
+                                },
+                                waveSurferCompatible: {
+                                    type: 'boolean',
+                                    default: true,
+                                    description: 'Adds barSurfer class for WaveSurfer integration'
+                                }
+                            },
+                            cssVariables: {
+                                '--buffer-start': 'Start position percentage',
+                                '--buffer-end': 'End position percentage'
+                            },
+                            usage: `<PlaybackSlider
+    value={currentTime}
+    max={duration}
+    bufferedRanges={[{ start: 0, end: 45 }]}
+    onChange={handleSeek}
+    waveSurferCompatible
+/>`
+                        },
+                        {
+                            name: 'VolumeSlider',
+                            file: 'VolumeSlider.tsx',
+                            purpose: 'Volume control with mute toggle',
+                            replaces: 'emby-slider + emby-button (mute)',
+                            features: [
+                                'Built-in mute toggle button',
+                                'Auto-unmute on volume change',
+                                'Responsive width'
+                            ],
+                            props: {
+                                volume: {
+                                    type: 'number',
+                                    required: true,
+                                    description: 'Current volume level (0-100)'
+                                },
+                                muted: {
+                                    type: 'boolean',
+                                    required: true,
+                                    description: 'Whether audio is muted'
+                                },
+                                onVolumeChange: {
+                                    type: '(volume: number) => void',
+                                    required: true
+                                },
+                                onMuteToggle: {
+                                    type: '() => void',
+                                    required: true
+                                },
+                                showSlider: {
+                                    type: 'boolean',
+                                    default: true
+                                },
+                                size: {
+                                    type: 'sm | md | lg',
+                                    default: 'sm'
+                                }
+                            },
+                            usage: `<VolumeSlider
+    volume={volume}
+    muted={isMuted}
+    onVolumeChange={setVolume}
+    onMuteToggle={toggleMute}
+/>`
+                        }
+                    ],
+                    migrationNotes: [
+                        'PlaybackIconButton handles all common playback icons via icon prop',
+                        'PlaybackSlider is WaveSurfer-ready with barSurfer container class',
+                        'VolumeSlider integrates mute toggle with volume control',
+                        'All components accept standard Joy UI props (sx, className, etc.)',
+                        'Use instead of paper-icon-button-light and emby-button in new code'
+                    ],
+                    dependencies: [
+                        '@mui/joy',
+                        '@mui/icons-material',
+                        'react'
+                    ],
+                    integration: {
+                        stores: [
+                            'useIsPlaying() - for play/pause state',
+                            'useVolume() - for volume level',
+                            'useIsMuted() - for mute state',
+                            'useCurrentTime() - for progress',
+                            'useDuration() - for slider max value',
+                            'useProgress() - for buffered ranges'
+                        ],
+                        legacyCompatibility: {
+                            'paper-icon-button-light': 'Replace with PlaybackIconButton',
+                            'emby-slider': 'Replace with PlaybackSlider',
+                            'emby-button': 'Replace with PlaybackIconButton or Joy Button'
+                        }
+                    }
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_joy_ui_queue_components',
+    'Understand Joy UI queue components (QueueTable, QueueNowPlaying, QueueControls, QueueView)',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    purpose: 'Queue/Playlist Manager React components with Joy UI, TanStack Table, and DnD-Kit',
+                    directory: 'src/components/joy-ui/queue/',
+                    components: [
+                        {
+                            name: 'useQueue',
+                            file: 'useQueue.ts',
+                            purpose: 'Zustand store hooks for queue state',
+                            hooks: [
+                                'useQueueItems() - Get all queue items',
+                                'useCurrentIndex() - Current playing index',
+                                'useCurrentQueueItem() - Current playing item',
+                                'useRepeatMode() - Current repeat mode',
+                                'useShuffleMode() - Current shuffle mode'
+                            ],
+                            actions: [
+                                'setQueue(items, startIndex) - Set entire queue',
+                                'addToQueue(items, position) - Add items',
+                                'removeFromQueue(itemIds) - Remove items',
+                                'clearQueue() - Clear all items',
+                                'setCurrentIndex(index) - Jump to index',
+                                'next() / prev() - Navigation',
+                                'shuffle() / unshuffle() - Shuffle mode',
+                                'moveItem(fromIndex, toIndex) - Reorder',
+                                'setRepeatMode(mode) / setShuffleMode(mode) - Modes'
+                            ]
+                        },
+                        {
+                            name: 'QueueTable',
+                            file: 'QueueTable.tsx',
+                            purpose: 'Draggable playlist table with TanStack Table + DnD-Kit',
+                            replaces: 'legacy playlist HTML with emby-itemscontainer',
+                            features: [
+                                '@dnd-kit/core for drag-and-drop',
+                                '@dnd-kit/sortable for reorderable items',
+                                '@tanstack/react-table for table structure',
+                                'Buffer overlay support',
+                                'Current track highlighting',
+                                'Remove button per item',
+                                'Album art + metadata'
+                            ]
+                        },
+                        {
+                            name: 'QueueNowPlaying',
+                            file: 'QueueNowPlaying.tsx',
+                            purpose: 'Now playing info display'
+                        },
+                        {
+                            name: 'QueueControls',
+                            file: 'QueueControls.tsx',
+                            purpose: 'Playback controls for queue'
+                        },
+                        {
+                            name: 'QueueView',
+                            file: 'QueueView.tsx',
+                            purpose: 'Main view combining all queue components'
+                        }
+                    ],
+                    legacyFile: 'src/controllers/playback/queue/index.html'
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_joy_ui_video_controls',
+    'Understand VideoControls component for video playback OSD',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    purpose: 'Video on-screen display (OSD) component for video playback',
+                    file: 'src/components/joy-ui/playback/VideoControls.tsx',
+                    keyFeatures: [
+                        'Play/pause toggle',
+                        'Rewind/fast-forward (10s/30s skip)',
+                        'Seek slider with buffer overlay',
+                        'Volume control with mute toggle',
+                        'Previous/next track navigation',
+                        'Previous/next chapter navigation',
+                        'Subtitle menu button',
+                        'Audio track selection button',
+                        'Fullscreen button',
+                        'Auto-hide controls when playing'
+                    ],
+                    replaces: 'Legacy HTML video controls from htmlVideoPlayer plugin'
+                }, null, 2)
+            }]
+        };
+    }
+);
+
 
 const transport = new StdioServerTransport();
 await server.connect(transport);

@@ -10,6 +10,7 @@ import toast from '../components/toast/toast';
 import confirm from '../components/confirm/confirm';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as dashboard from '../utils/dashboard';
+import { logger } from '../utils/logger';
 
 // TODO: replace with each plugin version
 const cacheParam = new Date().getTime();
@@ -67,7 +68,7 @@ class PluginManager {
 
         if (typeof pluginSpec === 'string') {
             if (pluginSpec in window) {
-                console.log(`Loading plugin (via window): ${pluginSpec}`);
+                logger.debug(`Loading plugin (via window): ${pluginSpec}`, { component: 'pluginManager' });
 
                 const pluginDefinition = await window[pluginSpec];
                 if (typeof pluginDefinition !== 'function') {
@@ -95,7 +96,7 @@ class PluginManager {
                     ServerConnections
                 });
             } else {
-                console.debug(`Loading plugin (via dynamic import): ${pluginSpec}`);
+                logger.debug(`Loading plugin (via dynamic import): ${pluginSpec}`, { component: 'pluginManager' });
                 const moduleLoader = pluginModules[`../plugins/${pluginSpec}.js`] || pluginModules[`../plugins/${pluginSpec}.ts`];
                 if (!moduleLoader) {
                     throw new Error(`Plugin not found: ${pluginSpec}`);
@@ -104,7 +105,7 @@ class PluginManager {
                 plugin = new pluginResult.default;
             }
         } else if (pluginSpec.then) {
-            console.debug('Loading plugin (via promise/async function)');
+            logger.debug('Loading plugin (via promise/async function)', { component: 'pluginManager' });
 
             const pluginResult = await pluginSpec;
             plugin = new pluginResult.default;

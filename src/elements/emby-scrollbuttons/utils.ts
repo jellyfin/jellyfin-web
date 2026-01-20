@@ -40,6 +40,10 @@ export function scrollerItemSlideIntoView({ direction, scroller, scrollState }: 
 }
 
 function getFirstAndLastVisible(scrollFrame: HTMLElement, items: HTMLElement[], { scrollPos: scrollPosition }: ScrollState) {
+    if (!items || items.length === 0) {
+        return [0, 0];
+    }
+
     const isRTL = globalize.getIsRTL();
     const localeModifier = isRTL ? -1 : 1;
 
@@ -71,6 +75,9 @@ function scrollToWindow({
     // factory functions on it, but is not a true scroller factory. For legacy, we need to pass `scroller` directly
     // instead of getting the frame from the factory instance.
     const frame = scroller.getScrollFrame?.() ?? scroller;
+    
+    if (!frame) return;
+
     const [firstVisibleIndex, lastVisibleIndex] = getFirstAndLastVisible(frame, items, scrollState);
 
     let scrollToPosition: number;

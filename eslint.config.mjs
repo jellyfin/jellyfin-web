@@ -40,7 +40,9 @@ export default tseslint.config(
             '.idea',
             '.vscode',
             '*.min.js',
-            '*.d.ts'
+            '*.d.ts',
+            'src/**/pkg/**',
+            'src/**/mcp-servers/**'
         ]
     },
 
@@ -62,7 +64,7 @@ export default tseslint.config(
                 }
             ],
             // Use utils/logger instead of console directly for consistent logging
-            'no-console': ['error', { 'allow': ['warn', 'error'] }],
+            'no-console': 'error',
             'no-duplicate-imports': 'error',
             'no-empty-function': 'error',
             'no-extend-native': 'error',
@@ -210,7 +212,6 @@ export default tseslint.config(
     {
         files: [ 'scripts/**/*.{js,cjs}' ],
         rules: {
-            'no-console': 'off',
             '@stylistic/indent': 'off',
             'sonarjs/cognitive-complexity': 'off',
             'compat/compat': 'off',

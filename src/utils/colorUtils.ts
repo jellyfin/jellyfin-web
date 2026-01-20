@@ -26,6 +26,8 @@
  * ```
  */
 
+import { logger } from './logger';
+
 export interface RGBColor {
     r: number;
     g: number;
@@ -120,7 +122,7 @@ export function parseRgbString(rgbString: string): RGBColor {
     const regex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
     const match = regex.exec(rgbString);
     if (!match) {
-        console.error('Invalid RGB string:', rgbString);
+        logger.error(`Invalid RGB string: ${rgbString}`, { component: 'ColorUtils' });
         return { r: 0, g: 0, b: 0 };
     }
 
@@ -203,7 +205,7 @@ function getLuminance(hex: string): number {
  */
 export function getContrastRatio(color1: string, color2: string): number {
     if (!isValidHex(color1) || !isValidHex(color2)) {
-        console.error('Invalid hex colors for contrast check');
+        logger.error('Invalid hex colors for contrast check', { component: 'ColorUtils' });
         return 0;
     }
 

@@ -7,6 +7,8 @@ import { UserSettingsProvider } from 'hooks/useUserSettings';
 import { WebConfigProvider } from 'hooks/useWebConfig';
 import browser from 'scripts/browser';
 import { queryClient } from 'utils/query/queryClient';
+import { JoyThemeProvider } from 'themes/joyTheme';
+
 import './components/visualizer/visualizers.scss';
 
 import RootAppRouter from 'RootAppRouter';
@@ -19,7 +21,9 @@ const RootApp = () => (
         <ApiProvider>
             <UserSettingsProvider>
                 <WebConfigProvider>
-                    <RootAppRouter />
+                    <JoyThemeProvider>
+                        <RootAppRouter />
+                    </JoyThemeProvider>
                 </WebConfigProvider>
             </UserSettingsProvider>
         </ApiProvider>

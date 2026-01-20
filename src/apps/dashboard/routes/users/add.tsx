@@ -12,6 +12,7 @@ import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useCreateUser } from 'apps/dashboard/features/users/api/useCreateUser';
 import { useNavigate } from 'react-router-dom';
+import { logger } from 'utils/logger';
 
 import TextField from '@mui/material/TextField/TextField';
 import Button from '@mui/material/Button/Button';
@@ -137,7 +138,7 @@ const UserNew = () => {
 
             navigate(`/dashboard/users/profile?userId=${user.Id}`);
         } catch (error) {
-            console.error('[usernew] failed to create user:', error);
+            logger.error('[usernew] failed to create user', { component: 'UserNew' }, error as Error);
             setIsErrorToastOpen(true);
         } finally {
             setIsSubmitting(false);

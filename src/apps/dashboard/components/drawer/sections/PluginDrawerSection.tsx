@@ -36,7 +36,7 @@ const PluginDrawerSection = () => {
                     '/configurationpage',
                     '/dashboard/plugins/repositories'
                 ]}
-                excludePaths={pagesInfo?.map(p => `/${Dashboard.getPluginUrl(p.Name)}`)}
+                excludePaths={Array.isArray(pagesInfo) ? pagesInfo.map(p => `/${Dashboard.getPluginUrl(p.Name)}`) : []}
             >
                 <ListItemIcon>
                     <Extension />
@@ -44,7 +44,7 @@ const PluginDrawerSection = () => {
                 <ListItemText primary={globalize.translate('TabPlugins')} />
             </ListItemLink>
 
-            {pagesInfo?.map(pageInfo => (
+            {Array.isArray(pagesInfo) && pagesInfo.map(pageInfo => (
                 <ListItemLink
                     key={pageInfo.PluginId}
                     to={`/${Dashboard.getPluginUrl(pageInfo.Name)}`}

@@ -8,7 +8,7 @@
  */
 
 import { logger } from 'utils/logger';
-import type { MediaType } from '../../types/media';
+import type { MediaType } from '../../types';
 
 export enum TranscodeDecisionReason {
     DIRECT_PREFERRED = 'direct_preferred',

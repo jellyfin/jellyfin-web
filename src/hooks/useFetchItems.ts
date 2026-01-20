@@ -31,6 +31,7 @@ import { LibraryTab } from 'types/libraryTab';
 import { ItemKind } from 'types/base/models/item-kind';
 import type { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { logger } from 'utils/logger';
 
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
@@ -441,7 +442,7 @@ function groupsUpcomingEpisodes(items: ItemDto[]) {
                         day: 'numeric'
                     });
             } catch {
-                console.error('error parsing timestamp for upcoming tv shows');
+                logger.error('Error parsing timestamp for upcoming TV shows', { component: 'UseFetchItems' });
             }
         }
 
@@ -600,7 +601,7 @@ function groupsTimers(timers: ItemDto[], indexByDate?: boolean) {
                     day: 'numeric'
                 });
             } catch (err) {
-                console.error('error parsing premiereDate:' + item.StartDate + '; error: ' + err);
+                logger.error(`Error parsing premiereDate: ${item.StartDate}`, { component: 'UseFetchItems' }, err as Error);
             }
         }
 

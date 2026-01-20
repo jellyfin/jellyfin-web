@@ -1,6 +1,7 @@
 import Worker from './blurhash.worker?worker'; // eslint-disable-line import/default
 import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import * as userSettings from '../../scripts/settings/userSettings';
+import { logger } from '../../utils/logger';
 import './style.scss';
 
 const worker = new Worker();
@@ -63,7 +64,7 @@ function itemBlurhashing(target, hash) {
             height
         });
     } catch (err) {
-        console.error(err);
+        logger.error('Blurhash processing failed', { component: 'imageLoader' }, err);
         target.classList.add('non-blurhashable');
         return;
     }

@@ -7,6 +7,7 @@ import globalize from '../lib/globalize';
 import profileBuilder from '../scripts/browserDeviceProfile';
 import { AppFeature } from 'constants/appFeature';
 import { LayoutMode } from 'constants/layoutMode';
+import { logger } from '../utils/logger';
 
 const appName = 'Jellyfin Web';
 
@@ -212,7 +213,7 @@ function supportsCue() {
 
         return !!cue.length;
     } catch (err) {
-        console.error('error detecting cue support: ' + err);
+        logger.error('Error detecting cue support', { component: 'AppHost' }, err);
         return false;
     }
 }
@@ -313,7 +314,7 @@ function doExit() {
             window.close();
         }
     } catch (err) {
-        console.error('error closing application: ' + err);
+        logger.error('Error closing application', { component: 'AppHost' }, err);
     }
 }
 
@@ -534,5 +535,5 @@ if (typeof window !== 'undefined' && window.addEventListener) {
 try {
     appHost.init();
 } catch (err) {
-    console.error('appHost init failed', err);
+    logger.error('AppHost init failed', { component: 'AppHost' }, err);
 }

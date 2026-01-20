@@ -12,6 +12,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 import { getAppHistory } from './appHistory';
+import { logger } from '../../utils/logger';
 
 /** Pages of "no return" (when "Go back" should behave differently, probably quitting the application). */
 const START_PAGE_PATHS = ['/home', '/login', '/selectserver'];
@@ -76,7 +77,7 @@ class AppRouter {
 
         const history = this._getHistory();
         if (!history) {
-            console.warn('[appRouter] history is not ready');
+            logger.warn('[appRouter] history is not ready', { component: 'AppRouter' });
             return Promise.resolve();
         }
 
@@ -97,7 +98,7 @@ class AppRouter {
 
         const history = this._getHistory();
         if (!history) {
-            console.warn('[appRouter] history is not ready');
+            logger.warn('[appRouter] history is not ready', { component: 'AppRouter' });
             loading.hide();
             return Promise.resolve();
         }
@@ -143,7 +144,7 @@ class AppRouter {
             const fullPath = normalizedPath + location.search;
 
             if (fullPath === this.lastPath) {
-                console.debug('[appRouter] path did not change, resolving promise');
+                logger.debug('[appRouter] path did not change, resolving promise', { component: 'AppRouter' });
                 this.onViewShow();
             }
 
@@ -184,7 +185,7 @@ class AppRouter {
                     this.showItem(itemObject, options);
                 })
                 .catch(err => {
-                    console.error('[AppRouter] Failed to fetch item', err);
+                    logger.error('[AppRouter] Failed to fetch item', { component: 'AppRouter' }, err);
                 });
         } else {
             if (arguments.length === 2) {
@@ -207,7 +208,7 @@ class AppRouter {
      */
     setTransparency(level) {
         // TODO: Remove this after JMP is updated to not use this function
-        console.warn('Deprecated! Use Dashboard.setBackdropTransparency');
+        logger.warn('Deprecated! Use Dashboard.setBackdropTransparency', { component: 'AppRouter' });
         setBackdropTransparency(level);
     }
 

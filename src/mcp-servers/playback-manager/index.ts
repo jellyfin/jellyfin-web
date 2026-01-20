@@ -139,6 +139,112 @@ createTool(
 );
 
 createTool(
+    'get_playback_relationships',
+    'Understand how playback relates to other MCP servers',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    relatedMcpServers: [
+                        {
+                            server: 'store-architecture',
+                            relationship: 'Playback reads/writes state from stores',
+                            direction: 'Store ↔ Playback',
+                            integration: 'mediaStore, queueStore, playerStore'
+                        },
+                        {
+                            server: 'audio-engine',
+                            relationship: 'Playback controls audio pipeline',
+                            direction: 'Playback → Audio',
+                            integration: 'CrossfadeController, SyncManager'
+                        },
+                        {
+                            server: 'api',
+                            relationship: 'Playback uses API for streams and reporting',
+                            direction: 'Playback ↔ API',
+                            integration: 'getAudioStream(), reportPlaybackProgress()'
+                        },
+                        {
+                            server: 'components',
+                            relationship: 'Playback state drives UI components',
+                            direction: 'Playback → Component',
+                            integration: 'NowPlayingBar, QueueTable subscribe to playback state'
+                        },
+                        {
+                            server: 'performance',
+                            relationship: 'Playback operations are monitored',
+                            direction: 'Playback → Performance',
+                            integration: 'createStoreMonitor tracks playback actions'
+                        },
+                        {
+                            server: 'architecture',
+                            relationship: 'Playback is the orchestration layer',
+                            direction: 'Playback coordinates between stores and audio',
+                            integration: 'Central hub for playback operations'
+                        }
+                    ],
+                    playbackToAudioFlow: [
+                        {
+                            action: 'play()',
+                            audioEffect: 'MediaElement creates AudioContext source',
+                            file: 'src/components/audioEngine/audioWorklets.ts'
+                        },
+                        {
+                            action: 'seek()',
+                            audioEffect: 'Source node seeks to new position',
+                            file: 'src/components/playback/playbackmanager.ts'
+                        },
+                        {
+                            action: 'Crossfade',
+                            audioEffect: 'CrossfadeController ramps gain nodes',
+                            file: 'src/components/audioEngine/crossfadeController.ts'
+                        },
+                        {
+                            action: 'stop()',
+                            audioEffect: 'All audio nodes disconnect',
+                            file: 'src/components/audioEngine/crossfader.logic.ts'
+                        }
+                    ],
+                    playbackToStoreFlow: [
+                        {
+                            action: 'play()',
+                            storeEffect: 'mediaStore.status = playing',
+                            file: 'src/store/mediaStore.ts'
+                        },
+                        {
+                            action: 'progress update',
+                            storeEffect: 'mediaStore.progress updated',
+                            file: 'src/store/mediaStore.ts'
+                        },
+                        {
+                            action: 'track end',
+                            storeEffect: 'queueStore advances, mediaStore updates currentItem',
+                            file: 'src/store/queueStore.ts'
+                        }
+                    ],
+                    playbackToComponentFlow: [
+                        {
+                            component: 'NowPlayingBar',
+                            bindings: ['status -> play/pause', 'progress -> slider', 'currentItem -> info']
+                        },
+                        {
+                            component: 'QueueTable',
+                            bindings: ['currentIndex -> active row', 'items -> table data']
+                        },
+                        {
+                            component: 'VisualizerControls',
+                            bindings: ['currentItem -> analyzer source', 'settings -> visualization type']
+                        }
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
     'get_transcode_policy',
     'Understand how the system decides between direct play, direct stream, and transcode',
     { _dummy: z.literal(0).optional() },
@@ -343,6 +449,206 @@ createTool(
                         'logger.error for critical playback failures',
                         'logger.warn for degradations (transcode fallback)',
                         'logger.debug for retry attempts'
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_player_transfer',
+    'Understand player transfer and device switching patterns',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    transferTypes: [
+                        {
+                            type: 'Local Transfer',
+                            description: 'Same device, different player',
+                            example: 'HtmlAudioPlayer → VideoPlayer',
+                            context: 'User switches from audio to video playback'
+                        },
+                        {
+                            type: 'Remote Transfer',
+                            description: 'Different device via DLNA/AirPlay/Chromecast',
+                            example: 'Browser → Chromecast',
+                            context: 'User casts content to external display'
+                        },
+                        {
+                            type: 'Server Transfer',
+                            description: 'Continue playback on another client',
+                            example: 'Mobile → Desktop',
+                            context: 'User moves from phone to laptop'
+                        }
+                    ],
+                    transferProcess: [
+                        {
+                            step: 'Initiate Transfer',
+                            code: `playerStore.initiateTransfer(targetPlayer, { position: currentPosition });`
+                        },
+                        {
+                            step: 'Prepare Target',
+                            code: `targetPlayer.load(item, { startTime: position });`
+                        },
+                        {
+                            step: 'Synchronize State',
+                            code: `syncWithMediaStore(targetPlayer.getState());`
+                        },
+                        {
+                            step: 'Confirm Transfer',
+                            code: `playerStore.confirmTransfer(targetPlayer);`
+                        }
+                    ],
+                    transferFeatures: [
+                        'Position seeking during transfer',
+                        'Queue synchronization',
+                        'State persistence',
+                        'Fallback handling'
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_playback_events',
+    'Understand playback event system and handlers',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    eventTypes: [
+                        {
+                            event: 'playbackstart',
+                            payload: '{ item: PlayableItem, position: number }',
+                            handlers: ['Update mediaStore.status', 'Report to Sessions API', 'Update NowPlayingBar']
+                        },
+                        {
+                            event: 'playbackprogress',
+                            payload: '{ position: number, duration: number, percent: number }',
+                            handlers: ['Update progress in mediaStore', 'Update waveform progress', 'Report progress']
+                        },
+                        {
+                            event: 'playbackend',
+                            payload: '{ reason: completed | skipped | error }',
+                            handlers: ['Advance queue', 'Trigger crossfade', 'Report stopped']
+                        },
+                        {
+                            event: 'playbackerror',
+                            payload: '{ error: MediaError, code: string }',
+                            handlers: ['Show error UI', 'Attempt recovery', 'Log error']
+                        },
+                        {
+                            event: 'playerchange',
+                            payload: '{ from: Player, to: Player }',
+                            handlers: ['Transfer playback state', 'Update playerStore', 'Cleanup old player']
+                        }
+                    ],
+                    eventHandlers: [
+                        {
+                            name: 'onPlaybackStarted',
+                            location: 'src/components/playback/playbackmanager.ts',
+                            purpose: 'Initialize UI and state on playback start'
+                        },
+                        {
+                            name: 'onPlaybackStopped',
+                            location: 'src/components/playback/playbackmanager.ts',
+                            purpose: 'Cleanup and state reset on stop'
+                        },
+                        {
+                            name: 'onStateChanged',
+                            location: 'src/components/playback/playbackmanager.ts',
+                            purpose: 'Handle play/pause state transitions'
+                        },
+                        {
+                            name: 'onTimeUpdate',
+                            location: 'src/components/playback/playbackmanager.ts',
+                            purpose: 'Update progress during playback'
+                        }
+                    ],
+                    eventEmitters: [
+                        'Events.on(playbackManager, "playbackstart", handler)',
+                        'Events.on(playbackManager, "playbackprogress", handler)',
+                        'Events.on(playbackManager, "playbackend", handler)'
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_queue_patterns',
+    'Understand queue management and navigation patterns',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    queueOperations: [
+                        {
+                            operation: 'setQueue',
+                            purpose: 'Replace entire queue with new items',
+                            params: 'items: QueueItem[]',
+                            sideEffects: 'Resets currentIndex to 0'
+                        },
+                        {
+                            operation: 'addToQueue',
+                            purpose: 'Append items to end of queue',
+                            params: 'items: QueueItem[]',
+                            position: 'end | afterCurrent | beforeEnd'
+                        },
+                        {
+                            operation: 'removeFromQueue',
+                            purpose: 'Remove items from queue',
+                            params: 'itemIds: string[]'
+                        },
+                        {
+                            operation: 'moveItem',
+                            purpose: 'Reorder items within queue',
+                            params: 'fromIndex: number, toIndex: number'
+                        },
+                        {
+                            operation: 'shuffle',
+                            purpose: 'Randomize queue order',
+                            params: 'preserveCurrent?: boolean'
+                        }
+                    ],
+                    navigationModes: [
+                        {
+                            mode: 'Sequential',
+                            description: 'Play items in order',
+                            nextBehavior: 'currentIndex + 1'
+                        },
+                        {
+                            mode: 'Repeat One',
+                            description: 'Loop current track',
+                            nextBehavior: 'currentIndex stays same'
+                        },
+                        {
+                            mode: 'Repeat All',
+                            description: 'Loop entire queue',
+                            nextBehavior: 'currentIndex = 0 at end'
+                        },
+                        {
+                            mode: 'Shuffle',
+                            description: 'Random playback',
+                            nextBehavior: 'Random index from shuffled indices'
+                        }
+                    ],
+                    queueHistory: [
+                        'Track recently played items',
+                        'Enable "Go to Previous" navigation',
+                        'Limit history size (default: 50)',
+                        'Preserve across sessions via queueStore'
                     ]
                 }, null, 2)
             }]

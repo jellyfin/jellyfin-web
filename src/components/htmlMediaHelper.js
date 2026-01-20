@@ -2,6 +2,7 @@ import appSettings from '../scripts/settings/appSettings' ;
 import browser from '../scripts/browser';
 import Events from '../utils/events';
 import { MediaError } from 'types/mediaError';
+import { logger } from '../utils/logger';
 
 export function getSavedVolume() {
     return appSettings.get('volume') || 1;
@@ -97,15 +98,15 @@ export function handleHlsJsMediaError(instance, reject) {
 
     if (!recoverDecodingErrorDate || (now - recoverDecodingErrorDate) > 3000) {
         recoverDecodingErrorDate = now;
-        console.debug('try to recover media Error ...');
+        logger.debug('Trying to recover media error', { component: 'HtmlMediaHelper' });
         hlsPlayer.recoverMediaError();
     } else if (!recoverSwapAudioCodecDate || (now - recoverSwapAudioCodecDate) > 3000) {
         recoverSwapAudioCodecDate = now;
-        console.debug('try to swap Audio Codec and recover media Error ...');
+        logger.debug('Trying to swap audio codec and recover media error', { component: 'HtmlMediaHelper' });
         hlsPlayer.swapAudioCodec();
         hlsPlayer.recoverMediaError();
     } else {
-        console.error('cannot recover, last media error recovery failed ...');
+        logger.error('Cannot recover, last media error recovery failed', { component: 'HtmlMediaHelper' });
 
         if (reject) {
             reject();
@@ -158,7 +159,7 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
                     // as this is true only if video hasn't started yet or
                     // user rewound to the very beginning
                     // (but rewinding cannot happen as the first event with media of non-empty duration)
-                    console.debug(`seeking to ${seconds} on ${e.type} event`);
+                    logger.debug(`Seeking to ${seconds} on ${e.type} event`, { component: 'HtmlMediaHelper' });
                     setCurrentTimeIfNeeded(element, seconds);
                     events.forEach(name => {
                         element.removeEventListener(name, onMediaChange);
@@ -215,15 +216,13 @@ export async function playWithPromise(elem, onErrorFn) {
             if (masterAudioOutput.audioContext) {
                 audioContextResumed = await safeResumeAudioContext(masterAudioOutput.audioContext);
                 if (audioContextResumed) {
-                    console.debug('AudioContext ready for playback', {
-                        state: masterAudioOutput.audioContext.state
-                    });
+                    logger.debug('AudioContext ready for playback', { component: 'HtmlMediaHelper', state: masterAudioOutput.audioContext.state });
                 } else {
-                    console.warn('AudioContext failed to resume before playback');
+                    logger.warn('AudioContext failed to resume before playback', { component: 'HtmlMediaHelper' });
                 }
             }
         } catch (audioErr) {
-            console.warn('Failed to prepare AudioContext before playback:', audioErr);
+            logger.warn('Failed to prepare AudioContext before playback', { component: 'HtmlMediaHelper' }, audioErr);
             // Continue with playback anyway - the browser may allow it
         }
 
@@ -235,11 +234,11 @@ export async function playWithPromise(elem, onErrorFn) {
                 if (errorName === 'notallowederror' || errorName === 'aborterror') {
                     // Swallow this error because the user can still click the play button on the video element
                     // This often happens due to autoplay policies
-                    console.debug('Playback was interrupted (likely autoplay policy):', errorName);
+                    logger.debug(`Playback interrupted (likely autoplay policy): ${errorName}`, { component: 'HtmlMediaHelper' });
                     return Promise.resolve();
                 }
                 // Other errors should be reported
-                console.error('Media playback failed:', errorName, e);
+                logger.error('Media playback failed', { component: 'HtmlMediaHelper' }, e);
                 return Promise.reject(e);
             })
             .then(() => {
@@ -247,7 +246,7 @@ export async function playWithPromise(elem, onErrorFn) {
                 return Promise.resolve();
             });
     } catch (err) {
-        console.error('error calling elem.play():', err);
+        logger.error('Error calling elem.play()', { component: 'HtmlMediaHelper' }, err);
         return Promise.reject(err);
     }
 }
@@ -258,7 +257,7 @@ export function destroyCastPlayer(instance) {
         try {
             player.unload();
         } catch (err) {
-            console.error(err);
+            logger.error('Error destroying Cast player', { component: 'HtmlMediaHelper' }, err);
         }
 
         instance._castPlayer = null;
@@ -271,7 +270,7 @@ export function destroyHlsPlayer(instance) {
         try {
             player.destroy();
         } catch (err) {
-            console.error(err);
+            logger.error('Error destroying HLS player', { component: 'HtmlMediaHelper' }, err);
         }
 
         instance._hlsPlayer = null;
@@ -286,7 +285,7 @@ export function destroyFlvPlayer(instance) {
             player.detachMediaElement();
             player.destroy();
         } catch (err) {
-            console.error(err);
+            logger.error('Error destroying FLV player', { component: 'HtmlMediaHelper' }, err);
         }
 
         instance._flvPlayer = null;
@@ -304,7 +303,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
     });
 
     hls.on(Hls.Events.ERROR, (event, data) => {
-        console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
+        logger.error(`HLS Error: Type: ${data.type} Details: ${data.details || ''} Fatal: ${data.fatal || false}`, { component: 'HtmlMediaHelper' });
         const isLoadFailure = [
             'manifestLoadError',
             'levelLoadError',
@@ -330,7 +329,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
         if (data.type === Hls.ErrorTypes.NETWORK_ERROR
                 && data.response?.code && data.response.code >= 400
         ) {
-            console.debug('hls.js response error code: ' + data.response.code);
+            logger.debug(`hls.js response error code: ${data.response.code}`, { component: 'HtmlMediaHelper' });
 
             // Trigger failure differently depending on whether this is prior to start of playback, or after
             hls.destroy();
@@ -352,7 +351,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                     if (data.response && data.response.code === 0) {
                         // This could be a CORS error related to access control response headers
 
-                        console.debug('hls.js response error code: ' + data.response.code);
+                        logger.debug(`hls.js response error code: ${data.response.code}`, { component: 'HtmlMediaHelper' });
 
                         // Trigger failure differently depending on whether this is prior to start of playback, or after
                         hls.destroy();
@@ -364,19 +363,20 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                             onErrorInternal(instance, MediaError.NETWORK_ERROR);
                         }
                     } else {
-                        console.debug('fatal network error encountered, try to recover');
+                        logger.debug('Fatal network error encountered, trying to recover', { component: 'HtmlMediaHelper' });
                         hls.startLoad();
                     }
 
                     break;
                 case Hls.ErrorTypes.MEDIA_ERROR:
-                    console.debug('fatal media error encountered, try to recover');
+                    logger.debug('Fatal media error encountered, trying to recover', { component: 'HtmlMediaHelper' });
                     handleHlsJsMediaError(instance, reject);
                     reject = null;
                     break;
                 default:
 
-                    console.debug('Cannot recover from hls error - destroy and trigger error', {
+                    logger.debug('Cannot recover from HLS error - destroying and triggering error', {
+                        component: 'HtmlMediaHelper',
                         type: data.type,
                         details: data.details,
                         error: data.error

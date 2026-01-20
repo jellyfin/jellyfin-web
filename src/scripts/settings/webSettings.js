@@ -1,4 +1,5 @@
 import fetchLocal from "../../utils/fetchLocal";
+import { logger } from "../../utils/logger";
 
 const DefaultConfig = {
     includeCorsCredentials: false,
@@ -52,7 +53,7 @@ async function getConfig() {
 
         return data;
     } catch (error) {
-        console.warn("failed to fetch the web config file:", error);
+        logger.warn("Failed to fetch the web config file", { component: 'webSettings' }, error);
         data = DefaultConfig;
         return data;
     }
@@ -62,7 +63,7 @@ export function getIncludeCorsCredentials() {
     return getConfig()
         .then((config) => !!config.includeCorsCredentials)
         .catch((error) => {
-            console.log("cannot get web config:", error);
+            logger.warn("Cannot get web config", { component: 'webSettings' }, error);
             return false;
         });
 }
@@ -78,7 +79,7 @@ export function getMultiServer() {
             return !!config.multiserver;
         })
         .catch((error) => {
-            console.log("cannot get web config:", error);
+            logger.warn("Cannot get web config", { component: 'webSettings' }, error);
             return false;
         });
 }
@@ -89,7 +90,7 @@ export function getServers() {
             return config.servers || [];
         })
         .catch((error) => {
-            console.log("cannot get web config:", error);
+            logger.warn("Cannot get web config", { component: 'webSettings' }, error);
             return [];
         });
 }
@@ -119,7 +120,7 @@ export function getThemes() {
     return getConfig()
         .then((config) => {
             if (!Array.isArray(config.themes)) {
-                console.error("web config is invalid, missing themes:", config);
+                logger.error("Web config is invalid, missing themes", { component: 'webSettings' });
             }
             const themes = Array.isArray(config.themes)
                 ? config.themes
@@ -128,7 +129,7 @@ export function getThemes() {
             return themes;
         })
         .catch((error) => {
-            console.log("cannot get web config:", error);
+            logger.warn("Cannot get web config", { component: 'webSettings' }, error);
             checkDefaultTheme();
             return DefaultConfig.themes;
         });
@@ -140,15 +141,12 @@ export function getMenuLinks() {
     return getConfig()
         .then((config) => {
             if (!config.menuLinks) {
-                console.error(
-                    "web config is invalid, missing menuLinks:",
-                    config,
-                );
+                logger.error("Web config is invalid, missing menuLinks", { component: 'webSettings' });
             }
             return config.menuLinks || [];
         })
         .catch((error) => {
-            console.log("cannot get web config:", error);
+            logger.warn("Cannot get web config", { component: 'webSettings' }, error);
             return [];
         });
 }
@@ -157,15 +155,12 @@ export function getPlugins() {
     return getConfig()
         .then((config) => {
             if (!config.plugins) {
-                console.error(
-                    "web config is invalid, missing plugins:",
-                    config,
-                );
+                logger.error("Web config is invalid, missing plugins", { component: 'webSettings' });
             }
             return config.plugins || DefaultConfig.plugins;
         })
         .catch((error) => {
-            console.log("cannot get web config:", error);
+            logger.warn("Cannot get web config", { component: 'webSettings' }, error);
             return DefaultConfig.plugins;
         });
 }

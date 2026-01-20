@@ -13,6 +13,96 @@ function createTool(name: string, description: string, schema: object, handler: 
 }
 
 createTool(
+    'get_api_relationships',
+    'Understand how the API layer relates to other MCP servers',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    relatedMcpServers: [
+                        {
+                            server: 'store-architecture',
+                            relationship: 'API responses update Zustand stores',
+                            direction: 'API → Store',
+                            integration: 'TanStack Query mutations write to stores'
+                        },
+                        {
+                            server: 'playback-manager',
+                            relationship: 'API provides stream URLs and progress reporting',
+                            direction: 'API ↔ Playback',
+                            integration: 'getAudioStream(), reportPlaybackProgress()'
+                        },
+                        {
+                            server: 'components',
+                            relationship: 'Forms submit data via API',
+                            direction: 'Component → API',
+                            integration: 'SettingsForm submits to apiClient.updateUserConfiguration()'
+                        },
+                        {
+                            server: 'audio-engine',
+                            relationship: 'API provides audio stream URLs for playback',
+                            direction: 'API → Audio',
+                            integration: 'getAudioStream() returns URL for MediaElement'
+                        },
+                        {
+                            server: 'architecture',
+                            relationship: 'API is the foundation layer',
+                            direction: 'API feeds all other layers',
+                            integration: 'All data originates from API calls'
+                        }
+                    ],
+                    dataFlowToStores: [
+                        {
+                            store: 'mediaStore',
+                            apiMethod: 'getAudioStream()',
+                            trigger: 'User initiates playback',
+                            file: 'src/apiclient.d.ts'
+                        },
+                        {
+                            store: 'queueStore',
+                            apiMethod: 'getItems()',
+                            trigger: 'Loading library/playlist',
+                            file: 'src/utils/jellyfin-apiclient/getItems.ts'
+                        },
+                        {
+                            store: 'settingsStore',
+                            apiMethod: 'getUserConfiguration()',
+                            trigger: 'App initialization',
+                            file: 'src/apiclient.d.ts'
+                        },
+                        {
+                            store: 'playerStore',
+                            apiMethod: 'getAvailablePlayers()',
+                            trigger: 'Player selection',
+                            file: 'src/components/playback/playerSelectionMenu.ts'
+                        }
+                    ],
+                    websocketIntegration: [
+                        {
+                            event: 'playbackprogress',
+                            updates: 'mediaStore.progress',
+                            layer: 'store-architecture'
+                        },
+                        {
+                            event: 'sessionupdate',
+                            updates: 'playerStore.activePlayers',
+                            layer: 'store-architecture'
+                        },
+                        {
+                            event: 'libraryadded',
+                            updates: 'queueStore (refetch)',
+                            layer: 'store-architecture + components'
+                        }
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
     'get_jellyfin_api_overview',
     'Get overview of Jellyfin API client architecture',
     { _dummy: z.literal(0).optional() },
@@ -522,6 +612,213 @@ createTool(
                         'Fallback to direct play',
                         'Fallback to transcoding',
                         'User notification on failure'
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_api_error_handling',
+    'Understand API error handling patterns and error codes',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    errorCategories: [
+                        {
+                            category: 'Authentication Errors',
+                            codes: ['401', '403'],
+                            patterns: [
+                                'InvalidCredentialsError - Wrong username/password',
+                                'TokenExpiredError - Access token expired',
+                                'PermissionDeniedError - User lacks required permissions'
+                            ],
+                            handling: 'Refresh token or re-authenticate'
+                        },
+                        {
+                            category: 'Playback Errors',
+                            codes: ['400', '404', '412'],
+                            patterns: [
+                                'ContentNotAccessibleError - Content not available',
+                                'PlaybackForbiddenError - Content not accessible',
+                                'StreamNotFoundError - Item missing',
+                                'CodecNotSupportedError - Browser cannot decode'
+                            ],
+                            handling: 'Fallback to transcode or alternative format'
+                        },
+                        {
+                            category: 'Network Errors',
+                            codes: ['500', '502', '503', '504'],
+                            patterns: [
+                                'ServerUnavailableError - Server down',
+                                'GatewayTimeoutError - Request timed out',
+                                'RateLimitedError - Too many requests'
+                            ],
+                            handling: 'Retry with backoff, failover to other server'
+                        }
+                    ],
+                    errorHandlingPatterns: [
+                        {
+                            pattern: 'try/catch with error boundary',
+                            code: `try {
+    const result = await apiCall();
+    return result;
+} catch (error) {
+    if (error.status === 401) {
+        await refreshToken();
+        return retryApiCall();
+    }
+    throw error;
+}`
+                        },
+                        {
+                            pattern: 'Result type for success/failure',
+                            code: `type Result<T> = { ok: true; data: T } | { ok: false; error: Error };
+
+function safeApiCall<T>(): Promise<Result<T>> {
+    try {
+        const data = await fetchApi();
+        return { ok: true, data };
+    } catch (error) {
+        return { ok: false, error };
+    }
+}`
+                        }
+                    ],
+                    retryStrategies: [
+                        'Exponential backoff with jitter',
+                        'Maximum 3 retry attempts',
+                        'Retry only on 5xx errors or network failure',
+                        'Skip retry for 4xx client errors'
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_session_management',
+    'Understand session management and multi-server patterns',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    sessionLifecycle: [
+                        {
+                            stage: 'Create Session',
+                            methods: ['apiClient.login()', 'apiClient.authenticate()'],
+                            tokens: ['AccessToken', 'RefreshToken', 'DeviceId']
+                        },
+                        {
+                            stage: 'Maintain Session',
+                            methods: ['ensureWebSocket()', 'refreshToken()', 'heartbeat()'],
+                            interval: 'Token refresh before expiry'
+                        },
+                        {
+                            stage: 'End Session',
+                            methods: ['logout()', 'clearTokens()', 'closeWebSocket()']
+                        }
+                    ],
+                    multiServerPatterns: [
+                        {
+                            pattern: 'ServerConnections for multiple servers',
+                            code: `import { ServerConnections } from 'lib/jellyfin-apiclient/ServerConnections';
+
+const server1 = ServerConnections.getApiClient('server-1-id');
+const server2 = ServerConnections.getApiClient('server-2-id');
+
+ServerConnections.on('localusersignedin', (e, apiClient) => {
+    console.log('Signed in to:', apiClient.serverAddress());
+});`
+                        },
+                        {
+                            pattern: 'Server discovery',
+                            code: `import { discoverServers } from 'utils/jellyfin-apiclient/discovery';
+
+const servers = await discoverServers();
+return servers.map(s => ({ id: s.id, name: s.name }));`
+                        }
+                    ],
+                    sessionStorage: [
+                        'Access token: sessionStorage (cleared on tab close)',
+                        'Refresh token: httpOnly cookie (server-managed)',
+                        'Server list: localStorage (persistent)',
+                        'User preferences: localStorage'
+                    ]
+                }, null, 2)
+            }]
+        };
+    }
+);
+
+createTool(
+    'get_sdk_type_definitions',
+    'Get TypeScript type definitions for Jellyfin SDK',
+    { _dummy: z.literal(0).optional() },
+    async () => {
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify({
+                    coreTypes: [
+                        {
+                            name: 'BaseItemDto',
+                            properties: ['Id', 'Name', 'Type', 'MediaType', 'ProductionYear', 'PremiereDate'],
+                            usage: 'Generic media item from API'
+                        },
+                        {
+                            name: 'BaseItemQuery',
+                            properties: ['UserId', 'StartIndex', 'Limit', 'SortBy', 'SortOrder', 'Filters'],
+                            usage: 'Query parameters for item search'
+                        },
+                        {
+                            name: 'SessionInfo',
+                            properties: ['Id', 'UserId', 'DeviceId', 'NowPlayingItem', 'PlayState'],
+                            usage: 'Current playback session'
+                        },
+                        {
+                            name: 'ImageType',
+                            enum: ['Primary', 'Backdrop', 'Logo', 'Thumb', 'Art', 'Banner'],
+                            usage: 'Image classification for getImageUrl'
+                        },
+                        {
+                            name: 'MediaType',
+                            enum: ['Audio', 'Video', 'Photo', 'Book', 'Game'],
+                            usage: 'Type of media content'
+                        }
+                    ],
+                    playbackTypes: [
+                        {
+                            name: 'PlayRequestDto',
+                            properties: ['ItemIds', 'StartPositionTicks', 'AudioStreamIndex', 'SubtitleStreamIndex'],
+                            usage: 'Request to start playback'
+                        },
+                        {
+                            name: 'PlaybackInfoResponse',
+                            properties: ['MediaSources', 'PlaySessionId', 'SupportedMediaProtocols'],
+                            usage: 'Server playback capabilities'
+                        }
+                    ],
+                    typeGuards: [
+                        {
+                            name: 'isAudioItem',
+                            code: `function isAudioItem(item: BaseItemDto): item is BaseItemDto & { MediaType: 'Audio' } {
+    return item.MediaType === 'Audio';
+}`
+                        },
+                        {
+                            name: 'isPlayableItem',
+                            code: `function isPlayableItem(item: BaseItemDto): boolean {
+    return ['Audio', 'Video'].includes(item.MediaType);
+}`
+                        }
                     ]
                 }, null, 2)
             }]

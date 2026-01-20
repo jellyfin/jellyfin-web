@@ -6,6 +6,7 @@ import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 import ConnectionErrorPage from './ConnectionErrorPage';
 import Loading from './loading/LoadingComponent';
+import { logger } from '../utils/logger';
 
 enum AccessLevel {
     /** Requires a user with administrator access */
@@ -75,7 +76,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         switch (connectionResponse.State) {
             case ConnectionState.SignedIn:
                 // Already logged in, bounce to the home page
-                console.debug('[ConnectionRequired] already logged in, redirecting to home');
+                logger.debug('[ConnectionRequired] already logged in, redirecting to home', { component: 'ConnectionRequired' });
                 navigate(BounceRoutes.Home);
                 return;
             case ConnectionState.ServerSignIn:
@@ -83,19 +84,19 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                 if (location.pathname === BounceRoutes.Login) {
                     setIsLoading(false);
                 } else {
-                    console.debug('[ConnectionRequired] not logged in, redirecting to login page', location);
+                    logger.debug('[ConnectionRequired] not logged in, redirecting to login page', { component: 'ConnectionRequired', location });
                     const url = encodeURIComponent(location.pathname + location.search);
                     navigate(`${BounceRoutes.Login}?serverid=${connectionResponse.ApiClient.serverId()}&url=${url}`);
                 }
                 return;
             case ConnectionState.ServerSelection:
                 // Bounce to select server page
-                console.debug('[ConnectionRequired] redirecting to select server page');
+                logger.debug('[ConnectionRequired] redirecting to select server page', { component: 'ConnectionRequired' });
                 navigateIfNotThere(BounceRoutes.SelectServer);
                 return;
         }
 
-        console.warn('[ConnectionRequired] unhandled connection state', connectionResponse.State);
+        logger.warn('[ConnectionRequired] unhandled connection state', { component: 'ConnectionRequired', state: connectionResponse.State });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ navigateIfNotThere, location.pathname, navigate ]);
 
@@ -107,7 +108,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
 
         const systemInfo = await fetchPublicSystemInfo(apiClient);
         if (systemInfo?.StartupWizardCompleted) {
-            console.info('[ConnectionRequired] startup wizard is complete, redirecting home');
+            logger.info('[ConnectionRequired] startup wizard is complete, redirecting home', { component: 'ConnectionRequired' });
             navigate(BounceRoutes.Home);
             return;
         }
@@ -127,12 +128,12 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
                     // TODO: Is there a better place to handle this?
                     ServerConnections.setLocalApiClient(firstConnection.ApiClient);
                     // Bounce to the wizard
-                    console.info('[ConnectionRequired] startup wizard is not complete, redirecting there');
+                    logger.info('[ConnectionRequired] startup wizard is not complete, redirecting there', { component: 'ConnectionRequired' });
                     navigate(BounceRoutes.StartWizard);
                     return;
                 }
             } catch (ex) {
-                console.error('[ConnectionRequired] checking wizard status failed', ex);
+                logger.error('[ConnectionRequired] checking wizard status failed', { component: 'ConnectionRequired' }, ex as Error);
                 return;
             }
         }
@@ -140,7 +141,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         // Bounce to the correct page in the login flow
         bounce(firstConnection)
             .catch(err => {
-                console.error('[ConnectionRequired] failed to bounce', err);
+                logger.error('[ConnectionRequired] failed to bounce', { component: 'ConnectionRequired' }, err as Error);
             });
     }, [bounce, navigate]);
 
@@ -150,13 +151,13 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         // If this is a user route, ensure a user is logged in
         if ((level === AccessLevel.Admin || level === AccessLevel.User) && !client?.isLoggedIn()) {
             try {
-                console.warn('[ConnectionRequired] unauthenticated user attempted to access user route');
+                logger.warn('[ConnectionRequired] unauthenticated user attempted to access user route', { component: 'ConnectionRequired' });
                 bounce(await ServerConnections.connect())
                     .catch(err => {
-                        console.error('[ConnectionRequired] failed to bounce', err);
+                        logger.error('[ConnectionRequired] failed to bounce', { component: 'ConnectionRequired' }, err as Error);
                     });
             } catch (ex) {
-                console.warn('[ConnectionRequired] error bouncing from user route', ex);
+                logger.warn('[ConnectionRequired] error bouncing from user route', { component: 'ConnectionRequired' }, ex as Error);
             }
             return;
         }
@@ -166,15 +167,15 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             try {
                 const user = await client?.getCurrentUser();
                 if (!user?.Policy?.IsAdministrator) {
-                    console.warn('[ConnectionRequired] normal user attempted to access admin route');
+                    logger.warn('[ConnectionRequired] normal user attempted to access admin route', { component: 'ConnectionRequired' });
                     bounce(await ServerConnections.connect())
                         .catch(err => {
-                            console.error('[ConnectionRequired] failed to bounce', err);
+                            logger.error('[ConnectionRequired] failed to bounce', { component: 'ConnectionRequired' }, err as Error);
                         });
                     return;
                 }
             } catch (ex) {
-                console.warn('[ConnectionRequired] error bouncing from admin route', ex);
+                logger.warn('[ConnectionRequired] error bouncing from admin route', { component: 'ConnectionRequired' }, ex as Error);
                 return;
             }
         }
@@ -188,7 +189,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
         const hasFirstConnection = ServerConnections.firstConnection !== null;
         const connection = Promise.resolve(hasFirstConnection ? null : ServerConnections.connect());
         connection.then(firstConnection => {
-            console.debug('[ConnectionRequired] connection state', firstConnection?.State);
+            logger.debug('[ConnectionRequired] connection state', { component: 'ConnectionRequired', state: firstConnection?.State });
             // Mark that we've attempted first connection (using a resolved promise as marker)
             if (!hasFirstConnection) {
                 ServerConnections.firstConnection = Promise.resolve();
@@ -200,23 +201,23 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
             } else if (level === AccessLevel.Wizard) {
                 handleWizard(firstConnection)
                     .catch(err => {
-                        console.error('[ConnectionRequired] could not validate wizard status', err);
+                        logger.error('[ConnectionRequired] could not validate wizard status', { component: 'ConnectionRequired' }, err as Error);
                     });
             } else if (
                 firstConnection && firstConnection.State !== ConnectionState.SignedIn && !apiClient?.isLoggedIn()
             ) {
                 handleIncompleteWizard(firstConnection)
                     .catch(err => {
-                        console.error('[ConnectionRequired] could not start wizard', err);
+                        logger.error('[ConnectionRequired] could not start wizard', { component: 'ConnectionRequired' }, err as Error);
                     });
             } else {
                 validateUserAccess()
                     .catch(err => {
-                        console.error('[ConnectionRequired] could not validate user access', err);
+                        logger.error('[ConnectionRequired] could not validate user access', { component: 'ConnectionRequired' }, err as Error);
                     });
             }
         }).catch(err => {
-            console.error('[ConnectionRequired] failed to connect', err);
+            logger.error('[ConnectionRequired] failed to connect', { component: 'ConnectionRequired' }, err as Error);
         });
     }, [handleIncompleteWizard, handleWizard, level, validateUserAccess]);
 

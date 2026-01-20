@@ -1,4 +1,6 @@
 // PWA Installation Manager
+import { logger } from './logger';
+
 class PWAInstallManager {
     static init() {
         this.deferredPrompt = null;
@@ -6,7 +8,7 @@ class PWAInstallManager {
 
         // Listen for the beforeinstallprompt event
         window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('[PWA] Install prompt available');
+            logger.info('[PWA] Install prompt available', { component: 'pwaInstall' });
             e.preventDefault();
             this.deferredPrompt = e;
             this.showInstallPrompt();
@@ -14,14 +16,14 @@ class PWAInstallManager {
 
         // Listen for successful installation
         window.addEventListener('appinstalled', (e) => {
-            console.log('[PWA] App installed successfully');
+            logger.info('[PWA] App installed successfully', { component: 'pwaInstall' });
             this.hideInstallPrompt();
             this.trackInstallation();
         });
 
         // Check if already installed
         if (this.isInstalled()) {
-            console.log('[PWA] App already installed');
+            logger.info('[PWA] App already installed', { component: 'pwaInstall' });
             return;
         }
 
@@ -108,7 +110,7 @@ class PWAInstallManager {
         document.getElementById('install-btn').addEventListener('click', async () => {
             this.deferredPrompt.prompt();
             const { outcome } = await this.deferredPrompt.userChoice;
-            console.log('[PWA] Install outcome:', outcome);
+            logger.info('[PWA] Install outcome', { component: 'pwaInstall', outcome });
             this.deferredPrompt = null;
             this.hideInstallPrompt();
         });
@@ -153,7 +155,7 @@ class PWAInstallManager {
 }
 
 // Initialize PWA install manager
-PWAInstallManager.init();
+// PWAInstallManager.init();
 
 // Export for debugging
 window.PWAInstallManager = PWAInstallManager;

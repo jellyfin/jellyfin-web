@@ -7,6 +7,7 @@ import type { RestoreViewFailResponse } from 'types/viewManager';
 
 import viewManager from './viewManager';
 import { AppType } from 'constants/appType';
+import { logger } from 'utils/logger';
 
 export interface ViewManagerPageProps {
     appType?: AppType
@@ -123,15 +124,15 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
             };
 
             if (navigationType !== Action.Pop) {
-                console.debug('[ViewManagerPage] loading view [%s]', view);
+                logger.debug('[ViewManagerPage] loading view', { component: 'ViewManagerPage', view });
                 return loadView(appType, controller, view, viewOptions);
             }
 
-            console.debug('[ViewManagerPage] restoring view [%s]', view);
+            logger.debug('[ViewManagerPage] restoring view', { component: 'ViewManagerPage', view });
             return viewManager.tryRestoreView(viewOptions)
                 .catch(async (result?: RestoreViewFailResponse) => {
                     if (!result?.cancelled) {
-                        console.debug('[ViewManagerPage] restore failed; loading view [%s]', view);
+                        logger.debug('[ViewManagerPage] restore failed; loading view', { component: 'ViewManagerPage', view });
                         return loadView(appType, controller, view, viewOptions);
                     }
                 });

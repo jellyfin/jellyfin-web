@@ -9,6 +9,7 @@
 import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, useSettingsStore } from './index';
 import type { PlayableItem, PlaybackProgress, PlaybackStatus, RepeatMode, ShuffleMode, PlayerInfo } from './types';
 import type { ControlSource } from './controlsStore';
+import { playbackManager } from 'components/playback/playbackmanager';
 
 class PlaybackManagerBridge {
     private static instance: PlaybackManagerBridge;
@@ -338,6 +339,14 @@ class PlaybackManagerBridge {
     }
 
     getBufferedRanges(): { start: number; end: number }[] {
+        try {
+            const currentPlayer = playbackManager.getCurrentPlayer();
+            if (currentPlayer && typeof currentPlayer.getBufferedRanges === 'function') {
+                return currentPlayer.getBufferedRanges();
+            }
+        } catch {
+            // Player may not be available
+        }
         return [];
     }
 

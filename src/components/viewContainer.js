@@ -1,6 +1,7 @@
 import { importModule } from '@uupaa/dynamic-import-polyfill';
 import './viewManager/viewContainer.scss';
 import Dashboard from '../utils/dashboard';
+import { logger } from '../utils/logger';
 
 const getMainAnimatedPages = () => {
     return document.querySelector('.mainAnimatedPages');
@@ -60,7 +61,7 @@ export function loadView(options) {
         const mainAnimatedPages = getMainAnimatedPages();
 
         if (!mainAnimatedPages) {
-            console.warn('[viewContainer] main animated pages element is not present');
+            logger.warn('[viewContainer] Main animated pages element is not present', { component: 'ViewContainer' });
             return;
         }
 
@@ -185,7 +186,7 @@ export function setOnBeforeChange(fn) {
 }
 
 export function tryRestoreView(options) {
-    console.debug('[viewContainer] tryRestoreView', options);
+    logger.debug('[viewContainer] tryRestoreView', { component: 'ViewContainer', options });
     const url = options.url;
     const index = currentUrls.indexOf(url);
 
@@ -231,7 +232,7 @@ function triggerDestroy(view) {
 }
 
 export function reset() {
-    console.debug('[viewContainer] resetting view cache');
+    logger.debug('[viewContainer] Resetting view cache', { component: 'ViewContainer' });
     allPages = [];
     currentUrls = [];
     const mainAnimatedPages = getMainAnimatedPages();

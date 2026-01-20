@@ -38,6 +38,7 @@ import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { logger } from '../../utils/logger';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -614,10 +615,10 @@ function reloadFromItem(instance, page, params, item, user) {
             } else {
                 itemBirthday.innerHTML = `${globalize.translate('BirthDateValue', birthday.toLocaleDateString())} ${globalize.translate('AgeValue', durationSinceBorn.years)}`;
             }
-        } catch (err) {
-            console.error(err);
-            itemBirthday.classList.add('hide');
-        }
+            } catch (err) {
+                logger.error('Failed to parse birthday', { component: 'itemDetails' }, err as Error);
+                itemBirthday.classList.add('hide');
+            }
     } else {
         itemBirthday.classList.add('hide');
     }
@@ -636,10 +637,10 @@ function reloadFromItem(instance, page, params, item, user) {
             } else {
                 itemDeathDate.innerHTML = globalize.translate('DeathDateValue', deathday.toLocaleDateString());
             }
-        } catch (err) {
-            console.error(err);
-            itemDeathDate.classList.add('hide');
-        }
+            } catch (err) {
+                logger.error('Failed to parse death date', { component: 'itemDetails' }, err as Error);
+                itemDeathDate.classList.add('hide');
+            }
     } else {
         itemDeathDate.classList.add('hide');
     }
@@ -2014,7 +2015,7 @@ export default function (view, params) {
             currentItem = item;
             reloadFromItem(instance, page, pageParams, item, user);
         }).catch((error) => {
-            console.error('failed to get item or current user: ', error);
+            logger.error('Failed to get item or current user', { component: 'itemDetails' }, error as Error);
         });
     }
 

@@ -1,5 +1,6 @@
 import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import { ApiClient } from 'jellyfin-apiclient';
+import { logger } from '../logger';
 
 interface GetItemsRequest {
     Ids?: string;
@@ -38,15 +39,15 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 
     for (const result of results) {
         if (!result.Items) {
-            console.log('[getItems] Retrieved Items array is invalid', result.Items);
+            logger.warn('[getItems] Retrieved Items array is invalid', { component: 'GetItems', items: result.Items });
             continue;
         }
         if (!result.TotalRecordCount) {
-            console.log('[getItems] Retrieved TotalRecordCount is invalid', result.TotalRecordCount);
+            logger.warn('[getItems] Retrieved TotalRecordCount is invalid', { component: 'GetItems', totalRecordCount: result.TotalRecordCount });
             continue;
         }
         if (typeof result.StartIndex === 'undefined') {
-            console.log('[getItems] Retrieved StartIndex is invalid', result.StartIndex);
+            logger.warn('[getItems] Retrieved StartIndex is invalid', { component: 'GetItems', startIndex: result.StartIndex });
             continue;
         }
         merged.Items = merged.Items?.concat(result.Items);

@@ -1,4 +1,6 @@
 // PWA Update Manager
+import { logger } from './logger';
+
 class PWAUpdateManager {
     static init() {
         this.registration = null;
@@ -6,7 +8,7 @@ class PWAUpdateManager {
 
         // Skip service worker in development to avoid issues with dev server
         if (import.meta.env.DEV) {
-            console.log('[PWA] Service worker registration skipped in development');
+            logger.info('[PWA] Service worker registration skipped in development', { component: 'pwaUpdate' });
             return;
         }
 
@@ -17,7 +19,9 @@ class PWAUpdateManager {
                     this.setupUpdateListener();
                     this.checkForUpdates();
                 })
-                .catch(console.error);
+                .catch((err) => {
+                    logger.error('[PWA] Service worker registration failed', { component: 'pwaUpdate' }, err);
+                });
         }
     }
 
@@ -40,8 +44,10 @@ class PWAUpdateManager {
         if (!this.registration) return;
 
         this.registration.update().then(() => {
-            console.log('[PWA] Checked for updates');
-        }).catch(console.error);
+            logger.info('[PWA] Checked for updates', { component: 'pwaUpdate' });
+        }).catch((err) => {
+            logger.error('[PWA] Update check failed', { component: 'pwaUpdate' }, err);
+        });
     }
 
     static showUpdatePrompt() {

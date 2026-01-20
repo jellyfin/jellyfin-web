@@ -3,6 +3,7 @@ import { isEmpty } from '../../utils/lodashUtils';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import Events from 'utils/events';
 import { updateLocale } from 'utils/dateFnsLocale';
+import { logger } from '../../utils/logger';
 
 const Direction = {
     rtl: 'rtl',
@@ -82,7 +83,7 @@ export function updateCurrentCulture() {
     try {
         culture = userSettings.language();
     } catch {
-        console.error('no language set in user settings');
+        logger.error('No language set in user settings', { component: 'globalize' });
     }
     culture = culture || getDefaultLanguage();
     checkAndProcessDir(culture);
@@ -95,7 +96,7 @@ export function updateCurrentCulture() {
     try {
         dateTimeCulture = userSettings.dateTimeLocale();
     } catch {
-        console.error('no date format set in user settings');
+        logger.error('No date format set in user settings', { component: 'globalize' });
     }
 
     if (dateTimeCulture) {
@@ -235,9 +236,9 @@ function translateKeyFromModule(key, module) {
     }
 
     if (!dictionary || isEmpty(dictionary)) {
-        console.warn('Translation dictionary is empty.');
+        logger.warn('Translation dictionary is empty', { component: 'globalize' });
     } else {
-        console.error(`Translation key is missing from dictionary: ${key}`);
+        logger.error(`Translation key is missing from dictionary: ${key}`, { component: 'globalize' });
     }
 
     return key;

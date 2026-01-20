@@ -4,6 +4,7 @@ import { appHost } from './apphost';
 import browser from '../scripts/browser';
 import appSettings from '../scripts/settings/appSettings';
 import Events from '../utils/events';
+import { logger } from '../utils/logger';
 
 function setLayout(instance, layout, selectedLayout) {
     if (layout === selectedLayout) {
@@ -34,11 +35,11 @@ class LayoutManager {
             setLayout(this, LayoutMode.Desktop, layoutValue);
         }
 
-        console.debug('[LayoutManager] using layout mode', layoutValue);
+        logger.debug(`[LayoutManager] Using layout mode: ${layoutValue}`, { component: 'LayoutManager' });
         this.experimental = layoutValue === LayoutMode.Experimental;
         if (this.experimental) {
             const legacyLayoutMode = browser.mobile ? LayoutMode.Mobile : LayoutMode.Desktop;
-            console.debug('[LayoutManager] using legacy layout mode', legacyLayoutMode);
+            logger.debug(`[LayoutManager] Using legacy layout mode: ${legacyLayoutMode}`, { component: 'LayoutManager' });
             setLayout(this, legacyLayoutMode, legacyLayoutMode);
         }
 

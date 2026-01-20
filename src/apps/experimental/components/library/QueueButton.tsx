@@ -1,10 +1,13 @@
 import React, { FC, useCallback } from 'react';
-import Button from '@mui/material/Button/Button';
-import Queue from '@mui/icons-material/Queue';
+import Button from '@mui/joy/Button';
+import IconButton from '@mui/joy/IconButton';
+import Tooltip from '@mui/joy/Tooltip';
+import QueueIcon from '@mui/icons-material/Queue';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { logger } from 'utils/logger';
 
 interface QueueButtonProps {
     item: ItemDto | undefined
@@ -24,29 +27,45 @@ const QueueButton: FC<QueueButtonProps> = ({
             playbackManager.queue({
                 items: [item]
             }).catch((err: unknown) => {
-                console.error('[QueueButton] failed to add to queue', err);
+                logger.error('[QueueButton] failed to add to queue', { component: 'QueueButton' }, err as Error);
             });
         } else {
             playbackManager.queue({
                 items
             }).catch((err: unknown) => {
-                console.error('[QueueButton] failed to add to queue', err);
+                logger.error('[QueueButton] failed to add to queue', { component: 'QueueButton' }, err as Error);
             });
         }
     }, [hasFilters, item, items]);
 
+    const label = globalize.translate('AddToPlayQueue');
+
+    if (isTextVisible) {
+        return (
+            <Button
+                variant="plain"
+                color="neutral"
+                startDecorator={<QueueIcon />}
+                onClick={queue}
+                sx={{ color: 'neutral.50' }}
+            >
+                {label}
+            </Button>
+        );
+    }
+
     return (
-        <Button
-            title={globalize.translate('AddToPlayQueue')}
-            startIcon={isTextVisible ? <Queue /> : undefined}
-            onClick={queue}
-        >
-            {isTextVisible ? (
-                globalize.translate('AddToPlayQueue')
-            ) : (
-                <Queue />
-            )}
-        </Button>
+        <Tooltip title={label} placement="top">
+            <IconButton
+                variant="plain"
+                color="neutral"
+                onClick={queue}
+                sx={{ color: 'neutral.50' }}
+                aria-label={label}
+            >
+                <QueueIcon />
+            </IconButton>
+        </Tooltip>
     );
 };
 

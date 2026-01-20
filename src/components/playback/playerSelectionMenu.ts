@@ -12,6 +12,7 @@ import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import dialog from '../dialog/dialog';
 import dialogHelper from '../dialogHelper/dialogHelper';
+import { logger } from '../../utils/logger';
 
 interface PlaybackTarget {
     id: string;
@@ -153,10 +154,10 @@ export function show(button: HTMLElement): void {
                 // action sheet closed
             });
         }).catch((err: any) => {
-            console.error('[playerSelectionMenu] failed to import action sheet', err);
+            logger.error('Failed to import action sheet', { component: 'PlayerSelectionMenu' }, err as Error);
         });
     }).catch((err: any) => {
-        console.error('[playerSelectionMenu] failed to get playback targets', err);
+        logger.error('Failed to get playback targets', { component: 'PlayerSelectionMenu' }, err as Error);
     });
 }
 

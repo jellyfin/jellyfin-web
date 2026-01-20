@@ -3,6 +3,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import dom from '../../utils/dom';
+import { logger } from '../../utils/logger';
 import '../../elements/emby-button/emby-button';
 import './actionSheet.scss';
 import 'material-design-icons-iconfont';
@@ -132,7 +133,7 @@ function centerFocus(elem: Element, horiz: boolean, on: boolean) {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     }).catch(e => {
-        console.warn('Error in centerFocus', e);
+        logger.warn('Error in centerFocus', { component: 'ActionSheet' }, e as Error);
     });
 }
 
@@ -372,7 +373,7 @@ export function show(options: Options) {
         });
 
         dialogHelper.open(dlg).catch(e => {
-            console.warn('DialogHelper.open error', e);
+            logger.warn('DialogHelper.open error', { component: 'ActionSheet' }, e as Error);
         });
 
         const pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options.positionTo, options, dlg) : null;

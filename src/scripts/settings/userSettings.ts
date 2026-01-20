@@ -4,6 +4,7 @@ import { setXDuration } from 'components/audioEngine/crossfader.logic';
 import browser from '../browser';
 import appSettings from './appSettings';
 import { getDefaultVisualizerSettings, getVisualizerSettings, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
+import { logger } from 'utils/logger';
 
 interface SubtitleAppearanceSettings {
     verticalPosition: number;
@@ -81,7 +82,7 @@ function onSaveTimeout(this: UserSettings): void {
 
         if (!sent) {
             // Fallback to fetch for cross-origin requests
-            console.debug('[UserSettings] sendBeacon not available, using fetch fallback');
+            logger.debug('[UserSettings] sendBeacon not available, using fetch fallback', { component: 'UserSettings' });
             fetch(prefsUrl, {
                 method: 'POST',
                 headers: {
@@ -92,7 +93,7 @@ function onSaveTimeout(this: UserSettings): void {
             }).catch(error => {
                 if (!displayPrefsBeaconWarningShown) {
                     displayPrefsBeaconWarningShown = true;
-                    console.warn('[UserSettings] Failed to save cross-origin preferences:', error);
+                    logger.warn('[UserSettings] Failed to save cross-origin preferences', { component: 'UserSettings' }, error);
                 }
             });
         }
@@ -202,7 +203,7 @@ export class UserSettings implements UserSettingsInstance {
             result.CustomPrefs = result.CustomPrefs || {};
             self.displayPrefs = result;
         }).catch((error: any) => {
-            console.warn('[UserSettings] Failed to load server preferences:', error);
+            logger.warn('[UserSettings] Failed to load server preferences', { component: 'UserSettings' }, error);
             self.displayPrefs = { CustomPrefs: {} };
         });
     }
@@ -234,7 +235,7 @@ export class UserSettings implements UserSettingsInstance {
         try {
             result = appSettings.set(name, value || undefined, userId || undefined);
         } catch (error) {
-            console.error('[UserSettings] Failed to save to local storage:', error);
+            logger.error('[UserSettings] Failed to save to local storage', { component: 'UserSettings' }, error as Error);
             throw error;
         }
 
@@ -607,7 +608,7 @@ export class UserSettings implements UserSettingsInstance {
                 const parsed = JSON.parse(values);
                 Object.assign(query, parsed);
             } catch (error) {
-                console.warn('[UserSettings] Failed to parse query settings:', error);
+                logger.warn('[UserSettings] Failed to parse query settings', { component: 'UserSettings' }, error as Error);
             }
         }
     }
@@ -623,7 +624,7 @@ export class UserSettings implements UserSettingsInstance {
             try {
                 return { ...defaultSubtitleAppearanceSettings, ...JSON.parse(stored) };
             } catch (error) {
-                console.warn('[UserSettings] Failed to parse subtitle settings:', error);
+                logger.warn('[UserSettings] Failed to parse subtitle settings', { component: 'UserSettings' }, error as Error);
             }
         }
         return { ...defaultSubtitleAppearanceSettings };
@@ -639,7 +640,7 @@ export class UserSettings implements UserSettingsInstance {
             try {
                 return { ...defaultComicsPlayerSettings, ...JSON.parse(stored) };
             } catch (error) {
-                console.warn('[UserSettings] Failed to parse comics settings:', error);
+                logger.warn('[UserSettings] Failed to parse comics settings', { component: 'UserSettings' }, error as Error);
             }
         }
         return { ...defaultComicsPlayerSettings };
@@ -647,10 +648,6 @@ export class UserSettings implements UserSettingsInstance {
 
     setComicsPlayerSettings(settings: ComicsPlayerSettings): void {
         this.set('comicsPlayerSettings', JSON.stringify(settings), false);
-    }
-
-    setFilter(key: string, value: any): void {
-        this.set(`${key}${filterSettingsPostfix}`, value, false);
     }
 
     getFilter(key: string): string | null {
@@ -663,10 +660,14 @@ export class UserSettings implements UserSettingsInstance {
             try {
                 return JSON.parse(value);
             } catch (error) {
-                console.warn('[UserSettings] Failed to parse saved view:', error);
+                logger.warn('[UserSettings] Failed to parse saved view', { component: 'UserSettings' }, error as Error);
             }
         }
         return null;
+    }
+
+    setFilter(key: string, value: any): void {
+        this.set(`${key}${filterSettingsPostfix}`, value, false);
     }
 
     saveViewSetting(key: string, value: any): void {

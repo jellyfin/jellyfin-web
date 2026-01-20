@@ -5,6 +5,7 @@ import inputManager from '../../scripts/inputManager';
 import { toBoolean } from '../../utils/string';
 import { hide } from '../loading/loading';
 import dom from '../../utils/dom';
+import { logger } from '../../utils/logger';
 
 import { getAppHistory } from '../router/appHistory';
 
@@ -39,7 +40,7 @@ function tryRemoveElement(elem) {
         try {
             parentNode.removeChild(elem);
         } catch (err) {
-            console.error('[dialogHelper] error removing dialog element: ' + err);
+            logger.error('Error removing dialog element', { component: 'DialogHelper' }, err);
         }
     }
 }
@@ -117,7 +118,7 @@ function DialogHashHandler(dlg, hash, resolve) {
                     unlisten = history.listen(finishClose);
                     history.back();
                 } else if (state.dialogs.includes(hash)) {
-                    console.warn('[dialogHelper] dialog "%s" was closed, but is not the last dialog opened', hash);
+                    logger.warn(`Dialog "${hash}" was closed but is not the last dialog opened`, { component: 'DialogHelper' });
 
                     unlisten = history.listen(finishClose);
 

@@ -1,4 +1,5 @@
 import enUS from 'date-fns/esm/locale/en-US';
+import { logger } from './logger';
 
 const LOCALE_MAP: Record<string, string> = {
     'af': 'af',
@@ -88,9 +89,9 @@ export function normalizeLocale(localeName: string) {
 }
 
 export async function updateLocale(newLocale: string) {
-    console.debug('[dateFnsLocale] updating date-fns locale', newLocale);
+    logger.debug('[dateFnsLocale] updating date-fns locale', { component: 'dateFnsLocale', newLocale });
     localeString = normalizeLocale(newLocale);
-    console.debug('[dateFnsLocale] mapped to date-fns locale', localeString);
+    logger.debug('[dateFnsLocale] mapped to date-fns locale', { component: 'dateFnsLocale', localeString });
     locale = await fetchLocale(localeString);
 }
 

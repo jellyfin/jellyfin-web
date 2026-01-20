@@ -6,6 +6,7 @@
  */
 
 import type { SettingsState } from './settingsStore';
+import { logger } from '../utils/logger';
 
 const LEGACY_STORAGE_KEYS = {
     volume: 'jellyfin_volume',
@@ -141,11 +142,11 @@ export function migrateLegacySettings(): MigrationResult {
 
         cleanupLegacySettings();
 
-        console.log('[SettingsMigration] Successfully migrated from legacy settings format');
+        logger.info('[SettingsMigration] Successfully migrated from legacy settings format', { component: 'SettingsMigration' });
 
     } catch (error) {
         result.errors.push(String(error));
-        console.error('[SettingsMigration] Migration failed:', error);
+        logger.error('[SettingsMigration] Migration failed', { component: 'SettingsMigration' }, error as Error);
     }
 
     return result;
@@ -174,9 +175,9 @@ export function cleanupLegacySettings(): void {
             }
         }
 
-        console.log('[SettingsMigration] Cleaned up legacy storage keys');
+        logger.info('[SettingsMigration] Cleaned up legacy storage keys', { component: 'SettingsMigration' });
     } catch (error) {
-        console.error('[SettingsMigration] Cleanup failed:', error);
+        logger.error('[SettingsMigration] Cleanup failed', { component: 'SettingsMigration' }, error as Error);
     }
 }
 
@@ -195,7 +196,7 @@ export function setSettingsVersion(version: number): void {
         const versionKey = 'jellyfin-settings-version';
         localStorage.setItem(versionKey, String(version));
     } catch (error) {
-        console.error('[SettingsMigration] Failed to set version:', error);
+        logger.error('[SettingsMigration] Failed to set version', { component: 'SettingsMigration' }, error as Error);
     }
 }
 

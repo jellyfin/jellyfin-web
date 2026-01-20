@@ -2,55 +2,123 @@
   "mcpServers": {
     "mcp-three": {
       "command": "npx",
-      "args": ["-y", "mcp-three"]
+      "args": [
+        "-y",
+        "mcp-three"
+      ]
     },
     "mui-mcp": {
       "command": "npx",
-      "args": ["-y", "@mui/mcp@latest"]
+      "args": [
+        "-y",
+        "@mui/mcp@latest"
+      ]
     },
     "typescript-mcp": {
       "command": "npx",
-      "args": ["-y", "ts-diagnostics-mcp"]
+      "args": [
+        "-y",
+        "ts-diagnostics-mcp"
+      ]
     },
     "context7": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
     },
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
-    },
-    "vite-plugin-mcp": {
-      "command": "npx",
-      "args": ["-y", "vite-plugin-mcp"]
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "."
+      ]
     },
     "jellyfin-audio-engine": {
       "command": "npx",
-      "args": ["-y", "tsx", "src/mcp-servers/audio-engine/index.ts"]
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/audio-engine/index.ts"
+      ]
     },
     "jellyfin-store-architecture": {
       "command": "npx",
-      "args": ["-y", "tsx", "src/mcp-servers/store-architecture/index.ts"]
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/store-architecture/index.ts"
+      ]
     },
     "jellyfin-migrations": {
       "command": "npx",
-      "args": ["-y", "tsx", "src/mcp-servers/migrations/index.ts"]
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/migrations/index.ts"
+      ]
     },
     "jellyfin-performance": {
       "command": "npx",
-      "args": ["-y", "tsx", "src/mcp-servers/performance/index.ts"]
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/performance/index.ts"
+      ]
     },
     "jellyfin-playback-manager": {
       "command": "npx",
-      "args": ["-y", "tsx", "src/mcp-servers/playback-manager/index.ts"]
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/playback-manager/index.ts"
+      ]
     },
     "jellyfin-components": {
       "command": "npx",
-      "args": ["-y", "tsx", "src/mcp-servers/components/index.ts"]
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/components/index.ts"
+      ]
     },
     "jellyfin-api": {
       "command": "npx",
-      "args": ["-y", "tsx", "src/mcp-servers/api/index.ts"]
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/api/index.ts"
+      ]
+    },
+    "jellyfin-joy-ui": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/joy-ui/index.ts"
+      ]
+    },
+    "jellyfin-coordination": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/coordination/index.ts"
+      ]
+    },
+    "jellyfin-architecture": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tsx",
+        "src/mcp-servers/architecture/index.ts"
+      ]
+    },
+    "vite": {
+      "type": "sse",
+      "url": "http://localhost:5173/__mcp/sse"
     }
   }
 }

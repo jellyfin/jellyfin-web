@@ -126,7 +126,7 @@ const Home = () => {
         } else if (currentTabController?.onResume) {
             currentTabController.onResume({});
         }
-        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
+        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement)?.classList.add('noHomeButtonHeader');
     }, [ initialTabIndex, mainTabsManager ]);
 
     const onPause = useCallback(() => {
@@ -134,7 +134,7 @@ const Home = () => {
         if (currentTabController?.onPause) {
             currentTabController.onPause();
         }
-        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.remove('noHomeButtonHeader');
+        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement)?.classList.remove('noHomeButtonHeader');
     }, []);
 
     const renderHome = useCallback(() => {

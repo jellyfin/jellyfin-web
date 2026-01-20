@@ -190,12 +190,12 @@ import "./styles/librarybrowser.scss";
 
 async function init() {
     // Log current version to console to help out with issue triage and debugging
-    // eslint-disable-next-line no-console
-    console.info(
+    logger.info(
         `[${__PACKAGE_JSON_NAME__}]
 version: ${__PACKAGE_JSON_VERSION__}
 commit: ${__COMMIT_SHA__}
 build: ${__JF_BUILD_VERSION__}`,
+        { component: 'index' },
     );
 
     // Register globals used in plugins
@@ -215,12 +215,16 @@ build: ${__JF_BUILD_VERSION__}`,
 
     // Initialize the api client
     let serverUrl = await serverAddress();
-    // eslint-disable-next-line no-undef
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (__WEBPACK_SERVE__ && __DEV_SERVER_PROXY_TARGET__) {
-        const devServerUrl = window.location.origin;
-        ServerConnections.setDevServerAddress(devServerUrl);
-        serverUrl = devServerUrl;
+    // In development, use the dev server proxy to avoid CORS issues
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (__WEBPACK_SERVE__) {
+        // Get the actual Jellyfin server URL (from saved credentials or env)
+        if (!serverUrl) {
+            serverUrl = window.location.origin;
+        }
+        // Set dev server address for proxy configuration (doesn't change serverUrl)
+        ServerConnections.setDevServerAddress(serverUrl);
     }
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (serverUrl) {
@@ -307,10 +311,7 @@ function loadFonts() {
 }
 
 async function loadPlugins() {
-    // eslint-disable-next-line no-console
-    console.groupCollapsed("loading installed plugins");
-    // eslint-disable-next-line no-console
-    console.dir(pluginManager);
+    logger.debug('loading installed plugins', { component: 'index', plugins: pluginManager });
 
     let list = await getPlugins();
     if (!supportsFeature(AppFeature.RemoteControl)) {
@@ -336,20 +337,17 @@ async function loadPlugins() {
         list = list.concat(window.NativeShell.getPlugins());
     }
 
-    try {
-        await Promise.all(
-            list.map((plugin) => pluginManager.loadPlugin(plugin)),
-        );
-        // eslint-disable-next-line no-console
-        console.debug("finished loading plugins");
-    } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn("failed loading plugins", e);
-    }
+        try {
+            await Promise.all(
+                list.map((plugin) => pluginManager.loadPlugin(plugin)),
+            );
+            logger.debug('finished loading plugins', { component: 'index' });
+        } catch (e) {
+            logger.warn('failed loading plugins', { component: 'index' }, e);
+        }
 
-    // eslint-disable-next-line no-console
-    console.groupEnd("loading installed plugins");
-}
+        logger.debug('finished loading plugins', { component: 'index' });
+    }
 
 function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {

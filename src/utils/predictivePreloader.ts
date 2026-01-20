@@ -7,6 +7,7 @@
 
 import { matchPath } from 'react-router-dom';
 import { preloadPerformanceMonitor } from './preloadPerformanceMonitor';
+import { logger } from './logger';
 
 // Preloading strategies based on current location and user behavior
 export class PredictivePreloader {
@@ -109,11 +110,11 @@ export class PredictivePreloader {
         const startTime = performance.now();
 
         if (!this.canPreload()) {
-            console.log(`⏭️ Skipping predictive preloading for ${currentPath} - rate limited`);
+            logger.debug(`Predictive preloading skipped for ${currentPath} - rate limited`, { component: 'PredictivePreloader' });
             return;
         }
 
-        console.log(`🎯 Predictive preloading for: ${currentPath}`);
+        logger.debug(`Predictive preloading for: ${currentPath}`, { component: 'PredictivePreloader' });
 
         // Update navigation history
         this.preloadHistory.push(currentPath);
@@ -139,7 +140,7 @@ export class PredictivePreloader {
             preloadPerformanceMonitor.recordPreload(path, preloadTime);
         });
 
-        console.log(`✅ Preloaded ${predictedPaths.length} routes and ${predictedComponents.length} components in ${Math.round(preloadTime)}ms`);
+        logger.debug(`Preloaded ${predictedPaths.length} routes and ${predictedComponents.length} components in ${Math.round(preloadTime)}ms`, { component: 'PredictivePreloader' });
     }
 
     /**
@@ -201,16 +202,16 @@ export class PredictivePreloader {
                 if (importFunction) {
                     const resourceId = `route:${path}`;
                     if (this.preloadQueue.has(resourceId)) {
-                        console.log(`⏭️ Route already preloaded: ${path}`);
+                        logger.debug(`Route already preloaded: ${path}`, { component: 'PredictivePreloader' });
                         return;
                     }
-                    console.log(`🔄 Preloading route: ${path}`);
+                    logger.debug(`Preloading route: ${path}`, { component: 'PredictivePreloader' });
                     await this.queuePreload(resourceId, importFunction);
                     this.preloadQueue.add(resourceId);
                 }
-            } catch (error) {
-                console.warn(`Failed to preload route ${path}:`, error);
-            }
+                } catch (error) {
+                    logger.warn(`Failed to preload route ${path}`, { component: 'PredictivePreloader' }, error as Error);
+                }
         });
 
         await Promise.allSettled(preloadPromises);
@@ -226,16 +227,16 @@ export class PredictivePreloader {
                 if (importFunction) {
                     const resourceId = `component:${component}`;
                     if (this.preloadQueue.has(resourceId)) {
-                        console.log(`⏭️ Component already preloaded: ${component}`);
+                        logger.debug(`Component already preloaded: ${component}`, { component: 'PredictivePreloader' });
                         return;
                     }
-                    console.log(`🔄 Preloading component: ${component}`);
+                    logger.debug(`Preloading component: ${component}`, { component: 'PredictivePreloader' });
                     await this.queuePreload(resourceId, importFunction);
                     this.preloadQueue.add(resourceId);
                 }
-            } catch (error) {
-                console.warn(`Failed to preload component ${component}:`, error);
-            }
+                } catch (error) {
+                    logger.warn(`Failed to preload component ${component}`, { component: 'PredictivePreloader' }, error as Error);
+                }
         });
 
         await Promise.allSettled(preloadPromises);
@@ -375,8 +376,7 @@ export class PredictivePreloader {
     // Extract item ID from path and preload related content
         const itemId = this.extractItemId(detailsPath);
         if (itemId) {
-            // In real implementation, this would fetch related items from API
-            console.log(`🔄 Would preload related items for: ${itemId}`);
+            logger.debug(`Would preload related items for: ${itemId}`, { component: 'PredictivePreloader' });
         }
     }
 

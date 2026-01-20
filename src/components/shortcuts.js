@@ -15,6 +15,7 @@ import dom from '../utils/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
+import { logger } from '../utils/logger';
 
 function playAllFromHere(card, serverId, queue) {
     const parent = card.parentNode;
@@ -268,7 +269,7 @@ function executeAction(card, target, action) {
                     }
                 });
             } else {
-                console.warn('Unable to play item', item);
+                logger.warn('Unable to play item', { component: 'Shortcuts', item });
             }
             break;
         }
@@ -299,7 +300,7 @@ function executeAction(card, target, action) {
             break;
         case ItemAction.QueueAllFromHere:
             playAllFromHere(card, serverId, true).catch((error) => {
-                console.error('Queue all from here failed:', error);
+                logger.error('Queue all from here failed', { component: 'Shortcuts' }, error);
             });
             break;
         case ItemAction.SetPlaylistIndex:
@@ -363,7 +364,7 @@ function addToPlaylist(item) {
             // Dialog closed
         });
     }).catch(err => {
-        console.error('[addToPlaylist] failed to load playlist editor', err);
+        logger.error('Failed to load playlist editor', { component: 'Shortcuts' }, err);
     });
 }
 

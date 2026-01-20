@@ -8,6 +8,8 @@ export function isVisible(): boolean {
     return document.visibilityState === 'visible';
 }
 
+import { logger } from './logger';
+
 type VisibilityCallback = (visible: boolean) => void;
 const visibilityCallbacks: Set<VisibilityCallback> = new Set();
 
@@ -33,7 +35,7 @@ if (typeof document !== 'undefined') {
             try {
                 cb(visible);
             } catch (err) {
-                console.warn('[Visibility] Callback error:', err);
+                logger.warn('[Visibility] Callback error', { component: 'Visibility' }, err as Error);
             }
         });
     });

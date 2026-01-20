@@ -8,6 +8,7 @@ import { UserSettingsProvider } from 'hooks/useUserSettings';
 import { WebConfigProvider } from 'hooks/useWebConfig';
 import appTheme from 'themes';
 import { queryClient } from 'utils/query/queryClient';
+import { logger } from 'utils/logger';
 
 const rootContainer: { current: HTMLElement | null } = { current: null };
 const sharedRoot: { current: ReturnType<typeof createRoot> | null } = { current: null };
@@ -27,7 +28,7 @@ export const renderComponent = <P extends object> (
 ) => {
     const root = getOrCreateRoot(element);
     if (!root) {
-        console.error('[reactUtils] Failed to create React root');
+        logger.error('[reactUtils] Failed to create React root', { component: 'reactUtils' });
         return () => {};
     }
 
@@ -39,7 +40,7 @@ export const renderComponent = <P extends object> (
 
     return () => {
         if (element === rootContainer.current && sharedRoot.current) {
-            console.log('[reactUtils] Keeping shared React root alive');
+            logger.debug('[reactUtils] Keeping shared React root alive', { component: 'reactUtils' });
         }
     };
 };

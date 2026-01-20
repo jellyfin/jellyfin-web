@@ -813,6 +813,7 @@ export class PlaybackManager {
                     undefined,
                 runtimeTicks: item.RunTimeTicks,
                 streamInfo: {
+                    url: '',
                     codec: item.Codec,
                     bitrate: item.Bitrate
                 },

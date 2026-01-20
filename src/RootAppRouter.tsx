@@ -41,7 +41,11 @@ const router = createHashRouter([
             }
         ]
     }
-]);
+], {
+    future: {
+        v7_startTransition: true
+    }
+} as Parameters<typeof createHashRouter>[1]);
 
 export const history = createRouterHistory(router);
 setAppHistory(history);

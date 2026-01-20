@@ -6,6 +6,7 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { predictivePreloader } from '../utils/predictivePreloader';
+import { logger } from '../utils/logger';
 
 interface UserContext {
     lastPlayedType?: string;
@@ -23,7 +24,7 @@ export const usePredictivePreloading = (userContext?: UserContext) => {
             try {
                 await predictivePreloader.preload(location.pathname, userContext);
             } catch (error) {
-                console.warn('Predictive preloading failed:', error);
+                logger.warn('Predictive preloading failed', { component: 'UsePredictivePreloading' }, error as Error);
             }
         };
 
@@ -43,7 +44,7 @@ export const usePredictivePreloading = (userContext?: UserContext) => {
                 await predictivePreloader.preload(location.pathname, { ...userContext, ...context });
             }
         } catch (error) {
-            console.warn('Manual preloading failed:', error);
+            logger.warn('Manual preloading failed', { component: 'UsePredictivePreloading' }, error as Error);
         }
     }, [location.pathname, userContext]);
 
@@ -67,7 +68,7 @@ export const useHoverPreloading = () => {
                 await predictivePreloader.preloadComponents([resource]);
             }
         } catch (error) {
-            console.warn(`Hover preloading failed for ${resource}:`, error);
+            logger.warn(`Hover preloading failed for ${resource}`, { component: 'UseHoverPreloading' }, error as Error);
         }
     }, []);
 
@@ -87,7 +88,7 @@ export const useIntersectionPreloading = () => {
                 await predictivePreloader.preloadComponents([resource]);
             }
         } catch (error) {
-            console.warn(`Intersection preloading failed for ${resource}:`, error);
+            logger.warn(`Intersection preloading failed for ${resource}`, { component: 'UseIntersectionPreloading' }, error as Error);
         }
     }, []);
 

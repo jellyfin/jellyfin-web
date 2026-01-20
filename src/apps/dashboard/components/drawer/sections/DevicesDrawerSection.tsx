@@ -1,4 +1,4 @@
-import Analytics from '@mui/icons-material/Analytics';
+import Assessment from '@mui/icons-material/Assessment';
 import Devices from '@mui/icons-material/Devices';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -31,7 +31,7 @@ const DevicesDrawerSection = () => {
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/activity'>
                     <ListItemIcon>
-                        <Analytics />
+                        <Assessment />
                     </ListItemIcon>
                     <ListItemText primary={globalize.translate('HeaderActivity')} />
                 </ListItemLink>

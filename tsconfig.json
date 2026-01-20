@@ -17,7 +17,7 @@
     "strictNullChecks": true,
     "jsx": "react-jsx",
     "useDefineForClassFields": true,
-    "types": ["vitest/globals"]
+    "types": []
   },
   "include": [
     "src"

@@ -1,14 +1,14 @@
 /**
  * Store Type Index
- * 
+ *
  * Central type exports for all store-related types.
  */
 
 // Re-export specific types to avoid conflicts
-export { PlayableItem, MediaImage, StreamInfo, AudioTrack, SubtitleTrack, TrackInfo, PlaybackProgress, PlaybackState, QueueItem, QueueState, RepeatMode, ShuffleMode, PlaybackStatus, PlayerInfo, TransferInfo, MediaType } from './media';
+export type { PlayableItem, MediaImage, StreamInfo, AudioTrack, SubtitleTrack, TrackInfo, PlaybackProgress, PlaybackState, QueueItem, QueueState, RepeatMode, ShuffleMode, PlaybackStatus, PlayerInfo, TransferInfo, MediaType } from './media';
 
 // Quality types
-export * from './quality';
+export type * from './quality';
 
 // Generic store types
 export interface StoreState<T> {

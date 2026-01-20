@@ -9,6 +9,7 @@ import React, {
 
 import type { WebConfig } from "../types/webConfig";
 import fetchLocal from "../utils/fetchLocal";
+import { logger } from "../utils/logger";
 
 const defaultConfig: WebConfig = {
     includeCorsCredentials: false,
@@ -67,10 +68,7 @@ export const WebConfigProvider: FC<PropsWithChildren<unknown>> = ({
                 const configData = await response.json();
                 setConfig(configData);
             } catch (err) {
-                console.warn(
-                    "[WebConfigProvider] failed to fetch config file",
-                    err,
-                );
+                logger.warn('[WebConfigProvider] failed to fetch config file', { component: 'useWebConfig' }, err as Error);
             }
         };
 

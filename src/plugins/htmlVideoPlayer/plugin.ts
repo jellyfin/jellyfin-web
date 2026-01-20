@@ -44,6 +44,7 @@ import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { includesAny } from '../../utils/container';
 import { isHls } from '../../utils/mediaSource';
+import { logger } from '../../utils/logger';
 
 import {
     PlayOptions,
@@ -88,7 +89,7 @@ function resolveUrl(url: string): Promise<string> {
             resolve(xhr.responseURL || url);
         };
         xhr.onerror = function (e) {
-            console.error(e);
+            logger.error('XHR request failed', { component: 'HtmlVideoPlayer' }, e as unknown as Error);
             resolve(url);
         };
         xhr.send(null);
@@ -102,7 +103,7 @@ function tryRemoveElement(elem: HTMLElement): void {
         try {
             parentNode.removeChild(elem);
         } catch (err) {
-            console.error(`error removing dialog element: ${err}`);
+            logger.error('Error removing dialog element', { component: 'HtmlVideoPlayer' }, err as Error);
         }
     }
 }
@@ -406,7 +407,7 @@ export class HtmlVideoPlayer {
             this.currentAssRenderer?.dispose();
             this.currentPgsRenderer?.dispose();
         } catch (e) {
-            console.error('Error destroying player:', e);
+            logger.error('Error destroying player', { component: 'HtmlVideoPlayer' }, e as Error);
         }
     }
 
@@ -697,7 +698,7 @@ export class HtmlVideoPlayer {
                 }
             }
         } catch (err) {
-            console.error('Error toggling Picture-in-Picture:', err);
+            logger.error('Error toggling Picture-in-Picture', { component: 'HtmlVideoPlayer' }, err as Error);
         }
     }
 
@@ -808,7 +809,7 @@ export class HtmlVideoPlayer {
 
         if (isEnabled) {
             elem.requestAirPlay?.().catch((err) => {
-                console.error('Error requesting AirPlay:', err);
+                logger.error('Error requesting AirPlay', { component: 'HtmlVideoPlayer' }, err as Error);
             });
         }
     }
@@ -856,7 +857,7 @@ export class HtmlVideoPlayer {
         this.bindEvents(elem);
 
         let val = options.url;
-        console.debug(`playing url: ${val}`);
+        logger.debug(`Playing URL: ${val}`, { component: 'HtmlVideoPlayer' });
 
         // Convert to seconds and add time offset
         const seconds = (options.playerStartPositionTicks || 0) / 10000000;
@@ -919,7 +920,7 @@ export class HtmlVideoPlayer {
 
                     this._hlsPlayer = hls;
                 } catch (error) {
-                    console.error('Error setting up HLS player:', error);
+                    logger.error('Error setting up HLS player', { component: 'HtmlVideoPlayer' }, error as Error);
                     reject(error);
                 }
             });
@@ -950,7 +951,7 @@ export class HtmlVideoPlayer {
 
             return flvPlayer.play();
         } catch (error) {
-            console.error('Error setting up FLV player:', error);
+            logger.error('Error setting up FLV player', { component: 'HtmlVideoPlayer' }, error as Error);
             throw error;
         }
     }
@@ -1050,7 +1051,7 @@ export class HtmlVideoPlayer {
         if (elem?.error) {
             const errorCode = elem.error.code;
             const errorMessage = elem.error.message || '';
-            console.error(`media element error: ${errorCode} ${errorMessage}`);
+            logger.error(`Media element error: ${errorCode} ${errorMessage}`, { component: 'HtmlVideoPlayer' });
 
             let mediaError: string | undefined;
             switch (errorCode) {

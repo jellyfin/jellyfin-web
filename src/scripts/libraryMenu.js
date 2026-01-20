@@ -397,7 +397,7 @@ function getUserViews(apiClient, userId) {
     return queryClient
         .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
         .then((result) => {
-            const items = result.Items;
+            const items = result.Items || [];
             const list = [];
 
             for (let i = 0, length = items.length; i < length; i++) {
@@ -520,19 +520,28 @@ function onLogoutClick() {
 
 function updateCastIcon() {
     const context = document;
+    if (!headerCastButton) return;
+
     const info = playbackManager.getPlayerInfo();
     const icon = headerCastButton.querySelector('.material-icons');
+    if (!icon) return;
 
     icon.classList.remove('cast_connected', 'cast');
+
+    const headerSelectedPlayer = context.querySelector('.headerSelectedPlayer');
 
     if (info && !info.isLocalPlayer) {
         icon.classList.add('cast_connected');
         headerCastButton.classList.add('castButton-active');
-        context.querySelector('.headerSelectedPlayer').innerText = info.deviceName || info.name;
+        if (headerSelectedPlayer) {
+            headerSelectedPlayer.innerText = info.deviceName || info.name;
+        }
     } else {
         icon.classList.add('cast');
         headerCastButton.classList.remove('castButton-active');
-        context.querySelector('.headerSelectedPlayer').innerHTML = '';
+        if (headerSelectedPlayer) {
+            headerSelectedPlayer.innerHTML = '';
+        }
     }
 }
 

@@ -15,6 +15,11 @@
  * Helper mixin to add properties using css variables with fallback values.
  */
 @mixin var($property, $variable, $default, $important: false) {
-    #{$property}: $default if($important, !important, null);
-    #{$property}: var($variable) if($important, !important, null);
+    @if $important {
+        #{$property}: !important;
+        #{$property}: var($variable) !important;
+    } @else {
+        #{$property}: $default;
+        #{$property}: var($variable);
+    }
 }

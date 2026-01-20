@@ -223,7 +223,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
             </MenuItem>
         );
     } else {
-        if (groups && groups.length > 0) {
+        if (Array.isArray(groups) && groups.length > 0) {
             groups.forEach(group => {
                 menuItems.push(
                     <MenuItem

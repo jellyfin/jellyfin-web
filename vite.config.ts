@@ -4,6 +4,7 @@ import { defineConfig, loadEnv, Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import { ViteMcp } from "vite-plugin-mcp";
 import path from "path";
 import fs from "fs";
 import { globSync } from "fast-glob";
@@ -146,10 +147,21 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), "");
 
     return {
-        base: env.VITE_BASE || "./", // Default to relative for flexibility, or override via env
+        base: './', // Use relative paths for flexibility
         root: "src", // Webpack context was 'src'
         publicDir: false, // We handle static assets manually to match Webpack structure
         server: {
+            // Handle /web/ path - serve the index.html for SPA routing
+            configureServer(server) {
+                server.middlewares.use((req, res, next) => {
+                    const url = req.url || '';
+                    // For /web or /web/ paths, serve from src/index.html
+                    if (url === '/web' || url === '/web/' || url.startsWith('/web?')) {
+                        req.url = '/index.html';
+                    }
+                    next();
+                });
+            },
             // Proxy API requests to the Jellyfin server to avoid CORS issues
             proxy: {
                 // Proxy all API endpoints
@@ -188,6 +200,46 @@ export default defineConfig(({ mode }) => {
                     changeOrigin: true,
                     secure: false
                 },
+                '/Persons': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/Artists': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/Genres': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/MusicGenres': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/Studios': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/Years': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/Trailers': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/Localization': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
                 '/DisplayPreferences': {
                     target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
                     changeOrigin: true,
@@ -198,6 +250,56 @@ export default defineConfig(({ mode }) => {
                     changeOrigin: true,
                     secure: false,
                     ws: true
+                },
+                '/QuickConnect': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/Branding': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '/Playback': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '^/users/.*': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false
+                },
+                '^/socket$': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false,
+                    ws: true
+                },
+                // Catch-all for any unhandled Jellyfin API paths
+                '/web': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false,
+                    configure: (proxy) => {
+                        proxy.on('error', (err, req) => {
+                            console.log('[Vite Proxy Error]', err.message, req.url);
+                        });
+                    }
+                },
+                '/': {
+                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
+                    changeOrigin: true,
+                    secure: false,
+                    configure: (proxy) => {
+                        proxy.on('error', (err, req) => {
+                            console.log('[Vite Proxy Error]', err.message, req.url);
+                        });
+                        proxy.on('econnreset', (err, req) => {
+                            console.log('[Vite Proxy] Connection reset for', req.url);
+                        });
+                    }
                 }
             }
         },
@@ -359,7 +461,12 @@ export default defineConfig(({ mode }) => {
             escapeHtmlPlugin,
             scssTildePlugin,
             themeDevPlugin,
-            ...(mode === "development" ? [{
+            ...(mode === "development" ? [
+                ViteMcp({
+                    mcpRouteRoot: '/__mcp',
+                    updateConfig: 'claude-code',
+                }),
+                {
                 name: 'error-monitor',
                 configureServer(server) {
                     let errorLog: Array<{id: number; message: string; stack?: string; timestamp: string; type: string}> = [];

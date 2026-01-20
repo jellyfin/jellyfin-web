@@ -74,7 +74,11 @@ html {
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: if($dark, url(@jellyfin/ux-web/banner-light.png), url(@jellyfin/ux-web/banner-dark.png));
+    @if $dark {
+        background-image: url(@jellyfin/ux-web/banner-light.png);
+    } @else {
+        background-image: url(@jellyfin/ux-web/banner-dark.png);
+    }
 
     .layout-tv & {
         background-image: url(@jellyfin/ux-web/icon-transparent.png);
