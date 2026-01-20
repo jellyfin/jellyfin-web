@@ -7,6 +7,7 @@ export const ASYNC_USER_ROUTES: AsyncRoute[] = [
     { path: 'userprofile', page: 'user/userprofile' },
     // 🔥 CRITICAL: Lazy-loaded main entry point - MAXIMUM IMPACT
     { path: 'home', page: 'lazyRoutes/HomePage' },
+    { path: 'livetv', page: 'lazyRoutes/LiveTVPage' },
     { path: 'nowplaying', page: 'lazyRoutes/NowPlayingPage' },
 
     // 🔥 CRITICAL: Convert remaining legacy routes - HIGH IMPACT

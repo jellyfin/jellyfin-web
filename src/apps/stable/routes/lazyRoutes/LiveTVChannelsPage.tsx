@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/material/Typography/Typography';
-import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
-import Grid from '@mui/material/Grid/Grid';
-import Card from '@mui/material/Card/Card';
-import CardContent from '@mui/material/CardContent/CardContent';
-import CardMedia from '@mui/material/CardMedia/CardMedia';
+import Box from '@mui/joy/Box';
+import Typography from '@mui/joy/Typography';
+import CircularProgress from '@mui/joy/CircularProgress';
+import Grid from '@mui/joy/Grid';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import AspectRatio from '@mui/joy/AspectRatio';
 import globalize from 'lib/globalize';
 
 const LiveTVChannelsPage: React.FC = () => {
@@ -17,9 +17,9 @@ const LiveTVChannelsPage: React.FC = () => {
             try {
                 setTimeout(() => {
                     setData([
-                        { id: 1, name: 'Popular Channels', count: 45 },
-                        { id: 2, name: 'Recently Added', count: 23 },
-                        { id: 3, name: 'All Channels', count: 67 }
+                        { id: 1, name: 'Local News', count: 12 },
+                        { id: 2, name: 'Sports Channel', count: 8 },
+                        { id: 3, name: 'Movie Network', count: 15 }
                     ]);
                     setIsLoading(false);
                 }, 300);
@@ -33,7 +33,7 @@ const LiveTVChannelsPage: React.FC = () => {
 
     if (isLoading) {
         return (
-            <Box display='flex' justifyContent='center' alignItems='center' minHeight='200px'>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
                 <CircularProgress />
             </Box>
         );
@@ -41,19 +41,21 @@ const LiveTVChannelsPage: React.FC = () => {
 
     return (
         <Box sx={{ p: 3 }}>
-            <Typography variant='h4' component='h1' gutterBottom>
+            <Typography level="h2" sx={{ mb: 3 }}>
                 {globalize.translate('Channels')}
             </Typography>
             <Grid container spacing={3}>
                 {data.map((item) => (
-                    <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                        <Card sx={{ height: '100%' }}>
-                            <CardMedia component='div' sx={{ height: 140, backgroundColor: 'grey.300', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Typography variant='h6' color='text.secondary'>📡</Typography>
-                            </CardMedia>
+                    <Grid key={item.id} xs={12} sm={6} md={4} lg={3}>
+                        <Card variant="outlined">
+                            <AspectRatio ratio="1">
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'neutral.softBg' }}>
+                                    <Typography level="h1">📺</Typography>
+                                </Box>
+                            </AspectRatio>
                             <CardContent>
-                                <Typography variant='h6' component='div'>{item.name}</Typography>
-                                <Typography variant='body2' color='text.secondary'>{item.count} items</Typography>
+                                <Typography level="title-lg">{item.name}</Typography>
+                                <Typography level="body-sm">{item.count} programs</Typography>
                             </CardContent>
                         </Card>
                     </Grid>
