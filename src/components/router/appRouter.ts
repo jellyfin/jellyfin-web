@@ -4,6 +4,7 @@ import { setBackdropTransparency } from '../backdrop/backdrop';
 import globalize from '../../lib/globalize';
 import itemHelper from '../itemHelper';
 import loading from '../loading/loading';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import alert from '../alert';
 
 import { LayoutMode } from 'constants/layoutMode';
@@ -32,12 +33,35 @@ export const PUBLIC_PATHS = [
     '/wizarduser'
 ];
 
+interface RouteOptions {
+    context?: string;
+    serverId?: string;
+    itemType?: string;
+    itemTypes?: string;
+    isFavorite?: boolean;
+    isAiring?: boolean;
+    isMovie?: boolean;
+    isSeries?: boolean;
+    isSports?: boolean;
+    isKids?: boolean;
+    isNews?: boolean;
+    section?: string;
+    parentId?: string;
+    tag?: string;
+    tagId?: string;
+    genreId?: string;
+    musicGenreId?: string;
+    studioId?: string;
+}
+
 class AppRouter {
-    forcedLogoutMsg;
-    msgTimeout;
-    promiseShow;
-    resolveOnNextShow;
-    _history;
+    forcedLogoutMsg: string | null = null;
+    msgTimeout: ReturnType<typeof setTimeout> | null = null;
+    promiseShow: Promise<void> | null = null;
+    resolveOnNextShow: (() => void) | null = null;
+    _history: any = null;
+    baseRoute: string;
+    lastPath: string = '';
 
     constructor() {
         document.addEventListener('viewshow', () => this.onViewShow());
@@ -93,7 +117,7 @@ class AppRouter {
         return this.promiseShow;
     }
 
-    async show(path, options) {
+    async show(path: string, options?: any) {
         if (this.promiseShow) await this.promiseShow;
 
         const history = this._getHistory();
@@ -139,7 +163,7 @@ class AppRouter {
             return;
         }
 
-        history.listen(({ location }) => {
+        history.listen(({ location }: any) => {
             const normalizedPath = location.pathname.replace(/^!/, '');
             const fullPath = normalizedPath + location.search;
 
@@ -156,7 +180,7 @@ class AppRouter {
         return this.baseRoute;
     }
 
-    canGoBack(path) {
+    canGoBack(path?: string) {
         const history = this._getHistory();
         if (!path) {
             path = history ? history.location.pathname : window.location.pathname;
@@ -164,7 +188,7 @@ class AppRouter {
 
         if (
             !document.querySelector('.dialogContainer')
-            && START_PAGE_PATHS.includes(path)
+            && path && START_PAGE_PATHS.includes(path)
         ) {
             return false;
         }
@@ -172,7 +196,7 @@ class AppRouter {
         return window.history.length > 1;
     }
 
-    showItem(item, serverId, options) {
+    showItem(item: any, serverId?: string, options?: RouteOptions) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof item === 'string') {
             const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
@@ -182,14 +206,15 @@ class AppRouter {
             queryClient
                 .fetchQuery(getItemQuery(api, item, userId))
                 .then(itemObject => {
-                    this.showItem(itemObject, options);
+                    this.showItem(itemObject, serverId, options);
                 })
                 .catch(err => {
                     logger.error('[AppRouter] Failed to fetch item', { component: 'AppRouter' }, err);
                 });
         } else {
-            if (arguments.length === 2) {
-                options = arguments[1];
+            // handle the case where options is passed as second argument
+            if (arguments.length === 2 && typeof serverId === 'object') {
+                options = serverId as unknown as RouteOptions;
             }
 
             // Don't navigate away from queue view when playing items
@@ -206,7 +231,7 @@ class AppRouter {
      * Sets the backdrop, background, and document transparency
      * @deprecated use Dashboard.setBackdropTransparency
      */
-    setTransparency(level) {
+    setTransparency(level: any) {
         // TODO: Remove this after JMP is updated to not use this function
         logger.warn('Deprecated! Use Dashboard.setBackdropTransparency', { component: 'AppRouter' });
         setBackdropTransparency(level);
@@ -221,18 +246,16 @@ class AppRouter {
         }
     }
 
-    onForcedLogoutMessageTimeout() {
+    onForcedLogoutMessageTimeout = () => {
         const msg = this.forcedLogoutMsg;
         this.forcedLogoutMsg = null;
 
         if (msg) {
-            import('../../utils/logger').then(({ logger }) => {
-                logger.warn(msg, { component: 'AppRouter' });
-            });
+            logger.warn(msg, { component: 'AppRouter' });
         }
-    }
+    };
 
-    showForcedLogoutMessage(msg) {
+    showForcedLogoutMessage(msg: string) {
         this.forcedLogoutMsg = msg;
         if (this.msgTimeout) {
             clearTimeout(this.msgTimeout);
@@ -241,8 +264,8 @@ class AppRouter {
         this.msgTimeout = setTimeout(this.onForcedLogoutMessageTimeout, 100);
     }
 
-    onRequestFail(_e, data) {
-        const apiClient = this;
+    onRequestFail(_e: any, data: any) {
+        const apiClient = this as any;
 
         if (data.status === 403 && data.errorCode === 'ParentalControl') {
             const history = this._getHistory();
@@ -274,7 +297,7 @@ class AppRouter {
         return path;
     }
 
-    getRouteUrl(item, options) {
+    getRouteUrl(item: any, options?: RouteOptions) {
         if (!item) {
             throw new Error('item cannot be null');
         }
@@ -439,7 +462,7 @@ class AppRouter {
         }
 
         if (item === 'tag') {
-            url = `#/list?type=tag&tag=${encodeURIComponent(options.tag)}&serverId=${serverId}`;
+            url = `#/list?type=tag&tag=${encodeURIComponent(options.tag || '')}&serverId=${serverId}`;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;
@@ -511,7 +534,7 @@ class AppRouter {
         return '#/details?id=' + id + '&serverId=' + serverId;
     }
 
-    showLocalLogin(serverId) {
+    showLocalLogin(serverId: string) {
         return this.show('login?serverid=' + serverId);
     }
 
@@ -563,6 +586,12 @@ export const isLyricsPage = () => {
     const pathname = history ? history.location.pathname : window.location.pathname;
     return pathname.toLowerCase() === '/lyrics';
 };
+
+declare global {
+    interface Window {
+        Emby: any;
+    }
+}
 
 window.Emby = window.Emby || {};
 window.Emby.Page = appRouter;

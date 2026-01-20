@@ -8,10 +8,39 @@ import profileBuilder from '../scripts/browserDeviceProfile';
 import { AppFeature } from 'constants/appFeature';
 import { LayoutMode } from 'constants/layoutMode';
 import { logger } from '../utils/logger';
+import alert from './alert';
+
+declare global {
+    interface Window {
+        NativeShell?: {
+            AppHost?: {
+                getDeviceProfile?: (builder: any, version: string) => any;
+                exit?: () => void;
+                supports?: (command: string) => boolean;
+                getDefaultLayout?: () => LayoutMode;
+                init?: () => { deviceId: string; deviceName: string };
+                deviceName?: () => string;
+                deviceId?: () => string;
+                appName?: () => string;
+                appVersion?: () => string;
+                getPushTokenInfo?: () => any;
+                screen?: () => { width: number; height: number; maxAllowedWidth?: number };
+            };
+        };
+        appMode?: string;
+        tizen?: any;
+        webOS?: any;
+        __PACKAGE_JSON_VERSION__: string;
+        appHost: any;
+    }
+    const __PACKAGE_JSON_VERSION__: string;
+    const tizen: any;
+    const webOS: any;
+}
 
 const appName = 'Jellyfin Web';
 
-const BrowserName = {
+const BrowserName: Record<string, string> = {
     tizen: 'Samsung Smart TV',
     web0s: 'LG Smart TV',
     titanos: 'Titan OS',
@@ -27,8 +56,8 @@ const BrowserName = {
     safari: 'Safari'
 };
 
-function getBaseProfileOptions(item) {
-    const disableHlsVideoAudioCodecs = [];
+function getBaseProfileOptions(item: any) {
+    const disableHlsVideoAudioCodecs: string[] = [];
 
     if (item && htmlMediaHelper.enableHlsJsPlayer(item.RunTimeTicks, item.MediaType)) {
         if (browser.edge) {
@@ -49,12 +78,12 @@ function getBaseProfileOptions(item) {
     };
 }
 
-function getDeviceProfile(item) {
+function getDeviceProfile(item: any): Promise<any> {
     return new Promise((resolve) => {
         let profile;
 
         if (window.NativeShell?.AppHost?.getDeviceProfile) {
-            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, __PACKAGE_JSON_VERSION__);
+            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, window.__PACKAGE_JSON_VERSION__ || '');
         } else {
             const builderOpts = getBaseProfileOptions(item);
             profile = profileBuilder(builderOpts);
@@ -78,9 +107,9 @@ function getDeviceProfile(item) {
                 });
             }
 
-            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+            profile.TranscodingProfiles.forEach((transcodingProfile: any) => {
                 if (transcodingProfile.Type === 'Video') {
-                    transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter((condition) => {
+                    transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter((condition: any) => {
                         return condition.Property !== 'Width';
                     });
 
@@ -91,9 +120,9 @@ function getDeviceProfile(item) {
 
         const preferredTranscodeVideoCodec = appSettings.preferredTranscodeVideoCodec();
         if (preferredTranscodeVideoCodec) {
-            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+            profile.TranscodingProfiles.forEach((transcodingProfile: any) => {
                 if (transcodingProfile.Type === 'Video') {
-                    const videoCodecs = transcodingProfile.VideoCodec.split(',');
+                    const videoCodecs = (transcodingProfile.VideoCodec as string).split(',');
                     const index = videoCodecs.indexOf(preferredTranscodeVideoCodec);
                     if (index !== -1) {
                         videoCodecs.splice(index, 1);
@@ -106,9 +135,9 @@ function getDeviceProfile(item) {
 
         const preferredTranscodeVideoAudioCodec = appSettings.preferredTranscodeVideoAudioCodec();
         if (preferredTranscodeVideoAudioCodec) {
-            profile.TranscodingProfiles.forEach((transcodingProfile) => {
+            profile.TranscodingProfiles.forEach((transcodingProfile: any) => {
                 if (transcodingProfile.Type === 'Video') {
-                    const audioCodecs = transcodingProfile.AudioCodec.split(',');
+                    const audioCodecs = (transcodingProfile.AudioCodec as string).split(',');
                     const index = audioCodecs.indexOf(preferredTranscodeVideoAudioCodec);
                     if (index !== -1) {
                         audioCodecs.splice(index, 1);
@@ -132,7 +161,7 @@ function generateDeviceId() {
         return btoa(keys.join('|')).replaceAll('=', '1');
     }
 
-    return new Date().getTime();
+    return new Date().getTime().toString();
 }
 
 function getDeviceId() {
@@ -158,17 +187,17 @@ function getDeviceName() {
     deviceName = 'Web Browser'; // Default device name
 
     for (const key in BrowserName) {
-        if (browser[key]) {
+        if ((browser as any)[key]) {
             deviceName = BrowserName[key];
             break;
         }
     }
 
-    if (browser.ipad) {
+    if ((browser as any).ipad) {
         deviceName += ' iPad';
-    } else if (browser.iphone) {
+    } else if ((browser as any).iphone) {
         deviceName += ' iPhone';
-    } else if (browser.android) {
+    } else if ((browser as any).android) {
         deviceName += ' Android';
     }
     return deviceName;
@@ -179,7 +208,7 @@ function supportsFullscreen() {
         return false;
     }
 
-    const element = document.documentElement;
+    const element = document.documentElement as any;
     return !!(element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen || document.createElement('video').webkitEnterFullscreen);
 }
 
@@ -188,7 +217,7 @@ function getDefaultLayout() {
 }
 
 function supportsHtmlMediaAutoplay() {
-    if (browser.edgeUwp || browser.tizen || browser.web0s || browser.orsay || browser.operaTv || browser.ps4 || browser.xboxOne) {
+    if ((browser as any).edgeUwp || browser.tizen || browser.web0s || (browser as any).orsay || (browser as any).operaTv || (browser as any).ps4 || (browser as any).xboxOne) {
         return true;
     }
 
@@ -213,7 +242,7 @@ function supportsCue() {
 
         return !!cue.length;
     } catch (err) {
-        logger.error('Error detecting cue support', { component: 'AppHost' }, err);
+        logger.error('Error detecting cue support', { component: 'AppHost' }, err as Error);
         return false;
     }
 }
@@ -232,21 +261,21 @@ function onAppHidden() {
 }
 
 const supportedFeatures = function () {
-    const features = [];
+    const features: string[] = [];
 
     if (navigator.share) {
         features.push(AppFeature.Sharing);
     }
 
-    if (!browser.edgeUwp && !browser.tv && !browser.xboxOne && !browser.ps4) {
+    if (!(browser as any).edgeUwp && !browser.tv && !(browser as any).xboxOne && !(browser as any).ps4) {
         features.push(AppFeature.FileDownload);
     }
 
-    if (browser.operaTv || browser.tizen || browser.orsay || browser.web0s) {
+    if ((browser as any).operaTv || browser.tizen || (browser as any).orsay || browser.web0s) {
         features.push(AppFeature.Exit);
     }
 
-    if (!browser.operaTv && !browser.tizen && !browser.orsay && !browser.web0s && !browser.ps4) {
+    if (!(browser as any).operaTv && !browser.tizen && !(browser as any).orsay && !browser.web0s && !(browser as any).ps4) {
         features.push(AppFeature.ExternalLinks);
     }
 
@@ -259,15 +288,15 @@ const supportedFeatures = function () {
         features.push(AppFeature.Fullscreen);
     }
 
-    if (browser.tv || browser.xboxOne || browser.ps4 || browser.mobile || browser.ipad) {
+    if (browser.tv || (browser as any).xboxOne || (browser as any).ps4 || browser.mobile || (browser as any).ipad) {
         features.push(AppFeature.PhysicalVolumeControl);
     }
 
-    if (!browser.tv && !browser.xboxOne && !browser.ps4) {
+    if (!browser.tv && !(browser as any).xboxOne && !(browser as any).ps4) {
         features.push(AppFeature.RemoteControl);
     }
 
-    if (!browser.operaTv && !browser.tizen && !browser.orsay && !browser.web0s && !browser.edgeUwp) {
+    if (!(browser as any).operaTv && !browser.tizen && !(browser as any).orsay && !browser.web0s && !(browser as any).edgeUwp) {
         features.push(AppFeature.RemoteVideo);
     }
 
@@ -280,15 +309,15 @@ const supportedFeatures = function () {
         if (enabled) features.push(AppFeature.MultiServer);
     });
 
-    if (!browser.orsay && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
+    if (!(browser as any).orsay && (browser.firefox || (browser as any).ps4 || browser.edge || supportsCue())) {
         features.push(AppFeature.SubtitleAppearance);
     }
 
-    if (!browser.orsay) {
+    if (!(browser as any).orsay) {
         features.push(AppFeature.SubtitleBurnIn);
     }
 
-    if (!browser.tv && !browser.ps4 && !browser.xboxOne) {
+    if (!browser.tv && !(browser as any).ps4 && !(browser as any).xboxOne) {
         features.push(AppFeature.FileInput);
     }
 
@@ -307,18 +336,18 @@ function doExit() {
         if (window.NativeShell?.AppHost?.exit) {
             window.NativeShell.AppHost.exit();
         } else if (browser.tizen) {
-            tizen.application.getCurrentApplication().exit();
+            window.tizen.application.getCurrentApplication().exit();
         } else if (browser.web0s) {
-            webOS.platformBack();
+            window.webOS.platformBack();
         } else {
             window.close();
         }
     } catch (err) {
-        logger.error('Error closing application', { component: 'AppHost' }, err);
+        logger.error('Error closing application', { component: 'AppHost' }, err as Error);
     }
 }
 
-let exitPromise;
+let exitPromise: Promise<void> | null = null;
 
 /**
      * Ask user for exit
@@ -329,13 +358,13 @@ function askForExit() {
     }
 
     import('../components/actionSheet/actionSheet').then((actionsheet) => {
-        exitPromise = actionsheet.show({
+        exitPromise = (actionsheet.default as any).show({
             title: globalize.translate('MessageConfirmAppExit'),
             items: [
                 { id: 'yes', name: globalize.translate('Yes') },
                 { id: 'no', name: globalize.translate('No') }
             ]
-        }).then((value) => {
+        }).then((value: string) => {
             if (value === 'yes') {
                 doExit();
             }
@@ -345,15 +374,15 @@ function askForExit() {
     });
 }
 
-let deviceId;
-let deviceName;
+let deviceId: string;
+let deviceName: string;
 
 export const appHost = {
     getWindowState: function () {
-        return document.windowState || 'Normal';
+        return (document as any).windowState || 'Normal';
     },
     setWindowState: function () {
-        alert('setWindowState is not supported and should not be called');
+        alert({ text: 'setWindowState is not supported and should not be called' });
     },
     exit: function () {
         if (!!window.appMode && browser.tizen) {
@@ -362,14 +391,14 @@ export const appHost = {
             doExit();
         }
     },
-    supports: function (command) {
+    supports: function (command: string) {
         if (window.NativeShell?.AppHost?.supports) {
             return window.NativeShell.AppHost.supports(command);
         }
 
         return supportedFeatures.indexOf(command.toLowerCase()) !== -1;
     },
-    preferVisualCards: browser.android || browser.chrome,
+    preferVisualCards: (browser as any).android || browser.chrome,
     getDefaultLayout: function () {
         if (window.NativeShell?.AppHost?.getDefaultLayout) {
             return window.NativeShell.AppHost.getDefaultLayout();
@@ -402,19 +431,19 @@ export const appHost = {
     },
     appVersion: function () {
         return window.NativeShell?.AppHost?.appVersion ?
-            window.NativeShell.AppHost.appVersion() : __PACKAGE_JSON_VERSION__;
+            window.NativeShell.AppHost.appVersion() : window.__PACKAGE_JSON_VERSION__;
     },
     getPushTokenInfo: function () {
         return {};
     },
-    setUserScalable: function (scalable) {
+    setUserScalable: function (scalable: boolean) {
         if (!browser.tv) {
             const att = scalable ? 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes' : 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no';
-            document.querySelector('meta[name=viewport]').setAttribute('content', att);
+            document.querySelector('meta[name=viewport]')?.setAttribute('content', att);
         }
     },
     screen: () => {
-        let hostScreen = null;
+        let hostScreen: any = null;
 
         const appHostImpl = window.NativeShell?.AppHost;
 
@@ -437,7 +466,7 @@ export const appHost = {
 };
 
 export const safeAppHost = {
-    supports: (feature) => {
+    supports: (feature: string) => {
         if (appHost && typeof appHost.supports === 'function') {
             return appHost.supports(feature);
         }
@@ -463,7 +492,7 @@ export const safeAppHost = {
             return appHost.appVersion();
         }
 
-        return __PACKAGE_JSON_VERSION__;
+        return window.__PACKAGE_JSON_VERSION__;
     },
     deviceName: () => {
         if (appHost && typeof appHost.deviceName === 'function') {
@@ -505,20 +534,20 @@ if (typeof window !== 'undefined') {
 }
 
 let isHidden = false;
-let hidden;
-let visibilityChange;
+let hidden: string | undefined;
+let visibilityChange: string | undefined;
 
 if (typeof document.hidden !== 'undefined') {
     hidden = 'hidden';
     visibilityChange = 'visibilitychange';
-} else if (typeof document.webkitHidden !== 'undefined') {
+} else if (typeof (document as any).webkitHidden !== 'undefined') {
     hidden = 'webkitHidden';
     visibilityChange = 'webkitvisibilitychange';
 }
 
 if (typeof document !== 'undefined' && visibilityChange) {
     document.addEventListener(visibilityChange, () => {
-        if (document[hidden]) {
+        if (hidden && (document as any)[hidden]) {
             onAppHidden();
         } else {
             onAppVisible();
@@ -535,5 +564,5 @@ if (typeof window !== 'undefined' && window.addEventListener) {
 try {
     appHost.init();
 } catch (err) {
-    logger.error('AppHost init failed', { component: 'AppHost' }, err);
+    logger.error('AppHost init failed', { component: 'AppHost' }, err as Error);
 }
