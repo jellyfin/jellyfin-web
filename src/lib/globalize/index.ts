@@ -1,5 +1,4 @@
 import { isEmpty } from '../../utils/lodashUtils';
-
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import Events from 'utils/events';
 import { updateLocale } from 'utils/dateFnsLocale';
@@ -8,27 +7,32 @@ import { logger } from '../../utils/logger';
 const Direction = {
     rtl: 'rtl',
     ltr: 'ltr'
-};
+} as const;
 
 export const FALLBACK_CULTURE = 'en-us';
 const RTL_LANGS = ['ar', 'fa', 'ur', 'he'];
 
 const stringModules = import.meta.glob('../../strings/*.json');
 
-const allTranslations = {};
-let currentCulture;
-let currentDateTimeCulture;
+interface TranslationInfo {
+    translations: { lang: string; path: string }[];
+    dictionaries: Record<string, Record<string, string>>;
+}
+
+const allTranslations: Record<string, TranslationInfo> = {};
+let currentCulture: string;
+let currentDateTimeCulture: string;
 let isRTL = false;
 
-export function getCurrentLocale() {
+export function getCurrentLocale(): string {
     return currentCulture;
 }
 
-export function getCurrentDateTimeLocale() {
+export function getCurrentDateTimeLocale(): string {
     return currentDateTimeCulture;
 }
 
-export function getDefaultLanguage() {
+export function getDefaultLanguage(): string {
     const culture = document.documentElement.getAttribute('data-culture');
     if (culture) {
         return culture;
@@ -37,8 +41,9 @@ export function getDefaultLanguage() {
     if (navigator.language) {
         return navigator.language;
     }
-    if (navigator.userLanguage) {
-        return navigator.userLanguage;
+    const nav: any = navigator;
+    if (nav.userLanguage) {
+        return nav.userLanguage;
     }
     if (navigator.languages?.length) {
         return navigator.languages[0];
@@ -47,11 +52,11 @@ export function getDefaultLanguage() {
     return FALLBACK_CULTURE;
 }
 
-export function getIsRTL() {
+export function getIsRTL(): boolean {
     return isRTL;
 }
 
-function checkAndProcessDir(culture) {
+function checkAndProcessDir(culture: string) {
     isRTL = false;
     for (const lang of RTL_LANGS) {
         if (culture.includes(lang)) {
@@ -63,7 +68,7 @@ function checkAndProcessDir(culture) {
     setDocumentDirection(isRTL ? Direction.rtl : Direction.ltr);
 }
 
-function setDocumentDirection(direction) {
+function setDocumentDirection(direction: 'rtl' | 'ltr') {
     document.getElementsByTagName('body')[0].setAttribute('dir', direction);
     document.getElementsByTagName('html')[0].setAttribute('dir', direction);
     if (direction === Direction.rtl) {
@@ -71,15 +76,15 @@ function setDocumentDirection(direction) {
     }
 }
 
-export function getIsElementRTL(element) {
-    if (window.getComputedStyle) { // all browsers
-        return window.getComputedStyle(element, null).getPropertyValue('direction') == 'rtl';
+export function getIsElementRTL(element: HTMLElement): boolean {
+    if (window.getComputedStyle) {
+        return window.getComputedStyle(element, null).getPropertyValue('direction') === 'rtl';
     }
-    return element.currentStyle.direction == 'rtl';
+    return (element as any).currentStyle?.direction === 'rtl';
 }
 
 export function updateCurrentCulture() {
-    let culture;
+    let culture: string | undefined;
     try {
         culture = userSettings.language();
     } catch {
@@ -92,7 +97,7 @@ export function updateCurrentCulture() {
 
     document.documentElement.setAttribute('lang', currentCulture);
 
-    let dateTimeCulture;
+    let dateTimeCulture: string | undefined;
     try {
         dateTimeCulture = userSettings.dateTimeLocale();
     } catch {
@@ -109,7 +114,7 @@ export function updateCurrentCulture() {
     ensureTranslations(currentCulture);
 }
 
-function ensureTranslations(culture) {
+function ensureTranslations(culture: string) {
     for (const i in allTranslations) {
         ensureTranslation(allTranslations[i], culture);
     }
@@ -120,24 +125,26 @@ function ensureTranslations(culture) {
     }
 }
 
-function ensureTranslation(translationInfo, culture) {
+function ensureTranslation(translationInfo: TranslationInfo, culture: string): Promise<void> {
     if (translationInfo.dictionaries[culture]) {
         return Promise.resolve();
     }
 
     return loadTranslation(translationInfo.translations, culture).then((dictionary) => {
-        translationInfo.dictionaries[culture] = dictionary;
+        translationInfo.dictionaries[culture] = dictionary || {};
     });
 }
 
-export function normalizeLocaleName(culture) {
+export function normalizeLocaleName(culture: string): string {
     return culture.replace('_', '-').toLowerCase();
 }
 
-function getDictionary(module, locale) {
+function getDictionary(module: string | undefined, locale: string): Record<string, string> {
     if (!module) {
         module = defaultModule();
     }
+
+    if (!module) return {};
 
     const translations = allTranslations[module];
     if (!translations) {
@@ -147,29 +154,33 @@ function getDictionary(module, locale) {
     return translations.dictionaries[locale];
 }
 
-export function register(options) {
+export function register(options: { name: string; strings?: any[]; translations?: any[] }) {
     allTranslations[options.name] = {
-        translations: options.strings || options.translations,
+        translations: options.strings || options.translations || [],
         dictionaries: {}
     };
 }
 
-export function loadStrings(options) {
+export function loadStrings(options: string | { name: string; strings?: any[]; translations?: any[] }): Promise<any> {
     const locale = getCurrentLocale();
     const promises = [];
-    let optionsName;
+    let optionsName: string;
     if (typeof options === 'string') {
         optionsName = options;
     } else {
         optionsName = options.name;
         register(options);
     }
-    promises.push(ensureTranslation(allTranslations[optionsName], locale));
-    promises.push(ensureTranslation(allTranslations[optionsName], FALLBACK_CULTURE));
+    
+    if (allTranslations[optionsName]) {
+        promises.push(ensureTranslation(allTranslations[optionsName], locale));
+        promises.push(ensureTranslation(allTranslations[optionsName], FALLBACK_CULTURE));
+    }
+    
     return Promise.all(promises);
 }
 
-function loadTranslation(translations, lang) {
+function loadTranslation(translations: { lang: string; path: string }[], lang: string): Promise<Record<string, string> | undefined> {
     lang = normalizeLocaleName(lang);
 
     let filtered = translations.filter((t) => {
@@ -190,31 +201,27 @@ function loadTranslation(translations, lang) {
         }
     }
 
-    return new Promise((resolve) => {
-        if (!filtered.length) {
-            resolve();
-            return;
-        }
+    if (!filtered.length) {
+        return Promise.resolve(undefined);
+    }
 
-        const url = filtered[0].path;
+    const url = filtered[0].path;
+    const moduleLoader = stringModules[`../../strings/${url}`];
+    
+    if (!moduleLoader) {
+        return Promise.resolve({});
+    }
 
-        const moduleLoader = stringModules[`../../strings/${url}`];
-        if (!moduleLoader) {
-            resolve({});
-            return;
-        }
-
-        moduleLoader().then((fileContent) => {
-            resolve(fileContent);
-        }).catch(() => {
-            resolve({});
-        });
+    return moduleLoader().then((fileContent: any) => {
+        return fileContent.default || fileContent;
+    }).catch(() => {
+        return {};
     });
 }
 
-function translateKey(key) {
+function translateKey(key: string): string {
     const parts = key.split('#');
-    let module;
+    let module: string | undefined;
 
     if (parts.length > 1) {
         module = parts[0];
@@ -224,7 +231,7 @@ function translateKey(key) {
     return translateKeyFromModule(key, module);
 }
 
-function translateKeyFromModule(key, module) {
+function translateKeyFromModule(key: string, module: string | undefined): string {
     let dictionary = getDictionary(module, getCurrentLocale());
     if (dictionary?.[key]) {
         return dictionary[key];
@@ -244,16 +251,16 @@ function translateKeyFromModule(key, module) {
     return key;
 }
 
-export function translate(key) {
+export function translate(key: string, ...args: any[]): string {
     let val = translateKey(key);
-    for (let i = 1; i < arguments.length; i++) {
-        val = val.replaceAll('{' + (i - 1) + '}', arguments[i].toLocaleString(currentCulture));
+    for (let i = 0; i < args.length; i++) {
+        val = val.replaceAll('{' + i + '}', args[i]?.toLocaleString(currentCulture) || '');
     }
     return val;
 }
 
-export function translateHtml(html, module) {
-    html = html.default || html;
+export function translateHtml(html: any, module?: string): string {
+    let htmlStr: string = html.default || html;
 
     if (!module) {
         module = defaultModule();
@@ -262,26 +269,26 @@ export function translateHtml(html, module) {
         throw new Error('module cannot be null or empty');
     }
 
-    let startIndex = html.indexOf('${');
+    let startIndex = htmlStr.indexOf('${');
     if (startIndex === -1) {
-        return html;
+        return htmlStr;
     }
 
     startIndex += 2;
-    const endIndex = html.indexOf('}', startIndex);
+    const endIndex = htmlStr.indexOf('}', startIndex);
     if (endIndex === -1) {
-        return html;
+        return htmlStr;
     }
 
-    const key = html.substring(startIndex, endIndex);
+    const key = htmlStr.substring(startIndex, endIndex);
     const val = translateKeyFromModule(key, module);
 
-    html = html.replace('${' + key + '}', val);
-    return translateHtml(html, module);
+    htmlStr = htmlStr.replace('${' + key + '}', val);
+    return translateHtml(htmlStr, module);
 }
 
-let _defaultModule;
-export function defaultModule(val) {
+let _defaultModule: string | undefined;
+export function defaultModule(val?: string): string | undefined {
     if (val) {
         _defaultModule = val;
     }
@@ -290,13 +297,13 @@ export function defaultModule(val) {
 
 updateCurrentCulture();
 
-Events.on(userSettings, 'change', (e, name) => {
+Events.on(userSettings, 'change', (e: any, name: string) => {
     if (name === 'language' || name === 'datetimelocale') {
         updateCurrentCulture();
     }
 });
 
-export default {
+const globalize = {
     translate,
     translateHtml,
     loadStrings,
@@ -309,3 +316,4 @@ export default {
     getIsElementRTL
 };
 
+export default globalize;
