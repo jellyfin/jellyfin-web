@@ -1,0 +1,129 @@
+import alert from '../components/alert';
+import focusManager from '../components/focusManager';
+import { playbackManager } from '../components/playback/playbackmanager';
+import { pluginManager } from '../components/pluginManager';
+import { appRouter } from '../components/router/appRouter';
+import toast from '../components/toast/toast';
+import { ServerConnections } from '../lib/jellyfin-apiclient';
+import inputManager from '../scripts/inputManager';
+import Events from '../utils/events';
+import { PluginType } from '../types/plugin';
+import { useNotificationStore } from '../store/notificationStore';
+
+const serverNotifications = {};
+
+function notifyApp() {
+    inputManager.notify();
+}
+
+function displayMessage(cmd: any) {
+    const args = cmd.Arguments;
+    if (args.TimeoutMs) {
+        toast({ title: args.Header, text: args.Text });
+    } else {
+        alert({ title: args.Header, text: args.Text });
+    }
+}
+
+function displayContent(cmd: any, apiClient: any) {
+    if (!(playbackManager as any).isPlayingLocally(['Video', 'Book', 'Audio'])) {
+        appRouter.showItem(cmd.Arguments.ItemId, apiClient.serverId());
+    }
+}
+
+function playTrailers(apiClient: any, itemId: string) {
+    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item: any) => {
+        playbackManager.playTrailers(item);
+    });
+}
+
+function processGeneralCommand(cmd: any, apiClient: any) {
+    switch (cmd.Name) {
+        case 'Select': inputManager.handleCommand('select'); return;
+        case 'Back': inputManager.handleCommand('back'); return;
+        case 'MoveUp': inputManager.handleCommand('up'); return;
+        case 'MoveDown': inputManager.handleCommand('down'); return;
+        case 'MoveLeft': inputManager.handleCommand('left'); return;
+        case 'MoveRight': inputManager.handleCommand('right'); return;
+        case 'PageUp': inputManager.handleCommand('pageup'); return;
+        case 'PageDown': inputManager.handleCommand('pagedown'); return;
+        case 'PlayTrailers': playTrailers(apiClient, cmd.Arguments.ItemId); break;
+        case 'SetRepeatMode': (playbackManager as any).setRepeatMode(cmd.Arguments.RepeatMode); break;
+        case 'SetShuffleQueue': (playbackManager as any).setQueueShuffleMode(cmd.Arguments.ShuffleMode); break;
+        case 'VolumeUp': inputManager.handleCommand('volumeup'); return;
+        case 'VolumeDown': inputManager.handleCommand('volumedown'); return;
+        case 'Mute': inputManager.handleCommand('mute'); return;
+        case 'Unmute': inputManager.handleCommand('unmute'); return;
+        case 'ToggleMute': inputManager.handleCommand('togglemute'); return;
+        case 'SetVolume': notifyApp(); (playbackManager as any).setVolume(cmd.Arguments.Volume); break;
+        case 'SetAudioStreamIndex': notifyApp(); (playbackManager as any).setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10)); break;
+        case 'SetSubtitleStreamIndex': notifyApp(); (playbackManager as any).setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10)); break;
+        case 'ToggleFullscreen': inputManager.handleCommand('togglefullscreen'); return;
+        case 'GoHome': inputManager.handleCommand('home'); return;
+        case 'GoToSettings': inputManager.handleCommand('settings'); return;
+        case 'DisplayContent': displayContent(cmd, apiClient); break;
+        case 'GoToSearch': inputManager.handleCommand('search'); return;
+        case 'DisplayMessage': displayMessage(cmd); break;
+        case 'SendString': (focusManager as any).sendText(cmd.Arguments.String); break;
+    }
+    notifyApp();
+}
+
+function onMessageReceived(this: any, _e: any, msg: any) {
+    const apiClient = this;
+    const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+
+    if (msg.MessageType === 'Play') {
+        notifyApp();
+        const serverId = apiClient.serverInfo().Id;
+        if (msg.Data.PlayCommand === 'PlayNext') playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId });
+        else if (msg.Data.PlayCommand === 'PlayLast') playbackManager.queue({ ids: msg.Data.ItemIds, serverId });
+        else playbackManager.play({
+            ids: msg.Data.ItemIds,
+            startPositionTicks: msg.Data.StartPositionTicks,
+            mediaSourceId: msg.Data.MediaSourceId,
+            audioStreamIndex: msg.Data.AudioStreamIndex,
+            subtitleStreamIndex: msg.Data.SubtitleStreamIndex,
+            startIndex: msg.Data.StartIndex,
+            serverId
+        });
+    } else if (msg.MessageType === 'Playstate') {
+        if (msg.Data.Command === 'Stop') inputManager.handleCommand('stop');
+        else if (msg.Data.Command === 'Pause') inputManager.handleCommand('pause');
+        else if (msg.Data.Command === 'Unpause') inputManager.handleCommand('play');
+        else if (msg.Data.Command === 'PlayPause') inputManager.handleCommand('playpause');
+        else if (msg.Data.Command === 'Seek') playbackManager.seek(msg.Data.SeekPositionTicks);
+        else if (msg.Data.Command === 'NextTrack') inputManager.handleCommand('next');
+        else if (msg.Data.Command === 'PreviousTrack') inputManager.handleCommand('previous');
+        else notifyApp();
+    } else if (msg.MessageType === 'GeneralCommand') {
+        processGeneralCommand(msg.Data, apiClient);
+    } else if (msg.MessageType === 'UserDataChanged') {
+        if (msg.Data.UserId === apiClient.getCurrentUserId()) {
+            const serverId = apiClient.serverInfo().Id;
+            msg.Data.UserDataList.forEach((userData: any) => {
+                useNotificationStore.getState().processUserDataChanged(serverId, userData);
+                Events.trigger(serverNotifications, 'UserDataChanged', [apiClient, userData]);
+            });
+        }
+    } else if (msg.MessageType === 'SyncPlayCommand') {
+        (SyncPlay as any)?.Manager.processCommand(msg.Data, apiClient);
+    } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
+        (SyncPlay as any)?.Manager.processGroupUpdate(msg.Data, apiClient);
+    } else {
+        const serverId = apiClient.serverInfo().Id;
+        useNotificationStore.getState().addNotification(serverId, msg.MessageType, msg.Data);
+        Events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
+    }
+}
+
+function bindEvents(apiClient: any) {
+    Events.off(apiClient, 'message', onMessageReceived);
+    Events.on(apiClient, 'message', onMessageReceived);
+}
+
+ServerConnections.getApiClients().forEach(bindEvents);
+Events.on(ServerConnections, 'apiclientcreated', (_e: any, newApiClient: any) => bindEvents(newApiClient));
+
+(window as any).ServerNotifications = serverNotifications;
+export default serverNotifications;
