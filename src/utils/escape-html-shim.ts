@@ -1,17 +1,20 @@
-var matchHtmlRegExp = /["'&<>]/;
+const matchHtmlRegExp = /["'&<>]/;
 
-function escapeHtml(string) {
-    var str = '' + string;
-    var match = matchHtmlRegExp.exec(str);
+/**
+ * Escapes HTML special characters in a string.
+ */
+function escapeHtml(string: string | number | boolean | null | undefined): string {
+    const str = String(string || '');
+    const match = matchHtmlRegExp.exec(str);
 
     if (!match) {
         return str;
     }
 
-    var escape;
-    var html = '';
-    var index = 0;
-    var lastIndex = 0;
+    let escape: string;
+    let html = '';
+    let index = 0;
+    let lastIndex = 0;
 
     for (index = match.index; index < str.length; index++) {
         switch (str.charCodeAt(index)) {

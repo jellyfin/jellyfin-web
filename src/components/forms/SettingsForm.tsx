@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
 import { z } from 'zod';
-import Box from '@mui/material/Box/Box';
-import TextField from '@mui/material/TextField/TextField';
-import Button from '@mui/material/Button/Button';
-import Switch from '@mui/material/Switch/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Typography from '@mui/material/Typography/Typography';
-import Divider from '@mui/material/Divider/Divider';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Typography from '@mui/joy/Typography';
+import Divider from '@mui/joy/Divider';
+import Stack from '@mui/joy/Stack';
+import { JoyInput, JoyTextarea, JoySwitch, JoySelect } from '../joy-ui/forms';
 
 const settingsSchema = z.object({
     appTitle: z.string().min(1, 'App title is required').max(100, 'Title too long'),
@@ -72,8 +71,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             }
         } catch (err) {
             if (err instanceof z.ZodError) {
-                const error = err as unknown as { issues: Array<{ message: string }> };
-                return error.issues[0]?.message;
+                return err.issues[0]?.message;
             }
         }
         return undefined;
@@ -157,131 +155,100 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     };
 
     return (
-        <Box component='form' onSubmit={handleSubmit}>
-            <Typography variant='h6' sx={{ mb: 2 }}>
+        <Box component='form' onSubmit={handleSubmit} sx={{ p: 2 }}>
+            <Typography level='h4' sx={{ mb: 3 }}>
                 General Settings
             </Typography>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                <TextField
+            <Stack spacing={3}>
+                <JoyInput
                     label='Application Title'
                     value={formData.appTitle.value}
-                    onChange={(e) => handleChange('appTitle', e.target.value)}
+                    onChange={(e: any) => handleChange('appTitle', e.target.value)}
                     onBlur={() => handleBlur('appTitle')}
-                    error={formData.appTitle.touched && !!formData.appTitle.error}
-                    helperText={formData.appTitle.touched ? formData.appTitle.error : undefined}
-                    fullWidth
+                    error={formData.appTitle.touched ? formData.appTitle.error : undefined}
                 />
 
-                <TextField
+                <JoyTextarea
                     label='Login Disclaimer'
+                    placeholder='Optional message shown on login screen'
                     value={formData.loginDisclaimer.value}
-                    onChange={(e) => handleChange('loginDisclaimer', e.target.value)}
+                    onChange={(e: any) => handleChange('loginDisclaimer', e.target.value)}
                     onBlur={() => handleBlur('loginDisclaimer')}
-                    error={formData.loginDisclaimer.touched && !!formData.loginDisclaimer.error}
-                    helperText={formData.loginDisclaimer.touched ? formData.loginDisclaimer.error : 'Optional message shown on login screen'}
-                    multiline
-                    rows={3}
-                    fullWidth
+                    error={formData.loginDisclaimer.touched ? formData.loginDisclaimer.error : undefined}
                 />
 
-                <Divider sx={{ my: 1 }} />
+                <Divider />
 
-                <Typography variant='h6' sx={{ mb: 1 }}>
-                    Playback Settings
-                </Typography>
+                <Typography level='title-lg'>Playback Settings</Typography>
 
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={formData.enableAutomaticUpdates.value as boolean}
-                            onChange={(e) => handleChange('enableAutomaticUpdates', e.target.checked)}
-                        />
-                    }
+                <JoySwitch
                     label='Enable Automatic Updates'
+                    checked={formData.enableAutomaticUpdates.value as boolean}
+                    onChange={(e: any) => handleChange('enableAutomaticUpdates', e.target.checked)}
                 />
 
-                <TextField
+                <JoyInput
                     label='Maximum Concurrent Streams'
                     type='number'
                     value={formData.maxConcurrentStreams.value}
-                    onChange={(e) => handleChange('maxConcurrentStreams', parseInt(e.target.value, 10) || 1)}
+                    onChange={(e: any) => handleChange('maxConcurrentStreams', parseInt(e.target.value, 10) || 1)}
                     onBlur={() => handleBlur('maxConcurrentStreams')}
-                    error={formData.maxConcurrentStreams.touched && !!formData.maxConcurrentStreams.error}
-                    helperText={formData.maxConcurrentStreams.touched ? formData.maxConcurrentStreams.error : undefined}
-                    inputProps={{ min: 1, max: 20 }}
-                    fullWidth
+                    error={formData.maxConcurrentStreams.touched ? formData.maxConcurrentStreams.error : undefined}
+                    slotProps={{ input: { min: 1, max: 20 } }}
                 />
 
-                <Divider sx={{ my: 1 }} />
+                <Divider />
 
-                <Typography variant='h6' sx={{ mb: 1 }}>
-                    Transcoding Settings
-                </Typography>
+                <Typography level='title-lg'>Transcoding Settings</Typography>
 
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={formData.transcodeH265.value as boolean}
-                            onChange={(e) => handleChange('transcodeH265', e.target.checked)}
-                        />
-                    }
+                <JoySwitch
                     label='Enable H.265 Transcoding'
+                    checked={formData.transcodeH265.value as boolean}
+                    onChange={(e: any) => handleChange('transcodeH265', e.target.checked)}
                 />
 
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={formData.enableDts.value as boolean}
-                            onChange={(e) => handleChange('enableDts', e.target.checked)}
-                        />
-                    }
+                <JoySwitch
                     label='Enable DTS Pass-through'
+                    checked={formData.enableDts.value as boolean}
+                    onChange={(e: any) => handleChange('enableDts', e.target.checked)}
                 />
 
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={formData.enableTrueHd.value as boolean}
-                            onChange={(e) => handleChange('enableTrueHd', e.target.checked)}
-                        />
-                    }
+                <JoySwitch
                     label='Enable TrueHD Pass-through'
+                    checked={formData.enableTrueHd.value as boolean}
+                    onChange={(e: any) => handleChange('enableTrueHd', e.target.checked)}
                 />
 
-                <Divider sx={{ my: 1 }} />
+                <Divider />
 
-                <Typography variant='h6' sx={{ mb: 1 }}>
-                    Language Settings
-                </Typography>
+                <Typography level='title-lg'>Language Settings</Typography>
 
-                <TextField
+                <JoyInput
                     label='Default Audio Language'
                     value={formData.defaultAudioLanguage.value}
-                    onChange={(e) => handleChange('defaultAudioLanguage', e.target.value)}
+                    onChange={(e: any) => handleChange('defaultAudioLanguage', e.target.value)}
                     placeholder='e.g., eng, spa, fra'
                     helperText='Leave empty for no preference'
-                    fullWidth
                 />
 
-                <TextField
-                    select
+                <JoySelect
                     label='Subtitle Mode'
                     value={formData.subtitleMode.value}
-                    onChange={(e) => handleChange('subtitleMode', e.target.value)}
-                    SelectProps={{ native: true }}
-                    fullWidth
-                >
-                    <option value='none'>None</option>
-                    <option value='all'>All</option>
-                    <option value='foreign'>Foreign (non-native)</option>
-                    <option value='default'>Default</option>
-                </TextField>
-            </Box>
+                    onChange={(_: any, newValue: any) => handleChange('subtitleMode', newValue)}
+                    options={[
+                        { label: 'None', value: 'none' },
+                        { label: 'All', value: 'all' },
+                        { label: 'Foreign (non-native)', value: 'foreign' },
+                        { label: 'Default', value: 'default' },
+                    ]}
+                />
+            </Stack>
 
             <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
                 <Button
                     variant='outlined'
+                    color="neutral"
                     onClick={handleReset}
                     disabled={isSubmitting}
                 >
@@ -289,10 +256,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                 </Button>
                 <Button
                     type='submit'
-                    variant='contained'
-                    disabled={isSubmitting}
+                    variant='solid'
+                    color="primary"
+                    loading={isSubmitting}
                 >
-                    {isSubmitting ? 'Saving...' : 'Save Settings'}
+                    Save Settings
                 </Button>
             </Box>
         </Box>

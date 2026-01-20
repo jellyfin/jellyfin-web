@@ -1,14 +1,19 @@
 import React, { useCallback, useState } from 'react';
-import Button from '@mui/material/Button/Button';
-import Dialog, { type DialogProps } from '@mui/material/Dialog/Dialog';
-import DialogActions from '@mui/material/DialogActions/DialogActions';
-import DialogContent from '@mui/material/DialogContent/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
-import TextField from '@mui/material/TextField/TextField';
-import Stack from '@mui/material/Stack/Stack';
+import Button from '@mui/joy/Button';
+import Modal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
+import DialogTitle from '@mui/joy/DialogTitle';
+import DialogContent from '@mui/joy/DialogContent';
+import DialogActions from '@mui/joy/DialogActions';
+import Input from '@mui/joy/Input';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import FormHelperText from '@mui/joy/FormHelperText';
+import Stack from '@mui/joy/Stack';
 import globalize from 'lib/globalize';
 
-interface InputDialogProps extends DialogProps {
+interface InputDialogProps {
+    open: boolean;
     title: string;
     label: string;
     helperText?: string;
@@ -40,34 +45,36 @@ const InputDialog = ({
     }, [ text, onConfirm ]);
 
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            maxWidth='xs'
-            fullWidth
-        >
-            {title && (
-                <DialogTitle>
-                    {title || ''}
-                </DialogTitle>
-            )}
-            <DialogContent>
-                <Stack>
-                    <TextField
-                        label={label}
-                        value={text}
-                        helperText={helperText}
-                        onChange={onTextChange}
-                        variant='standard'
-                    />
-                </Stack>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onConfirmClick}>
-                    {confirmButtonText || globalize.translate('ButtonOk')}
-                </Button>
-            </DialogActions>
-        </Dialog>
+        <Modal open={open} onClose={onClose}>
+            <ModalDialog sx={{ minWidth: 320 }}>
+                {title && (
+                    <DialogTitle>
+                        {title}
+                    </DialogTitle>
+                )}
+                <DialogContent>
+                    <Stack spacing={2}>
+                        <FormControl>
+                            <FormLabel>{label}</FormLabel>
+                            <Input
+                                autoFocus
+                                value={text}
+                                onChange={onTextChange}
+                            />
+                            {helperText && <FormHelperText>{helperText}</FormHelperText>}
+                        </FormControl>
+                    </Stack>
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="solid" color="primary" onClick={onConfirmClick}>
+                        {confirmButtonText || globalize.translate('ButtonOk')}
+                    </Button>
+                    <Button variant="plain" color="neutral" onClick={onClose}>
+                        {globalize.translate('ButtonCancel')}
+                    </Button>
+                </DialogActions>
+            </ModalDialog>
+        </Modal>
     );
 };
 

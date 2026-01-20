@@ -55,11 +55,11 @@ class PWAStatusDashboard {
 
         document.body.appendChild(dashboard);
 
-        document.getElementById('close-dashboard').addEventListener('click', () => {
+        document.getElementById('close-dashboard')?.addEventListener('click', () => {
             dashboard.remove();
         });
 
-        document.getElementById('refresh-status').addEventListener('click', () => {
+        document.getElementById('refresh-status')?.addEventListener('click', () => {
             this.updateStatus();
         });
 
@@ -73,13 +73,13 @@ class PWAStatusDashboard {
         try {
             const status = await this.collectStatus();
             content.innerHTML = this.renderStatus(status);
-        } catch (error) {
+        } catch (error: any) {
             content.innerHTML = `<p style="color: red;">Error loading status: ${error.message}</p>`;
         }
     }
 
     static async collectStatus() {
-        const status = {
+        const status: any = {
             pwa: {},
             serviceWorker: {},
             cache: {},
@@ -87,11 +87,13 @@ class PWAStatusDashboard {
             performance: {}
         };
 
+        const win: any = window;
+
         // PWA Status
         status.pwa = {
-            installed: window.PWAInstallManager?.isInstalled() || false,
-            installStats: window.PWAInstallManager?.getInstallStats() || {},
-            updateAvailable: window.PWAUpdateManager?.updateAvailable || false
+            installed: win.PWAInstallManager?.isInstalled() || false,
+            installStats: win.PWAInstallManager?.getInstallStats() || {},
+            updateAvailable: win.PWAUpdateManager?.updateAvailable || false
         };
 
         // Service Worker Status
@@ -108,16 +110,16 @@ class PWAStatusDashboard {
         }
 
         // Cache Status
-        if (window.ServiceWorkerCacheManager) {
+        if (win.ServiceWorkerCacheManager) {
             try {
-                status.cache = await window.ServiceWorkerCacheManager.getFormattedCacheStatus();
-            } catch (e) {
+                status.cache = await win.ServiceWorkerCacheManager.getFormattedCacheStatus();
+            } catch (e: any) {
                 status.cache = { error: e.message };
             }
         }
 
         // Network Status
-        status.network = window.PWAOfflineManager?.getConnectionStatus() || {};
+        status.network = win.PWAOfflineManager?.getConnectionStatus() || {};
 
         // Performance Status
         status.performance = {
@@ -138,10 +140,10 @@ class PWAStatusDashboard {
         return 'browser';
     }
 
-    static renderStatus(status) {
+    static renderStatus(status: any) {
         return `
-            <div style="line-height: 1.6;">
-                <h3>PWA Status</h3>
+            <div style="line-height: 1.6; color: #333;">
+                <h3 style="color: #101010;">PWA Status</h3>
                 <ul>
                     <li><strong>Installed:</strong> ${status.pwa.installed ? '✅ Yes' : '❌ No'}</li>
                     <li><strong>Update Available:</strong> ${status.pwa.updateAvailable ? '⚠️ Yes' : '✅ No'}</li>
@@ -149,7 +151,7 @@ class PWAStatusDashboard {
                     <li><strong>Days Since Install:</strong> ${status.pwa.installStats.daysSinceInstall || 'N/A'}</li>
                 </ul>
 
-                <h3>Service Worker</h3>
+                <h3 style="color: #101010;">Service Worker</h3>
                 <ul>
                     <li><strong>Supported:</strong> ${status.serviceWorker.supported ? '✅ Yes' : '❌ No'}</li>
                     <li><strong>Registered:</strong> ${status.serviceWorker.registered ? '✅ Yes' : '❌ No'}</li>
@@ -157,15 +159,15 @@ class PWAStatusDashboard {
                     <li><strong>Scope:</strong> ${status.serviceWorker.scope}</li>
                 </ul>
 
-                <h3>Cache Status</h3>
+                <h3 style="color: #101010;">Cache Status</h3>
                 ${Object.keys(status.cache).length > 0 && !status.cache.error ?
-                        Object.entries(status.cache).map(([cache, info]) =>
+                        Object.entries(status.cache).map(([cache, info]: [string, any]) =>
                             `<li><strong>${cache}:</strong> ${info.entries} entries, ${info.size}, limit: ${info.limit}</li>`
                         ).join('') :
                         '<li>No cache information available</li>'
                 }
 
-                <h3>Network Status</h3>
+                <h3 style="color: #101010;">Network Status</h3>
                 <ul>
                     <li><strong>Online:</strong> ${status.network.online ? '✅ Yes' : '❌ No'}</li>
                     ${status.network.connection ?
@@ -176,7 +178,7 @@ class PWAStatusDashboard {
                     }
                 </ul>
 
-                <h3>Performance</h3>
+                <h3 style="color: #101010;">Performance</h3>
                 <ul>
                     <li><strong>Display Mode:</strong> ${status.performance.displayMode}</li>
                     <li><strong>Language:</strong> ${status.performance.language}</li>
@@ -189,12 +191,13 @@ class PWAStatusDashboard {
 }
 
 // Add keyboard shortcut for status dashboard (Ctrl+Shift+P)
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'P') {
-        e.preventDefault();
-        PWAStatusDashboard.show();
-    }
-});
+if (typeof document !== 'undefined') {
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+            e.preventDefault();
+            PWAStatusDashboard.show();
+        }
+    });
+}
 
-// Export for debugging
-window.PWAStatusDashboard = PWAStatusDashboard;
+export default PWAStatusDashboard;

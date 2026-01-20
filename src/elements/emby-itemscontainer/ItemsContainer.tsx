@@ -3,12 +3,12 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { ApiClient } from 'jellyfin-apiclient';
 import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import Box from '@mui/material/Box/Box';
+import Box from '@mui/joy/Box';
 import Sortable from 'sortablejs';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
-import Events, { type Event } from 'utils/events';
+import Events from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
 import inputManager from 'scripts/inputManager';
 import dom from 'utils/dom';
@@ -22,6 +22,7 @@ import loading from 'components/loading/loading';
 import focusManager from 'components/focusManager';
 import type { ParentId } from 'types/library';
 import type { PlaybackStopInfo } from 'types/playbackStopInfo';
+import { useNotificationStore } from '../../store/notificationStore';
 
 function disableEvent(e: MouseEvent) {
     e.preventDefault();
@@ -84,7 +85,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         const target = e.target as HTMLElement;
         const card = dom.parentWithAttribute(target, 'data-id');
 
-        // check for serverId, it won't be present on selectserver
         if (card?.getAttribute('data-serverid')) {
             inputManager.handleCommand('menu', {
                 sourceElement: card
@@ -158,8 +158,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         sortableref.current = Sortable.create(itemsContainer, {
             draggable: '.listItem',
             handle: '.listViewDragHandle',
-
-            // dragging ended
             onEnd: (evt: Sortable.SortableEvent) => {
                 return onDrop(evt);
             }
@@ -193,38 +191,9 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         [reloadItems]
     );
 
-    const onUserDataChanged = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onTimerCreated = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onSeriesTimerCreated = useCallback(async () => {
-        await invalidateQueries();
-    }, [invalidateQueries]);
-
-    const onTimerCancelled = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onSeriesTimerCancelled = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
     const onLibraryChanged = useCallback(
-        (_e: Event, _apiClient: ApiClient, data: LibraryUpdateInfo) => {
+        (_e: any, _apiClient: ApiClient, data: LibraryUpdateInfo) => {
             if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
-                // yes this is an assumption
                 return;
             }
 
@@ -254,7 +223,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     );
 
     const onPlaybackStopped = useCallback(
-        (_e: Event, stopInfo: PlaybackStopInfo) => {
+        (_e: any, stopInfo: PlaybackStopInfo) => {
             const state = stopInfo.state;
 
             if (
@@ -305,7 +274,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         const itemsContainer = itemsContainerRef.current;
 
         if (!itemsContainer) {
-            console.error('Unexpected null reference');
             return;
         }
 
@@ -331,7 +299,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         const itemsContainer = itemsContainerRef.current;
 
         if (!itemsContainer) {
-            console.error('Unexpected null reference');
             return;
         }
 
@@ -356,11 +323,19 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
         itemShortcuts.on(itemsContainer, getShortcutOptions());
 
-        Events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
-        Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-        Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        // Reactive store subscriptions
+        const unsubNotifications = useNotificationStore.subscribe(
+            state => state.notifications[0],
+            (notif) => {
+                if (!notif) return;
+                if (notif.type === 'UserDataChanged') invalidateQueries();
+                if (notif.type === 'TimerCreated') invalidateQueries();
+                if (notif.type === 'TimerCancelled') invalidateQueries();
+                if (notif.type === 'SeriesTimerCreated') invalidateQueries();
+                if (notif.type === 'SeriesTimerCancelled') invalidateQueries();
+            }
+        );
+
         Events.on(serverNotifications, 'LibraryChanged', onLibraryChanged);
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
 
@@ -369,6 +344,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
                 clearTimeout(timerRef.current);
             }
 
+            unsubNotifications();
             destroyMultiSelect();
             destroyDragReordering();
             itemsContainer.removeEventListener('click', onClick);
@@ -377,11 +353,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
             itemShortcuts.off(itemsContainer, getShortcutOptions());
 
-            Events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
-            Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-            Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-            Events.off( serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-            Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
             Events.off(serverNotifications, 'LibraryChanged', onLibraryChanged);
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
         };
@@ -390,18 +361,14 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         destroyMultiSelect,
         initDragReordering,
         initMultiSelect,
+        invalidateQueries,
         isContextMenuEnabled,
         isDragreOrderEnabled,
         isMultiSelectEnabled,
         onClick,
         onContextMenu,
         onLibraryChanged,
-        onPlaybackStopped,
-        onSeriesTimerCancelled,
-        onSeriesTimerCreated,
-        onTimerCancelled,
-        onTimerCreated,
-        onUserDataChanged
+        onPlaybackStopped
     ]);
 
     const itemsContainerClass = classNames(

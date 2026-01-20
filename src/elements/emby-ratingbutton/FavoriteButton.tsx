@@ -1,7 +1,8 @@
 import React, { type FC, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import IconButton from '@mui/material/IconButton/IconButton';
+import IconButton from '@mui/joy/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { ItemAction } from 'constants/itemAction';
 import { useToggleFavoriteMutation } from 'hooks/useFetchItems';
@@ -23,7 +24,8 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
     const queryClient = useQueryClient();
     const { mutateAsync: toggleFavoriteMutation } = useToggleFavoriteMutation();
 
-    const onClick = useCallback(async () => {
+    const onClick = useCallback(async (e: React.MouseEvent) => {
+        e.stopPropagation();
         try {
             if (!itemId) {
                 throw new Error('Item has no Id');
@@ -50,12 +52,12 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
             data-action={ItemAction.None}
             className={className}
             title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
-            size='small'
+            variant="plain"
+            color={isFavorite ? 'danger' : 'neutral'}
+            size='sm'
             onClick={onClick}
         >
-            <FavoriteIcon
-                color={isFavorite ? 'error' : undefined}
-            />
+            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
     );
 };

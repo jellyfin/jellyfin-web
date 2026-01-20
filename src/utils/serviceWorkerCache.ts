@@ -3,8 +3,18 @@
  * Provides methods to interact with the service worker cache from the main thread
  */
 
+export interface CacheInfo {
+    entries: number;
+    estimatedSize: number;
+}
+
+export interface CacheStatus {
+    cacheInfo: Record<string, CacheInfo>;
+    limits: Record<string, number>;
+}
+
 export class ServiceWorkerCacheManager {
-    static async getCacheStatus() {
+    static async getCacheStatus(): Promise<CacheStatus> {
         if (!('serviceWorker' in navigator)) {
             throw new Error('Service Worker not supported');
         }
@@ -32,7 +42,7 @@ export class ServiceWorkerCacheManager {
         });
     }
 
-    static async clearCache(cacheName = null) {
+    static async clearCache(cacheName: string | null = null): Promise<boolean> {
         if (!('serviceWorker' in navigator)) {
             throw new Error('Service Worker not supported');
         }
@@ -60,11 +70,11 @@ export class ServiceWorkerCacheManager {
         });
     }
 
-    static async clearAllCaches() {
+    static async clearAllCaches(): Promise<boolean> {
         return this.clearCache();
     }
 
-    static formatBytes(bytes) {
+    static formatBytes(bytes: number): string {
         if (bytes === 0) return '0 B';
         const k = 1024;
         const sizes = ['B', 'KB', 'MB', 'GB'];
@@ -72,10 +82,10 @@ export class ServiceWorkerCacheManager {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
     }
 
-    static async getFormattedCacheStatus() {
+    static async getFormattedCacheStatus(): Promise<Record<string, any>> {
         const { cacheInfo, limits } = await this.getCacheStatus();
 
-        const formatted = {};
+        const formatted: Record<string, any> = {};
         for (const [cacheName, info] of Object.entries(cacheInfo)) {
             formatted[cacheName] = {
                 entries: info.entries,

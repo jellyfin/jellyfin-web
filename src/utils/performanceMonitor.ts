@@ -1,4 +1,15 @@
-import logger from './logger';
+import { logger } from './logger';
+
+declare global {
+    interface Navigator {
+        connection?: {
+            effectiveType: string;
+            downlink: number;
+            rtt: number;
+        };
+        getInstalledRelatedApps?: () => Promise<any[]>;
+    }
+}
 
 class PerformanceMonitor {
     static init() {
@@ -14,50 +25,64 @@ class PerformanceMonitor {
 
     static measureCLS() {
         let clsValue = 0;
-        const clsEntries = [];
 
-        new PerformanceObserver((entryList) => {
-            for (const entry of entryList.getEntries()) {
-                if (!entry.hadRecentInput) {
-                    clsValue += entry.value;
-                    clsEntries.push(entry);
+        try {
+            new PerformanceObserver((entryList) => {
+                for (const entry of entryList.getEntries() as any[]) {
+                    if (!entry.hadRecentInput) {
+                        clsValue += entry.value;
+                    }
                 }
-            }
 
-            logger.debug('CLS metric', { component: 'PerformanceMonitor', value: clsValue });
-        }).observe({ entryTypes: ['layout-shift'] });
+                logger.debug('CLS metric', { component: 'PerformanceMonitor', value: clsValue });
+            }).observe({ type: 'layout-shift', buffered: true });
+        } catch (e) {
+            // Not supported
+        }
     }
 
     static measureFID() {
-        new PerformanceObserver((entryList) => {
-            for (const entry of entryList.getEntries()) {
-                const fid = entry.processingStart - entry.startTime;
-                logger.debug('FID metric', { component: 'PerformanceMonitor', value: fid, unit: 'ms' });
-            }
-        }).observe({ entryTypes: ['first-input'] });
+        try {
+            new PerformanceObserver((entryList) => {
+                for (const entry of entryList.getEntries() as any[]) {
+                    const fid = entry.processingStart - entry.startTime;
+                    logger.debug('FID metric', { component: 'PerformanceMonitor', value: fid, unit: 'ms' });
+                }
+            }).observe({ type: 'first-input', buffered: true });
+        } catch (e) {
+            // Not supported
+        }
     }
 
     static measureLCP() {
-        new PerformanceObserver((entryList) => {
-            const entries = entryList.getEntries();
-            const lastEntry = entries[entries.length - 1];
-            logger.debug('LCP metric', { component: 'PerformanceMonitor', value: lastEntry.startTime, unit: 'ms' });
-        }).observe({ entryTypes: ['largest-contentful-paint'] });
+        try {
+            new PerformanceObserver((entryList) => {
+                const entries = entryList.getEntries();
+                const lastEntry = entries[entries.length - 1];
+                logger.debug('LCP metric', { component: 'PerformanceMonitor', value: lastEntry.startTime, unit: 'ms' });
+            }).observe({ type: 'largest-contentful-paint', buffered: true });
+        } catch (e) {
+            // Not supported
+        }
     }
 
     static measureTTFB() {
-        new PerformanceObserver((entryList) => {
-            for (const entry of entryList.getEntries()) {
-                const ttfb = entry.responseStart - entry.requestStart;
-                logger.debug('TTFB metric', { component: 'PerformanceMonitor', value: ttfb, unit: 'ms' });
-            }
-        }).observe({ entryTypes: ['navigation'] });
+        try {
+            new PerformanceObserver((entryList) => {
+                for (const entry of entryList.getEntries() as any[]) {
+                    const ttfb = entry.responseStart - entry.requestStart;
+                    logger.debug('TTFB metric', { component: 'PerformanceMonitor', value: ttfb, unit: 'ms' });
+                }
+            }).observe({ type: 'navigation', buffered: true });
+        } catch (e) {
+            // Not supported
+        }
     }
 
     static measureBundleLoad() {
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const resources = performance.getEntriesByType('resource');
+                const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
                 const bundles = resources.filter(r =>
                     r.name.includes('.js') && !r.name.includes('libraries/')
                 );
@@ -77,7 +102,7 @@ class PerformanceMonitor {
     }
 
     static measurePWAMetrics() {
-        if ('getInstalledRelatedApps' in navigator) {
+        if ('getInstalledRelatedApps' in navigator && navigator.getInstalledRelatedApps) {
             navigator.getInstalledRelatedApps().then((apps) => {
                 logger.debug('Related apps installed', { component: 'PerformanceMonitor', count: apps.length });
             });
@@ -86,7 +111,7 @@ class PerformanceMonitor {
         const displayMode = this.getDisplayMode();
         logger.debug('Display mode', { component: 'PerformanceMonitor', mode: displayMode });
 
-        if ('connection' in navigator) {
+        if ('connection' in navigator && navigator.connection) {
             const connection = navigator.connection;
             logger.debug('Connection info', {
                 component: 'PerformanceMonitor',
@@ -124,10 +149,10 @@ class PerformanceMonitor {
                     updateViaCache: registration.updateViaCache
                 });
 
-                if (window.ServiceWorkerCacheManager) {
-                    window.ServiceWorkerCacheManager.getCacheStatus().then((status) => {
+                if ((window as any).ServiceWorkerCacheManager) {
+                    (window as any).ServiceWorkerCacheManager.getCacheStatus().then((status: any) => {
                         logger.debug('Cache status', { component: 'PerformanceMonitor', status });
-                    }).catch((error) => {
+                    }).catch((error: any) => {
                         logger.error('Cache status check failed', { component: 'PerformanceMonitor', error: error.message });
                     });
                 }
@@ -138,14 +163,18 @@ class PerformanceMonitor {
     static reportMetrics() {
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const navigation = performance.getEntriesByType('navigation')[0];
+                const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+                if (!navigation) return;
+
+                const paintEntries = performance.getEntriesByType('paint');
+                const firstPaint = paintEntries.find(p => p.name === 'first-paint')?.startTime || 0;
+                const firstContentfulPaint = paintEntries.find(p => p.name === 'first-contentful-paint')?.startTime || 0;
+
                 const metrics = {
                     loadTime: navigation.loadEventEnd - navigation.loadEventStart,
                     domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
-                    firstPaint: performance.getEntriesByType('paint')
-                        .find(p => p.name === 'first-paint')?.startTime || 0,
-                    firstContentfulPaint: performance.getEntriesByType('paint')
-                        .find(p => p.name === 'first-contentful-paint')?.startTime || 0
+                    firstPaint,
+                    firstContentfulPaint
                 };
 
                 logger.info('Page metrics', { component: 'PerformanceMonitor', ...metrics });
@@ -153,9 +182,9 @@ class PerformanceMonitor {
         });
     }
 
-    static sendToAnalytics(metrics) {
-        if (window.gtag) {
-            window.gtag('event', 'web_vitals', {
+    static sendToAnalytics(metrics: any) {
+        if ((window as any).gtag) {
+            (window as any).gtag('event', 'web_vitals', {
                 event_category: 'Web Vitals',
                 event_label: 'PWA',
                 value: Math.round(metrics.loadTime)

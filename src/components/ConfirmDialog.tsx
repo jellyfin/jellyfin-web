@@ -1,56 +1,59 @@
-import Button from '@mui/material/Button/Button';
-import Dialog, { type DialogProps } from '@mui/material/Dialog/Dialog';
-import DialogActions from '@mui/material/DialogActions/DialogActions';
-import DialogContent from '@mui/material/DialogContent/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
+import Button from '@mui/joy/Button';
+import Modal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
+import DialogTitle from '@mui/joy/DialogTitle';
+import DialogContent from '@mui/joy/DialogContent';
+import DialogActions from '@mui/joy/DialogActions';
 import React, { type FC } from 'react';
 
 import globalize from 'lib/globalize';
 
-interface ConfirmDialogProps extends DialogProps {
-    confirmButtonColor?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
-    confirmButtonText?: string
-    title: string
-    text: string
-    onCancel: () => void
-    onConfirm: () => void
+interface ConfirmDialogProps {
+    open: boolean;
+    confirmButtonColor?: 'primary' | 'danger' | 'neutral' | 'success' | 'warning';
+    confirmButtonText?: string;
+    title: string;
+    text: string;
+    onCancel: () => void;
+    onConfirm: () => void;
 }
 
-/** Convenience wrapper for a simple MUI Dialog component for displaying a prompt that needs confirmation. */
+/** Convenience wrapper for a simple Joy UI Dialog component for displaying a prompt that needs confirmation. */
 const ConfirmDialog: FC<ConfirmDialogProps> = ({
+    open,
     confirmButtonColor = 'primary',
     confirmButtonText,
     title,
     text,
     onCancel,
-    onConfirm,
-    ...dialogProps
+    onConfirm
 }) => (
-    <Dialog onClose={onCancel} {...dialogProps}>
-        <DialogTitle>
-            {title}
-        </DialogTitle>
-        <DialogContent>
-            <DialogContentText sx={{ whiteSpace: 'pre-wrap' }}>
+    <Modal open={open} onClose={onCancel}>
+        <ModalDialog variant="outlined" role="alertdialog">
+            <DialogTitle>
+                {title}
+            </DialogTitle>
+            <DialogContent sx={{ whiteSpace: 'pre-wrap' }}>
                 {text}
-            </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button
-                variant='text'
-                onClick={onCancel}
-            >
-                {globalize.translate('ButtonCancel')}
-            </Button>
-            <Button
-                color={confirmButtonColor}
-                onClick={onConfirm}
-            >
-                {confirmButtonText || globalize.translate('ButtonOk')}
-            </Button>
-        </DialogActions>
-    </Dialog>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    variant="solid"
+                    color={confirmButtonColor}
+                    onClick={onConfirm}
+                >
+                    {confirmButtonText || globalize.translate('ButtonOk')}
+                </Button>
+                <Button
+                    variant="plain"
+                    color="neutral"
+                    onClick={onCancel}
+                >
+                    {globalize.translate('ButtonCancel')}
+                </Button>
+            </DialogActions>
+        </ModalDialog>
+    </Modal>
 );
 
 export default ConfirmDialog;

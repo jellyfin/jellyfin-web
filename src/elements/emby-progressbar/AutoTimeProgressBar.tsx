@@ -1,7 +1,6 @@
 import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
-import type {} from '@mui/material/themeCssVarsAugmentation';
+import LinearProgress from '@mui/joy/LinearProgress';
 
 import type { ProgressOptions } from 'types/progressOptions';
 
@@ -23,7 +22,7 @@ const AutoTimeProgressBar: FC<AutoTimeProgressBarProps> = ({
     progressOptions
 }) => {
     const [progress, setProgress] = useState(pct);
-    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const onAutoTimeProgress = useCallback(() => {
         const start = parseInt(starTtime.toString(), 10);
@@ -64,17 +63,13 @@ const AutoTimeProgressBar: FC<AutoTimeProgressBarProps> = ({
     return (
         <LinearProgress
             className={progressBarClass}
-            variant='determinate'
+            determinate
             value={progress}
-            // eslint-disable-next-line react/jsx-no-bind
-            sx={(theme) => ({
-                [`& .${linearProgressClasses.bar}`]: {
-                    borderRadius: 5,
-                    backgroundColor: isRecording ?
-                        theme.vars.palette.error.main :
-                        theme.vars.palette.primary.main
-                }
-            })}
+            color={isRecording ? 'danger' : 'primary'}
+            sx={{
+                borderRadius: 'sm',
+                '--LinearProgress-thickness': '4px'
+            }}
         />
     );
 };

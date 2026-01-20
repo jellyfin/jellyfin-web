@@ -1,8 +1,9 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { type FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import CheckIcon from '@mui/icons-material/Check';
+import IconButton from '@mui/joy/IconButton';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
@@ -37,7 +38,8 @@ const PlayedButton: FC<PlayedButtonProps> = ({
         return buttonTitle;
     }, [itemType, isPlayed]);
 
-    const onClick = useCallback(async () => {
+    const onClick = useCallback(async (e: React.MouseEvent) => {
+        e.stopPropagation();
         try {
             if (!itemId) {
                 throw new Error('Item has no Id');
@@ -64,12 +66,12 @@ const PlayedButton: FC<PlayedButtonProps> = ({
             data-action={ItemAction.None}
             title={getTitle()}
             className={className}
-            size='small'
+            variant="plain"
+            color={isPlayed ? 'success' : 'neutral'}
+            size='sm'
             onClick={onClick}
         >
-            <CheckIcon
-                color={isPlayed ? 'error' : undefined}
-            />
+            {isPlayed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon />}
         </IconButton>
     );
 };

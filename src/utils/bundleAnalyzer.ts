@@ -1,11 +1,17 @@
-import logger from './logger';
+import { logger } from './logger';
+
+declare global {
+    interface Window {
+        webpackChunkjellyfin_web?: any[];
+    }
+}
 
 class BundleAnalyzer {
     static analyzeCurrentBundle() {
         logger.info('Bundle Size Analysis', { component: 'BundleAnalyzer' });
 
         if ('performance' in window && 'getEntriesByType' in performance) {
-            const resources = performance.getEntriesByType('resource');
+            const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
             const scripts = resources.filter(r => r.name.includes('.js') && !r.name.includes('libraries/'));
 
             const scriptInfo = scripts.map(script => ({

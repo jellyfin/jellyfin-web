@@ -1,12 +1,14 @@
 // PWA Offline Manager
 class PWAOfflineManager {
+    private static online = true;
+
     static init() {
         this.online = navigator.onLine;
         this.setupOfflineDetection();
         this.updateOnlineStatus();
     }
 
-    static setupOfflineDetection() {
+    private static setupOfflineDetection() {
         window.addEventListener('online', () => {
             this.handleOnline();
         });
@@ -21,28 +23,28 @@ class PWAOfflineManager {
         }, 30000); // Check every 30 seconds
     }
 
-    static handleOnline() {
+    private static handleOnline() {
         this.online = true;
         console.log('[PWA] Connection restored');
         this.updateOnlineStatus();
         this.hideOfflineBanner();
 
         // Trigger background sync if available
-        if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
-            navigator.serviceWorker.ready.then((registration) => {
+        if ('serviceWorker' in navigator && 'sync' in (window as any).ServiceWorkerRegistration.prototype) {
+            navigator.serviceWorker.ready.then((registration: any) => {
                 registration.sync.register('background-sync');
             });
         }
     }
 
-    static handleOffline() {
+    private static handleOffline() {
         this.online = false;
         console.log('[PWA] Connection lost');
         this.updateOnlineStatus();
         this.showOfflineBanner();
     }
 
-    static checkConnectivity() {
+    private static checkConnectivity() {
         // Simple connectivity check
         fetch('/offline.html', {
             method: 'HEAD',
@@ -65,7 +67,7 @@ class PWAOfflineManager {
         document.documentElement.classList.toggle('online', this.online);
 
         // Update meta theme color based on connection status
-        const themeMeta = document.querySelector('meta[name="theme-color"]');
+        const themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
         if (themeMeta) {
             themeMeta.content = this.online ? '#101010' : '#ff6b35';
         }
@@ -107,20 +109,17 @@ class PWAOfflineManager {
     }
 
     static getConnectionStatus() {
+        const nav: any = navigator;
         return {
             online: this.online,
-            connection: navigator.connection ? {
-                effectiveType: navigator.connection.effectiveType,
-                downlink: navigator.connection.downlink,
-                rtt: navigator.connection.rtt,
-                saveData: navigator.connection.saveData
+            connection: nav.connection ? {
+                effectiveType: nav.connection.effectiveType,
+                downlink: nav.connection.downlink,
+                rtt: nav.connection.rtt,
+                saveData: nav.connection.saveData
             } : null
         };
     }
 }
 
-// Initialize offline manager
-PWAOfflineManager.init();
-
-// Export for debugging
-window.PWAOfflineManager = PWAOfflineManager;
+export default PWAOfflineManager;
