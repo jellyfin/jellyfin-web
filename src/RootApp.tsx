@@ -9,6 +9,7 @@ import browser from 'scripts/browser';
 import { queryClient } from 'utils/query/queryClient';
 import { JoyThemeProvider } from 'themes/joyTheme';
 import { OSDOverlay } from './components/joy-ui/playback';
+import { LoadingOverlay } from './components/joy-ui/feedback';
 
 import './components/visualizer/visualizers.scss';
 
@@ -25,6 +26,7 @@ const RootApp = () => (
                     <JoyThemeProvider>
                         <RootAppRouter />
                         <OSDOverlay />
+                        <LoadingOverlay />
                     </JoyThemeProvider>
                 </WebConfigProvider>
             </UserSettingsProvider>

@@ -363,10 +363,6 @@ function loadPlatformFeatures() {
         import("./components/playback/remotecontrolautoplay");
     }
 
-    if (!supportsFeature(AppFeature.PhysicalVolumeControl) || browser.touch) {
-        import("./components/playback/volumeosd");
-    }
-
     if (!browser.tv && !browser.xboxOne) {
         import("./components/playback/playbackorientation");
 

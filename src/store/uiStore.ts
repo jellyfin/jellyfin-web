@@ -24,6 +24,7 @@ export interface UiState {
     orientation: 'portrait' | 'landscape';
     isDrawerOpen: boolean;
     isSearchOpen: boolean;
+    isLoading: boolean;
 }
 
 export interface UiActions {
@@ -31,6 +32,7 @@ export interface UiActions {
     setViewport: (size: ViewportSize) => void;
     toggleDrawer: (open?: boolean) => void;
     toggleSearch: (open?: boolean) => void;
+    setIsLoading: (loading: boolean) => void;
     autoDetectLayout: () => void;
 }
 
@@ -64,6 +66,7 @@ export const useUiStore = create<UiState & UiActions>()(
                 orientation: typeof window !== 'undefined' && window.innerHeight > window.innerWidth ? 'portrait' : 'landscape',
                 isDrawerOpen: false,
                 isSearchOpen: false,
+                isLoading: false,
 
                 setLayout: (layout) => {
                     const effective = getEffectiveLayout(layout);
@@ -83,6 +86,10 @@ export const useUiStore = create<UiState & UiActions>()(
 
                 toggleSearch: (open) => {
                     set((state) => ({ isSearchOpen: open ?? !state.isSearchOpen }));
+                },
+
+                setIsLoading: (isLoading) => {
+                    set({ isLoading });
                 },
 
                 autoDetectLayout: () => {
