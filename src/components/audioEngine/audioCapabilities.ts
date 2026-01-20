@@ -1,6 +1,7 @@
 // AudioCapabilities.ts - Centralized audio capability detection service
 
 import browser from '../../scripts/browser';
+import { logger } from '../../utils/logger';
 
 export interface AudioCapabilities {
     webAudio: boolean;
@@ -126,7 +127,7 @@ class AudioCapabilitiesService {
                 }
             }
         } catch (error) {
-            console.debug('Web Audio API not supported:', error);
+            logger.debug(`Web Audio API not supported: ${error}`, { component: 'AudioCapabilities' });
         }
 
         // Detect visualizer support
@@ -143,7 +144,7 @@ class AudioCapabilitiesService {
             capabilities.fallbacks.level = 'minimal';
         }
 
-        console.debug('Audio capabilities detected:', capabilities);
+        logger.debug('Audio capabilities detected', { component: 'AudioCapabilities', capabilities });
         return capabilities;
     }
 

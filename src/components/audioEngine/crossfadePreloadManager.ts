@@ -2,6 +2,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import { xDuration, timeRunningOut, setXDuration } from './crossfader.logic';
 import { preloadNextTrack, resetPreloadedTrack } from './crossfadeController';
 import { imagePreloader } from '../../utils/imagePreloader';
+import { logger } from '../../utils/logger';
 
 type PreloadTriggerType = 'immediate' | 'fallback' | 'manual';
 
@@ -150,7 +151,7 @@ export function handlePlaybackTimeUpdate(
     }
 
     if (shouldPreloadFallback(player)) {
-        console.debug('[CrossfadePreload] Fallback trigger near crossfade');
+        logger.debug('[CrossfadePreload] Fallback trigger near crossfade', { component: 'CrossfadePreload' });
         executePreload(nextTrack, 'fallback');
         return;
     }
@@ -159,18 +160,18 @@ export function handlePlaybackTimeUpdate(
 export async function handleManualSkip(
     trackInfo: TrackInfo
 ): Promise<boolean> {
-    console.debug('[CrossfadePreload] Manual trigger on user skip');
+    logger.debug('[CrossfadePreload] Manual trigger on user skip', { component: 'CrossfadePreload' });
     resetPreloadState();
     return await executePreload(trackInfo, 'manual');
 }
 
 export function handleTrackStart(currentTrack: TrackInfo, getNextTrack: () => TrackInfo | null): void {
     resetPreloadState();
-    console.debug('[CrossfadePreload] State reset for new track:', currentTrack.itemId);
+    logger.debug(`[CrossfadePreload] State reset for new track: ${currentTrack.itemId}`, { component: 'CrossfadePreload' });
 
     const nextTrack = getNextTrack();
     if (nextTrack && xDuration.enabled) {
-        console.debug('[CrossfadePreload] Immediate preload of next track:', nextTrack.itemId);
+        logger.debug(`[CrossfadePreload] Immediate preload of next track: ${nextTrack.itemId}`, { component: 'CrossfadePreload' });
         executePreload(nextTrack, 'immediate');
     }
 }

@@ -2,6 +2,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events';
 import { handleTrackStart, handlePlaybackTimeUpdate, handleManualSkip } from './crossfadePreloadManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { logger } from '../../utils/logger';
 
 let currentTimeCheckInterval: ReturnType<typeof setInterval> | null = null;
 const TIME_UPDATE_INTERVAL = 500;
@@ -175,7 +176,7 @@ export function initializeCrossfadePreloadHandler(): void {
     Events.on(playbackManager, 'playbackstop', onPlaybackStop);
     Events.on(playbackManager, 'playerchange', onPlayerChange);
     
-    console.debug('[CrossfadePreloadHandler] Initialized');
+    logger.debug('[CrossfadePreloadHandler] Initialized', { component: 'CrossfadePreloadHandler' });
 }
 
 export function destroyCrossfadePreloadHandler(): void {
@@ -186,5 +187,5 @@ export function destroyCrossfadePreloadHandler(): void {
     stopProgressTracking();
     currentTrackId = null;
     
-    console.debug('[CrossfadePreloadHandler] Destroyed');
+    logger.debug('[CrossfadePreloadHandler] Destroyed', { component: 'CrossfadePreloadHandler' });
 }

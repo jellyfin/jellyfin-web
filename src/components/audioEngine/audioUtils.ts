@@ -1,6 +1,7 @@
 // AudioUtils.ts - Shared utility functions for audio operations
 
 import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from './audioErrorHandler';
+import { logger } from '../../utils/logger';
 
 /**
  * Audio utility functions for common operations across audio components
@@ -318,7 +319,7 @@ export function synchronizeVolumeUI(): void {
             if (masterAudioOutput.volume !== undefined) {
                 volumeSlider.value = masterAudioOutput.volume.toString();
                 volumeSlider.dispatchEvent(new Event('input', { bubbles: true }));
-                console.debug(`[VolumeSync] Updated UI slider to ${masterAudioOutput.volume}`);
+                logger.debug(`[VolumeSync] Updated UI slider to ${masterAudioOutput.volume}`, { component: 'AudioUtils' });
             }
         }).catch(() => {});
     }
@@ -338,7 +339,7 @@ export async function fadeMixerVolume(targetGain: number, duration: number = 0.1
         const audioCtx = masterAudioOutput.audioContext;
 
         if (!audioCtx || !masterAudioOutput.mixerNode) {
-            console.debug('[fadeMixerVolume] No audio context or mixer node available');
+            logger.debug('[fadeMixerVolume] No audio context or mixer node available', { component: 'AudioUtils' });
             return;
         }
 
@@ -360,6 +361,6 @@ export async function fadeMixerVolume(targetGain: number, duration: number = 0.1
         // Wait for fade to complete
         await new Promise(resolve => setTimeout(resolve, duration * 1000));
     } catch (error) {
-        console.error('[fadeMixerVolume] Error fading volume:', error);
+        logger.error('[fadeMixerVolume] Error fading volume', { component: 'AudioUtils' }, error as Error);
     }
 }

@@ -39,6 +39,10 @@ export const loadAudioCapabilities = () => import('./audioCapabilities');
 export const loadCrossfadeController = () => import('./crossfadeController');
 export const loadCrossfadeImageIntegration = () => import('./crossfadeImageIntegration');
 
+// FX Module (LAZY loaded - only when DJ-style effects needed)
+export const loadFXModule = () => import('./fx');
+export { NotchFilterNode, CrossfadeWithFXSends, FXBus } from './fx';
+
 // Bundle all worklets together for efficient loading
 export const audioWorklets = {
     delayWorklet: () => import('./delayWorklet'),

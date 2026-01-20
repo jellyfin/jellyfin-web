@@ -1,4 +1,5 @@
 import * as userSettings from '../../scripts/settings/userSettings';
+import { logger } from '../../utils/logger';
 
 /**
  * Crossfade state management.
@@ -158,7 +159,7 @@ export class SyncManager {
                             }
                         }
                     } catch (innerError) {
-                        console.debug('[SyncManager] Error in mutation callback:', innerError);
+                        logger.debug(`[SyncManager] Error in mutation callback: ${innerError}`, { component: 'SyncManager' });
                     }
                 });
 
@@ -166,7 +167,7 @@ export class SyncManager {
                 observer.observe(element.parentNode, { childList: true, subtree: false });
                 this.observers.set(element, observer);
             } catch (error) {
-                console.debug('[SyncManager] MutationObserver setup failed:', error);
+                logger.debug(`[SyncManager] MutationObserver setup failed: ${error}`, { component: 'SyncManager' });
                 // MutationObserver will be handled by checkSync fallback
             }
         };
@@ -297,7 +298,7 @@ export class SyncManager {
                 }
             }
         } catch (error) {
-            console.warn('[SyncManager] Error in checkSync:', error);
+            logger.warn('[SyncManager] Error in checkSync', { component: 'SyncManager' }, error as Error);
         }
     }
 

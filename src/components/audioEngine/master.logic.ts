@@ -5,6 +5,7 @@ import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from './audioEr
 import { safeConnect, dBToLinear } from './audioUtils';
 
 import { useAudioStore } from '../../store/audioStore';
+import { logger } from '../../utils/logger';
 
 type MasterAudioTypes = {
     mixerNode?: GainNode;
@@ -97,7 +98,7 @@ async function loadAudioWorklets(audioContext: AudioContext) {
         const reason = isDevelopment ?
             'development/local environment' :
             'AudioWorklet not supported in this browser';
-        console.info(`AudioWorklet: Skipping loading (${reason}). Using Web Audio API fallbacks.`);
+        logger.info(`AudioWorklet: Skipping loading (${reason}). Using Web Audio API fallbacks.`, { component: 'masterAudio' });
         return;
     }
 
@@ -112,9 +113,9 @@ async function loadAudioWorklets(audioContext: AudioContext) {
     for (const worklet of worklets) {
         try {
             const workletUrl = new URL(worklet, import.meta.url);
-            console.debug(`AudioWorklet: Loading ${worklet} from ${workletUrl.href}`);
+            logger.debug(`AudioWorklet: Loading ${worklet} from ${workletUrl.href}`, { component: 'masterAudio' });
             await audioContext.audioWorklet.addModule(workletUrl);
-            console.debug(`AudioWorklet: Successfully loaded ${worklet}`);
+            logger.debug(`AudioWorklet: Successfully loaded ${worklet}`, { component: 'masterAudio' });
             loadedCount++;
         } catch (error) {
             // Use centralized error handler
@@ -132,9 +133,9 @@ async function loadAudioWorklets(audioContext: AudioContext) {
     }
 
     if (loadedCount > 0) {
-        console.info(`AudioWorklet: Successfully loaded ${loadedCount}/${worklets.length} worklets`);
+        logger.info(`AudioWorklet: Successfully loaded ${loadedCount}/${worklets.length} worklets`, { component: 'masterAudio' });
     } else {
-        console.info('AudioWorklet: No worklets loaded, using Web Audio API fallbacks');
+        logger.info('AudioWorklet: No worklets loaded, using Web Audio API fallbacks', { component: 'masterAudio' });
     }
 }
 
@@ -187,7 +188,7 @@ export function initializeMasterAudio(unbind: () => void) {
     const webAudioSupported = ('AudioContext' in window || 'webkitAudioContext' in window);
 
     if (!webAudioSupported) {
-        console.log('WebAudio not supported');
+        logger.info('WebAudio not supported', { component: 'MasterAudio' });
         return;
     }
     // eslint-disable-next-line compat/compat, @typescript-eslint/no-explicit-any
@@ -251,7 +252,7 @@ const normalizationNodeMap = new WeakMap<GainNode, GainNode>();
 
 function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initialNormalizationGain?: number) {
     if (!masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
-        console.log('MasterAudio is not initialized');
+        logger.warn('MasterAudio is not initialized', { component: 'MasterAudio' });
         return;
     }
 
@@ -372,7 +373,7 @@ export function rampPlaybackGain(normalizationGain?: number) {
     const targetNormalizationNode = normalizationNodeMap.get(audioNodeBus[0]);
 
     if (!targetNormalizationNode) {
-        console.warn('[RampPlaybackGain] Could not find normalization node for current playback');
+        logger.warn('Could not find normalization node for current playback', { component: 'RampPlaybackGain' });
         return;
     }
 
