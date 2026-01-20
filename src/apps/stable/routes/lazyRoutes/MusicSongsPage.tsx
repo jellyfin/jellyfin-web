@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/material/Typography/Typography';
-import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
-import Grid from '@mui/material/Grid/Grid';
-import Card from '@mui/material/Card/Card';
-import CardContent from '@mui/material/CardContent/CardContent';
-import CardMedia from '@mui/material/CardMedia/CardMedia';
+import Box from '@mui/joy/Box';
+import Typography from '@mui/joy/Typography';
+import CircularProgress from '@mui/joy/CircularProgress';
+import Grid from '@mui/joy/Grid';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import AspectRatio from '@mui/joy/AspectRatio';
 import globalize from 'lib/globalize';
 
 /**
@@ -39,10 +39,12 @@ const MusicSongsPage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display='flex'
-                justifyContent='center'
-                alignItems='center'
-                minHeight='200px'
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '200px'
+                }}
             >
                 <CircularProgress />
             </Box>
@@ -51,33 +53,31 @@ const MusicSongsPage: React.FC = () => {
 
     return (
         <Box sx={{ p: 3 }}>
-            <Typography variant='h4' component='h1' gutterBottom>
+            <Typography level='h2' sx={{ mb: 3 }}>
                 {globalize.translate('Songs')}
             </Typography>
 
             <Grid container spacing={3}>
                 {songsData.map((item) => (
-                    <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                        <Card sx={{ height: '100%' }}>
-                            <CardMedia
-                                component='div'
-                                sx={{
-                                    height: 140,
-                                    backgroundColor: 'grey.300',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <Typography variant='h6' color='text.secondary'>
-                                    🎵
-                                </Typography>
-                            </CardMedia>
+                    <Grid key={item.id} xs={12} sm={6} md={4} lg={3}>
+                        <Card variant="outlined">
+                            <AspectRatio ratio="16/9">
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        bgcolor: 'neutral.softBg'
+                                    }}
+                                >
+                                    <Typography level="h1">🎵</Typography>
+                                </Box>
+                            </AspectRatio>
                             <CardContent>
-                                <Typography variant='h6' component='div'>
+                                <Typography level='title-lg'>
                                     {item.name}
                                 </Typography>
-                                <Typography variant='body2' color='text.secondary'>
+                                <Typography level='body-sm'>
                                     {item.count} songs
                                 </Typography>
                             </CardContent>

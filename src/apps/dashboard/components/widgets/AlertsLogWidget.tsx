@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
-import List from '@mui/material/List';
+import List from '@mui/joy/List';
+import Sheet from '@mui/joy/Sheet';
 import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
 import subSeconds from 'date-fns/subSeconds';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
@@ -18,23 +19,29 @@ const AlertsLogWidget = () => {
         hasUserId: false
     });
 
-    if (isPending || alerts?.Items?.length === 0) return null;
+    if (isPending || !alerts?.Items || alerts.Items.length === 0) return null;
 
     return (
         <Widget
             title={globalize.translate('Alerts')}
             href='/dashboard/activity?useractivity=false'
         >
-            <List sx={{ bgcolor: 'background.paper' }}>
-                {alerts?.Items?.map(entry => (
-                    <ActivityListItem
-                        key={entry.Id}
-                        item={entry}
-                        displayShortOverview={false}
-                        to='/dashboard/activity?useractivity=false'
-                    />
-                ))}
-            </List>
+            <Sheet variant="outlined" sx={{ borderRadius: 'md', overflow: 'hidden' }}>
+                <List sx={{ '--ListItem-paddingY': '8px', '--ListItem-paddingX': '12px' }}>
+                    {alerts.Items.map((entry, index) => (
+                        <React.Fragment key={entry.Id}>
+                            <ActivityListItem
+                                item={entry}
+                                displayShortOverview={false}
+                                to='/dashboard/activity?useractivity=false'
+                            />
+                            {index < alerts.Items!.length - 1 && (
+                                <div style={{ height: 1, backgroundColor: 'var(--joy-palette-divider)' }} />
+                            )}
+                        </React.Fragment>
+                    ))}
+                </List>
+            </Sheet>
         </Widget>
     );
 };

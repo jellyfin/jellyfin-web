@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/material/Typography/Typography';
-import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
-import Card from '@mui/material/Card/Card';
-import CardContent from '@mui/material/CardContent/CardContent';
-import CardMedia from '@mui/material/CardMedia/CardMedia';
-import Grid from '@mui/material/Grid/Grid';
-import Chip from '@mui/material/Chip/Chip';
-import Button from '@mui/material/Button/Button';
-import Rating from '@mui/material/Rating/Rating';
-import Divider from '@mui/material/Divider/Divider';
+import Box from '@mui/joy/Box';
+import Typography from '@mui/joy/Typography';
+import CircularProgress from '@mui/joy/CircularProgress';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Grid from '@mui/joy/Grid';
+import Chip from '@mui/joy/Chip';
+import Button from '@mui/joy/Button';
+import Divider from '@mui/joy/Divider';
+import Stack from '@mui/joy/Stack';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import QueueIcon from '@mui/icons-material/Queue';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import StarIcon from '@mui/icons-material/Star';
 import globalize from 'lib/globalize';
 
 /**
@@ -56,12 +57,14 @@ const DetailsPage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display='flex'
-                justifyContent='center'
-                alignItems='center'
-                minHeight='400px'
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '400px'
+                }}
             >
-                <CircularProgress size={60} />
+                <CircularProgress thickness={4} sx={{ '--CircularProgress-size': '60px' }} />
             </Box>
         );
     }
@@ -69,7 +72,7 @@ const DetailsPage: React.FC = () => {
     if (!itemData) {
         return (
             <Box p={3}>
-                <Typography variant='h6' color='error'>
+                <Typography color='danger'>
                     Failed to load item details
                 </Typography>
             </Box>
@@ -80,123 +83,128 @@ const DetailsPage: React.FC = () => {
         <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
             <Grid container spacing={4}>
                 {/* Poster/Artwork */}
-                <Grid item xs={12} md={4}>
-                    <Card sx={{ maxWidth: 300, mx: 'auto' }}>
-                        <CardMedia
-                            component='div'
-                            sx={{
-                                height: 450,
-                                backgroundColor: 'grey.300',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                        >
-                            <Typography variant='h4' color='text.secondary'>
-                                🎬
-                            </Typography>
-                        </CardMedia>
+                <Grid xs={12} md={4}>
+                    <Card variant="outlined" sx={{ maxWidth: 300, mx: 'auto' }}>
+                        <AspectRatio ratio="2/3">
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    bgcolor: 'neutral.softBg'
+                                }}
+                            >
+                                <Typography level="h1">🎬</Typography>
+                            </Box>
+                        </AspectRatio>
                     </Card>
                 </Grid>
 
                 {/* Details */}
-                <Grid item xs={12} md={8}>
+                <Grid xs={12} md={8}>
                     <Box>
                         {/* Title and Year */}
-                        <Typography variant='h3' component='h1' gutterBottom>
+                        <Typography level='h1' sx={{ mb: 1 }}>
                             {itemData.title}
                         </Typography>
 
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                            <Typography variant='h6' color='text.secondary'>
+                        <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+                            <Typography level='title-lg' color='neutral'>
                                 {itemData.year}
                             </Typography>
-                            <Typography variant='body1'>
+                            <Typography level='body-md'>
                                 {itemData.runtime}
                             </Typography>
-                            <Chip label={itemData.parentalRating} size='small' />
-                        </Box>
+                            <Chip size='sm' variant="soft" color="neutral">
+                                {itemData.parentalRating}
+                            </Chip>
+                        </Stack>
 
                         {/* Rating */}
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                            <Rating value={itemData.rating} readOnly precision={0.5} />
-                            <Typography variant='body2' color='text.secondary'>
-                                ({itemData.communityRating}/10)
+                        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+                            <StarIcon color="warning" />
+                            <Typography level="title-md">
+                                {itemData.communityRating}/10
                             </Typography>
-                        </Box>
+                        </Stack>
 
                         {/* Genres */}
-                        <Box sx={{ mb: 3 }}>
+                        <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 3 }}>
                             {itemData.genres.map((genre: string) => (
                                 <Chip
                                     key={genre}
-                                    label={genre}
-                                    sx={{ mr: 1, mb: 1 }}
                                     variant='outlined'
-                                />
+                                    color="primary"
+                                    size="md"
+                                >
+                                    {genre}
+                                </Chip>
                             ))}
-                        </Box>
+                        </Stack>
 
                         {/* Action Buttons */}
-                        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+                        <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
                             <Button
-                                variant='contained'
-                                size='large'
-                                startIcon={<PlayArrowIcon />}
-                                sx={{ minWidth: 140 }}
+                                size='lg'
+                                startDecorator={<PlayArrowIcon />}
+                                sx={{ px: 4 }}
                             >
                                 Play
                             </Button>
                             <Button
                                 variant='outlined'
-                                size='large'
-                                startIcon={<QueueIcon />}
+                                size='lg'
+                                color="neutral"
+                                startDecorator={<QueueIcon />}
                             >
-                                Add to Queue
+                                Queue
                             </Button>
                             <Button
-                                variant='outlined'
-                                size='large'
-                                startIcon={<FavoriteIcon />}
+                                variant='plain'
+                                size='lg'
+                                color="danger"
+                                startDecorator={<FavoriteIcon />}
                             >
                                 Favorite
                             </Button>
-                        </Box>
+                        </Stack>
 
                         <Divider sx={{ my: 3 }} />
 
                         {/* Description */}
-                        <Typography variant='h6' gutterBottom>
+                        <Typography level='title-lg' sx={{ mb: 1 }}>
                             Overview
                         </Typography>
-                        <Typography variant='body1' paragraph sx={{ lineHeight: 1.6 }}>
+                        <Typography level='body-md' sx={{ lineHeight: 1.6, mb: 3 }}>
                             {itemData.description}
                         </Typography>
 
                         {/* Cast & Crew */}
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant='h6' gutterBottom>
+                            <Grid xs={12} sm={6}>
+                                <Typography level='title-md' sx={{ mb: 1 }}>
                                     Cast
                                 </Typography>
-                                {itemData.cast.map((actor: string) => (
-                                    <Typography key={actor} variant='body2' paragraph>
-                                        {actor}
-                                    </Typography>
-                                ))}
+                                <Stack spacing={0.5}>
+                                    {itemData.cast.map((actor: string) => (
+                                        <Typography key={actor} level='body-sm'>
+                                            {actor}
+                                        </Typography>
+                                    ))}
+                                </Stack>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant='h6' gutterBottom>
+                            <Grid xs={12} sm={6}>
+                                <Typography level='title-md' sx={{ mb: 1 }}>
                                     Director
                                 </Typography>
-                                <Typography variant='body2' paragraph>
+                                <Typography level='body-sm' sx={{ mb: 2 }}>
                                     {itemData.director}
                                 </Typography>
 
-                                <Typography variant='h6' gutterBottom>
+                                <Typography level='title-md' sx={{ mb: 1 }}>
                                     Studio
                                 </Typography>
-                                <Typography variant='body2' paragraph>
+                                <Typography level='body-sm'>
                                     {itemData.studio}
                                 </Typography>
                             </Grid>

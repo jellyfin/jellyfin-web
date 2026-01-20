@@ -1,23 +1,21 @@
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { PluginType } from 'types/plugin';
+import { PluginType } from '../../types/plugin';
 
 export default class PhotoPlayer {
-    constructor() {
-        this.name = 'Photo Player';
-        this.type = PluginType.MediaPlayer;
-        this.id = 'photoplayer';
-        this.isLocalPlayer = true;
-        this.priority = 1;
-    }
+    name: string = 'Photo Player';
+    type: any = PluginType.MediaPlayer;
+    id: string = 'photoplayer';
+    isLocalPlayer: boolean = true;
+    priority: number = 1;
 
-    play(options) {
+    play(options: any): Promise<void> {
         return new Promise((resolve) => {
-            import('../../components/slideshow/slideshow').then(({ default: Slideshow }) => {
+            import('../../components/slideshow/slideshow').then(({ default: Slideshow }: any) => {
                 const index = options.startIndex || 0;
-
                 const apiClient = ServerConnections.currentApiClient();
-                apiClient.getCurrentUser().then((result) => {
+
+                apiClient.getCurrentUser().then((result: any) => {
                     const newSlideShow = new Slideshow({
                         showTitle: false,
                         cover: false,
@@ -25,9 +23,8 @@ export default class PhotoPlayer {
                         startIndex: index,
                         interval: 11000,
                         interactive: true,
-                        // playbackManager.shuffle has no options. So treat 'shuffle' as a 'play' action
                         autoplay: {
-                            delay: userSettings.slideshowInterval() * 1000
+                            delay: (userSettings as any).slideshowInterval() * 1000
                         },
                         user: result
                     });
@@ -39,7 +36,7 @@ export default class PhotoPlayer {
         });
     }
 
-    canPlayMediaType(mediaType) {
+    canPlayMediaType(mediaType: string): boolean {
         return (mediaType || '').toLowerCase() === 'photo';
     }
 }

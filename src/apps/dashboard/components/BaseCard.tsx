@@ -1,14 +1,13 @@
 import React from 'react';
-import Box from '@mui/material/Box/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton/IconButton';
-import Typography from '@mui/material/Typography/Typography';
+import Box from '@mui/joy/Box';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import IconButton from '@mui/joy/IconButton';
+import Typography from '@mui/joy/Typography';
+import AspectRatio from '@mui/joy/AspectRatio';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-import CardActionArea from '@mui/material/CardActionArea';
-import Stack from '@mui/material/Stack/Stack';
+import Stack from '@mui/joy/Stack';
 import { Link, To } from 'react-router-dom';
 
 interface BaseCardProps {
@@ -21,8 +20,8 @@ interface BaseCardProps {
     action?: boolean;
     actionRef?: React.MutableRefObject<HTMLButtonElement | null>;
     onActionClick?: () => void;
-    height?: number;
-    width?: number;
+    height?: number | string;
+    width?: number | string;
 };
 
 const BaseCard = ({
@@ -38,82 +37,102 @@ const BaseCard = ({
     height,
     width
 }: BaseCardProps) => {
-    return (
-        <Card
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: height || 240,
-                width: width
-            }}
-        >
-            <CardActionArea
-                {...(to && {
-                    component: Link,
-                    to: to
-                })}
-                onClick={onClick}
-                sx={{
-                    display: 'flex',
-                    flexGrow: 1,
-                    alignItems: 'stretch'
-                }}
-            >
+    const cardContent = (
+        <>
+            <AspectRatio ratio="16/9" sx={{ borderRadius: 'sm', overflow: 'hidden' }}>
                 {image ? (
-                    <CardMedia
-                        sx={{ flexGrow: 1 }}
-                        image={image}
-                        title={title}
+                    <img
+                        src={image}
+                        loading="lazy"
+                        alt={title}
                     />
                 ) : (
-                    <Box className={getDefaultBackgroundClass(title)} sx={{
-                        flexGrow: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
+                    <Box
+                        className={getDefaultBackgroundClass(title)}
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            bgcolor: 'neutral.softBg'
+                        }}
+                    >
                         {icon}
                     </Box>
                 )}
-            </CardActionArea>
-            <CardContent
-                sx={{
-                    minHeight: 50,
-                    '&:last-child': {
-                        paddingBottom: 2,
-                        paddingRight: 1
-                    }
-                }}>
-                <Stack flexGrow={1} direction='row'>
-                    <Stack flexGrow={1}>
-                        <Typography gutterBottom sx={{
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
-                        }}>
+            </AspectRatio>
+            <CardContent sx={{ pt: 1.5 }}>
+                <Stack direction='row' justifyContent="space-between" alignItems="flex-start" spacing={1}>
+                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                        <Typography
+                            level="title-md"
+                            sx={{
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis'
+                            }}
+                        >
                             {title}
                         </Typography>
                         {text && (
                             <Typography
-                                variant='body2'
-                                color='text.secondary'
+                                level="body-xs"
                                 sx={{
-                                    lineBreak: 'anywhere'
+                                    lineBreak: 'anywhere',
+                                    mt: 0.5
                                 }}
                             >
                                 {text}
                             </Typography>
                         )}
-                    </Stack>
-                    <Box>
-                        {action ? (
-                            <IconButton ref={actionRef} onClick={onActionClick}>
-                                <MoreVertIcon />
-                            </IconButton>
-                        ) : null}
                     </Box>
+                    {action && (
+                        <IconButton
+                            variant="plain"
+                            color="neutral"
+                            size="sm"
+                            ref={actionRef}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onActionClick?.();
+                            }}
+                        >
+                            <MoreVertIcon />
+                        </IconButton>
+                    )}
                 </Stack>
             </CardContent>
+        </>
+    );
+
+    const cardProps = {
+        variant: "outlined",
+        onClick,
+        sx: {
+            height: height || 'auto',
+            width: width,
+            transition: 'transform 0.2s, box-shadow 0.2s',
+            '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: 'md',
+                borderColor: 'primary.outlinedBorder',
+                bgcolor: 'background.surface'
+            },
+            textDecoration: 'none'
+        }
+    };
+
+    if (to) {
+        return (
+            <Card component={Link} to={to} {...(cardProps as any)}>
+                {cardContent}
+            </Card>
+        );
+    }
+
+    return (
+        <Card {...(cardProps as any)}>
+            {cardContent}
         </Card>
     );
 };

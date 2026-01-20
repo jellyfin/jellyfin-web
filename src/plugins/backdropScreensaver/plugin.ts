@@ -1,15 +1,14 @@
-
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from 'scripts/settings/userSettings';
-import { PluginType } from 'types/plugin';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { PluginType } from '../../types/plugin';
 
 class BackdropScreensaver {
-    constructor() {
-        this.name = 'BackdropScreensaver';
-        this.type = PluginType.Screensaver;
-        this.id = 'backdropscreensaver';
-        this.supportsAnonymous = false;
-    }
+    name: string = 'BackdropScreensaver';
+    type: any = PluginType.Screensaver;
+    id: string = 'backdropscreensaver';
+    supportsAnonymous: boolean = false;
+    private currentSlideshow: any = null;
+
     show() {
         const query = {
             ImageTypes: 'Backdrop',
@@ -24,15 +23,15 @@ class BackdropScreensaver {
         };
 
         const apiClient = ServerConnections.currentApiClient();
-        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
-            if (result.Items.length) {
-                import('../../components/slideshow/slideshow').then(({ default: Slideshow }) => {
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result: any) => {
+            if (result.Items?.length) {
+                import('../../components/slideshow/slideshow').then(({ default: Slideshow }: any) => {
                     const newSlideShow = new Slideshow({
                         showTitle: true,
                         cover: true,
                         items: result.Items,
                         autoplay: {
-                            delay: userSettings.backdropScreensaverInterval() * 1000
+                            delay: (userSettings as any).backdropScreensaverInterval() * 1000
                         }
                     });
 

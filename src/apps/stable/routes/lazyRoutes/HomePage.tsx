@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/material/Typography/Typography';
-import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
-import Grid from '@mui/material/Grid/Grid';
-import Card from '@mui/material/Card/Card';
-import CardContent from '@mui/material/CardContent/CardContent';
-import CardMedia from '@mui/material/CardMedia/CardMedia';
+import Box from '@mui/joy/Box';
+import Typography from '@mui/joy/Typography';
+import CircularProgress from '@mui/joy/CircularProgress';
+import Grid from '@mui/joy/Grid';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import AspectRatio from '@mui/joy/AspectRatio';
 import globalize from 'lib/globalize';
 import { usePredictivePreloading, useHoverPreloading } from '../../../../hooks/usePredictivePreloading';
 
@@ -51,10 +51,12 @@ const HomePage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display='flex'
-                justifyContent='center'
-                alignItems='center'
-                minHeight='200px'
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '200px'
+                }}
             >
                 <CircularProgress />
             </Box>
@@ -63,20 +65,20 @@ const HomePage: React.FC = () => {
 
     return (
         <Box sx={{ p: 3 }}>
-            <Typography variant='h4' component='h1' gutterBottom sx={{ mb: 4 }}>
+            <Typography level='h2' sx={{ mb: 4 }}>
                 {globalize.translate('Home')}
             </Typography>
 
             {homeData.map((section) => (
                 <Box key={section.id} sx={{ mb: 4 }}>
-                    <Typography variant='h5' component='h2' gutterBottom sx={{ mb: 2 }}>
+                    <Typography level='h4' sx={{ mb: 2 }}>
                         {section.name}
                     </Typography>
 
                     <Grid container spacing={2}>
                         {/* Placeholder cards - in real implementation these would show actual media items */}
                         {Array.from({ length: Math.min(section.count, 6) }, (_, i) => (
-                            <Grid key={`${section.id}-${i}`} item xs={12} sm={6} md={4} lg={2}>
+                            <Grid key={`${section.id}-${i}`} xs={12} sm={6} md={4} lg={2}>
                                 <Link
                                     to={section.route || '#'}
                                     style={{ textDecoration: 'none' }}
@@ -87,25 +89,37 @@ const HomePage: React.FC = () => {
                                         }
                                     }}
                                 >
-                                    <Card sx={{ height: '100%', cursor: 'pointer', transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.02)' } }}>
-                                        <CardMedia
-                                            component='div'
-                                            sx={{
-                                                height: 120,
-                                                backgroundColor: 'grey.300',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-                                            }}
-                                        >
-                                            <Typography variant='h6' color='text.secondary'>
-                                                {section.route?.includes('music') ? '🎵' :
-                                                    section.route?.includes('movies') ? '🎬' :
-                                                        section.route?.includes('tv') ? '📺' : '📺'}
-                                            </Typography>
-                                        </CardMedia>
+                                    <Card
+                                        variant="plain"
+                                        sx={{
+                                            bgcolor: 'transparent',
+                                            cursor: 'pointer',
+                                            transition: 'transform 0.2s',
+                                            '&:hover': {
+                                                transform: 'scale(1.05)',
+                                                bgcolor: 'background.surface'
+                                            }
+                                        }}
+                                    >
+                                        <AspectRatio ratio="2/3">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    bgcolor: 'neutral.softBg',
+                                                    borderRadius: 'md'
+                                                }}
+                                            >
+                                                <Typography level="h1">
+                                                    {section.route?.includes('music') ? '🎵' :
+                                                        section.route?.includes('movies') ? '🎬' :
+                                                            section.route?.includes('tv') ? '📺' : '📺'}
+                                                </Typography>
+                                            </Box>
+                                        </AspectRatio>
                                         <CardContent sx={{ p: 1 }}>
-                                            <Typography variant='body2' noWrap>
+                                            <Typography level='body-sm' noWrap>
                                                 Media Item {i + 1}
                                             </Typography>
                                         </CardContent>

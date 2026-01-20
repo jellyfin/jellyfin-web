@@ -1,11 +1,11 @@
-import Alert from '@mui/material/Alert/Alert';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import Chip from '@mui/material/Chip/Chip';
-import Divider from '@mui/material/Divider/Divider';
-import Grid from '@mui/material/Grid/Grid';
-import Stack from '@mui/material/Stack/Stack';
-import Typography from '@mui/material/Typography/Typography';
+import Alert from '@mui/joy/Alert';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Chip from '@mui/joy/Chip';
+import Divider from '@mui/joy/Divider';
+import Grid from '@mui/joy/Grid';
+import Stack from '@mui/joy/Stack';
+import Typography from '@mui/joy/Typography';
 import React, { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -52,14 +52,12 @@ export const Component = () => {
 
     const onSearchChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setSearchQuery(event.target.value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [setSearchQuery]);
 
     const onViewAll = useCallback(() => {
         if (category) setCategory('');
         else setStatus(PluginStatusOption.All);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ category ]);
+    }, [ category, setCategory, setStatus ]);
 
     const filteredPlugins = useMemo(() => {
         if (pluginDetails) {
@@ -97,153 +95,103 @@ export const Component = () => {
             title={globalize.translate('TabPlugins')}
             className='type-interior mainAnimatedPage'
         >
-            <Box className='content-primary'>
-                <Stack spacing={2}>
+            <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
+                <Stack spacing={3}>
                     <Stack
-                        direction='row'
-                        sx={{
-                            flexWrap: {
-                                xs: 'wrap',
-                                sm: 'nowrap'
-                            }
-                        }}
+                        direction={{ xs: 'column', sm: 'row' }}
+                        spacing={2}
+                        alignItems={{ xs: 'flex-start', sm: 'center' }}
                     >
-                        <Typography
-                            variant='h1'
-                            component='span'
-                            sx={{
-                                flexGrow: 1,
-                                verticalAlign: 'middle'
-                            }}
-                        >
+                        <Typography level='h2' sx={{ flexGrow: 1 }}>
                             {globalize.translate('TabPlugins')}
                         </Typography>
 
-                        <Button
-                            component={Link}
-                            to='/dashboard/plugins/repositories'
-                            variant='outlined'
-                            sx={{
-                                marginLeft: 2
-                            }}
-                        >
-                            {globalize.translate('ManageRepositories')}
-                        </Button>
+                        <Stack direction="row" spacing={2} sx={{ width: { xs: '100%', sm: 'auto' } }}>
+                            <Button
+                                component={Link}
+                                to='/dashboard/plugins/repositories'
+                                variant='outlined'
+                                color="neutral"
+                            >
+                                {globalize.translate('ManageRepositories')}
+                            </Button>
 
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'end',
-                                marginTop: {
-                                    xs: 2,
-                                    sm: 0
-                                },
-                                marginLeft: {
-                                    xs: 0,
-                                    sm: 2
-                                },
-                                width: {
-                                    xs: '100%',
-                                    sm: 'auto'
-                                }
-                            }}
-                        >
                             <SearchInput
                                 label={globalize.translate('Search')}
                                 value={searchQuery}
                                 onChange={onSearchChange}
                             />
-                        </Box>
+                        </Stack>
                     </Stack>
 
                     {isError ? (
-                        <Alert
-                            severity='error'
-                            sx={{ marginBottom: 2 }}
-                        >
+                        <Alert color='danger'>
                             {globalize.translate('PluginsLoadError')}
                         </Alert>
                     ) : (
                         <>
-                            <Box>
-                                <Stack
-                                    direction='row'
-                                    spacing={1}
-                                    sx={{
-                                        marginLeft: '-1rem',
-                                        marginRight: '-1rem',
-                                        paddingLeft: '1rem',
-                                        paddingRight: '1rem',
-                                        paddingBottom: {
-                                            xs: 1,
-                                            md: 0.5
-                                        },
-                                        overflowX: 'auto'
-                                    }}
-                                >
+                            <Box sx={{ overflowX: 'auto', mx: -3, px: 3, pb: 1 }}>
+                                <Stack direction='row' spacing={1}>
                                     <Chip
-                                        color={status === PluginStatusOption.All ? 'primary' : undefined}
-                                        // eslint-disable-next-line react/jsx-no-bind
+                                        variant={status === PluginStatusOption.All ? 'solid' : 'soft'}
+                                        color={status === PluginStatusOption.All ? 'primary' : 'neutral'}
                                         onClick={() => setStatus(PluginStatusOption.All)}
-                                        label={globalize.translate('All')}
-                                    />
+                                    >
+                                        {globalize.translate('All')}
+                                    </Chip>
 
                                     <Chip
-                                        color={status === PluginStatusOption.Available ? 'primary' : undefined}
-                                        // eslint-disable-next-line react/jsx-no-bind
+                                        variant={status === PluginStatusOption.Available ? 'solid' : 'soft'}
+                                        color={status === PluginStatusOption.Available ? 'primary' : 'neutral'}
                                         onClick={() => setStatus(PluginStatusOption.Available)}
-                                        label={globalize.translate('LabelAvailable')}
-                                    />
+                                    >
+                                        {globalize.translate('LabelAvailable')}
+                                    </Chip>
 
                                     <Chip
-                                        color={status === PluginStatusOption.Installed ? 'primary' : undefined}
-                                        // eslint-disable-next-line react/jsx-no-bind
+                                        variant={status === PluginStatusOption.Installed ? 'solid' : 'soft'}
+                                        color={status === PluginStatusOption.Installed ? 'primary' : 'neutral'}
                                         onClick={() => setStatus(PluginStatusOption.Installed)}
-                                        label={globalize.translate('LabelInstalled')}
-                                    />
+                                    >
+                                        {globalize.translate('LabelInstalled')}
+                                    </Chip>
 
-                                    <Divider orientation='vertical' flexItem />
+                                    <Divider orientation='vertical' />
 
                                     <Chip
-                                        color={!category ? 'primary' : undefined}
-                                        // eslint-disable-next-line react/jsx-no-bind
+                                        variant={!category ? 'solid' : 'soft'}
+                                        color={!category ? 'primary' : 'neutral'}
                                         onClick={() => setCategory('')}
-                                        label={globalize.translate('All')}
-                                    />
+                                    >
+                                        {globalize.translate('All')}
+                                    </Chip>
 
                                     {Object.values(PluginCategory).map(c => (
                                         <Chip
                                             key={c}
-                                            color={category === c.toLowerCase() ? 'primary' : undefined}
-                                            // eslint-disable-next-line react/jsx-no-bind
+                                            variant={category === c.toLowerCase() ? 'solid' : 'soft'}
+                                            color={category === c.toLowerCase() ? 'primary' : 'neutral'}
                                             onClick={() => setCategory(c.toLowerCase())}
-                                            label={globalize.translate(CATEGORY_LABELS[c as PluginCategory])}
-                                        />
+                                        >
+                                            {globalize.translate(CATEGORY_LABELS[c as PluginCategory])}
+                                        </Chip>
                                     ))}
                                 </Stack>
-                                <Divider />
                             </Box>
 
                             <Box>
                                 {filteredPlugins.length > 0 ? (
-                                // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
-                                // eslint-disable-next-line @typescript-eslint/no-deprecated
-                                    <Grid container spacing={2}>
+                                    <Grid container spacing={3}>
                                         {filteredPlugins.map(plugin => (
-                                            // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
-                                            // eslint-disable-next-line @typescript-eslint/no-deprecated
                                             <Grid
                                                 key={plugin.id}
-                                                item
                                                 xs={12}
                                                 sm={6}
                                                 md={4}
                                                 lg={3}
                                                 xl={2}
                                             >
-                                                <PluginCard
-                                                    plugin={plugin}
-                                                />
+                                                <PluginCard plugin={plugin} />
                                             </Grid>
                                         ))}
                                     </Grid>

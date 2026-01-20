@@ -2,12 +2,12 @@ import React, { useMemo } from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
-import Paper from '@mui/material/Paper';
+import Sheet from '@mui/joy/Sheet';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
-import Typography from '@mui/material/Typography/Typography';
+import Typography from '@mui/joy/Typography';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import Box from '@mui/material/Box/Box';
-import Stack from '@mui/material/Stack/Stack';
+import Box from '@mui/joy/Box';
+import Stack from '@mui/joy/Stack';
 
 type RunningTasksWidgetProps = {
     tasks?: TaskInfo[];
@@ -15,26 +15,35 @@ type RunningTasksWidgetProps = {
 
 const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps) => {
     const runningTasks = useMemo(() => {
-        return tasks?.filter(v => v.State == TaskState.Running) || [];
+        return tasks?.filter(v => v.State === TaskState.Running) || [];
     }, [ tasks ]);
 
-    if (runningTasks.length == 0) return null;
+    if (runningTasks.length === 0) return null;
 
     return (
         <Widget
             title={globalize.translate('HeaderRunningTasks')}
             href='/dashboard/tasks'
         >
-            <Paper sx={{ padding: 2 }}>
-                <Stack spacing={2} maxWidth={'330px'}>
+            <Sheet
+                variant="outlined"
+                sx={{
+                    p: 2,
+                    borderRadius: 'md',
+                    bgcolor: 'background.surface'
+                }}
+            >
+                <Stack spacing={2.5}>
                     {runningTasks.map((task => (
                         <Box key={task.Id}>
-                            <Typography>{task.Name}</Typography>
+                            <Typography level="body-sm" fontWeight="bold" sx={{ mb: 0.5 }}>
+                                {task.Name}
+                            </Typography>
                             <TaskProgress task={task} />
                         </Box>
                     )))}
                 </Stack>
-            </Paper>
+            </Sheet>
         </Widget>
     );
 };

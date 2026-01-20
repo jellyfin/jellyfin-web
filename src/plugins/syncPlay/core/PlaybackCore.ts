@@ -105,7 +105,7 @@ class PlaybackCore {
         const currentPosition = (playerWrapper.currentTimeAsync ?
             await playerWrapper.currentTimeAsync() :
             playerWrapper.currentTime());
-        const currentPositionTicks = Math.round(currentPosition * (Helper as any).TicksPerMillisecond);
+        const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
         const isPlaying = playerWrapper.isPlaying();
 
         const currentTime = new Date();
@@ -150,7 +150,7 @@ class PlaybackCore {
                 const playerWrapper = this.manager.getPlayerWrapper();
                 const currentPositionTicks = Math.round((playerWrapper.currentTimeAsync ?
                     await playerWrapper.currentTimeAsync() :
-                    playerWrapper.currentTime()) * (Helper as any).TicksPerMillisecond);
+                    playerWrapper.currentTime()) * Helper.TicksPerMillisecond);
                 const isPlaying = playerWrapper.isPlaying();
 
                 switch (command.Command) {
@@ -173,7 +173,7 @@ class PlaybackCore {
                         if (isPlaying || currentPositionTicks !== command.PositionTicks) {
                             const rangeWidth = 100; // In milliseconds.
                             // eslint-disable-next-line sonarjs/pseudo-random
-                            const randomOffsetTicks = Math.round((Math.random() - 0.5) * rangeWidth) * (Helper as any).TicksPerMillisecond;
+                            const randomOffsetTicks = Math.round((Math.random() - 0.5) * rangeWidth) * Helper.TicksPerMillisecond;
                             this.scheduleSeek(command.When, command.PositionTicks + randomOffsetTicks);
                             logger.debug('SyncPlay applyCommand: adding random offset to force seek', { component: 'SyncPlay', randomOffsetTicks, command });
                         } else {
@@ -222,12 +222,12 @@ class PlaybackCore {
         const playerWrapper = this.manager.getPlayerWrapper();
         const currentPositionTicks = (playerWrapper.currentTimeAsync ?
             await playerWrapper.currentTimeAsync() :
-            playerWrapper.currentTime()) * (Helper as any).TicksPerMillisecond;
+            playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
 
         if (playAtTimeLocal > currentTime) {
             const playTimeout = playAtTimeLocal.getTime() - currentTime.getTime();
 
-            if ((currentPositionTicks - positionTicks) > this.minDelaySkipToSync * (Helper as any).TicksPerMillisecond) {
+            if ((currentPositionTicks - positionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
                 this.localSeek(positionTicks);
             }
 
@@ -243,7 +243,7 @@ class PlaybackCore {
             logger.debug('SyncPlay scheduled unpause', { component: 'SyncPlay', timeoutSeconds: playTimeout / 1000.0 });
         } else {
             const serverPositionTicks = this.estimateCurrentTicks(positionTicks, playAtTime);
-            (Helper as any).waitForEventOnce(this.manager, 'unpause').then(() => {
+            Helper.waitForEventOnce(this.manager, 'unpause').then(() => {
                 this.localSeek(serverPositionTicks);
             });
             this.localUnpause();
@@ -265,7 +265,7 @@ class PlaybackCore {
         const pauseAtTimeLocal = this.timeSyncCore.remoteDateToLocal(pauseAtTime);
 
         const callback = () => {
-            (Helper as any).waitForEventOnce(this.manager, 'pause', (Helper as any).WaitForPlayerEventTimeout).then(() => {
+            Helper.waitForEventOnce(this.manager, 'pause', Helper.WaitForPlayerEventTimeout).then(() => {
                 this.localSeek(positionTicks);
             }).catch(() => {
                 this.localSeek(positionTicks);
@@ -313,7 +313,7 @@ class PlaybackCore {
             this.localUnpause();
             this.localSeek(positionTicks);
 
-            (Helper as any).waitForEventOnce(this.manager, 'ready', (Helper as any).WaitForEventDefaultTimeout).then(() => {
+            Helper.waitForEventOnce(this.manager, 'ready', Helper.WaitForEventDefaultTimeout).then(() => {
                 this.localPause();
                 this.sendBufferingRequest(false);
             }).catch((error: Error) => {
@@ -372,7 +372,7 @@ class PlaybackCore {
 
     estimateCurrentTicks(ticks: number, when: Date, currentTime = new Date()) {
         const remoteTime = this.timeSyncCore.localDateToRemote(currentTime);
-        return ticks + (remoteTime.getTime() - when.getTime()) * (Helper as any).TicksPerMillisecond;
+        return ticks + (remoteTime.getTime() - when.getTime()) * Helper.TicksPerMillisecond;
     }
 
     syncPlaybackTime(timeUpdateData: any) {
@@ -389,9 +389,9 @@ class PlaybackCore {
         if (lastCommand.PlaylistItemId !== currentPlaylistItem) return;
 
         const { currentTime, currentPosition } = timeUpdateData;
-        const currentPositionTicks = currentPosition * (Helper as any).TicksPerMillisecond;
+        const currentPositionTicks = currentPosition * Helper.TicksPerMillisecond;
         const serverPositionTicks = this.estimateCurrentTicks(lastCommand.PositionTicks, lastCommand.When, currentTime);
-        const diffMillis = (serverPositionTicks - currentPositionTicks) / (Helper as any).TicksPerMillisecond;
+        const diffMillis = (serverPositionTicks - currentPositionTicks) / Helper.TicksPerMillisecond;
 
         this.playbackDiffMillis = diffMillis;
         Events.trigger(this.manager, 'playback-diff', [this.playbackDiffMillis]);
@@ -414,7 +414,7 @@ class PlaybackCore {
                 playerWrapper.setPlaybackRate(speed);
                 this.syncEnabled = false;
                 this.syncAttempts++;
-                this.manager.showSyncIcon(`Seek` as any); // Simplified type for now
+                this.manager.showSyncIcon('Seek');
 
                 this.syncTimeout = setTimeout(() => {
                     playerWrapper.setPlaybackRate(1.0);
@@ -425,7 +425,7 @@ class PlaybackCore {
                 this.localSeek(serverPositionTicks);
                 this.syncEnabled = false;
                 this.syncAttempts++;
-                this.manager.showSyncIcon(`Seek` as any);
+                this.manager.showSyncIcon('Seek');
 
                 this.syncTimeout = setTimeout(() => {
                     this.syncEnabled = true;

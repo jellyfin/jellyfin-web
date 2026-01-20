@@ -1,10 +1,8 @@
-import Alert from '@mui/material/Alert/Alert';
-import Box from '@mui/material/Box/Box';
-import IconButton from '@mui/material/IconButton/IconButton';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Stack from '@mui/material/Stack/Stack';
-import TextField from '@mui/material/TextField/TextField';
-import Typography from '@mui/material/Typography/Typography';
+import Alert from '@mui/joy/Alert';
+import Box from '@mui/joy/Box';
+import IconButton from '@mui/joy/IconButton';
+import Stack from '@mui/joy/Stack';
+import Typography from '@mui/joy/Typography';
 import { useLocalizationOptions } from 'apps/dashboard/features/settings/api/useLocalizationOptions';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
@@ -14,16 +12,13 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import Button from '@mui/material/Button/Button';
-import Link from '@mui/material/Link/Link';
+import Button from '@mui/joy/Button';
+import Link from '@mui/joy/Link';
 import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
+import { EmbyInput, EmbySelect, EmbyCheckbox } from '../../../../elements';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
@@ -130,136 +125,96 @@ export const Component = () => {
             title={globalize.translate('General')}
             className='type-interior mainAnimatedPage'
         >
-            <Box className='content-primary'>
+            <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
                 {isConfigError || isLocalizationOptionsError ? (
-                    <Alert severity='error'>{globalize.translate('SettingsPageLoadError')}</Alert>
+                    <Alert color='danger'>{globalize.translate('SettingsPageLoadError')}</Alert>
                 ) : (
                     <Form method='POST'>
-                        <Stack spacing={3}>
-                            <Typography variant='h1'>{globalize.translate('Settings')}</Typography>
+                        <Stack spacing={4}>
+                            <Typography level='h2'>{globalize.translate('Settings')}</Typography>
 
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert severity='success'>
+                                <Alert color='success'>
                                     {globalize.translate('SettingsSaved')}
                                 </Alert>
                             )}
 
-                            <TextField
+                            <EmbyInput
                                 name='ServerName'
                                 label={globalize.translate('LabelServerName')}
                                 helperText={globalize.translate('LabelServerNameHelp')}
                                 defaultValue={config.ServerName}
                             />
 
-                            <TextField
-                                select
+                            <EmbySelect
                                 name='UICulture'
                                 label={globalize.translate('LabelPreferredDisplayLanguage')}
-                                helperText={(
-                                    <>
-                                        <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
-                                        <Link href='https://jellyfin.org/docs/general/contributing/#translating' target='_blank'>
-                                            {globalize.translate('LearnHowYouCanContribute')}
-                                        </Link>
-                                    </>
-                                )}
+                                helperText={globalize.translate('LabelDisplayLanguageHelp')}
                                 defaultValue={config.UICulture}
-                                slotProps={{
-                                    formHelperText: { component: Stack }
-                                }}
-                            >
-                                {languageOptions.map((language) =>
-                                    <MenuItem key={language.Name} value={language.Value || ''}>{language.Name}</MenuItem>
-                                )}
-                            </TextField>
+                                options={languageOptions.map(l => ({ label: l.Name, value: l.Value || '' }))}
+                            />
 
-                            <Typography variant='h2'>{globalize.translate('HeaderPaths')}</Typography>
+                            <Typography level='title-lg' sx={{ mt: 2 }}>{globalize.translate('HeaderPaths')}</Typography>
 
-                            <TextField
+                            <EmbyInput
                                 name='CachePath'
                                 label={globalize.translate('LabelCachePath')}
                                 helperText={globalize.translate('LabelCachePathHelp')}
-                                value={cachePath}
+                                value={cachePath || ''}
                                 onChange={onCachePathChange}
-                                slotProps={{
-                                    input: {
-                                        endAdornment: (
-                                            <InputAdornment position='end'>
-                                                <IconButton edge='end' onClick={showCachePathPicker}>
-                                                    <SearchIcon />
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }
-                                }}
+                                endDecorator={
+                                    <IconButton onClick={showCachePathPicker}>
+                                        <SearchIcon />
+                                    </IconButton>
+                                }
                             />
 
-                            <TextField
-                                name={'MetadataPath'}
+                            <EmbyInput
+                                name='MetadataPath'
                                 label={globalize.translate('LabelMetadataPath')}
                                 helperText={globalize.translate('LabelMetadataPathHelp')}
-                                value={metadataPath}
+                                value={metadataPath || ''}
                                 onChange={onMetadataPathChange}
-                                slotProps={{
-                                    input: {
-                                        endAdornment: (
-                                            <InputAdornment position='end'>
-                                                <IconButton edge='end' onClick={showMetadataPathPicker}>
-                                                    <SearchIcon />
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }
-                                }}
+                                endDecorator={
+                                    <IconButton onClick={showMetadataPathPicker}>
+                                        <SearchIcon />
+                                    </IconButton>
+                                }
                             />
 
-                            <Typography variant='h2'>{globalize.translate('QuickConnect')}</Typography>
+                            <Typography level='title-lg' sx={{ mt: 2 }}>{globalize.translate('QuickConnect')}</Typography>
 
-                            <FormControl>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            name='QuickConnectAvailable'
-                                            defaultChecked={config.QuickConnectAvailable}
-                                        />
-                                    }
-                                    label={globalize.translate('EnableQuickConnect')}
-                                />
-                            </FormControl>
+                            <EmbyCheckbox
+                                name='QuickConnectAvailable'
+                                label={globalize.translate('EnableQuickConnect')}
+                                defaultChecked={config.QuickConnectAvailable}
+                            />
 
-                            <Typography variant='h2'>{globalize.translate('HeaderPerformance')}</Typography>
+                            <Typography level='title-lg' sx={{ mt: 2 }}>{globalize.translate('HeaderPerformance')}</Typography>
 
-                            <TextField
+                            <EmbyInput
                                 name='LibraryScanFanoutConcurrency'
                                 type='number'
                                 label={globalize.translate('LibraryScanFanoutConcurrency')}
                                 helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
                                 defaultValue={config.LibraryScanFanoutConcurrency || ''}
-                                slotProps={{
-                                    htmlInput: {
-                                        min: 0,
-                                        step: 1
-                                    }
-                                }}
+                                slotProps={{ input: { min: 0, step: 1 } }}
                             />
 
-                            <TextField
+                            <EmbyInput
                                 name='ParallelImageEncodingLimit'
                                 type='number'
                                 label={globalize.translate('LabelParallelImageEncodingLimit')}
                                 helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
                                 defaultValue={config.ParallelImageEncodingLimit || ''}
-                                slotProps={{
-                                    htmlInput: {
-                                        min: 0,
-                                        step: 1
-                                    }
-                                }}
+                                slotProps={{ input: { min: 0, step: 1 } }}
                             />
 
-                            <Button type='submit' size='large'>
-                                {globalize.translate('Save')}
-                            </Button>
+                            <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button type='submit' size='lg' loading={isSubmitting}>
+                                    {globalize.translate('Save')}
+                                </Button>
+                            </Box>
                         </Stack>
                     </Form>
                 )}

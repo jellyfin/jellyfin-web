@@ -3,14 +3,11 @@ import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-a
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import Delete from '@mui/icons-material/Delete';
 import Upload from '@mui/icons-material/Upload';
-import Alert from '@mui/material/Alert/Alert';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Stack from '@mui/material/Stack/Stack';
-import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField/TextField';
-import Typography from '@mui/material/Typography/Typography';
+import Alert from '@mui/joy/Alert';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Stack from '@mui/joy/Stack';
+import Typography from '@mui/joy/Typography';
 import React, { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 
@@ -24,6 +21,7 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
+import { EmbySwitch, EmbyTextarea } from '../../../../elements';
 
 const BRANDING_CONFIG_KEY = 'branding';
 const BrandingOption = {
@@ -42,7 +40,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const brandingOptions: BrandingOptions = {
         CustomCss: data.CustomCss?.toString(),
         LoginDisclaimer: data.LoginDisclaimer?.toString(),
-        SplashscreenEnabled: data.SplashscreenEnabled?.toString() === 'on'
+        SplashscreenEnabled: data.SplashscreenEnabled === 'on'
     };
 
     await getConfigurationApi(api)
@@ -81,15 +79,14 @@ export const Component = () => {
 
     const [ isSplashscreenEnabled, setIsSplashscreenEnabled ] = useState(brandingOptions.SplashscreenEnabled ?? false);
     const [ splashscreenUrl, setSplashscreenUrl ] = useState<string>();
+    
     useEffect(() => {
         if (!api || isSubmitting) return;
-
         setSplashscreenUrl(api.getUri(SPLASHSCREEN_URL, { t: Date.now() }));
     }, [ api, isSubmitting ]);
 
     const onSplashscreenDelete = useCallback(() => {
         setError(undefined);
-
         if (!api) return;
 
         getImageApi(api)
@@ -105,9 +102,7 @@ export const Component = () => {
 
     const onSplashscreenUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setError(undefined);
-
         const files = event.target.files;
-
         if (!api || !files) return false;
 
         const file = files[0];
@@ -116,15 +111,9 @@ export const Component = () => {
             console.error('[BrandingPage] error reading file', e);
             setError('ImageUploadFailed');
         };
-        reader.onabort = e => {
-            console.warn('[BrandingPage] aborted reading file', e);
-            setError('ImageUploadCancelled');
-        };
         reader.onload = () => {
             if (!reader.result) return;
-
-            const dataUrl = reader.result as string; // readAsDataURL produces a string
-            // FIXME: TypeScript SDK thinks body should be a File but in reality it is a Base64 string
+            const dataUrl = reader.result as string;
             const body = dataUrl.split(',')[1] as never;
             getImageApi(api)
                 .uploadCustomSplashscreen(
@@ -139,11 +128,11 @@ export const Component = () => {
                     setError('ImageUploadFailed');
                 });
         };
-
         reader.readAsDataURL(file);
     }, [ api ]);
 
-    const setSplashscreenEnabled = useCallback(async (_: React.ChangeEvent<HTMLInputElement>, isEnabled: boolean) => {
+    const handleSplashscreenToggle = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const isEnabled = e.target.checked;
         setIsSplashscreenEnabled(isEnabled);
 
         await getConfigurationApi(api!)
@@ -161,17 +150,11 @@ export const Component = () => {
     }, [ api, defaultBrandingOptions ]);
 
     const setBrandingOption = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        if (Object.keys(BrandingOption).includes(event.target.name)) {
-            setBrandingOptions({
-                ...brandingOptions,
-                [event.target.name]: event.target.value
-            });
-        }
+        setBrandingOptions({
+            ...brandingOptions,
+            [event.target.name]: event.target.value
+        });
     }, [ brandingOptions ]);
-
-    const onSubmit = useCallback(() => {
-        setError(undefined);
-    }, []);
 
     if (isPending) return <Loading />;
 
@@ -181,69 +164,54 @@ export const Component = () => {
             title={globalize.translate('HeaderBranding')}
             className='mainAnimatedPage type-interior'
         >
-            <Box className='content-primary'>
-                <Form
-                    method='POST'
-                    onSubmit={onSubmit}
-                >
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
+            <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
+                <Form method='POST'>
+                    <Stack spacing={4}>
+                        <Typography level='h2'>
                             {globalize.translate('HeaderBranding')}
                         </Typography>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert severity='success'>
+                            <Alert color='success'>
                                 {globalize.translate('SettingsSaved')}
                             </Alert>
                         )}
 
                         {error && (
-                            <Alert severity='error'>
+                            <Alert color='danger'>
                                 {globalize.translate(error)}
                             </Alert>
                         )}
 
                         <Stack
-                            direction={{
-                                xs: 'column',
-                                sm: 'row'
-                            }}
+                            direction={{ xs: 'column', sm: 'row' }}
                             spacing={3}
+                            alignItems="flex-start"
                         >
-                            <Box sx={{ flex: '1 1 0' }}>
+                            <Box sx={{ flex: 1, width: '100%', maxWidth: 300 }}>
                                 <Image
                                     isLoading={false}
-                                    url={
-                                        isSplashscreenEnabled ?
-                                            splashscreenUrl :
-                                            undefined
-                                    }
+                                    url={isSplashscreenEnabled ? splashscreenUrl : undefined}
                                 />
                             </Box>
 
-                            <Stack
-                                spacing={{ xs: 3, sm: 2 }}
-                                sx={{ flex: '1 1 0' }}
-                            >
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            name={BrandingOption.SplashscreenEnabled}
-                                            checked={isSplashscreenEnabled}
-                                            onChange={setSplashscreenEnabled}
-                                        />
-                                    }
+                            <Stack spacing={2} sx={{ flex: 1 }}>
+                                <EmbySwitch
+                                    name={BrandingOption.SplashscreenEnabled}
                                     label={globalize.translate('EnableSplashScreen')}
+                                    checked={isSplashscreenEnabled}
+                                    onChange={handleSplashscreenToggle}
                                 />
 
-                                <Typography variant='body2'>
+                                <Typography level='body-sm'>
                                     {globalize.translate('CustomSplashScreenSize')}
                                 </Typography>
 
                                 <Button
                                     component='label'
                                     variant='outlined'
-                                    startIcon={<Upload />}
+                                    color="neutral"
+                                    startDecorator={<Upload />}
                                     disabled={!isSplashscreenEnabled}
                                 >
                                     <input
@@ -257,8 +225,8 @@ export const Component = () => {
 
                                 <Button
                                     variant='outlined'
-                                    color='error'
-                                    startIcon={<Delete />}
+                                    color='danger'
+                                    startDecorator={<Delete />}
                                     disabled={!isSplashscreenEnabled}
                                     onClick={onSplashscreenDelete}
                                 >
@@ -267,47 +235,34 @@ export const Component = () => {
                             </Stack>
                         </Stack>
 
-                        <TextField
-                            fullWidth
-                            multiline
-                            minRows={5}
-                            maxRows={5}
+                        <EmbyTextarea
                             name={BrandingOption.LoginDisclaimer}
                             label={globalize.translate('LabelLoginDisclaimer')}
                             helperText={globalize.translate('LabelLoginDisclaimerHelp')}
-                            value={brandingOptions?.LoginDisclaimer}
+                            value={brandingOptions?.LoginDisclaimer || ''}
                             onChange={setBrandingOption}
-                            slotProps={{
-                                input: {
-                                    className: 'textarea-mono'
-                                }
-                            }}
+                            sx={{ fontFamily: 'monospace' }}
                         />
 
-                        <TextField
-                            fullWidth
-                            multiline
-                            minRows={5}
-                            maxRows={20}
+                        <EmbyTextarea
                             name={BrandingOption.CustomCss}
                             label={globalize.translate('LabelCustomCss')}
                             helperText={globalize.translate('LabelCustomCssHelp')}
-                            spellCheck={false}
-                            value={brandingOptions?.CustomCss}
+                            value={brandingOptions?.CustomCss || ''}
                             onChange={setBrandingOption}
-                            slotProps={{
-                                input: {
-                                    className: 'textarea-mono'
-                                }
-                            }}
+                            minRows={10}
+                            sx={{ fontFamily: 'monospace' }}
                         />
 
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
-                            {globalize.translate('Save')}
-                        </Button>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button
+                                type='submit'
+                                size='lg'
+                                loading={isSubmitting}
+                            >
+                                {globalize.translate('Save')}
+                            </Button>
+                        </Box>
                     </Stack>
                 </Form>
             </Box>

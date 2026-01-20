@@ -10,7 +10,7 @@ import { logger } from '../../../utils/logger';
  * Class that manages the playlist of SyncPlay.
  */
 class QueueCore {
-    manager: any = null;
+    private manager: any = null;
 
     init(syncPlayManager: any) {
         this.manager = syncPlayManager;
@@ -46,14 +46,40 @@ class QueueCore {
         return item ? item.PlaylistItemId : null;
     }
 
+    getPlaylist() {
+        const player = this.manager.currentPlayer;
+        if (!player) return [];
+        return playbackManager.getPlaylistSync(player);
+    }
+
+    getCurrentPlaylistIndex() {
+        const player = this.manager.currentPlayer;
+        if (!player) return -1;
+        const items = this.getPlaylist();
+        const current = this.getCurrentPlaylistItemId();
+        return items.findIndex((i: any) => i.PlaylistItemId === current);
+    }
+
+    getRepeatMode() {
+        const player = this.manager.currentPlayer;
+        if (!player) return 'RepeatNone';
+        return playbackManager.getRepeatMode(player);
+    }
+
+    getShuffleMode() {
+        const player = this.manager.currentPlayer;
+        if (!player) return 'Sorted';
+        return playbackManager.getQueueShuffleMode(player);
+    }
+
     isPlaylistEmpty() {
         const player = this.manager.currentPlayer;
         if (!player) return true;
-        return playbackManager.getPlaylistSync(player).length === 0;
+        return this.getPlaylist().length === 0;
     }
 
     async startPlayback(apiClient: any) {
-        const groupInfo = this.manager.getGroupInfo();
+        const groupInfo = this.manager.groupInfo;
         if (!groupInfo) return;
 
         const serverId = apiClient.serverInfo().Id;

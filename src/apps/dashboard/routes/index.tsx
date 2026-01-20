@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import Box from '@mui/material/Box/Box';
-import Grid from '@mui/material/Grid/Grid';
+import Box from '@mui/joy/Box';
+import Grid from '@mui/joy/Grid';
 import ServerPathWidget from '../components/widgets/ServerPathWidget';
 import ServerInfoWidget from '../components/widgets/ServerInfoWidget';
 import ActivityLogWidget from '../components/widgets/ActivityLogWidget';
 import AlertsLogWidget from '../components/widgets/AlertsLogWidget';
-import Stack from '@mui/material/Stack/Stack';
+import Stack from '@mui/joy/Stack';
 import useShutdownServer from '../features/system/api/useShutdownServer';
 import useRestartServer from '../features/system/api/useRestartServer';
 import ConfirmDialog from 'components/ConfirmDialog';
@@ -80,7 +80,7 @@ export const Component = () => {
                 onConfirm={onRestartConfirm}
                 onCancel={closeRestartDialog}
                 confirmButtonText={globalize.translate('Restart')}
-                confirmButtonColor='error'
+                confirmButtonColor='danger'
             />
             <ConfirmDialog
                 open={isShutdownConfirmDialogOpen}
@@ -89,11 +89,11 @@ export const Component = () => {
                 onConfirm={onShutdownConfirm}
                 onCancel={closeShutdownDialog}
                 confirmButtonText={globalize.translate('ButtonShutdown')}
-                confirmButtonColor='error'
+                confirmButtonColor='danger'
             />
-            <Box className='content-primary'>
+            <Box sx={{ maxWidth: 1400, mx: 'auto', p: 3 }}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} md={7} lg={7} xl={6}>
+                    <Grid xs={12} md={7} lg={7} xl={6}>
                         <Stack spacing={3}>
                             <ServerInfoWidget
                                 onScanLibrariesClick={onScanLibraries}
@@ -106,10 +106,10 @@ export const Component = () => {
                             <DevicesWidget />
                         </Stack>
                     </Grid>
-                    <Grid item xs={12} md={5} lg={5} xl={3}>
+                    <Grid xs={12} md={5} lg={5} xl={3}>
                         <ActivityLogWidget />
                     </Grid>
-                    <Grid item xs={12} md={6} lg={12} xl={3}>
+                    <Grid xs={12} md={6} lg={12} xl={3}>
                         <Stack spacing={3}>
                             <AlertsLogWidget />
                             <ServerPathWidget />

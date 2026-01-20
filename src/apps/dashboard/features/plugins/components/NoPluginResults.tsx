@@ -1,6 +1,6 @@
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import Typography from '@mui/material/Typography/Typography';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Typography from '@mui/joy/Typography';
 import React, { type FC } from 'react';
 
 import globalize from 'lib/globalize';
@@ -19,14 +19,19 @@ const NoPluginResults: FC<NoPluginResultsProps> = ({
     return (
         <Box
             sx={{
-                textAlign: 'center'
+                textAlign: 'center',
+                py: 8,
+                px: 2,
+                bgcolor: 'background.surface',
+                borderRadius: 'md',
+                border: '1px dashed',
+                borderColor: 'divider'
             }}
         >
             <Typography
-                component='div'
+                level="title-lg"
                 sx={{
-                    marginTop: 2,
-                    marginBottom: 1
+                    mb: 1
                 }}
             >
                 {
@@ -38,8 +43,10 @@ const NoPluginResults: FC<NoPluginResultsProps> = ({
 
             {isFiltered && (
                 <Button
-                    variant='text'
+                    variant='plain'
+                    color="primary"
                     onClick={onViewAll}
+                    sx={{ mt: 1 }}
                 >
                     {globalize.translate('ViewAllPlugins')}
                 </Button>

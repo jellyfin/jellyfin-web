@@ -1,31 +1,35 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { FunctionComponent } from 'react';
-import { formatDistanceToNow } from 'date-fns';;
+import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../lib/globalize';
-import IconButtonElement from '../../../elements/IconButtonElement';
-import LinkButton from '../../../elements/emby-button/LinkButton';
-import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
+import Box from '@mui/joy/Box';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import IconButton from '@mui/joy/IconButton';
+import Typography from '@mui/joy/Typography';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Avatar from '@mui/joy/Avatar';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Link } from 'react-router-dom';
 
 type IProps = {
     user?: UserDto;
+    onMenuClick?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 const getLastSeenText = (lastActivityDate?: string | null) => {
     if (lastActivityDate) {
-        return globalize.translate('LastSeen', formatDistanceToNow(Date.parse(lastActivityDate), getLocaleWithSuffix()));
+        try {
+            return globalize.translate('LastSeen', formatDistanceToNow(new Date(lastActivityDate), getLocaleWithSuffix()));
+        } catch (e) {
+            return '';
+        }
     }
-
     return '';
 };
 
-const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
-    let cssClass = 'card squareCard scalableCard squareCard-scalable';
-
-    if (user.Policy?.IsDisabled) {
-        cssClass += ' grayscale';
-    }
-
+const UserCardBox: FunctionComponent<IProps> = ({ user = {}, onMenuClick }: IProps) => {
     let imgUrl;
 
     if (user.PrimaryImageTag && user.Id) {
@@ -36,50 +40,73 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
         });
     }
 
-    let imageClass = 'cardImage';
-
-    if (user.Policy?.IsDisabled) {
-        imageClass += ' disabledUser';
-    }
-
     const lastSeen = getLastSeenText(user.LastActivityDate);
-
-    const renderImgUrl = imgUrl ?
-        <div className={imageClass} style={{ backgroundImage: `url(${imgUrl})` }} /> :
-        <div className={`${imageClass} ${getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center`}>
-            <span className='material-icons cardImageIcon person' aria-hidden='true'></span>
-        </div>;
+    const isDisabled = user.Policy?.IsDisabled;
 
     return (
-        <div data-userid={user.Id} data-username={user.Name} className={cssClass}>
-            <div className='cardBox visualCardBox'>
-                <div className='cardScalable visualCardBox-cardScalable'>
-                    <div className='cardPadder cardPadder-square'></div>
-                    <LinkButton
-                        className='cardContent'
-                        href={`#/dashboard/users/profile?userId=${user.Id}`}>
-                        {renderImgUrl}
-                    </LinkButton>
-                </div>
-                <div className='cardFooter visualCardBox-cardFooter'>
-                    <div
-                        style={{ textAlign: 'right', float: 'right', paddingTop: '5px' }}
+        <Card
+            variant="outlined"
+            sx={{
+                height: '100%',
+                transition: 'transform 0.2s',
+                '&:hover': { transform: 'translateY(-4px)', boxShadow: 'md' },
+                ...(isDisabled && { filter: 'grayscale(1)', opacity: 0.7 })
+            }}
+        >
+            <Box sx={{ position: 'relative' }}>
+                <Link to={`/dashboard/users/profile?userId=${user.Id}`}>
+                    <AspectRatio ratio="1">
+                        {imgUrl ? (
+                            <img src={imgUrl} alt={user.Name || ''} />
+                        ) : (
+                            <Avatar variant="soft" color="primary" sx={{ borderRadius: 0, width: '100%', height: '100%' }}>
+                                <Typography level="h1">👤</Typography>
+                            </Avatar>
+                        )}
+                    </AspectRatio>
+                </Link>
+                {isDisabled && (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            bgcolor: 'rgba(0,0,0,0.4)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            pointerEvents: 'none'
+                        }}
                     >
-                        <IconButtonElement
-                            is='paper-icon-button-light'
-                            className='btnUserMenu flex-shrink-zero'
-                            icon='more_vert'
-                        />
-                    </div>
-                    <div className='cardText'>
-                        <span>{user.Name}</span>
-                    </div>
-                    <div className='cardText cardText-secondary'>
-                        <span>{lastSeen != '' ? lastSeen : ''}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <Typography level="title-md" color="white" sx={{ fontWeight: 'bold' }}>
+                            {globalize.translate('LabelDisabled')}
+                        </Typography>
+                    </Box>
+                )}
+            </Box>
+            <CardContent sx={{ pt: 1.5 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                        <Typography level="title-md" noWrap>
+                            {user.Name}
+                        </Typography>
+                        <Typography level="body-xs" color="neutral" noWrap>
+                            {lastSeen || '\u00A0'}
+                        </Typography>
+                    </Box>
+                    <IconButton
+                        variant="plain"
+                        color="neutral"
+                        size="sm"
+                        onClick={onMenuClick}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
+                </Box>
+            </CardContent>
+        </Card>
     );
 };
 

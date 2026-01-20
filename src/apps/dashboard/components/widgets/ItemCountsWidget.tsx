@@ -5,14 +5,14 @@ import MusicNote from '@mui/icons-material/MusicNote';
 import MusicVideo from '@mui/icons-material/MusicVideo';
 import Tv from '@mui/icons-material/Tv';
 import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import Grid from '@mui/material/Grid/Grid';
-import SvgIcon from '@mui/material/SvgIcon';
+import Grid from '@mui/joy/Grid';
+import SvgIcon from '@mui/joy/SvgIcon';
 import React, { useMemo } from 'react';
 
 import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
 import MetricCard, { type MetricCardProps } from 'apps/dashboard/features/metrics/components/MetricCard';
 import globalize from 'lib/globalize';
-import Box from '@mui/material/Box/Box';
+import Box from '@mui/joy/Box';
 
 interface MetricDefinition {
     key: keyof ItemCounts
@@ -87,7 +87,6 @@ const ItemCountsWidget = () => {
                 {cards.map(card => (
                     <Grid
                         key={card.metrics.map(metric => metric.label).join('-')}
-                        item
                         xs={12}
                         sm={6}
                         lg={4}

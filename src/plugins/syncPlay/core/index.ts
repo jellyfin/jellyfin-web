@@ -9,7 +9,6 @@ const Manager = new ManagerClass(PlayerFactory);
 export { Helper, Manager, PlayerFactory };
 export const Players = { GenericPlayer };
 
-// Keep default export for backward compatibility
 export default {
     Helper,
     Manager,

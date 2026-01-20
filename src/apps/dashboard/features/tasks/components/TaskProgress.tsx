@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { TaskProps } from '../types/taskProps';
-import Box from '@mui/material/Box/Box';
-import LinearProgress from '@mui/material/LinearProgress';
-import Typography from '@mui/material/Typography/Typography';
+import Box from '@mui/joy/Box';
+import LinearProgress from '@mui/joy/LinearProgress';
+import Typography from '@mui/joy/Typography';
 
 const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const progress = task.CurrentProgressPercentage;
@@ -12,26 +12,28 @@ const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
             sx={{
                 display: 'flex',
                 alignItems: 'center',
-                height: '1.2rem',
-                mr: 2,
+                gap: 1.5,
+                mt: 0.5,
                 minWidth: '170px'
             }}
         >
             {progress != null ? (
                 <>
-                    <Box sx={{ width: '100%', mr: 1 }}>
-                        <LinearProgress variant='determinate' value={progress} />
-                    </Box>
-                    <Box>
-                        <Typography
-                            variant='body1'
-                        >{`${Math.round(progress)}%`}</Typography>
-                    </Box>
+                    <LinearProgress
+                        determinate
+                        value={progress}
+                        color="primary"
+                        sx={{ flex: 1, borderRadius: 'sm' }}
+                    />
+                    <Typography level="body-xs" fontWeight="bold">
+                        {`${Math.round(progress)}%`}
+                    </Typography>
                 </>
             ) : (
-                <Box sx={{ width: '100%' }}>
-                    <LinearProgress />
-                </Box>
+                <LinearProgress
+                    color="primary"
+                    sx={{ flex: 1, borderRadius: 'sm' }}
+                />
             )}
         </Box>
     );

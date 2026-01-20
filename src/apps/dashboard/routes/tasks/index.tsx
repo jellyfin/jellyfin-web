@@ -1,8 +1,8 @@
 import React from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import Box from '@mui/material/Box/Box';
-import Stack from '@mui/material/Stack/Stack';
+import Box from '@mui/joy/Box';
+import Stack from '@mui/joy/Stack';
 import { getCategories, getTasksByCategory } from '../../features/tasks/utils/tasks';
 import Loading from 'components/loading/LoadingComponent';
 import Tasks from '../../features/tasks/components/Tasks';
@@ -23,18 +23,16 @@ export const Component = () => {
             title={globalize.translate('TabScheduledTasks')}
             className='mainAnimatedPage type-interior'
         >
-            <Box className='content-primary'>
-                <Box className='readOnlyContent'>
-                    <Stack spacing={3} mt={2}>
-                        {categories.map(category => {
-                            return <Tasks
-                                key={category}
-                                category={category}
-                                tasks={getTasksByCategory(tasks, category)}
-                            />;
-                        })}
-                    </Stack>
-                </Box>
+            <Box sx={{ maxWidth: 1000, mx: 'auto', p: 3 }}>
+                <Stack spacing={4}>
+                    {categories.map(category => {
+                        return <Tasks
+                            key={category}
+                            category={category}
+                            tasks={getTasksByCategory(tasks, category)}
+                        />;
+                    })}
+                </Stack>
             </Box>
         </Page>
     );

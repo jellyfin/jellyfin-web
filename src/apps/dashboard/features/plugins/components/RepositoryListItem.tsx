@@ -1,16 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
-import ListItem from '@mui/material/ListItem';
-import Tooltip from '@mui/material/Tooltip';
+import ListItem from '@mui/joy/ListItem';
+import Tooltip from '@mui/joy/Tooltip';
 import Delete from '@mui/icons-material/Delete';
 import globalize from 'lib/globalize';
-import IconButton from '@mui/material/IconButton/IconButton';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
+import IconButton from '@mui/joy/IconButton';
+import ListItemContent from '@mui/joy/ListItemContent';
+import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import OpenInNew from '@mui/icons-material/OpenInNew';
-import Avatar from '@mui/material/Avatar/Avatar';
-import ListItemButton from '@mui/material/ListItemButton';
-import Link from '@mui/material/Link/Link';
+import Avatar from '@mui/joy/Avatar';
+import ListItemButton from '@mui/joy/ListItemButton';
+import Link from '@mui/joy/Link';
+import Typography from '@mui/joy/Typography';
 import ConfirmDialog from 'components/ConfirmDialog';
 
 type IProps = {
@@ -42,39 +43,41 @@ const RepositoryListItem = ({ repository, onDelete }: IProps) => {
                 text={globalize.translate('DeleteRepositoryConfirmation')}
                 onConfirm={onConfirmDelete}
                 onCancel={onCancel}
-                confirmButtonColor='error'
+                confirmButtonColor='danger'
                 confirmButtonText={globalize.translate('Delete')}
             />
             <ListItem
-                disablePadding
-                secondaryAction={
-                    <Tooltip disableInteractive title={globalize.translate('ButtonRemove')}>
-                        <IconButton onClick={confirmDeletePrompt}>
+                endAction={
+                    <Tooltip title={globalize.translate('ButtonRemove')} variant="soft">
+                        <IconButton
+                            variant="plain"
+                            color="danger"
+                            onClick={confirmDeletePrompt}
+                        >
                             <Delete />
                         </IconButton>
                     </Tooltip>
                 }
             >
                 <ListItemButton>
-                    <Link href={repository.Url || '#'} target='_blank' rel='noopener noreferrer'>
-                        <ListItemAvatar>
-                            <Avatar sx={{ bgcolor: 'primary.main' }}>
-                                <OpenInNew sx={{ color: '#fff' }} />
+                    <ListItemDecorator>
+                        <Link
+                            href={repository.Url || '#'}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            sx={{ color: 'inherit' }}
+                        >
+                            <Avatar variant="soft" color="primary">
+                                <OpenInNew />
                             </Avatar>
-                        </ListItemAvatar>
-                    </Link>
-                    <ListItemText
-                        primary={repository.Name}
-                        secondary={repository.Url}
-                        slotProps={{
-                            primary: {
-                                variant: 'h3'
-                            },
-                            secondary: {
-                                variant: 'body1'
-                            }
-                        }}
-                    />
+                        </Link>
+                    </ListItemDecorator>
+                    <ListItemContent>
+                        <Typography level="title-md">{repository.Name}</Typography>
+                        <Typography level="body-xs" color="neutral" noWrap>
+                            {repository.Url}
+                        </Typography>
+                    </ListItemContent>
                 </ListItemButton>
             </ListItem>
         </>

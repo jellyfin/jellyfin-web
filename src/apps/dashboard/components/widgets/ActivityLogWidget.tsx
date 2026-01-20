@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
-import List from '@mui/material/List';
+import List from '@mui/joy/List';
+import Sheet from '@mui/joy/Sheet';
 import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 import subSeconds from 'date-fns/subSeconds';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack/Stack';
+import Skeleton from '@mui/joy/Skeleton';
+import Stack from '@mui/joy/Stack';
 
 const ActivityLogWidget = () => {
     const dayBefore = useMemo(() => (
@@ -27,22 +28,28 @@ const ActivityLogWidget = () => {
         >
             {isPending ? (
                 <Stack spacing={2}>
-                    <Skeleton variant='rounded' height={60} />
-                    <Skeleton variant='rounded' height={60} />
-                    <Skeleton variant='rounded' height={60} />
-                    <Skeleton variant='rounded' height={60} />
+                    <Skeleton variant='rectangular' height={60} sx={{ borderRadius: 'md' }} />
+                    <Skeleton variant='rectangular' height={60} sx={{ borderRadius: 'md' }} />
+                    <Skeleton variant='rectangular' height={60} sx={{ borderRadius: 'md' }} />
+                    <Skeleton variant='rectangular' height={60} sx={{ borderRadius: 'md' }} />
                 </Stack>
             ) : (
-                <List sx={{ bgcolor: 'background.paper' }}>
-                    {logs?.Items?.map(entry => (
-                        <ActivityListItem
-                            key={entry.Id}
-                            item={entry}
-                            displayShortOverview={true}
-                            to='/dashboard/activity?useractivity=true'
-                        />
-                    ))}
-                </List>
+                <Sheet variant="outlined" sx={{ borderRadius: 'md', overflow: 'hidden' }}>
+                    <List sx={{ '--ListItem-paddingY': '8px', '--ListItem-paddingX': '12px' }}>
+                        {logs?.Items?.map((entry, index) => (
+                            <React.Fragment key={entry.Id}>
+                                <ActivityListItem
+                                    item={entry}
+                                    displayShortOverview={true}
+                                    to='/dashboard/activity?useractivity=true'
+                                />
+                                {index < (logs.Items?.length || 0) - 1 && (
+                                    <div style={{ height: 1, backgroundColor: 'var(--joy-palette-divider)' }} />
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </List>
+                </Sheet>
             )}
         </Widget>
     );
