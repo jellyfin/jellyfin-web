@@ -147,15 +147,32 @@ export class AudioDriver {
             }
         );
 
-        // Subscribe to volume changes
         useSettingsStore.subscribe(
             (state) => state.audio.volume,
-            (volume) => this.activePlayer.setVolume(volume)
+            (volume) => {
+                if (this.activePlayer) {
+                    this.activePlayer.setVolume(volume);
+                }
+            }
         );
 
         useSettingsStore.subscribe(
             (state) => state.audio.muted,
-            (muted) => this.activePlayer.setMuted(muted)
+            (muted) => {
+                if (this.activePlayer) {
+                    this.activePlayer.setMuted(muted);
+                }
+            }
+        );
+
+        // Sync playback rate
+        useMediaStore.subscribe(
+            (state) => state.playbackRate,
+            (rate) => {
+                if (this.activePlayer) {
+                    this.activePlayer.setPlaybackRate(rate);
+                }
+            }
         );
     }
 

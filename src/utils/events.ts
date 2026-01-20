@@ -1,51 +1,99 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { logger } from './logger';
+
+/**
+ * Event Interface
+ */
 export interface Event {
     type: string;
 }
 
+/**
+ * Known Event Types (Internal Migration Map)
+ * This helps track which events should be replaced by store subscriptions.
+ */
+export type KnownEventName = 
+    | 'playbackstart' 
+    | 'playbackstop' 
+    | 'pause' 
+    | 'unpause' 
+    | 'timeupdate' 
+    | 'volumechange' 
+    | 'playerchange' 
+    | 'modechange' 
+    | 'fullscreenchange'
+    | 'reportplayback'
+    | 'registered';
+
 type Callback = (e: Event, ...args: any[]) => void;
 
-function getCallbacks(obj: any, type: string): Callback[] {
-    if (!obj) {
-        throw new Error('obj cannot be null!');
+/**
+ * Legacy Event Bus
+ * 
+ * @deprecated Use Zustand store subscriptions (useMediaStore.subscribe, etc.) 
+ * for new features. This is kept for backward compatibility with legacy plugins.
+ */
+class EventBus {
+    private static instance: EventBus;
+    
+    private constructor() {}
+
+    static getInstance(): EventBus {
+        if (!EventBus.instance) {
+            EventBus.instance = new EventBus();
+        }
+        return EventBus.instance;
     }
 
-    obj._callbacks = obj._callbacks || {};
+    private getCallbacks(obj: any, type: string): Callback[] {
+        if (!obj) {
+            throw new Error('EventBus: obj cannot be null!');
+        }
 
-    let callbacks = obj._callbacks[type];
+        obj._callbacks = obj._callbacks || {};
+        if (!obj._callbacks[type]) {
+            obj._callbacks[type] = [];
+        }
 
-    if (!callbacks) {
-        obj._callbacks[type] = [];
-        callbacks = obj._callbacks[type];
+        return obj._callbacks[type];
     }
 
-    return callbacks;
-}
-
-export function on(obj: any, type: string, fn: Callback): void {
-    const callbacks = getCallbacks(obj, type);
-
-    callbacks.push(fn);
-}
-
-export function off(obj: any, type: string, fn: Callback): void {
-    const callbacks = getCallbacks(obj, type);
-
-    const i = callbacks.indexOf(fn);
-    if (i !== -1) {
-        callbacks.splice(i, 1);
+    on(obj: any, type: KnownEventName | string, fn: Callback): void {
+        const callbacks = this.getCallbacks(obj, type);
+        callbacks.push(fn);
     }
-}
 
-export function trigger(obj: any, type: string, args: any[] = []): void {
-    const eventArgs: [Event, ...any] = [{ type }, ...args];
+    off(obj: any, type: KnownEventName | string, fn: Callback): void {
+        const callbacks = this.getCallbacks(obj, type);
+        const i = callbacks.indexOf(fn);
+        if (i !== -1) {
+            callbacks.splice(i, 1);
+        }
+    }
 
-    getCallbacks(obj, type).slice(0)
-        .forEach(callback => {
-            callback.apply(obj, eventArgs);
+    trigger(obj: any, type: KnownEventName | string, args: any[] = []): void {
+        const eventArgs: [Event, ...any] = [{ type }, ...args];
+        const callbacks = this.getCallbacks(obj, type);
+
+        // Debug log for important events to help migration
+        if (['playbackstart', 'playbackstop', 'playerchange'].includes(type)) {
+            logger.debug(`[Events] Triggered: ${type}`, { component: 'EventBus', origin: obj?.name || 'unknown' });
+        }
+
+        callbacks.slice(0).forEach(callback => {
+            try {
+                callback.apply(obj, eventArgs);
+            } catch (err) {
+                logger.error(`[Events] Error in callback for ${type}`, { component: 'EventBus' }, err as Error);
+            }
         });
+    }
 }
 
-// Keep default export for backward compatibility
+const eventBus = EventBus.getInstance();
+
+export const on = eventBus.on.bind(eventBus);
+export const off = eventBus.off.bind(eventBus);
+export const trigger = eventBus.trigger.bind(eventBus);
+
 export default { on, off, trigger };
-/* eslint-enable @typescript-eslint/no-explicit-any */

@@ -28,6 +28,7 @@ import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/med
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { bindSkipSegment } from './skipsegment';
 import { useMediaStore } from '../../store/mediaStore';
+import { usePlayerStore } from '../../store/playerStore';
 import logger from '../../utils/logger';
 
 const UNLIMITED_ITEMS = -1;
@@ -61,16 +62,25 @@ function bindToFullscreenChange(player: Player): void {
     }
 }
 
-function triggerPlayerChange(playbackManagerInstance: PlaybackManager, newPlayer: Player | null | undefined, newTarget: any, previousPlayer: Player | null | undefined, previousTargetInfo: any): void {
+function triggerPlayerChange(_playbackManagerInstance: PlaybackManager, newPlayer: Player | null | undefined, _newTarget: any, previousPlayer: Player | null | undefined, _previousTargetInfo: any): void {
     if (!newPlayer && !previousPlayer) {
         return;
     }
 
-    if (newTarget && previousTargetInfo && newTarget.id === previousTargetInfo.id) {
-        return;
+    // Update Player Store
+    if (newPlayer) {
+        usePlayerStore.getState().setCurrentPlayer({
+            id: newPlayer.id,
+            name: newPlayer.name,
+            isLocalPlayer: newPlayer.isLocalPlayer,
+            supportedCommands: newPlayer.getSupportedCommands ? newPlayer.getSupportedCommands() : [],
+            canPlayMediaTypes: ['Audio', 'Video'] // Fallback or detect
+        });
+    } else {
+        usePlayerStore.getState().setCurrentPlayer(null);
     }
 
-    Events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
+    Events.trigger(_playbackManagerInstance, 'playerchange', [newPlayer, _newTarget, previousPlayer]);
 }
 
 function reportPlayback(playbackManagerInstance: PlaybackManager, state: any, player: Player, reportPlaylist: boolean, serverId: string, method: string, progressEventName: string): void {
