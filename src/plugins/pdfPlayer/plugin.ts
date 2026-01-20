@@ -1,5 +1,4 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import loading from '../../components/loading/loading';
@@ -10,24 +9,34 @@ import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
+import { useBookStore } from '../../store/bookStore';
 
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 
 export class PdfPlayer {
-    constructor() {
-        this.name = 'PDF Player';
-        this.type = PluginType.MediaPlayer;
-        this.id = 'pdfplayer';
-        this.isLocalPlayer = true;
-        this.priority = 1;
+    name: string = 'PDF Player';
+    type: any = PluginType.MediaPlayer;
+    id: string = 'pdfplayer';
+    isLocalPlayer: boolean = true;
+    priority: number = 1;
+    
+    item: any;
+    mediaElement: any;
+    book: any;
+    pages: Record<string, HTMLCanvasElement> = {};
+    loaded: boolean = false;
+    cancellationToken: boolean = false;
+    progress: number = 0;
+    streamInfo: any;
 
+    constructor() {
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.onTouchStart = this.onTouchStart.bind(this);
     }
 
-    play(options) {
+    play(options: any) {
         this.progress = 0;
         this.loaded = false;
         this.cancellationToken = false;
@@ -54,15 +63,9 @@ export class PdfPlayer {
             this.mediaElement = null;
         }
 
-        // hide loading animation
         loading.hide();
-
-        // cancel page render
         this.cancellationToken = true;
-    }
-
-    destroy() {
-        // Nothing to do here
+        useBookStore.getState().reset();
     }
 
     currentItem() {
@@ -77,29 +80,11 @@ export class PdfPlayer {
         return this.book ? this.book.numPages : 0;
     }
 
-    volume() {
-        return 100;
-    }
-
-    isMuted() {
-        return false;
-    }
-
-    paused() {
-        return false;
-    }
-
-    seekable() {
-        return true;
-    }
-
-    onWindowKeyDown(e) {
+    onWindowKeyDown(e: KeyboardEvent) {
         if (!this.loaded) return;
-
-        // Skip modified keys
         if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
 
-        const key = keyboardnavigation.getKeyName(e);
+        const key = (keyboardnavigation as any).getKeyName(e);
 
         switch (key) {
             case 'l':
@@ -121,7 +106,7 @@ export class PdfPlayer {
         }
     }
 
-    onTouchStart(e) {
+    onTouchStart(e: TouchEvent) {
         if (!this.loaded || !e.touches || e.touches.length === 0) return;
         if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
             this.previous();
@@ -134,30 +119,18 @@ export class PdfPlayer {
         this.stop();
     }
 
-    bindMediaElementEvents() {
+    bindEvents() {
         const elem = this.mediaElement;
-
         elem.addEventListener('close', this.onDialogClosed, { once: true });
         elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
-    }
-
-    bindEvents() {
-        this.bindMediaElementEvents();
 
         document.addEventListener('keydown', this.onWindowKeyDown);
         document.addEventListener('touchstart', this.onTouchStart);
     }
 
-    unbindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem.removeEventListener('close', this.onDialogClosed);
-        elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
-    }
-
     unbindEvents() {
         if (this.mediaElement) {
-            this.unbindMediaElementEvents();
+            this.mediaElement.removeEventListener('close', this.onDialogClosed);
         }
 
         document.removeEventListener('keydown', this.onWindowKeyDown);
@@ -166,9 +139,7 @@ export class PdfPlayer {
 
     createMediaElement() {
         let elem = this.mediaElement;
-        if (elem) {
-            return elem;
-        }
+        if (elem) return elem;
 
         elem = document.getElementById('pdfPlayer');
         if (!elem) {
@@ -181,14 +152,8 @@ export class PdfPlayer {
                 removeOnClose: true
             });
 
-            let html = '';
-            html += '<canvas id="canvas"></canvas>';
-            html += '<div class="actionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
-            html += '</div>';
-
             elem.id = 'pdfPlayer';
-            elem.innerHTML = html;
+            elem.innerHTML = '<canvas id="canvas"></canvas><div class="actionButtons"><button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button></div>';
 
             dialogHelper.open(elem);
         }
@@ -197,21 +162,12 @@ export class PdfPlayer {
         return elem;
     }
 
-    setCurrentSrc(elem, options) {
+    setCurrentSrc(elem: HTMLElement, options: any) {
         const item = options.items[0];
-
         this.item = item;
-        this.streamInfo = {
-            started: true,
-            ended: false,
-            item: this.item,
-            mediaSource: {
-                Id: item.Id
-            }
-        };
 
-        return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
-            const api = toApi(ServerConnections.getApiClient(item));
+        return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }: any) => {
+            const api = toApi(ServerConnections.getApiClient(item.ServerId));
             const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
 
             this.bindEvents();
@@ -219,14 +175,14 @@ export class PdfPlayer {
 
             const downloadTask = getDocument({
                 url: downloadHref,
-                // Disable for PDF.js XSS vulnerability
-                // https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq
                 isEvalSupported: false
             });
-            return downloadTask.promise.then(book => {
+            return downloadTask.promise.then((book: any) => {
                 if (this.cancellationToken) return;
                 this.book = book;
                 this.loaded = true;
+                
+                useBookStore.getState().setCurrentBook(item.Id, book.numPages);
 
                 const percentageTicks = options.startPositionTicks / 10000;
                 if (percentageTicks !== 0) {
@@ -235,6 +191,8 @@ export class PdfPlayer {
                 } else {
                     this.loadPage(1);
                 }
+                
+                useBookStore.getState().setLoaded(true);
             });
         });
     }
@@ -243,7 +201,7 @@ export class PdfPlayer {
         if (this.progress === this.duration() - 1) return;
         this.loadPage(this.progress + 2);
         this.progress = this.progress + 1;
-
+        useBookStore.getState().setPage(this.progress + 1);
         Events.trigger(this, 'pause');
     }
 
@@ -251,29 +209,28 @@ export class PdfPlayer {
         if (this.progress === 0) return;
         this.loadPage(this.progress);
         this.progress = this.progress - 1;
-
+        useBookStore.getState().setPage(this.progress + 1);
         Events.trigger(this, 'pause');
     }
 
-    replaceCanvas(canvas) {
+    replaceCanvas(canvas: HTMLCanvasElement) {
         const old = document.getElementById('canvas');
-
-        canvas.id = 'canvas';
-        old.parentNode.replaceChild(canvas, old);
+        if (old && old.parentNode) {
+            canvas.id = 'canvas';
+            old.parentNode.replaceChild(canvas, old);
+        }
     }
 
-    loadPage(number) {
+    loadPage(number: number) {
         const prefix = 'page';
         const pad = 2;
 
-        // generate list of cached pages by padding the requested page on both sides
         const pages = [prefix + number];
         for (let i = 1; i <= pad; i++) {
             if (number - i > 0) pages.push(prefix + (number - i));
             if (number + i < this.duration()) pages.push(prefix + (number + i));
         }
 
-        // load any missing pages in the cache
         for (const page of pages) {
             if (!this.pages[page]) {
                 this.pages[page] = document.createElement('canvas');
@@ -281,10 +238,8 @@ export class PdfPlayer {
             }
         }
 
-        // show the requested page
-        this.replaceCanvas(this.pages[prefix + number], number);
+        this.replaceCanvas(this.pages[prefix + number]);
 
-        // delete all pages outside the cache area
         for (const page in this.pages) {
             if (!pages.includes(page)) {
                 delete this.pages[page];
@@ -292,9 +247,9 @@ export class PdfPlayer {
         }
     }
 
-    renderPage(canvas, number) {
+    renderPage(canvas: HTMLCanvasElement, number: number) {
         const devicePixelRatio = window.devicePixelRatio || 1;
-        this.book.getPage(number).then(page => {
+        this.book.getPage(number).then((page: any) => {
             const original = page.getViewport({ scale: 1 });
             const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
             const viewport = page.getViewport({ scale });
@@ -311,7 +266,6 @@ export class PdfPlayer {
             }
 
             const context = canvas.getContext('2d');
-
             const renderContext = {
                 canvasContext: context,
                 viewport: viewport
@@ -324,11 +278,11 @@ export class PdfPlayer {
         });
     }
 
-    canPlayMediaType(mediaType) {
+    canPlayMediaType(mediaType: string) {
         return (mediaType || '').toLowerCase() === 'book';
     }
 
-    canPlayItem(item) {
+    canPlayItem(item: any) {
         return item.Path ? item.Path.toLowerCase().endsWith('pdf') : false;
     }
 }

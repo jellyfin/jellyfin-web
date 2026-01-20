@@ -1,4 +1,5 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+// @ts-ignore
 import { Archive } from 'libarchive.js';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -10,6 +11,8 @@ import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { appRouter } from '../../components/router/appRouter';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { PluginType } from '../../types/plugin';
+import Events from '../../utils/events';
+import { useBookStore } from '../../store/bookStore';
 
 import './style.scss';
 
@@ -19,24 +22,32 @@ const FILE_EXTENSIONS = ['.cbr', '.cbt', '.cbz', '.cb7'];
 const IMAGE_FORMATS = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif', 'webp'];
 
 export class ComicsPlayer {
-    constructor() {
-        this.name = 'Comics Player';
-        this.type = PluginType.MediaPlayer;
-        this.id = 'comicsplayer';
-        this.isLocalPlayer = true;
-        this.priority = 1;
-        this.imageMap = new Map();
+    name: string = 'Comics Player';
+    type: any = PluginType.MediaPlayer;
+    id: string = 'comicsplayer';
+    isLocalPlayer: boolean = true;
+    priority: number = 1;
+    imageMap: Map<string, string> = new Map();
+    
+    item: any;
+    mediaElement: any;
+    swiperInstance: any;
+    archiveSource: any;
+    comicsPlayerSettings: any;
+    currentPage: number = 0;
+    pageCount: number = 0;
 
+    constructor() {
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
     }
 
-    play(options) {
+    play(options: any) {
         this.currentPage = 0;
         this.pageCount = 0;
 
         const mediaSourceId = options.items[0].Id;
-        this.comicsPlayerSettings = userSettings.getComicsPlayerSettings(mediaSourceId);
+        this.comicsPlayerSettings = (userSettings as any).getComicsPlayerSettings(mediaSourceId);
 
         const elem = this.createMediaElement();
         return this.setCurrentSrc(elem, options);
@@ -52,7 +63,7 @@ export class ComicsPlayer {
         Events.trigger(this, 'stopped', [stopInfo]);
 
         const mediaSourceId = this.item.Id;
-        userSettings.setComicsPlayerSettings(this.comicsPlayerSettings, mediaSourceId);
+        (userSettings as any).setComicsPlayerSettings(this.comicsPlayerSettings, mediaSourceId);
 
         this.archiveSource?.release();
 
@@ -63,10 +74,15 @@ export class ComicsPlayer {
         }
 
         loading.hide();
+        useBookStore.getState().reset();
     }
 
     destroy() {
         // Nothing to do here
+    }
+
+    currentItem() {
+        return this.item;
     }
 
     currentTime() {
@@ -75,26 +91,6 @@ export class ComicsPlayer {
 
     duration() {
         return this.pageCount;
-    }
-
-    currentItem() {
-        return this.item;
-    }
-
-    volume() {
-        return 100;
-    }
-
-    isMuted() {
-        return false;
-    }
-
-    paused() {
-        return false;
-    }
-
-    seekable() {
-        return true;
     }
 
     onDialogClosed() {
@@ -111,13 +107,11 @@ export class ComicsPlayer {
         }
 
         this.changeLanguageDirection(langDir);
-
         this.comicsPlayerSettings.langDir = langDir;
     };
 
-    changeLanguageDirection(langDir) {
+    changeLanguageDirection(langDir: string) {
         const currentPage = this.currentPage;
-
         this.swiperInstance.changeLanguageDirection(langDir);
 
         const prevIcon = langDir === 'ltr' ? 'arrow_circle_left' : 'arrow_circle_right';
@@ -142,11 +136,10 @@ export class ComicsPlayer {
         }
 
         this.changeView(view);
-
         this.comicsPlayerSettings.pagesPerView = view;
     };
 
-    changeView(view) {
+    changeView(view: number) {
         const currentPage = this.currentPage;
 
         this.swiperInstance.params.slidesPerView = view;
@@ -164,7 +157,7 @@ export class ComicsPlayer {
         this.reload(currentPage);
     }
 
-    reload(currentPage) {
+    reload(currentPage: number) {
         const effect = this.swiperInstance.params.effect;
 
         this.swiperInstance.params.effect = 'none';
@@ -173,7 +166,7 @@ export class ComicsPlayer {
         this.swiperInstance.slideNext();
         this.swiperInstance.slidePrev();
 
-        if (this.currentPage != currentPage) {
+        if (this.currentPage !== currentPage) {
             this.swiperInstance.slideTo(currentPage);
             this.swiperInstance.update();
         }
@@ -182,90 +175,70 @@ export class ComicsPlayer {
         this.swiperInstance.update();
     }
 
-    onWindowKeyDown(e) {
-        // Skip modified keys
+    onWindowKeyDown(e: KeyboardEvent) {
         if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
 
-        const key = keyboardnavigation.getKeyName(e);
+        const key = (keyboardnavigation as any).getKeyName(e);
         if (key === 'Escape') {
             e.preventDefault();
             this.stop();
         }
     }
 
-    bindMediaElementEvents() {
+    bindEvents() {
         const elem = this.mediaElement;
-
         elem?.addEventListener('close', this.onDialogClosed, { once: true });
         elem?.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
         elem?.querySelector('.btnToggleLangDir').addEventListener('click', this.onDirChanged);
         elem?.querySelector('.btnToggleView').addEventListener('click', this.onViewChanged);
-    }
-
-    bindEvents() {
-        this.bindMediaElementEvents();
 
         document.addEventListener('keydown', this.onWindowKeyDown);
     }
 
-    unbindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem?.removeEventListener('close', this.onDialogClosed);
-        elem?.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
-        elem?.querySelector('.btnToggleLangDir').removeEventListener('click', this.onDirChanged);
-        elem?.querySelector('.btnToggleView').removeEventListener('click', this.onViewChanged);
-    }
-
     unbindEvents() {
-        this.unbindMediaElementEvents();
-
+        const elem = this.mediaElement;
+        elem?.removeEventListener('close', this.onDialogClosed);
+        
         document.removeEventListener('keydown', this.onWindowKeyDown);
     }
 
     createMediaElement() {
         let elem = this.mediaElement;
-        if (elem) {
-            return elem;
-        }
+        if (elem) return elem;
 
-        elem = document.getElementById('comicsPlayer');
-        if (!elem) {
-            elem = dialogHelper.createDialog({
-                exitAnimationDuration: 400,
-                size: 'fullscreen',
-                autoFocus: false,
-                scrollY: false,
-                exitAnimation: 'fadeout',
-                removeOnClose: true
-            });
+        elem = dialogHelper.createDialog({
+            exitAnimationDuration: 400,
+            size: 'fullscreen',
+            autoFocus: false,
+            scrollY: false,
+            exitAnimation: 'fadeout',
+            removeOnClose: true
+        });
 
-            const viewIcon = this.comicsPlayerSettings.pagesPerView === 1 ? 'import_contacts' : 'devices_fold';
-            const dirIcon = this.comicsPlayerSettings.langDir === 'ltr' ? 'arrow_circle_right' : 'arrow_circle_left';
+        const viewIcon = this.comicsPlayerSettings.pagesPerView === 1 ? 'import_contacts' : 'devices_fold';
+        const dirIcon = this.comicsPlayerSettings.langDir === 'ltr' ? 'arrow_circle_right' : 'arrow_circle_left';
 
-            elem.id = 'comicsPlayer';
-            elem.classList.add('slideshowDialog');
-            elem.innerHTML = `<div dir=${this.comicsPlayerSettings.langDir} class="slideshowSwiperContainer">
-                                <div class="swiper-wrapper"></div>
-                                <div class="swiper-button-next actionButtonIcon"></div>
-                                <div class="swiper-button-prev actionButtonIcon"></div>
-                                <div class="swiper-pagination"></div>
-                            </div>
-                            <div class="actionButtons">
-                                <button is="paper-icon-button-light" class="autoSize btnToggleLangDir" tabindex="-1">
-                                    <span class="material-icons actionButtonIcon ${dirIcon}" aria-hidden="true"></span>
-                                </button>
-                                <button is="paper-icon-button-light" class="autoSize btnToggleView" tabindex="-1">
-                                    <span class="material-icons actionButtonIcon ${viewIcon}" aria-hidden="true"></span>
-                                </button>
-                                <button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1">
-                                    <span class="material-icons actionButtonIcon close" aria-hidden="true"></span>
-                                </button>
-                            </div>`;
+        elem.id = 'comicsPlayer';
+        elem.classList.add('slideshowDialog');
+        elem.innerHTML = `<div dir=${this.comicsPlayerSettings.langDir} class="slideshowSwiperContainer">
+                            <div class="swiper-wrapper"></div>
+                            <div class="swiper-button-next actionButtonIcon"></div>
+                            <div class="swiper-button-prev actionButtonIcon"></div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <div class="actionButtons">
+                            <button is="paper-icon-button-light" class="autoSize btnToggleLangDir" tabindex="-1">
+                                <span class="material-icons actionButtonIcon ${dirIcon}" aria-hidden="true"></span>
+                            </button>
+                            <button is="paper-icon-button-light" class="autoSize btnToggleView" tabindex="-1">
+                                <span class="material-icons actionButtonIcon ${viewIcon}" aria-hidden="true"></span>
+                            </button>
+                            <button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1">
+                                <span class="material-icons actionButtonIcon close" aria-hidden="true"></span>
+                            </button>
+                        </div>`;
 
-            dialogHelper.open(elem);
-        }
-
+        dialogHelper.open(elem);
         this.mediaElement = elem;
 
         const dirTitle = this.comicsPlayerSettings.langDir === 'ltr' ? 'Right To Left' : 'Left To Right';
@@ -278,17 +251,9 @@ export class ComicsPlayer {
         return elem;
     }
 
-    setCurrentSrc(elem, options) {
+    setCurrentSrc(elem: HTMLElement, options: any) {
         const item = options.items[0];
         this.item = item;
-        this.streamInfo = {
-            started: true,
-            ended: false,
-            item: this.item,
-            mediaSource: {
-                Id: item.Id
-            }
-        };
 
         loading.show();
 
@@ -296,25 +261,26 @@ export class ComicsPlayer {
             workerUrl: appRouter.baseUrl() + '/libraries/worker-bundle.js'
         });
 
-        const api = toApi(ServerConnections.getApiClient(item));
+        const api = toApi(ServerConnections.getApiClient(item.ServerId));
         const downloadUrl = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
         this.archiveSource = new ArchiveSource(downloadUrl);
 
-        //eslint-disable-next-line import/no-unresolved
+        // @ts-ignore
         import('swiper/css/bundle');
 
         return this.archiveSource.load()
-            // eslint-disable-next-line import/no-unresolved
+            // @ts-ignore
             .then(() => import('swiper/bundle'))
-            .then(({ Swiper }) => {
+            .then(({ Swiper }: any) => {
                 loading.hide();
 
                 this.pageCount = this.archiveSource.urls.length;
                 this.currentPage = options.startPositionTicks / 10000 || 0;
+                
+                useBookStore.getState().setCurrentBook(item.Id, this.pageCount);
 
                 this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                     direction: 'horizontal',
-                    // loop is disabled due to the lack of Swiper support in virtual slides
                     loop: false,
                     zoom: {
                         minRatio: 1,
@@ -328,7 +294,6 @@ export class ComicsPlayer {
                     preloadImages: true,
                     slidesPerView: this.comicsPlayerSettings.pagesPerView,
                     slidesPerGroup: this.comicsPlayerSettings.pagesPerView,
-                    slidesPerColumn: 1,
                     initialSlide: this.currentPage,
                     navigation: {
                         nextEl: '.swiper-button-next',
@@ -339,7 +304,6 @@ export class ComicsPlayer {
                         clickable: true,
                         type: 'fraction'
                     },
-                    // reduces memory consumption for large libraries while allowing preloading of images
                     virtual: {
                         slides: this.archiveSource.urls,
                         cache: true,
@@ -349,15 +313,17 @@ export class ComicsPlayer {
                     }
                 });
 
-                // save current page ( a page is an image file inside the archive )
                 this.swiperInstance.on('slideChange', () => {
                     this.currentPage = this.swiperInstance.activeIndex;
+                    useBookStore.getState().setPage(this.currentPage + 1);
                     Events.trigger(this, 'pause');
                 });
+                
+                useBookStore.getState().setLoaded(true);
             });
     }
 
-    getImgFromUrl(url) {
+    getImgFromUrl(url: string) {
         return `<div class="swiper-slide">
                    <div class="slider-zoom-container">
                        <img src="${url}" class="swiper-slide-img">
@@ -365,27 +331,29 @@ export class ComicsPlayer {
                </div>`;
     }
 
-    canPlayMediaType(mediaType) {
+    canPlayMediaType(mediaType: string) {
         return (mediaType || '').toLowerCase() === 'book';
     }
 
-    canPlayItem(item) {
+    canPlayItem(item: any) {
         return item.Path && FILE_EXTENSIONS.some(ext => item.Path.endsWith(ext));
     }
 }
 
 class ArchiveSource {
-    constructor(url) {
+    url: string;
+    files: any[] = [];
+    urls: string[] = [];
+    archive: any;
+    raw: any;
+
+    constructor(url: string) {
         this.url = url;
-        this.files = [];
-        this.urls = [];
     }
 
     async load() {
         const res = await fetch(this.url);
-        if (!res.ok) {
-            return;
-        }
+        if (!res.ok) return;
 
         const blob = await res.blob();
         this.archive = await Archive.open(blob);
@@ -394,22 +362,14 @@ class ArchiveSource {
 
         let files = await this.archive.getFilesArray();
 
-        // metadata files and files without a file extension should not be considered as a page
-        files = files.filter((file) => {
+        files = files.filter((file: any) => {
             const name = file.file.name;
             const index = name.lastIndexOf('.');
             return index !== -1 && IMAGE_FORMATS.includes(name.slice(index + 1).toLowerCase());
         });
-        files.sort((a, b) => {
-            if (a.file.name < b.file.name) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
+        files.sort((a: any, b: any) => a.file.name < b.file.name ? -1 : 1);
 
         for (const file of files) {
-            /* eslint-disable-next-line compat/compat */
             const url = URL.createObjectURL(file.file);
             this.urls.push(url);
         }
@@ -417,7 +377,6 @@ class ArchiveSource {
 
     release() {
         this.files = [];
-        /* eslint-disable-next-line compat/compat */
         this.urls.forEach(URL.revokeObjectURL);
         this.urls = [];
     }
