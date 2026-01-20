@@ -27,7 +27,8 @@ import {
     useFormattedTime,
     useCurrentQueueIndex,
     useCurrentPlayer,
-    useProgress
+    useProgress,
+    useNotificationStore
 } from "../../store";
 import type { PlayableItem, PlayerInfo } from "../../store/types";
 
@@ -35,7 +36,6 @@ import layoutManager from "../layoutManager";
 import Events from "../../utils/events";
 import { appRouter } from "../router/appRouter";
 import { ServerConnections } from "lib/jellyfin-apiclient";
-import serverNotifications from "../../scripts/serverNotifications";
 import { playbackManagerBridge } from "../../store/playbackManagerBridge";
 import { logger } from "../../utils/logger";
 
@@ -141,17 +141,16 @@ export const NowPlayingBar: React.FC = () => {
     }, [currentItem]);
 
     useEffect(() => {
-        const handleUserDataChanged = (_e: unknown, _apiClient: unknown, userData: { ItemId: string; IsFavorite: boolean }) => {
-            if (currentItem && userData.ItemId === currentItem.id) {
-                setIsFavorite(userData.IsFavorite);
+        const unsub = useNotificationStore.subscribe(
+            state => state.lastUserDataUpdate,
+            (update) => {
+                if (currentItem && update?.itemId === currentItem.id) {
+                    setIsFavorite(update.isFavorite);
+                }
             }
-        };
+        );
 
-        Events.on(serverNotifications, "UserDataChanged", handleUserDataChanged);
-
-        return () => {
-            Events.off(serverNotifications, "UserDataChanged", handleUserDataChanged);
-        };
+        return unsub;
     }, [currentItem]);
 
     useEffect(() => {

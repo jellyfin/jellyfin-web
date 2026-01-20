@@ -8,6 +8,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
 import Events from 'utils/events';
 import { PluginType } from 'types/plugin';
+import { useNotificationStore } from '../store/notificationStore';
 
 const serverNotifications = {};
 
@@ -184,8 +185,11 @@ function onMessageReceived(e, msg) {
         processGeneralCommand(cmd, apiClient);
     } else if (msg.MessageType === 'UserDataChanged') {
         if (msg.Data.UserId === apiClient.getCurrentUserId()) {
+            const serverId = apiClient.serverInfo().Id;
             for (let i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
-                Events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
+                const userData = msg.Data.UserDataList[i];
+                useNotificationStore.getState().processUserDataChanged(serverId, userData);
+                Events.trigger(serverNotifications, 'UserDataChanged', [apiClient, userData]);
             }
         }
     } else if (msg.MessageType === 'SyncPlayCommand') {
@@ -193,6 +197,8 @@ function onMessageReceived(e, msg) {
     } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
         SyncPlay?.Manager.processGroupUpdate(msg.Data, apiClient);
     } else {
+        const serverId = apiClient.serverInfo().Id;
+        useNotificationStore.getState().addNotification(serverId, msg.MessageType, msg.Data);
         Events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
     }
 }

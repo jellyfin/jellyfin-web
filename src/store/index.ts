@@ -17,6 +17,7 @@ export { usePlayerStore, selectCurrentPlayer, selectAvailablePlayers, selectPend
 export { useControlsStore, selectActiveControlSource, selectIsRemoteActive, selectPendingTransfer as selectPendingControlTransfer, selectShowTransferDialog, selectTransferCountdown, selectRemoteConnected, selectRemoteClientName, selectCanControl } from './controlsStore';
 export { useSettingsStore, selectAudioSettings, selectVisualizerSettings, selectPlaybackSettings, selectUiSettings, selectVolume as selectSettingsVolume, selectIsMuted as selectSettingsIsMuted, selectTheme, selectVisualizerEnabled } from './settingsStore';
 export { useUiStore } from './uiStore';
+export { useNotificationStore } from './notificationStore';
 
 // Audio store (legacy - for backward compatibility)
 export { useAudioStore } from './audioStore';
