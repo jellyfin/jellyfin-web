@@ -1,27 +1,26 @@
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { visualizerSettings } from './visualizers.logic';
+import { logger } from 'utils/logger';
 
 // Lazy load visualizer components to reduce initial bundle size
 const ButterchurnVisualizer = lazy(() =>
     import('./Butterchurn').catch(error => {
-        console.error('[Visualizers] Failed to load Butterchurn visualizer:', error);
-        // Return a fallback component
+        logger.error('[Visualizers] Failed to load Butterchurn visualizer', { component: 'Visualizers' }, error);
         return { default: () => <div>Visualizer unavailable</div> };
     })
 );
 
 const FrequencyAnalyzer = lazy(() =>
     import('./FrequencyAnalyzer').catch(error => {
-        console.error('[Visualizers] Failed to load Frequency Analyzer:', error);
-        // Return a fallback component
+        logger.error('[Visualizers] Failed to load Frequency Analyzer', { component: 'Visualizers' }, error);
         return { default: () => <div>Frequency analyzer unavailable</div> };
     })
 );
 
 const ThreeDimensionVisualizer = lazy(() =>
     import('./ThreeDimensionVisualizer').catch(error => {
-        console.error('[Visualizers] Failed to load 3D Visualizer:', error);
+        logger.error('[Visualizers] Failed to load 3D Visualizer', { component: 'Visualizers' }, error);
         return { default: () => <div>3D Visualizer unavailable</div> };
     })
 );

@@ -3,13 +3,15 @@ import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline';
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom';
 import MiniMapPlugin from 'wavesurfer.js/dist/plugins/minimap';
 import { createWaveSurferChannelStyle, DEFAULT_WAVESURFER_COLORS, surferOptions, waveSurferPluginOptions, WaveSurferColorScheme } from './WaveSurferOptions';
-import { playbackManager } from 'components/playback/playbackmanager';
+import { usePlaybackActions, useQueueActions } from '../../store/hooks';
+import { useMediaStore, useQueueStore } from '../../store';
 import { triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 import { visualizerSettings } from './visualizers.logic';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { ApiClient } from 'jellyfin-apiclient';
 import { isVisible } from '../../utils/visibility';
+import { logger } from '../../utils/logger';
 
 /** LRU cache for WaveSurfer peak data */
 interface PeakCacheEntry {
@@ -230,21 +232,18 @@ function normalizeStreamUrl(streamUrl: string | null | undefined): string | null
 }
 
 function getCurrentStreamUrl(): string | null {
-    const player = playbackManager.getCurrentPlayer();
-    const playerUrl = typeof player?.currentSrc === 'function' ? player.currentSrc() : null;
     const elementUrl = mediaElement?.currentSrc || mediaElement?.src || null;
-
-    return normalizeStreamUrl(playerUrl || elementUrl);
+    return normalizeStreamUrl(elementUrl);
 }
 
 function getPlaybackContext() {
-    const player = playbackManager.getCurrentPlayer();
-    if (!player || !player.isLocalPlayer) return null;
+    const mediaStore = useMediaStore.getState();
+    const currentItem = mediaStore.currentItem;
+    if (!currentItem) return null;
 
-    const item = playbackManager.currentItem(player);
-    const itemId = item?.Id || null;
-    const serverId = item?.ServerId;
-    if (item?.MediaType && item.MediaType !== 'Audio') return null;
+    const itemId = currentItem.id || null;
+    const serverId = currentItem.serverId;
+    if (currentItem.mediaType && currentItem.mediaType !== 'Audio') return null;
     if (!itemId || !serverId) return null;
 
     const apiClient = ServerConnections.getApiClient(serverId);
@@ -292,11 +291,9 @@ function bindMediaSync(element: HTMLMediaElement | null) {
 }
 
 function seekFromWaveSurfer(relativeX: number) {
-    const player = playbackManager.getCurrentPlayer();
-    if (!player) return;
-
+    const actions = usePlaybackActions();
     const clamped = Math.max(0, Math.min(relativeX, 1));
-    playbackManager.seekPercent(clamped * 100, player);
+    actions.seekPercent(clamped * 100);
 }
 
 function clearWaveSurferPlugins() {
@@ -528,7 +525,7 @@ async function loadWaveSurferAudio(apiClient: ApiClient, streamUrl: string, item
     // Check cache first
     const cached = getCachedPeaks(itemId, streamUrl);
     if (cached) {
-        console.debug('[WaveSurfer] Using cached peaks for', itemId || streamUrl);
+        logger.debug('[WaveSurfer] Using cached peaks', { component: 'WaveSurfer', itemId: itemId || streamUrl });
         waveSurferReady = false;
         lastLoadedItemId = itemId;
         lastLoadedStreamUrl = streamUrl;
@@ -560,7 +557,7 @@ async function loadWaveSurferAudio(apiClient: ApiClient, streamUrl: string, item
     } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return;
         if (loadSequence !== waveSurferLoadSequence) return;
-        console.warn('[WaveSurfer] Audio load failed', err);
+        logger.warn('[WaveSurfer] Audio load failed', { component: 'WaveSurfer' }, err as Error);
     }
 }
 

@@ -42,6 +42,11 @@ export function useProgress(): PlaybackProgress {
     return progress;
 }
 
+export function useBuffered(): number {
+    const buffered = useMediaStore(state => state.progress.buffered);
+    return buffered;
+}
+
 export function useCurrentTime(): number {
     const currentTime = useMediaStore(state => state.progress.currentTime);
     return currentTime;

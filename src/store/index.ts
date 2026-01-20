@@ -20,6 +20,12 @@ export { useSettingsStore, selectAudioSettings, selectVisualizerSettings, select
 // Audio store (legacy - for backward compatibility)
 export { useAudioStore } from './audioStore';
 
+// FX store (DJ-style effects)
+export { useFXStore } from './fxStore';
+
+// Time-stretch store (DJ-style pause effects)
+export { useTimeStretchStore } from './timeStretchStore';
+
 // Domain logic
 export { shouldTranscode, handlePlaybackFailure, getOptimalDirectPlayCodecs, isFormatSupported, TranscodeDecisionReason, type TranscodeDecision, type TranscodePolicyConfig, type StreamInfo as TranscodeStreamInfo, type DeviceProfile } from './domain/playback/transcodePolicy';
 
@@ -36,4 +42,4 @@ export { playbackManagerBridge, getPlaybackManager } from './playbackManagerBrid
 export * from './hooks';
 
 // Utils
-export * from './utils/testUtils';
+

@@ -1,180 +1,239 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import { useAudioStore } from "../../store/audioStore";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./nowPlayingBar.scss";
-import IconButton from "@mui/material/IconButton/IconButton";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PauseIcon from "@mui/icons-material/Pause";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import StopIcon from "@mui/icons-material/Stop";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import VolumeOffIcon from "@mui/icons-material/VolumeOff";
-import RepeatIcon from "@mui/icons-material/Repeat";
-import RepeatOneIcon from "@mui/icons-material/RepeatOne";
-import ShuffleIcon from "@mui/icons-material/Shuffle";
-import { playbackManager } from "../playback/playbackmanager";
+import Stack from "@mui/joy/Stack";
+import Typography from "@mui/joy/Typography";
+import AspectRatio from "@mui/joy/AspectRatio";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
+
+import {
+    PlaybackIconButton,
+    PlaybackSlider,
+    VolumeSlider,
+    AutoDJToggle
+} from "../joy-ui/playback";
+
+import {
+    useIsPlaying,
+    useCurrentItem,
+    useCurrentTime,
+    useDuration,
+    useVolume,
+    useIsMuted,
+    useRepeatMode,
+    useShuffleMode,
+    usePlaybackActions,
+    useQueueActions,
+    useFormattedTime,
+    useCurrentQueueIndex,
+    useCurrentPlayer,
+    useProgress
+} from "../../store";
+import type { PlayableItem, PlayerInfo } from "../../store/types";
+
 import layoutManager from "../layoutManager";
-import datetime from "../../scripts/datetime";
 import Events from "../../utils/events";
 import { appRouter } from "../router/appRouter";
-
-type RepeatMode = "RepeatNone" | "RepeatAll" | "RepeatOne";
-type ShuffleMode = "Sorted" | "Shuffle";
+import { ServerConnections } from "lib/jellyfin-apiclient";
+import serverNotifications from "../../scripts/serverNotifications";
+import { playbackManagerBridge } from "../../store/playbackManagerBridge";
+import { logger } from "../../utils/logger";
 
 export const NowPlayingBar: React.FC = () => {
-    const {
-        currentTrack,
-        isPlaying,
-        setIsPlaying,
-        currentTime,
-        duration,
-        volume,
-        setVolume,
-        muted,
-        setMuted,
-    } = useAudioStore();
+    const isPlaying = useIsPlaying();
+    const currentItem = useCurrentItem();
+    const currentTime = useCurrentTime();
+    const duration = useDuration();
+    const volume = useVolume();
+    const muted = useIsMuted();
+    const repeatMode = useRepeatMode();
+    const shuffleMode = useShuffleMode();
+    const currentQueueIndex = useCurrentQueueIndex();
+    const currentPlayer = useCurrentPlayer();
+    const { currentTimeFormatted, durationFormatted } = useFormattedTime();
 
-    const [repeatMode, setRepeatMode] = useState<RepeatMode>("RepeatNone");
-    const [shuffleMode, setShuffleMode] = useState<ShuffleMode>("Sorted");
+    const { togglePlayPause, stop, seek, seekPercent, setVolume, toggleMute } = usePlaybackActions();
+    const { next, previous, toggleRepeatMode, toggleShuffleMode } = useQueueActions();
+
+    const progress = useProgress();
+
     const [isMobile, setIsMobile] = useState(layoutManager.mobile);
     const [isDragging, setIsDragging] = useState(false);
     const [localSeekValue, setLocalSeekValue] = useState(0);
-    const positionSliderRef = useRef<HTMLInputElement>(null);
+    const [isVisible, setIsVisible] = useState(true);
+    const [isLyricsActive, setIsLyricsActive] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [showContextMenu, setShowContextMenu] = useState(false);
+    const [isFavoritesLoading, setIsFavoritesLoading] = useState(false);
+    const [bufferedRanges, setBufferedRanges] = useState<{ start: number; end: number }[]>([]);
 
-    // Get current player
-    const getCurrentPlayer = useCallback(() => {
-        return (playbackManager as any).getCurrentPlayer?.() || null;
-    }, []);
+    const supportedCommands = currentPlayer?.supportedCommands || [];
+    const hasAirPlay = supportedCommands.includes("AirPlay");
+    const hasRepeat = supportedCommands.includes("SetRepeatMode");
+    const hasLyrics = currentItem ? ((currentItem as PlayableItem & { hasLyrics?: boolean }).hasLyrics ||
+        (currentItem as PlayableItem & { Type?: string }).Type === "Audio") : false;
 
-    // Sync with playbackManager state
     useEffect(() => {
-        const syncState = () => {
-            const mode = playbackManager.getRepeatMode();
-            setRepeatMode(mode as RepeatMode);
-
-            const shuffle = (playbackManager as any).getQueueShuffleMode?.();
-            setShuffleMode(shuffle === "Shuffle" ? "Shuffle" : "Sorted");
-        };
-
         const handleLayoutChange = () => {
             setIsMobile(layoutManager.mobile);
         };
 
-        syncState();
-
-        Events.on(playbackManager, "repeatmodechange", syncState);
-        Events.on(playbackManager, "shufflequeuemodechange", syncState);
         Events.on(layoutManager, "modechange", handleLayoutChange);
-
         return () => {
-            Events.off(playbackManager, "repeatmodechange", syncState);
-            Events.off(playbackManager, "shufflequeuemodechange", syncState);
             Events.off(layoutManager, "modechange", handleLayoutChange);
         };
     }, []);
 
-    // Update local seek value when not dragging
+    useEffect(() => {
+        const checkLyricsPage = () => {
+            const path = window.location.hash;
+            setIsLyricsActive(path.includes("lyrics"));
+        };
+        checkLyricsPage();
+        Events.on(window, "hashchange", checkLyricsPage);
+        return () => Events.off(window, "hashchange", checkLyricsPage);
+    }, []);
+
     useEffect(() => {
         if (!isDragging) {
             setLocalSeekValue(currentTime);
         }
     }, [currentTime, isDragging]);
 
-    if (!currentTrack) {
+    useEffect(() => {
+        const prevItemRef = { current: currentItem };
+
+        if (currentItem && !prevItemRef.current) {
+            Events.trigger(document, "nowplayingbar:show");
+        }
+
+        prevItemRef.current = currentItem;
+    }, [currentItem]);
+
+    useEffect(() => {
+        const handleViewBeforeShow = (e: Event) => {
+            const detail = (e as CustomEvent<{ options?: { enableMediaControl?: boolean } }>).detail;
+            if (!detail?.options?.enableMediaControl) {
+                setIsVisible(false);
+            } else {
+                setIsVisible(true);
+            }
+        };
+
+        document.addEventListener("viewbeforeshow", handleViewBeforeShow);
+
+        const showNowPlayingBar = () => {
+            setIsVisible(true);
+        };
+
+        Events.on(document, "nowplayingbar:show", showNowPlayingBar);
+
+        return () => {
+            document.removeEventListener("viewbeforeshow", handleViewBeforeShow);
+            Events.off(document, "nowplayingbar:show", showNowPlayingBar);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (currentItem) {
+            setIsFavorite(currentItem.isFavorite || false);
+        }
+    }, [currentItem]);
+
+    useEffect(() => {
+        const handleUserDataChanged = (_e: unknown, _apiClient: unknown, userData: { ItemId: string; IsFavorite: boolean }) => {
+            if (currentItem && userData.ItemId === currentItem.id) {
+                setIsFavorite(userData.IsFavorite);
+            }
+        };
+
+        Events.on(serverNotifications, "UserDataChanged", handleUserDataChanged);
+
+        return () => {
+            Events.off(serverNotifications, "UserDataChanged", handleUserDataChanged);
+        };
+    }, [currentItem]);
+
+    useEffect(() => {
+        let intervalId: ReturnType<typeof setInterval> | null = null;
+
+        const updateBufferedRanges = () => {
+            if (currentItem && duration > 0) {
+                const ranges = playbackManagerBridge.getBufferedRanges();
+                const progressPercent = (currentTime / duration) * 100;
+                const normalizedRanges = ranges.map(range => ({
+                    start: (range.start / duration) * 100,
+                    end: (range.end / duration) * 100
+                }));
+                setBufferedRanges(normalizedRanges);
+            }
+        };
+
+        updateBufferedRanges();
+        intervalId = setInterval(updateBufferedRanges, 500);
+
+        return () => {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+        };
+    }, [currentItem, currentTime, duration]);
+
+    if (!currentItem || !isVisible) {
         return null;
     }
 
     const handlePlayPause = () => {
-        const player = getCurrentPlayer();
-        if (player) {
-            playbackManager.playPause(player);
-        }
-        setIsPlaying(!isPlaying);
+        togglePlayPause();
     };
 
     const handleStop = () => {
-        const player = getCurrentPlayer();
-        if (player) {
-            playbackManager.stop(player);
-        }
+        stop();
     };
 
     const handlePrevious = () => {
-        const player = getCurrentPlayer();
-        if (player) {
-            // If we're more than 5 seconds in, restart the track
-            // Otherwise go to previous track
-            if (currentTime >= 5) {
-                playbackManager.seekPercent(0, player);
-            } else {
-                playbackManager.previousTrack(player);
-            }
+        if (currentTime >= 5 || currentQueueIndex <= 0) {
+            seek(0);
+        } else {
+            previous();
         }
     };
 
     const handleNext = () => {
-        const player = getCurrentPlayer();
-        if (player) {
-            playbackManager.nextTrack(player);
-        }
+        next();
     };
 
     const handleMuteToggle = () => {
-        const player = getCurrentPlayer();
-        if (player) {
-            playbackManager.toggleMute(player);
-        }
-        setMuted(!muted);
+        toggleMute();
     };
 
-    const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newVolume = Number(e.target.value);
+    const handleVolumeChange = (_event: React.SyntheticEvent | Event, newValue: number | number[]) => {
+        const newVolume = Array.isArray(newValue) ? newValue[0] : newValue;
         setVolume(newVolume);
-        const player = getCurrentPlayer();
-        if (player && (player as any).setVolume) {
-            (player as any).setVolume(newVolume);
-        }
     };
 
     const handleRepeatToggle = () => {
-        let newMode: RepeatMode;
-        switch (repeatMode) {
-            case "RepeatNone":
-                newMode = "RepeatAll";
-                break;
-            case "RepeatAll":
-                newMode = "RepeatOne";
-                break;
-            case "RepeatOne":
-            default:
-                newMode = "RepeatNone";
-                break;
-        }
-        playbackManager.setRepeatMode(newMode);
-        setRepeatMode(newMode);
+        toggleRepeatMode();
     };
 
     const handleShuffleToggle = () => {
-        (playbackManager as any).toggleQueueShuffleMode?.();
-        setShuffleMode(shuffleMode === "Shuffle" ? "Sorted" : "Shuffle");
+        toggleShuffleMode();
     };
 
     const handleSeekStart = () => {
         setIsDragging(true);
     };
 
-    const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = Number(e.target.value);
+    const handleSeekChange = (_event: React.SyntheticEvent | Event, newValue: number | number[]) => {
+        const value = Array.isArray(newValue) ? newValue[0] : newValue;
         setLocalSeekValue(value);
     };
 
     const handleSeekEnd = () => {
         setIsDragging(false);
-        const player = getCurrentPlayer();
-        if (player && duration > 0) {
+        if (duration > 0) {
             const percent = (localSeekValue / duration) * 100;
-            playbackManager.seekPercent(percent, player);
+            seekPercent(percent);
         }
     };
 
@@ -182,23 +241,69 @@ export const NowPlayingBar: React.FC = () => {
         appRouter.showNowPlaying();
     };
 
-    const formatTime = (seconds: number): string => {
-        if (!seconds || seconds < 0) return "--:--";
-        // Convert to ticks for datetime helper (ticks = seconds * 10000000)
-        const ticks = seconds * 10000000;
-        return datetime.getDisplayRunningTime(ticks);
+    const handleLyrics = () => {
+        if (isLyricsActive) {
+            appRouter.back();
+        } else {
+            appRouter.show("lyrics");
+        }
     };
 
-    const getRepeatIcon = () => {
-        if (repeatMode === "RepeatOne") {
-            return <RepeatOneIcon />;
+    const handleAirPlay = () => {
+        if (currentPlayer && (currentPlayer as PlayerInfo & { toggleAirPlay?: () => void }).toggleAirPlay) {
+            (currentPlayer as PlayerInfo & { toggleAirPlay: () => void }).toggleAirPlay();
         }
-        return <RepeatIcon />;
+    };
+
+    const handleFavorite = async () => {
+        if (!currentItem || !currentItem.id || !currentItem.serverId || isFavoritesLoading) {
+            return;
+        }
+
+        const newFavoriteState = !isFavorite;
+        setIsFavoritesLoading(true);
+
+        try {
+            const apiClient = ServerConnections.getApiClient(currentItem.serverId);
+            const userId = apiClient.getCurrentUserId();
+
+            await apiClient.updateFavoriteStatus(userId, currentItem.id, newFavoriteState);
+
+            setIsFavorite(newFavoriteState);
+        } catch (error) {
+            logger.error("Failed to update favorite status", { component: "ReactNowPlayingBar" }, error as Error);
+            setIsFavorite(!newFavoriteState);
+        } finally {
+            setIsFavoritesLoading(false);
+        }
+    };
+
+    const handleContextMenu = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setShowContextMenu(!showContextMenu);
+    };
+
+    const getRepeatIconType = (): 'repeat' | 'repeat-one' => {
+        return repeatMode === "RepeatOne" ? 'repeat-one' : 'repeat';
     };
 
     const isRepeatActive = repeatMode !== "RepeatNone";
     const isShuffleActive = shuffleMode === "Shuffle";
-    const progressPercent = duration > 0 ? (localSeekValue / duration) * 100 : 0;
+
+    const trackName = currentItem.name || currentItem.title || "Unknown Track";
+    const artistName = currentItem.artist || currentItem.albumArtist || "";
+    const imageUrl = currentItem.imageUrl
+        || currentItem.artwork?.find(img => img.type === "Primary")?.url
+        || currentItem.artwork?.[0]?.url;
+
+    const albumArtStyle: React.CSSProperties = {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "var(--joy-palette-neutral-700, #303030)",
+        width: "100%",
+        height: "100%",
+    };
 
     return (
         <AnimatePresence>
@@ -210,179 +315,192 @@ export const NowPlayingBar: React.FC = () => {
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
             >
                 <div className="nowPlayingBarTop">
-                    {/* Position Slider - above the bar */}
-                    <div className="nowPlayingBarPositionContainer sliderContainer">
-                        <input
-                            ref={positionSliderRef}
-                            type="range"
-                            className="slider-medium-thumb nowPlayingBarPositionSlider"
-                            min={0}
-                            max={duration || 100}
-                            step={0.1}
+                    <div id="barSurfer" className="nowPlayingBarPositionContainer sliderContainer">
+                        <PlaybackSlider
                             value={localSeekValue}
-                            onMouseDown={handleSeekStart}
-                            onTouchStart={handleSeekStart}
+                            max={duration || 100}
+                            bufferedRanges={bufferedRanges}
                             onChange={handleSeekChange}
-                            onMouseUp={handleSeekEnd}
-                            onTouchEnd={handleSeekEnd}
-                            style={{
-                                backgroundSize: `${progressPercent}% 100%`,
-                            }}
+                            onChangeCommitted={handleSeekEnd}
+                            waveSurferCompatible
                         />
                     </div>
 
-                    {/* Track Info - Left Section */}
-                    <div
+                    <Stack
+                        direction="row"
+                        spacing={1.5}
+                        alignItems="center"
                         className="nowPlayingBarInfoContainer"
                         onClick={openNowPlaying}
-                        style={{ cursor: "pointer" }}
+                        sx={{ cursor: "pointer", minWidth: 0, flex: "0 1 auto" }}
                     >
-                        <motion.div
-                            layoutId="now-playing-art"
-                            className="nowPlayingImage"
-                            style={{
-                                backgroundImage: currentTrack.imageUrl
-                                    ? `url(${currentTrack.imageUrl})`
-                                    : "none",
-                                backgroundSize: "cover",
-                            }}
-                        />
+                        <motion.div layoutId="now-playing-art">
+                            <AspectRatio
+                                ratio="1"
+                                sx={{
+                                    width: 48,
+                                    minWidth: 48,
+                                    borderRadius: "sm",
+                                    overflow: "hidden",
+                                    bgcolor: "neutral.800",
+                                }}
+                            >
+                                {imageUrl ? (
+                                    <img
+                                        src={imageUrl}
+                                        alt={trackName}
+                                        loading="lazy"
+                                        style={{ objectFit: "cover" }}
+                                    />
+                                ) : (
+                                    <div style={albumArtStyle}>
+                                        <MusicNoteIcon sx={{ fontSize: 24, color: "neutral.400" }} />
+                                    </div>
+                                )}
+                            </AspectRatio>
+                        </motion.div>
                         <div className="nowPlayingBarText">
-                            <div className="nowPlayingBarTitle">
-                                {currentTrack.name}
-                            </div>
-                            <div className="nowPlayingBarSecondaryText">
-                                {currentTrack.artist}
-                            </div>
+                            <Typography
+                                level="body-sm"
+                                sx={{
+                                    fontWeight: "bold",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                }}
+                            >
+                                {trackName}
+                            </Typography>
+                            <Typography
+                                level="body-xs"
+                                sx={{
+                                    color: "neutral.400",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                }}
+                            >
+                                {artistName}
+                            </Typography>
                         </div>
-                    </div>
+                    </Stack>
 
-                    {/* Center Controls */}
-                    <div className="nowPlayingBarCenter">
-                        <IconButton
+                    <Stack direction="row" spacing={0.5} alignItems="center" className="nowPlayingBarCenter">
+                        <PlaybackIconButton
+                            icon="previous"
                             onClick={handlePrevious}
-                            className="previousTrackButton mediaButton"
-                            size="small"
-                            sx={{ color: "var(--theme-text-color, white)" }}
-                            title="Previous"
-                        >
-                            <SkipPreviousIcon />
-                        </IconButton>
+                            aria-label="Previous"
+                        />
 
-                        <IconButton
+                        <PlaybackIconButton
+                            icon={isPlaying ? "pause" : "play"}
                             onClick={handlePlayPause}
-                            className="playPauseButton mediaButton"
-                            size="medium"
-                            sx={{ color: "var(--theme-text-color, white)" }}
-                            title={isPlaying ? "Pause" : "Play"}
-                        >
-                            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-                        </IconButton>
+                            size="md"
+                            aria-label={isPlaying ? "Pause" : "Play"}
+                        />
 
-                        <IconButton
+                        <PlaybackIconButton
+                            icon="stop"
                             onClick={handleStop}
-                            className="stopButton mediaButton"
-                            size="small"
-                            sx={{ color: "var(--theme-text-color, white)" }}
-                            title="Stop"
-                        >
-                            <StopIcon />
-                        </IconButton>
+                            aria-label="Stop"
+                        />
 
                         {!isMobile && (
-                            <IconButton
+                            <PlaybackIconButton
+                                icon="next"
                                 onClick={handleNext}
-                                className="nextTrackButton mediaButton"
-                                size="small"
-                                sx={{ color: "var(--theme-text-color, white)" }}
-                                title="Next"
-                            >
-                                <SkipNextIcon />
-                            </IconButton>
+                                aria-label="Next"
+                            />
                         )}
 
-                        <div className="nowPlayingBarCurrentTime">
-                            {formatTime(currentTime)}
-                            {duration > 0 && ` / ${formatTime(duration)}`}
-                        </div>
-                    </div>
+                        <Typography level="body-xs" className="nowPlayingBarCurrentTime" sx={{ ml: 1 }}>
+                            {currentTimeFormatted}
+                            {duration > 0 && ` / ${durationFormatted}`}
+                        </Typography>
+                    </Stack>
 
-                    {/* Right Controls */}
-                    <div className="nowPlayingBarRight">
-                        <IconButton
-                            onClick={handleMuteToggle}
-                            className="muteButton mediaButton"
-                            size="small"
-                            sx={{ color: "var(--theme-text-color, white)" }}
-                            title={muted ? "Unmute" : "Mute"}
-                        >
-                            {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
-                        </IconButton>
+                    <Stack direction="row" spacing={0.5} alignItems="center" className="nowPlayingBarRight">
+                        <VolumeSlider
+                            volume={volume}
+                            muted={muted}
+                            onVolumeChange={setVolume}
+                            onMuteToggle={toggleMute}
+                        />
 
-                        <div className="nowPlayingBarVolumeSliderContainer sliderContainer">
-                            <input
-                                type="range"
-                                className="slider-medium-thumb nowPlayingBarVolumeSlider"
-                                min={0}
-                                max={100}
-                                value={muted ? 0 : volume}
-                                onChange={handleVolumeChange}
-                                style={{ backgroundSize: `${muted ? 0 : volume}% 100%` }}
+                        {hasRepeat && (
+                            <PlaybackIconButton
+                                icon={getRepeatIconType()}
+                                onClick={handleRepeatToggle}
+                                active={isRepeatActive}
+                                aria-label="Repeat"
+                            />
+                        )}
+
+                        <PlaybackIconButton
+                            icon="shuffle"
+                            onClick={handleShuffleToggle}
+                            active={isShuffleActive}
+                            aria-label="Shuffle"
+                        />
+
+                        <AutoDJToggle />
+
+                        {hasLyrics && (
+                            <PlaybackIconButton
+                                icon="lyrics"
+                                onClick={handleLyrics}
+                                active={isLyricsActive}
+                                className="openLyricsButton"
+                                aria-label="Lyrics"
+                            />
+                        )}
+
+                        {hasAirPlay && (
+                            <PlaybackIconButton
+                                icon="airplay"
+                                onClick={handleAirPlay}
+                                className="btnAirPlay"
+                                aria-label="AirPlay"
+                            />
+                        )}
+
+                        <div className="nowPlayingBarUserDataButtons">
+                            <PlaybackIconButton
+                                icon={isFavorite ? "favorite" : "favorite-border"}
+                                onClick={handleFavorite}
+                                active={isFavorite}
+                                className="emby-ratingbutton"
+                                aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
                             />
                         </div>
 
-                        <IconButton
-                            onClick={handleRepeatToggle}
-                            className={`toggleRepeatButton mediaButton ${isRepeatActive ? "buttonActive" : ""}`}
-                            size="small"
-                            sx={{
-                                color: isRepeatActive
-                                    ? "var(--theme-primary-color, #00a4dc)"
-                                    : "var(--theme-text-color, white)",
-                            }}
-                            title="Repeat"
-                        >
-                            {getRepeatIcon()}
-                        </IconButton>
+                        <PlaybackIconButton
+                            icon="more-vert"
+                            onClick={handleContextMenu}
+                            className="btnToggleContextMenu"
+                            aria-label="More options"
+                        />
 
-                        <IconButton
-                            onClick={handleShuffleToggle}
-                            className={`btnShuffleQueue mediaButton ${isShuffleActive ? "buttonActive" : ""}`}
-                            size="small"
-                            sx={{
-                                color: isShuffleActive
-                                    ? "var(--theme-primary-color, #00a4dc)"
-                                    : "var(--theme-text-color, white)",
-                            }}
-                            title="Shuffle"
-                        >
-                            <ShuffleIcon />
-                        </IconButton>
-
-                        {/* Mobile-specific controls: play/pause and next in right section */}
                         {isMobile && (
                             <>
-                                <IconButton
+                                <PlaybackIconButton
+                                    icon={isPlaying ? "pause" : "play"}
                                     onClick={handlePlayPause}
-                                    className="playPauseButton mediaButton"
-                                    size="medium"
-                                    sx={{ color: "var(--theme-text-color, white)" }}
-                                >
-                                    {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-                                </IconButton>
-                                <IconButton
+                                    size="md"
+                                    aria-label={isPlaying ? "Pause" : "Play"}
+                                />
+                                <PlaybackIconButton
+                                    icon="next"
                                     onClick={handleNext}
-                                    className="nextTrackButton mediaButton"
-                                    size="small"
-                                    sx={{ color: "var(--theme-text-color, white)" }}
-                                >
-                                    <SkipNextIcon />
-                                </IconButton>
+                                    aria-label="Next"
+                                />
                             </>
                         )}
-                    </div>
+                    </Stack>
                 </div>
             </motion.div>
         </AnimatePresence>
     );
 };
+
+export default NowPlayingBar;

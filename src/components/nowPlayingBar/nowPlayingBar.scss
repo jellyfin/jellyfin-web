@@ -173,6 +173,46 @@
     height: 1.2em !important;
 }
 
+.nowPlayingBarPositionContainer {
+    position: relative;
+
+    .sliderBufferOverlay {
+        position: absolute;
+        top: 50%;
+        left: var(--buffer-start, 0%);
+        right: calc(100% - var(--buffer-end, 0%));
+        height: 2px;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .joy-slider-track {
+        position: relative;
+    }
+}
+
+#barSurfer {
+    position: relative;
+
+    .sliderBufferOverlay {
+        position: absolute;
+        top: 50%;
+        left: var(--buffer-start, 0%);
+        right: calc(100% - var(--buffer-end, 0%));
+        height: 2px;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .joy-slider-track {
+        position: relative;
+    }
+}
+
 @media all and (max-width: 70em) {
     .nowPlayingBarRight .nowPlayingBarUserDataButtons {
         display: none;
