@@ -24,13 +24,3 @@ export {
 export {
     getDefaultProfile
 } from './stream/profileHelper';
-
-export {
-    setSubtitleStreamIndex,
-    setSecondarySubtitleStreamIndex,
-    resetSubtitleOffset,
-    enableShowingSubtitleOffset,
-    disableShowingSubtitleOffset,
-    isShowingSubtitleOffsetEnabled,
-    getTextTracks
-} from './features/trackManagement';
