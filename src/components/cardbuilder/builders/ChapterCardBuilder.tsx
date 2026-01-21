@@ -1,8 +1,9 @@
 import React from 'react';
-import Grid from '@mui/joy/Grid';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import BaseCard from '../Card/BaseCard';
 import datetime from '../../../scripts/datetime';
+import * as styles from './ChapterCardBuilder.css';
 
 interface ChapterCardBuilderProps {
     item: any;
@@ -14,7 +15,7 @@ const ChapterCardBuilder: React.FC<ChapterCardBuilderProps> = ({ item, chapters,
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
     return (
-        <Grid container spacing={2}>
+        <div className={styles.grid}>
             {chapters.map((chapter, index) => {
                 const imgUrl = chapter.ImageTag ? apiClient.getScaledImageUrl(item.Id, {
                     maxWidth: 400,
@@ -24,7 +25,7 @@ const ChapterCardBuilder: React.FC<ChapterCardBuilderProps> = ({ item, chapters,
                 }) : null;
 
                 return (
-                    <Grid key={index} xs={12} sm={6} md={4} lg={3}>
+                    <div key={chapter.Id || index}>
                         <BaseCard
                             title={chapter.Name}
                             text={datetime.getDisplayRunningTime(chapter.StartPositionTicks)}
@@ -32,10 +33,10 @@ const ChapterCardBuilder: React.FC<ChapterCardBuilderProps> = ({ item, chapters,
                             icon={<span className="material-icons local_movies" style={{ fontSize: 48 }} />}
                             onClick={() => onChapterClick?.(chapter)}
                         />
-                    </Grid>
+                    </div>
                 );
             })}
-        </Grid>
+        </div>
     );
 };
 
