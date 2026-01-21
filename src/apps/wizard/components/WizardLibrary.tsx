@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import Grid from '@mui/joy/Grid';
+import { Button } from 'ui-primitives/Button';
+import { Heading, Text } from 'ui-primitives/Text';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../components/loading/LoadingComponent';
 import AddIcon from '@mui/icons-material/Add';
-import BaseCard from '../../dashboard/components/BaseCard';
+import BaseCard from '../../../components/cardbuilder/Card/BaseCard';
 import imageHelper from '../../../utils/image';
+import * as styles from './WizardLibrary.css';
 
 const WizardLibrary = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +17,9 @@ const WizardLibrary = () => {
     const apiClient = ServerConnections.currentApiClient();
 
     const loadLibraries = () => {
-        apiClient.getVirtualFolders().then((result: any) => {
+        const client = apiClient;
+        if (!client) return;
+        client.getVirtualFolders().then((result: any) => {
             setLibraries(result);
             setIsLoading(false);
         });
@@ -49,36 +49,36 @@ const WizardLibrary = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <Box sx={{ maxWidth: 1000, mx: 'auto', mt: 8, p: 3 }}>
-            <Typography level="h2" sx={{ mb: 1 }}>{globalize.translate('HeaderSetupLibraries')}</Typography>
-            <Typography level="body-md" sx={{ mb: 4 }}>{globalize.translate('HeaderSetupLibrariesHelp')}</Typography>
+        <div className={styles.container}>
+            <Heading.H2 className={styles.header}>{globalize.translate('HeaderSetupLibraries')}</Heading.H2>
+            <Text className={styles.helpText}>{globalize.translate('HeaderSetupLibrariesHelp')}</Text>
             
-            <Grid container spacing={3}>
-                <Grid xs={12} sm={6} md={4}>
+            <div className={styles.grid}>
+                <div>
                     <BaseCard
                         title={globalize.translate('ButtonAddMediaLibrary')}
                         onClick={handleAddLibrary}
-                        icon={<AddIcon sx={{ fontSize: 48 }} />}
+                        icon={<AddIcon style={{ fontSize: 48 }} />}
                     />
-                </Grid>
+                </div>
                 {libraries.map(lib => (
-                    <Grid key={lib.ItemId} xs={12} sm={6} md={4}>
+                    <div key={lib.ItemId}>
                         <BaseCard
                             title={lib.Name}
                             text={lib.CollectionType}
-                            image={lib.PrimaryImageItemId ? apiClient.getScaledImageUrl(lib.PrimaryImageItemId, { maxWidth: 400, type: 'Primary' }) : null}
+                            image={lib.PrimaryImageItemId && apiClient ? apiClient.getScaledImageUrl(lib.PrimaryImageItemId, { maxWidth: 400, type: 'Primary' }) : null}
                             icon={<span className={`material-icons ${imageHelper.getLibraryIcon(lib.CollectionType)}`} style={{ fontSize: 48 }} />}
                         />
-                    </Grid>
+                    </div>
                 ))}
-            </Grid>
+            </div>
 
-            <Box sx={{ mt: 6, display: 'flex', justifyContent: 'flex-end' }}>
+            <div className={styles.buttonRow}>
                 <Button size="lg" onClick={() => navigate('/wizard/settings')}>
                     {globalize.translate('ButtonNext')}
                 </Button>
-            </Box>
-        </Box>
+            </div>
+        </div>
     );
 };
 
