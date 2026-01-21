@@ -1,6 +1,5 @@
 import React from 'react';
-import IconButton from '@mui/joy/IconButton';
-import type { IconButtonProps } from '@mui/joy/IconButton';
+import { IconButton } from 'ui-primitives/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -16,6 +15,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LyricsIcon from '@mui/icons-material/Lyrics';
 import AirplayIcon from '@mui/icons-material/Airplay';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { vars } from 'styles/tokens.css';
 
 export type PlaybackIconType =
     | 'play'
@@ -34,12 +34,15 @@ export type PlaybackIconType =
     | 'airplay'
     | 'more-vert';
 
-interface PlaybackIconButtonProps extends Omit<IconButtonProps, 'children'> {
+interface PlaybackIconButtonProps {
     icon?: PlaybackIconType;
     active?: boolean;
     size?: 'sm' | 'md' | 'lg';
-    variant?: 'plain' | 'soft' | 'outlined' | 'solid';
+    variant?: 'plain' | 'soft' | 'solid' | 'ghost' | 'danger';
     'aria-label'?: string;
+    style?: React.CSSProperties;
+    onClick?: () => void;
+    sx?: React.CSSProperties;
 }
 
 const iconMap: Record<PlaybackIconType, React.ReactNode> = {
@@ -75,12 +78,9 @@ export const PlaybackIconButton: React.FC<PlaybackIconButtonProps> = ({
         <IconButton
             size={size}
             variant={variant}
-            sx={{
-                color: active ? 'primary.500' : 'neutral.50',
-                transition: 'color 0.2s ease-in-out',
-                '&:hover': {
-                    color: active ? 'primary.600' : 'neutral.300',
-                },
+            style={{
+                color: active ? vars.colors.primary : vars.colors.text,
+                transition: vars.transitions.fast,
                 ...sx,
             }}
             aria-label={ariaLabel}
