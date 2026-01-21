@@ -1,21 +1,12 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import type { VirtualFolderInfo } from '@jellyfin/sdk/lib/generated-client/models/virtual-folder-info';
-import BaseCard from 'apps/dashboard/components/BaseCard';
+import BaseCard from 'components/cardbuilder/Card/BaseCard';
 import getCollectionTypeOptions from '../utils/collectionTypeOptions';
 import globalize from 'lib/globalize';
-import Icon from '@mui/material/Icon';
 import { getLibraryIcon } from 'utils/image';
 import MediaLibraryEditor from 'components/mediaLibraryEditor/mediaLibraryEditor';
 import { queryClient } from 'utils/query/queryClient';
-import Menu from '@mui/material/Menu/Menu';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import Folder from '@mui/icons-material/Folder';
-import ImageIcon from '@mui/icons-material/Image';
-import EditIcon from '@mui/icons-material/Edit';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
+import { Menu, MenuItem } from 'ui-primitives/Menu';
 import imageeditor from 'components/imageeditor/imageeditor';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import InputDialog from 'components/InputDialog';
@@ -28,14 +19,50 @@ import { useApi } from 'hooks/useApi';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import dom from 'utils/dom';
 
+// Inline SVG icons
+const ImageIcon = () => (
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
+        <title>Edit Images</title>
+        <path d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/>
+    </svg>
+);
+
+const FolderIcon = () => (
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
+        <title>Manage Library</title>
+        <path d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/>
+    </svg>
+);
+
+const EditIcon = () => (
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
+        <title>Rename</title>
+        <path d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z'/>
+        <path d='M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/>
+    </svg>
+);
+
+const RefreshIcon = () => (
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
+        <title>Scan Library</title>
+        <path d='M1 4v6h6M23 20v-6h-6'/>
+        <path d='M20.3 13.89A8 8 0 0 0 3.7 10.11M3.7 10.11A8 8 0 0 0 20.3 13.89' stroke='currentColor' strokeWidth='2' fill='none'/>
+    </svg>
+);
+
+const DeleteIcon = () => (
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
+        <title>Remove</title>
+        <path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z'/>
+    </svg>
+);
+
 type LibraryCardProps = {
     virtualFolder: VirtualFolderInfo;
 };
 
 const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
     const { api } = useApi();
-    const actionRef = useRef<HTMLButtonElement | null>(null);
-    const [ anchorEl, setAnchorEl ] = useState<HTMLElement | null>(null);
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
     const [ isRenameLibraryDialogOpen, setIsRenameLibraryDialogOpen ] = useState(false);
     const [ isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen ] = useState(false);
@@ -52,27 +79,16 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
     }, [ api, virtualFolder ]);
 
     const typeName = getCollectionTypeOptions().filter((t) => {
-        return t.value == virtualFolder.CollectionType;
+        return t.value === virtualFolder.CollectionType;
     })[0]?.name || globalize.translate('Other');
 
     const openRenameDialog = useCallback(() => {
-        setAnchorEl(null);
         setIsMenuOpen(false);
         setIsRenameLibraryDialogOpen(true);
     }, []);
 
     const hideRenameLibraryDialog = useCallback(() => {
         setIsRenameLibraryDialogOpen(false);
-    }, []);
-
-    const onMenuClose = useCallback(() => {
-        setAnchorEl(null);
-        setIsMenuOpen(false);
-    }, []);
-
-    const onActionClick = useCallback(() => {
-        setAnchorEl(actionRef.current);
-        setIsMenuOpen(true);
     }, []);
 
     const renameLibrary = useCallback((newName: string) => {
@@ -90,7 +106,6 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
     }, [ renameVirtualFolder, virtualFolder, hideRenameLibraryDialog ]);
 
     const showRefreshDialog = useCallback(() => {
-        setAnchorEl(null);
         setIsMenuOpen(false);
 
         void new RefreshDialog({
@@ -101,7 +116,6 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
     }, [ virtualFolder ]);
 
     const showMediaLibraryEditor = useCallback(() => {
-        setAnchorEl(null);
         setIsMenuOpen(false);
 
         const mediaLibraryEditor = new MediaLibraryEditor({
@@ -118,7 +132,6 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
     }, [ virtualFolder ]);
 
     const showImageEditor = useCallback(() => {
-        setAnchorEl(null);
         setIsMenuOpen(false);
 
         void imageeditor.show({
@@ -134,7 +147,6 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
     }, [ virtualFolder ]);
 
     const showDeleteLibraryDialog = useCallback(() => {
-        setAnchorEl(null);
         setIsMenuOpen(false);
         setIsConfirmDeleteDialogOpen(true);
     }, []);
@@ -178,7 +190,7 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
                     + virtualFolder.Locations?.join('\n')
                 }
                 confirmButtonText={globalize.translate('Delete')}
-                confirmButtonColor='error'
+                confirmButtonColor='danger'
                 onConfirm={onConfirmDeleteLibrary}
                 onCancel={onCancelDeleteLibrary}
             />
@@ -187,47 +199,40 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
                 title={virtualFolder.Name || ''}
                 text={typeName}
                 image={imageUrl}
-                icon={<Icon sx={{ fontSize: 70 }}>{getLibraryIcon(virtualFolder.CollectionType)}</Icon>}
+                icon={
+                    <div style={{ fontSize: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {getLibraryIcon(virtualFolder.CollectionType)}
+                    </div>
+                }
                 action={true}
-                actionRef={actionRef}
-                onActionClick={onActionClick}
+                onActionClick={() => setIsMenuOpen(true)}
                 onClick={showMediaLibraryEditor}
                 height={260}
             />
             <Menu
-                anchorEl={anchorEl}
                 open={isMenuOpen}
-                onClose={onMenuClose}
+                onOpenChange={setIsMenuOpen}
+                trigger={<div />}
             >
                 <MenuItem onClick={showImageEditor}>
-                    <ListItemIcon>
-                        <ImageIcon />
-                    </ListItemIcon>
-                    <ListItemText>{globalize.translate('EditImages')}</ListItemText>
+                    <ImageIcon />
+                    <span>{globalize.translate('EditImages')}</span>
                 </MenuItem>
                 <MenuItem onClick={showMediaLibraryEditor}>
-                    <ListItemIcon>
-                        <Folder />
-                    </ListItemIcon>
-                    <ListItemText>{globalize.translate('ManageLibrary')}</ListItemText>
+                    <FolderIcon />
+                    <span>{globalize.translate('ManageLibrary')}</span>
                 </MenuItem>
                 <MenuItem onClick={openRenameDialog}>
-                    <ListItemIcon>
-                        <EditIcon />
-                    </ListItemIcon>
-                    <ListItemText>{globalize.translate('ButtonRename')}</ListItemText>
+                    <EditIcon />
+                    <span>{globalize.translate('ButtonRename')}</span>
                 </MenuItem>
                 <MenuItem onClick={showRefreshDialog}>
-                    <ListItemIcon>
-                        <RefreshIcon />
-                    </ListItemIcon>
-                    <ListItemText>{globalize.translate('ScanLibrary')}</ListItemText>
+                    <RefreshIcon />
+                    <span>{globalize.translate('ScanLibrary')}</span>
                 </MenuItem>
-                <MenuItem onClick={showDeleteLibraryDialog}>
-                    <ListItemIcon>
-                        <DeleteIcon />
-                    </ListItemIcon>
-                    <ListItemText>{globalize.translate('ButtonRemove')}</ListItemText>
+                <MenuItem onClick={showDeleteLibraryDialog} variant='danger'>
+                    <DeleteIcon />
+                    <span>{globalize.translate('ButtonRemove')}</span>
                 </MenuItem>
             </Menu>
         </>
