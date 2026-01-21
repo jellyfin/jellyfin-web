@@ -3,15 +3,13 @@ import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../lib/globalize';
-import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import IconButton from '@mui/joy/IconButton';
-import Typography from '@mui/joy/Typography';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Avatar from '@mui/joy/Avatar';
+import { Card, CardBody } from 'ui-primitives/Card';
+import { Text, Heading } from 'ui-primitives/Text';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Avatar } from 'ui-primitives/Avatar';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
+import * as styles from './UserCardBox.css';
 
 type IProps = {
     user?: UserDto;
@@ -45,57 +43,34 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {}, onMenuClick }: IPro
 
     return (
         <Card
-            variant="outlined"
-            sx={{
-                height: '100%',
-                transition: 'transform 0.2s',
-                '&:hover': { transform: 'translateY(-4px)', boxShadow: 'md' },
-                ...(isDisabled && { filter: 'grayscale(1)', opacity: 0.7 })
-            }}
+            className={`${styles.card} ${isDisabled ? styles.cardDisabled : ''}`}
         >
-            <Box sx={{ position: 'relative' }}>
+            <div className={styles.imageContainer}>
                 <Link to={`/dashboard/users/profile?userId=${user.Id}`}>
-                    <AspectRatio ratio="1">
+                    <div className={styles.aspectRatio}>
                         {imgUrl ? (
-                            <img src={imgUrl} alt={user.Name || ''} />
+                            <img src={imgUrl} alt={user.Name || ''} className={styles.userImage} />
                         ) : (
-                            <Avatar variant="soft" color="primary" sx={{ borderRadius: 0, width: '100%', height: '100%' }}>
-                                <Typography level="h1">👤</Typography>
-                            </Avatar>
+                            <div className={styles.avatarPlaceholder}>
+                                <span>👤</span>
+                            </div>
                         )}
-                    </AspectRatio>
+                    </div>
                 </Link>
                 {isDisabled && (
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            bgcolor: 'rgba(0,0,0,0.4)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            pointerEvents: 'none'
-                        }}
-                    >
-                        <Typography level="title-md" color="white" sx={{ fontWeight: 'bold' }}>
-                            {globalize.translate('LabelDisabled')}
-                        </Typography>
-                    </Box>
+                    <div className={styles.disabledOverlay}>
+                        <Text className={styles.disabledText}>{globalize.translate('LabelDisabled')}</Text>
+                    </div>
                 )}
-            </Box>
-            <CardContent sx={{ pt: 1.5 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                        <Typography level="title-md" noWrap>
-                            {user.Name}
-                        </Typography>
-                        <Typography level="body-xs" color="neutral" noWrap>
+            </div>
+            <CardBody className={styles.cardContent}>
+                <div className={styles.headerRow}>
+                    <div className={styles.titleContainer}>
+                        <Text weight="bold" className={styles.userName}>{user.Name}</Text>
+                        <Text size="xs" color="secondary" className={styles.lastSeen}>
                             {lastSeen || '\u00A0'}
-                        </Typography>
-                    </Box>
+                        </Text>
+                    </div>
                     <IconButton
                         variant="plain"
                         color="neutral"
@@ -104,8 +79,8 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {}, onMenuClick }: IPro
                     >
                         <MoreVertIcon />
                     </IconButton>
-                </Box>
-            </CardContent>
+                </div>
+            </CardBody>
         </Card>
     );
 };
