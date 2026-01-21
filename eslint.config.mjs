@@ -3,6 +3,7 @@
 import eslint from '@eslint/js';
 import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import compat from 'eslint-plugin-compat';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 // @ts-expect-error Missing type definition
 import importPlugin from 'eslint-plugin-import';
@@ -412,6 +413,16 @@ export default tseslint.config(
             'sonarjs/no-invariant-returns': 'warn',
             'sonarjs/no-nested-functions': 'off',
             'sonarjs/void-use': 'off'
+        }
+    },
+
+    // Unicorn rules
+    {
+        plugins: {
+            unicorn: eslintPluginUnicorn
+        },
+        rules: {
+            'unicorn/prefer-number-properties': 'warn'
         }
     }
 );
