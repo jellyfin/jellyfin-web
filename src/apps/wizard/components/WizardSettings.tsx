@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+
+import { Button } from 'ui-primitives/Button';
+import { Text, Heading } from 'ui-primitives/Text';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { EmbySelect } from '../../../elements';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../components/loading/LoadingComponent';
+import * as styles from './WizardSettings.css';
 
 const WizardSettings = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -19,10 +20,15 @@ const WizardSettings = () => {
     const apiClient = ServerConnections.currentApiClient();
 
     useEffect(() => {
+        const client = apiClient;
+        if (!client) {
+            setIsLoading(false);
+            return;
+        }
         Promise.all([
-            apiClient.ajax({ url: apiClient.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json()),
-            apiClient.getCultures(),
-            apiClient.getCountries()
+            client.ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json()),
+            client.getCultures(),
+            client.getCountries()
         ]).then(([config, cultureList, countryList]) => {
             setLanguage(config.PreferredMetadataLanguage || '');
             setCountry(config.MetadataCountryCode || '');
@@ -35,14 +41,19 @@ const WizardSettings = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        const config = await apiClient.ajax({ url: apiClient.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json());
+        const client = apiClient;
+        if (!client) {
+            setIsLoading(false);
+            return;
+        }
+        const config = await client.ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json());
         config.PreferredMetadataLanguage = language;
         config.MetadataCountryCode = country;
 
-        await apiClient.ajax({
+        await client.ajax({
             type: 'POST',
             data: JSON.stringify(config),
-            url: apiClient.getUrl('Startup/Configuration'),
+            url: client.getUrl('Startup/Configuration'),
             contentType: 'application/json'
         });
         navigate('/wizard/remoteaccess');
@@ -51,12 +62,12 @@ const WizardSettings = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <Box sx={{ maxWidth: 600, mx: 'auto', mt: 8, p: 3 }}>
-            <Typography level="h2" sx={{ mb: 1 }}>{globalize.translate('HeaderMetadataSettings')}</Typography>
-            <Typography level="body-md" sx={{ mb: 4 }}>{globalize.translate('HeaderMetadataSettingsHelp')}</Typography>
+        <div className={styles.container}>
+            <Heading.H2 className={styles.title}>{globalize.translate('HeaderMetadataSettings')}</Heading.H2>
+            <Text className={styles.helpText}>{globalize.translate('HeaderMetadataSettingsHelp')}</Text>
             
             <form onSubmit={handleSubmit}>
-                <Stack spacing={3}>
+                <div className={styles.formStack}>
                     <EmbySelect
                         label={globalize.translate('LabelPreferredMetadataLanguage')}
                         value={language}
@@ -69,12 +80,12 @@ const WizardSettings = () => {
                         onChange={(_: any, val: any) => setCountry(val)}
                         options={countries.map(c => ({ label: c.DisplayName, value: c.TwoLetterISORegionName }))}
                     />
-                    <Button type="submit" size="lg" sx={{ mt: 2 }}>
+                    <Button type="submit" size="lg" className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
-                </Stack>
+                </div>
             </form>
-        </Box>
+        </div>
     );
 };
 

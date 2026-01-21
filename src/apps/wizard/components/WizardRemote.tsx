@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+
+import { Button } from 'ui-primitives/Button';
+import { Text, Heading } from 'ui-primitives/Text';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { EmbyCheckbox } from '../../../elements';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../components/loading/LoadingComponent';
+import * as styles from './WizardRemote.css';
 
 const WizardRemote = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -18,12 +19,17 @@ const WizardRemote = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        const client = apiClient;
+        if (!client) {
+            setIsLoading(false);
+            return;
+        }
         const config = { EnableRemoteAccess: remoteAccess };
 
-        await apiClient.ajax({
+        await client.ajax({
             type: 'POST',
             data: JSON.stringify(config),
-            url: apiClient.getUrl('Startup/RemoteAccess'),
+            url: client.getUrl('Startup/RemoteAccess'),
             contentType: 'application/json'
         });
         navigate('/wizard/finish');
@@ -32,23 +38,23 @@ const WizardRemote = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <Box sx={{ maxWidth: 600, mx: 'auto', mt: 8, p: 3 }}>
-            <Typography level="h2" sx={{ mb: 1 }}>{globalize.translate('HeaderRemoteAccess')}</Typography>
-            <Typography level="body-md" sx={{ mb: 4 }}>{globalize.translate('HeaderRemoteAccessHelp')}</Typography>
+        <div className={styles.container}>
+            <Heading.H2 className={styles.title}>{globalize.translate('HeaderRemoteAccess')}</Heading.H2>
+            <Text className={styles.helpText}>{globalize.translate('HeaderRemoteAccessHelp')}</Text>
             
             <form onSubmit={handleSubmit}>
-                <Stack spacing={3}>
+                <div className={styles.checkboxGroup}>
                     <EmbyCheckbox
                         label={globalize.translate('LabelEnableAutomaticPortMapping')}
                         checked={remoteAccess}
                         onChange={(e) => setRemoteAccess(e.target.checked)}
                     />
-                    <Button type="submit" size="lg" sx={{ mt: 2 }}>
+                    <Button type="submit" size="lg" className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
-                </Stack>
+                </div>
             </form>
-        </Box>
+        </div>
     );
 };
 
