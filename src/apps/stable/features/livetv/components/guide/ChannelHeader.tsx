@@ -1,24 +1,7 @@
 import React from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
-import { styled } from '@mui/joy/styles';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-
-const StyledChannelHeader = styled(Box)(({ theme }) => ({
-    height: 80,
-    width: 120,
-    flexShrink: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottom: '1px solid',
-    borderRight: '1px solid',
-    borderColor: theme.vars.palette.divider,
-    backgroundColor: theme.vars.palette.background.surface,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-}));
+import { Text } from 'ui-primitives/Text';
+import * as styles from './ChannelHeader.css';
 
 interface ChannelHeaderProps {
     channel: any;
@@ -33,16 +16,16 @@ const ChannelHeader: React.FC<ChannelHeaderProps> = ({ channel }) => {
     }) : null;
 
     return (
-        <StyledChannelHeader>
+        <div className={styles.styledChannelHeader}>
             {imageUrl ? (
-                <img src={imageUrl} alt={channel.Name} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                <img src={imageUrl} alt={channel.Name} className={styles.channelImage} />
             ) : (
-                <Typography level="body-xs" noWrap>{channel.Name}</Typography>
+                <Text size="xs">{channel.Name}</Text>
             )}
             {channel.ChannelNumber && (
-                <Typography level="body-xs" color="neutral" sx={{ mt: 0.5 }}>{channel.ChannelNumber}</Typography>
+                <div className={styles.channelNumber}>{channel.ChannelNumber}</div>
             )}
-        </StyledChannelHeader>
+        </div>
     );
 };
 

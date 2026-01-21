@@ -1,27 +1,7 @@
 import React from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
-import { styled } from '@mui/joy/styles';
 import datetime from '../../../../../../scripts/datetime';
-
-const StyledTimeslotHeader = styled(Box)(({ theme }) => ({
-    height: 40,
-    width: '100%',
-    display: 'flex',
-    borderBottom: '1px solid',
-    borderColor: theme.vars.palette.divider,
-    backgroundColor: theme.vars.palette.background.level1,
-}));
-
-const TimeslotCell = styled(Box)(({ theme }) => ({
-    width: `${(1 / 48) * 100}%`, // 30 mins in 24 hours
-    flexShrink: 0,
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    borderRight: '1px solid',
-    borderColor: theme.vars.palette.divider,
-}));
+import { Text } from 'ui-primitives/Text';
+import * as styles from './TimeslotHeader.css';
 
 interface TimeslotHeaderProps {
     startDate: Date;
@@ -38,15 +18,15 @@ const TimeslotHeader: React.FC<TimeslotHeaderProps> = ({ startDate }) => {
     }
 
     return (
-        <StyledTimeslotHeader>
-            {slots.map((date, i) => (
-                <TimeslotCell key={i}>
-                    <Typography level="body-xs">
+        <div className={styles.styledTimeslotHeader}>
+            {slots.map((date) => (
+                <div key={date.getTime()} className={styles.timeslotCell}>
+                    <Text size="xs">
                         {datetime.getDisplayTime(date).toLowerCase()}
-                    </Typography>
-                </TimeslotCell>
+                    </Text>
+                </div>
             ))}
-        </StyledTimeslotHeader>
+        </div>
     );
 };
 

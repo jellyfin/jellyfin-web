@@ -1,53 +1,10 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import Box from '@mui/joy/Box';
-import CircularProgress from '@mui/joy/CircularProgress';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { CircularProgress } from 'ui-primitives/CircularProgress';
 import ChannelHeader from './ChannelHeader';
 import ProgramCell from './ProgramCell';
 import TimeslotHeader from './TimeslotHeader';
-import { styled } from '@mui/joy/styles';
-
-const GuideContainer = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    height: 'calc(100vh - 200px)',
-    border: '1px solid',
-    borderColor: theme.vars.palette.divider,
-    borderRadius: theme.vars.radius.md,
-    overflow: 'hidden',
-    backgroundColor: theme.vars.palette.background.surface,
-}));
-
-const HeaderRow = styled(Box)({
-    display: 'flex',
-    width: '100%',
-});
-
-const GridBody = styled(Box)({
-    display: 'flex',
-    flex: 1,
-    overflow: 'hidden',
-});
-
-const ChannelColumn = styled(Box)({
-    width: 120,
-    flexShrink: 0,
-    overflowY: 'auto',
-    '&::-webkit-scrollbar': { display: 'none' },
-});
-
-const ProgramGrid = styled(Box)({
-    flex: 1,
-    overflow: 'auto',
-    position: 'relative',
-});
-
-const ChannelRow = styled(Box)({
-    display: 'flex',
-    height: 80,
-    width: '100%',
-    position: 'relative',
-});
+import * as styles from './LiveTVGuide.css';
 
 const LiveTVGuide: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -66,6 +23,11 @@ const LiveTVGuide: React.FC = () => {
         startDate.setHours(0, 0, 0, 0);
         const endDate = new Date(startDate);
         endDate.setDate(endDate.getDate() + 1);
+
+        if (!apiClient) {
+            setIsLoading(false);
+            return;
+        }
 
         const channelsResult: any = await apiClient.getLiveTvChannels({ 
             UserId: apiClient.getCurrentUserId(),
@@ -96,9 +58,9 @@ const LiveTVGuide: React.FC = () => {
 
     if (isLoading) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 8 }}>
-                <CircularProgress thickness={4} size="lg" />
-            </Box>
+            <div className={styles.loadingContainer}>
+                <CircularProgress size="lg" />
+            </div>
         );
     }
 
@@ -106,25 +68,25 @@ const LiveTVGuide: React.FC = () => {
     const dayStartMs = new Date(currentDate).setHours(0, 0, 0, 0);
 
     return (
-        <GuideContainer>
-            <HeaderRow>
-                <Box sx={{ width: 120, borderRight: '1px solid', borderColor: 'divider', bgcolor: 'background.level1' }} />
-                <Box ref={headerScrollRef} sx={{ flex: 1, overflow: 'hidden' }}>
+        <div className={styles.guideContainer}>
+            <div className={styles.headerRow}>
+                <div className={styles.headerCorner} />
+                <div ref={headerScrollRef} className={styles.headerScroller}>
                     <TimeslotHeader startDate={currentDate} />
-                </Box>
-            </HeaderRow>
+                </div>
+            </div>
             
-            <GridBody>
-                <ChannelColumn ref={channelScrollRef}>
+            <div className={styles.gridBody}>
+                <div ref={channelScrollRef} className={styles.channelColumn}>
                     {channels.map(channel => (
                         <ChannelHeader key={channel.Id} channel={channel} />
                     ))}
-                </ChannelColumn>
+                </div>
                 
-                <ProgramGrid ref={gridScrollRef} onScroll={handleGridScroll}>
-                    <Box sx={{ width: '100%', height: channels.length * 80, position: 'relative' }}>
+                <div ref={gridScrollRef} className={styles.programGrid} onScroll={handleGridScroll}>
+                    <div className={styles.gridContent} style={{ height: channels.length * 80 }}>
                         {channels.map((channel, rowIndex) => (
-                            <ChannelRow key={channel.Id} sx={{ top: rowIndex * 80 }}>
+                            <div key={channel.Id} className={styles.channelRow} style={{ top: rowIndex * 80 }}>
                                 {programs
                                     .filter(p => p.ChannelId === channel.Id)
                                     .map(program => {
@@ -143,12 +105,12 @@ const LiveTVGuide: React.FC = () => {
                                             />
                                         );
                                     })}
-                            </ChannelRow>
+                            </div>
                         ))}
-                    </Box>
-                </ProgramGrid>
-            </GridBody>
-        </GuideContainer>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 
