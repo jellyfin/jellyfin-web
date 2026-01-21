@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Box from '@mui/joy/Box';
-import Slider from '@mui/joy/Slider';
-import IconButton from '@mui/joy/IconButton';
+import React from 'react';
+import { Slider } from 'ui-primitives/Slider';
+import { IconButton } from 'ui-primitives/IconButton';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import { vars } from 'styles/tokens.css';
 
 interface VolumeSliderProps {
     volume: number;
@@ -12,7 +12,7 @@ interface VolumeSliderProps {
     onMuteToggle: () => void;
     size?: 'sm' | 'md' | 'lg';
     showSlider?: boolean;
-    sx?: object;
+    style?: React.CSSProperties;
 }
 
 export const VolumeSlider: React.FC<VolumeSliderProps> = ({
@@ -22,12 +22,12 @@ export const VolumeSlider: React.FC<VolumeSliderProps> = ({
     onMuteToggle,
     size = 'sm',
     showSlider = true,
-    sx,
+    style,
 }) => {
     const displayVolume = muted ? 0 : volume;
 
-    const handleChange = (_event: Event, newValue: number | number[]) => {
-        const vol = newValue as number;
+    const handleChange = (newValue: number[]) => {
+        const vol = newValue[0];
         onVolumeChange(vol);
         if (muted && vol > 0) {
             onMuteToggle();
@@ -35,50 +35,40 @@ export const VolumeSlider: React.FC<VolumeSliderProps> = ({
     };
 
     return (
-        <Box
-            sx={{
+        <div
+            style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1,
-                ...sx,
+                gap: vars.spacing.xs,
+                ...style,
             }}
         >
             <IconButton
                 size={size}
                 variant="plain"
                 onClick={onMuteToggle}
-                sx={{
-                    color: 'neutral.50',
-                    '&:hover': {
-                        color: 'neutral.300',
-                    },
+                style={{
+                    color: vars.colors.text,
                 }}
                 aria-label={muted ? 'Unmute' : 'Mute'}
             >
                 {muted || displayVolume === 0 ? <VolumeOffIcon /> : <VolumeUpIcon />}
             </IconButton>
             {showSlider && (
-                <Box
-                    className="nowPlayingBarVolumeSliderContainer"
-                    sx={{
+                <div
+                    style={{
                         width: '80px',
-                        '@media (min-width: 1200px)': {
-                            width: '120px',
-                        },
                     }}
+                    className="nowPlayingBarVolumeSliderContainer"
                 >
                     <Slider
                         min={0}
                         max={100}
-                        value={displayVolume}
-                        onChange={handleChange}
-                        size="sm"
-                        sx={{
-                            '--Slider-thumb-size': '10px',
-                        }}
+                        value={[displayVolume]}
+                        onValueChange={handleChange}
                     />
-                </Box>
+                </div>
             )}
-        </Box>
+        </div>
     );
 };
