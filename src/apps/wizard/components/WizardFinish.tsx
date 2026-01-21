@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+
+import { Button } from 'ui-primitives/Button';
+import { Text, Heading } from 'ui-primitives/Text';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import Loading from '../../../components/loading/LoadingComponent';
+import * as styles from './WizardFinish.css';
 
 const WizardFinish = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -13,8 +14,13 @@ const WizardFinish = () => {
 
     const handleFinish = async () => {
         setIsLoading(true);
-        await apiClient.ajax({
-            url: apiClient.getUrl('Startup/Complete'),
+        const client = apiClient;
+        if (!client) {
+            setIsLoading(false);
+            return;
+        }
+        await client.ajax({
+            url: client.getUrl('Startup/Complete'),
             type: 'POST'
         });
         window.location.href = '';
@@ -23,14 +29,14 @@ const WizardFinish = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <Box sx={{ maxWidth: 600, mx: 'auto', mt: 8, p: 3, textAlign: 'center' }}>
-            <Typography level="h1" sx={{ mb: 2 }}>{globalize.translate('HeaderAllDone')}</Typography>
-            <Typography level="body-lg" sx={{ mb: 6 }}>{globalize.translate('HeaderAllDoneHelp')}</Typography>
+        <div className={styles.container}>
+            <Heading.H1 className={styles.title}>{globalize.translate('HeaderAllDone')}</Heading.H1>
+            <Text size="lg" className={styles.helpText}>{globalize.translate('HeaderAllDoneHelp')}</Text>
             
-            <Button size="lg" onClick={handleFinish} sx={{ px: 6 }}>
+            <Button size="lg" onClick={handleFinish} className={styles.finishButton}>
                 {globalize.translate('ButtonFinish')}
             </Button>
-        </Box>
+        </div>
     );
 };
 

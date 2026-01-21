@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+
+import { Button } from 'ui-primitives/Button';
+import { Text, Heading } from 'ui-primitives/Text';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { EmbyInput, EmbySelect } from '../../../elements';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../components/loading/LoadingComponent';
+import * as styles from './WizardStart.css';
 
 const WizardStart = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -18,10 +19,15 @@ const WizardStart = () => {
     const apiClient = ServerConnections.currentApiClient();
 
     useEffect(() => {
+        const client = apiClient;
+        if (!client) {
+            setIsLoading(false);
+            return;
+        }
         Promise.all([
-            apiClient.getPublicSystemInfo(),
-            apiClient.ajax({ url: apiClient.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json()),
-            apiClient.ajax({ url: apiClient.getUrl('Localization/Options'), type: 'GET' }).then((r: any) => r.json())
+            client.getPublicSystemInfo(),
+            client.ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json()),
+            client.ajax({ url: client.getUrl('Localization/Options'), type: 'GET' }).then((r: any) => r.json())
         ]).then(([systemInfo, config, languageOptions]) => {
             setServerName(config.ServerName || systemInfo.ServerName);
             setUiCulture(config.UICulture);
@@ -33,14 +39,19 @@ const WizardStart = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        const config = await apiClient.ajax({ url: apiClient.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json());
+        const client = apiClient;
+        if (!client) {
+            setIsLoading(false);
+            return;
+        }
+        const config = await client.ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json());
         config.ServerName = serverName;
         config.UICulture = uiCulture;
 
-        await apiClient.ajax({
+        await client.ajax({
             type: 'POST',
             data: JSON.stringify(config),
-            url: apiClient.getUrl('Startup/Configuration'),
+            url: client.getUrl('Startup/Configuration'),
             contentType: 'application/json'
         });
         navigate('/wizard/user');
@@ -49,12 +60,12 @@ const WizardStart = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <Box sx={{ maxWidth: 600, mx: 'auto', mt: 8, p: 3 }}>
-            <Typography level="h2" sx={{ mb: 1 }}>{globalize.translate('HeaderWelcome')}</Typography>
-            <Typography level="body-md" sx={{ mb: 4 }}>{globalize.translate('HeaderWelcomeHelp')}</Typography>
+        <div className={styles.container}>
+            <Heading.H2 className={styles.title}>{globalize.translate('HeaderWelcome')}</Heading.H2>
+            <Text className={styles.helpText}>{globalize.translate('HeaderWelcomeHelp')}</Text>
             
             <form onSubmit={handleSubmit}>
-                <Stack spacing={3}>
+                <div className={styles.formStack}>
                     <EmbyInput
                         label={globalize.translate('LabelServerName')}
                         value={serverName}
@@ -67,12 +78,12 @@ const WizardStart = () => {
                         onChange={(_: any, val: any) => setUiCulture(val)}
                         options={languages.map(l => ({ label: l.Name, value: l.Value }))}
                     />
-                    <Button type="submit" size="lg" sx={{ mt: 2 }}>
+                    <Button type="submit" size="lg" className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
-                </Stack>
+                </div>
             </form>
-        </Box>
+        </div>
     );
 };
 

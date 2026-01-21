@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+
+import { Button } from 'ui-primitives/Button';
+import { Text, Heading } from 'ui-primitives/Text';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { EmbyInput } from '../../../elements';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../components/loading/LoadingComponent';
 import toast from '../../../components/toast/toast';
+import * as styles from './WizardUser.css';
 
 const WizardUser = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +20,10 @@ const WizardUser = () => {
     const apiClient = ServerConnections.currentApiClient();
 
     useEffect(() => {
+        if (!apiClient) {
+            setIsLoading(false);
+            return;
+        }
         apiClient.ajax({ url: apiClient.getUrl('Startup/User'), type: 'GET' })
             .then((r: any) => r.json())
             .then((user: any) => {
@@ -35,11 +40,17 @@ const WizardUser = () => {
         }
 
         setIsLoading(true);
+        const client = apiClient;
+        if (!client) {
+            toast(globalize.translate('ErrorDefault'));
+            setIsLoading(false);
+            return;
+        }
         try {
-            await apiClient.ajax({
+            await client.ajax({
                 type: 'POST',
                 data: JSON.stringify({ Name: username.trim(), Password: password }),
-                url: apiClient.getUrl('Startup/User'),
+                url: client.getUrl('Startup/User'),
                 contentType: 'application/json'
             });
             navigate('/wizard/library');
@@ -52,12 +63,12 @@ const WizardUser = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <Box sx={{ maxWidth: 600, mx: 'auto', mt: 8, p: 3 }}>
-            <Typography level="h2" sx={{ mb: 1 }}>{globalize.translate('HeaderCreateUser')}</Typography>
-            <Typography level="body-md" sx={{ mb: 4 }}>{globalize.translate('HeaderCreateUserHelp')}</Typography>
+        <div className={styles.container}>
+            <Heading.H2 className={styles.title}>{globalize.translate('HeaderCreateUser')}</Heading.H2>
+            <Text className={styles.helpText}>{globalize.translate('HeaderCreateUserHelp')}</Text>
             
             <form onSubmit={handleSubmit}>
-                <Stack spacing={3}>
+                <div className={styles.formStack}>
                     <EmbyInput
                         label={globalize.translate('LabelUsername')}
                         value={username}
@@ -77,12 +88,12 @@ const WizardUser = () => {
                         value={confirmPassword}
                         onChange={(e: any) => setConfirmPassword(e.target.value)}
                     />
-                    <Button type="submit" size="lg" sx={{ mt: 2 }}>
+                    <Button type="submit" size="lg" className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
-                </Stack>
+                </div>
             </form>
-        </Box>
+        </div>
     );
 };
 
