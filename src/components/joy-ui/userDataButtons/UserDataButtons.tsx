@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
-import Tooltip from '@mui/joy/Tooltip';
+
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { vars } from 'styles/tokens.css';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
@@ -101,7 +102,7 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
     const effectiveStyle = style === 'fab-mini' ? 'fab' : style;
 
     return (
-        <Box className='userDataButtons' sx={{ display: 'flex', gap: 0.5 }}>
+        <div className='userDataButtons' style={{ display: 'flex', gap: '4px' }}>
             {canMarkPlayed && (
                 <Tooltip title={globalize.translate(isPlayed ? 'MarkPlayed' : 'AddToPlayQueue')}>
                     <IconButton
@@ -111,7 +112,7 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
                         className={getButtonClassName('btnUserData', isPlayed)}
                         onClick={handleMarkPlayed}
                         disabled={loading === 'played'}
-                        sx={{
+                        style={{
                             ...(effectiveStyle === 'fab' && {
                                 borderRadius: '50%',
                                 minWidth: 'auto',
@@ -133,12 +134,12 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
             <Tooltip title={globalize.translate(isFavorite ? 'Favorite' : 'AddToFavorites')}>
                 <IconButton
                     variant='plain'
-                    color={isFavorite ? 'warning' : 'neutral'}
+                    color={isFavorite ? 'primary' : 'neutral'}
                     size={effectiveStyle === 'fab' ? 'lg' : 'md'}
                     className={getButtonClassName('btnUserData', isFavorite)}
                     onClick={handleMarkFavorite}
                     disabled={loading === 'favorite'}
-                    sx={{
+                    style={{
                         ...(effectiveStyle === 'fab' && {
                             borderRadius: '50%',
                             minWidth: 'auto',
@@ -155,7 +156,7 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
                     </span>
                 </IconButton>
             </Tooltip>
-        </Box>
+        </div>
     );
 };
 
