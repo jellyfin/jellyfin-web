@@ -12,23 +12,6 @@ export interface DownloadItem {
     [key: string]: any;
 }
 
-declare global {
-    interface Window {
-        NativeShell?: {
-            enableFullscreen?: () => void;
-            disableFullscreen?: () => void;
-            openClientSettings?: () => void;
-            openDownloadManager?: () => void;
-            openUrl?: (url: string, target?: string) => void;
-            updateMediaSession?: (mediaInfo: MediaInfo) => void;
-            hideMediaSession?: () => void;
-            updateVolumeLevel?: (volume: number) => void;
-            downloadFiles?: (items: DownloadItem[]) => void;
-            downloadFile?: (item: DownloadItem) => void;
-        };
-    }
-}
-
 const shell = {
     enableFullscreen: function(): void {
         window.NativeShell?.enableFullscreen?.();

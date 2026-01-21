@@ -44,12 +44,13 @@ export interface PlayerInstance {
 declare const Hls: any;
 
 export function getSavedVolume(): number {
-    return appSettings.get('volume') || 1;
+    const val = appSettings.get('volume');
+    return val ? parseFloat(val) : 1;
 }
 
 export function saveVolume(value: number): void {
     if (value) {
-        appSettings.set('volume', value);
+        appSettings.set('volume', value.toString());
     }
 }
 
@@ -122,7 +123,7 @@ export function handleHlsJsMediaError(instance: PlayerInstance, reject?: (error?
 
     let now = Date.now();
 
-    if (window.performance?.now) {
+    if (typeof window !== 'undefined' && window.performance) {
         now = performance.now();
     }
 

@@ -37,12 +37,56 @@ export declare global {
     interface Window {
         ApiClient: ApiClient;
         Events: Events;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        NativeShell: any;
+        NativeShell?: NativeShell;
         Loading: {
             show();
             hide();
         }
+        appMode?: string;
+        tizen?: any;
+        webOS?: any;
+        appHost: any;
+        __PACKAGE_JSON_VERSION__: string;
+    }
+
+    interface NativeShellAppHost {
+        getDeviceProfile?: (builder: any, version: string) => any;
+        exit?: () => void;
+        supports?: (command: string) => boolean;
+        getDefaultLayout?: () => string;
+        init?: () => { deviceId: string; deviceName: string };
+        deviceName?: () => string;
+        deviceId?: () => string;
+        appName?: () => string;
+        appVersion?: () => string;
+        getPushTokenInfo?: () => any;
+        screen?: () => { width: number; height: number; maxAllowedWidth?: number };
+    }
+
+    interface NativeShell {
+        AppHost?: NativeShellAppHost;
+        enableFullscreen?: () => void;
+        disableFullscreen?: () => void;
+        openClientSettings?: () => void;
+        openDownloadManager?: () => void;
+        openUrl?: (url: string, target?: string) => void;
+        updateMediaSession?: (mediaInfo: any) => void;
+        hideMediaSession?: () => void;
+        updateVolumeLevel?: (volume: number) => void;
+        downloadFiles?: (items: any[]) => void;
+        downloadFile?: (item: any) => void;
+        findServers?: (timeout: number) => Promise<any[]>;
+        getPlugins?: () => any[];
+        onLocalUserSignedOut?: (info: any) => void;
+        onLocalUserSignedIn?: (user: any, token: string) => Promise<void>;
+        selectServer?: () => void;
+    }
+
+    interface HTMLVideoElement {
+        webkitEnterFullscreen?: () => void;
+        webkitSupportsPresentationMode?: (mode: string) => boolean;
+        webkitSetPresentationMode?: (mode: string) => void;
+        webkitPresentationMode?: string;
     }
 
     interface DocumentEventMap {
@@ -55,4 +99,6 @@ export declare global {
     const __PACKAGE_JSON_VERSION__: string;
     const __USE_SYSTEM_FONTS__: boolean;
     const __WEBPACK_SERVE__: boolean;
+    const tizen: any;
+    const webOS: any;
 }

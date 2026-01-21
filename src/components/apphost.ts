@@ -10,34 +10,6 @@ import { LayoutMode } from 'constants/layoutMode';
 import { logger } from '../utils/logger';
 import alert from './alert';
 
-declare global {
-    interface Window {
-        NativeShell?: {
-            AppHost?: {
-                getDeviceProfile?: (builder: any, version: string) => any;
-                exit?: () => void;
-                supports?: (command: string) => boolean;
-                getDefaultLayout?: () => LayoutMode;
-                init?: () => { deviceId: string; deviceName: string };
-                deviceName?: () => string;
-                deviceId?: () => string;
-                appName?: () => string;
-                appVersion?: () => string;
-                getPushTokenInfo?: () => any;
-                screen?: () => { width: number; height: number; maxAllowedWidth?: number };
-            };
-        };
-        appMode?: string;
-        tizen?: any;
-        webOS?: any;
-        __PACKAGE_JSON_VERSION__: string;
-        appHost: any;
-    }
-    const __PACKAGE_JSON_VERSION__: string;
-    const tizen: any;
-    const webOS: any;
-}
-
 const appName = 'Jellyfin Web';
 
 const BrowserName: Record<string, string> = {
@@ -89,7 +61,7 @@ function getDeviceProfile(item: any): Promise<any> {
             profile = profileBuilder(builderOpts);
         }
 
-        const maxVideoWidth = appSettings.maxVideoWidth();
+        const maxVideoWidth = parseInt(appSettings.maxVideoWidth() || '0', 10);
         const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
@@ -157,7 +129,7 @@ function generateDeviceId() {
 
     keys.push(navigator.userAgent);
     keys.push(new Date().getTime());
-    if (window.btoa) {
+    if (typeof window.btoa === 'function') {
         return btoa(keys.join('|')).replaceAll('=', '1');
     }
 
@@ -168,11 +140,13 @@ function getDeviceId() {
     if (!deviceId) {
         const key = '_deviceId2';
 
-        deviceId = appSettings.get(key);
+        const val = appSettings.get(key);
 
-        if (!deviceId) {
+        if (!val) {
             deviceId = generateDeviceId();
             appSettings.set(key, deviceId);
+        } else {
+            deviceId = val;
         }
     }
 
@@ -263,7 +237,7 @@ function onAppHidden() {
 const supportedFeatures = function () {
     const features: string[] = [];
 
-    if (navigator.share) {
+    if (typeof navigator.share === 'function') {
         features.push(AppFeature.Sharing);
     }
 
