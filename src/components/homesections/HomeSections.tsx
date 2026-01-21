@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/joy/Box';
-import CircularProgress from '@mui/joy/CircularProgress';
+
+import { CircularProgress } from 'ui-primitives/CircularProgress';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getUserViewsQuery } from '../../hooks/useUserViews';
 import { toApi } from '../../utils/jellyfin-apiclient/compat';
@@ -12,6 +13,7 @@ import ResumeSection from './ResumeSection';
 import NextUpSection from './NextUpSection';
 import RecentlyAddedSection from './RecentlyAddedSection';
 import LibraryTilesSection from './LibraryTilesSection';
+import * as styles from './HomeSections.css';
 
 const HomeSections: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -40,14 +42,14 @@ const HomeSections: React.FC = () => {
 
     if (isLoading) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 8 }}>
-                <CircularProgress thickness={4} size="lg" />
-            </Box>
+            <div className={styles.loadingContainer}>
+                <CircularProgress size="lg" />
+            </div>
         );
     }
 
     return (
-        <Box>
+        <div className={styles.container}>
             {sections.map((section, index) => {
                 switch (section) {
                     case HomeSectionType.SmallLibraryTiles:
@@ -66,7 +68,7 @@ const HomeSections: React.FC = () => {
                         return null;
                 }
             })}
-        </Box>
+        </div>
     );
 };
 

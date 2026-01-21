@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
+
+import { Heading } from 'ui-primitives/Text';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
+import * as styles from './NextUpSection.css';
 
 const NextUpSection: React.FC = () => {
     const [items, setItems] = useState<any[]>([]);
@@ -47,10 +49,10 @@ const NextUpSection: React.FC = () => {
     };
 
     return (
-        <Box sx={{ mb: 4 }}>
-            <Typography level="h3" sx={{ mb: 2, px: 1 }}>{globalize.translate('NextUp')}</Typography>
+        <div className={styles.container}>
+            <Heading.H3 className={styles.header}>{globalize.translate('NextUp')}</Heading.H3>
             <CardBuilder items={items} options={cardOptions} />
-        </Box>
+        </div>
     );
 };
 

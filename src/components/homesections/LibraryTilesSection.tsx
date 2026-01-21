@@ -1,9 +1,11 @@
 import React from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
+
+import { Heading } from 'ui-primitives/Text';
+
 import globalize from 'lib/globalize';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
+import * as styles from './LibraryTilesSection.css';
 
 interface LibraryTilesSectionProps {
     userViews: any[];
@@ -20,10 +22,10 @@ const LibraryTilesSection: React.FC<LibraryTilesSectionProps> = ({ userViews }) 
     };
 
     return (
-        <Box sx={{ mb: 4 }}>
-            <Typography level="h3" sx={{ mb: 2, px: 1 }}>{globalize.translate('HeaderMyMedia')}</Typography>
+        <div className={styles.container}>
+            <Heading.H3 className={styles.header}>{globalize.translate('HeaderMyMedia')}</Heading.H3>
             <CardBuilder items={userViews} options={cardOptions} />
-        </Box>
+        </div>
     );
 };
 

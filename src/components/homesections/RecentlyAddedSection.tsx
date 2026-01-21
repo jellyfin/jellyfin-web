@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
+
+import { Heading } from 'ui-primitives/Text';
+
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
+import * as styles from './RecentlyAddedSection.css';
 
 interface RecentlyAddedLibrarySectionProps {
     library: any;
@@ -49,12 +51,12 @@ const RecentlyAddedLibrarySection: React.FC<RecentlyAddedLibrarySectionProps> = 
     };
 
     return (
-        <Box sx={{ mb: 4 }}>
-            <Typography level="h3" sx={{ mb: 2, px: 1 }}>
+        <div className={styles.container}>
+            <Heading.H3 className={styles.header}>
                 {globalize.translate('LatestFromLibrary', library.Name)}
-            </Typography>
+            </Heading.H3>
             <CardBuilder items={items} options={cardOptions} />
-        </Box>
+        </div>
     );
 };
 
