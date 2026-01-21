@@ -44,7 +44,7 @@ const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     entry: {
-        'main.jellyfin': './index.jsx',
+        'main.jellyfin': './index.tsx',
         ...THEMES_BY_ID
     },
     resolve: {
@@ -52,7 +52,11 @@ const config = {
         modules: [
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
-        ]
+        ],
+        alias: {
+            // Sync with tsconfig.json
+            '@': path.resolve(__dirname, 'src')
+        }
     },
     plugins: [
         new DefinePlugin({

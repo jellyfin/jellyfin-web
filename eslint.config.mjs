@@ -12,7 +12,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import restrictedGlobals from 'confusing-browser-globals';
 import sonarjs from 'eslint-plugin-sonarjs';
 import stylistic from '@stylistic/eslint-plugin';
-// eslint-disable-next-line import/no-unresolved
+
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -162,6 +162,14 @@ export default tseslint.config(
                     ]
                 }
             ]
+        }
+    },
+
+    {
+        settings: {
+            'import/resolver': {
+                typescript: {}
+            }
         }
     },
 
