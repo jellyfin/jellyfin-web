@@ -297,8 +297,23 @@ function supportedDolbyVisionProfileAv1(videoTestElement) {
 }
 
 function supportsAnamorphicVideo() {
-    // Tizen applies the aspect ratio correctly
-    return browser.tizenVersion >= 6;
+    // Most modern browsers/platforms correctly apply SAR (Sample Aspect Ratio) during playback,
+    // stretching non-square pixels to the correct display aspect ratio.
+    //
+    // Tizen 6+ confirmed working in commit 08f8b2d2f. WebOS 5+ is similar (2020+ LG TVs).
+    // Desktop browsers, Edge UWP (Xbox), and mobile platforms all handle anamorphic correctly.
+    //
+    // Platforms NOT included (need testing): vidaa, hisense, ps4, titanos, operaTv, vega
+    // See: https://github.com/jellyfin/jellyfin/issues/15156
+    return browser.tizenVersion >= 6
+        || browser.web0sVersion >= 5
+        || browser.chrome
+        || browser.firefox
+        || browser.safari
+        || browser.edgeChromium
+        || browser.edgeUwp
+        || browser.iOS
+        || browser.android;
 }
 
 function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
