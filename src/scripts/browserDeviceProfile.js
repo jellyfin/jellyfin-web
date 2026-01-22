@@ -304,7 +304,6 @@ function supportsAnamorphicVideo() {
     // Desktop browsers, Edge UWP (Xbox), and mobile platforms all handle anamorphic correctly.
     //
     // Platforms NOT included (need testing): vidaa, hisense, ps4, titanos, operaTv, vega
-    // See: https://github.com/jellyfin/jellyfin/issues/15156
     return browser.tizenVersion >= 6
         || browser.web0sVersion >= 5
         || browser.chrome
