@@ -36,7 +36,8 @@ async function enrichLiveTvWithChannelImages(userViews: BaseItemDto[]): Promise<
                         EnableImageTypes: 'Primary',
                         Fields: 'PrimaryImageAspectRatio',
                         Limit: 20,
-                        StartIndex: Math.floor(Math.random() * 50) // Random starting point for variety
+                        // eslint-disable-next-line sonarjs/pseudo-random -- Used only for UI variety, not security
+                        StartIndex: Math.floor(Math.random() * 50)
                     });
 
                     if (response.Items && response.Items.length > 0) {
