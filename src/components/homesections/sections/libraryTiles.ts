@@ -46,15 +46,43 @@ async function enrichLiveTvWithChannelImages(userViews: BaseItemDto[]): Promise<
                             channel.ImageTags && channel.ImageTags.Primary
                         );
 
+                        // Prefer current program backdrop over channel logo for better visual consistency
+                        const channelWithBackdrop = response.Items.find(channel =>
+                            channel.CurrentProgram?.ImageTags?.Primary
+                            || channel.CurrentProgram?.BackdropImageTags?.length
+                        );
+
+                        if (channelWithBackdrop?.CurrentProgram) {
+                            const program = channelWithBackdrop.CurrentProgram;
+
+                            // Use Primary image if available, otherwise use Backdrop
+                            if (program.ImageTags?.Primary) {
+                                return {
+                                    ...view,
+                                    ImageTags: {
+                                        Primary: program.ImageTags.Primary
+                                    },
+                                    PrimaryImageAspectRatio: program.PrimaryImageAspectRatio,
+                                    _sourceItemId: program.Id
+                                };
+                            } else if (program.BackdropImageTags?.length) {
+                                return {
+                                    ...view,
+                                    BackdropImageTags: program.BackdropImageTags,
+                                    PrimaryImageAspectRatio: program.PrimaryImageAspectRatio,
+                                    _sourceItemId: program.Id
+                                };
+                            }
+                        }
+
+                        // Fallback to channel logo if no program backdrops available
                         if (channelWithImage && channelWithImage.ImageTags?.Primary) {
-                            // Create a modified view with the channel's image
                             return {
                                 ...view,
                                 ImageTags: {
                                     Primary: channelWithImage.ImageTags.Primary
                                 },
                                 PrimaryImageAspectRatio: channelWithImage.PrimaryImageAspectRatio,
-                                // Store the channel ID so we fetch the right image
                                 _sourceItemId: channelWithImage.Id
                             };
                         }
