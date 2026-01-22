@@ -33,6 +33,8 @@ function getWebDeviceIcon(browser: string | null | undefined) {
             return BASE_DEVICE_IMAGE_URL + 'msie.svg';
         case 'Titan OS':
             return BASE_DEVICE_IMAGE_URL + 'titanos.svg';
+        case 'Vega OS':
+            return BASE_DEVICE_IMAGE_URL + 'firetv.svg';
         default:
             return BASE_DEVICE_IMAGE_URL + 'html5.svg';
     }
