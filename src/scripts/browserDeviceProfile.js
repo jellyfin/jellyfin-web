@@ -1201,7 +1201,7 @@ export default function (options) {
         av1VideoRangeTypes += '|HDR10|HDR10Plus';
 
         if (browser.tizenVersion >= 3 || browser.vidaa || browser.webOsVersion >= 6) {
-            // Tizen ang LG TVs does not support Dolby Vision at all, but it can safely play the HDR fallback.
+            // Tizen and LG TVs do not support Dolby Vision at all, but they can safely play the HDR fallback.
             // Advertising the support so that the server doesn't have to remux.
             hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
             // Although no official tools exist to create AV1+DV files yet, some of our users managed to use community tools to create such files.
