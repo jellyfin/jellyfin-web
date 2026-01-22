@@ -1,21 +1,21 @@
 import React from 'react';
-import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import IconButton from '@mui/joy/IconButton';
-import Typography from '@mui/joy/Typography';
-import AspectRatio from '@mui/joy/AspectRatio';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Link } from '@tanstack/react-router';
+import type { LinkProps } from '@tanstack/react-router';
+import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-import Stack from '@mui/joy/Stack';
-import { Link, To } from 'react-router-dom';
+import { Card } from 'ui-primitives/Card';
+import { AspectRatio } from 'ui-primitives/AspectRatio';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Heading, Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 interface BaseCardProps {
     title?: string;
     text?: string;
     image?: string | null;
     icon?: React.ReactNode;
-    to?: To;
+    to?: LinkProps['to'];
     onClick?: () => void;
     action?: boolean;
     actionRef?: React.MutableRefObject<HTMLButtonElement | null>;
@@ -39,7 +39,7 @@ const BaseCard = ({
 }: BaseCardProps) => {
     const cardContent = (
         <>
-            <AspectRatio ratio="16/9" sx={{ borderRadius: 'sm', overflow: 'hidden' }}>
+            <AspectRatio ratio="16/9" style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
                 {image ? (
                     <img
                         src={image}
@@ -49,40 +49,39 @@ const BaseCard = ({
                 ) : (
                     <Box
                         className={getDefaultBackgroundClass(title)}
-                        sx={{
+                        style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            bgcolor: 'neutral.softBg'
+                            backgroundColor: vars.colors.surfaceLight
                         }}
                     >
                         {icon}
                     </Box>
                 )}
             </AspectRatio>
-            <CardContent sx={{ pt: 1.5 }}>
-                <Stack direction='row' justifyContent="space-between" alignItems="flex-start" spacing={1}>
-                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                        <Typography
-                            level="title-md"
-                            sx={{
+            <Flex style={{ paddingTop: vars.spacing.sm, flexDirection: 'column', gap: vars.spacing.sm }}>
+                <Flex style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: vars.spacing.sm }}>
+                    <Box style={{ flexGrow: 1, minWidth: 0 }}>
+                        <Heading.H5
+                            style={{
                                 overflow: 'hidden',
                                 whiteSpace: 'nowrap',
                                 textOverflow: 'ellipsis'
                             }}
                         >
                             {title}
-                        </Typography>
+                        </Heading.H5>
                         {text && (
-                            <Typography
-                                level="body-xs"
-                                sx={{
-                                    lineBreak: 'anywhere',
-                                    mt: 0.5
+                            <Text
+                                size="xs"
+                                style={{
+                                    wordBreak: 'break-all',
+                                    marginTop: vars.spacing.xs
                                 }}
                             >
                                 {text}
-                            </Typography>
+                            </Text>
                         )}
                     </Box>
                     {action && (
@@ -97,41 +96,66 @@ const BaseCard = ({
                                 onActionClick?.();
                             }}
                         >
-                            <MoreVertIcon />
+                            <DotsVerticalIcon />
                         </IconButton>
                     )}
-                </Stack>
-            </CardContent>
+                </Flex>
+            </Flex>
         </>
     );
 
-    const cardProps = {
-        variant: "outlined",
-        onClick,
-        sx: {
-            height: height || 'auto',
-            width: width,
-            transition: 'transform 0.2s, box-shadow 0.2s',
-            '&:hover': {
-                transform: 'translateY(-4px)',
-                boxShadow: 'md',
-                borderColor: 'primary.outlinedBorder',
-                bgcolor: 'background.surface'
-            },
-            textDecoration: 'none'
-        }
+    const cardStyle = {
+        height: height || 'auto',
+        width: width,
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        border: `1px solid ${vars.colors.divider}`,
+        borderRadius: vars.borderRadius.md,
+        textDecoration: 'none',
+        cursor: 'pointer',
+    };
+
+    const hoverStyle = {
+        transform: 'translateY(-4px)',
+        boxShadow: vars.shadows.md,
+        borderColor: vars.colors.primary,
+        backgroundColor: vars.colors.surface,
     };
 
     if (to) {
         return (
-            <Card component={Link} to={to} {...(cardProps as any)}>
-                {cardContent}
-            </Card>
+            <Link to={to} style={{ textDecoration: 'none' }} onClick={onClick}>
+                <Card
+                    style={cardStyle}
+                    onMouseEnter={(e: React.MouseEvent) => {
+                        Object.assign(e.currentTarget.style, hoverStyle);
+                    }}
+                    onMouseLeave={(e: React.MouseEvent) => {
+                        e.currentTarget.style.transform = '';
+                        e.currentTarget.style.boxShadow = '';
+                        e.currentTarget.style.borderColor = vars.colors.divider;
+                        e.currentTarget.style.backgroundColor = '';
+                    }}
+                >
+                    {cardContent}
+                </Card>
+            </Link>
         );
     }
 
     return (
-        <Card {...(cardProps as any)}>
+        <Card
+            style={cardStyle}
+            onClick={onClick}
+            onMouseEnter={(e: React.MouseEvent) => {
+                Object.assign(e.currentTarget.style, hoverStyle);
+            }}
+            onMouseLeave={(e: React.MouseEvent) => {
+                e.currentTarget.style.transform = '';
+                e.currentTarget.style.boxShadow = '';
+                e.currentTarget.style.borderColor = vars.colors.divider;
+                e.currentTarget.style.backgroundColor = '';
+            }}
+        >
             {cardContent}
         </Card>
     );

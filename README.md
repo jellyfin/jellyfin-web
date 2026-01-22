@@ -1,181 +1,105 @@
-# Jellyfin Web Modernized
+# Jellyfin Web (Modernized fork)
 
-An advanced, high-performance evolution of the Jellyfin Web client, focused on superior audio fidelity, premium music experience, and a streamlined developer experience.
+This repository is a personal/hobby fork of the upstream Jellyfin Web client.
 
----
+The goal is to keep a working Jellyfin web UI while incrementally modernizing parts of the codebase (build tooling, React/TypeScript, state management, and audio playback). Some areas are intentionally experimental.
 
-## Project Overview
+## Origin and fork history
 
-This is a **fork of the official Jellyfin Web client** that has undergone a foundational architectural overhaul. While maintaining full compatibility with the Jellyfin media server ecosystem, this project introduces substantial improvements to deliver a premium media playback experience—particularly for music enthusiasts.
+- Upstream project: `jellyfin/jellyfin-web` (the official web client for Jellyfin).
+- This fork started as a place to experiment with a more modern React/TypeScript setup and a music-focused playback pipeline.
+- Over time it gained:
+  - Vite as the build system (replacing legacy bundling)
+  - React (currently 19) + TypeScript for new/migrated routes
+  - Zustand for reactive UI state (alongside the legacy event-based `playbackManager`)
+  - A Web Audio + Rust/WASM path for some audio processing
+  - An ongoing UI migration away from MUI Joy/Material towards Radix primitives + `ui-primitives` + vanilla-extract
 
-### Why This Fork Exists
+This fork is not affiliated with the Jellyfin project.
 
-The official Jellyfin Web client is excellent for general use, but this fork focuses on:
+## What works / main features
 
-1. **Audio Excellence** — Studio-quality crossfading, loudness normalization, and distortion-free playback via WebAssembly audio processing
-2. **Modern Architecture** — React 18, Zustand state management, Vite build system, TypeScript throughout
-3. **Visual Experience** — Integrated Butterchurn (Milkdrop) visualizers, smooth animations via Framer Motion, and Magic Move shared-element transitions
-4. **Developer Experience** — Near-instant HMR, comprehensive linting, and a modular codebase ready for continued modernization
+- Jellyfin server compatibility via `@jellyfin/sdk` and `jellyfin-apiclient`.
+- Modern dev workflow: Vite dev server, fast reloads, Vitest test runner.
+- Playback UI work in progress:
+  - React NowPlayingBar (modernized controls)
+  - Queue-related pages/routes (still evolving)
+- Audio pipeline work in progress:
+  - Web Audio routing (gain stages, crossfade, limiter fallback)
+  - Queue-aware audio preloading strategy for crossfade use cases
 
----
+If you are looking for the standard, stable web client, use upstream.
 
-## Key Features
+## Experimental areas
 
-### Audio Engine
+These are active experiments and can change without much notice:
 
-*   **Wasm-Powered Limiter** — A custom Rust/WebAssembly limiter prevents clipping and distortion even at high volumes
-*   **Advanced Crossfading** — Configurable crossfade with intelligent track preloading for gapless transitions
-*   **Predictive Preloading** — Next track audio, album art, backdrops, and artist logos are preloaded before needed
-*   **Track Normalization** — Per-track and album-level gain normalization (when ReplayGain data is available)
+- Rust/WASM audio components (analysis, time-stretching, pitch shifting, limiter/worklet experiments)
+- Music visualizer work (Butterchurn/WaveSurfer integrations)
+- UI migration:
+  - replacing MUI Joy/Material components with `src/ui-primitives/*` (Radix + vanilla-extract)
+  - replacing legacy SCSS in selected areas
 
-### Music Experience
+## Tech stack (from `package.json`)
 
-*   **React NowPlayingBar** — Modern playback controls with animated transitions and responsive design
-*   **Fullscreen Player** — Immersive `/nowplaying` view with visualizer integration and technical stream info
-*   **Queue Management** — Functional `/queue` page with real-time queue data, item removal, and track jumping
-*   **Butterchurn Visualizers** — Milkdrop-style presets that respond to audio in real-time
+- UI: React 19, Radix UI (`@radix-ui/react-*`), vanilla-extract (`@vanilla-extract/css`)
+- Routing: TanStack Router (`@tanstack/react-router`) (some legacy routing remains)
+- State/data: Zustand, TanStack Query
+- Forms/validation: TanStack Form, Zod
+- Tables/lists: TanStack Table, TanStack Virtual
+- DnD/sorting: `@dnd-kit/*`, SortableJS
+- i18n: i18next, react-i18next, browser language detector
+- Media/players: HLS.js, flv.js, libass-wasm, libpgs
+- Visualizers/graphics: Butterchurn, WaveSurfer, Three.js (+ react-three-fiber/drei)
+- Utilities: axios, DOMPurify, blurhash, idb
+- Tooling: Vite 7, TypeScript 5, Vitest 4, Storybook 8, ESLint 9, Stylelint 16, Prettier 3
+- Jellyfin integration: `@jellyfin/sdk`, `jellyfin-apiclient`, `@jellyfin/ux-web`
 
-### Build & Performance
+## Planned work (direction, not a promise)
 
-*   **Vite Build System** — Sub-second HMR, optimized production builds with intelligent code splitting
-*   **Manual Chunking** — Vendor libraries split into cacheable chunks (MUI, Three.js, media libraries, etc.)
-*   **60%+ Bundle Reduction** — Main chunk reduced from 1.4MB to under 400KB through tree-shaking and lazy loading
+- Continue migrating MUI Joy/Material usage to `ui-primitives`.
+- Continue migrating legacy JS/controllers to TypeScript.
+- Reduce reliance on the legacy template/event patterns where it makes sense.
+- Improve test coverage for the audio engine and state/store code.
+- Clean up known rough edges documented in `docs/TECHNICAL_DEBT.md`.
 
----
+## Project docs
 
-## Tech Stack
+- `AGENTS.md` - workflow notes used by coding agents
+- `docs/ARCHITECTURE.md` - high-level architecture
+- `docs/STATE_MANAGEMENT.md` - `playbackManager` + Zustand split
+- `docs/WASM_AUDIO.md` - Rust/WASM modules
+- `docs/TECHNICAL_DEBT.md` - known issues and constraints
 
-| Category | Technologies |
-|----------|--------------|
-| **UI Framework** | React 18, React Router 6, MUI 6, Framer Motion |
-| **State Management** | Zustand 5 with subscribeWithSelector |
-| **Audio Processing** | Web Audio API, Rust/WASM (limiter, biquad filters) |
-| **Visualizers** | Butterchurn (Milkdrop), WaveSurfer.js, Three.js |
-| **Build System** | Vite 7, TypeScript 5, Vitest |
-| **Media Formats** | HLS.js, FLV.js, libass-wasm (subtitles), PDFJS, EPUB.js |
-| **API Client** | @jellyfin/sdk, jellyfin-apiclient |
+## Development
 
----
+Requirements:
 
-## Quick Start
+- Node.js >= 20
+- npm (see `package.json` engines)
 
-### Requirements
+Commands:
 
-*   [Node.js](https://nodejs.org/) >= 20.0.0
-*   npm >= 9.6.4
-
-### Development
-
-```sh
-# Clone and install
-git clone https://github.com/your-fork/jellyfin-web.git
-cd jellyfin-web
+```bash
 npm install
+npm start                 # dev server at http://localhost:5173
 
-# Start dev server (http://localhost:5173)
-npm start
+npm run build:production  # production build (dist/)
+npm run build:check       # TypeScript check
+
+npm run lint              # ESLint + Stylelint
+npm test                  # Vitest
 ```
 
-### Production Build
+## How development happens here
 
-```sh
-npm run build:production
-# Output: dist/
-```
+Development moves quickly and is often done with AI coding agents, with developers reviewing and steering the work.
 
-### Quality Checks
-
-```sh
-npm run build:check  # TypeScript
-npm run lint         # ESLint + Stylelint
-npm test             # Vitest
-```
-
----
-
-## Project Structure
-
-```
-├── src
-│   ├── apps/               # App entry points (Stable, Dashboard, Wizard)
-│   ├── components/
-│   │   ├── audioEngine/    # Crossfade, WASM limiter, audio routing
-│   │   ├── nowPlayingBar/  # React playback controls
-│   │   ├── visualizer/     # Butterchurn, WaveSurfer integration
-│   │   ├── playback/       # Core playbackManager
-│   │   └── router/         # App routing
-│   ├── store/              # Zustand stores (audioStore)
-│   ├── plugins/            # Player plugins (htmlAudioPlayer, htmlVideoPlayer)
-│   └── styles/             # SCSS themes and base styles
-├── rust-audio/             # Rust source for WASM audio effects
-└── vite.config.ts          # Build configuration
-```
-
----
-
-## Architecture Notes
-
-### Audio Signal Flow
-
-```
-MediaElement → GainNode (normalization) → GainNode (crossfade) → MixerNode → Limiter → Destination
-                                                    ↓
-                                              BiquadFilter (optional EQ)
-```
-
-### State Management
-
-The `audioStore` (Zustand) serves as the single source of truth for playback state:
-- `currentTrack`, `isPlaying`, `currentTime`, `duration`
-- `volume`, `muted`, `makeupGain`
-
-The `playbackManager` emits events that sync to the store, and React components subscribe reactively.
-
-### Documentation
-
-See the following guides for detailed architecture information:
-
-| Document | Purpose |
-|----------|---------|
-| [INITIALIZATION.md](./INITIALIZATION.md) | Startup sequence and initialization order |
-| [PLAYBACK_EVENTS.md](./PLAYBACK_EVENTS.md) | Complete event catalog for playback system |
-| [STATE_MANAGEMENT.md](./STATE_MANAGEMENT.md) | Dual-state system (playbackManager + Zustand) |
-| [CHUNK_STRATEGY.md](./CHUNK_STRATEGY.md) | Bundle splitting and code organization |
-| [AUDIO_SYSTEM_TECHNICAL_DOCUMENTATION.md](./AUDIO_SYSTEM_TECHNICAL_DOCUMENTATION.md) | Audio chain architecture |
-| [CLAUDE.md](./CLAUDE.md) | AI-assisted development guidelines |
-
----
-
-## Branches
-
-| Branch | Purpose |
-|--------|---------|
-| `master` | Stable baseline |
-| `music-visualizer` | Active development with all modern features |
-| `mitigation-phase-1-security` | Security fixes and dependency updates |
-
----
-
-## Contributing
-
-We welcome contributions aligned with modernizing the Jellyfin experience. Priority areas:
-
-1. **TypeScript Migration** — Converting legacy controllers to typed React components
-2. **Audio Engine** — WASM DSP improvements, additional audio effects
-3. **Testing** — Expanding Vitest coverage for core logic
-
-Before submitting a PR:
-```sh
-npm run lint        # Must pass
-npm run build:check # Must pass
-npm test            # Must pass
-```
-
----
+- Issues and discussions are welcome (especially bug reports, regressions vs upstream, and notes about Jellyfin server versions).
+- PRs are welcome, but expect the codebase to be in a migration state.
 
 ## License
 
-**GPL-2.0-or-later**
+GPL-2.0-or-later.
 
-Original branding and assets are property of the Jellyfin Project.
-This fork is maintained independently and is not officially affiliated with Jellyfin.
+Jellyfin branding and assets belong to the Jellyfin project. This fork is maintained independently.
