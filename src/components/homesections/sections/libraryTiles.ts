@@ -19,8 +19,8 @@ import type { SectionOptions } from './section';
 /**
  * Finds a suitable image from Live TV channels for the library card
  */
-async function findLiveTvImage(apiClient: any, viewId: string | undefined) {
-    if (!viewId) return null;
+async function findLiveTvImage(apiClient: ReturnType<typeof ServerConnections.currentApiClient>, viewId: string | undefined) {
+    if (!viewId || !apiClient) return null;
 
     const response = await apiClient.getLiveTvChannels({
         UserId: apiClient.getCurrentUserId(),
@@ -33,7 +33,7 @@ async function findLiveTvImage(apiClient: any, viewId: string | undefined) {
     if (!response.Items?.length) return null;
 
     // Try to find a program with backdrop first
-    const channelWithBackdrop = response.Items.find((channel: any) =>
+    const channelWithBackdrop = response.Items.find((channel: BaseItemDto) =>
         channel.CurrentProgram?.ImageTags?.Primary
         || channel.CurrentProgram?.BackdropImageTags?.length
     );
@@ -59,7 +59,7 @@ async function findLiveTvImage(apiClient: any, viewId: string | undefined) {
     }
 
     // Fallback to channel logo
-    const channelWithImage = response.Items.find((channel: any) =>
+    const channelWithImage = response.Items.find((channel: BaseItemDto) =>
         channel.ImageTags?.Primary
     );
 
