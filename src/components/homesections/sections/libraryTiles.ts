@@ -17,6 +17,64 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { SectionOptions } from './section';
 
 /**
+ * Finds a suitable image from Live TV channels for the library card
+ */
+async function findLiveTvImage(apiClient: any, viewId: string | undefined) {
+    if (!viewId) return null;
+
+    const response = await apiClient.getLiveTvChannels({
+        UserId: apiClient.getCurrentUserId(),
+        EnableImageTypes: 'Primary',
+        Fields: 'PrimaryImageAspectRatio',
+        Limit: 20,
+        StartIndex: Math.floor(Math.random() * 50) // eslint-disable-line sonarjs/pseudo-random -- Used only for UI variety, not security
+    });
+
+    if (!response.Items?.length) return null;
+
+    // Try to find a program with backdrop first
+    const channelWithBackdrop = response.Items.find((channel: any) =>
+        channel.CurrentProgram?.ImageTags?.Primary
+        || channel.CurrentProgram?.BackdropImageTags?.length
+    );
+
+    if (channelWithBackdrop?.CurrentProgram) {
+        const program = channelWithBackdrop.CurrentProgram;
+
+        if (program.ImageTags?.Primary) {
+            return {
+                ImageTags: { Primary: program.ImageTags.Primary },
+                PrimaryImageAspectRatio: program.PrimaryImageAspectRatio,
+                _sourceItemId: program.Id
+            };
+        }
+
+        if (program.BackdropImageTags?.length) {
+            return {
+                BackdropImageTags: program.BackdropImageTags,
+                PrimaryImageAspectRatio: program.PrimaryImageAspectRatio,
+                _sourceItemId: program.Id
+            };
+        }
+    }
+
+    // Fallback to channel logo
+    const channelWithImage = response.Items.find((channel: any) =>
+        channel.ImageTags?.Primary
+    );
+
+    if (channelWithImage?.ImageTags?.Primary) {
+        return {
+            ImageTags: { Primary: channelWithImage.ImageTags.Primary },
+            PrimaryImageAspectRatio: channelWithImage.PrimaryImageAspectRatio,
+            _sourceItemId: channelWithImage.Id
+        };
+    }
+
+    return null;
+}
+
+/**
  * Enriches Live TV library items with channel image data
  */
 async function enrichLiveTvWithChannelImages(userViews: BaseItemDto[]): Promise<BaseItemDto[]> {
@@ -25,71 +83,18 @@ async function enrichLiveTvWithChannelImages(userViews: BaseItemDto[]): Promise<
 
     const enrichedViews = await Promise.all(
         userViews.map(async (view) => {
-            // Check if this is a Live TV library without images
-            if (view.CollectionType === 'livetv'
-                && (!view.ImageTags || Object.keys(view.ImageTags).length === 0)) {
-                try {
-                    // Fetch random channels with images
-                    // Use LiveTv/Channels endpoint instead of Items
-                    const response = await apiClient.getLiveTvChannels({
-                        UserId: apiClient.getCurrentUserId(),
-                        EnableImageTypes: 'Primary',
-                        Fields: 'PrimaryImageAspectRatio',
-                        Limit: 20,
-                        // eslint-disable-next-line sonarjs/pseudo-random -- Used only for UI variety, not security
-                        StartIndex: Math.floor(Math.random() * 50)
-                    });
+            const isLiveTvWithoutImages = view.CollectionType === 'livetv'
+                && (!view.ImageTags || Object.keys(view.ImageTags).length === 0);
 
-                    if (response.Items && response.Items.length > 0) {
-                        // Find first channel with a Primary image
-                        const channelWithImage = response.Items.find(channel =>
-                            channel.ImageTags && channel.ImageTags.Primary
-                        );
+            if (!isLiveTvWithoutImages) return view;
 
-                        // Prefer current program backdrop over channel logo for better visual consistency
-                        const channelWithBackdrop = response.Items.find(channel =>
-                            channel.CurrentProgram?.ImageTags?.Primary
-                            || channel.CurrentProgram?.BackdropImageTags?.length
-                        );
-
-                        if (channelWithBackdrop?.CurrentProgram) {
-                            const program = channelWithBackdrop.CurrentProgram;
-
-                            // Use Primary image if available, otherwise use Backdrop
-                            if (program.ImageTags?.Primary) {
-                                return {
-                                    ...view,
-                                    ImageTags: {
-                                        Primary: program.ImageTags.Primary
-                                    },
-                                    PrimaryImageAspectRatio: program.PrimaryImageAspectRatio,
-                                    _sourceItemId: program.Id
-                                };
-                            } else if (program.BackdropImageTags?.length) {
-                                return {
-                                    ...view,
-                                    BackdropImageTags: program.BackdropImageTags,
-                                    PrimaryImageAspectRatio: program.PrimaryImageAspectRatio,
-                                    _sourceItemId: program.Id
-                                };
-                            }
-                        }
-
-                        // Fallback to channel logo if no program backdrops available
-                        if (channelWithImage && channelWithImage.ImageTags?.Primary) {
-                            return {
-                                ...view,
-                                ImageTags: {
-                                    Primary: channelWithImage.ImageTags.Primary
-                                },
-                                PrimaryImageAspectRatio: channelWithImage.PrimaryImageAspectRatio,
-                                _sourceItemId: channelWithImage.Id
-                            };
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error fetching Live TV channel images:', error);
+            try {
+                const imageData = await findLiveTvImage(apiClient, view.Id);
+                if (imageData) {
+                    return { ...view, ...imageData };
                 }
+            } catch (error) {
+                console.error('Error fetching Live TV channel images:', error);
             }
 
             return view;
