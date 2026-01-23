@@ -120,7 +120,7 @@
     "material-design-icons-iconfont": "6.7.0",
     "material-react-table": "3.2.1",
     "native-promise-only": "0.8.1",
-    "pdfjs-dist": "5.4.530",
+    "pdfjs-dist": "3.11.174",
     "proxy-polyfill": "0.3.2",
     "react": "18.3.1",
     "react-blurhash": "0.3.0",
