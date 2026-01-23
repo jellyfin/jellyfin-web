@@ -1220,7 +1220,7 @@ export default function (options) {
         }
     }
 
-    if (supportsDolbyVision(options)) {
+    if (appSettings.enableDolbyVision() || supportsDolbyVision(options)) {
         const profiles = supportedDolbyVisionProfilesHevc(videoTestElement);
         if (profiles.includes(5)) {
             hevcVideoRangeTypes += '|DOVI';
@@ -1235,7 +1235,7 @@ export default function (options) {
             hevcVideoRangeTypes += '|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
         }
 
-        if (supportedDolbyVisionProfileAv1(videoTestElement)) {
+        if (appSettings.enableDolbyVisionProfile10() || supportedDolbyVisionProfileAv1(videoTestElement)) {
             av1VideoRangeTypes += '|DOVI|DOVIWithHDR10|DOVIWithHLG|DOVIWithSDR|DOVIWithHDR10Plus';
             if (browser.web0s) {
                 // For webOS, we should allow direct play of some not fully supported DV profiles to avoid unnecessary remux/transcode

@@ -229,6 +229,8 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkLimitSegmentLength').checked = userSettings.limitSegmentLength();
     context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
     context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
+    context.querySelector('.chkEnableDolbyVision').checked = appSettings.enableDolbyVision();
+    context.querySelector('.chkEnableDolbyVisionProfile10').checked = appSettings.enableDolbyVisionProfile10();
     context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
@@ -285,6 +287,8 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     appSettings.enableDts(context.querySelector('.chkEnableDts').checked);
     appSettings.enableTrueHd(context.querySelector('.chkEnableTrueHd').checked);
+    appSettings.enableDolbyVision(context.querySelector('.chkEnableDolbyVision').checked);
+    appSettings.enableDolbyVisionProfile10(context.querySelector('.chkEnableDolbyVisionProfile10').checked);
 
     appSettings.enableHi10p(context.querySelector('.chkEnableHi10p').checked);
     appSettings.disableVbrAudio(context.querySelector('.chkDisableVbrAudioEncoding').checked);

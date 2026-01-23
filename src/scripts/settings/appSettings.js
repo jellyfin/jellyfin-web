@@ -183,6 +183,32 @@ class AppSettings {
     }
 
     /**
+     * Get or set 'Enable Dolby Vision' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable Dolby Vision' or undefined.
+     * @return {boolean} 'Enable DolbyVision' state.
+     */
+    enableDolbyVision(val) {
+        if (val !== undefined) {
+            return this.set('enableDolbyVision', val.toString());
+        }
+
+        return toBoolean(this.get('enableDolbyVision'), false);
+    }
+
+    /**
+     * Get or set 'Enable Dolby Vision Profile 10' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable Dolby Vision Profile 10' or undefined.
+     * @return {boolean} 'Enable Dolby Vision Profile 10' state.
+     */
+    enableDolbyVisionProfile10(val) {
+        if (val !== undefined) {
+            return this.set('enableDolbyVisionProfile10', val.toString());
+        }
+
+        return toBoolean(this.get('enableDolbyVisionProfile10'), false);
+    }
+
+    /**
      * Get or set 'Enable TrueHD' state.
      * @param {boolean|undefined} val - Flag to enable 'Enable TrueHD' or undefined.
      * @return {boolean} 'Enable TrueHD' state.
