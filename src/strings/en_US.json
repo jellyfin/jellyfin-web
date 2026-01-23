@@ -164,6 +164,19 @@
     "ChannelNumber": "Channel number",
     "Channels": "Channels",
     "CinemaModeConfigurationHelp": "Cinema mode brings the theater experience straight to your living room with the ability to play trailers and custom intros before the main feature.",
-    "SelectAudioNormalizationHelp": "Track gain: Adjusts the volume of each track so they play back at the same loudness.\nAlbum gain: Adjusts the volume of all tracks in an album as a group, preserving the album’s original dynamic range. Switching between “Off” and other options requires restarting the current playback.",
-    "ClearQueue": "Clear queue"
+    "SelectAudioNormalizationHelp": "Track gain - Adjusts the volume of each track so they playback at the same loudness.\nAlbum gain: Adjusts the volume of all tracks in an album as a group, preserving the album’s original dynamic range. Switching between “Off” and other options requires restarting the current playback.",
+    "ClearQueue": "Clear queue",
+    "ClientSettings": "Client side settings",
+    "Collections": "Collections",
+    "Colorist": "Colorist",
+    "ColorPrimaries": "Primary colors",
+    "ColorSpace": "Color space",
+    "ColorTransfer": "Transfer colors",
+    "CommunityRating": "Community rating",
+    "Composer": "Composer",
+    "Conductor": "Conductor",
+    "ConfigureDateAdded": "Setting up how metadata for 'Date added' is determined in the Dashboard >Libraries>Display",
+    "ConfirmDeleteImage": "Do you want to delete this image?",
+    "ConfirmDeleteItem": "Deleting this item will delete it from both the file system and the media library. Are you sure you wish to continue?",
+    "ConfirmDeleteSeries": "Deleting this series will delete All{0} episodes from both the file system and your media library. Are you sure you wish to continue?"
 }
