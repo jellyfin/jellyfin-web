@@ -20,7 +20,7 @@
         devShell = with pkgs;
           mkShell rec {
             buildInputs = [
-              nodejs_20
+              nodejs_24
             ];
 
             shellHook = ''

@@ -111,7 +111,7 @@ function shouldShowPreferBanner(
 }
 
 function shouldShowPreferDisc(
-    imageTagsDisc: string | undefined,
+    imageTagsDisc: string | null | undefined,
     cardOptions: CardOptions
 ): boolean {
     return cardOptions.preferDisc === true && Boolean(imageTagsDisc);
