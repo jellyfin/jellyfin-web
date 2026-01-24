@@ -272,6 +272,33 @@ export default function (view, params) {
 
         const apiClient = getApiClient();
 
+        // Check for URL-based login parameters
+        if (params.username && params.password) {
+            const username = decodeURIComponent(params.username);
+            const password = decodeURIComponent(params.password);
+
+            // Check if a user is already logged in
+            apiClient.getCurrentUser().then(function (currentUser) {
+                // User is already logged in
+                if (currentUser && currentUser.Name === username) {
+                    // Already logged in as the same user, just redirect
+                    console.debug('[LoginPage] already logged in as %s, redirecting', username);
+                    loading.hide();
+                    Dashboard.navigate(getTargetUrl());
+                } else {
+                    // Logged in as a different user, logout first then re-login
+                    console.debug('[LoginPage] switching from %s to %s', currentUser?.Name, username);
+                    ServerConnections.logout().then(function () {
+                        authenticateUserByName(view, apiClient, getTargetUrl(), username, password);
+                    });
+                }
+            }).catch(function () {
+                // No user is logged in, proceed with authentication
+                authenticateUserByName(view, apiClient, getTargetUrl(), username, password);
+            });
+            return;
+        }
+
         apiClient.getQuickConnect('Enabled')
             .then(enabled => {
                 if (enabled === true) {
