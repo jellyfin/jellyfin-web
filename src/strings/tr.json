@@ -861,7 +861,7 @@
     "YoutubePlaybackError": "Açmaya çalıştığınız video oynatılamıyor.",
     "LabelSelectStereo": "Stereo",
     "LabelSelectMono": "Mono",
-    "LabelSelectAudioChannels": "Kanallar",
+    "LabelSelectAudioChannels": "Kanal",
     "YoutubeBadRequest": "Hatalı istek.",
     "YoutubeNotFound": "Video bulunamadı.",
     "SaveChanges": "Değişiklikleri kaydet",
