@@ -9,11 +9,10 @@ import * as styles from './OSDOverlay.css';
 
 type OSDType = 'volume' | 'brightness' | null;
 
-export const OSDOverlay: React.FC<{}> = () => {
+export const OSDOverlay: React.FC = () => {
     const volume = usePreferencesStore(state => state.audio.volume);
     const muted = usePreferencesStore(state => state.audio.muted);
     const [brightness, setBrightness] = useState(100); // Managed locally for now or move to store
-
     const [activeOSD, setActiveOSD] = useState<OSDType>(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -22,6 +21,16 @@ export const OSDOverlay: React.FC<{}> = () => {
         setIsVisible(true);
         clearTimeout(hideTimeout);
         hideTimeout = setTimeout(() => setIsVisible(false), 3000);
+    };
+
+    const getVolumeIcon = () => {
+        if (muted || volume === 0) return <SpeakerOffIcon style={{ fontSize: 40 }} />;
+        return <SpeakerLoudIcon style={{ fontSize: 40 }} />;
+    };
+
+    const getBrightnessIcon = () => {
+        const opacity = brightness >= 80 ? 1 : brightness >= 30 ? 0.75 : 0.5;
+        return <SunIcon style={{ fontSize: 40, opacity }} />;
     };
 
     useEffect(() => {
@@ -34,6 +43,7 @@ export const OSDOverlay: React.FC<{}> = () => {
             }
         );
 
+        // Show muted OSD on mute change
         const unsubMuted = usePreferencesStore.subscribe(
             state => state.audio.muted,
             () => {
@@ -48,17 +58,19 @@ export const OSDOverlay: React.FC<{}> = () => {
         };
     }, [triggerShow]);
 
-    const getVolumeIcon = () => {
+    useEffect(() => {
+        // Handle brightness control
+        const unsub = usePreferencesStore.subscribe(
+            state => state.brightness,
+            brightness => {
+                setActiveOSD('brightness');
+                setBrightness(brightness);
+                triggerShow();
+            }
+        );
 
-    const getVolumeIcon = () => {
-        if (muted || volume === 0) return <SpeakerOffIcon style={{ fontSize: 40 }} />;
-        return <SpeakerLoudIcon style={{ fontSize: 40 }} />;
-    };
-
-    const getBrightnessIcon = () => {
-        const opacity = brightness >= 80 ? 1 : brightness >= 30 ? 0.75 : 0.5;
-        return <SunIcon style={{ fontSize: 40, opacity }} />;
-    };
+        return unsub;
+    }, [triggerShow, setBrightness]);
 
     return (
         <AnimatePresence>
@@ -74,7 +86,6 @@ export const OSDOverlay: React.FC<{}> = () => {
                         zIndex: 10000,
                         padding: vars.spacing.md,
                         borderRadius: vars.borderRadius.md,
-                        minWidth: 120,
                         boxShadow: vars.shadows.lg,
                         backdropFilter: 'blur(10px)',
                         backgroundColor: 'rgba(0, 0, 0, 0.6)'
@@ -85,11 +96,11 @@ export const OSDOverlay: React.FC<{}> = () => {
                         <Progress
                             value={activeOSD === 'volume' ? volume : brightness}
                             className={activeOSD === 'brightness' ? styles.warningProgress : undefined}
-                        style={{ width: '100%' }}
-                    />
-                </Flex>
-            </motion.div>
-            </Box>
-        )}
-    </AnimatePresence>
-);
+                            style={{ width: '100%' }}
+                        />
+                    </Flex>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
+};
