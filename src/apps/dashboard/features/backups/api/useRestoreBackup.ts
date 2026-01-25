@@ -8,12 +8,11 @@ export const useRestoreBackup = () => {
     const backupApi = new BackupApi(api?.configuration, undefined, api?.axiosInstance);
 
     return useMutation({
-        mutationFn: (fileName: string) => (
+        mutationFn: (fileName: string) =>
             backupApi.startRestoreBackup({
                 backupRestoreRequestDto: {
                     ArchiveFileName: fileName
                 }
             })
-        )
     });
 };

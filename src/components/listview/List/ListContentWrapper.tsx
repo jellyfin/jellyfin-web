@@ -16,10 +16,10 @@ const ListContentWrapper: FC<PropsWithChildren<ListContentWrapperProps>> = ({
     if (enableContentWrapper) {
         return (
             <>
-                <Box className='listItem-content'>{children}</Box>
+                <Box className="listItem-content">{children}</Box>
 
                 {enableOverview && itemOverview && (
-                    <Box className='listItem-bottomoverview secondary'>
+                    <Box className="listItem-bottomoverview secondary">
                         <bdi>{itemOverview}</bdi>
                     </Box>
                 )}

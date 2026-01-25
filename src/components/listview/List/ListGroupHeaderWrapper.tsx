@@ -5,24 +5,16 @@ interface ListGroupHeaderWrapperProps {
     index?: number;
 }
 
-const ListGroupHeaderWrapper: FC<PropsWithChildren<ListGroupHeaderWrapperProps>> = ({
-    index,
-    children
-}) => {
+const ListGroupHeaderWrapper: FC<PropsWithChildren<ListGroupHeaderWrapperProps>> = ({ index, children }) => {
     if (index === 0) {
         return (
-            <Text
-                as='h2'
-                size='xxl'
-                weight='bold'
-                className='listGroupHeader listGroupHeader-first'
-            >
+            <Text as="h2" size="xxl" weight="bold" className="listGroupHeader listGroupHeader-first">
                 {children}
             </Text>
         );
     } else {
         return (
-            <Text as='h2' size='xxl' weight='bold' className='listGroupHeader'>
+            <Text as="h2" size="xxl" weight="bold" className="listGroupHeader">
                 {children}
             </Text>
         );

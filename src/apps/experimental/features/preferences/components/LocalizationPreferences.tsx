@@ -29,60 +29,58 @@ export function LocalizationPreferences({ onChange, values }: Readonly<Localizat
     };
 
     return (
-        <Flex direction='column' gap='24px'>
+        <Flex direction="column" gap="24px">
             <Heading.H2>{globalize.translate('Localization')}</Heading.H2>
 
-            { safeAppHost.supports(AppFeature.DisplayLanguage) && (
+            {safeAppHost.supports(AppFeature.DisplayLanguage) && (
                 <FormControl>
                     <FormLabel>{globalize.translate('LabelDisplayLanguage')}</FormLabel>
-                    <Select
-                        value={values.language || ''}
-                        onValueChange={handleSelectChange('language')}
-                    >
+                    <Select value={values.language || ''} onValueChange={handleSelectChange('language')}>
                         <SelectTrigger>
                             <SelectValue placeholder={globalize.translate('LabelDisplayLanguage')} />
                         </SelectTrigger>
                         <SelectContent>
                             {LANGUAGE_OPTIONS.map(({ value, label }) => (
-                                <SelectItem key={value } value={value}>{ label }</SelectItem>
+                                <SelectItem key={value} value={value}>
+                                    {label}
+                                </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
                     <FormHelperText>
                         <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
-                        { safeAppHost.supports(AppFeature.ExternalLinks) && (
+                        {safeAppHost.supports(AppFeature.ExternalLinks) && (
                             <Box
-                                as='a'
-                                href='https://github.com/jellyfin/jellyfin'
-                                rel='noopener noreferrer'
-                                target='_blank'
+                                as="a"
+                                href="https://github.com/jellyfin/jellyfin"
+                                rel="noopener noreferrer"
+                                target="_blank"
                                 style={{ color: 'inherit', textDecoration: 'underline' }}
                             >
                                 {globalize.translate('LearnHowYouCanContribute')}
                             </Box>
-                        ) }
+                        )}
                     </FormHelperText>
                 </FormControl>
-            ) }
+            )}
 
-            { datetime.supportsLocalization() && (
+            {datetime.supportsLocalization() && (
                 <FormControl>
                     <FormLabel>{globalize.translate('LabelDateTimeLocale')}</FormLabel>
-                    <Select
-                        value={values.dateTimeLocale || ''}
-                        onValueChange={handleSelectChange('dateTimeLocale')}
-                    >
+                    <Select value={values.dateTimeLocale || ''} onValueChange={handleSelectChange('dateTimeLocale')}>
                         <SelectTrigger>
                             <SelectValue placeholder={globalize.translate('LabelDateTimeLocale')} />
                         </SelectTrigger>
                         <SelectContent>
                             {DATE_LOCALE_OPTIONS.map(({ value, label }) => (
-                                <SelectItem key={value} value={value}>{label}</SelectItem>
+                                <SelectItem key={value} value={value}>
+                                    {label}
+                                </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
                 </FormControl>
-            ) }
+            )}
         </Flex>
     );
 }

@@ -28,7 +28,7 @@ function taskbutton(options: TaskButtonOptions): void {
 
         button.disabled = task.State !== 'Idle';
         button.setAttribute('data-taskid', task.Id);
-        
+
         if (options.progressElem) {
             options.progressElem.value = (task.CurrentProgressPercentage || 0).toFixed(1);
             options.progressElem.classList.toggle('hide', task.State !== 'Running');
@@ -37,9 +37,12 @@ function taskbutton(options: TaskButtonOptions): void {
         if (options.lastResultElem) {
             const lastResult = task.LastExecutionResult ? task.LastExecutionResult.Status : '';
             let html = lastResult;
-            if (lastResult === 'Failed') html = `<span style="color:#FF0000;">(${globalize.translate('LabelFailed')})</span>`;
-            else if (lastResult === 'Cancelled') html = `<span style="color:#0026FF;">(${globalize.translate('LabelCancelled')})</span>`;
-            else if (lastResult === 'Aborted') html = `<span style="color:#FF0000;">${globalize.translate('LabelAbortedByServerShutdown')}</span>`;
+            if (lastResult === 'Failed')
+                html = `<span style="color:#FF0000;">(${globalize.translate('LabelFailed')})</span>`;
+            else if (lastResult === 'Cancelled')
+                html = `<span style="color:#0026FF;">(${globalize.translate('LabelCancelled')})</span>`;
+            else if (lastResult === 'Aborted')
+                html = `<span style="color:#FF0000;">${globalize.translate('LabelAbortedByServerShutdown')}</span>`;
             options.lastResultElem.innerHTML = html;
         }
     }

@@ -2,7 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 
 // Mock dependencies
 vi.mock('../../components/visualizer/visualizers.logic', () => ({
-    getVisualizerSettings: vi.fn(() => '{"frequencyAnalyzer":{"enabled":false},"waveSurfer":{"enabled":false},"butterchurn":{"enabled":false},"sitback":{"enabled":false},"advanced":{}}'),
+    getVisualizerSettings: vi.fn(
+        () =>
+            '{"frequencyAnalyzer":{"enabled":false},"waveSurfer":{"enabled":false},"butterchurn":{"enabled":false},"sitback":{"enabled":false},"advanced":{}}'
+    ),
     setVisualizerSettings: vi.fn(),
     visualizerSettings: {
         frequencyAnalyzer: { enabled: false },
@@ -14,7 +17,11 @@ vi.mock('../../components/visualizer/visualizers.logic', () => ({
 }));
 
 // Import after mocks
-import { getVisualizerSettings, setVisualizerSettings, visualizerSettings } from '../../components/visualizer/visualizers.logic';
+import {
+    getVisualizerSettings,
+    setVisualizerSettings,
+    visualizerSettings
+} from '../../components/visualizer/visualizers.logic';
 
 describe('userSettings - settings type safety', () => {
     it('should ensure settings functions convert values to strings to prevent object storage', () => {

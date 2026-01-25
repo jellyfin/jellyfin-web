@@ -41,4 +41,3 @@ export const tabTrigger = style({
 export const tabContent = style({
     padding: vars.spacing.md
 });
-

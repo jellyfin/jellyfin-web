@@ -20,21 +20,27 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const startTask = useStartTask();
     const stopTask = useStopTask();
 
-    const handleStartTask = useCallback((e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (task.Id) {
-            startTask.mutate({ taskId: task.Id });
-        }
-    }, [task, startTask]);
+    const handleStartTask = useCallback(
+        (e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (task.Id) {
+                startTask.mutate({ taskId: task.Id });
+            }
+        },
+        [task, startTask]
+    );
 
-    const handleStopTask = useCallback((e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (task.Id) {
-            stopTask.mutate({ taskId: task.Id });
-        }
-    }, [task, stopTask]);
+    const handleStopTask = useCallback(
+        (e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (task.Id) {
+                stopTask.mutate({ taskId: task.Id });
+            }
+        },
+        [task, stopTask]
+    );
 
     const isRunning = task.State === 'Running';
 
@@ -42,7 +48,7 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
         <ListItem
             endAction={
                 <IconButton
-                    variant='plain'
+                    variant="plain"
                     color={isRunning ? 'danger' : 'primary'}
                     onClick={isRunning ? handleStopTask : handleStartTask}
                 >
@@ -51,17 +57,24 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
             }
             style={{ padding: 0 }}
         >
-            <ListItemLink to={`/dashboard/tasks/${task.Id}`} style={{ width: '100%', paddingTop: vars.spacing.sm, paddingBottom: vars.spacing.sm, paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
+            <ListItemLink
+                to={`/dashboard/tasks/${task.Id}`}
+                style={{
+                    width: '100%',
+                    paddingTop: vars.spacing.sm,
+                    paddingBottom: vars.spacing.sm,
+                    paddingLeft: vars.spacing.md,
+                    paddingRight: vars.spacing.md
+                }}
+            >
                 <ListItemDecorator>
-                    <Avatar variant='soft' color='primary'>
+                    <Avatar variant="soft" color="primary">
                         <ClockIcon />
                     </Avatar>
                 </ListItemDecorator>
                 <ListItemContent>
                     <Heading.H5>{task.Name}</Heading.H5>
-                    <Box component='div'>
-                        {isRunning ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}
-                    </Box>
+                    <Box component="div">{isRunning ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}</Box>
                 </ListItemContent>
             </ListItemLink>
         </ListItem>

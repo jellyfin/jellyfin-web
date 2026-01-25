@@ -21,7 +21,7 @@ describe('FilterDialog', () => {
         onApply: mockOnApply,
         availableGenres: ['Rock', 'Jazz', 'Pop'],
         availableYears: [2020, 2021, 2022],
-        availableStudios: ['Studio A', 'Studio B'],
+        availableStudios: ['Studio A', 'Studio B']
     };
 
     beforeEach(() => {
@@ -35,7 +35,7 @@ describe('FilterDialog', () => {
             setYears: vi.fn(),
             setStudios: vi.fn(),
             setGenresMode: vi.fn(),
-            clearFilters: vi.fn(),
+            clearFilters: vi.fn()
         });
     });
 
@@ -133,7 +133,7 @@ describe('FilterDialog', () => {
             setYears: mockSetYears,
             setStudios: mockSetStudios,
             setGenresMode: mockSetGenresMode,
-            clearFilters: vi.fn(),
+            clearFilters: vi.fn()
         });
 
         render(<FilterDialog {...defaultProps} />);
@@ -157,7 +157,7 @@ describe('FilterDialog', () => {
             setYears: vi.fn(),
             setStudios: vi.fn(),
             setGenresMode: vi.fn(),
-            clearFilters: mockClearFilters,
+            clearFilters: mockClearFilters
         });
 
         render(<FilterDialog {...defaultProps} />);
@@ -166,14 +166,7 @@ describe('FilterDialog', () => {
     });
 
     it('handles empty available props gracefully', () => {
-        render(
-            <FilterDialog
-                {...defaultProps}
-                availableGenres={[]}
-                availableYears={[]}
-                availableStudios={[]}
-            />
-        );
+        render(<FilterDialog {...defaultProps} availableGenres={[]} availableYears={[]} availableStudios={[]} />);
         expect(screen.queryByText('Genres')).not.toBeInTheDocument();
         expect(screen.queryByText('Years')).not.toBeInTheDocument();
         expect(screen.queryByText('Studios')).not.toBeInTheDocument();

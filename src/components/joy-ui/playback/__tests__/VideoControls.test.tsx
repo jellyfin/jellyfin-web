@@ -19,7 +19,7 @@ describe('VideoControls', () => {
         onRewind: vi.fn(),
         onFastForward: vi.fn(),
         isVisible: true,
-        showOsd: true,
+        showOsd: true
     };
 
     beforeEach(() => {
@@ -125,32 +125,34 @@ describe('VideoControls', () => {
         });
 
         it('accepts optional props without error', () => {
-            expect(() => render(
-                <VideoControls
-                    {...defaultProps}
-                    isRecording={false}
-                    hasSubtitles={true}
-                    hasMultipleAudioTracks={true}
-                    hasChapters={true}
-                    isFavorite={true}
-                    canAirPlay={true}
-                    canPiP={true}
-                    canFullscreen={true}
-                    bufferedRanges={[{ start: 0, end: 50 }]}
-                    onSubtitlesClick={vi.fn()}
-                    onAudioClick={vi.fn()}
-                    onSettingsClick={vi.fn()}
-                    onAirPlay={vi.fn()}
-                    onPiPClick={vi.fn()}
-                    onFullscreenClick={vi.fn()}
-                    onFavoriteClick={vi.fn()}
-                    onRecordClick={vi.fn()}
-                    onPreviousTrack={vi.fn()}
-                    onNextTrack={vi.fn()}
-                    onPreviousChapter={vi.fn()}
-                    onNextChapter={vi.fn()}
-                />
-            )).not.toThrow();
+            expect(() =>
+                render(
+                    <VideoControls
+                        {...defaultProps}
+                        isRecording={false}
+                        hasSubtitles={true}
+                        hasMultipleAudioTracks={true}
+                        hasChapters={true}
+                        isFavorite={true}
+                        canAirPlay={true}
+                        canPiP={true}
+                        canFullscreen={true}
+                        bufferedRanges={[{ start: 0, end: 50 }]}
+                        onSubtitlesClick={vi.fn()}
+                        onAudioClick={vi.fn()}
+                        onSettingsClick={vi.fn()}
+                        onAirPlay={vi.fn()}
+                        onPiPClick={vi.fn()}
+                        onFullscreenClick={vi.fn()}
+                        onFavoriteClick={vi.fn()}
+                        onRecordClick={vi.fn()}
+                        onPreviousTrack={vi.fn()}
+                        onNextTrack={vi.fn()}
+                        onPreviousChapter={vi.fn()}
+                        onNextChapter={vi.fn()}
+                    />
+                )
+            ).not.toThrow();
         });
     });
 });

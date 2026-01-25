@@ -103,4 +103,3 @@ globalStyle(`${calendarContainer} .rdp-caption`, {
 globalStyle(`${calendarContainer} .rdp-nav`, {
     display: 'none'
 });
-

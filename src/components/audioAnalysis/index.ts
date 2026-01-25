@@ -146,7 +146,7 @@ async function loadWasmModule() {
     try {
         const wasm = await import('../../audio-analysis/pkg/jellyfin_audio_analysis');
         wasmModule = {
-            AutoDJAnalyzer: wasm.AutoDJAnalyzer as never,
+            AutoDJAnalyzer: wasm.AutoDJAnalyzer as never
         };
         logger.info('Audio analysis WASM module loaded', { component: 'AudioAnalysis' });
         return wasmModule;
@@ -248,7 +248,7 @@ function createJSFallback() {
     }
 
     return {
-        AutoDJAnalyzer: JSAutoDJAnalyzer,
+        AutoDJAnalyzer: JSAutoDJAnalyzer
     };
 }
 
@@ -297,7 +297,7 @@ export function loadAutoDJAnalyzer(): Promise<{
     analyzeTrack: (samples: Float32Array, sampleRate: number) => AudioFeatures;
     suggestTransition: (current: AudioFeatures, next: AudioFeatures) => TransitionSuggestion;
 }> {
-    return loadWasmModule().then((module) => ({
+    return loadWasmModule().then(module => ({
         AutoDJAnalyzer: module.AutoDJAnalyzer,
         analyzeTrack: (samples: Float32Array, sampleRate: number): AudioFeatures => {
             const analyzer = new module.AutoDJAnalyzer(2048);
@@ -310,20 +310,32 @@ export function loadAutoDJAnalyzer(): Promise<{
             const nextJson = JSON.stringify(next);
             const suggestionJson = analyzer.suggestTransition(currentJson, nextJson);
             return convertWasmTransition(JSON.parse(suggestionJson));
-        },
+        }
     }));
 }
 
 export function loadAudioAnalyzer(): Promise<{
     AudioAnalyzer: new (fftSize?: number) => {
         analyze: (samples: Float32Array, sampleRate: number) => WasmAudioFeatures;
-        analyzeStructure: (samples: Float32Array, sampleRate: number, features: WasmAudioFeatures) => WasmTrackStructure;
+        analyzeStructure: (
+            samples: Float32Array,
+            sampleRate: number,
+            features: WasmAudioFeatures
+        ) => WasmTrackStructure;
         classifyGenre: (features: WasmAudioFeatures) => WasmGenreClassification;
-        suggestTransition: (current: WasmAudioFeatures, next: WasmAudioFeatures, structure: WasmTrackStructure) => WasmTransitionSuggestion;
+        suggestTransition: (
+            current: WasmAudioFeatures,
+            next: WasmAudioFeatures,
+            structure: WasmTrackStructure
+        ) => WasmTransitionSuggestion;
         version: () => string;
         info: () => string;
     };
-    analyzeAudio: (samples: Float32Array, sampleRate: number, nextTrackSamples?: Float32Array | null) => AudioAnalysisResult;
+    analyzeAudio: (
+        samples: Float32Array,
+        sampleRate: number,
+        nextTrackSamples?: Float32Array | null
+    ) => AudioAnalysisResult;
 }> {
     return loadWasmModule().then(() => ({
         AudioAnalyzer: class {
@@ -343,7 +355,11 @@ export function loadAudioAnalyzer(): Promise<{
                 return JSON.parse(json);
             }
 
-            analyzeStructure(samples: Float32Array, sampleRate: number, _features: WasmAudioFeatures): WasmTrackStructure {
+            analyzeStructure(
+                samples: Float32Array,
+                sampleRate: number,
+                _features: WasmAudioFeatures
+            ): WasmTrackStructure {
                 const duration = samples.length / sampleRate;
                 return {
                     intro_start: 0,
@@ -359,7 +375,18 @@ export function loadAudioAnalyzer(): Promise<{
             }
 
             classifyGenre(features: WasmAudioFeatures): WasmGenreClassification {
-                const genres = ['House', 'Techno', 'Drum & Bass', 'Trance', 'Dubstep', 'Hip Hop', 'Rock', 'Pop', 'Ambient', 'Jazz'];
+                const genres = [
+                    'House',
+                    'Techno',
+                    'Drum & Bass',
+                    'Trance',
+                    'Dubstep',
+                    'Hip Hop',
+                    'Rock',
+                    'Pop',
+                    'Ambient',
+                    'Jazz'
+                ];
                 const scores = genres.map(() => Math.random());
                 const maxIdx = scores.indexOf(Math.max(...scores));
 
@@ -371,7 +398,11 @@ export function loadAudioAnalyzer(): Promise<{
                 };
             }
 
-            suggestTransition(current: WasmAudioFeatures, next: WasmAudioFeatures, _structure: WasmTrackStructure): WasmTransitionSuggestion {
+            suggestTransition(
+                current: WasmAudioFeatures,
+                next: WasmAudioFeatures,
+                _structure: WasmTrackStructure
+            ): WasmTransitionSuggestion {
                 const currentJson = JSON.stringify(current);
                 const nextJson = JSON.stringify(next);
                 const json = this.analyzer.suggestTransition(currentJson, nextJson);
@@ -386,7 +417,11 @@ export function loadAudioAnalyzer(): Promise<{
                 return '{"version":"0.2.0","features":["bpm_detection","key_detection","energy_analysis","spectral_analysis","structure_analysis","genre_classification","transition_suggestion","auto_dj"]}';
             }
         },
-        analyzeAudio: (samples: Float32Array, sampleRate: number, nextTrackSamples: Float32Array | null = null): AudioAnalysisResult => {
+        analyzeAudio: (
+            samples: Float32Array,
+            sampleRate: number,
+            nextTrackSamples: Float32Array | null = null
+        ): AudioAnalysisResult => {
             const wasm = wasmModule!;
             const analyzer = new wasm.AutoDJAnalyzer(2048);
             const featuresJson = analyzer.analyzeFull(samples, sampleRate);

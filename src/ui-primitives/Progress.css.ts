@@ -18,4 +18,3 @@ export const progressIndicator = style({
     transition: 'transform 660ms cubic-bezier(0.65, 0, 0.35, 1)',
     borderRadius: vars.borderRadius.sm
 });
-

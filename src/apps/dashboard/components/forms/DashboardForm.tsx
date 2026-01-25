@@ -28,11 +28,9 @@ export function DashboardForm({
 }: Readonly<DashboardFormProps>): React.ReactElement {
     return (
         <Box style={{ maxWidth: 800, margin: '0 auto', padding: '24px' }}>
-            <Heading.H3 style={{ marginBottom: description != null ? '8px' : '24px' }}>
-                {title}
-            </Heading.H3>
+            <Heading.H3 style={{ marginBottom: description != null ? '8px' : '24px' }}>{title}</Heading.H3>
             {description != null && (
-                <Text color='secondary' size='sm' style={{ marginBottom: '24px' }}>
+                <Text color="secondary" size="sm" style={{ marginBottom: '24px' }}>
                     {description}
                 </Text>
             )}
@@ -44,11 +42,11 @@ export function DashboardForm({
 
                 <Flex style={{ gap: '16px', justifyContent: 'flex-end' }}>
                     {onCancel && (
-                        <Button variant='ghost' onClick={onCancel}>
+                        <Button variant="ghost" onClick={onCancel}>
                             {globalize.translate('ButtonCancel')}
                         </Button>
                     )}
-                    <Button variant='primary' type='submit'>
+                    <Button variant="primary" type="submit">
                         {globalize.translate('Save')}
                     </Button>
                 </Flex>
@@ -97,11 +95,7 @@ export function FormTextField({
                     placeholder={placeholder}
                     style={{ width: '100%' }}
                 />
-                {(helperText != null || error != null) && (
-                    <FormHelperText>
-                        {error ?? helperText}
-                    </FormHelperText>
-                )}
+                {(helperText != null || error != null) && <FormHelperText>{error ?? helperText}</FormHelperText>}
             </FormControl>
         </Box>
     );
@@ -135,20 +129,14 @@ export function FormSelectField({
                     {label}
                     {required && <span style={{ color: 'var(--error)' }}> *</span>}
                 </FormLabel>
-                <SelectInput
-                    value={value ?? ''}
-                    onChange={onChange}
-                    style={{ width: '100%' }}
-                >
+                <SelectInput value={value ?? ''} onChange={onChange} style={{ width: '100%' }}>
                     {options.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                        </option>
                     ))}
                 </SelectInput>
-                {(helperText != null || error != null) && (
-                    <FormHelperText>
-                        {error ?? helperText}
-                    </FormHelperText>
-                )}
+                {(helperText != null || error != null) && <FormHelperText>{error ?? helperText}</FormHelperText>}
             </FormControl>
         </Box>
     );
@@ -161,20 +149,20 @@ interface FormCheckboxFieldProps {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function FormCheckboxField({ label, description, checked, onChange }: Readonly<FormCheckboxFieldProps>): React.ReactElement {
+export function FormCheckboxField({
+    label,
+    description,
+    checked,
+    onChange
+}: Readonly<FormCheckboxFieldProps>): React.ReactElement {
     return (
         <Box style={{ marginBottom: '16px' }}>
             <FormControl>
                 <Flex style={{ alignItems: 'center', gap: '12px' }}>
-                    <Checkbox
-                        checked={checked ?? false}
-                        onChange={onChange}
-                    />
+                    <Checkbox checked={checked ?? false} onChange={onChange} />
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
                 </Flex>
-                {description != null && (
-                    <FormHelperText style={{ marginLeft: '36px' }}>{description}</FormHelperText>
-                )}
+                {description != null && <FormHelperText style={{ marginLeft: '36px' }}>{description}</FormHelperText>}
             </FormControl>
         </Box>
     );
@@ -187,20 +175,20 @@ interface FormSwitchFieldProps {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function FormSwitchField({ label, description, checked, onChange }: Readonly<FormSwitchFieldProps>): React.ReactElement {
+export function FormSwitchField({
+    label,
+    description,
+    checked,
+    onChange
+}: Readonly<FormSwitchFieldProps>): React.ReactElement {
     return (
         <Box style={{ marginBottom: '16px' }}>
             <FormControl>
                 <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
-                    <Switch
-                        checked={checked ?? false}
-                        onChange={onChange}
-                    />
+                    <Switch checked={checked ?? false} onChange={onChange} />
                 </Flex>
-                {description != null && (
-                    <FormHelperText>{description}</FormHelperText>
-                )}
+                {description != null && <FormHelperText>{description}</FormHelperText>}
             </FormControl>
         </Box>
     );
@@ -215,11 +203,9 @@ interface FormSectionProps {
 export function FormSection({ title, description, children }: Readonly<FormSectionProps>): React.ReactElement {
     return (
         <Box style={{ marginBottom: '32px' }}>
-            <Heading.H4 style={{ marginBottom: description != null ? '8px' : '16px' }}>
-                {title}
-            </Heading.H4>
+            <Heading.H4 style={{ marginBottom: description != null ? '8px' : '16px' }}>{title}</Heading.H4>
             {description != null && (
-                <Text color='secondary' size='sm' style={{ marginBottom: '16px' }}>
+                <Text color="secondary" size="sm" style={{ marginBottom: '16px' }}>
                     {description}
                 </Text>
             )}
@@ -239,7 +225,7 @@ export function FormCard({ title, children, action }: Readonly<FormCardProps>): 
         <Card style={{ marginBottom: '24px' }}>
             <CardBody>
                 <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                    <Text weight='bold'>{title}</Text>
+                    <Text weight="bold">{title}</Text>
                     {action}
                 </Flex>
                 {children}
@@ -267,11 +253,7 @@ interface FormRowProps {
 }
 
 export function FormRow({ children, style }: Readonly<FormRowProps>): React.ReactElement {
-    return (
-        <Flex style={{ gap: '16px', ...style }}>
-            {children}
-        </Flex>
-    );
+    return <Flex style={{ gap: '16px', ...style }}>{children}</Flex>;
 }
 
 interface FormColumnProps {
@@ -281,9 +263,5 @@ interface FormColumnProps {
 }
 
 export function FormColumn({ children, flex = 1, style }: Readonly<FormColumnProps>): React.ReactElement {
-    return (
-        <Box style={{ flex, ...style }}>
-            {children}
-        </Box>
-    );
+    return <Box style={{ flex, ...style }}>{children}</Box>;
 }

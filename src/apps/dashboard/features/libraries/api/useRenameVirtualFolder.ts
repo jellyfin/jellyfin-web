@@ -8,13 +8,11 @@ import { queryClient } from 'utils/query/queryClient';
 export const useRenameVirtualFolder = () => {
     const { api } = useApi();
     return useMutation({
-        mutationFn: (params: LibraryStructureApiRenameVirtualFolderRequest) => (
-            getLibraryStructureApi(api!)
-                .renameVirtualFolder(params)
-        ),
+        mutationFn: (params: LibraryStructureApiRenameVirtualFolderRequest) =>
+            getLibraryStructureApi(api!).renameVirtualFolder(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ 'VirtualFolders' ]
+                queryKey: ['VirtualFolders']
             });
         }
     });

@@ -84,7 +84,11 @@ export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
                 try {
                     return new URL(info.Capabilities.IconUrl).toString();
                 } catch (err) {
-                    logger.error('[getDeviceIcon] Device capabilities has invalid IconUrl', { component: 'Image' }, err as Error);
+                    logger.error(
+                        '[getDeviceIcon] Device capabilities has invalid IconUrl',
+                        { component: 'Image' },
+                        err as Error
+                    );
                 }
             }
             return BASE_DEVICE_IMAGE_URL + 'other.svg';

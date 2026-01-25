@@ -48,4 +48,3 @@ export const formHelperText = style({
     fontSize: vars.typography.fontSizeSm,
     color: vars.colors.textSecondary
 });
-

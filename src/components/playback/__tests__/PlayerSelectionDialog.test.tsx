@@ -11,14 +11,14 @@ vi.mock('components/apphost', () => ({
         deviceName: vi.fn(() => 'Test Device'),
         deviceId: vi.fn(() => 'test-device-id'),
         init: vi.fn(),
-        supports: vi.fn(() => true),
+        supports: vi.fn(() => true)
     },
     safeAppHost: {
         appName: vi.fn(() => 'Test App'),
         appVersion: vi.fn(() => '1.0.0'),
         deviceName: vi.fn(() => 'Test Device'),
         deviceId: vi.fn(() => 'test-device-id'),
-        supports: vi.fn(() => true),
+        supports: vi.fn(() => true)
     }
 }));
 
@@ -35,20 +35,20 @@ vi.mock('components/playback/playbackmanager', () => ({
         getTargets: (...args: unknown[]) => mockGetTargets(...args),
         trySetActivePlayer: (...args: unknown[]) => mockTrySetActivePlayer(...args),
         getCurrentPlayer: (...args: unknown[]) => mockGetCurrentPlayer(...args),
-        getSupportedCommands: vi.fn(() => []),
+        getSupportedCommands: vi.fn(() => [])
     }
 }));
 
 // Mock player store
 const mockUsePlayerStore = vi.fn();
 vi.mock('../../store', () => ({
-    usePlayerStore: (...args: unknown[]) => mockUsePlayerStore(...args),
+    usePlayerStore: (...args: unknown[]) => mockUsePlayerStore(...args)
 }));
 
 // Mock autocast
 vi.mock('../../../scripts/autocast', () => ({
     enable: vi.fn(),
-    isEnabled: vi.fn(),
+    isEnabled: vi.fn()
 }));
 
 import { enable as mockEnable, isEnabled as mockIsEnabled } from '../../../scripts/autocast';

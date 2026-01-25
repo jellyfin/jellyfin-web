@@ -9,14 +9,16 @@ export const LEGACY_ADMIN_ROUTES: LegacyRoute[] = [
             controller: 'networking',
             view: 'networking.html'
         }
-    }, {
+    },
+    {
         path: 'livetv/guide',
         pageProps: {
             appType: AppType.Dashboard,
             controller: 'livetvguideprovider',
             view: 'livetvguideprovider.html'
         }
-    }, {
+    },
+    {
         path: 'livetv/tuner',
         pageProps: {
             appType: AppType.Dashboard,

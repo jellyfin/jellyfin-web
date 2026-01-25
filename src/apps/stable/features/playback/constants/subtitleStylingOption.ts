@@ -10,4 +10,4 @@ export const SubtitleStylingOption = {
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type SubtitleStylingOption = typeof SubtitleStylingOption[keyof typeof SubtitleStylingOption];
+export type SubtitleStylingOption = (typeof SubtitleStylingOption)[keyof typeof SubtitleStylingOption];

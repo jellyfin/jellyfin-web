@@ -44,13 +44,10 @@ const WizardRemote = () => {
 
             <form onSubmit={handleSubmit}>
                 <div className={styles.checkboxGroup}>
-                    <Checkbox
-                        checked={remoteAccess}
-                        onChange={(e) => setRemoteAccess(e.target.checked)}
-                    >
+                    <Checkbox checked={remoteAccess} onChange={e => setRemoteAccess(e.target.checked)}>
                         {globalize.translate('LabelEnableAutomaticPortMapping')}
                     </Checkbox>
-                    <Button type='submit' size='lg' className={styles.submitButton}>
+                    <Button type="submit" size="lg" className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
                 </div>

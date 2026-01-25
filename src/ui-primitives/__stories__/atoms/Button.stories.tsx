@@ -69,7 +69,7 @@ export const Disabled: Story = {
 function WithMotionStory(): ReactElement {
     return (
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button variant='primary'>Animated Button</Button>
+            <Button variant="primary">Animated Button</Button>
         </motion.div>
     );
 }
@@ -81,10 +81,10 @@ export const WithMotion: Story = {
 function AllVariantsStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <Button variant='primary'>Primary</Button>
-            <Button variant='secondary'>Secondary</Button>
-            <Button variant='ghost'>Ghost</Button>
-            <Button variant='danger'>Danger</Button>
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="danger">Danger</Button>
         </div>
     );
 }
@@ -103,9 +103,9 @@ export const Interactive: Story = {
 function AllSizesStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <Button size='sm'>Small</Button>
-            <Button size='md'>Medium</Button>
-            <Button size='lg'>Large</Button>
+            <Button size="sm">Small</Button>
+            <Button size="md">Medium</Button>
+            <Button size="lg">Large</Button>
         </div>
     );
 }
@@ -125,10 +125,10 @@ export const Loading: Story = {
 function WithIconStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: '1rem' }}>
-            <Button variant='primary' startDecorator={<span>★</span>}>
+            <Button variant="primary" startDecorator={<span>★</span>}>
                 With Star
             </Button>
-            <Button variant='secondary' endDecorator={<span>→</span>}>
+            <Button variant="secondary" endDecorator={<span>→</span>}>
                 With Arrow
             </Button>
         </div>

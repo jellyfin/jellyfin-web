@@ -38,32 +38,21 @@ const CardBox: FC<CardBoxProps> = ({
 }) => {
     return (
         <div className={className}>
-            <div className='cardScalable'>
+            <div className="cardScalable">
                 <div className={`cardPadder cardPadder-${shape}`}></div>
                 <CardContent
                     item={item}
                     cardOptions={cardOptions}
                     coveredImage={coveredImage}
-
                     overlayText={overlayText}
                     imgUrl={imgUrl}
                     blurhash={blurhash}
                     forceName={forceName}
                 />
-                {layoutManager.mobile && (
-                    <CardOverlayButtons
-                        item={item}
-                        cardOptions={cardOptions}
-                    />
-                )}
+                {layoutManager.mobile && <CardOverlayButtons item={item} cardOptions={cardOptions} />}
 
-                {layoutManager.desktop
-                        && !cardOptions.disableHoverMenu && (
-                    <CardHoverMenu
-                        action={action}
-                        item={item}
-                        cardOptions={cardOptions}
-                    />
+                {layoutManager.desktop && !cardOptions.disableHoverMenu && (
+                    <CardHoverMenu action={action} item={item} cardOptions={cardOptions} />
                 )}
             </div>
             {!overlayText && (
@@ -80,4 +69,3 @@ const CardBox: FC<CardBoxProps> = ({
 };
 
 export default CardBox;
-

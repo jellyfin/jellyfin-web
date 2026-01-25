@@ -9,7 +9,7 @@ import { useUser } from 'apps/dashboard/features/users/api/useUser';
 import Loading from 'components/loading/LoadingComponent';
 
 const UserPassword = () => {
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const userId = searchParams.get('userId');
     const { data: user, isPending } = useUser(userId ? { userId: userId } : undefined);
 
@@ -18,25 +18,17 @@ const UserPassword = () => {
     }
 
     return (
-        <Page
-            id='userPasswordPage'
-            className='mainAnimatedPage type-interior userPasswordPage'
-        >
-            <div className='content-primary'>
-                <div className='verticalSection'>
-                    <SectionTitleContainer
-                        title={user?.Name || undefined}
-                    />
+        <Page id="userPasswordPage" className="mainAnimatedPage type-interior userPasswordPage">
+            <div className="content-primary">
+                <div className="verticalSection">
+                    <SectionTitleContainer title={user?.Name || undefined} />
                 </div>
-                <SectionTabs activeTab='userpassword'/>
-                <div className='readOnlyContent'>
-                    <UserPasswordForm
-                        user={user}
-                    />
+                <SectionTabs activeTab="userpassword" />
+                <div className="readOnlyContent">
+                    <UserPasswordForm user={user} />
                 </div>
             </div>
         </Page>
-
     );
 };
 

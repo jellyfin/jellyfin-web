@@ -16,7 +16,7 @@ vi.mock('lib/globalize', () => ({
     }
 }));
 
-vi.mock('components/backdrop/backdrop', async (importOriginal) => {
+vi.mock('components/backdrop/backdrop', async importOriginal => {
     const actual = await importOriginal<typeof import('components/backdrop/backdrop')>();
     return {
         ...actual,
@@ -30,9 +30,7 @@ vi.mock('components/layoutManager', () => ({
 }));
 
 vi.mock('components/Page', () => ({
-    default: ({ children }: { children: React.ReactNode }) => (
-        <div data-testid='page'>{children}</div>
-    )
+    default: ({ children }: { children: React.ReactNode }) => <div data-testid="page">{children}</div>
 }));
 
 vi.mock('constants/eventType', () => ({

@@ -14,7 +14,7 @@ export const useVirtualFolders = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ 'VirtualFolders' ],
+        queryKey: ['VirtualFolders'],
         queryFn: ({ signal }) => fetchVirtualFolders(api!, { signal }),
         enabled: !!api
     });

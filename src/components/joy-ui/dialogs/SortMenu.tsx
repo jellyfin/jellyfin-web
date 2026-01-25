@@ -26,7 +26,7 @@ const SORT_OPTIONS = [
     { value: 'DateCreated', label: 'Date Added' },
     { value: 'PlayCount', label: 'Play Count' },
     { value: 'CommunityRating', label: 'Rating' },
-    { value: 'Runtime', label: 'Runtime' },
+    { value: 'Runtime', label: 'Runtime' }
 ];
 
 export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
@@ -40,16 +40,16 @@ export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
             y: 0,
             transition: {
                 duration: 0.15,
-                ease: 'easeOut' as const,
-            },
+                ease: 'easeOut' as const
+            }
         },
         exit: {
             opacity: 0,
             scale: 0.95,
             transition: {
-                duration: 0.1,
-            },
-        },
+                duration: 0.1
+            }
+        }
     };
 
     return (
@@ -68,26 +68,33 @@ export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
                             borderRadius: '8px',
                             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
                             overflow: 'hidden',
-                            backgroundColor: '#252525',
+                            backgroundColor: '#252525'
                         }}
                     >
                         <Box style={{ padding: '8px' }}>
-                            <Text size="xs" color="secondary" style={{ padding: '4px 8px', display: 'block', color: '#b0b0b0' }}>
+                            <Text
+                                size="xs"
+                                color="secondary"
+                                style={{ padding: '4px 8px', display: 'block', color: '#b0b0b0' }}
+                            >
                                 Sort By
                             </Text>
                             <RadioGroup value={sortBy} onValueChange={setSortBy}>
                                 <List style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                                    {SORT_OPTIONS.map((sort) => (
+                                    {SORT_OPTIONS.map(sort => (
                                         <ListItem key={sort.value} style={{ padding: 0 }}>
                                             <div
                                                 style={{
                                                     padding: '4px 8px',
                                                     borderRadius: '4px',
-                                                    backgroundColor: sortBy === sort.value ? 'rgba(170, 94, 170, 0.2)' : 'transparent',
+                                                    backgroundColor:
+                                                        sortBy === sort.value
+                                                            ? 'rgba(170, 94, 170, 0.2)'
+                                                            : 'transparent',
                                                     cursor: 'pointer',
                                                     display: 'flex',
                                                     alignItems: 'center',
-                                                    gap: '8px',
+                                                    gap: '8px'
                                                 }}
                                             >
                                                 <RadioGroupItem
@@ -105,24 +112,23 @@ export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
                                 style={{
                                     borderTop: '1px solid #404040',
                                     marginTop: '8px',
-                                    paddingTop: '8px',
+                                    paddingTop: '8px'
                                 }}
                             >
-                                <Text size="xs" color="secondary" style={{ padding: '4px 8px', display: 'block', color: '#b0b0b0' }}>
+                                <Text
+                                    size="xs"
+                                    color="secondary"
+                                    style={{ padding: '4px 8px', display: 'block', color: '#b0b0b0' }}
+                                >
                                     Order
                                 </Text>
-                                <RadioGroup value={sortOrder} onValueChange={(val) => setSortOrder(val as 'Ascending' | 'Descending')}>
+                                <RadioGroup
+                                    value={sortOrder}
+                                    onValueChange={val => setSortOrder(val as 'Ascending' | 'Descending')}
+                                >
                                     <Flex style={{ flexDirection: 'row', gap: '16px', padding: '0 8px' }}>
-                                        <RadioGroupItem
-                                            value="Ascending"
-                                            id="order-asc"
-                                            label="Ascending"
-                                        />
-                                        <RadioGroupItem
-                                            value="Descending"
-                                            id="order-desc"
-                                            label="Descending"
-                                        />
+                                        <RadioGroupItem value="Ascending" id="order-asc" label="Ascending" />
+                                        <RadioGroupItem value="Descending" id="order-desc" label="Descending" />
                                     </Flex>
                                 </RadioGroup>
                             </Box>

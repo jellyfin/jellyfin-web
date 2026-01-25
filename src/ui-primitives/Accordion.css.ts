@@ -29,4 +29,3 @@ export const accordionContent = style({
 export const accordionExpanded = style({
     backgroundColor: vars.colors.surfaceHover
 });
-

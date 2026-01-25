@@ -1,1 +1,20 @@
-{"rustc":4996801173321332248,"features":"[]","declared_features":"[]","target":13825155449143209309,"profile":12033749995108139984,"path":14236850952101650838,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/wasm-bindgen-test-shared-69054815108dc6c6/dep-lib-wasm_bindgen_test_shared","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[]",
+  "declared_features": "[]",
+  "target": 13825155449143209309,
+  "profile": 12033749995108139984,
+  "path": 14236850952101650838,
+  "deps": [],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/wasm-bindgen-test-shared-69054815108dc6c6/dep-lib-wasm_bindgen_test_shared",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

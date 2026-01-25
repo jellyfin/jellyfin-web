@@ -15,7 +15,7 @@ interface PaginationProps {
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
     totalRecordCount: number;
-    isPlaceholderData: boolean
+    isPlaceholderData: boolean;
 }
 
 const Pagination: FC<PaginationProps> = ({
@@ -29,15 +29,13 @@ const Pagination: FC<PaginationProps> = ({
     const limit = userSettings.libraryPageSize(undefined);
     const startIndex = libraryViewSettings.StartIndex ?? 0;
     const recordsStart = totalRecordCount ? startIndex + 1 : 0;
-    const recordsEnd = limit ?
-        Math.min(startIndex + limit, totalRecordCount) :
-        totalRecordCount;
+    const recordsEnd = limit ? Math.min(startIndex + limit, totalRecordCount) : totalRecordCount;
     const showControls = limit > 0 && limit < totalRecordCount;
 
     const onNextPageClick = useCallback(() => {
         scrollPageToTop();
         const newIndex = startIndex + limit;
-        setLibraryViewSettings((prevState) => ({
+        setLibraryViewSettings(prevState => ({
             ...prevState,
             StartIndex: newIndex
         }));
@@ -46,7 +44,7 @@ const Pagination: FC<PaginationProps> = ({
     const onPreviousPageClick = useCallback(() => {
         scrollPageToTop();
         const newIndex = Math.max(0, startIndex - limit);
-        setLibraryViewSettings((prevState) => ({
+        setLibraryViewSettings(prevState => ({
             ...prevState,
             StartIndex: newIndex
         }));
@@ -54,7 +52,7 @@ const Pagination: FC<PaginationProps> = ({
 
     return (
         <Flex
-            align='center'
+            align="center"
             gap={vars.spacing.xs}
             style={{
                 flexGrow: isSmallScreen ? 0 : 1,
@@ -63,7 +61,7 @@ const Pagination: FC<PaginationProps> = ({
         >
             {!isSmallScreen && (
                 <Button
-                    variant='plain'
+                    variant="plain"
                     title={globalize.translate('Previous')}
                     disabled={!showControls || startIndex == 0 || isPlaceholderData}
                     onClick={onPreviousPageClick}
@@ -82,20 +80,15 @@ const Pagination: FC<PaginationProps> = ({
                     marginRight: vars.spacing.sm
                 }}
             >
-                <Text size='sm' color='secondary'>
-                    {globalize.translate(
-                        'ListPaging',
-                        recordsStart,
-                        recordsEnd,
-                        totalRecordCount
-                    )}
+                <Text size="sm" color="secondary">
+                    {globalize.translate('ListPaging', recordsStart, recordsEnd, totalRecordCount)}
                 </Text>
             </Box>
 
             {isSmallScreen && (
-                <Flex align='center' gap={vars.spacing.xs}>
+                <Flex align="center" gap={vars.spacing.xs}>
                     <Button
-                        variant='plain'
+                        variant="plain"
                         title={globalize.translate('Previous')}
                         disabled={!showControls || startIndex == 0 || isPlaceholderData}
                         onClick={onPreviousPageClick}
@@ -104,9 +97,9 @@ const Pagination: FC<PaginationProps> = ({
                     </Button>
 
                     <Button
-                        variant='plain'
+                        variant="plain"
                         title={globalize.translate('Next')}
-                        disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
+                        disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData}
                         onClick={onNextPageClick}
                     >
                         <ArrowRightIcon />
@@ -116,9 +109,9 @@ const Pagination: FC<PaginationProps> = ({
 
             {!isSmallScreen && (
                 <Button
-                    variant='plain'
+                    variant="plain"
                     title={globalize.translate('Next')}
-                    disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
+                    disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData}
                     onClick={onNextPageClick}
                 >
                     <ArrowRightIcon />

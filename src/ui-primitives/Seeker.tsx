@@ -231,9 +231,9 @@ export function Seeker({
             <div
                 ref={progressBarRef}
                 className={seekerTrack}
-                role='slider'
+                role="slider"
                 tabIndex={0}
-                aria-label='Seek'
+                aria-label="Seek"
                 aria-valuemin={0}
                 aria-valuemax={duration}
                 aria-valuenow={currentTime}

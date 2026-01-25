@@ -50,7 +50,7 @@ function VolumeSliderWithHooks(): ReactElement {
                 muted={muted}
                 onVolumeChange={handleVolumeChange}
                 onMuteToggle={handleMuteToggle}
-                size='md'
+                size="md"
                 showSlider={true}
             />
         </div>
@@ -69,8 +69,12 @@ function SmallStory(args: Readonly<VolumeSliderProps>): ReactElement {
     const [volume, setVolume] = useState(75);
     const [muted, setMuted] = useState(false);
 
-    const handleVolumeChange = useCallback((newVolume: number): void => { setVolume(newVolume); }, []);
-    const handleMuteToggle = useCallback((): void => { setMuted(prev => !prev); }, []);
+    const handleVolumeChange = useCallback((newVolume: number): void => {
+        setVolume(newVolume);
+    }, []);
+    const handleMuteToggle = useCallback((): void => {
+        setMuted(prev => !prev);
+    }, []);
 
     return (
         <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px' }}>
@@ -96,8 +100,12 @@ function LargeStory(args: Readonly<VolumeSliderProps>): ReactElement {
     const [volume, setVolume] = useState(75);
     const [muted, setMuted] = useState(false);
 
-    const handleVolumeChange = useCallback((newVolume: number): void => { setVolume(newVolume); }, []);
-    const handleMuteToggle = useCallback((): void => { setMuted(prev => !prev); }, []);
+    const handleVolumeChange = useCallback((newVolume: number): void => {
+        setVolume(newVolume);
+    }, []);
+    const handleMuteToggle = useCallback((): void => {
+        setMuted(prev => !prev);
+    }, []);
 
     return (
         <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px' }}>
@@ -123,8 +131,12 @@ function MutedStory(args: Readonly<VolumeSliderProps>): ReactElement {
     const [volume, setVolume] = useState(0);
     const [muted, setMuted] = useState(true);
 
-    const handleVolumeChange = useCallback((newVolume: number): void => { setVolume(newVolume); }, []);
-    const handleMuteToggle = useCallback((): void => { setMuted(prev => !prev); }, []);
+    const handleVolumeChange = useCallback((newVolume: number): void => {
+        setVolume(newVolume);
+    }, []);
+    const handleMuteToggle = useCallback((): void => {
+        setMuted(prev => !prev);
+    }, []);
 
     return (
         <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px' }}>
@@ -150,8 +162,12 @@ function SliderOnlyStory(args: Readonly<VolumeSliderProps>): ReactElement {
     const [volume, setVolume] = useState(50);
     const [muted, setMuted] = useState(false);
 
-    const handleVolumeChange = useCallback((newVolume: number): void => { setVolume(newVolume); }, []);
-    const handleMuteToggle = useCallback((): void => { setMuted(prev => !prev); }, []);
+    const handleVolumeChange = useCallback((newVolume: number): void => {
+        setVolume(newVolume);
+    }, []);
+    const handleMuteToggle = useCallback((): void => {
+        setMuted(prev => !prev);
+    }, []);
 
     return (
         <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px' }}>
@@ -179,8 +195,12 @@ function WideSliderStory(args: Readonly<VolumeSliderProps>): ReactElement {
     const [volume, setVolume] = useState(50);
     const [muted, setMuted] = useState(false);
 
-    const handleVolumeChange = useCallback((newVolume: number): void => { setVolume(newVolume); }, []);
-    const handleMuteToggle = useCallback((): void => { setMuted(prev => !prev); }, []);
+    const handleVolumeChange = useCallback((newVolume: number): void => {
+        setVolume(newVolume);
+    }, []);
+    const handleMuteToggle = useCallback((): void => {
+        setMuted(prev => !prev);
+    }, []);
 
     return (
         <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px' }}>

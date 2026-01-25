@@ -73,14 +73,8 @@ export function ExampleUserSettingsPage() {
 
     return (
         <>
-            <ModernSettingsForm
-                onSave={handleSave}
-                onCancel={handleCancel}
-                isSaving={isSaving}
-            >
-                <SettingsAlert variant="info">
-                    {globalize.translate('SettingsApplyToAllDevices')}
-                </SettingsAlert>
+            <ModernSettingsForm onSave={handleSave} onCancel={handleCancel} isSaving={isSaving}>
+                <SettingsAlert variant="info">{globalize.translate('SettingsApplyToAllDevices')}</SettingsAlert>
 
                 <SettingsSection
                     title={globalize.translate('HeaderNotifications')}
@@ -92,14 +86,14 @@ export function ExampleUserSettingsPage() {
                             <FormCheckbox
                                 label=""
                                 checked={settings.enableNotifications}
-                                onChange={(checked) => setSettings(s => ({ ...s, enableNotifications: checked }))}
+                                onChange={checked => setSettings(s => ({ ...s, enableNotifications: checked }))}
                             />
                         }
                     >
                         <FormSelect
                             label={globalize.translate('EmailFrequency')}
                             value={settings.emailFrequency}
-                            onChange={(value) => setSettings(s => ({ ...s, emailFrequency: value }))}
+                            onChange={value => setSettings(s => ({ ...s, emailFrequency: value }))}
                             options={frequencyOptions}
                         />
                     </SettingsCard>
@@ -108,7 +102,7 @@ export function ExampleUserSettingsPage() {
                         <FormCheckbox
                             label={globalize.translate('EnableAnalytics')}
                             checked={settings.enableAnalytics}
-                            onChange={(checked) => setSettings(s => ({ ...s, enableAnalytics: checked }))}
+                            onChange={checked => setSettings(s => ({ ...s, enableAnalytics: checked }))}
                             description={globalize.translate('AnalyticsHelp')}
                         />
                     </SettingsCard>
@@ -120,12 +114,12 @@ export function ExampleUserSettingsPage() {
                     <ToggleSection
                         title={globalize.translate('AutoPlayNextEpisode')}
                         checked={settings.autoPlay}
-                        onToggle={(checked) => setSettings(s => ({ ...s, autoPlay: checked }))}
+                        onToggle={checked => setSettings(s => ({ ...s, autoPlay: checked }))}
                     >
                         <FormSelect
                             label={globalize.translate('DefaultQuality')}
                             value={settings.quality}
-                            onChange={(value) => setSettings(s => ({ ...s, quality: value }))}
+                            onChange={value => setSettings(s => ({ ...s, quality: value }))}
                             options={qualityOptions}
                             description={globalize.translate('QualityDescription')}
                         />
@@ -138,7 +132,7 @@ export function ExampleUserSettingsPage() {
                     <FormSelect
                         label={globalize.translate('Theme')}
                         value={settings.theme}
-                        onChange={(value) => setSettings(s => ({ ...s, theme: value }))}
+                        onChange={value => setSettings(s => ({ ...s, theme: value }))}
                         options={themeOptions}
                     />
                 </SettingsSection>

@@ -36,14 +36,17 @@ type Story = StoryObj<typeof meta>;
 function ToastDemo(): ReactElement {
     const { toast } = useToast();
 
-    const handleShowToast = useCallback((variant: ToastVariant): void => {
-        toast({
-            title: variant === 'default' ? 'Notification' : variant.charAt(0).toUpperCase() + variant.slice(1),
-            description: 'This is a toast notification with some description text.',
-            variant,
-            duration: 5000
-        });
-    }, [toast]);
+    const handleShowToast = useCallback(
+        (variant: ToastVariant): void => {
+            toast({
+                title: variant === 'default' ? 'Notification' : variant.charAt(0).toUpperCase() + variant.slice(1),
+                description: 'This is a toast notification with some description text.',
+                variant,
+                duration: 5000
+            });
+        },
+        [toast]
+    );
 
     const handleShowWithAction = useCallback((): void => {
         toast({
@@ -52,7 +55,9 @@ function ToastDemo(): ReactElement {
             variant: 'info',
             action: {
                 label: 'Update',
-                onClick: (): void => { /* Update clicked */ }
+                onClick: (): void => {
+                    /* Update clicked */
+                }
             }
         });
     }, [toast]);
@@ -68,28 +73,53 @@ function ToastDemo(): ReactElement {
 
     return (
         <div style={{ padding: 40 }}>
-            <Flex gap='sm' style={{ flexWrap: 'wrap' }}>
-                <Button variant='primary' onClick={(): void => { handleShowToast('default'); }}>
+            <Flex gap="sm" style={{ flexWrap: 'wrap' }}>
+                <Button
+                    variant="primary"
+                    onClick={(): void => {
+                        handleShowToast('default');
+                    }}
+                >
                     Default
                 </Button>
-                <Button variant='secondary' onClick={(): void => { handleShowToast('success'); }}>
+                <Button
+                    variant="secondary"
+                    onClick={(): void => {
+                        handleShowToast('success');
+                    }}
+                >
                     Success
                 </Button>
-                <Button variant='secondary' onClick={(): void => { handleShowToast('warning'); }}>
+                <Button
+                    variant="secondary"
+                    onClick={(): void => {
+                        handleShowToast('warning');
+                    }}
+                >
                     Warning
                 </Button>
-                <Button variant='secondary' onClick={(): void => { handleShowToast('error'); }}>
+                <Button
+                    variant="secondary"
+                    onClick={(): void => {
+                        handleShowToast('error');
+                    }}
+                >
                     Error
                 </Button>
-                <Button variant='secondary' onClick={(): void => { handleShowToast('info'); }}>
+                <Button
+                    variant="secondary"
+                    onClick={(): void => {
+                        handleShowToast('info');
+                    }}
+                >
                     Info
                 </Button>
             </Flex>
-            <Flex gap='sm' style={{ marginTop: 16 }}>
-                <Button variant='secondary' onClick={handleShowWithAction}>
+            <Flex gap="sm" style={{ marginTop: 16 }}>
+                <Button variant="secondary" onClick={handleShowWithAction}>
                     With Action
                 </Button>
-                <Button variant='secondary' onClick={handleShowInfinite}>
+                <Button variant="secondary" onClick={handleShowInfinite}>
                     Infinite Duration
                 </Button>
             </Flex>
@@ -99,7 +129,7 @@ function ToastDemo(): ReactElement {
 
 function TopRightStory(): ReactElement {
     return (
-        <ToastProvider position='top-right'>
+        <ToastProvider position="top-right">
             <ToastDemo />
         </ToastProvider>
     );
@@ -111,7 +141,7 @@ export const TopRight: Story = {
 
 function TopLeftStory(): ReactElement {
     return (
-        <ToastProvider position='top-left'>
+        <ToastProvider position="top-left">
             <ToastDemo />
         </ToastProvider>
     );
@@ -123,7 +153,7 @@ export const TopLeft: Story = {
 
 function BottomRightStory(): ReactElement {
     return (
-        <ToastProvider position='bottom-right'>
+        <ToastProvider position="bottom-right">
             <ToastDemo />
         </ToastProvider>
     );
@@ -135,7 +165,7 @@ export const BottomRight: Story = {
 
 function BottomLeftStory(): ReactElement {
     return (
-        <ToastProvider position='bottom-left'>
+        <ToastProvider position="bottom-left">
             <ToastDemo />
         </ToastProvider>
     );
@@ -165,9 +195,9 @@ function AllVariantsStory(): ReactElement {
     }, [toast]);
 
     return (
-        <ToastProvider position='top-right'>
+        <ToastProvider position="top-right">
             <div style={{ padding: 40 }}>
-                <Button variant='primary' onClick={handleShowAll}>
+                <Button variant="primary" onClick={handleShowAll}>
                     Show All Variants
                 </Button>
             </div>
@@ -190,15 +220,17 @@ function WithActionButtonStory(): ReactElement {
             duration: 8000,
             action: {
                 label: 'Save',
-                onClick: (): void => { /* Saved */ }
+                onClick: (): void => {
+                    /* Saved */
+                }
             }
         });
     }, [toast]);
 
     return (
-        <ToastProvider position='top-right'>
+        <ToastProvider position="top-right">
             <div style={{ padding: 40 }}>
-                <Button variant='primary' onClick={handleShowAction}>
+                <Button variant="primary" onClick={handleShowAction}>
                     Show with Action
                 </Button>
             </div>
@@ -224,9 +256,9 @@ function LongContentStory(): ReactElement {
     }, [toast]);
 
     return (
-        <ToastProvider position='top-right'>
+        <ToastProvider position="top-right">
             <div style={{ padding: 40 }}>
-                <Button variant='primary' onClick={handleShowLong}>
+                <Button variant="primary" onClick={handleShowLong}>
                     Show Long Content
                 </Button>
             </div>

@@ -28,10 +28,10 @@ interface DeviceCardProps {
 }
 
 const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
-    const [ playbackInfoTitle, setPlaybackInfoTitle ] = useState('');
-    const [ playbackInfoDesc, setPlaybackInfoDesc ] = useState('');
-    const [ isPlaybackInfoOpen, setIsPlaybackInfoOpen ] = useState(false);
-    const [ isMessageDialogOpen, setIsMessageDialogOpen ] = useState(false);
+    const [playbackInfoTitle, setPlaybackInfoTitle] = useState('');
+    const [playbackInfoDesc, setPlaybackInfoDesc] = useState('');
+    const [isPlaybackInfoOpen, setIsPlaybackInfoOpen] = useState(false);
+    const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
     const sendMessage = useSendMessage();
     const playStateCommand = useSendPlayStateCommand();
 
@@ -42,7 +42,7 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                 command: PlaystateCommand.PlayPause
             });
         }
-    }, [ device, playStateCommand ]);
+    }, [device, playStateCommand]);
 
     const onStopSession = useCallback(() => {
         if (device.Id) {
@@ -51,20 +51,23 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                 command: PlaystateCommand.Stop
             });
         }
-    }, [ device, playStateCommand ]);
+    }, [device, playStateCommand]);
 
-    const onMessageSend = useCallback((message: string) => {
-        if (device.Id) {
-            sendMessage.mutate({
-                sessionId: device.Id,
-                messageCommand: {
-                    Text: message,
-                    TimeoutMs: 5000
-                }
-            });
-            setIsMessageDialogOpen(false);
-        }
-    }, [ sendMessage, device ]);
+    const onMessageSend = useCallback(
+        (message: string) => {
+            if (device.Id) {
+                sendMessage.mutate({
+                    sessionId: device.Id,
+                    messageCommand: {
+                        Text: message,
+                        TimeoutMs: 5000
+                    }
+                });
+                setIsMessageDialogOpen(false);
+            }
+        },
+        [sendMessage, device]
+    );
 
     const showMessageDialog = useCallback(() => {
         setIsMessageDialogOpen(true);
@@ -88,7 +91,9 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                 break;
             case 'DirectStream':
                 setPlaybackInfoTitle(globalize.translate('DirectStreaming'));
-                setPlaybackInfoDesc(globalize.translate('DirectStreamHelp1') + '\n' + globalize.translate('DirectStreamHelp2'));
+                setPlaybackInfoDesc(
+                    globalize.translate('DirectStreamHelp1') + '\n' + globalize.translate('DirectStreamHelp2')
+                );
                 break;
             case 'DirectPlay':
                 setPlaybackInfoTitle(globalize.translate('DirectPlaying'));
@@ -96,42 +101,43 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                 break;
             case 'Transcode': {
                 const transcodeReasons = device.TranscodingInfo?.TranscodeReasons as string[] | undefined;
-                const localizedTranscodeReasons = transcodeReasons?.map(transcodeReason => globalize.translate(transcodeReason)) || [];
+                const localizedTranscodeReasons =
+                    transcodeReasons?.map(transcodeReason => globalize.translate(transcodeReason)) || [];
                 setPlaybackInfoTitle(globalize.translate('Transcoding'));
                 setPlaybackInfoDesc(
-                    globalize.translate('MediaIsBeingConverted')
-                    + '\n\n' + getSessionNowPlayingStreamInfo(device)
-                    + '\n\n' + globalize.translate('LabelReasonForTranscoding')
-                    + '\n' + localizedTranscodeReasons.join('\n')
+                    globalize.translate('MediaIsBeingConverted') +
+                        '\n\n' +
+                        getSessionNowPlayingStreamInfo(device) +
+                        '\n\n' +
+                        globalize.translate('LabelReasonForTranscoding') +
+                        '\n' +
+                        localizedTranscodeReasons.join('\n')
                 );
                 break;
             }
         }
 
         setIsPlaybackInfoOpen(true);
-    }, [ device ]);
+    }, [device]);
 
-    const nowPlayingName = useMemo(() => (
-        getNowPlayingName(device)
-    ), [ device ]);
+    const nowPlayingName = useMemo(() => getNowPlayingName(device), [device]);
 
-    const nowPlayingImage = useMemo(() => (
-        device.NowPlayingItem && getNowPlayingImageUrl(device.NowPlayingItem)
-    ), [device]);
+    const nowPlayingImage = useMemo(
+        () => device.NowPlayingItem && getNowPlayingImageUrl(device.NowPlayingItem),
+        [device]
+    );
 
-    const runningTime = useMemo(() => (
-        getSessionNowPlayingTime(device)
-    ), [ device ]);
+    const runningTime = useMemo(() => getSessionNowPlayingTime(device), [device]);
 
-    const deviceIcon = useMemo(() => (
-        getDeviceIcon(device)
-    ), [ device ]);
+    const deviceIcon = useMemo(() => getDeviceIcon(device), [device]);
 
     const canControl = device.ServerId && device.SupportsRemoteControl;
     const isPlayingMedia = !!device.NowPlayingItem;
 
-    const progressValue = (device.PlayState?.PositionTicks != null && device.NowPlayingItem?.RunTimeTicks != null) ?
-        (device.PlayState.PositionTicks / device.NowPlayingItem.RunTimeTicks) * 100 : 0;
+    const progressValue =
+        device.PlayState?.PositionTicks != null && device.NowPlayingItem?.RunTimeTicks != null
+            ? (device.PlayState.PositionTicks / device.NowPlayingItem.RunTimeTicks) * 100
+            : 0;
 
     return (
         <Card style={{ width: '100%', maxWidth: '360px', overflow: 'hidden', padding: 0 }}>
@@ -149,7 +155,7 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                 text={playbackInfoDesc}
                 onClose={closePlaybackInfo}
             />
-            <AspectRatio ratio='16/9' style={{ borderRadius: 0 }}>
+            <AspectRatio ratio="16/9" style={{ borderRadius: 0 }}>
                 {nowPlayingImage ? (
                     <img src={nowPlayingImage} alt={nowPlayingName.topText} />
                 ) : (
@@ -167,14 +173,13 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between'
-                    }}>
+                    }}
+                >
                     <Flex style={{ gap: vars.spacing.md, alignItems: 'center' }}>
-                        <Avatar src={deviceIcon} variant='plain' style={{ width: '2.5rem', height: '2.5rem' }} />
+                        <Avatar src={deviceIcon} variant="plain" style={{ width: '2.5rem', height: '2.5rem' }} />
                         <Flex style={{ gap: vars.spacing.xs }}>
-                            <Heading.H5 style={{ color: vars.colors.text }}>
-                                {device.DeviceName}
-                            </Heading.H5>
-                            <Text size='xs' style={{ color: vars.colors.textSecondary }}>
+                            <Heading.H5 style={{ color: vars.colors.text }}>{device.DeviceName}</Heading.H5>
+                            <Text size="xs" style={{ color: vars.colors.textSecondary }}>
                                 {device.Client + ' ' + device.ApplicationVersion}
                             </Text>
                         </Flex>
@@ -185,19 +190,36 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                                 <img
                                     src={nowPlayingName.image}
                                     style={{ maxHeight: '24px', maxWidth: '130px' }}
-                                    alt='Media Icon'
+                                    alt="Media Icon"
                                 />
                             ) : (
-                                <Text size='sm' weight='medium' style={{ color: vars.colors.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                <Text
+                                    size="sm"
+                                    weight="medium"
+                                    style={{
+                                        color: vars.colors.text,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
                                     {nowPlayingName.topText}
                                 </Text>
                             )}
-                            <Text size='xs' style={{ color: vars.colors.textSecondary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            <Text
+                                size="xs"
+                                style={{
+                                    color: vars.colors.textSecondary,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap'
+                                }}
+                            >
                                 {nowPlayingName.bottomText}
                             </Text>
                         </Flex>
                         {device.NowPlayingItem && (
-                            <Text size='xs' style={{ color: vars.colors.text }}>
+                            <Text size="xs" style={{ color: vars.colors.text }}>
                                 {runningTime.start} / {runningTime.end}
                             </Text>
                         )}
@@ -205,39 +227,51 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                 </Box>
             </AspectRatio>
 
-            {isPlayingMedia && (
-                <Progress
-                    value={progressValue}
-                    style={{ height: '4px', borderRadius: 0 }}
-                />
-            )}
+            {isPlayingMedia && <Progress value={progressValue} style={{ height: '4px', borderRadius: 0 }} />}
 
-            <Flex style={{ gap: vars.spacing.sm, justifyContent: 'center', paddingTop: vars.spacing.sm, paddingBottom: vars.spacing.sm }}>
+            <Flex
+                style={{
+                    gap: vars.spacing.sm,
+                    justifyContent: 'center',
+                    paddingTop: vars.spacing.sm,
+                    paddingBottom: vars.spacing.sm
+                }}
+            >
                 {canControl && isPlayingMedia && (
                     <>
-                        <IconButton variant='plain' color='neutral' onClick={onPlayPauseSession}>
+                        <IconButton variant="plain" color="neutral" onClick={onPlayPauseSession}>
                             {device.PlayState?.IsPaused ? <PlayIcon /> : <PauseIcon />}
                         </IconButton>
-                        <IconButton variant='plain' color='danger' onClick={onStopSession}>
+                        <IconButton variant="plain" color="danger" onClick={onStopSession}>
                             <StopIcon />
                         </IconButton>
                     </>
                 )}
                 {isPlayingMedia && (
-                    <IconButton variant='plain' color='neutral' onClick={showPlaybackInfo}>
+                    <IconButton variant="plain" color="neutral" onClick={showPlaybackInfo}>
                         <InfoCircledIcon />
                     </IconButton>
                 )}
                 {canControl && (
-                    <IconButton variant='plain' color='neutral' onClick={showMessageDialog}>
+                    <IconButton variant="plain" color="neutral" onClick={showMessageDialog}>
                         <ChatBubbleIcon />
                     </IconButton>
                 )}
             </Flex>
 
             {device.UserName && (
-                <Box style={{ borderTop: '1px solid', borderColor: vars.colors.divider, paddingTop: vars.spacing.sm, paddingBottom: vars.spacing.sm, textAlign: 'center' }}>
-                    <Text size='xs' color='secondary'>{device.UserName}</Text>
+                <Box
+                    style={{
+                        borderTop: '1px solid',
+                        borderColor: vars.colors.divider,
+                        paddingTop: vars.spacing.sm,
+                        paddingBottom: vars.spacing.sm,
+                        textAlign: 'center'
+                    }}
+                >
+                    <Text size="xs" color="secondary">
+                        {device.UserName}
+                    </Text>
                 </Box>
             )}
         </Card>

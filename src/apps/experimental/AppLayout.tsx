@@ -66,7 +66,7 @@ export const Component = () => {
                 </StrictMode>
 
                 <Box
-                    as='main'
+                    as="main"
                     style={{
                         width: '100%',
                         flexGrow: 1

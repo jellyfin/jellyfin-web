@@ -16,14 +16,16 @@ const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) =>
     };
 
     return (
-        <List size='md'>
+        <List size="md">
             {logs.map(log => {
                 return (
                     <ListItem key={log.Name}>
                         <ListItemLink to={`/dashboard/logs/${log.Name}`}>
                             <ListItemContent>
-                                <Text weight='bold'>{log.Name}</Text>
-                                <Text size='sm' color='secondary'>{getDate(log)}</Text>
+                                <Text weight="bold">{log.Name}</Text>
+                                <Text size="sm" color="secondary">
+                                    {getDate(log)}
+                                </Text>
                             </ListItemContent>
                         </ListItemLink>
                     </ListItem>

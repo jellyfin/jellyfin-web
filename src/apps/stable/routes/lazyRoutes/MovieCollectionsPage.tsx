@@ -43,14 +43,14 @@ const MovieCollectionsPage: React.FC = () => {
                     minHeight: '200px'
                 }}
             >
-                <CircularProgress size='md' />
+                <CircularProgress size="md" />
             </Box>
         );
     }
 
     return (
         <Box style={{ padding: vars.spacing.lg }}>
-            <Text as='h1' size='xl' weight='bold' style={{ marginBottom: vars.spacing.md }}>
+            <Text as="h1" size="xl" weight="bold" style={{ marginBottom: vars.spacing.md }}>
                 {globalize.translate('Collections')}
             </Text>
 
@@ -61,7 +61,7 @@ const MovieCollectionsPage: React.FC = () => {
                     gap: vars.spacing.lg
                 }}
             >
-                {collectionsData.map((item) => (
+                {collectionsData.map(item => (
                     <Card key={item.id} style={{ height: '100%' }}>
                         <Box
                             style={{
@@ -72,13 +72,15 @@ const MovieCollectionsPage: React.FC = () => {
                                 justifyContent: 'center'
                             }}
                         >
-                            <Text size='lg' color='secondary'>
+                            <Text size="lg" color="secondary">
                                 📚
                             </Text>
                         </Box>
                         <CardBody>
-                            <Text weight='medium'>{item.name}</Text>
-                            <Text size='sm' color='secondary'>{item.count} items</Text>
+                            <Text weight="medium">{item.name}</Text>
+                            <Text size="sm" color="secondary">
+                                {item.count} items
+                            </Text>
                         </CardBody>
                     </Card>
                 ))}

@@ -1,1 +1,20 @@
-{"rustc":4996801173321332248,"features":"[\"default\", \"graphmap\", \"matrix_graph\", \"stable_graph\"]","declared_features":"[\"all\", \"default\", \"generate\", \"graphmap\", \"matrix_graph\", \"quickcheck\", \"rayon\", \"serde\", \"serde-1\", \"serde_derive\", \"stable_graph\", \"unstable\"]","target":16670801973687532141,"profile":8276155916380437441,"path":13774694350090010184,"deps":[[12821780872552529316,"indexmap",false,374099735455228841],[18312645897321731715,"fixedbitset",false,11239457383557885671]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/petgraph-120cd988be463b9b/dep-lib-petgraph","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"default\", \"graphmap\", \"matrix_graph\", \"stable_graph\"]",
+  "declared_features": "[\"all\", \"default\", \"generate\", \"graphmap\", \"matrix_graph\", \"quickcheck\", \"rayon\", \"serde\", \"serde-1\", \"serde_derive\", \"stable_graph\", \"unstable\"]",
+  "target": 16670801973687532141,
+  "profile": 8276155916380437441,
+  "path": 13774694350090010184,
+  "deps": [
+    [12821780872552529316, "indexmap", false, 374099735455228841],
+    [18312645897321731715, "fixedbitset", false, 11239457383557885671]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": { "dep_info": "debug/.fingerprint/petgraph-120cd988be463b9b/dep-lib-petgraph", "checksum": false }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

@@ -4,11 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
 
-const fetchServerLog = async (
-    api: Api,
-    name: string,
-    options?: AxiosRequestConfig
-) => {
+const fetchServerLog = async (api: Api, name: string, options?: AxiosRequestConfig) => {
     const response = await getSystemApi(api).getLogFile({ name }, options);
 
     // FIXME: TypeScript SDK thinks it is returning a File but in reality it is a string

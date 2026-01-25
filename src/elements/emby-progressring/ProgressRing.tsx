@@ -18,23 +18,21 @@ const sizeMap: Record<string, 'sm' | 'md' | 'lg' | 'xl'> = {
     sm: 'sm',
     md: 'md',
     lg: 'lg',
-    xl: 'xl',
+    xl: 'xl'
 };
 
-const ProgressRing: React.FC<ProgressRingProps> = ({
-    progress,
-    size = 'md',
-    showText = true
-}) => {
-    deprecate('emby-progressring/ProgressRing', 'ui-primitives/CircularProgress', 'src/elements/emby-progressring/ProgressRing.tsx');
+const ProgressRing: React.FC<ProgressRingProps> = ({ progress, size = 'md', showText = true }) => {
+    deprecate(
+        'emby-progressring/ProgressRing',
+        'ui-primitives/CircularProgress',
+        'src/elements/emby-progressring/ProgressRing.tsx'
+    );
 
     const progressValue = Math.min(Math.max(progress, 0), 100);
 
     return (
         <Box style={{ position: 'relative', display: 'inline-flex' }}>
-            <CircularProgress
-                size={sizeMap[size] ?? 'md'}
-            />
+            <CircularProgress size={sizeMap[size] ?? 'md'} />
             {showText && (
                 <Box
                     style={{
@@ -48,9 +46,7 @@ const ProgressRing: React.FC<ProgressRingProps> = ({
                         justifyContent: 'center'
                     }}
                 >
-                    <Text size='xs'>
-                        {toPercentString(progressValue / 100, getCurrentDateTimeLocale())}
-                    </Text>
+                    <Text size="xs">{toPercentString(progressValue / 100, getCurrentDateTimeLocale())}</Text>
                 </Box>
             )}
         </Box>

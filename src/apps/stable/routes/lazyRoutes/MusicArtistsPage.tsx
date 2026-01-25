@@ -42,14 +42,14 @@ const MusicArtistsPage: React.FC = () => {
                     minHeight: '200px'
                 }}
             >
-                <CircularProgress size='md' />
+                <CircularProgress size="md" />
             </Box>
         );
     }
 
     return (
         <Box style={{ padding: vars.spacing.lg }}>
-            <Text as='h1' size='xl' weight='bold' style={{ marginBottom: vars.spacing.md }}>
+            <Text as="h1" size="xl" weight="bold" style={{ marginBottom: vars.spacing.md }}>
                 {globalize.translate('Artists')}
             </Text>
 
@@ -60,7 +60,7 @@ const MusicArtistsPage: React.FC = () => {
                     gap: vars.spacing.lg
                 }}
             >
-                {artistsData.map((item) => (
+                {artistsData.map(item => (
                     <Card key={item.id} style={{ height: '100%' }}>
                         <Box
                             style={{
@@ -71,13 +71,15 @@ const MusicArtistsPage: React.FC = () => {
                                 justifyContent: 'center'
                             }}
                         >
-                            <Text size='lg' color='secondary'>
+                            <Text size="lg" color="secondary">
                                 🎤
                             </Text>
                         </Box>
                         <CardBody>
-                            <Text weight='medium'>{item.name}</Text>
-                            <Text size='sm' color='secondary'>{item.count} artists</Text>
+                            <Text weight="medium">{item.name}</Text>
+                            <Text size="sm" color="secondary">
+                                {item.count} artists
+                            </Text>
                         </CardBody>
                     </Card>
                 ))}

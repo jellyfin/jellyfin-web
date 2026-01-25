@@ -34,19 +34,22 @@ export const usePredictivePreloading = (userContext?: UserContext) => {
     }, [location.pathname, userContext]);
 
     // Manual preload trigger
-    const preloadManually = useCallback(async (paths: string[], context?: any) => {
-        try {
-            // Preload specific paths
-            await predictivePreloader.preloadRoutes(paths);
+    const preloadManually = useCallback(
+        async (paths: string[], context?: any) => {
+            try {
+                // Preload specific paths
+                await predictivePreloader.preloadRoutes(paths);
 
-            // Update context if provided
-            if (context) {
-                await predictivePreloader.preload(location.pathname, { ...userContext, ...context });
+                // Update context if provided
+                if (context) {
+                    await predictivePreloader.preload(location.pathname, { ...userContext, ...context });
+                }
+            } catch (error) {
+                logger.warn('Manual preloading failed', { component: 'UsePredictivePreloading' }, error as Error);
             }
-        } catch (error) {
-            logger.warn('Manual preloading failed', { component: 'UsePredictivePreloading' }, error as Error);
-        }
-    }, [location.pathname, userContext]);
+        },
+        [location.pathname, userContext]
+    );
 
     return {
         preloadManually,
@@ -88,7 +91,11 @@ export const useIntersectionPreloading = () => {
                 await predictivePreloader.preloadComponents([resource]);
             }
         } catch (error) {
-            logger.warn(`Intersection preloading failed for ${resource}`, { component: 'UseIntersectionPreloading' }, error as Error);
+            logger.warn(
+                `Intersection preloading failed for ${resource}`,
+                { component: 'UseIntersectionPreloading' },
+                error as Error
+            );
         }
     }, []);
 

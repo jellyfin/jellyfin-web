@@ -10,11 +10,7 @@ export type UsersRecords = Record<string, UserDto>;
 
 export const QUERY_KEY = 'Users';
 
-const fetchUsers = async (
-    api: Api,
-    requestParams?: UserApiGetUsersRequest,
-    options?: AxiosRequestConfig
-) => {
+const fetchUsers = async (api: Api, requestParams?: UserApiGetUsersRequest, options?: AxiosRequestConfig) => {
     const response = await getUserApi(api).getUsers(requestParams, {
         signal: options?.signal
     });
@@ -25,9 +21,8 @@ const fetchUsers = async (
 export const useUsers = (requestParams?: UserApiGetUsersRequest) => {
     const { api } = useApi();
     return useQuery({
-        queryKey: [ QUERY_KEY ],
-        queryFn: ({ signal }) =>
-            fetchUsers(api!, requestParams, { signal }),
+        queryKey: [QUERY_KEY],
+        queryFn: ({ signal }) => fetchUsers(api!, requestParams, { signal }),
         enabled: !!api
     });
 };

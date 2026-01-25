@@ -1,4 +1,3 @@
-import { AsyncLocalStorage } from 'async_hooks';
 import { RequestContextData, WideEvent, CreateEventOptions, JourneyContext } from './types';
 import { generateEventId, getEnvironmentContext, getCurrentUserId, getCurrentServerId } from './environment';
 
@@ -7,8 +6,8 @@ import { generateEventId, getEnvironmentContext, getCurrentUserId, getCurrentSer
  * Enables wide events with zero manual context threading
  */
 
-// AsyncLocalStorage for context preservation across async boundaries
-const contextStore = new AsyncLocalStorage<RequestContextData>();
+// Simple fallback for browser environments
+let browserContext: RequestContextData = {};
 
 /**
  * Global request context state
@@ -19,17 +18,20 @@ class RequestContextManager {
      * Context automatically propagates to all async operations within
      */
     static withContext<T>(context: Partial<RequestContextData>, fn: () => T): T {
-        const currentContext = contextStore.getStore() || {};
-        const mergedContext = { ...currentContext, ...context };
-
-        return contextStore.run(mergedContext, fn);
+        const previousContext = browserContext;
+        browserContext = { ...browserContext, ...context };
+        try {
+            return fn();
+        } finally {
+            browserContext = previousContext;
+        }
     }
 
     /**
      * Get current context data
      */
     static getCurrentContext(): RequestContextData {
-        return contextStore.getStore() || {};
+        return browserContext;
     }
 
     /**

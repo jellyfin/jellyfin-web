@@ -1,6 +1,6 @@
 /**
  * Test Utilities for Store Migration
- * 
+ *
  * Provides utilities for testing stores with performance monitoring,
  * error injection, and state verification.
  */
@@ -42,7 +42,11 @@ export function takeSnapshot<T>(context: TestContext, key: string, state: T): vo
 /**
  * Compare current state with snapshot
  */
-export function compareWithSnapshot<T extends Record<string, unknown>>(context: TestContext, key: string, currentState: T): {
+export function compareWithSnapshot<T extends Record<string, unknown>>(
+    context: TestContext,
+    key: string,
+    currentState: T
+): {
     matched: boolean;
     differences: string[];
 } {
@@ -105,7 +109,7 @@ export function verifyNoErrors(context: TestContext): void {
  */
 export function createTestTimer() {
     const start = performance.now();
-    
+
     return {
         stop: (): number => {
             const duration = performance.now() - start;
@@ -115,7 +119,9 @@ export function createTestTimer() {
         assertBelow: (thresholdMs: number): void => {
             const duration = performance.now() - start;
             if (duration > thresholdMs) {
-                throw new Error(`Performance regression: ${duration.toFixed(2)}ms exceeds threshold of ${thresholdMs}ms`);
+                throw new Error(
+                    `Performance regression: ${duration.toFixed(2)}ms exceeds threshold of ${thresholdMs}ms`
+                );
             }
         }
     };
@@ -143,12 +149,12 @@ export function createStoreMock<T extends object>(initialState: T) {
 
     return {
         getState: () => state,
-        
+
         setState: (partial: Partial<T> | ((state: T) => Partial<T>)) => {
             const prevState = state;
             const newPartial = typeof partial === 'function' ? partial(state) : partial;
             state = { ...state, ...newPartial };
-            
+
             subscribers.forEach(sub => {
                 try {
                     sub(state, prevState);
@@ -157,12 +163,12 @@ export function createStoreMock<T extends object>(initialState: T) {
                 }
             });
         },
-        
+
         subscribe: (fn: (state: T, prevState: T) => void) => {
             subscribers.add(fn);
             return () => subscribers.delete(fn);
         },
-        
+
         reset: (newState: T) => {
             state = newState;
             subscribers.clear();
@@ -181,18 +187,18 @@ export function createErrorInjector() {
         setShouldInject: (key: string, shouldInject: boolean) => {
             shouldInjectError.set(key, shouldInject);
         },
-        
+
         injectError: <T>(key: string, errorMessage: string, fallback: T): T => {
             const shouldInject = shouldInjectError.get(key) || false;
             const count = (errorCount.get(key) || 0) + 1;
             errorCount.set(key, count);
-            
+
             if (shouldInject) {
                 throw new Error(`${errorMessage} (injected error #${count})`);
             }
             return fallback;
         },
-        
+
         reset: () => {
             shouldInjectError.clear();
             errorCount.clear();
@@ -243,7 +249,9 @@ export function assertPerformance(
  * Generate test data factories
  */
 export const testFactories = {
-    createPlayableItem: (overrides: Partial<import('../types/media').PlayableItem> = {}): import('../types/media').PlayableItem => ({
+    createPlayableItem: (
+        overrides: Partial<import('../types/media').PlayableItem> = {}
+    ): import('../types/media').PlayableItem => ({
         id: `item-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         name: 'Test Item',
         mediaType: 'Audio',
@@ -256,7 +264,7 @@ export const testFactories = {
         artwork: [],
         ...overrides
     }),
-    
+
     createQueue: (length: number = 5): import('../types/media').QueueState => ({
         items: Array.from({ length }, (_, i) => ({
             id: `queue-item-${i}`,
@@ -269,8 +277,10 @@ export const testFactories = {
         shuffleMode: 'Sorted',
         repeatMode: 'RepeatNone'
     }),
-    
-    createPlaybackState: (overrides: Partial<import('../types/media').PlaybackState> = {}): import('../types/media').PlaybackState => ({
+
+    createPlaybackState: (
+        overrides: Partial<import('../types/media').PlaybackState> = {}
+    ): import('../types/media').PlaybackState => ({
         status: 'idle',
         currentItem: null,
         progress: {
@@ -300,7 +310,7 @@ export function createCleanupHelper() {
         add: (cleanup: () => void) => {
             cleanups.push(cleanup);
         },
-        
+
         cleanup: () => {
             for (const cleanup of cleanups.reverse()) {
                 try {

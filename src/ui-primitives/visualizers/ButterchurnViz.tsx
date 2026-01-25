@@ -46,7 +46,9 @@ export function ButterchurnViz({ preset = 'default' }: ButterchurnVizProps): Rea
 
                 visualizerRef.current = instance;
 
-                const presets = (presetsModule as unknown as { readonly getPresets: () => Record<string, unknown> }).getPresets();
+                const presets = (
+                    presetsModule as unknown as { readonly getPresets: () => Record<string, unknown> }
+                ).getPresets();
                 const selectedPreset = presets[preset] ?? presets['default'];
                 instance.setPreset(selectedPreset, 2);
             } catch (error) {

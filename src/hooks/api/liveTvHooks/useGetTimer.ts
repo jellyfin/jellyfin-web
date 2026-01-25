@@ -17,10 +17,7 @@ const getTimer = async (
     return response.data;
 };
 
-export const getTimerQuery = (
-    apiContext: JellyfinApiContext,
-    params: LiveTvApiGetTimerRequest
-) =>
+export const getTimerQuery = (apiContext: JellyfinApiContext, params: LiveTvApiGetTimerRequest) =>
     queryOptions({
         queryKey: ['Timer', params.timerId],
         queryFn: ({ signal }) => getTimer(apiContext, params, { signal }),

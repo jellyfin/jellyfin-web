@@ -8,8 +8,8 @@ import { Tooltip } from 'ui-primitives/Tooltip';
 import { Text } from 'ui-primitives/Text';
 
 const RestoreIcon = () => (
-    <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
-        <path d='M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z'/>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
     </svg>
 );
 
@@ -40,7 +40,7 @@ const Backup: FunctionComponent<BackupProps> = ({ backup, onRestore }) => {
                 disablePadding
                 endAction={
                     <Tooltip title={globalize.translate('LabelRestore')}>
-                        <IconButton variant='plain' onClick={restore}>
+                        <IconButton variant="plain" onClick={restore}>
                             <RestoreIcon />
                         </IconButton>
                     </Tooltip>
@@ -48,10 +48,10 @@ const Backup: FunctionComponent<BackupProps> = ({ backup, onRestore }) => {
             >
                 <ListItemButton onClick={openDialog}>
                     <ListItemContent>
-                        <Text size='lg' weight='bold'>
+                        <Text size="lg" weight="bold">
                             {backup.DateCreated}
                         </Text>
-                        <Text size='sm' color='secondary'>
+                        <Text size="sm" color="secondary">
                             {backup.Path}
                         </Text>
                     </ListItemContent>

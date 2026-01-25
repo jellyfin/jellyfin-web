@@ -24,21 +24,18 @@ interface FiltersVideoTypesProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({ libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersvideoStandardChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as VideoBasicFilter;
             const existingVideoBasicFilter = libraryViewSettings?.Filters?.VideoBasicFilter ?? [];
 
-            const updatedVideoBasicFilter = existingVideoBasicFilter.includes(value) ?
-                existingVideoBasicFilter.filter((filter) => filter !== value) :
-                [...existingVideoBasicFilter, value];
+            const updatedVideoBasicFilter = existingVideoBasicFilter.includes(value)
+                ? existingVideoBasicFilter.filter(filter => filter !== value)
+                : [...existingVideoBasicFilter, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 Filters: {
                     ...prevState.Filters,
@@ -55,11 +52,11 @@ const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({
             const value = event.target.value as VideoType;
             const existingVideoTypes = libraryViewSettings?.Filters?.VideoTypes ?? [];
 
-            const updatedVideoTypes = existingVideoTypes.includes(value) ?
-                existingVideoTypes.filter((filter) => filter !== value) :
-                [...existingVideoTypes, value];
+            const updatedVideoTypes = existingVideoTypes.includes(value)
+                ? existingVideoTypes.filter(filter => filter !== value)
+                : [...existingVideoTypes, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -73,32 +70,26 @@ const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
-            {videoBasicFilterOptions
-                .map((filter) => (
-                    <Checkbox
-                        key={filter.value}
-                        checked={
-                            !!libraryViewSettings?.Filters?.VideoBasicFilter?.includes(filter.value)
-                        }
-                        onChange={onFiltersvideoStandardChange}
-                        value={filter.value}
-                    >
-                        {filter.label}
-                    </Checkbox>
-                ))}
-            {videoTypesOptions
-                .map((filter) => (
-                    <Checkbox
-                        key={filter.value}
-                        checked={
-                            !!libraryViewSettings?.Filters?.VideoTypes?.includes(filter.value)
-                        }
-                        onChange={onFiltersVideoTypesChange}
-                        value={filter.value}
-                    >
-                        {filter.label}
-                    </Checkbox>
-                ))}
+            {videoBasicFilterOptions.map(filter => (
+                <Checkbox
+                    key={filter.value}
+                    checked={!!libraryViewSettings?.Filters?.VideoBasicFilter?.includes(filter.value)}
+                    onChange={onFiltersvideoStandardChange}
+                    value={filter.value}
+                >
+                    {filter.label}
+                </Checkbox>
+            ))}
+            {videoTypesOptions.map(filter => (
+                <Checkbox
+                    key={filter.value}
+                    checked={!!libraryViewSettings?.Filters?.VideoTypes?.includes(filter.value)}
+                    onChange={onFiltersVideoTypesChange}
+                    value={filter.value}
+                >
+                    {filter.label}
+                </Checkbox>
+            ))}
         </Box>
     );
 };

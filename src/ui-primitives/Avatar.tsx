@@ -11,7 +11,15 @@ interface AvatarProps {
     readonly color?: 'primary' | 'neutral' | 'danger' | 'warning' | 'success' | 'info';
 }
 
-export function Avatar({ src, alt, children, className, style: avatarStyle, variant = 'soft', color }: AvatarProps): ReactElement {
+export function Avatar({
+    src,
+    alt,
+    children,
+    className,
+    style: avatarStyle,
+    variant = 'soft',
+    color
+}: AvatarProps): ReactElement {
     return (
         <div
             className={[
@@ -22,11 +30,7 @@ export function Avatar({ src, alt, children, className, style: avatarStyle, vari
             ].join(' ')}
             style={avatarStyle}
         >
-            {src !== undefined && src !== '' ? (
-                <img src={src} alt={alt} className={avatarImage} />
-            ) : (
-                children
-            )}
+            {src !== undefined && src !== '' ? <img src={src} alt={alt} className={avatarImage} /> : children}
         </div>
     );
 }

@@ -10,7 +10,10 @@ function fallback(urls: string[]) {
         document.documentElement.appendChild(frame);
 
         const interval = setInterval(() => {
-            if (frame.contentWindow?.document.readyState === 'complete' || frame.contentWindow?.document.readyState === 'interactive') {
+            if (
+                frame.contentWindow?.document.readyState === 'complete' ||
+                frame.contentWindow?.document.readyState === 'interactive'
+            ) {
                 clearInterval(interval);
                 setTimeout(() => {
                     frame.parentNode?.removeChild(frame);
@@ -22,7 +25,7 @@ function fallback(urls: string[]) {
             }
         }, 100);
     };
-    
+
     createIframe();
 }
 
@@ -44,7 +47,7 @@ export default function multiDownload(urls: string[]): void {
     }
 
     let delay = 0;
-    urls.forEach((url) => {
+    urls.forEach(url => {
         setTimeout(() => download(url), 100 * ++delay);
     });
 }

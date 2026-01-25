@@ -27,7 +27,7 @@ export class HTML5Player {
 
     load(url: string, autoplay = false) {
         if (!this.element) return;
-        
+
         logger.debug('HTML5Player loading URL', { component: 'HTML5Player', url, autoplay });
         this.element.src = url;
         this.element.autoplay = autoplay;

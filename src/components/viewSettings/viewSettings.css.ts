@@ -5,7 +5,7 @@ export const overlay = style({
     backgroundColor: vars.colors.overlay,
     position: 'fixed',
     inset: 0,
-    zIndex: vars.zIndex.modalBackdrop,
+    zIndex: vars.zIndex.modalBackdrop
 });
 
 export const content = style({
@@ -21,7 +21,7 @@ export const content = style({
     maxHeight: '85vh',
     overflow: 'auto',
     padding: vars.spacing.lg,
-    zIndex: vars.zIndex.modal,
+    zIndex: vars.zIndex.modal
 });
 
 export const title = style({
@@ -29,12 +29,12 @@ export const title = style({
     marginBottom: vars.spacing.md,
     fontWeight: vars.typography.fontWeightBold,
     fontSize: vars.typography.fontSizeXl,
-    color: vars.colors.text,
+    color: vars.colors.text
 });
 
 export const footer = style({
     marginTop: vars.spacing.lg,
     display: 'flex',
     justifyContent: 'flex-end',
-    gap: vars.spacing.sm,
+    gap: vars.spacing.sm
 });

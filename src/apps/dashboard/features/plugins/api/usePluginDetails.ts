@@ -21,17 +21,9 @@ export const usePluginDetails = () => {
         isPending: isConfigurationPagesPending
     } = useConfigurationPages();
 
-    const {
-        data: packages,
-        isError: isPackagesError,
-        isPending: isPackagesPending
-    } = usePackages();
+    const { data: packages, isError: isPackagesError, isPending: isPackagesPending } = usePackages();
 
-    const {
-        data: plugins,
-        isError: isPluginsError,
-        isPending: isPluginsPending
-    } = usePlugins();
+    const { data: plugins, isError: isPluginsError, isPending: isPluginsPending } = usePlugins();
 
     const pluginDetails = useMemo<PluginDetails[]>(() => {
         if (!isPackagesPending && !isPluginsPending) {
@@ -97,19 +89,11 @@ export const usePluginDetails = () => {
                         versions: packageInfo?.versions || []
                     };
                 })
-                .sort(({ name: nameA }, { name: nameB }) => (
-                    (nameA || '').localeCompare(nameB || '')
-                ));
+                .sort(({ name: nameA }, { name: nameB }) => (nameA || '').localeCompare(nameB || ''));
         }
 
         return [];
-    }, [
-        api,
-        configurationPages,
-        isPluginsPending,
-        packages,
-        plugins
-    ]);
+    }, [api, configurationPages, isPluginsPending, packages, plugins]);
 
     return {
         data: pluginDetails,

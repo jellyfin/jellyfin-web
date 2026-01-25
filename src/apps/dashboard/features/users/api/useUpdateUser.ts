@@ -9,10 +9,7 @@ export const useUpdateUser = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: UserApiUpdateUserRequest) => (
-            getUserApi(api!)
-                .updateUser(params)
-        ),
+        mutationFn: (params: UserApiUpdateUserRequest) => getUserApi(api!).updateUser(params),
         onSuccess: (_, params) => {
             void queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY, params.userId]

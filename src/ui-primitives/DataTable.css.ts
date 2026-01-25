@@ -154,4 +154,3 @@ export const dataTableActionsCellStyles = style({
     width: '1%',
     whiteSpace: 'nowrap'
 });
-

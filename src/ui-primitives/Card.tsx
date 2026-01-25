@@ -1,4 +1,10 @@
-import React, { type CSSProperties, type KeyboardEvent, type MouseEventHandler, type ReactNode, type ReactElement } from 'react';
+import React, {
+    type CSSProperties,
+    type KeyboardEvent,
+    type MouseEventHandler,
+    type ReactNode,
+    type ReactElement
+} from 'react';
 import { cardStyles, cardPadding, cardInteractive, cardHeader, cardBody, cardFooter } from './Card.css';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,16 +37,16 @@ export function Card({
         }
     };
 
-    const interactiveProps = isInteractive ?
-        {
-            onClick: onClick,
-            onKeyDown: handleKeyDown,
-            onMouseEnter,
-            onMouseLeave,
-            tabIndex: 0,
-            role: 'button'
-        } :
-        {};
+    const interactiveProps = isInteractive
+        ? {
+              onClick: onClick,
+              onKeyDown: handleKeyDown,
+              onMouseEnter,
+              onMouseLeave,
+              tabIndex: 0,
+              role: 'button'
+          }
+        : {};
 
     return (
         <div
@@ -54,7 +60,13 @@ export function Card({
     );
 }
 
-export function CardHeader({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function CardHeader({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <div className={`${cardHeader} ${className ?? ''}`}>{children}</div>;
 }
 
@@ -74,9 +86,14 @@ export function CardBody({
     );
 }
 
-export function CardFooter({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function CardFooter({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <div className={`${cardFooter} ${className ?? ''}`}>{children}</div>;
 }
 
 export { cardStyles, cardPadding, cardInteractive, cardHeader, cardBody, cardFooter };
-

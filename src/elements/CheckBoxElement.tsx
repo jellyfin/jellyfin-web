@@ -64,17 +64,15 @@ const CheckBoxElement: FC<CheckBoxElementProps> = ({
     title
 }) => {
     const appName = itemAppName ? `- ${itemAppName}` : '';
-    const renderContent = itemName ?
-        `<span>${escapeHTML(itemName || '')} ${appName}</span>` :
-        `<span>${globalize.translate(title)}</span>`;
+    const renderContent = itemName
+        ? `<span>${escapeHTML(itemName || '')} ${appName}</span>`
+        : `<span>${globalize.translate(title)}</span>`;
 
     return (
         <div
-            className='sectioncheckbox'
+            className="sectioncheckbox"
             dangerouslySetInnerHTML={createCheckBoxElement({
-                labelClassName: labelClassName ?
-                    `class='${labelClassName}'` :
-                    '',
+                labelClassName: labelClassName ? `class='${labelClassName}'` : '',
                 className: className,
                 id: elementId ? `id='${elementId}'` : '',
                 dataFilter: dataFilter ? `data-filter='${dataFilter}'` : '',

@@ -97,7 +97,7 @@ export const Component = (): React.ReactElement => {
                     }}
                 >
                     <Tooltip title={globalize.translate('ButtonRemove')}>
-                        <IconButton variant='danger' onClick={() => onDeleteTrigger(row)}>
+                        <IconButton variant="danger" onClick={() => onDeleteTrigger(row)}>
                             <MinusCircledIcon />
                         </IconButton>
                     </Tooltip>
@@ -112,7 +112,7 @@ export const Component = (): React.ReactElement => {
     }
 
     return (
-        <Page id='scheduledTaskPage' className='mainAnimatedPage type-interior'>
+        <Page id="scheduledTaskPage" className="mainAnimatedPage type-interior">
             <ConfirmDialog
                 open={isRemoveConfirmOpen}
                 title={globalize.translate('HeaderDeleteTaskTrigger')}
@@ -128,9 +128,9 @@ export const Component = (): React.ReactElement => {
                 onClose={handleNewTriggerDialogClose}
                 onAdd={onNewTriggerAdd}
             />
-            <Box className='content-primary'>
-                <Box className='readOnlyContent'>
-                    <Flex direction='column' gap={vars.spacing.md}>
+            <Box className="content-primary">
+                <Box className="readOnlyContent">
+                    <Flex direction="column" gap={vars.spacing.md}>
                         <Heading.H2>{task.Name}</Heading.H2>
                         <Text>{task.Description}</Text>
                         <Button

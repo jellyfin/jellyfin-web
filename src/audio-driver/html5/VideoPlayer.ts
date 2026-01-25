@@ -68,8 +68,8 @@ export class VideoPlayer extends HTML5Player {
     private setupVideoListeners() {
         const video = this.getVideoElement();
         video.addEventListener('resize', this.handleResize);
-        
-        // Audio/Subtitle track changes often happen via HLS/Dash events, 
+
+        // Audio/Subtitle track changes often happen via HLS/Dash events,
         // but native tracks trigger 'change' on the track list
         if (video.textTracks) {
             video.textTracks.addEventListener('change', this.handleTrackChange);
@@ -79,12 +79,12 @@ export class VideoPlayer extends HTML5Player {
     private handleResize = () => {
         const video = this.getVideoElement();
         this.videoEvents.onVideoResize?.(video.videoWidth, video.videoHeight);
-    }
+    };
 
     private handleTrackChange = () => {
         // Implementation depends on how we want to expose tracks
         // For now, just a placeholder
-    }
+    };
 
     destroy() {
         const video = this.getVideoElement();

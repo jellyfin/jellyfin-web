@@ -46,7 +46,9 @@ function Switch({ checked, onCheckedChange, disabled, label }: Readonly<SwitchPr
                     />
                 </SwitchPrimitive.Thumb>
             </SwitchPrimitive.Root>
-            {label !== undefined && label !== '' && <span style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeMd }}>{label}</span>}
+            {label !== undefined && label !== '' && (
+                <span style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeMd }}>{label}</span>
+            )}
         </div>
     );
 }
@@ -80,7 +82,7 @@ function WithLabelStory(): ReactElement {
         setChecked(v);
     }, []);
 
-    return <Switch checked={checked} onCheckedChange={handleCheckedChange} label='Enable notifications' />;
+    return <Switch checked={checked} onCheckedChange={handleCheckedChange} label="Enable notifications" />;
 }
 
 export const WithLabel: Story = {
@@ -112,21 +114,13 @@ function SettingsExampleStory(): ReactElement {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}>
-            <Switch
-                checked={settings.darkMode}
-                onCheckedChange={handleDarkModeChange}
-                label='Dark Mode'
-            />
+            <Switch checked={settings.darkMode} onCheckedChange={handleDarkModeChange} label="Dark Mode" />
             <Switch
                 checked={settings.notifications}
                 onCheckedChange={handleNotificationsChange}
-                label='Push Notifications'
+                label="Push Notifications"
             />
-            <Switch
-                checked={settings.autoPlay}
-                onCheckedChange={handleAutoPlayChange}
-                label='Auto-play next episode'
-            />
+            <Switch checked={settings.autoPlay} onCheckedChange={handleAutoPlayChange} label="Auto-play next episode" />
         </div>
     );
 }

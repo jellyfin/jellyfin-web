@@ -118,68 +118,59 @@ const sortOrderMenuOptions = [
 interface SortButtonProps {
     viewType: LibraryTab;
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<
-        React.SetStateAction<LibraryViewSettings>
-    >;
+    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const SortButton: FC<SortButtonProps> = ({
-    viewType,
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
-    const [ isMenuOpen, setIsMenuOpen ] = React.useState(false);
+const SortButton: FC<SortButtonProps> = ({ viewType, libraryViewSettings, setLibraryViewSettings }) => {
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-    const onSortByChange = useCallback((value: string) => {
-        setLibraryViewSettings((prevState) => ({
-            ...prevState,
-            StartIndex: 0,
-            SortBy: value as ItemSortBy
-        }));
-    }, [ setLibraryViewSettings ]);
+    const onSortByChange = useCallback(
+        (value: string) => {
+            setLibraryViewSettings(prevState => ({
+                ...prevState,
+                StartIndex: 0,
+                SortBy: value as ItemSortBy
+            }));
+        },
+        [setLibraryViewSettings]
+    );
 
-    const onSortOrderChange = useCallback((value: string) => {
-        setLibraryViewSettings((prevState) => ({
-            ...prevState,
-            StartIndex: 0,
-            SortOrder: value as SortOrder
-        }));
-    }, [ setLibraryViewSettings ]);
+    const onSortOrderChange = useCallback(
+        (value: string) => {
+            setLibraryViewSettings(prevState => ({
+                ...prevState,
+                StartIndex: 0,
+                SortOrder: value as SortOrder
+            }));
+        },
+        [setLibraryViewSettings]
+    );
 
     const sortMenuOptions = getSortMenuOptions(viewType);
 
     return (
         <Menu
-            id='sort-popover'
+            id="sort-popover"
             open={isMenuOpen}
             onOpenChange={setIsMenuOpen}
-            align='center'
-            trigger={(
-                <Button
-                    title={globalize.translate('Sort')}
-                    variant='plain'
-                >
+            align="center"
+            trigger={
+                <Button title={globalize.translate('Sort')} variant="plain">
                     <CaretSortIcon />
                 </Button>
-            )}
+            }
         >
             <Box style={{ padding: vars.spacing.sm, width: 220 }}>
-                <Text size='sm' weight='medium' color='secondary'>
+                <Text size="sm" weight="medium" color="secondary">
                     {globalize.translate('LabelSortBy')}
                 </Text>
-                <Select
-                    value={libraryViewSettings.SortBy}
-                    onValueChange={onSortByChange}
-                >
+                <Select value={libraryViewSettings.SortBy} onValueChange={onSortByChange}>
                     <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
                         <SelectValue placeholder={globalize.translate('LabelSortBy')} />
                     </SelectTrigger>
                     <SelectContent>
-                        {sortMenuOptions.map((option) => (
-                            <SelectItem
-                                key={option.value}
-                                value={option.value}
-                            >
+                        {sortMenuOptions.map(option => (
+                            <SelectItem key={option.value} value={option.value}>
                                 {globalize.translate(option.label)}
                             </SelectItem>
                         ))}
@@ -190,18 +181,15 @@ const SortButton: FC<SortButtonProps> = ({
             <Divider />
 
             <Box style={{ padding: vars.spacing.sm, width: 220 }}>
-                <Text size='sm' weight='medium' color='secondary'>
+                <Text size="sm" weight="medium" color="secondary">
                     {globalize.translate('LabelSortOrder')}
                 </Text>
-                <Select
-                    value={libraryViewSettings.SortOrder}
-                    onValueChange={onSortOrderChange}
-                >
+                <Select value={libraryViewSettings.SortOrder} onValueChange={onSortOrderChange}>
                     <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
                         <SelectValue placeholder={globalize.translate('LabelSortOrder')} />
                     </SelectTrigger>
                     <SelectContent>
-                        {sortOrderMenuOptions.map((option) => (
+                        {sortOrderMenuOptions.map(option => (
                             <SelectItem key={option.value} value={option.value}>
                                 {option.label}
                             </SelectItem>

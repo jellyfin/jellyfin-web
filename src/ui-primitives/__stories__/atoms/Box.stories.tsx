@@ -19,7 +19,15 @@ interface FlexProps extends HTMLAttributes<HTMLDivElement> {
     wrap?: boolean;
 }
 
-function Flex({ children, direction = 'row', gap = '0', align, justify, wrap, ...props }: Readonly<FlexProps>): ReactElement {
+function Flex({
+    children,
+    direction = 'row',
+    gap = '0',
+    align,
+    justify,
+    wrap,
+    ...props
+}: Readonly<FlexProps>): ReactElement {
     return (
         <div
             style={{
@@ -53,12 +61,14 @@ interface DemoBoxProps {
 
 function DemoBox({ label }: Readonly<DemoBoxProps>): ReactElement {
     return (
-        <div style={{
-            padding: vars.spacing.md,
-            backgroundColor: vars.colors.primary,
-            borderRadius: vars.borderRadius.md,
-            color: vars.colors.text
-        }}>
+        <div
+            style={{
+                padding: vars.spacing.md,
+                backgroundColor: vars.colors.primary,
+                borderRadius: vars.borderRadius.md,
+                color: vars.colors.text
+            }}
+        >
             {label}
         </div>
     );
@@ -66,7 +76,13 @@ function DemoBox({ label }: Readonly<DemoBoxProps>): ReactElement {
 
 function BasicBoxStory(): ReactElement {
     return (
-        <Box style={{ padding: vars.spacing.lg, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
+        <Box
+            style={{
+                padding: vars.spacing.lg,
+                backgroundColor: vars.colors.surface,
+                borderRadius: vars.borderRadius.md
+            }}
+        >
             <p style={{ color: vars.colors.text, margin: 0 }}>This is a Box component</p>
         </Box>
     );
@@ -79,9 +95,9 @@ export const BasicBox: Story = {
 function FlexRowStory(): ReactElement {
     return (
         <Flex gap={vars.spacing.md}>
-            <DemoBox label='Item 1' />
-            <DemoBox label='Item 2' />
-            <DemoBox label='Item 3' />
+            <DemoBox label="Item 1" />
+            <DemoBox label="Item 2" />
+            <DemoBox label="Item 3" />
         </Flex>
     );
 }
@@ -92,10 +108,10 @@ export const FlexRow: Story = {
 
 function FlexColumnStory(): ReactElement {
     return (
-        <Flex direction='column' gap={vars.spacing.md}>
-            <DemoBox label='Item 1' />
-            <DemoBox label='Item 2' />
-            <DemoBox label='Item 3' />
+        <Flex direction="column" gap={vars.spacing.md}>
+            <DemoBox label="Item 1" />
+            <DemoBox label="Item 2" />
+            <DemoBox label="Item 3" />
         </Flex>
     );
 }
@@ -106,8 +122,12 @@ export const FlexColumn: Story = {
 
 function FlexCenteredStory(): ReactElement {
     return (
-        <Flex align='center' justify='center' style={{ height: '200px', backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
-            <DemoBox label='Centered' />
+        <Flex
+            align="center"
+            justify="center"
+            style={{ height: '200px', backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}
+        >
+            <DemoBox label="Centered" />
         </Flex>
     );
 }
@@ -118,9 +138,16 @@ export const FlexCentered: Story = {
 
 function FlexSpaceBetweenStory(): ReactElement {
     return (
-        <Flex justify='space-between' style={{ backgroundColor: vars.colors.surface, padding: vars.spacing.md, borderRadius: vars.borderRadius.md }}>
-            <DemoBox label='Left' />
-            <DemoBox label='Right' />
+        <Flex
+            justify="space-between"
+            style={{
+                backgroundColor: vars.colors.surface,
+                padding: vars.spacing.md,
+                borderRadius: vars.borderRadius.md
+            }}
+        >
+            <DemoBox label="Left" />
+            <DemoBox label="Right" />
         </Flex>
     );
 }

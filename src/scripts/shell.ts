@@ -13,10 +13,10 @@ export interface DownloadItem {
 }
 
 const shell = {
-    enableFullscreen: function(): void {
+    enableFullscreen: function (): void {
         window.NativeShell?.enableFullscreen?.();
     },
-    disableFullscreen: function(): void {
+    disableFullscreen: function (): void {
         window.NativeShell?.disableFullscreen?.();
     },
     openClientSettings: (): void => {
@@ -25,7 +25,7 @@ const shell = {
     openDownloadManager: (): void => {
         window.NativeShell?.openDownloadManager?.();
     },
-    openUrl: function(url: string, target?: string): void {
+    openUrl: function (url: string, target?: string): void {
         if (window.NativeShell?.openUrl) {
             window.NativeShell.openUrl(url, target);
         } else {

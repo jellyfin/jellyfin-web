@@ -134,4 +134,3 @@ export const alignVariants = styleVariants({
     center: {},
     end: {}
 });
-

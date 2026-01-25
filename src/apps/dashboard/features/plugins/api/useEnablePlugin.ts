@@ -10,13 +10,10 @@ import { QueryKey } from './queryKey';
 export const useEnablePlugin = () => {
     const { api } = useApi();
     return useMutation({
-        mutationFn: (params: PluginsApiEnablePluginRequest) => (
-            getPluginsApi(api!)
-                .enablePlugin(params)
-        ),
+        mutationFn: (params: PluginsApiEnablePluginRequest) => getPluginsApi(api!).enablePlugin(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ QueryKey.Plugins ]
+                queryKey: [QueryKey.Plugins]
             });
         }
     });

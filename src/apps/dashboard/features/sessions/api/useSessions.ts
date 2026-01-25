@@ -8,11 +8,7 @@ import { useApi } from 'hooks/useApi';
 
 export const QUERY_KEY = 'Sessions';
 
-const fetchSessions = async (
-    api: Api,
-    requestParams?: SessionApiGetSessionsRequest,
-    options?: AxiosRequestConfig
-) => {
+const fetchSessions = async (api: Api, requestParams?: SessionApiGetSessionsRequest, options?: AxiosRequestConfig) => {
     const response = await getSessionApi(api).getSessions(requestParams, {
         signal: options?.signal
     });
@@ -20,14 +16,11 @@ const fetchSessions = async (
     return response.data;
 };
 
-export const useSessions = (
-    requestParams: SessionApiGetSessionsRequest
-) => {
+export const useSessions = (requestParams: SessionApiGetSessionsRequest) => {
     const { api } = useApi();
     return useQuery({
         queryKey: [QUERY_KEY, requestParams],
-        queryFn: ({ signal }) =>
-            fetchSessions(api!, requestParams, { signal }),
+        queryFn: ({ signal }) => fetchSessions(api!, requestParams, { signal }),
         enabled: !!api,
         refetchOnWindowFocus: false
     });

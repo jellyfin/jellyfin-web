@@ -19,9 +19,7 @@ interface SettingsSectionProps {
 export function SettingsSection({ title, description, children }: SettingsSectionProps) {
     return (
         <Box style={{ marginBottom: '32px' }}>
-            <Heading.H4 style={{ marginBottom: description ? '8px' : '16px' }}>
-                {title}
-            </Heading.H4>
+            <Heading.H4 style={{ marginBottom: description ? '8px' : '16px' }}>{title}</Heading.H4>
             {description && (
                 <Text color="secondary" size="sm" style={{ marginBottom: '16px' }}>
                     {description}
@@ -51,7 +49,9 @@ export function FormSelect({ label, value, onChange, options, description }: For
                     </SelectTrigger>
                     <SelectContent>
                         {options.map(opt => (
-                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                            <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                            </SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
@@ -77,10 +77,7 @@ export function FormCheckbox({ label, checked, onChange, description }: FormChec
         <Box style={{ marginBottom: '16px' }}>
             <FormControl>
                 <Flex style={{ alignItems: 'center', gap: '12px' }}>
-                    <Checkbox
-                        checked={checked}
-                        onChange={(e) => onChange(e.target.checked)}
-                    />
+                    <Checkbox checked={checked} onChange={e => onChange(e.target.checked)} />
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
                 </Flex>
             </FormControl>
@@ -103,7 +100,12 @@ interface ModernSettingsFormProps {
 export function ModernSettingsForm({ onSave, onCancel, isSaving, children }: ModernSettingsFormProps) {
     return (
         <Box style={{ maxWidth: '800px', margin: '0 auto', padding: '24px' }}>
-            <form onSubmit={(e) => { e.preventDefault(); onSave(); }}>
+            <form
+                onSubmit={e => {
+                    e.preventDefault();
+                    onSave();
+                }}
+            >
                 {children}
 
                 <Divider style={{ margin: '32px 0' }} />
@@ -133,13 +135,9 @@ export function ToggleSection({ title, checked, onToggle, children }: ToggleSect
         <Box style={{ marginBottom: '24px' }}>
             <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <Text weight="medium">{title}</Text>
-                <Switch checked={checked} onChange={(e) => onToggle(e.target.checked)} />
+                <Switch checked={checked} onChange={e => onToggle(e.target.checked)} />
             </Flex>
-            {checked && (
-                <Box style={{ paddingLeft: '16px', borderLeft: `2px solid var(--divider)` }}>
-                    {children}
-                </Box>
-            )}
+            {checked && <Box style={{ paddingLeft: '16px', borderLeft: `2px solid var(--divider)` }}>{children}</Box>}
         </Box>
     );
 }
@@ -159,9 +157,7 @@ export function SettingsCard({ title, children, action }: SettingsCardProps) {
                     {action}
                 </Flex>
             </CardHeader>
-            <CardBody>
-                {children}
-            </CardBody>
+            <CardBody>{children}</CardBody>
         </Card>
     );
 }

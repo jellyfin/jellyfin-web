@@ -26,17 +26,15 @@ const WidgetLoader = () => (
 );
 
 export const Component = () => {
-    const [ isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen ] = useState(false);
-    const [ isShutdownConfirmDialogOpen, setIsShutdownConfirmDialogOpen ] = useState(false);
+    const [isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen] = useState(false);
+    const [isShutdownConfirmDialogOpen, setIsShutdownConfirmDialogOpen] = useState(false);
     const startTask = useStartTask();
     const restartServer = useRestartServer();
     const shutdownServer = useShutdownServer();
 
     const { data: tasks } = useLiveTasks({ isHidden: false });
 
-    const librariesTask = useMemo(() => (
-        tasks?.find((value) => value.Key === 'RefreshLibrary')
-    ), [ tasks ]);
+    const librariesTask = useMemo(() => tasks?.find(value => value.Key === 'RefreshLibrary'), [tasks]);
 
     const promptRestart = useCallback(() => {
         setIsRestartConfirmDialogOpen(true);
@@ -55,31 +53,27 @@ export const Component = () => {
     }, []);
 
     const onScanLibraries = useCallback(() => {
-        const scanLibrariesTask = tasks?.find((value) => value.Key === 'RefreshLibrary');
+        const scanLibrariesTask = tasks?.find(value => value.Key === 'RefreshLibrary');
 
         if (scanLibrariesTask?.Id) {
             startTask.mutate({
                 taskId: scanLibrariesTask.Id
             });
         }
-    }, [ startTask, tasks ]);
+    }, [startTask, tasks]);
 
     const onRestartConfirm = useCallback(() => {
         restartServer.mutate();
         setIsRestartConfirmDialogOpen(false);
-    }, [ restartServer ]);
+    }, [restartServer]);
 
     const onShutdownConfirm = useCallback(() => {
         shutdownServer.mutate();
         setIsShutdownConfirmDialogOpen(false);
-    }, [ shutdownServer ]);
+    }, [shutdownServer]);
 
     return (
-        <Page
-            id='dashboardPage'
-            title={globalize.translate('TabDashboard')}
-            className='mainAnimatedPage type-interior'
-        >
+        <Page id="dashboardPage" title={globalize.translate('TabDashboard')} className="mainAnimatedPage type-interior">
             <ConfirmDialog
                 open={isRestartConfirmDialogOpen}
                 title={globalize.translate('Restart')}
@@ -87,7 +81,7 @@ export const Component = () => {
                 onConfirm={onRestartConfirm}
                 onCancel={closeRestartDialog}
                 confirmButtonText={globalize.translate('Restart')}
-                confirmButtonColor='danger'
+                confirmButtonColor="danger"
             />
             <ConfirmDialog
                 open={isShutdownConfirmDialogOpen}
@@ -96,12 +90,10 @@ export const Component = () => {
                 onConfirm={onShutdownConfirm}
                 onCancel={closeShutdownDialog}
                 confirmButtonText={globalize.translate('ButtonShutdown')}
-                confirmButtonColor='danger'
+                confirmButtonColor="danger"
             />
             <Box style={{ maxWidth: 1400, margin: '0 auto', padding: 24 }}>
-                <Grid
-                    className={`${gridContainer} ${gridGap.lg}`}
-                >
+                <Grid className={`${gridContainer} ${gridGap.lg}`}>
                     <Grid className={`${gridXs[12]} ${gridMd[7]} ${gridLg[7]} ${gridXl[6]}`}>
                         <Box className={`${Flex} ${Flex.col}`} style={{ gap: 24 }}>
                             <Suspense fallback={<WidgetLoader />}>

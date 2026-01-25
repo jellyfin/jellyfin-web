@@ -29,17 +29,17 @@ function AllSizesStory(): ReactElement {
     return (
         <Box style={{ width: '200px' }}>
             <Text>Item 1</Text>
-            <Spacer size='xs' />
+            <Spacer size="xs" />
             <Text>After xs spacer</Text>
-            <Spacer size='sm' />
+            <Spacer size="sm" />
             <Text>After sm spacer</Text>
-            <Spacer size='md' />
+            <Spacer size="md" />
             <Text>After md spacer</Text>
-            <Spacer size='lg' />
+            <Spacer size="lg" />
             <Text>After lg spacer</Text>
-            <Spacer size='xl' />
+            <Spacer size="xl" />
             <Text>After xl spacer</Text>
-            <Spacer size='xxl' />
+            <Spacer size="xxl" />
             <Text>After xxl spacer</Text>
         </Box>
     );
@@ -53,15 +53,19 @@ export const LayoutExample: Story = {
     decorators: [
         (_Story): ReactElement => (
             <Box style={{ width: '300px', border: '1px solid #333', borderRadius: '8px', padding: '16px' }}>
-                <Text weight='bold'>Header</Text>
-                <Spacer size='md' />
-                <Text color='secondary'>Main content goes here.</Text>
-                <Spacer size='md' />
-                <Text color='secondary'>More content...</Text>
-                <Spacer size='lg' />
+                <Text weight="bold">Header</Text>
+                <Spacer size="md" />
+                <Text color="secondary">Main content goes here.</Text>
+                <Spacer size="md" />
+                <Text color="secondary">More content...</Text>
+                <Spacer size="lg" />
                 <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                    <Text as='span' size='sm' color='secondary'>Cancel</Text>
-                    <Text as='span' size='sm' color='primary'>Confirm</Text>
+                    <Text as="span" size="sm" color="secondary">
+                        Cancel
+                    </Text>
+                    <Text as="span" size="sm" color="primary">
+                        Confirm
+                    </Text>
                 </Box>
             </Box>
         )
@@ -74,19 +78,25 @@ export const CardContent: Story = {
             <Box style={{ width: '350px' }}>
                 <Box style={{ border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
                     <Box style={{ padding: '16px', backgroundColor: '#2a2a2a' }}>
-                        <Text weight='bold'>Card Title</Text>
+                        <Text weight="bold">Card Title</Text>
                     </Box>
-                    <Spacer size='sm' />
+                    <Spacer size="sm" />
                     <Box style={{ padding: '0 16px' }}>
-                        <Text color='secondary' size='sm'>This is the card content section.</Text>
+                        <Text color="secondary" size="sm">
+                            This is the card content section.
+                        </Text>
                     </Box>
-                    <Spacer size='md' />
+                    <Spacer size="md" />
                     <Box style={{ padding: '0 16px' }}>
-                        <Text color='secondary' size='sm'>More details about the card.</Text>
+                        <Text color="secondary" size="sm">
+                            More details about the card.
+                        </Text>
                     </Box>
-                    <Spacer size='lg' />
+                    <Spacer size="lg" />
                     <Box style={{ padding: '16px', borderTop: '1px solid #333' }}>
-                        <Text as='span' size='sm' color='primary'>Action Link</Text>
+                        <Text as="span" size="sm" color="primary">
+                            Action Link
+                        </Text>
                     </Box>
                 </Box>
             </Box>
@@ -99,11 +109,13 @@ export const FormSpacing: Story = {
         (_Story): ReactElement => (
             <div style={{ width: '300px' }}>
                 <div>
-                    <Text size='sm' color='secondary'>Username</Text>
+                    <Text size="sm" color="secondary">
+                        Username
+                    </Text>
                     <div style={{ height: '8px' }} />
                     <input
-                        type='text'
-                        placeholder='Enter username'
+                        type="text"
+                        placeholder="Enter username"
                         style={{
                             width: '100%',
                             padding: '8px 12px',
@@ -114,13 +126,15 @@ export const FormSpacing: Story = {
                         }}
                     />
                 </div>
-                <Spacer size='md' />
+                <Spacer size="md" />
                 <div>
-                    <Text size='sm' color='secondary'>Email</Text>
+                    <Text size="sm" color="secondary">
+                        Email
+                    </Text>
                     <div style={{ height: '8px' }} />
                     <input
-                        type='email'
-                        placeholder='Enter email'
+                        type="email"
+                        placeholder="Enter email"
                         style={{
                             width: '100%',
                             padding: '8px 12px',
@@ -131,7 +145,7 @@ export const FormSpacing: Story = {
                         }}
                     />
                 </div>
-                <Spacer size='xl' />
+                <Spacer size="xl" />
                 <button
                     style={{
                         width: '100%',

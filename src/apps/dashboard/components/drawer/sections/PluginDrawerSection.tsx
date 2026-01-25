@@ -17,11 +17,11 @@ const PluginDrawerSection = (): React.ReactElement => {
 
     return (
         <List
-            aria-labelledby='plugins-subheader'
-            subheader={<ListSubheader id='plugins-subheader'>{globalize.translate('TabPlugins')}</ListSubheader>}
+            aria-labelledby="plugins-subheader"
+            subheader={<ListSubheader id="plugins-subheader">{globalize.translate('TabPlugins')}</ListSubheader>}
         >
             <ListItemLink
-                to='/dashboard/plugins'
+                to="/dashboard/plugins"
                 includePaths={['/configurationpage', '/dashboard/plugins/repositories']}
                 excludePaths={
                     Array.isArray(pagesInfo) ? pagesInfo.map(p => `/${Dashboard.getPluginUrl(p.Name ?? '')}`) : []
@@ -33,8 +33,8 @@ const PluginDrawerSection = (): React.ReactElement => {
                 {globalize.translate('TabPlugins')}
             </ListItemLink>
 
-            {Array.isArray(pagesInfo)
-                && pagesInfo.map(pageInfo => (
+            {Array.isArray(pagesInfo) &&
+                pagesInfo.map(pageInfo => (
                     <ListItemLink key={pageInfo.PluginId} to={`/${Dashboard.getPluginUrl(pageInfo.Name ?? '')}`}>
                         <ListItemDecorator>
                             <FileIcon />

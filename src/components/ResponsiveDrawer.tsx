@@ -7,28 +7,24 @@ import { vars } from 'styles/tokens.css';
 export const DRAWER_WIDTH = 240;
 
 export interface ResponsiveDrawerProps {
-    open: boolean
-    onClose: () => void
-    onOpen: () => void
+    open: boolean;
+    onClose: () => void;
+    onOpen: () => void;
 }
 
-const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
-    children,
-    open = false,
-    onClose
-}) => {
+const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({ children, open = false, onClose }) => {
     if (browser.mobile) {
         return (
             <Drawer
-                anchor='left'
+                anchor="left"
                 open={open}
                 onClose={onClose}
                 style={{
-                    zIndex: 1300,
+                    zIndex: 1300
                 }}
             >
                 <Box
-                    role='presentation'
+                    role="presentation"
                     onClick={onClose}
                     onKeyDown={onClose}
                     style={{ height: '100%', overflowY: 'auto' }}

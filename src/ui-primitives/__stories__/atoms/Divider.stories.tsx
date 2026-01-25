@@ -42,7 +42,7 @@ export const Vertical: Story = {
         (_Story): ReactElement => (
             <Box style={{ display: 'flex', alignItems: 'center', height: '60px' }}>
                 <Text>Left</Text>
-                <Divider orientation='vertical' />
+                <Divider orientation="vertical" />
                 <Text>Right</Text>
             </Box>
         )
@@ -72,7 +72,7 @@ export const InCard: Story = {
         (_Story): ReactElement => (
             <Box style={{ width: '300px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
                 <Box style={{ padding: '16px', backgroundColor: '#2a2a2a' }}>
-                    <Text weight='bold'>Card Header</Text>
+                    <Text weight="bold">Card Header</Text>
                 </Box>
                 <Divider />
                 <Box style={{ padding: '16px' }}>
@@ -80,8 +80,12 @@ export const InCard: Story = {
                 </Box>
                 <Divider />
                 <Box style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                    <Text as='span' size='sm' color='secondary'>Cancel</Text>
-                    <Text as='span' size='sm' color='primary'>Confirm</Text>
+                    <Text as="span" size="sm" color="secondary">
+                        Cancel
+                    </Text>
+                    <Text as="span" size="sm" color="primary">
+                        Confirm
+                    </Text>
                 </Box>
             </Box>
         )
@@ -92,11 +96,11 @@ function MultipleVerticalStory(): ReactElement {
     return (
         <Box style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Text>Home</Text>
-            <Divider orientation='vertical' />
+            <Divider orientation="vertical" />
             <Text>About</Text>
-            <Divider orientation='vertical' />
+            <Divider orientation="vertical" />
             <Text>Contact</Text>
-            <Divider orientation='vertical' />
+            <Divider orientation="vertical" />
             <Text>Settings</Text>
         </Box>
     );

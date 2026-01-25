@@ -33,15 +33,17 @@ const ListItemLink: FC<ListItemLinkProps> = ({
     ...params
 }) => {
     const location = useLocation();
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
-    const [ toPath, toParams ] = to.split('?');
+    const [toPath, toParams] = to.split('?');
     const toSearchParams = new URLSearchParams(`?${toParams}`);
-    const selectedPaths = [ toPath, ...includePaths ];
+    const selectedPaths = [toPath, ...includePaths];
 
-    const isSelected = selectedOverride ?? (selectedPaths.includes(location.pathname)
-        && !excludePaths.includes(location.pathname + location.search)
-        && (!toParams || isMatchingParams(toSearchParams, searchParams)));
+    const isSelected =
+        selectedOverride ??
+        (selectedPaths.includes(location.pathname) &&
+            !excludePaths.includes(location.pathname + location.search) &&
+            (!toParams || isMatchingParams(toSearchParams, searchParams)));
 
     return (
         <ListItemButton
@@ -54,8 +56,8 @@ const ListItemLink: FC<ListItemLinkProps> = ({
                     backgroundColor: vars.colors.primarySoftBg,
                     color: vars.colors.primary,
                     '&:hover': {
-                        backgroundColor: vars.colors.primarySoftHoverBg,
-                    },
+                        backgroundColor: vars.colors.primarySoftHoverBg
+                    }
                 }),
                 ...style
             }}

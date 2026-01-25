@@ -1,1 +1,20 @@
-{"rustc":4996801173321332248,"features":"[\"default\", \"i128\", \"libm\", \"std\"]","declared_features":"[\"default\", \"i128\", \"libm\", \"std\"]","target":5408242616063297496,"profile":3033921117576893,"path":13157374897043309952,"deps":[[13927012481677012980,"autocfg",false,10246936067784173855]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/num-traits-c0b80c8ec357ae66/dep-build-script-build-script-build","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"default\", \"i128\", \"libm\", \"std\"]",
+  "declared_features": "[\"default\", \"i128\", \"libm\", \"std\"]",
+  "target": 5408242616063297496,
+  "profile": 3033921117576893,
+  "path": 13157374897043309952,
+  "deps": [[13927012481677012980, "autocfg", false, 10246936067784173855]],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/num-traits-c0b80c8ec357ae66/dep-build-script-build-script-build",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

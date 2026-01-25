@@ -148,13 +148,13 @@ export const Component = (): React.ReactElement => {
 
     return (
         <Page
-            id='dashboardGeneralPage'
+            id="dashboardGeneralPage"
             title={globalize.translate('General')}
-            className='type-interior mainAnimatedPage'
+            className="type-interior mainAnimatedPage"
         >
             <Box style={{ maxWidth: 800, margin: '0 auto', padding: vars.spacing.lg }}>
                 {isConfigError || isLocalizationOptionsError ? (
-                    <Alert variant='error'>{globalize.translate('SettingsPageLoadError')}</Alert>
+                    <Alert variant="error">{globalize.translate('SettingsPageLoadError')}</Alert>
                 ) : (
                     <form
                         onSubmit={e => {
@@ -166,10 +166,10 @@ export const Component = (): React.ReactElement => {
                             <Heading.H2 style={{ margin: 0 }}>{globalize.translate('Settings')}</Heading.H2>
 
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert variant='success'>{globalize.translate('SettingsSaved')}</Alert>
+                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                             )}
 
-                            <form.Field name='serverName'>
+                            <form.Field name="serverName">
                                 {field => (
                                     <Input
                                         label={globalize.translate('LabelServerName')}
@@ -180,13 +180,15 @@ export const Component = (): React.ReactElement => {
                                 )}
                             </form.Field>
 
-                            <form.Field name='uiCulture'>
+                            <form.Field name="uiCulture">
                                 {field => (
                                     <FormControl>
                                         <FormLabel>{globalize.translate('LabelPreferredDisplayLanguage')}</FormLabel>
                                         <Select value={field.state.value ?? ''} onValueChange={field.handleChange}>
                                             <SelectTrigger>
-                                                <SelectValue placeholder={globalize.translate('LabelPreferredDisplayLanguage')} />
+                                                <SelectValue
+                                                    placeholder={globalize.translate('LabelPreferredDisplayLanguage')}
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {languageOptions?.map(l => (
@@ -196,7 +198,9 @@ export const Component = (): React.ReactElement => {
                                                 )) ?? []}
                                             </SelectContent>
                                         </Select>
-                                        <FormHelperText>{globalize.translate('LabelDisplayLanguageHelp')}</FormHelperText>
+                                        <FormHelperText>
+                                            {globalize.translate('LabelDisplayLanguageHelp')}
+                                        </FormHelperText>
                                     </FormControl>
                                 )}
                             </form.Field>
@@ -205,7 +209,7 @@ export const Component = (): React.ReactElement => {
                                 {globalize.translate('HeaderPaths')}
                             </Heading.H4>
 
-                            <form.Field name='cachePath'>
+                            <form.Field name="cachePath">
                                 {field => (
                                     <Input
                                         label={globalize.translate('LabelCachePath')}
@@ -214,7 +218,7 @@ export const Component = (): React.ReactElement => {
                                         onChange={event => field.handleChange(event.target.value)}
                                         style={{ position: 'relative' }}
                                         endDecorator={
-                                            <IconButton onClick={showCachePathPicker} size='sm' variant='plain'>
+                                            <IconButton onClick={showCachePathPicker} size="sm" variant="plain">
                                                 <MagnifyingGlassIcon />
                                             </IconButton>
                                         }
@@ -222,7 +226,7 @@ export const Component = (): React.ReactElement => {
                                 )}
                             </form.Field>
 
-                            <form.Field name='metadataPath'>
+                            <form.Field name="metadataPath">
                                 {field => (
                                     <Input
                                         label={globalize.translate('LabelMetadataPath')}
@@ -231,7 +235,7 @@ export const Component = (): React.ReactElement => {
                                         onChange={event => field.handleChange(event.target.value)}
                                         style={{ position: 'relative' }}
                                         endDecorator={
-                                            <IconButton onClick={showMetadataPathPicker} size='sm' variant='plain'>
+                                            <IconButton onClick={showMetadataPathPicker} size="sm" variant="plain">
                                                 <MagnifyingGlassIcon />
                                             </IconButton>
                                         }
@@ -243,7 +247,7 @@ export const Component = (): React.ReactElement => {
                                 {globalize.translate('QuickConnect')}
                             </Heading.H4>
 
-                            <form.Field name='quickConnectAvailable'>
+                            <form.Field name="quickConnectAvailable">
                                 {field => (
                                     <Checkbox
                                         checked={Boolean(field.state.value)}
@@ -258,10 +262,10 @@ export const Component = (): React.ReactElement => {
                                 {globalize.translate('HeaderPerformance')}
                             </Heading.H4>
 
-                            <form.Field name='libraryScanFanoutConcurrency'>
+                            <form.Field name="libraryScanFanoutConcurrency">
                                 {field => (
                                     <Input
-                                        type='number'
+                                        type="number"
                                         label={globalize.translate('LibraryScanFanoutConcurrency')}
                                         helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
                                         value={field.state.value?.toString() ?? ''}
@@ -270,10 +274,10 @@ export const Component = (): React.ReactElement => {
                                 )}
                             </form.Field>
 
-                            <form.Field name='parallelImageEncodingLimit'>
+                            <form.Field name="parallelImageEncodingLimit">
                                 {field => (
                                     <Input
-                                        type='number'
+                                        type="number"
                                         label={globalize.translate('LabelParallelImageEncodingLimit')}
                                         helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
                                         value={field.state.value?.toString() ?? ''}
@@ -283,7 +287,7 @@ export const Component = (): React.ReactElement => {
                             </form.Field>
 
                             <Box style={{ marginTop: vars.spacing.md, display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button type='submit' size='lg' loading={isSubmitting}>
+                                <Button type="submit" size="lg" loading={isSubmitting}>
                                     {globalize.translate('Save')}
                                 </Button>
                             </Box>

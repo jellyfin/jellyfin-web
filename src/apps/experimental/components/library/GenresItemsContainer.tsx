@@ -17,7 +17,7 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     parentId,
     collectionType,
     itemType
-// eslint-disable-next-line sonarjs/function-return-type
+    // eslint-disable-next-line sonarjs/function-return-type
 }) => {
     const { isLoading, data: genresResult } = useGetGenres(itemType, parentId);
 
@@ -26,10 +26,10 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     }
 
     if (!genresResult?.Items?.length) {
-        return <NoItemsMessage message='MessageNoGenresAvailable' />;
+        return <NoItemsMessage message="MessageNoGenresAvailable" />;
     }
 
-    return genresResult.Items.map((genre) => (
+    return genresResult.Items.map(genre => (
         <GenresSectionContainer
             key={genre.Id}
             collectionType={collectionType}

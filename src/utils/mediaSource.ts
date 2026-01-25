@@ -6,6 +6,7 @@ import type { MediaSourceInfo } from '@jellyfin/sdk/lib/generated-client';
  * @returns _true_ if the media source is an HLS stream, _false_ otherwise.
  */
 export function isHls(mediaSource: MediaSourceInfo | null | undefined): boolean {
-    return mediaSource?.TranscodingSubProtocol?.toUpperCase() === 'HLS'
-        || mediaSource?.Container?.toUpperCase() === 'HLS';
+    return (
+        mediaSource?.TranscodingSubProtocol?.toUpperCase() === 'HLS' || mediaSource?.Container?.toUpperCase() === 'HLS'
+    );
 }

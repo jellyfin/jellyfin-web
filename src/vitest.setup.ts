@@ -15,13 +15,17 @@ HTMLCanvasElement.prototype.getBoundingClientRect = vi.fn(() => ({
 }));
 
 Object.defineProperty(HTMLCanvasElement.prototype, 'width', {
-    get() { return this.getBoundingClientRect().width * (window.devicePixelRatio || 1); },
-    set(v) { }
+    get() {
+        return this.getBoundingClientRect().width * (window.devicePixelRatio || 1);
+    },
+    set(v) {}
 });
 
 Object.defineProperty(HTMLCanvasElement.prototype, 'height', {
-    get() { return this.getBoundingClientRect().height * (window.devicePixelRatio || 1); },
-    set(v) { }
+    get() {
+        return this.getBoundingClientRect().height * (window.devicePixelRatio || 1);
+    },
+    set(v) {}
 });
 
 // Mock Worker
@@ -44,8 +48,8 @@ Object.defineProperty(window, 'matchMedia', {
         removeListener: vi.fn(),
         addEventListener: vi.fn(),
         removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-    })),
+        dispatchEvent: vi.fn()
+    }))
 });
 
 // Mock ResizeObserver
@@ -62,7 +66,7 @@ Object.defineProperty(HTMLVideoElement.prototype, 'textTracks', {
             addEventListener: vi.fn(),
             removeEventListener: vi.fn(),
             dispatchEvent: vi.fn(),
-            length: 0,
+            length: 0
         };
-    },
+    }
 });

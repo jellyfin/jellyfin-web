@@ -21,4 +21,3 @@ export const paperElevation = styleVariants({
         boxShadow: vars.shadows.lg
     }
 });
-

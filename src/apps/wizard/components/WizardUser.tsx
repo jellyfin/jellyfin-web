@@ -24,7 +24,8 @@ const WizardUser = () => {
             setIsLoading(false);
             return;
         }
-        apiClient.ajax({ url: apiClient.getUrl('Startup/User'), type: 'GET' })
+        apiClient
+            .ajax({ url: apiClient.getUrl('Startup/User'), type: 'GET' })
             .then((r: any) => r.json())
             .then((user: any) => {
                 setUsername(user.Name || '');
@@ -77,18 +78,18 @@ const WizardUser = () => {
                         autoFocus
                     />
                     <Input
-                        type='password'
+                        type="password"
                         label={globalize.translate('LabelPassword')}
                         value={password}
                         onChange={(e: any) => setPassword(e.target.value)}
                     />
                     <Input
-                        type='password'
+                        type="password"
                         label={globalize.translate('LabelPasswordConfirm')}
                         value={confirmPassword}
                         onChange={(e: any) => setConfirmPassword(e.target.value)}
                     />
-                    <Button type='submit' size='lg' className={styles.submitButton}>
+                    <Button type="submit" size="lg" className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
                 </div>

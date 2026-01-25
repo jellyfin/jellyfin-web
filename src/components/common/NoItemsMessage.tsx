@@ -8,17 +8,13 @@ interface NoItemsMessageProps {
     message?: string;
 }
 
-const NoItemsMessage: FC<NoItemsMessageProps> = ({
-    message = 'MessageNoItemsAvailable'
-}) => {
+const NoItemsMessage: FC<NoItemsMessageProps> = ({ message = 'MessageNoItemsAvailable' }) => {
     return (
-        <Box className='noItemsMessage centerMessage'>
-            <Text as='h1' size='display' weight='bold'>
+        <Box className="noItemsMessage centerMessage">
+            <Text as="h1" size="display" weight="bold">
                 {globalize.translate('MessageNothingHere')}
             </Text>
-            <Text style={{ marginBottom: vars.spacing.md }}>
-                {globalize.translate(message)}
-            </Text>
+            <Text style={{ marginBottom: vars.spacing.md }}>{globalize.translate(message)}</Text>
         </Box>
     );
 };

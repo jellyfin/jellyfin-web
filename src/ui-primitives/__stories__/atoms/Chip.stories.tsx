@@ -43,7 +43,7 @@ function Chip({ children, variant = 'default', onDelete, icon }: Readonly<ChipPr
             {children}
             {onDelete !== undefined && (
                 <button
-                    type='button'
+                    type="button"
                     onClick={onDelete}
                     style={{
                         background: 'none',
@@ -79,11 +79,11 @@ export const Default: Story = {
 function VariantsStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: vars.spacing.sm, flexWrap: 'wrap' }}>
-            <Chip variant='default'>Default</Chip>
-            <Chip variant='primary'>Primary</Chip>
-            <Chip variant='success'>Success</Chip>
-            <Chip variant='warning'>Warning</Chip>
-            <Chip variant='error'>Error</Chip>
+            <Chip variant="default">Default</Chip>
+            <Chip variant="primary">Primary</Chip>
+            <Chip variant="success">Success</Chip>
+            <Chip variant="warning">Warning</Chip>
+            <Chip variant="error">Error</Chip>
         </div>
     );
 }
@@ -95,9 +95,9 @@ export const Variants: Story = {
 function WithIconStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: vars.spacing.sm }}>
-            <Chip icon='🎬'>Movies</Chip>
-            <Chip icon='📺'>TV Shows</Chip>
-            <Chip icon='🎵'>Music</Chip>
+            <Chip icon="🎬">Movies</Chip>
+            <Chip icon="📺">TV Shows</Chip>
+            <Chip icon="🎵">Music</Chip>
         </div>
     );
 }
@@ -114,7 +114,7 @@ function DeletableStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: vars.spacing.sm }}>
             <Chip onDelete={handleDelete}>Removable</Chip>
-            <Chip variant='primary' onDelete={handleDelete}>
+            <Chip variant="primary" onDelete={handleDelete}>
                 Primary
             </Chip>
         </div>

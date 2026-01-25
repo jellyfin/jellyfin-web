@@ -61,9 +61,7 @@ const sortByAlbumArtist = (item: ItemDto): string => {
 
 export function getIndex(item: ItemDto, listOptions: ListOptions): string {
     if (listOptions.index === 'disc') {
-        return item.ParentIndexNumber == null ?
-            '' :
-            globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
+        return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
     }
 
     const sortBy = (listOptions.sortBy ?? '').toLowerCase();
@@ -86,11 +84,7 @@ export function getIndex(item: ItemDto, listOptions: ListOptions): string {
     return '';
 }
 
-export function getImageUrl(
-    item: ItemDto,
-    api: Api | undefined,
-    size: number | undefined
-) {
+export function getImageUrl(item: ItemDto, api: Api | undefined, size: number | undefined) {
     let imgTag;
     let itemId;
     const fillWidth = size;
@@ -130,11 +124,7 @@ export function getImageUrl(
     };
 }
 
-export function getChannelImageUrl(
-    item: ItemDto,
-    api: Api | undefined,
-    size: number | undefined
-) {
+export function getChannelImageUrl(item: ItemDto, api: Api | undefined, size: number | undefined) {
     let imgTag;
     let itemId;
     const fillWidth = size;
@@ -146,12 +136,11 @@ export function getChannelImageUrl(
     }
 
     if (api && imgTag && itemId) {
-        const response = getImageApi(api)
-            .getItemImageUrlById(itemId, ImageType.Primary, {
-                fillWidth,
-                fillHeight,
-                tag: imgTag
-            });
+        const response = getImageApi(api).getItemImageUrlById(itemId, ImageType.Primary, {
+            fillWidth,
+            fillHeight,
+            tag: imgTag
+        });
 
         return {
             imgUrl: response,
@@ -166,8 +155,5 @@ export function getChannelImageUrl(
 }
 
 export function canResume(PlaybackPositionTicks: number | undefined): boolean {
-    return Boolean(
-        PlaybackPositionTicks
-            && PlaybackPositionTicks > 0
-    );
+    return Boolean(PlaybackPositionTicks && PlaybackPositionTicks > 0);
 }

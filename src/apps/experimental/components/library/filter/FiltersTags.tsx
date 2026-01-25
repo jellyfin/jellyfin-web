@@ -10,22 +10,18 @@ interface FiltersTagsProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersTags: FC<FiltersTagsProps> = ({
-    tagsOptions,
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersTags: FC<FiltersTagsProps> = ({ tagsOptions, libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersTagsChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value;
             const existingTags = libraryViewSettings?.Filters?.Tags ?? [];
 
-            const updatedTags = existingTags.includes(value) ?
-                existingTags.filter((filter) => filter !== value) :
-                [...existingTags, value];
+            const updatedTags = existingTags.includes(value)
+                ? existingTags.filter(filter => filter !== value)
+                : [...existingTags, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -39,14 +35,10 @@ const FiltersTags: FC<FiltersTagsProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
-            {tagsOptions.map((filter) => (
+            {tagsOptions.map(filter => (
                 <Checkbox
                     key={filter}
-                    checked={
-                        !!libraryViewSettings?.Filters?.Tags?.includes(
-                            String(filter)
-                        )
-                    }
+                    checked={!!libraryViewSettings?.Filters?.Tags?.includes(String(filter))}
                     onChange={onFiltersTagsChange}
                     value={String(filter)}
                 >

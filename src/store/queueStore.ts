@@ -144,14 +144,12 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 get().saveQueue();
             },
 
-            removeFromQueue: (itemIds) => {
+            removeFromQueue: itemIds => {
                 const { items, currentIndex } = get();
 
                 const toRemove = new Set(itemIds);
                 const filteredItems = items.filter(item => !toRemove.has(item.item.id));
-                const removedBeforeCurrent = items
-                    .slice(0, currentIndex)
-                    .some(item => toRemove.has(item.item.id));
+                const removedBeforeCurrent = items.slice(0, currentIndex).some(item => toRemove.has(item.item.id));
 
                 const updatedItems = filteredItems.map((item, index) => ({
                     ...item,
@@ -186,7 +184,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 get().saveQueue();
             },
 
-            setCurrentIndex: (index) => {
+            setCurrentIndex: index => {
                 const { items } = get();
 
                 if (index >= 0 && index < items.length) {
@@ -232,7 +230,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 }
             },
 
-            playItem: (itemId) => {
+            playItem: itemId => {
                 const { items } = get();
                 const index = items.findIndex(item => item.item.id === itemId);
 
@@ -275,9 +273,9 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
 
                 if (queueHistory.length === 0) return;
 
-                const restoredItems = queueHistory.map((id, index) =>
-                    items.find(item => item.item.id === id) || items[index]
-                ).filter(Boolean);
+                const restoredItems = queueHistory
+                    .map((id, index) => items.find(item => item.item.id === id) || items[index])
+                    .filter(Boolean);
 
                 const updatedItems = restoredItems.map((item, index) => ({
                     ...item,
@@ -298,8 +296,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
             moveItem: (fromIndex, toIndex) => {
                 const { items } = get();
 
-                if (fromIndex < 0 || fromIndex >= items.length ||
-                    toIndex < 0 || toIndex >= items.length) {
+                if (fromIndex < 0 || fromIndex >= items.length || toIndex < 0 || toIndex >= items.length) {
                     return;
                 }
 
@@ -320,12 +317,12 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 get().saveQueue();
             },
 
-            setRepeatMode: (mode) => {
+            setRepeatMode: mode => {
                 set({ repeatMode: mode });
                 get().saveQueue();
             },
 
-            setShuffleMode: (mode) => {
+            setShuffleMode: mode => {
                 const { isShuffled } = get();
 
                 set({ shuffleMode: mode });
@@ -339,7 +336,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 get().saveQueue();
             },
 
-            setStartPosition: (position) => {
+            setStartPosition: position => {
                 set({ startPosition: position });
             },
 
@@ -359,7 +356,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 return 0;
             },
 
-            addToHistory: (itemId) => {
+            addToHistory: itemId => {
                 const { queueHistory, lastPlayedItemId } = get();
 
                 if (itemId === lastPlayedItemId) return;

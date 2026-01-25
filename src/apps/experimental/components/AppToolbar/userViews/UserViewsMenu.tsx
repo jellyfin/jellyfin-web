@@ -10,40 +10,28 @@ import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { appRouter } from 'components/router/appRouter';
 
 interface UserViewsMenuProps {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-    trigger: React.ReactNode
-    userViews: BaseItemDto[]
-    selectedId?: string
-    includeGlobalViews?: boolean
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    trigger: React.ReactNode;
+    userViews: BaseItemDto[];
+    selectedId?: string;
+    includeGlobalViews?: boolean;
 }
 
-const UserViewsMenu: FC<UserViewsMenuProps> = ({
-    userViews,
-    selectedId,
-    open,
-    onOpenChange,
-    trigger
-}) => {
+const UserViewsMenu: FC<UserViewsMenuProps> = ({ userViews, selectedId, open, onOpenChange, trigger }) => {
     const navigate = useNavigate();
 
     const renderMenuItemContent = (icon: React.ReactNode, label: string, isSelected: boolean) => (
-        <Flex align='center' gap={vars.spacing.sm}>
-            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
-                {icon}
-            </Box>
-            <Text size='md' weight={isSelected ? 'medium' : 'normal'}>
+        <Flex align="center" gap={vars.spacing.sm}>
+            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>{icon}</Box>
+            <Text size="md" weight={isSelected ? 'medium' : 'normal'}>
                 {label}
             </Text>
         </Flex>
     );
 
     return (
-        <Menu
-            open={open}
-            onOpenChange={onOpenChange}
-            trigger={trigger}
-        >
+        <Menu open={open} onOpenChange={onOpenChange} trigger={trigger}>
             {userViews.map(view => (
                 <MenuItem
                     key={view.Id}
@@ -52,11 +40,7 @@ const UserViewsMenu: FC<UserViewsMenuProps> = ({
                         onOpenChange(false);
                     }}
                 >
-                    {renderMenuItemContent(
-                        <LibraryIcon item={view} />,
-                        view.Name ?? '',
-                        view.Id === selectedId
-                    )}
+                    {renderMenuItemContent(<LibraryIcon item={view} />, view.Name ?? '', view.Id === selectedId)}
                 </MenuItem>
             ))}
         </Menu>

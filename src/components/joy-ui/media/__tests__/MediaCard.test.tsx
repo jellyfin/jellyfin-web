@@ -12,12 +12,12 @@ import { MediaCard } from '../MediaCard';
 // Mock window.ApiClient
 const mockGetImageUrl = vi.fn((id, options) => `http://test.com/image/${id}`);
 const mockApiClient = {
-    getImageUrl: mockGetImageUrl,
+    getImageUrl: mockGetImageUrl
 };
 
 Object.defineProperty(window, 'ApiClient', {
     value: { getApiClient: () => mockApiClient },
-    writable: true,
+    writable: true
 });
 
 describe('MediaCard', () => {
@@ -27,7 +27,7 @@ describe('MediaCard', () => {
         ProductionYear: 2024,
         RunTimeTicks: 7200000000000,
         OfficialRating: 'PG-13',
-        ImageTags: { Primary: 'abc123' },
+        ImageTags: { Primary: 'abc123' }
     };
 
     beforeEach(() => {
@@ -103,7 +103,7 @@ describe('MediaCard', () => {
         const itemWithBackdrop = {
             ...mockItem,
             ImageTags: undefined,
-            BackdropImageTags: ['backdrop123'],
+            BackdropImageTags: ['backdrop123']
         };
         render(<MediaCard item={itemWithBackdrop} />);
 

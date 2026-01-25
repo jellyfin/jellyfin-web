@@ -27,7 +27,7 @@ export function Alert({
         <div
             className={`${alertStyles} ${alertVariants[effectiveVariant]} ${className ?? ''}`}
             style={alertStyle}
-            role='alert'
+            role="alert"
         >
             <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.sm }}>
                 <div>{children}</div>

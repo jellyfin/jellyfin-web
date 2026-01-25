@@ -90,8 +90,8 @@ export const swipeHintLeft = style({
     opacity: 0.5,
     pointerEvents: 'none',
     transition: `opacity ${vars.transitions.fast}`,
-    selectors: {
-        '@media (pointer: fine)': {
+    '@media': {
+        '(pointer: fine)': {
             opacity: 0
         }
     }
@@ -107,10 +107,9 @@ export const swipeHintRight = style({
     pointerEvents: 'none',
     transition: `opacity ${vars.transitions.fast}`,
     right: '8px',
-    selectors: {
-        '@media (pointer: fine)': {
+    '@media': {
+        '(pointer: fine)': {
             opacity: 0
         }
     }
 });
-

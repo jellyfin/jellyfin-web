@@ -13,23 +13,18 @@ const fetchConfigurationPages = async (
     params?: DashboardApiGetConfigurationPagesRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getDashboardApi(api)
-        .getConfigurationPages(params, options);
+    const response = await getDashboardApi(api).getConfigurationPages(params, options);
     return response.data;
 };
 
-const getConfigurationPagesQuery = (
-    api?: Api,
-    params?: DashboardApiGetConfigurationPagesRequest
-) => queryOptions({
-    queryKey: [ QueryKey.ConfigurationPages, params?.enableInMainMenu ],
-    queryFn: ({ signal }) => fetchConfigurationPages(api!, params, { signal }),
-    enabled: !!api
-});
+const getConfigurationPagesQuery = (api?: Api, params?: DashboardApiGetConfigurationPagesRequest) =>
+    queryOptions({
+        queryKey: [QueryKey.ConfigurationPages, params?.enableInMainMenu],
+        queryFn: ({ signal }) => fetchConfigurationPages(api!, params, { signal }),
+        enabled: !!api
+    });
 
-export const useConfigurationPages = (
-    params?: DashboardApiGetConfigurationPagesRequest
-) => {
+export const useConfigurationPages = (params?: DashboardApiGetConfigurationPagesRequest) => {
     const { api } = useApi();
     return useQuery(getConfigurationPagesQuery(api, params));
 };

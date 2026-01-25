@@ -4,5 +4,5 @@
 export function ensureArray<T>(val: T | T[] | null | undefined): T[] {
     if (val == null) return [];
     if (Array.isArray(val)) return val;
-    return [ val ];
+    return [val];
 }

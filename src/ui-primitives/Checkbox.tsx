@@ -31,15 +31,18 @@ export function Checkbox({
     const defaultId = React.useId();
     const inputId = id ?? defaultId;
 
-    const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
-        onChange?.(event);
-        onChangeChecked?.(event.target.checked);
-    }, [onChange, onChangeChecked]);
+    const handleChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>): void => {
+            onChange?.(event);
+            onChangeChecked?.(event.target.checked);
+        },
+        [onChange, onChangeChecked]
+    );
 
     return (
         <label className={`${checkboxContainer} ${className ?? ''}`} style={style} htmlFor={inputId}>
             <input
-                type='checkbox'
+                type="checkbox"
                 id={inputId}
                 name={name}
                 value={value}

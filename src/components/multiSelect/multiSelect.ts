@@ -148,7 +148,8 @@ function showSelectionCommands(): void {
 
         let html = '';
 
-        html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close" aria-hidden="true"></span></button>';
+        html +=
+            '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close" aria-hidden="true"></span></button>';
         html += '<h1 class="itemSelectionCount"></h1>';
 
         const moreIcon = 'more_vert';
@@ -159,9 +160,16 @@ function showSelectionCommands(): void {
         const btnClose = selectionCommandsPanel.querySelector('.btnCloseSelectionPanel');
         btnClose?.addEventListener('click', hideSelections);
 
-        const btnSelectionPanelOptions = selectionCommandsPanel.querySelector('.btnSelectionPanelOptions') as HTMLElement;
+        const btnSelectionPanelOptions = selectionCommandsPanel.querySelector(
+            '.btnSelectionPanelOptions'
+        ) as HTMLElement;
 
-        dom.addEventListener(btnSelectionPanelOptions, 'click', showMenuForSelectedItems as EventListener, { passive: true } as AddEventListenerOptions);
+        dom.addEventListener(
+            btnSelectionPanelOptions,
+            'click',
+            showMenuForSelectedItems as EventListener,
+            { passive: true } as AddEventListenerOptions
+        );
     }
 }
 
@@ -172,8 +180,11 @@ interface AlertOptions {
 }
 
 function alertText(options: AlertOptions): Promise<void> {
-    return new Promise((resolve) => {
-        alert(options).then(() => resolve(), () => resolve());
+    return new Promise(resolve => {
+        alert(options).then(
+            () => resolve(),
+            () => resolve()
+        );
     });
 }
 
@@ -190,9 +201,15 @@ function deleteItems(apiClient: ApiClient, itemIds: string[]): Promise<void> {
         confirm(msg, title).then(() => {
             const promises = itemIds.map(itemId => apiClient.deleteItem(itemId));
 
-            Promise.all(promises).then(() => resolve(), () => {
-                alertText({ text: globalize.translate('ErrorDeletingItem') }).then(() => reject(), () => reject());
-            });
+            Promise.all(promises).then(
+                () => resolve(),
+                () => {
+                    alertText({ text: globalize.translate('ErrorDeletingItem') }).then(
+                        () => reject(),
+                        () => reject()
+                    );
+                }
+            );
         }, reject);
     });
 }
@@ -265,7 +282,7 @@ function showMenuForSelectedItems(e: MouseEvent): void {
                 });
             }
 
-            import('../actionSheet/actionSheet').then((actionsheet) => {
+            import('../actionSheet/actionSheet').then(actionsheet => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: e.target as Element | null | undefined,
@@ -278,9 +295,16 @@ function showMenuForSelectedItems(e: MouseEvent): void {
                                 {
                                     const elems = document.querySelectorAll('.itemSelectionPanel');
                                     for (let i = 0, length = elems.length; i < length; i++) {
-                                        const chkItemSelect = elems[i].querySelector('.chkItemSelect') as HTMLInputElement;
+                                        const chkItemSelect = elems[i].querySelector(
+                                            '.chkItemSelect'
+                                        ) as HTMLInputElement;
 
-                                        if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width !== 0) {
+                                        if (
+                                            chkItemSelect &&
+                                            !chkItemSelect.classList.contains('checkedInitial') &&
+                                            !chkItemSelect.checked &&
+                                            chkItemSelect.getBoundingClientRect().width !== 0
+                                        ) {
                                             chkItemSelect.checked = true;
                                             updateItemSelection(chkItemSelect, true);
                                         }
@@ -299,16 +323,19 @@ function showMenuForSelectedItems(e: MouseEvent): void {
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                                    const playlistEditor = new PlaylistEditor();
-                                    playlistEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    }).catch(() => {
+                                import('../playlisteditor/playlisteditor')
+                                    .then(({ default: PlaylistEditor }) => {
+                                        const playlistEditor = new PlaylistEditor();
+                                        playlistEditor
+                                            .show({
+                                                items: items,
+                                                serverId: serverId
+                                            })
+                                            .catch(() => {});
+                                    })
+                                    .catch(err => {
+                                        console.error('[AddToPlaylist] failed to load playlist editor', err);
                                     });
-                                }).catch(err => {
-                                    console.error('[AddToPlaylist] failed to load playlist editor', err);
-                                });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
@@ -381,16 +408,16 @@ function combineVersions(apiClient: ApiClient, selection: string[]): void {
 
     loading.show();
 
-    apiClient.ajax({
-
-        type: 'POST',
-        url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
-
-    }).then(() => {
-        loading.hide();
-        hideSelections();
-        dispatchNeedsRefresh();
-    });
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
+        })
+        .then(() => {
+            loading.hide();
+            hideSelections();
+            dispatchNeedsRefresh();
+        });
 }
 
 function showSelections(initialCard: Element, addInitialCheck: boolean): void {
@@ -550,9 +577,24 @@ export default function multiSelect(options: MultiSelectOptions): MultiSelectIns
             dom.addEventListener(element, 'touchmove', onTouchMove, { passive: true } as AddEventListenerOptions);
             dom.addEventListener(element, 'touchend', onTouchEnd, { passive: true } as AddEventListenerOptions);
             dom.addEventListener(element, 'touchcancel', onTouchEnd, { passive: true } as AddEventListenerOptions);
-            dom.addEventListener(element, 'mousedown', onMouseDown as EventListener, { passive: true } as AddEventListenerOptions);
-            dom.addEventListener(element, 'mouseleave', onMouseOut as EventListener, { passive: true } as AddEventListenerOptions);
-            dom.addEventListener(element, 'mouseup', onMouseOut as EventListener, { passive: true } as AddEventListenerOptions);
+            dom.addEventListener(
+                element,
+                'mousedown',
+                onMouseDown as EventListener,
+                { passive: true } as AddEventListenerOptions
+            );
+            dom.addEventListener(
+                element,
+                'mouseleave',
+                onMouseOut as EventListener,
+                { passive: true } as AddEventListenerOptions
+            );
+            dom.addEventListener(
+                element,
+                'mouseup',
+                onMouseOut as EventListener,
+                { passive: true } as AddEventListenerOptions
+            );
         }
     }
 
@@ -570,12 +612,42 @@ export default function multiSelect(options: MultiSelectOptions): MultiSelectIns
 
             const element = container;
 
-            dom.removeEventListener(element, 'touchstart', onTouchStart as EventListener, { passive: true } as EventListenerOptions);
-            dom.removeEventListener(element, 'touchmove', onTouchMove as EventListener, { passive: true } as EventListenerOptions);
-            dom.removeEventListener(element, 'touchend', onTouchEnd as EventListener, { passive: true } as EventListenerOptions);
-            dom.removeEventListener(element, 'mousedown', onMouseDown as EventListener, { passive: true } as EventListenerOptions);
-            dom.removeEventListener(element, 'mouseleave', onMouseOut as EventListener, { passive: true } as EventListenerOptions);
-            dom.removeEventListener(element, 'mouseup', onMouseOut as EventListener, { passive: true } as EventListenerOptions);
+            dom.removeEventListener(
+                element,
+                'touchstart',
+                onTouchStart as EventListener,
+                { passive: true } as EventListenerOptions
+            );
+            dom.removeEventListener(
+                element,
+                'touchmove',
+                onTouchMove as EventListener,
+                { passive: true } as EventListenerOptions
+            );
+            dom.removeEventListener(
+                element,
+                'touchend',
+                onTouchEnd as EventListener,
+                { passive: true } as EventListenerOptions
+            );
+            dom.removeEventListener(
+                element,
+                'mousedown',
+                onMouseDown as EventListener,
+                { passive: true } as EventListenerOptions
+            );
+            dom.removeEventListener(
+                element,
+                'mouseleave',
+                onMouseOut as EventListener,
+                { passive: true } as EventListenerOptions
+            );
+            dom.removeEventListener(
+                element,
+                'mouseup',
+                onMouseOut as EventListener,
+                { passive: true } as EventListenerOptions
+            );
         }
     };
 

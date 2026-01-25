@@ -3,10 +3,7 @@ import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/re
 import React, { type FC } from 'react';
 
 import { useApi } from 'hooks/useApi';
-import {
-    useGetMovieRecommendations,
-    useGetSuggestionSectionsWithItems
-} from 'hooks/useFetchItems';
+import { useGetMovieRecommendations, useGetSuggestionSectionsWithItems } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
@@ -29,13 +26,12 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
     isMovieRecommendationEnabled = false
 }) => {
     const { __legacyApiClient__ } = useApi();
-    const { isLoading, data: sectionsWithItems } =
-        useGetSuggestionSectionsWithItems(parentId, sectionType);
+    const { isLoading, data: sectionsWithItems } = useGetSuggestionSectionsWithItems(parentId, sectionType);
 
-    const {
-        isLoading: isRecommendationsLoading,
-        data: movieRecommendationsItems
-    } = useGetMovieRecommendations(isMovieRecommendationEnabled, parentId);
+    const { isLoading: isRecommendationsLoading, data: movieRecommendationsItems } = useGetMovieRecommendations(
+        isMovieRecommendationEnabled,
+        parentId
+    );
 
     if (isLoading || isRecommendationsLoading) {
         return <Loading />;
@@ -58,33 +54,21 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
 
         switch (recommendation.RecommendationType) {
             case RecommendationType.SimilarToRecentlyPlayed:
-                title = globalize.translate(
-                    'RecommendationBecauseYouWatched',
-                    recommendation.BaselineItemName
-                );
+                title = globalize.translate('RecommendationBecauseYouWatched', recommendation.BaselineItemName);
                 break;
 
             case RecommendationType.SimilarToLikedItem:
-                title = globalize.translate(
-                    'RecommendationBecauseYouLike',
-                    recommendation.BaselineItemName
-                );
+                title = globalize.translate('RecommendationBecauseYouLike', recommendation.BaselineItemName);
                 break;
 
             case RecommendationType.HasDirectorFromRecentlyPlayed:
             case RecommendationType.HasLikedDirector:
-                title = globalize.translate(
-                    'RecommendationDirectedBy',
-                    recommendation.BaselineItemName
-                );
+                title = globalize.translate('RecommendationDirectedBy', recommendation.BaselineItemName);
                 break;
 
             case RecommendationType.HasActorFromRecentlyPlayed:
             case RecommendationType.HasLikedActor:
-                title = globalize.translate(
-                    'RecommendationStarring',
-                    recommendation.BaselineItemName
-                );
+                title = globalize.translate('RecommendationStarring', recommendation.BaselineItemName);
                 break;
         }
         return title;

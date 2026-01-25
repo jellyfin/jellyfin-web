@@ -16,7 +16,7 @@ interface LoadingViewProps {
 
 const spinKeyframes = {
     '0%': { transform: 'rotate(0deg)' },
-    '100%': { transform: 'rotate(360deg)' },
+    '100%': { transform: 'rotate(360deg)' }
 };
 
 export function LoadingView({ message }: LoadingViewProps) {
@@ -25,9 +25,9 @@ export function LoadingView({ message }: LoadingViewProps) {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.1,
-            },
-        },
+                staggerChildren: 0.1
+            }
+        }
     };
 
     const itemVariants = {
@@ -37,9 +37,9 @@ export function LoadingView({ message }: LoadingViewProps) {
             y: 0,
             transition: {
                 duration: 0.3,
-                ease: 'easeOut' as const,
-            },
-        },
+                ease: 'easeOut' as const
+            }
+        }
     };
 
     const spinnerVariants = {
@@ -51,9 +51,9 @@ export function LoadingView({ message }: LoadingViewProps) {
             transition: {
                 duration: 1,
                 repeat: Infinity,
-                ease: 'linear' as const,
-            },
-        },
+                ease: 'linear' as const
+            }
+        }
     };
 
     return (
@@ -68,7 +68,7 @@ export function LoadingView({ message }: LoadingViewProps) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 minHeight: '50vh',
-                gap: '12px',
+                gap: '12px'
             }}
         >
             <motion.div
@@ -80,7 +80,7 @@ export function LoadingView({ message }: LoadingViewProps) {
                     height: 48,
                     border: '4px solid rgba(255, 255, 255, 0.2)',
                     borderTopColor: '#aa5eaa',
-                    borderRadius: '50%',
+                    borderRadius: '50%'
                 }}
             />
             <motion.div variants={itemVariants}>

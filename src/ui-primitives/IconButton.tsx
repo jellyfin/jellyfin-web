@@ -17,39 +17,44 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
     readonly children: ReactNode;
 }
 
-export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(({
-    variant = 'plain',
-    size = 'md',
-    color,
-    className,
-    style,
-    title,
-    disabled = false,
-    onClick,
-    children,
-    ...props
-}, ref): ReactElement => {
-    return (
-        <button
-            ref={ref}
-            type='button'
-            className={[
-                iconButtonStyles,
-                iconButtonVariants[variant],
-                iconButtonSizes[size],
-                color !== undefined ? iconButtonColors[color] : '',
-                className ?? ''
-            ].join(' ')}
-            style={style}
-            title={title}
-            disabled={disabled}
-            onClick={onClick}
-            {...props}
-        >
-            {children}
-        </button>
-    );
-});
+export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+    (
+        {
+            variant = 'plain',
+            size = 'md',
+            color,
+            className,
+            style,
+            title,
+            disabled = false,
+            onClick,
+            children,
+            ...props
+        },
+        ref
+    ): ReactElement => {
+        return (
+            <button
+                ref={ref}
+                type="button"
+                className={[
+                    iconButtonStyles,
+                    iconButtonVariants[variant],
+                    iconButtonSizes[size],
+                    color !== undefined ? iconButtonColors[color] : '',
+                    className ?? ''
+                ].join(' ')}
+                style={style}
+                title={title}
+                disabled={disabled}
+                onClick={onClick}
+                {...props}
+            >
+                {children}
+            </button>
+        );
+    }
+);
 
 IconButton.displayName = 'IconButton';
 

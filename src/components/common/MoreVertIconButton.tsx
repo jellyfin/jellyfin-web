@@ -12,11 +12,7 @@ interface MoreVertIconButtonProps {
 
 const MoreVertIconButton: FC<MoreVertIconButtonProps> = ({ className, iconClassName }) => {
     return (
-        <IconButton
-            className={className}
-            data-action={ItemAction.Menu}
-            title={globalize.translate('ButtonMore')}
-        >
+        <IconButton className={className} data-action={ItemAction.Menu} title={globalize.translate('ButtonMore')}>
             <DotsVerticalIcon className={iconClassName} />
         </IconButton>
     );

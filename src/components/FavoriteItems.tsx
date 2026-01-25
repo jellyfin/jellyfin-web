@@ -23,7 +23,7 @@ const SECTIONS: SectionConfig[] = [
     { name: 'Episodes', types: ['Episode'], id: 'favoriteEpisodes' },
     { name: 'Artists', types: ['MusicArtist'], id: 'favoriteArtists' },
     { name: 'Albums', types: ['MusicAlbum'], id: 'favoriteAlbums' },
-    { name: 'Songs', types: ['Audio'], id: 'favoriteSongs' },
+    { name: 'Songs', types: ['Audio'], id: 'favoriteSongs' }
 ];
 
 function FavoriteSection({ section, serverId, userId }: { section: SectionConfig; serverId: string; userId: string }) {
@@ -46,7 +46,7 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
                         SortBy: 'SortName',
                         SortOrder: 'Ascending',
                         Fields: 'PrimaryImageAspectRatio',
-                        Limit: 12,
+                        Limit: 12
                     });
                 } else {
                     result = await client.getItems(userId, {
@@ -56,7 +56,7 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
                         SortOrder: 'Ascending',
                         Fields: 'PrimaryImageAspectRatio',
                         IncludeItemTypes: section.types,
-                        Limit: 12,
+                        Limit: 12
                     });
                 }
                 setItems(result.Items || []);
@@ -77,7 +77,16 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
             <Box className="verticalSection">
                 <Box style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingTop: '16px' }}>
                     {Array.from({ length: 6 }).map((_, i) => (
-                        <Box key={i} style={{ width: 140, height: 210, backgroundColor: vars.colors.surfaceHover, borderRadius: '8px', flexShrink: 0 }} />
+                        <Box
+                            key={i}
+                            style={{
+                                width: 140,
+                                height: 210,
+                                backgroundColor: vars.colors.surfaceHover,
+                                borderRadius: '8px',
+                                flexShrink: 0
+                            }}
+                        />
                     ))}
                 </Box>
             </Box>
@@ -111,10 +120,10 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
                     gap: 16,
                     overflowX: 'auto',
                     paddingTop: 16,
-                    paddingBottom: 16,
+                    paddingBottom: 16
                 }}
             >
-                {items.map((item) => (
+                {items.map(item => (
                     <a
                         key={item.Id}
                         href={`/details.html?serverId=${serverId}&id=${item.Id}`}
@@ -122,7 +131,7 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
                             width: 140,
                             textDecoration: 'none',
                             color: 'inherit',
-                            flexShrink: 0,
+                            flexShrink: 0
                         }}
                     >
                         <div
@@ -132,12 +141,24 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
                                 backgroundColor: '#e0e0e0',
                                 borderRadius: 8,
                                 marginBottom: 8,
-                                backgroundImage: item.PrimaryImageTag || item.ImageTags?.Primary ? `url(${getImageUrl(item)})` : 'none',
+                                backgroundImage:
+                                    item.PrimaryImageTag || item.ImageTags?.Primary
+                                        ? `url(${getImageUrl(item)})`
+                                        : 'none',
                                 backgroundSize: 'cover',
-                                backgroundPosition: 'center',
+                                backgroundPosition: 'center'
                             }}
                         />
-                        <Text size="sm" style={{ textAlign: 'center', maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <Text
+                            size="sm"
+                            style={{
+                                textAlign: 'center',
+                                maxWidth: 140,
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
+                            }}
+                        >
                             {item.Name || item.SeriesName || item.Title}
                         </Text>
                     </a>
@@ -159,13 +180,8 @@ export function FavoriteItems({ serverId: propsServerId, userId: propsUserId }: 
     return (
         <Box className="favoriteItemsPage libraryPage" style={{ padding: 16 }}>
             <Box className="sections">
-                {SECTIONS.map((section) => (
-                    <FavoriteSection
-                        key={section.id}
-                        section={section}
-                        serverId={serverId}
-                        userId={userId}
-                    />
+                {SECTIONS.map(section => (
+                    <FavoriteSection key={section.id} section={section} serverId={serverId} userId={userId} />
                 ))}
             </Box>
         </Box>

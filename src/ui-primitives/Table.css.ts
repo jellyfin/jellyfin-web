@@ -35,4 +35,3 @@ export const tableRow = style({
         backgroundColor: vars.colors.surfaceHover
     }
 });
-

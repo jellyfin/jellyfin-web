@@ -2,7 +2,7 @@ import { useUiStore } from '../store/uiStore';
 
 /**
  * useLayout hook
- * 
+ *
  * Reactive hook for layout information.
  */
 export function useLayout() {

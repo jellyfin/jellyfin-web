@@ -45,7 +45,7 @@ export const useAnalysisStore = create<AnalysisState>()(
             transitionCandidates: [],
 
             saveAnalysis: (trackId, analysis) => {
-                set((state) => ({
+                set(state => ({
                     analyses: {
                         ...state.analyses,
                         [trackId]: { trackId, ...analysis }
@@ -53,7 +53,7 @@ export const useAnalysisStore = create<AnalysisState>()(
                 }));
             },
 
-            getAnalysis: (trackId) => {
+            getAnalysis: trackId => {
                 return get().analyses[trackId] || null;
             },
 
@@ -65,8 +65,8 @@ export const useAnalysisStore = create<AnalysisState>()(
                 return candidate?.suggestion || null;
             },
 
-            saveTransitionCandidate: (candidate) => {
-                set((state) => {
+            saveTransitionCandidate: candidate => {
+                set(state => {
                     const filtered = state.transitionCandidates.filter(
                         c => !(c.currentTrackId === candidate.currentTrackId && c.nextTrackId === candidate.nextTrackId)
                     );
@@ -74,8 +74,8 @@ export const useAnalysisStore = create<AnalysisState>()(
                 });
             },
 
-            removeAnalysis: (trackId) => {
-                set((state) => {
+            removeAnalysis: trackId => {
+                set(state => {
                     const { [trackId]: _, ...rest } = state.analyses;
                     return { analyses: rest };
                 });
@@ -124,7 +124,7 @@ export const useAnalysisStore = create<AnalysisState>()(
         {
             name: 'jellyfin-analysis-store',
             storage: createJSONStorage(() => localStorage),
-            partialize: (state) => ({
+            partialize: state => ({
                 analyses: state.analyses,
                 transitionCandidates: state.transitionCandidates.slice(0, 50)
             })

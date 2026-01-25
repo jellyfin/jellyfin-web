@@ -32,14 +32,14 @@ export function Chip({
         }
     };
 
-    const interactiveProps = isInteractive ?
-        {
-            onClick,
-            onKeyDown: handleKeyDown,
-            tabIndex: 0,
-            role: 'button'
-        } :
-        {};
+    const interactiveProps = isInteractive
+        ? {
+              onClick,
+              onKeyDown: handleKeyDown,
+              tabIndex: 0,
+              role: 'button'
+          }
+        : {};
 
     return (
         <span
@@ -47,7 +47,9 @@ export function Chip({
             style={style}
             {...interactiveProps}
         >
-            {startDecorator !== undefined && <span style={{ display: 'flex', alignItems: 'center' }}>{startDecorator}</span>}
+            {startDecorator !== undefined && (
+                <span style={{ display: 'flex', alignItems: 'center' }}>{startDecorator}</span>
+            )}
             {children}
         </span>
     );

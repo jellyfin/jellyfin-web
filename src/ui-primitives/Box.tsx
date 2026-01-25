@@ -3,7 +3,20 @@ import { boxStyles } from './Box.css';
 
 export { boxStyles };
 
-type BoxElement = 'div' | 'span' | 'section' | 'article' | 'main' | 'header' | 'footer' | 'aside' | 'nav' | 'a' | 'select' | 'option' | 'label';
+type BoxElement =
+    | 'div'
+    | 'span'
+    | 'section'
+    | 'article'
+    | 'main'
+    | 'header'
+    | 'footer'
+    | 'aside'
+    | 'nav'
+    | 'a'
+    | 'select'
+    | 'option'
+    | 'label';
 
 export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
     readonly as?: BoxElement | ElementType | string;
@@ -29,10 +42,39 @@ export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
     readonly ref?: React.Ref<HTMLElement>;
 }
 
-export function Box({ as = 'div', component, children, className, style: boxStyle, dangerouslySetInnerHTML, href, target, rel, to, src, alt, dir, onClick, ...props }: BoxProps): ReactElement {
+export function Box({
+    as = 'div',
+    component,
+    children,
+    className,
+    style: boxStyle,
+    dangerouslySetInnerHTML,
+    href,
+    target,
+    rel,
+    to,
+    src,
+    alt,
+    dir,
+    onClick,
+    ...props
+}: BoxProps): ReactElement {
     const Component = (component ?? as) as ElementType;
     return (
-        <Component className={className} style={boxStyle} dangerouslySetInnerHTML={dangerouslySetInnerHTML} href={href} target={target} rel={rel} to={to} src={src} alt={alt} dir={dir} onClick={onClick} {...props}>
+        <Component
+            className={className}
+            style={boxStyle}
+            dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+            href={href}
+            target={target}
+            rel={rel}
+            to={to}
+            src={src}
+            alt={alt}
+            dir={dir}
+            onClick={onClick}
+            {...props}
+        >
             {children}
         </Component>
     );
@@ -45,7 +87,23 @@ export interface FlexComponent {
 }
 
 export const Flex: FlexComponent = Object.assign(
-    ({ children, className, style, display = 'flex', align, justify, wrap, direction, gap, href, target, rel, to, onClick, ...props }: BoxProps): ReactElement => {
+    ({
+        children,
+        className,
+        style,
+        display = 'flex',
+        align,
+        justify,
+        wrap,
+        direction,
+        gap,
+        href,
+        target,
+        rel,
+        to,
+        onClick,
+        ...props
+    }: BoxProps): ReactElement => {
         const flexStyle: React.CSSProperties = {
             display,
             alignItems: align,
@@ -56,7 +114,16 @@ export const Flex: FlexComponent = Object.assign(
             ...style
         };
         return (
-            <Box className={`${boxStyles.flex} ${className ?? ''}`} style={flexStyle} href={href} target={target} rel={rel} to={to} onClick={onClick} {...props}>
+            <Box
+                className={`${boxStyles.flex} ${className ?? ''}`}
+                style={flexStyle}
+                href={href}
+                target={target}
+                rel={rel}
+                to={to}
+                onClick={onClick}
+                {...props}
+            >
                 {children}
             </Box>
         );
@@ -67,7 +134,21 @@ export const Flex: FlexComponent = Object.assign(
     }
 );
 
-export function FlexRow({ children, className, style, align, justify, wrap, gap, href, target, rel, to, onClick, ...props }: BoxProps): ReactElement {
+export function FlexRow({
+    children,
+    className,
+    style,
+    align,
+    justify,
+    wrap,
+    gap,
+    href,
+    target,
+    rel,
+    to,
+    onClick,
+    ...props
+}: BoxProps): ReactElement {
     const flexStyle: React.CSSProperties = {
         display: 'flex',
         flexDirection: 'row',
@@ -78,13 +159,36 @@ export function FlexRow({ children, className, style, align, justify, wrap, gap,
         ...style
     };
     return (
-        <Box className={`${boxStyles.flexRow} ${className ?? ''}`} style={flexStyle} href={href} target={target} rel={rel} to={to} onClick={onClick} {...props}>
+        <Box
+            className={`${boxStyles.flexRow} ${className ?? ''}`}
+            style={flexStyle}
+            href={href}
+            target={target}
+            rel={rel}
+            to={to}
+            onClick={onClick}
+            {...props}
+        >
             {children}
         </Box>
     );
 }
 
-export function FlexCol({ children, className, style, align, justify, wrap, gap, href, target, rel, to, onClick, ...props }: BoxProps): ReactElement {
+export function FlexCol({
+    children,
+    className,
+    style,
+    align,
+    justify,
+    wrap,
+    gap,
+    href,
+    target,
+    rel,
+    to,
+    onClick,
+    ...props
+}: BoxProps): ReactElement {
     const flexStyle: React.CSSProperties = {
         display: 'flex',
         flexDirection: 'column',
@@ -95,7 +199,16 @@ export function FlexCol({ children, className, style, align, justify, wrap, gap,
         ...style
     };
     return (
-        <Box className={`${boxStyles.flexCol} ${className ?? ''}`} style={flexStyle} href={href} target={target} rel={rel} to={to} onClick={onClick} {...props}>
+        <Box
+            className={`${boxStyles.flexCol} ${className ?? ''}`}
+            style={flexStyle}
+            href={href}
+            target={target}
+            rel={rel}
+            to={to}
+            onClick={onClick}
+            {...props}
+        >
             {children}
         </Box>
     );

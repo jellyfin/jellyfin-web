@@ -28,78 +28,63 @@ export const ID = 'app-user-menu';
 interface AppUserMenuProps {
     open: boolean;
     anchorEl: HTMLElement | null;
-    onMenuClose: () => void
+    onMenuClose: () => void;
 }
 
-const AppUserMenu: FC<AppUserMenuProps> = ({
-    anchorEl,
-    open,
-    onMenuClose
-}) => {
+const AppUserMenu: FC<AppUserMenuProps> = ({ anchorEl, open, onMenuClose }) => {
     const { user } = useApi();
     const { data: isQuickConnectEnabled } = useQuickConnectEnabled();
 
     const onDownloadManagerClick = useCallback(() => {
         shell.openDownloadManager();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     const onClientSettingsClick = useCallback(() => {
         shell.openClientSettings();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     const onExitAppClick = useCallback(() => {
         safeAppHost.exit();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     const onLogoutClick = useCallback(() => {
         Dashboard.logout();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     const onSelectServerClick = useCallback(() => {
         Dashboard.selectServer();
         onMenuClose();
-    }, [ onMenuClose ]);
+    }, [onMenuClose]);
 
     return (
-        <Menu open={open} onOpenChange={(open) => !open && onMenuClose()}>
+        <Menu open={open} onOpenChange={open => !open && onMenuClose()}>
             <MenuTrigger>
                 <div />
             </MenuTrigger>
             <MenuPortal>
                 <MenuContent style={{ minWidth: 200, zIndex: 1300 }}>
-                    <MenuItem
-                        component={Link}
-                        to={`/userprofile?userId=${user?.Id}`}
-                        onClick={onMenuClose}
-                    >
+                    <MenuItem component={Link} to={`/userprofile?userId=${user?.Id}`} onClick={onMenuClose}>
                         <ListItemDecorator>
                             <PersonIcon />
                         </ListItemDecorator>
                         {globalize.translate('Profile')}
                     </MenuItem>
-                    <MenuItem
-                        component={Link}
-                        to='/mypreferencesmenu'
-                        onClick={onMenuClose}
-                    >
+                    <MenuItem component={Link} to="/mypreferencesmenu" onClick={onMenuClose}>
                         <ListItemDecorator>
                             <GearIcon />
                         </ListItemDecorator>
                         {globalize.translate('Settings')}
                     </MenuItem>
 
-                    {(safeAppHost.supports(AppFeature.DownloadManagement) || safeAppHost.supports(AppFeature.ClientSettings)) && (
-                        <Divider />
-                    )}
+                    {(safeAppHost.supports(AppFeature.DownloadManagement) ||
+                        safeAppHost.supports(AppFeature.ClientSettings)) && <Divider />}
 
                     {safeAppHost.supports(AppFeature.DownloadManagement) && (
-                        <MenuItem
-                            onClick={onDownloadManagerClick}
-                        >
+                        <MenuItem onClick={onDownloadManagerClick}>
                             <ListItemDecorator>
                                 <DownloadIcon />
                             </ListItemDecorator>
@@ -108,9 +93,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     )}
 
                     {safeAppHost.supports(AppFeature.ClientSettings) && (
-                        <MenuItem
-                            onClick={onClientSettingsClick}
-                        >
+                        <MenuItem onClick={onClientSettingsClick}>
                             <ListItemDecorator>
                                 <ResetIcon />
                             </ListItemDecorator>
@@ -122,21 +105,13 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     {user?.Policy?.IsAdministrator && (
                         <>
                             <Divider />
-                            <MenuItem
-                                component={Link}
-                                to='/dashboard'
-                                onClick={onMenuClose}
-                            >
+                            <MenuItem component={Link} to="/dashboard" onClick={onMenuClose}>
                                 <ListItemDecorator>
                                     <DashboardIcon />
                                 </ListItemDecorator>
                                 {globalize.translate('TabDashboard')}
                             </MenuItem>
-                            <MenuItem
-                                component={Link}
-                                to='/metadata'
-                                onClick={onMenuClose}
-                            >
+                            <MenuItem component={Link} to="/metadata" onClick={onMenuClose}>
                                 <ListItemDecorator>
                                     <Pencil1Icon />
                                 </ListItemDecorator>
@@ -147,11 +122,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 
                     <Divider />
                     {isQuickConnectEnabled && (
-                        <MenuItem
-                            component={Link}
-                            to='/quickconnect'
-                            onClick={onMenuClose}
-                        >
+                        <MenuItem component={Link} to="/quickconnect" onClick={onMenuClose}>
                             <ListItemDecorator>
                                 <LockClosedIcon />
                             </ListItemDecorator>
@@ -160,9 +131,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     )}
 
                     {safeAppHost.supports(AppFeature.MultiServer) && (
-                        <MenuItem
-                            onClick={onSelectServerClick}
-                        >
+                        <MenuItem onClick={onSelectServerClick}>
                             <ListItemDecorator>
                                 <StackIcon />
                             </ListItemDecorator>
@@ -170,9 +139,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                         </MenuItem>
                     )}
 
-                    <MenuItem
-                        onClick={onLogoutClick}
-                    >
+                    <MenuItem onClick={onLogoutClick}>
                         <ListItemDecorator>
                             <ExitIcon />
                         </ListItemDecorator>
@@ -182,9 +149,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     {safeAppHost.supports(AppFeature.ExitMenu) && (
                         <>
                             <Divider />
-                            <MenuItem
-                                onClick={onExitAppClick}
-                            >
+                            <MenuItem onClick={onExitAppClick}>
                                 <ListItemDecorator>
                                     <Cross1Icon />
                                 </ListItemDecorator>

@@ -28,4 +28,3 @@ export const overlay = style({
     inset: 0,
     background: `linear-gradient(to bottom, ${vars.colors.background}00 0%, ${vars.colors.background} 100%)`
 });
-

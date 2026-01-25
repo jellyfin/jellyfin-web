@@ -18,7 +18,7 @@ interface ListItemBodyProps {
     enableContentWrapper?: boolean;
     enableOverview?: boolean;
     enableSideMediaInfo?: boolean;
-    getMissingIndicator: () => React.JSX.Element | null
+    getMissingIndicator: () => React.JSX.Element | null;
 }
 
 const ListItemBody: FC<ListItemBodyProps> = ({
@@ -34,16 +34,15 @@ const ListItemBody: FC<ListItemBodyProps> = ({
 }) => {
     const cssClass = classNames(
         'listItemBody',
-        { 'itemAction': !clickEntireItem },
+        { itemAction: !clickEntireItem },
         { 'listItemBody-noleftpadding': listOptions.image === false }
     );
 
     return (
         <Box data-action={action} className={cssClass}>
-
             <TextLines
                 item={item}
-                textClassName='listItemBodyText'
+                textClassName="listItemBodyText"
                 textLineOpts={{
                     showProgramDateTime: listOptions.showProgramDateTime,
                     showProgramTime: listOptions.showProgramTime,
@@ -61,8 +60,8 @@ const ListItemBody: FC<ListItemBodyProps> = ({
 
             {listOptions.showMediaInfo !== false && !enableSideMediaInfo && (
                 <PrimaryMediaInfo
-                    className='secondary listItemMediaInfo listItemBodyText'
-                    infoclass='mediaInfoText'
+                    className="secondary listItemMediaInfo listItemBodyText"
+                    infoclass="mediaInfoText"
                     item={item}
                     showEpisodeTitleInfo
                     showOriginalAirDateInfo
@@ -72,7 +71,7 @@ const ListItemBody: FC<ListItemBodyProps> = ({
             )}
 
             {!enableContentWrapper && enableOverview && item.Overview && (
-                <Box className='secondary listItem-overview listItemBodyText'>
+                <Box className="secondary listItem-overview listItemBodyText">
                     <bdi>{item.Overview}</bdi>
                 </Box>
             )}

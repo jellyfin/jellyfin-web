@@ -11,12 +11,12 @@ import { type LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface ShuffleButtonProps {
-    item: ItemDto | undefined
-    items: ItemDto[]
-    viewType: LibraryTab
-    hasFilters: boolean
-    isTextVisible: boolean
-    libraryViewSettings: LibraryViewSettings
+    item: ItemDto | undefined;
+    items: ItemDto[];
+    viewType: LibraryTab;
+    hasFilters: boolean;
+    isTextVisible: boolean;
+    libraryViewSettings: LibraryViewSettings;
 }
 
 const ShuffleButton: FC<ShuffleButtonProps> = ({
@@ -31,17 +31,19 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
         if (item && !hasFilters) {
             playbackManager.shuffle(item);
         } else {
-            playbackManager.play({
-                items,
-                autoplay: true,
-                queryOptions: {
-                    ParentId: item?.Id ?? undefined,
-                    ...getFiltersQuery(viewType, libraryViewSettings),
-                    SortBy: [ItemSortBy.Random]
-                }
-            }).catch((err: unknown) => {
-                console.error('[ShuffleButton] failed to play', err);
-            });
+            playbackManager
+                .play({
+                    items,
+                    autoplay: true,
+                    queryOptions: {
+                        ParentId: item?.Id ?? undefined,
+                        ...getFiltersQuery(viewType, libraryViewSettings),
+                        SortBy: [ItemSortBy.Random]
+                    }
+                })
+                .catch((err: unknown) => {
+                    console.error('[ShuffleButton] failed to play', err);
+                });
         }
     }, [hasFilters, item, items, libraryViewSettings, viewType]);
 
@@ -49,14 +51,10 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
         <Button
             title={globalize.translate('Shuffle')}
             startIcon={isTextVisible ? <ShuffleIcon /> : undefined}
-            variant='plain'
+            variant="plain"
             onClick={shuffle}
         >
-            {isTextVisible ? (
-                globalize.translate('Shuffle')
-            ) : (
-                <ShuffleIcon />
-            )}
+            {isTextVisible ? globalize.translate('Shuffle') : <ShuffleIcon />}
         </Button>
     );
 };

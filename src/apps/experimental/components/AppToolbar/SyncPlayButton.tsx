@@ -13,7 +13,7 @@ import SyncPlayGroupMenu from '../../../../plugins/syncPlay/ui/SyncPlayGroupMenu
 const SyncPlayButton = () => {
     const { user } = useApi();
 
-    const [ anchorEl, setAnchorEl ] = useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isOpen = Boolean(anchorEl);
 
     const onButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
@@ -25,8 +25,8 @@ const SyncPlayButton = () => {
     }, []);
 
     if (
-        (user?.Policy?.SyncPlayAccess === SyncPlayUserAccessType.None)
-        || pluginManager.ofType(PluginType.SyncPlay).length === 0
+        user?.Policy?.SyncPlayAccess === SyncPlayUserAccessType.None ||
+        pluginManager.ofType(PluginType.SyncPlay).length === 0
     ) {
         return null;
     }
@@ -35,8 +35,8 @@ const SyncPlayButton = () => {
         <>
             <Tooltip title={globalize.translate('ButtonSyncPlay')}>
                 <IconButton
-                    variant='plain'
-                    color='neutral'
+                    variant="plain"
+                    color="neutral"
                     aria-label={globalize.translate('ButtonSyncPlay')}
                     onClick={onButtonClick}
                 >
@@ -44,11 +44,7 @@ const SyncPlayButton = () => {
                 </IconButton>
             </Tooltip>
 
-            <SyncPlayGroupMenu
-                open={isOpen}
-                anchorEl={anchorEl}
-                onClose={onMenuClose}
-            />
+            <SyncPlayGroupMenu open={isOpen} anchorEl={anchorEl} onClose={onMenuClose} />
         </>
     );
 };

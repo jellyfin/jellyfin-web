@@ -321,7 +321,7 @@ function editItem(item: { Type: string; ProgramId?: string; Id: string }, server
                 });
             }
         } else {
-            import('./metadataEditor/metadataEditor').then(({ default: metadataEditor }) => {
+            import('./metadataEditor/MetadataEditorWrapper').then(({ default: metadataEditor }) => {
                 (metadataEditor as unknown as { show: (id: string, serverId: string) => Promise<void> })
                     .show(item.Id, currentServerId)
                     .then(resolve, reject);

@@ -11,24 +11,24 @@ import { useDeleteTuner } from '../api/useDeleteTuner';
 
 // Inline SVG icons
 const DvrIcon = () => (
-    <svg width='70' height='70' viewBox='0 0 24 24' fill='currentColor'>
+    <svg width="70" height="70" viewBox="0 0 24 24" fill="currentColor">
         <title>DVR</title>
-        <path d='M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H4V5h16v14zm-10.5-9.5h3v3h-3zM5 8h3v3H5zm0 6h3v3H5zm12-6h3v3h-3zm0 6h3v3h-3z'/>
+        <path d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H4V5h16v14zm-10.5-9.5h3v3h-3zM5 8h3v3H5zm0 6h3v3H5zm12-6h3v3h-3zm0 6h3v3h-3z" />
     </svg>
 );
 
 const EditIcon = () => (
-    <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <title>Edit</title>
-        <path d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z'/>
-        <path d='M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/>
+        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
+        <path d="M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
     </svg>
 );
 
 const DeleteIcon = () => (
-    <svg width='24' height='24' viewBox='0 0 24 24' fill='currentColor'>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <title>Delete</title>
-        <path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z'/>
+        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z" />
     </svg>
 );
 
@@ -38,25 +38,28 @@ interface TunerDeviceCardProps {
 
 const TunerDeviceCard = ({ tunerHost }: TunerDeviceCardProps) => {
     const navigate = useNavigate();
-    const [ isMenuOpen, setIsMenuOpen ] = useState(false);
-    const [ isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen ] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(false);
     const deleteTuner = useDeleteTuner();
 
     const navigateToEditPage = useCallback(() => {
         navigate({ to: `/dashboard/livetv/tuner?id=${tunerHost.Id}` });
-    }, [ navigate, tunerHost ]);
+    }, [navigate, tunerHost]);
 
     const onDelete = useCallback(() => {
         if (tunerHost.Id) {
-            deleteTuner.mutate({
-                id: tunerHost.Id
-            }, {
-                onSettled: () => {
-                    setIsConfirmDeleteDialogOpen(false);
+            deleteTuner.mutate(
+                {
+                    id: tunerHost.Id
+                },
+                {
+                    onSettled: () => {
+                        setIsConfirmDeleteDialogOpen(false);
+                    }
                 }
-            });
+            );
         }
-    }, [ deleteTuner, tunerHost ]);
+    }, [deleteTuner, tunerHost]);
 
     const showDeleteDialog = useCallback(() => {
         setIsMenuOpen(false);
@@ -75,7 +78,7 @@ const TunerDeviceCard = ({ tunerHost }: TunerDeviceCardProps) => {
                 text={globalize.translate('MessageConfirmDeleteTunerDevice')}
                 onCancel={onDeleteDialogClose}
                 onConfirm={onDelete}
-                confirmButtonColor='danger'
+                confirmButtonColor="danger"
                 confirmButtonText={globalize.translate('Delete')}
             />
 
@@ -88,16 +91,12 @@ const TunerDeviceCard = ({ tunerHost }: TunerDeviceCardProps) => {
                 onClick={navigateToEditPage}
             />
 
-            <Menu
-                open={isMenuOpen}
-                onOpenChange={setIsMenuOpen}
-                trigger={<div />}
-            >
+            <Menu open={isMenuOpen} onOpenChange={setIsMenuOpen} trigger={<div />}>
                 <MenuItem onClick={navigateToEditPage}>
                     <EditIcon />
                     <span>{globalize.translate('Edit')}</span>
                 </MenuItem>
-                <MenuItem onClick={showDeleteDialog} variant='danger'>
+                <MenuItem onClick={showDeleteDialog} variant="danger">
                     <DeleteIcon />
                     <span>{globalize.translate('Delete')}</span>
                 </MenuItem>

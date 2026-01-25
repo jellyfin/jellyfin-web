@@ -1,6 +1,6 @@
 /**
  * StoreSync Bridge
- * 
+ *
  * Synchronizes Zustand store actions with the AudioDriver execution layer.
  * This is the "Control Layer" that connects the reactive UI to the imperative player.
  */
@@ -30,7 +30,7 @@ export class StoreSync {
 
         // 1. Sync Playback Actions
         useMediaStore.subscribe(
-            (state) => state.status,
+            state => state.status,
             (status, prevStatus) => {
                 if (status === prevStatus) return;
 
@@ -47,16 +47,16 @@ export class StoreSync {
         // 2. Sync Seek Actions
         // We use a manual trigger for seek to avoid event loops from timeupdate
         // This is handled by usePlaybackActions in hooks.ts calling mediaStore.seek()
-        
+
         // 3. Sync Item Changes (The "Next Track" trigger)
         useMediaStore.subscribe(
-            (state) => state.currentItem?.id,
+            state => state.currentItem?.id,
             (id, prevId) => {
                 if (!id || id === prevId) return;
-                
+
                 const item = useMediaStore.getState().currentItem;
                 const streamInfo = useMediaStore.getState().streamInfo;
-                
+
                 if (item && streamInfo?.url) {
                     logger.debug('StoreSync: Loading new item', { component: 'StoreSync', itemId: id });
                     audioDriver.loadAndPlay(streamInfo.url, item);

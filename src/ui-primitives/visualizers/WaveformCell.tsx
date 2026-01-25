@@ -95,9 +95,7 @@ export function WaveformCell({
     if (!shouldShowWaveform) {
         return (
             <div className={emptyState} style={{ height }}>
-                {duration !== undefined && duration > 0 && (
-                    <span className={timeText}>{formatDuration(duration)}</span>
-                )}
+                {duration !== undefined && duration > 0 && <span className={timeText}>{formatDuration(duration)}</span>}
             </div>
         );
     }

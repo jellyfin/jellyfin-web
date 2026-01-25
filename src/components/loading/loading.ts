@@ -2,8 +2,8 @@ import { useUiStore } from '../../store';
 
 /**
  * Loading Manager (Refactored)
- * 
- * Legacy wrapper around useUiStore. Maintains compatibility with 
+ *
+ * Legacy wrapper around useUiStore. Maintains compatibility with
  * existing code while delegating state to the reactive store.
  */
 export function show() {

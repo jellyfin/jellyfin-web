@@ -105,14 +105,7 @@ function useSecondaryMediaInfo({
             }
         };
 
-        addProgramTime(
-            showProgramTimeInfo,
-            showStartDateInfo,
-            showEndDateInfo,
-            StartDate,
-            EndDate,
-            addMiscInfo
-        );
+        addProgramTime(showProgramTimeInfo, showStartDateInfo, showEndDateInfo, StartDate, EndDate, addMiscInfo);
 
         addChannelNumber(showChannelNumberInfo, ChannelNumber, addMiscInfo);
 

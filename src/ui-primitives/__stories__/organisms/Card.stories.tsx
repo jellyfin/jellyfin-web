@@ -99,7 +99,7 @@ function WithHeaderAndFooterStory(): ReactElement {
             </CardBody>
             <CardFooter>
                 <button
-                    type='button'
+                    type="button"
                     style={{
                         padding: `${vars.spacing.xs} ${vars.spacing.md}`,
                         background: 'none',
@@ -112,7 +112,7 @@ function WithHeaderAndFooterStory(): ReactElement {
                     Cancel
                 </button>
                 <button
-                    type='button'
+                    type="button"
                     style={{
                         padding: `${vars.spacing.xs} ${vars.spacing.md}`,
                         background: vars.colors.primary,

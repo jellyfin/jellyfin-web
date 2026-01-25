@@ -42,7 +42,7 @@ export const Vertical: Story = {
         (_Story): ReactElement => (
             <Box style={{ display: 'flex', alignItems: 'center', height: '60px' }}>
                 <Text>Left</Text>
-                <Separator orientation='vertical' />
+                <Separator orientation="vertical" />
                 <Text>Right</Text>
             </Box>
         )
@@ -54,7 +54,7 @@ export const InCard: Story = {
         (_Story): ReactElement => (
             <Box style={{ width: '300px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
                 <Box style={{ padding: '16px', backgroundColor: '#2a2a2a' }}>
-                    <Text weight='bold'>Card Header</Text>
+                    <Text weight="bold">Card Header</Text>
                 </Box>
                 <Separator />
                 <Box style={{ padding: '16px' }}>
@@ -62,8 +62,12 @@ export const InCard: Story = {
                 </Box>
                 <Separator />
                 <Box style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                    <Text as='span' size='sm' color='secondary'>Cancel</Text>
-                    <Text as='span' size='sm' color='primary'>Confirm</Text>
+                    <Text as="span" size="sm" color="secondary">
+                        Cancel
+                    </Text>
+                    <Text as="span" size="sm" color="primary">
+                        Confirm
+                    </Text>
                 </Box>
             </Box>
         )
@@ -73,10 +77,14 @@ export const InCard: Story = {
 function NavigationBreadcrumbStory(): ReactElement {
     return (
         <Box style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Text as='a' href='#' color='primary'>Home</Text>
-            <Separator orientation='vertical' />
-            <Text as='a' href='#' color='primary'>Documents</Text>
-            <Separator orientation='vertical' />
+            <Text as="a" href="#" color="primary">
+                Home
+            </Text>
+            <Separator orientation="vertical" />
+            <Text as="a" href="#" color="primary">
+                Documents
+            </Text>
+            <Separator orientation="vertical" />
             <Text>Reports</Text>
         </Box>
     );
@@ -90,21 +98,29 @@ function SettingsPanelStory(): ReactElement {
     return (
         <Box style={{ width: '350px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
             <Box style={{ padding: '12px 16px', backgroundColor: '#2a2a2a' }}>
-                <Text weight='medium'>Account Settings</Text>
+                <Text weight="medium">Account Settings</Text>
             </Box>
             <Box style={{ padding: '16px' }}>
                 <Box style={{ marginBottom: '12px' }}>
-                    <Text size='sm' color='secondary'>Profile</Text>
+                    <Text size="sm" color="secondary">
+                        Profile
+                    </Text>
                 </Box>
                 <Box style={{ marginBottom: '12px' }}>
-                    <Text size='sm' color='secondary'>Security</Text>
+                    <Text size="sm" color="secondary">
+                        Security
+                    </Text>
                 </Box>
                 <Separator style={{ margin: '16px 0' }} />
                 <Box style={{ marginBottom: '12px' }}>
-                    <Text size='sm' color='secondary'>Notifications</Text>
+                    <Text size="sm" color="secondary">
+                        Notifications
+                    </Text>
                 </Box>
                 <Box style={{ marginBottom: '12px' }}>
-                    <Text size='sm' color='secondary'>Privacy</Text>
+                    <Text size="sm" color="secondary">
+                        Privacy
+                    </Text>
                 </Box>
             </Box>
         </Box>

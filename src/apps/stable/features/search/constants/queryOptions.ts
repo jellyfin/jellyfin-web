@@ -2,11 +2,7 @@ import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-field
 
 export const QUERY_OPTIONS = {
     limit: 100,
-    fields: [
-        ItemFields.PrimaryImageAspectRatio,
-        ItemFields.CanDelete,
-        ItemFields.MediaSourceCount
-    ],
+    fields: [ItemFields.PrimaryImageAspectRatio, ItemFields.CanDelete, ItemFields.MediaSourceCount],
     enableTotalRecordCount: false,
     imageTypeLimit: 1
 };

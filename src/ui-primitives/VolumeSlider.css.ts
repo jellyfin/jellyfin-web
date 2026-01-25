@@ -2,7 +2,6 @@ import { style as vanillaStyle, keyframes } from '@vanilla-extract/css';
 import { vars } from '../styles/tokens.css';
 
 export const spin = keyframes({
-
     '0%': { transform: 'rotate(0deg)' },
 
     '100%': { transform: 'rotate(360deg)' }
@@ -65,4 +64,3 @@ export const volumeSliderMuteButton = vanillaStyle({
 export const volumeSliderMuteButtonSpinning = vanillaStyle({
     animation: `${spin} 0.3s ease-out`
 });
-

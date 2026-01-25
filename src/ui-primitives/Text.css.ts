@@ -38,4 +38,3 @@ export const textAlignments = styleVariants({
     center: { textAlign: 'center' },
     right: { textAlign: 'right' }
 });
-

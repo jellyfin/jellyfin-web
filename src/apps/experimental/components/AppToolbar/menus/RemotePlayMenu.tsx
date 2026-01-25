@@ -13,22 +13,18 @@ import type { PlayTarget } from 'types/playTarget';
 import PlayTargetIcon from '../../PlayTargetIcon';
 
 interface RemotePlayMenuProps {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-    trigger: React.ReactNode
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    trigger: React.ReactNode;
 }
 
 export const ID = 'app-remote-play-menu';
 
-const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
-    open,
-    onOpenChange,
-    trigger
-}) => {
+const RemotePlayMenu: FC<RemotePlayMenuProps> = ({ open, onOpenChange, trigger }) => {
     // TODO: Add other checks for support (Android app, secure context, etc)
     const isChromecastPluginLoaded = !!pluginManager.plugins.find(plugin => plugin.id === 'chromecast');
 
-    const [ playbackTargets, setPlaybackTargets ] = useState<PlayTarget[]>([]);
+    const [playbackTargets, setPlaybackTargets] = useState<PlayTarget[]>([]);
 
     const onPlayTargetClick = (target: PlayTarget) => {
         playbackManager.trySetActivePlayer(target.playerName, target);
@@ -37,43 +33,30 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
 
     useEffect(() => {
         const fetchPlaybackTargets = async () => {
-            setPlaybackTargets(
-                await playbackManager.getTargets()
-            );
+            setPlaybackTargets(await playbackManager.getTargets());
         };
 
         if (open) {
-            fetchPlaybackTargets()
-                .catch(err => {
-                    console.error('[AppRemotePlayMenu] unable to get playback targets', err);
-                });
+            fetchPlaybackTargets().catch(err => {
+                console.error('[AppRemotePlayMenu] unable to get playback targets', err);
+            });
         }
-    }, [ open, setPlaybackTargets ]);
+    }, [open, setPlaybackTargets]);
 
     return (
-        <Menu
-            open={open}
-            onOpenChange={onOpenChange}
-            trigger={trigger}
-            align='end'
-            id={ID}
-        >
+        <Menu open={open} onOpenChange={onOpenChange} trigger={trigger} align="end" id={ID}>
             {!isChromecastPluginLoaded && (
                 <MenuItem disabled>
-                    <Flex align='center' gap={vars.spacing.sm}>
+                    <Flex align="center" gap={vars.spacing.sm}>
                         <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
                             <ExclamationTriangleIcon />
                         </Box>
-                        <Text size='md'>
-                            {globalize.translate('GoogleCastUnsupported')}
-                        </Text>
+                        <Text size="md">{globalize.translate('GoogleCastUnsupported')}</Text>
                     </Flex>
                 </MenuItem>
             )}
 
-            {!isChromecastPluginLoaded && playbackTargets.length > 0 && (
-                <MenuSeparator />
-            )}
+            {!isChromecastPluginLoaded && playbackTargets.length > 0 && <MenuSeparator />}
 
             {playbackTargets.map(target => (
                 <MenuItem
@@ -82,16 +65,14 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
                     // eslint-disable-next-line react/jsx-no-bind
                     onClick={() => onPlayTargetClick(target)}
                 >
-                    <Flex align='center' gap={vars.spacing.sm}>
+                    <Flex align="center" gap={vars.spacing.sm}>
                         <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
                             <PlayTargetIcon target={target} />
                         </Box>
                         <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                            <Text size='md'>
-                                {target.appName ? `${target.name} - ${target.appName}` : target.name}
-                            </Text>
+                            <Text size="md">{target.appName ? `${target.name} - ${target.appName}` : target.name}</Text>
                             {target.user?.Name && (
-                                <Text size='sm' color='secondary'>
+                                <Text size="sm" color="secondary">
                                     {target.user.Name}
                                 </Text>
                             )}

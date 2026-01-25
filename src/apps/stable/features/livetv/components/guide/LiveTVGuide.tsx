@@ -59,7 +59,7 @@ const LiveTVGuide: React.FC = () => {
     if (isLoading) {
         return (
             <div className={styles.loadingContainer}>
-                <CircularProgress size='lg' />
+                <CircularProgress size="lg" />
             </div>
         );
     }

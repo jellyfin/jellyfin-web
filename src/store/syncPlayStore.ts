@@ -1,6 +1,6 @@
 /**
  * SyncPlay Store
- * 
+ *
  * Manages group playback synchronization state.
  * Coordinates multiple clients playing the same content.
  */
@@ -38,7 +38,7 @@ export interface SyncPlayActions {
 }
 
 export const useSyncPlayStore = create<SyncPlayState & SyncPlayActions>()(
-    subscribeWithSelector((set) => ({
+    subscribeWithSelector(set => ({
         isEnabled: false,
         isReady: false,
         followingGroupPlayback: true,
@@ -48,34 +48,35 @@ export const useSyncPlayStore = create<SyncPlayState & SyncPlayActions>()(
         groupState: null,
 
         setEnabled: (enabled, groupInfo) => {
-            set({ 
-                isEnabled: enabled, 
+            set({
+                isEnabled: enabled,
                 groupInfo: groupInfo || null,
                 isReady: false // Reset ready state when toggling
             });
             logger.info(`SyncPlay ${enabled ? 'enabled' : 'disabled'}`, { component: 'SyncPlayStore' });
         },
 
-        setReady: (isReady) => set({ isReady }),
+        setReady: isReady => set({ isReady }),
 
-        setFollowing: (followingGroupPlayback) => set({ followingGroupPlayback }),
+        setFollowing: followingGroupPlayback => set({ followingGroupPlayback }),
 
-        setGroupInfo: (groupInfo) => set({ groupInfo }),
+        setGroupInfo: groupInfo => set({ groupInfo }),
 
-        setSyncMethod: (syncMethod) => set({ syncMethod }),
+        setSyncMethod: syncMethod => set({ syncMethod }),
 
-        setGroupState: (groupState) => set({ groupState }),
+        setGroupState: groupState => set({ groupState }),
 
-        processCommand: (lastCommand) => set({ lastCommand }),
+        processCommand: lastCommand => set({ lastCommand }),
 
-        reset: () => set({
-            isEnabled: false,
-            isReady: false,
-            followingGroupPlayback: true,
-            groupInfo: null,
-            syncMethod: 'None',
-            lastCommand: null,
-            groupState: null
-        })
+        reset: () =>
+            set({
+                isEnabled: false,
+                isReady: false,
+                followingGroupPlayback: true,
+                groupInfo: null,
+                syncMethod: 'None',
+                lastCommand: null,
+                groupState: null
+            })
     }))
 );

@@ -25,24 +25,15 @@ interface UsePaginationReturn {
     previousPage: () => void;
 }
 
-export const usePagination = (
-    componentKey: string,
-    options: UsePaginationOptions = {}
-): UsePaginationReturn => {
+export const usePagination = (componentKey: string, options: UsePaginationOptions = {}): UsePaginationReturn => {
     const { defaultPageSize = 50, storageKey = 'jellyfin-pagination' } = options;
 
     const [pageIndex, setPageIndexState] = useState(0);
     const [pageSize, setPageSizeState] = useState(defaultPageSize);
 
-    const [storedPageIndex] = useLocalStorage<number>(
-        `${storageKey}-${componentKey}-page`,
-        0
-    );
+    const [storedPageIndex] = useLocalStorage<number>(`${storageKey}-${componentKey}-page`, 0);
 
-    const [storedPageSize] = useLocalStorage<number>(
-        `${storageKey}-${componentKey}-size`,
-        defaultPageSize
-    );
+    const [storedPageSize] = useLocalStorage<number>(`${storageKey}-${componentKey}-size`, defaultPageSize);
 
     useEffect(() => {
         setPageIndexState(storedPageIndex);
@@ -52,23 +43,32 @@ export const usePagination = (
         setPageSizeState(storedPageSize);
     }, [storedPageSize]);
 
-    const setPageIndex = useCallback<React.Dispatch<React.SetStateAction<number>>>((index) => {
-        const newIndex = typeof index === 'function' ? index(pageIndex) : Math.max(0, index);
-        setPageIndexState(newIndex);
-        localStorage.setItem(`${storageKey}-${componentKey}-page`, String(newIndex));
-    }, [componentKey, storageKey, pageIndex]);
+    const setPageIndex = useCallback<React.Dispatch<React.SetStateAction<number>>>(
+        index => {
+            const newIndex = typeof index === 'function' ? index(pageIndex) : Math.max(0, index);
+            setPageIndexState(newIndex);
+            localStorage.setItem(`${storageKey}-${componentKey}-page`, String(newIndex));
+        },
+        [componentKey, storageKey, pageIndex]
+    );
 
-    const setPageSize = useCallback((size: number) => {
-        const newSize = Math.max(1, size);
-        setPageSizeState(newSize);
-        localStorage.setItem(`${storageKey}-${componentKey}-size`, String(newSize));
-        setPageIndex(0);
-    }, [componentKey, storageKey, setPageIndex]);
+    const setPageSize = useCallback(
+        (size: number) => {
+            const newSize = Math.max(1, size);
+            setPageSizeState(newSize);
+            localStorage.setItem(`${storageKey}-${componentKey}-size`, String(newSize));
+            setPageIndex(0);
+        },
+        [componentKey, storageKey, setPageIndex]
+    );
 
-    const hasNextPage = useCallback((totalCount?: number) => {
-        if (totalCount === undefined) return true;
-        return (pageIndex + 1) * pageSize < totalCount;
-    }, [pageIndex, pageSize]);
+    const hasNextPage = useCallback(
+        (totalCount?: number) => {
+            if (totalCount === undefined) return true;
+            return (pageIndex + 1) * pageSize < totalCount;
+        },
+        [pageIndex, pageSize]
+    );
 
     const hasPreviousPage = useCallback(() => {
         return pageIndex > 0;
@@ -78,10 +78,13 @@ export const usePagination = (
         setPageIndex(0);
     }, [setPageIndex]);
 
-    const goToLastPage = useCallback((totalCount: number) => {
-        const maxPage = Math.max(0, Math.ceil(totalCount / pageSize) - 1);
-        setPageIndex(maxPage);
-    }, [pageSize, setPageIndex]);
+    const goToLastPage = useCallback(
+        (totalCount: number) => {
+            const maxPage = Math.max(0, Math.ceil(totalCount / pageSize) - 1);
+            setPageIndex(maxPage);
+        },
+        [pageSize, setPageIndex]
+    );
 
     const nextPage = useCallback(() => {
         setPageIndex(pageIndex + 1);
@@ -103,7 +106,7 @@ export const usePagination = (
         goToFirstPage,
         goToLastPage,
         nextPage,
-        previousPage,
+        previousPage
     };
 };
 

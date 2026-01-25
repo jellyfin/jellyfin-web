@@ -39,4 +39,3 @@ export const skeletonWave = style({
         animation: `${wave} 2s infinite`
     }
 });
-

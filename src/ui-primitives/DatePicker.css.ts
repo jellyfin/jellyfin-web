@@ -57,4 +57,3 @@ export const datePickerFooter = style({
     borderTop: `1px solid ${vars.colors.divider}`,
     marginTop: vars.spacing.sm
 });
-

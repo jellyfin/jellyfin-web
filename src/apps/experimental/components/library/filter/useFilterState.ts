@@ -52,9 +52,7 @@ export function useFilterState(options: FilterStateOptions = {}) {
     const toggleFilter = useCallback(
         (key: string, value: string) => {
             const current = getParam(key);
-            const newValues = current.includes(value) ?
-                current.filter((v) => v !== value) :
-                [...current, value];
+            const newValues = current.includes(value) ? current.filter(v => v !== value) : [...current, value];
             setFilter(key, newValues);
         },
         [getParam, setFilter]
@@ -79,16 +77,11 @@ export function useFilterState(options: FilterStateOptions = {}) {
     }, [searchParams, paramPrefix, setSearchParams]);
 
     const hasActiveFilters = useMemo(() => {
-        return Object.keys(allFilters).some(
-            (key) => allFilters[key].length > 0
-        );
+        return Object.keys(allFilters).some(key => allFilters[key].length > 0);
     }, [allFilters]);
 
     const activeFilterCount = useMemo(() => {
-        return Object.values(allFilters).reduce(
-            (sum, values) => sum + values.length,
-            0
-        );
+        return Object.values(allFilters).reduce((sum, values) => sum + values.length, 0);
     }, [allFilters]);
 
     return {

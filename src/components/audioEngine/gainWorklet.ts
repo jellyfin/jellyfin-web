@@ -25,16 +25,10 @@ class GainProcessor extends AudioWorkletProcessor {
     }
 
     static get parameterDescriptors(): AudioParamDescriptor[] {
-        return [
-            { name: 'gain', defaultValue: 1.0, minValue: 0, maxValue: 10 }
-        ];
+        return [{ name: 'gain', defaultValue: 1.0, minValue: 0, maxValue: 10 }];
     }
 
-    process(
-        inputs: AudioWorkletInputs,
-        outputs: AudioWorkletOutputs,
-        parameters: AudioWorkletParameters
-    ): boolean {
+    process(inputs: AudioWorkletInputs, outputs: AudioWorkletOutputs, parameters: AudioWorkletParameters): boolean {
         const input = inputs[0];
         const output = outputs[0];
 

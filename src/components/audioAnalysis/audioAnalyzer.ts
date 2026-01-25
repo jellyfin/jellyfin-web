@@ -104,8 +104,8 @@ export class AudioAnalyzer {
         const onsetEnv = this.calculateOnsetEnvelope(decimated, bufferSize);
 
         const acf = this.autocorrelation(onsetEnv);
-        const maxLag = Math.floor(sampleRate / 1000 / minBPM * decimated.length);
-        const minLag = Math.floor(sampleRate / 1000 / maxBPM * decimated.length);
+        const maxLag = Math.floor((sampleRate / 1000 / minBPM) * decimated.length);
+        const minLag = Math.floor((sampleRate / 1000 / maxBPM) * decimated.length);
 
         let bestLag = minLag;
         let maxVal = -Infinity;
@@ -185,7 +185,7 @@ export class AudioAnalyzer {
             const spectrum = this.fft(windowed);
 
             for (let bin = 0; bin < spectrum.length / 2; bin++) {
-                const freq = bin * sampleRate / frameSize;
+                const freq = (bin * sampleRate) / frameSize;
                 if (freq < 40 || freq > 5000) continue;
 
                 const note = (12 * Math.log2(freq / 440) + 69) % 12;
@@ -195,7 +195,7 @@ export class AudioAnalyzer {
         }
 
         const majorProfile = [6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88];
-        const minorProfile = [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17];
+        const minorProfile = [6.33, 2.68, 3.52, 5.38, 2.6, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17];
 
         let bestMajorCorr = -Infinity;
         let bestMajorKey = 0;
@@ -265,7 +265,7 @@ export class AudioAnalyzer {
     private hannWindow(samples: Float32Array): Float32Array {
         const result = new Float32Array(samples.length);
         for (let i = 0; i < samples.length; i++) {
-            result[i] = samples[i] * 0.5 * (1 - Math.cos(2 * Math.PI * i / (samples.length - 1)));
+            result[i] = samples[i] * 0.5 * (1 - Math.cos((2 * Math.PI * i) / (samples.length - 1)));
         }
         return result;
     }
@@ -306,7 +306,7 @@ export class AudioAnalyzer {
         this._fft(oddReal, oddImag, half);
 
         for (let k = 0; k < half; k++) {
-            const angle = -2 * Math.PI * k / n;
+            const angle = (-2 * Math.PI * k) / n;
             const cos = Math.cos(angle);
             const sin = Math.sin(angle);
 
@@ -328,7 +328,7 @@ export class AudioAnalyzer {
         attackTime: number;
         decayTime: number;
     }> {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             let sum = 0;
             let rmsSum = 0;
             let peak = -Infinity;
@@ -384,14 +384,14 @@ export class AudioAnalyzer {
                 rms,
                 loudness: Math.max(-60, loudness),
                 dynamicRange: Math.min(60, dynamicRange),
-                attackTime: attackFrames * frameSize / 44100,
-                decayTime: (decayEnd - attackPeakTime) * frameSize / 44100
+                attackTime: (attackFrames * frameSize) / 44100,
+                decayTime: ((decayEnd - attackPeakTime) * frameSize) / 44100
             });
         });
     }
 
     private analyzeSpectral(samples: Float32Array, sampleRate: number): Promise<SpectralInfo> {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             const frameSize = 2048;
             const hopSize = 1024;
             const frames = Math.floor((samples.length - frameSize) / hopSize);
@@ -422,7 +422,7 @@ export class AudioAnalyzer {
 
                 let centroid = 0;
                 for (let j = 0; j < magSpectrum.length; j++) {
-                    const freq = j * sampleRate / frameSize;
+                    const freq = (j * sampleRate) / frameSize;
                     centroid += freq * magSpectrum[j];
 
                     if (magSpectrum[j] > peakMag) {
@@ -436,7 +436,7 @@ export class AudioAnalyzer {
 
                 let bandwidth = 0;
                 for (let j = 0; j < magSpectrum.length; j++) {
-                    const freq = j * sampleRate / frameSize;
+                    const freq = (j * sampleRate) / frameSize;
                     bandwidth += Math.pow(freq - centroid, 2) * magSpectrum[j];
                 }
                 bandwidthSum += Math.sqrt(bandwidth / magSum);
@@ -446,7 +446,7 @@ export class AudioAnalyzer {
                 for (let j = 0; j < magSpectrum.length; j++) {
                     rolloffEnergy -= magSpectrum[j];
                     if (rolloffEnergy <= 0) {
-                        rolloff = j * sampleRate / frameSize;
+                        rolloff = (j * sampleRate) / frameSize;
                         break;
                     }
                 }
@@ -495,8 +495,7 @@ export class AudioAnalyzer {
     private calculateZeroCrossingRate(samples: Float32Array): number {
         let crossings = 0;
         for (let i = 1; i < samples.length; i++) {
-            if ((samples[i] >= 0 && samples[i - 1] < 0) ||
-                (samples[i] < 0 && samples[i - 1] >= 0)) {
+            if ((samples[i] >= 0 && samples[i - 1] < 0) || (samples[i] < 0 && samples[i - 1] >= 0)) {
                 crossings++;
             }
         }

@@ -52,14 +52,16 @@ class SkipSegment extends PlaybackSubscriber {
             let buttonHtml = '';
 
             // FIXME: Move skip button to the video OSD
-            buttonHtml += '<div class="skip-button-container"><button is="emby-button" class="skip-button hide skip-button-hidden"></button></div>';
+            buttonHtml +=
+                '<div class="skip-button-container"><button is="emby-button" class="skip-button hide skip-button-hidden"></button></div>';
 
             document.body.insertAdjacentHTML('beforeend', buttonHtml);
 
             this.skipElement = document.body.querySelector('.skip-button');
             if (this.skipElement) {
                 this.skipElement.addEventListener('click', () => {
-                    const time = this.playbackManager.currentTime(this.player as unknown as Player) * TICKS_PER_MILLISECOND;
+                    const time =
+                        this.playbackManager.currentTime(this.player as unknown as Player) * TICKS_PER_MILLISECOND;
                     if (this.currentSegment?.EndTicks) {
                         if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
                             this.playbackManager.seek(this.currentSegment.EndTicks);
@@ -74,7 +76,10 @@ class SkipSegment extends PlaybackSubscriber {
 
     setButtonText() {
         if (this.skipElement && this.currentSegment) {
-            this.skipElement.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
+            this.skipElement.innerHTML = globalize.translate(
+                'MediaSegmentSkipPrompt',
+                globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`)
+            );
             this.skipElement.innerHTML += '<span class="material-icons skip_next" aria-hidden="true"></span>';
         }
     }
@@ -150,10 +155,12 @@ class SkipSegment extends PlaybackSubscriber {
     }
 
     onPromptSkip(e: Event, segment: MediaSegmentDto) {
-        if (this.player && segment.EndTicks != null
-            && segment.EndTicks >= this.playbackManager.currentItem(this.player as unknown as Player).RunTimeTicks
-            && this.playbackManager.getNextItem()
-            && userSettings.enableNextVideoInfoOverlay()
+        if (
+            this.player &&
+            segment.EndTicks != null &&
+            segment.EndTicks >= this.playbackManager.currentItem(this.player as unknown as Player).RunTimeTicks &&
+            this.playbackManager.getNextItem() &&
+            userSettings.enableNextVideoInfoOverlay()
         ) {
             // Don't display button when UpNextDialog is expected.
             return;

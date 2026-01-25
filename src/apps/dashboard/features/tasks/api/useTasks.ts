@@ -8,11 +8,7 @@ import { useApi } from 'hooks/useApi';
 
 export const QUERY_KEY = 'Tasks';
 
-const fetchTasks = async (
-    api: Api,
-    params?: ScheduledTasksApiGetTasksRequest,
-    options?: AxiosRequestConfig
-) => {
+const fetchTasks = async (api: Api, params?: ScheduledTasksApiGetTasksRequest, options?: AxiosRequestConfig) => {
     const response = await getScheduledTasksApi(api).getTasks(params, options);
 
     return response.data;
@@ -22,9 +18,8 @@ export const useTasks = (params?: ScheduledTasksApiGetTasksRequest) => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY ],
-        queryFn: ({ signal }) =>
-            fetchTasks(api!, params, { signal }),
+        queryKey: [QUERY_KEY],
+        queryFn: ({ signal }) => fetchTasks(api!, params, { signal }),
         enabled: !!api
     });
 };

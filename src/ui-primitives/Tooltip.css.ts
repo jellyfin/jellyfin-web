@@ -11,4 +11,3 @@ export const tooltipContent = style({
     zIndex: vars.zIndex.tooltip,
     boxShadow: vars.shadows.lg
 });
-

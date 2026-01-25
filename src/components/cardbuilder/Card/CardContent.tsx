@@ -25,15 +25,10 @@ const CardContent: FC<CardContentProps> = ({
     blurhash,
     forceName
 }) => {
-    const cardContentClass = classNames(
-        'cardContent',
-        { [getDefaultBackgroundClass(item.Name)]: !imgUrl }
-    );
+    const cardContentClass = classNames('cardContent', { [getDefaultBackgroundClass(item.Name)]: !imgUrl });
 
     return (
-        <div
-            className={cardContentClass}
-        >
+        <div className={cardContentClass}>
             <CardImageContainer
                 item={item}
                 cardOptions={cardOptions}

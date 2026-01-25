@@ -17,7 +17,7 @@ export const useUser = (params?: UserApiGetUserByIdRequest) => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY, params?.userId ],
+        queryKey: [QUERY_KEY, params?.userId],
         queryFn: ({ signal }) => fetchUser(api!, params!, { signal }),
         enabled: !!api && !!params
     });

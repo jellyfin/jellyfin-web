@@ -7,13 +7,13 @@ export const grid = style({
     gap: vars.spacing.md,
     '@media': {
         '(min-width: 600px)': {
-            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateColumns: 'repeat(2, 1fr)'
         },
         '(min-width: 960px)': {
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(4, 1fr)'
         },
         '(min-width: 1280px)': {
-            gridTemplateColumns: 'repeat(3, 1fr)',
-        },
-    },
+            gridTemplateColumns: 'repeat(3, 1fr)'
+        }
+    }
 });

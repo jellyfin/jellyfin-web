@@ -14,23 +14,20 @@ export interface DrawerProps {
 }
 
 export function Drawer({ anchor = 'left', open, onClose, children, style, className }: DrawerProps): ReactElement {
-    const handleOpenChange = useCallback((value: boolean): void => {
-        if (!value) {
-            onClose();
-        }
-    }, [onClose]);
+    const handleOpenChange = useCallback(
+        (value: boolean): void => {
+            if (!value) {
+                onClose();
+            }
+        },
+        [onClose]
+    );
 
     return (
-        <Root
-            open={open}
-            onOpenChange={handleOpenChange}
-        >
+        <Root open={open} onOpenChange={handleOpenChange}>
             <Portal>
                 <Overlay className={drawerOverlay} />
-                <Content
-                    className={[drawerContent, drawerAnchor[anchor], className ?? ''].join(' ')}
-                    style={style}
-                >
+                <Content className={[drawerContent, drawerAnchor[anchor], className ?? ''].join(' ')} style={style}>
                     {children}
                 </Content>
             </Portal>

@@ -57,4 +57,3 @@ export const scrollAreaThumb = style({
 export const scrollAreaCorner = style({
     background: vars.colors.surface
 });
-

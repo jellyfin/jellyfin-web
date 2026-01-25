@@ -173,15 +173,18 @@ export function DataTable<T>({
         return [...columns, actionColumn];
     }, [columns, enableRowActions, renderRowActions]);
 
-    const handlePaginationChange = useCallback((updater: Updater<PaginationState>): void => {
-        if (onPaginationChange !== undefined && pagination !== undefined) {
-            const newPagination = typeof updater === 'function' ? updater(pagination) : updater;
-            onPaginationChange({
-                pageIndex: newPagination.pageIndex,
-                pageSize: newPagination.pageSize
-            });
-        }
-    }, [onPaginationChange, pagination]);
+    const handlePaginationChange = useCallback(
+        (updater: Updater<PaginationState>): void => {
+            if (onPaginationChange !== undefined && pagination !== undefined) {
+                const newPagination = typeof updater === 'function' ? updater(pagination) : updater;
+                onPaginationChange({
+                    pageIndex: newPagination.pageIndex,
+                    pageSize: newPagination.pageSize
+                });
+            }
+        },
+        [onPaginationChange, pagination]
+    );
 
     const table = useReactTable({
         data,
@@ -189,12 +192,13 @@ export function DataTable<T>({
         state: {
             sorting,
             columnFilters,
-            pagination: pagination !== undefined ?
-                {
-                    pageIndex: pagination.pageIndex,
-                    pageSize: pagination.pageSize
-                } :
-                undefined,
+            pagination:
+                pagination !== undefined
+                    ? {
+                          pageIndex: pagination.pageIndex,
+                          pageSize: pagination.pageSize
+                      }
+                    : undefined,
             columnPinning
         },
         onSortingChange: setSorting,
@@ -313,20 +317,18 @@ export function DataTable<T>({
                                             onClick={onHeaderClick}
                                         >
                                             {flexRender(header.column.columnDef.header, header.getContext())}
-                                            {
-                                                {
-                                                    asc: ' ↑',
-                                                    desc: ' ↓'
-                                                }[header.column.getIsSorted() as string] ?? null
-                                            }
+                                            {{
+                                                asc: ' ↑',
+                                                desc: ' ↓'
+                                            }[header.column.getIsSorted() as string] ?? null}
                                             {enableColumnResizing && header.column.getCanResize() && (
                                                 <button
-                                                    type='button'
+                                                    type="button"
                                                     onClick={handleStopPropagation}
                                                     onMouseDown={header.getResizeHandler()}
                                                     onTouchStart={header.getResizeHandler()}
                                                     className={`${dataTableResizerStyles} ${header.column.getIsResizing() ? dataTableResizerActiveStyles : ''}`}
-                                                    aria-label='Resize column'
+                                                    aria-label="Resize column"
                                                 />
                                             )}
                                         </th>
@@ -358,7 +360,7 @@ export function DataTable<T>({
                     </div>
                     <div style={{ display: 'flex', gap: vars.spacing.sm }}>
                         <button
-                            type='button'
+                            type="button"
                             onClick={onPrevPageClick}
                             disabled={!canPrevPage}
                             style={{
@@ -374,7 +376,7 @@ export function DataTable<T>({
                             Previous
                         </button>
                         <button
-                            type='button'
+                            type="button"
                             onClick={onNextPageClick}
                             disabled={!canNextPage}
                             style={{

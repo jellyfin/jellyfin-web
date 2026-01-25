@@ -45,11 +45,7 @@ const MediaInfoStats: FC<MediaInfoStatsProps> = ({
     return (
         <Box className={cssClass}>
             {mediaInfoStats.map((info, index) => (
-                <MediaInfoItem
-                    key={getInfoKey(info, index)}
-                    className={infoclass}
-                    miscInfo={info}
-                />
+                <MediaInfoItem key={getInfoKey(info, index)} className={infoclass} miscInfo={info} />
             ))}
         </Box>
     );

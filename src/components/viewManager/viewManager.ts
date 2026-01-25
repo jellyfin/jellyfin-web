@@ -65,7 +65,11 @@ function onViewChange(view: ViewElement, options: ViewOptions, isRestore?: boole
             focusManager.autoFocus(view);
         }
     } else if (!layoutManager.mobile) {
-        if (view.activeElement && document.body.contains(view.activeElement) && focusManager.isCurrentlyFocusable(view.activeElement)) {
+        if (
+            view.activeElement &&
+            document.body.contains(view.activeElement) &&
+            focusManager.isCurrentlyFocusable(view.activeElement)
+        ) {
             focusManager.focus(view.activeElement);
         } else {
             focusManager.autoFocus(view);

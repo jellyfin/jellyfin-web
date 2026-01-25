@@ -16,7 +16,12 @@ export function getResolutionText(item: any): string | null {
     return null;
 }
 
-export function getEndsAtFromPosition(runtimeTicks: number, positionTicks: number, playbackRate: number, includeText: boolean = true): string {
+export function getEndsAtFromPosition(
+    runtimeTicks: number,
+    positionTicks: number,
+    playbackRate: number,
+    includeText: boolean = true
+): string {
     let endDate = new Date().getTime() + (1 / playbackRate) * ((runtimeTicks - (positionTicks || 0)) / 10000);
     const displayTime = datetime.getDisplayTime(new Date(endDate));
     return includeText ? globalize.translate('EndsAtValue', displayTime) : displayTime;
@@ -26,7 +31,12 @@ export function getMediaInfoStats(item: any): any[] {
     const list: any[] = [];
     const mediaSource = (item.MediaSources || [])[0] || {};
     const videoStream = (mediaSource.MediaStreams || []).find((i: any) => i.Type === 'Video') || {};
-    const audioStream = (mediaSource.MediaStreams || []).find((i: any) => i.Type === 'Audio' && (i.Index === mediaSource.DefaultAudioStreamIndex || mediaSource.DefaultAudioStreamIndex == null)) || {};
+    const audioStream =
+        (mediaSource.MediaStreams || []).find(
+            (i: any) =>
+                i.Type === 'Audio' &&
+                (i.Index === mediaSource.DefaultAudioStreamIndex || mediaSource.DefaultAudioStreamIndex == null)
+        ) || {};
 
     if (item.VideoType === 'Dvd') list.push({ type: 'mediainfo', text: 'Dvd' });
     if (item.VideoType === 'BluRay') list.push({ type: 'mediainfo', text: 'BluRay' });
@@ -54,7 +64,10 @@ export function getMediaInfoStats(item: any): any[] {
         const dateCreated = datetime.parseISO8601Date(item.DateCreated);
         list.push({
             type: 'added',
-            text: globalize.translate('AddedOnValue', `${datetime.toLocaleDateString(dateCreated)} ${datetime.getDisplayTime(dateCreated)}`)
+            text: globalize.translate(
+                'AddedOnValue',
+                `${datetime.toLocaleDateString(dateCreated)} ${datetime.getDisplayTime(dateCreated)}`
+            )
         });
     }
 

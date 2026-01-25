@@ -50,26 +50,59 @@ class BundleAnalyzer {
         logger.info('Lazy Loading Opportunities', { component: 'BundleAnalyzer' });
 
         const eagerComponents = [
-            'displayMirrorManager', 'playerSelectionMenu', 'themeMediaPlayer',
-            'autoThemes', 'mouseManager', 'screensavermanager', 'serverNotifications'
+            'displayMirrorManager',
+            'playerSelectionMenu',
+            'themeMediaPlayer',
+            'autoThemes',
+            'mouseManager',
+            'screensavermanager',
+            'serverNotifications'
         ];
-        logger.debug('Components loaded eagerly (could be lazy-loaded)', { component: 'BundleAnalyzer', eagerComponents });
+        logger.debug('Components loaded eagerly (could be lazy-loaded)', {
+            component: 'BundleAnalyzer',
+            eagerComponents
+        });
 
         const routeComponents = [
-            'visualizer components', 'music player components',
-            'video player components', 'admin/dashboard components'
+            'visualizer components',
+            'music player components',
+            'video player components',
+            'admin/dashboard components'
         ];
-        logger.debug('Route-specific components (should be lazy-loaded)', { component: 'BundleAnalyzer', routeComponents });
+        logger.debug('Route-specific components (should be lazy-loaded)', {
+            component: 'BundleAnalyzer',
+            routeComponents
+        });
     }
 
     static suggestOptimizations() {
         logger.info('Optimization Recommendations', { component: 'BundleAnalyzer' });
 
         const suggestions = [
-            { priority: 'HIGH', action: 'Implement route-based code splitting', impact: 'Reduce initial bundle by 30-50%', effort: 'Medium' },
-            { priority: 'HIGH', action: 'Lazy load media player components', impact: 'Reduce initial bundle by 15-25%', effort: 'Low' },
-            { priority: 'MEDIUM', action: 'Defer non-critical UI components', impact: 'Reduce initial bundle by 5-10%', effort: 'Low' },
-            { priority: 'MEDIUM', action: 'Implement tree shaking for unused features', impact: 'Reduce bundle by 10-20%', effort: 'Medium' },
+            {
+                priority: 'HIGH',
+                action: 'Implement route-based code splitting',
+                impact: 'Reduce initial bundle by 30-50%',
+                effort: 'Medium'
+            },
+            {
+                priority: 'HIGH',
+                action: 'Lazy load media player components',
+                impact: 'Reduce initial bundle by 15-25%',
+                effort: 'Low'
+            },
+            {
+                priority: 'MEDIUM',
+                action: 'Defer non-critical UI components',
+                impact: 'Reduce initial bundle by 5-10%',
+                effort: 'Low'
+            },
+            {
+                priority: 'MEDIUM',
+                action: 'Implement tree shaking for unused features',
+                impact: 'Reduce bundle by 10-20%',
+                effort: 'Medium'
+            },
             { priority: 'LOW', action: 'Compress and optimize assets', impact: 'Reduce bundle by 5-10%', effort: 'Low' }
         ];
 
@@ -80,10 +113,20 @@ class BundleAnalyzer {
 
     static generateOptimizationPlan() {
         logger.info('Bundle Optimization Implementation Plan', { component: 'BundleAnalyzer' });
-        logger.info('Phase 1 (Quick Wins): Lazy load themeMediaPlayer, defer screensaverManager, dynamic imports for admin routes', { component: 'BundleAnalyzer' });
-        logger.info('Phase 2 (Route-Based Splitting): Split visualizer, music/video player, dashboard/admin routes', { component: 'BundleAnalyzer' });
-        logger.info('Phase 3 (Advanced): Virtual scrolling, SW pre-caching, bundle splitting optimization', { component: 'BundleAnalyzer' });
-        logger.info('Expected: Initial bundle 29MB -> 10-15MB (45-50% reduction), 100-200ms faster first paint, 30-50% TTI improvement', { component: 'BundleAnalyzer' });
+        logger.info(
+            'Phase 1 (Quick Wins): Lazy load themeMediaPlayer, defer screensaverManager, dynamic imports for admin routes',
+            { component: 'BundleAnalyzer' }
+        );
+        logger.info('Phase 2 (Route-Based Splitting): Split visualizer, music/video player, dashboard/admin routes', {
+            component: 'BundleAnalyzer'
+        });
+        logger.info('Phase 3 (Advanced): Virtual scrolling, SW pre-caching, bundle splitting optimization', {
+            component: 'BundleAnalyzer'
+        });
+        logger.info(
+            'Expected: Initial bundle 29MB -> 10-15MB (45-50% reduction), 100-200ms faster first paint, 30-50% TTI improvement',
+            { component: 'BundleAnalyzer' }
+        );
     }
 }
 

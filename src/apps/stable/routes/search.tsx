@@ -18,26 +18,20 @@ const Search: FC = () => {
     const [searchParams] = useSearchParams();
     const parentIdQuery = searchParams.get(PARENT_ID_PARAM) || undefined;
     const collectionTypeQuery = (searchParams.get(COLLECTION_TYPE_PARAM) || undefined) as CollectionType | undefined;
-    const [ query, setQuery ] = useSearchParam(QUERY_PARAM);
+    const [query, setQuery] = useSearchParam(QUERY_PARAM);
     const [debouncedQuery] = useDebounceValue(query, 500);
 
     return (
         <Page
-            id='searchPage'
+            id="searchPage"
             title={globalize.translate('Search')}
-            className='mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage'
+            className="mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage"
         >
             <SearchFields query={query} onSearch={setQuery} />
             {!debouncedQuery ? (
-                <SearchSuggestions
-                    parentId={parentIdQuery}
-                />
+                <SearchSuggestions parentId={parentIdQuery} />
             ) : (
-                <SearchResults
-                    parentId={parentIdQuery}
-                    collectionType={collectionTypeQuery}
-                    query={debouncedQuery}
-                />
+                <SearchResults parentId={parentIdQuery} collectionType={collectionTypeQuery} query={debouncedQuery} />
             )}
         </Page>
     );

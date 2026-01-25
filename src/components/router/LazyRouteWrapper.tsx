@@ -20,8 +20,8 @@ const LoadingFallback: React.FC = () => (
             padding: vars.spacing.lg
         }}
     >
-        <CircularProgress size='lg' />
-        <Text size='lg' color='secondary' style={{ marginTop: vars.spacing.md }}>
+        <CircularProgress size="lg" />
+        <Text size="lg" color="secondary" style={{ marginTop: vars.spacing.md }}>
             Loading...
         </Text>
     </Box>
@@ -34,10 +34,7 @@ interface ErrorBoundaryState {
     hasError: boolean;
 }
 
-class LazyRouteErrorBoundary extends Component<
-    { children: ReactNode; fallback?: ReactNode },
-    ErrorBoundaryState
-> {
+class LazyRouteErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, ErrorBoundaryState> {
     constructor(props: { children: ReactNode; fallback?: ReactNode }) {
         super(props);
         this.state = { hasError: false };
@@ -79,18 +76,14 @@ export const LazyRouteWrapper: React.FC<LazyRouteWrapperProps> = ({
     errorFallback
 }) => (
     <LazyRouteErrorBoundary fallback={errorFallback}>
-        <Suspense fallback={loadingFallback}>
-            {children}
-        </Suspense>
+        <Suspense fallback={loadingFallback}>{children}</Suspense>
     </LazyRouteErrorBoundary>
 );
 
 /**
  * Convenience wrapper for lazy-loaded routes with default UX
  */
-export const withLazyRouteWrapper = (
-    LazyComponent: React.LazyExoticComponent<React.ComponentType<any>>
-) => () => (
+export const withLazyRouteWrapper = (LazyComponent: React.LazyExoticComponent<React.ComponentType<any>>) => () => (
     <LazyRouteWrapper>
         <LazyComponent />
     </LazyRouteWrapper>

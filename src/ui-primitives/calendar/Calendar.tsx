@@ -37,9 +37,9 @@ export function Calendar({
             disabledDays = (date: Date): boolean => {
                 return disabledArray.some(
                     d =>
-                        d.getDate() === date.getDate()
-                          && d.getMonth() === date.getMonth()
-                          && d.getFullYear() === date.getFullYear()
+                        d.getDate() === date.getDate() &&
+                        d.getMonth() === date.getMonth() &&
+                        d.getFullYear() === date.getFullYear()
                 );
             };
         }
@@ -62,4 +62,3 @@ export function Calendar({
 }
 
 export default Calendar;
-

@@ -7,7 +7,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { RestoreViewFailResponse } from 'types/viewManager';
 
 interface ServerContentPageProps {
-    view: string
+    view: string;
 }
 
 /**
@@ -17,25 +17,26 @@ interface ServerContentPageProps {
 const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) => {
     const location = useLocation();
 
-    useEffect(() => {
-        const loadPage = () => {
-            const viewOptions = {
-                url: location.pathname + location.search,
-                state: location.state,
-                autoFocus: false,
-                options: {
-                    supportsThemeMedia: false,
-                    enableMediaControl: true
-                }
-            };
+    useEffect(
+        () => {
+            const loadPage = () => {
+                const viewOptions = {
+                    url: location.pathname + location.search,
+                    state: location.state,
+                    autoFocus: false,
+                    options: {
+                        supportsThemeMedia: false,
+                        enableMediaControl: true
+                    }
+                };
 
-            viewManager.tryRestoreView(viewOptions)
-                .catch(async (result?: RestoreViewFailResponse) => {
+                viewManager.tryRestoreView(viewOptions).catch(async (result?: RestoreViewFailResponse) => {
                     if (!result?.cancelled) {
                         const apiClient = ServerConnections.currentApiClient();
 
                         // Fetch the view html from the server and translate it
-                        const viewHtml = await apiClient?.get(apiClient.getUrl(view + location.search))
+                        const viewHtml = await apiClient
+                            ?.get(apiClient.getUrl(view + location.search))
                             .then((html: string) => globalize.translateHtml(html));
 
                         viewManager.loadView({
@@ -44,17 +45,14 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
                         });
                     }
                 });
-        };
+            };
 
-        loadPage();
-    },
-    // location.state is NOT included as a dependency here since dialogs will update state while the current view stays the same
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-        view,
-        location.pathname,
-        location.search
-    ]);
+            loadPage();
+        },
+        // location.state is NOT included as a dependency here since dialogs will update state while the current view stays the same
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [view, location.pathname, location.search]
+    );
 
     return null;
 };

@@ -7,16 +7,11 @@ interface CriticRatingMediaInfoProps {
     criticRating: number;
 }
 
-const CriticRatingMediaInfo: FC<CriticRatingMediaInfoProps> = ({
-    className,
-    criticRating
-}) => {
+const CriticRatingMediaInfo: FC<CriticRatingMediaInfoProps> = ({ className, criticRating }) => {
     const cssClass = classNames(
         'mediaInfoCriticRating',
         'mediaInfoItem',
-        criticRating >= 60 ?
-            'mediaInfoCriticRatingFresh' :
-            'mediaInfoCriticRatingRotten',
+        criticRating >= 60 ? 'mediaInfoCriticRatingFresh' : 'mediaInfoCriticRatingRotten',
         className
     );
     return <Box className={cssClass}>{criticRating}</Box>;

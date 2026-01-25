@@ -27,11 +27,7 @@ interface RadioGroupProps {
 
 export function RadioGroup({ children, value, onValueChange, className }: RadioGroupProps): ReactElement {
     return (
-        <Root
-            className={`${radioGroupRoot} ${className ?? ''}`}
-            value={value}
-            onValueChange={onValueChange}
-        >
+        <Root className={`${radioGroupRoot} ${className ?? ''}`} value={value} onValueChange={onValueChange}>
             {children}
         </Root>
     );
@@ -48,7 +44,7 @@ export function RadioGroupItem({ value, id, label, disabled }: RadioGroupItemPro
     return (
         <Item className={radioGroupItem} value={value} id={id} disabled={disabled}>
             <Indicator className={radioGroupIndicator}>
-                <span className={radioGroupIndicatorInner} data-state='checked' />
+                <span className={radioGroupIndicatorInner} data-state="checked" />
             </Indicator>
             <label className={radioGroupLabel} htmlFor={id}>
                 {label}
@@ -69,14 +65,20 @@ export function Radio({ value, label, disabled = false, id }: RadioProps): React
     return <RadioGroupItem value={value} id={itemId} label={label} disabled={disabled} />;
 }
 
-export function RadioGroupLabel({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function RadioGroupLabel({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <span className={`${radioGroupLabel} ${className ?? ''}`}>{children}</span>;
 }
 
 export function RadioGroupItemIndicator(): ReactElement {
     return (
         <Indicator className={radioGroupItemIndicator}>
-            <span className={radioGroupIndicatorInner} data-state='checked' />
+            <span className={radioGroupIndicatorInner} data-state="checked" />
         </Indicator>
     );
 }

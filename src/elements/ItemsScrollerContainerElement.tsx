@@ -1,6 +1,13 @@
 import React, { FC } from 'react';
 
-const createScroller = ({ scrollerclassName, dataHorizontal, dataMousewheel, dataCenterfocus, dataId, className }: IProps) => ({
+const createScroller = ({
+    scrollerclassName,
+    dataHorizontal,
+    dataMousewheel,
+    dataCenterfocus,
+    dataId,
+    className
+}: IProps) => ({
     __html: `<div is="emby-scroller"
     class="${scrollerclassName}"
     ${dataHorizontal}
@@ -25,7 +32,14 @@ interface IProps {
     className?: string;
 }
 
-const ItemsScrollerContainerElement: FC<IProps> = ({ scrollerclassName, dataHorizontal, dataMousewheel, dataCenterfocus, dataId, className }) => {
+const ItemsScrollerContainerElement: FC<IProps> = ({
+    scrollerclassName,
+    dataHorizontal,
+    dataMousewheel,
+    dataCenterfocus,
+    dataId,
+    className
+}) => {
     return (
         <div
             dangerouslySetInnerHTML={createScroller({

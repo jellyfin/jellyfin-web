@@ -13,10 +13,7 @@ interface CancelTimerButtonProps {
     queryKey?: string[];
 }
 
-const CancelTimerButton: FC<CancelTimerButtonProps> = ({
-    timerId,
-    queryKey
-}) => {
+const CancelTimerButton: FC<CancelTimerButtonProps> = ({ timerId, queryKey }) => {
     const queryClient = useQueryClient();
     const cancelTimer = useCancelTimer();
 
@@ -38,10 +35,7 @@ const CancelTimerButton: FC<CancelTimerButtonProps> = ({
                 onError: (err: unknown) => {
                     loading.hide();
                     toast(globalize.translate('MessageCancelTimerError'));
-                    console.error(
-                        '[cancelTimer] failed to cancel timer',
-                        err
-                    );
+                    console.error('[cancelTimer] failed to cancel timer', err);
                 }
             }
         );
@@ -49,7 +43,7 @@ const CancelTimerButton: FC<CancelTimerButtonProps> = ({
 
     return (
         <IconButton
-            className='button-flat btnCancelTimer'
+            className="button-flat btnCancelTimer"
             title={globalize.translate('StopRecording')}
             onClick={onCancelTimerClick}
         >

@@ -43,11 +43,17 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
             continue;
         }
         if (!result.TotalRecordCount) {
-            logger.warn('[getItems] Retrieved TotalRecordCount is invalid', { component: 'GetItems', totalRecordCount: result.TotalRecordCount });
+            logger.warn('[getItems] Retrieved TotalRecordCount is invalid', {
+                component: 'GetItems',
+                totalRecordCount: result.TotalRecordCount
+            });
             continue;
         }
         if (typeof result.StartIndex === 'undefined') {
-            logger.warn('[getItems] Retrieved StartIndex is invalid', { component: 'GetItems', startIndex: result.StartIndex });
+            logger.warn('[getItems] Retrieved StartIndex is invalid', {
+                component: 'GetItems',
+                startIndex: result.StartIndex
+            });
             continue;
         }
         merged.Items = merged.Items?.concat(result.Items);

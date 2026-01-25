@@ -24,11 +24,7 @@ function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
         imgType = ImageType.Thumb;
         imgTag = item.SeriesThumbImageTag;
         itemId = item.SeriesId;
-    } else if (
-        item.ParentThumbItemId
-        && cardOptions.inheritThumb !== false
-        && item.MediaType !== ItemMediaKind.Photo
-    ) {
+    } else if (item.ParentThumbItemId && cardOptions.inheritThumb !== false && item.MediaType !== ItemMediaKind.Photo) {
         imgType = ImageType.Thumb;
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
@@ -37,10 +33,7 @@ function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
         imgTag = item.BackdropImageTags[0];
         itemId = item.Id;
         forceName = true;
-    } else if (
-        item.ParentBackdropImageTags?.length
-        && cardOptions.inheritThumb !== false
-    ) {
+    } else if (item.ParentBackdropImageTags?.length && cardOptions.inheritThumb !== false) {
         imgType = ImageType.Backdrop;
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
@@ -75,10 +68,7 @@ function getPreferLogoInfo(item: ItemDto) {
     };
 }
 
-function getCalculatedHeight(
-    itemWidth: NullableNumber,
-    itemPrimaryImageAspectRatio: NullableNumber
-) {
+function getCalculatedHeight(itemWidth: NullableNumber, itemPrimaryImageAspectRatio: NullableNumber) {
     if (itemWidth && itemPrimaryImageAspectRatio) {
         return Math.round(itemWidth / itemPrimaryImageAspectRatio);
     }
@@ -88,10 +78,7 @@ function isForceName(cardOptions: CardOptions) {
     return !!(cardOptions.preferThumb && cardOptions.showTitle !== false);
 }
 
-function isCoverImage(
-    itemPrimaryImageAspectRatio: NullableNumber,
-    uiAspect: NullableNumber
-) {
+function isCoverImage(itemPrimaryImageAspectRatio: NullableNumber, uiAspect: NullableNumber) {
     if (itemPrimaryImageAspectRatio && uiAspect) {
         return Math.abs(itemPrimaryImageAspectRatio - uiAspect) / uiAspect <= 0.2;
     }
@@ -104,45 +91,27 @@ function shouldShowPreferBanner(
     cardOptions: CardOptions,
     shape: CardShape | undefined
 ): boolean {
-    return (
-        (cardOptions.preferBanner || shape === CardShape.Banner)
-        && Boolean(imageTagsBanner)
-    );
+    return (cardOptions.preferBanner || shape === CardShape.Banner) && Boolean(imageTagsBanner);
 }
 
-function shouldShowPreferDisc(
-    imageTagsDisc: string | undefined,
-    cardOptions: CardOptions
-): boolean {
+function shouldShowPreferDisc(imageTagsDisc: string | undefined, cardOptions: CardOptions): boolean {
     return cardOptions.preferDisc === true && Boolean(imageTagsDisc);
 }
 
 function shouldShowImageTagsPrimary(item: ItemDto): boolean {
-    return (
-        Boolean(item.ImageTags?.Primary) && (item.Type !== ItemKind.Episode || item.ChildCount !== 0)
-    );
+    return Boolean(item.ImageTags?.Primary) && (item.Type !== ItemKind.Episode || item.ChildCount !== 0);
 }
 
 function shouldShowImageTagsThumb(item: ItemDto): boolean {
     return item.Type === ItemKind.Season && Boolean(item.ImageTags?.Thumb);
 }
 
-function shouldShowSeriesThumbImageTag(
-    itemSeriesThumbImageTag: NullableString,
-    cardOptions: CardOptions
-): boolean {
-    return (
-        Boolean(itemSeriesThumbImageTag) && cardOptions.inheritThumb !== false
-    );
+function shouldShowSeriesThumbImageTag(itemSeriesThumbImageTag: NullableString, cardOptions: CardOptions): boolean {
+    return Boolean(itemSeriesThumbImageTag) && cardOptions.inheritThumb !== false;
 }
 
-function shouldShowParentThumbImageTag(
-    itemParentThumbItemId: NullableString,
-    cardOptions: CardOptions
-): boolean {
-    return (
-        Boolean(itemParentThumbItemId) && Boolean(cardOptions.inheritThumb)
-    );
+function shouldShowParentThumbImageTag(itemParentThumbItemId: NullableString, cardOptions: CardOptions): boolean {
+    return Boolean(itemParentThumbItemId) && Boolean(cardOptions.inheritThumb);
 }
 
 function shouldShowAlbumPrimaryImageTag(item: ItemDto): boolean {
@@ -153,11 +122,7 @@ function shouldShowPreferThumb(itemType: ItemKind, cardOptions: CardOptions): bo
     return Boolean(cardOptions.preferThumb) && !(itemType === ItemKind.Program || itemType === ItemKind.Episode);
 }
 
-function getCardImageInfo(
-    item: ItemDto,
-    cardOptions: CardOptions,
-    shape: CardShape | undefined
-) {
+function getCardImageInfo(item: ItemDto, cardOptions: CardOptions, shape: CardShape | undefined) {
     const width = cardOptions.width;
     let height;
     const primaryImageAspectRatio = item.PrimaryImageAspectRatio;
@@ -232,10 +197,7 @@ function getCardImageInfo(
         imgType = ImageType.Thumb;
         imgTag = item.SeriesThumbImageTag;
         itemId = item.SeriesId;
-    } else if (
-        item.ParentBackdropImageTags?.length
-        && cardOptions.inheritThumb !== false
-    ) {
+    } else if (item.ParentBackdropImageTags?.length && cardOptions.inheritThumb !== false) {
         imgType = ImageType.Backdrop;
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;

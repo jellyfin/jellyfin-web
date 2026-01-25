@@ -54,12 +54,7 @@ export function safeDisconnect(node: AudioNode | null | undefined): void {
 /**
  * Safely connect audio nodes with error handling
  */
-export function safeConnect(
-    source: AudioNode,
-    destination: AudioNode,
-    outputIndex = 0,
-    inputIndex = 0
-): boolean {
+export function safeConnect(source: AudioNode, destination: AudioNode, outputIndex = 0, inputIndex = 0): boolean {
     try {
         source.connect(destination, outputIndex, inputIndex);
         return true;
@@ -142,10 +137,7 @@ export async function safeSuspendAudioContext(audioContext: AudioContext): Promi
 /**
  * Create a gain node with standardized settings
  */
-export function createStandardGainNode(
-    audioContext: AudioContext,
-    initialGain = 1.0
-): GainNode | null {
+export function createStandardGainNode(audioContext: AudioContext, initialGain = 1.0): GainNode | null {
     try {
         const gainNode = audioContext.createGain();
         gainNode.gain.value = clamp(initialGain, 0, 1);
@@ -168,11 +160,7 @@ export function createStandardGainNode(
 /**
  * Calculate exponential ramp duration for smooth transitions
  */
-export function calculateRampDuration(
-    currentValue: number,
-    targetValue: number,
-    maxDuration = 0.1
-): number {
+export function calculateRampDuration(currentValue: number, targetValue: number, maxDuration = 0.1): number {
     // Shorter ramps for small changes, longer for large ones
     const ratio = Math.abs(targetValue - currentValue);
     return clamp(ratio * maxDuration, 0.01, maxDuration);
@@ -202,9 +190,7 @@ export function formatDuration(seconds: number): string {
  * Check if a media element is in a playable state
  */
 export function isMediaElementPlayable(element: HTMLMediaElement | null | undefined): boolean {
-    return Boolean(element
-           && element.src
-           && element.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA);
+    return Boolean(element && element.src && element.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA);
 }
 
 /**
@@ -218,10 +204,7 @@ export function getPlaybackPercentage(element: HTMLMediaElement): number {
 /**
  * Normalize volume levels across different sources
  */
-export function normalizeVolume(
-    volume: number,
-    source: 'user' | 'normalization' | 'crossfade' = 'user'
-): number {
+export function normalizeVolume(volume: number, source: 'user' | 'normalization' | 'crossfade' = 'user'): number {
     switch (source) {
         case 'user':
             // User volume is typically 0-100, convert to 0-1
@@ -240,10 +223,7 @@ export function normalizeVolume(
 /**
  * Debounce function for audio event handlers
  */
-export function debounce<T extends (...args: any[]) => any>(
-    func: T,
-    wait: number
-): (...args: Parameters<T>) => void {
+export function debounce<T extends (...args: any[]) => any>(func: T, wait: number): (...args: Parameters<T>) => void {
     let timeout: NodeJS.Timeout;
     return (...args: Parameters<T>) => {
         clearTimeout(timeout);
@@ -254,16 +234,15 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * Throttle function for performance-critical audio operations
  */
-export function throttle<T extends (...args: any[]) => any>(
-    func: T,
-    limit: number
-): (...args: Parameters<T>) => void {
+export function throttle<T extends (...args: any[]) => any>(func: T, limit: number): (...args: Parameters<T>) => void {
     let inThrottle = false;
     return (...args: Parameters<T>) => {
         if (!inThrottle) {
             func(...args);
             inThrottle = true;
-            setTimeout(() => { inThrottle = false; }, limit);
+            setTimeout(() => {
+                inThrottle = false;
+            }, limit);
         }
     };
 }
@@ -271,22 +250,14 @@ export function throttle<T extends (...args: any[]) => any>(
 /**
  * Calculate frequency from FFT bin index
  */
-export function binIndexToFrequency(
-    binIndex: number,
-    fftSize: number,
-    sampleRate: number
-): number {
+export function binIndexToFrequency(binIndex: number, fftSize: number, sampleRate: number): number {
     return (binIndex * sampleRate) / (2 * fftSize);
 }
 
 /**
  * Calculate FFT bin index from frequency
  */
-export function frequencyToBinIndex(
-    frequency: number,
-    fftSize: number,
-    sampleRate: number
-): number {
+export function frequencyToBinIndex(frequency: number, fftSize: number, sampleRate: number): number {
     return Math.round((2 * fftSize * frequency) / sampleRate);
 }
 
@@ -315,13 +286,17 @@ export function smoothFFTData(
 export function synchronizeVolumeUI(): void {
     const volumeSlider = document.querySelector('.nowPlayingVolumeSlider') as HTMLInputElement;
     if (volumeSlider) {
-        import('./master.logic').then(({ masterAudioOutput }) => {
-            if (masterAudioOutput.volume !== undefined) {
-                volumeSlider.value = masterAudioOutput.volume.toString();
-                volumeSlider.dispatchEvent(new Event('input', { bubbles: true }));
-                logger.debug(`[VolumeSync] Updated UI slider to ${masterAudioOutput.volume}`, { component: 'AudioUtils' });
-            }
-        }).catch(() => {});
+        import('./master.logic')
+            .then(({ masterAudioOutput }) => {
+                if (masterAudioOutput.volume !== undefined) {
+                    volumeSlider.value = masterAudioOutput.volume.toString();
+                    volumeSlider.dispatchEvent(new Event('input', { bubbles: true }));
+                    logger.debug(`[VolumeSync] Updated UI slider to ${masterAudioOutput.volume}`, {
+                        component: 'AudioUtils'
+                    });
+                }
+            })
+            .catch(() => {});
     }
 }
 
@@ -353,10 +328,7 @@ export async function fadeMixerVolume(targetGain: number, duration: number = 0.1
         gainParam.setValueAtTime(gainParam.value, currentTime);
 
         // Smooth linear ramp to target
-        gainParam.linearRampToValueAtTime(
-            clamp(targetGain, 0, 1),
-            currentTime + duration
-        );
+        gainParam.linearRampToValueAtTime(clamp(targetGain, 0, 1), currentTime + duration);
 
         // Wait for fade to complete
         await new Promise(resolve => setTimeout(resolve, duration * 1000));

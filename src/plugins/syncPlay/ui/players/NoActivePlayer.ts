@@ -84,10 +84,18 @@ class NoActivePlayer extends GenericPlayer {
         pm.syncPlayEnabled = false;
     }
 
-    playPauseRequest() { this.manager.getController().playPause(); }
-    unpauseRequest() { this.manager.getController().unpause(); }
-    pauseRequest() { this.manager.getController().pause(); }
-    seekRequest(positionTicks: number) { this.manager.getController().seek(positionTicks); }
+    playPauseRequest() {
+        this.manager.getController().playPause();
+    }
+    unpauseRequest() {
+        this.manager.getController().unpause();
+    }
+    pauseRequest() {
+        this.manager.getController().pause();
+    }
+    seekRequest(positionTicks: number) {
+        this.manager.getController().seek(positionTicks);
+    }
 
     sendCommandRequest(command: any, player: any) {
         const controller = this.manager.getController();
@@ -102,36 +110,92 @@ class NoActivePlayer extends GenericPlayer {
         }
     }
 
-    localUnpause() { (playbackManager as any)._localUnpause(this.player); }
-    localPause() { (playbackManager as any)._localPause(this.player); }
-    localSeek(positionTicks: number) { (playbackManager as any)._localSeek(positionTicks, this.player); }
-    localStop() { playbackManager.stop(this.player); }
-    localSendCommand(cmd: any) { (playbackManager as any)._localSendCommand(cmd, this.player); }
+    localUnpause() {
+        (playbackManager as any)._localUnpause(this.player);
+    }
+    localPause() {
+        (playbackManager as any)._localPause(this.player);
+    }
+    localSeek(positionTicks: number) {
+        (playbackManager as any)._localSeek(positionTicks, this.player);
+    }
+    localStop() {
+        playbackManager.stop(this.player);
+    }
+    localSendCommand(cmd: any) {
+        (playbackManager as any)._localSendCommand(cmd, this.player);
+    }
 
-    playRequest(options: any) { return this.manager.getController().play(options); }
-    setCurrentPlaylistItemRequest(playlistItemId: string) { this.manager.getController().setCurrentPlaylistItem(playlistItemId); }
-    clearQueueRequest(clearPlayingItem: boolean) { this.manager.getController().clearPlaylist(clearPlayingItem); }
-    removeFromPlaylistRequest(playlistItemIds: string[]) { this.manager.getController().removeFromPlaylist(playlistItemIds); }
-    movePlaylistItemRequest(playlistItemId: string, newIndex: number) { this.manager.getController().movePlaylistItem(playlistItemId, newIndex); }
-    queueRequest(options: any) { this.manager.getController().queue(options); }
-    queueNextRequest(options: any) { this.manager.getController().queueNext(options); }
-    nextTrackRequest() { this.manager.getController().nextItem(); }
-    previousTrackRequest() { this.manager.getController().previousItem(); }
-    setRepeatModeRequest(mode: string) { this.manager.getController().setRepeatMode(mode); }
-    setQueueShuffleModeRequest(mode: string) { this.manager.getController().setShuffleMode(mode); }
-    toggleQueueShuffleModeRequest() { this.manager.getController().toggleShuffleMode(); }
+    playRequest(options: any) {
+        return this.manager.getController().play(options);
+    }
+    setCurrentPlaylistItemRequest(playlistItemId: string) {
+        this.manager.getController().setCurrentPlaylistItem(playlistItemId);
+    }
+    clearQueueRequest(clearPlayingItem: boolean) {
+        this.manager.getController().clearPlaylist(clearPlayingItem);
+    }
+    removeFromPlaylistRequest(playlistItemIds: string[]) {
+        this.manager.getController().removeFromPlaylist(playlistItemIds);
+    }
+    movePlaylistItemRequest(playlistItemId: string, newIndex: number) {
+        this.manager.getController().movePlaylistItem(playlistItemId, newIndex);
+    }
+    queueRequest(options: any) {
+        this.manager.getController().queue(options);
+    }
+    queueNextRequest(options: any) {
+        this.manager.getController().queueNext(options);
+    }
+    nextTrackRequest() {
+        this.manager.getController().nextItem();
+    }
+    previousTrackRequest() {
+        this.manager.getController().previousItem();
+    }
+    setRepeatModeRequest(mode: string) {
+        this.manager.getController().setRepeatMode(mode);
+    }
+    setQueueShuffleModeRequest(mode: string) {
+        this.manager.getController().setShuffleMode(mode);
+    }
+    toggleQueueShuffleModeRequest() {
+        this.manager.getController().toggleShuffleMode();
+    }
 
-    localPlay(options: any) { return (playbackManager as any)._localPlay(options); }
-    localSetCurrentPlaylistItem(playlistItemId: string) { return (playbackManager as any)._localSetCurrentPlaylistItem(playlistItemId, this.player); }
-    localRemoveFromPlaylist(playlistItemIds: string[]) { return (playbackManager as any)._localRemoveFromPlaylist(playlistItemIds, this.player); }
-    localMovePlaylistItem(playlistItemId: string, newIndex: number) { return (playbackManager as any)._localMovePlaylistItem(playlistItemId, newIndex, this.player); }
-    localQueue(options: any) { return (playbackManager as any)._localQueue(options, this.player); }
-    localQueueNext(options: any) { return (playbackManager as any)._localQueueNext(options, this.player); }
-    localNextItem() { (playbackManager as any)._localNextTrack(this.player); }
-    localPreviousItem() { (playbackManager as any)._localPreviousTrack(this.player); }
-    localSetRepeatMode(value: string) { (playbackManager as any)._localSetRepeatMode(value, this.player); }
-    localSetQueueShuffleMode(value: string) { (playbackManager as any)._localSetQueueShuffleMode(value, this.player); }
-    localToggleQueueShuffleMode() { (playbackManager as any)._localToggleQueueShuffleMode(this.player); }
+    localPlay(options: any) {
+        return (playbackManager as any)._localPlay(options);
+    }
+    localSetCurrentPlaylistItem(playlistItemId: string) {
+        return (playbackManager as any)._localSetCurrentPlaylistItem(playlistItemId, this.player);
+    }
+    localRemoveFromPlaylist(playlistItemIds: string[]) {
+        return (playbackManager as any)._localRemoveFromPlaylist(playlistItemIds, this.player);
+    }
+    localMovePlaylistItem(playlistItemId: string, newIndex: number) {
+        return (playbackManager as any)._localMovePlaylistItem(playlistItemId, newIndex, this.player);
+    }
+    localQueue(options: any) {
+        return (playbackManager as any)._localQueue(options, this.player);
+    }
+    localQueueNext(options: any) {
+        return (playbackManager as any)._localQueueNext(options, this.player);
+    }
+    localNextItem() {
+        (playbackManager as any)._localNextTrack(this.player);
+    }
+    localPreviousItem() {
+        (playbackManager as any)._localPreviousTrack(this.player);
+    }
+    localSetRepeatMode(value: string) {
+        (playbackManager as any)._localSetRepeatMode(value, this.player);
+    }
+    localSetQueueShuffleMode(value: string) {
+        (playbackManager as any)._localSetQueueShuffleMode(value, this.player);
+    }
+    localToggleQueueShuffleMode() {
+        (playbackManager as any)._localToggleQueueShuffleMode(this.player);
+    }
 }
 
 export default NoActivePlayer;

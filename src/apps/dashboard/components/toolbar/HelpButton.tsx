@@ -19,11 +19,11 @@ const HelpButton = (): React.ReactElement | null => {
         <Tooltip title={globalize.translate('Help')}>
             <a
                 href={matchedLink.url}
-                rel='noopener noreferrer'
-                target='_blank'
+                rel="noopener noreferrer"
+                target="_blank"
                 style={{ textDecoration: 'none', color: 'inherit', display: 'inline-flex' }}
             >
-                <IconButton variant='plain' size='lg' title={globalize.translate('Help')}>
+                <IconButton variant="plain" size="lg" title={globalize.translate('Help')}>
                     <QuestionMarkCircledIcon />
                 </IconButton>
             </a>

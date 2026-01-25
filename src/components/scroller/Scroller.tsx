@@ -6,9 +6,8 @@ import dom from '../../utils/dom';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
 import ScrollerFactory from 'lib/scroller';
-import ScrollButtons from '../emby-scrollbuttons/ScrollButtons';
+import ScrollButtons from '../../elements/emby-scrollbuttons/ScrollButtons';
 import { deprecate } from '../../utils/deprecation';
-import './emby-scroller.scss';
 
 export interface ScrollerProps {
     className?: string;
@@ -34,7 +33,11 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
     isAllowNativeSmoothScrollEnabled = false,
     children
 }) => {
-    deprecate('emby-scroller/Scroller', 'ui-primitives/ScrollArea or native CSS overflow', 'src/elements/emby-scroller/Scroller.tsx');
+    deprecate(
+        'emby-scroller/Scroller',
+        'ui-primitives/ScrollArea or native CSS overflow',
+        'src/elements/emby-scroller/Scroller.tsx'
+    );
 
     const [scrollRef, size] = useElementSize();
 
@@ -130,28 +133,49 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
     }, [getScrollPosition, getScrollSize, getScrollWidth]);
 
     const initCenterFocus = useCallback((elem: HTMLElement, scrollerInstance: ScrollerFactory) => {
-        dom.addEventListener(elem, 'focus', (e: FocusEvent) => {
-            const focused = focusManager.focusableParent(e.target);
-            if (focused) {
-                scrollerInstance.toCenter(focused, false);
+        dom.addEventListener(
+            elem,
+            'focus',
+            (e: FocusEvent) => {
+                const focused = focusManager.focusableParent(e.target);
+                if (focused) {
+                    scrollerInstance.toCenter(focused, false);
+                }
+            },
+            {
+                capture: true,
+                passive: true
             }
-        }, {
-            capture: true,
-            passive: true
-        });
+        );
     }, []);
 
-    const addScrollEventListener = useCallback((fn: () => void, options: AddEventListenerOptions | undefined) => {
-        if (scrollerFactoryRef.current) {
-            dom.addEventListener(scrollerFactoryRef.current.getScrollFrame(), scrollerFactoryRef.current.getScrollEventName(), fn, options);
-        }
-    }, [scrollerFactoryRef]);
+    const addScrollEventListener = useCallback(
+        (fn: () => void, options: AddEventListenerOptions | undefined) => {
+            if (scrollerFactoryRef.current) {
+                dom.addEventListener(
+                    scrollerFactoryRef.current.getScrollFrame(),
+                    scrollerFactoryRef.current.getScrollEventName(),
+                    fn,
+                    options
+                );
+            }
+        },
+        [scrollerFactoryRef]
+    );
 
-    const removeScrollEventListener = useCallback((fn: () => void, options: AddEventListenerOptions | undefined) => {
-        if (scrollerFactoryRef.current) {
-            dom.removeEventListener(scrollerFactoryRef.current.getScrollFrame(), scrollerFactoryRef.current.getScrollEventName(), fn, options);
-        }
-    }, [scrollerFactoryRef]);
+    const removeScrollEventListener = useCallback(
+        (fn: () => void, options: AddEventListenerOptions | undefined) => {
+            if (scrollerFactoryRef.current) {
+                dom.removeEventListener(
+                    scrollerFactoryRef.current.getScrollFrame(),
+                    scrollerFactoryRef.current.getScrollEventName(),
+                    fn,
+                    options
+                );
+            }
+        },
+        [scrollerFactoryRef]
+    );
 
     useEffect(() => {
         const frame = scrollRef.current;
@@ -230,25 +254,15 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
 
     return (
         <>
-            {
-                showControls && scrollState.scrollWidth > scrollState.scrollSize + 20
-                    && <ScrollButtons
-                        scrollerFactoryRef={scrollerFactoryRef}
-                        scrollState={scrollState}
-                    />
-            }
+            {showControls && scrollState.scrollWidth > scrollState.scrollSize + 20 && (
+                <ScrollButtons scrollerFactoryRef={scrollerFactoryRef} scrollState={scrollState} />
+            )}
 
-            <div
-                ref={scrollRef}
-                className={classNames('emby-scroller', className)}
-            >
+            <div ref={scrollRef} className={classNames('emby-scroller', className)}>
                 {children}
-
             </div>
-
         </>
     );
 };
 
 export default Scroller;
-

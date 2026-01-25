@@ -9,7 +9,7 @@ export default defineConfig({
     reporter: 'html',
     timeout: 120000,
     use: {
-        baseURL: 'http://localhost:5173',
+        baseURL: 'http://localhost:5173/web/',
         trace: 'on-first-retry'
     },
     projects: [
@@ -24,8 +24,8 @@ export default defineConfig({
         }
     ],
     webServer: {
-        command: 'npm run start',
-        url: 'http://localhost:5173',
+        command: 'npx vite preview --port 5173',
+        url: 'http://localhost:5173/web/',
         reuseExistingServer: process.env.CI === undefined
     }
 });

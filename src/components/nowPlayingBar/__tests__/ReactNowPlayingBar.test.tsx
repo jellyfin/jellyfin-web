@@ -56,7 +56,7 @@ vi.mock('../../../store', async () => {
         useFormattedTime: (...args: unknown[]) => mockUseFormattedTime(...args),
         useCurrentQueueIndex: (...args: unknown[]) => mockUseCurrentQueueIndex(...args),
         useCurrentPlayer: (...args: unknown[]) => mockUseCurrentPlayer(...args),
-        useCrossfadeStore: (...args: unknown[]) => mockUseCrossfadeStore(...args),
+        useCrossfadeStore: (...args: unknown[]) => mockUseCrossfadeStore(...args)
     };
 });
 
@@ -141,9 +141,9 @@ describe('NowPlayingBar', () => {
             currentTimeFormatted: '0:30',
             durationFormatted: '3:00'
         });
-        mockUseCrossfadeStore.mockImplementation((selector: (state: typeof mockCrossfadeState) => unknown) => (
+        mockUseCrossfadeStore.mockImplementation((selector: (state: typeof mockCrossfadeState) => unknown) =>
             selector(mockCrossfadeState)
-        ));
+        );
 
         mockUsePlaybackActions.mockReturnValue(mockPlaybackActions);
         mockUseQueueActions.mockReturnValue(mockQueueActions);

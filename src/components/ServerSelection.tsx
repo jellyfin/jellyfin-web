@@ -42,7 +42,7 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
                 enableAutoLogin: false
             });
         },
-        onSuccess: (result) => {
+        onSuccess: result => {
             logger.debug('Server connection result', { component: 'ServerSelection', state: result.State });
 
             if (result.State === ConnectionState.SignedIn) {
@@ -80,7 +80,7 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
 
             setError('Unable to connect to server. Please check the address and try again.');
         },
-        onError: (err) => {
+        onError: err => {
             logger.error('Server connection failed', { component: 'ServerSelection', error: err });
             setError('Failed to connect to server. Please check the address and ensure the server is running.');
         }

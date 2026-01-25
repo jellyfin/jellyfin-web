@@ -156,203 +156,203 @@ export const useSettingsStore = create<SettingsState & SettingsActions>()(
                 ...createInitialState(),
 
                 // Audio settings
-                setVolume: (volume) => {
-                    set((state) => ({
+                setVolume: volume => {
+                    set(state => ({
                         audio: { ...state.audio, volume: Math.max(0, Math.min(100, volume)) }
                     }));
                 },
 
-                setMuted: (muted) => {
-                    set((state) => ({
+                setMuted: muted => {
+                    set(state => ({
                         audio: { ...state.audio, muted }
                     }));
                 },
 
-                setMakeupGain: (gain) => {
-                    set((state) => ({
+                setMakeupGain: gain => {
+                    set(state => ({
                         audio: { ...state.audio, makeupGain: Math.max(0.5, Math.min(2, gain)) }
                     }));
                 },
 
-                setEnableNormalization: (enabled) => {
-                    set((state) => ({
+                setEnableNormalization: enabled => {
+                    set(state => ({
                         audio: { ...state.audio, enableNormalization: enabled }
                     }));
                 },
 
-                setNormalizationPercent: (percent) => {
-                    set((state) => ({
+                setNormalizationPercent: percent => {
+                    set(state => ({
                         audio: { ...state.audio, normalizationPercent: Math.max(70, Math.min(100, percent)) }
                     }));
                 },
 
                 resetAudioSettings: () => {
-                    set((state) => ({
+                    set(state => ({
                         audio: { ...defaultAudioSettings }
                     }));
                 },
 
                 // Visualizer settings
-                setVisualizerEnabled: (enabled) => {
-                    set((state) => ({
+                setVisualizerEnabled: enabled => {
+                    set(state => ({
                         visualizer: { ...state.visualizer, enabled }
                     }));
                 },
 
-                setVisualizerType: (type) => {
-                    set((state) => ({
+                setVisualizerType: type => {
+                    set(state => ({
                         visualizer: { ...state.visualizer, type }
                     }));
                 },
 
-                setButterchurnPreset: (preset) => {
-                    set((state) => ({
+                setButterchurnPreset: preset => {
+                    set(state => ({
                         visualizer: { ...state.visualizer, butterchurnPreset: preset }
                     }));
                 },
 
-                setVisualizerColorScheme: (scheme) => {
-                    set((state) => ({
+                setVisualizerColorScheme: scheme => {
+                    set(state => ({
                         visualizer: { ...state.visualizer, colorScheme: scheme }
                     }));
                 },
 
-                setSensitivity: (sensitivity) => {
-                    set((state) => ({
+                setSensitivity: sensitivity => {
+                    set(state => ({
                         visualizer: { ...state.visualizer, sensitivity: Math.max(1, Math.min(100, sensitivity)) }
                     }));
                 },
 
-                setBarCount: (count) => {
-                    set((state) => ({
+                setBarCount: count => {
+                    set(state => ({
                         visualizer: { ...state.visualizer, barCount: Math.max(8, Math.min(256, count)) }
                     }));
                 },
 
-                setSmoothing: (smoothing) => {
-                    set((state) => ({
+                setSmoothing: smoothing => {
+                    set(state => ({
                         visualizer: { ...state.visualizer, smoothing: Math.max(0, Math.min(1, smoothing)) }
                     }));
                 },
 
                 resetVisualizerSettings: () => {
-                    set((state) => ({
+                    set(state => ({
                         visualizer: { ...defaultVisualizerSettings }
                     }));
                 },
 
                 // Playback settings
-                setDefaultPlaybackRate: (rate) => {
+                setDefaultPlaybackRate: rate => {
                     const validRates = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
                     const closestRate = validRates.reduce((prev, curr) =>
                         Math.abs(curr - rate) < Math.abs(prev - rate) ? curr : prev
                     );
 
-                    set((state) => ({
+                    set(state => ({
                         playback: { ...state.playback, defaultPlaybackRate: closestRate }
                     }));
                 },
 
-                setAutoPlay: (autoPlay) => {
-                    set((state) => ({
+                setAutoPlay: autoPlay => {
+                    set(state => ({
                         playback: { ...state.playback, autoPlay }
                     }));
                 },
 
-                setRememberPlaybackPosition: (remember) => {
-                    set((state) => ({
+                setRememberPlaybackPosition: remember => {
+                    set(state => ({
                         playback: { ...state.playback, rememberPlaybackPosition: remember }
                     }));
                 },
 
-                setSkipForwardSeconds: (seconds) => {
-                    set((state) => ({
+                setSkipForwardSeconds: seconds => {
+                    set(state => ({
                         playback: { ...state.playback, skipForwardSeconds: Math.max(5, Math.min(120, seconds)) }
                     }));
                 },
 
-                setSkipBackSeconds: (seconds) => {
-                    set((state) => ({
+                setSkipBackSeconds: seconds => {
+                    set(state => ({
                         playback: { ...state.playback, skipBackSeconds: Math.max(5, Math.min(60, seconds)) }
                     }));
                 },
 
-                setEnableCrossfade: (enabled) => {
-                    set((state) => ({
+                setEnableCrossfade: enabled => {
+                    set(state => ({
                         playback: { ...state.playback, enableCrossfade: enabled }
                     }));
                 },
 
-                setCrossfadeDuration: (duration) => {
-                    set((state) => ({
+                setCrossfadeDuration: duration => {
+                    set(state => ({
                         playback: { ...state.playback, crossfadeDuration: Math.max(1, Math.min(30, duration)) }
                     }));
                 },
 
-                setGaplessPlayback: (enabled) => {
-                    set((state) => ({
+                setGaplessPlayback: enabled => {
+                    set(state => ({
                         playback: { ...state.playback, gaplessPlayback: enabled }
                     }));
                 },
 
                 resetPlaybackSettings: () => {
-                    set((state) => ({
+                    set(state => ({
                         playback: { ...defaultPlaybackSettings }
                     }));
                 },
 
                 // UI settings
-                setTheme: (theme) => {
-                    set((state) => ({
+                setTheme: theme => {
+                    set(state => ({
                         ui: { ...state.ui, theme }
                     }));
                 },
 
-                setCompactMode: (compact) => {
-                    set((state) => ({
+                setCompactMode: compact => {
+                    set(state => ({
                         ui: { ...state.ui, compactMode: compact }
                     }));
                 },
 
-                setShowVisualizer: (show) => {
-                    set((state) => ({
+                setShowVisualizer: show => {
+                    set(state => ({
                         ui: { ...state.ui, showVisualizer: show }
                     }));
                 },
 
-                setShowNowPlaying: (show) => {
-                    set((state) => ({
+                setShowNowPlaying: show => {
+                    set(state => ({
                         ui: { ...state.ui, showNowPlaying: show }
                     }));
                 },
 
-                setAnimationsEnabled: (enabled) => {
-                    set((state) => ({
+                setAnimationsEnabled: enabled => {
+                    set(state => ({
                         ui: { ...state.ui, animationsEnabled: enabled }
                     }));
                 },
 
-                setHighContrastMode: (enabled) => {
-                    set((state) => ({
+                setHighContrastMode: enabled => {
+                    set(state => ({
                         ui: { ...state.ui, highContrastMode: enabled }
                     }));
                 },
 
-                setReducedMotion: (reduced) => {
-                    set((state) => ({
+                setReducedMotion: reduced => {
+                    set(state => ({
                         ui: { ...state.ui, reducedMotion: reduced }
                     }));
                 },
 
                 resetUiSettings: () => {
-                    set((state) => ({
+                    set(state => ({
                         ui: { ...defaultUiSettings }
                     }));
                 },
 
                 // Bulk operations
-                importSettings: (settings) => {
-                    set((state) => ({
+                importSettings: settings => {
+                    set(state => ({
                         audio: { ...state.audio, ...settings.audio },
                         visualizer: { ...state.visualizer, ...settings.visualizer },
                         playback: { ...state.playback, ...settings.playback },
@@ -376,7 +376,7 @@ export const useSettingsStore = create<SettingsState & SettingsActions>()(
             {
                 name: SETTINGS_STORAGE_KEY,
                 storage: createJSONStorage(() => localStorage),
-                partialize: (state) => ({
+                partialize: state => ({
                     audio: state.audio,
                     visualizer: state.visualizer,
                     playback: state.playback,

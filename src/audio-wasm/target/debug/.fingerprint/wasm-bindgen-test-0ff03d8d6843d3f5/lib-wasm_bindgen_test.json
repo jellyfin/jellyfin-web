@@ -1,1 +1,34 @@
-{"rustc":4996801173321332248,"features":"[\"default\", \"std\"]","declared_features":"[\"default\", \"gg-alloc\", \"std\"]","target":17034320905134925306,"profile":1331003669356655947,"path":822099415052450181,"deps":[[3271484356813889443,"oorandom",false,10144014376452734612],[3964565789809445020,"js_sys",false,13318203689461828262],[4096580301575850329,"wasm_bindgen_test_macro",false,17557888835910496011],[5157631553186200874,"num_traits",false,3077057522397920384],[5599393681448432053,"nu_ansi_term",false,17137602808653312412],[9107142337157628376,"wasm_bindgen_futures",false,9462718596663356850],[10012205734978813886,"libm",false,15330588749984519613],[10782246454719507279,"wasm_bindgen",false,738200528519918020],[11077958687294868259,"wasm_bindgen_test_shared",false,10135379890264611643],[13548984313718623784,"serde",false,14423805964308673376],[13795362694956882968,"serde_json",false,9737905561815618399],[14474842057495682559,"cast",false,16654986746227694355],[16611674984963787466,"async_trait",false,2980501590269372083]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/wasm-bindgen-test-0ff03d8d6843d3f5/dep-lib-wasm_bindgen_test","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"default\", \"std\"]",
+  "declared_features": "[\"default\", \"gg-alloc\", \"std\"]",
+  "target": 17034320905134925306,
+  "profile": 1331003669356655947,
+  "path": 822099415052450181,
+  "deps": [
+    [3271484356813889443, "oorandom", false, 10144014376452734612],
+    [3964565789809445020, "js_sys", false, 13318203689461828262],
+    [4096580301575850329, "wasm_bindgen_test_macro", false, 17557888835910496011],
+    [5157631553186200874, "num_traits", false, 3077057522397920384],
+    [5599393681448432053, "nu_ansi_term", false, 17137602808653312412],
+    [9107142337157628376, "wasm_bindgen_futures", false, 9462718596663356850],
+    [10012205734978813886, "libm", false, 15330588749984519613],
+    [10782246454719507279, "wasm_bindgen", false, 738200528519918020],
+    [11077958687294868259, "wasm_bindgen_test_shared", false, 10135379890264611643],
+    [13548984313718623784, "serde", false, 14423805964308673376],
+    [13795362694956882968, "serde_json", false, 9737905561815618399],
+    [14474842057495682559, "cast", false, 16654986746227694355],
+    [16611674984963787466, "async_trait", false, 2980501590269372083]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/wasm-bindgen-test-0ff03d8d6843d3f5/dep-lib-wasm_bindgen_test",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

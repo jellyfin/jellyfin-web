@@ -18,21 +18,18 @@ interface FiltersSeriesStatusProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({ libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersSeriesStatusChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as SeriesStatus;
             const existingSeriesStatus = libraryViewSettings?.Filters?.SeriesStatus ?? [];
 
-            const updatedSeriesStatus = existingSeriesStatus.includes(value) ?
-                existingSeriesStatus.filter((filter) => filter !== value) :
-                [...existingSeriesStatus, value];
+            const updatedSeriesStatus = existingSeriesStatus.includes(value)
+                ? existingSeriesStatus.filter(filter => filter !== value)
+                : [...existingSeriesStatus, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -46,12 +43,10 @@ const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
-            {statusFiltersOptions.map((filter) => (
+            {statusFiltersOptions.map(filter => (
                 <Checkbox
                     key={filter.value}
-                    checked={
-                        !!libraryViewSettings?.Filters?.SeriesStatus?.includes(filter.value)
-                    }
+                    checked={!!libraryViewSettings?.Filters?.SeriesStatus?.includes(filter.value)}
                     onChange={onFiltersSeriesStatusChange}
                     value={filter.value}
                 >

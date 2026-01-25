@@ -9,13 +9,10 @@ export const useDeleteUser = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: UserApiDeleteUserRequest) => (
-            getUserApi(api!)
-                .deleteUser(params)
-        ),
+        mutationFn: (params: UserApiDeleteUserRequest) => getUserApi(api!).deleteUser(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [QUERY_KEY]
             });
         }
     });

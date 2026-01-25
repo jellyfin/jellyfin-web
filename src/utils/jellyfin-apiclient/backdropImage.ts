@@ -24,7 +24,12 @@ export interface ScaleImageOptions {
  * @param random If set to true and the item has more than one backdrop, a random image is returned.
  * @returns The url of the first or a random backdrop image of the provided item.
  */
-export const getItemBackdropImageUrl = (apiClient: ApiClient, item: BaseItemDto, options: ScaleImageOptions = {}, random = false): string | undefined => {
+export const getItemBackdropImageUrl = (
+    apiClient: ApiClient,
+    item: BaseItemDto,
+    options: ScaleImageOptions = {},
+    random = false
+): string | undefined => {
     if (item.Id && item.BackdropImageTags?.length) {
         const backdropImgIndex = random ? randomInt(0, item.BackdropImageTags.length - 1) : 0;
         return apiClient.getScaledImageUrl(item.Id, {

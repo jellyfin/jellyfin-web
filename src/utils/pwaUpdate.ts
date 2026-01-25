@@ -20,7 +20,9 @@ class PWAUpdateManager {
 
         const isEnabled = localStorage.getItem('enable-service-worker') === 'true';
         if (!isEnabled) {
-            logger.info('[PWA] Service worker registration disabled by default. Enable via Developer Settings.', { component: 'pwaUpdate' });
+            logger.info('[PWA] Service worker registration disabled by default. Enable via Developer Settings.', {
+                component: 'pwaUpdate'
+            });
             // Unregister if exists
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -33,14 +35,19 @@ class PWAUpdateManager {
             return;
         }
 
-        if ('serviceWorker' in navigator && (window as any).appMode !== 'cordova' && (window as any).appMode !== 'android') {
-            navigator.serviceWorker.register('/serviceworker.js')
-                .then((registration) => {
+        if (
+            'serviceWorker' in navigator &&
+            (window as any).appMode !== 'cordova' &&
+            (window as any).appMode !== 'android'
+        ) {
+            navigator.serviceWorker
+                .register('/serviceworker.js')
+                .then(registration => {
                     this.registration = registration;
                     this.setupUpdateListener();
                     this.checkForUpdates();
                 })
-                .catch((err) => {
+                .catch(err => {
                     logger.error('[PWA] Service worker registration failed', { component: 'pwaUpdate' }, err);
                 });
         }
@@ -64,11 +71,14 @@ class PWAUpdateManager {
     static checkForUpdates() {
         if (!this.registration) return;
 
-        this.registration.update().then(() => {
-            logger.info('[PWA] Checked for updates', { component: 'pwaUpdate' });
-        }).catch((err) => {
-            logger.error('[PWA] Update check failed', { component: 'pwaUpdate' }, err);
-        });
+        this.registration
+            .update()
+            .then(() => {
+                logger.info('[PWA] Checked for updates', { component: 'pwaUpdate' });
+            })
+            .catch(err => {
+                logger.error('[PWA] Update check failed', { component: 'pwaUpdate' }, err);
+            });
     }
 
     static showUpdatePrompt() {

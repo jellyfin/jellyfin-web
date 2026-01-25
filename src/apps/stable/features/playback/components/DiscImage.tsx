@@ -173,7 +173,7 @@ export function DiscImage({
             {artSrc ? (
                 <motion.img
                     src={artSrc}
-                    alt='Album art'
+                    alt="Album art"
                     style={{
                         width: '100%',
                         height: '100%',

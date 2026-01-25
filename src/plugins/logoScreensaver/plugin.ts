@@ -34,8 +34,13 @@ export default class LogoScreensaver {
             { transform: 'translate3d(25px, 0, 0)', opacity: '1', offset: 0.6 },
             { transform: 'translate3d(-100px, 0, 0)', offset: 0.75 },
             { transform: 'translate3d(5px, 0, 0)', offset: 0.9 },
-            { transform: 'none', opacity: '1', offset: 1 }];
-        return elem.animate(keyframes, { duration: 900, iterations, easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)' });
+            { transform: 'none', opacity: '1', offset: 1 }
+        ];
+        return elem.animate(keyframes, {
+            duration: 900,
+            iterations,
+            easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)'
+        });
     }
 
     private bounceInRight(elem: HTMLElement, iterations: number) {
@@ -44,8 +49,13 @@ export default class LogoScreensaver {
             { transform: 'translate3d(-25px, 0, 0)', opacity: '1', offset: 0.6 },
             { transform: 'translate3d(100px, 0, 0)', offset: 0.75 },
             { transform: 'translate3d(-5px, 0, 0)', offset: 0.9 },
-            { transform: 'none', opacity: '1', offset: 1 }];
-        return elem.animate(keyframes, { duration: 900, iterations, easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)' });
+            { transform: 'none', opacity: '1', offset: 1 }
+        ];
+        return elem.animate(keyframes, {
+            duration: 900,
+            iterations,
+            easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)'
+        });
     }
 
     private swing(elem: HTMLElement, iterations: number) {
@@ -55,7 +65,8 @@ export default class LogoScreensaver {
             { transform: 'rotate3d(0, 0, 1, -10deg)', offset: 0.4 },
             { transform: 'rotate3d(0, 0, 1, 5deg)', offset: 0.6 },
             { transform: 'rotate3d(0, 0, 1, -5deg)', offset: 0.8 },
-            { transform: 'rotate3d(0, 0, 1, 0deg)', offset: 1 }];
+            { transform: 'rotate3d(0, 0, 1, 0deg)', offset: 1 }
+        ];
         return elem.animate(keyframes, { duration: 900, iterations });
     }
 
@@ -71,7 +82,8 @@ export default class LogoScreensaver {
             { transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)', offset: 0.7 },
             { transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)', offset: 0.8 },
             { transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)', offset: 0.9 },
-            { transform: 'scale3d(1, 1, 1)', offset: 1 }];
+            { transform: 'scale3d(1, 1, 1)', offset: 1 }
+        ];
         return elem.animate(keyframes, { duration: 900, iterations });
     }
 
@@ -82,24 +94,32 @@ export default class LogoScreensaver {
             { transform: 'translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg)', offset: 0.45 },
             { transform: 'translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg)', offset: 0.6 },
             { transform: 'translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg)', offset: 0.75 },
-            { transform: 'translateX(0%)', offset: 1 }];
+            { transform: 'translateX(0%)', offset: 1 }
+        ];
         return elem.animate(keyframes, { duration: 900, iterations });
     }
 
     private rotateIn(elem: HTMLElement, iterations: number) {
-        const keyframes = [{ transform: 'rotate3d(0, 0, 1, -200deg)', opacity: '0', transformOrigin: 'center', offset: 0 },
-            { transform: 'none', opacity: '1', transformOrigin: 'center', offset: 1 }];
+        const keyframes = [
+            { transform: 'rotate3d(0, 0, 1, -200deg)', opacity: '0', transformOrigin: 'center', offset: 0 },
+            { transform: 'none', opacity: '1', transformOrigin: 'center', offset: 1 }
+        ];
         return elem.animate(keyframes, { duration: 900, iterations });
     }
 
     private rotateOut(elem: HTMLElement, iterations: number) {
-        const keyframes = [{ transform: 'none', opacity: '1', transformOrigin: 'center', offset: 0 },
-            { transform: 'rotate3d(0, 0, 1, 200deg)', opacity: '0', transformOrigin: 'center', offset: 1 }];
+        const keyframes = [
+            { transform: 'none', opacity: '1', transformOrigin: 'center', offset: 0 },
+            { transform: 'rotate3d(0, 0, 1, 200deg)', opacity: '0', transformOrigin: 'center', offset: 1 }
+        ];
         return elem.animate(keyframes, { duration: 900, iterations });
     }
 
     private fadeOut(elem: HTMLElement, iterations: number) {
-        const keyframes = [{ opacity: '1', offset: 0 }, { opacity: '0', offset: 1 }];
+        const keyframes = [
+            { opacity: '1', offset: 0 },
+            { opacity: '0', offset: 1 }
+        ];
         return elem.animate(keyframes, { duration: 400, iterations });
     }
 
@@ -128,7 +148,7 @@ export default class LogoScreensaver {
         this.stopInterval();
         const elem = document.querySelector('.logoScreenSaver') as HTMLElement;
         if (elem) {
-            return new Promise<void>((resolve) => {
+            return new Promise<void>(resolve => {
                 if (elem.animate) {
                     const animation = this.fadeOut(elem, 1);
                     animation.onfinish = () => {

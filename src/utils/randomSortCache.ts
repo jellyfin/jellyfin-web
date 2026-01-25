@@ -37,7 +37,9 @@ export async function getCachedRandomItems<T = unknown>(
     const cached = loadFromCache(fullKey);
 
     if (cached && !isExpired(cached.timestamp, expirationMs)) {
-        logger.debug(`[RandomSortCache] Using cached random order for ${cacheKey} (${cached.totalCount} items)`, { component: 'RandomSortCache' });
+        logger.debug(`[RandomSortCache] Using cached random order for ${cacheKey} (${cached.totalCount} items)`, {
+            component: 'RandomSortCache'
+        });
         return cached.items as T[];
     }
 
@@ -45,7 +47,9 @@ export async function getCachedRandomItems<T = unknown>(
     const items = await fetchAllItems();
     const randomized = shuffleArray(items);
 
-    logger.debug(`[RandomSortCache] Randomized ${randomized.length} items for ${cacheKey}`, { component: 'RandomSortCache' });
+    logger.debug(`[RandomSortCache] Randomized ${randomized.length} items for ${cacheKey}`, {
+        component: 'RandomSortCache'
+    });
     saveToCache(fullKey, { items: randomized, timestamp: Date.now(), totalCount: randomized.length });
 
     return randomized;
@@ -76,7 +80,10 @@ export async function getPaginatedRandomItems(
 
     const paginatedItems = allItems.slice(safeStartIndex, endIndex);
 
-    logger.debug(`[RandomSortCache] Returning ${paginatedItems.length} items (${safeStartIndex}-${endIndex - 1}) from cache ${cacheKey}`, { component: 'RandomSortCache' });
+    logger.debug(
+        `[RandomSortCache] Returning ${paginatedItems.length} items (${safeStartIndex}-${endIndex - 1}) from cache ${cacheKey}`,
+        { component: 'RandomSortCache' }
+    );
 
     return paginatedItems;
 }
@@ -95,7 +102,7 @@ export function cleanupExpiredCache(maxAgeMs: number = DEFAULT_EXPIRATION_MS): v
             if (key?.startsWith(CACHE_KEY_PREFIX)) {
                 try {
                     const data = JSON.parse(sessionStorage.getItem(key) || '{}');
-                    if (data.timestamp && (now - data.timestamp) > maxAgeMs) {
+                    if (data.timestamp && now - data.timestamp > maxAgeMs) {
                         keysToRemove.push(key);
                     }
                 } catch {
@@ -110,7 +117,9 @@ export function cleanupExpiredCache(maxAgeMs: number = DEFAULT_EXPIRATION_MS): v
         });
 
         if (keysToRemove.length > 0) {
-            logger.debug(`[RandomSortCache] Cleaned up ${keysToRemove.length} expired cache entries`, { component: 'RandomSortCache' });
+            logger.debug(`[RandomSortCache] Cleaned up ${keysToRemove.length} expired cache entries`, {
+                component: 'RandomSortCache'
+            });
         }
     } catch (error) {
         logger.warn('[RandomSortCache] Failed to cleanup cache', { component: 'RandomSortCache' }, error as Error);
@@ -121,7 +130,12 @@ export function cleanupExpiredCache(maxAgeMs: number = DEFAULT_EXPIRATION_MS): v
  * Gets cache statistics for monitoring.
  * @returns Object with cache statistics.
  */
-export function getCacheStats(): { totalEntries: number; totalSizeBytes: number; oldestEntry?: number; newestEntry?: number } {
+export function getCacheStats(): {
+    totalEntries: number;
+    totalSizeBytes: number;
+    oldestEntry?: number;
+    newestEntry?: number;
+} {
     let totalEntries = 0;
     let totalSizeBytes = 0;
     let oldestEntry: number | undefined;
@@ -157,7 +171,7 @@ export function getCacheStats(): { totalEntries: number; totalSizeBytes: number;
 function loadFromCache<T = unknown>(key: string): CachedRandomSort<T> | null {
     try {
         const data = sessionStorage.getItem(key);
-        return data ? JSON.parse(data) as CachedRandomSort<T> : null;
+        return data ? (JSON.parse(data) as CachedRandomSort<T>) : null;
     } catch {
         return null;
     }
@@ -169,7 +183,9 @@ function saveToCache<T = unknown>(key: string, data: CachedRandomSort<T>): void 
 
         // Check if data exceeds size limit
         if (serialized.length > MAX_CACHE_SIZE_BYTES) {
-            logger.warn(`[RandomSortCache] Cache data too large (${serialized.length} bytes), skipping cache`, { component: 'RandomSortCache' });
+            logger.warn(`[RandomSortCache] Cache data too large (${serialized.length} bytes), skipping cache`, {
+                component: 'RandomSortCache'
+            });
             return;
         }
 
@@ -179,7 +195,9 @@ function saveToCache<T = unknown>(key: string, data: CachedRandomSort<T>): void 
         }, 0);
 
         if (usedSpace + serialized.length > MAX_CACHE_SIZE_BYTES) {
-            logger.warn('[RandomSortCache] Insufficient storage space, skipping cache', { component: 'RandomSortCache' });
+            logger.warn('[RandomSortCache] Insufficient storage space, skipping cache', {
+                component: 'RandomSortCache'
+            });
             return;
         }
 

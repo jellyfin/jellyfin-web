@@ -23,18 +23,21 @@ class HtmlAudioPlayer {
     }
 
     async play(options: PlayOptions): Promise<void> {
-        logger.debug('HtmlAudioPlayer.play called, delegating to AudioDriver', { component: 'HtmlAudioPlayer', options });
+        logger.debug('HtmlAudioPlayer.play called, delegating to AudioDriver', {
+            component: 'HtmlAudioPlayer',
+            options
+        });
 
         const startSeconds = (options.playerStartPositionTicks || 0) / 10000000;
-        
+
         // Update store with current item info to trigger StoreSync if needed
         // But primarily we load the driver directly here for the imperative path
         await audioDriver.loadAndPlay(options.url, options.item);
-        
+
         if (startSeconds > 0) {
             audioDriver.seek(startSeconds);
         }
-        
+
         return audioDriver.play();
     }
 

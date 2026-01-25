@@ -6,20 +6,17 @@ import { Button } from 'ui-primitives/Button';
 import { useSystemInfo } from 'hooks/useSystemInfo';
 
 const ServerButton: FC = () => {
-    const {
-        data: systemInfo,
-        isPending
-    } = useSystemInfo();
+    const { data: systemInfo, isPending } = useSystemInfo();
 
     return (
         <Button
-            variant='plain'
-            size='lg'
-            color='neutral'
+            variant="plain"
+            size="lg"
+            color="neutral"
             startIcon={
                 <img
                     src={icon}
-                    alt=''
+                    alt=""
                     aria-hidden
                     style={{
                         maxHeight: '1.25em',
@@ -28,9 +25,9 @@ const ServerButton: FC = () => {
                 />
             }
             component={Link}
-            to='/'
+            to="/"
         >
-            {isPending ? '' : (systemInfo?.ServerName || 'Jellyfin')}
+            {isPending ? '' : systemInfo?.ServerName || 'Jellyfin'}
         </Button>
     );
 };

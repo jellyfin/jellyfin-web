@@ -23,4 +23,3 @@ export const separatorStyles = {
     horizontal: separatorHorizontal,
     vertical: separatorVertical
 };
-

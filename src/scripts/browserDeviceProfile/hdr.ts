@@ -8,14 +8,16 @@ export interface HdrOptions {
 }
 
 export function supportsHdr10(options: HdrOptions): boolean {
-    return options.supportsHdr10 ?? (false
-            || (browser as any).vidaa
-            || (browser as any).tizen
-            || browser.web0s
-            || browser.safari && ((browser.iOS && (browser as any).iOSVersion >= 11) || (browser as any).osx)
-            || browser.edgeChromium && ((browser as any).versionMajor >= 121)
-            || browser.chrome && !browser.mobile
-            || browser.firefox && (browser as any).osx && (!browser.iOS) && ((browser as any).versionMajor >= 100)
+    return (
+        options.supportsHdr10 ??
+        (false ||
+            (browser as any).vidaa ||
+            (browser as any).tizen ||
+            browser.web0s ||
+            (browser.safari && ((browser.iOS && (browser as any).iOSVersion >= 11) || (browser as any).osx)) ||
+            (browser.edgeChromium && (browser as any).versionMajor >= 121) ||
+            (browser.chrome && !browser.mobile) ||
+            (browser.firefox && (browser as any).osx && !browser.iOS && (browser as any).versionMajor >= 100))
     );
 }
 
@@ -24,8 +26,9 @@ export function supportsHlg(options: HdrOptions): boolean {
 }
 
 export function supportsDolbyVision(options: HdrOptions): boolean {
-    return options.supportsDolbyVision ?? (false
-            || browser.safari && ((browser.iOS && (browser as any).iOSVersion >= 13) || (browser as any).osx)
+    return (
+        options.supportsDolbyVision ??
+        (false || (browser.safari && ((browser.iOS && (browser as any).iOSVersion >= 13) || (browser as any).osx)))
     );
 }
 
@@ -34,16 +37,12 @@ export function supportedDolbyVisionProfilesHevc(videoTestElement: HTMLMediaElem
 
     const supportedProfiles: number[] = [];
     if (videoTestElement.canPlayType) {
-        if (videoTestElement
-            .canPlayType('video/mp4; codecs="dvh1.05.06"')
-            .replace(/no/, '')) {
+        if (videoTestElement.canPlayType('video/mp4; codecs="dvh1.05.06"').replace(/no/, '')) {
             supportedProfiles.push(5);
         }
         if (
-            videoTestElement
-                .canPlayType('video/mp4; codecs="dvh1.08.06"')
-                .replace(/no/, '')
-            || ((browser as any).web0sVersion >= 4)
+            videoTestElement.canPlayType('video/mp4; codecs="dvh1.08.06"').replace(/no/, '') ||
+            (browser as any).web0sVersion >= 4
         ) {
             supportedProfiles.push(8);
         }

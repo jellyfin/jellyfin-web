@@ -20,7 +20,7 @@ describe('SortMenu', () => {
             sortBy: 'Name',
             sortOrder: 'Ascending',
             setSortBy: vi.fn(),
-            setSortOrder: vi.fn(),
+            setSortOrder: vi.fn()
         });
     });
 
@@ -61,7 +61,7 @@ describe('SortMenu', () => {
             sortBy: 'PremiereDate',
             sortOrder: 'Ascending',
             setSortBy: vi.fn(),
-            setSortOrder: vi.fn(),
+            setSortOrder: vi.fn()
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
@@ -74,7 +74,7 @@ describe('SortMenu', () => {
             sortBy: 'Name',
             sortOrder: 'Descending',
             setSortBy: vi.fn(),
-            setSortOrder: vi.fn(),
+            setSortOrder: vi.fn()
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
@@ -88,7 +88,7 @@ describe('SortMenu', () => {
             sortBy: 'Name',
             sortOrder: 'Ascending',
             setSortBy: mockSetSortBy,
-            setSortOrder: vi.fn(),
+            setSortOrder: vi.fn()
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
@@ -102,7 +102,7 @@ describe('SortMenu', () => {
             sortBy: 'Name',
             sortOrder: 'Descending',
             setSortBy: vi.fn(),
-            setSortOrder: mockSetSortOrder,
+            setSortOrder: mockSetSortOrder
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
@@ -117,7 +117,7 @@ describe('SortMenu', () => {
             sortBy: 'Name',
             sortOrder: 'Ascending',
             setSortBy: vi.fn(),
-            setSortOrder: mockSetSortOrder,
+            setSortOrder: mockSetSortOrder
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
@@ -131,7 +131,7 @@ describe('SortMenu', () => {
             sortBy: 'Runtime',
             sortOrder: 'Ascending',
             setSortBy: vi.fn(),
-            setSortOrder: vi.fn(),
+            setSortOrder: vi.fn()
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);

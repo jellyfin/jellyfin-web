@@ -5,7 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
 
-const fetchLibraryMediaFolders = async (api: Api, params?: LibraryApiGetMediaFoldersRequest, options?: AxiosRequestConfig) => {
+const fetchLibraryMediaFolders = async (
+    api: Api,
+    params?: LibraryApiGetMediaFoldersRequest,
+    options?: AxiosRequestConfig
+) => {
     const response = await getLibraryApi(api).getMediaFolders(params, options);
 
     return response.data;

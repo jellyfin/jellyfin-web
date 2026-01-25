@@ -14,8 +14,8 @@ import { Input } from 'ui-primitives/Input';
 import { Text } from 'ui-primitives/Text';
 
 export const Component = (): React.ReactElement => {
-    const [ actionData, setActionData ] = useState<ActionData | undefined>();
-    const [ isSubmitting, setIsSubmitting ] = useState(false);
+    const [actionData, setActionData] = useState<ActionData | undefined>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
 
@@ -34,11 +34,10 @@ export const Component = (): React.ReactElement => {
             const bitrateLimit = formData.get('StreamingBitrateLimit')?.toString();
             config.RemoteClientBitrateLimit = Math.trunc(1e6 * parseFloat(bitrateLimit || '0'));
 
-            await getConfigurationApi(api)
-                .updateConfiguration({ serverConfiguration: config });
+            await getConfigurationApi(api).updateConfiguration({ serverConfiguration: config });
 
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [QUERY_KEY]
             });
 
             setActionData({ isSaved: true });
@@ -55,36 +54,36 @@ export const Component = (): React.ReactElement => {
 
     return (
         <Page
-            id='streamingSettingsPage'
+            id="streamingSettingsPage"
             title={globalize.translate('TabStreaming')}
-            className='mainAnimatedPage type-interior'
+            className="mainAnimatedPage type-interior"
         >
-            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 <form onSubmit={handleSubmit}>
                     <Flex style={{ flexDirection: 'column', gap: '24px' }}>
-                        <Text as='h1' size='xl' weight='bold'>
+                        <Text as="h1" size="xl" weight="bold">
                             {globalize.translate('TabStreaming')}
                         </Text>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert variant='success'>
-                                {globalize.translate('SettingsSaved')}
-                            </Alert>
+                            <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                         )}
 
                         <Input
-                            type='number'
-                            inputMode='decimal'
-                            name='StreamingBitrateLimit'
+                            type="number"
+                            inputMode="decimal"
+                            name="StreamingBitrateLimit"
                             label={globalize.translate('LabelRemoteClientBitrateLimit')}
-                            defaultValue={defaultConfiguration?.RemoteClientBitrateLimit ? defaultConfiguration?.RemoteClientBitrateLimit / 1e6 : ''}
+                            defaultValue={
+                                defaultConfiguration?.RemoteClientBitrateLimit
+                                    ? defaultConfiguration?.RemoteClientBitrateLimit / 1e6
+                                    : ''
+                            }
                             min={0}
                             step={0.25}
                         />
 
-                        <Button type='submit'>
-                            {globalize.translate('Save')}
-                        </Button>
+                        <Button type="submit">{globalize.translate('Save')}</Button>
                     </Flex>
                 </form>
             </Flex>

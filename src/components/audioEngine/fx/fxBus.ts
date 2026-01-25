@@ -126,8 +126,8 @@ export class FXBus {
 
     public setRubberBandingIntensity(intensity: number): void {
         if (this.rubberFilter && this.rubberLFO) {
-            this.rubberLFO.frequency.value = 2 + (intensity * 2);
-            this.rubberFilter.Q.value = 5 + (10 * intensity);
+            this.rubberLFO.frequency.value = 2 + intensity * 2;
+            this.rubberFilter.Q.value = 5 + 10 * intensity;
         }
     }
 

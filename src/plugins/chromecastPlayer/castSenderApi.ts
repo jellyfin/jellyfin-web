@@ -17,7 +17,7 @@ class CastSenderApi {
                 return Promise.resolve();
             }
 
-            return new Promise((resolve) => {
+            return new Promise(resolve => {
                 const fileref = document.createElement('script');
                 fileref.setAttribute('type', 'text/javascript');
 

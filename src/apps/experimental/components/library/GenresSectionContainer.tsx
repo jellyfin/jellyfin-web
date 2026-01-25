@@ -22,12 +22,7 @@ interface GenresSectionContainerProps {
     genre: ItemDto;
 }
 
-const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
-    parentId,
-    collectionType,
-    itemType,
-    genre
-}) => {
+const GenresSectionContainer: FC<GenresSectionContainerProps> = ({ parentId, collectionType, itemType, genre }) => {
     const { __legacyApiClient__ } = useApi();
     const getParametersOptions = () => {
         return {
@@ -35,10 +30,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             sortOrder: [SortOrder.Ascending],
             includeItemTypes: itemType,
             recursive: true,
-            fields: [
-                ItemFields.PrimaryImageAspectRatio,
-                ItemFields.MediaSourceCount
-            ],
+            fields: [ItemFields.PrimaryImageAspectRatio, ItemFields.MediaSourceCount],
             imageTypeLimit: 1,
             enableImageTypes: [ImageType.Primary],
             limit: 25,
@@ -61,25 +53,27 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
         return <Loading />;
     }
 
-    return <SectionContainer
-        key={genre.Name}
-        sectionHeaderProps={{
-            title: genre.Name || '',
-            url: getRouteUrl(genre)
-        }}
-        items={itemsResult?.Items}
-        cardOptions={{
-            scalable: true,
-            overlayPlayButton: true,
-            showTitle: true,
-            centerText: true,
-            cardLayout: false,
-            shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
-            showParentTitle: collectionType === CollectionType.Music,
-            showYear: collectionType !== CollectionType.Music,
-            serverId: __legacyApiClient__?.serverId()
-        }}
-    />;
+    return (
+        <SectionContainer
+            key={genre.Name}
+            sectionHeaderProps={{
+                title: genre.Name || '',
+                url: getRouteUrl(genre)
+            }}
+            items={itemsResult?.Items}
+            cardOptions={{
+                scalable: true,
+                overlayPlayButton: true,
+                showTitle: true,
+                centerText: true,
+                cardLayout: false,
+                shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
+                showParentTitle: collectionType === CollectionType.Music,
+                showYear: collectionType !== CollectionType.Music,
+                serverId: __legacyApiClient__?.serverId()
+            }}
+        />
+    );
 };
 
 export default GenresSectionContainer;

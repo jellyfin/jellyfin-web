@@ -18,7 +18,6 @@ const deleteAlternateSources = async (
 export const useDeleteAlternateSources = () => {
     const apiContext = useApi();
     return useMutation({
-        mutationFn: (params: VideosApiDeleteAlternateSourcesRequest) =>
-            deleteAlternateSources(apiContext, params)
+        mutationFn: (params: VideosApiDeleteAlternateSourcesRequest) => deleteAlternateSources(apiContext, params)
     });
 };

@@ -18,7 +18,11 @@ interface IProps {
     onClose: () => void;
 }
 
-const BackupInfoDialog: FunctionComponent<Readonly<IProps>> = ({ backup, open, onClose }: IProps): React.ReactElement => {
+const BackupInfoDialog: FunctionComponent<Readonly<IProps>> = ({
+    backup,
+    open,
+    onClose
+}: IProps): React.ReactElement => {
     const [isCopiedToastOpen, setIsCopiedToastOpen] = useState(false);
 
     const handleToastClose = useCallback(() => {
@@ -39,31 +43,31 @@ const BackupInfoDialog: FunctionComponent<Readonly<IProps>> = ({ backup, open, o
                 <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
                     <Flex style={{ flexDirection: 'column', gap: vars.spacing.xs }}>
                         <Flex style={{ gap: vars.spacing.md, alignItems: 'center' }}>
-                            <Text weight='bold'>{globalize.translate('LabelPath')}</Text>
+                            <Text weight="bold">{globalize.translate('LabelPath')}</Text>
                             <Flex style={{ gap: vars.spacing.xs, alignItems: 'center' }}>
-                                <Text color='secondary'>{backup.Path}</Text>
-                                <IconButton variant='plain' size='sm' onClick={copyPath}>
+                                <Text color="secondary">{backup.Path}</Text>
+                                <IconButton variant="plain" size="sm" onClick={copyPath}>
                                     <CopyIcon />
                                 </IconButton>
                             </Flex>
                         </Flex>
                         <Flex style={{ gap: vars.spacing.md }}>
-                            <Text weight='bold'>{globalize.translate('LabelVersion')}</Text>
-                            <Text color='secondary'>{backup.ServerVersion}</Text>
+                            <Text weight="bold">{globalize.translate('LabelVersion')}</Text>
+                            <Text color="secondary">{backup.ServerVersion}</Text>
                         </Flex>
                     </Flex>
 
                     <Flex style={{ flexDirection: 'column', gap: vars.spacing.xs }}>
-                        <Checkbox name='Database' checked={true} disabled>
+                        <Checkbox name="Database" checked={true} disabled>
                             {globalize.translate('LabelDatabase')}
                         </Checkbox>
-                        <Checkbox name='Metadata' checked={backup.Options?.Metadata} disabled>
+                        <Checkbox name="Metadata" checked={backup.Options?.Metadata} disabled>
                             {globalize.translate('LabelMetadata')}
                         </Checkbox>
-                        <Checkbox name='Subtitles' checked={backup.Options?.Subtitles} disabled>
+                        <Checkbox name="Subtitles" checked={backup.Options?.Subtitles} disabled>
                             {globalize.translate('Subtitles')}
                         </Checkbox>
-                        <Checkbox name='Trickplay' checked={backup.Options?.Trickplay} disabled>
+                        <Checkbox name="Trickplay" checked={backup.Options?.Trickplay} disabled>
                             {globalize.translate('Trickplay')}
                         </Checkbox>
                     </Flex>
@@ -71,7 +75,7 @@ const BackupInfoDialog: FunctionComponent<Readonly<IProps>> = ({ backup, open, o
             </DialogContent>
 
             <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing.sm, padding: vars.spacing.md }}>
-                <Button variant='primary' onClick={onClose}>
+                <Button variant="primary" onClick={onClose}>
                     {globalize.translate('ButtonOk')}
                 </Button>
             </Flex>

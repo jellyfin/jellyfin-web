@@ -208,9 +208,7 @@ describe('visualizerSettings - Settings Management', () => {
         });
 
         it('should preserve unspecified settings', () => {
-            const originalButtercburn = JSON.parse(
-                JSON.stringify(visualizerSettings.butterchurn)
-            );
+            const originalButtercburn = JSON.parse(JSON.stringify(visualizerSettings.butterchurn));
 
             const savedSettings = {
                 frequencyAnalyzer: {

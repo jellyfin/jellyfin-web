@@ -54,4 +54,3 @@ export const DialogClose = style({
         backgroundColor: vars.colors.surfaceHover
     }
 });
-

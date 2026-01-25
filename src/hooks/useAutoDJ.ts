@@ -51,7 +51,7 @@ const DEFAULT_CONFIG: AutoDJConfig = {
     preferHarmonic: true,
     preferEnergyMatch: true,
     useNotchFilter: true,
-    notchFrequency: 60,
+    notchFrequency: 60
 };
 
 const DEFAULT_HISTORY: TransitionHistory = {
@@ -62,7 +62,7 @@ const DEFAULT_HISTORY: TransitionHistory = {
     energyMixCount: 0,
     tempoChangeCount: 0,
     standardMixCount: 0,
-    varietyScore: 1.0,
+    varietyScore: 1.0
 };
 
 function createEmptyAnalysis(): FullTrackAnalysis {
@@ -116,7 +116,7 @@ function createEmptyAnalysis(): FullTrackAnalysis {
         energyMatchOut: 0.7,
         crossfadeDuration: 16,
         primaryGenre: 'House',
-        genreConfidence: 0.5,
+        genreConfidence: 0.5
     };
 }
 
@@ -152,75 +152,79 @@ export function useAutoDJ() {
         logger.debug('Saved analysis for track', { component: 'AutoDJ', trackId });
     }, []);
 
-    const analyzeTrack = useCallback(async (
-        trackId: string,
-        audioBuffer: AudioBuffer,
-        saveToCache = true
-    ): Promise<FullTrackAnalysis> => {
-        const module = await initializeAnalyzer();
+    const analyzeTrack = useCallback(
+        async (trackId: string, audioBuffer: AudioBuffer, saveToCache = true): Promise<FullTrackAnalysis> => {
+            const module = await initializeAnalyzer();
 
-        try {
-            setIsAnalyzing(true);
-            const channelData = audioBuffer.getChannelData(0);
-            const analysis = module.analyzeTrack(channelData, audioBuffer.sampleRate);
+            try {
+                setIsAnalyzing(true);
+                const channelData = audioBuffer.getChannelData(0);
+                const analysis = module.analyzeTrack(channelData, audioBuffer.sampleRate);
 
-            if (saveToCache) {
-                saveAnalysis(trackId, {
-                    features: analysis,
-                    structure: {
-                        introStart: analysis.introBestStartPoint - 2,
-                        introEnd: analysis.introBestStartPoint,
-                        outroStart: analysis.outroBestEndPoint,
-                        outroEnd: analysis.outroBestEndPoint + 4,
-                        drops: [],
-                        breakdowns: [],
-                        buildups: [],
-                        energyProfile: [],
-                        sectionCount: 0,
-                    },
-                    genre: {
-                        primaryGenre: analysis.primaryGenre,
-                        genreConfidence: analysis.genreConfidence,
-                    },
-                    analyzedAt: Date.now(),
-                    duration: audioBuffer.duration,
-                });
+                if (saveToCache) {
+                    saveAnalysis(trackId, {
+                        features: analysis,
+                        structure: {
+                            introStart: analysis.introBestStartPoint - 2,
+                            introEnd: analysis.introBestStartPoint,
+                            outroStart: analysis.outroBestEndPoint,
+                            outroEnd: analysis.outroBestEndPoint + 4,
+                            drops: [],
+                            breakdowns: [],
+                            buildups: [],
+                            energyProfile: [],
+                            sectionCount: 0
+                        },
+                        genre: {
+                            primaryGenre: analysis.primaryGenre,
+                            genreConfidence: analysis.genreConfidence
+                        },
+                        analyzedAt: Date.now(),
+                        duration: audioBuffer.duration
+                    });
+                }
+
+                return analysis;
+            } catch (error) {
+                setLastError(error as Error);
+                throw error;
+            } finally {
+                setIsAnalyzing(false);
+            }
+        },
+        [initializeAnalyzer, saveAnalysis]
+    );
+
+    const getTransition = useCallback(
+        async (
+            currentTrackId: string,
+            _nextTrackId: string,
+            nextAudioBuffer: AudioBuffer
+        ): Promise<TransitionSuggestion> => {
+            const module = await initializeAnalyzer();
+
+            const currentAnalysis = getAnalysis(currentTrackId);
+            const nextSamples = nextAudioBuffer.getChannelData(0);
+            const nextAnalysis = module.analyzeTrack(nextSamples, nextAudioBuffer.sampleRate);
+
+            const current = currentAnalysis?.features || createEmptyAnalysis();
+            const suggestion = module.suggestTransition(current, nextAnalysis);
+
+            if (config.useNotchFilter) {
+                const adjustedSuggestion = { ...suggestion };
+                if (current.bassMidRatio > 1.5 || nextAnalysis.bassMidRatio > 1.5) {
+                    adjustedSuggestion.fxRecommendation =
+                        suggestion.fxRecommendation +
+                        (suggestion.fxRecommendation ? ', ' : '') +
+                        `Notch Filter ${config.notchFrequency}Hz`;
+                }
+                return adjustedSuggestion;
             }
 
-            return analysis;
-        } catch (error) {
-            setLastError(error as Error);
-            throw error;
-        } finally {
-            setIsAnalyzing(false);
-        }
-    }, [initializeAnalyzer, saveAnalysis]);
-
-    const getTransition = useCallback(async (
-        currentTrackId: string,
-        _nextTrackId: string,
-        nextAudioBuffer: AudioBuffer
-    ): Promise<TransitionSuggestion> => {
-        const module = await initializeAnalyzer();
-
-        const currentAnalysis = getAnalysis(currentTrackId);
-        const nextSamples = nextAudioBuffer.getChannelData(0);
-        const nextAnalysis = module.analyzeTrack(nextSamples, nextAudioBuffer.sampleRate);
-
-        const current = currentAnalysis?.features || createEmptyAnalysis();
-        const suggestion = module.suggestTransition(current, nextAnalysis);
-
-        if (config.useNotchFilter) {
-            const adjustedSuggestion = { ...suggestion };
-            if (current.bassMidRatio > 1.5 || nextAnalysis.bassMidRatio > 1.5) {
-                adjustedSuggestion.fxRecommendation = suggestion.fxRecommendation +
-                    (suggestion.fxRecommendation ? ', ' : '') + `Notch Filter ${config.notchFrequency}Hz`;
-            }
-            return adjustedSuggestion;
-        }
-
-        return suggestion;
-    }, [config, getAnalysis, initializeAnalyzer]);
+            return suggestion;
+        },
+        [config, getAnalysis, initializeAnalyzer]
+    );
 
     const recordTransition = useCallback((suggestion: TransitionSuggestion) => {
         const history = transitionHistoryRef.current;
@@ -256,7 +260,7 @@ export function useAutoDJ() {
         logger.info('Recorded transition', {
             component: 'AutoDJ',
             type: suggestion.transitionType,
-            varietyScore: history.varietyScore,
+            varietyScore: history.varietyScore
         });
     }, []);
 
@@ -279,6 +283,6 @@ export function useAutoDJ() {
         config,
         isAnalyzing,
         lastError,
-        createEmptyAnalysis,
+        createEmptyAnalysis
     };
 }

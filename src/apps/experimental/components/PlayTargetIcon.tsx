@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-    CubeIcon,
-    DesktopIcon,
-    Link2Icon,
-    MobileIcon,
-    LaptopIcon,
-    VideoIcon
-} from '@radix-ui/react-icons';
+import { CubeIcon, DesktopIcon, Link2Icon, MobileIcon, LaptopIcon, VideoIcon } from '@radix-ui/react-icons';
 
 import browser from 'scripts/browser';
 import type { PlayTarget } from 'types/playTarget';

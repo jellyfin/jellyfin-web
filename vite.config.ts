@@ -38,6 +38,7 @@ const serviceWorkerManifestPlugin = {
             buildId: process.env.JELLYFIN_VERSION || 'dev'
         };
         const manifestPath = path.resolve(__dirname, 'dist/web/sw-manifest.json');
+        fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
         fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
         // eslint-disable-next-line no-console
         console.log(`[ServiceWorker] Generated manifest at ${manifestPath}`);

@@ -12,11 +12,7 @@ import type { ListOptions } from 'types/listOptions';
 import useIndicator from '../../indicators/useIndicator';
 import layoutManager from '../../layoutManager';
 import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
-import {
-    canResume,
-    getChannelImageUrl,
-    getImageUrl
-} from './listHelper';
+import { canResume, getChannelImageUrl, getImageUrl } from './listHelper';
 
 interface ListImageContainerProps {
     item: ItemDto;
@@ -37,9 +33,10 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
 }) => {
     const { api } = useApi();
     const { getMediaSourceIndicator, getProgressBar, getPlayedIndicator } = useIndicator(item);
-    const imgInfo = listOptions.imageSource === 'channel' ?
-        getChannelImageUrl(item, api, downloadWidth) :
-        getImageUrl(item, api, downloadWidth);
+    const imgInfo =
+        listOptions.imageSource === 'channel'
+            ? getChannelImageUrl(item, api, downloadWidth)
+            : getImageUrl(item, api, downloadWidth);
 
     const defaultCardImageIcon = listOptions.defaultCardImageIcon;
     const disableIndicators = listOptions.disableIndicators;
@@ -59,8 +56,7 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
 
     const imageAction = playOnImageClick ? ItemAction.Link : action;
 
-    const btnCssClass =
-        'paper-icon-button-light listItemImageButton itemAction';
+    const btnCssClass = 'paper-icon-button-light listItemImageButton itemAction';
 
     const mediaSourceIndicator = getMediaSourceIndicator();
     const playedIndicator = getPlayedIndicator();
@@ -68,32 +64,18 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
     const playbackPositionTicks = item?.UserData?.PlaybackPositionTicks;
 
     return (
-        <Box
-            data-action={imageAction}
-            className={imageClass}
-        >
-
+        <Box data-action={imageAction} className={imageClass}>
             <Media item={item} imgUrl={imgUrl} blurhash={blurhash} defaultCardImageIcon={defaultCardImageIcon} />
 
             {disableIndicators !== true && mediaSourceIndicator}
 
-            {playedIndicator && (
-                <Box className='indicators listItemIndicators'>
-                    {playedIndicator}
-                </Box>
-            )}
+            {playedIndicator && <Box className="indicators listItemIndicators">{playedIndicator}</Box>}
 
             {playOnImageClick && (
                 <PlayArrowIconButton
                     className={btnCssClass}
-                    action={
-                        canResume(playbackPositionTicks) ? ItemAction.Resume : ItemAction.Play
-                    }
-                    title={
-                        canResume(playbackPositionTicks) ?
-                            'ButtonResume' :
-                            'Play'
-                    }
+                    action={canResume(playbackPositionTicks) ? ItemAction.Resume : ItemAction.Play}
+                    title={canResume(playbackPositionTicks) ? 'ButtonResume' : 'Play'}
                 />
             )}
 

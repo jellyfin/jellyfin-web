@@ -1,4 +1,13 @@
-import React, { type ReactElement, type ReactNode, type CSSProperties, type ElementType, type HTMLAttributes, type ButtonHTMLAttributes, type AnchorHTMLAttributes, type MouseEventHandler } from 'react';
+import React, {
+    type ReactElement,
+    type ReactNode,
+    type CSSProperties,
+    type ElementType,
+    type HTMLAttributes,
+    type ButtonHTMLAttributes,
+    type AnchorHTMLAttributes,
+    type MouseEventHandler
+} from 'react';
 import {
     listItemButtonActive,
     listItemButtonStyles,
@@ -54,7 +63,7 @@ export function ListItemButton({
         <button
             className={buttonClassName}
             style={buttonStyle}
-            type='button'
+            type="button"
             {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
         >
             {children}

@@ -10,17 +10,11 @@ interface MediaProps {
     item: ItemDto;
     imgUrl: string | undefined;
     blurhash: string | undefined;
-    imageType?: ImageType
-    defaultCardImageIcon?: string
+    imageType?: ImageType;
+    defaultCardImageIcon?: string;
 }
 
-const Media: FC<MediaProps> = ({
-    item,
-    imgUrl,
-    blurhash,
-    imageType,
-    defaultCardImageIcon
-}) => {
+const Media: FC<MediaProps> = ({ item, imgUrl, blurhash, imageType, defaultCardImageIcon }) => {
     return imgUrl ? (
         <Image
             imgUrl={imgUrl}
@@ -28,10 +22,7 @@ const Media: FC<MediaProps> = ({
             containImage={item.Type === BaseItemKind.TvChannel || imageType === ImageType.Logo}
         />
     ) : (
-        <DefaultIconText
-            item={item}
-            defaultCardImageIcon={defaultCardImageIcon}
-        />
+        <DefaultIconText item={item} defaultCardImageIcon={defaultCardImageIcon} />
     );
 };
 

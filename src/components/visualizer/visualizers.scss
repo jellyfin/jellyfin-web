@@ -221,7 +221,9 @@ body:not(.transition).mouseIdle canvas#frequency-analyzer {
     z-index: 2;
     display: block;
     pointer-events: none;
-    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    transition:
+        opacity 1s ease-in-out,
+        transform 1s ease-in-out;
     will-change: opacity, transform;
 }
 
@@ -502,7 +504,9 @@ body.transition .discImage {
         top: auto;
         width: auto;
         filter: brightness(0.75);
-        transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        transition:
+            opacity 1s ease-in-out,
+            transform 1s ease-in-out;
         will-change: opacity, transform;
     }
 
@@ -529,7 +533,7 @@ body.transition .discImage {
 
     .itemsContainer-tv > .squareCard,
     .itemsContainer > .squareCard {
-        width: calc(100%/5);
+        width: calc(100% / 5);
     }
 
     div.playlistSection {

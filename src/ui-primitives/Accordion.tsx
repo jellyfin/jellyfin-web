@@ -33,16 +33,19 @@ export function Accordion({ children, expanded, onChange, className }: Accordion
         }
     }, [isExpanded, onChange]);
 
-    const handleKeyDown = useCallback((e: React.KeyboardEvent): void => {
-        if (e.key === 'Enter') {
-            handleToggle();
-        }
-    }, [handleToggle]);
+    const handleKeyDown = useCallback(
+        (e: React.KeyboardEvent): void => {
+            if (e.key === 'Enter') {
+                handleToggle();
+            }
+        },
+        [handleToggle]
+    );
 
     let header: React.ReactNode = null;
     let content: React.ReactNode = null;
 
-    React.Children.forEach(children, (child) => {
+    React.Children.forEach(children, child => {
         if (React.isValidElement(child)) {
             const typedChild = child as unknown as { type: React.ElementType; props: { children?: React.ReactNode } };
             if (typedChild.type === AccordionSummary) {
@@ -58,17 +61,13 @@ export function Accordion({ children, expanded, onChange, className }: Accordion
             <div
                 className={`${accordionHeader} ${isExpanded ? accordionExpanded : ''}`}
                 onClick={handleToggle}
-                role='button'
+                role="button"
                 tabIndex={0}
                 onKeyDown={handleKeyDown}
             >
                 {header}
             </div>
-            {isExpanded && (
-                <div className={accordionContent}>
-                    {content}
-                </div>
-            )}
+            {isExpanded && <div className={accordionContent}>{content}</div>}
         </div>
     );
 }
@@ -87,8 +86,8 @@ export function AccordionDetails({ children, className }: AccordionDetailsProps)
 
 function ExpandMoreIcon(): ReactElement {
     return (
-        <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
-            <path d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z' />
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
         </svg>
     );
 }
@@ -122,18 +121,21 @@ export function ExpandableAccordion({
         }
     }, [isExpanded, onExpandedChange]);
 
-    const handleExpandKeyDown = useCallback((e: React.KeyboardEvent): void => {
-        if (e.key === 'Enter') {
-            handleExpandToggle();
-        }
-    }, [handleExpandToggle]);
+    const handleExpandKeyDown = useCallback(
+        (e: React.KeyboardEvent): void => {
+            if (e.key === 'Enter') {
+                handleExpandToggle();
+            }
+        },
+        [handleExpandToggle]
+    );
 
     return (
         <div className={`${accordionRoot} ${className ?? ''}`}>
             <div
                 className={`${accordionHeader} ${isExpanded ? accordionExpanded : ''}`}
                 onClick={handleExpandToggle}
-                role='button'
+                role="button"
                 tabIndex={0}
                 onKeyDown={handleExpandKeyDown}
                 style={{ cursor: 'pointer' }}
@@ -143,18 +145,14 @@ export function ExpandableAccordion({
                     {title}
                 </Flex>
                 <IconButton
-                    variant='ghost'
-                    size='sm'
+                    variant="ghost"
+                    size="sm"
                     style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
                 >
                     <ExpandMoreIcon />
                 </IconButton>
             </div>
-            {isExpanded && (
-                <div className={accordionContent}>
-                    {children}
-                </div>
-            )}
+            {isExpanded && <div className={accordionContent}>{children}</div>}
         </div>
     );
 }

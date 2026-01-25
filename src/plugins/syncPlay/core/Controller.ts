@@ -3,14 +3,18 @@ import * as Helper from './Helper';
 class Controller {
     private manager: any = null;
 
-    init(syncPlayManager: any) { this.manager = syncPlayManager; }
+    init(syncPlayManager: any) {
+        this.manager = syncPlayManager;
+    }
 
     playPause() {
         if (this.manager.isPlaying()) this.pause();
         else this.unpause();
     }
 
-    unpause() { this.manager.getApiClient().requestSyncPlayUnpause(); }
+    unpause() {
+        this.manager.getApiClient().requestSyncPlayUnpause();
+    }
 
     pause() {
         this.manager.getApiClient().requestSyncPlayPause();
@@ -32,9 +36,11 @@ class Controller {
             });
         };
 
-        if (options.items) return Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendPlayRequest);
-        return Helper.getItemsForPlayback(apiClient, { Ids: options.ids.join(',') })
-            .then((result: any) => Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendPlayRequest));
+        if (options.items)
+            return Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendPlayRequest);
+        return Helper.getItemsForPlayback(apiClient, { Ids: options.ids.join(',') }).then((result: any) =>
+            Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendPlayRequest)
+        );
     }
 
     setCurrentPlaylistItem(playlistItemId: string) {
@@ -42,7 +48,9 @@ class Controller {
     }
 
     clearPlaylist(clearPlayingItem = false) {
-        this.manager.getApiClient().requestSyncPlayRemoveFromPlaylist({ ClearPlaylist: true, ClearPlayingItem: clearPlayingItem });
+        this.manager
+            .getApiClient()
+            .requestSyncPlayRemoveFromPlaylist({ ClearPlaylist: true, ClearPlayingItem: clearPlayingItem });
     }
 
     removeFromPlaylist(playlistItemIds: string[]) {
@@ -50,7 +58,9 @@ class Controller {
     }
 
     movePlaylistItem(playlistItemId: string, newIndex: number) {
-        this.manager.getApiClient().requestSyncPlayMovePlaylistItem({ PlaylistItemId: playlistItemId, NewIndex: newIndex });
+        this.manager
+            .getApiClient()
+            .requestSyncPlayMovePlaylistItem({ PlaylistItemId: playlistItemId, NewIndex: newIndex });
     }
 
     queue(options: any, mode: string = 'Queue') {
@@ -61,22 +71,34 @@ class Controller {
         };
 
         if (options.items) Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendQueue);
-        else Helper.getItemsForPlayback(apiClient, { Ids: options.ids.join(',') })
-            .then((result: any) => Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendQueue));
+        else
+            Helper.getItemsForPlayback(apiClient, { Ids: options.ids.join(',') }).then((result: any) =>
+                Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendQueue)
+            );
     }
 
-    queueNext(options: any) { this.queue(options, 'QueueNext'); }
+    queueNext(options: any) {
+        this.queue(options, 'QueueNext');
+    }
 
     nextItem() {
-        this.manager.getApiClient().requestSyncPlayNextItem({ PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId() });
+        this.manager
+            .getApiClient()
+            .requestSyncPlayNextItem({ PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId() });
     }
 
     previousItem() {
-        this.manager.getApiClient().requestSyncPlayPreviousItem({ PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId() });
+        this.manager
+            .getApiClient()
+            .requestSyncPlayPreviousItem({ PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId() });
     }
 
-    setRepeatMode(mode: string) { this.manager.getApiClient().requestSyncPlaySetRepeatMode({ Mode: mode }); }
-    setShuffleMode(mode: string) { this.manager.getApiClient().requestSyncPlaySetShuffleMode({ Mode: mode }); }
+    setRepeatMode(mode: string) {
+        this.manager.getApiClient().requestSyncPlaySetRepeatMode({ Mode: mode });
+    }
+    setShuffleMode(mode: string) {
+        this.manager.getApiClient().requestSyncPlaySetShuffleMode({ Mode: mode });
+    }
 
     toggleShuffleMode() {
         let mode = this.manager.getQueueCore().getShuffleMode();

@@ -212,4 +212,3 @@ export const toastIcon = style({
     alignItems: 'center',
     justifyContent: 'center'
 });
-

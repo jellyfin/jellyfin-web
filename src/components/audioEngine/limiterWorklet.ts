@@ -31,7 +31,7 @@ class LimiterProcessor extends AudioWorkletProcessor {
             const { instance } = await WebAssembly.instantiate(bytes);
 
             this.wasmInstance = instance;
-            this.wasmMemory = (instance.exports.memory as WebAssembly.Memory);
+            this.wasmMemory = instance.exports.memory as WebAssembly.Memory;
 
             // Standard AudioWorklet block size is 128 samples
             this.bufferSize = 128;
@@ -56,7 +56,14 @@ class LimiterProcessor extends AudioWorkletProcessor {
         ];
     }
 
-    private processJsFallback(input: Float32Array[], output: Float32Array[], threshold: number, ratio: number, attack: number, release: number) {
+    private processJsFallback(
+        input: Float32Array[],
+        output: Float32Array[],
+        threshold: number,
+        ratio: number,
+        attack: number,
+        release: number
+    ) {
         for (let channel = 0; channel < input.length; ++channel) {
             const inputChannel = input[channel];
             const outputChannel = output[channel];
@@ -73,7 +80,7 @@ class LimiterProcessor extends AudioWorkletProcessor {
 
                 let gain = 1;
                 if (this.envelope > threshold) {
-                    const exponent = 1 - (1 / ratio);
+                    const exponent = 1 - 1 / ratio;
                     gain = Math.pow(threshold / this.envelope, exponent);
                 }
 
@@ -82,11 +89,7 @@ class LimiterProcessor extends AudioWorkletProcessor {
         }
     }
 
-    process(
-        inputs: Float32Array[][],
-        outputs: Float32Array[][],
-        parameters: Record<string, Float32Array>
-    ): boolean {
+    process(inputs: Float32Array[][], outputs: Float32Array[][], parameters: Record<string, Float32Array>): boolean {
         const input = inputs[0];
         const output = outputs[0];
 
@@ -131,7 +134,7 @@ class LimiterProcessor extends AudioWorkletProcessor {
                 );
 
                 // Copy Wasm output back to JS
-                const result = memoryBuffer.subarray(this.outputPtr / 4, (this.outputPtr / 4) + inputChannel.length);
+                const result = memoryBuffer.subarray(this.outputPtr / 4, this.outputPtr / 4 + inputChannel.length);
                 outputChannel.set(result);
             }
         } else {

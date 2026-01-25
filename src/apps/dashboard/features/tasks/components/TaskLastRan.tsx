@@ -9,7 +9,7 @@ import { vars } from 'styles/tokens.css';
 const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const { dateFnsLocale } = useLocale();
 
-    const [ lastRan, timeTaken ] = useMemo(() => {
+    const [lastRan, timeTaken] = useMemo(() => {
         if (task.LastExecutionResult?.StartTimeUtc && task.LastExecutionResult?.EndTimeUtc) {
             const endTime = parseISO(task.LastExecutionResult.EndTimeUtc);
             const startTime = parseISO(task.LastExecutionResult.StartTimeUtc);
@@ -27,21 +27,21 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
             const lastResultStatus = task.LastExecutionResult.Status;
 
             return (
-                <Text size='xs' color='secondary'>
+                <Text size="xs" color="secondary">
                     {globalize.translate('LabelScheduledTaskLastRan', lastRan, timeTaken)}
 
                     {lastResultStatus === 'Failed' && (
-                        <Text size='xs' color='error' style={{ display: 'inline' }}>
+                        <Text size="xs" color="error" style={{ display: 'inline' }}>
                             {` (${globalize.translate('LabelFailed')})`}
                         </Text>
                     )}
                     {lastResultStatus === 'Cancelled' && (
-                        <Text size='xs' color='info' style={{ display: 'inline' }}>
+                        <Text size="xs" color="info" style={{ display: 'inline' }}>
                             {` (${globalize.translate('LabelCancelled')})`}
                         </Text>
                     )}
                     {lastResultStatus === 'Aborted' && (
-                        <Text size='xs' color='error' style={{ display: 'inline' }}>
+                        <Text size="xs" color="error" style={{ display: 'inline' }}>
                             {` (${globalize.translate('LabelAbortedByServerShutdown')})`}
                         </Text>
                     )}
@@ -51,7 +51,7 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
         return null;
     } else {
         return (
-            <Text size='xs' color='secondary'>
+            <Text size="xs" color="secondary">
                 {globalize.translate('LabelStopping')}
             </Text>
         );

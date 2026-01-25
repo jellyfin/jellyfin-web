@@ -81,7 +81,7 @@ export const Component = (): React.ReactElement => {
     }
 
     return (
-        <Page id='pluginsPage' title={globalize.translate('TabPlugins')} className='type-interior mainAnimatedPage'>
+        <Page id="pluginsPage" title={globalize.translate('TabPlugins')} className="type-interior mainAnimatedPage">
             <Box style={{ maxWidth: 1200, margin: '0 auto', padding: 24 }}>
                 <Box className={`${Flex} ${Flex.col}`} style={{ gap: 24 }}>
                     <Box
@@ -97,9 +97,9 @@ export const Component = (): React.ReactElement => {
                         <Box className={`${Flex} ${Flex.row}`} style={{ gap: 16, width: '100%' }}>
                             <Button
                                 component={Link}
-                                to='/dashboard/plugins/repositories'
-                                variant='outlined'
-                                color='neutral'
+                                to="/dashboard/plugins/repositories"
+                                variant="outlined"
+                                color="neutral"
                             >
                                 {globalize.translate('ManageRepositories')}
                             </Button>
@@ -113,7 +113,7 @@ export const Component = (): React.ReactElement => {
                     </Box>
 
                     {isError ? (
-                        <Alert variant='error'>{globalize.translate('PluginsLoadError')}</Alert>
+                        <Alert variant="error">{globalize.translate('PluginsLoadError')}</Alert>
                     ) : (
                         <>
                             <Box

@@ -8,9 +8,11 @@ export function isAudioStreamSupported(stream: any, deviceProfile: any, containe
 
     const profiles = deviceProfile.DirectPlayProfiles || [];
     return profiles.some((p: any) => {
-        return p.Type === 'Video'
-                    && includesAny((p.Container || '').toLowerCase(), container)
-                    && includesAny((p.AudioCodec || '').toLowerCase(), codec);
+        return (
+            p.Type === 'Video' &&
+            includesAny((p.Container || '').toLowerCase(), container) &&
+            includesAny((p.AudioCodec || '').toLowerCase(), codec)
+        );
     });
 }
 
@@ -37,6 +39,6 @@ export function setAudioStreamIndex(index: number, mediaElement: any, mediaSourc
 
     const elemAudioTracks = mediaElement.audioTracks || [];
     for (const [i, audioTrack] of Array.from(elemAudioTracks as any[]).entries()) {
-        (audioTrack as any).enabled = (audioIndex === i);
+        (audioTrack as any).enabled = audioIndex === i;
     }
 }

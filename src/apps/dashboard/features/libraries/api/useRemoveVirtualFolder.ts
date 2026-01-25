@@ -8,13 +8,11 @@ import { queryClient } from 'utils/query/queryClient';
 export const useRemoveVirtualFolder = () => {
     const { api } = useApi();
     return useMutation({
-        mutationFn: (params: LibraryStructureApiRemoveVirtualFolderRequest) => (
-            getLibraryStructureApi(api!)
-                .removeVirtualFolder(params)
-        ),
+        mutationFn: (params: LibraryStructureApiRemoveVirtualFolderRequest) =>
+            getLibraryStructureApi(api!).removeVirtualFolder(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ 'VirtualFolders' ]
+                queryKey: ['VirtualFolders']
             });
         }
     });

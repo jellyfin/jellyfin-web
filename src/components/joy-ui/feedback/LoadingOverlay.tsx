@@ -24,7 +24,7 @@ export const LoadingOverlay: React.FC = () => {
                 transition: 'opacity 0.2s ease'
             }}
         >
-            <CircularProgress size='lg' />
+            <CircularProgress size="lg" />
         </div>
     );
 };

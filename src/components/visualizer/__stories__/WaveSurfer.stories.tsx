@@ -4,11 +4,7 @@ import { Box, Flex } from '../../../ui-primitives/Box';
 import { Text, Heading } from '../../../ui-primitives/Text';
 import { Button } from '../../../ui-primitives/Button';
 import { Slider } from '../../../ui-primitives/Slider';
-import {
-    DEFAULT_WAVESURFER_COLORS,
-    createWaveSurferChannelStyle,
-    WaveSurferColorScheme
-} from '../WaveSurferOptions';
+import { DEFAULT_WAVESURFER_COLORS, createWaveSurferChannelStyle, WaveSurferColorScheme } from '../WaveSurferOptions';
 
 const meta: Meta = {
     title: 'Visualizer/WaveSurfer',
@@ -16,11 +12,11 @@ const meta: Meta = {
         layout: 'fullscreen',
         docs: {
             description: {
-                component: 'WaveSurfer.js integration for audio visualization with timeline, zoom, and minimap plugins.',
-            },
-        },
+                component: 'WaveSurfer.js integration for audio visualization with timeline, zoom, and minimap plugins.'
+            }
+        }
     },
-    tags: ['autodocs'],
+    tags: ['autodocs']
 };
 
 export default meta;
@@ -45,9 +41,9 @@ export const Overview: Story = {
         <Box style={{ padding: vars.spacing.lg }}>
             <Heading.H3 style={{ marginBottom: vars.spacing.md }}>WaveSurfer Configuration</Heading.H3>
             <Text color="secondary" style={{ marginBottom: vars.spacing.lg }}>
-                WaveSurfer.js provides advanced audio visualization with real-time waveform display,
-                zoom controls, timeline, and minimap plugins. The component adapts its display mode
-                based on zoom level: whole song view, single channel, or dual channel stereo.
+                WaveSurfer.js provides advanced audio visualization with real-time waveform display, zoom controls,
+                timeline, and minimap plugins. The component adapts its display mode based on zoom level: whole song
+                view, single channel, or dual channel stereo.
             </Text>
 
             <Flex gap={vars.spacing.xl} wrap="wrap">
@@ -56,19 +52,31 @@ export const Overview: Story = {
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
                         WaveSurfer switches display modes based on zoom level:
                     </Text>
-                    <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
+                    <Box
+                        style={{
+                            padding: vars.spacing.md,
+                            backgroundColor: vars.colors.surface,
+                            borderRadius: vars.borderRadius.md
+                        }}
+                    >
                         <Flex direction="column" gap={vars.spacing.sm}>
                             <Flex justifyContent="space-between">
                                 <Text size="sm">0-70 px/sec</Text>
-                                <Text size="sm" color="secondary">Whole song</Text>
+                                <Text size="sm" color="secondary">
+                                    Whole song
+                                </Text>
                             </Flex>
                             <Flex justifyContent="space-between">
                                 <Text size="sm">71-129 px/sec</Text>
-                                <Text size="sm" color="secondary">Single channel</Text>
+                                <Text size="sm" color="secondary">
+                                    Single channel
+                                </Text>
                             </Flex>
                             <Flex justifyContent="space-between">
                                 <Text size="sm">130+ px/sec</Text>
-                                <Text size="sm" color="secondary">Dual channels</Text>
+                                <Text size="sm" color="secondary">
+                                    Dual channels
+                                </Text>
                             </Flex>
                         </Flex>
                     </Box>
@@ -82,16 +90,32 @@ export const Overview: Story = {
                     <Flex gap={vars.spacing.sm} wrap="wrap">
                         {Object.entries(colorSchemes).map(([name, colors]) => (
                             <Box key={name} style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.xs }}>
-                                <Box style={{ width: '16px', height: '16px', borderRadius: '4px', backgroundColor: colors.left }} />
-                                <Box style={{ width: '16px', height: '16px', borderRadius: '4px', backgroundColor: colors.right }} />
-                                <Text size="xs" color="secondary">{name}</Text>
+                                <Box
+                                    style={{
+                                        width: '16px',
+                                        height: '16px',
+                                        borderRadius: '4px',
+                                        backgroundColor: colors.left
+                                    }}
+                                />
+                                <Box
+                                    style={{
+                                        width: '16px',
+                                        height: '16px',
+                                        borderRadius: '4px',
+                                        backgroundColor: colors.right
+                                    }}
+                                />
+                                <Text size="xs" color="secondary">
+                                    {name}
+                                </Text>
                             </Box>
                         ))}
                     </Flex>
                 </Box>
             </Flex>
         </Box>
-    ),
+    )
 };
 
 export const ColorSchemes: Story = {
@@ -102,24 +126,69 @@ export const ColorSchemes: Story = {
                 {Object.entries(colorSchemes).map(([name, colors]) => {
                     const style = createWaveSurferChannelStyle(colors);
                     return (
-                        <Box key={name} style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
-                            <Text size="sm" style={{ marginBottom: vars.spacing.sm, fontWeight: 600 }}>{name}</Text>
+                        <Box
+                            key={name}
+                            style={{
+                                padding: vars.spacing.md,
+                                backgroundColor: vars.colors.surface,
+                                borderRadius: vars.borderRadius.md
+                            }}
+                        >
+                            <Text size="sm" style={{ marginBottom: vars.spacing.sm, fontWeight: 600 }}>
+                                {name}
+                            </Text>
                             <Flex gap={vars.spacing.lg}>
                                 <Flex alignItems="center" gap={vars.spacing.xs}>
-                                    <Box style={{ width: '24px', height: '24px', borderRadius: '4px', backgroundColor: colors.left }} />
-                                    <Text size="xs" color="secondary">Left: {colors.left}</Text>
+                                    <Box
+                                        style={{
+                                            width: '24px',
+                                            height: '24px',
+                                            borderRadius: '4px',
+                                            backgroundColor: colors.left
+                                        }}
+                                    />
+                                    <Text size="xs" color="secondary">
+                                        Left: {colors.left}
+                                    </Text>
                                 </Flex>
                                 <Flex alignItems="center" gap={vars.spacing.xs}>
-                                    <Box style={{ width: '24px', height: '24px', borderRadius: '4px', backgroundColor: colors.right }} />
-                                    <Text size="xs" color="secondary">Right: {colors.right}</Text>
+                                    <Box
+                                        style={{
+                                            width: '24px',
+                                            height: '24px',
+                                            borderRadius: '4px',
+                                            backgroundColor: colors.right
+                                        }}
+                                    />
+                                    <Text size="xs" color="secondary">
+                                        Right: {colors.right}
+                                    </Text>
                                 </Flex>
                                 <Flex alignItems="center" gap={vars.spacing.xs}>
-                                    <Box style={{ width: '24px', height: '24px', borderRadius: '4px', backgroundColor: colors.cursor }} />
-                                    <Text size="xs" color="secondary">Cursor: {colors.cursor}</Text>
+                                    <Box
+                                        style={{
+                                            width: '24px',
+                                            height: '24px',
+                                            borderRadius: '4px',
+                                            backgroundColor: colors.cursor
+                                        }}
+                                    />
+                                    <Text size="xs" color="secondary">
+                                        Cursor: {colors.cursor}
+                                    </Text>
                                 </Flex>
                             </Flex>
-                            <Box style={{ marginTop: vars.spacing.md, padding: vars.spacing.sm, backgroundColor: vars.colors.background, borderRadius: vars.borderRadius.sm }}>
-                                <Text size="xs" color="secondary">Sample waveform representation</Text>
+                            <Box
+                                style={{
+                                    marginTop: vars.spacing.md,
+                                    padding: vars.spacing.sm,
+                                    backgroundColor: vars.colors.background,
+                                    borderRadius: vars.borderRadius.sm
+                                }}
+                            >
+                                <Text size="xs" color="secondary">
+                                    Sample waveform representation
+                                </Text>
                                 <Flex style={{ height: '40px', marginTop: vars.spacing.xs, gap: '2px' }}>
                                     {Array.from({ length: 50 }, (_, i) => (
                                         <Box
@@ -139,7 +208,7 @@ export const ColorSchemes: Story = {
                 })}
             </Flex>
         </Box>
-    ),
+    )
 };
 
 export const PluginConfiguration: Story = {
@@ -148,12 +217,24 @@ export const PluginConfiguration: Story = {
             <Heading.H3 style={{ marginBottom: vars.spacing.lg }}>Plugin Configuration</Heading.H3>
 
             <Flex direction="column" gap={vars.spacing.lg}>
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md
+                    }}
+                >
                     <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Timeline Plugin</Heading.H4>
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
                         Displays time markers along the waveform for easy navigation.
                     </Text>
-                    <Box style={{ padding: vars.spacing.sm, backgroundColor: vars.colors.background, borderRadius: vars.borderRadius.sm }}>
+                    <Box
+                        style={{
+                            padding: vars.spacing.sm,
+                            backgroundColor: vars.colors.background,
+                            borderRadius: vars.borderRadius.sm
+                        }}
+                    >
                         <Text size="xs" color="secondary" style={{ fontFamily: 'monospace' }}>
                             {`timelineOptions: {
   primaryLabelInterval: 30,
@@ -165,12 +246,24 @@ export const PluginConfiguration: Story = {
                     </Box>
                 </Box>
 
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md
+                    }}
+                >
                     <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Zoom Plugin</Heading.H4>
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
                         Enables pinch-to-zoom and scroll-to-zoom functionality.
                     </Text>
-                    <Box style={{ padding: vars.spacing.sm, backgroundColor: vars.colors.background, borderRadius: vars.borderRadius.sm }}>
+                    <Box
+                        style={{
+                            padding: vars.spacing.sm,
+                            backgroundColor: vars.colors.background,
+                            borderRadius: vars.borderRadius.sm
+                        }}
+                    >
                         <Text size="xs" color="secondary" style={{ fontFamily: 'monospace' }}>
                             {`zoomOptions: {
   scale: 0.25,
@@ -182,12 +275,24 @@ export const PluginConfiguration: Story = {
                     </Box>
                 </Box>
 
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md
+                    }}
+                >
                     <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Minimap Plugin</Heading.H4>
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
                         Overview waveform showing entire track with current position indicator.
                     </Text>
-                    <Box style={{ padding: vars.spacing.sm, backgroundColor: vars.colors.background, borderRadius: vars.borderRadius.sm }}>
+                    <Box
+                        style={{
+                            padding: vars.spacing.sm,
+                            backgroundColor: vars.colors.background,
+                            borderRadius: vars.borderRadius.sm
+                        }}
+                    >
                         <Text size="xs" color="secondary" style={{ fontFamily: 'monospace' }}>
                             {`minimapOptions: {
   cursorColor: colors.cursor,
@@ -202,7 +307,7 @@ export const PluginConfiguration: Story = {
                 </Box>
             </Flex>
         </Box>
-    ),
+    )
 };
 
 export const InteractiveZoom: Story = {
@@ -222,14 +327,23 @@ export const InteractiveZoom: Story = {
             <Box style={{ padding: vars.spacing.lg }}>
                 <Heading.H3 style={{ marginBottom: vars.spacing.md }}>Interactive Zoom Demo</Heading.H3>
                 <Text color="secondary" style={{ marginBottom: vars.spacing.lg }}>
-                    Adjust zoom level to see how WaveSurfer adapts its display mode. The waveform
-                    representation below is a simplified visualization for Storybook.
+                    Adjust zoom level to see how WaveSurfer adapts its display mode. The waveform representation below
+                    is a simplified visualization for Storybook.
                 </Text>
 
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.lg }}>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md,
+                        marginBottom: vars.spacing.lg
+                    }}
+                >
                     <Flex justifyContent="space-between" alignItems="center" style={{ marginBottom: vars.spacing.md }}>
                         <Text size="sm">Zoom Level</Text>
-                        <Text size="sm" color="secondary">{minPxPerSec} px/sec</Text>
+                        <Text size="sm" color="secondary">
+                            {minPxPerSec} px/sec
+                        </Text>
                     </Flex>
                     <Slider
                         min={1}
@@ -239,15 +353,28 @@ export const InteractiveZoom: Story = {
                         onChange={(_e, value) => setZoom(value as number)}
                     />
                     <Flex justifyContent="space-between" style={{ marginTop: vars.spacing.xs }}>
-                        <Text size="xs" color="secondary">1</Text>
-                        <Text size="xs" color="secondary">200</Text>
+                        <Text size="xs" color="secondary">
+                            1
+                        </Text>
+                        <Text size="xs" color="secondary">
+                            200
+                        </Text>
                     </Flex>
                 </Box>
 
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.lg }}>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md,
+                        marginBottom: vars.spacing.lg
+                    }}
+                >
                     <Flex justifyContent="space-between" alignItems="center" style={{ marginBottom: vars.spacing.md }}>
                         <Text size="sm">Playback Progress</Text>
-                        <Text size="sm" color="secondary">{Math.round(progress * 100)}%</Text>
+                        <Text size="sm" color="secondary">
+                            {Math.round(progress * 100)}%
+                        </Text>
                     </Flex>
                     <Slider
                         min={0}
@@ -260,13 +387,17 @@ export const InteractiveZoom: Story = {
 
                 <Box style={{ marginBottom: vars.spacing.md }}>
                     <Flex alignItems="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.sm }}>
-                        <Box style={{
-                            width: '12px',
-                            height: '12px',
-                            borderRadius: '50%',
-                            backgroundColor: vars.colors.primary
-                        }} />
-                        <Text size="sm">Display Mode: <strong>{displayMode}</strong></Text>
+                        <Box
+                            style={{
+                                width: '12px',
+                                height: '12px',
+                                borderRadius: '50%',
+                                backgroundColor: vars.colors.primary
+                            }}
+                        />
+                        <Text size="sm">
+                            Display Mode: <strong>{displayMode}</strong>
+                        </Text>
                     </Flex>
                     <Text size="xs" color="secondary">
                         {displayMode === 'Whole Song' && 'Shows entire track at once. Best for navigation.'}
@@ -275,22 +406,27 @@ export const InteractiveZoom: Story = {
                     </Text>
                 </Box>
 
-                <Box style={{
-                    height: '120px',
-                    backgroundColor: vars.colors.surface,
-                    borderRadius: vars.borderRadius.md,
-                    overflow: 'hidden',
-                    position: 'relative'
-                }}>
+                <Box
+                    style={{
+                        height: '120px',
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md,
+                        overflow: 'hidden',
+                        position: 'relative'
+                    }}
+                >
                     <Box style={{ padding: vars.spacing.sm }}>
-                        <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing.xs }}>Waveform visualization</Text>
+                        <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing.xs }}>
+                            Waveform visualization
+                        </Text>
                         <Flex style={{ height: '60px', gap: '2px', alignItems: 'center' }}>
                             {Array.from({ length: 100 }, (_, i) => (
                                 <Box
                                     key={i}
                                     style={{
                                         flex: 1,
-                                        backgroundColor: i / 100 < progress ? vars.colors.primary : vars.colors.textSecondary,
+                                        backgroundColor:
+                                            i / 100 < progress ? vars.colors.primary : vars.colors.textSecondary,
                                         borderRadius: '2px',
                                         opacity: 0.5 + Math.random() * 0.5,
                                         transition: 'background-color 0.2s'
@@ -301,25 +437,31 @@ export const InteractiveZoom: Story = {
                     </Box>
                 </Box>
 
-                <Box style={{
-                    height: '40px',
-                    backgroundColor: vars.colors.surface,
-                    borderRadius: vars.borderRadius.md,
-                    marginTop: vars.spacing.sm,
-                    overflow: 'hidden'
-                }}>
-                    <Box style={{
-                        width: `${progress * 100}%`,
-                        height: '100%',
-                        backgroundColor: vars.colors.primary,
-                        opacity: 0.3,
-                        transition: 'width 0.2s'
-                    }} />
+                <Box
+                    style={{
+                        height: '40px',
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md,
+                        marginTop: vars.spacing.sm,
+                        overflow: 'hidden'
+                    }}
+                >
+                    <Box
+                        style={{
+                            width: `${progress * 100}%`,
+                            height: '100%',
+                            backgroundColor: vars.colors.primary,
+                            opacity: 0.3,
+                            transition: 'width 0.2s'
+                        }}
+                    />
                 </Box>
-                <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>Minimap overview</Text>
+                <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>
+                    Minimap overview
+                </Text>
             </Box>
         );
-    },
+    }
 };
 
 export const Features: Story = {
@@ -328,50 +470,88 @@ export const Features: Story = {
             <Heading.H3 style={{ marginBottom: vars.spacing.lg }}>Features</Heading.H3>
 
             <Flex direction="column" gap={vars.spacing.lg}>
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>Peak Caching</Heading.H4>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md
+                    }}
+                >
+                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>
+                        Peak Caching
+                    </Heading.H4>
                     <Text size="sm" color="secondary">
-                        WaveSurfer caches extracted audio peaks in an LRU cache (max 10 entries) to avoid
-                        re-processing the same audio files. This significantly improves performance when
-                        switching between tracks.
+                        WaveSurfer caches extracted audio peaks in an LRU cache (max 10 entries) to avoid re-processing
+                        the same audio files. This significantly improves performance when switching between tracks.
                     </Text>
                 </Box>
 
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>Touch Gestures</Heading.H4>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md
+                    }}
+                >
+                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>
+                        Touch Gestures
+                    </Heading.H4>
                     <Text size="sm" color="secondary">
-                        Supports pinch-to-zoom on mobile devices with debounced touch events for smooth
-                        performance. Single-finger tap seeks to position, dual-finger gesture controls zoom.
+                        Supports pinch-to-zoom on mobile devices with debounced touch events for smooth performance.
+                        Single-finger tap seeks to position, dual-finger gesture controls zoom.
                     </Text>
                 </Box>
 
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>Album Art Colors</Heading.H4>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md
+                    }}
+                >
+                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>
+                        Album Art Colors
+                    </Heading.H4>
                     <Text size="sm" color="secondary">
-                        Dynamically extracts dominant colors from album art to create a custom color scheme
-                        for the waveform, providing visual harmony between artwork and visualization.
+                        Dynamically extracts dominant colors from album art to create a custom color scheme for the
+                        waveform, providing visual harmony between artwork and visualization.
                     </Text>
                 </Box>
 
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>Media Element Backend</Heading.H4>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md
+                    }}
+                >
+                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>
+                        Media Element Backend
+                    </Heading.H4>
                     <Text size="sm" color="secondary">
-                        Uses MediaElement backend (instead of WebAudio) for streaming compatibility with
-                        Jellyfin's audio streaming. This ensures proper support for various audio formats
-                        and streaming protocols.
+                        Uses MediaElement backend (instead of WebAudio) for streaming compatibility with Jellyfin's
+                        audio streaming. This ensures proper support for various audio formats and streaming protocols.
                     </Text>
                 </Box>
 
-                <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>Drag-to-Seek</Heading.H4>
+                <Box
+                    style={{
+                        padding: vars.spacing.md,
+                        backgroundColor: vars.colors.surface,
+                        borderRadius: vars.borderRadius.md
+                    }}
+                >
+                    <Heading.H4 style={{ marginBottom: vars.spacing.sm, color: vars.colors.primary }}>
+                        Drag-to-Seek
+                    </Heading.H4>
                     <Text size="sm" color="secondary">
-                        Click and drag on the waveform to seek to any position. The cursor shows the
-                        current playback position and updates in real-time during playback.
+                        Click and drag on the waveform to seek to any position. The cursor shows the current playback
+                        position and updates in real-time during playback.
                     </Text>
                 </Box>
             </Flex>
         </Box>
-    ),
+    )
 };
 
 export const Performance: Story = {
@@ -379,45 +559,59 @@ export const Performance: Story = {
         <Box style={{ padding: vars.spacing.lg }}>
             <Heading.H3 style={{ marginBottom: vars.spacing.lg }}>Performance Considerations</Heading.H3>
 
-            <Box style={{ padding: vars.spacing.md, backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}>
+            <Box
+                style={{
+                    padding: vars.spacing.md,
+                    backgroundColor: vars.colors.surface,
+                    borderRadius: vars.borderRadius.md
+                }}
+            >
                 <Heading.H4 style={{ marginBottom: vars.spacing.md }}>Optimization Strategies</Heading.H4>
 
                 <Flex direction="column" gap={vars.spacing.md}>
                     <Box>
-                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>Sample Rate</Text>
+                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>
+                            Sample Rate
+                        </Text>
                         <Text size="sm" color="secondary">
-                            Uses 6000 Hz sample rate (whole song) to 3000 Hz (minimap) for reduced memory usage.
-                            Canvas operations are optimized with device pixel ratio handling.
+                            Uses 6000 Hz sample rate (whole song) to 3000 Hz (minimap) for reduced memory usage. Canvas
+                            operations are optimized with device pixel ratio handling.
                         </Text>
                     </Box>
 
                     <Box>
-                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>Color Extraction</Text>
+                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>
+                            Color Extraction
+                        </Text>
                         <Text size="sm" color="secondary">
-                            Album art colors are extracted on a 100x100 pixel canvas for fast processing.
-                            Results are cached per track to avoid repeated extraction.
+                            Album art colors are extracted on a 100x100 pixel canvas for fast processing. Results are
+                            cached per track to avoid repeated extraction.
                         </Text>
                     </Box>
 
                     <Box>
-                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>Touch Debouncing</Text>
+                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>
+                            Touch Debouncing
+                        </Text>
                         <Text size="sm" color="secondary">
-                            Touch move events are debounced at 20ms intervals to prevent excessive zoom
-                            calculations during pinch gestures.
+                            Touch move events are debounced at 20ms intervals to prevent excessive zoom calculations
+                            during pinch gestures.
                         </Text>
                     </Box>
 
                     <Box>
-                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>Peak Processing</Text>
+                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>
+                            Peak Processing
+                        </Text>
                         <Text size="sm" color="secondary">
-                            Audio peaks are computed once and cached. Peak extraction uses pixel striding
-                            for faster processing of large audio files.
+                            Audio peaks are computed once and cached. Peak extraction uses pixel striding for faster
+                            processing of large audio files.
                         </Text>
                     </Box>
                 </Flex>
             </Box>
         </Box>
-    ),
+    )
 };
 
 import * as React from 'react';

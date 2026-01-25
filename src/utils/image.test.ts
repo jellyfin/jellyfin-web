@@ -69,13 +69,11 @@ describe('getItemTypeIcon()', () => {
     });
 
     it('Should return the default icon for unknown type if provided', () => {
-        expect(getItemTypeIcon('foobar', 'default'))
-            .toBe('default');
+        expect(getItemTypeIcon('foobar', 'default')).toBe('default');
     });
 
     it('Should return undefined for unknown type', () => {
-        expect(getItemTypeIcon('foobar'))
-            .toBeUndefined();
+        expect(getItemTypeIcon('foobar')).toBeUndefined();
     });
 });
 
@@ -88,14 +86,11 @@ describe('getLibraryIcon()', () => {
     });
 
     it('Should return the correct icon for nonstandard types', () => {
-        expect(getLibraryIcon(undefined))
-            .toBe('quiz');
-        expect(getLibraryIcon('channels'))
-            .toBe('videocam');
+        expect(getLibraryIcon(undefined)).toBe('quiz');
+        expect(getLibraryIcon('channels')).toBe('videocam');
     });
 
     it('Should return the default icon for unknown types', () => {
-        expect(getLibraryIcon('foobar'))
-            .toBe('folder');
+        expect(getLibraryIcon('foobar')).toBe('folder');
     });
 });

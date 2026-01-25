@@ -11,14 +11,14 @@ interface AudioReactiveSceneProps {
 const AudioReactiveSphere: React.FC<AudioReactiveSceneProps> = ({ analyser }) => {
     const meshRef = useRef<THREE.Mesh>(null);
     const dataArray = useMemo(() => new Uint8Array(analyser.frequencyBinCount), [analyser]);
-    
+
     // Smooth out the scaling
     const targetScale = useRef(1);
     const currentScale = useRef(1);
 
     useFrame((state, delta) => {
         if (!meshRef.current) return;
-        
+
         analyser.getByteFrequencyData(dataArray);
 
         // Calculate average bass (low frequencies)
@@ -32,7 +32,7 @@ const AudioReactiveSphere: React.FC<AudioReactiveSceneProps> = ({ analyser }) =>
             bassSum += dataArray[i];
         }
         const bassAvg = bassSum / bassBinCount;
-        
+
         // Calculate target scale (1.0 to 2.5)
         targetScale.current = 1 + (bassAvg / 255) * 1.5;
 
@@ -41,27 +41,22 @@ const AudioReactiveSphere: React.FC<AudioReactiveSceneProps> = ({ analyser }) =>
         currentScale.current += (targetScale.current - currentScale.current) * smoothing;
 
         meshRef.current.scale.set(currentScale.current, currentScale.current, currentScale.current);
-        
+
         // Rotate slowly
         meshRef.current.rotation.x += delta * 0.2;
         meshRef.current.rotation.y += delta * 0.3;
-        
+
         // Change color based on bass
         const hue = (bassAvg / 255) * 0.2 + 0.5; // Blue to purple range
         if (meshRef.current.material instanceof THREE.MeshStandardMaterial) {
-             meshRef.current.material.color.setHSL(hue, 0.8, 0.5);
-             meshRef.current.material.emissive.setHSL(hue, 0.8, 0.2);
+            meshRef.current.material.color.setHSL(hue, 0.8, 0.5);
+            meshRef.current.material.emissive.setHSL(hue, 0.8, 0.2);
         }
     });
 
     return (
         <Sphere ref={meshRef} args={[1.5, 128, 128]} position={[0, 0, 0]}>
-            <meshStandardMaterial 
-                color="#8800ff" 
-                roughness={0.1}
-                metalness={0.8}
-                wireframe={true}
-            />
+            <meshStandardMaterial color="#8800ff" roughness={0.1} metalness={0.8} wireframe={true} />
         </Sphere>
     );
 };
@@ -80,7 +75,7 @@ const ThreeDimensionVisualizer: React.FC = () => {
         const newAnalyser = audioContext.createAnalyser();
         newAnalyser.fftSize = 2048;
         newAnalyser.smoothingTimeConstant = 0.8;
-        
+
         try {
             mixerNode.connect(newAnalyser);
             setAnalyser(newAnalyser);

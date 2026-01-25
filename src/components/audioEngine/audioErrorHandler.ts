@@ -162,9 +162,8 @@ export class AudioErrorHandler {
      */
     hasRecentError(type: AudioErrorType, withinMs = 30000): boolean {
         const now = Date.now();
-        return this.errorHistory.some(error =>
-            error.type === type
-            && now - new Date(error.context?.timestamp || 0).getTime() < withinMs
+        return this.errorHistory.some(
+            error => error.type === type && now - new Date(error.context?.timestamp || 0).getTime() < withinMs
         );
     }
 

@@ -8,10 +8,7 @@ import type { ItemDto } from 'types/base/models/item-dto';
  * @param isYearIncluded Should the production year be included
  * @returns The list of strings describing the item for display
  */
-export function getItemTextLines(
-    nowPlayingItem: ItemDto | null | undefined,
-    isYearIncluded = true
-) {
+export function getItemTextLines(nowPlayingItem: ItemDto | null | undefined, isYearIncluded = true) {
     let line1 = nowPlayingItem?.Name;
     if (nowPlayingItem?.MediaType === MediaType.Video) {
         if (nowPlayingItem.IndexNumber != null) {
@@ -36,7 +33,7 @@ export function getItemTextLines(
 
     if (!line1) return;
 
-    const lines = [ line1 ];
+    const lines = [line1];
 
     if (line2) lines.push(line2);
 

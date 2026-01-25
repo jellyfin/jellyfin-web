@@ -5,10 +5,6 @@ import globalize from '../../lib/globalize';
 import dom from '../../utils/dom';
 import { logger } from '../../utils/logger';
 import '../../elements/emby-button/emby-button';
-import './actionSheet.scss';
-import 'material-design-icons-iconfont';
-import '../../styles/scrollstyles.scss';
-import '../../components/listview/listview.scss';
 
 interface OptionItem {
     asideText?: string;

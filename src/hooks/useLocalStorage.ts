@@ -6,10 +6,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-export function useLocalStorage<T>(
-    key: string,
-    initialValue: T
-): [T, (value: T | ((prev: T) => T)) => void] {
+export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
     const [storedValue, setStoredValue] = useState<T>(() => {
         try {
             const item = window.localStorage.getItem(key);
@@ -28,14 +25,17 @@ export function useLocalStorage<T>(
         }
     }, [key, storedValue]);
 
-    const setValue = useCallback((value: T | ((prev: T) => T)) => {
-        try {
-            const valueToStore = value instanceof Function ? value(storedValue) : value;
-            setStoredValue(valueToStore);
-        } catch (error) {
-            console.warn(`Error setting localStorage key "${key}":`, error);
-        }
-    }, [key, storedValue]);
+    const setValue = useCallback(
+        (value: T | ((prev: T) => T)) => {
+            try {
+                const valueToStore = value instanceof Function ? value(storedValue) : value;
+                setStoredValue(valueToStore);
+            } catch (error) {
+                console.warn(`Error setting localStorage key "${key}":`, error);
+            }
+        },
+        [key, storedValue]
+    );
 
     return [storedValue, setValue];
 }

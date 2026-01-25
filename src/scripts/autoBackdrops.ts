@@ -31,7 +31,7 @@ function getBackdropItemIds(apiClient: any, _userId: string, types?: string, par
         EnableTotalRecordCount: false,
         MaxOfficialRating: parentId ? '' : 'PG-13'
     };
-    
+
     return apiClient.getItems(apiClient.getCurrentUserId(), options).then((result: any) => {
         const images = result.Items.map((i: any) => ({
             Id: i.Id,
@@ -46,12 +46,14 @@ function getBackdropItemIds(apiClient: any, _userId: string, types?: string, par
 function showBackdrop(type?: string, parentId?: string) {
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
-        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then((images) => {
+        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then(images => {
             if (images.length) {
-                setBackdrops(images.map((i: any) => {
-                    i.BackdropImageTags = [i.tag];
-                    return i;
-                }));
+                setBackdrops(
+                    images.map((i: any) => {
+                        i.BackdropImageTags = [i.tag];
+                        return i;
+                    })
+                );
             } else {
                 clearBackdrop();
             }
@@ -63,9 +65,7 @@ async function showSplashScreen() {
     const api = ServerConnections.getCurrentApi();
     const brandingOptions = await queryClient.fetchQuery(getBrandingOptionsQuery(api));
     if (brandingOptions.SplashscreenEnabled) {
-        setBackdropImages([
-            api.getUri(SPLASHSCREEN_URL, { t: Date.now() })
-        ]);
+        setBackdropImages([api.getUri(SPLASHSCREEN_URL, { t: Date.now() })]);
     } else {
         clearBackdrop();
     }
@@ -78,7 +78,9 @@ pageClassOn('pageshow', 'page', function (this: HTMLElement) {
             if (type === 'splashscreen') {
                 showSplashScreen();
             } else if (enabled()) {
-                const parentId = this.classList.contains('globalBackdropPage') ? undefined : libraryMenu.getTopParentId() || undefined;
+                const parentId = this.classList.contains('globalBackdropPage')
+                    ? undefined
+                    : libraryMenu.getTopParentId() || undefined;
                 showBackdrop(type, parentId);
             } else {
                 this.classList.remove('backdropPage');

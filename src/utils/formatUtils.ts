@@ -9,7 +9,9 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 /**
  * Format artist name with proper handling for various input types
  */
-export const formatArtistName = (artist: BaseItemDto | { Name?: string; ProductionYear?: number } | string | null): string => {
+export const formatArtistName = (
+    artist: BaseItemDto | { Name?: string; ProductionYear?: number } | string | null
+): string => {
     if (artist === null || artist === undefined) return 'Unknown Artist';
 
     if (typeof artist === 'string') {

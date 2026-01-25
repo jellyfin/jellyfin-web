@@ -170,9 +170,9 @@ export const Component = () => {
 
     return (
         <Page
-            id='brandingPage'
+            id="brandingPage"
             title={globalize.translate('HeaderBranding')}
-            className='mainAnimatedPage type-interior'
+            className="mainAnimatedPage type-interior"
         >
             <Box style={{ maxWidth: 800, margin: '0 auto', padding: vars.spacing.lg }}>
                 <form onSubmit={handleSubmit}>
@@ -180,10 +180,10 @@ export const Component = () => {
                         <Heading.H2>{globalize.translate('HeaderBranding')}</Heading.H2>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert variant='success'>{globalize.translate('SettingsSaved')}</Alert>
+                            <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                         )}
 
-                        {error && <Alert variant='error'>{globalize.translate(error)}</Alert>}
+                        {error && <Alert variant="error">{globalize.translate(error)}</Alert>}
 
                         <Flex
                             style={{
@@ -207,22 +207,22 @@ export const Component = () => {
                                     label={globalize.translate('EnableSplashScreen')}
                                 />
 
-                                <Text size='sm'>{globalize.translate('CustomSplashScreenSize')}</Text>
+                                <Text size="sm">{globalize.translate('CustomSplashScreenSize')}</Text>
 
                                 <Button
-                                    component='label'
-                                    variant='outlined'
-                                    color='neutral'
+                                    component="label"
+                                    variant="outlined"
+                                    color="neutral"
                                     startDecorator={<UploadIcon />}
                                     disabled={!isSplashscreenEnabled}
                                 >
-                                    <input type='file' accept='image/*' hidden onChange={onSplashscreenUpload} />
+                                    <input type="file" accept="image/*" hidden onChange={onSplashscreenUpload} />
                                     {globalize.translate('UploadCustomImage')}
                                 </Button>
 
                                 <Button
-                                    variant='outlined'
-                                    color='danger'
+                                    variant="outlined"
+                                    color="danger"
                                     startDecorator={<TrashIcon />}
                                     disabled={!isSplashscreenEnabled}
                                     onClick={onSplashscreenDelete}
@@ -233,7 +233,7 @@ export const Component = () => {
                         </Flex>
 
                         <Input
-                            as='textarea'
+                            as="textarea"
                             name={BrandingOption.LoginDisclaimer}
                             label={globalize.translate('LabelLoginDisclaimer')}
                             helperText={globalize.translate('LabelLoginDisclaimerHelp')}
@@ -244,7 +244,7 @@ export const Component = () => {
                         />
 
                         <Input
-                            as='textarea'
+                            as="textarea"
                             name={BrandingOption.CustomCss}
                             label={globalize.translate('LabelCustomCss')}
                             helperText={globalize.translate('LabelCustomCssHelp')}
@@ -255,7 +255,7 @@ export const Component = () => {
                         />
 
                         <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button type='submit' size='lg' loading={isSubmitting}>
+                            <Button type="submit" size="lg" loading={isSubmitting}>
                                 {globalize.translate('Save')}
                             </Button>
                         </Box>

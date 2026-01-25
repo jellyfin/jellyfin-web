@@ -63,14 +63,14 @@ function configureSwipeTabs(view: HTMLElement, currentElement: any) {
 }
 
 export function setTabs(
-    view: HTMLElement | null, 
-    selectedIndex: number, 
-    getTabsFn: () => TabInfo[], 
-    getTabContainersFn?: () => HTMLElement[], 
-    onBeforeTabChange?: (e: any) => void, 
-    onTabChange?: (e: any) => void, 
+    view: HTMLElement | null,
+    selectedIndex: number,
+    getTabsFn: () => TabInfo[],
+    getTabContainersFn?: () => HTMLElement[],
+    onBeforeTabChange?: (e: any) => void,
+    onTabChange?: (e: any) => void,
     setSelectedIndex?: boolean
-): { tabsContainer: HTMLElement | null, replaced: boolean, tabs?: any } {
+): { tabsContainer: HTMLElement | null; replaced: boolean; tabs?: any } {
     ensureElements();
 
     if (!view) {
@@ -90,14 +90,22 @@ export function setTabs(
     if (!tabOwnerView) headerTabsContainer.classList.remove('hide');
 
     if (tabOwnerView !== view) {
-        const tabsHtml = '<div is="emby-tabs"' + (selectedIndex == null ? '' : ` data-index="${selectedIndex}"`) + ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' + getTabsFn().map((t, index) => {
-            let tabClass = 'emby-tab-button';
-            if (t.enabled === false) tabClass += ' hide';
-            if (t.cssClass) tabClass += ' ' + t.cssClass;
+        const tabsHtml =
+            '<div is="emby-tabs"' +
+            (selectedIndex == null ? '' : ` data-index="${selectedIndex}"`) +
+            ' class="tabs-viewmenubar"><div class="emby-tabs-slider" style="white-space:nowrap;">' +
+            getTabsFn()
+                .map((t, index) => {
+                    let tabClass = 'emby-tab-button';
+                    if (t.enabled === false) tabClass += ' hide';
+                    if (t.cssClass) tabClass += ' ' + t.cssClass;
 
-            if (t.href) return `<a href="${t.href}" is="emby-linkbutton" class="${tabClass}" data-index="${index}"><div class="emby-button-foreground">${t.name}</div></a>`;
-            return `<button type="button" is="emby-button" class="${tabClass}" data-index="${index}"><div class="emby-button-foreground">${t.name}</div></button>`;
-        }).join('') + '</div></div>';
+                    if (t.href)
+                        return `<a href="${t.href}" is="emby-linkbutton" class="${tabClass}" data-index="${index}"><div class="emby-button-foreground">${t.name}</div></a>`;
+                    return `<button type="button" is="emby-button" class="${tabClass}" data-index="${index}"><div class="emby-button-foreground">${t.name}</div></button>`;
+                })
+                .join('') +
+            '</div></div>';
 
         headerTabsContainer.innerHTML = tabsHtml;
         (window as any).CustomElements?.upgradeSubtree(headerTabsContainer);
@@ -111,7 +119,8 @@ export function setTabs(
         if (getTabContainersFn) {
             tabsElem.addEventListener('beforetabchange', (e: any) => {
                 const tabContainers = getTabContainersFn();
-                if (e.detail.previousIndex != null) tabContainers[e.detail.previousIndex]?.classList.remove('is-active');
+                if (e.detail.previousIndex != null)
+                    tabContainers[e.detail.previousIndex]?.classList.remove('is-active');
                 tabContainers[e.detail.selectedTabIndex]?.classList.add('is-active');
             });
         }

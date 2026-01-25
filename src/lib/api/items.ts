@@ -45,7 +45,7 @@ export const itemsApi = {
             IncludeItemTypes: options?.includeTypes as string[] | undefined,
             ImageTypeLimit: options?.imageTypeLimit,
             EnableImages: options?.imageTypeLimit ? true : undefined,
-            EnableUserData: true,
+            EnableUserData: true
         });
     },
 
@@ -67,7 +67,7 @@ export const itemsApi = {
 
         return apiClient.getUserViews(userId, {
             EnableUserData: true,
-            EnableImages: true,
+            EnableImages: true
         });
     },
 
@@ -80,7 +80,7 @@ export const itemsApi = {
 
         return apiClient.getGenres(userId, type, parentId, {
             EnableUserData: true,
-            EnableImages: true,
+            EnableImages: true
         });
     },
 
@@ -108,7 +108,7 @@ export const itemsApi = {
             SortOrder: params?.sortOrder,
             SearchTerm: params?.searchTerm,
             EnableUserData: true,
-            EnableImages: true,
+            EnableImages: true
         });
     },
 
@@ -121,21 +121,24 @@ export const itemsApi = {
 
         return apiClient.getArtist(userId, id, {
             EnableUserData: true,
-            EnableImages: true,
+            EnableImages: true
         });
     },
 
     /**
      * Get episodes
      */
-    getEpisodes: async (seriesId: string, options?: {
-        seasonId?: string;
-        startIndex?: number;
-        limit?: number;
-        recursive?: boolean;
-        sortBy?: string;
-        sortOrder?: 'Ascending' | 'Descending';
-    }): Promise<BaseItemDtoQueryResult> => {
+    getEpisodes: async (
+        seriesId: string,
+        options?: {
+            seasonId?: string;
+            startIndex?: number;
+            limit?: number;
+            recursive?: boolean;
+            sortBy?: string;
+            sortOrder?: 'Ascending' | 'Descending';
+        }
+    ): Promise<BaseItemDtoQueryResult> => {
         const apiClient = getApiClient();
         const userId = getUserId();
 
@@ -147,7 +150,7 @@ export const itemsApi = {
             SortBy: options?.sortBy,
             SortOrder: options?.sortOrder,
             EnableUserData: true,
-            EnableImages: true,
+            EnableImages: true
         });
     },
 
@@ -160,7 +163,7 @@ export const itemsApi = {
 
         return apiClient.getSeasons(userId, seriesId, {
             EnableUserData: true,
-            EnableImages: true,
+            EnableImages: true
         });
     },
 
@@ -176,7 +179,7 @@ export const itemsApi = {
             Recursive: true,
             Limit: 100,
             EnableUserData: true,
-            EnableImages: true,
+            EnableImages: true
         });
     },
 
@@ -191,13 +194,13 @@ export const itemsApi = {
             apiClient.updateFavoriteStatus(userId, itemId, isFavorite, (result: unknown) => {
                 const itemResult = result as BaseItemDto;
                 if (itemResult && (itemResult as { Error?: string }).Error) {
-                    reject(new Error(((itemResult as { Error: string }).Error)));
+                    reject(new Error((itemResult as { Error: string }).Error));
                 } else {
                     resolve(itemResult);
                 }
             });
         });
-    },
+    }
 };
 
 // For convenience, export getItems as a standalone function

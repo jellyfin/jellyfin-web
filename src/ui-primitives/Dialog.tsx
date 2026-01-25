@@ -24,11 +24,7 @@ interface DialogProps {
     readonly children: ReactNode;
 }
 
-export function Dialog({
-    open,
-    onOpenChange,
-    children
-}: DialogProps): ReactElement {
+export function Dialog({ open, onOpenChange, children }: DialogProps): ReactElement {
     return (
         <Root open={open} onOpenChange={onOpenChange}>
             {children}
@@ -67,13 +63,11 @@ export function DialogContentComponent({
         <Content className={dialogContentStyle} style={customStyle}>
             {title !== undefined && title !== '' && <Title className={dialogTitleStyles}>{title}</Title>}
             {description !== undefined && description !== '' && (
-                <Description className={dialogDescriptionStyle}>
-                    {description}
-                </Description>
+                <Description className={dialogDescriptionStyle}>{description}</Description>
             )}
             {children}
             <Close asChild>
-                <button type='button' className={dialogCloseStyle} aria-label='Close'>
+                <button type="button" className={dialogCloseStyle} aria-label="Close">
                     ✕
                 </button>
             </Close>
@@ -89,11 +83,7 @@ interface DialogDescriptionProps {
     readonly style?: CSSProperties;
 }
 
-export function DialogDescription({
-    children,
-    className,
-    style
-}: DialogDescriptionProps): ReactElement {
+export function DialogDescription({ children, className, style }: DialogDescriptionProps): ReactElement {
     return (
         <Description className={`${dialogDescriptionStyle} ${className ?? ''}`} style={style}>
             {children}
@@ -119,7 +109,7 @@ export const DialogCloseClass = dialogCloseStyle;
 export function DialogCloseButton({ onClick }: { readonly onClick?: () => void }): ReactElement {
     return (
         <Close asChild>
-            <button type='button' className={dialogCloseStyle} onClick={onClick} aria-label='Close'>
+            <button type="button" className={dialogCloseStyle} onClick={onClick} aria-label="Close">
                 ✕
             </button>
         </Close>
@@ -132,11 +122,7 @@ interface DialogTitleProps {
     readonly style?: CSSProperties;
 }
 
-export function DialogTitleComponent({
-    children,
-    className,
-    style
-}: DialogTitleProps): ReactElement {
+export function DialogTitleComponent({ children, className, style }: DialogTitleProps): ReactElement {
     return (
         <Title className={`${dialogTitleStyles} ${className ?? ''}`} style={style}>
             {children}

@@ -102,11 +102,11 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
     const effectiveStyle = style === 'fab-mini' ? 'fab' : style;
 
     return (
-        <div className='userDataButtons' style={{ display: 'flex', gap: '4px' }}>
+        <div className="userDataButtons" style={{ display: 'flex', gap: '4px' }}>
             {canMarkPlayed && (
                 <Tooltip title={globalize.translate(isPlayed ? 'MarkPlayed' : 'AddToPlayQueue')}>
                     <IconButton
-                        variant='plain'
+                        variant="plain"
                         color={isPlayed ? 'primary' : 'neutral'}
                         size={effectiveStyle === 'fab' ? 'lg' : 'md'}
                         className={getButtonClassName('btnUserData', isPlayed)}
@@ -124,16 +124,14 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
                             })
                         }}
                     >
-                        <span className={`material-icons ${iconCssClass || ''}`}>
-                            {isPlayed ? 'check' : 'add'}
-                        </span>
+                        <span className={`material-icons ${iconCssClass || ''}`}>{isPlayed ? 'check' : 'add'}</span>
                     </IconButton>
                 </Tooltip>
             )}
 
             <Tooltip title={globalize.translate(isFavorite ? 'Favorite' : 'AddToFavorites')}>
                 <IconButton
-                    variant='plain'
+                    variant="plain"
                     color={isFavorite ? 'primary' : 'neutral'}
                     size={effectiveStyle === 'fab' ? 'lg' : 'md'}
                     className={getButtonClassName('btnUserData', isFavorite)}

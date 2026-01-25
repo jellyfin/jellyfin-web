@@ -8,11 +8,11 @@ import globalize from 'lib/globalize';
 const LiveTvDrawerSection = (): React.ReactElement => {
     return (
         <List
-            aria-labelledby='livetv-subheader'
-            subheader={<ListSubheader id='livetv-subheader'>{globalize.translate('LiveTV')}</ListSubheader>}
+            aria-labelledby="livetv-subheader"
+            subheader={<ListSubheader id="livetv-subheader">{globalize.translate('LiveTV')}</ListSubheader>}
         >
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/livetv'>
+                <ListItemLink to="/dashboard/livetv">
                     <ListItemDecorator>
                         <VideoIcon />
                     </ListItemDecorator>
@@ -20,7 +20,7 @@ const LiveTvDrawerSection = (): React.ReactElement => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/livetv/recordings'>
+                <ListItemLink to="/dashboard/livetv/recordings">
                     <ListItemDecorator>
                         <CameraIcon />
                     </ListItemDecorator>

@@ -15,9 +15,7 @@ function AnimatedMenu({ trigger, children }: Readonly<AnimatedMenuProps>): React
 
     return (
         <DropdownMenuPrimitive.Root open={open} onOpenChange={setOpen}>
-            <DropdownMenuPrimitive.Trigger asChild>
-                {trigger}
-            </DropdownMenuPrimitive.Trigger>
+            <DropdownMenuPrimitive.Trigger asChild>{trigger}</DropdownMenuPrimitive.Trigger>
 
             <AnimatePresence>
                 {open === true && (
@@ -117,9 +115,15 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 function DefaultStory(): ReactElement {
-    const handleProfile = useCallback((): void => { /* Profile */ }, []);
-    const handleSettings = useCallback((): void => { /* Settings */ }, []);
-    const handleLogout = useCallback((): void => { /* Logout */ }, []);
+    const handleProfile = useCallback((): void => {
+        /* Profile */
+    }, []);
+    const handleSettings = useCallback((): void => {
+        /* Settings */
+    }, []);
+    const handleLogout = useCallback((): void => {
+        /* Logout */
+    }, []);
 
     return (
         <AnimatedMenu trigger={<Button>Open Menu</Button>}>
@@ -137,7 +141,7 @@ export const Default: Story = {
 
 function WithIconsStory(): ReactElement {
     return (
-        <AnimatedMenu trigger={<Button variant='secondary'>Actions</Button>}>
+        <AnimatedMenu trigger={<Button variant="secondary">Actions</Button>}>
             <MenuItem>
                 <span>📝</span> Edit
             </MenuItem>

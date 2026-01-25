@@ -1,1 +1,20 @@
-{"rustc":4996801173321332248,"features":"[\"alloc\", \"std\"]","declared_features":"[\"alloc\", \"cfg-target-has-atomic\", \"default\", \"std\", \"unstable\"]","target":13518091470260541623,"profile":336243669335521001,"path":12170780451681968525,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/futures-task-b892e561ce5f8c2a/dep-lib-futures_task","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"alloc\", \"std\"]",
+  "declared_features": "[\"alloc\", \"cfg-target-has-atomic\", \"default\", \"std\", \"unstable\"]",
+  "target": 13518091470260541623,
+  "profile": 336243669335521001,
+  "path": 12170780451681968525,
+  "deps": [],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/futures-task-b892e561ce5f8c2a/dep-lib-futures_task",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

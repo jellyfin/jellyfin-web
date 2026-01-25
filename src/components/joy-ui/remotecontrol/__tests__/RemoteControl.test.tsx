@@ -103,47 +103,41 @@ describe('RemoteControl', () => {
     });
 
     it('handles empty current item', () => {
-        const { getByText } = render(
-            <RemoteControl
-                {...defaultProps}
-                currentItem={null}
-            />
-        );
+        const { getByText } = render(<RemoteControl {...defaultProps} currentItem={null} />);
         expect(getByText('No track playing')).toBeInTheDocument();
     });
 
     it('renders with all playback controls', () => {
         const { getByRole } = render(
-            <RemoteControl
-                {...defaultProps}
-                canAirPlay={true}
-                canPiP={true}
-                canFullscreen={true}
-            />
+            <RemoteControl {...defaultProps} canAirPlay={true} canPiP={true} canFullscreen={true} />
         );
         expect(getByRole('button', { name: /pause/i })).toBeInTheDocument();
     });
 
     it('accepts audio tracks', () => {
-        expect(() => render(
-            <RemoteControl
-                {...defaultProps}
-                audioTracks={[{ Index: 0, DisplayTitle: 'English' }]}
-                hasMultipleAudioTracks={true}
-                currentAudioIndex={0}
-            />
-        )).not.toThrow();
+        expect(() =>
+            render(
+                <RemoteControl
+                    {...defaultProps}
+                    audioTracks={[{ Index: 0, DisplayTitle: 'English' }]}
+                    hasMultipleAudioTracks={true}
+                    currentAudioIndex={0}
+                />
+            )
+        ).not.toThrow();
     });
 
     it('accepts subtitle tracks', () => {
-        expect(() => render(
-            <RemoteControl
-                {...defaultProps}
-                subtitleTracks={[{ Index: 0, DisplayTitle: 'English' }]}
-                hasSubtitles={true}
-                currentSubtitleIndex={0}
-            />
-        )).not.toThrow();
+        expect(() =>
+            render(
+                <RemoteControl
+                    {...defaultProps}
+                    subtitleTracks={[{ Index: 0, DisplayTitle: 'English' }]}
+                    hasSubtitles={true}
+                    currentSubtitleIndex={0}
+                />
+            )
+        ).not.toThrow();
     });
 
     it('has correct layout structure', () => {

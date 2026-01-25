@@ -2,7 +2,6 @@ import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '../styles/tokens.css';
 
 const spin = keyframes({
-
     '0%': { transform: 'rotate(0deg)' },
 
     '100%': { transform: 'rotate(360deg)' }
@@ -110,4 +109,3 @@ export const seekerPausedButton = style({
 export const seekerPausedButtonSpinning = style({
     animation: `${spin} 0.4s ease-out`
 });
-

@@ -32,7 +32,7 @@ function onOpen(): void {
 
     console.debug('[autocast] initializing cast player', playerId);
 
-    playbackManager.getTargets().then((targets) => {
+    playbackManager.getTargets().then(targets => {
         console.debug('[autocast] playback targets', targets);
 
         const player = targets.find(target => target.id === playerId);

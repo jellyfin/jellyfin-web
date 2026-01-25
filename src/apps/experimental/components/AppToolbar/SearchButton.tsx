@@ -7,8 +7,7 @@ import { Tooltip } from 'ui-primitives/Tooltip';
 import { useSearchParams } from 'hooks/useSearchParams';
 
 const getUrlParams = (searchParams: URLSearchParams) => {
-    const parentId =
-        searchParams.get('parentId') || searchParams.get('topParentId');
+    const parentId = searchParams.get('parentId') || searchParams.get('topParentId');
     const collectionType = searchParams.get('collectionType');
     const params = new URLSearchParams();
 
@@ -30,11 +29,10 @@ const SearchButton: FC = () => {
 
     const isSearchPath = location.pathname === '/search';
     const search = getUrlParams(searchParams);
-    const createSearchLink =
-        {
-            pathname: '/search',
-            search: search.toString() ? `?${search}` : undefined
-        };
+    const createSearchLink = {
+        pathname: '/search',
+        search: search.toString() ? `?${search}` : undefined
+    };
 
     const onSearchClick = () => {
         if (!isSearchPath) {
@@ -45,7 +43,7 @@ const SearchButton: FC = () => {
     return (
         <Tooltip title={globalize.translate('Search')}>
             <IconButton
-                size='lg'
+                size="lg"
                 aria-label={globalize.translate('Search')}
                 disabled={isSearchPath}
                 onClick={onSearchClick}

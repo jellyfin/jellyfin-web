@@ -17,19 +17,14 @@ const getSeriesTimer = async (
     return response.data;
 };
 
-export const getSeriesTimerQuery = (
-    apiContext: JellyfinApiContext,
-    params: LiveTvApiGetSeriesTimerRequest
-) =>
+export const getSeriesTimerQuery = (apiContext: JellyfinApiContext, params: LiveTvApiGetSeriesTimerRequest) =>
     queryOptions({
         queryKey: ['SeriesTimer', params.timerId],
         queryFn: ({ signal }) => getSeriesTimer(apiContext, params, { signal }),
         enabled: !!apiContext.api && !!apiContext.user?.Id && !!params.timerId
     });
 
-export const useGetSeriesTimer = (
-    requestParameters: LiveTvApiGetSeriesTimerRequest
-) => {
+export const useGetSeriesTimer = (requestParameters: LiveTvApiGetSeriesTimerRequest) => {
     const apiContext = useApi();
     return useQuery(getSeriesTimerQuery(apiContext, requestParameters));
 };

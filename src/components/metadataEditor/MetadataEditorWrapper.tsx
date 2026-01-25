@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { MetadataEditorDialog } from './MetadataEditorDialog';
 
 export function show(itemId: string, serverId: string): Promise<void> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         const container = document.createElement('div');
         document.body.appendChild(container);
         const root = createRoot(container);

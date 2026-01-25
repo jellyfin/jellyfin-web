@@ -40,4 +40,3 @@ export const alertVariants = styleVariants({
         color: vars.colors.textSecondary
     }
 });
-

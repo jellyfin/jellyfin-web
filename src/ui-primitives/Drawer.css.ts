@@ -45,4 +45,3 @@ export const drawerAnchor = styleVariants({
         height: '45vh'
     }
 });
-

@@ -88,7 +88,10 @@ class TabbedView {
 
         const self = this;
 
-        let currentTabIndex = parseInt(params.tab || (this.getDefaultTabIndex ? this.getDefaultTabIndex(params.parentId) : '0'), 10);
+        let currentTabIndex = parseInt(
+            params.tab || (this.getDefaultTabIndex ? this.getDefaultTabIndex(params.parentId) : '0'),
+            10
+        );
         this.initialTabIndex = currentTabIndex;
 
         const validateTabLoad = (index: number): Promise<void> => {
@@ -134,7 +137,15 @@ class TabbedView {
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
         view.addEventListener('viewbeforeshow', () => {
-            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs ?? (() => []), getTabContainers, null, onTabChange, false);
+            mainTabsManager.setTabs(
+                view,
+                currentTabIndex,
+                self.getTabs ?? (() => []),
+                getTabContainers,
+                null,
+                onTabChange,
+                false
+            );
         });
 
         view.addEventListener('viewshow', (e: CustomEvent<ViewShowDetail>) => {

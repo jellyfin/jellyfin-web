@@ -20,11 +20,7 @@ export interface QueueViewProps {
     onSavePlaylist?: () => void;
 }
 
-export const QueueView: React.FC<QueueViewProps> = ({
-    onNavigateToItem,
-    onShowPlaylistMenu,
-    onSavePlaylist
-}) => {
+export const QueueView: React.FC<QueueViewProps> = ({ onNavigateToItem, onShowPlaylistMenu, onSavePlaylist }) => {
     const {
         items,
         currentIndex,
@@ -42,26 +38,38 @@ export const QueueView: React.FC<QueueViewProps> = ({
         setShuffleMode
     } = useQueue();
 
-    const handlePlayItem = useCallback((itemId: string) => {
-        const index = items.findIndex(item => item.id === itemId);
-        if (index !== -1) {
-            setCurrentIndex(index);
-        }
-    }, [items, setCurrentIndex]);
+    const handlePlayItem = useCallback(
+        (itemId: string) => {
+            const index = items.findIndex(item => item.id === itemId);
+            if (index !== -1) {
+                setCurrentIndex(index);
+            }
+        },
+        [items, setCurrentIndex]
+    );
 
-    const handleRemoveItem = useCallback((itemId: string) => {
-        removeFromQueue([itemId]);
-    }, [removeFromQueue]);
+    const handleRemoveItem = useCallback(
+        (itemId: string) => {
+            removeFromQueue([itemId]);
+        },
+        [removeFromQueue]
+    );
 
-    const handleReorder = useCallback((fromIndex: number, toIndex: number) => {
-        moveItem(fromIndex, toIndex);
-    }, [moveItem]);
+    const handleReorder = useCallback(
+        (fromIndex: number, toIndex: number) => {
+            moveItem(fromIndex, toIndex);
+        },
+        [moveItem]
+    );
 
-    const handleSelectItem = useCallback((item: { item: PlayableItem }) => {
-        if (onNavigateToItem && item.item.id) {
-            onNavigateToItem(item.item.id);
-        }
-    }, [onNavigateToItem]);
+    const handleSelectItem = useCallback(
+        (item: { item: PlayableItem }) => {
+            if (onNavigateToItem && item.item.id) {
+                onNavigateToItem(item.item.id);
+            }
+        },
+        [onNavigateToItem]
+    );
 
     const handleRepeatToggle = useCallback(() => {
         switch (repeatMode) {
@@ -95,8 +103,8 @@ export const QueueView: React.FC<QueueViewProps> = ({
 
     return (
         <Box
-            id='nowPlayingPage'
-            className='page libraryPage nowPlayingPage noSecondaryNavPage selfBackdropPage'
+            id="nowPlayingPage"
+            className="page libraryPage nowPlayingPage noSecondaryNavPage selfBackdropPage"
             style={{
                 height: '100%',
                 overflow: 'auto',
@@ -104,7 +112,7 @@ export const QueueView: React.FC<QueueViewProps> = ({
                 backgroundColor: vars.colors.background
             }}
         >
-            <Box className='remoteControlContent' style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <Box className="remoteControlContent" style={{ maxWidth: 1200, margin: '0 auto' }}>
                 <QueueNowPlaying
                     currentItem={currentItem?.item || null}
                     isFavorite={currentItem?.item.isFavorite || false}
@@ -135,43 +143,48 @@ export const QueueView: React.FC<QueueViewProps> = ({
                     onVolumeDown={() => {}}
                 />
 
-                <Box className='playlistSection' style={{ marginTop: vars.spacing.xl }}>
+                <Box className="playlistSection" style={{ marginTop: vars.spacing.xl }}>
                     <Box
-                        className='playlistSectionButton flex align-items-center justify-content-center'
-                        style={{ display: 'flex', justifyContent: 'flex-end', gap: vars.spacing.sm, marginBottom: vars.spacing.md }}
+                        className="playlistSectionButton flex align-items-center justify-content-center"
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: vars.spacing.sm,
+                            marginBottom: vars.spacing.md
+                        }}
                     >
-                        <Tooltip title='Toggle Playlist'>
+                        <Tooltip title="Toggle Playlist">
                             <IconButton
-                                id='togglePlaylist'
-                                className='btnTogglePlaylist'
-                                size='md'
-                                variant='plain'
-                                color='neutral'
+                                id="togglePlaylist"
+                                className="btnTogglePlaylist"
+                                size="md"
+                                variant="plain"
+                                color="neutral"
                             >
                                 <StackIcon />
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title='Save Playlist'>
+                        <Tooltip title="Save Playlist">
                             <IconButton
-                                className='btnSavePlaylist'
-                                size='md'
-                                variant='plain'
+                                className="btnSavePlaylist"
+                                size="md"
+                                variant="plain"
                                 onClick={onSavePlaylist}
-                                color='neutral'
+                                color="neutral"
                             >
                                 <BookmarkIcon />
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title='More Options'>
+                        <Tooltip title="More Options">
                             <IconButton
-                                id='toggleContextMenu'
-                                className='btnToggleContextMenu'
-                                size='md'
-                                variant='plain'
+                                id="toggleContextMenu"
+                                className="btnToggleContextMenu"
+                                size="md"
+                                variant="plain"
                                 onClick={onShowPlaylistMenu}
-                                color='neutral'
+                                color="neutral"
                             >
                                 <DotsVerticalIcon />
                             </IconButton>
@@ -179,8 +192,8 @@ export const QueueView: React.FC<QueueViewProps> = ({
                     </Box>
 
                     <Box
-                        id='playlist'
-                        className='playlist itemsContainer vertical-list nowPlayingPlaylist'
+                        id="playlist"
+                        className="playlist itemsContainer vertical-list nowPlayingPlaylist"
                         style={{
                             backgroundColor: vars.colors.surface,
                             borderRadius: vars.borderRadius.md,
@@ -188,7 +201,7 @@ export const QueueView: React.FC<QueueViewProps> = ({
                             minHeight: 200
                         }}
                     >
-                        <Text weight='medium' style={{ marginBottom: vars.spacing.md }}>
+                        <Text weight="medium" style={{ marginBottom: vars.spacing.md }}>
                             Playlist ({items.length} tracks)
                         </Text>
                         {items.length > 0 ? (
@@ -203,10 +216,8 @@ export const QueueView: React.FC<QueueViewProps> = ({
                             />
                         ) : (
                             <Box style={{ textAlign: 'center', padding: vars.spacing.xl }}>
-                                <Text color='secondary'>
-                                    No tracks in queue
-                                </Text>
-                                <Text size='sm' color='secondary' style={{ marginTop: vars.spacing.xs }}>
+                                <Text color="secondary">No tracks in queue</Text>
+                                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing.xs }}>
                                     Add some music to get started
                                 </Text>
                             </Box>

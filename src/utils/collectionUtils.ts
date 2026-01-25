@@ -21,10 +21,7 @@ export function compact<T>(array: (T | null | undefined)[]): T[] {
 /**
  * Group array items by a key.
  */
-export function groupBy<T, K extends string | number | symbol>(
-    array: T[],
-    getKey: (item: T) => K
-): Record<K, T[]> {
+export function groupBy<T, K extends string | number | symbol>(array: T[], getKey: (item: T) => K): Record<K, T[]> {
     const result = {} as Record<K, T[]>;
 
     for (const item of array) {
@@ -59,10 +56,7 @@ export function partition<T>(array: T[], predicate: (item: T) => boolean): [T[],
 /**
  * Sort array by multiple criteria.
  */
-export function sortBy<T>(
-    array: T[],
-    ...getters: ((item: T) => number | string)[]
-): T[] {
+export function sortBy<T>(array: T[], ...getters: ((item: T) => number | string)[]): T[] {
     return [...array].sort((a, b) => {
         for (const getter of getters) {
             const aVal = getter(a);
@@ -158,11 +152,7 @@ export function flatten<T>(array: (T | T[])[]): T[] {
 /**
  * Flatten nested arrays to specified depth.
  */
-export function flatMapDepth<T, R>(
-    array: T[],
-    mapper: (item: T, index: number, array: T[]) => R[],
-    depth = 1
-): R[] {
+export function flatMapDepth<T, R>(array: T[], mapper: (item: T, index: number, array: T[]) => R[], depth = 1): R[] {
     return array.flatMap(mapper) as R[];
 }
 

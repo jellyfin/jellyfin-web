@@ -72,10 +72,12 @@ const Visualizers: React.FC = () => {
 
         // Also poll for settings changes
         const settingsInterval = setInterval(() => {
-            if (settingsRef.current !== visualizerSettings
-                || settingsRef.current.butterchurn?.enabled !== visualizerSettings.butterchurn?.enabled
-                || settingsRef.current.threeJs?.enabled !== visualizerSettings.threeJs?.enabled
-                || settingsRef.current.frequencyAnalyzer?.enabled !== visualizerSettings.frequencyAnalyzer?.enabled) {
+            if (
+                settingsRef.current !== visualizerSettings ||
+                settingsRef.current.butterchurn?.enabled !== visualizerSettings.butterchurn?.enabled ||
+                settingsRef.current.threeJs?.enabled !== visualizerSettings.threeJs?.enabled ||
+                settingsRef.current.frequencyAnalyzer?.enabled !== visualizerSettings.frequencyAnalyzer?.enabled
+            ) {
                 settingsRef.current = visualizerSettings;
                 forceUpdate(prev => prev + 1);
             }
@@ -98,7 +100,7 @@ const Visualizers: React.FC = () => {
     const { butterchurn, frequencyAnalyzer, threeJs } = visualizerSettings;
 
     return (
-        <div 
+        <div
             id="visualizerContainer"
             style={{
                 pointerEvents: 'none',
@@ -111,9 +113,9 @@ const Visualizers: React.FC = () => {
             }}
         >
             <Suspense fallback={<VisualizerLoading />}>
-                {frequencyAnalyzer.enabled && (<FrequencyAnalyzer />)}
-                {butterchurn.enabled && (<ButterchurnVisualizer />)}
-                {threeJs?.enabled && (<ThreeDimensionVisualizer />)}
+                {frequencyAnalyzer.enabled && <FrequencyAnalyzer />}
+                {butterchurn.enabled && <ButterchurnVisualizer />}
+                {threeJs?.enabled && <ThreeDimensionVisualizer />}
             </Suspense>
         </div>
     );

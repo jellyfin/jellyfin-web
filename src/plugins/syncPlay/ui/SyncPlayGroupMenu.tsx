@@ -16,9 +16,9 @@ interface SyncPlayGroupMenuProps {
 const SyncPlayGroupMenu: React.FC<SyncPlayGroupMenuProps> = ({ open, anchorEl, onClose }) => {
     const isEnabled = useSyncPlayStore(state => state.isEnabled);
     const groupInfo = useSyncPlayStore(state => state.groupInfo);
-    const [ groups, setGroups ] = useState<any[]>([]);
-    const [ settingsOpen, setSettingsOpen ] = useState(false);
-    
+    const [groups, setGroups] = useState<any[]>([]);
+    const [settingsOpen, setSettingsOpen] = useState(false);
+
     const syncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
     const apiClient = ServerConnections.currentApiClient();
 
@@ -30,37 +30,40 @@ const SyncPlayGroupMenu: React.FC<SyncPlayGroupMenuProps> = ({ open, anchorEl, o
                 });
             });
         }
-    }, [ open, isEnabled, apiClient ]);
+    }, [open, isEnabled, apiClient]);
 
-    const handleSelect = useCallback((id: string) => {
-        if (!isEnabled) {
-            if (id === 'new-group') {
-                ServerConnections.user(apiClient).then((user: any) => {
-                    apiClient.createSyncPlayGroup({
-                        GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.Name)
+    const handleSelect = useCallback(
+        (id: string) => {
+            if (!isEnabled) {
+                if (id === 'new-group') {
+                    ServerConnections.user(apiClient).then((user: any) => {
+                        apiClient.createSyncPlayGroup({
+                            GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.Name)
+                        });
                     });
-                });
+                } else {
+                    apiClient.joinSyncPlayGroup({ GroupId: id });
+                }
             } else {
-                apiClient.joinSyncPlayGroup({ GroupId: id });
+                switch (id) {
+                    case 'resume-playback':
+                        syncPlay?.Manager.resumeGroupPlayback(apiClient);
+                        break;
+                    case 'halt-playback':
+                        syncPlay?.Manager.haltGroupPlayback(apiClient);
+                        break;
+                    case 'settings':
+                        setSettingsOpen(true);
+                        return; // Don't close main menu yet
+                    case 'leave-group':
+                        apiClient.leaveSyncPlayGroup();
+                        break;
+                }
             }
-        } else {
-            switch (id) {
-                case 'resume-playback':
-                    syncPlay?.Manager.resumeGroupPlayback(apiClient);
-                    break;
-                case 'halt-playback':
-                    syncPlay?.Manager.haltGroupPlayback(apiClient);
-                    break;
-                case 'settings':
-                    setSettingsOpen(true);
-                    return; // Don't close main menu yet
-                case 'leave-group':
-                    apiClient.leaveSyncPlayGroup();
-                    break;
-            }
-        }
-        onClose();
-    }, [ isEnabled, apiClient, syncPlay, onClose ]);
+            onClose();
+        },
+        [isEnabled, apiClient, syncPlay, onClose]
+    );
 
     const menuItems: ActionMenuItem[] = [];
 

@@ -1,5 +1,5 @@
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
-import { format, formatDistanceStrict, type Locale, parse } from 'date-fns';;
+import { format, formatDistanceStrict, type Locale, parse } from 'date-fns';
 import globalize from 'lib/globalize';
 import { INTERVAL_DURATIONS } from '../constants/intervalDurations';
 
@@ -69,7 +69,11 @@ export function getTriggerFriendlyName(trigger: TaskTriggerInfo, locale: Locale)
         case 'DailyTrigger':
             return globalize.translate('DailyAt', getDisplayTime(trigger.TimeOfDayTicks || 0, locale));
         case 'WeeklyTrigger':
-            return globalize.translate('WeeklyAt', localizeDayOfWeek(trigger.DayOfWeek, locale), getDisplayTime(trigger.TimeOfDayTicks || 0, locale));
+            return globalize.translate(
+                'WeeklyAt',
+                localizeDayOfWeek(trigger.DayOfWeek, locale),
+                getDisplayTime(trigger.TimeOfDayTicks || 0, locale)
+            );
         case 'IntervalTrigger':
             return getIntervalTriggerTime(trigger.IntervalTicks || 0);
         case 'StartupTrigger':

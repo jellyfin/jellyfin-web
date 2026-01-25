@@ -18,16 +18,8 @@ export function Progress({ value = 0, max = 100, className, style: progressStyle
     const percentage = (value / max) * 100;
 
     return (
-        <Root
-            className={`${progressRoot} ${className ?? ''}`}
-            style={progressStyle}
-            value={value}
-            max={max}
-        >
-            <Indicator
-                className={progressIndicator}
-                style={{ transform: `translateX(-${100 - percentage}%)` }}
-            />
+        <Root className={`${progressRoot} ${className ?? ''}`} style={progressStyle} value={value} max={max}>
+            <Indicator className={progressIndicator} style={{ transform: `translateX(-${100 - percentage}%)` }} />
         </Root>
     );
 }

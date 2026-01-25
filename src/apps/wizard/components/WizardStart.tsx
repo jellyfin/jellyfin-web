@@ -46,7 +46,9 @@ const WizardStart = () => {
             setIsLoading(false);
             return;
         }
-        const config = await client.ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json());
+        const config = await client
+            .ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' })
+            .then((r: any) => r.json());
         config.ServerName = serverName;
         config.UICulture = uiCulture;
 
@@ -89,7 +91,7 @@ const WizardStart = () => {
                             </SelectContent>
                         </Select>
                     </FormControl>
-                    <Button type='submit' size='lg' className={styles.submitButton}>
+                    <Button type="submit" size="lg" className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
                 </div>

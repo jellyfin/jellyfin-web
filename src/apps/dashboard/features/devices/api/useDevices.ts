@@ -8,11 +8,7 @@ import { useApi } from 'hooks/useApi';
 
 export const QUERY_KEY = 'Devices';
 
-const fetchDevices = async (
-    api: Api,
-    requestParams?: DevicesApiGetDevicesRequest,
-    options?: AxiosRequestConfig
-) => {
+const fetchDevices = async (api: Api, requestParams?: DevicesApiGetDevicesRequest, options?: AxiosRequestConfig) => {
     const response = await getDevicesApi(api).getDevices(requestParams, {
         signal: options?.signal
     });
@@ -20,14 +16,11 @@ const fetchDevices = async (
     return response.data;
 };
 
-export const useDevices = (
-    requestParams: DevicesApiGetDevicesRequest
-) => {
+export const useDevices = (requestParams: DevicesApiGetDevicesRequest) => {
     const { api } = useApi();
     return useQuery({
         queryKey: [QUERY_KEY, requestParams],
-        queryFn: ({ signal }) =>
-            fetchDevices(api!, requestParams, { signal }),
+        queryFn: ({ signal }) => fetchDevices(api!, requestParams, { signal }),
         enabled: !!api
     });
 };

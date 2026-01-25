@@ -24,7 +24,7 @@ class BiquadProcessor extends AudioWorkletProcessor {
             const { instance } = await WebAssembly.instantiate(bytes);
 
             this.wasmInstance = instance;
-            this.wasmMemory = (instance.exports.memory as WebAssembly.Memory);
+            this.wasmMemory = instance.exports.memory as WebAssembly.Memory;
 
             this.bufferSize = 128;
 
@@ -52,11 +52,19 @@ class BiquadProcessor extends AudioWorkletProcessor {
     private z1: number[] = [];
     private z2: number[] = [];
 
-    private processJsFallback(input: Float32Array[], output: Float32Array[], b0: number, b1: number, b2: number, a1: number, a2: number) {
+    private processJsFallback(
+        input: Float32Array[],
+        output: Float32Array[],
+        b0: number,
+        b1: number,
+        b2: number,
+        a1: number,
+        a2: number
+    ) {
         for (let channel = 0; channel < input.length; ++channel) {
             const inputChannel = input[channel];
             const outputChannel = output[channel];
-            
+
             if (this.z1[channel] === undefined) {
                 this.z1[channel] = 0;
                 this.z2[channel] = 0;
@@ -72,11 +80,7 @@ class BiquadProcessor extends AudioWorkletProcessor {
         }
     }
 
-    process(
-        inputs: Float32Array[][],
-        outputs: Float32Array[][],
-        parameters: Record<string, Float32Array>
-    ): boolean {
+    process(inputs: Float32Array[][], outputs: Float32Array[][], parameters: Record<string, Float32Array>): boolean {
         const input = inputs[0];
         const output = outputs[0];
 
@@ -109,10 +113,14 @@ class BiquadProcessor extends AudioWorkletProcessor {
                     this.outputPtr,
                     inputChannel.length,
                     this.statePtrs[channel],
-                    b0, b1, b2, a1, a2
+                    b0,
+                    b1,
+                    b2,
+                    a1,
+                    a2
                 );
 
-                const result = memoryBuffer.subarray(this.outputPtr / 4, (this.outputPtr / 4) + inputChannel.length);
+                const result = memoryBuffer.subarray(this.outputPtr / 4, this.outputPtr / 4 + inputChannel.length);
                 outputChannel.set(result);
             }
         } else {

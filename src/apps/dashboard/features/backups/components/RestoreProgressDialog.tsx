@@ -13,9 +13,7 @@ const RestoreProgressDialog: FunctionComponent<IProps> = ({ open }) => {
     return (
         <Dialog open={open}>
             <DialogOverlayComponent />
-            <DialogContentComponent
-                title={globalize.translate('MessageRestoreInProgress')}
-            >
+            <DialogContentComponent title={globalize.translate('MessageRestoreInProgress')}>
                 <Flex style={{ flexDirection: 'column', gap: '16px' }}>
                     <div>{globalize.translate('MessageWaitingForServer')}</div>
                     <Progress />

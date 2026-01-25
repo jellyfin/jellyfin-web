@@ -43,8 +43,8 @@ const UserDataButtons: React.FC<UserDataButtonsProps> = ({ item, includePlayed =
             {includePlayed && canMarkPlayed && (
                 <Tooltip title={globalize.translate('MarkPlayed')}>
                     <IconButton
-                        size='sm'
-                        variant='plain'
+                        size="sm"
+                        variant="plain"
                         color={userData.Played ? 'success' : 'neutral'}
                         onClick={handlePlayedClick}
                     >
@@ -54,8 +54,8 @@ const UserDataButtons: React.FC<UserDataButtonsProps> = ({ item, includePlayed =
             )}
             <Tooltip title={globalize.translate('Favorite')}>
                 <IconButton
-                    size='sm'
-                    variant='plain'
+                    size="sm"
+                    variant="plain"
                     color={userData.IsFavorite ? 'danger' : 'neutral'}
                     onClick={handleFavoriteClick}
                 >

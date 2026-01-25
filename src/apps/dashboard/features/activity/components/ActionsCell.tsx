@@ -9,7 +9,7 @@ import { IconButton } from 'ui-primitives/IconButton';
 const ActionsCell = ({ row }: ActivityLogEntryCell) =>
     row.original.ItemId ? (
         <a href={`/details?id=${row.original.ItemId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <IconButton variant='plain' size='lg' title={globalize.translate('LabelMediaDetails')}>
+            <IconButton variant="plain" size="lg" title={globalize.translate('LabelMediaDetails')}>
                 <VideoIcon />
             </IconButton>
         </a>

@@ -19,4 +19,3 @@ export const waveformOverlayStyle = style({
     borderRadius: vars.borderRadius.md,
     overflow: 'hidden'
 });
-

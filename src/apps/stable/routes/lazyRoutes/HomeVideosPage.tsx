@@ -43,9 +43,9 @@ const HomeVideosPage: FC = () => {
 
     return (
         <Page
-            id='homevideos'
-            className='mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs'
-            backDropType='video, photo'
+            id="homevideos"
+            className="mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs"
+            backDropType="video, photo"
         >
             <PageTabContent
                 key={`${currentTab.viewType} - ${libraryId}`}

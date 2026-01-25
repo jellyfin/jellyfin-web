@@ -17,12 +17,10 @@ import React, { type FC } from 'react';
 import { MetaView } from '../constants/metaView';
 
 interface LibraryIconProps {
-    item: BaseItemDto
+    item: BaseItemDto;
 }
 
-const LibraryIcon: FC<LibraryIconProps> = ({
-    item
-}) => {
+const LibraryIcon: FC<LibraryIconProps> = ({ item }) => {
     if (item.Id === MetaView.Favorites.Id) {
         return <HeartFilledIcon />;
     }

@@ -83,7 +83,7 @@ class QueueCore {
         if (!groupInfo) return;
 
         const serverId = apiClient.serverInfo().Id;
-        
+
         return playbackManager.play({
             ids: [groupInfo.NowPlayingItemId],
             serverId: serverId,

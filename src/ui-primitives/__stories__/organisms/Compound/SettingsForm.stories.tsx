@@ -45,7 +45,9 @@ function SettingsFormStory(): ReactElement {
 
     const handleSave = useCallback((): void => {
         setSaved(true);
-        setTimeout(() => { setSaved(false); }, 3000);
+        setTimeout(() => {
+            setSaved(false);
+        }, 3000);
     }, []);
 
     const handleReset = useCallback((): void => {
@@ -83,23 +85,23 @@ function SettingsFormStory(): ReactElement {
                     <Heading level={3}>Settings</Heading>
                 </CardHeader>
                 <CardBody>
-                    <Flex direction='column' gap={vars.spacing.lg}>
+                    <Flex direction="column" gap={vars.spacing.lg}>
                         <FormControl>
                             <FormLabel>Display Name</FormLabel>
                             <Input
                                 value={formData.displayName}
                                 onChange={handleDisplayNameChange}
-                                placeholder='Enter your name'
+                                placeholder="Enter your name"
                             />
                         </FormControl>
 
                         <FormControl>
                             <FormLabel>Email</FormLabel>
                             <Input
-                                type='email'
+                                type="email"
                                 value={formData.email}
                                 onChange={handleEmailChange}
-                                placeholder='your@email.com'
+                                placeholder="your@email.com"
                             />
                             <FormHelperText>We&apos;ll never share your email</FormHelperText>
                         </FormControl>
@@ -111,9 +113,9 @@ function SettingsFormStory(): ReactElement {
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value='dark'>Dark</SelectItem>
-                                    <SelectItem value='light'>Light</SelectItem>
-                                    <SelectItem value='system'>System</SelectItem>
+                                    <SelectItem value="dark">Dark</SelectItem>
+                                    <SelectItem value="light">Light</SelectItem>
+                                    <SelectItem value="system">System</SelectItem>
                                 </SelectContent>
                             </Select>
                         </FormControl>
@@ -125,48 +127,42 @@ function SettingsFormStory(): ReactElement {
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value='low'>Low (480p)</SelectItem>
-                                    <SelectItem value='medium'>Medium (720p)</SelectItem>
-                                    <SelectItem value='high'>High (1080p+)</SelectItem>
+                                    <SelectItem value="low">Low (480p)</SelectItem>
+                                    <SelectItem value="medium">Medium (720p)</SelectItem>
+                                    <SelectItem value="high">High (1080p+)</SelectItem>
                                 </SelectContent>
                             </Select>
                         </FormControl>
 
-                        <Flex align='center' justify='space-between' style={{ padding: `${vars.spacing.sm} 0` }}>
+                        <Flex align="center" justify="space-between" style={{ padding: `${vars.spacing.sm} 0` }}>
                             <Box>
                                 <FormLabel style={{ marginBottom: vars.spacing.xs }}>Enable Notifications</FormLabel>
                                 <FormHelperText style={{ margin: 0 }}>Receive push notifications</FormHelperText>
                             </Box>
-                            <Switch
-                                checked={formData.enableNotifications}
-                                onChange={handleNotificationsChange}
-                            />
+                            <Switch checked={formData.enableNotifications} onChange={handleNotificationsChange} />
                         </Flex>
 
-                        <Flex align='center' justify='space-between' style={{ padding: `${vars.spacing.sm} 0` }}>
+                        <Flex align="center" justify="space-between" style={{ padding: `${vars.spacing.sm} 0` }}>
                             <Box>
                                 <FormLabel style={{ marginBottom: vars.spacing.xs }}>Auto-play Media</FormLabel>
                                 <FormHelperText style={{ margin: 0 }}>Automatically play next episode</FormHelperText>
                             </Box>
-                            <Switch
-                                checked={formData.enableAutoPlay}
-                                onChange={handleAutoPlayChange}
-                            />
+                            <Switch checked={formData.enableAutoPlay} onChange={handleAutoPlayChange} />
                         </Flex>
 
                         {saved && (
-                            <Alert variant='success' title='Settings saved'>
+                            <Alert variant="success" title="Settings saved">
                                 Your preferences have been updated successfully.
                             </Alert>
                         )}
                     </Flex>
                 </CardBody>
                 <CardFooter>
-                    <Flex gap={vars.spacing.sm} justify='flex-end'>
-                        <Button variant='ghost' onClick={handleReset}>
+                    <Flex gap={vars.spacing.sm} justify="flex-end">
+                        <Button variant="ghost" onClick={handleReset}>
                             Reset
                         </Button>
-                        <Button variant='primary' onClick={handleSave}>
+                        <Button variant="primary" onClick={handleSave}>
                             Save Changes
                         </Button>
                     </Flex>
@@ -193,22 +189,27 @@ function SettingsFormWithErrorsStory(): ReactElement {
                     <Heading level={3}>Settings</Heading>
                 </CardHeader>
                 <CardBody>
-                    <Flex direction='column' gap={vars.spacing.lg}>
+                    <Flex direction="column" gap={vars.spacing.lg}>
                         <FormControl error>
                             <FormLabel>Display Name</FormLabel>
-                            <Input value='' onChange={(): void => {}} placeholder='Enter your name' />
+                            <Input value="" onChange={(): void => {}} placeholder="Enter your name" />
                             <FormHelperText>{errors.displayName}</FormHelperText>
                         </FormControl>
 
                         <FormControl error>
                             <FormLabel>Email</FormLabel>
-                            <Input type='email' value='invalid' onChange={(): void => {}} placeholder='your@email.com' />
+                            <Input
+                                type="email"
+                                value="invalid"
+                                onChange={(): void => {}}
+                                placeholder="your@email.com"
+                            />
                             <FormHelperText>{errors.email}</FormHelperText>
                         </FormControl>
                     </Flex>
                 </CardBody>
                 <CardFooter>
-                    <Button variant='primary' disabled>
+                    <Button variant="primary" disabled>
                         Save Changes
                     </Button>
                 </CardFooter>
@@ -229,22 +230,26 @@ function SettingsFormLoadingStory(): ReactElement {
                     <Heading level={3}>Settings</Heading>
                 </CardHeader>
                 <CardBody>
-                    <Flex direction='column' gap={vars.spacing.lg}>
+                    <Flex direction="column" gap={vars.spacing.lg}>
                         <FormControl>
                             <FormLabel>Display Name</FormLabel>
-                            <Input value='Loading...' disabled />
+                            <Input value="Loading..." disabled />
                         </FormControl>
 
                         <FormControl>
                             <FormLabel>Email</FormLabel>
-                            <Input value='loading@example.com' disabled />
+                            <Input value="loading@example.com" disabled />
                         </FormControl>
                     </Flex>
                 </CardBody>
                 <CardFooter>
-                    <Flex gap={vars.spacing.sm} justify='flex-end'>
-                        <Button variant='ghost' disabled>Reset</Button>
-                        <Button variant='primary' disabled>Save Changes</Button>
+                    <Flex gap={vars.spacing.sm} justify="flex-end">
+                        <Button variant="ghost" disabled>
+                            Reset
+                        </Button>
+                        <Button variant="primary" disabled>
+                            Save Changes
+                        </Button>
                     </Flex>
                 </CardFooter>
             </Card>

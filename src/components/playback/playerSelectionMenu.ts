@@ -102,63 +102,78 @@ export function show(button: HTMLElement): void {
 
     loading.show();
 
-    playbackManager.getTargets().then((targets: PlaybackTarget[]) => {
-        const menuItems: MenuItem[] = targets.map((t: PlaybackTarget) => {
-            let name = t.name;
+    playbackManager
+        .getTargets()
+        .then((targets: PlaybackTarget[]) => {
+            const menuItems: MenuItem[] = targets.map((t: PlaybackTarget) => {
+                let name = t.name;
 
-            if (t.appName && t.appName !== t.name) {
-                name += ' - ' + t.appName;
-            }
+                if (t.appName && t.appName !== t.name) {
+                    name += ' - ' + t.appName;
+                }
 
-            return {
-                name: name,
-                id: t.id,
-                selected: currentPlayerId === t.id,
-                secondaryText: getTargetSecondaryText(t),
-                icon: getIcon(t)
-            };
-        });
-
-        import('../actionSheet/actionSheet').then((actionsheet) => {
-            loading.hide();
-
-            const menuOptions = {
-                title: globalize.translate('HeaderPlayOn'),
-                items: menuItems,
-                positionTo: button,
-                resolveOnClick: true,
-                border: true
-            };
-
-            // Unfortunately we can't allow the url to change or chromecast will throw a security error
-            // Might be able to solve this in the future by moving the dialogs to hashbangs
-            if (!(!browser.chrome && !browser.edgeChromium || safeAppHost.supports(AppFeature.CastMenuHashChange))) {
-                (menuOptions as any).enableHistory = false;
-            }
-
-            // Add message when Google Cast is not supported
-            const isChromecastPluginLoaded = !!pluginManager.plugins.find((plugin: any) => plugin.id === 'chromecast');
-            const isSecureContext = window.isSecureContext;
-            const isAndroidApp = navigator.userAgent.includes('Android') && !!(window as any).Android;
-            if (!isChromecastPluginLoaded || !isSecureContext || !isAndroidApp) {
-                (menuOptions as any).text = `(${globalize.translate('GoogleCastUnsupported')})`;
-            }
-
-            (actionsheet as any).show(menuOptions).then((id: string) => {
-                const target = targets.filter((t: PlaybackTarget) => {
-                    return t.id === id;
-                })[0];
-
-                playbackManager.trySetActivePlayer(target.playerName!, target);
-            }).catch(() => {
-                // action sheet closed
+                return {
+                    name: name,
+                    id: t.id,
+                    selected: currentPlayerId === t.id,
+                    secondaryText: getTargetSecondaryText(t),
+                    icon: getIcon(t)
+                };
             });
-        }).catch((err: any) => {
-            logger.error('Failed to import action sheet', { component: 'PlayerSelectionMenu' }, err as Error);
+
+            import('../actionSheet/actionSheet')
+                .then(actionsheet => {
+                    loading.hide();
+
+                    const menuOptions = {
+                        title: globalize.translate('HeaderPlayOn'),
+                        items: menuItems,
+                        positionTo: button,
+                        resolveOnClick: true,
+                        border: true
+                    };
+
+                    // Unfortunately we can't allow the url to change or chromecast will throw a security error
+                    // Might be able to solve this in the future by moving the dialogs to hashbangs
+                    if (
+                        !(
+                            (!browser.chrome && !browser.edgeChromium) ||
+                            safeAppHost.supports(AppFeature.CastMenuHashChange)
+                        )
+                    ) {
+                        (menuOptions as any).enableHistory = false;
+                    }
+
+                    // Add message when Google Cast is not supported
+                    const isChromecastPluginLoaded = !!pluginManager.plugins.find(
+                        (plugin: any) => plugin.id === 'chromecast'
+                    );
+                    const isSecureContext = window.isSecureContext;
+                    const isAndroidApp = navigator.userAgent.includes('Android') && !!(window as any).Android;
+                    if (!isChromecastPluginLoaded || !isSecureContext || !isAndroidApp) {
+                        (menuOptions as any).text = `(${globalize.translate('GoogleCastUnsupported')})`;
+                    }
+
+                    (actionsheet as any)
+                        .show(menuOptions)
+                        .then((id: string) => {
+                            const target = targets.filter((t: PlaybackTarget) => {
+                                return t.id === id;
+                            })[0];
+
+                            playbackManager.trySetActivePlayer(target.playerName!, target);
+                        })
+                        .catch(() => {
+                            // action sheet closed
+                        });
+                })
+                .catch((err: any) => {
+                    logger.error('Failed to import action sheet', { component: 'PlayerSelectionMenu' }, err as Error);
+                });
+        })
+        .catch((err: any) => {
+            logger.error('Failed to get playback targets', { component: 'PlayerSelectionMenu' }, err as Error);
         });
-    }).catch((err: any) => {
-        logger.error('Failed to get playback targets', { component: 'PlayerSelectionMenu' }, err as Error);
-    });
 }
 
 function showActivePlayerMenu(playerInfo: PlayerInfo): void {
@@ -178,25 +193,27 @@ function disconnectFromPlayer(currentDeviceName: string): void {
             id: 'no'
         });
 
-        dialog.show({
-            buttons: menuItems,
-            text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
-
-        }).then((id: string) => {
-            switch (id) {
-                case 'yes':
-                    (playbackManager.getCurrentPlayer() as any).endSession();
-                    (playbackManager as any).setDefaultPlayerActive();
-                    break;
-                case 'no':
-                    (playbackManager as any).setDefaultPlayerActive();
-                    break;
-                default:
-                    break;
-            }
-        }).catch(() => {
-            // dialog closed
-        });
+        dialog
+            .show({
+                buttons: menuItems,
+                text: globalize.translate('ConfirmEndPlayerSession', currentDeviceName)
+            })
+            .then((id: string) => {
+                switch (id) {
+                    case 'yes':
+                        (playbackManager.getCurrentPlayer() as any).endSession();
+                        (playbackManager as any).setDefaultPlayerActive();
+                        break;
+                    case 'no':
+                        (playbackManager as any).setDefaultPlayerActive();
+                        break;
+                    default:
+                        break;
+                }
+            })
+            .catch(() => {
+                // dialog closed
+            });
     } else {
         (playbackManager as any).setDefaultPlayerActive();
     }
@@ -218,7 +235,7 @@ function showActivePlayerMenuInternal(playerInfo: PlayerInfo): void {
 
     dlg.classList.add('promptDialog');
 
-    const currentDeviceName = (playerInfo.deviceName || playerInfo.name);
+    const currentDeviceName = playerInfo.deviceName || playerInfo.name;
 
     html += '<div class="promptDialogContent" style="padding:1.5em;">';
     html += '<h2 style="margin-top:.5em;">';
@@ -245,9 +262,18 @@ function showActivePlayerMenuInternal(playerInfo: PlayerInfo): void {
 
     html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
 
-    html += '<button is="emby-button" type="button" class="button-flat btnRemoteControl promptDialogButton">' + globalize.translate('HeaderRemoteControl') + '</button>';
-    html += '<button is="emby-button" type="button" class="button-flat btnDisconnect promptDialogButton ">' + globalize.translate('Disconnect') + '</button>';
-    html += '<button is="emby-button" type="button" class="button-flat btnCancel promptDialogButton">' + globalize.translate('ButtonCancel') + '</button>';
+    html +=
+        '<button is="emby-button" type="button" class="button-flat btnRemoteControl promptDialogButton">' +
+        globalize.translate('HeaderRemoteControl') +
+        '</button>';
+    html +=
+        '<button is="emby-button" type="button" class="button-flat btnDisconnect promptDialogButton ">' +
+        globalize.translate('Disconnect') +
+        '</button>';
+    html +=
+        '<button is="emby-button" type="button" class="button-flat btnCancel promptDialogButton">' +
+        globalize.translate('ButtonCancel') +
+        '</button>';
     html += '</div>';
 
     html += '</div>';
@@ -284,15 +310,18 @@ function showActivePlayerMenuInternal(playerInfo: PlayerInfo): void {
         dialogHelper.close(dlg);
     });
 
-    dialogHelper.open(dlg).then(() => {
-        if (destination === 'nowplaying') {
-            return appRouter.showNowPlaying();
-        } else if (destination === 'disconnectFromPlayer') {
-            disconnectFromPlayer(currentDeviceName!);
-        }
-    }).catch(() => {
-        // dialog closed
-    });
+    dialogHelper
+        .open(dlg)
+        .then(() => {
+            if (destination === 'nowplaying') {
+                return appRouter.showNowPlaying();
+            } else if (destination === 'disconnectFromPlayer') {
+                disconnectFromPlayer(currentDeviceName!);
+            }
+        })
+        .catch(() => {
+            // dialog closed
+        });
 }
 
 function onMirrorChange(this: HTMLInputElement): void {

@@ -71,13 +71,7 @@ function WithBufferedStory(args: Readonly<SeekerProps>): ReactElement {
 
     return (
         <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px', width: '300px' }}>
-            <Seeker
-                {...args}
-                currentTime={currentTime}
-                duration={duration}
-                buffered={buffered}
-                onSeek={handleSeek}
-            />
+            <Seeker {...args} currentTime={currentTime} duration={duration} buffered={buffered} onSeek={handleSeek} />
         </div>
     );
 }

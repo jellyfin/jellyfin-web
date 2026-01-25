@@ -51,9 +51,7 @@ const ButterchurnVisualizer: React.FC = () => {
         };
     }, []);
 
-    return <canvas id='butterchurn' ref={canvasRef}
-        width={window.innerWidth}
-        height={window.innerHeight} />;
+    return <canvas id="butterchurn" ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />;
 };
 
 export default ButterchurnVisualizer;

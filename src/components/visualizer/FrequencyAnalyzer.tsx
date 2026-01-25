@@ -144,7 +144,7 @@ function drawAmplitudeLabels(
     ctx.textBaseline = 'middle';
 
     const amplitudeDecibels = [-90, -80, -70, -60, -50, -40, -30];
-    amplitudeDecibels.forEach((decibel) => {
+    amplitudeDecibels.forEach(decibel => {
         const value = ((decibel - minDecibels) / (maxDecibels - minDecibels)) * 255;
         let y = canvasHeight - (value / 255) * canvasHeight;
         y = Math.min(Math.max(y, fontSize / 2), canvasHeight - fontSize / 2);
@@ -178,7 +178,7 @@ function drawFrequencyLabels(
     ctx.textBaseline = 'top';
 
     const commonFrequencies = [100, 200, 500, 1000, 2000, 5000, 10000, 20000];
-    commonFrequencies.forEach((freq) => {
+    commonFrequencies.forEach(freq => {
         const percent = (Math.log(freq) - logMinFreq) / (logMaxFreq - logMinFreq);
         let x = percent * canvasWidth;
         x = Math.min(Math.max(x, fontSize / 2), canvasWidth - fontSize / 2);
@@ -219,122 +219,122 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         isRunningRef.current = false;
     }, []);
 
-    const renderFrequencyBars = useCallback((frequencyData: Uint8Array) => {
-        if (!ctxRef.current || !canvasRef.current) return;
+    const renderFrequencyBars = useCallback(
+        (frequencyData: Uint8Array) => {
+            if (!ctxRef.current || !canvasRef.current) return;
 
-        const ctx = ctxRef.current;
-        const canvas = canvasRef.current;
-        const canvasWidth = canvas.clientWidth;
-        const canvasHeight = canvas.clientHeight;
-        const dpr = window.devicePixelRatio || 1;
+            const ctx = ctxRef.current;
+            const canvas = canvasRef.current;
+            const canvasWidth = canvas.clientWidth;
+            const canvasHeight = canvas.clientHeight;
+            const dpr = window.devicePixelRatio || 1;
 
-        // Set actual canvas size for high DPI
-        canvas.width = canvasWidth * dpr;
-        canvas.height = canvasHeight * dpr;
-        ctx.scale(dpr, dpr);
+            // Set actual canvas size for high DPI
+            canvas.width = canvasWidth * dpr;
+            canvas.height = canvasHeight * dpr;
+            ctx.scale(dpr, dpr);
 
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        const minBarWidth = Math.max(2, canvasWidth / 200);
-        const barGap = Math.max(1, canvasWidth / 400);
+            const minBarWidth = Math.max(2, canvasWidth / 200);
+            const barGap = Math.max(1, canvasWidth / 400);
 
-        const maxBars = 96;
-        const minBars = 16;
-        const numberOfBars = Math.max(
-            minBars,
-            Math.min(
-                maxBars,
-                Math.floor(canvasWidth / (minBarWidth + barGap))
-            )
-        );
+            const maxBars = 96;
+            const minBars = 16;
+            const numberOfBars = Math.max(minBars, Math.min(maxBars, Math.floor(canvasWidth / (minBarWidth + barGap))));
 
-        // Calculate bar positions
-        const { frequencies, xPositions } = calculateBarPositions(alpha, canvasWidth, numberOfBars);
+            // Calculate bar positions
+            const { frequencies, xPositions } = calculateBarPositions(alpha, canvasWidth, numberOfBars);
 
-        // Initialize arrays if needed
-        if (!previousBarHeightsRef.current || previousBarHeightsRef.current.length !== numberOfBars) {
-            previousBarHeightsRef.current = new Float32Array(numberOfBars);
-        }
-
-        if (!pinkNoiseReferenceRef.current || pinkNoiseReferenceRef.current.length !== fftSize / 2) {
-            pinkNoiseReferenceRef.current = new Float32Array(fftSize / 2);
-            const nyquist = 44100 / 2; // Default sample rate
-            for (let i = 0; i < fftSize / 2; i++) {
-                const frequency = (i * nyquist) / (fftSize / 2);
-                const pinkNoiseLevel = -10 * Math.log10(frequency || 1);
-                pinkNoiseReferenceRef.current[i] = pinkNoiseLevel;
+            // Initialize arrays if needed
+            if (!previousBarHeightsRef.current || previousBarHeightsRef.current.length !== numberOfBars) {
+                previousBarHeightsRef.current = new Float32Array(numberOfBars);
             }
-        }
 
-        const previousBarHeights = previousBarHeightsRef.current!;
-        const pinkNoiseReference = pinkNoiseReferenceRef.current!;
-
-        const colorScheme = visualizerSettings.frequencyAnalyzer.colorScheme;
-        const colorSolid = visualizerSettings.frequencyAnalyzer.colors.solid;
-        const colorLow = visualizerSettings.frequencyAnalyzer.colors.gradient.low;
-        const colorMid = visualizerSettings.frequencyAnalyzer.colors.gradient.mid;
-        const colorHigh = visualizerSettings.frequencyAnalyzer.colors.gradient.high;
-
-        const nyquist = 44100 / 2;
-        const MIN_FREQUENCY = 60;
-
-        // Draw frequency bars
-        for (let i = 0; i < numberOfBars; i++) {
-            const xLeft = xPositions[i];
-            const xRight = xPositions[i + 1];
-            let barWidth = xRight - xLeft - barGap;
-            barWidth = Math.max(0, barWidth);
-            const x = xLeft + barGap / 2;
-
-            const bin = Math.floor(((frequencies[i] - MIN_FREQUENCY) / (nyquist - MIN_FREQUENCY)) * (fftSize / 2));
-            const safeBin = Math.max(0, Math.min(bin, (fftSize / 2) - 1));
-
-            const value = frequencyData[safeBin];
-            const targetHeight = (value / 255) * canvasHeight;
-
-            const currentHeight = previousBarHeights[i] || 0;
-            const barHeight = currentHeight + (targetHeight - currentHeight) * 0.3;
-            previousBarHeights[i] = barHeight;
-
-            const actualDecibel = minDecibels + (value / 255) * (maxDecibels - minDecibels);
-            const fillColor = getBarColor(
-                actualDecibel,
-                minDecibels,
-                maxDecibels,
-                pinkNoiseReference[safeBin],
-                { scheme: colorScheme, solid: colorSolid, low: colorLow, mid: colorMid, high: colorHigh }
-            );
-
-            ctx.fillStyle = fillColor;
-            ctx.fillRect(x, canvasHeight - barHeight, barWidth, barHeight);
-        }
-
-        // Draw reference labels
-        const logMinFreq = Math.log(60); // MIN_FREQUENCY
-        const logMaxFreq = Math.log(44100 / 2); // MAX_FREQUENCY
-
-        drawAmplitudeLabels(ctx, canvasWidth, canvasHeight, minDecibels, maxDecibels);
-        drawFrequencyLabels(ctx, canvasWidth, logMinFreq, logMaxFreq);
-    }, [fftSize, minDecibels, maxDecibels, alpha]);
-
-    const startLoop = useCallback((analyser: AnalyserNode) => {
-        if (isRunningRef.current) return;
-        isRunningRef.current = true;
-
-        const frequencyData = new Uint8Array(analyser.frequencyBinCount);
-
-        const renderFrame = () => {
-            if (!isRunningRef.current || !isVisible()) {
-                isRunningRef.current = false;
-                return;
+            if (!pinkNoiseReferenceRef.current || pinkNoiseReferenceRef.current.length !== fftSize / 2) {
+                pinkNoiseReferenceRef.current = new Float32Array(fftSize / 2);
+                const nyquist = 44100 / 2; // Default sample rate
+                for (let i = 0; i < fftSize / 2; i++) {
+                    const frequency = (i * nyquist) / (fftSize / 2);
+                    const pinkNoiseLevel = -10 * Math.log10(frequency || 1);
+                    pinkNoiseReferenceRef.current[i] = pinkNoiseLevel;
+                }
             }
-            analyser.getByteFrequencyData(frequencyData);
-            renderFrequencyBars(frequencyData);
-            animationFrameId.current = requestAnimationFrame(renderFrame);
-        };
 
-        renderFrame();
-    }, [renderFrequencyBars]);
+            const previousBarHeights = previousBarHeightsRef.current!;
+            const pinkNoiseReference = pinkNoiseReferenceRef.current!;
+
+            const colorScheme = visualizerSettings.frequencyAnalyzer.colorScheme;
+            const colorSolid = visualizerSettings.frequencyAnalyzer.colors.solid;
+            const colorLow = visualizerSettings.frequencyAnalyzer.colors.gradient.low;
+            const colorMid = visualizerSettings.frequencyAnalyzer.colors.gradient.mid;
+            const colorHigh = visualizerSettings.frequencyAnalyzer.colors.gradient.high;
+
+            const nyquist = 44100 / 2;
+            const MIN_FREQUENCY = 60;
+
+            // Draw frequency bars
+            for (let i = 0; i < numberOfBars; i++) {
+                const xLeft = xPositions[i];
+                const xRight = xPositions[i + 1];
+                let barWidth = xRight - xLeft - barGap;
+                barWidth = Math.max(0, barWidth);
+                const x = xLeft + barGap / 2;
+
+                const bin = Math.floor(((frequencies[i] - MIN_FREQUENCY) / (nyquist - MIN_FREQUENCY)) * (fftSize / 2));
+                const safeBin = Math.max(0, Math.min(bin, fftSize / 2 - 1));
+
+                const value = frequencyData[safeBin];
+                const targetHeight = (value / 255) * canvasHeight;
+
+                const currentHeight = previousBarHeights[i] || 0;
+                const barHeight = currentHeight + (targetHeight - currentHeight) * 0.3;
+                previousBarHeights[i] = barHeight;
+
+                const actualDecibel = minDecibels + (value / 255) * (maxDecibels - minDecibels);
+                const fillColor = getBarColor(actualDecibel, minDecibels, maxDecibels, pinkNoiseReference[safeBin], {
+                    scheme: colorScheme,
+                    solid: colorSolid,
+                    low: colorLow,
+                    mid: colorMid,
+                    high: colorHigh
+                });
+
+                ctx.fillStyle = fillColor;
+                ctx.fillRect(x, canvasHeight - barHeight, barWidth, barHeight);
+            }
+
+            // Draw reference labels
+            const logMinFreq = Math.log(60); // MIN_FREQUENCY
+            const logMaxFreq = Math.log(44100 / 2); // MAX_FREQUENCY
+
+            drawAmplitudeLabels(ctx, canvasWidth, canvasHeight, minDecibels, maxDecibels);
+            drawFrequencyLabels(ctx, canvasWidth, logMinFreq, logMaxFreq);
+        },
+        [fftSize, minDecibels, maxDecibels, alpha]
+    );
+
+    const startLoop = useCallback(
+        (analyser: AnalyserNode) => {
+            if (isRunningRef.current) return;
+            isRunningRef.current = true;
+
+            const frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+            const renderFrame = () => {
+                if (!isRunningRef.current || !isVisible()) {
+                    isRunningRef.current = false;
+                    return;
+                }
+                analyser.getByteFrequencyData(frequencyData);
+                renderFrequencyBars(frequencyData);
+                animationFrameId.current = requestAnimationFrame(renderFrame);
+            };
+
+            renderFrame();
+        },
+        [renderFrequencyBars]
+    );
 
     useEffect(() => {
         if (!audioContext) {
@@ -347,7 +347,9 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             if (sharedAnalyser && sharedAnalyserContext) {
                 try {
                     sharedAnalyser.disconnect();
-                } catch { /* already disconnected */ }
+                } catch {
+                    /* already disconnected */
+                }
             }
             sharedAnalyser = audioContext.createAnalyser();
             sharedAnalyserContext = audioContext;
@@ -362,7 +364,9 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         if (mixerNode) {
             try {
                 mixerNode.connect(analyser);
-            } catch { /* already connected */ }
+            } catch {
+                /* already connected */
+            }
         }
 
         // Initialize canvas context
@@ -376,7 +380,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         }
 
         // Subscribe to visibility changes
-        const unsubscribe = onVisibilityChange((visible) => {
+        const unsubscribe = onVisibilityChange(visible => {
             if (visible) {
                 startLoop(analyser);
             } else {
@@ -389,16 +393,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             unsubscribe();
             // Don't disconnect analyser - it's shared
         };
-    }, [
-        audioContext,
-        mixerNode,
-        fftSize,
-        smoothingTimeConstant,
-        minDecibels,
-        maxDecibels,
-        startLoop,
-        stopLoop
-    ]);
+    }, [audioContext, mixerNode, fftSize, smoothingTimeConstant, minDecibels, maxDecibels, startLoop, stopLoop]);
 
     useEffect(() => {
         const resizeCanvas = () => {
@@ -436,7 +431,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     return (
         <canvas
             ref={canvasRef}
-            id='frequency-analyzer'
+            id="frequency-analyzer"
             style={{
                 position: 'fixed',
                 top: 0,

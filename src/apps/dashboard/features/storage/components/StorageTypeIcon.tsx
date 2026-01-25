@@ -4,12 +4,10 @@ import React, { type FC } from 'react';
 import { StorageType } from '../constants/StorageType';
 
 interface StorageTypeIconProps {
-    type?: string | null
+    type?: string | null;
 }
 
-const StorageTypeIcon: FC<StorageTypeIconProps> = ({
-    type
-}) => {
+const StorageTypeIcon: FC<StorageTypeIconProps> = ({ type }) => {
     switch (type) {
         case StorageType.CDRom:
             return <DiscIcon />;

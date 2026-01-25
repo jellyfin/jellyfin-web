@@ -20,7 +20,7 @@ export const useNamedConfiguration = <ConfigType = NamedConfiguration>(key: stri
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY, key ],
+        queryKey: [QUERY_KEY, key],
         queryFn: ({ signal }) => fetchNamedConfiguration(api!, key, { signal }) as ConfigType,
         enabled: !!api
     });

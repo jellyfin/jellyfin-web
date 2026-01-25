@@ -27,4 +27,3 @@ export const canvas = style({
     height: '100%',
     display: 'block'
 });
-

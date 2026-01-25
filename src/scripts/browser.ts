@@ -32,22 +32,11 @@ function isTv(userAgent: string): boolean {
 }
 
 function isWeb0s(userAgent: string): boolean {
-    return userAgent.includes('netcast')
-        || userAgent.includes('web0s');
+    return userAgent.includes('netcast') || userAgent.includes('web0s');
 }
 
 function isMobile(userAgent: string): boolean {
-    const terms = [
-        'mobi',
-        'ipad',
-        'iphone',
-        'ipod',
-        'silk',
-        'gt-p1000',
-        'nexus 7',
-        'kindle fire',
-        'opera mini'
-    ];
+    const terms = ['mobi', 'ipad', 'iphone', 'ipod', 'silk', 'gt-p1000', 'nexus 7', 'kindle fire', 'opera mini'];
 
     for (const term of terms) {
         if (userAgent.includes(term)) {
@@ -64,10 +53,12 @@ const userAgent = navigator.userAgent.toLowerCase();
 
 function supportsCssAnimation(): boolean {
     const element = document.createElement('div');
-    return 'animationName' in element.style ||
-           'webkitAnimationName' in element.style ||
-           'mozAnimationName' in element.style ||
-           'oAnimationName' in element.style;
+    return (
+        'animationName' in element.style ||
+        'webkitAnimationName' in element.style ||
+        'mozAnimationName' in element.style ||
+        'oAnimationName' in element.style
+    );
 }
 
 const browser = {

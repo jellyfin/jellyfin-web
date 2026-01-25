@@ -31,19 +31,10 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
     onApply,
     availableGenres = [],
     availableYears = [],
-    availableStudios = [],
+    availableStudios = []
 }) => {
-    const {
-        genres,
-        years,
-        studios,
-        genresMode,
-        setGenres,
-        setYears,
-        setStudios,
-        setGenresMode,
-        clearFilters,
-    } = useFilterStore();
+    const { genres, years, studios, genresMode, setGenres, setYears, setStudios, setGenresMode, clearFilters } =
+        useFilterStore();
 
     const [localGenres, setLocalGenres] = useState(genres);
     const [localYears, setLocalYears] = useState(years);
@@ -67,32 +58,20 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
     };
 
     const toggleGenre = (genre: string) => {
-        setLocalGenres((prev) =>
-            prev.includes(genre)
-                ? prev.filter((g) => g !== genre)
-                : [...prev, genre]
-        );
+        setLocalGenres(prev => (prev.includes(genre) ? prev.filter(g => g !== genre) : [...prev, genre]));
     };
 
     const toggleYear = (year: number) => {
-        setLocalYears((prev) =>
-            prev.includes(year)
-                ? prev.filter((y) => y !== year)
-                : [...prev, year]
-        );
+        setLocalYears(prev => (prev.includes(year) ? prev.filter(y => y !== year) : [...prev, year]));
     };
 
     const toggleStudio = (studio: string) => {
-        setLocalStudios((prev) =>
-            prev.includes(studio)
-                ? prev.filter((s) => s !== studio)
-                : [...prev, studio]
-        );
+        setLocalStudios(prev => (prev.includes(studio) ? prev.filter(s => s !== studio) : [...prev, studio]));
     };
 
     const overlayVariants = {
         hidden: { opacity: 0 },
-        visible: { opacity: 1 },
+        visible: { opacity: 1 }
     };
 
     const contentVariants = {
@@ -103,20 +82,20 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
             y: '-50%',
             transition: {
                 duration: 0.2,
-                ease: 'easeOut' as const,
-            },
+                ease: 'easeOut' as const
+            }
         },
         exit: {
             opacity: 0,
             scale: 0.95,
             transition: {
-                duration: 0.15,
-            },
-        },
+                duration: 0.15
+            }
+        }
     };
 
     return (
-        <DialogPrimitive.Root open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
+        <DialogPrimitive.Root open={open} onOpenChange={isOpen => !isOpen && onClose()}>
             <AnimatePresence>
                 {open && (
                     <DialogPrimitive.Portal>
@@ -130,7 +109,7 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     backgroundColor: 'rgba(0, 0, 0, 0.75)',
                                     position: 'fixed',
                                     inset: 0,
-                                    zIndex: 1000,
+                                    zIndex: 1000
                                 }}
                             />
                         </DialogPrimitive.Overlay>
@@ -153,7 +132,7 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     maxHeight: '85vh',
                                     overflow: 'auto',
                                     padding: '24px',
-                                    zIndex: 1001,
+                                    zIndex: 1001
                                 }}
                             >
                                 <Text size="xl" style={{ fontWeight: 600, marginBottom: '16px', color: '#ffffff' }}>
@@ -170,7 +149,7 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                             color: '#b0b0b0',
                                             cursor: 'pointer',
                                             padding: '8px',
-                                            borderRadius: '6px',
+                                            borderRadius: '6px'
                                         }}
                                         aria-label="Close"
                                     >
@@ -182,7 +161,10 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     <Text size="sm" style={{ fontWeight: 500, marginBottom: '8px', color: '#ffffff' }}>
                                         Genre Match
                                     </Text>
-                                    <RadioGroup value={localGenresMode} onValueChange={(val) => setLocalGenresMode(val as 'and' | 'or')}>
+                                    <RadioGroup
+                                        value={localGenresMode}
+                                        onValueChange={val => setLocalGenresMode(val as 'and' | 'or')}
+                                    >
                                         <Flex style={{ gap: '16px' }}>
                                             <RadioGroupItem value="and" id="genre-and" label="All (AND)" />
                                             <RadioGroupItem value="or" id="genre-or" label="Any (OR)" />
@@ -194,11 +176,15 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
 
                                 {availableGenres.length > 0 && (
                                     <Box style={{ marginBottom: '16px' }}>
-                                        <Text size="sm" color="secondary" style={{ marginBottom: '8px', color: '#b0b0b0' }}>
+                                        <Text
+                                            size="sm"
+                                            color="secondary"
+                                            style={{ marginBottom: '8px', color: '#b0b0b0' }}
+                                        >
                                             Genres
                                         </Text>
                                         <Flex style={{ flexWrap: 'wrap', gap: '4px' }}>
-                                            {availableGenres.slice(0, 10).map((genre) => (
+                                            {availableGenres.slice(0, 10).map(genre => (
                                                 <Chip
                                                     key={genre}
                                                     variant={localGenres.includes(genre) ? 'primary' : 'neutral'}
@@ -214,11 +200,15 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
 
                                 {availableYears.length > 0 && (
                                     <Box style={{ marginBottom: '16px' }}>
-                                        <Text size="sm" color="secondary" style={{ marginBottom: '8px', color: '#b0b0b0' }}>
+                                        <Text
+                                            size="sm"
+                                            color="secondary"
+                                            style={{ marginBottom: '8px', color: '#b0b0b0' }}
+                                        >
                                             Years
                                         </Text>
                                         <Flex style={{ flexWrap: 'wrap', gap: '4px' }}>
-                                            {availableYears.slice(0, 10).map((year) => (
+                                            {availableYears.slice(0, 10).map(year => (
                                                 <Chip
                                                     key={year}
                                                     variant={localYears.includes(year) ? 'primary' : 'neutral'}
@@ -234,11 +224,15 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
 
                                 {availableStudios.length > 0 && (
                                     <Box style={{ marginBottom: '16px' }}>
-                                        <Text size="sm" color="secondary" style={{ marginBottom: '8px', color: '#b0b0b0' }}>
+                                        <Text
+                                            size="sm"
+                                            color="secondary"
+                                            style={{ marginBottom: '8px', color: '#b0b0b0' }}
+                                        >
                                             Studios
                                         </Text>
                                         <Flex style={{ flexWrap: 'wrap', gap: '4px' }}>
-                                            {availableStudios.slice(0, 10).map((studio) => (
+                                            {availableStudios.slice(0, 10).map(studio => (
                                                 <Chip
                                                     key={studio}
                                                     variant={localStudios.includes(studio) ? 'primary' : 'neutral'}

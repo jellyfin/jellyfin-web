@@ -14,4 +14,3 @@ export const dividerVertical = style({
     verticalAlign: 'middle',
     borderLeft: `1px solid ${vars.colors.divider}`
 });
-

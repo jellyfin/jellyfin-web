@@ -21,7 +21,13 @@ const variantStyles: Record<AlertVariant, { bg: string; border: string; icon: st
     error: { bg: '#3d1a1a', border: '#ef4444', icon: '✕' }
 };
 
-function AnimatedAlert({ variant = 'info', title, children, dismissible, onDismiss }: Readonly<AnimatedAlertProps>): ReactElement {
+function AnimatedAlert({
+    variant = 'info',
+    title,
+    children,
+    dismissible,
+    onDismiss
+}: Readonly<AnimatedAlertProps>): ReactElement {
     const styles = variantStyles[variant];
 
     return (
@@ -128,12 +134,7 @@ function DismissibleAlert(): ReactElement {
         <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}>
             <AnimatePresence>
                 {visible && (
-                    <AnimatedAlert
-                        variant='info'
-                        title='Dismissible Alert'
-                        dismissible
-                        onDismiss={handleDismiss}
-                    >
+                    <AnimatedAlert variant="info" title="Dismissible Alert" dismissible onDismiss={handleDismiss}>
                         Click the X to dismiss this alert.
                     </AnimatedAlert>
                 )}
@@ -150,16 +151,16 @@ export const Dismissible: Story = {
 function AllVariantsStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}>
-            <AnimatedAlert variant='info' title='Info'>
+            <AnimatedAlert variant="info" title="Info">
                 Information message
             </AnimatedAlert>
-            <AnimatedAlert variant='success' title='Success'>
+            <AnimatedAlert variant="success" title="Success">
                 Success message
             </AnimatedAlert>
-            <AnimatedAlert variant='warning' title='Warning'>
+            <AnimatedAlert variant="warning" title="Warning">
                 Warning message
             </AnimatedAlert>
-            <AnimatedAlert variant='error' title='Error'>
+            <AnimatedAlert variant="error" title="Error">
                 Error message
             </AnimatedAlert>
         </div>

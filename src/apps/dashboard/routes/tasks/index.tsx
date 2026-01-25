@@ -23,19 +23,16 @@ export const Component = (): React.ReactElement => {
 
     return (
         <Page
-            id='scheduledTasksPage'
+            id="scheduledTasksPage"
             title={globalize.translate('TabScheduledTasks')}
-            className='mainAnimatedPage type-interior'
+            className="mainAnimatedPage type-interior"
         >
             <Box style={{ maxWidth: 1000, margin: '0 auto', padding: 24 }}>
                 <Box className={`${Flex} ${Flex.col}`} style={{ gap: 32 }}>
                     {categories.map(category => {
                         return (
                             <React.Suspense key={category} fallback={<TaskLoader />}>
-                                <Tasks
-                                    category={category}
-                                    tasks={getTasksByCategory(tasks, category)}
-                                />
+                                <Tasks category={category} tasks={getTasksByCategory(tasks, category)} />
                             </React.Suspense>
                         );
                     })}

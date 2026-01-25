@@ -15,18 +15,18 @@ import {
 function CalendarIcon(): ReactElement {
     return (
         <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            aria-hidden='true'
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
         >
-            <rect x='3' y='4' width='18' height='18' rx='2' ry='2' />
-            <line x1='16' y1='2' x2='16' y2='6' />
-            <line x1='8' y1='2' x2='8' y2='6' />
-            <line x1='3' y1='10' x2='21' y2='10' />
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
         </svg>
     );
 }
@@ -34,16 +34,16 @@ function CalendarIcon(): ReactElement {
 function ClearIcon(): ReactElement {
     return (
         <svg
-            width='14'
-            height='14'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            aria-hidden='true'
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
         >
-            <line x1='18' y1='6' x2='6' y2='18' />
-            <line x1='6' y1='6' x2='18' y2='18' />
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
     );
 }
@@ -82,17 +82,23 @@ export function DatePicker({
     const [open, setOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleSelect = useCallback((date: Date | undefined): void => {
-        onChange?.(date);
-        if (date !== undefined) {
-            setOpen(false);
-        }
-    }, [onChange]);
+    const handleSelect = useCallback(
+        (date: Date | undefined): void => {
+            onChange?.(date);
+            if (date !== undefined) {
+                setOpen(false);
+            }
+        },
+        [onChange]
+    );
 
-    const handleClear = useCallback((e: React.MouseEvent): void => {
-        e.stopPropagation();
-        onChange?.(undefined);
-    }, [onChange]);
+    const handleClear = useCallback(
+        (e: React.MouseEvent): void => {
+            e.stopPropagation();
+            onChange?.(undefined);
+        },
+        [onChange]
+    );
 
     const displayValue = value !== null && value !== undefined ? format(value, formatString) : placeholder;
 
@@ -109,7 +115,7 @@ export function DatePicker({
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <button
-                        type='button'
+                        type="button"
                         ref={buttonRef}
                         className={`${datePickerTrigger} ${isSelected ? datePickerTriggerActive : ''} ${buttonClassName ?? ''}`}
                         disabled={disabled}
@@ -118,12 +124,10 @@ export function DatePicker({
                         <span className={datePickerIcon}>
                             <CalendarIcon />
                         </span>
-                        <span className={datePickerValue}>
-                            {isSelected ? displayValue : placeholder}
-                        </span>
+                        <span className={datePickerValue}>{isSelected ? displayValue : placeholder}</span>
                         {isSelected && !disabled && (
                             <button
-                                type='button'
+                                type="button"
                                 className={datePickerIcon}
                                 onClick={handleClear}
                                 style={{
@@ -133,16 +137,16 @@ export function DatePicker({
                                     cursor: 'pointer',
                                     padding: 0
                                 }}
-                                aria-label='Clear date'
+                                aria-label="Clear date"
                             >
                                 <ClearIcon />
                             </button>
                         )}
                     </button>
                 </PopoverTrigger>
-                <PopoverContent align='start' style={{ padding: 0 }}>
+                <PopoverContent align="start" style={{ padding: 0 }}>
                     <Calendar
-                        mode='single'
+                        mode="single"
                         selected={value ?? undefined}
                         onSelect={handleSelect as (date: Date | Date[] | DateRange | undefined) => void}
                         showOutsideDays={showOutsideDays}
@@ -187,19 +191,25 @@ export function DateRangePicker({
     const [open, setOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleSelect = useCallback((range: DateRange | undefined): void => {
-        if (range?.from !== undefined && range?.to !== undefined) {
-            onChange?.({ from: range.from, to: range.to });
-            setOpen(false);
-        } else if (range?.from !== undefined) {
-            onChange?.({ from: range.from, to: undefined });
-        }
-    }, [onChange]);
+    const handleSelect = useCallback(
+        (range: DateRange | undefined): void => {
+            if (range?.from !== undefined && range?.to !== undefined) {
+                onChange?.({ from: range.from, to: range.to });
+                setOpen(false);
+            } else if (range?.from !== undefined) {
+                onChange?.({ from: range.from, to: undefined });
+            }
+        },
+        [onChange]
+    );
 
-    const handleClear = useCallback((e: React.MouseEvent): void => {
-        e.stopPropagation();
-        onChange?.({ from: undefined, to: undefined });
-    }, [onChange]);
+    const handleClear = useCallback(
+        (e: React.MouseEvent): void => {
+            e.stopPropagation();
+            onChange?.({ from: undefined, to: undefined });
+        },
+        [onChange]
+    );
 
     let displayValue = placeholder;
     if (value?.from !== undefined) {
@@ -223,7 +233,7 @@ export function DateRangePicker({
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <button
-                        type='button'
+                        type="button"
                         ref={buttonRef}
                         className={`${datePickerTrigger} ${hasFrom ? datePickerTriggerActive : ''} ${buttonClassName ?? ''}`}
                         disabled={disabled}
@@ -235,7 +245,7 @@ export function DateRangePicker({
                         <span className={datePickerValue}>{displayValue}</span>
                         {hasFrom && !disabled && (
                             <button
-                                type='button'
+                                type="button"
                                 className={datePickerIcon}
                                 onClick={handleClear}
                                 style={{
@@ -245,16 +255,16 @@ export function DateRangePicker({
                                     cursor: 'pointer',
                                     padding: 0
                                 }}
-                                aria-label='Clear date range'
+                                aria-label="Clear date range"
                             >
                                 <ClearIcon />
                             </button>
                         )}
                     </button>
                 </PopoverTrigger>
-                <PopoverContent align='start' style={{ padding: 0 }}>
+                <PopoverContent align="start" style={{ padding: 0 }}>
                     <Calendar
-                        mode='range'
+                        mode="range"
                         selected={value as DateRange}
                         onSelect={handleSelect as (date: Date | Date[] | DateRange | undefined) => void}
                         showOutsideDays={showOutsideDays}

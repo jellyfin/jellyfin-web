@@ -1,9 +1,9 @@
 import { WaveSurferOptions } from 'wavesurfer.js';
 
 export interface WaveSurferColorScheme {
-    left: string
-    right: string
-    cursor: string
+    left: string;
+    right: string;
+    cursor: string;
 }
 
 export const DEFAULT_WAVESURFER_COLORS: WaveSurferColorScheme = {

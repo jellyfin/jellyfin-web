@@ -13,13 +13,7 @@ class GroupSelectionMenu {
             container.remove();
         };
 
-        root.render(
-            <SyncPlayGroupMenu
-                open={true}
-                anchorEl={button}
-                onClose={handleClose}
-            />
-        );
+        root.render(<SyncPlayGroupMenu open={true} anchorEl={button} onClose={handleClose} />);
     }
 }
 

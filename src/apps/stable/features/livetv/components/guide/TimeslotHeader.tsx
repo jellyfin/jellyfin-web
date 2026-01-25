@@ -19,11 +19,9 @@ const TimeslotHeader: React.FC<TimeslotHeaderProps> = ({ startDate }) => {
 
     return (
         <div className={styles.styledTimeslotHeader}>
-            {slots.map((date) => (
+            {slots.map(date => (
                 <div key={date.getTime()} className={styles.timeslotCell}>
-                    <Text size='xs'>
-                        {datetime.getDisplayTime(date).toLowerCase()}
-                    </Text>
+                    <Text size="xs">{datetime.getDisplayTime(date).toLowerCase()}</Text>
                 </div>
             ))}
         </div>

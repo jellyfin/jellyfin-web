@@ -31,9 +31,11 @@ const WizardFinish = () => {
     return (
         <div className={styles.container}>
             <Heading.H1 className={styles.title}>{globalize.translate('HeaderAllDone')}</Heading.H1>
-            <Text size='lg' className={styles.helpText}>{globalize.translate('HeaderAllDoneHelp')}</Text>
+            <Text size="lg" className={styles.helpText}>
+                {globalize.translate('HeaderAllDoneHelp')}
+            </Text>
 
-            <Button size='lg' onClick={handleFinish} className={styles.finishButton}>
+            <Button size="lg" onClick={handleFinish} className={styles.finishButton}>
                 {globalize.translate('ButtonFinish')}
             </Button>
         </div>

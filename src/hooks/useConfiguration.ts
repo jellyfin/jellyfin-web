@@ -16,7 +16,7 @@ export const useConfiguration = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY ],
+        queryKey: [QUERY_KEY],
         queryFn: ({ signal }) => fetchConfiguration(api!, { signal }),
         enabled: !!api
     });

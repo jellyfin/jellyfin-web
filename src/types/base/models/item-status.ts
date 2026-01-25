@@ -7,4 +7,4 @@ export const ItemStatus = {
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ItemStatus = typeof ItemStatus[keyof typeof ItemStatus] | undefined;
+export type ItemStatus = (typeof ItemStatus)[keyof typeof ItemStatus] | undefined;

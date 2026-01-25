@@ -23,7 +23,7 @@ export function ScrollArea({ children, className, horizontal = true, vertical = 
                 <ScrollAreaThumb className={scrollAreaThumb} />
             </ScrollAreaScrollbar>
             {horizontal && (
-                <ScrollAreaScrollbar className={scrollAreaScrollbar} orientation='horizontal'>
+                <ScrollAreaScrollbar className={scrollAreaScrollbar} orientation="horizontal">
                     <ScrollAreaThumb className={scrollAreaThumb} />
                 </ScrollAreaScrollbar>
             )}

@@ -45,26 +45,17 @@ export const useQueue = (): QueueHooks => {
     const currentTime = useQueueStore(state => (state as any).currentTime ?? 0);
     const duration = useQueueStore(state => (state as any).duration ?? 0);
 
-    const setQueue = useCallback(
-        (items: PlayableItem[], startIndex?: number) => {
-            useQueueStore.getState().setQueue(items, startIndex);
-        },
-        []
-    );
+    const setQueue = useCallback((items: PlayableItem[], startIndex?: number) => {
+        useQueueStore.getState().setQueue(items, startIndex);
+    }, []);
 
-    const addToQueue = useCallback(
-        (items: PlayableItem[], position?: number) => {
-            useQueueStore.getState().addToQueue(items, position);
-        },
-        []
-    );
+    const addToQueue = useCallback((items: PlayableItem[], position?: number) => {
+        useQueueStore.getState().addToQueue(items, position);
+    }, []);
 
-    const removeFromQueue = useCallback(
-        (itemIds: string[]) => {
-            useQueueStore.getState().removeFromQueue(itemIds);
-        },
-        []
-    );
+    const removeFromQueue = useCallback((itemIds: string[]) => {
+        useQueueStore.getState().removeFromQueue(itemIds);
+    }, []);
 
     const clearQueue = useCallback(() => {
         useQueueStore.getState().clearQueue();

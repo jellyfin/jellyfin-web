@@ -13,7 +13,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const mockItems = [
     { Id: '1', Name: 'Movie 1', ProductionYear: 2024 },
     { Id: '2', Name: 'Movie 2', ProductionYear: 2023 },
-    { Id: '3', Name: 'Movie 3', ProductionYear: 2022 },
+    { Id: '3', Name: 'Movie 3', ProductionYear: 2022 }
 ];
 
 const createListViewWithMocks = () => {

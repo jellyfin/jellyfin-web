@@ -15,12 +15,12 @@ const storage = createJSONStorage(() => localStorage);
 
 export const useDevConfigStore = create<DevConfigState>()(
     persist(
-        (set) => ({
+        set => ({
             ...DEFAULT_DEV_CONFIG,
-            setServerBaseUrl: (serverBaseUrl) => set({ serverBaseUrl }),
-            setUseProxy: (useProxy) => set({ useProxy }),
-            setProxyBasePath: (proxyBasePath) => set({ proxyBasePath }),
-            hydrate: (config) => set({ ...DEFAULT_DEV_CONFIG, ...config }),
+            setServerBaseUrl: serverBaseUrl => set({ serverBaseUrl }),
+            setUseProxy: useProxy => set({ useProxy }),
+            setProxyBasePath: proxyBasePath => set({ proxyBasePath }),
+            hydrate: config => set({ ...DEFAULT_DEV_CONFIG, ...config }),
             reset: () => set({ ...DEFAULT_DEV_CONFIG })
         }),
         {

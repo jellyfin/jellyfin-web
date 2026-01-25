@@ -18,10 +18,7 @@ const getDownload = async (
     return response.data;
 };
 
-export const getDownloadQuery = (
-    apiContext: JellyfinApiContext,
-    params: LibraryApiGetDownloadRequest
-) =>
+export const getDownloadQuery = (apiContext: JellyfinApiContext, params: LibraryApiGetDownloadRequest) =>
     queryOptions({
         queryKey: ['Download', params.itemId],
         queryFn: ({ signal }) => getDownload(apiContext, params, { signal }),

@@ -21,11 +21,7 @@ const fetchVideos = async (
             userId,
             recursive: true,
             mediaTypes: [MediaType.Video],
-            excludeItemTypes: [
-                BaseItemKind.Movie,
-                BaseItemKind.Episode,
-                BaseItemKind.TvChannel
-            ],
+            excludeItemTypes: [BaseItemKind.Movie, BaseItemKind.Episode, BaseItemKind.TvChannel],
             ...params
         },
         options
@@ -33,25 +29,22 @@ const fetchVideos = async (
     return response.data;
 };
 
-export const useVideoSearch = (
-    parentId?: string,
-    collectionType?: CollectionType,
-    searchTerm?: string
-) => {
+export const useVideoSearch = (parentId?: string, collectionType?: CollectionType, searchTerm?: string) => {
     const { api, user } = useApi();
     const userId = user?.Id;
 
     return useQuery({
         queryKey: ['Search', 'Video', collectionType, parentId, searchTerm],
-        queryFn: ({ signal }) => fetchVideos(
-            api!,
-            userId!,
-            {
-                parentId,
-                searchTerm
-            },
-            { signal }
-        ),
+        queryFn: ({ signal }) =>
+            fetchVideos(
+                api!,
+                userId!,
+                {
+                    parentId,
+                    searchTerm
+                },
+                { signal }
+            ),
         enabled: !!api && !!userId && !collectionType
     });
 };

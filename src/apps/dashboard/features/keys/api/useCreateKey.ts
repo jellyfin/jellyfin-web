@@ -9,13 +9,10 @@ export const useCreateKey = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: ApiKeyApiCreateKeyRequest) => (
-            getApiKeyApi(api!)
-                .createKey(params)
-        ),
+        mutationFn: (params: ApiKeyApiCreateKeyRequest) => getApiKeyApi(api!).createKey(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [QUERY_KEY]
             });
         }
     });

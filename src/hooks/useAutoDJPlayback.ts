@@ -42,85 +42,88 @@ export function useAutoDJPlayback() {
         }
     }, []);
 
-    const analyzeTransition = useCallback(async (
-        _currentTrackId: string,
-        nextTrackId: string,
-        nextAudioBuffer: AudioBuffer
-    ): Promise<TransitionSuggestion | null> => {
-        if (transitionInProgress.current) {
-            return null;
-        }
+    const analyzeTransition = useCallback(
+        async (
+            _currentTrackId: string,
+            nextTrackId: string,
+            nextAudioBuffer: AudioBuffer
+        ): Promise<TransitionSuggestion | null> => {
+            if (transitionInProgress.current) {
+                return null;
+            }
 
-        if (analyzedTracks.current.has(nextTrackId)) {
-            return null;
-        }
+            if (analyzedTracks.current.has(nextTrackId)) {
+                return null;
+            }
 
-        try {
-            transitionInProgress.current = true;
-            setIsAnalyzing(true);
+            try {
+                transitionInProgress.current = true;
+                setIsAnalyzing(true);
 
-            const module = await initializeAnalyzer();
-            const nextSamples = nextAudioBuffer.getChannelData(0);
+                const module = await initializeAnalyzer();
+                const nextSamples = nextAudioBuffer.getChannelData(0);
 
-            const suggestion = await module.suggestTransition(
-                createEmptyAnalysis(),
-                module.analyzeTrack(nextSamples, nextAudioBuffer.sampleRate)
-            );
+                const suggestion = await module.suggestTransition(
+                    createEmptyAnalysis(),
+                    module.analyzeTrack(nextSamples, nextAudioBuffer.sampleRate)
+                );
 
-            analyzedTracks.current.add(nextTrackId);
+                analyzedTracks.current.add(nextTrackId);
 
-            logger.info('Auto-DJ transition analyzed', {
-                component: 'AutoDJPlayback',
-                transitionType: suggestion.transitionType,
-                compatibility: suggestion.compatibilityScore,
-            });
+                logger.info('Auto-DJ transition analyzed', {
+                    component: 'AutoDJPlayback',
+                    transitionType: suggestion.transitionType,
+                    compatibility: suggestion.compatibilityScore
+                });
 
-            setCurrentTransition(suggestion);
+                setCurrentTransition(suggestion);
 
-            return suggestion;
-        } catch (error) {
-            logger.error('Transition analysis failed', { component: 'AutoDJPlayback', error: String(error) });
-            return null;
-        } finally {
-            transitionInProgress.current = false;
-            setIsAnalyzing(false);
-        }
-    }, [initializeAnalyzer]);
+                return suggestion;
+            } catch (error) {
+                logger.error('Transition analysis failed', { component: 'AutoDJPlayback', error: String(error) });
+                return null;
+            } finally {
+                transitionInProgress.current = false;
+                setIsAnalyzing(false);
+            }
+        },
+        [initializeAnalyzer]
+    );
 
-    const executeTransition = useCallback(async (
-        currentTrackId: string,
-        _nextTrackId: string
-    ): Promise<boolean> => {
-        if (!currentTransition) {
-            return false;
-        }
+    const executeTransition = useCallback(
+        async (currentTrackId: string, _nextTrackId: string): Promise<boolean> => {
+            if (!currentTransition) {
+                return false;
+            }
 
-        try {
-            logger.info('Executing Auto-DJ transition', {
-                component: 'AutoDJPlayback',
-                type: currentTransition.transitionType,
-                crossfade: currentTransition.crossfadeDuration || crossfadeDuration,
-            });
+            try {
+                logger.info('Executing Auto-DJ transition', {
+                    component: 'AutoDJPlayback',
+                    type: currentTransition.transitionType,
+                    crossfade: currentTransition.crossfadeDuration || crossfadeDuration
+                });
 
-            const record: TransitionRecord = {
-                trackId: currentTrackId,
-                timestamp: Date.now(),
-                transitionType: currentTransition.transitionType,
-                compatibilityScore: currentTransition.compatibilityScore,
-                fxApplied: currentTransition.fxRecommendation?.split(', ') || [],
-            };
+                const record: TransitionRecord = {
+                    trackId: currentTrackId,
+                    timestamp: Date.now(),
+                    transitionType: currentTransition.transitionType,
+                    compatibilityScore: currentTransition.compatibilityScore,
+                    fxApplied: currentTransition.fxRecommendation?.split(', ') || []
+                };
 
-            setTransitionHistory(prev => [record, ...prev].slice(0, 100));
-            setCurrentTransition(null);
+                setTransitionHistory(prev => [record, ...prev].slice(0, 100));
+                setCurrentTransition(null);
 
-            logger.info('Auto-DJ transition executed', { component: 'AutoDJPlayback' });
-            return true;
-        } catch (error) {
-            logger.error('Transition execution failed', { component: 'AutoDJPlayback', error: String(error) });
-            setCurrentTransition(null);
-            return false;
-        }
-    }, [currentTransition, crossfadeDuration]);
+                logger.info('Auto-DJ transition executed', { component: 'AutoDJPlayback' });
+                return true;
+            } catch (error) {
+                logger.error('Transition execution failed', { component: 'AutoDJPlayback', error: String(error) });
+                setCurrentTransition(null);
+                return false;
+            }
+        },
+        [currentTransition, crossfadeDuration]
+    );
 
     const skipTransition = useCallback(() => {
         setCurrentTransition(null);
@@ -136,7 +139,7 @@ export function useAutoDJPlayback() {
                 tempoChanges: 0,
                 standardMixes: 0,
                 averageCompatibility: 0,
-                varietyScore: 1.0,
+                varietyScore: 1.0
             };
         }
 
@@ -157,7 +160,7 @@ export function useAutoDJPlayback() {
             tempoChanges,
             standardMixes,
             averageCompatibility: avgCompatibility,
-            varietyScore,
+            varietyScore
         };
     }, [transitionHistory]);
 
@@ -172,7 +175,7 @@ export function useAutoDJPlayback() {
         executeTransition,
         skipTransition,
         getStats,
-        isTransitioning: transitionInProgress.current,
+        isTransitioning: transitionInProgress.current
     };
 }
 
@@ -227,7 +230,7 @@ function createEmptyAnalysis(): FullTrackAnalysis {
         energyMatchOut: 0.7,
         crossfadeDuration: 16,
         primaryGenre: 'House',
-        genreConfidence: 0.5,
+        genreConfidence: 0.5
     };
 }
 

@@ -2,7 +2,7 @@ import Events from '../../../../utils/events';
 
 export abstract class GenericPlayer {
     static type = 'generic';
-    
+
     player: any;
     manager: any;
     playbackCore: any;
@@ -67,13 +67,25 @@ export abstract class GenericPlayer {
         Events.trigger(this, 'buffering');
     }
 
-    isPlaybackActive(): boolean { return false; }
-    isPlaying(): boolean { return false; }
-    currentTime(): number { return 0; }
-    hasPlaybackRate(): boolean { return false; }
+    isPlaybackActive(): boolean {
+        return false;
+    }
+    isPlaying(): boolean {
+        return false;
+    }
+    currentTime(): number {
+        return 0;
+    }
+    hasPlaybackRate(): boolean {
+        return false;
+    }
     setPlaybackRate(_value: number): void {}
-    getPlaybackRate(): number { return 1.0; }
-    isRemote(): boolean { return false; }
+    getPlaybackRate(): number {
+        return 1.0;
+    }
+    isRemote(): boolean {
+        return false;
+    }
 
     abstract localUnpause(): void;
     abstract localPause(): void;

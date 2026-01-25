@@ -34,4 +34,4 @@ export enum ItemAction {
     Resume = 'resume',
     /** Set this Item as the Item to be currently played from a playlist. */
     SetPlaylistIndex = 'setplaylistindex'
-};
+}

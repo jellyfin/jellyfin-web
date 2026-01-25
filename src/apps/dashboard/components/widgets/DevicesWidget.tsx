@@ -10,16 +10,10 @@ const DevicesWidget = (): React.ReactElement => {
     const { data: devices } = useLiveSessions();
 
     return (
-        <Widget
-            title={globalize.translate('HeaderDevices')}
-            href='/dashboard/devices'
-        >
+        <Widget title={globalize.translate('HeaderDevices')} href="/dashboard/devices">
             <Flex style={{ flexDirection: 'row', flexWrap: 'wrap', gap: vars.spacing.md }}>
                 {devices?.map(device => (
-                    <DeviceCard
-                        key={device.Id}
-                        device={device}
-                    />
+                    <DeviceCard key={device.Id} device={device} />
                 ))}
             </Flex>
         </Widget>

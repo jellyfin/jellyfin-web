@@ -35,8 +35,12 @@ class TimeSyncCore {
         });
     }
 
-    forceUpdate() { this.timeSyncServer.forceUpdate(); }
-    getActiveDeviceName() { return 'Server'; }
+    forceUpdate() {
+        this.timeSyncServer.forceUpdate();
+    }
+    getActiveDeviceName() {
+        return 'Server';
+    }
 
     remoteDateToLocal(remote: Date): Date {
         const date = this.timeSyncServer.remoteDateToLocal(remote);

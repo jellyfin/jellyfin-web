@@ -33,12 +33,12 @@ function DefaultStory(): ReactElement {
     return (
         <Select value={value} onValueChange={handleValueChange}>
             <SelectTrigger style={{ width: '200px' }}>
-                <SelectValue placeholder='Select an option' />
+                <SelectValue placeholder="Select an option" />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value='option1'>Option 1</SelectItem>
-                <SelectItem value='option2'>Option 2</SelectItem>
-                <SelectItem value='option3'>Option 3</SelectItem>
+                <SelectItem value="option1">Option 1</SelectItem>
+                <SelectItem value="option2">Option 2</SelectItem>
+                <SelectItem value="option3">Option 3</SelectItem>
             </SelectContent>
         </Select>
     );
@@ -57,21 +57,21 @@ function WithGroupsStory(): ReactElement {
     return (
         <Select value={value} onValueChange={handleValueChange}>
             <SelectTrigger style={{ width: '220px' }}>
-                <SelectValue placeholder='Choose a fruit' />
+                <SelectValue placeholder="Choose a fruit" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Citrus</SelectLabel>
-                    <SelectItem value='orange'>Orange</SelectItem>
-                    <SelectItem value='lemon'>Lemon</SelectItem>
-                    <SelectItem value='lime'>Lime</SelectItem>
+                    <SelectItem value="orange">Orange</SelectItem>
+                    <SelectItem value="lemon">Lemon</SelectItem>
+                    <SelectItem value="lime">Lime</SelectItem>
                 </SelectGroup>
                 <SelectSeparator />
                 <SelectGroup>
                     <SelectLabel>Berries</SelectLabel>
-                    <SelectItem value='strawberry'>Strawberry</SelectItem>
-                    <SelectItem value='blueberry'>Blueberry</SelectItem>
-                    <SelectItem value='raspberry'>Raspberry</SelectItem>
+                    <SelectItem value="strawberry">Strawberry</SelectItem>
+                    <SelectItem value="blueberry">Blueberry</SelectItem>
+                    <SelectItem value="raspberry">Raspberry</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>
@@ -94,12 +94,12 @@ function WithDisabledStory(): ReactElement {
                 <SelectValue />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value='available'>Available</SelectItem>
-                <SelectItem value='busy' disabled>
+                <SelectItem value="available">Available</SelectItem>
+                <SelectItem value="busy" disabled>
                     Busy (Disabled)
                 </SelectItem>
-                <SelectItem value='away'>Away</SelectItem>
-                <SelectItem value='offline' disabled>
+                <SelectItem value="away">Away</SelectItem>
+                <SelectItem value="offline" disabled>
                     Offline (Disabled)
                 </SelectItem>
             </SelectContent>
@@ -116,15 +116,21 @@ function SettingsExampleStory(): ReactElement {
     const [language, setLanguage] = useState('en');
     const [notifications, setNotifications] = useState('on');
 
-    const handleThemeChange = useCallback((v: string): void => { setTheme(v); }, []);
-    const handleLanguageChange = useCallback((v: string): void => { setLanguage(v); }, []);
-    const handleNotificationsChange = useCallback((v: string): void => { setNotifications(v); }, []);
+    const handleThemeChange = useCallback((v: string): void => {
+        setTheme(v);
+    }, []);
+    const handleLanguageChange = useCallback((v: string): void => {
+        setLanguage(v);
+    }, []);
+    const handleNotificationsChange = useCallback((v: string): void => {
+        setNotifications(v);
+    }, []);
 
     return (
         <div style={{ width: '280px' }}>
             <div style={{ marginBottom: '16px' }}>
                 <label
-                    htmlFor='theme-select'
+                    htmlFor="theme-select"
                     style={{
                         display: 'block',
                         fontSize: vars.typography.fontSizeSm,
@@ -135,19 +141,19 @@ function SettingsExampleStory(): ReactElement {
                     Theme
                 </label>
                 <Select value={theme} onValueChange={handleThemeChange}>
-                    <SelectTrigger id='theme-select' style={{ width: '100%' }}>
+                    <SelectTrigger id="theme-select" style={{ width: '100%' }}>
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value='light'>Light</SelectItem>
-                        <SelectItem value='dark'>Dark</SelectItem>
-                        <SelectItem value='system'>System</SelectItem>
+                        <SelectItem value="light">Light</SelectItem>
+                        <SelectItem value="dark">Dark</SelectItem>
+                        <SelectItem value="system">System</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
             <div style={{ marginBottom: '16px' }}>
                 <label
-                    htmlFor='language-select'
+                    htmlFor="language-select"
                     style={{
                         display: 'block',
                         fontSize: vars.typography.fontSizeSm,
@@ -158,20 +164,20 @@ function SettingsExampleStory(): ReactElement {
                     Language
                 </label>
                 <Select value={language} onValueChange={handleLanguageChange}>
-                    <SelectTrigger id='language-select' style={{ width: '100%' }}>
+                    <SelectTrigger id="language-select" style={{ width: '100%' }}>
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value='en'>English</SelectItem>
-                        <SelectItem value='es'>Español</SelectItem>
-                        <SelectItem value='fr'>Français</SelectItem>
-                        <SelectItem value='de'>Deutsch</SelectItem>
+                        <SelectItem value="en">English</SelectItem>
+                        <SelectItem value="es">Español</SelectItem>
+                        <SelectItem value="fr">Français</SelectItem>
+                        <SelectItem value="de">Deutsch</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
             <div>
                 <label
-                    htmlFor='notifications-select'
+                    htmlFor="notifications-select"
                     style={{
                         display: 'block',
                         fontSize: vars.typography.fontSizeSm,
@@ -182,13 +188,13 @@ function SettingsExampleStory(): ReactElement {
                     Notifications
                 </label>
                 <Select value={notifications} onValueChange={handleNotificationsChange}>
-                    <SelectTrigger id='notifications-select' style={{ width: '100%' }}>
+                    <SelectTrigger id="notifications-select" style={{ width: '100%' }}>
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value='on'>On</SelectItem>
-                        <SelectItem value='off'>Off</SelectItem>
-                        <SelectItem value='mentions'>Mentions Only</SelectItem>
+                        <SelectItem value="on">On</SelectItem>
+                        <SelectItem value="off">Off</SelectItem>
+                        <SelectItem value="mentions">Mentions Only</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
@@ -212,9 +218,9 @@ function DisabledSelectStory(): ReactElement {
                 <SelectValue />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value='option1'>Option 1</SelectItem>
-                <SelectItem value='option2'>Option 2</SelectItem>
-                <SelectItem value='option3'>Option 3</SelectItem>
+                <SelectItem value="option1">Option 1</SelectItem>
+                <SelectItem value="option2">Option 2</SelectItem>
+                <SelectItem value="option3">Option 3</SelectItem>
             </SelectContent>
         </Select>
     );

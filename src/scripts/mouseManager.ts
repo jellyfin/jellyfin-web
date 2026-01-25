@@ -46,7 +46,7 @@ export function hideCursor(): void {
     }
 }
 
-let lastPointerMoveData: { x: number, y: number } | null = null;
+let lastPointerMoveData: { x: number; y: number } | null = null;
 
 function onPointerMove(e: MouseEvent | PointerEvent) {
     const eventX = e.screenX || e.clientX;
@@ -83,9 +83,10 @@ function enableFocusWithMouse(): boolean {
 let mouseInterval: any = null;
 
 function startMouseInterval() {
-    if (!mouseInterval) mouseInterval = setInterval(() => {
-        if (!isMouseIdle && mouseIdleTime() >= 5000) hideCursor();
-    }, 5000);
+    if (!mouseInterval)
+        mouseInterval = setInterval(() => {
+            if (!isMouseIdle && mouseIdleTime() >= 5000) hideCursor();
+        }, 5000);
 }
 
 function stopMouseInterval() {

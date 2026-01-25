@@ -110,10 +110,7 @@ export function union<T>(...arrays: T[][]): T[] {
 /**
  * Group array items by key function
  */
-export function groupBy<T, K extends string | number | symbol>(
-    array: T[],
-    iteratee: (item: T) => K
-): Record<K, T[]> {
+export function groupBy<T, K extends string | number | symbol>(array: T[], iteratee: (item: T) => K): Record<K, T[]> {
     const result = {} as Record<K, T[]>;
 
     for (const item of array) {

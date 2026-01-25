@@ -7,9 +7,6 @@ export const useSendMessage = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: SessionApiSendMessageCommandRequest) => (
-            getSessionApi(api!)
-                .sendMessageCommand(params)
-        )
+        mutationFn: (params: SessionApiSendMessageCommandRequest) => getSessionApi(api!).sendMessageCommand(params)
     });
 };

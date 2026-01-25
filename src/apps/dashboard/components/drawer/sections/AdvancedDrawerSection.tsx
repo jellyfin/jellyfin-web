@@ -8,15 +8,11 @@ import globalize from 'lib/globalize';
 const AdvancedDrawerSection = (): React.ReactElement => {
     return (
         <List
-            aria-labelledby='advanced-subheader'
-            subheader={
-                <ListSubheader id='advanced-subheader'>
-                    {globalize.translate('TabAdvanced')}
-                </ListSubheader>
-            }
+            aria-labelledby="advanced-subheader"
+            subheader={<ListSubheader id="advanced-subheader">{globalize.translate('TabAdvanced')}</ListSubheader>}
         >
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/networking'>
+                <ListItemLink to="/dashboard/networking">
                     <ListItemDecorator>
                         <GlobeIcon />
                     </ListItemDecorator>
@@ -24,7 +20,7 @@ const AdvancedDrawerSection = (): React.ReactElement => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/keys'>
+                <ListItemLink to="/dashboard/keys">
                     <ListItemDecorator>
                         <LockClosedIcon />
                     </ListItemDecorator>
@@ -32,7 +28,7 @@ const AdvancedDrawerSection = (): React.ReactElement => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/backups'>
+                <ListItemLink to="/dashboard/backups">
                     <ListItemDecorator>
                         <ArchiveIcon />
                     </ListItemDecorator>
@@ -40,7 +36,7 @@ const AdvancedDrawerSection = (): React.ReactElement => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/logs'>
+                <ListItemLink to="/dashboard/logs">
                     <ListItemDecorator>
                         <FileTextIcon />
                     </ListItemDecorator>
@@ -48,7 +44,7 @@ const AdvancedDrawerSection = (): React.ReactElement => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to='/dashboard/tasks'>
+                <ListItemLink to="/dashboard/tasks">
                     <ListItemDecorator>
                         <CalendarIcon />
                     </ListItemDecorator>

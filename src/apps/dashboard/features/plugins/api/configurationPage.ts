@@ -1,9 +1,6 @@
 import type { ConfigurationPageInfo } from '@jellyfin/sdk/lib/generated-client/models/configuration-page-info';
 
-export const findBestConfigurationPage = (
-    configurationPages: ConfigurationPageInfo[],
-    pluginId: string
-) => {
+export const findBestConfigurationPage = (configurationPages: ConfigurationPageInfo[], pluginId: string) => {
     // Find candidates matching the plugin id
     const candidates = configurationPages.filter(c => c.PluginId === pluginId);
 

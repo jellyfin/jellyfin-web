@@ -6,7 +6,7 @@ import { Avatar } from 'ui-primitives/Avatar';
 import { useApi } from 'hooks/useApi';
 
 interface UserAvatarProps {
-    user?: UserDto
+    user?: UserDto;
 }
 
 const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
@@ -16,14 +16,13 @@ const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
         <Avatar
             alt={user.Name ?? undefined}
             src={
-                api && user.Id && user.PrimaryImageTag ?
-                    `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}` :
-                    undefined
+                api && user.Id && user.PrimaryImageTag
+                    ? `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}`
+                    : undefined
             }
             style={{
-                backgroundColor: api && user.Id && user.PrimaryImageTag ?
-                    vars.colors.surface :
-                    vars.colors.primaryHover,
+                backgroundColor:
+                    api && user.Id && user.PrimaryImageTag ? vars.colors.surface : vars.colors.primaryHover,
                 color: 'inherit'
             }}
         />

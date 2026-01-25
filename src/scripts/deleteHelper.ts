@@ -35,18 +35,21 @@ export function deleteItem(options: DeleteOptions): Promise<void> {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
     return confirm(getDeletionConfirmContent(item)).then(() => {
-        return apiClient.deleteItem(item.Id).then(() => {
-            if (options.navigate) {
-                if (parentId) {
-                    appRouter.showItem(parentId, item.ServerId);
-                } else {
-                    appRouter.goHome();
+        return apiClient.deleteItem(item.Id).then(
+            () => {
+                if (options.navigate) {
+                    if (parentId) {
+                        appRouter.showItem(parentId, item.ServerId);
+                    } else {
+                        appRouter.goHome();
+                    }
                 }
+            },
+            (err: any) => {
+                alert(globalize.translate('ErrorDeletingItem'));
+                throw err;
             }
-        }, (err: any) => {
-            alert(globalize.translate('ErrorDeletingItem'));
-            throw err;
-        });
+        );
     });
 }
 
@@ -58,13 +61,15 @@ export function deleteLyrics(item: any): Promise<void> {
         primary: 'delete'
     }).then(() => {
         const apiClient = ServerConnections.getApiClient(item.ServerId);
-        return apiClient.ajax({
-            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
-            type: 'DELETE'
-        }).catch((err: any) => {
-            alert(globalize.translate('ErrorDeletingLyrics'));
-            throw err;
-        });
+        return apiClient
+            .ajax({
+                url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
+                type: 'DELETE'
+            })
+            .catch((err: any) => {
+                alert(globalize.translate('ErrorDeletingLyrics'));
+                throw err;
+            });
     });
 }
 

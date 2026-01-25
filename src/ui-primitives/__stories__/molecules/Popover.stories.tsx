@@ -38,7 +38,7 @@ function DefaultStory(): ReactElement {
             <PopoverTrigger asChild>
                 <Button>Open Popover</Button>
             </PopoverTrigger>
-            <PopoverContent align='start'>
+            <PopoverContent align="start">
                 <PopoverClose />
                 <PopoverHeader>
                     <PopoverTitle>Edit Profile</PopoverTitle>
@@ -48,8 +48,8 @@ function DefaultStory(): ReactElement {
                 </PopoverHeader>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
                     <input
-                        type='text'
-                        placeholder='Enter your name'
+                        type="text"
+                        placeholder="Enter your name"
                         style={{
                             width: '100%',
                             padding: '8px 12px',
@@ -61,8 +61,8 @@ function DefaultStory(): ReactElement {
                         }}
                     />
                     <input
-                        type='email'
-                        placeholder='Enter your email'
+                        type="email"
+                        placeholder="Enter your email"
                         style={{
                             width: '100%',
                             padding: '8px 12px',
@@ -75,7 +75,7 @@ function DefaultStory(): ReactElement {
                     />
                 </div>
                 <PopoverFooter>
-                    <Button variant='primary' size='sm'>
+                    <Button variant="primary" size="sm">
                         Save
                     </Button>
                 </PopoverFooter>
@@ -95,30 +95,30 @@ function WithCustomTriggerStory(): ReactElement {
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant='ghost' style={{ padding: '8px 12px' }}>
+                <Button variant="ghost" style={{ padding: '8px 12px' }}>
                     <svg
-                        width='16'
-                        height='16'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='currentColor'
-                        strokeWidth='2'
-                        aria-hidden='true'
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        aria-hidden="true"
                     >
-                        <circle cx='12' cy='12' r='1' />
-                        <circle cx='19' cy='12' r='1' />
-                        <circle cx='5' cy='12' r='1' />
+                        <circle cx="12" cy="12" r="1" />
+                        <circle cx="19" cy="12" r="1" />
+                        <circle cx="5" cy="12" r="1" />
                     </svg>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent align='end'>
+            <PopoverContent align="end">
                 <PopoverClose />
                 <PopoverHeader>
                     <PopoverTitle>Actions</PopoverTitle>
                 </PopoverHeader>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <button
-                        type='button'
+                        type="button"
                         style={{
                             padding: '8px 12px',
                             background: 'transparent',
@@ -132,7 +132,7 @@ function WithCustomTriggerStory(): ReactElement {
                         Share
                     </button>
                     <button
-                        type='button'
+                        type="button"
                         style={{
                             padding: '8px 12px',
                             background: 'transparent',
@@ -146,7 +146,7 @@ function WithCustomTriggerStory(): ReactElement {
                         Copy link
                     </button>
                     <button
-                        type='button'
+                        type="button"
                         style={{
                             padding: '8px 12px',
                             background: 'transparent',
@@ -175,11 +175,11 @@ function AlignVariantsStory(): ReactElement {
         <div style={{ display: 'flex', gap: '8px' }}>
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant='secondary' size='sm'>
+                    <Button variant="secondary" size="sm">
                         Start
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent align='start'>
+                <PopoverContent align="start">
                     <PopoverClose />
                     <PopoverTitle>Start Align</PopoverTitle>
                     <PopoverDescription>Aligned to the start (left).</PopoverDescription>
@@ -189,11 +189,11 @@ function AlignVariantsStory(): ReactElement {
 
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant='secondary' size='sm'>
+                    <Button variant="secondary" size="sm">
                         Center
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent align='center'>
+                <PopoverContent align="center">
                     <PopoverClose />
                     <PopoverTitle>Center Align</PopoverTitle>
                     <PopoverDescription>Aligned to the center.</PopoverDescription>
@@ -203,11 +203,11 @@ function AlignVariantsStory(): ReactElement {
 
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button variant='secondary' size='sm'>
+                    <Button variant="secondary" size="sm">
                         End
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent align='end'>
+                <PopoverContent align="end">
                     <PopoverClose />
                     <PopoverTitle>End Align</PopoverTitle>
                     <PopoverDescription>Aligned to the end (right).</PopoverDescription>
@@ -228,7 +228,7 @@ function SimpleContentStory(): ReactElement {
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant='ghost'>Simple Popover</Button>
+                <Button variant="ghost">Simple Popover</Button>
             </PopoverTrigger>
             <PopoverContent>
                 <PopoverClose />
@@ -249,7 +249,7 @@ function WithoutArrowStory(): ReactElement {
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant='ghost'>No Arrow</Button>
+                <Button variant="ghost">No Arrow</Button>
             </PopoverTrigger>
             <PopoverContent style={{ padding: 20 }}>
                 <PopoverClose />

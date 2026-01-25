@@ -17,7 +17,7 @@ const InstantMixButton: FC<InstantMixButtonProps> = ({ item }) => {
 
     return (
         <IconButton
-            className='button-flat btnInstantMix'
+            className="button-flat btnInstantMix"
             title={globalize.translate('HeaderInstantMix')}
             onClick={onInstantMixClick}
         >

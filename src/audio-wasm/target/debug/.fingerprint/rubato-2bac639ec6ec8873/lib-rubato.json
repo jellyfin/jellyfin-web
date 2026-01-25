@@ -1,1 +1,21 @@
-{"rustc":4996801173321332248,"features":"[\"avx\", \"default\"]","declared_features":"[\"avx\", \"default\", \"neon\"]","target":13535023898650711816,"profile":8276155916380437441,"path":7749915747232861578,"deps":[[5157631553186200874,"num_traits",false,3077057522397920384],[10630857666389190470,"log",false,2798082306921873753],[12319020793864570031,"num_complex",false,16459018074393145831],[16353208768472534982,"realfft",false,7413336198729197788],[16795989132585092538,"num_integer",false,5100405434946302724]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/rubato-2bac639ec6ec8873/dep-lib-rubato","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"avx\", \"default\"]",
+  "declared_features": "[\"avx\", \"default\", \"neon\"]",
+  "target": 13535023898650711816,
+  "profile": 8276155916380437441,
+  "path": 7749915747232861578,
+  "deps": [
+    [5157631553186200874, "num_traits", false, 3077057522397920384],
+    [10630857666389190470, "log", false, 2798082306921873753],
+    [12319020793864570031, "num_complex", false, 16459018074393145831],
+    [16353208768472534982, "realfft", false, 7413336198729197788],
+    [16795989132585092538, "num_integer", false, 5100405434946302724]
+  ],
+  "local": [
+    { "CheckDepInfo": { "dep_info": "debug/.fingerprint/rubato-2bac639ec6ec8873/dep-lib-rubato", "checksum": false } }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

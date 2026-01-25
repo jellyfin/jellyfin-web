@@ -14,7 +14,7 @@ export const useCultures = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ 'Cultures' ],
+        queryKey: ['Cultures'],
         queryFn: ({ signal }) => fetchCultures(api!, { signal }),
         enabled: !!api
     });

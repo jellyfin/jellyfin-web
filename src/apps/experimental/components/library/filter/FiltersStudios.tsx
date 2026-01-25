@@ -11,22 +11,18 @@ interface FiltersStudiosProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersStudios: FC<FiltersStudiosProps> = ({
-    studiosOptions,
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersStudios: FC<FiltersStudiosProps> = ({ studiosOptions, libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersStudiosChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value;
             const existingStudioIds = libraryViewSettings?.Filters?.StudioIds ?? [];
 
-            const updatedStudioIds = existingStudioIds.includes(value) ?
-                existingStudioIds.filter((filter) => filter !== value) :
-                [...existingStudioIds, value];
+            const updatedStudioIds = existingStudioIds.includes(value)
+                ? existingStudioIds.filter(filter => filter !== value)
+                : [...existingStudioIds, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -40,14 +36,10 @@ const FiltersStudios: FC<FiltersStudiosProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
-            {studiosOptions?.map((filter) => (
+            {studiosOptions?.map(filter => (
                 <Checkbox
                     key={filter.Id}
-                    checked={
-                        !!libraryViewSettings?.Filters?.StudioIds?.includes(
-                            String(filter.Id)
-                        )
-                    }
+                    checked={!!libraryViewSettings?.Filters?.StudioIds?.includes(String(filter.Id))}
                     onChange={onFiltersStudiosChange}
                     value={String(filter.Id)}
                 >

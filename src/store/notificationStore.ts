@@ -1,6 +1,6 @@
 /**
  * Notification Store - Server Notifications and Events
- * 
+ *
  * Manages real-time notifications from the Jellyfin server (WebSocket).
  * Replaces legacy Events logic for 'UserDataChanged', 'TimerCreated', etc.
  */
@@ -36,7 +36,7 @@ export interface NotificationActions {
 }
 
 export const useNotificationStore = create<NotificationState & NotificationActions>()(
-    subscribeWithSelector((set) => ({
+    subscribeWithSelector(set => ({
         lastUserDataUpdate: null,
         notifications: [],
 
@@ -50,30 +50,36 @@ export const useNotificationStore = create<NotificationState & NotificationActio
             };
 
             set({ lastUserDataUpdate: update });
-            
+
             // Still add to general notifications log
-            set((state) => ({
-                notifications: [{
-                    type: 'UserDataChanged',
-                    data: update,
-                    serverId,
-                    timestamp: Date.now()
-                }, ...state.notifications].slice(0, 50)
+            set(state => ({
+                notifications: [
+                    {
+                        type: 'UserDataChanged',
+                        data: update,
+                        serverId,
+                        timestamp: Date.now()
+                    },
+                    ...state.notifications
+                ].slice(0, 50)
             }));
 
             logger.debug('User data changed', { component: 'NotificationStore', itemId: update.itemId });
         },
 
         addNotification: (serverId, type, data) => {
-            set((state) => ({
-                notifications: [{
-                    type,
-                    data,
-                    serverId,
-                    timestamp: Date.now()
-                }, ...state.notifications].slice(0, 50)
+            set(state => ({
+                notifications: [
+                    {
+                        type,
+                        data,
+                        serverId,
+                        timestamp: Date.now()
+                    },
+                    ...state.notifications
+                ].slice(0, 50)
             }));
-            
+
             logger.debug(`Server notification: ${type}`, { component: 'NotificationStore' });
         },
 

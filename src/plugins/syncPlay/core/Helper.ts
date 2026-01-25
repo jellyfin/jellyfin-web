@@ -5,7 +5,12 @@ export const WaitForEventDefaultTimeout = 30000;
 export const WaitForPlayerEventTimeout = 500;
 export const TicksPerMillisecond = 10000.0;
 
-export function waitForEventOnce(emitter: any, eventType: string, timeout?: number, rejectEventTypes?: string[]): Promise<any> {
+export function waitForEventOnce(
+    emitter: any,
+    eventType: string,
+    timeout?: number,
+    rejectEventTypes?: string[]
+): Promise<any> {
     return new Promise((resolve, reject) => {
         let rejectTimeout: any;
         if (timeout) {
@@ -20,8 +25,14 @@ export function waitForEventOnce(emitter: any, eventType: string, timeout?: numb
             }
         };
 
-        const callback = (...args: any[]) => { clearAll(); resolve(args); };
-        const rejectCallback = (event: any) => { clearAll(); reject(event.type); };
+        const callback = (...args: any[]) => {
+            clearAll();
+            resolve(args);
+        };
+        const rejectCallback = (event: any) => {
+            clearAll();
+            reject(event.type);
+        };
 
         Events.on(emitter, eventType, callback);
         if (Array.isArray(rejectEventTypes)) {
@@ -69,12 +80,30 @@ export function translateItemsForPlayback(apiClient: any, items: any[], options:
     } else if (firstItem.Type === 'Playlist') {
         promise = getItemsForPlayback(apiClient, { ParentId: firstItem.Id, SortBy: options.shuffle ? 'Random' : null });
     } else if (firstItem.Type === 'MusicArtist') {
-        promise = getItemsForPlayback(apiClient, { ArtistIds: firstItem.Id, Filters: 'IsNotFolder', Recursive: true, SortBy: options.shuffle ? 'Random' : 'SortName', MediaTypes: 'Audio' });
+        promise = getItemsForPlayback(apiClient, {
+            ArtistIds: firstItem.Id,
+            Filters: 'IsNotFolder',
+            Recursive: true,
+            SortBy: options.shuffle ? 'Random' : 'SortName',
+            MediaTypes: 'Audio'
+        });
     } else if (firstItem.IsFolder) {
-        let sortBy = options.shuffle ? 'Random' : (firstItem.Type === 'BoxSet' ? 'SortName' : null);
-        promise = getItemsForPlayback(apiClient, mergePlaybackQueries({ ParentId: firstItem.Id, Filters: 'IsNotFolder', Recursive: true, SortBy: sortBy, MediaTypes: 'Audio,Video' }, queryOptions));
+        let sortBy = options.shuffle ? 'Random' : firstItem.Type === 'BoxSet' ? 'SortName' : null;
+        promise = getItemsForPlayback(
+            apiClient,
+            mergePlaybackQueries(
+                {
+                    ParentId: firstItem.Id,
+                    Filters: 'IsNotFolder',
+                    Recursive: true,
+                    SortBy: sortBy,
+                    MediaTypes: 'Audio,Video'
+                },
+                queryOptions
+            )
+        );
     }
 
-    if (promise) return promise.then(res => res ? res.Items : items);
+    if (promise) return promise.then(res => (res ? res.Items : items));
     return Promise.resolve(items);
 }

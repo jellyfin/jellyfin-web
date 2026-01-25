@@ -48,7 +48,13 @@ export function PopoverContent({
     );
 }
 
-export function PopoverArrow({ width = 10, height = 5 }: { readonly width?: number; readonly height?: number }): ReactElement {
+export function PopoverArrow({
+    width = 10,
+    height = 5
+}: {
+    readonly width?: number;
+    readonly height?: number;
+}): ReactElement {
     return (
         <Arrow
             className={popoverArrow}
@@ -73,18 +79,18 @@ export function PopoverClose({
 }): ReactElement {
     return (
         <Close asChild onClick={onClick}>
-            <button type='button' className={popoverClose} aria-label={ariaLabel ?? 'Close'}>
+            <button type="button" className={popoverClose} aria-label={ariaLabel ?? 'Close'}>
                 {children ?? (
                     <svg
-                        width='14'
-                        height='14'
-                        viewBox='0 0 24 24'
-                        fill='none'
-                        stroke='currentColor'
-                        strokeWidth='2'
-                        aria-hidden='true'
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        aria-hidden="true"
                     >
-                        <path d='M18 6L6 18M6 6l12 12' />
+                        <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 )}
             </button>
@@ -92,19 +98,43 @@ export function PopoverClose({
     );
 }
 
-export function PopoverHeader({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function PopoverHeader({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <div className={`${popoverHeader} ${className ?? ''}`}>{children}</div>;
 }
 
-export function PopoverTitle({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function PopoverTitle({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <h3 className={`${popoverTitle} ${className ?? ''}`}>{children}</h3>;
 }
 
-export function PopoverDescription({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function PopoverDescription({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <p className={`${popoverDescription} ${className ?? ''}`}>{children}</p>;
 }
 
-export function PopoverFooter({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function PopoverFooter({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <div className={`${popoverFooter} ${className ?? ''}`}>{children}</div>;
 }
 
@@ -123,7 +153,13 @@ export function Popover({ open, onOpenChange, children, defaultOpen }: PopoverPr
     );
 }
 
-export function PopoverTrigger({ asChild = true, children }: { readonly asChild?: boolean; readonly children: ReactNode }): ReactElement {
+export function PopoverTrigger({
+    asChild = true,
+    children
+}: {
+    readonly asChild?: boolean;
+    readonly children: ReactNode;
+}): ReactElement {
     return <Trigger asChild={asChild}>{children}</Trigger>;
 }
 

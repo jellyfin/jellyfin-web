@@ -15,26 +15,21 @@ const featuresOptions = [
 
 interface FiltersFeaturesProps {
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<
-        React.SetStateAction<LibraryViewSettings>
-    >;
+    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersFeatures: FC<FiltersFeaturesProps> = ({
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersFeatures: FC<FiltersFeaturesProps> = ({ libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersFeaturesChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as FeatureFilters;
             const existingFeatures = libraryViewSettings?.Filters?.Features ?? [];
 
-            const updatedFeatures = existingFeatures.includes(value) ?
-                existingFeatures.filter((filter) => filter !== value) :
-                [...existingFeatures, value];
+            const updatedFeatures = existingFeatures.includes(value)
+                ? existingFeatures.filter(filter => filter !== value)
+                : [...existingFeatures, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -48,21 +43,16 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
-            {featuresOptions
-                .map((filter) => (
-                    <Checkbox
-                        key={filter.value}
-                        checked={
-                            !!libraryViewSettings?.Filters?.Features?.includes(
-                                filter.value
-                            )
-                        }
-                        onChange={onFiltersFeaturesChange}
-                        value={filter.value}
-                    >
-                        {globalize.translate(filter.label)}
-                    </Checkbox>
-                ))}
+            {featuresOptions.map(filter => (
+                <Checkbox
+                    key={filter.value}
+                    checked={!!libraryViewSettings?.Filters?.Features?.includes(filter.value)}
+                    onChange={onFiltersFeaturesChange}
+                    value={filter.value}
+                >
+                    {globalize.translate(filter.label)}
+                </Checkbox>
+            ))}
         </Box>
     );
 };

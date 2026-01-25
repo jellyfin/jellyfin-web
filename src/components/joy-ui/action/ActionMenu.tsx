@@ -67,13 +67,16 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
         };
     }, [anchorEl, open]);
 
-    const handleItemClick = useCallback((item: ActionMenuItem) => {
-        const itemId = item.id == null || item.id === '' ? item.value : item.id;
-        if (itemId) {
-            onSelect(itemId);
-        }
-        onClose();
-    }, [onSelect, onClose]);
+    const handleItemClick = useCallback(
+        (item: ActionMenuItem) => {
+            const itemId = item.id == null || item.id === '' ? item.value : item.id;
+            if (itemId) {
+                onSelect(itemId);
+            }
+            onClose();
+        },
+        [onSelect, onClose]
+    );
 
     const handleCancel = useCallback(() => {
         if (onCancel) {
@@ -85,18 +88,29 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
     const renderIcon = (icon: string | undefined, isSelected: boolean) => {
         if (!icon) {
             if (isSelected) {
-                return <span className='material-icons' aria-hidden='true'>check</span>;
+                return (
+                    <span className="material-icons" aria-hidden="true">
+                        check
+                    </span>
+                );
             }
             return null;
         }
-        return <span className={`material-icons ${icon}`} aria-hidden='true'>{icon}</span>;
+        return (
+            <span className={`material-icons ${icon}`} aria-hidden="true">
+                {icon}
+            </span>
+        );
     };
 
-    const handleOpenChange = useCallback((nextOpen: boolean) => {
-        if (!nextOpen) {
-            onClose();
-        }
-    }, [onClose]);
+    const handleOpenChange = useCallback(
+        (nextOpen: boolean) => {
+            if (!nextOpen) {
+                onClose();
+            }
+        },
+        [onClose]
+    );
 
     if (!anchorEl) {
         return null;
@@ -104,32 +118,34 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
 
     return (
         <DropdownMenuPrimitive.Root open={open} onOpenChange={handleOpenChange} modal={false}>
-            {anchorRect && typeof document !== 'undefined' && createPortal(
-                <DropdownMenuPrimitive.Trigger asChild>
-                    <button
-                        type='button'
-                        aria-hidden='true'
-                        tabIndex={-1}
-                        className={styles.anchorTrigger}
-                        style={{
-                            left: anchorRect.left,
-                            top: anchorRect.top,
-                            width: anchorRect.width,
-                            height: anchorRect.height
-                        }}
-                    />
-                </DropdownMenuPrimitive.Trigger>,
-                document.body
-            )}
+            {anchorRect &&
+                typeof document !== 'undefined' &&
+                createPortal(
+                    <DropdownMenuPrimitive.Trigger asChild>
+                        <button
+                            type="button"
+                            aria-hidden="true"
+                            tabIndex={-1}
+                            className={styles.anchorTrigger}
+                            style={{
+                                left: anchorRect.left,
+                                top: anchorRect.top,
+                                width: anchorRect.width,
+                                height: anchorRect.height
+                            }}
+                        />
+                    </DropdownMenuPrimitive.Trigger>,
+                    document.body
+                )}
             <DropdownMenuPrimitive.Portal>
                 <DropdownMenuPrimitive.Content
                     className={classNames(menuStyles.content, styles.menuContent, dialogClass)}
-                    align='start'
+                    align="start"
                     sideOffset={4}
                 >
                     {title && (
                         <Box className={styles.header}>
-                            <Text size='sm' weight='bold'>
+                            <Text size="sm" weight="bold">
                                 {title}
                             </Text>
                         </Box>
@@ -137,19 +153,22 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
 
                     {text && (
                         <Box className={styles.description}>
-                            <Text size='sm' color='secondary'>
+                            <Text size="sm" color="secondary">
                                 {text}
                             </Text>
                         </Box>
                     )}
 
-                    {(title || text) && (
-                        <DropdownMenuPrimitive.Separator className={menuStyles.separator} />
-                    )}
+                    {(title || text) && <DropdownMenuPrimitive.Separator className={menuStyles.separator} />}
 
                     {items.map((item, index) => {
                         if (item.divider) {
-                            return <DropdownMenuPrimitive.Separator key={`divider-${index}`} className={menuStyles.separator} />;
+                            return (
+                                <DropdownMenuPrimitive.Separator
+                                    key={`divider-${index}`}
+                                    className={menuStyles.separator}
+                                />
+                            );
                         }
 
                         const itemKey = item.id || item.value || `item-${index}`;
@@ -165,26 +184,24 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                                 key={itemKey}
                                 className={itemClassName}
                                 data-selected={item.selected ? 'true' : undefined}
-                                onSelect={(event) => {
+                                onSelect={event => {
                                     event.preventDefault();
                                     handleItemClick(item);
                                 }}
                             >
                                 {(item.icon || item.selected) && (
-                                    <span className={styles.iconSlot}>
-                                        {renderIcon(item.icon, !!item.selected)}
-                                    </span>
+                                    <span className={styles.iconSlot}>{renderIcon(item.icon, !!item.selected)}</span>
                                 )}
                                 <div className={styles.itemContent}>
-                                    <Text size='md'>{itemText}</Text>
+                                    <Text size="md">{itemText}</Text>
                                     {item.secondaryText && (
-                                        <Text size='xs' color='secondary'>
+                                        <Text size="xs" color="secondary">
                                             {item.secondaryText}
                                         </Text>
                                     )}
                                 </div>
                                 {item.asideText && (
-                                    <Text size='xs' color='secondary' className={styles.asideText}>
+                                    <Text size="xs" color="secondary" className={styles.asideText}>
                                         {item.asideText}
                                     </Text>
                                 )}
@@ -197,15 +214,17 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                             <DropdownMenuPrimitive.Separator className={menuStyles.separator} />
                             <DropdownMenuPrimitive.Item
                                 className={classNames(menuStyles.item, menuStyles.itemVariant.danger)}
-                                onSelect={(event) => {
+                                onSelect={event => {
                                     event.preventDefault();
                                     handleCancel();
                                 }}
                             >
                                 <span className={styles.iconSlot}>
-                                    <span className='material-icons' aria-hidden='true'>close</span>
+                                    <span className="material-icons" aria-hidden="true">
+                                        close
+                                    </span>
                                 </span>
-                                <Text size='md'>Cancel</Text>
+                                <Text size="md">Cancel</Text>
                             </DropdownMenuPrimitive.Item>
                         </>
                     )}

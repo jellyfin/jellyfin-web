@@ -71,7 +71,7 @@ class SessionPlayer {
     type: any = PluginType.MediaPlayer;
     id: string = 'remoteplayer';
     isLocalPlayer: boolean = false;
-    
+
     playlist: any[] = [];
     isPlaylistRendered: boolean = true;
     isUpdatingPlaylist: boolean = false;
@@ -139,22 +139,26 @@ class SessionPlayer {
         const sessionQuery = { ControllableByUserId: apiClient.getCurrentUserId() };
 
         return apiClient.getSessions(sessionQuery).then((sessions: any[]) => {
-            return sessions.filter(s => s.DeviceId !== apiClient.deviceId()).map(s => ({
-                name: s.DeviceName,
-                deviceName: s.DeviceName,
-                deviceType: s.DeviceType,
-                id: s.Id,
-                playerName: this.name,
-                appName: s.Client,
-                playableMediaTypes: s.PlayableMediaTypes,
-                isLocalPlayer: false,
-                supportedCommands: s.Capabilities.SupportedCommands,
-                user: s.UserId ? {
-                    Id: s.UserId,
-                    Name: s.UserName,
-                    PrimaryImageTag: s.UserPrimaryImageTag
-                } : null
-            }));
+            return sessions
+                .filter(s => s.DeviceId !== apiClient.deviceId())
+                .map(s => ({
+                    name: s.DeviceName,
+                    deviceName: s.DeviceName,
+                    deviceType: s.DeviceType,
+                    id: s.Id,
+                    playerName: this.name,
+                    appName: s.Client,
+                    playableMediaTypes: s.PlayableMediaTypes,
+                    isLocalPlayer: false,
+                    supportedCommands: s.Capabilities.SupportedCommands,
+                    user: s.UserId
+                        ? {
+                              Id: s.UserId,
+                              Name: s.UserName,
+                              PrimaryImageTag: s.UserPrimaryImageTag
+                          }
+                        : null
+                }));
         });
     }
 
@@ -173,17 +177,27 @@ class SessionPlayer {
         return sendPlayCommand(getCurrentApiClient(this), playOptions, 'PlayNow');
     }
 
-    stop() { sendPlayStateCommand(getCurrentApiClient(this), 'stop'); }
-    pause() { sendPlayStateCommand(getCurrentApiClient(this), 'Pause'); }
-    unpause() { sendPlayStateCommand(getCurrentApiClient(this), 'Unpause'); }
-    seek(ticks: number) { sendPlayStateCommand(getCurrentApiClient(this), 'seek', { SeekPositionTicks: ticks }); }
+    stop() {
+        sendPlayStateCommand(getCurrentApiClient(this), 'stop');
+    }
+    pause() {
+        sendPlayStateCommand(getCurrentApiClient(this), 'Pause');
+    }
+    unpause() {
+        sendPlayStateCommand(getCurrentApiClient(this), 'Unpause');
+    }
+    seek(ticks: number) {
+        sendPlayStateCommand(getCurrentApiClient(this), 'seek', { SeekPositionTicks: ticks });
+    }
 
     currentTime(val?: number) {
         if (val != null) return this.seek(val * 10000);
         return (this.lastPlayerData?.PlayState?.PositionTicks || 0) / 10000;
     }
 
-    duration() { return this.lastPlayerData?.NowPlayingItem?.RunTimeTicks || 0; }
+    duration() {
+        return this.lastPlayerData?.NowPlayingItem?.RunTimeTicks || 0;
+    }
 }
 
 export default SessionPlayer;

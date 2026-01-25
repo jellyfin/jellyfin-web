@@ -93,7 +93,7 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         </Select>
 
                         {triggerType == TaskTriggerInfoType.WeeklyTrigger && (
-                            <Select name='DayOfWeek' defaultValue={DayOfWeek.Sunday.toString()}>
+                            <Select name="DayOfWeek" defaultValue={DayOfWeek.Sunday.toString()}>
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue />
                                 </SelectTrigger>
@@ -123,9 +123,9 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                             </Select>
                         )}
 
-                        {(triggerType == TaskTriggerInfoType.DailyTrigger
-                            || triggerType == TaskTriggerInfoType.WeeklyTrigger) && (
-                            <Select name='TimeOfDay' defaultValue='0'>
+                        {(triggerType == TaskTriggerInfoType.DailyTrigger ||
+                            triggerType == TaskTriggerInfoType.WeeklyTrigger) && (
+                            <Select name="TimeOfDay" defaultValue="0">
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue />
                                 </SelectTrigger>
@@ -140,7 +140,7 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         )}
 
                         {triggerType == TaskTriggerInfoType.IntervalTrigger && (
-                            <Select name='Interval' defaultValue={String(intervalOptions[0]?.value ?? '')}>
+                            <Select name="Interval" defaultValue={String(intervalOptions[0]?.value ?? '')}>
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue />
                                 </SelectTrigger>
@@ -155,20 +155,20 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         )}
 
                         <Input
-                            name='TimeLimit'
-                            type='number'
+                            name="TimeLimit"
+                            type="number"
                             label={globalize.translate('LabelTimeLimitHours')}
                             min={1}
                             step={0.5}
-                            defaultValue=''
+                            defaultValue=""
                         />
                     </Flex>
 
                     <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
-                        <Button variant='ghost' onClick={onClose}>
+                        <Button variant="ghost" onClick={onClose}>
                             {globalize.translate('ButtonCancel')}
                         </Button>
-                        <Button type='submit'>{globalize.translate('Add')}</Button>
+                        <Button type="submit">{globalize.translate('Add')}</Button>
                     </Flex>
                 </form>
             </DialogContentComponent>

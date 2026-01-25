@@ -9,9 +9,9 @@ import type { NullableString } from 'types/base/common/shared/types';
 
 interface DownloadButtonProps {
     itemId: string;
-    itemServerId: NullableString,
-    itemName: NullableString,
-    itemPath: NullableString,
+    itemServerId: NullableString;
+    itemName: NullableString;
+    itemPath: NullableString;
 }
 
 const DownloadButton: FC<DownloadButtonProps> = ({ itemId, itemServerId, itemName, itemPath }) => {
@@ -32,7 +32,7 @@ const DownloadButton: FC<DownloadButtonProps> = ({ itemId, itemServerId, itemNam
 
     return (
         <IconButton
-            className='button-flat btnDownload'
+            className="button-flat btnDownload"
             title={globalize.translate('Download')}
             onClick={onDownloadClick}
         >

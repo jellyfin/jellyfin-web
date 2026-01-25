@@ -11,7 +11,8 @@ export function getAirTimeText(item: any, showAirDateTime: boolean, showAirEndTi
         html += '<div class="cardText cardText-secondary">';
         html += '<span class="cardText-ontime">';
         html += globalize.translate('On');
-        html += ' ' + datetime.toLocaleString(item.StartDate).toLowerCase() + ' ' + datetime.getDisplayTime(item.StartDate);
+        html +=
+            ' ' + datetime.toLocaleString(item.StartDate).toLowerCase() + ' ' + datetime.getDisplayTime(item.StartDate);
         html += '</span>';
         html += '</div>';
     }

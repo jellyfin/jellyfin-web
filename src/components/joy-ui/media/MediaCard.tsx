@@ -30,7 +30,18 @@ export interface MediaCardProps {
 
 const getPrimaryImageUrl = (item: BaseItemDto): string | null => {
     if (!item.Id) return null;
-    const apiClient = (window as unknown as { ApiClient?: { getApiClient: () => { getImageUrl: (id: string, options: { type: number; tag?: string; maxWidth?: number; maxHeight?: number }) => string | null } } }).ApiClient;
+    const apiClient = (
+        window as unknown as {
+            ApiClient?: {
+                getApiClient: () => {
+                    getImageUrl: (
+                        id: string,
+                        options: { type: number; tag?: string; maxWidth?: number; maxHeight?: number }
+                    ) => string | null;
+                };
+            };
+        }
+    ).ApiClient;
     if (!apiClient) return null;
 
     const imageTag = item.ImageTags?.Primary;
@@ -39,7 +50,7 @@ const getPrimaryImageUrl = (item: BaseItemDto): string | null => {
             type: 0,
             tag: imageTag,
             maxWidth: 300,
-            maxHeight: 450,
+            maxHeight: 450
         });
     }
 
@@ -49,7 +60,7 @@ const getPrimaryImageUrl = (item: BaseItemDto): string | null => {
             type: 2,
             tag: backdropTag,
             maxWidth: 600,
-            maxHeight: 338,
+            maxHeight: 338
         });
     }
 
@@ -72,7 +83,7 @@ const getSubtitle = (item: BaseItemDto, showAlbumArtist?: boolean, showArtist?: 
     }
 
     if (item.RunTimeTicks) {
-        const minutes = Math.floor((item.RunTimeTicks / 600000000));
+        const minutes = Math.floor(item.RunTimeTicks / 600000000);
         if (minutes > 0) {
             parts.push(`${minutes} min`);
         }
@@ -93,9 +104,9 @@ const cardVariants = {
         boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)',
         transition: {
             duration: 0.2,
-            ease: 'easeOut' as const,
-        },
-    },
+            ease: 'easeOut' as const
+        }
+    }
 };
 
 const imageVariants = {
@@ -105,9 +116,9 @@ const imageVariants = {
         scale: 1,
         transition: {
             duration: 0.3,
-            ease: 'easeOut' as const,
-        },
-    },
+            ease: 'easeOut' as const
+        }
+    }
 };
 
 const playButtonVariants = {
@@ -117,15 +128,15 @@ const playButtonVariants = {
         scale: 1,
         transition: {
             duration: 0.2,
-            ease: 'easeOut' as const,
-        },
-    },
+            ease: 'easeOut' as const
+        }
+    }
 };
 
 const sizeMap: Record<string, { width: number; height: number; fontSize: string }> = {
     small: { width: 120, height: 180, fontSize: 'xs' },
     medium: { width: 180, height: 270, fontSize: 'sm' },
-    large: { width: 240, height: 360, fontSize: 'md' },
+    large: { width: 240, height: 360, fontSize: 'md' }
 };
 
 export const MediaCard: React.FC<MediaCardProps> = ({
@@ -138,7 +149,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
     onMoreClick,
     showPlayButton = false,
     cardSize = 'medium',
-    priority = 0,
+    priority = 0
 }) => {
     const [imageError, setImageError] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -170,7 +181,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
         height: 'auto',
         cursor: onClick ? 'pointer' : 'default',
         overflow: 'hidden',
-        borderRadius: '12px',
+        borderRadius: '12px'
     };
 
     const aspectRatio = isListMode ? '16/9' : '2/3';
@@ -186,11 +197,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
             whileTap={{ scale: 0.98 }}
             style={{ width: '100%' }}
         >
-            <Card
-                style={cardStyle}
-                onClick={handleClick}
-                data-testid="media-card"
-            >
+            <Card style={cardStyle} onClick={handleClick} data-testid="media-card">
                 <Box
                     style={{
                         position: 'relative',
@@ -198,7 +205,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                         aspectRatio,
                         flexShrink: 0,
                         overflow: 'hidden',
-                        backgroundColor: 'var(--surface)',
+                        backgroundColor: 'var(--surface)'
                     }}
                 >
                     <AnimatePresence mode="wait">
@@ -214,14 +221,10 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    backgroundColor: 'var(--surface)',
+                                    backgroundColor: 'var(--surface)'
                                 }}
                             >
-                                <Skeleton
-                                    width="100%"
-                                    height="100%"
-                                    variant="rectangular"
-                                />
+                                <Skeleton width="100%" height="100%" variant="rectangular" />
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -241,7 +244,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'cover',
-                                display: 'block',
+                                display: 'block'
                             }}
                         />
                     ) : (
@@ -252,7 +255,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                backgroundColor: 'var(--surface)',
+                                backgroundColor: 'var(--surface)'
                             }}
                         >
                             <Text size="xs" color="secondary">
@@ -277,7 +280,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                                     backgroundColor: 'rgba(0,0,0,0.4)',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    justifyContent: 'center',
+                                    justifyContent: 'center'
                                 }}
                             >
                                 <IconButton
@@ -303,7 +306,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                                 right: 8,
                                 opacity: isHovered ? 1 : 0,
                                 transition: 'opacity 0.2s ease',
-                                backgroundColor: 'rgba(0,0,0,0.5)',
+                                backgroundColor: 'rgba(0,0,0,0.5)'
                             }}
                             onClick={handleMoreClick}
                         >
@@ -319,7 +322,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                             fontWeight: 500,
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
+                            whiteSpace: 'nowrap'
                         }}
                     >
                         {displayName}

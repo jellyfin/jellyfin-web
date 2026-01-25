@@ -14,11 +14,7 @@ interface PlayArrowIconButtonProps {
 
 const PlayArrowIconButton: FC<PlayArrowIconButtonProps> = ({ className, action, title, iconClassName }) => {
     return (
-        <IconButton
-            className={className}
-            data-action={action}
-            title={globalize.translate(title)}
-        >
+        <IconButton className={className} data-action={action} title={globalize.translate(title)}>
             <PlayIcon className={iconClassName} />
         </IconButton>
     );

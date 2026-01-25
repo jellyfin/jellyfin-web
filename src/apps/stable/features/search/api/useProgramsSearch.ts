@@ -26,25 +26,22 @@ const fetchPrograms = async (
     return response;
 };
 
-export const useProgramsSearch = (
-    parentId?: string,
-    collectionType?: CollectionType,
-    searchTerm?: string
-) => {
+export const useProgramsSearch = (parentId?: string, collectionType?: CollectionType, searchTerm?: string) => {
     const { api, user } = useApi();
     const userId = user?.Id;
 
     return useQuery({
         queryKey: ['Search', 'Programs', collectionType, parentId, searchTerm],
-        queryFn: ({ signal }) => fetchPrograms(
-            api!,
-            userId!,
-            {
-                parentId,
-                searchTerm
-            },
-            { signal }
-        ),
+        queryFn: ({ signal }) =>
+            fetchPrograms(
+                api!,
+                userId!,
+                {
+                    parentId,
+                    searchTerm
+                },
+                { signal }
+            ),
         enabled: !!api && !!userId && !collectionType
     });
 };

@@ -20,8 +20,8 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'u
 
 export const Component = (): React.ReactElement => {
     const { data: defaultConfig, isPending } = useConfiguration();
-    const [ actionData, setActionData ] = useState<ActionData | undefined>();
-    const [ isSubmitting, setIsSubmitting ] = useState(false);
+    const [actionData, setActionData] = useState<ActionData | undefined>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -53,11 +53,10 @@ export const Component = (): React.ReactElement => {
             options.JpegQuality = parseInt(data.JpegQuality.toString() || '90', 10);
             options.ProcessThreads = parseInt(data.TrickplayThreads.toString() || '1', 10);
 
-            await getConfigurationApi(api)
-                .updateConfiguration({ serverConfiguration: config });
+            await getConfigurationApi(api).updateConfiguration({ serverConfiguration: config });
 
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [QUERY_KEY]
             });
 
             setActionData({ isSaved: true });
@@ -74,28 +73,26 @@ export const Component = (): React.ReactElement => {
 
     return (
         <Page
-            id='trickplayConfigurationPage'
-            className='mainAnimatedPage type-interior'
+            id="trickplayConfigurationPage"
+            className="mainAnimatedPage type-interior"
             title={globalize.translate('Trickplay')}
         >
-            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 <form onSubmit={handleSubmit}>
                     <Flex style={{ flexDirection: 'column', gap: '24px' }}>
-                        <Text as='h1' size='xl' weight='bold'>
+                        <Text as="h1" size="xl" weight="bold">
                             {globalize.translate('Trickplay')}
                         </Text>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert variant='success'>
-                                {globalize.translate('SettingsSaved')}
-                            </Alert>
+                            <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                         )}
 
                         <FormControl>
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        name='HwAcceleration'
+                                        name="HwAcceleration"
                                         defaultChecked={defaultConfig.TrickplayOptions?.EnableHwAcceleration}
                                     />
                                 }
@@ -107,7 +104,7 @@ export const Component = (): React.ReactElement => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        name='HwEncoding'
+                                        name="HwEncoding"
                                         defaultChecked={defaultConfig.TrickplayOptions?.EnableHwEncoding}
                                     />
                                 }
@@ -120,49 +117,59 @@ export const Component = (): React.ReactElement => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        name='KeyFrameOnlyExtraction'
+                                        name="KeyFrameOnlyExtraction"
                                         defaultChecked={defaultConfig.TrickplayOptions?.EnableKeyFrameOnlyExtraction}
                                     />
                                 }
                                 label={globalize.translate('LabelTrickplayKeyFrameOnlyExtraction')}
                             />
-                            <FormHelperText>{globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}</FormHelperText>
+                            <FormHelperText>
+                                {globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}
+                            </FormHelperText>
                         </FormControl>
 
-                        <Select
-                            name='ScanBehavior'
-                            defaultValue={defaultConfig.TrickplayOptions?.ScanBehavior}
-                        >
+                        <Select name="ScanBehavior" defaultValue={defaultConfig.TrickplayOptions?.ScanBehavior}>
                             <SelectTrigger style={{ width: '100%' }}>
                                 <SelectValue placeholder={globalize.translate('LabelScanBehavior')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value={TrickplayScanBehavior.NonBlocking}>{globalize.translate('NonBlockingScan')}</SelectItem>
-                                <SelectItem value={TrickplayScanBehavior.Blocking}>{globalize.translate('BlockingScan')}</SelectItem>
+                                <SelectItem value={TrickplayScanBehavior.NonBlocking}>
+                                    {globalize.translate('NonBlockingScan')}
+                                </SelectItem>
+                                <SelectItem value={TrickplayScanBehavior.Blocking}>
+                                    {globalize.translate('BlockingScan')}
+                                </SelectItem>
                             </SelectContent>
                         </Select>
 
-                        <Select
-                            name='ProcessPriority'
-                            defaultValue={defaultConfig.TrickplayOptions?.ProcessPriority}
-                        >
+                        <Select name="ProcessPriority" defaultValue={defaultConfig.TrickplayOptions?.ProcessPriority}>
                             <SelectTrigger style={{ width: '100%' }}>
                                 <SelectValue placeholder={globalize.translate('LabelProcessPriority')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value={ProcessPriorityClass.High}>{globalize.translate('PriorityHigh')}</SelectItem>
-                                <SelectItem value={ProcessPriorityClass.AboveNormal}>{globalize.translate('PriorityAboveNormal')}</SelectItem>
-                                <SelectItem value={ProcessPriorityClass.Normal}>{globalize.translate('PriorityNormal')}</SelectItem>
-                                <SelectItem value={ProcessPriorityClass.BelowNormal}>{globalize.translate('PriorityBelowNormal')}</SelectItem>
-                                <SelectItem value={ProcessPriorityClass.Idle}>{globalize.translate('PriorityIdle')}</SelectItem>
+                                <SelectItem value={ProcessPriorityClass.High}>
+                                    {globalize.translate('PriorityHigh')}
+                                </SelectItem>
+                                <SelectItem value={ProcessPriorityClass.AboveNormal}>
+                                    {globalize.translate('PriorityAboveNormal')}
+                                </SelectItem>
+                                <SelectItem value={ProcessPriorityClass.Normal}>
+                                    {globalize.translate('PriorityNormal')}
+                                </SelectItem>
+                                <SelectItem value={ProcessPriorityClass.BelowNormal}>
+                                    {globalize.translate('PriorityBelowNormal')}
+                                </SelectItem>
+                                <SelectItem value={ProcessPriorityClass.Idle}>
+                                    {globalize.translate('PriorityIdle')}
+                                </SelectItem>
                             </SelectContent>
                         </Select>
 
                         <Input
                             label={globalize.translate('LabelImageInterval')}
-                            name='ImageInterval'
-                            type='number'
-                            inputMode='numeric'
+                            name="ImageInterval"
+                            type="number"
+                            inputMode="numeric"
                             defaultValue={defaultConfig.TrickplayOptions?.Interval}
                             min={1}
                             required
@@ -170,16 +177,16 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelWidthResolutions')}
-                            name='WidthResolutions'
+                            name="WidthResolutions"
                             defaultValue={defaultConfig.TrickplayOptions?.WidthResolutions?.join(',')}
-                            pattern='[0-9,]*'
+                            pattern="[0-9,]*"
                         />
 
                         <Input
                             label={globalize.translate('LabelTileWidth')}
-                            name='TileWidth'
-                            type='number'
-                            inputMode='numeric'
+                            name="TileWidth"
+                            type="number"
+                            inputMode="numeric"
                             defaultValue={defaultConfig.TrickplayOptions?.TileWidth}
                             min={1}
                             required
@@ -187,9 +194,9 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelTileHeight')}
-                            name='TileHeight'
-                            type='number'
-                            inputMode='numeric'
+                            name="TileHeight"
+                            type="number"
+                            inputMode="numeric"
                             defaultValue={defaultConfig.TrickplayOptions?.TileHeight}
                             min={1}
                             required
@@ -197,9 +204,9 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelJpegQuality')}
-                            name='JpegQuality'
-                            type='number'
-                            inputMode='numeric'
+                            name="JpegQuality"
+                            type="number"
+                            inputMode="numeric"
                             defaultValue={defaultConfig.TrickplayOptions?.JpegQuality}
                             min={1}
                             max={100}
@@ -208,9 +215,9 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelQscale')}
-                            name='Qscale'
-                            type='number'
-                            inputMode='numeric'
+                            name="Qscale"
+                            type="number"
+                            inputMode="numeric"
                             defaultValue={defaultConfig.TrickplayOptions?.Qscale}
                             min={2}
                             max={31}
@@ -219,17 +226,15 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelTrickplayThreads')}
-                            name='TrickplayThreads'
-                            type='number'
-                            inputMode='numeric'
+                            name="TrickplayThreads"
+                            type="number"
+                            inputMode="numeric"
                             defaultValue={defaultConfig.TrickplayOptions?.ProcessThreads}
                             min={0}
                             required
                         />
 
-                        <Button type='submit'>
-                            {globalize.translate('Save')}
-                        </Button>
+                        <Button type="submit">{globalize.translate('Save')}</Button>
                     </Flex>
                 </form>
             </Flex>

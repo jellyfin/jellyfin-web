@@ -12,22 +12,17 @@ interface IProps {
 
 const RestoreConfirmationDialog: FunctionComponent<IProps> = ({ open, onClose, onConfirm }: IProps) => {
     return (
-        <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
+        <Dialog open={open} onOpenChange={open => !open && onClose()}>
             <DialogOverlayComponent />
             <DialogContentComponent
                 title={globalize.translate('LabelRestore')}
                 description={globalize.translate('MessageRestoreDisclaimer')}
             >
                 <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '16px' }}>
-                    <Button
-                        variant='ghost'
-                        onClick={onClose}
-                    >
+                    <Button variant="ghost" onClick={onClose}>
                         {globalize.translate('ButtonCancel')}
                     </Button>
-                    <Button onClick={onConfirm}>
-                        {globalize.translate('LabelRestore')}
-                    </Button>
+                    <Button onClick={onConfirm}>{globalize.translate('LabelRestore')}</Button>
                 </Flex>
             </DialogContentComponent>
         </Dialog>

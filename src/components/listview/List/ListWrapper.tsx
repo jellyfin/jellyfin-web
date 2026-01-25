@@ -27,16 +27,13 @@ const ListWrapper: FC<PropsWithChildren<ListWrapperProps>> = ({
     if (layoutManager.tv) {
         return (
             <Button
-                type='button'
+                type="button"
                 data-index={index}
-                className={classNames(
-                    className,
-                    'itemAction listItem-button listItem-focusscale'
-                )}
+                className={classNames(className, 'itemAction listItem-button listItem-focusscale')}
                 data-action={action}
                 aria-label={title || ''}
-                variant='plain'
-                size='lg'
+                variant="plain"
+                size="lg"
                 {...dataAttributes}
             >
                 {children}

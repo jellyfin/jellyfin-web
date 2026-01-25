@@ -60,4 +60,3 @@ export const avatarImage = style({
     height: '100%',
     objectFit: 'cover'
 });
-

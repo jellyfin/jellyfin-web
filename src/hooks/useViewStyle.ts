@@ -30,10 +30,7 @@ export const useViewStyle = (
     const { storageKey = 'jellyfin-view-style' } = options;
 
     const [viewStyle, setViewStyleState] = useState<ViewStyle>(defaultView);
-    const [storedValue, setStoredValue] = useLocalStorage<ViewStyle>(
-        `${storageKey}-${componentKey}`,
-        defaultView
-    );
+    const [storedValue, setStoredValue] = useLocalStorage<ViewStyle>(`${storageKey}-${componentKey}`, defaultView);
 
     useEffect(() => {
         if (storedValue) {
@@ -41,21 +38,27 @@ export const useViewStyle = (
         }
     }, [storedValue]);
 
-    const setViewStyle = useCallback((value: ViewStyle) => {
-        setViewStyleState(value);
-        setStoredValue(value);
-    }, [setStoredValue]);
+    const setViewStyle = useCallback(
+        (value: ViewStyle) => {
+            setViewStyleState(value);
+            setStoredValue(value);
+        },
+        [setStoredValue]
+    );
 
-    const toggleViewStyle = useCallback((styles: ViewStyle[]) => {
-        const currentIndex = styles.indexOf(viewStyle);
-        const nextIndex = (currentIndex + 1) % styles.length;
-        setViewStyle(styles[nextIndex]);
-    }, [viewStyle, setViewStyle]);
+    const toggleViewStyle = useCallback(
+        (styles: ViewStyle[]) => {
+            const currentIndex = styles.indexOf(viewStyle);
+            const nextIndex = (currentIndex + 1) % styles.length;
+            setViewStyle(styles[nextIndex]);
+        },
+        [viewStyle, setViewStyle]
+    );
 
     return {
         viewStyle,
         setViewStyle,
-        toggleViewStyle,
+        toggleViewStyle
     };
 };
 

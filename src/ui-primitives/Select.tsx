@@ -47,23 +47,28 @@ export const selectStyles = {
 
 export const Select = Root;
 
-export const SelectTrigger = forwardRef<
-    HTMLButtonElement,
-    SelectTriggerProps & { readonly className?: string }
->(({ children, className, ...props }, ref): ReactElement => {
-    return (
-        <Trigger ref={ref} className={`${selectTrigger} ${className ?? ''}`} {...props}>
-            {children}
-            <Icon style={{ display: 'flex' }}>
-                <ChevronDownIcon />
-            </Icon>
-        </Trigger>
-    );
-});
+export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps & { readonly className?: string }>(
+    ({ children, className, ...props }, ref): ReactElement => {
+        return (
+            <Trigger ref={ref} className={`${selectTrigger} ${className ?? ''}`} {...props}>
+                {children}
+                <Icon style={{ display: 'flex' }}>
+                    <ChevronDownIcon />
+                </Icon>
+            </Trigger>
+        );
+    }
+);
 
 SelectTrigger.displayName = 'SelectTrigger';
 
-export function SelectValue({ placeholder, className }: { readonly placeholder?: string; readonly className?: string }): ReactElement {
+export function SelectValue({
+    placeholder,
+    className
+}: {
+    readonly placeholder?: string;
+    readonly className?: string;
+}): ReactElement {
     return <Value className={className} placeholder={placeholder} />;
 }
 
@@ -104,11 +109,23 @@ export function SelectItem({
     );
 }
 
-export function SelectGroup({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function SelectGroup({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <Group className={className}>{children}</Group>;
 }
 
-export function SelectLabel({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function SelectLabel({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <Label className={`${selectLabel} ${className ?? ''}`}>{children}</Label>;
 }
 
@@ -141,7 +158,7 @@ export function SelectInput({
             )}
             <select id={id} className={`${selectInputStyles} ${className ?? ''}`} style={selectStyle} {...props}>
                 {placeholder !== undefined && placeholder !== '' && (
-                    <option value='' disabled>
+                    <option value="" disabled>
                         {placeholder}
                     </option>
                 )}
@@ -155,20 +172,20 @@ export function SelectInput({
 function ChevronDownIcon(): ReactElement {
     return (
         <svg
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-            aria-hidden='true'
-            focusable='false'
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
         >
             <path
-                d='M4 6L8 10L12 6'
-                stroke='currentColor'
-                strokeWidth='1.5'
-                strokeLinecap='round'
-                strokeLinejoin='round'
+                d="M4 6L8 10L12 6"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     );
@@ -177,20 +194,20 @@ function ChevronDownIcon(): ReactElement {
 function ChevronUpIcon(): ReactElement {
     return (
         <svg
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-            aria-hidden='true'
-            focusable='false'
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
         >
             <path
-                d='M4 10L8 6L12 10'
-                stroke='currentColor'
-                strokeWidth='1.5'
-                strokeLinecap='round'
-                strokeLinejoin='round'
+                d="M4 10L8 6L12 10"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     );
@@ -199,20 +216,20 @@ function ChevronUpIcon(): ReactElement {
 function CheckIcon(): ReactElement {
     return (
         <svg
-            width='16'
-            height='16'
-            viewBox='0 0 16 16'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-            aria-hidden='true'
-            focusable='false'
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
         >
             <path
-                d='M13 4L6 11L3 8'
-                stroke='currentColor'
-                strokeWidth='1.5'
-                strokeLinecap='round'
-                strokeLinejoin='round'
+                d="M13 4L6 11L3 8"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     );

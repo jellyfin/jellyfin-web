@@ -20,8 +20,8 @@ function DefaultStory(): ReactElement {
             <FormControl>
                 <FormLabel>Email Address</FormLabel>
                 <input
-                    type='email'
-                    placeholder='Enter your email'
+                    type="email"
+                    placeholder="Enter your email"
                     style={{
                         width: '100%',
                         padding: '8px 12px',
@@ -51,7 +51,7 @@ function WithSwitchStory(): ReactElement {
         <div style={{ width: '300px' }}>
             <FormControl>
                 <FormControlLabel
-                    label='Enable notifications'
+                    label="Enable notifications"
                     control={<Switch checked={checked} onChange={handleCheckedChange} />}
                 />
                 <FormHelperText>Receive push notifications for activity</FormHelperText>
@@ -70,8 +70,8 @@ function MultipleFieldsStory(): ReactElement {
             <FormControl style={{ marginBottom: '16px' }}>
                 <FormLabel>Username</FormLabel>
                 <input
-                    type='text'
-                    placeholder='Enter username'
+                    type="text"
+                    placeholder="Enter username"
                     style={{
                         width: '100%',
                         padding: '8px 12px',
@@ -85,8 +85,8 @@ function MultipleFieldsStory(): ReactElement {
             <FormControl style={{ marginBottom: '16px' }}>
                 <FormLabel>Password</FormLabel>
                 <input
-                    type='password'
-                    placeholder='Enter password'
+                    type="password"
+                    placeholder="Enter password"
                     style={{
                         width: '100%',
                         padding: '8px 12px',
@@ -98,10 +98,7 @@ function MultipleFieldsStory(): ReactElement {
                 />
             </FormControl>
             <FormControl>
-                <FormControlLabel
-                    label='Remember me'
-                    control={<Switch />}
-                />
+                <FormControlLabel label="Remember me" control={<Switch />} />
             </FormControl>
         </div>
     );
@@ -117,8 +114,8 @@ function WithErrorStory(): ReactElement {
             <FormControl>
                 <FormLabel>Email</FormLabel>
                 <input
-                    type='email'
-                    defaultValue='invalid-email'
+                    type="email"
+                    defaultValue="invalid-email"
                     style={{
                         width: '100%',
                         padding: '8px 12px',
@@ -128,9 +125,7 @@ function WithErrorStory(): ReactElement {
                         color: '#fff'
                     }}
                 />
-                <FormHelperText style={{ color: '#f44336' }}>
-                    Please enter a valid email address
-                </FormHelperText>
+                <FormHelperText style={{ color: '#f44336' }}>Please enter a valid email address</FormHelperText>
             </FormControl>
         </div>
     );
@@ -143,21 +138,12 @@ export const WithError: Story = {
 function FormControlLabelOnlyStory(): ReactElement {
     return (
         <div style={{ width: '300px' }}>
-            <FormControlLabel
-                label='Dark Mode'
-                control={<Switch defaultChecked />}
-            />
+            <FormControlLabel label="Dark Mode" control={<Switch defaultChecked />} />
             <div style={{ marginTop: '16px' }}>
-                <FormControlLabel
-                    label='Auto-play videos'
-                    control={<Switch />}
-                />
+                <FormControlLabel label="Auto-play videos" control={<Switch />} />
             </div>
             <div style={{ marginTop: '16px' }}>
-                <FormControlLabel
-                    label='Show notifications'
-                    control={<Switch defaultChecked />}
-                />
+                <FormControlLabel label="Show notifications" control={<Switch defaultChecked />} />
             </div>
         </div>
     );

@@ -15,12 +15,12 @@ const TaskTriggerCell = ({ cell }: CellContext<TaskTriggerInfo, TaskTriggerInfo>
 
     return (
         <Flex style={{ flexDirection: 'column', gap: '4px' }}>
-            <Text as='span'>{getTriggerFriendlyName(trigger, dateFnsLocale)}</Text>
+            <Text as="span">{getTriggerFriendlyName(trigger, dateFnsLocale)}</Text>
             {timeLimitHours !== false && (
-                <Text as='span' size='sm' color='secondary'>
-                    {timeLimitHours === 1 ?
-                        globalize.translate('ValueTimeLimitSingleHour') :
-                        globalize.translate('ValueTimeLimitMultiHour', timeLimitHours)}
+                <Text as="span" size="sm" color="secondary">
+                    {timeLimitHours === 1
+                        ? globalize.translate('ValueTimeLimitSingleHour')
+                        : globalize.translate('ValueTimeLimitMultiHour', timeLimitHours)}
                 </Text>
             )}
         </Flex>

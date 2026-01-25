@@ -7,17 +7,13 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 import { SEARCH_SECTIONS_SORT_ORDER } from '../constants/sectionSortOrder';
 
-export const isMovies = (collectionType: string) =>
-    collectionType === CollectionType.Movies;
+export const isMovies = (collectionType: string) => collectionType === CollectionType.Movies;
 
-export const isTVShows = (collectionType: string) =>
-    collectionType === CollectionType.Tvshows;
+export const isTVShows = (collectionType: string) => collectionType === CollectionType.Tvshows;
 
-export const isMusic = (collectionType: string) =>
-    collectionType === CollectionType.Music;
+export const isMusic = (collectionType: string) => collectionType === CollectionType.Music;
 
-export const isLivetv = (collectionType: string) =>
-    collectionType === CollectionType.Livetv;
+export const isLivetv = (collectionType: string) => collectionType === CollectionType.Livetv;
 
 export function addSection(
     sections: Section[],
@@ -110,18 +106,11 @@ export function getTitleFromType(type: BaseItemKind) {
 export function getItemTypesFromCollectionType(collectionType: CollectionType | undefined) {
     switch (collectionType) {
         case CollectionType.Movies:
-            return [ BaseItemKind.Movie ];
+            return [BaseItemKind.Movie];
         case CollectionType.Tvshows:
-            return [
-                BaseItemKind.Series,
-                BaseItemKind.Episode
-            ];
+            return [BaseItemKind.Series, BaseItemKind.Episode];
         case CollectionType.Music:
-            return [
-                BaseItemKind.Playlist,
-                BaseItemKind.MusicAlbum,
-                BaseItemKind.Audio
-            ];
+            return [BaseItemKind.Playlist, BaseItemKind.MusicAlbum, BaseItemKind.Audio];
         default:
             return [
                 BaseItemKind.Movie,

@@ -13,7 +13,13 @@ interface AnimatedDialogProps {
     children?: ReactNode;
 }
 
-function AnimatedDialog({ open, onOpenChange, title, description, children }: Readonly<AnimatedDialogProps>): ReactElement {
+function AnimatedDialog({
+    open,
+    onOpenChange,
+    title,
+    description,
+    children
+}: Readonly<AnimatedDialogProps>): ReactElement {
     return (
         <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
             <AnimatePresence>
@@ -91,8 +97,8 @@ function AnimatedDialog({ open, onOpenChange, title, description, children }: Re
                                 {children}
                                 <DialogPrimitive.Close asChild>
                                     <button
-                                        type='button'
-                                        aria-label='Close'
+                                        type="button"
+                                        aria-label="Close"
                                         style={{
                                             position: 'absolute',
                                             top: vars.spacing.md,
@@ -145,14 +151,14 @@ function DefaultStory(): ReactElement {
             <AnimatedDialog
                 open={open}
                 onOpenChange={setOpen}
-                title='Dialog Title'
-                description='This is a description of the dialog content.'
+                title="Dialog Title"
+                description="This is a description of the dialog content."
             >
                 <p style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}>
                     Dialog content goes here. This dialog uses Framer Motion for smooth animations.
                 </p>
                 <div style={{ display: 'flex', gap: vars.spacing.sm, justifyContent: 'flex-end' }}>
-                    <Button variant='secondary' onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
                     <Button onClick={handleClose}>Confirm</Button>
@@ -177,14 +183,14 @@ function ConfirmationStory(): ReactElement {
 
     return (
         <>
-            <Button variant='danger' onClick={handleOpen}>
+            <Button variant="danger" onClick={handleOpen}>
                 Delete Item
             </Button>
             <AnimatedDialog
                 open={open}
                 onOpenChange={setOpen}
-                title='Confirm Deletion'
-                description='Are you sure you want to delete this item? This action cannot be undone.'
+                title="Confirm Deletion"
+                description="Are you sure you want to delete this item? This action cannot be undone."
             >
                 <div
                     style={{
@@ -194,10 +200,10 @@ function ConfirmationStory(): ReactElement {
                         marginTop: vars.spacing.md
                     }}
                 >
-                    <Button variant='secondary' onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button variant='danger' onClick={handleClose}>
+                    <Button variant="danger" onClick={handleClose}>
                         Delete
                     </Button>
                 </div>
@@ -225,13 +231,13 @@ function WithFormStory(): ReactElement {
             <AnimatedDialog
                 open={open}
                 onOpenChange={setOpen}
-                title='Create New User'
-                description='Fill in the details below to create a new user account.'
+                title="Create New User"
+                description="Fill in the details below to create a new user account."
             >
                 <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}>
                     <input
-                        type='text'
-                        placeholder='Username'
+                        type="text"
+                        placeholder="Username"
                         style={{
                             padding: vars.spacing.sm,
                             borderRadius: vars.borderRadius.sm,
@@ -241,8 +247,8 @@ function WithFormStory(): ReactElement {
                         }}
                     />
                     <input
-                        type='email'
-                        placeholder='Email'
+                        type="email"
+                        placeholder="Email"
                         style={{
                             padding: vars.spacing.sm,
                             borderRadius: vars.borderRadius.sm,
@@ -259,7 +265,7 @@ function WithFormStory(): ReactElement {
                             marginTop: vars.spacing.sm
                         }}
                     >
-                        <Button variant='secondary' onClick={handleClose}>
+                        <Button variant="secondary" onClick={handleClose}>
                             Cancel
                         </Button>
                         <Button onClick={handleClose}>Create</Button>
@@ -289,8 +295,8 @@ function LargeContentStory(): ReactElement {
             <AnimatedDialog
                 open={open}
                 onOpenChange={setOpen}
-                title='Terms of Service'
-                description='Please review our terms of service carefully.'
+                title="Terms of Service"
+                description="Please review our terms of service carefully."
             >
                 <div
                     style={{
@@ -314,12 +320,12 @@ function LargeContentStory(): ReactElement {
                     </p>
                     <p style={{ color: vars.colors.text }}>
                         Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                        laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-                        architecto beatae vitae dicta sunt explicabo.
+                        laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                        beatae vitae dicta sunt explicabo.
                     </p>
                 </div>
                 <div style={{ display: 'flex', gap: vars.spacing.sm, justifyContent: 'flex-end' }}>
-                    <Button variant='secondary' onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose}>
                         Decline
                     </Button>
                     <Button onClick={handleClose}>Accept</Button>

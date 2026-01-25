@@ -10,7 +10,7 @@ export default class PhotoPlayer {
     priority: number = 1;
 
     play(options: any): Promise<void> {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             import('../../components/slideshow/slideshow').then(({ default: Slideshow }: any) => {
                 const index = options.startIndex || 0;
                 const apiClient = ServerConnections.currentApiClient();

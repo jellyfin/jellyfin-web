@@ -8,9 +8,7 @@ import { render, screen, cleanup } from '@testing-library/react';
 import { WaveformCell } from './WaveformCell';
 
 const renderWithTheme = (component: React.ReactElement) => {
-    return render(
-        component
-    );
+    return render(component);
 };
 
 describe('WaveformCell', () => {
@@ -23,7 +21,7 @@ describe('WaveformCell', () => {
         it('renders duration text when no peaks are available', () => {
             renderWithTheme(
                 <WaveformCell
-                    itemId='test-id'
+                    itemId="test-id"
                     duration={1800000000} // 3 minutes = 3 * 60 * 10000000
                     isCurrentTrack={false}
                     isNextTrack={false}
@@ -38,7 +36,7 @@ describe('WaveformCell', () => {
 
             renderWithTheme(
                 <WaveformCell
-                    itemId='test-id'
+                    itemId="test-id"
                     peaks={[mockPeaks]}
                     duration={180000000000}
                     isCurrentTrack={true}
@@ -51,13 +49,7 @@ describe('WaveformCell', () => {
         });
 
         it('does not render canvas when not current/next and no peaks', () => {
-            renderWithTheme(
-                <WaveformCell
-                    itemId='test-id'
-                    isCurrentTrack={false}
-                    isNextTrack={false}
-                />
-            );
+            renderWithTheme(<WaveformCell itemId="test-id" isCurrentTrack={false} isNextTrack={false} />);
 
             const canvas = document.querySelector('canvas');
             expect(canvas).not.toBeInTheDocument();
@@ -70,7 +62,7 @@ describe('WaveformCell', () => {
 
             renderWithTheme(
                 <WaveformCell
-                    itemId='test-id'
+                    itemId="test-id"
                     peaks={[mockPeaks]}
                     duration={120000000000}
                     isCurrentTrack={true}
@@ -87,7 +79,7 @@ describe('WaveformCell', () => {
 
             renderWithTheme(
                 <WaveformCell
-                    itemId='test-id'
+                    itemId="test-id"
                     peaks={[mockPeaks]}
                     duration={120000000000}
                     isCurrentTrack={false}
@@ -104,7 +96,7 @@ describe('WaveformCell', () => {
 
             renderWithTheme(
                 <WaveformCell
-                    itemId='test-id'
+                    itemId="test-id"
                     peaks={[mockPeaks]}
                     duration={120000000000}
                     isCurrentTrack={false}
@@ -121,7 +113,7 @@ describe('WaveformCell', () => {
         it('formats duration correctly', () => {
             renderWithTheme(
                 <WaveformCell
-                    itemId='test-id'
+                    itemId="test-id"
                     duration={3000000000} // 5 minutes = 5 * 60 * 10000000
                     isCurrentTrack={false}
                     isNextTrack={false}
@@ -133,12 +125,7 @@ describe('WaveformCell', () => {
 
         it('shows empty box for zero duration with no peaks', () => {
             const { container } = renderWithTheme(
-                <WaveformCell
-                    itemId='test-id'
-                    duration={0}
-                    isCurrentTrack={false}
-                    isNextTrack={false}
-                />
+                <WaveformCell itemId="test-id" duration={0} isCurrentTrack={false} isNextTrack={false} />
             );
 
             expect(container.firstChild).toBeEmptyDOMElement();
@@ -146,12 +133,7 @@ describe('WaveformCell', () => {
 
         it('shows empty box for undefined duration with no peaks', () => {
             const { container } = renderWithTheme(
-                <WaveformCell
-                    itemId='test-id'
-                    duration={undefined}
-                    isCurrentTrack={false}
-                    isNextTrack={false}
-                />
+                <WaveformCell itemId="test-id" duration={undefined} isCurrentTrack={false} isNextTrack={false} />
             );
 
             expect(container.firstChild).toBeEmptyDOMElement();
@@ -164,7 +146,7 @@ describe('WaveformCell', () => {
 
             renderWithTheme(
                 <WaveformCell
-                    itemId='test-id'
+                    itemId="test-id"
                     peaks={[mockPeaks]}
                     duration={120000000000}
                     isCurrentTrack={true}
@@ -182,7 +164,7 @@ describe('WaveformCell', () => {
 
             renderWithTheme(
                 <WaveformCell
-                    itemId='test-id'
+                    itemId="test-id"
                     peaks={[mockPeaks]}
                     duration={120000000000}
                     isCurrentTrack={true}

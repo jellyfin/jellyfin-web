@@ -11,11 +11,7 @@ interface InfoIconButtonProps {
 
 const InfoIconButton: FC<InfoIconButtonProps> = ({ className }) => {
     return (
-        <IconButton
-            className={className}
-            data-action={ItemAction.Link}
-            title={globalize.translate('ButtonInfo')}
-        >
+        <IconButton className={className} data-action={ItemAction.Link} title={globalize.translate('ButtonInfo')}>
             <InfoCircledIcon />
         </IconButton>
     );

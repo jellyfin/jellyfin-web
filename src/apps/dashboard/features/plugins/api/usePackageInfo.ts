@@ -12,12 +12,8 @@ import type { PackageInfo } from '@jellyfin/sdk/lib/generated-client/models/pack
 
 type PackagesData = PackageInfo[];
 
-const fetchPackageInfo = async (
-    api: Api,
-    params: PackageApiGetPackageInfoRequest,
-    options?: AxiosRequestConfig
-) => {
-    const packagesData = queryClient.getQueryData([ QueryKey.Packages ]) as PackagesData | undefined;
+const fetchPackageInfo = async (api: Api, params: PackageApiGetPackageInfoRequest, options?: AxiosRequestConfig) => {
+    const packagesData = queryClient.getQueryData([QueryKey.Packages]) as PackagesData | undefined;
     if (packagesData && params.assemblyGuid) {
         const pkg = packagesData.find?.((v: { guid?: string }) => v.guid === params.assemblyGuid);
 
@@ -26,25 +22,20 @@ const fetchPackageInfo = async (
         }
     }
 
-    const response = await getPackageApi(api)
-        .getPackageInfo(params, options);
+    const response = await getPackageApi(api).getPackageInfo(params, options);
     return response.data;
 };
 
-const getPackageInfoQuery = (
-    api: Api | undefined,
-    params?: PackageApiGetPackageInfoRequest
-) => queryOptions({
-    // Don't retry since requests for plugins not available in repos fail
-    retry: false,
-    queryKey: [ QueryKey.Packages, params?.name, params?.assemblyGuid ],
-    queryFn: ({ signal }) => fetchPackageInfo(api!, params!, { signal }),
-    enabled: !!params && !!api && !!params.name
-});
+const getPackageInfoQuery = (api: Api | undefined, params?: PackageApiGetPackageInfoRequest) =>
+    queryOptions({
+        // Don't retry since requests for plugins not available in repos fail
+        retry: false,
+        queryKey: [QueryKey.Packages, params?.name, params?.assemblyGuid],
+        queryFn: ({ signal }) => fetchPackageInfo(api!, params!, { signal }),
+        enabled: !!params && !!api && !!params.name
+    });
 
-export const usePackageInfo = (
-    params?: PackageApiGetPackageInfoRequest
-) => {
+export const usePackageInfo = (params?: PackageApiGetPackageInfoRequest) => {
     const { api } = useApi();
     return useQuery(getPackageInfoQuery(api, params));
 };

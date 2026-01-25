@@ -66,7 +66,9 @@ class ScreenSaverManager {
         this.show();
     }
 
-    isShowing(): boolean { return this.activeScreenSaver != null; }
+    isShowing(): boolean {
+        return this.activeScreenSaver != null;
+    }
 
     show() {
         const apiClient = ServerConnections.currentApiClient();
@@ -82,7 +84,7 @@ class ScreenSaverManager {
             });
             this.activeScreenSaver = null;
         }
-        
+
         const hideHandler = () => this.hide();
         window.removeEventListener('click', hideHandler, true);
         window.removeEventListener('mousemove', hideHandler, true);

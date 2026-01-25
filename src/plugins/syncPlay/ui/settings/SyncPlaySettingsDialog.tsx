@@ -21,7 +21,7 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
     const syncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
     const manager = syncPlay?.Manager;
 
-    const [ settings, setSettings ] = useState({
+    const [settings, setSettings] = useState({
         extraTimeOffset: manager?.timeSyncCore.extraTimeOffset || 0,
         enableSyncCorrection: manager?.playbackCore.enableSyncCorrection || false,
         minDelaySpeedToSync: manager?.playbackCore.minDelaySpeedToSync || 0,
@@ -29,7 +29,7 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
         speedToSyncDuration: manager?.playbackCore.speedToSyncDuration || 0,
         minDelaySkipToSync: manager?.playbackCore.minDelaySkipToSync || 0,
         useSpeedToSync: manager?.playbackCore.useSpeedToSync || false,
-        useSkipToSync: manager?.playbackCore.useSkipToSync || false,
+        useSkipToSync: manager?.playbackCore.useSkipToSync || false
     });
 
     const handleChange = (name: string, value: any) => {
@@ -43,17 +43,25 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
 
         Events.trigger(manager, 'settings-update');
         onClose();
-    }, [ settings, manager, onClose ]);
+    }, [settings, manager, onClose]);
 
     return (
-        <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
+        <Dialog open={open} onOpenChange={open => !open && onClose()}>
             <DialogOverlayComponent />
             <DialogContentComponent
                 title={globalize.translate('HeaderSyncPlaySettings')}
-                style={{ minWidth: { xs: '90%', sm: 500 }, maxWidth: 600, maxHeight: '90vh', overflow: 'auto', padding: '24px' }}
+                style={{
+                    minWidth: { xs: '90%', sm: 500 },
+                    maxWidth: 600,
+                    maxHeight: '90vh',
+                    overflow: 'auto',
+                    padding: '24px'
+                }}
             >
                 <Flex style={{ flexDirection: 'column', gap: '24px', marginTop: '8px' }}>
-                    <Text as="h4" size="lg" weight="bold">{globalize.translate('HeaderSyncPlayPlaybackSettings')}</Text>
+                    <Text as="h4" size="lg" weight="bold">
+                        {globalize.translate('HeaderSyncPlayPlaybackSettings')}
+                    </Text>
 
                     <Flex direction="column" gap="xs">
                         <Checkbox
@@ -127,7 +135,9 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
                         onChange={(e: any) => handleChange('minDelaySkipToSync', parseInt(e.target.value, 10))}
                     />
 
-                    <Text as="h4" size="lg" weight="bold">{globalize.translate('HeaderSyncPlayTimeSyncSettings')}</Text>
+                    <Text as="h4" size="lg" weight="bold">
+                        {globalize.translate('HeaderSyncPlayTimeSyncSettings')}
+                    </Text>
 
                     <Input
                         type="number"
@@ -140,7 +150,9 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
 
                 <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
                     <Button onClick={handleSave}>{globalize.translate('Save')}</Button>
-                    <Button variant='plain' color='neutral' onClick={onClose}>{globalize.translate('ButtonCancel')}</Button>
+                    <Button variant="plain" color="neutral" onClick={onClose}>
+                        {globalize.translate('ButtonCancel')}
+                    </Button>
                 </Flex>
             </DialogContentComponent>
         </Dialog>

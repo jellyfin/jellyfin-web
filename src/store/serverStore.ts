@@ -39,27 +39,29 @@ const initialState = {
     servers: [] as ServerInfo[],
     currentServer: null as ServerInfo | null,
     isConnecting: false,
-    error: null as string | null,
+    error: null as string | null
 };
 
-export const useServerStore = create<ServerState>((set) => ({
+export const useServerStore = create<ServerState>(set => ({
     ...initialState,
 
-    setServers: (servers) => set({ servers }),
+    setServers: servers => set({ servers }),
 
-    addServer: (server) => set((state) => ({
-        servers: [...state.servers, server],
-    })),
+    addServer: server =>
+        set(state => ({
+            servers: [...state.servers, server]
+        })),
 
-    removeServer: (id) => set((state) => ({
-        servers: state.servers.filter((s) => s.id !== id),
-    })),
+    removeServer: id =>
+        set(state => ({
+            servers: state.servers.filter(s => s.id !== id)
+        })),
 
-    setCurrentServer: (server) => set({ currentServer: server }),
+    setCurrentServer: server => set({ currentServer: server }),
 
-    setConnecting: (connecting) => set({ isConnecting: connecting }),
+    setConnecting: connecting => set({ isConnecting: connecting }),
 
-    setError: (error) => set({ error }),
+    setError: error => set({ error }),
 
-    clearServers: () => set(initialState),
+    clearServers: () => set(initialState)
 }));

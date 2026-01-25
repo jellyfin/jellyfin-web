@@ -62,10 +62,10 @@ export const WithFallback: Story = {
 function SizesStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: vars.spacing.md, alignItems: 'center' }}>
-            <Avatar fallback='S' size={24} />
-            <Avatar fallback='M' size={40} />
-            <Avatar fallback='L' size={56} />
-            <Avatar fallback='XL' size={80} />
+            <Avatar fallback="S" size={24} />
+            <Avatar fallback="M" size={40} />
+            <Avatar fallback="L" size={56} />
+            <Avatar fallback="XL" size={80} />
         </div>
     );
 }

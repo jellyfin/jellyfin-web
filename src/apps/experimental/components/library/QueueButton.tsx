@@ -11,31 +11,30 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import { logger } from 'utils/logger';
 
 interface QueueButtonProps {
-    item: ItemDto | undefined
-    items: ItemDto[]
-    hasFilters: boolean
-    isTextVisible: boolean
+    item: ItemDto | undefined;
+    items: ItemDto[];
+    hasFilters: boolean;
+    isTextVisible: boolean;
 }
 
-const QueueButton: FC<QueueButtonProps> = ({
-    item,
-    items,
-    hasFilters,
-    isTextVisible
-}) => {
+const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters, isTextVisible }) => {
     const queue = useCallback(() => {
         if (item && !hasFilters) {
-            playbackManager.queue({
-                items: [item]
-            }).catch((err: unknown) => {
-                logger.error('[QueueButton] failed to add to queue', { component: 'QueueButton' }, err as Error);
-            });
+            playbackManager
+                .queue({
+                    items: [item]
+                })
+                .catch((err: unknown) => {
+                    logger.error('[QueueButton] failed to add to queue', { component: 'QueueButton' }, err as Error);
+                });
         } else {
-            playbackManager.queue({
-                items
-            }).catch((err: unknown) => {
-                logger.error('[QueueButton] failed to add to queue', { component: 'QueueButton' }, err as Error);
-            });
+            playbackManager
+                .queue({
+                    items
+                })
+                .catch((err: unknown) => {
+                    logger.error('[QueueButton] failed to add to queue', { component: 'QueueButton' }, err as Error);
+                });
         }
     }, [hasFilters, item, items]);
 
@@ -44,8 +43,8 @@ const QueueButton: FC<QueueButtonProps> = ({
     if (isTextVisible) {
         return (
             <Button
-                variant='plain'
-                color='neutral'
+                variant="plain"
+                color="neutral"
                 startDecorator={<StackIcon />}
                 onClick={queue}
                 style={{ color: vars.colors.textSecondary }}
@@ -57,12 +56,7 @@ const QueueButton: FC<QueueButtonProps> = ({
 
     return (
         <Tooltip title={label}>
-            <IconButton
-                variant='plain'
-                color='neutral'
-                onClick={queue}
-                aria-label={label}
-            >
+            <IconButton variant="plain" color="neutral" onClick={queue} aria-label={label}>
                 <StackIcon />
             </IconButton>
         </Tooltip>

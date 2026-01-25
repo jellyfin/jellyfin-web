@@ -66,15 +66,8 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
         showVideo3DFormatInfo,
         showPhotoSizeInfo
     });
-    const {
-        StartDate,
-        HasSubtitles,
-        MediaType,
-        RunTimeTicks,
-        PlaybackPositionTicks,
-        CommunityRating,
-        CriticRating
-    } = item;
+    const { StartDate, HasSubtitles, MediaType, RunTimeTicks, PlaybackPositionTicks, CommunityRating, CriticRating } =
+        item;
 
     const cssClass = classNames(className);
 
@@ -88,35 +81,20 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     return (
         <Box className={cssClass}>
             {miscInfo.map((info, index) => (
-                <MediaInfoItem
-                    key={getInfoKey(info, index)}
-                    className={infoclass}
-                    miscInfo={info}
-                />
+                <MediaInfoItem key={getInfoKey(info, index)} className={infoclass} miscInfo={info} />
             ))}
 
             {showStarRatingInfo && CommunityRating && (
-                <StarIcons
-                    className={infoclass}
-                    communityRating={CommunityRating}
-                />
+                <StarIcons className={infoclass} communityRating={CommunityRating} />
             )}
 
-            {showCaptionIndicatorInfo && HasSubtitles && (
-                <CaptionMediaInfo className={infoclass} />
-            )}
+            {showCaptionIndicatorInfo && HasSubtitles && <CaptionMediaInfo className={infoclass} />}
 
             {showCriticRatingInfo && CriticRating && (
-                <CriticRatingMediaInfo
-                    className={infoclass}
-                    criticRating={CriticRating}
-                />
+                <CriticRatingMediaInfo className={infoclass} criticRating={CriticRating} />
             )}
 
-            {showEndsAtInfo
-                && MediaType === ItemMediaKind.Video
-                && RunTimeTicks
-                && !StartDate && (
+            {showEndsAtInfo && MediaType === ItemMediaKind.Video && RunTimeTicks && !StartDate && (
                 <EndsAt className={infoclass} runTimeTicks={RunTimeTicks} positionTicks={PlaybackPositionTicks} />
             )}
 

@@ -88,16 +88,16 @@ export const Component = (): React.ReactElement => {
     }
 
     return (
-        <Page id='logPage' title={globalize.translate('TabLogs')} className='mainAnimatedPage type-interior'>
-            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+        <Page id="logPage" title={globalize.translate('TabLogs')} className="mainAnimatedPage type-interior">
+            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 <form onSubmit={handleSubmit}>
                     <Flex style={{ flexDirection: 'column', gap: '24px' }}>
-                        <Text as='h1' size='xl' weight='bold'>
+                        <Text as="h1" size="xl" weight="bold">
                             {globalize.translate('TabLogs')}
                         </Text>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert variant='success'>{globalize.translate('SettingsSaved')}</Alert>
+                            <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                         )}
 
                         <FormControlLabel
@@ -112,18 +112,18 @@ export const Component = (): React.ReactElement => {
                         />
 
                         <Input
-                            type='number'
-                            name='SlowResponseTime'
+                            type="number"
+                            name="SlowResponseTime"
                             label={globalize.translate('LabelSlowResponseTime')}
                             value={configuration?.SlowResponseThresholdMs}
                             disabled={!configuration?.EnableSlowResponseWarning}
                             onChange={onResponseTimeChange}
                         />
 
-                        <Button type='submit'>{globalize.translate('Save')}</Button>
+                        <Button type="submit">{globalize.translate('Save')}</Button>
                     </Flex>
                 </form>
-                <div className='serverLogs readOnlyContent' style={{ marginTop: '24px' }}>
+                <div className="serverLogs readOnlyContent" style={{ marginTop: '24px' }}>
                     <LogItemList logs={logs} />
                 </div>
             </Flex>

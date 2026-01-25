@@ -53,13 +53,17 @@ export function getLegacySettings(): LegacySettings {
             theme: (localStorage.getItem(LEGACY_STORAGE_KEYS.theme) as 'dark' | 'light' | 'system') || undefined,
             autoPlay: localStorage.getItem(LEGACY_STORAGE_KEYS.autoPlay) === 'true',
             crossfade: localStorage.getItem(LEGACY_STORAGE_KEYS.crossfade) === 'true',
-            crossfadeDuration: parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.crossfadeDuration) || '0') || undefined,
+            crossfadeDuration:
+                parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.crossfadeDuration) || '0') || undefined,
             visualizerEnabled: localStorage.getItem(LEGACY_STORAGE_KEYS.visualizerEnabled) === 'true',
-            visualizerType: (localStorage.getItem(LEGACY_STORAGE_KEYS.visualizerType) as LegacySettings['visualizerType']) || undefined,
+            visualizerType:
+                (localStorage.getItem(LEGACY_STORAGE_KEYS.visualizerType) as LegacySettings['visualizerType']) ||
+                undefined,
             sensitivity: parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.sensitivity) || '0') || undefined,
             playbackPosition: localStorage.getItem(LEGACY_STORAGE_KEYS.playbackPosition) === 'true',
             queueShuffle: localStorage.getItem(LEGACY_STORAGE_KEYS.queueShuffle) === 'true',
-            queueRepeat: (localStorage.getItem(LEGACY_STORAGE_KEYS.queueRepeat) as LegacySettings['queueRepeat']) || undefined
+            queueRepeat:
+                (localStorage.getItem(LEGACY_STORAGE_KEYS.queueRepeat) as LegacySettings['queueRepeat']) || undefined
         };
     } catch {
         return {};
@@ -142,8 +146,9 @@ export function migrateLegacySettings(): MigrationResult {
 
         cleanupLegacySettings();
 
-        logger.info('[SettingsMigration] Successfully migrated from legacy settings format', { component: 'SettingsMigration' });
-
+        logger.info('[SettingsMigration] Successfully migrated from legacy settings format', {
+            component: 'SettingsMigration'
+        });
     } catch (error) {
         result.errors.push(String(error));
         logger.error('[SettingsMigration] Migration failed', { component: 'SettingsMigration' }, error as Error);

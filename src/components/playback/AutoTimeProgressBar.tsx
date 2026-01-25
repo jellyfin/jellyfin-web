@@ -22,7 +22,11 @@ const AutoTimeProgressBar: FC<AutoTimeProgressBarProps> = ({
     endTtime,
     progressOptions
 }) => {
-    deprecate('emby-progressbar/AutoTimeProgressBar', 'ui-primitives/Progress', 'src/elements/emby-progressbar/AutoTimeProgressBar.tsx');
+    deprecate(
+        'emby-progressbar/AutoTimeProgressBar',
+        'ui-primitives/Progress',
+        'src/elements/emby-progressbar/AutoTimeProgressBar.tsx'
+    );
 
     const [progress, setProgress] = useState(pct);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -58,19 +62,18 @@ const AutoTimeProgressBar: FC<AutoTimeProgressBarProps> = ({
         };
     }, [dataAutoMode, onAutoTimeProgress]);
 
-    const progressBarClass = classNames(
-        'itemLinearProgress',
-        progressOptions?.containerClass
-    );
+    const progressBarClass = classNames('itemLinearProgress', progressOptions?.containerClass);
 
     return (
         <Progress
             className={progressBarClass}
             value={progress}
-            style={{
-                borderRadius: '4px',
-                '--Progress-thickness': '4px'
-            } as React.CSSProperties}
+            style={
+                {
+                    borderRadius: '4px',
+                    '--Progress-thickness': '4px'
+                } as React.CSSProperties
+            }
         />
     );
 };

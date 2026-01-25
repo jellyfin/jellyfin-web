@@ -6,7 +6,7 @@ export const dialogOverlay = style({
     position: 'fixed',
     inset: 0,
     animation: 'fade-in 150ms ease',
-    zIndex: vars.zIndex.modalBackdrop,
+    zIndex: vars.zIndex.modalBackdrop
 });
 
 export const dialogContent = style({
@@ -23,7 +23,7 @@ export const dialogContent = style({
     overflow: 'auto',
     padding: vars.spacing.lg,
     zIndex: vars.zIndex.modal,
-    animation: 'scale-in 150ms ease',
+    animation: 'scale-in 150ms ease'
 });
 
 export const dialogTitle = style({
@@ -31,11 +31,11 @@ export const dialogTitle = style({
     fontWeight: vars.typography.fontWeightBold,
     fontSize: vars.typography.fontSizeXl,
     color: vars.colors.text,
-    marginBottom: vars.spacing.sm,
+    marginBottom: vars.spacing.sm
 });
 
 export const dialogDescription = style({
     margin: `0 0 ${vars.spacing.lg}`,
     color: vars.colors.textSecondary,
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography.fontSizeMd
 });

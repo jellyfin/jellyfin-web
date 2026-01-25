@@ -85,7 +85,7 @@ function showAudioMenu(context: RemoteControlContext, player: Player, button: HT
         return menuItem;
     });
 
-    import('../actionSheet/actionSheet').then((actionsheet) => {
+    import('../actionSheet/actionSheet').then(actionsheet => {
         (actionsheet as any).show({
             items: menuItems,
             positionTo: button,
@@ -117,7 +117,7 @@ function showSubtitleMenu(context: RemoteControlContext, player: Player, button:
         selected: currentIndex === null
     });
 
-    import('../actionSheet/actionSheet').then((actionsheet) => {
+    import('../actionSheet/actionSheet').then(actionsheet => {
         (actionsheet as any).show({
             items: menuItems,
             positionTo: button,
@@ -156,7 +156,12 @@ function updateNowPlayingInfo(context: RemoteControlContext, state: PlayerState,
         // Update user data
         const userDataBtn = context.querySelector('.nowPlayingPageUserDataButtons') as HTMLElement | null;
         if (userDataBtn && item.UserData) {
-            userDataBtn.innerHTML = '<button is="emby-ratingbutton" data-id="' + item.Id + '" data-isfavorite="' + item.UserData.IsFavorite + '"><span class="material-icons favorite"></span></button>';
+            userDataBtn.innerHTML =
+                '<button is="emby-ratingbutton" data-id="' +
+                item.Id +
+                '" data-isfavorite="' +
+                item.UserData.IsFavorite +
+                '"><span class="material-icons favorite"></span></button>';
         }
     } else {
         clearBackdrop();

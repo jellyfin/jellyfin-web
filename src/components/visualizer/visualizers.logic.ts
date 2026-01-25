@@ -16,12 +16,12 @@ function deepMerge<T extends Record<string, unknown>>(target: T, source: Partial
         const targetValue = target[key];
 
         if (
-            sourceValue !== null
-            && typeof sourceValue === 'object'
-            && !Array.isArray(sourceValue)
-            && targetValue !== null
-            && typeof targetValue === 'object'
-            && !Array.isArray(targetValue)
+            sourceValue !== null &&
+            typeof sourceValue === 'object' &&
+            !Array.isArray(sourceValue) &&
+            targetValue !== null &&
+            typeof targetValue === 'object' &&
+            !Array.isArray(targetValue)
         ) {
             // Recursively merge nested objects
             result[key] = deepMerge(
@@ -93,11 +93,11 @@ export function getDefaultVisualizerSettings() {
     return JSON.parse(JSON.stringify(defaultVisualizerSettings));
 }
 
-export function getVisualizerSettings () {
+export function getVisualizerSettings() {
     return JSON.stringify(visualizerSettings);
 }
 
-export function setVisualizerSettings (savedSettings: any) {
+export function setVisualizerSettings(savedSettings: any) {
     if (!savedSettings || typeof savedSettings !== 'object') {
         const defaults = getDefaultVisualizerSettings();
         visualizerSettings.butterchurn = defaults.butterchurn;
@@ -114,7 +114,10 @@ export function setVisualizerSettings (savedSettings: any) {
     // Use deepMerge to properly handle nested objects like colors.gradient
     visualizerSettings.butterchurn = deepMerge(defaultVisualizerSettings.butterchurn, savedSettings?.butterchurn);
     visualizerSettings.threeJs = deepMerge(defaultVisualizerSettings.threeJs, savedSettings?.threeJs);
-    visualizerSettings.frequencyAnalyzer = deepMerge(defaultVisualizerSettings.frequencyAnalyzer, savedSettings?.frequencyAnalyzer);
+    visualizerSettings.frequencyAnalyzer = deepMerge(
+        defaultVisualizerSettings.frequencyAnalyzer,
+        savedSettings?.frequencyAnalyzer
+    );
     visualizerSettings.waveSurfer = deepMerge(defaultVisualizerSettings.waveSurfer, savedSettings?.waveSurfer);
     visualizerSettings.sitback = deepMerge(defaultVisualizerSettings.sitback, legacySitback);
     visualizerSettings.advanced = deepMerge(defaultVisualizerSettings.advanced, savedSettings?.advanced);

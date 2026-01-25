@@ -58,9 +58,9 @@ export const NoMaxWidth: Story = {
 function AllSizesStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            {(['xs', 'sm', 'md', 'lg', 'xl', 'none'] as const).map((size) => (
+            {(['xs', 'sm', 'md', 'lg', 'xl', 'none'] as const).map(size => (
                 <Box key={size}>
-                    <Text as='small' color='secondary' style={{ marginBottom: '8px' }}>
+                    <Text as="small" color="secondary" style={{ marginBottom: '8px' }}>
                         maxWidth=&quot;{size}&quot;
                     </Text>
                     <Container maxWidth={size}>

@@ -4,7 +4,13 @@
 
 import { type ReactElement } from 'react';
 import { Text } from 'ui-primitives/Text';
-import { container, title as titleStyle, artist as artistStyle, album as albumStyle, link } from './MetadataDisplay.css';
+import {
+    container,
+    title as titleStyle,
+    artist as artistStyle,
+    album as albumStyle,
+    link
+} from './MetadataDisplay.css';
 
 export interface MetadataDisplayProps {
     readonly title?: string | null;
@@ -56,7 +62,7 @@ export function MetadataDisplay({
         if (!hasTitle) return null;
 
         const content = (
-            <Text as='span' className={titleStyle} size={titleSize} color='primary'>
+            <Text as="span" className={titleStyle} size={titleSize} color="primary">
                 {title}
             </Text>
         );
@@ -76,7 +82,7 @@ export function MetadataDisplay({
         if (!hasArtist) return null;
 
         const content = (
-            <Text as='span' className={artistStyle} size={artistSize} color='secondary'>
+            <Text as="span" className={artistStyle} size={artistSize} color="secondary">
                 {artist}
             </Text>
         );
@@ -97,7 +103,7 @@ export function MetadataDisplay({
             {renderTitle()}
             {renderArtist()}
             {hasAlbum && (
-                <Text as='span' className={albumStyle} size={albumSize} color='secondary'>
+                <Text as="span" className={albumStyle} size={albumSize} color="secondary">
                     {album}
                 </Text>
             )}

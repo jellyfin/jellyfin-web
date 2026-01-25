@@ -12,19 +12,18 @@ const DrawerHeaderLink = () => {
     const { data: systemInfo } = useSystemInfo();
 
     return (
-        <ListItemLink to='/'>
+        <ListItemLink to="/">
             <ListItemDecorator>
-                <Box
-                    as='img'
-                    src={appIcon}
-                    style={{ height: '2.5rem' }}
-                />
+                <Box as="img" src={appIcon} style={{ height: '2.5rem' }} />
             </ListItemDecorator>
             <ListItemContent>
-                <Text weight='bold'>{systemInfo?.ServerName || 'Jellyfin'}</Text>
-                <Text size='sm' color='secondary'>{systemInfo?.Version}</Text>
+                <Text weight="bold">{systemInfo?.ServerName || 'Jellyfin'}</Text>
+                <Text size="sm" color="secondary">
+                    {systemInfo?.Version}
+                </Text>
             </ListItemContent>
-        </ListItemLink>);
+        </ListItemLink>
+    );
 };
 
 export default DrawerHeaderLink;

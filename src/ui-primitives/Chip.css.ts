@@ -61,4 +61,3 @@ export const chipSizes = styleVariants({
         fontSize: vars.typography.fontSizeMd
     }
 });
-

@@ -3,9 +3,11 @@ import itemHelper from '../itemHelper';
 import './indicators.scss';
 
 export function enableProgressIndicator(item: any): boolean {
-    return (item.MediaType === 'Video' && item.Type !== 'TvChannel')
-        || item.Type === 'AudioBook'
-        || item.Type === 'AudioPodcast';
+    return (
+        (item.MediaType === 'Video' && item.Type !== 'TvChannel') ||
+        item.Type === 'AudioBook' ||
+        item.Type === 'AudioPodcast'
+    );
 }
 
 export function getProgressHtml(pct: number, options?: any): string {
@@ -32,7 +34,11 @@ export function getProgressBarHtml(item: any, options?: any): string {
         }
     }
 
-    if ((item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording') && item.StartDate && item.EndDate) {
+    if (
+        (item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording') &&
+        item.StartDate &&
+        item.EndDate
+    ) {
         let startDate = 0;
         let endDate = 1;
         try {
@@ -63,7 +69,8 @@ function formatCountIndicator(count: number): string {
 export function getPlayedIndicatorHtml(item: any): string {
     if (enablePlayedIndicator(item)) {
         const userData = item.UserData || {};
-        if (userData.UnplayedItemCount) return `<div class="countIndicator indicator">${formatCountIndicator(userData.UnplayedItemCount)}</div>`;
+        if (userData.UnplayedItemCount)
+            return `<div class="countIndicator indicator">${formatCountIndicator(userData.UnplayedItemCount)}</div>`;
         if ((userData.PlayedPercentage && userData.PlayedPercentage >= 100) || userData.Played) {
             return '<div class="playedIndicator indicator"><span class="material-icons indicatorIcon check" aria-hidden="true"></span></div>';
         }
@@ -81,28 +88,39 @@ export function getChildCountIndicatorHtml(item: any, options?: any): string {
 
 export function getTimerIndicator(item: any): string {
     let status: string;
-    if (item.Type === 'SeriesTimer') return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record" aria-hidden="true"></span>';
+    if (item.Type === 'SeriesTimer')
+        return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record" aria-hidden="true"></span>';
     else if (item.TimerId || item.SeriesTimerId) status = item.Status || 'Cancelled';
     else if (item.Type === 'Timer') status = item.Status;
     else return '';
 
     if (item.SeriesTimerId) {
-        if (status !== 'Cancelled') return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record" aria-hidden="true"></span>';
+        if (status !== 'Cancelled')
+            return '<span class="material-icons timerIndicator indicatorIcon fiber_smart_record" aria-hidden="true"></span>';
         return '<span class="material-icons timerIndicator timerIndicator-inactive indicatorIcon fiber_smart_record" aria-hidden="true"></span>';
     }
     return '<span class="material-icons timerIndicator indicatorIcon fiber_manual_record" aria-hidden="true"></span>';
 }
 
 export function getSyncIndicator(item: any): string {
-    if (item.SyncPercent === 100) return '<div class="syncIndicator indicator fullSyncIndicator"><span class="material-icons indicatorIcon file_download" aria-hidden="true"></span></div>';
-    else if (item.SyncPercent != null) return '<div class="syncIndicator indicator emptySyncIndicator"><span class="material-icons indicatorIcon file_download" aria-hidden="true"></span></div>';
+    if (item.SyncPercent === 100)
+        return '<div class="syncIndicator indicator fullSyncIndicator"><span class="material-icons indicatorIcon file_download" aria-hidden="true"></span></div>';
+    else if (item.SyncPercent != null)
+        return '<div class="syncIndicator indicator emptySyncIndicator"><span class="material-icons indicatorIcon file_download" aria-hidden="true"></span></div>';
     return '';
 }
 
 export function getTypeIndicator(item: any): string {
-    const icons: Record<string, string> = { 'Video': 'videocam', 'Folder': 'folder', 'PhotoAlbum': 'photo_album', 'Photo': 'photo' };
+    const icons: Record<string, string> = {
+        Video: 'videocam',
+        Folder: 'folder',
+        PhotoAlbum: 'photo_album',
+        Photo: 'photo'
+    };
     const icon = icons[item.Type];
-    return icon ? `<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ${icon}" aria-hidden="true"></span></div>` : '';
+    return icon
+        ? `<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ${icon}" aria-hidden="true"></span></div>`
+        : '';
 }
 
 export function getMissingIndicator(item: any): string {

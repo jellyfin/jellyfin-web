@@ -72,26 +72,31 @@ function renderItems(page: HTMLElement, item: any): void {
     const elem = page.querySelector('#childrenContent');
     if (!elem) return;
 
-    elem.innerHTML = sections.map((section) => {
-        let html = '';
-        let sectionClass = 'verticalSection';
+    elem.innerHTML = sections
+        .map(section => {
+            let html = '';
+            let sectionClass = 'verticalSection';
 
-        if (section.type === 'Audio') {
-            sectionClass += ' verticalSection-extrabottompadding';
-        }
+            if (section.type === 'Audio') {
+                sectionClass += ' verticalSection-extrabottompadding';
+            }
 
-        html += '<div class="' + sectionClass + '" data-type="' + section.type + '">';
-        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-        html += '<h2 class="sectionTitle sectionTitle-cards">';
-        html += section.name;
-        html += '</h2>';
-        html += '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' + globalize.translate('ButtonMore') + '</button></a>';
-        html += '</div>';
-        html += '<div is="emby-itemscontainer" class="itemsContainer padded-right">';
-        html += '</div>';
-        html += '</div>';
-        return html;
-    }).join('');
+            html += '<div class="' + sectionClass + '" data-type="' + section.type + '">';
+            html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            html += section.name;
+            html += '</h2>';
+            html +=
+                '<a is="emby-linkbutton" href="#" class="clearLink hide" style="margin-left:1em;vertical-align:middle;"><button is="emby-button" type="button" class="raised more raised-mini noIcon">' +
+                globalize.translate('ButtonMore') +
+                '</button></a>';
+            html += '</div>';
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-right">';
+            html += '</div>';
+            html += '</div>';
+            return html;
+        })
+        .join('');
 
     const sectionElems = elem.querySelectorAll<HTMLElement>('.verticalSection');
 
@@ -103,164 +108,218 @@ function renderItems(page: HTMLElement, item: any): void {
 function renderSection(item: any, element: HTMLElement, type: string): void {
     switch (type) {
         case 'Program':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Program',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortBy: 'StartDate'
-            }, {
-                shape: 'overflowBackdrop',
-                showTitle: true,
-                centerText: true,
-                overlayMoreButton: true,
-                preferThumb: true,
-                overlayText: false,
-                showAirTime: true,
-                showAirDateTime: true,
-                showChannelName: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Program',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortBy: 'StartDate'
+                },
+                {
+                    shape: 'overflowBackdrop',
+                    showTitle: true,
+                    centerText: true,
+                    overlayMoreButton: true,
+                    preferThumb: true,
+                    overlayText: false,
+                    showAirTime: true,
+                    showAirDateTime: true,
+                    showChannelName: true
+                }
+            );
             break;
 
         case 'Movie':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Movie',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortOrder: 'Descending,Descending,Ascending',
-                SortBy: 'PremiereDate,ProductionYear,SortName'
-            }, {
-                shape: 'overflowPortrait',
-                showTitle: true,
-                centerText: true,
-                overlayMoreButton: true,
-                overlayText: false,
-                showYear: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Movie',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortOrder: 'Descending,Descending,Ascending',
+                    SortBy: 'PremiereDate,ProductionYear,SortName'
+                },
+                {
+                    shape: 'overflowPortrait',
+                    showTitle: true,
+                    centerText: true,
+                    overlayMoreButton: true,
+                    overlayText: false,
+                    showYear: true
+                }
+            );
             break;
 
         case 'MusicVideo':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'MusicVideo',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowBackdrop',
-                showTitle: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'MusicVideo',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowBackdrop',
+                    showTitle: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'Trailer':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Trailer',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowPortrait',
-                showTitle: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Trailer',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowPortrait',
+                    showTitle: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'Series':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Series',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 10,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowPortrait',
-                showTitle: true,
-                centerText: true,
-                overlayMoreButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Series',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 10,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowPortrait',
+                    showTitle: true,
+                    centerText: true,
+                    overlayMoreButton: true
+                }
+            );
             break;
 
         case 'MusicAlbum':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'MusicAlbum',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                SortOrder: 'Descending,Descending,Ascending',
-                SortBy: 'PremiereDate,ProductionYear,Sortname'
-            }, {
-                shape: 'overflowSquare',
-                showTitle: true,
-                showYear: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'MusicAlbum',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    SortOrder: 'Descending,Descending,Ascending',
+                    SortBy: 'PremiereDate,ProductionYear,Sortname'
+                },
+                {
+                    shape: 'overflowSquare',
+                    showTitle: true,
+                    showYear: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'MusicArtist':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'MusicArtist',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 8,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowSquare',
-                showTitle: true,
-                showParentTitle: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'MusicArtist',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 8,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowSquare',
+                    showTitle: true,
+                    showParentTitle: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'Episode':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Episode',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                Limit: 6,
-                SortBy: 'SortName'
-            }, {
-                shape: 'overflowBackdrop',
-                showTitle: true,
-                showParentTitle: true,
-                centerText: true,
-                overlayPlayButton: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Episode',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    Limit: 6,
+                    SortBy: 'SortName'
+                },
+                {
+                    shape: 'overflowBackdrop',
+                    showTitle: true,
+                    showParentTitle: true,
+                    centerText: true,
+                    overlayPlayButton: true
+                }
+            );
             break;
 
         case 'Audio':
-            loadItems(element, item, type, {
-                MediaTypes: '',
-                IncludeItemTypes: 'Audio',
-                PersonTypes: '',
-                ArtistIds: '',
-                AlbumArtistIds: '',
-                SortBy: 'AlbumArtist,Album,SortName'
-            }, {
-                action: 'playallfromhere',
-                artist: true
-            });
+            loadItems(
+                element,
+                item,
+                type,
+                {
+                    MediaTypes: '',
+                    IncludeItemTypes: 'Audio',
+                    PersonTypes: '',
+                    ArtistIds: '',
+                    AlbumArtistIds: '',
+                    SortBy: 'AlbumArtist,Album,SortName'
+                },
+                {
+                    action: 'playallfromhere',
+                    artist: true
+                }
+            );
     }
 }
 

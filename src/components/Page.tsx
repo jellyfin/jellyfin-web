@@ -4,14 +4,14 @@ import autoFocuser from 'components/autoFocuser';
 import viewManager from 'components/viewManager/viewManager';
 
 type CustomPageProps = {
-    id: string, // id is required for libraryMenu
-    title?: string,
-    isBackButtonEnabled?: boolean,
-    isMenuButtonEnabled?: boolean,
-    isNowPlayingBarEnabled?: boolean,
-    isThemeMediaSupported?: boolean,
-    shouldAutoFocus?: boolean,
-    backDropType?: string,
+    id: string; // id is required for libraryMenu
+    title?: string;
+    isBackButtonEnabled?: boolean;
+    isMenuButtonEnabled?: boolean;
+    isNowPlayingBarEnabled?: boolean;
+    isThemeMediaSupported?: boolean;
+    shouldAutoFocus?: boolean;
+    backDropType?: string;
 };
 
 export type PageProps = CustomPageProps & HTMLAttributes<HTMLDivElement>;
@@ -59,20 +59,20 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
         element.current?.dispatchEvent(new CustomEvent('viewshow', event));
         // pageshow - updates header/navigation in libraryMenu
         element.current?.dispatchEvent(new CustomEvent('pageshow', event));
-    }, [ element, isNowPlayingBarEnabled, isThemeMediaSupported ]);
+    }, [element, isNowPlayingBarEnabled, isThemeMediaSupported]);
 
     useEffect(() => {
         if (shouldAutoFocus) {
             autoFocuser.autoFocus(element.current);
         }
-    }, [ shouldAutoFocus ]);
+    }, [shouldAutoFocus]);
 
     return (
         <StrictMode>
             <div
                 ref={element}
                 id={id}
-                data-role='page'
+                data-role="page"
                 className={`page ${className}`}
                 data-title={title}
                 data-backbutton={isBackButtonEnabled}

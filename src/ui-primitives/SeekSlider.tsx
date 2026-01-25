@@ -1,4 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState, type ReactElement, type CSSProperties, type MouseEvent, type KeyboardEvent } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+    type ReactElement,
+    type CSSProperties,
+    type MouseEvent,
+    type KeyboardEvent
+} from 'react';
 import { Root, Track, Range, Thumb } from '@radix-ui/react-slider';
 import { Waveform, type TrackState } from './seek/Waveform';
 import {
@@ -101,7 +110,7 @@ export function SeekSlider({
     const trackRef = useRef<HTMLDivElement>(null);
     const lastCommittedRef = useRef(0);
 
-    const progress = duration > 0 ? ((currentTime ?? value ?? 0) / duration) : 0;
+    const progress = duration > 0 ? (currentTime ?? value ?? 0) / duration : 0;
 
     useEffect((): void => {
         if (!isDragging) {
@@ -318,9 +327,9 @@ export function SeekSlider({
             <div
                 ref={trackRef}
                 className={seekSliderTrack}
-                role='slider'
+                role="slider"
                 tabIndex={0}
-                aria-label='Seek'
+                aria-label="Seek"
                 aria-valuemin={0}
                 aria-valuemax={duration}
                 aria-valuenow={currentDisplayTime}
@@ -340,10 +349,7 @@ export function SeekSlider({
                     style={{ height }}
                 >
                     <Track>
-                        <Range
-                            className={seekSliderProgress}
-                            style={{ width: `${localProgress * 100}%` }}
-                        />
+                        <Range className={seekSliderProgress} style={{ width: `${localProgress * 100}%` }} />
                     </Track>
 
                     {showBuffer && renderBuffered()}

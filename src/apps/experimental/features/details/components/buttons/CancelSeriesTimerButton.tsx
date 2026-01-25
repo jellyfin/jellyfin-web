@@ -13,9 +13,7 @@ interface CancelSeriesTimerButtonProps {
     itemId: string;
 }
 
-const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({
-    itemId
-}) => {
+const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({ itemId }) => {
     const navigate = useNavigate();
     const cancelSeriesTimer = useCancelSeriesTimer();
 
@@ -41,10 +39,7 @@ const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({
                         onError: (err: unknown) => {
                             loading.hide();
                             toast(globalize.translate('MessageCancelSeriesTimerError'));
-                            console.error(
-                                '[cancelSeriesTimer] failed to cancel series timer',
-                                err
-                            );
+                            console.error('[cancelSeriesTimer] failed to cancel series timer', err);
                         }
                     }
                 );
@@ -56,7 +51,7 @@ const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({
 
     return (
         <IconButton
-            className='button-flat btnCancelSeriesTimer'
+            className="button-flat btnCancelSeriesTimer"
             title={globalize.translate('CancelSeries')}
             onClick={onCancelSeriesTimerClick}
         >

@@ -27,7 +27,7 @@ class PerformanceMonitor {
         let clsValue = 0;
 
         try {
-            new PerformanceObserver((entryList) => {
+            new PerformanceObserver(entryList => {
                 for (const entry of entryList.getEntries() as any[]) {
                     if (!entry.hadRecentInput) {
                         clsValue += entry.value;
@@ -43,7 +43,7 @@ class PerformanceMonitor {
 
     static measureFID() {
         try {
-            new PerformanceObserver((entryList) => {
+            new PerformanceObserver(entryList => {
                 for (const entry of entryList.getEntries() as any[]) {
                     const fid = entry.processingStart - entry.startTime;
                     logger.debug('FID metric', { component: 'PerformanceMonitor', value: fid, unit: 'ms' });
@@ -56,7 +56,7 @@ class PerformanceMonitor {
 
     static measureLCP() {
         try {
-            new PerformanceObserver((entryList) => {
+            new PerformanceObserver(entryList => {
                 const entries = entryList.getEntries();
                 const lastEntry = entries[entries.length - 1];
                 logger.debug('LCP metric', { component: 'PerformanceMonitor', value: lastEntry.startTime, unit: 'ms' });
@@ -68,7 +68,7 @@ class PerformanceMonitor {
 
     static measureTTFB() {
         try {
-            new PerformanceObserver((entryList) => {
+            new PerformanceObserver(entryList => {
                 for (const entry of entryList.getEntries() as any[]) {
                     const ttfb = entry.responseStart - entry.requestStart;
                     logger.debug('TTFB metric', { component: 'PerformanceMonitor', value: ttfb, unit: 'ms' });
@@ -83,27 +83,30 @@ class PerformanceMonitor {
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-                const bundles = resources.filter(r =>
-                    r.name.includes('.js') && !r.name.includes('libraries/')
-                );
+                const bundles = resources.filter(r => r.name.includes('.js') && !r.name.includes('libraries/'));
 
                 const bundleInfo = bundles.map(bundle => ({
                     name: bundle.name,
                     duration: bundle.duration.toFixed(1)
                 }));
-                logger.debug('Bundle loads', { component: 'PerformanceMonitor', count: bundles.length, bundles: bundleInfo });
+                logger.debug('Bundle loads', {
+                    component: 'PerformanceMonitor',
+                    count: bundles.length,
+                    bundles: bundleInfo
+                });
 
-                const totalBundleSize = bundles.reduce((sum, b) =>
-                    sum + (b.transferSize || 0), 0
-                );
-                logger.info('Total bundle size', { component: 'PerformanceMonitor', sizeMB: (totalBundleSize / 1024 / 1024).toFixed(2) });
+                const totalBundleSize = bundles.reduce((sum, b) => sum + (b.transferSize || 0), 0);
+                logger.info('Total bundle size', {
+                    component: 'PerformanceMonitor',
+                    sizeMB: (totalBundleSize / 1024 / 1024).toFixed(2)
+                });
             }, 1000);
         });
     }
 
     static measurePWAMetrics() {
         if ('getInstalledRelatedApps' in navigator && navigator.getInstalledRelatedApps) {
-            navigator.getInstalledRelatedApps().then((apps) => {
+            navigator.getInstalledRelatedApps().then(apps => {
                 logger.debug('Related apps installed', { component: 'PerformanceMonitor', count: apps.length });
             });
         }
@@ -141,7 +144,7 @@ class PerformanceMonitor {
 
     static measureServiceWorker() {
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.ready.then((registration) => {
+            navigator.serviceWorker.ready.then(registration => {
                 logger.debug('Service Worker ready', {
                     component: 'PerformanceMonitor',
                     state: registration.active?.state,
@@ -150,11 +153,16 @@ class PerformanceMonitor {
                 });
 
                 if ((window as any).ServiceWorkerCacheManager) {
-                    (window as any).ServiceWorkerCacheManager.getCacheStatus().then((status: any) => {
-                        logger.debug('Cache status', { component: 'PerformanceMonitor', status });
-                    }).catch((error: any) => {
-                        logger.error('Cache status check failed', { component: 'PerformanceMonitor', error: error.message });
-                    });
+                    (window as any).ServiceWorkerCacheManager.getCacheStatus()
+                        .then((status: any) => {
+                            logger.debug('Cache status', { component: 'PerformanceMonitor', status });
+                        })
+                        .catch((error: any) => {
+                            logger.error('Cache status check failed', {
+                                component: 'PerformanceMonitor',
+                                error: error.message
+                            });
+                        });
                 }
             });
         }
@@ -168,7 +176,8 @@ class PerformanceMonitor {
 
                 const paintEntries = performance.getEntriesByType('paint');
                 const firstPaint = paintEntries.find(p => p.name === 'first-paint')?.startTime || 0;
-                const firstContentfulPaint = paintEntries.find(p => p.name === 'first-contentful-paint')?.startTime || 0;
+                const firstContentfulPaint =
+                    paintEntries.find(p => p.name === 'first-contentful-paint')?.startTime || 0;
 
                 const metrics = {
                     loadTime: navigation.loadEventEnd - navigation.loadEventStart,

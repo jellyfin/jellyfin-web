@@ -14,7 +14,10 @@ vi.mock('wavesurfer.js', () => ({
             zoom: vi.fn(),
             load: vi.fn(),
             loadBlob: vi.fn(),
-            exportPeaks: vi.fn(() => [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3]]),
+            exportPeaks: vi.fn(() => [
+                [0.1, 0.2, 0.3],
+                [0.1, 0.2, 0.3]
+            ]),
             isPlaying: vi.fn(() => false),
             getCurrentTime: vi.fn(() => 0),
             getScroll: vi.fn(() => 0),

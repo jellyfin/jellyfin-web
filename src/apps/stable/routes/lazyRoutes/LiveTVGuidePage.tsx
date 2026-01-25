@@ -39,14 +39,14 @@ const LiveTVGuidePage: React.FC = () => {
                     minHeight: '200px'
                 }}
             >
-                <CircularProgress size='md' />
+                <CircularProgress size="md" />
             </Box>
         );
     }
 
     return (
         <Box style={{ padding: vars.spacing.lg }}>
-            <Text as='h2' size='xl' weight='bold' style={{ marginBottom: vars.spacing.lg }}>
+            <Text as="h2" size="xl" weight="bold" style={{ marginBottom: vars.spacing.lg }}>
                 {globalize.translate('Guide')}
             </Text>
             <Box
@@ -56,7 +56,7 @@ const LiveTVGuidePage: React.FC = () => {
                     gap: vars.spacing.lg
                 }}
             >
-                {data.map((item) => (
+                {data.map(item => (
                     <Card key={item.id}>
                         <Box
                             style={{
@@ -67,11 +67,13 @@ const LiveTVGuidePage: React.FC = () => {
                                 backgroundColor: vars.colors.surfaceHover
                             }}
                         >
-                            <Text size='xxl'>📡</Text>
+                            <Text size="xxl">📡</Text>
                         </Box>
                         <CardBody>
-                            <Text weight='medium'>{item.name}</Text>
-                            <Text size='sm' color='secondary'>{item.count} items</Text>
+                            <Text weight="medium">{item.name}</Text>
+                            <Text size="sm" color="secondary">
+                                {item.count} items
+                            </Text>
                         </CardBody>
                     </Card>
                 ))}

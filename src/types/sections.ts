@@ -64,27 +64,16 @@ export interface Section {
 }
 
 export const MovieSuggestionsSectionsView: SectionsView = {
-    suggestionSections: [
-        SectionType.ContinueWatchingMovies,
-        SectionType.LatestMovies
-    ],
+    suggestionSections: [SectionType.ContinueWatchingMovies, SectionType.LatestMovies],
     isMovieRecommendations: true
 };
 
 export const TvShowSuggestionsSectionsView: SectionsView = {
-    suggestionSections: [
-        SectionType.ContinueWatchingEpisode,
-        SectionType.LatestEpisode,
-        SectionType.NextUp
-    ]
+    suggestionSections: [SectionType.ContinueWatchingEpisode, SectionType.LatestEpisode, SectionType.NextUp]
 };
 
 export const MusicSuggestionsSectionsView: SectionsView = {
-    suggestionSections: [
-        SectionType.LatestMusic,
-        SectionType.FrequentlyPlayedMusic,
-        SectionType.RecentlyPlayedMusic
-    ]
+    suggestionSections: [SectionType.LatestMusic, SectionType.FrequentlyPlayedMusic, SectionType.RecentlyPlayedMusic]
 };
 
 export const ProgramSectionsView: SectionsView = {
@@ -99,10 +88,7 @@ export const ProgramSectionsView: SectionsView = {
 };
 
 export const RecordingsSectionsView: SectionsView = {
-    programSections: [
-        SectionType.LatestRecordings,
-        SectionType.RecordingFolders
-    ]
+    programSections: [SectionType.LatestRecordings, SectionType.RecordingFolders]
 };
 
 export const ScheduleSectionsView: SectionsView = {

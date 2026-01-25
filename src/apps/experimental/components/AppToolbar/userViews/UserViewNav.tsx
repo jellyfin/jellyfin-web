@@ -53,7 +53,7 @@ const getCurrentUserView = (
 
 const UserViewNav = () => {
     const location = useLocation();
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const libraryId = searchParams.get('topParentId') || searchParams.get('parentId');
     const collectionType = searchParams.get('collectionType');
     const { activeTab } = useCurrentTab();
@@ -69,41 +69,33 @@ const UserViewNav = () => {
         const customLinks = (webConfig.menuLinks || []).length;
 
         return _maxViews - customLinks;
-    }, [ isExtraLargeScreen, isLargeScreen, webConfig.menuLinks ]);
+    }, [isExtraLargeScreen, isLargeScreen, webConfig.menuLinks]);
 
     const { user } = useApi();
-    const {
-        data: userViews,
-        isPending
-    } = useUserViews(user?.Id);
+    const { data: userViews, isPending } = useUserViews(user?.Id);
 
-    const primaryViews = useMemo(() => (
-        userViews?.Items?.slice(0, maxViews)
-    ), [ maxViews, userViews ]);
+    const primaryViews = useMemo(() => userViews?.Items?.slice(0, maxViews), [maxViews, userViews]);
 
-    const overflowViews = useMemo(() => (
-        userViews?.Items?.slice(maxViews)
-    ), [ maxViews, userViews ]);
+    const overflowViews = useMemo(() => userViews?.Items?.slice(maxViews), [maxViews, userViews]);
 
-    const [ isOverflowMenuOpen, setIsOverflowMenuOpen ] = useState(false);
+    const [isOverflowMenuOpen, setIsOverflowMenuOpen] = useState(false);
 
-    const currentUserView = useMemo(() => (
-        getCurrentUserView(userViews?.Items, location.pathname, libraryId, collectionType, activeTab)
-    ), [ activeTab, collectionType, libraryId, location.pathname, userViews ]);
+    const currentUserView = useMemo(
+        () => getCurrentUserView(userViews?.Items, location.pathname, libraryId, collectionType, activeTab),
+        [activeTab, collectionType, libraryId, location.pathname, userViews]
+    );
 
     if (isPending) return null;
 
     return (
         <>
             <Button
-                variant='plain'
+                variant="plain"
                 startIcon={<HeartFilledIcon />}
                 component={Link}
-                to='/home?tab=1'
+                to="/home?tab=1"
                 style={{
-                    color: (currentUserView?.Id === MetaView.Favorites.Id) ?
-                        vars.colors.primary :
-                        'inherit'
+                    color: currentUserView?.Id === MetaView.Favorites.Id ? vars.colors.primary : 'inherit'
                 }}
             >
                 {globalize.translate(MetaView.Favorites.Name || '')}
@@ -112,12 +104,16 @@ const UserViewNav = () => {
             {webConfig.menuLinks?.map(link => (
                 <Button
                     key={link.name}
-                    variant='plain'
-                    startIcon={<span className='material-icons' aria-hidden='true'>{link.icon || 'link'}</span>}
-                    component='a'
+                    variant="plain"
+                    startIcon={
+                        <span className="material-icons" aria-hidden="true">
+                            {link.icon || 'link'}
+                        </span>
+                    }
+                    component="a"
                     href={link.url}
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    target="_blank"
+                    rel="noopener noreferrer"
                 >
                     {link.name}
                 </Button>
@@ -126,14 +122,12 @@ const UserViewNav = () => {
             {primaryViews?.map(view => (
                 <Button
                     key={view.Id}
-                    variant='plain'
+                    variant="plain"
                     startIcon={<LibraryIcon item={view} />}
                     component={Link}
                     to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
                     style={{
-                        color: (view.Id === currentUserView?.Id) ?
-                            vars.colors.primary :
-                            'inherit'
+                        color: view.Id === currentUserView?.Id ? vars.colors.primary : 'inherit'
                     }}
                 >
                     {view.Name}
@@ -143,16 +137,16 @@ const UserViewNav = () => {
                 <UserViewsMenu
                     open={isOverflowMenuOpen}
                     onOpenChange={setIsOverflowMenuOpen}
-                    trigger={(
+                    trigger={
                         <Button
-                            variant='plain'
+                            variant="plain"
                             endIcon={<ChevronDownIcon />}
                             aria-controls={OVERFLOW_MENU_ID}
-                            aria-haspopup='true'
+                            aria-haspopup="true"
                         >
                             {globalize.translate('ButtonMore')}
                         </Button>
-                    )}
+                    }
                     userViews={overflowViews}
                     selectedId={currentUserView?.Id}
                 />

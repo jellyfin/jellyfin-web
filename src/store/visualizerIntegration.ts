@@ -6,7 +6,15 @@
  * store-based state management for visualizer settings and controls.
  */
 
-import { useVisualizerEnabled, useVisualizerType, useVolume, useIsMuted, usePlaybackStatus, useCurrentTime, useDuration } from './hooks';
+import {
+    useVisualizerEnabled,
+    useVisualizerType,
+    useVolume,
+    useIsMuted,
+    usePlaybackStatus,
+    useCurrentTime,
+    useDuration
+} from './hooks';
 import { useSettingsStore, useMediaStore } from './index';
 import type { VisualizerSettings } from './settingsStore';
 
@@ -87,8 +95,12 @@ class VisualizerIntegration {
         if (analyserNode) {
             const freqData = this.audioData.frequencyData as unknown as Uint8Array;
             const timeData = this.audioData.timeDomainData as unknown as Uint8Array;
-            (analyserNode as unknown as { getByteFrequencyData(data: Uint8Array): void }).getByteFrequencyData(freqData);
-            (analyserNode as unknown as { getByteTimeDomainData(data: Uint8Array): void }).getByteTimeDomainData(timeData);
+            (analyserNode as unknown as { getByteFrequencyData(data: Uint8Array): void }).getByteFrequencyData(
+                freqData
+            );
+            (analyserNode as unknown as { getByteTimeDomainData(data: Uint8Array): void }).getByteTimeDomainData(
+                timeData
+            );
 
             for (const listener of this.listeners) {
                 listener(this.audioData);
@@ -122,7 +134,7 @@ class VisualizerIntegration {
         if (!analyserNode) return 0;
 
         const nyquist = this.audioData.audioContext?.sampleRate ?? 44100 / 2;
-        const index = Math.round(frequency / nyquist * frequencyData.length);
+        const index = Math.round((frequency / nyquist) * frequencyData.length);
         return frequencyData[Math.min(index, frequencyData.length - 1)] / 255;
     }
 
@@ -208,9 +220,7 @@ export function getAudioEngineState() {
         isBuffering: mediaStore.status === 'buffering',
         currentTime: mediaStore.progress.currentTime,
         duration: mediaStore.progress.duration,
-        progress: mediaStore.progress.duration > 0
-            ? mediaStore.progress.currentTime / mediaStore.progress.duration
-            : 0
+        progress: mediaStore.progress.duration > 0 ? mediaStore.progress.currentTime / mediaStore.progress.duration : 0
     };
 }
 

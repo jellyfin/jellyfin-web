@@ -70,7 +70,7 @@ const ItemCountsWidget = (): React.ReactElement => {
         <Flex>
             <Grid
                 container
-                spacing='md'
+                spacing="md"
                 style={{
                     alignItems: 'stretch'
                 }}

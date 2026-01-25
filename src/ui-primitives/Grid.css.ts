@@ -105,11 +105,11 @@ export const gridXl = styleVariants({
 });
 
 export const gridDisplay = styleVariants({
-    'block': { display: 'block' },
-    'flex': { display: 'flex' },
-    'grid': { display: 'grid' },
-    'none': { display: 'none' },
-    'initial': { display: 'initial' }
+    block: { display: 'block' },
+    flex: { display: 'flex' },
+    grid: { display: 'grid' },
+    none: { display: 'none' },
+    initial: { display: 'initial' }
 });
 
 export const gridOrder = styleVariants({
@@ -126,8 +126,7 @@ export const gridOrder = styleVariants({
     10: { order: 10 },
     11: { order: 11 },
     12: { order: 12 },
-    'initial': { order: 'initial' },
-    'first': { order: -9999 },
-    'last': { order: 9999 }
+    initial: { order: 'initial' },
+    first: { order: -9999 },
+    last: { order: 9999 }
 });
-

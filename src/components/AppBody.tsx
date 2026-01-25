@@ -6,17 +6,18 @@ import viewContainer from './viewContainer';
  * to exist alongside standard React pages.
  */
 const AppBody: FC<PropsWithChildren<unknown>> = ({ children }) => {
-    useEffect(() => () => {
-        // Reset view container state on unload
-        viewContainer.reset();
-    }, []);
+    useEffect(
+        () => () => {
+            // Reset view container state on unload
+            viewContainer.reset();
+        },
+        []
+    );
 
     return (
         <>
-            <div className='mainAnimatedPages skinBody' />
-            <div className='skinBody'>
-                {children}
-            </div>
+            <div className="mainAnimatedPages skinBody" />
+            <div className="skinBody">{children}</div>
         </>
     );
 };

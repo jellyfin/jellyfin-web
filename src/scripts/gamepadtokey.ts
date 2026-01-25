@@ -42,7 +42,7 @@ const times: Record<string, number> = {};
 function throttle(key: string): boolean {
     const time = times[key] || 0;
     const now = Date.now();
-    return (now - time) >= 200;
+    return now - time >= 200;
 }
 
 function resetThrottle(key: string) {
@@ -63,12 +63,22 @@ function raiseEvent(name: string, key: string, keyCode: number) {
     return event;
 }
 
-function raiseKeyEvent(old: boolean, curr: boolean, key: string, code: number, repeat = false, click = false, oldEvt?: any) {
+function raiseKeyEvent(
+    old: boolean,
+    curr: boolean,
+    key: string,
+    code: number,
+    repeat = false,
+    click = false,
+    oldEvt?: any
+) {
     let evt = null;
     if (curr === true) {
         let fire = false;
-        if (old === false) { fire = true; resetThrottle(key); }
-        else if (repeat) fire = throttle(key);
+        if (old === false) {
+            fire = true;
+            resetThrottle(key);
+        } else if (repeat) fire = throttle(key);
         if (fire && code) evt = raiseEvent('keydown', key, code);
     } else if (curr === false && old === true) {
         resetThrottle(key);
@@ -82,19 +92,55 @@ function raiseKeyEvent(old: boolean, curr: boolean, key: string, code: number, r
 
 const _ButtonPressedState = {
     setgamepadA: (s: boolean) => {
-        const evt = raiseKeyEvent(_gamepadAPressed, s, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true, _gamepadADownEvent);
+        const evt = raiseKeyEvent(
+            _gamepadAPressed,
+            s,
+            _GAMEPAD_A_KEY,
+            _GAMEPAD_A_KEYCODE,
+            false,
+            true,
+            _gamepadADownEvent
+        );
         _gamepadAPressed = s;
-        if (!s) _gamepadADownEvent = null; else if (evt) _gamepadADownEvent = evt;
+        if (!s) _gamepadADownEvent = null;
+        else if (evt) _gamepadADownEvent = evt;
     },
-    setgamepadB: (s: boolean) => { raiseKeyEvent(_gamepadBPressed, s, _GAMEPAD_B_KEY, _GAMEPAD_B_KEYCODE); _gamepadBPressed = s; },
-    setleftThumbstickUp: (s: boolean) => { raiseKeyEvent(_leftThumbstickUpPressed, s, _GAMEPAD_LEFT_THUMBSTICK_UP_KEY, 38, true); _leftThumbstickUpPressed = s; },
-    setleftThumbstickDown: (s: boolean) => { raiseKeyEvent(_leftThumbstickDownPressed, s, _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY, 40, true); _leftThumbstickDownPressed = s; },
-    setleftThumbstickLeft: (s: boolean) => { raiseKeyEvent(_leftThumbstickLeftPressed, s, _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY, 37, true); _leftThumbstickLeftPressed = s; },
-    setleftThumbstickRight: (s: boolean) => { raiseKeyEvent(_leftThumbstickRightPressed, s, _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY, 39, true); _leftThumbstickRightPressed = s; },
-    setdPadUp: (s: boolean) => { raiseKeyEvent(_dPadUpPressed, s, _GAMEPAD_DPAD_UP_KEY, 38, true); _dPadUpPressed = s; },
-    setdPadDown: (s: boolean) => { raiseKeyEvent(_dPadDownPressed, s, _GAMEPAD_DPAD_DOWN_KEY, 40, true); _dPadDownPressed = s; },
-    setdPadLeft: (s: boolean) => { raiseKeyEvent(_dPadLeftPressed, s, _GAMEPAD_DPAD_LEFT_KEY, 37, true); _dPadLeftPressed = s; },
-    setdPadRight: (s: boolean) => { raiseKeyEvent(_dPadRightPressed, s, _GAMEPAD_DPAD_RIGHT_KEY, 39, true); _dPadRightPressed = s; }
+    setgamepadB: (s: boolean) => {
+        raiseKeyEvent(_gamepadBPressed, s, _GAMEPAD_B_KEY, _GAMEPAD_B_KEYCODE);
+        _gamepadBPressed = s;
+    },
+    setleftThumbstickUp: (s: boolean) => {
+        raiseKeyEvent(_leftThumbstickUpPressed, s, _GAMEPAD_LEFT_THUMBSTICK_UP_KEY, 38, true);
+        _leftThumbstickUpPressed = s;
+    },
+    setleftThumbstickDown: (s: boolean) => {
+        raiseKeyEvent(_leftThumbstickDownPressed, s, _GAMEPAD_LEFT_THUMBSTICK_DOWN_KEY, 40, true);
+        _leftThumbstickDownPressed = s;
+    },
+    setleftThumbstickLeft: (s: boolean) => {
+        raiseKeyEvent(_leftThumbstickLeftPressed, s, _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEY, 37, true);
+        _leftThumbstickLeftPressed = s;
+    },
+    setleftThumbstickRight: (s: boolean) => {
+        raiseKeyEvent(_leftThumbstickRightPressed, s, _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEY, 39, true);
+        _leftThumbstickRightPressed = s;
+    },
+    setdPadUp: (s: boolean) => {
+        raiseKeyEvent(_dPadUpPressed, s, _GAMEPAD_DPAD_UP_KEY, 38, true);
+        _dPadUpPressed = s;
+    },
+    setdPadDown: (s: boolean) => {
+        raiseKeyEvent(_dPadDownPressed, s, _GAMEPAD_DPAD_DOWN_KEY, 40, true);
+        _dPadDownPressed = s;
+    },
+    setdPadLeft: (s: boolean) => {
+        raiseKeyEvent(_dPadLeftPressed, s, _GAMEPAD_DPAD_LEFT_KEY, 37, true);
+        _dPadLeftPressed = s;
+    },
+    setdPadRight: (s: boolean) => {
+        raiseKeyEvent(_dPadRightPressed, s, _GAMEPAD_DPAD_RIGHT_KEY, 39, true);
+        _dPadRightPressed = s;
+    }
 };
 
 let loopTimer: any;

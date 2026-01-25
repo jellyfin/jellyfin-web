@@ -9,13 +9,10 @@ export const useDeleteTuner = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: LiveTvApiDeleteTunerHostRequest) => (
-            getLiveTvApi(api!)
-                .deleteTunerHost(params)
-        ),
+        mutationFn: (params: LiveTvApiDeleteTunerHostRequest) => getLiveTvApi(api!).deleteTunerHost(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ 'NamedConfiguration', 'livetv' ]
+                queryKey: ['NamedConfiguration', 'livetv']
             });
         }
     });

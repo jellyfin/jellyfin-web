@@ -16,20 +16,20 @@ interface LibraryPreferencesProps {
 
 export function LibraryPreferences({ onChange, values }: Readonly<LibraryPreferencesProps>) {
     return (
-        <Flex direction='column' gap='24px'>
+        <Flex direction="column" gap="24px">
             <Heading.H2>{globalize.translate('HeaderLibraries')}</Heading.H2>
 
             <Input
-                aria-describedby='display-settings-lib-pagesize-description'
+                aria-describedby="display-settings-lib-pagesize-description"
                 value={values.libraryPageSize}
                 label={globalize.translate('LabelLibraryPageSize')}
-                name='libraryPageSize'
+                name="libraryPageSize"
                 onChange={onChange}
-                type='number'
-                inputMode='numeric'
+                type="number"
+                inputMode="numeric"
                 max={1000}
                 min={0}
-                pattern='[0-9]'
+                pattern="[0-9]"
                 required
                 step={1}
                 helperText={globalize.translate('LabelLibraryPageSizeHelp')}
@@ -37,56 +37,56 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
 
             <FormControl>
                 <Checkbox
-                    aria-describedby='display-settings-lib-backdrops-description'
+                    aria-describedby="display-settings-lib-backdrops-description"
                     checked={values.enableLibraryBackdrops}
                     onChange={onChange}
-                    name='enableLibraryBackdrops'
+                    name="enableLibraryBackdrops"
                 >
                     {globalize.translate('Backdrops')}
                 </Checkbox>
-                <FormHelperText id='display-settings-lib-backdrops-description'>
+                <FormHelperText id="display-settings-lib-backdrops-description">
                     {globalize.translate('EnableBackdropsHelp')}
                 </FormHelperText>
             </FormControl>
 
             <FormControl>
                 <Checkbox
-                    aria-describedby='display-settings-lib-theme-songs-description'
+                    aria-describedby="display-settings-lib-theme-songs-description"
                     checked={values.enableLibraryThemeSongs}
                     onChange={onChange}
-                    name='enableLibraryThemeSongs'
+                    name="enableLibraryThemeSongs"
                 >
                     {globalize.translate('ThemeSongs')}
                 </Checkbox>
-                <FormHelperText id='display-settings-lib-theme-songs-description'>
+                <FormHelperText id="display-settings-lib-theme-songs-description">
                     {globalize.translate('EnableThemeSongsHelp')}
                 </FormHelperText>
             </FormControl>
 
             <FormControl>
                 <Checkbox
-                    aria-describedby='display-settings-lib-theme-videos-description'
+                    aria-describedby="display-settings-lib-theme-videos-description"
                     checked={values.enableLibraryThemeVideos}
                     onChange={onChange}
-                    name='enableLibraryThemeVideos'
+                    name="enableLibraryThemeVideos"
                 >
                     {globalize.translate('ThemeVideos')}
                 </Checkbox>
-                <FormHelperText id='display-settings-lib-theme-videos-description'>
+                <FormHelperText id="display-settings-lib-theme-videos-description">
                     {globalize.translate('EnableThemeVideosHelp')}
                 </FormHelperText>
             </FormControl>
 
             <FormControl>
                 <Checkbox
-                    aria-describedby='display-settings-show-missing-episodes-description'
+                    aria-describedby="display-settings-show-missing-episodes-description"
                     checked={values.displayMissingEpisodes}
                     onChange={onChange}
-                    name='displayMissingEpisodes'
+                    name="displayMissingEpisodes"
                 >
                     {globalize.translate('DisplayMissingEpisodesWithinSeasons')}
                 </Checkbox>
-                <FormHelperText id='display-settings-show-missing-episodes-description'>
+                <FormHelperText id="display-settings-show-missing-episodes-description">
                     {globalize.translate('DisplayMissingEpisodesWithinSeasonsHelp')}
                 </FormHelperText>
             </FormControl>

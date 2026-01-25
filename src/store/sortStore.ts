@@ -33,27 +33,28 @@ const SORT_OPTIONS: SortOption[] = [
     { value: 'DateCreated', label: 'Date Added' },
     { value: 'PlayCount', label: 'Play Count' },
     { value: 'CommunityRating', label: 'Rating' },
-    { value: 'Runtime', label: 'Runtime' },
+    { value: 'Runtime', label: 'Runtime' }
 ];
 
 const initialState = {
     sortBy: 'Name',
     sortOrder: 'Ascending' as SortOrder,
-    availableSorts: SORT_OPTIONS,
+    availableSorts: SORT_OPTIONS
 };
 
-export const useSortStore = create<SortState>((set) => ({
+export const useSortStore = create<SortState>(set => ({
     ...initialState,
 
-    setSortBy: (by) => set({ sortBy: by }),
+    setSortBy: by => set({ sortBy: by }),
 
-    setSortOrder: (order) => set({ sortOrder: order }),
+    setSortOrder: order => set({ sortOrder: order }),
 
-    toggleSortOrder: () => set((state) => ({
-        sortOrder: state.sortOrder === 'Ascending' ? 'Descending' : 'Ascending',
-    })),
+    toggleSortOrder: () =>
+        set(state => ({
+            sortOrder: state.sortOrder === 'Ascending' ? 'Descending' : 'Ascending'
+        })),
 
-    setAvailableSorts: (sorts) => set({ availableSorts: sorts }),
+    setAvailableSorts: sorts => set({ availableSorts: sorts }),
 
-    reset: () => set(initialState),
+    reset: () => set(initialState)
 }));

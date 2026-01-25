@@ -19,7 +19,9 @@ export const FormField: React.FC<FormFieldProps> = ({ label, helperText, error, 
             <FormLabel>
                 {label}
                 {required && (
-                    <span style={{ color: vars.colors.error, marginLeft: '4px' }} aria-hidden='true'>*</span>
+                    <span style={{ color: vars.colors.error, marginLeft: '4px' }} aria-hidden="true">
+                        *
+                    </span>
                 )}
             </FormLabel>
         )}
@@ -57,7 +59,7 @@ export const JoyTextarea = React.forwardRef<HTMLTextAreaElement, JoyTextareaProp
     const { label, helperText, error, ...rest } = props;
     return (
         <FormField label={label} helperText={helperText} error={error} required={rest.required}>
-            <Input ref={ref} as='textarea' rows={3} {...rest} />
+            <Input ref={ref} as="textarea" rows={3} {...rest} />
         </FormField>
     );
 });
@@ -101,16 +103,12 @@ export const JoySelect = (props: JoySelectProps) => {
     const { label, helperText, error, options, onChange, placeholder, value, disabled, required } = props;
     return (
         <FormField label={label} helperText={helperText} error={error} required={required}>
-            <Select
-                value={value}
-                onValueChange={(newValue) => onChange?.(null, newValue)}
-                disabled={disabled}
-            >
+            <Select value={value} onValueChange={newValue => onChange?.(null, newValue)} disabled={disabled}>
                 <SelectTrigger>
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
-                    {options.map((opt) => (
+                    {options.map(opt => (
                         <SelectItem key={opt.value} value={opt.value}>
                             {opt.label}
                         </SelectItem>

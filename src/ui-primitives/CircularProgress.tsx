@@ -34,28 +34,28 @@ export function CircularProgress({
         <div
             className={`${circularProgressRoot} ${circularProgressSizes[size]} ${className ?? ''}`}
             style={progressStyle}
-            role='progressbar'
+            role="progressbar"
             aria-valuenow={value}
             aria-valuemin={0}
             aria-valuemax={max}
         >
-            <svg width='100%' height='100%' viewBox={viewBox} aria-hidden='true'>
+            <svg width="100%" height="100%" viewBox={viewBox} aria-hidden="true">
                 <circle
-                    cx='50%'
-                    cy='50%'
+                    cx="50%"
+                    cy="50%"
                     r={r}
-                    fill='none'
+                    fill="none"
                     stroke={vars.colors.surfaceHover}
                     strokeWidth={strokeWidth}
                 />
                 <circle
-                    cx='50%'
-                    cy='50%'
+                    cx="50%"
+                    cy="50%"
                     r={r}
-                    fill='none'
+                    fill="none"
                     stroke={vars.colors.primary}
                     strokeWidth={strokeWidth}
-                    strokeLinecap='round'
+                    strokeLinecap="round"
                     style={{
                         strokeDasharray: dasharray,
                         strokeDashoffset,

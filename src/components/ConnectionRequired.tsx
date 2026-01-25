@@ -287,7 +287,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                 includes: ERROR_STATES.includes(state as ConnectionState)
             });
             if (state !== undefined && ERROR_STATES.includes(state as ConnectionState)) {
-                // UX Improvement: If we are on the root path and fail to connect, 
+                // UX Improvement: If we are on the root path and fail to connect,
                 // redirect to server selection instead of showing a scary error page.
                 if (location.pathname === '/') {
                     console.log('ConnectionRequired root path failure, redirecting to selectserver');

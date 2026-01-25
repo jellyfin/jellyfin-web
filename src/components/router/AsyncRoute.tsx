@@ -4,24 +4,24 @@ import { AppType } from 'constants/appType';
 import { LazyRouteWrapper } from './LazyRouteWrapper';
 
 type RouteObject = {
-    path?: string
-    children?: RouteObject[]
-    element?: React.ReactNode
-    Component?: React.ComponentType
-    lazy?: () => Promise<Record<string, unknown>>
-    [key: string]: unknown
+    path?: string;
+    children?: RouteObject[];
+    element?: React.ReactNode;
+    Component?: React.ComponentType;
+    lazy?: () => Promise<Record<string, unknown>>;
+    [key: string]: unknown;
 };
 
 export interface AsyncRoute {
     /** The URL path for this route. */
-    path: string
+    path: string;
     /**
      * The relative path to the page component in the routes directory.
      * Will fallback to using the `path` value if not specified.
      */
-    page?: string
+    page?: string;
     /** The app that this page is part of. */
-    type?: AppType
+    type?: AppType;
 }
 
 const routeModules = import.meta.glob('../../apps/**/routes/**/*.{ts,tsx,js,jsx}');
@@ -41,12 +41,13 @@ const importRoute = (page: string, type: AppType) => {
     }
 
     const path = `../../apps/${folder}/routes/${page}`;
-    const loader = routeModules[`${path}.tsx`] 
-        || routeModules[`${path}.ts`] 
-        || routeModules[`${path}/index.tsx`] 
-        || routeModules[`${path}/index.ts`]
-        || routeModules[`${path}.jsx`]
-        || routeModules[`${path}.js`];
+    const loader =
+        routeModules[`${path}.tsx`] ||
+        routeModules[`${path}.ts`] ||
+        routeModules[`${path}/index.tsx`] ||
+        routeModules[`${path}/index.ts`] ||
+        routeModules[`${path}.jsx`] ||
+        routeModules[`${path}.js`];
 
     if (!loader) {
         throw new Error(`Route module not found: ${path}`);
@@ -55,11 +56,7 @@ const importRoute = (page: string, type: AppType) => {
     return loader() as Promise<any>;
 };
 
-export const toAsyncPageRoute = ({
-    path,
-    page,
-    type = AppType.Stable
-}: AsyncRoute): RouteObject => {
+export const toAsyncPageRoute = ({ path, page, type = AppType.Stable }: AsyncRoute): RouteObject => {
     return {
         path,
         lazy: async () => {

@@ -25,7 +25,13 @@ interface PageData {
     view: string;
 }
 
-export default function (this: any, _view: HTMLElement, params: MusicArtistsParams, tabContent: HTMLElement, options: MusicArtistsOptions) {
+export default function (
+    this: any,
+    _view: HTMLElement,
+    params: MusicArtistsParams,
+    tabContent: HTMLElement,
+    options: MusicArtistsOptions
+) {
     const data: Record<string, PageData> = {};
     let isLoading = false;
 
@@ -93,11 +99,12 @@ export default function (this: any, _view: HTMLElement, params: MusicArtistsPara
 
         const apiClient = (window as any).ApiClient as ApiClient;
 
-        const promise = options.mode === 'albumartists' ?
-            apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query) :
-            apiClient.getArtists(apiClient.getCurrentUserId(), query);
+        const promise =
+            options.mode === 'albumartists'
+                ? apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query)
+                : apiClient.getArtists(apiClient.getCurrentUserId(), query);
 
-        promise.then((result) => {
+        promise.then(result => {
             const onNextPageClick = () => {
                 if (isLoading) return;
                 if (userSettings.libraryPageSize() > 0) {

@@ -1,4 +1,12 @@
-export function getCardTextLines(lines: string[], cssClass: string, forceLines: boolean, isOuterFooter: boolean, _cardLayout: boolean, addRightMargin: boolean, maxLines?: number): string {
+export function getCardTextLines(
+    lines: string[],
+    cssClass: string,
+    forceLines: boolean,
+    isOuterFooter: boolean,
+    _cardLayout: boolean,
+    addRightMargin: boolean,
+    maxLines?: number
+): string {
     let html = '';
     let valid = 0;
 

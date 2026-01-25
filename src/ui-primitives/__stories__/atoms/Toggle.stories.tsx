@@ -21,7 +21,11 @@ type Story = StoryObj<typeof Toggle>;
 
 function DefaultStory(): ReactElement {
     const [pressed, setPressed] = useState(false);
-    return <Toggle pressed={pressed} onPressedChange={setPressed}>Toggle</Toggle>;
+    return (
+        <Toggle pressed={pressed} onPressedChange={setPressed}>
+            Toggle
+        </Toggle>
+    );
 }
 
 export const Default: Story = {
@@ -34,9 +38,15 @@ function AllVariantsStory(): ReactElement {
     const [outline, setOutline] = useState(false);
     return (
         <div style={{ display: 'flex', gap: '8px' }}>
-            <Toggle variant='primary' pressed={primary} onPressedChange={setPrimary}>Primary</Toggle>
-            <Toggle variant='secondary' pressed={secondary} onPressedChange={setSecondary}>Secondary</Toggle>
-            <Toggle variant='outline' pressed={outline} onPressedChange={setOutline}>Outline</Toggle>
+            <Toggle variant="primary" pressed={primary} onPressedChange={setPrimary}>
+                Primary
+            </Toggle>
+            <Toggle variant="secondary" pressed={secondary} onPressedChange={setSecondary}>
+                Secondary
+            </Toggle>
+            <Toggle variant="outline" pressed={outline} onPressedChange={setOutline}>
+                Outline
+            </Toggle>
         </div>
     );
 }
@@ -51,9 +61,15 @@ function AllSizesStory(): ReactElement {
     const [lg, setLg] = useState(false);
     return (
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-            <Toggle size='sm' pressed={sm} onPressedChange={setSm}>Small</Toggle>
-            <Toggle size='md' pressed={md} onPressedChange={setMd}>Medium</Toggle>
-            <Toggle size='lg' pressed={lg} onPressedChange={setLg}>Large</Toggle>
+            <Toggle size="sm" pressed={sm} onPressedChange={setSm}>
+                Small
+            </Toggle>
+            <Toggle size="md" pressed={md} onPressedChange={setMd}>
+                Medium
+            </Toggle>
+            <Toggle size="lg" pressed={lg} onPressedChange={setLg}>
+                Large
+            </Toggle>
         </div>
     );
 }
@@ -66,9 +82,15 @@ function DisabledStory(): ReactElement {
     const [enabled, setEnabled] = useState(false);
     return (
         <div style={{ display: 'flex', gap: '8px' }}>
-            <Toggle pressed={false} disabled>Disabled Off</Toggle>
-            <Toggle pressed={true} disabled>Disabled On</Toggle>
-            <Toggle pressed={enabled} onPressedChange={setEnabled} disabled>Can't Toggle</Toggle>
+            <Toggle pressed={false} disabled>
+                Disabled Off
+            </Toggle>
+            <Toggle pressed={true} disabled>
+                Disabled On
+            </Toggle>
+            <Toggle pressed={enabled} onPressedChange={setEnabled} disabled>
+                Can't Toggle
+            </Toggle>
         </div>
     );
 }
@@ -81,9 +103,9 @@ function ToggleGroupExampleStory(): ReactElement {
     const [value, setValue] = useState('center');
     return (
         <ToggleGroup value={value} onValueChange={setValue}>
-            <ToggleGroupItem value='left'>Left</ToggleGroupItem>
-            <ToggleGroupItem value='center'>Center</ToggleGroupItem>
-            <ToggleGroupItem value='right'>Right</ToggleGroupItem>
+            <ToggleGroupItem value="left">Left</ToggleGroupItem>
+            <ToggleGroupItem value="center">Center</ToggleGroupItem>
+            <ToggleGroupItem value="right">Right</ToggleGroupItem>
         </ToggleGroup>
     );
 }
@@ -102,11 +124,19 @@ function JustifyContentStory(): ReactElement {
         <div>
             <p style={{ color: '#b0b0b0', marginBottom: '12px' }}>Text alignment:</p>
             <ToggleGroup value={value} onValueChange={handleValueChange}>
-                <ToggleGroupItem value='left'>Left</ToggleGroupItem>
-                <ToggleGroupItem value='center'>Center</ToggleGroupItem>
-                <ToggleGroupItem value='right'>Right</ToggleGroupItem>
+                <ToggleGroupItem value="left">Left</ToggleGroupItem>
+                <ToggleGroupItem value="center">Center</ToggleGroupItem>
+                <ToggleGroupItem value="right">Right</ToggleGroupItem>
             </ToggleGroup>
-            <div style={{ marginTop: '16px', padding: '16px', border: '1px solid #333', borderRadius: '8px', textAlign: value as any }}>
+            <div
+                style={{
+                    marginTop: '16px',
+                    padding: '16px',
+                    border: '1px solid #333',
+                    borderRadius: '8px',
+                    textAlign: value as any
+                }}
+            >
                 <Text>Sample text content</Text>
             </div>
         </div>
@@ -123,13 +153,13 @@ function IconToggleStory(): ReactElement {
     const [underline, setUnderline] = useState(false);
     return (
         <div style={{ display: 'flex', gap: '4px' }}>
-            <Toggle variant='outline' pressed={bold} onPressedChange={setBold}>
+            <Toggle variant="outline" pressed={bold} onPressedChange={setBold}>
                 <strong>B</strong>
             </Toggle>
-            <Toggle variant='outline' pressed={italic} onPressedChange={setItalic}>
+            <Toggle variant="outline" pressed={italic} onPressedChange={setItalic}>
                 <em>I</em>
             </Toggle>
-            <Toggle variant='outline' pressed={underline} onPressedChange={setUnderline}>
+            <Toggle variant="outline" pressed={underline} onPressedChange={setUnderline}>
                 <span style={{ textDecoration: 'underline' }}>U</span>
             </Toggle>
         </div>
@@ -146,9 +176,9 @@ function ViewModesStory(): ReactElement {
         <div>
             <p style={{ color: '#b0b0b0', marginBottom: '12px' }}>View mode:</p>
             <ToggleGroup value={view} onValueChange={setView}>
-                <ToggleGroupItem value='list'>List</ToggleGroupItem>
-                <ToggleGroupItem value='grid'>Grid</ToggleGroupItem>
-                <ToggleGroupItem value='compact'>Compact</ToggleGroupItem>
+                <ToggleGroupItem value="list">List</ToggleGroupItem>
+                <ToggleGroupItem value="grid">Grid</ToggleGroupItem>
+                <ToggleGroupItem value="compact">Compact</ToggleGroupItem>
             </ToggleGroup>
         </div>
     );
@@ -167,9 +197,9 @@ function FontSizeToggleStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <ToggleGroup value={size} onValueChange={handleSizeChange}>
-                <ToggleGroupItem value='sm'>Small</ToggleGroupItem>
-                <ToggleGroupItem value='md'>Medium</ToggleGroupItem>
-                <ToggleGroupItem value='lg'>Large</ToggleGroupItem>
+                <ToggleGroupItem value="sm">Small</ToggleGroupItem>
+                <ToggleGroupItem value="md">Medium</ToggleGroupItem>
+                <ToggleGroupItem value="lg">Large</ToggleGroupItem>
             </ToggleGroup>
             <div style={{ padding: '16px', border: '1px solid #333', borderRadius: '8px' }}>
                 <Text size={size as any}>Sample text at {size} size</Text>

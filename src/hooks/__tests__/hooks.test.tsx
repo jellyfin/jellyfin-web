@@ -29,9 +29,12 @@ describe('useDebounce', () => {
         rerender(<TestComponent value="world" delay={100} />);
         expect(screen.getByTestId('result')).toHaveTextContent('hello');
 
-        await waitFor(() => {
-            expect(screen.getByTestId('result')).toHaveTextContent('world');
-        }, { timeout: 200 });
+        await waitFor(
+            () => {
+                expect(screen.getByTestId('result')).toHaveTextContent('world');
+            },
+            { timeout: 200 }
+        );
     });
 });
 
@@ -97,8 +100,8 @@ describe('useMediaQuery', () => {
                 removeListener: vi.fn(), // Deprecated
                 addEventListener: vi.fn(),
                 removeEventListener: vi.fn(),
-                dispatchEvent: vi.fn(),
-            })),
+                dispatchEvent: vi.fn()
+            }))
         });
     });
 
@@ -120,7 +123,9 @@ describe('useClickOutside', () => {
             const ref = useClickOutside<HTMLDivElement>(onClickOutside);
             return (
                 <div>
-                    <div ref={ref} data-testid="inside">Inside</div>
+                    <div ref={ref} data-testid="inside">
+                        Inside
+                    </div>
                     <div data-testid="outside">Outside</div>
                 </div>
             );
@@ -139,7 +144,9 @@ describe('useClickOutside', () => {
             const ref = useClickOutside<HTMLDivElement>(onClickOutside);
             return (
                 <div>
-                    <div ref={ref} data-testid="inside">Inside</div>
+                    <div ref={ref} data-testid="inside">
+                        Inside
+                    </div>
                 </div>
             );
         }

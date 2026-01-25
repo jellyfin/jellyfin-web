@@ -94,4 +94,3 @@ export const icon = style({
     height: '24px',
     display: 'block'
 });
-

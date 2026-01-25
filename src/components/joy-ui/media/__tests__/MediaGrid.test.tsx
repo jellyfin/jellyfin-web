@@ -12,19 +12,19 @@ import { MediaGrid } from '../MediaGrid';
 // Mock window.ApiClient
 const mockGetImageUrl = vi.fn((id, options) => `http://test.com/image/${id}`);
 const mockApiClient = {
-    getImageUrl: mockGetImageUrl,
+    getImageUrl: mockGetImageUrl
 };
 
 Object.defineProperty(window, 'ApiClient', {
     value: { getApiClient: () => mockApiClient },
-    writable: true,
+    writable: true
 });
 
 describe('MediaGrid', () => {
     const mockItems = [
         { Id: '1', Name: 'Movie 1', ProductionYear: 2024 },
         { Id: '2', Name: 'Movie 2', ProductionYear: 2023 },
-        { Id: '3', Name: 'Movie 3', ProductionYear: 2022 },
+        { Id: '3', Name: 'Movie 3', ProductionYear: 2022 }
     ];
 
     beforeEach(() => {

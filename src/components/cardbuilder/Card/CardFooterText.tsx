@@ -8,16 +8,13 @@ import Image from 'components/common/Image';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
-const shouldShowDetailsMenu = (
-    cardOptions: CardOptions,
-    isOuterFooter: boolean
-) => {
+const shouldShowDetailsMenu = (cardOptions: CardOptions, isOuterFooter: boolean) => {
     return (
-        cardOptions.showDetailsMenu
-        && isOuterFooter
-        && cardOptions.cardLayout
-        && layoutManager.mobile
-        && cardOptions.cardFooterAside !== 'none'
+        cardOptions.showDetailsMenu &&
+        isOuterFooter &&
+        cardOptions.cardLayout &&
+        layoutManager.mobile &&
+        cardOptions.cardFooterAside !== 'none'
     );
 };
 
@@ -26,11 +23,8 @@ interface LogoComponentProps {
 }
 
 const LogoComponent: FC<LogoComponentProps> = ({ logoUrl }) => (
-    <Box className='cardFooterLogo'>
-        <Image
-            imgUrl={logoUrl}
-            containImage
-        />
+    <Box className="cardFooterLogo">
+        <Image imgUrl={logoUrl} containImage />
     </Box>
 );
 
@@ -64,9 +58,7 @@ const CardFooterText: FC<CardFooterTextProps> = ({
         imgUrl,
         overlayText,
         isOuterFooter,
-        cssClass: cardOptions.centerText ?
-            'cardText cardTextCentered' :
-            'cardText',
+        cssClass: cardOptions.centerText ? 'cardText cardTextCentered' : 'cardText',
         forceLines: !cardOptions.overlayText,
         maxLines: cardOptions.lines
     });
@@ -75,7 +67,7 @@ const CardFooterText: FC<CardFooterTextProps> = ({
         <Box className={footerClass}>
             {logoUrl && <LogoComponent logoUrl={logoUrl} />}
             {shouldShowDetailsMenu(cardOptions, isOuterFooter) && (
-                <MoreVertIconButton className='itemAction btnCardOptions' />
+                <MoreVertIconButton className="itemAction btnCardOptions" />
             )}
 
             {cardTextLines}

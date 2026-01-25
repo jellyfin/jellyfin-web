@@ -54,11 +54,7 @@ function SingleSelectStory(): ReactElement {
 
     return (
         <div>
-            <Calendar
-                mode='single'
-                selected={selected}
-                onSelect={handleSelect}
-            />
+            <Calendar mode="single" selected={selected} onSelect={handleSelect} />
             <p style={{ marginTop: 16, color: vars.colors.textSecondary }}>
                 Selected: {selected !== undefined ? selected.toDateString() : 'None'}
             </p>
@@ -80,11 +76,7 @@ function RangeSelectStory(): ReactElement {
 
     return (
         <div>
-            <Calendar
-                mode='range'
-                selected={range}
-                onSelect={handleSelect}
-            />
+            <Calendar mode="range" selected={range} onSelect={handleSelect} />
             <p style={{ marginTop: 16, color: vars.colors.textSecondary }}>
                 {range.from !== undefined ? `From: ${range.from.toDateString()}` : 'Start date: None'}
                 {range.to !== undefined ? ` - To: ${range.to.toDateString()}` : ''}
@@ -110,7 +102,7 @@ function MultipleSelectStory(): ReactElement {
 
     return (
         <div>
-            <Calendar mode='multiple' selected={selected} onSelect={handleSelect} />
+            <Calendar mode="multiple" selected={selected} onSelect={handleSelect} />
             <p style={{ marginTop: 16, color: vars.colors.textSecondary }}>
                 Selected: {selected.length > 0 ? selected.map(d => d.toDateString()).join(', ') : 'None'}
             </p>
@@ -126,9 +118,12 @@ function WithDisabledDatesStory(): ReactElement {
     const [selected, setSelected] = useState<Date | undefined>(undefined);
     const today = new Date();
 
-    const isDisabled = useCallback((date: Date): boolean => {
-        return date < today || date.getDay() === 0;
-    }, [today]);
+    const isDisabled = useCallback(
+        (date: Date): boolean => {
+            return date < today || date.getDay() === 0;
+        },
+        [today]
+    );
 
     const handleSelect = useCallback((value: Date | Date[] | DateRange | undefined): void => {
         if (value instanceof Date) {
@@ -140,12 +135,7 @@ function WithDisabledDatesStory(): ReactElement {
 
     return (
         <div>
-            <Calendar
-                mode='single'
-                selected={selected}
-                onSelect={handleSelect}
-                disabled={isDisabled}
-            />
+            <Calendar mode="single" selected={selected} onSelect={handleSelect} disabled={isDisabled} />
             <p style={{ marginTop: 16, fontSize: vars.typography.fontSizeSm, color: vars.colors.textSecondary }}>
                 Past dates and Sundays are disabled
             </p>
@@ -166,7 +156,7 @@ function DatePickerStoryComponent(): ReactElement {
 
     return (
         <div>
-            <DatePicker value={date} onChange={handleChange} placeholder='Select a date' />
+            <DatePicker value={date} onChange={handleChange} placeholder="Select a date" />
             <p style={{ marginTop: 16, color: vars.colors.textSecondary }}>
                 Selected: {date !== undefined ? date.toDateString() : 'None'}
             </p>

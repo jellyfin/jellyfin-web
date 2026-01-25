@@ -126,4 +126,3 @@ export const listItemDecorator = style({
     height: '24px',
     flexShrink: 0
 });
-

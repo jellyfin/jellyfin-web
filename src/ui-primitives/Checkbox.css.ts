@@ -60,4 +60,3 @@ export const checkboxLabel = style({
     cursor: 'pointer',
     userSelect: 'none'
 });
-

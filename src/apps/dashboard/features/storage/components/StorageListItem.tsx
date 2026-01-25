@@ -34,14 +34,11 @@ const getStorageTypeText = (type?: string | null) => {
     return type;
 };
 
-const StorageListItem: FC<StorageListItemProps> = ({
-    label,
-    folder
-}) => {
-    const readableUsedSpace = (typeof folder?.UsedSpace === 'undefined' || folder.UsedSpace < 0) ?
-        '?' : getReadableSize(folder.UsedSpace);
+const StorageListItem: FC<StorageListItemProps> = ({ label, folder }) => {
+    const readableUsedSpace =
+        typeof folder?.UsedSpace === 'undefined' || folder.UsedSpace < 0 ? '?' : getReadableSize(folder.UsedSpace);
     const totalSpace = calculateTotal(folder);
-    const readableTotalSpace = (totalSpace < 0) ? '?' : getReadableSize(totalSpace);
+    const readableTotalSpace = totalSpace < 0 ? '?' : getReadableSize(totalSpace);
     const usedPercentage = calculateUsedPercentage(folder);
     const statusColor = folder ? getStatusColor(usedPercentage) : 'primary';
 
@@ -51,25 +48,29 @@ const StorageListItem: FC<StorageListItemProps> = ({
                 <StorageTypeIcon type={folder?.StorageType} />
             </div>
             <Flex style={{ flex: 1, flexDirection: 'column', gap: '4px' }}>
-                <Text as='span' size='sm' style={{ wordBreak: 'break-all' }}>
+                <Text as="span" size="sm" style={{ wordBreak: 'break-all' }}>
                     {label}
                 </Text>
                 <Flex style={{ flexDirection: 'column', gap: '4px' }}>
                     {folder ? (
-                        <Text as='span' size='sm' color='secondary' style={{ lineBreak: 'anywhere' }}>
+                        <Text as="span" size="sm" color="secondary" style={{ lineBreak: 'anywhere' }}>
                             {folder.Path}
                         </Text>
                     ) : (
-                        <Skeleton width='100%' height={20} />
+                        <Skeleton width="100%" height={20} />
                     )}
                     <Progress
                         value={usedPercentage}
                         style={{
-                            backgroundColor: statusColor === 'error' ? 'var(--colors-error)' :
-                                statusColor === 'warning' ? 'var(--colors-warning)' : undefined
+                            backgroundColor:
+                                statusColor === 'error'
+                                    ? 'var(--colors-error)'
+                                    : statusColor === 'warning'
+                                      ? 'var(--colors-warning)'
+                                      : undefined
                         }}
                     />
-                    <Text as='span' size='sm' color='secondary' style={{ textAlign: 'end' }}>
+                    <Text as="span" size="sm" color="secondary" style={{ textAlign: 'end' }}>
                         {`${readableUsedSpace} / ${readableTotalSpace}`}
                     </Text>
                 </Flex>

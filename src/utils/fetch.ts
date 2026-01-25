@@ -67,15 +67,18 @@ function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number):
             signal: controller.signal
         };
 
-        fetch(url, requestOptions).then((response) => {
-            clearTimeout(timeout);
-            logger.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`, { component: 'Fetch' });
-            resolve(response);
-        }, (error) => {
-            clearTimeout(timeout);
-            logger.debug(`fetchWithTimeout: failed connecting to url: ${url}`, { component: 'Fetch' });
-            reject(error);
-        });
+        fetch(url, requestOptions).then(
+            response => {
+                clearTimeout(timeout);
+                logger.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`, { component: 'Fetch' });
+                resolve(response);
+            },
+            error => {
+                clearTimeout(timeout);
+                logger.debug(`fetchWithTimeout: failed connecting to url: ${url}`, { component: 'Fetch' });
+                reject(error);
+            }
+        );
     });
 }
 
@@ -97,27 +100,36 @@ export function ajax(request: AjaxOptions): Promise<any> {
     request.headers = request.headers || {};
     logger.debug(`requesting url: ${request.url}`, { component: 'Fetch' });
 
-    return getFetchPromise(request).then((response) => {
-        logger.debug(`response status: ${response.status}, url: ${request.url}`, { component: 'Fetch' });
+    return getFetchPromise(request).then(
+        response => {
+            logger.debug(`response status: ${response.status}, url: ${request.url}`, { component: 'Fetch' });
 
-        if (response.status < 400) {
-            if (request.dataType === 'json' || request.headers?.accept === 'application/json'
-                || (response.headers.get('Content-Type') || '').toLowerCase().includes('application/json')) {
-                return response.json();
-            } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().startsWith('text/')) {
-                return response.text();
-            } else if (request.dataType === 'blob') {
-                return response.blob();
+            if (response.status < 400) {
+                if (
+                    request.dataType === 'json' ||
+                    request.headers?.accept === 'application/json' ||
+                    (response.headers.get('Content-Type') || '').toLowerCase().includes('application/json')
+                ) {
+                    return response.json();
+                } else if (
+                    request.dataType === 'text' ||
+                    (response.headers.get('Content-Type') || '').toLowerCase().startsWith('text/')
+                ) {
+                    return response.text();
+                } else if (request.dataType === 'blob') {
+                    return response.blob();
+                } else {
+                    return response;
+                }
             } else {
-                return response;
+                return Promise.reject(response);
             }
-        } else {
-            return Promise.reject(response);
+        },
+        err => {
+            logger.error(`request failed to url: ${request.url}`, { component: 'Fetch' }, err);
+            throw err;
         }
-    }, (err) => {
-        logger.error(`request failed to url: ${request.url}`, { component: 'Fetch' }, err);
-        throw err;
-    });
+    );
 }
 
 const fetchHelper = {

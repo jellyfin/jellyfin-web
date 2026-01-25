@@ -2,36 +2,36 @@ import { style } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css';
 
 export const container = style({
-    minWidth: '280px',
+    minWidth: '280px'
 });
 
 export const compactContainer = style({
     display: 'flex',
     gap: vars.spacing.xs,
     flexWrap: 'wrap',
-    alignItems: 'center',
+    alignItems: 'center'
 });
 
 export const compactItem = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs,
+    gap: vars.spacing.xs
 });
 
 export const section = style({
-    marginBottom: vars.spacing.md,
+    marginBottom: vars.spacing.md
 });
 
 export const statsGrid = style({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gap: vars.spacing.md,
+    gap: vars.spacing.md
 });
 
 export const statItem = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs,
+    gap: vars.spacing.xs
 });
 
 export const progressBar = style({
@@ -39,17 +39,17 @@ export const progressBar = style({
     borderRadius: '4px',
     backgroundColor: vars.colors.surface,
     overflow: 'hidden',
-    marginTop: vars.spacing.xs,
+    marginTop: vars.spacing.xs
 });
 
 export const progressBarFill = style({
     height: '100%',
     borderRadius: '4px',
-    transition: vars.transitions.fast,
+    transition: vars.transitions.fast
 });
 
 export const chip = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.xs,
+    gap: vars.spacing.xs
 });

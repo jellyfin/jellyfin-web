@@ -12,7 +12,7 @@ class SettingsEditor {
     }
 
     async embed(): Promise<void> {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             const container = document.createElement('div');
             document.body.appendChild(container);
             const root = createRoot(container);
@@ -23,12 +23,7 @@ class SettingsEditor {
                 resolve();
             };
 
-            root.render(
-                <SyncPlaySettingsDialog
-                    open={true}
-                    onClose={handleClose}
-                />
-            );
+            root.render(<SyncPlaySettingsDialog open={true} onClose={handleClose} />);
         });
     }
 }

@@ -329,26 +329,25 @@ export const listItemBottomOverviewVisible = style({
     }
 });
 
-export const listItemHiddenMovieSeries = style({
+export const listItemHiddenMovieSeries = style({});
+
+globalStyle(`[data-type="Movie"] ${listItemHiddenMovieSeries}, [data-type="Series"] ${listItemHiddenMovieSeries}`, {
     '@media': {
         'all and (max-width: 40em)': {
-            selectors: {
-                '&[data-type="Movie"] &, &[data-type="Series"] &': {
-                    display: 'none'
-                }
-            }
+            display: 'none'
         }
     }
 });
 
-export const listItemTextHiddenSmall = style({
-    '@media': {
-        'all and (max-width: 50em)': {
-            selectors: {
-                '& .endsAt, & .criticRating, &-overview': {
-                    display: 'none'
-                }
+export const listItemTextHiddenSmall = style({});
+
+globalStyle(
+    `${listItemTextHiddenSmall} .endsAt, ${listItemTextHiddenSmall} .criticRating, ${listItemTextHiddenSmall}-overview`,
+    {
+        '@media': {
+            'all and (max-width: 50em)': {
+                display: 'none'
             }
         }
     }
-});
+);

@@ -1,1 +1,20 @@
-{"rustc":4996801173321332248,"features":"[\"alloc\", \"result\"]","declared_features":"[\"alloc\", \"default\", \"rc\", \"result\", \"std\", \"unstable\"]","target":5408242616063297496,"profile":3033921117576893,"path":7690442839829361370,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/serde_core-ae3c9c6f8ec805be/dep-build-script-build-script-build","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"alloc\", \"result\"]",
+  "declared_features": "[\"alloc\", \"default\", \"rc\", \"result\", \"std\", \"unstable\"]",
+  "target": 5408242616063297496,
+  "profile": 3033921117576893,
+  "path": 7690442839829361370,
+  "deps": [],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/serde_core-ae3c9c6f8ec805be/dep-build-script-build-script-build",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

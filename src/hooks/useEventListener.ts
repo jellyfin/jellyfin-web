@@ -69,11 +69,7 @@ export function useEventListener(
  * @param eventName - Event name to listen for
  * @param handler - Event handler function
  */
-export function useCustomEvent(
-    target: unknown,
-    eventName: string,
-    handler: CustomEventHandler
-): void {
+export function useCustomEvent(target: unknown, eventName: string, handler: CustomEventHandler): void {
     const savedHandler = useRef(handler);
 
     useEffect(() => {
@@ -100,10 +96,7 @@ export function useCustomEvent(
  * @param target - The object to listen on
  * @param events - Object mapping event names to handlers
  */
-export function useCustomEvents(
-    target: unknown,
-    events: Record<string, CustomEventHandler>
-): void {
+export function useCustomEvents(target: unknown, events: Record<string, CustomEventHandler>): void {
     const savedHandlers = useRef(events);
 
     useEffect(() => {
@@ -126,7 +119,7 @@ export function useCustomEvents(
                 Events.off(target, eventName, listener);
             });
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [target, Object.keys(events).join(',')]);
 }
 

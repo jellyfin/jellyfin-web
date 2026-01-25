@@ -43,8 +43,10 @@ export function canPlayNativeHls(): boolean {
     }
 
     const media = document.createElement('video');
-    return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '')
-            || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
+    return !!(
+        media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
+        media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')
+    );
 }
 
 export function canPlayNativeHlsInFmp4(): boolean {

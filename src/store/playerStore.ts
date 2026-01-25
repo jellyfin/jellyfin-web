@@ -66,14 +66,7 @@ const createDefaultPlayer = (): PlayerInfo => ({
     name: 'Default Audio Player',
     id: 'default-audio',
     isLocalPlayer: true,
-    supportedCommands: [
-        'play',
-        'pause',
-        'stop',
-        'seek',
-        'volume',
-        'mute'
-    ],
+    supportedCommands: ['play', 'pause', 'stop', 'seek', 'volume', 'mute'],
     canPlayMediaTypes: ['Audio', 'Video', 'Photo', 'Book']
 });
 
@@ -81,16 +74,7 @@ const createHTML5Player = (): PlayerInfo => ({
     name: 'HTML5 Video Player',
     id: 'html5-video',
     isLocalPlayer: true,
-    supportedCommands: [
-        'play',
-        'pause',
-        'stop',
-        'seek',
-        'volume',
-        'mute',
-        'playbackRate',
-        'fullscreen'
-    ],
+    supportedCommands: ['play', 'pause', 'stop', 'seek', 'volume', 'mute', 'playbackRate', 'fullscreen'],
     canPlayMediaTypes: ['Audio', 'Video', 'Photo']
 });
 
@@ -109,11 +93,11 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
     subscribeWithSelector((set, get) => ({
         ...initialState,
 
-        setCurrentPlayer: (player) => {
+        setCurrentPlayer: player => {
             set({ currentPlayer: player });
         },
 
-        addPlayer: (player) => {
+        addPlayer: player => {
             const { availablePlayers } = get();
 
             if (!availablePlayers.find(p => p.id === player.id)) {
@@ -124,7 +108,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             }
         },
 
-        removePlayer: (playerId) => {
+        removePlayer: playerId => {
             const { availablePlayers, currentPlayer } = get();
 
             const filtered = availablePlayers.filter(p => p.id !== playerId);
@@ -143,13 +127,14 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
         updatePlayer: (playerId, updates) => {
             const { availablePlayers } = get();
 
-            const updated = availablePlayers.map(p =>
-                p.id === playerId ? { ...p, ...updates } : p
-            );
+            const updated = availablePlayers.map(p => (p.id === playerId ? { ...p, ...updates } : p));
 
             set({
                 availablePlayers: updated,
-                activePlayers: new Map(get().activePlayers).set(playerId, { ...get().activePlayers.get(playerId), ...updates } as PlayerInfo)
+                activePlayers: new Map(get().activePlayers).set(playerId, {
+                    ...get().activePlayers.get(playerId),
+                    ...updates
+                } as PlayerInfo)
             });
         },
 
@@ -162,7 +147,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             return Array.from(activePlayers.values());
         },
 
-        initiateTransfer: (info) => {
+        initiateTransfer: info => {
             set({
                 pendingTransfer: info,
                 isTransferring: true,
@@ -195,11 +180,11 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             });
         },
 
-        updateTransferProgress: (progress) => {
+        updateTransferProgress: progress => {
             set({ transferProgress: progress });
         },
 
-        selectPlayer: (playerId) => {
+        selectPlayer: playerId => {
             const { availablePlayers } = get();
             const player = availablePlayers.find(p => p.id === playerId);
 
@@ -217,24 +202,22 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             return false;
         },
 
-        autoSelectBestPlayer: (mediaType) => {
+        autoSelectBestPlayer: mediaType => {
             const { availablePlayers, currentPlayer } = get();
 
             if (currentPlayer && currentPlayer.canPlayMediaTypes.includes(mediaType)) {
                 return currentPlayer;
             }
 
-            const localPlayers = availablePlayers.filter(p =>
-                p.isLocalPlayer && p.canPlayMediaTypes.includes(mediaType)
+            const localPlayers = availablePlayers.filter(
+                p => p.isLocalPlayer && p.canPlayMediaTypes.includes(mediaType)
             );
 
             if (localPlayers.length > 0) {
                 return localPlayers[0];
             }
 
-            return availablePlayers.find(p =>
-                p.canPlayMediaTypes.includes(mediaType)
-            ) || null;
+            return availablePlayers.find(p => p.canPlayMediaTypes.includes(mediaType)) || null;
         },
 
         selectLocalPlayer: () => {
@@ -243,7 +226,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             return availablePlayers.find(p => p.isLocalPlayer) || null;
         },
 
-        canPlayMediaType: (mediaType) => {
+        canPlayMediaType: mediaType => {
             const { currentPlayer } = get();
 
             if (!currentPlayer) {
@@ -254,7 +237,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             return currentPlayer.canPlayMediaTypes.includes(mediaType);
         },
 
-        getPlayerById: (playerId) => {
+        getPlayerById: playerId => {
             return get().availablePlayers.find(p => p.id === playerId) || null;
         },
 
@@ -263,7 +246,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             return currentPlayer?.isLocalPlayer ?? false;
         },
 
-        setPlayerChanged: (change) => {
+        setPlayerChanged: change => {
             set({ playerChanged: change });
         },
 

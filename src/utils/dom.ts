@@ -7,7 +7,10 @@
  */
 export function parentWithAttribute(elem: HTMLElement, name: string, value?: string): HTMLElement | null {
     let current: HTMLElement | null = elem;
-    while (current !== null && (value === undefined ? current.getAttribute(name) === null : current.getAttribute(name) !== value)) {
+    while (
+        current !== null &&
+        (value === undefined ? current.getAttribute(name) === null : current.getAttribute(name) !== value)
+    ) {
         const parent = current.parentNode as HTMLElement;
 
         if (parent?.getAttribute === undefined) {
@@ -76,7 +79,13 @@ try {
             return null;
         }
     });
-    window.addEventListener('test', (() => { return; }) as unknown as EventListener, opts);
+    window.addEventListener(
+        'test',
+        (() => {
+            return;
+        }) as unknown as EventListener,
+        opts
+    );
 } catch {
     // no capture support
 }
@@ -91,7 +100,12 @@ interface AddEventListenerOptionsType {
 /**
  * Adds event listener to specified target.
  */
-export function addEventListener(target: EventTarget, type: string, handler: EventListenerOrEventListenerObject, options?: AddEventListenerOptionsType): void {
+export function addEventListener(
+    target: EventTarget,
+    type: string,
+    handler: EventListenerOrEventListenerObject,
+    options?: AddEventListenerOptionsType
+): void {
     const optionsOrCapture = options ?? {};
     if (!supportsCaptureOption) {
         optionsOrCapture.capture = optionsOrCapture.capture;
@@ -102,7 +116,12 @@ export function addEventListener(target: EventTarget, type: string, handler: Eve
 /**
  * Removes event listener from specified target.
  */
-export function removeEventListener(target: EventTarget, type: string, handler: EventListenerOrEventListenerObject, options?: EventListenerOptions): void {
+export function removeEventListener(
+    target: EventTarget,
+    type: string,
+    handler: EventListenerOrEventListenerObject,
+    options?: EventListenerOptions
+): void {
     const optionsOrCapture = options ?? {};
     if (!supportsCaptureOption) {
         optionsOrCapture.capture = optionsOrCapture.capture;
@@ -193,10 +212,10 @@ export function whichAnimationEvent(): string {
 
     const el = document.createElement('div');
     const animations: Record<string, string> = {
-        'animation': 'animationend',
-        'OAnimation': 'oAnimationEnd',
-        'MozAnimation': 'animationend',
-        'WebkitAnimation': 'webkitAnimationEnd'
+        animation: 'animationend',
+        OAnimation: 'oAnimationEnd',
+        MozAnimation: 'animationend',
+        WebkitAnimation: 'webkitAnimationEnd'
     };
     for (const t in animations) {
         if ((el.style as unknown as Record<string, unknown>)[t] !== undefined) {
@@ -231,10 +250,10 @@ export function whichTransitionEvent(): string {
 
     const el = document.createElement('div');
     const transitions: Record<string, string> = {
-        'transition': 'transitionend',
-        'OTransition': 'oTransitionEnd',
-        'MozTransition': 'transitionend',
-        'WebkitTransition': 'webkitTransitionEnd'
+        transition: 'transitionend',
+        OTransition: 'oTransitionEnd',
+        MozTransition: 'transitionend',
+        WebkitTransition: 'webkitTransitionEnd'
     };
     for (const t in transitions) {
         if ((el.style as unknown as Record<string, unknown>)[t] !== undefined) {

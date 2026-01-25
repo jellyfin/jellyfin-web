@@ -24,8 +24,10 @@ export const Default: Story = {
         elevation: 'md',
         children: (
             <div style={{ width: '200px', padding: '16px' }}>
-                <Text weight='bold'>Card Title</Text>
-                <Text color='secondary' size='sm'>This is a paper card with elevation.</Text>
+                <Text weight="bold">Card Title</Text>
+                <Text color="secondary" size="sm">
+                    This is a paper card with elevation.
+                </Text>
             </div>
         )
     }
@@ -34,24 +36,24 @@ export const Default: Story = {
 function AllElevationsStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
-            <Paper elevation='none'>
+            <Paper elevation="none">
                 <div style={{ width: '120px', padding: '16px', textAlign: 'center' }}>
-                    <Text size='sm'>None</Text>
+                    <Text size="sm">None</Text>
                 </div>
             </Paper>
-            <Paper elevation='sm'>
+            <Paper elevation="sm">
                 <div style={{ width: '120px', padding: '16px', textAlign: 'center' }}>
-                    <Text size='sm'>Small</Text>
+                    <Text size="sm">Small</Text>
                 </div>
             </Paper>
-            <Paper elevation='md'>
+            <Paper elevation="md">
                 <div style={{ width: '120px', padding: '16px', textAlign: 'center' }}>
-                    <Text size='sm'>Medium</Text>
+                    <Text size="sm">Medium</Text>
                 </div>
             </Paper>
-            <Paper elevation='lg'>
+            <Paper elevation="lg">
                 <div style={{ width: '120px', padding: '16px', textAlign: 'center' }}>
-                    <Text size='sm'>Large</Text>
+                    <Text size="sm">Large</Text>
                 </div>
             </Paper>
         </div>
@@ -67,8 +69,10 @@ export const Outlined: Story = {
         variant: 'outlined',
         children: (
             <div style={{ width: '200px', padding: '16px' }}>
-                <Text weight='bold'>Outlined Card</Text>
-                <Text color='secondary' size='sm'>This is an outlined paper card.</Text>
+                <Text weight="bold">Outlined Card</Text>
+                <Text color="secondary" size="sm">
+                    This is an outlined paper card.
+                </Text>
             </div>
         )
     }
@@ -78,13 +82,17 @@ export const CardExample: Story = {
     decorators: [
         (_Story): ReactElement => (
             <div style={{ width: '280px' }}>
-                <Paper elevation='md'>
+                <Paper elevation="md">
                     <div style={{ padding: '16px', borderBottom: '1px solid #333' }}>
-                        <Text weight='bold' size='lg'>Movie Title</Text>
-                        <Text color='secondary' size='sm'>2024 • Action, Adventure</Text>
+                        <Text weight="bold" size="lg">
+                            Movie Title
+                        </Text>
+                        <Text color="secondary" size="sm">
+                            2024 • Action, Adventure
+                        </Text>
                     </div>
                     <div style={{ padding: '16px' }}>
-                        <Text color='secondary' size='sm'>
+                        <Text color="secondary" size="sm">
                             A thrilling adventure awaits in this epic tale of courage and discovery.
                         </Text>
                     </div>
@@ -97,14 +105,18 @@ export const CardExample: Story = {
 function StackedPapersStory(): ReactElement {
     return (
         <div style={{ position: 'relative', width: '300px', height: '200px' }}>
-            <Paper elevation='sm' style={{ position: 'absolute', top: 16, left: 16, width: '100%', padding: '16px' }}>
-                <Text size='sm' color='secondary'>Background layer</Text>
+            <Paper elevation="sm" style={{ position: 'absolute', top: 16, left: 16, width: '100%', padding: '16px' }}>
+                <Text size="sm" color="secondary">
+                    Background layer
+                </Text>
             </Paper>
-            <Paper elevation='md' style={{ position: 'absolute', top: 8, left: 8, width: '100%', padding: '16px' }}>
-                <Text size='sm' color='secondary'>Middle layer</Text>
+            <Paper elevation="md" style={{ position: 'absolute', top: 8, left: 8, width: '100%', padding: '16px' }}>
+                <Text size="sm" color="secondary">
+                    Middle layer
+                </Text>
             </Paper>
-            <Paper elevation='lg' style={{ position: 'absolute', top: 0, left: 0, width: '100%', padding: '16px' }}>
-                <Text weight='bold'>Top layer</Text>
+            <Paper elevation="lg" style={{ position: 'absolute', top: 0, left: 0, width: '100%', padding: '16px' }}>
+                <Text weight="bold">Top layer</Text>
             </Paper>
         </div>
     );

@@ -8,7 +8,7 @@ function isMobileBrowser(): boolean {
         return true;
     }
     // iOS detection
-    return /iPad|iPhone|iPod/.test(userAgent) && !(/Macintosh/.test(userAgent));
+    return /iPad|iPhone|iPod/.test(userAgent) && !/Macintosh/.test(userAgent);
 }
 
 export { isMobileBrowser };

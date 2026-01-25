@@ -3,7 +3,7 @@ import Events from '../../../../utils/events';
 
 class HtmlVideoPlayer extends NoActivePlayer {
     static override type = 'htmlvideoplayer';
-    
+
     isPlayerActive: boolean = false;
     savedPlaybackRate: number = 1.0;
     minBufferingThresholdMillis: number = 3000;
@@ -81,12 +81,24 @@ class HtmlVideoPlayer extends NoActivePlayer {
         this.player.setPlaybackRate(this.savedPlaybackRate);
     }
 
-    override isPlaybackActive(): boolean { return this.isPlayerActive; }
-    override isPlaying(): boolean { return !this.player.paused(); }
-    override currentTime(): number { return this.player.currentTime(); }
-    override hasPlaybackRate(): boolean { return true; }
-    override setPlaybackRate(value: number) { this.player.setPlaybackRate(value); }
-    override getPlaybackRate(): number { return this.player.getPlaybackRate(); }
+    override isPlaybackActive(): boolean {
+        return this.isPlayerActive;
+    }
+    override isPlaying(): boolean {
+        return !this.player.paused();
+    }
+    override currentTime(): number {
+        return this.player.currentTime();
+    }
+    override hasPlaybackRate(): boolean {
+        return true;
+    }
+    override setPlaybackRate(value: number) {
+        this.player.setPlaybackRate(value);
+    }
+    override getPlaybackRate(): number {
+        return this.player.getPlaybackRate();
+    }
 }
 
 export default HtmlVideoPlayer;

@@ -3,7 +3,17 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../../../../../hooks/useApi';
-import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
+import {
+    addSection,
+    getCardOptionsFromType,
+    getItemTypesFromCollectionType,
+    getTitleFromType,
+    isLivetv,
+    isMovies,
+    isMusic,
+    isTVShows,
+    sortSections
+} from '../utils/search';
 import { useArtistsSearch } from './useArtistsSearch';
 import { usePeopleSearch } from './usePeopleSearch';
 import { useVideoSearch } from './useVideoSearch';
@@ -13,11 +23,7 @@ import { fetchItemsByType } from './fetchItemsByType';
 import { useProgramsSearch } from './useProgramsSearch';
 import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 
-export const useSearchItems = (
-    parentId?: string,
-    collectionType?: CollectionType,
-    searchTerm?: string
-) => {
+export const useSearchItems = (parentId?: string, collectionType?: CollectionType, searchTerm?: string) => {
     const { data: artists, isPending: isArtistsPending } = useArtistsSearch(parentId, collectionType, searchTerm);
     const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm);
     const { data: videos, isPending: isVideosPending } = useVideoSearch(parentId, collectionType, searchTerm);
@@ -27,7 +33,8 @@ export const useSearchItems = (
     const userId = user?.Id;
 
     const isArtistsEnabled = !isArtistsPending || (collectionType && !isMusic(collectionType));
-    const isPeopleEnabled = !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
+    const isPeopleEnabled =
+        !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
     const isVideosEnabled = !isVideosPending || collectionType;
     const isProgramsEnabled = !isProgramsPending || collectionType;
     const isLiveTvEnabled = !isLiveTvPending || !collectionType || !isLivetv(collectionType);
@@ -85,14 +92,13 @@ export const useSearchItems = (
 
             return sortSections(sections);
         },
-        enabled: (
-            !!api
-            && !!userId
-            && !!isArtistsEnabled
-            && !!isPeopleEnabled
-            && !!isVideosEnabled
-            && !!isLiveTvEnabled
-            && !!isProgramsEnabled
-        )
+        enabled:
+            !!api &&
+            !!userId &&
+            !!isArtistsEnabled &&
+            !!isPeopleEnabled &&
+            !!isVideosEnabled &&
+            !!isLiveTvEnabled &&
+            !!isProgramsEnabled
     });
 };

@@ -29,9 +29,8 @@ export const useBackups = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY ],
-        queryFn: ({ signal }) =>
-            fetchBackups(api!, { signal }),
+        queryKey: [QUERY_KEY],
+        queryFn: ({ signal }) => fetchBackups(api!, { signal }),
         enabled: !!api
     });
 };

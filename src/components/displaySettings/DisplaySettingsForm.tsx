@@ -39,13 +39,7 @@ interface DisplaySettingsFormProps {
     initialData?: Partial<DisplaySettingsData>;
 }
 
-export function DisplaySettingsForm({
-    cultures,
-    themes,
-    onSave,
-    onCancel,
-    initialData
-}: DisplaySettingsFormProps) {
+export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initialData }: DisplaySettingsFormProps) {
     const [isSaving, setIsSaving] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [formData, setFormData] = useState<DisplaySettingsData>({
@@ -61,13 +55,10 @@ export function DisplaySettingsForm({
         maxDaysForNextUp: initialData?.maxDaysForNextUp ?? 0,
         enableRewatchingNextUp: initialData?.enableRewatchingNextUp ?? false,
         useEpisodeImagesInNextUp: initialData?.useEpisodeImagesInNextUp ?? true,
-        enableDetailsBanner: initialData?.enableDetailsBanner ?? true,
+        enableDetailsBanner: initialData?.enableDetailsBanner ?? true
     });
 
-    const languageOptions = [
-        { value: '', label: globalize.translate('Auto') },
-        ...cultures
-    ];
+    const languageOptions = [{ value: '', label: globalize.translate('Auto') }, ...cultures];
 
     const displayModeOptions = [
         { value: 'auto', label: globalize.translate('Auto') },
@@ -102,9 +93,7 @@ export function DisplaySettingsForm({
 
             <form onSubmit={handleSubmit}>
                 <Box style={{ marginBottom: '32px' }}>
-                    <Heading.H3 style={{ marginBottom: '8px' }}>
-                        {globalize.translate('Localization')}
-                    </Heading.H3>
+                    <Heading.H3 style={{ marginBottom: '8px' }}>{globalize.translate('Localization')}</Heading.H3>
                     <Text color="secondary" size="sm" style={{ marginBottom: '16px' }}>
                         {globalize.translate('LabelDisplayLanguageHelp')}
                     </Text>
@@ -155,9 +144,7 @@ export function DisplaySettingsForm({
                 <Divider style={{ margin: '24px 0' }} />
 
                 <Box style={{ marginBottom: '32px' }}>
-                    <Heading.H3 style={{ marginBottom: '8px' }}>
-                        {globalize.translate('Display')}
-                    </Heading.H3>
+                    <Heading.H3 style={{ marginBottom: '8px' }}>{globalize.translate('Display')}</Heading.H3>
 
                     <Box style={{ marginBottom: '16px' }}>
                         <FormControl>
@@ -207,11 +194,15 @@ export function DisplaySettingsForm({
                             <Flex style={{ alignItems: 'center', gap: '12px' }}>
                                 <Checkbox
                                     checked={formData.disableCustomCss}
-                                    onChange={(e) => handleChange('disableCustomCss', e.target.checked)}
+                                    onChange={e => handleChange('disableCustomCss', e.target.checked)}
                                 />
-                                <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('DisableCustomCss')}</FormLabel>
+                                <FormLabel style={{ marginBottom: 0 }}>
+                                    {globalize.translate('DisableCustomCss')}
+                                </FormLabel>
                             </Flex>
-                            <FormHelperText style={{ marginLeft: '36px' }}>{globalize.translate('LabelDisableCustomCss')}</FormHelperText>
+                            <FormHelperText style={{ marginLeft: '36px' }}>
+                                {globalize.translate('LabelDisableCustomCss')}
+                            </FormHelperText>
                         </FormControl>
                     </Box>
 
@@ -221,7 +212,7 @@ export function DisplaySettingsForm({
                             <Input
                                 as="textarea"
                                 value={formData.customCss}
-                                onChange={(e) => handleChange('customCss', e.target.value)}
+                                onChange={e => handleChange('customCss', e.target.value)}
                                 style={{ minHeight: '100px', fontFamily: 'monospace' }}
                             />
                         </FormControl>
@@ -232,20 +223,20 @@ export function DisplaySettingsForm({
                 <Divider style={{ margin: '24px 0' }} />
 
                 <Box style={{ marginBottom: '32px' }}>
-                    <Heading.H3 style={{ marginBottom: '16px' }}>
-                        {globalize.translate('HeaderLibraries')}
-                    </Heading.H3>
+                    <Heading.H3 style={{ marginBottom: '16px' }}>{globalize.translate('HeaderLibraries')}</Heading.H3>
 
                     <Box style={{ marginBottom: '16px' }}>
                         <FormControl>
                             <Flex style={{ alignItems: 'center', gap: '12px' }}>
                                 <Checkbox
                                     checked={formData.enableBackdrops}
-                                    onChange={(e) => handleChange('enableBackdrops', e.target.checked)}
+                                    onChange={e => handleChange('enableBackdrops', e.target.checked)}
                                 />
                                 <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('Backdrops')}</FormLabel>
                             </Flex>
-                            <FormHelperText style={{ marginLeft: '36px' }}>{globalize.translate('EnableBackdropsHelp')}</FormHelperText>
+                            <FormHelperText style={{ marginLeft: '36px' }}>
+                                {globalize.translate('EnableBackdropsHelp')}
+                            </FormHelperText>
                         </FormControl>
                     </Box>
 
@@ -254,11 +245,13 @@ export function DisplaySettingsForm({
                             <Flex style={{ alignItems: 'center', gap: '12px' }}>
                                 <Checkbox
                                     checked={formData.enableThemeSongs}
-                                    onChange={(e) => handleChange('enableThemeSongs', e.target.checked)}
+                                    onChange={e => handleChange('enableThemeSongs', e.target.checked)}
                                 />
                                 <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('ThemeSongs')}</FormLabel>
                             </Flex>
-                            <FormHelperText style={{ marginLeft: '36px' }}>{globalize.translate('EnableThemeSongsHelp')}</FormHelperText>
+                            <FormHelperText style={{ marginLeft: '36px' }}>
+                                {globalize.translate('EnableThemeSongsHelp')}
+                            </FormHelperText>
                         </FormControl>
                     </Box>
 
@@ -267,11 +260,13 @@ export function DisplaySettingsForm({
                             <Flex style={{ alignItems: 'center', gap: '12px' }}>
                                 <Checkbox
                                     checked={formData.enableThemeVideos}
-                                    onChange={(e) => handleChange('enableThemeVideos', e.target.checked)}
+                                    onChange={e => handleChange('enableThemeVideos', e.target.checked)}
                                 />
                                 <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('ThemeVideos')}</FormLabel>
                             </Flex>
-                            <FormHelperText style={{ marginLeft: '36px' }}>{globalize.translate('EnableThemeVideosHelp')}</FormHelperText>
+                            <FormHelperText style={{ marginLeft: '36px' }}>
+                                {globalize.translate('EnableThemeVideosHelp')}
+                            </FormHelperText>
                         </FormControl>
                     </Box>
                 </Box>
@@ -279,9 +274,7 @@ export function DisplaySettingsForm({
                 <Divider style={{ margin: '24px 0' }} />
 
                 <Box style={{ marginBottom: '32px' }}>
-                    <Heading.H3 style={{ marginBottom: '16px' }}>
-                        {globalize.translate('NextUp')}
-                    </Heading.H3>
+                    <Heading.H3 style={{ marginBottom: '16px' }}>{globalize.translate('NextUp')}</Heading.H3>
 
                     <Box style={{ marginBottom: '16px' }}>
                         <FormControl>
@@ -289,7 +282,7 @@ export function DisplaySettingsForm({
                             <Input
                                 type="number"
                                 value={formData.maxDaysForNextUp}
-                                onChange={(e) => handleChange('maxDaysForNextUp', parseFloat(e.target.value) || 0)}
+                                onChange={e => handleChange('maxDaysForNextUp', parseFloat(e.target.value) || 0)}
                                 min={0}
                                 max={1000}
                             />
@@ -302,11 +295,15 @@ export function DisplaySettingsForm({
                             <Flex style={{ alignItems: 'center', gap: '12px' }}>
                                 <Checkbox
                                     checked={formData.enableRewatchingNextUp}
-                                    onChange={(e) => handleChange('enableRewatchingNextUp', e.target.checked)}
+                                    onChange={e => handleChange('enableRewatchingNextUp', e.target.checked)}
                                 />
-                                <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('EnableRewatchingNextUp')}</FormLabel>
+                                <FormLabel style={{ marginBottom: 0 }}>
+                                    {globalize.translate('EnableRewatchingNextUp')}
+                                </FormLabel>
                             </Flex>
-                            <FormHelperText style={{ marginLeft: '36px' }}>{globalize.translate('EnableRewatchingNextUpHelp')}</FormHelperText>
+                            <FormHelperText style={{ marginLeft: '36px' }}>
+                                {globalize.translate('EnableRewatchingNextUpHelp')}
+                            </FormHelperText>
                         </FormControl>
                     </Box>
 
@@ -315,11 +312,15 @@ export function DisplaySettingsForm({
                             <Flex style={{ alignItems: 'center', gap: '12px' }}>
                                 <Checkbox
                                     checked={formData.useEpisodeImagesInNextUp}
-                                    onChange={(e) => handleChange('useEpisodeImagesInNextUp', e.target.checked)}
+                                    onChange={e => handleChange('useEpisodeImagesInNextUp', e.target.checked)}
                                 />
-                                <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('UseEpisodeImagesInNextUp')}</FormLabel>
+                                <FormLabel style={{ marginBottom: 0 }}>
+                                    {globalize.translate('UseEpisodeImagesInNextUp')}
+                                </FormLabel>
                             </Flex>
-                            <FormHelperText style={{ marginLeft: '36px' }}>{globalize.translate('UseEpisodeImagesInNextUpHelp')}</FormHelperText>
+                            <FormHelperText style={{ marginLeft: '36px' }}>
+                                {globalize.translate('UseEpisodeImagesInNextUpHelp')}
+                            </FormHelperText>
                         </FormControl>
                     </Box>
                 </Box>
@@ -327,37 +328,31 @@ export function DisplaySettingsForm({
                 <Divider style={{ margin: '24px 0' }} />
 
                 <Box style={{ marginBottom: '32px' }}>
-                    <Heading.H3 style={{ marginBottom: '16px' }}>
-                        {globalize.translate('ItemDetails')}
-                    </Heading.H3>
+                    <Heading.H3 style={{ marginBottom: '16px' }}>{globalize.translate('ItemDetails')}</Heading.H3>
 
                     <Box style={{ marginBottom: '16px' }}>
                         <FormControl>
                             <Flex style={{ alignItems: 'center', gap: '12px' }}>
                                 <Checkbox
                                     checked={formData.enableDetailsBanner}
-                                    onChange={(e) => handleChange('enableDetailsBanner', e.target.checked)}
+                                    onChange={e => handleChange('enableDetailsBanner', e.target.checked)}
                                 />
-                                <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('EnableDetailsBanner')}</FormLabel>
+                                <FormLabel style={{ marginBottom: 0 }}>
+                                    {globalize.translate('EnableDetailsBanner')}
+                                </FormLabel>
                             </Flex>
-                            <FormHelperText style={{ marginLeft: '36px' }}>{globalize.translate('EnableDetailsBannerHelp')}</FormHelperText>
+                            <FormHelperText style={{ marginLeft: '36px' }}>
+                                {globalize.translate('EnableDetailsBannerHelp')}
+                            </FormHelperText>
                         </FormControl>
                     </Box>
                 </Box>
 
                 <Flex style={{ gap: '16px', justifyContent: 'flex-end' }}>
-                    <Button
-                        variant="ghost"
-                        onClick={onCancel}
-                        disabled={isSaving}
-                    >
+                    <Button variant="ghost" onClick={onCancel} disabled={isSaving}>
                         {globalize.translate('ButtonCancel')}
                     </Button>
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        loading={isSaving}
-                    >
+                    <Button variant="primary" type="submit" loading={isSaving}>
                         {globalize.translate('Save')}
                     </Button>
                 </Flex>

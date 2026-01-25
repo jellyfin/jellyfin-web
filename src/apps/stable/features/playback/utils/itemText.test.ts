@@ -41,10 +41,7 @@ describe('getItemTextLines', () => {
     it('Should add artist names', () => {
         let item: ItemDto = {
             Name: 'Item Name',
-            ArtistItems: [
-                { Name: 'Artist 1' },
-                { Name: 'Artist 2' }
-            ]
+            ArtistItems: [{ Name: 'Artist 1' }, { Name: 'Artist 2' }]
         };
         let lines = getItemTextLines(item);
         expect(lines).toBeDefined();
@@ -54,10 +51,7 @@ describe('getItemTextLines', () => {
 
         item = {
             Name: 'Item Name',
-            Artists: [
-                'Artist 1',
-                'Artist 2'
-            ]
+            Artists: ['Artist 1', 'Artist 2']
         };
         lines = getItemTextLines(item);
         expect(lines).toBeDefined();

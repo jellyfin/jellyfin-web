@@ -10,22 +10,18 @@ interface FiltersGenresProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersGenres: FC<FiltersGenresProps> = ({
-    genresOptions,
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersGenres: FC<FiltersGenresProps> = ({ genresOptions, libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersGenresChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value;
             const existingGenres = libraryViewSettings?.Filters?.Genres ?? [];
 
-            const updatedGenres = existingGenres.includes(value) ?
-                existingGenres.filter((filter) => filter !== value) :
-                [...existingGenres, value];
+            const updatedGenres = existingGenres.includes(value)
+                ? existingGenres.filter(filter => filter !== value)
+                : [...existingGenres, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -39,14 +35,10 @@ const FiltersGenres: FC<FiltersGenresProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
-            {genresOptions.map((filter) => (
+            {genresOptions.map(filter => (
                 <Checkbox
                     key={filter}
-                    checked={
-                        !!libraryViewSettings?.Filters?.Genres?.includes(
-                            String(filter)
-                        )
-                    }
+                    checked={!!libraryViewSettings?.Filters?.Genres?.includes(String(filter))}
                     onChange={onFiltersGenresChange}
                     value={String(filter)}
                 >

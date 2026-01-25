@@ -16,5 +16,5 @@ export function getMediaSegmentAction(userSettings: UserSettings, type: MediaSeg
     const action = userSettings.get(getId(type), false);
     const defaultAction = DEFAULT_ACTIONS[type] || MediaSegmentAction.None;
 
-    return action ? action as MediaSegmentAction : defaultAction;
+    return action ? (action as MediaSegmentAction) : defaultAction;
 }

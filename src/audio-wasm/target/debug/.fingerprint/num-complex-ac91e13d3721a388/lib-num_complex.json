@@ -1,1 +1,20 @@
-{"rustc":4996801173321332248,"features":"[\"default\", \"std\"]","declared_features":"[\"bytecheck\", \"bytemuck\", \"default\", \"libm\", \"rand\", \"rkyv\", \"serde\", \"std\"]","target":10384458921827985759,"profile":8276155916380437441,"path":6686420655481017880,"deps":[[5157631553186200874,"num_traits",false,3077057522397920384]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/num-complex-ac91e13d3721a388/dep-lib-num_complex","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"default\", \"std\"]",
+  "declared_features": "[\"bytecheck\", \"bytemuck\", \"default\", \"libm\", \"rand\", \"rkyv\", \"serde\", \"std\"]",
+  "target": 10384458921827985759,
+  "profile": 8276155916380437441,
+  "path": 6686420655481017880,
+  "deps": [[5157631553186200874, "num_traits", false, 3077057522397920384]],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/num-complex-ac91e13d3721a388/dep-lib-num_complex",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

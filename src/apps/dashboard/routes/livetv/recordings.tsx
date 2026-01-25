@@ -20,8 +20,8 @@ import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-a
 import { queryClient } from 'utils/query/queryClient';
 
 const SearchIcon = () => (
-    <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
-        <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z' />
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
     </svg>
 );
 
@@ -197,30 +197,30 @@ export const Component = (): React.ReactElement => {
 
     return (
         <Page
-            id='liveTvSettingsPage'
+            id="liveTvSettingsPage"
             title={globalize.translate('HeaderDVR')}
-            className='mainAnimatedPage type-interior'
+            className="mainAnimatedPage type-interior"
         >
-            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 {isError ? (
-                    <Alert variant='error'>{globalize.translate('LiveTVPageLoadError')}</Alert>
+                    <Alert variant="error">{globalize.translate('LiveTVPageLoadError')}</Alert>
                 ) : (
                     <form onSubmit={handleSubmit}>
                         <Flex style={{ flexDirection: 'column', gap: '24px' }}>
-                            <Text as='h1' size='xl' weight='bold'>
+                            <Text as="h1" size="xl" weight="bold">
                                 {globalize.translate('HeaderDVR')}
                             </Text>
 
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert variant='success'>{globalize.translate('SettingsSaved')}</Alert>
+                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                             )}
 
-                            <Select name='GuideDays' defaultValue={config.GuideDays?.toString() || ''}>
+                            <Select name="GuideDays" defaultValue={config.GuideDays?.toString() || ''}>
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue placeholder={globalize.translate('LabelNumberOfGuideDays')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value=''>{globalize.translate('Auto')}</SelectItem>
+                                    <SelectItem value="">{globalize.translate('Auto')}</SelectItem>
                                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(num => (
                                         <SelectItem key={num} value={num.toString()}>
                                             {num}
@@ -230,61 +230,61 @@ export const Component = (): React.ReactElement => {
                             </Select>
 
                             <Input
-                                name='RecordingPath'
+                                name="RecordingPath"
                                 label={globalize.translate('LabelRecordingPath')}
                                 defaultValue={config.RecordingPath ?? ''}
                             />
 
                             <Input
-                                name='MovieRecordingPath'
+                                name="MovieRecordingPath"
                                 label={globalize.translate('LabelMovieRecordingPath')}
                                 defaultValue={config.MovieRecordingPath ?? ''}
                             />
 
                             <Input
-                                name='SeriesRecordingPath'
+                                name="SeriesRecordingPath"
                                 label={globalize.translate('LabelSeriesRecordingPath')}
                                 defaultValue={config.SeriesRecordingPath ?? ''}
                             />
 
-                            <Text as='h2' size='lg' weight='bold'>
+                            <Text as="h2" size="lg" weight="bold">
                                 {globalize.translate('HeaderDefaultRecordingSettings')}
                             </Text>
 
                             <Input
-                                name='PrePaddingMinutes'
-                                type='number'
+                                name="PrePaddingMinutes"
+                                type="number"
                                 label={globalize.translate('LabelStartWhenPossible')}
                                 value={prePaddingMinutes}
                                 onChange={onPrePaddingMinutesChange}
                             />
 
                             <Input
-                                name='PostPaddingMinutes'
-                                type='number'
+                                name="PostPaddingMinutes"
+                                type="number"
                                 label={globalize.translate('LabelStopWhenPossible')}
                                 value={postPaddingMinutes}
                                 onChange={onPostPaddingMinutesChange}
                             />
 
-                            <Text as='h2' size='lg' weight='bold'>
+                            <Text as="h2" size="lg" weight="bold">
                                 {globalize.translate('HeaderRecordingPostProcessing')}
                             </Text>
 
                             <Input
-                                name='RecordingPostProcessor'
+                                name="RecordingPostProcessor"
                                 label={globalize.translate('LabelPostProcessor')}
                                 defaultValue={config.RecordingPostProcessor ?? ''}
                             />
 
                             <Input
-                                name='RecordingPostProcessorArguments'
+                                name="RecordingPostProcessorArguments"
                                 label={globalize.translate('LabelPostProcessorArguments')}
                                 helperText={globalize.translate('LabelPostProcessorArgumentsHelp')}
                                 defaultValue={config.RecordingPostProcessorArguments ?? ''}
                             />
 
-                            <Text as='h2' size='lg' weight='bold'>
+                            <Text as="h2" size="lg" weight="bold">
                                 {globalize.translate('HeaderRecordingMetadataSaving')}
                             </Text>
 
@@ -292,7 +292,7 @@ export const Component = (): React.ReactElement => {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name='SaveRecordingNFO'
+                                            name="SaveRecordingNFO"
                                             checked={config.SaveRecordingNFO}
                                             onChange={onCheckboxChange}
                                         />
@@ -306,7 +306,7 @@ export const Component = (): React.ReactElement => {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name='SaveRecordingImages'
+                                            name="SaveRecordingImages"
                                             checked={config.SaveRecordingImages}
                                             onChange={onCheckboxChange}
                                         />
@@ -316,7 +316,7 @@ export const Component = (): React.ReactElement => {
                                 <FormHelperText>{globalize.translate('SaveRecordingImagesHelp')}</FormHelperText>
                             </FormControl>
 
-                            <Button type='submit'>{globalize.translate('Save')}</Button>
+                            <Button type="submit">{globalize.translate('Save')}</Button>
                         </Flex>
                     </form>
                 )}

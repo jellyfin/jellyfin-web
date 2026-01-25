@@ -7,11 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import { QUERY_KEY } from './useTasks';
 
-const fetchTask = async (
-    api: Api,
-    params: ScheduledTasksApiGetTaskRequest,
-    options?: AxiosRequestConfig
-) => {
+const fetchTask = async (api: Api, params: ScheduledTasksApiGetTaskRequest, options?: AxiosRequestConfig) => {
     const response = await getScheduledTasksApi(api).getTask(params, options);
 
     return response.data;
@@ -21,9 +17,8 @@ export const useTask = (params: ScheduledTasksApiGetTaskRequest) => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY, params.taskId ],
-        queryFn: ({ signal }) =>
-            fetchTask(api!, params, { signal }),
+        queryKey: [QUERY_KEY, params.taskId],
+        queryFn: ({ signal }) => fetchTask(api!, params, { signal }),
         enabled: !!api
     });
 };

@@ -17,7 +17,7 @@ const PlayTrailerButton: FC<PlayTrailerButtonProps> = ({ item }) => {
 
     return (
         <IconButton
-            className='button-flat btnPlayTrailer'
+            className="button-flat btnPlayTrailer"
             title={globalize.translate('ButtonTrailer')}
             onClick={onPlayTrailerClick}
         >

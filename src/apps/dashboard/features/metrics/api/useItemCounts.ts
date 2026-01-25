@@ -6,29 +6,20 @@ import type { AxiosRequestConfig } from 'axios';
 
 import { useApi } from 'hooks/useApi';
 
-const fetchItemCounts = async (
-    api: Api,
-    params?: LibraryApiGetItemCountsRequest,
-    options?: AxiosRequestConfig
-) => {
-    const response = await getLibraryApi(api)
-        .getItemCounts(params, options);
+const fetchItemCounts = async (api: Api, params?: LibraryApiGetItemCountsRequest, options?: AxiosRequestConfig) => {
+    const response = await getLibraryApi(api).getItemCounts(params, options);
     return response.data;
 };
 
-const getItemCountsQuery = (
-    api?: Api,
-    params?: LibraryApiGetItemCountsRequest
-) => queryOptions({
-    queryKey: [ 'ItemCounts', params ],
-    queryFn: ({ signal }) => fetchItemCounts(api!, params, { signal }),
-    enabled: !!api,
-    refetchOnWindowFocus: false
-});
+const getItemCountsQuery = (api?: Api, params?: LibraryApiGetItemCountsRequest) =>
+    queryOptions({
+        queryKey: ['ItemCounts', params],
+        queryFn: ({ signal }) => fetchItemCounts(api!, params, { signal }),
+        enabled: !!api,
+        refetchOnWindowFocus: false
+    });
 
-export const useItemCounts = (
-    params?: LibraryApiGetItemCountsRequest
-) => {
+export const useItemCounts = (params?: LibraryApiGetItemCountsRequest) => {
     const { api } = useApi();
     return useQuery(getItemCountsQuery(api, params));
 };

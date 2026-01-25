@@ -17,12 +17,14 @@ const ChapterCardBuilder: React.FC<ChapterCardBuilderProps> = ({ item, chapters,
     return (
         <div className={styles.grid}>
             {chapters.map((chapter, index) => {
-                const imgUrl = chapter.ImageTag ? apiClient.getScaledImageUrl(item.Id, {
-                    maxWidth: 400,
-                    tag: chapter.ImageTag,
-                    type: 'Chapter',
-                    index
-                }) : null;
+                const imgUrl = chapter.ImageTag
+                    ? apiClient.getScaledImageUrl(item.Id, {
+                          maxWidth: 400,
+                          tag: chapter.ImageTag,
+                          type: 'Chapter',
+                          index
+                      })
+                    : null;
 
                 return (
                     <div key={chapter.Id || index}>

@@ -16,7 +16,7 @@ interface IProps {
 }
 
 const RepositoryListItem = ({ repository, onDelete }: IProps): React.ReactElement => {
-    const [ isConfirmDeleteOpen, setIsConfirmDeleteOpen ] = useState(false);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
     const confirmDeletePrompt = useCallback(() => {
         setIsConfirmDeleteOpen(true);
@@ -29,7 +29,7 @@ const RepositoryListItem = ({ repository, onDelete }: IProps): React.ReactElemen
     const onConfirmDelete = useCallback(() => {
         onDelete(repository);
         setIsConfirmDeleteOpen(false);
-    }, [ onDelete, repository ]);
+    }, [onDelete, repository]);
 
     return (
         <>
@@ -39,18 +39,14 @@ const RepositoryListItem = ({ repository, onDelete }: IProps): React.ReactElemen
                 text={globalize.translate('DeleteRepositoryConfirmation')}
                 onConfirm={onConfirmDelete}
                 onCancel={onCancel}
-                confirmButtonColor='danger'
+                confirmButtonColor="danger"
                 confirmButtonText={globalize.translate('Delete')}
             />
             <ListItem
                 style={{ paddingRight: 80 }}
                 endAction={
                     <Tooltip title={globalize.translate('ButtonRemove')}>
-                        <IconButton
-                            variant='plain'
-                            color='danger'
-                            onClick={confirmDeletePrompt}
-                        >
+                        <IconButton variant="plain" color="danger" onClick={confirmDeletePrompt}>
                             <TrashIcon />
                         </IconButton>
                     </Tooltip>
@@ -60,18 +56,22 @@ const RepositoryListItem = ({ repository, onDelete }: IProps): React.ReactElemen
                     <ListItemDecorator>
                         <a
                             href={repository.Url || '#'}
-                            target='_blank'
-                            rel='noopener noreferrer'
+                            target="_blank"
+                            rel="noopener noreferrer"
                             style={{ color: 'inherit' }}
                         >
-                            <Avatar variant='soft' color='primary'>
+                            <Avatar variant="soft" color="primary">
                                 <ExternalLinkIcon />
                             </Avatar>
                         </a>
                     </ListItemDecorator>
                     <ListItemContent>
                         <Heading.H4 style={{ margin: 0 }}>{repository.Name}</Heading.H4>
-                        <Text size='xs' color='secondary' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <Text
+                            size="xs"
+                            color="secondary"
+                            style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        >
                             {repository.Url}
                         </Text>
                     </ListItemContent>

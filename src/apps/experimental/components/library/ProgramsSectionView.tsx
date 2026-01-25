@@ -15,7 +15,7 @@ import { CardShape } from 'utils/card';
 interface ProgramsSectionViewProps {
     parentId: ParentId;
     sectionType: SectionType[];
-    isUpcomingRecordingsEnabled: boolean | undefined
+    isUpcomingRecordingsEnabled: boolean | undefined;
 }
 
 const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
@@ -25,10 +25,8 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
 }) => {
     const { __legacyApiClient__ } = useApi();
     const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
-    const {
-        isLoading: isUpcomingRecordingsLoading,
-        data: upcomingRecordings
-    } = useGetTimers(isUpcomingRecordingsEnabled);
+    const { isLoading: isUpcomingRecordingsLoading, data: upcomingRecordings } =
+        useGetTimers(isUpcomingRecordingsEnabled);
 
     if (isLoading || isUpcomingRecordingsLoading) {
         return <Loading />;
@@ -73,7 +71,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                 />
             ))}
 
-            {upcomingRecordings?.map((group) => (
+            {upcomingRecordings?.map(group => (
                 <SectionContainer
                     key={group.name}
                     sectionHeaderProps={{

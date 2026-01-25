@@ -9,4 +9,3 @@ export const canvas = style({
     pointerEvents: 'none',
     zIndex: -1
 });
-

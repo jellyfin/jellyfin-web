@@ -32,8 +32,7 @@ describe('Utils: dateFnsLocale', () => {
 
             await dateFnsLocale.updateLocale('fr-ca');
             const { code } = dateFnsLocale.getLocale();
-            const { locale: localeWithSuffix } =
-                dateFnsLocale.getLocaleWithSuffix();
+            const { locale: localeWithSuffix } = dateFnsLocale.getLocaleWithSuffix();
 
             expect(code).toEqual(expectedCode);
             expect(localeWithSuffix.code).toEqual(expectedCode);
@@ -44,8 +43,7 @@ describe('Utils: dateFnsLocale', () => {
 
             await dateFnsLocale.updateLocale('fr-fr');
             const { code } = dateFnsLocale.getLocale();
-            const { locale: localeWithSuffix } =
-                dateFnsLocale.getLocaleWithSuffix();
+            const { locale: localeWithSuffix } = dateFnsLocale.getLocaleWithSuffix();
 
             expect(code).toEqual(expectedCode);
             expect(localeWithSuffix.code).toEqual(expectedCode);
@@ -56,8 +54,7 @@ describe('Utils: dateFnsLocale', () => {
 
             await dateFnsLocale.updateLocale('unknown-unknown');
             const { code } = dateFnsLocale.getLocale();
-            const { locale: localeWithSuffix } =
-                dateFnsLocale.getLocaleWithSuffix();
+            const { locale: localeWithSuffix } = dateFnsLocale.getLocaleWithSuffix();
 
             expect(code).toEqual(expectedCode);
             expect(localeWithSuffix.code).toEqual(expectedCode);

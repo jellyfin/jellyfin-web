@@ -7,11 +7,7 @@ interface CardWrapperProps {
     dataAttributes: DataAttributes;
 }
 
-const CardWrapper: FC<PropsWithChildren<CardWrapperProps>> = ({
-    className,
-    dataAttributes,
-    children
-}) => {
+const CardWrapper: FC<PropsWithChildren<CardWrapperProps>> = ({ className, dataAttributes, children }) => {
     if (layoutManager.tv) {
         return (
             <button className={className} {...dataAttributes}>

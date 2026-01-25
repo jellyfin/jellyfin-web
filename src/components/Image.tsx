@@ -6,20 +6,14 @@ import { ImageIcon } from '@radix-ui/react-icons';
 import { LoadingSkeleton } from './LoadingSkeleton';
 
 interface ImageProps {
-    isLoading: boolean
-    alt?: string
-    url?: string
-    aspectRatio?: number
-    FallbackIcon?: React.ComponentType<{ style?: React.CSSProperties }>
+    isLoading: boolean;
+    alt?: string;
+    url?: string;
+    aspectRatio?: number;
+    FallbackIcon?: React.ComponentType<{ style?: React.CSSProperties }>;
 }
 
-const Image: FC<ImageProps> = ({
-    isLoading,
-    alt,
-    url,
-    aspectRatio = 16 / 9,
-    FallbackIcon = ImageIcon
-}) => (
+const Image: FC<ImageProps> = ({ isLoading, alt, url, aspectRatio = 16 / 9, FallbackIcon = ImageIcon }) => (
     <Paper
         style={{
             display: 'flex',
@@ -30,18 +24,9 @@ const Image: FC<ImageProps> = ({
             overflow: 'hidden'
         }}
     >
-        <LoadingSkeleton
-            isLoading={isLoading}
-            variant='rectangular'
-            width='100%'
-            height='100%'
-        >
+        <LoadingSkeleton isLoading={isLoading} variant="rectangular" width="100%" height="100%">
             {url ? (
-                <img
-                    src={url}
-                    alt={alt}
-                    width='100%'
-                />
+                <img src={url} alt={alt} width="100%" />
             ) : (
                 <Box
                     style={{

@@ -15,9 +15,7 @@ function AnimatedTooltip({ content, children, side = 'top' }: Readonly<AnimatedT
     return (
         <TooltipPrimitive.Provider>
             <TooltipPrimitive.Root delayDuration={200}>
-                <TooltipPrimitive.Trigger asChild>
-                    {children}
-                </TooltipPrimitive.Trigger>
+                <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
                 <TooltipPrimitive.Portal>
                     <TooltipPrimitive.Content side={side} sideOffset={5} asChild>
                         <motion.div
@@ -36,9 +34,7 @@ function AnimatedTooltip({ content, children, side = 'top' }: Readonly<AnimatedT
                             }}
                         >
                             {content}
-                            <TooltipPrimitive.Arrow
-                                style={{ fill: vars.colors.text }}
-                            />
+                            <TooltipPrimitive.Arrow style={{ fill: vars.colors.text }} />
                         </motion.div>
                     </TooltipPrimitive.Content>
                 </TooltipPrimitive.Portal>
@@ -61,7 +57,7 @@ type Story = StoryObj<typeof meta>;
 
 function DefaultStory(): ReactElement {
     return (
-        <AnimatedTooltip content='This is a tooltip'>
+        <AnimatedTooltip content="This is a tooltip">
             <Button>Hover me</Button>
         </AnimatedTooltip>
     );
@@ -74,16 +70,16 @@ export const Default: Story = {
 function PositionsStory(): ReactElement {
     return (
         <div style={{ display: 'flex', gap: '2rem', padding: '4rem' }}>
-            <AnimatedTooltip content='Top tooltip' side='top'>
+            <AnimatedTooltip content="Top tooltip" side="top">
                 <Button>Top</Button>
             </AnimatedTooltip>
-            <AnimatedTooltip content='Right tooltip' side='right'>
+            <AnimatedTooltip content="Right tooltip" side="right">
                 <Button>Right</Button>
             </AnimatedTooltip>
-            <AnimatedTooltip content='Bottom tooltip' side='bottom'>
+            <AnimatedTooltip content="Bottom tooltip" side="bottom">
                 <Button>Bottom</Button>
             </AnimatedTooltip>
-            <AnimatedTooltip content='Left tooltip' side='left'>
+            <AnimatedTooltip content="Left tooltip" side="left">
                 <Button>Left</Button>
             </AnimatedTooltip>
         </div>

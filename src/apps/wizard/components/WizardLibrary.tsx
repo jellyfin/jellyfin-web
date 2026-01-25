@@ -30,20 +30,22 @@ const WizardLibrary = () => {
     }, [apiClient]);
 
     const handleAddLibrary = () => {
-        import('../../../components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }: any) => {
-            new MediaLibraryCreator({
-                collectionTypeOptions: [
-                    { name: globalize.translate('Movies'), value: 'movies' },
-                    { name: globalize.translate('TabMusic'), value: 'music' },
-                    { name: globalize.translate('Shows'), value: 'tvshows' },
-                    { name: globalize.translate('Books'), value: 'books' },
-                    { name: globalize.translate('HomeVideosPhotos'), value: 'homevideos' }
-                ],
-                refresh: false
-            }).then((hasChanges: boolean) => {
-                if (hasChanges) loadLibraries();
-            });
-        });
+        import('../../../components/mediaLibraryCreator/mediaLibraryCreator').then(
+            ({ default: MediaLibraryCreator }: any) => {
+                new MediaLibraryCreator({
+                    collectionTypeOptions: [
+                        { name: globalize.translate('Movies'), value: 'movies' },
+                        { name: globalize.translate('TabMusic'), value: 'music' },
+                        { name: globalize.translate('Shows'), value: 'tvshows' },
+                        { name: globalize.translate('Books'), value: 'books' },
+                        { name: globalize.translate('HomeVideosPhotos'), value: 'homevideos' }
+                    ],
+                    refresh: false
+                }).then((hasChanges: boolean) => {
+                    if (hasChanges) loadLibraries();
+                });
+            }
+        );
     };
 
     if (isLoading) return <Loading />;
@@ -66,15 +68,27 @@ const WizardLibrary = () => {
                         <BaseCard
                             title={lib.Name}
                             text={lib.CollectionType}
-                            image={lib.PrimaryImageItemId && apiClient ? apiClient.getScaledImageUrl(lib.PrimaryImageItemId, { maxWidth: 400, type: 'Primary' }) : null}
-                            icon={<span className={`material-icons ${imageHelper.getLibraryIcon(lib.CollectionType)}`} style={{ fontSize: 48 }} />}
+                            image={
+                                lib.PrimaryImageItemId && apiClient
+                                    ? apiClient.getScaledImageUrl(lib.PrimaryImageItemId, {
+                                          maxWidth: 400,
+                                          type: 'Primary'
+                                      })
+                                    : null
+                            }
+                            icon={
+                                <span
+                                    className={`material-icons ${imageHelper.getLibraryIcon(lib.CollectionType)}`}
+                                    style={{ fontSize: 48 }}
+                                />
+                            }
                         />
                     </div>
                 ))}
             </div>
 
             <div className={styles.buttonRow}>
-                <Button size='lg' onClick={() => navigate({ to: '/wizard/settings' })}>
+                <Button size="lg" onClick={() => navigate({ to: '/wizard/settings' })}>
                     {globalize.translate('ButtonNext')}
                 </Button>
             </div>

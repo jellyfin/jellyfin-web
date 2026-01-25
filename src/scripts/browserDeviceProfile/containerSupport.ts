@@ -8,7 +8,12 @@ export interface DirectPlayProfile {
     AudioCodec: string;
 }
 
-export function getDirectPlayProfileForVideoContainer(container: string, videoAudioCodecs: string[], videoTestElement: HTMLMediaElement, options: any): DirectPlayProfile | null {
+export function getDirectPlayProfileForVideoContainer(
+    container: string,
+    videoAudioCodecs: string[],
+    videoTestElement: HTMLMediaElement,
+    options: any
+): DirectPlayProfile | null {
     let supported = false;
     let profileContainer = container;
     const videoCodecs: string[] = [];
@@ -43,7 +48,13 @@ export function getDirectPlayProfileForVideoContainer(container: string, videoAu
             supported = (browser as any).tizen;
             break;
         case 'mov':
-            supported = browser.safari || (browser as any).tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
+            supported =
+                browser.safari ||
+                (browser as any).tizen ||
+                browser.web0s ||
+                browser.chrome ||
+                browser.edgeChromium ||
+                browser.edgeUwp;
             videoCodecs.push('h264');
             break;
         case 'm2ts':
@@ -74,12 +85,14 @@ export function getDirectPlayProfileForVideoContainer(container: string, videoAu
             break;
     }
 
-    return supported ? {
-        Container: profileContainer,
-        Type: 'Video',
-        VideoCodec: videoCodecs.join(','),
-        AudioCodec: videoAudioCodecs.join(',')
-    } : null;
+    return supported
+        ? {
+              Container: profileContainer,
+              Type: 'Video',
+              VideoCodec: videoCodecs.join(','),
+              AudioCodec: videoAudioCodecs.join(',')
+          }
+        : null;
 }
 
 export function testCanPlayMkv(videoTestElement: HTMLMediaElement): boolean {
@@ -95,8 +108,10 @@ export function testCanPlayMkv(videoTestElement: HTMLMediaElement): boolean {
         return false;
     }
 
-    if (videoTestElement.canPlayType('video/x-matroska').replace(/no/, '')
-            || videoTestElement.canPlayType('video/mkv').replace(/no/, '')) {
+    if (
+        videoTestElement.canPlayType('video/x-matroska').replace(/no/, '') ||
+        videoTestElement.canPlayType('video/mkv').replace(/no/, '')
+    ) {
         return true;
     }
 
@@ -116,5 +131,10 @@ export function supportsMpeg2Video(): boolean {
 }
 
 export function supportsVc1(videoTestElement: HTMLMediaElement): string | boolean {
-    return (browser as any).tizen || browser.web0s || browser.edgeUwp || videoTestElement.canPlayType('video/mp4; codecs="vc-1"').replace(/no/, '');
+    return (
+        (browser as any).tizen ||
+        browser.web0s ||
+        browser.edgeUwp ||
+        videoTestElement.canPlayType('video/mp4; codecs="vc-1"').replace(/no/, '')
+    );
 }

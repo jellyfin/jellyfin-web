@@ -1,7 +1,7 @@
 /**
  * UI Store - Layout and Interface State
- * 
- * Manages layout modes (mobile, tv, desktop), window dimensions, 
+ *
+ * Manages layout modes (mobile, tv, desktop), window dimensions,
  * and global UI state.
  */
 
@@ -48,7 +48,7 @@ const getEffectiveLayout = (layout: LayoutMode): UiState['effectiveLayout'] => {
 const updateHtmlClasses = (effectiveLayout: string) => {
     const classes = ['layout-mobile', 'layout-tv', 'layout-desktop', 'layout-experimental'];
     const activeClass = `layout-${effectiveLayout}`;
-    
+
     document.documentElement.classList.remove(...classes);
     document.documentElement.classList.add(activeClass);
 };
@@ -63,32 +63,33 @@ export const useUiStore = create<UiState & UiActions>()(
                     width: typeof window !== 'undefined' ? window.innerWidth : 1920,
                     height: typeof window !== 'undefined' ? window.innerHeight : 1080
                 },
-                orientation: typeof window !== 'undefined' && window.innerHeight > window.innerWidth ? 'portrait' : 'landscape',
+                orientation:
+                    typeof window !== 'undefined' && window.innerHeight > window.innerWidth ? 'portrait' : 'landscape',
                 isDrawerOpen: false,
                 isSearchOpen: false,
                 isLoading: false,
 
-                setLayout: (layout) => {
+                setLayout: layout => {
                     const effective = getEffectiveLayout(layout);
                     set({ layout, effectiveLayout: effective });
                     updateHtmlClasses(effective);
                     logger.debug('Layout changed', { component: 'UiStore', layout, effective });
                 },
 
-                setViewport: (viewport) => {
+                setViewport: viewport => {
                     const orientation = viewport.height > viewport.width ? 'portrait' : 'landscape';
                     set({ viewport, orientation });
                 },
 
-                toggleDrawer: (open) => {
-                    set((state) => ({ isDrawerOpen: open ?? !state.isDrawerOpen }));
+                toggleDrawer: open => {
+                    set(state => ({ isDrawerOpen: open ?? !state.isDrawerOpen }));
                 },
 
-                toggleSearch: (open) => {
-                    set((state) => ({ isSearchOpen: open ?? !state.isSearchOpen }));
+                toggleSearch: open => {
+                    set(state => ({ isSearchOpen: open ?? !state.isSearchOpen }));
                 },
 
-                setIsLoading: (isLoading) => {
+                setIsLoading: isLoading => {
                     set({ isLoading });
                 },
 
@@ -103,9 +104,9 @@ export const useUiStore = create<UiState & UiActions>()(
             }),
             {
                 name: 'jellyfin-ui-store',
-                partialize: (state) => ({ layout: state.layout }),
-                onRehydrateStorage: (state) => {
-                    return (rehydratedState) => {
+                partialize: state => ({ layout: state.layout }),
+                onRehydrateStorage: state => {
+                    return rehydratedState => {
                         if (rehydratedState) {
                             rehydratedState.autoDetectLayout();
                         }

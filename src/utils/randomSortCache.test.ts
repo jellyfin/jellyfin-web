@@ -35,7 +35,8 @@ describe('randomSortCache', () => {
             const items = [{ id: '1' }, { id: '2' }, { id: '3' }];
 
             // Mock random to produce a specific shuffle: 2, 3, 1
-            const randomSpy = vi.spyOn(Math, 'random')
+            const randomSpy = vi
+                .spyOn(Math, 'random')
                 .mockReturnValueOnce(0.5) // item 2
                 .mockReturnValueOnce(0.8) // item 3
                 .mockReturnValueOnce(0.1); // item 1
@@ -85,9 +86,13 @@ describe('randomSortCache', () => {
             const fetchAllItems = vi.fn().mockResolvedValue(items);
 
             // eslint-disable-next-line @stylistic/max-statements-per-line
-            mockSessionStorage.getItem.mockImplementation(() => { throw new Error('Storage error'); });
+            mockSessionStorage.getItem.mockImplementation(() => {
+                throw new Error('Storage error');
+            });
             // eslint-disable-next-line @stylistic/max-statements-per-line
-            mockSessionStorage.setItem.mockImplementation(() => { throw new Error('Storage error'); });
+            mockSessionStorage.setItem.mockImplementation(() => {
+                throw new Error('Storage error');
+            });
 
             const result = await getCachedRandomItems(cacheKey, fetchAllItems);
 

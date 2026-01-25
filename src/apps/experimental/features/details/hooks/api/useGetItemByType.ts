@@ -20,23 +20,14 @@ const getItemByType = async (
     let response;
     switch (itemType) {
         case ItemKind.Timer: {
-            response = await getLiveTvApi(api).getTimer(
-                { timerId: itemId },
-                options
-            );
+            response = await getLiveTvApi(api).getTimer({ timerId: itemId }, options);
             break;
         }
         case ItemKind.SeriesTimer:
-            response = await getLiveTvApi(api).getSeriesTimer(
-                { timerId: itemId },
-                options
-            );
+            response = await getLiveTvApi(api).getSeriesTimer({ timerId: itemId }, options);
             break;
         default: {
-            response = await getUserLibraryApi(api).getItem(
-                { userId: user.Id, itemId },
-                options
-            );
+            response = await getUserLibraryApi(api).getItem({ userId: user.Id, itemId }, options);
             break;
         }
     }
@@ -48,15 +39,11 @@ interface UseGetItemByTypeProps {
     itemId: string;
 }
 
-export const useGetItemByType = ({
-    itemType,
-    itemId
-}: UseGetItemByTypeProps) => {
+export const useGetItemByType = ({ itemType, itemId }: UseGetItemByTypeProps) => {
     const apiContext = useApi();
     return useQuery({
         queryKey: ['ItemByType', { itemType, itemId }],
-        queryFn: ({ signal }) =>
-            getItemByType(apiContext, itemType, itemId, { signal }),
+        queryFn: ({ signal }) => getItemByType(apiContext, itemType, itemId, { signal }),
         enabled: !!apiContext.api && !!apiContext.user?.Id && !!itemId
     });
 };

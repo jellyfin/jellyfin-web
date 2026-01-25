@@ -5,10 +5,10 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface ImageOptions {
-    height?: number
-    maxHeight?: number
-    tag?: string
-    type?: ImageType
+    height?: number;
+    maxHeight?: number;
+    tag?: string;
+    type?: ImageType;
 }
 
 function getSeriesImageUrl(item: ItemDto, options: ImageOptions = {}) {

@@ -34,8 +34,8 @@ const OverviewCell = ({ row }: ActivityLogEntryCell) => {
                 {displayValue}
             </div>
             {ShortOverview && Overview && (
-                <Tooltip title={Overview} placement='top'>
-                    <IconButton variant='plain' onClick={onTooltipOpen}>
+                <Tooltip title={Overview} placement="top">
+                    <IconButton variant="plain" onClick={onTooltipOpen}>
                         <InfoCircledIcon />
                     </IconButton>
                 </Tooltip>

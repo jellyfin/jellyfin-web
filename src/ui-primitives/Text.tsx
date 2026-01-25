@@ -52,11 +52,13 @@ export function Text({
 }
 
 export const Heading = {
-    H1: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as='h1' size='display' weight='bold' {...props} />,
-    H2: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as='h2' size='xxl' weight='bold' {...props} />,
-    H3: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as='h3' size='xl' weight='bold' {...props} />,
-    H4: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as='h4' size='lg' weight='bold' {...props} />,
-    H5: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as='h5' size='md' weight='bold' {...props} />
+    H1: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => (
+        <Text as="h1" size="display" weight="bold" {...props} />
+    ),
+    H2: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as="h2" size="xxl" weight="bold" {...props} />,
+    H3: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as="h3" size="xl" weight="bold" {...props} />,
+    H4: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as="h4" size="lg" weight="bold" {...props} />,
+    H5: (props: Omit<TextProps, 'as' | 'size'>): ReactElement => <Text as="h5" size="md" weight="bold" {...props} />
 };
 
 export { textStyles, textSizes, textWeights, textColors, textAlignments };

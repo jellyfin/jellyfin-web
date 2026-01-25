@@ -42,7 +42,7 @@ export class CrossfadeWithFXSends {
     }
 
     public setCrossfadePosition(position: number): void {
-        const gain = Math.cos((position + 1) * Math.PI / 4);
+        const gain = Math.cos(((position + 1) * Math.PI) / 4);
         this.crossfadeGain.gain.value = Math.max(0, gain);
     }
 

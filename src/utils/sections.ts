@@ -16,11 +16,7 @@ export const getSuggestionSections = (): Section[] => {
         filters: [ItemFilter.IsPlayed],
         IsPlayed: true,
         imageTypeLimit: 1,
-        enableImageTypes: [
-            ImageType.Primary,
-            ImageType.Backdrop,
-            ImageType.Thumb
-        ]
+        enableImageTypes: [ImageType.Primary, ImageType.Backdrop, ImageType.Thumb]
     };
     return [
         {
@@ -64,8 +60,7 @@ export const getSuggestionSections = (): Section[] => {
                 overlayPlayButton: true,
                 shape: CardShape.BackdropOverflow,
                 preferThumb: true,
-                inheritThumb:
-                    !userSettings.useEpisodeImagesInNextUpAndResume(undefined),
+                inheritThumb: !userSettings.useEpisodeImagesInNextUpAndResume(undefined),
                 showYear: true
             }
         },
@@ -97,8 +92,7 @@ export const getSuggestionSections = (): Section[] => {
                 overlayPlayButton: true,
                 shape: CardShape.BackdropOverflow,
                 preferThumb: true,
-                inheritThumb:
-                    !userSettings.useEpisodeImagesInNextUpAndResume(undefined),
+                inheritThumb: !userSettings.useEpisodeImagesInNextUpAndResume(undefined),
                 showParentTitle: true
             }
         },

@@ -16,7 +16,7 @@ interface IEmby {
 }
 
 function isNowPlaying() {
-    return (window.location.hash === '#/queue');
+    return window.location.hash === '#/queue';
 }
 
 function findActivePlaylistItem() {
@@ -47,13 +47,13 @@ export function scrollToActivePlaylistItem() {
     clearTimeout(scrollTimeout);
     clearTimeout(scrollTimeout2);
     if (!isNowPlaying() || window.innerWidth < 400) return;
-    scrollTimeout = setTimeout(()=>{
+    scrollTimeout = setTimeout(() => {
         findActivePlaylistItem();
 
         if (activePlaylistItem) {
             activePlaylistItem.scrollIntoView(smoothScrollSettings);
 
-            scrollTimeout2 = setTimeout(()=>{
+            scrollTimeout2 = setTimeout(() => {
                 document.body.scrollIntoView(smoothScrollSettings);
             }, 1200);
         }
@@ -84,9 +84,12 @@ export function triggerSongInfoDisplay() {
 
     startTransition();
 
-    setTimeout(()=>{
-        endTransition();
-    }, ((visualizerSettings.sitback?.trackInfoDuration ?? defaultSitbackSettings.trackInfoDuration) * 1000));
+    setTimeout(
+        () => {
+            endTransition();
+        },
+        (visualizerSettings.sitback?.trackInfoDuration ?? defaultSitbackSettings.trackInfoDuration) * 1000
+    );
 }
 
 // Enable mouse idle tracking on mobile to ease Butterchurn blur

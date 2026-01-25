@@ -9,16 +9,8 @@ const CustomCss: FC = () => {
 
     return (
         <>
-            {!disableCustomCss && brandingOptions?.CustomCss && (
-                <style>
-                    {brandingOptions.CustomCss}
-                </style>
-            )}
-            {userCustomCss && (
-                <style>
-                    {userCustomCss}
-                </style>
-            )}
+            {!disableCustomCss && brandingOptions?.CustomCss && <style>{brandingOptions.CustomCss}</style>}
+            {userCustomCss && <style>{userCustomCss}</style>}
         </>
     );
 };

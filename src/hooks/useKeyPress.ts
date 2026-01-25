@@ -11,16 +11,22 @@ type KeyPressMap = Record<string, boolean>;
 export function useKeyPress(targetKey?: string): boolean {
     const [keyPressed, setKeyPressed] = useState(false);
 
-    const downHandler = useCallback((event: KeyboardEvent) => {
-        if (targetKey && event.key !== targetKey) return;
-        if (event.repeat) return;
-        setKeyPressed(true);
-    }, [targetKey]);
+    const downHandler = useCallback(
+        (event: KeyboardEvent) => {
+            if (targetKey && event.key !== targetKey) return;
+            if (event.repeat) return;
+            setKeyPressed(true);
+        },
+        [targetKey]
+    );
 
-    const upHandler = useCallback((event: KeyboardEvent) => {
-        if (targetKey && event.key !== targetKey) return;
-        setKeyPressed(false);
-    }, [targetKey]);
+    const upHandler = useCallback(
+        (event: KeyboardEvent) => {
+            if (targetKey && event.key !== targetKey) return;
+            setKeyPressed(false);
+        },
+        [targetKey]
+    );
 
     useEffect(() => {
         window.addEventListener('keydown', downHandler);

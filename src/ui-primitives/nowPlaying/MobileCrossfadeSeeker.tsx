@@ -118,7 +118,12 @@ export function MobileCrossfadeSeeker({
             if (Math.abs(deltaX) > threshold) {
                 if (deltaX < 0 && nextTrack !== null && nextTrack !== undefined && onNext !== undefined) {
                     setSwipeDirection('left');
-                } else if (deltaX > 0 && previousTrack !== null && previousTrack !== undefined && onPrevious !== undefined) {
+                } else if (
+                    deltaX > 0 &&
+                    previousTrack !== null &&
+                    previousTrack !== undefined &&
+                    onPrevious !== undefined
+                ) {
                     setSwipeDirection('right');
                 }
             } else {
@@ -224,7 +229,8 @@ export function MobileCrossfadeSeeker({
     };
 
     const isSwipeActive = swipeDirection !== null;
-    const showLeftHint = showSwipeHints && previousTrack !== null && previousTrack !== undefined && swipeDirection === 'right';
+    const showLeftHint =
+        showSwipeHints && previousTrack !== null && previousTrack !== undefined && swipeDirection === 'right';
     const showRightHint = showSwipeHints && nextTrack !== null && nextTrack !== undefined && swipeDirection === 'left';
 
     return (
@@ -241,9 +247,9 @@ export function MobileCrossfadeSeeker({
                 <div
                     ref={progressBarRef}
                     className={progressBar}
-                    role='slider'
+                    role="slider"
                     tabIndex={0}
-                    aria-label='Seek'
+                    aria-label="Seek"
                     aria-valuemin={0}
                     aria-valuemax={duration}
                     aria-valuenow={currentTime}

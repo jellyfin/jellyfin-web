@@ -1,9 +1,4 @@
-export {
-    resolveUrl,
-    tryRemoveElement,
-    zoomIn,
-    normalizeTrackEventText
-} from './utils/domHelpers';
+export { resolveUrl, tryRemoveElement, zoomIn, normalizeTrackEventText } from './utils/domHelpers';
 
 export {
     isHls,
@@ -15,12 +10,6 @@ export {
     getTextTrackUrl
 } from './features/trackSupport';
 
-export {
-    isAudioStreamSupported,
-    getSupportedAudioStreams,
-    setAudioStreamIndex
-} from './features/trackManagement';
+export { isAudioStreamSupported, getSupportedAudioStreams, setAudioStreamIndex } from './features/trackManagement';
 
-export {
-    getDefaultProfile
-} from './stream/profileHelper';
+export { getDefaultProfile } from './stream/profileHelper';

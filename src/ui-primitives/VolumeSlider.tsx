@@ -124,7 +124,7 @@ export function VolumeSlider({
         <div className={volumeSliderContainer} style={styleProp}>
             <button
                 ref={muteButtonRef}
-                type='button'
+                type="button"
                 className={`${volumeSliderMuteButton} ${isSpinning ? volumeSliderMuteButtonSpinning : ''}`}
                 onClick={triggerMuteToggle}
                 aria-label={muted ? 'Unmute' : 'Mute'}

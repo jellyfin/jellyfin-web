@@ -3,7 +3,8 @@ import { logger } from './logger';
 class ErrorMonitor {
     private static instance: ErrorMonitor | null = null;
     private errorCount = 0;
-    private readonly errors: Array<{ id: number; message: string; stack?: string; timestamp: string; type: string }> = [];
+    private readonly errors: Array<{ id: number; message: string; stack?: string; timestamp: string; type: string }> =
+        [];
 
     private constructor() {
         this.setupGlobalListeners();

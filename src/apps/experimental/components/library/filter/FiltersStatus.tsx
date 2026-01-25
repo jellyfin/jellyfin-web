@@ -21,22 +21,18 @@ interface FiltersStatusProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersStatus: FC<FiltersStatusProps> = ({
-    viewType,
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersStatus: FC<FiltersStatusProps> = ({ viewType, libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersStatusChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value as ItemFilter;
             const existingStatus = libraryViewSettings?.Filters?.Status ?? [];
 
-            const updatedStatus = existingStatus.includes(value) ?
-                existingStatus.filter((filter) => filter !== value) :
-                [...existingStatus, value];
+            const updatedStatus = existingStatus.includes(value)
+                ? existingStatus.filter(filter => filter !== value)
+                : [...existingStatus, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -52,13 +48,13 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
         const visibleFiltersStatus: ItemFilter[] = [ItemFilter.IsFavorite];
 
         if (
-            viewType !== LibraryTab.Albums
-            && viewType !== LibraryTab.Artists
-            && viewType !== LibraryTab.AlbumArtists
-            && viewType !== LibraryTab.Songs
-            && viewType !== LibraryTab.Channels
-            && viewType !== LibraryTab.PhotoAlbums
-            && viewType !== LibraryTab.Photos
+            viewType !== LibraryTab.Albums &&
+            viewType !== LibraryTab.Artists &&
+            viewType !== LibraryTab.AlbumArtists &&
+            viewType !== LibraryTab.Songs &&
+            viewType !== LibraryTab.Channels &&
+            viewType !== LibraryTab.PhotoAlbums &&
+            viewType !== LibraryTab.Photos
         ) {
             visibleFiltersStatus.push(ItemFilter.IsUnplayed);
             visibleFiltersStatus.push(ItemFilter.IsPlayed);
@@ -71,13 +67,11 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {statusFiltersOptions
-                .filter((filter) => getVisibleFiltersStatus().includes(filter.value))
-                .map((filter) => (
+                .filter(filter => getVisibleFiltersStatus().includes(filter.value))
+                .map(filter => (
                     <Checkbox
                         key={filter.value}
-                        checked={
-                            !!libraryViewSettings?.Filters?.Status?.includes(filter.value)
-                        }
+                        checked={!!libraryViewSettings?.Filters?.Status?.includes(filter.value)}
                         onChange={onFiltersStatusChange}
                         value={filter.value}
                     >

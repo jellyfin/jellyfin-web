@@ -1,5 +1,3 @@
-@use '../../styles/mixins' as *;
-
 .itemSelectionPanel {
     position: absolute;
     bottom: 0;
@@ -20,9 +18,9 @@
     align-items: center;
     z-index: 99999;
 
-    @include conditional-max(padding-left, 0.5em, env(safe-area-inset-left));
-    @include conditional-max(padding-right, 0.5em, env(safe-area-inset-right));
-    @include conditional-max(padding-top, 1em, env(safe-area-inset-top));
+    padding-left: max(0.5em, env(safe-area-inset-left));
+    padding-right: max(0.5em, env(safe-area-inset-right));
+    padding-top: max(1em, env(safe-area-inset-top));
 }
 
 .itemSelectionCount {

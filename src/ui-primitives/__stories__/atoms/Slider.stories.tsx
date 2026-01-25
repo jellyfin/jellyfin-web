@@ -13,7 +13,14 @@ interface SliderProps {
     disabled?: boolean;
 }
 
-function Slider({ value = [50], onValueChange, min = 0, max = 100, step = 1, disabled }: Readonly<SliderProps>): ReactElement {
+function Slider({
+    value = [50],
+    onValueChange,
+    min = 0,
+    max = 100,
+    step = 1,
+    disabled
+}: Readonly<SliderProps>): ReactElement {
     return (
         <SliderPrimitive.Root
             value={value}
@@ -51,10 +58,7 @@ function Slider({ value = [50], onValueChange, min = 0, max = 100, step = 1, dis
                 />
             </SliderPrimitive.Track>
             {value.map((_, i) => (
-                <SliderPrimitive.Thumb
-                    key={`thumb-${i}`}
-                    asChild
-                >
+                <SliderPrimitive.Thumb key={`thumb-${i}`} asChild>
                     <motion.div
                         whileHover={{ scale: 1.2 }}
                         whileTap={{ scale: 0.9 }}
@@ -110,7 +114,9 @@ function RangeStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md, alignItems: 'center' }}>
             <Slider value={value} onValueChange={handleValueChange} />
-            <span style={{ color: vars.colors.text }}>{value[0]} - {value[1]}</span>
+            <span style={{ color: vars.colors.text }}>
+                {value[0]} - {value[1]}
+            </span>
         </div>
     );
 }

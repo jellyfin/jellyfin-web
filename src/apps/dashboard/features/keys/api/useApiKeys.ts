@@ -16,7 +16,7 @@ export const useApiKeys = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ QUERY_KEY ],
+        queryKey: [QUERY_KEY],
         queryFn: ({ signal }) => fetchApiKeys(api!, { signal }),
         enabled: !!api
     });

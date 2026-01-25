@@ -34,7 +34,7 @@ export class PredictivePreloader {
     }
 
     private initializePatterns() {
-    // User navigation patterns based on current location
+        // User navigation patterns based on current location
         this.userBehaviorPatterns.set('/', ['/music', '/movies', '/tv']);
         this.userBehaviorPatterns.set('/music', ['/songs', '/musicalbums', '/musicartists']);
         this.userBehaviorPatterns.set('/movies', ['/moviecollections', '/moviegenres']);
@@ -53,7 +53,7 @@ export class PredictivePreloader {
     }
 
     private initializeContentRelationships() {
-    // Content relationships for predictive loading
+        // Content relationships for predictive loading
         this.contentRelationships.set('music', ['audioEngine', 'visualizer', 'musicControls']);
         this.contentRelationships.set('video', ['videoPlayer', 'videoOSD', 'subtitleComponents']);
         this.contentRelationships.set('movies', ['videoUtils', 'movieCollections']);
@@ -73,7 +73,7 @@ export class PredictivePreloader {
     }
 
     private queuePreload(resource: string, preloadFn: () => Promise<void>): Promise<void> {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             this.preloadRequestQueue.push({
                 resource,
                 promise: preloadFn().finally(() => {
@@ -88,28 +88,32 @@ export class PredictivePreloader {
 
     private processQueue(): void {
         while (
-            this.preloadRequestQueue.length > 0
-            && this.activePreloads.size < this.MAX_CONCURRENT
-            && this.canPreload()
+            this.preloadRequestQueue.length > 0 &&
+            this.activePreloads.size < this.MAX_CONCURRENT &&
+            this.canPreload()
         ) {
             const next = this.preloadRequestQueue.shift();
             if (next) {
                 this.activePreloads.add(next.resource);
-                next.promise.then(() => {
-                    this.preloadQueue.add(next.resource);
-                }).catch(() => {});
+                next.promise
+                    .then(() => {
+                        this.preloadQueue.add(next.resource);
+                    })
+                    .catch(() => {});
             }
         }
     }
 
     /**
-   * Main predictive preloading method
-   */
+     * Main predictive preloading method
+     */
     async preload(currentPath: string, userContext?: any) {
         const startTime = performance.now();
 
         if (!this.canPreload()) {
-            logger.debug(`Predictive preloading skipped for ${currentPath} - rate limited`, { component: 'PredictivePreloader' });
+            logger.debug(`Predictive preloading skipped for ${currentPath} - rate limited`, {
+                component: 'PredictivePreloader'
+            });
             return;
         }
 
@@ -139,12 +143,15 @@ export class PredictivePreloader {
             preloadPerformanceMonitor.recordPreload(path, preloadTime);
         });
 
-        logger.debug(`Preloaded ${predictedPaths.length} routes and ${predictedComponents.length} components in ${Math.round(preloadTime)}ms`, { component: 'PredictivePreloader' });
+        logger.debug(
+            `Preloaded ${predictedPaths.length} routes and ${predictedComponents.length} components in ${Math.round(preloadTime)}ms`,
+            { component: 'PredictivePreloader' }
+        );
     }
 
     /**
-   * Predict likely next navigation paths
-   */
+     * Predict likely next navigation paths
+     */
     private predictNextPaths(currentPath: string, userContext?: any): string[] {
         const predictions: string[] = [];
 
@@ -169,8 +176,8 @@ export class PredictivePreloader {
     }
 
     /**
-   * Predict components likely needed based on current path
-   */
+     * Predict components likely needed based on current path
+     */
     private predictComponents(currentPath: string): string[] {
         const components: string[] = [];
 
@@ -192,10 +199,10 @@ export class PredictivePreloader {
     }
 
     /**
-   * Preload predicted routes
-   */
+     * Preload predicted routes
+     */
     async preloadRoutes(paths: string[]): Promise<void> {
-        const preloadPromises = paths.map(async (path) => {
+        const preloadPromises = paths.map(async path => {
             try {
                 const importFunction = this.getRouteImportFunction(path);
                 if (importFunction) {
@@ -217,10 +224,10 @@ export class PredictivePreloader {
     }
 
     /**
-   * Preload predicted components
-   */
+     * Preload predicted components
+     */
     async preloadComponents(components: string[]): Promise<void> {
-        const preloadPromises = components.map(async (component) => {
+        const preloadPromises = components.map(async component => {
             try {
                 const importFunction = this.getComponentImportFunction(component);
                 if (importFunction) {
@@ -234,7 +241,11 @@ export class PredictivePreloader {
                     this.preloadQueue.add(resourceId);
                 }
             } catch (error) {
-                logger.warn(`Failed to preload component ${component}`, { component: 'PredictivePreloader' }, error as Error);
+                logger.warn(
+                    `Failed to preload component ${component}`,
+                    { component: 'PredictivePreloader' },
+                    error as Error
+                );
             }
         });
 
@@ -242,10 +253,10 @@ export class PredictivePreloader {
     }
 
     /**
-   * Preload related content based on current context
-   */
+     * Preload related content based on current context
+     */
     private async preloadRelatedContent(currentPath: string): Promise<void> {
-    // Preload commonly accessed items
+        // Preload commonly accessed items
         if (currentPath === '/') {
             // On home page, preload most popular sections
             await this.preloadPopularContent();
@@ -256,8 +267,8 @@ export class PredictivePreloader {
     }
 
     /**
-   * Get the lazy import function for a route
-   */
+     * Get the lazy import function for a route
+     */
     private getRouteImportFunction(path: string): (() => Promise<any>) | null {
         const routeMap: Record<string, () => Promise<any>> = {
             '/music': () => import('../apps/stable/routes/lazyRoutes/MusicRecommendedPage'),
@@ -279,17 +290,17 @@ export class PredictivePreloader {
     }
 
     /**
-   * Get the lazy import function for a component
-   */
+     * Get the lazy import function for a component
+     */
     private getComponentImportFunction(component: string): (() => Promise<any>) | null {
         const componentMap: Record<string, () => Promise<any>> = {
-            'audioEngine': () => import('../components/audioEngine'),
-            'visualizer': () => import('../components/visualizer/Visualizers'),
-            'musicControls': () => import('../components/audioEngine/crossfader.logic'),
-            'videoPlayer': () => import('../components/video'),
-            'videoOSD': () => import('../components/video/videoOSD'),
-            'videoUtils': () => import('../components/video/videoUtils'),
-            'subtitleComponents': () => import('../components/video/subtitleComponents')
+            audioEngine: () => import('../components/audioEngine'),
+            visualizer: () => import('../components/visualizer/Visualizers'),
+            musicControls: () => import('../components/audioEngine/crossfader.logic'),
+            videoPlayer: () => import('../components/video'),
+            videoOSD: () => import('../components/video/videoOSD'),
+            videoUtils: () => import('../components/video/videoUtils'),
+            subtitleComponents: () => import('../components/video/subtitleComponents')
             // Dashboard components would be added when available
             // 'userManagement': () => import('../apps/dashboard/features/users'),
             // 'serverControls': () => import('../apps/dashboard/features/server')
@@ -299,8 +310,8 @@ export class PredictivePreloader {
     }
 
     /**
-   * Find pages similar to current path
-   */
+     * Find pages similar to current path
+     */
     private findSimilarPages(currentPath: string): string[] {
         const similar: string[] = [];
 
@@ -315,8 +326,8 @@ export class PredictivePreloader {
     }
 
     /**
-   * Calculate similarity between two paths
-   */
+     * Calculate similarity between two paths
+     */
     private calculatePathSimilarity(path1: string, path2: string): number {
         const segments1 = path1.split('/').filter(Boolean);
         const segments2 = path2.split('/').filter(Boolean);
@@ -329,8 +340,8 @@ export class PredictivePreloader {
     }
 
     /**
-   * Predict based on user context
-   */
+     * Predict based on user context
+     */
     private predictFromContext(userContext: any): string[] {
         const predictions: string[] = [];
 
@@ -350,8 +361,8 @@ export class PredictivePreloader {
     }
 
     /**
-   * Get content key for relationships
-   */
+     * Get content key for relationships
+     */
     private getContentKey(path: string): string {
         if (path.includes('music')) return 'music';
         if (path.includes('video') || path.includes('movie') || path.includes('tv')) return 'video';
@@ -360,19 +371,19 @@ export class PredictivePreloader {
     }
 
     /**
-   * Preload popular content
-   */
+     * Preload popular content
+     */
     private async preloadPopularContent(): Promise<void> {
-    // Preload most accessed routes
+        // Preload most accessed routes
         const popularRoutes = ['/music', '/movies', '/tv'];
         await this.preloadRoutes(popularRoutes);
     }
 
     /**
-   * Preload related items for details page
-   */
+     * Preload related items for details page
+     */
     private async preloadRelatedItems(detailsPath: string): Promise<void> {
-    // Extract item ID from path and preload related content
+        // Extract item ID from path and preload related content
         const itemId = this.extractItemId(detailsPath);
         if (itemId) {
             logger.debug(`Would preload related items for: ${itemId}`, { component: 'PredictivePreloader' });
@@ -380,23 +391,23 @@ export class PredictivePreloader {
     }
 
     /**
-   * Extract item ID from details path
-   */
+     * Extract item ID from details path
+     */
     private extractItemId(path: string): string | null {
         const match = path.match(/details\/([^/?]+)/);
         return match ? match[1] : null;
     }
 
     /**
-   * Check if a resource is already preloaded
-   */
+     * Check if a resource is already preloaded
+     */
     isPreloaded(resource: string): boolean {
         return this.preloadQueue.has(resource);
     }
 
     /**
-   * Get preload statistics
-   */
+     * Get preload statistics
+     */
     getStats() {
         return {
             queueSize: this.preloadQueue.size,

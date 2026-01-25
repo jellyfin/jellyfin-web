@@ -20,7 +20,7 @@ interface ScrollToWindowProps {
     scroller: ScrollerFactory;
     items: HTMLElement[];
     scrollState: ScrollState;
-    direction: ScrollDirection
+    direction: ScrollDirection;
 }
 
 export function scrollerItemSlideIntoView({ direction, scroller, scrollState }: ScrollerItemSlideIntoViewProps) {
@@ -39,7 +39,11 @@ export function scrollerItemSlideIntoView({ direction, scroller, scrollState }: 
     });
 }
 
-function getFirstAndLastVisible(scrollFrame: HTMLElement, items: HTMLElement[], { scrollPos: scrollPosition }: ScrollState) {
+function getFirstAndLastVisible(
+    scrollFrame: HTMLElement,
+    items: HTMLElement[],
+    { scrollPos: scrollPosition }: ScrollState
+) {
     if (!items || items.length === 0) {
         return [0, 0];
     }
@@ -60,12 +64,7 @@ function getFirstAndLastVisible(scrollFrame: HTMLElement, items: HTMLElement[], 
     return [firstVisibleIndex, lastVisibleIndex];
 }
 
-function scrollToWindow({
-    scroller,
-    items,
-    scrollState,
-    direction = ScrollDirection.RIGHT
-}: ScrollToWindowProps) {
+function scrollToWindow({ scroller, items, scrollState, direction = ScrollDirection.RIGHT }: ScrollToWindowProps) {
     // When we're rendering RTL, scrolling toward the end of the container is toward the left so all of our scroll
     // positions need to be negative.
     const isRTL = globalize.getIsRTL();
@@ -75,7 +74,7 @@ function scrollToWindow({
     // factory functions on it, but is not a true scroller factory. For legacy, we need to pass `scroller` directly
     // instead of getting the frame from the factory instance.
     const frame = scroller.getScrollFrame?.() ?? scroller;
-    
+
     if (!frame) return;
 
     const [firstVisibleIndex, lastVisibleIndex] = getFirstAndLastVisible(frame, items, scrollState);
@@ -95,7 +94,8 @@ function scrollToWindow({
         // Find the total number of items that can fit in a view window and subtract one to account for item at
         // `firstVisibleIndex`. The total width of these items is the amount that we need to adjust the scroll position by
         // to anchor item at `firstVisibleIndex` to the end of the view window.
-        const offsetAdjustment = (Math.floor(frame.offsetWidth / previousItem.offsetWidth) - 1) * previousItem.offsetWidth;
+        const offsetAdjustment =
+            (Math.floor(frame.offsetWidth / previousItem.offsetWidth) - 1) * previousItem.offsetWidth;
 
         // This will be the position to anchor the item at `firstVisibleIndex` to the end of the view window.
         scrollToPosition = (previousItemScrollOffset - offsetAdjustment) * localeModifier;

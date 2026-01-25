@@ -32,8 +32,11 @@ export const QueueNowPlaying: React.FC<QueueNowPlayingProps> = ({
     const imageUrl = currentItem?.imageUrl;
 
     return (
-        <div className='nowPlayingInfoContainer' style={{ display: 'flex', gap: vars.spacing.lg, marginBottom: vars.spacing.lg }}>
-            <div className='nowPlayingPageImageContainer'>
+        <div
+            className="nowPlayingInfoContainer"
+            style={{ display: 'flex', gap: vars.spacing.lg, marginBottom: vars.spacing.lg }}
+        >
+            <div className="nowPlayingPageImageContainer">
                 <Avatar
                     src={imageUrl || undefined}
                     style={{
@@ -46,23 +49,24 @@ export const QueueNowPlaying: React.FC<QueueNowPlayingProps> = ({
                     {!imageUrl && <DiscIcon style={{ fontSize: 64, color: vars.colors.textSecondary }} />}
                 </Avatar>
             </div>
-            <div className='nowPlayingInfoControls' style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div className='infoContainer flex' style={{ marginBottom: vars.spacing.md }}>
-                    <div className='nowPlayingInfoContainerMedia'>
+            <div
+                className="nowPlayingInfoControls"
+                style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+            >
+                <div className="infoContainer flex" style={{ marginBottom: vars.spacing.md }}>
+                    <div className="nowPlayingInfoContainerMedia">
                         <Heading.H2 style={{ fontWeight: 'bold', marginBottom: vars.spacing.xs }}>
                             {currentItem?.name || 'No track playing'}
                         </Heading.H2>
-                        <Text style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                            {currentItem?.artist || ''}
-                        </Text>
+                        <Text style={{ fontWeight: 'bold', marginBottom: '4px' }}>{currentItem?.artist || ''}</Text>
                         <Text size="md" color="secondary">
                             {currentItem?.album || ''}
                         </Text>
                     </div>
                     {onFavoriteClick && (
-                        <div className='nowPlayingPageUserDataButtonsTitle' style={{ marginLeft: 'auto' }}>
+                        <div className="nowPlayingPageUserDataButtonsTitle" style={{ marginLeft: 'auto' }}>
                             <IconButton
-                                variant='plain'
+                                variant="plain"
                                 onClick={onFavoriteClick}
                                 style={{ color: isFavorite ? vars.colors.error : vars.colors.textSecondary }}
                             >

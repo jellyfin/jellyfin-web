@@ -7,9 +7,45 @@ import { QueueControls } from '../QueueControls';
 
 describe('QueueTable', () => {
     const mockItems = [
-        { id: '1', item: { id: 'item-1', name: 'Song 1', artist: 'Artist A', runtimeTicks: 180000000, mediaType: 'Audio' as const, serverId: 'server1' }, index: 0, addedAt: new Date() },
-        { id: '2', item: { id: 'item-2', name: 'Song 2', artist: 'Artist B', runtimeTicks: 240000000, mediaType: 'Audio' as const, serverId: 'server1' }, index: 1, addedAt: new Date() },
-        { id: '3', item: { id: 'item-3', name: 'Song 3', artist: 'Artist A', runtimeTicks: 200000000, mediaType: 'Audio' as const, serverId: 'server1' }, index: 2, addedAt: new Date() }
+        {
+            id: '1',
+            item: {
+                id: 'item-1',
+                name: 'Song 1',
+                artist: 'Artist A',
+                runtimeTicks: 180000000,
+                mediaType: 'Audio' as const,
+                serverId: 'server1'
+            },
+            index: 0,
+            addedAt: new Date()
+        },
+        {
+            id: '2',
+            item: {
+                id: 'item-2',
+                name: 'Song 2',
+                artist: 'Artist B',
+                runtimeTicks: 240000000,
+                mediaType: 'Audio' as const,
+                serverId: 'server1'
+            },
+            index: 1,
+            addedAt: new Date()
+        },
+        {
+            id: '3',
+            item: {
+                id: 'item-3',
+                name: 'Song 3',
+                artist: 'Artist A',
+                runtimeTicks: 200000000,
+                mediaType: 'Audio' as const,
+                serverId: 'server1'
+            },
+            index: 2,
+            addedAt: new Date()
+        }
     ];
 
     beforeEach(() => {
@@ -140,7 +176,7 @@ describe('QueueControls', () => {
         onShuffleToggle: vi.fn(),
         onRepeatToggle: vi.fn(),
         onVolumeUp: vi.fn(),
-        onVolumeDown: vi.fn(),
+        onVolumeDown: vi.fn()
     };
 
     beforeEach(() => {
@@ -198,7 +234,7 @@ describe('QueueControls', () => {
     });
 
     it('shows repeat one when mode is RepeatOne', () => {
-        render(<QueueControls {...defaultProps} repeatMode='RepeatOne' />);
+        render(<QueueControls {...defaultProps} repeatMode="RepeatOne" />);
         const repeatButton = screen.getByRole('button', { name: /repeat/i });
         expect(repeatButton).toBeInTheDocument();
     });

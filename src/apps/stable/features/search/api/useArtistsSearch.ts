@@ -25,25 +25,22 @@ const fetchArtists = async (
     return response.data;
 };
 
-export const useArtistsSearch = (
-    parentId?: string,
-    collectionType?: CollectionType,
-    searchTerm?: string
-) => {
+export const useArtistsSearch = (parentId?: string, collectionType?: CollectionType, searchTerm?: string) => {
     const { api, user } = useApi();
     const userId = user?.Id;
 
     return useQuery({
         queryKey: ['Search', 'Artists', collectionType, parentId, searchTerm],
-        queryFn: ({ signal }) => fetchArtists(
-            api!,
-            userId!,
-            {
-                parentId,
-                searchTerm
-            },
-            { signal }
-        ),
+        queryFn: ({ signal }) =>
+            fetchArtists(
+                api!,
+                userId!,
+                {
+                    parentId,
+                    searchTerm
+                },
+                { signal }
+            ),
         enabled: !!api && !!userId && (!collectionType || isMusic(collectionType))
     });
 };

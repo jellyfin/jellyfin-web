@@ -65,21 +65,27 @@ class TouchHelper {
                     deltaY = clientY - touchStartY;
                 }
 
-                const currentDeltaX = lastDeltaX == null ? deltaX : (deltaX - lastDeltaX);
-                const currentDeltaY = lastDeltaY == null ? deltaY : (deltaY - lastDeltaY);
+                const currentDeltaX = lastDeltaX == null ? deltaX : deltaX - lastDeltaX;
+                const currentDeltaY = lastDeltaY == null ? deltaY : deltaY - lastDeltaY;
                 lastDeltaX = deltaX;
                 lastDeltaY = deltaY;
 
                 if (deltaX > swipeXThreshold && Math.abs(deltaY) < swipeXMaxY) {
                     Events.trigger(this, 'swiperight', [touchTarget]);
-                } else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
+                } else if (deltaX < 0 - swipeXThreshold && Math.abs(deltaY) < swipeXMaxY) {
                     Events.trigger(this, 'swipeleft', [touchTarget]);
-                } else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+                } else if ((deltaY < 0 - swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
                     thresholdYMet = true;
-                    Events.trigger(this, 'swipeup', [touchTarget, { deltaY, deltaX, clientX, clientY, currentDeltaX, currentDeltaY }]);
+                    Events.trigger(this, 'swipeup', [
+                        touchTarget,
+                        { deltaY, deltaX, clientX, clientY, currentDeltaX, currentDeltaY }
+                    ]);
                 } else if ((deltaY > swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
                     thresholdYMet = true;
-                    Events.trigger(this, 'swipedown', [touchTarget, { deltaY, deltaX, clientX, clientY, currentDeltaX, currentDeltaY }]);
+                    Events.trigger(this, 'swipedown', [
+                        touchTarget,
+                        { deltaY, deltaX, clientX, clientY, currentDeltaX, currentDeltaY }
+                    ]);
                 }
 
                 if (isTouchMove && options.preventDefaultOnMove) e.preventDefault();

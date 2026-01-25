@@ -1,1 +1,20 @@
-{"rustc":4996801173321332248,"features":"[]","declared_features":"[\"alloc\", \"atomic-polyfill\", \"critical-section\", \"default\", \"parking_lot\", \"portable-atomic\", \"race\", \"std\", \"unstable\"]","target":17524666916136250164,"profile":8276155916380437441,"path":1849633251956462717,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/once_cell-44b21a54ad41d027/dep-lib-once_cell","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[]",
+  "declared_features": "[\"alloc\", \"atomic-polyfill\", \"critical-section\", \"default\", \"parking_lot\", \"portable-atomic\", \"race\", \"std\", \"unstable\"]",
+  "target": 17524666916136250164,
+  "profile": 8276155916380437441,
+  "path": 1849633251956462717,
+  "deps": [],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/once_cell-44b21a54ad41d027/dep-lib-once_cell",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

@@ -8,8 +8,8 @@ function enableScrollX(): boolean {
 }
 
 export async function getTimersHtml(timers: any[], options: any = {}): Promise<string> {
-    const items = timers.map((t) => ({ ...t, Type: 'Timer' }));
-    const groups: { name: string, items: any[] }[] = [];
+    const items = timers.map(t => ({ ...t, Type: 'Timer' }));
+    const groups: { name: string; items: any[] }[] = [];
     let currentGroupName = '';
     let currentGroup: any[] = [];
 
@@ -45,7 +45,9 @@ export async function getTimersHtml(timers: any[], options: any = {}): Promise<s
             html += `<div class="verticalSection"><h2 class="sectionTitle sectionTitle-cards padded-left">${group.name}</h2>`;
         }
 
-        const scrollXClass = enableScrollX() ? `scrollX hiddenScrollX${layoutManager.tv ? ' smoothScrollX' : ''}` : 'vertical-wrap';
+        const scrollXClass = enableScrollX()
+            ? `scrollX hiddenScrollX${layoutManager.tv ? ' smoothScrollX' : ''}`
+            : 'vertical-wrap';
         html += `<div is="emby-itemscontainer" class="itemsContainer ${scrollXClass} padded-left padded-right">`;
 
         html += (cardBuilder as any).getCardsHtml({

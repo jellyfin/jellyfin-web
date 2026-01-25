@@ -42,4 +42,3 @@ export const sliderThumb = style({
         boxShadow: `0 0 0 2px ${vars.colors.primary}`
     }
 });
-

@@ -49,7 +49,7 @@ export function Backdrop({
         >
             {showBlur && <div className={blur} />}
             {showOverlay && <div className={overlay} />}
-            <img src={src as string} alt='' style={{ display: 'none' }} onLoad={handleLoad} />
+            <img src={src as string} alt="" style={{ display: 'none' }} onLoad={handleLoad} />
         </div>
     );
 }

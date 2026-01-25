@@ -23,9 +23,9 @@ function DefaultStory(): ReactElement {
 
     return (
         <RadioGroup value={value} onValueChange={handleValueChange}>
-            <RadioGroupItem value='option1' id='r1' label='Option 1' />
-            <RadioGroupItem value='option2' id='r2' label='Option 2' />
-            <RadioGroupItem value='option3' id='r3' label='Option 3' />
+            <RadioGroupItem value="option1" id="r1" label="Option 1" />
+            <RadioGroupItem value="option2" id="r2" label="Option 2" />
+            <RadioGroupItem value="option3" id="r3" label="Option 3" />
         </RadioGroup>
     );
 }
@@ -50,9 +50,9 @@ function WithSelectionStory(): ReactElement {
     return (
         <div>
             <RadioGroup value={plan} onValueChange={handlePlanChange}>
-                <RadioGroupItem value='free' id='free' label='Free - $0/month' />
-                <RadioGroupItem value='pro' id='pro' label='Pro - $10/month' />
-                <RadioGroupItem value='enterprise' id='enterprise' label='Enterprise - $50/month' />
+                <RadioGroupItem value="free" id="free" label="Free - $0/month" />
+                <RadioGroupItem value="pro" id="pro" label="Pro - $10/month" />
+                <RadioGroupItem value="enterprise" id="enterprise" label="Enterprise - $50/month" />
             </RadioGroup>
             <p style={{ marginTop: '16px', color: '#b0b0b0' }}>
                 Selected: <strong style={{ color: '#fff' }}>{plan}</strong>
@@ -80,8 +80,8 @@ function DisabledStory(): ReactElement {
 
     return (
         <RadioGroup value={value} onValueChange={handleValueChange}>
-            <RadioGroupItem value='enabled' id='d1' label='Enabled option' />
-            <RadioGroupItem value='disabled' id='d2' label='Disabled option' disabled />
+            <RadioGroupItem value="enabled" id="d1" label="Enabled option" />
+            <RadioGroupItem value="disabled" id="d2" label="Disabled option" disabled />
         </RadioGroup>
     );
 }
@@ -113,20 +113,24 @@ function SurveyStory(): ReactElement {
         <div style={{ width: '300px' }}>
             <h4 style={{ margin: '0 0 16px', color: '#fff' }}>Feedback Survey</h4>
             <div style={{ marginBottom: '24px' }}>
-                <Text size='sm' style={{ marginBottom: '8px' }}>How satisfied are you?</Text>
+                <Text size="sm" style={{ marginBottom: '8px' }}>
+                    How satisfied are you?
+                </Text>
                 <RadioGroup value={satisfaction} onValueChange={handleSatisfactionChange}>
-                    <RadioGroupItem value='very-satisfied' id='vs' label='Very Satisfied' />
-                    <RadioGroupItem value='satisfied' id='s' label='Satisfied' />
-                    <RadioGroupItem value='neutral' id='n' label='Neutral' />
-                    <RadioGroupItem value='dissatisfied' id='d' label='Dissatisfied' />
+                    <RadioGroupItem value="very-satisfied" id="vs" label="Very Satisfied" />
+                    <RadioGroupItem value="satisfied" id="s" label="Satisfied" />
+                    <RadioGroupItem value="neutral" id="n" label="Neutral" />
+                    <RadioGroupItem value="dissatisfied" id="d" label="Dissatisfied" />
                 </RadioGroup>
             </div>
             <div>
-                <Text size='sm' style={{ marginBottom: '8px' }}>Would you recommend us?</Text>
+                <Text size="sm" style={{ marginBottom: '8px' }}>
+                    Would you recommend us?
+                </Text>
                 <RadioGroup value={recommend} onValueChange={handleRecommendChange}>
-                    <RadioGroupItem value='yes' id='y' label='Yes' />
-                    <RadioGroupItem value='maybe' id='m' label='Maybe' />
-                    <RadioGroupItem value='no' id='no' label='No' />
+                    <RadioGroupItem value="yes" id="y" label="Yes" />
+                    <RadioGroupItem value="maybe" id="m" label="Maybe" />
+                    <RadioGroupItem value="no" id="no" label="No" />
                 </RadioGroup>
             </div>
         </div>
@@ -145,12 +149,14 @@ function InlineStory(): ReactElement {
 
     return (
         <div>
-            <Text size='sm' style={{ marginBottom: '8px' }}>Preferred time</Text>
+            <Text size="sm" style={{ marginBottom: '8px' }}>
+                Preferred time
+            </Text>
             <div style={{ display: 'flex', gap: '8px' }}>
                 <RadioGroup value={time} onValueChange={handleTimeChange}>
-                    <RadioGroupItem value='morning' id='morn' label='Morning' />
-                    <RadioGroupItem value='afternoon' id='aft' label='Afternoon' />
-                    <RadioGroupItem value='evening' id='eve' label='Evening' />
+                    <RadioGroupItem value="morning" id="morn" label="Morning" />
+                    <RadioGroupItem value="afternoon" id="aft" label="Afternoon" />
+                    <RadioGroupItem value="evening" id="eve" label="Evening" />
                 </RadioGroup>
             </div>
         </div>

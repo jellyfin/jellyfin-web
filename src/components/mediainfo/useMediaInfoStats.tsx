@@ -10,13 +10,9 @@ import type { MiscInfo } from 'types/mediaInfoItem';
 import type { NullableString } from 'types/base/common/shared/types';
 import type { MediaInfoStatsOpts } from './type';
 
-const getResolution = (label: string, isInterlaced?: boolean) =>
-    isInterlaced ? `${label}i` : label;
+const getResolution = (label: string, isInterlaced?: boolean) => (isInterlaced ? `${label}i` : label);
 
-const getResolutionText = (
-    showResolutionInfo: boolean,
-    stream: MediaStream
-) => {
+const getResolutionText = (showResolutionInfo: boolean, stream: MediaStream) => {
     const { Width, Height, IsInterlaced } = stream;
 
     if (showResolutionInfo && Width && Height) {
@@ -39,10 +35,7 @@ const getResolutionText = (
     return null;
 };
 
-const getAudoChannelText = (
-    showAudoChannelInfo: boolean,
-    stream: MediaStream
-) => {
+const getAudoChannelText = (showAudoChannelInfo: boolean, stream: MediaStream) => {
     const { Channels } = stream;
 
     if (showAudoChannelInfo && Channels) {
@@ -67,11 +60,10 @@ function getAudioStreamForDisplay(item: ItemDto) {
     const mediaSource = (item.MediaSources || [])[0] || {};
 
     return (
-        (mediaSource.MediaStreams || []).filter((i) => {
+        (mediaSource.MediaStreams || []).filter(i => {
             return (
-                i.Type === MediaStreamType.Audio
-                && (i.Index === mediaSource.DefaultAudioStreamIndex
-                    || mediaSource.DefaultAudioStreamIndex == null)
+                i.Type === MediaStreamType.Audio &&
+                (i.Index === mediaSource.DefaultAudioStreamIndex || mediaSource.DefaultAudioStreamIndex == null)
             );
         })[0] || {}
     );
@@ -81,7 +73,7 @@ function getVideoStreamForDisplay(item: ItemDto) {
     const mediaSource = (item.MediaSources || [])[0] || {};
 
     return (
-        (mediaSource.MediaStreams || []).filter((i) => {
+        (mediaSource.MediaStreams || []).filter(i => {
             return i.Type === MediaStreamType.Video;
         })[0] || {}
     );
@@ -130,10 +122,7 @@ function addAudoChannel(
     audioStream: MediaStream,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
-    const audioChannelText = getAudoChannelText(
-        showAudoChannelInfo,
-        audioStream
-    );
+    const audioChannelText = getAudoChannelText(showAudoChannelInfo, audioStream);
 
     if (audioChannelText) {
         addMiscInfo({ type: 'mediainfo', text: audioChannelText });
@@ -148,10 +137,7 @@ function addAudioStreamCodec(
     const audioCodec = (audioStream.Codec || '').toLowerCase();
 
     if (showAudioStreamCodecInfo) {
-        if (
-            (audioCodec === 'dca' || audioCodec === 'dts')
-            && audioStream?.Profile
-        ) {
+        if ((audioCodec === 'dca' || audioCodec === 'dts') && audioStream?.Profile) {
             addMiscInfo({ type: 'mediainfo', text: audioStream.Profile });
         } else if (audioStream?.Codec) {
             addMiscInfo({ type: 'mediainfo', text: audioStream.Codec });
@@ -159,24 +145,14 @@ function addAudioStreamCodec(
     }
 }
 
-function addDateAdded(
-    showDateAddedInfo: boolean,
-    item: ItemDto,
-    addMiscInfo: (val: MiscInfo) => void
-): void {
-    if (
-        showDateAddedInfo
-        && item.DateCreated
-        && itemHelper.enableDateAddedDisplay(item)
-    ) {
+function addDateAdded(showDateAddedInfo: boolean, item: ItemDto, addMiscInfo: (val: MiscInfo) => void): void {
+    if (showDateAddedInfo && item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
         const dateCreated = datetime.parseISO8601Date(item.DateCreated);
         addMiscInfo({
             type: 'added',
             text: globalize.translate(
                 'AddedOnValue',
-                `${datetime.toLocaleDateString(
-                    dateCreated
-                )} ${datetime.getDisplayTime(dateCreated)}`
+                `${datetime.toLocaleDateString(dateCreated)} ${datetime.getDisplayTime(dateCreated)}`
             )
         });
     }
@@ -211,11 +187,7 @@ function useMediaInfoStats({
 
     addResolution(showResolutionInfo, videoStream, addMiscInfo);
 
-    addVideoStreamCodec(
-        showVideoStreamCodecInfo,
-        videoStream.Codec,
-        addMiscInfo
-    );
+    addVideoStreamCodec(showVideoStreamCodecInfo, videoStream.Codec, addMiscInfo);
 
     addAudoChannel(showAudoChannelInfo, audioStream, addMiscInfo);
 

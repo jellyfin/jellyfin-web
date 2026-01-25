@@ -10,4 +10,4 @@ export const ItemMediaKind = {
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ItemMediaKind = typeof ItemMediaKind[keyof typeof ItemMediaKind] | undefined;
+export type ItemMediaKind = (typeof ItemMediaKind)[keyof typeof ItemMediaKind] | undefined;

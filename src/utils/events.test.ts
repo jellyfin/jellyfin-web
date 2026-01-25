@@ -80,11 +80,7 @@ describe('Utils: events', () => {
 
             eventsUtils.trigger(obj, 'testEvent', ['testValue1', 'testValue2']);
 
-            expect(callback).toHaveBeenCalledWith(
-                { type: 'testEvent' },
-                'testValue1',
-                'testValue2'
-            );
+            expect(callback).toHaveBeenCalledWith({ type: 'testEvent' }, 'testValue1', 'testValue2');
         });
     });
 });

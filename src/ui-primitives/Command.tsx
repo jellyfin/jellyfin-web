@@ -144,8 +144,8 @@ export function CommandPalette({
                 </span>
                 <input
                     ref={inputRef}
-                    type='text'
-                    placeholder='Type a command or search...'
+                    type="text"
+                    placeholder="Type a command or search..."
                     className={commandInput}
                     value={searchValue}
                     onChange={handleInputChange}
@@ -181,8 +181,8 @@ export function CommandPalette({
                         <button
                             className={commandDialogOverlay}
                             onClick={onOverlayClick}
-                            type='button'
-                            aria-label='Close command menu'
+                            type="button"
+                            aria-label="Close command menu"
                             onKeyDown={onOverlayKeyDown}
                         />
                         <Command.Dialog
@@ -262,16 +262,16 @@ export function CommandLoading(): ReactElement {
 function SearchIcon(): ReactElement {
     return (
         <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            aria-hidden='true'
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
         >
-            <circle cx='11' cy='11' r='8' />
-            <path d='m21 21-4.3-4.3' />
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
         </svg>
     );
 }
@@ -279,18 +279,17 @@ function SearchIcon(): ReactElement {
 function LoadingSpinner(): ReactElement {
     return (
         <svg
-            width='20'
-            height='20'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
             style={{ animation: 'spin 1s linear infinite' }}
-            aria-hidden='true'
+            aria-hidden="true"
         >
-            <circle cx='12' cy='12' r='10' strokeOpacity='0.25' />
-            <path d='M12 2a10 10 0 0 1 10 10' strokeLinecap='round' />
+            <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+            <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
         </svg>
     );
 }
-

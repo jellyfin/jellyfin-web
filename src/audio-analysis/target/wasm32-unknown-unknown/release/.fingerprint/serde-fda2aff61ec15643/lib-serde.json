@@ -1,1 +1,24 @@
-{"rustc":4996801173321332248,"features":"[\"default\", \"derive\", \"serde_derive\", \"std\"]","declared_features":"[\"alloc\", \"default\", \"derive\", \"rc\", \"serde_derive\", \"std\", \"unstable\"]","target":11327258112168116673,"profile":5061814224554494719,"path":7953609938505354637,"deps":[[3051629642231505422,"serde_derive",false,1141339639236184306],[11899261697793765154,"serde_core",false,6226045312495861638],[13548984313718623784,"build_script_build",false,13914877019746185151]],"local":[{"CheckDepInfo":{"dep_info":"wasm32-unknown-unknown/release/.fingerprint/serde-fda2aff61ec15643/dep-lib-serde","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":14682669768258224367}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"default\", \"derive\", \"serde_derive\", \"std\"]",
+  "declared_features": "[\"alloc\", \"default\", \"derive\", \"rc\", \"serde_derive\", \"std\", \"unstable\"]",
+  "target": 11327258112168116673,
+  "profile": 5061814224554494719,
+  "path": 7953609938505354637,
+  "deps": [
+    [3051629642231505422, "serde_derive", false, 1141339639236184306],
+    [11899261697793765154, "serde_core", false, 6226045312495861638],
+    [13548984313718623784, "build_script_build", false, 13914877019746185151]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "wasm32-unknown-unknown/release/.fingerprint/serde-fda2aff61ec15643/dep-lib-serde",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 14682669768258224367
+}

@@ -1,1 +1,15 @@
-{"rustc":4996801173321332248,"features":"[]","declared_features":"[\"async\", \"bytes\", \"futures\", \"tokio-io\"]","target":16922300100850976202,"profile":8276155916380437441,"path":858808218785320686,"deps":[[3712811570531045576,"byteorder",false,3588243488621749634]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/ogg-54a9152575c8cdd5/dep-lib-ogg","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[]",
+  "declared_features": "[\"async\", \"bytes\", \"futures\", \"tokio-io\"]",
+  "target": 16922300100850976202,
+  "profile": 8276155916380437441,
+  "path": 858808218785320686,
+  "deps": [[3712811570531045576, "byteorder", false, 3588243488621749634]],
+  "local": [
+    { "CheckDepInfo": { "dep_info": "debug/.fingerprint/ogg-54a9152575c8cdd5/dep-lib-ogg", "checksum": false } }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

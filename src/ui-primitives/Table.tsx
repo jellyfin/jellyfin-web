@@ -17,22 +17,52 @@ export function Table({ children, className, style }: TableProps): ReactElement 
     );
 }
 
-export function TableHeader({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function TableHeader({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <thead className={className}>{children}</thead>;
 }
 
-export function TableBody({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function TableBody({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <tbody className={className}>{children}</tbody>;
 }
 
-export function TableRow({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function TableRow({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <tr className={`${tableRow} ${className ?? ''}`}>{children}</tr>;
 }
 
-export function TableHead({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function TableHead({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <th className={`${tableHeader} ${className ?? ''}`}>{children}</th>;
 }
 
-export function TableCell({ children, className }: { readonly children: ReactNode; readonly className?: string }): ReactElement {
+export function TableCell({
+    children,
+    className
+}: {
+    readonly children: ReactNode;
+    readonly className?: string;
+}): ReactElement {
     return <td className={`${tableCell} ${className ?? ''}`}>{children}</td>;
 }

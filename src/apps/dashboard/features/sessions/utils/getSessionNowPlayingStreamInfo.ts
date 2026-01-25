@@ -42,7 +42,10 @@ const getSessionNowPlayingStreamInfo = (session: SessionInfo): string => {
                 line.push(session.TranscodingInfo.VideoCodec.toUpperCase());
             }
 
-            if (session.TranscodingInfo.AudioCodec && session.TranscodingInfo.AudioCodec !== session.TranscodingInfo.Container) {
+            if (
+                session.TranscodingInfo.AudioCodec &&
+                session.TranscodingInfo.AudioCodec !== session.TranscodingInfo.Container
+            ) {
                 line.push(session.TranscodingInfo.AudioCodec.toUpperCase());
             }
         }

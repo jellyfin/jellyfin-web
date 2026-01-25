@@ -29,4 +29,3 @@ export const maxWidth = styleVariants({
         maxWidth: 'none'
     }
 });
-

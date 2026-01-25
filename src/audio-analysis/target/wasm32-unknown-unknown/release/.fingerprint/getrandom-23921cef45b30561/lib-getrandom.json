@@ -1,1 +1,24 @@
-{"rustc":4996801173321332248,"features":"[\"js\", \"js-sys\", \"wasm-bindgen\"]","declared_features":"[\"compiler_builtins\", \"core\", \"custom\", \"js\", \"js-sys\", \"linux_disable_fallback\", \"rdrand\", \"rustc-dep-of-std\", \"std\", \"test-in-browser\", \"wasm-bindgen\"]","target":16244099637825074703,"profile":5061814224554494719,"path":7430241902286218907,"deps":[[3964565789809445020,"js_sys",false,17360926020321652585],[7667230146095136825,"cfg_if",false,16049134318649488233],[10782246454719507279,"wasm_bindgen",false,7760067805079537504]],"local":[{"CheckDepInfo":{"dep_info":"wasm32-unknown-unknown/release/.fingerprint/getrandom-23921cef45b30561/dep-lib-getrandom","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":14682669768258224367}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"js\", \"js-sys\", \"wasm-bindgen\"]",
+  "declared_features": "[\"compiler_builtins\", \"core\", \"custom\", \"js\", \"js-sys\", \"linux_disable_fallback\", \"rdrand\", \"rustc-dep-of-std\", \"std\", \"test-in-browser\", \"wasm-bindgen\"]",
+  "target": 16244099637825074703,
+  "profile": 5061814224554494719,
+  "path": 7430241902286218907,
+  "deps": [
+    [3964565789809445020, "js_sys", false, 17360926020321652585],
+    [7667230146095136825, "cfg_if", false, 16049134318649488233],
+    [10782246454719507279, "wasm_bindgen", false, 7760067805079537504]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "wasm32-unknown-unknown/release/.fingerprint/getrandom-23921cef45b30561/dep-lib-getrandom",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 14682669768258224367
+}

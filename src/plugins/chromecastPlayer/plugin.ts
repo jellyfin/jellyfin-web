@@ -31,21 +31,21 @@ function sendConnectionResult(isOk: boolean) {
 }
 
 const DEVICE_STATE = {
-    'IDLE': 0,
-    'ACTIVE': 1,
-    'WARNING': 2,
-    'ERROR': 3
+    IDLE: 0,
+    ACTIVE: 1,
+    WARNING: 2,
+    ERROR: 3
 };
 
 const PLAYER_STATE = {
-    'IDLE': 'IDLE',
-    'LOADING': 'LOADING',
-    'LOADED': 'LOADED',
-    'PLAYING': 'PLAYING',
-    'PAUSED': 'PAUSED',
-    'STOPPED': 'STOPPED',
-    'SEEKING': 'SEEKING',
-    'ERROR': 'ERROR'
+    IDLE: 'IDLE',
+    LOADING: 'LOADING',
+    LOADED: 'LOADED',
+    PLAYING: 'PLAYING',
+    PAUSED: 'PAUSED',
+    STOPPED: 'STOPPED',
+    SEEKING: 'SEEKING',
+    ERROR: 'ERROR'
 };
 
 const messageNamespace = 'urn:x-cast:com.connectsdk';
@@ -57,7 +57,7 @@ class CastPlayer {
     castPlayerState: string = PLAYER_STATE.IDLE;
     hasReceivers: boolean = false;
     isInitialized: boolean = false;
-    
+
     private mediaStatusUpdateHandler: (e: any) => void;
     private errorHandler: () => void;
 
@@ -85,14 +85,18 @@ class CastPlayer {
         apiClient.getUser(userId).then((user: any) => {
             const applicationID = user.Configuration.CastReceiverId;
             if (!applicationID) {
-                logger.warn(`Not initializing chromecast: CastReceiverId is ${applicationID}`, { component: 'ChromecastPlayer' });
+                logger.warn(`Not initializing chromecast: CastReceiverId is ${applicationID}`, {
+                    component: 'ChromecastPlayer'
+                });
                 return;
             }
 
             const sessionRequest = new chrome.cast.SessionRequest(applicationID);
-            const apiConfig = new chrome.cast.ApiConfig(sessionRequest,
+            const apiConfig = new chrome.cast.ApiConfig(
+                sessionRequest,
                 this.sessionListener.bind(this),
-                this.receiverListener.bind(this));
+                this.receiverListener.bind(this)
+            );
 
             logger.debug('chromecast.initialize', { component: 'ChromecastPlayer', applicationId: applicationID });
             chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
@@ -119,7 +123,7 @@ class CastPlayer {
     }
 
     messageListener(_namespace: string, message: any) {
-        if (typeof (message) === 'string') {
+        if (typeof message === 'string') {
             message = JSON.parse(message);
         }
 
@@ -240,7 +244,7 @@ class CastPlayer {
         }
 
         const serverAddress = apiClient.serverAddress();
-        const hostname = (new URL(serverAddress)).hostname;
+        const hostname = new URL(serverAddress).hostname;
         const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
         const serverLocalAddress = isLocalhost ? apiClient.serverInfo().LocalAddress : serverAddress;
 
@@ -279,7 +283,11 @@ class CastPlayer {
     }
 
     onMediaDiscovered(how: string, mediaSession: any) {
-        logger.debug('ChromecastPlayer new media session', { component: 'ChromecastPlayer', mediaSessionId: mediaSession.mediaSessionId, how });
+        logger.debug('ChromecastPlayer new media session', {
+            component: 'ChromecastPlayer',
+            mediaSessionId: mediaSession.mediaSessionId,
+            how
+        });
         this.currentMediaSession = mediaSession;
 
         if (how === 'loadMedia') {
@@ -303,13 +311,13 @@ class CastPlayer {
         if (!this.session) return;
 
         if (!mute) {
-            this.session.setReceiverVolumeLevel((vol || 1),
+            this.session.setReceiverVolumeLevel(
+                vol || 1,
                 this.mediaCommandSuccessCallback.bind(this),
-                this.errorHandler);
+                this.errorHandler
+            );
         } else {
-            this.session.setReceiverMuted(true,
-                this.mediaCommandSuccessCallback.bind(this),
-                this.errorHandler);
+            this.session.setReceiverMuted(true, this.mediaCommandSuccessCallback.bind(this), this.errorHandler);
         }
     }
 
@@ -321,7 +329,7 @@ class CastPlayer {
 function normalizeImages(state: any) {
     if (state?.NowPlayingItem) {
         const item = state.NowPlayingItem;
-        if ((!item.ImageTags?.Primary) && item.PrimaryImageTag) {
+        if (!item.ImageTags?.Primary && item.PrimaryImageTag) {
             item.ImageTags = item.ImageTags || {};
             item.ImageTags.Primary = item.PrimaryImageTag;
         }
@@ -358,7 +366,7 @@ class ChromecastPlayer {
 
     private initializeChromecast() {
         this._castPlayer = new CastPlayer();
-        
+
         Events.on(this._castPlayer, 'connect', () => {
             if (_currentResolve) {
                 sendConnectionResult(true);
@@ -431,9 +439,16 @@ class ChromecastPlayer {
             deviceName: appName,
             deviceType: 'cast',
             supportedCommands: [
-                'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute',
-                'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex',
-                'DisplayContent', 'SetRepeatMode'
+                'VolumeUp',
+                'VolumeDown',
+                'Mute',
+                'Unmute',
+                'ToggleMute',
+                'SetVolume',
+                'SetAudioStreamIndex',
+                'SetSubtitleStreamIndex',
+                'DisplayContent',
+                'SetRepeatMode'
             ]
         };
     }
@@ -475,8 +490,12 @@ class ChromecastPlayer {
         this._castPlayer?.session?.setReceiverVolumeLevel(Math.min(Math.max(vol, 0), 100) / 100);
     }
 
-    pause() { this._castPlayer?.sendMessage({ options: {}, command: 'Pause' }); }
-    unpause() { this._castPlayer?.sendMessage({ options: {}, command: 'Unpause' }); }
+    pause() {
+        this._castPlayer?.sendMessage({ options: {}, command: 'Pause' });
+    }
+    unpause() {
+        this._castPlayer?.sendMessage({ options: {}, command: 'Unpause' });
+    }
     stop() {
         this._playNextAfterEnded = false;
         return this._castPlayer?.sendMessage({ options: {}, command: 'Stop' });
@@ -492,11 +511,12 @@ class ChromecastPlayer {
             return this.playWithCommand(options, 'PlayNow');
         } else {
             const apiClient = ServerConnections.getApiClient(options.serverId);
-            return getItems(apiClient, apiClient.getCurrentUserId(), { Ids: options.ids.join(',') })
-                .then((result: any) => {
+            return getItems(apiClient, apiClient.getCurrentUserId(), { Ids: options.ids.join(',') }).then(
+                (result: any) => {
                     options.items = result.Items;
                     return this.playWithCommand(options, 'PlayNow');
-                });
+                }
+            );
         }
     }
 
@@ -512,7 +532,9 @@ class ChromecastPlayer {
         return (this.getPlayerStateInternal(null)?.PlayState?.PositionTicks || 0) / 10000;
     }
 
-    duration() { return this.getPlayerStateInternal(null)?.NowPlayingItem?.RunTimeTicks || 0; }
+    duration() {
+        return this.getPlayerStateInternal(null)?.NowPlayingItem?.RunTimeTicks || 0;
+    }
 }
 
 export default ChromecastPlayer;

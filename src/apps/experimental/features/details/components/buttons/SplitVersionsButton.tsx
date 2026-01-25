@@ -14,10 +14,7 @@ interface SplitVersionsButtonProps {
     queryKey?: string[];
 }
 
-const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({
-    paramId,
-    queryKey
-}) => {
+const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({ paramId, queryKey }) => {
     const queryClient = useQueryClient();
     const deleteAlternateSources = useDeleteAlternateSources();
 
@@ -42,10 +39,7 @@ const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({
                         onError: (err: unknown) => {
                             loading.hide();
                             toast(globalize.translate('MessageSplitVersionsError'));
-                            console.error(
-                                '[splitVersions] failed to split versions',
-                                err
-                            );
+                            console.error('[splitVersions] failed to split versions', err);
                         }
                     }
                 );
@@ -57,7 +51,7 @@ const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({
 
     return (
         <IconButton
-            className='button-flat btnSplitVersions'
+            className="button-flat btnSplitVersions"
             title={globalize.translate('ButtonSplit')}
             onClick={splitVersions}
         >

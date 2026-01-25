@@ -47,4 +47,3 @@ export const listSubheaderSticky = style({
     backgroundColor: vars.colors.background,
     zIndex: 1
 });
-

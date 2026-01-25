@@ -7,41 +7,46 @@ export interface SliderProps extends Omit<RadixSliderProps, 'asChild'> {
     readonly style?: CSSProperties;
 }
 
-export const Slider = forwardRef<HTMLSpanElement, SliderProps>(({
-    value,
-    defaultValue = [50],
-    min = 0,
-    max = 100,
-    step = 1,
-    onValueChange,
-    orientation = 'horizontal',
-    disabled = false,
-    className,
-    style,
-    ...props
-}, ref): ReactElement => {
-    return (
-        <Root
-            ref={ref}
-            className={`${sliderRoot} ${className ?? ''}`}
-            value={value}
-            defaultValue={defaultValue}
-            min={min}
-            max={max}
-            step={step}
-            onValueChange={onValueChange}
-            orientation={orientation}
-            disabled={disabled}
-            style={style}
-            {...props}
-        >
-            <Track className={sliderTrack}>
-                <Range className={sliderRange} />
-            </Track>
-            <Thumb className={sliderThumb} />
-        </Root>
-    );
-});
+export const Slider = forwardRef<HTMLSpanElement, SliderProps>(
+    (
+        {
+            value,
+            defaultValue = [50],
+            min = 0,
+            max = 100,
+            step = 1,
+            onValueChange,
+            orientation = 'horizontal',
+            disabled = false,
+            className,
+            style,
+            ...props
+        },
+        ref
+    ): ReactElement => {
+        return (
+            <Root
+                ref={ref}
+                className={`${sliderRoot} ${className ?? ''}`}
+                value={value}
+                defaultValue={defaultValue}
+                min={min}
+                max={max}
+                step={step}
+                onValueChange={onValueChange}
+                orientation={orientation}
+                disabled={disabled}
+                style={style}
+                {...props}
+            >
+                <Track className={sliderTrack}>
+                    <Range className={sliderRange} />
+                </Track>
+                <Thumb className={sliderThumb} />
+            </Root>
+        );
+    }
+);
 
 Slider.displayName = 'Slider';
 

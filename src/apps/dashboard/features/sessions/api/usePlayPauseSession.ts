@@ -7,9 +7,6 @@ export const useSendPlayStateCommand = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: SessionApiSendPlaystateCommandRequest) => (
-            getSessionApi(api!)
-                .sendPlaystateCommand(params)
-        )
+        mutationFn: (params: SessionApiSendPlaystateCommandRequest) => getSessionApi(api!).sendPlaystateCommand(params)
     });
 };

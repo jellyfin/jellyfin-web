@@ -1,4 +1,3 @@
-
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import React, { type FC, useState } from 'react';
 import { useLocation } from '@tanstack/react-router';
@@ -16,10 +15,10 @@ const LIBRARY_VIEW_MENU_ID = 'library-view-menu';
 
 const LibraryViewMenu: FC = () => {
     const location = useLocation();
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const { activeTab } = useCurrentTab();
 
-    const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const currentRoute = LibraryRoutes.find(({ path }) => path === location.pathname);
     const currentTab = currentRoute?.views.find(({ index }) => index === activeTab);
@@ -31,18 +30,18 @@ const LibraryViewMenu: FC = () => {
             id={LIBRARY_VIEW_MENU_ID}
             open={isMenuOpen}
             onOpenChange={setIsMenuOpen}
-            align='end'
-            trigger={(
+            align="end"
+            trigger={
                 <Button
-                    variant='plain'
-                    size='lg'
+                    variant="plain"
+                    size="lg"
                     endIcon={<ChevronDownIcon />}
                     aria-controls={LIBRARY_VIEW_MENU_ID}
-                    aria-haspopup='true'
+                    aria-haspopup="true"
                 >
                     {globalize.translate(currentTab.label)}
                 </Button>
-            )}
+            }
         >
             {currentRoute?.views.map(tab => (
                 <MenuItem
@@ -55,7 +54,7 @@ const LibraryViewMenu: FC = () => {
                     }}
                 >
                     <Text
-                        size='md'
+                        size="md"
                         weight={tab.index === currentTab.index ? 'medium' : 'normal'}
                         style={{
                             color: tab.index === currentTab.index ? vars.colors.primary : undefined

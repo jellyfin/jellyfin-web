@@ -26,14 +26,16 @@ export class MediaSessionController {
             title: item.name,
             artist: item.artist,
             album: item.album,
-            artwork: item.imageUrl ? [
-                { src: item.imageUrl, sizes: '96x96', type: 'image/png' },
-                { src: item.imageUrl, sizes: '128x128', type: 'image/png' },
-                { src: item.imageUrl, sizes: '192x192', type: 'image/png' },
-                { src: item.imageUrl, sizes: '256x256', type: 'image/png' },
-                { src: item.imageUrl, sizes: '384x384', type: 'image/png' },
-                { src: item.imageUrl, sizes: '512x512', type: 'image/png' },
-            ] : []
+            artwork: item.imageUrl
+                ? [
+                      { src: item.imageUrl, sizes: '96x96', type: 'image/png' },
+                      { src: item.imageUrl, sizes: '128x128', type: 'image/png' },
+                      { src: item.imageUrl, sizes: '192x192', type: 'image/png' },
+                      { src: item.imageUrl, sizes: '256x256', type: 'image/png' },
+                      { src: item.imageUrl, sizes: '384x384', type: 'image/png' },
+                      { src: item.imageUrl, sizes: '512x512', type: 'image/png' }
+                  ]
+                : []
         });
     }
 
@@ -68,7 +70,7 @@ export class MediaSessionController {
             ['nexttrack', this.actions.onNextTrack],
             ['seekbackward', this.actions.onSeekBackward],
             ['seekforward', this.actions.onSeekForward],
-            ['stop', this.actions.onStop],
+            ['stop', this.actions.onStop]
         ];
 
         for (const [action, handler] of actionHandlers) {
@@ -79,7 +81,7 @@ export class MediaSessionController {
 
         if (this.actions.onSeekTo) {
             try {
-                navigator.mediaSession.setActionHandler('seekto', (details) => {
+                navigator.mediaSession.setActionHandler('seekto', details => {
                     if (details.seekTime !== undefined) {
                         this.actions.onSeekTo?.(details.seekTime);
                     }

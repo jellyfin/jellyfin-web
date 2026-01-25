@@ -3,7 +3,7 @@ import shell, { DownloadItem } from './shell';
 
 export function download(items: DownloadItem[]): void {
     if (!shell.downloadFiles(items)) {
-        multiDownload(items.map((item) => item.url));
+        multiDownload(items.map(item => item.url));
     }
 }
 

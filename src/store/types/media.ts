@@ -1,6 +1,6 @@
 /**
  * Media Types
- * 
+ *
  * Type definitions for media-related structures used across stores.
  */
 
@@ -11,7 +11,7 @@ export interface PlayableItem {
     name: string;
     mediaType: MediaType;
     serverId: string;
-    
+
     // Metadata
     title?: string;
     artist?: string;
@@ -19,20 +19,20 @@ export interface PlayableItem {
     albumArtist?: string;
     genre?: string[];
     year?: number;
-    
+
     // Media info
     duration?: number; // in seconds
     runtimeTicks?: number;
     imageUrl?: string;
     artwork?: MediaImage[];
-    
+
     // Stream info
     streamInfo?: StreamInfo;
-    
+
     // User data
     isFavorite?: boolean;
     playbackPosition?: number; // in seconds
-    
+
     // Playlist navigation
     nextItem?: PlayableItem | null;
     prevItem?: PlayableItem | null;

@@ -66,7 +66,7 @@ const DEFAULT_STATE = {
     useNotchFilter: true,
     notchFrequency: 60,
     lastAnalyzedTrackId: null,
-    analysisProgress: 0,
+    analysisProgress: 0
 };
 
 export const useAutoDJStore = create<AutoDJState>()(
@@ -74,11 +74,11 @@ export const useAutoDJStore = create<AutoDJState>()(
         (set, get) => ({
             ...DEFAULT_STATE,
 
-            setEnabled: (enabled) => {
+            setEnabled: enabled => {
                 set({ enabled });
             },
 
-            setCurrentTransition: (transition) => {
+            setCurrentTransition: transition => {
                 set({ currentTransition: transition });
             },
 
@@ -88,44 +88,44 @@ export const useAutoDJStore = create<AutoDJState>()(
                     timestamp: Date.now(),
                     transitionType: transition.transitionType,
                     compatibilityScore: transition.compatibilityScore,
-                    fxApplied: transition.fxRecommendation ? transition.fxRecommendation.split(', ') : [],
+                    fxApplied: transition.fxRecommendation ? transition.fxRecommendation.split(', ') : []
                 };
 
-                set((state) => ({
+                set(state => ({
                     transitionHistory: [record, ...state.transitionHistory].slice(0, 100),
-                    currentTransition: null,
+                    currentTransition: null
                 }));
             },
 
-            setAutoAdvanceEnabled: (enabled) => {
+            setAutoAdvanceEnabled: enabled => {
                 set({ autoAdvanceEnabled: enabled });
             },
 
-            setCrossfadeDuration: (duration) => {
+            setCrossfadeDuration: duration => {
                 set({ crossfadeDuration: duration });
             },
 
-            setPreferHarmonic: (prefer) => {
+            setPreferHarmonic: prefer => {
                 set({ preferHarmonic: prefer });
             },
 
-            setPreferEnergyMatch: (prefer) => {
+            setPreferEnergyMatch: prefer => {
                 set({ preferEnergyMatch: prefer });
             },
 
-            setUseNotchFilter: (use) => {
+            setUseNotchFilter: use => {
                 set({ useNotchFilter: use });
             },
 
-            setNotchFrequency: (freq) => {
+            setNotchFrequency: freq => {
                 set({ notchFrequency: freq });
             },
 
-            setLastAnalyzedTrackId: (trackId) => {
+            setLastAnalyzedTrackId: trackId => {
                 set({ lastAnalyzedTrackId: trackId });
             },
 
-            setAnalysisProgress: (progress) => {
+            setAnalysisProgress: progress => {
                 set({ analysisProgress: progress });
             },
 
@@ -143,7 +143,7 @@ export const useAutoDJStore = create<AutoDJState>()(
                         tempoChanges: 0,
                         standardMixes: 0,
                         averageCompatibility: 0,
-                        varietyScore: 1.0,
+                        varietyScore: 1.0
                     };
                 }
 
@@ -164,14 +164,14 @@ export const useAutoDJStore = create<AutoDJState>()(
                     tempoChanges,
                     standardMixes,
                     averageCompatibility: avgCompatibility,
-                    varietyScore,
+                    varietyScore
                 };
-            },
+            }
         }),
         {
             name: 'jellyfin-autodj-store',
             storage: createJSONStorage(() => localStorage),
-            partialize: (state) => ({
+            partialize: state => ({
                 enabled: state.enabled,
                 autoAdvanceEnabled: state.autoAdvanceEnabled,
                 crossfadeDuration: state.crossfadeDuration,
@@ -179,8 +179,8 @@ export const useAutoDJStore = create<AutoDJState>()(
                 preferEnergyMatch: state.preferEnergyMatch,
                 useNotchFilter: state.useNotchFilter,
                 notchFrequency: state.notchFrequency,
-                transitionHistory: state.transitionHistory.slice(0, 50),
-            }),
+                transitionHistory: state.transitionHistory.slice(0, 50)
+            })
         }
     )
 );

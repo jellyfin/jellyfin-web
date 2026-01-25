@@ -1,4 +1,3 @@
-
 interface AudioWorkletProcessor {
     readonly port: MessagePort;
     process(inputs: any, outputs: any, parameters: any): boolean;
@@ -9,7 +8,7 @@ declare var AudioWorkletProcessor: {
     new (options?: any): AudioWorkletProcessor;
 };
 
-declare function registerProcessor(name: string, processorCtor: (new (options?: any) => AudioWorkletProcessor)): void;
+declare function registerProcessor(name: string, processorCtor: new (options?: any) => AudioWorkletProcessor): void;
 
 interface AudioParamDescriptor {
     name: string;

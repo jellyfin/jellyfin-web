@@ -76,16 +76,14 @@ const MusicRecommendedPage: React.FC = () => {
 
     return (
         <Page
-            id='musicPage'
-            className='mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs'
-            backDropType='musicartist'
+            id="musicPage"
+            className="mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs"
+            backDropType="musicartist"
         >
             <PageTabContent
                 key={`${currentTab.viewType} - ${libraryId}`}
                 currentTab={currentTab}
-                parentId={
-                    currentTab.viewType === LibraryTab.Playlists ? undefined : libraryId
-                }
+                parentId={currentTab.viewType === LibraryTab.Playlists ? undefined : libraryId}
             />
         </Page>
     );

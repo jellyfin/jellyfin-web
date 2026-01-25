@@ -11,19 +11,18 @@ import { Box, Flex } from 'ui-primitives/Box';
 import { vars } from 'styles/tokens.css';
 
 interface AppToolbarProps {
-    buttons?: ReactNode
-    isDrawerAvailable?: boolean
-    isDrawerOpen: boolean
-    onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void
-    isBackButtonAvailable?: boolean
-    isUserMenuAvailable?: boolean
+    buttons?: ReactNode;
+    isDrawerAvailable?: boolean;
+    isDrawerOpen: boolean;
+    onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void;
+    isBackButtonAvailable?: boolean;
+    isUserMenuAvailable?: boolean;
 }
 
 const onBackButtonClick = () => {
-    appRouter.back()
-        .catch(err => {
-            console.error('[AppToolbar] error calling appRouter.back', err);
-        });
+    appRouter.back().catch(err => {
+        console.error('[AppToolbar] error calling appRouter.back', err);
+    });
 };
 
 const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
@@ -31,7 +30,9 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     children,
     isDrawerAvailable = true,
     isDrawerOpen,
-    onDrawerButtonClick = () => { /* no-op */ },
+    onDrawerButtonClick = () => {
+        /* no-op */
+    },
     isBackButtonAvailable = false,
     isUserMenuAvailable = true
 }) => {
@@ -76,17 +77,13 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                 </Tooltip>
             )}
 
-            <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.sm }}>
-                {children}
-            </Box>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.sm }}>{children}</Box>
 
             <Box style={{ flexGrow: 1 }} />
 
             <Flex style={{ flexDirection: 'row', gap: vars.spacing.sm, alignItems: 'center' }}>
                 {buttons}
-                {isUserLoggedIn && isUserMenuAvailable && (
-                    <UserMenuButton />
-                )}
+                {isUserLoggedIn && isUserMenuAvailable && <UserMenuButton />}
             </Flex>
         </Flex>
     );

@@ -5,8 +5,7 @@ import type { MiscInfo } from 'types/mediaInfoItem';
 
 interface MediaInfoItemProps {
     className?: string;
-    miscInfo: MiscInfo ;
-
+    miscInfo: MiscInfo;
 }
 
 const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
@@ -29,11 +28,7 @@ const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
         return text;
     };
 
-    return (
-        <Box className={classNames('mediaInfoItem', cssClass, type, className)}>
-            {renderText()}
-        </Box>
-    );
+    return <Box className={classNames('mediaInfoItem', cssClass, type, className)}>{renderText()}</Box>;
 };
 
 export default MediaInfoItem;

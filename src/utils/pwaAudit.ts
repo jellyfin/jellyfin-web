@@ -185,8 +185,10 @@ class PWAAudit {
                 const cacheStatus = await win.ServiceWorkerCacheManager.getCacheStatus();
                 if (cacheStatus.cacheInfo) {
                     result.score += 15;
-                    const totalEntries = Object.values(cacheStatus.cacheInfo)
-                        .reduce((sum: number, cache: any) => sum + (cache.entries || 0), 0);
+                    const totalEntries = Object.values(cacheStatus.cacheInfo).reduce(
+                        (sum: number, cache: any) => sum + (cache.entries || 0),
+                        0
+                    );
 
                     if (totalEntries > 0) {
                         result.score += 10;

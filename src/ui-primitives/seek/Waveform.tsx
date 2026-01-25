@@ -146,7 +146,7 @@ export function Waveform({
         <div
             ref={containerRef}
             className={`${waveformContainerStyle} ${className ?? ''}`}
-            role='presentation'
+            role="presentation"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             style={{ height: isHovered ? hoverHeight : height }}
@@ -156,7 +156,7 @@ export function Waveform({
                 container={containerRef.current as HTMLElement}
                 waveColor={vars.colors.primary}
                 progressColor={vars.colors.textSecondary}
-                cursorColor='transparent'
+                cursorColor="transparent"
                 barWidth={barWidth}
                 barGap={barGap}
                 barRadius={vars.borderRadius.full}
@@ -200,4 +200,3 @@ export function Waveform({
         </div>
     );
 }
-

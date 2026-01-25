@@ -21,15 +21,8 @@ interface IntersectionResult {
     unobserve: () => void;
 }
 
-export function useIntersectionObserver(
-    options: IntersectionOptions = {}
-): IntersectionResult {
-    const {
-        threshold = 0,
-        root = null,
-        rootMargin = '0px',
-        freezeWhenVisible = false
-    } = options;
+export function useIntersectionObserver(options: IntersectionOptions = {}): IntersectionResult {
+    const { threshold = 0, root = null, rootMargin = '0px', freezeWhenVisible = false } = options;
 
     const [isIntersecting, setIsIntersecting] = useState(false);
     const [intersectionRatio, setIntersectionRatio] = useState(0);

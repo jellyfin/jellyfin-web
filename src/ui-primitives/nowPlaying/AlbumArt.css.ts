@@ -26,4 +26,3 @@ export const container = style({
     overflow: 'hidden',
     backgroundColor: vars.colors.surface
 });
-

@@ -12,19 +12,15 @@ interface AutoDJToggleProps {
     disabled?: boolean;
 }
 
-export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({
-    enabled,
-    onToggle,
-    disabled = false,
-}) => {
+export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({ enabled, onToggle, disabled = false }) => {
     return (
-        <div 
-            style={{ 
-                display: 'flex', 
-                flexDirection: 'row', 
-                alignItems: 'center', 
-                gap: vars.spacing.xs, 
-                opacity: disabled ? 0.5 : 1 
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: vars.spacing.xs,
+                opacity: disabled ? 0.5 : 1
             }}
             title={
                 enabled
@@ -33,9 +29,7 @@ export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({
             }
         >
             <div className={styles.labelContainer}>
-                <MagicWandIcon
-                    style={{ color: enabled ? vars.colors.primary : vars.colors.textSecondary }}
-                />
+                <MagicWandIcon style={{ color: enabled ? vars.colors.primary : vars.colors.textSecondary }} />
                 <span className={styles.label} style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
                     <Text size="sm">Auto-DJ</Text>
                 </span>
@@ -43,12 +37,12 @@ export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({
             <input
                 type="checkbox"
                 checked={enabled}
-                onChange={(e) => onToggle(e.target.checked)}
+                onChange={e => onToggle(e.target.checked)}
                 disabled={disabled}
                 style={{
                     width: '20px',
                     height: '20px',
-                    cursor: disabled ? 'not-allowed' : 'pointer',
+                    cursor: disabled ? 'not-allowed' : 'pointer'
                 }}
             />
         </div>

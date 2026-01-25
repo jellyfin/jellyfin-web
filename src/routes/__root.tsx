@@ -51,7 +51,7 @@ function NotFoundPage() {
 
 function RootComponent() {
     const location = useLocation();
-    
+
     const layoutMode = browser.tv ? LayoutMode.Tv : localStorage.getItem(LAYOUT_SETTING_KEY);
     const isExperimentalLayout = layoutMode == null || layoutMode === '' || layoutMode === LayoutMode.Experimental;
     const isNewLayoutPath = Object.values(DASHBOARD_APP_PATHS).some(path => location.pathname.startsWith(`/${path}`));
@@ -64,11 +64,11 @@ function RootComponent() {
                 </Suspense>
                 <Backdrop />
                 <AppHeader isHidden={isExperimentalLayout || isNewLayoutPath} />
-                
+
                 <AppBody>
                     <Outlet />
                 </AppBody>
-                
+
                 <CustomCss />
                 <OSDOverlay />
                 <LoadingOverlay />

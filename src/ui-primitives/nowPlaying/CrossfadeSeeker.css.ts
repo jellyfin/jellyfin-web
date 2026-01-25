@@ -82,4 +82,3 @@ export const waveformContainer = style({
     borderRadius: vars.borderRadius.full,
     opacity: 0.6
 });
-

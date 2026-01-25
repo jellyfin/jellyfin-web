@@ -1,1 +1,23 @@
-{"rustc":4996801173321332248,"features":"[\"audio_unit\", \"core_audio\"]","declared_features":"[\"audio_toolbox\", \"audio_unit\", \"core_audio\", \"core_midi\", \"default\", \"open_al\"]","target":4160252343711425848,"profile":8276155916380437441,"path":10827868657788972699,"deps":[[10435729446543529114,"bitflags",false,8465751586863167718],[10900039922797705668,"coreaudio_sys",false,12329741935340889119]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/coreaudio-rs-5b21a5a7ed782137/dep-lib-coreaudio","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[\"audio_unit\", \"core_audio\"]",
+  "declared_features": "[\"audio_toolbox\", \"audio_unit\", \"core_audio\", \"core_midi\", \"default\", \"open_al\"]",
+  "target": 4160252343711425848,
+  "profile": 8276155916380437441,
+  "path": 10827868657788972699,
+  "deps": [
+    [10435729446543529114, "bitflags", false, 8465751586863167718],
+    [10900039922797705668, "coreaudio_sys", false, 12329741935340889119]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/coreaudio-rs-5b21a5a7ed782137/dep-lib-coreaudio",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

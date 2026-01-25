@@ -14,15 +14,12 @@ interface ListProps {
 }
 
 const List: FC<ListProps> = ({ index, item, listOptions = {} }) => {
-    const { getListdWrapperProps, getListContentProps } = useList({ item, listOptions } );
+    const { getListdWrapperProps, getListContentProps } = useList({ item, listOptions });
     const listWrapperProps = getListdWrapperProps();
     const listContentProps = getListContentProps();
 
     return (
-        <ListWrapper
-            index={index}
-            {...listWrapperProps}
-        >
+        <ListWrapper index={index} {...listWrapperProps}>
             <ListContent {...listContentProps} />
         </ListWrapper>
     );

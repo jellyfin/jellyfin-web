@@ -55,4 +55,3 @@ export const crossfadingText = style({
     textTransform: 'uppercase',
     letterSpacing: '0.5px'
 });
-

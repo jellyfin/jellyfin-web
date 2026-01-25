@@ -11,13 +11,7 @@ interface GenresViewProps {
 }
 
 const GenresView: FC<GenresViewProps> = ({ parentId, collectionType, itemType }) => {
-    return (
-        <GenresItemsContainer
-            parentId={parentId}
-            collectionType={collectionType}
-            itemType={itemType}
-        />
-    );
+    return <GenresItemsContainer parentId={parentId} collectionType={collectionType} itemType={itemType} />;
 };
 
 export default GenresView;

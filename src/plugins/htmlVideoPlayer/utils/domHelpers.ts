@@ -5,7 +5,7 @@ import { logger } from '../../../utils/logger';
  * Returns resolved URL.
  */
 export function resolveUrl(url: string): Promise<string> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         const xhr = new XMLHttpRequest();
         xhr.open('HEAD', url, true);
         xhr.onload = function () {
@@ -46,6 +46,8 @@ export function normalizeTrackEventText(text: string, useHtml: boolean): string 
         .replace(/\r/gi, '') // Remove carriage return characters
         .replace(/{\\.*?}/gi, '') // Remove ass/ssa tags
         // Force LTR as the default direction
-        .split('\n').map(val => `\u200E${val}`).join('\n');
+        .split('\n')
+        .map(val => `\u200E${val}`)
+        .join('\n');
     return useHtml ? result.replace(/\n/gi, '<br>') : result;
 }

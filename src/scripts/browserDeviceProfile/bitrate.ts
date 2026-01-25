@@ -40,7 +40,7 @@ export function getSpeakerCount(): number {
 
     maxChannelCount = -1;
 
-    const AudioContextClass = (window.AudioContext || (window as any).webkitAudioContext);
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
 
     if (AudioContextClass) {
         const audioCtx = new AudioContextClass();
@@ -61,7 +61,14 @@ export function getPhysicalAudioChannels(options: any, _videoTestElement: HTMLMe
         return options.audioChannels;
     }
 
-    const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.tv || browser.ps4 || browser.xboxOne;
+    const isSurroundSoundSupportedBrowser =
+        browser.safari ||
+        browser.chrome ||
+        browser.edgeChromium ||
+        browser.firefox ||
+        browser.tv ||
+        browser.ps4 ||
+        browser.xboxOne;
     const speakerCount = getSpeakerCount();
 
     if (speakerCount > 2) {

@@ -96,7 +96,7 @@ function ChatInterfaceStory(): ReactElement {
     return (
         <div style={{ width: '350px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
             <div style={{ padding: '12px', borderBottom: '1px solid #333', backgroundColor: '#2a2a2a' }}>
-                <Text weight='bold'>Chat Messages</Text>
+                <Text weight="bold">Chat Messages</Text>
             </div>
             <ScrollArea style={{ height: '300px' }}>
                 <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -115,11 +115,11 @@ function ChatInterfaceStory(): ReactElement {
                         { from: 'Bob', message: 'Awesome!', time: '10:44 AM' }
                     ].map((msg, i) => (
                         <div key={i} style={{ padding: '8px', backgroundColor: '#252525', borderRadius: '8px' }}>
-                            <Text size='sm' weight='bold' color='primary'>
+                            <Text size="sm" weight="bold" color="primary">
                                 {msg.from}
                             </Text>
-                            <Text size='sm'>{msg.message}</Text>
-                            <Text size='xs' color='muted' style={{ marginTop: '4px' }}>
+                            <Text size="sm">{msg.message}</Text>
+                            <Text size="xs" color="muted" style={{ marginTop: '4px' }}>
                                 {msg.time}
                             </Text>
                         </div>
@@ -146,8 +146,8 @@ function CodeBlockStory(): ReactElement {
                     justifyContent: 'space-between'
                 }}
             >
-                <Text size='sm'>Code Preview</Text>
-                <Text size='xs' color='muted'>
+                <Text size="sm">Code Preview</Text>
+                <Text size="xs" color="muted">
                     TypeScript
                 </Text>
             </div>

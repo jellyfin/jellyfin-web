@@ -15,7 +15,7 @@ export const useChannels = (params?: ChannelsApiGetChannelsRequest) => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [ 'Channels' ],
+        queryKey: ['Channels'],
         queryFn: ({ signal }) => fetchChannels(api!, params, { signal }),
         enabled: !!api
     });

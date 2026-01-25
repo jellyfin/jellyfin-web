@@ -154,27 +154,27 @@ const UserNew = (): React.ReactElement => {
     const handleFolderToggle = (folderId: string) => {
         setFormData(prev => ({
             ...prev,
-            enabledFolders: prev.enabledFolders.includes(folderId) ?
-                prev.enabledFolders.filter(id => id !== folderId) :
-                [...prev.enabledFolders, folderId]
+            enabledFolders: prev.enabledFolders.includes(folderId)
+                ? prev.enabledFolders.filter(id => id !== folderId)
+                : [...prev.enabledFolders, folderId]
         }));
     };
 
     const handleChannelToggle = (channelId: string) => {
         setFormData(prev => ({
             ...prev,
-            enabledChannels: prev.enabledChannels.includes(channelId) ?
-                prev.enabledChannels.filter(id => id !== channelId) :
-                [...prev.enabledChannels, channelId]
+            enabledChannels: prev.enabledChannels.includes(channelId)
+                ? prev.enabledChannels.filter(id => id !== channelId)
+                : [...prev.enabledChannels, channelId]
         }));
     };
 
     return (
-        <Page id='newUserPage' className='mainAnimatedPage type-interior'>
+        <Page id="newUserPage" className="mainAnimatedPage type-interior">
             <Toast open={isErrorToastOpen} onClose={handleToastClose} message={globalize.translate('ErrorDefault')} />
-            <Flex className='content-primary' style={{ padding: '24px' }}>
-                <Flex className='verticalSection' style={{ marginBottom: '24px' }}>
-                    <Text as='h1' size='xl' weight='bold'>
+            <Flex className="content-primary" style={{ padding: '24px' }}>
+                <Flex className="verticalSection" style={{ marginBottom: '24px' }}>
+                    <Text as="h1" size="xl" weight="bold">
                         {globalize.translate('HeaderAddUser')}
                     </Text>
                 </Flex>
@@ -200,7 +200,7 @@ const UserNew = (): React.ReactElement => {
                         />
 
                         <Input
-                            type='password'
+                            type="password"
                             label={globalize.translate('LabelPassword')}
                             value={formData.password}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -211,7 +211,7 @@ const UserNew = (): React.ReactElement => {
 
                         <Divider />
 
-                        <Text as='h2' size='lg' weight='bold'>
+                        <Text as="h2" size="lg" weight="bold">
                             {globalize.translate('HeaderLibraryAccess')}
                         </Text>
 
@@ -233,7 +233,7 @@ const UserNew = (): React.ReactElement => {
 
                         {!formData.enableAllFolders && (
                             <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: '8px' }}>
-                                <Text as='span' size='sm' color='secondary'>
+                                <Text as="span" size="sm" color="secondary">
                                     {globalize.translate('HeaderLibraries')}
                                 </Text>
                                 <Flex style={{ flexDirection: 'column', gap: '8px' }}>
@@ -255,7 +255,7 @@ const UserNew = (): React.ReactElement => {
 
                         <Divider />
 
-                        <Text as='h2' size='lg' weight='bold'>
+                        <Text as="h2" size="lg" weight="bold">
                             {globalize.translate('HeaderChannelAccess')}
                         </Text>
 
@@ -277,7 +277,7 @@ const UserNew = (): React.ReactElement => {
 
                         {!formData.enableAllChannels && (
                             <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: '8px' }}>
-                                <Text as='span' size='sm' color='secondary'>
+                                <Text as="span" size="sm" color="secondary">
                                     {globalize.translate('Channels')}
                                 </Text>
                                 <Flex style={{ flexDirection: 'column', gap: '8px' }}>
@@ -298,10 +298,10 @@ const UserNew = (): React.ReactElement => {
                         )}
 
                         <Flex style={{ marginTop: '16px', gap: '16px' }}>
-                            <Button type='submit' disabled={isSubmitting}>
+                            <Button type="submit" disabled={isSubmitting}>
                                 {isSubmitting ? globalize.translate('Loading') + '...' : globalize.translate('Save')}
                             </Button>
-                            <Button type='button' variant='outlined' onClick={handleCancel} disabled={isSubmitting}>
+                            <Button type="button" variant="outlined" onClick={handleCancel} disabled={isSubmitting}>
                                 {globalize.translate('ButtonCancel')}
                             </Button>
                         </Flex>

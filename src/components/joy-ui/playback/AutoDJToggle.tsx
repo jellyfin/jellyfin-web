@@ -10,10 +10,7 @@ interface AutoDJToggleProps {
     className?: string;
 }
 
-export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({
-    size = 'sm',
-    className
-}) => {
+export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({ size = 'sm', className }) => {
     const { enabled, setEnabled } = useAutoDJStore();
 
     return (
@@ -21,10 +18,10 @@ export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({
             <IconButton
                 className={className}
                 size={size}
-                variant='plain'
+                variant="plain"
                 onClick={() => setEnabled(!enabled)}
                 style={{
-                    color: enabled ? vars.colors.primary : 'inherit',
+                    color: enabled ? vars.colors.primary : 'inherit'
                 }}
             >
                 <MagicWandIcon />

@@ -26,8 +26,10 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
     private async fetchMediaSegments(api: Api, itemId: string, includeSegmentTypes: MediaSegmentType[]) {
         try {
-            const { data: mediaSegments } = await getMediaSegmentsApi(api)
-                .getItemSegments({ itemId, includeSegmentTypes });
+            const { data: mediaSegments } = await getMediaSegmentsApi(api).getItemSegments({
+                itemId,
+                includeSegmentTypes
+            });
             this.mediaSegments = mediaSegments.Items || [];
         } catch (err) {
             console.error('[MediaSegmentManager] failed to fetch segments', err);
@@ -38,7 +40,10 @@ class MediaSegmentManager extends PlaybackSubscriber {
     skipSegment(mediaSegment: MediaSegmentDto) {
         // Ignore segment if playback progress has passed the segment's start time
         if (mediaSegment.StartTicks !== undefined && this.lastTime > mediaSegment.StartTicks) {
-            console.info('[MediaSegmentManager] ignoring skipping segment that has been seeked back into', mediaSegment);
+            console.info(
+                '[MediaSegmentManager] ignoring skipping segment that has been seeked back into',
+                mediaSegment
+            );
             this.isLastSegmentIgnored = true;
         } else if (mediaSegment.EndTicks) {
             // If there is an end time, seek to it
@@ -58,8 +63,11 @@ class MediaSegmentManager extends PlaybackSubscriber {
     }
 
     promptToSkip(mediaSegment: MediaSegmentDto) {
-        if (mediaSegment.StartTicks && mediaSegment.EndTicks
-            && mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND * 3) {
+        if (
+            mediaSegment.StartTicks &&
+            mediaSegment.EndTicks &&
+            mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND * 3
+        ) {
             console.info('[MediaSegmentManager] ignoring segment prompt with duration <3s', mediaSegment);
             this.isLastSegmentIgnored = true;
             return;
@@ -69,7 +77,11 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
     private performAction(mediaSegment: MediaSegmentDto) {
         if (!this.mediaSegmentTypeActions || !mediaSegment.Type || !this.mediaSegmentTypeActions[mediaSegment.Type]) {
-            console.error('[MediaSegmentManager] segment type missing from action map', mediaSegment, this.mediaSegmentTypeActions);
+            console.error(
+                '[MediaSegmentManager] segment type missing from action map',
+                mediaSegment,
+                this.mediaSegmentTypeActions
+            );
             return;
         }
 
@@ -99,10 +111,13 @@ class MediaSegmentManager extends PlaybackSubscriber {
                 action: getMediaSegmentAction(userSettings, type)
             }))
             .filter(({ action }) => !!action && action !== MediaSegmentAction.None)
-            .reduce((acc, { type, action }) => {
-                if (action) acc[type] = action;
-                return acc;
-            }, {} as Record<Partial<MediaSegmentType>, MediaSegmentAction>);
+            .reduce(
+                (acc, { type, action }) => {
+                    if (action) acc[type] = action;
+                    return acc;
+                },
+                {} as Record<Partial<MediaSegmentType>, MediaSegmentAction>
+            );
 
         if (!Object.keys(this.mediaSegmentTypeActions).length) {
             console.info('[MediaSegmentManager] user has no media segment actions enabled');
@@ -113,7 +128,8 @@ class MediaSegmentManager extends PlaybackSubscriber {
         void this.fetchMediaSegments(
             api,
             itemId,
-            Object.keys(this.mediaSegmentTypeActions).map(t => t as keyof typeof MediaSegmentType));
+            Object.keys(this.mediaSegmentTypeActions).map(t => t as keyof typeof MediaSegmentType)
+        );
     }
 
     onPlayerTimeUpdate() {
@@ -122,15 +138,16 @@ class MediaSegmentManager extends PlaybackSubscriber {
             const currentSegmentDetails = findCurrentSegment(this.mediaSegments, time, this.lastSegmentIndex);
             if (
                 // The current time falls within a segment
-                currentSegmentDetails
+                currentSegmentDetails &&
                 // and the last segment is not ignored or the segment index has changed
-                && (!this.isLastSegmentIgnored || this.lastSegmentIndex !== currentSegmentDetails.index)
+                (!this.isLastSegmentIgnored || this.lastSegmentIndex !== currentSegmentDetails.index)
             ) {
                 console.debug(
                     '[MediaSegmentManager] found %s segment at %s ms',
                     currentSegmentDetails.segment.Type,
                     time / TICKS_PER_MILLISECOND,
-                    currentSegmentDetails);
+                    currentSegmentDetails
+                );
                 this.isLastSegmentIgnored = false;
                 this.performAction(currentSegmentDetails.segment);
                 this.lastSegmentIndex = currentSegmentDetails.index;

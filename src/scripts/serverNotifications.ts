@@ -39,32 +39,87 @@ function playTrailers(apiClient: any, itemId: string) {
 
 function processGeneralCommand(cmd: any, apiClient: any) {
     switch (cmd.Name) {
-        case 'Select': inputManager.handleCommand('select'); return;
-        case 'Back': inputManager.handleCommand('back'); return;
-        case 'MoveUp': inputManager.handleCommand('up'); return;
-        case 'MoveDown': inputManager.handleCommand('down'); return;
-        case 'MoveLeft': inputManager.handleCommand('left'); return;
-        case 'MoveRight': inputManager.handleCommand('right'); return;
-        case 'PageUp': inputManager.handleCommand('pageup'); return;
-        case 'PageDown': inputManager.handleCommand('pagedown'); return;
-        case 'PlayTrailers': playTrailers(apiClient, cmd.Arguments.ItemId); break;
-        case 'SetRepeatMode': (playbackManager as any).setRepeatMode(cmd.Arguments.RepeatMode); break;
-        case 'SetShuffleQueue': (playbackManager as any).setQueueShuffleMode(cmd.Arguments.ShuffleMode); break;
-        case 'VolumeUp': inputManager.handleCommand('volumeup'); return;
-        case 'VolumeDown': inputManager.handleCommand('volumedown'); return;
-        case 'Mute': inputManager.handleCommand('mute'); return;
-        case 'Unmute': inputManager.handleCommand('unmute'); return;
-        case 'ToggleMute': inputManager.handleCommand('togglemute'); return;
-        case 'SetVolume': notifyApp(); (playbackManager as any).setVolume(cmd.Arguments.Volume); break;
-        case 'SetAudioStreamIndex': notifyApp(); (playbackManager as any).setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10)); break;
-        case 'SetSubtitleStreamIndex': notifyApp(); (playbackManager as any).setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10)); break;
-        case 'ToggleFullscreen': inputManager.handleCommand('togglefullscreen'); return;
-        case 'GoHome': inputManager.handleCommand('home'); return;
-        case 'GoToSettings': inputManager.handleCommand('settings'); return;
-        case 'DisplayContent': displayContent(cmd, apiClient); break;
-        case 'GoToSearch': inputManager.handleCommand('search'); return;
-        case 'DisplayMessage': displayMessage(cmd); break;
-        case 'SendString': (focusManager as any).sendText(cmd.Arguments.String); break;
+        case 'Select':
+            inputManager.handleCommand('select');
+            return;
+        case 'Back':
+            inputManager.handleCommand('back');
+            return;
+        case 'MoveUp':
+            inputManager.handleCommand('up');
+            return;
+        case 'MoveDown':
+            inputManager.handleCommand('down');
+            return;
+        case 'MoveLeft':
+            inputManager.handleCommand('left');
+            return;
+        case 'MoveRight':
+            inputManager.handleCommand('right');
+            return;
+        case 'PageUp':
+            inputManager.handleCommand('pageup');
+            return;
+        case 'PageDown':
+            inputManager.handleCommand('pagedown');
+            return;
+        case 'PlayTrailers':
+            playTrailers(apiClient, cmd.Arguments.ItemId);
+            break;
+        case 'SetRepeatMode':
+            (playbackManager as any).setRepeatMode(cmd.Arguments.RepeatMode);
+            break;
+        case 'SetShuffleQueue':
+            (playbackManager as any).setQueueShuffleMode(cmd.Arguments.ShuffleMode);
+            break;
+        case 'VolumeUp':
+            inputManager.handleCommand('volumeup');
+            return;
+        case 'VolumeDown':
+            inputManager.handleCommand('volumedown');
+            return;
+        case 'Mute':
+            inputManager.handleCommand('mute');
+            return;
+        case 'Unmute':
+            inputManager.handleCommand('unmute');
+            return;
+        case 'ToggleMute':
+            inputManager.handleCommand('togglemute');
+            return;
+        case 'SetVolume':
+            notifyApp();
+            (playbackManager as any).setVolume(cmd.Arguments.Volume);
+            break;
+        case 'SetAudioStreamIndex':
+            notifyApp();
+            (playbackManager as any).setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10));
+            break;
+        case 'SetSubtitleStreamIndex':
+            notifyApp();
+            (playbackManager as any).setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10));
+            break;
+        case 'ToggleFullscreen':
+            inputManager.handleCommand('togglefullscreen');
+            return;
+        case 'GoHome':
+            inputManager.handleCommand('home');
+            return;
+        case 'GoToSettings':
+            inputManager.handleCommand('settings');
+            return;
+        case 'DisplayContent':
+            displayContent(cmd, apiClient);
+            break;
+        case 'GoToSearch':
+            inputManager.handleCommand('search');
+            return;
+        case 'DisplayMessage':
+            displayMessage(cmd);
+            break;
+        case 'SendString':
+            (focusManager as any).sendText(cmd.Arguments.String);
+            break;
     }
     notifyApp();
 }
@@ -78,15 +133,16 @@ function onMessageReceived(this: any, _e: any, msg: any) {
         const serverId = apiClient.serverInfo().Id;
         if (msg.Data.PlayCommand === 'PlayNext') playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId });
         else if (msg.Data.PlayCommand === 'PlayLast') playbackManager.queue({ ids: msg.Data.ItemIds, serverId });
-        else playbackManager.play({
-            ids: msg.Data.ItemIds,
-            startPositionTicks: msg.Data.StartPositionTicks,
-            mediaSourceId: msg.Data.MediaSourceId,
-            audioStreamIndex: msg.Data.AudioStreamIndex,
-            subtitleStreamIndex: msg.Data.SubtitleStreamIndex,
-            startIndex: msg.Data.StartIndex,
-            serverId
-        });
+        else
+            playbackManager.play({
+                ids: msg.Data.ItemIds,
+                startPositionTicks: msg.Data.StartPositionTicks,
+                mediaSourceId: msg.Data.MediaSourceId,
+                audioStreamIndex: msg.Data.AudioStreamIndex,
+                subtitleStreamIndex: msg.Data.SubtitleStreamIndex,
+                startIndex: msg.Data.StartIndex,
+                serverId
+            });
     } else if (msg.MessageType === 'Playstate') {
         if (msg.Data.Command === 'Stop') inputManager.handleCommand('stop');
         else if (msg.Data.Command === 'Pause') inputManager.handleCommand('pause');

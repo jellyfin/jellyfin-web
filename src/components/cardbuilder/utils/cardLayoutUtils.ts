@@ -5,7 +5,12 @@ export function getImageWidth(shape: string, screenWidth: number, isOrientationL
     return Math.round(screenWidth / imagesPerRow);
 }
 
-export function getPostersPerRow(shape: string, _screenWidth: number, isOrientationLandscape: boolean, isTv: boolean): number {
+export function getPostersPerRow(
+    shape: string,
+    _screenWidth: number,
+    isOrientationLandscape: boolean,
+    isTv: boolean
+): number {
     const imagesPerRow: any = {};
 
     if (isTv) {

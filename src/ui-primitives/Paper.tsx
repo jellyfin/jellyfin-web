@@ -12,7 +12,13 @@ interface PaperProps {
     readonly variant?: 'elevation' | 'outlined';
 }
 
-export function Paper({ children, className, style: paperStyle, elevation = 'md', variant = 'elevation' }: PaperProps): ReactElement {
+export function Paper({
+    children,
+    className,
+    style: paperStyle,
+    elevation = 'md',
+    variant = 'elevation'
+}: PaperProps): ReactElement {
     const isOutlined = variant === 'outlined';
     return (
         <div

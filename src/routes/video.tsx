@@ -4,5 +4,5 @@ import { Route } from './__root';
 export const videoRoute = createRoute({
     getParentRoute: () => Route,
     path: 'video',
-    component: lazyRouteComponent(() => import('./video.lazy')),
+    component: lazyRouteComponent(() => import('./video.lazy'))
 });

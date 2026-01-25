@@ -15,11 +15,7 @@ interface LoadingSpinnerProps {
     message?: string;
 }
 
-export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
-    size = 'lg',
-    overlay = false,
-    message,
-}) => {
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = 'lg', overlay = false, message }) => {
     const spinner = (
         <Flex style={{ flexDirection: 'column', alignItems: 'center', gap: 8 }}>
             <CircularProgress size={size} />
@@ -44,7 +40,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
                     alignItems: 'center',
                     justifyContent: 'center',
                     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    zIndex: 1000,
+                    zIndex: 1000
                 }}
             >
                 {spinner}

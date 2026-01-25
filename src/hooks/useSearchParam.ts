@@ -10,13 +10,10 @@ import { usePrevious } from './usePrevious';
 const useSearchParam: (
     param: string,
     defaultValue?: string
-) => [ string, React.Dispatch<React.SetStateAction<string>> ] = (
-    param,
-    defaultValue = ''
-) => {
-    const [ searchParams, setSearchParams ] = useSearchParams();
+) => [string, React.Dispatch<React.SetStateAction<string>>] = (param, defaultValue = '') => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const urlValue = searchParams.get(param) || defaultValue;
-    const [ value, setValue ] = useState(urlValue);
+    const [value, setValue] = useState(urlValue);
     const previousValue = usePrevious(value, defaultValue);
 
     useEffect(() => {
@@ -39,9 +36,9 @@ const useSearchParam: (
 
             setValue(urlValue);
         }
-    }, [ value, previousValue, searchParams, setSearchParams, urlValue ]);
+    }, [value, previousValue, searchParams, setSearchParams, urlValue]);
 
-    return [ value, setValue ];
+    return [value, setValue];
 };
 
 export default useSearchParam;

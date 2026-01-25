@@ -16,31 +16,17 @@ const ProgramCell: React.FC<ProgramCellProps> = ({ program, startPercent, widthP
 
     return (
         <button
-            type='button'
+            type="button"
             className={`${styles.styledProgramCell} ${program.active ? styles.styledProgramCellActive : ''}`}
             style={{ left: `${startPercent}%`, width: `${widthPercent}%` }}
             onClick={() => onClick?.(program)}
         >
             <div className={styles.programHeader}>
-                <span className={styles.programName}>
-                    {program.Name}
-                </span>
-                {isLive && (
-                    <div className={styles.liveChip}>
-                        {globalize.translate('Live')}
-                    </div>
-                )}
-                {isNew && (
-                    <div className={styles.newChip}>
-                        {globalize.translate('New')}
-                    </div>
-                )}
+                <span className={styles.programName}>{program.Name}</span>
+                {isLive && <div className={styles.liveChip}>{globalize.translate('Live')}</div>}
+                {isNew && <div className={styles.newChip}>{globalize.translate('New')}</div>}
             </div>
-            {program.EpisodeTitle && (
-                <div className={styles.programTitle}>
-                    {program.EpisodeTitle}
-                </div>
-            )}
+            {program.EpisodeTitle && <div className={styles.programTitle}>{program.EpisodeTitle}</div>}
         </button>
     );
 };

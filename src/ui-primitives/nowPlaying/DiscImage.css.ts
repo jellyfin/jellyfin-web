@@ -43,4 +43,3 @@ export const spinning = style({
     animationTimingFunction: 'linear',
     animationIterationCount: 'infinite'
 });
-

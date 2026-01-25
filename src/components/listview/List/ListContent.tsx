@@ -45,9 +45,8 @@ const ListContent: FC<ListContentProps> = ({
             enableContentWrapper={enableContentWrapper}
             enableOverview={enableOverview}
         >
-
             {!clickEntireItem && listOptions.dragHandle && (
-                <DragHandleDots2Icon className='listViewDragHandle listItemIcon listItemIcon-transparent' />
+                <DragHandleDots2Icon className="listViewDragHandle listItemIcon listItemIcon-transparent" />
             )}
 
             {listOptions.image !== false && (
@@ -62,9 +61,7 @@ const ListContent: FC<ListContentProps> = ({
             )}
 
             {listOptions.showIndexNumberLeft && (
-                <Box className='listItem-indexnumberleft'>
-                    {item.IndexNumber ?? <span>&nbsp;</span>}
-                </Box>
+                <Box className="listItem-indexnumberleft">{item.IndexNumber ?? <span>&nbsp;</span>}</Box>
             )}
 
             <ListItemBody
@@ -79,8 +76,8 @@ const ListContent: FC<ListContentProps> = ({
 
             {listOptions.showMediaInfo !== false && enableSideMediaInfo && (
                 <PrimaryMediaInfo
-                    className='secondary listItemMediaInfo'
-                    infoclass='mediaInfoText'
+                    className="secondary listItemMediaInfo"
+                    infoclass="mediaInfoText"
                     item={item}
                     showRuntimeInfo
                     showOfficialRatingInfo
@@ -91,17 +88,11 @@ const ListContent: FC<ListContentProps> = ({
                 />
             )}
 
-            {listOptions.recordButton
-                && (item.Type === 'Timer' || item.Type === BaseItemKind.Program) && (
-                indicator.getTimerIndicator('listItemAside')
-            )}
+            {listOptions.recordButton &&
+                (item.Type === 'Timer' || item.Type === BaseItemKind.Program) &&
+                indicator.getTimerIndicator('listItemAside')}
 
-            {!clickEntireItem && (
-                <ListViewUserDataButtons
-                    item={item}
-                    listOptions={listOptions}
-                />
-            )}
+            {!clickEntireItem && <ListViewUserDataButtons item={item} listOptions={listOptions} />}
         </ListContentWrapper>
     );
 };

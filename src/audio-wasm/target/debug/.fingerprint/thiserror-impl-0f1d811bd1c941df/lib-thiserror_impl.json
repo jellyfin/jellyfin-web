@@ -1,1 +1,24 @@
-{"rustc":4996801173321332248,"features":"[]","declared_features":"[]","target":6216210811039475267,"profile":3033921117576893,"path":16844333274049075927,"deps":[[6490058671768129134,"syn",false,5347621859497744001],[8265977775676642988,"proc_macro2",false,5349922885200794313],[8518574257822997924,"quote",false,14937581741372105566]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/thiserror-impl-0f1d811bd1c941df/dep-lib-thiserror_impl","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "[]",
+  "declared_features": "[]",
+  "target": 6216210811039475267,
+  "profile": 3033921117576893,
+  "path": 16844333274049075927,
+  "deps": [
+    [6490058671768129134, "syn", false, 5347621859497744001],
+    [8265977775676642988, "proc_macro2", false, 5349922885200794313],
+    [8518574257822997924, "quote", false, 14937581741372105566]
+  ],
+  "local": [
+    {
+      "CheckDepInfo": {
+        "dep_info": "debug/.fingerprint/thiserror-impl-0f1d811bd1c941df/dep-lib-thiserror_impl",
+        "checksum": false
+      }
+    }
+  ],
+  "rustflags": [],
+  "config": 2069994364910194474,
+  "compile_kind": 0
+}

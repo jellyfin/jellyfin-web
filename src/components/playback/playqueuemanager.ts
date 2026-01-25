@@ -79,9 +79,7 @@ class PlayQueueManager {
     removeFromPlaylist(playlistItemIds: string[]): void {
         const currentItem = this.getCurrentPlaylistItem();
 
-        this._playlist = this._playlist.filter(item =>
-            !playlistItemIds.includes(item.PlaylistItemId!)
-        );
+        this._playlist = this._playlist.filter(item => !playlistItemIds.includes(item.PlaylistItemId!));
 
         if (currentItem && !this._playlist.find(item => item.PlaylistItemId === currentItem.PlaylistItemId)) {
             // Current item was removed, clear it
@@ -115,14 +113,18 @@ class PlayQueueManager {
     setCurrentPlaylistItem(playlistItemId: string): void {
         // Validate input
         if (!playlistItemId || typeof playlistItemId !== 'string') {
-            logger.warn(`[PlayQueueManager] Invalid playlistItemId provided: ${playlistItemId}`, { component: 'PlayQueueManager' });
+            logger.warn(`[PlayQueueManager] Invalid playlistItemId provided: ${playlistItemId}`, {
+                component: 'PlayQueueManager'
+            });
             return;
         }
 
         // Verify item exists in playlist
         const index = findPlaylistIndex(playlistItemId, this._playlist);
         if (index === -1) {
-            logger.warn(`[PlayQueueManager] Playlist item not found: ${playlistItemId}`, { component: 'PlayQueueManager' });
+            logger.warn(`[PlayQueueManager] Playlist item not found: ${playlistItemId}`, {
+                component: 'PlayQueueManager'
+            });
             return;
         }
 

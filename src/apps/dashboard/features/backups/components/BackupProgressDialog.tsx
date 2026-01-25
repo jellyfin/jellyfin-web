@@ -13,9 +13,7 @@ const BackupProgressDialog: FunctionComponent<IProps> = ({ open }) => {
     return (
         <Dialog open={open}>
             <DialogOverlayComponent />
-            <DialogContentComponent
-                title={globalize.translate('MessageBackupInProgress')}
-            >
+            <DialogContentComponent title={globalize.translate('MessageBackupInProgress')}>
                 <Flex style={{ gap: '16px' }}>
                     <Progress />
                 </Flex>

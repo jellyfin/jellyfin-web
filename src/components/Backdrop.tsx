@@ -8,8 +8,8 @@ const Backdrop = () => {
 
     return (
         <>
-            <div className='backdropContainer' style={{ pointerEvents: 'none' }} />
-            <div className='backgroundContainer' style={{ pointerEvents: 'none' }} />
+            <div className="backdropContainer" style={{ pointerEvents: 'none' }} />
+            <div className="backgroundContainer" style={{ pointerEvents: 'none' }} />
         </>
     );
 };

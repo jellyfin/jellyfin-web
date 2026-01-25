@@ -14,7 +14,10 @@ const meta: Meta<typeof Text> = {
         weight: { control: 'select', options: ['normal', 'medium', 'bold'] },
         color: { control: 'select', options: ['primary', 'secondary', 'muted', 'error', 'success', 'warning', 'info'] },
         align: { control: 'select', options: ['left', 'center', 'right'] },
-        as: { control: 'select', options: ['p', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'small', 'strong', 'em'] }
+        as: {
+            control: 'select',
+            options: ['p', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'small', 'strong', 'em']
+        }
     }
 };
 
@@ -30,13 +33,13 @@ export const Default: Story = {
 function AllSizesStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Text size='xs'>Extra Small (12px)</Text>
-            <Text size='sm'>Small (14px)</Text>
-            <Text size='md'>Medium (16px)</Text>
-            <Text size='lg'>Large (18px)</Text>
-            <Text size='xl'>Extra Large (20px)</Text>
-            <Text size='xxl'>2XL (24px)</Text>
-            <Text size='display'>Display (32px)</Text>
+            <Text size="xs">Extra Small (12px)</Text>
+            <Text size="sm">Small (14px)</Text>
+            <Text size="md">Medium (16px)</Text>
+            <Text size="lg">Large (18px)</Text>
+            <Text size="xl">Extra Large (20px)</Text>
+            <Text size="xxl">2XL (24px)</Text>
+            <Text size="display">Display (32px)</Text>
         </div>
     );
 }
@@ -48,13 +51,13 @@ export const AllSizes: Story = {
 function AllColorsStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Text color='primary'>Primary Color</Text>
-            <Text color='secondary'>Secondary Color</Text>
-            <Text color='muted'>Muted Color</Text>
-            <Text color='error'>Error Color</Text>
-            <Text color='success'>Success Color</Text>
-            <Text color='warning'>Warning Color</Text>
-            <Text color='info'>Info Color</Text>
+            <Text color="primary">Primary Color</Text>
+            <Text color="secondary">Secondary Color</Text>
+            <Text color="muted">Muted Color</Text>
+            <Text color="error">Error Color</Text>
+            <Text color="success">Success Color</Text>
+            <Text color="warning">Warning Color</Text>
+            <Text color="info">Info Color</Text>
         </div>
     );
 }
@@ -66,9 +69,9 @@ export const AllColors: Story = {
 function AllWeightsStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Text weight='normal'>Normal Weight</Text>
-            <Text weight='medium'>Medium Weight</Text>
-            <Text weight='bold'>Bold Weight</Text>
+            <Text weight="normal">Normal Weight</Text>
+            <Text weight="medium">Medium Weight</Text>
+            <Text weight="bold">Bold Weight</Text>
         </div>
     );
 }
@@ -80,9 +83,9 @@ export const AllWeights: Story = {
 function AlignmentsStory(): ReactElement {
     return (
         <div style={{ width: '300px', border: '1px solid #333', borderRadius: '8px', padding: '16px' }}>
-            <Text align='left'>Left aligned text</Text>
-            <Text align='center'>Center aligned text</Text>
-            <Text align='right'>Right aligned text</Text>
+            <Text align="left">Left aligned text</Text>
+            <Text align="center">Center aligned text</Text>
+            <Text align="right">Right aligned text</Text>
         </div>
     );
 }
@@ -117,9 +120,9 @@ export const WithHtmlElement: Story = {
 function WithEmphasisStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Text as='em'>Emphasized text</Text>
-            <Text as='strong'>Strong text</Text>
-            <Text as='span'>Regular span</Text>
+            <Text as="em">Emphasized text</Text>
+            <Text as="strong">Strong text</Text>
+            <Text as="span">Regular span</Text>
         </div>
     );
 }
@@ -131,12 +134,16 @@ export const WithEmphasis: Story = {
 function ParagraphExampleStory(): ReactElement {
     return (
         <div style={{ width: '400px' }}>
-            <Text size='lg' weight='bold' style={{ marginBottom: '8px' }}>Article Title</Text>
-            <Text color='secondary'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <Text size="lg" weight="bold" style={{ marginBottom: '8px' }}>
+                Article Title
             </Text>
-            <Text color='secondary' style={{ marginTop: '8px' }}>
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <Text color="secondary">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua.
+            </Text>
+            <Text color="secondary" style={{ marginTop: '8px' }}>
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat.
             </Text>
         </div>
     );

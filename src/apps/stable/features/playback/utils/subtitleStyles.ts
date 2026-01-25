@@ -4,7 +4,7 @@ import type { UserSettings } from 'scripts/settings/userSettings';
 
 // TODO: This type override should be removed when userSettings are properly typed
 interface SubtitleAppearanceSettings {
-    subtitleStyling: SubtitleStylingOption
+    subtitleStyling: SubtitleStylingOption;
 }
 
 export function useCustomSubtitles(userSettings: UserSettings) {

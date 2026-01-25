@@ -38,7 +38,12 @@ $mui-bp-xl: 1536px;
             content: "";
             height: 100%;
             width: 100%;
-            background: linear-gradient(180deg, rgba(32, 32, 32, 0.6) 0%, rgba(32, 32, 32, 0.2) 4rem, rgba(0, 0, 0, 0) 50%);
+            background: linear-gradient(
+                180deg,
+                rgba(32, 32, 32, 0.6) 0%,
+                rgba(32, 32, 32, 0.2) 4rem,
+                rgba(0, 0, 0, 0) 50%
+            );
         }
     }
 }

@@ -75,7 +75,7 @@ const DevSettingsPage = () => {
         onSuccess: () => {
             setSaveMessage('Settings saved. Reload to apply changes.');
         },
-        onError: (error) => {
+        onError: error => {
             setSaveMessage(error instanceof Error ? error.message : 'Failed to save settings');
         }
     });
@@ -157,7 +157,7 @@ const DevSettingsPage = () => {
                     </CardHeader>
                     <CardBody>
                         <form
-                            onSubmit={(event) => {
+                            onSubmit={event => {
                                 event.preventDefault();
                                 void form.handleSubmit();
                             }}

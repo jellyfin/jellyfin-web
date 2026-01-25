@@ -34,13 +34,7 @@ export function useTimeStretch() {
     const stretcherRef = useRef<TimeStretcher | null>(null);
     const isInitialized = useRef(false);
 
-    const {
-        enabled,
-        pauseDuration,
-        resumeDuration,
-        setIsTransitioning,
-        setIsStopped
-    } = useTimeStretchStore();
+    const { enabled, pauseDuration, resumeDuration, setIsTransitioning, setIsStopped } = useTimeStretchStore();
 
     const initializeStretcher = useCallback(async () => {
         if (isInitialized.current) return;
@@ -55,47 +49,53 @@ export function useTimeStretch() {
         }
     }, []);
 
-    const pause = useCallback((duration?: number) => {
-        if (!enabled) return;
+    const pause = useCallback(
+        (duration?: number) => {
+            if (!enabled) return;
 
-        const stretcher = stretcherRef.current;
-        if (!stretcher) {
-            initializeStretcher();
-            return;
-        }
+            const stretcher = stretcherRef.current;
+            if (!stretcher) {
+                initializeStretcher();
+                return;
+            }
 
-        const transitionDuration = duration ?? pauseDuration;
+            const transitionDuration = duration ?? pauseDuration;
 
-        if (stretcher.begin_pause_transition) {
-            stretcher.begin_pause_transition(transitionDuration);
-        } else if (stretcher.beginPauseTransition) {
-            stretcher.beginPauseTransition(transitionDuration);
-        }
+            if (stretcher.begin_pause_transition) {
+                stretcher.begin_pause_transition(transitionDuration);
+            } else if (stretcher.beginPauseTransition) {
+                stretcher.beginPauseTransition(transitionDuration);
+            }
 
-        setIsTransitioning(true);
-        logger.info(`[useTimeStretch] Pause transition: ${transitionDuration}s`, { component: 'useTimeStretch' });
-    }, [enabled, pauseDuration, initializeStretcher, setIsTransitioning]);
+            setIsTransitioning(true);
+            logger.info(`[useTimeStretch] Pause transition: ${transitionDuration}s`, { component: 'useTimeStretch' });
+        },
+        [enabled, pauseDuration, initializeStretcher, setIsTransitioning]
+    );
 
-    const resume = useCallback((duration?: number) => {
-        if (!enabled) return;
+    const resume = useCallback(
+        (duration?: number) => {
+            if (!enabled) return;
 
-        const stretcher = stretcherRef.current;
-        if (!stretcher) {
-            initializeStretcher();
-            return;
-        }
+            const stretcher = stretcherRef.current;
+            if (!stretcher) {
+                initializeStretcher();
+                return;
+            }
 
-        const transitionDuration = duration ?? resumeDuration;
+            const transitionDuration = duration ?? resumeDuration;
 
-        if (stretcher.begin_resume_transition) {
-            stretcher.begin_resume_transition(transitionDuration);
-        } else if (stretcher.beginResumeTransition) {
-            stretcher.beginResumeTransition(transitionDuration);
-        }
+            if (stretcher.begin_resume_transition) {
+                stretcher.begin_resume_transition(transitionDuration);
+            } else if (stretcher.beginResumeTransition) {
+                stretcher.beginResumeTransition(transitionDuration);
+            }
 
-        setIsTransitioning(true);
-        logger.info(`[useTimeStretch] Resume transition: ${transitionDuration}s`, { component: 'useTimeStretch' });
-    }, [enabled, resumeDuration, initializeStretcher, setIsTransitioning]);
+            setIsTransitioning(true);
+            logger.info(`[useTimeStretch] Resume transition: ${transitionDuration}s`, { component: 'useTimeStretch' });
+        },
+        [enabled, resumeDuration, initializeStretcher, setIsTransitioning]
+    );
 
     const setTempo = useCallback((tempo: number) => {
         const stretcher = stretcherRef.current;

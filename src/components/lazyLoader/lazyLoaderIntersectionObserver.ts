@@ -45,7 +45,11 @@ export class LazyLoader {
     }
 }
 
-function unveilElements(elements: HTMLCollectionOf<Element>, _root: Element, callback: LazyLoaderOptions['callback']): void {
+function unveilElements(
+    elements: HTMLCollectionOf<Element>,
+    _root: Element,
+    callback: LazyLoaderOptions['callback']
+): void {
     if (!elements.length) return;
     const lazyLoader = new LazyLoader({ callback });
     lazyLoader.addElements(elements);

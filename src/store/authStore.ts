@@ -33,21 +33,21 @@ const initialState = {
     user: null as User | null,
     isAuthenticated: false,
     isLoading: false,
-    error: null as string | null,
+    error: null as string | null
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>(set => ({
     ...initialState,
 
-    setUser: (user) => set({ user, isAuthenticated: !!user }),
+    setUser: user => set({ user, isAuthenticated: !!user }),
 
-    setLoading: (loading) => set({ isLoading: loading }),
+    setLoading: loading => set({ isLoading: loading }),
 
-    setError: (error) => set({ error }),
+    setError: error => set({ error }),
 
-    login: (user) => set({ user, isAuthenticated: true, error: null }),
+    login: user => set({ user, isAuthenticated: true, error: null }),
 
     logout: () => set(initialState),
 
-    clearError: () => set({ error: null }),
+    clearError: () => set({ error: null })
 }));

@@ -9,13 +9,10 @@ export const useDeleteProvider = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: LiveTvApiDeleteListingProviderRequest) => (
-            getLiveTvApi(api!)
-                .deleteListingProvider(params)
-        ),
+        mutationFn: (params: LiveTvApiDeleteListingProviderRequest) => getLiveTvApi(api!).deleteListingProvider(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ 'NamedConfiguration', 'livetv' ]
+                queryKey: ['NamedConfiguration', 'livetv']
             });
         }
     });

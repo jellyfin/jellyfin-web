@@ -20,7 +20,7 @@ export class PdfPlayer {
     id: string = 'pdfplayer';
     isLocalPlayer: boolean = true;
     priority: number = 1;
-    
+
     item: any;
     mediaElement: any;
     book: any;
@@ -153,7 +153,8 @@ export class PdfPlayer {
             });
 
             elem.id = 'pdfPlayer';
-            elem.innerHTML = '<canvas id="canvas"></canvas><div class="actionButtons"><button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button></div>';
+            elem.innerHTML =
+                '<canvas id="canvas"></canvas><div class="actionButtons"><button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button></div>';
 
             dialogHelper.open(elem);
         }
@@ -181,7 +182,7 @@ export class PdfPlayer {
                 if (this.cancellationToken) return;
                 this.book = book;
                 this.loaded = true;
-                
+
                 useBookStore.getState().setCurrentBook(item.Id, book.numPages);
 
                 const percentageTicks = options.startPositionTicks / 10000;
@@ -191,7 +192,7 @@ export class PdfPlayer {
                 } else {
                     this.loadPage(1);
                 }
-                
+
                 useBookStore.getState().setLoaded(true);
             });
         });
@@ -251,7 +252,8 @@ export class PdfPlayer {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then((page: any) => {
             const original = page.getViewport({ scale: 1 });
-            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
+            const scale =
+                Math.min(window.innerHeight / original.height, window.innerWidth / original.width) * devicePixelRatio;
             const viewport = page.getViewport({ scale });
 
             canvas.width = viewport.width;

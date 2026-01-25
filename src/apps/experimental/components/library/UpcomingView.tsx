@@ -11,16 +11,15 @@ import type { LibraryViewProps } from 'types/library';
 // eslint-disable-next-line sonarjs/function-return-type
 const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
     const { __legacyApiClient__ } = useApi();
-    const { isLoading, data: groupsUpcomingEpisodes } =
-        useGetGroupsUpcomingEpisodes(parentId);
+    const { isLoading, data: groupsUpcomingEpisodes } = useGetGroupsUpcomingEpisodes(parentId);
 
     if (isLoading) return <Loading />;
 
     if (!groupsUpcomingEpisodes?.length) {
-        return <NoItemsMessage message='MessagePleaseEnsureInternetMetadata' />;
+        return <NoItemsMessage message="MessagePleaseEnsureInternetMetadata" />;
     }
 
-    return groupsUpcomingEpisodes?.map((group) => (
+    return groupsUpcomingEpisodes?.map(group => (
         <SectionContainer
             key={group.name}
             sectionHeaderProps={{

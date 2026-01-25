@@ -63,14 +63,14 @@ export const Component = (): React.ReactElement => {
 
     return (
         <Page
-            id='repositories'
+            id="repositories"
             title={globalize.translate('TabRepositories')}
-            className='type-interior mainAnimatedPage'
+            className="type-interior mainAnimatedPage"
         >
             <NewRepositoryForm open={isRepositoryFormOpen} onClose={onRepositoryFormClose} onAdd={onRepositoryAdd} />
             <Box style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
                 {isError ? (
-                    <Alert variant='error'>{globalize.translate('RepositoriesPageLoadError')}</Alert>
+                    <Alert variant="error">{globalize.translate('RepositoriesPageLoadError')}</Alert>
                 ) : (
                     <Box className={`${Flex} ${Flex.col}`} style={{ gap: 32 }}>
                         <Box
@@ -84,7 +84,7 @@ export const Component = (): React.ReactElement => {
                         </Box>
 
                         {repositories && repositories.length > 0 ? (
-                            <Paper variant='outlined' style={{ borderRadius: '8px', overflow: 'hidden' }}>
+                            <Paper variant="outlined" style={{ borderRadius: '8px', overflow: 'hidden' }}>
                                 <List
                                     style={
                                         {
@@ -119,7 +119,7 @@ export const Component = (): React.ReactElement => {
                                 <Heading.H4 style={{ marginBottom: 8 }}>
                                     {globalize.translate('MessageNoRepositories')}
                                 </Heading.H4>
-                                <Text size='md' color='secondary'>
+                                <Text size="md" color="secondary">
                                     {globalize.translate('MessageAddRepository')}
                                 </Text>
                             </Box>

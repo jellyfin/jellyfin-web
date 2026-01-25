@@ -24,7 +24,7 @@ class PlaybackCore {
     lastCommand: any = null;
     scheduledCommandTimeout: any = null;
     syncTimeout: any = null;
-    
+
     // Preferences
     minDelaySpeedToSync: number = 60;
     maxDelaySpeedToSync: number = 3000;
@@ -102,9 +102,9 @@ class PlaybackCore {
         const playerWrapper = this.manager.getPlayerWrapper();
         if (!playerWrapper) return;
 
-        const currentPosition = (playerWrapper.currentTimeAsync ?
-            await playerWrapper.currentTimeAsync() :
-            playerWrapper.currentTime());
+        const currentPosition = playerWrapper.currentTimeAsync
+            ? await playerWrapper.currentTimeAsync()
+            : playerWrapper.currentTime();
         const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
         const isPlaying = playerWrapper.isPlaying();
 
@@ -133,11 +133,12 @@ class PlaybackCore {
 
     async applyCommand(command: any) {
         // Check if duplicate.
-        if (this.lastCommand
-            && this.lastCommand.When.getTime() === command.When.getTime()
-            && this.lastCommand.PositionTicks === command.PositionTicks
-            && this.lastCommand.Command === command.Command
-            && this.lastCommand.PlaylistItemId === command.PlaylistItemId
+        if (
+            this.lastCommand &&
+            this.lastCommand.When.getTime() === command.When.getTime() &&
+            this.lastCommand.PositionTicks === command.PositionTicks &&
+            this.lastCommand.Command === command.Command &&
+            this.lastCommand.PlaylistItemId === command.PlaylistItemId
         ) {
             logger.debug('SyncPlay applyCommand: duplicate command received', { component: 'SyncPlay', command });
 
@@ -148,9 +149,11 @@ class PlaybackCore {
                 return;
             } else {
                 const playerWrapper = this.manager.getPlayerWrapper();
-                const currentPositionTicks = Math.round((playerWrapper.currentTimeAsync ?
-                    await playerWrapper.currentTimeAsync() :
-                    playerWrapper.currentTime()) * Helper.TicksPerMillisecond);
+                const currentPositionTicks = Math.round(
+                    (playerWrapper.currentTimeAsync
+                        ? await playerWrapper.currentTimeAsync()
+                        : playerWrapper.currentTime()) * Helper.TicksPerMillisecond
+                );
                 const isPlaying = playerWrapper.isPlaying();
 
                 switch (command.Command) {
@@ -173,15 +176,23 @@ class PlaybackCore {
                         if (isPlaying || currentPositionTicks !== command.PositionTicks) {
                             const rangeWidth = 100; // In milliseconds.
                             // eslint-disable-next-line sonarjs/pseudo-random
-                            const randomOffsetTicks = Math.round((Math.random() - 0.5) * rangeWidth) * Helper.TicksPerMillisecond;
+                            const randomOffsetTicks =
+                                Math.round((Math.random() - 0.5) * rangeWidth) * Helper.TicksPerMillisecond;
                             this.scheduleSeek(command.When, command.PositionTicks + randomOffsetTicks);
-                            logger.debug('SyncPlay applyCommand: adding random offset to force seek', { component: 'SyncPlay', randomOffsetTicks, command });
+                            logger.debug('SyncPlay applyCommand: adding random offset to force seek', {
+                                component: 'SyncPlay',
+                                randomOffsetTicks,
+                                command
+                            });
                         } else {
                             this.sendBufferingRequest(false);
                         }
                         break;
                     default:
-                        logger.error('SyncPlay applyCommand: command not recognised', { component: 'SyncPlay', command });
+                        logger.error('SyncPlay applyCommand: command not recognised', {
+                            component: 'SyncPlay',
+                            command
+                        });
                         break;
                 }
                 return;
@@ -220,14 +231,14 @@ class PlaybackCore {
         const playAtTimeLocal = this.timeSyncCore.remoteDateToLocal(playAtTime);
 
         const playerWrapper = this.manager.getPlayerWrapper();
-        const currentPositionTicks = (playerWrapper.currentTimeAsync ?
-            await playerWrapper.currentTimeAsync() :
-            playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
+        const currentPositionTicks =
+            (playerWrapper.currentTimeAsync ? await playerWrapper.currentTimeAsync() : playerWrapper.currentTime()) *
+            Helper.TicksPerMillisecond;
 
         if (playAtTimeLocal > currentTime) {
             const playTimeout = playAtTimeLocal.getTime() - currentTime.getTime();
 
-            if ((currentPositionTicks - positionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
+            if (currentPositionTicks - positionTicks > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
                 this.localSeek(positionTicks);
             }
 
@@ -255,7 +266,11 @@ class PlaybackCore {
                 this.syncEnabled = true;
             }, enableSyncTimeout);
 
-            logger.debug('SyncPlay scheduleUnpause: unpause now', { component: 'SyncPlay', serverPositionTicks, currentPositionTicks });
+            logger.debug('SyncPlay scheduleUnpause: unpause now', {
+                component: 'SyncPlay',
+                serverPositionTicks,
+                currentPositionTicks
+            });
         }
     }
 
@@ -265,11 +280,13 @@ class PlaybackCore {
         const pauseAtTimeLocal = this.timeSyncCore.remoteDateToLocal(pauseAtTime);
 
         const callback = () => {
-            Helper.waitForEventOnce(this.manager, 'pause', Helper.WaitForPlayerEventTimeout).then(() => {
-                this.localSeek(positionTicks);
-            }).catch(() => {
-                this.localSeek(positionTicks);
-            });
+            Helper.waitForEventOnce(this.manager, 'pause', Helper.WaitForPlayerEventTimeout)
+                .then(() => {
+                    this.localSeek(positionTicks);
+                })
+                .catch(() => {
+                    this.localSeek(positionTicks);
+                });
             this.localPause();
         };
 
@@ -313,13 +330,19 @@ class PlaybackCore {
             this.localUnpause();
             this.localSeek(positionTicks);
 
-            Helper.waitForEventOnce(this.manager, 'ready', Helper.WaitForEventDefaultTimeout).then(() => {
-                this.localPause();
-                this.sendBufferingRequest(false);
-            }).catch((error: Error) => {
-                logger.error("SyncPlay: timed out waiting for 'ready' event", { component: 'SyncPlay', positionTicks, error: error.message });
-                this.localSeek(positionTicks);
-            });
+            Helper.waitForEventOnce(this.manager, 'ready', Helper.WaitForEventDefaultTimeout)
+                .then(() => {
+                    this.localPause();
+                    this.sendBufferingRequest(false);
+                })
+                .catch((error: Error) => {
+                    logger.error("SyncPlay: timed out waiting for 'ready' event", {
+                        component: 'SyncPlay',
+                        positionTicks,
+                        error: error.message
+                    });
+                    this.localSeek(positionTicks);
+                });
         };
 
         if (seekAtTimeLocal > currentTime) {
@@ -404,7 +427,12 @@ class PlaybackCore {
 
         if (this.syncEnabled && this.enableSyncCorrection) {
             const absDiffMillis = Math.abs(diffMillis);
-            if (playerWrapper.hasPlaybackRate() && this.useSpeedToSync && absDiffMillis >= this.minDelaySpeedToSync && absDiffMillis < this.maxDelaySpeedToSync) {
+            if (
+                playerWrapper.hasPlaybackRate() &&
+                this.useSpeedToSync &&
+                absDiffMillis >= this.minDelaySpeedToSync &&
+                absDiffMillis < this.maxDelaySpeedToSync
+            ) {
                 const MinSpeed = 0.2;
                 if (diffMillis <= -speedToSyncTime * MinSpeed) {
                     speedToSyncTime = Math.abs(diffMillis) / (1.0 - MinSpeed);

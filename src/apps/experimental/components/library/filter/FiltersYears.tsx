@@ -10,22 +10,18 @@ interface FiltersYearsProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersYears: FC<FiltersYearsProps> = ({
-    yearsOptions,
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersYears: FC<FiltersYearsProps> = ({ yearsOptions, libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersYearsChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = Number(event.target.value);
             const existingYears = libraryViewSettings?.Filters?.Years ?? [];
 
-            const updatedYears = existingYears.includes(value) ?
-                existingYears.filter((filter) => filter !== value) :
-                [...existingYears, value];
+            const updatedYears = existingYears.includes(value)
+                ? existingYears.filter(filter => filter !== value)
+                : [...existingYears, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -39,14 +35,10 @@ const FiltersYears: FC<FiltersYearsProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
-            {yearsOptions.map((filter) => (
+            {yearsOptions.map(filter => (
                 <Checkbox
                     key={filter}
-                    checked={
-                        !!libraryViewSettings?.Filters?.Years?.includes(
-                            Number(filter)
-                        )
-                    }
+                    checked={!!libraryViewSettings?.Filters?.Years?.includes(Number(filter))}
                     onChange={onFiltersYearsChange}
                     value={String(filter)}
                 >

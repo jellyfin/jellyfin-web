@@ -95,8 +95,8 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
                 {visualizerState.type === 'waveform' && (
                     <WaveformCell peaks={trackPeaks} duration={duration} currentTime={currentTime} />
                 )}
-                {visualizerState.type === 'frequency' && <FrequencyAnalyzer colorScheme='spectrum' barCount={64} />}
-                {visualizerState.type === 'butterchurn' && <ButterchurnViz preset='default' />}
+                {visualizerState.type === 'frequency' && <FrequencyAnalyzer colorScheme="spectrum" barCount={64} />}
+                {visualizerState.type === 'butterchurn' && <ButterchurnViz preset="default" />}
             </div>
 
             <Backdrop src={currentTrack?.imageUrl ?? null} />
@@ -115,7 +115,7 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
                         title={currentTrack?.name ?? null}
                         artist={currentTrack?.artist ?? null}
                         album={currentTrack?.album ?? null}
-                        size='lg'
+                        size="lg"
                     />
                 </div>
 
@@ -136,26 +136,26 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
                 </div>
 
                 <div className={controlsContainer}>
-                    <button type='button' className={controlButton} onClick={handlePrevious} aria-label='Previous'>
-                        <svg className={icon} viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'>
-                            <path d='M6 6h2v12H6zm3.5 6l8.5 6V6z' />
+                    <button type="button" className={controlButton} onClick={handlePrevious} aria-label="Previous">
+                        <svg className={icon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
                         </svg>
                     </button>
 
                     <button
-                        type='button'
+                        type="button"
                         className={playButton}
                         onClick={handlePlayPause}
                         aria-label={isPlaying ? 'Pause' : 'Play'}
                     >
-                        <svg className={icon} viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'>
-                            {isPlaying ? <path d='M6 19h4V5H6v14zm8-14v14h4V5h-4z' /> : <path d='M8 5v14l11-7z' />}
+                        <svg className={icon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            {isPlaying ? <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /> : <path d="M8 5v14l11-7z" />}
                         </svg>
                     </button>
 
-                    <button type='button' className={controlButton} onClick={handleNext} aria-label='Next'>
-                        <svg className={icon} viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'>
-                            <path d='M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z' />
+                    <button type="button" className={controlButton} onClick={handleNext} aria-label="Next">
+                        <svg className={icon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
                         </svg>
                     </button>
                 </div>

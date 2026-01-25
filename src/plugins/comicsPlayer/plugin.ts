@@ -19,7 +19,22 @@ import './style.scss';
 // supported book file extensions
 const FILE_EXTENSIONS = ['.cbr', '.cbt', '.cbz', '.cb7'];
 // the comic book archive supports any kind of image format as it's just a zip archive
-const IMAGE_FORMATS = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif', 'webp'];
+const IMAGE_FORMATS = [
+    'jpg',
+    'jpeg',
+    'jpe',
+    'jif',
+    'jfif',
+    'jfi',
+    'png',
+    'avif',
+    'gif',
+    'bmp',
+    'dib',
+    'tiff',
+    'tif',
+    'webp'
+];
 
 export class ComicsPlayer {
     name: string = 'Comics Player';
@@ -28,7 +43,7 @@ export class ComicsPlayer {
     isLocalPlayer: boolean = true;
     priority: number = 1;
     imageMap: Map<string, string> = new Map();
-    
+
     item: any;
     mediaElement: any;
     swiperInstance: any;
@@ -198,7 +213,7 @@ export class ComicsPlayer {
     unbindEvents() {
         const elem = this.mediaElement;
         elem?.removeEventListener('close', this.onDialogClosed);
-        
+
         document.removeEventListener('keydown', this.onWindowKeyDown);
     }
 
@@ -268,59 +283,62 @@ export class ComicsPlayer {
         // @ts-ignore
         import('swiper/css/bundle');
 
-        return this.archiveSource.load()
-            // @ts-ignore
-            .then(() => import('swiper/bundle'))
-            .then(({ Swiper }: any) => {
-                loading.hide();
+        return (
+            this.archiveSource
+                .load()
+                // @ts-ignore
+                .then(() => import('swiper/bundle'))
+                .then(({ Swiper }: any) => {
+                    loading.hide();
 
-                this.pageCount = this.archiveSource.urls.length;
-                this.currentPage = options.startPositionTicks / 10000 || 0;
-                
-                useBookStore.getState().setCurrentBook(item.Id, this.pageCount);
+                    this.pageCount = this.archiveSource.urls.length;
+                    this.currentPage = options.startPositionTicks / 10000 || 0;
 
-                this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
-                    direction: 'horizontal',
-                    loop: false,
-                    zoom: {
-                        minRatio: 1,
-                        toggle: true,
-                        containerClass: 'slider-zoom-container'
-                    },
-                    autoplay: false,
-                    keyboard: {
-                        enabled: true
-                    },
-                    preloadImages: true,
-                    slidesPerView: this.comicsPlayerSettings.pagesPerView,
-                    slidesPerGroup: this.comicsPlayerSettings.pagesPerView,
-                    initialSlide: this.currentPage,
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev'
-                    },
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                        type: 'fraction'
-                    },
-                    virtual: {
-                        slides: this.archiveSource.urls,
-                        cache: true,
-                        renderSlide: this.getImgFromUrl,
-                        addSlidesBefore: 1,
-                        addSlidesAfter: 1
-                    }
-                });
+                    useBookStore.getState().setCurrentBook(item.Id, this.pageCount);
 
-                this.swiperInstance.on('slideChange', () => {
-                    this.currentPage = this.swiperInstance.activeIndex;
-                    useBookStore.getState().setPage(this.currentPage + 1);
-                    Events.trigger(this, 'pause');
-                });
-                
-                useBookStore.getState().setLoaded(true);
-            });
+                    this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
+                        direction: 'horizontal',
+                        loop: false,
+                        zoom: {
+                            minRatio: 1,
+                            toggle: true,
+                            containerClass: 'slider-zoom-container'
+                        },
+                        autoplay: false,
+                        keyboard: {
+                            enabled: true
+                        },
+                        preloadImages: true,
+                        slidesPerView: this.comicsPlayerSettings.pagesPerView,
+                        slidesPerGroup: this.comicsPlayerSettings.pagesPerView,
+                        initialSlide: this.currentPage,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev'
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                            type: 'fraction'
+                        },
+                        virtual: {
+                            slides: this.archiveSource.urls,
+                            cache: true,
+                            renderSlide: this.getImgFromUrl,
+                            addSlidesBefore: 1,
+                            addSlidesAfter: 1
+                        }
+                    });
+
+                    this.swiperInstance.on('slideChange', () => {
+                        this.currentPage = this.swiperInstance.activeIndex;
+                        useBookStore.getState().setPage(this.currentPage + 1);
+                        Events.trigger(this, 'pause');
+                    });
+
+                    useBookStore.getState().setLoaded(true);
+                })
+        );
     }
 
     getImgFromUrl(url: string) {
@@ -367,7 +385,7 @@ class ArchiveSource {
             const index = name.lastIndexOf('.');
             return index !== -1 && IMAGE_FORMATS.includes(name.slice(index + 1).toLowerCase());
         });
-        files.sort((a: any, b: any) => a.file.name < b.file.name ? -1 : 1);
+        files.sort((a: any, b: any) => (a.file.name < b.file.name ? -1 : 1));
 
         for (const file of files) {
             const url = URL.createObjectURL(file.file);

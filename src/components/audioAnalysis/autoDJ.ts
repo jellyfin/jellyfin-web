@@ -107,7 +107,7 @@ async function loadWasmModule() {
     try {
         const wasm = await import('../../audio-analysis/pkg/jellyfin_audio_analysis');
         wasmModule = {
-            AutoDJAnalyzer: wasm.AutoDJAnalyzer as never,
+            AutoDJAnalyzer: wasm.AutoDJAnalyzer as never
         };
         logger.info('AutoDJ WASM module loaded successfully', { component: 'AutoDJ' });
         return wasmModule;
@@ -199,7 +199,7 @@ function createJSFallback() {
                 energyMatchOut: 0.7,
                 crossfadeDuration: 16,
                 primaryGenre: 'House',
-                genreConfidence: 0.7,
+                genreConfidence: 0.7
             };
         }
 
@@ -222,7 +222,7 @@ function createJSFallback() {
                 mixInPoint: current.introBestStartPoint + 2,
                 mixOutPoint: current.outroBestEndPoint - 4,
                 crossfadeDuration: 16,
-                fxRecommendation: harmonicCompatible ? 'Reverb - Hall, Light Echo' : 'Light Reverb',
+                fxRecommendation: harmonicCompatible ? 'Reverb - Hall, Light Echo' : 'Light Reverb'
             };
 
             return JSON.stringify(suggestion);
@@ -234,12 +234,12 @@ function createJSFallback() {
     }
 
     return {
-        AutoDJAnalyzer: JSAutoDJAnalyzer,
+        AutoDJAnalyzer: JSAutoDJAnalyzer
     };
 }
 
 export function loadAutoDJAnalyzer() {
-    return loadWasmModule().then((module) => ({
+    return loadWasmModule().then(module => ({
         AutoDJAnalyzer: module.AutoDJAnalyzer,
         analyzeTrack: (samples: Float32Array, sampleRate: number): FullTrackAnalysis => {
             const analyzer = new module.AutoDJAnalyzer(2048);
@@ -252,7 +252,7 @@ export function loadAutoDJAnalyzer() {
             const nextJson = JSON.stringify(next);
             const suggestionJson = analyzer.suggestTransition(currentJson, nextJson);
             return JSON.parse(suggestionJson);
-        },
+        }
     }));
 }
 

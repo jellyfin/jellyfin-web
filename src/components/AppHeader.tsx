@@ -1,12 +1,10 @@
 import React, { FC, useEffect } from 'react';
 
 interface AppHeaderParams {
-    isHidden?: boolean
+    isHidden?: boolean;
 }
 
-const AppHeader: FC<AppHeaderParams> = ({
-    isHidden = false
-}) => {
+const AppHeader: FC<AppHeaderParams> = ({ isHidden = false }) => {
     useEffect(() => {
         // Initialize the UI components after first render
         void import('../scripts/libraryMenu');
@@ -18,11 +16,11 @@ const AppHeader: FC<AppHeaderParams> = ({
          * directly so they need to be present in the DOM. We use display: none to hide them and prevent errors.
          */
         <div style={isHidden ? { display: 'none' } : undefined}>
-            <div className='mainDrawer hide'>
-                <div className='mainDrawer-scrollContainer scrollContainer focuscontainer-y' />
+            <div className="mainDrawer hide">
+                <div className="mainDrawer-scrollContainer scrollContainer focuscontainer-y" />
             </div>
-            <div className='skinHeader focuscontainer-x' />
-            <div className='mainDrawerHandle' />
+            <div className="skinHeader focuscontainer-x" />
+            <div className="mainDrawerHandle" />
         </div>
     );
 };

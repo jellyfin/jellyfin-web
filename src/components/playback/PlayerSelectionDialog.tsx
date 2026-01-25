@@ -52,11 +52,7 @@ interface PlayerSelectionDialogProps {
     anchorElement?: HTMLElement;
 }
 
-export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
-    open,
-    onClose,
-    anchorElement
-}) => {
+export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ open, onClose, anchorElement }) => {
     const [targets, setTargets] = useState<PlaybackTarget[]>([]);
     const [loading, setLoading] = useState(false);
     const [activePlayerInfo, setActivePlayerInfo] = useState<ActivePlayerInfo | null>(null);
@@ -70,7 +66,7 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
         setLoading(true);
         try {
             const playerInfo = playbackManager.getPlayerInfo();
-            
+
             if (playerInfo && !playerInfo.isLocalPlayer) {
                 setActivePlayerInfo(playerInfo);
                 setShowActivePlayerMenu(true);
@@ -79,7 +75,7 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
 
             const currentPlayerId = playerInfo?.id || null;
             const playbackTargets = await playbackManager.getTargets();
-            
+
             const mappedTargets: PlaybackTarget[] = playbackTargets.map((t: PlaybackTarget) => {
                 let name = t.name;
                 if (t.appName && t.appName !== t.name) {
@@ -92,10 +88,14 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
                     secondaryText: t.user?.Name || null
                 };
             });
-            
+
             setTargets(mappedTargets);
         } catch (error) {
-            logger.error('[PlayerSelectionDialog] Failed to load targets', { component: 'PlayerSelectionDialog' }, error as Error);
+            logger.error(
+                '[PlayerSelectionDialog] Failed to load targets',
+                { component: 'PlayerSelectionDialog' },
+                error as Error
+            );
         } finally {
             setLoading(false);
         }
@@ -127,7 +127,11 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
             await playbackManager.trySetActivePlayer(target.playerName!, target);
             onClose();
         } catch (error) {
-            logger.error('[PlayerSelectionDialog] Failed to select target', { component: 'PlayerSelectionDialog' }, error as Error);
+            logger.error(
+                '[PlayerSelectionDialog] Failed to select target',
+                { component: 'PlayerSelectionDialog' },
+                error as Error
+            );
         }
     };
 
@@ -174,14 +178,16 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
     if (showActivePlayerMenu && activePlayerInfo) {
         return (
             <Dialog open={open} onOpenChange={onClose}>
-                <DialogContent style={{
-                    '--Dialog-width': '400px',
-                    '--Dialog-padding': '24px'
-                }}>
-                    <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
-                        <DialogTitle>
-                            {activePlayerInfo.deviceName || activePlayerInfo.name}
-                        </DialogTitle>
+                <DialogContent
+                    style={{
+                        '--Dialog-width': '400px',
+                        '--Dialog-padding': '24px'
+                    }}
+                >
+                    <Flex
+                        style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}
+                    >
+                        <DialogTitle>{activePlayerInfo.deviceName || activePlayerInfo.name}</DialogTitle>
                         <IconButton variant="plain" onClick={onClose} aria-label="Close">
                             <Cross1Icon />
                         </IconButton>
@@ -192,20 +198,14 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
                     <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
                         {activePlayerInfo.supportedCommands?.includes('DisplayContent') && (
                             <Box style={{ marginBottom: vars.spacing.md }}>
-                                <Checkbox
-                                    checked={enableMirror}
-                                    onChange={handleMirrorChange}
-                                >
+                                <Checkbox checked={enableMirror} onChange={handleMirrorChange}>
                                     Enable display mirroring
                                 </Checkbox>
                             </Box>
                         )}
 
                         <Box style={{ marginBottom: vars.spacing.md }}>
-                            <Checkbox
-                                checked={enableAutoCast}
-                                onChange={handleAutoCastChange}
-                            >
+                            <Checkbox checked={enableAutoCast} onChange={handleAutoCastChange}>
                                 Enable auto-cast
                             </Checkbox>
                         </Box>
@@ -246,10 +246,12 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent style={{
-                '--Dialog-width': '400px',
-                '--Dialog-padding': '24px'
-            }}>
+            <DialogContent
+                style={{
+                    '--Dialog-width': '400px',
+                    '--Dialog-padding': '24px'
+                }}
+            >
                 <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
                     <DialogTitle>Play On</DialogTitle>
                     <IconButton variant="plain" onClick={onClose} aria-label="Close">
@@ -263,12 +265,10 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
                             Loading playback devices...
                         </Text>
                     ) : targets.length === 0 ? (
-                        <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>
-                            No playback devices found
-                        </Text>
+                        <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>No playback devices found</Text>
                     ) : (
                         <List>
-                            {targets.map((target) => (
+                            {targets.map(target => (
                                 <ListItem key={target.id} data-testid="player-item">
                                     <ListItemButton
                                         onClick={() => handleTargetSelect(target)}

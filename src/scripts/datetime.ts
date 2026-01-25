@@ -31,11 +31,11 @@ export function getDisplayRunningTime(ticks: number): string {
     let hours = Math.floor(remainingTicks / ticksPerHour);
     if (hours > 0) {
         parts.push(hours.toLocaleString(globalize.getCurrentDateTimeLocale()));
-        remainingTicks -= (hours * ticksPerHour);
+        remainingTicks -= hours * ticksPerHour;
     }
 
     let minutes = Math.floor(remainingTicks / ticksPerMinute);
-    remainingTicks -= (minutes * ticksPerMinute);
+    remainingTicks -= minutes * ticksPerMinute;
 
     if (minutes < 10 && hours > 0) {
         parts.push('0' + minutes.toLocaleString(globalize.getCurrentDateTimeLocale()));
@@ -80,9 +80,11 @@ export function getDisplayTime(date: Date | string): string {
 
 export function isRelativeDay(date: Date, offsetInDays: number): boolean {
     const target = addDays(new Date(), offsetInDays);
-    return date.getFullYear() === target.getFullYear() && 
-           date.getMonth() === target.getMonth() && 
-           date.getDate() === target.getDate();
+    return (
+        date.getFullYear() === target.getFullYear() &&
+        date.getMonth() === target.getMonth() &&
+        date.getDate() === target.getDate()
+    );
 }
 
 const datetime = {

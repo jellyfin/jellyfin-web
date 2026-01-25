@@ -18,9 +18,15 @@ class Measurement {
         this.responseReceived = responseReceived.getTime();
     }
 
-    getOffset() { return ((this.requestReceived - this.requestSent) + (this.responseSent - this.responseReceived)) / 2; }
-    getDelay() { return (this.responseReceived - this.requestSent) - (this.responseSent - this.requestReceived); }
-    getPing() { return this.getDelay() / 2; }
+    getOffset() {
+        return (this.requestReceived - this.requestSent + (this.responseSent - this.responseReceived)) / 2;
+    }
+    getDelay() {
+        return this.responseReceived - this.requestSent - (this.responseSent - this.requestReceived);
+    }
+    getPing() {
+        return this.getDelay() / 2;
+    }
 }
 
 class TimeSync {
@@ -36,9 +42,15 @@ class TimeSync {
         this.manager = syncPlayManager;
     }
 
-    isReady() { return !!this.measurement; }
-    getTimeOffset() { return this.measurement ? this.measurement.getOffset() : 0; }
-    getPing() { return this.measurement ? this.measurement.getPing() : 0; }
+    isReady() {
+        return !!this.measurement;
+    }
+    getTimeOffset() {
+        return this.measurement ? this.measurement.getOffset() : 0;
+    }
+    getPing() {
+        return this.measurement ? this.measurement.getPing() : 0;
+    }
 
     updateTimeOffset(measurement: Measurement) {
         this.measurements.push(measurement);
@@ -47,7 +59,9 @@ class TimeSync {
         this.measurement = sorted[0];
     }
 
-    requestPing(): Promise<any> { return Promise.reject(new Error('Not implemented')); }
+    requestPing(): Promise<any> {
+        return Promise.reject(new Error('Not implemented'));
+    }
 
     private internalRequestPing() {
         if (!this.poller && !this.pingStop) {
@@ -62,7 +76,12 @@ class TimeSync {
     }
 
     private onPingResponseCallback(result: any) {
-        const measurement = new Measurement(result.requestSent, result.requestReceived, result.responseSent, result.responseReceived);
+        const measurement = new Measurement(
+            result.requestSent,
+            result.requestReceived,
+            result.responseSent,
+            result.responseReceived
+        );
         this.updateTimeOffset(measurement);
         if (this.pings >= GreedyPingCount) this.pollingInterval = PollingIntervalLowProfile;
         else this.pings++;
@@ -73,11 +92,29 @@ class TimeSync {
         Events.trigger(this, 'update', [error, null, null]);
     }
 
-    startPing() { this.pingStop = false; this.internalRequestPing(); }
-    stopPing() { this.pingStop = true; if (this.poller) { clearTimeout(this.poller); this.poller = null; } }
-    forceUpdate() { this.stopPing(); this.pollingInterval = PollingIntervalGreedy; this.pings = 0; this.startPing(); }
-    remoteDateToLocal(remote: Date) { return new Date(remote.getTime() - this.getTimeOffset()); }
-    localDateToRemote(local: Date) { return new Date(local.getTime() + this.getTimeOffset()); }
+    startPing() {
+        this.pingStop = false;
+        this.internalRequestPing();
+    }
+    stopPing() {
+        this.pingStop = true;
+        if (this.poller) {
+            clearTimeout(this.poller);
+            this.poller = null;
+        }
+    }
+    forceUpdate() {
+        this.stopPing();
+        this.pollingInterval = PollingIntervalGreedy;
+        this.pings = 0;
+        this.startPing();
+    }
+    remoteDateToLocal(remote: Date) {
+        return new Date(remote.getTime() - this.getTimeOffset());
+    }
+    localDateToRemote(local: Date) {
+        return new Date(local.getTime() + this.getTimeOffset());
+    }
 }
 
 export default TimeSync;

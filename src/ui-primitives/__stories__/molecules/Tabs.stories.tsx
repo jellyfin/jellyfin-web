@@ -21,7 +21,7 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                     marginBottom: vars.spacing.md
                 }}
             >
-                {tabs.map((tab) => (
+                {tabs.map(tab => (
                     <TabsPrimitive.Trigger
                         key={tab.value}
                         value={tab.value}
@@ -40,7 +40,7 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                         {tab.label}
                         {activeTab === tab.value && (
                             <motion.div
-                                layoutId='activeTab'
+                                layoutId="activeTab"
                                 style={{
                                     position: 'absolute',
                                     bottom: -1,
@@ -56,7 +56,7 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                 ))}
             </TabsPrimitive.List>
 
-            {tabs.map((tab) => (
+            {tabs.map(tab => (
                 <TabsPrimitive.Content key={tab.value} value={tab.value} asChild>
                     <motion.div
                         initial={{ opacity: 0, x: 10 }}

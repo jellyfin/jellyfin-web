@@ -7,7 +7,7 @@ export function useThemes() {
 
     const defaultTheme = useMemo(() => {
         return themes?.find(theme => theme.default);
-    }, [ themes ]);
+    }, [themes]);
 
     return {
         themes: themes || [],

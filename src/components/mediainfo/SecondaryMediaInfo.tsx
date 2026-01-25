@@ -49,11 +49,7 @@ const SecondaryMediaInfo: FC<SecondaryMediaInfoProps> = ({
     return (
         <Box className={cssClass}>
             {miscInfo.map((info, index) => (
-                <MediaInfoItem
-                    key={getInfoKey(info, index)}
-                    className={infoclass}
-                    miscInfo={info}
-                />
+                <MediaInfoItem key={getInfoKey(info, index)} className={infoclass} miscInfo={info} />
             ))}
 
             {showTimerIndicatorInfo !== false && indicator.getTimerIndicator()}

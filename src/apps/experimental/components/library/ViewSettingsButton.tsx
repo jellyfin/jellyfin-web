@@ -15,12 +15,7 @@ import globalize from 'lib/globalize';
 import { type LibraryViewSettings, ViewMode } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
-const IMAGE_TYPE_EXCLUDED_VIEWS = [
-    LibraryTab.Episodes,
-    LibraryTab.Artists,
-    LibraryTab.AlbumArtists,
-    LibraryTab.Albums
-];
+const IMAGE_TYPE_EXCLUDED_VIEWS = [LibraryTab.Episodes, LibraryTab.Artists, LibraryTab.AlbumArtists, LibraryTab.Albums];
 
 const imageTypesOptions = [
     { label: 'Primary', value: ImageType.Primary },
@@ -33,23 +28,17 @@ const imageTypesOptions = [
 interface ViewSettingsButtonProps {
     viewType: LibraryTab;
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<
-        React.SetStateAction<LibraryViewSettings>
-    >;
+    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
-    viewType,
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
-    const [ isMenuOpen, setIsMenuOpen ] = React.useState(false);
+const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({ viewType, libraryViewSettings, setLibraryViewSettings }) => {
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const handleChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             const name = event.target.name;
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 [name]: event.target.checked
             }));
@@ -62,55 +51,54 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
             ...prevState,
             ViewMode: ViewMode.GridView
         }));
-    }, [ setLibraryViewSettings ]);
+    }, [setLibraryViewSettings]);
 
     const onListViewClick = useCallback(() => {
         setLibraryViewSettings(prevState => ({
             ...prevState,
             ViewMode: ViewMode.ListView
         }));
-    }, [ setLibraryViewSettings ]);
+    }, [setLibraryViewSettings]);
 
-    const onSelectChange = useCallback((value: string) => {
-        setLibraryViewSettings((prevState) => ({
-            ...prevState,
-            ImageType: value as ImageType
-        }));
-    }, [ setLibraryViewSettings ]);
+    const onSelectChange = useCallback(
+        (value: string) => {
+            setLibraryViewSettings(prevState => ({
+                ...prevState,
+                ImageType: value as ImageType
+            }));
+        },
+        [setLibraryViewSettings]
+    );
 
     const isGridView = libraryViewSettings.ViewMode === ViewMode.GridView;
     const isImageTypeVisible = !IMAGE_TYPE_EXCLUDED_VIEWS.includes(viewType);
 
     return (
         <Menu
-            id='selectview-popover'
+            id="selectview-popover"
             open={isMenuOpen}
             onOpenChange={setIsMenuOpen}
-            align='center'
-            trigger={(
-                <IconButton
-                    title={globalize.translate('ViewSettings')}
-                    aria-haspopup='true'
-                    size='lg'
-                >
+            align="center"
+            trigger={
+                <IconButton title={globalize.translate('ViewSettings')} aria-haspopup="true" size="lg">
                     <DotsVerticalIcon />
                 </IconButton>
-            )}
+            }
         >
             <MenuItem onClick={onGridViewClick}>
-                <Flex align='center' gap={vars.spacing.sm}>
+                <Flex align="center" gap={vars.spacing.sm}>
                     <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
                         {isGridView ? <CheckIcon /> : null}
                     </Box>
-                    <Text size='md'>{globalize.translate('GridView')}</Text>
+                    <Text size="md">{globalize.translate('GridView')}</Text>
                 </Flex>
             </MenuItem>
             <MenuItem onClick={onListViewClick}>
-                <Flex align='center' gap={vars.spacing.sm}>
+                <Flex align="center" gap={vars.spacing.sm}>
                     <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
                         {!isGridView ? <CheckIcon /> : null}
                     </Box>
-                    <Text size='md'>{globalize.translate('ListView')}</Text>
+                    <Text size="md">{globalize.translate('ListView')}</Text>
                 </Flex>
             </MenuItem>
 
@@ -120,22 +108,16 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                     {isImageTypeVisible && (
                         <>
                             <Box style={{ padding: vars.spacing.sm, width: 220 }}>
-                                <Text size='sm' weight='medium' color='secondary'>
+                                <Text size="sm" weight="medium" color="secondary">
                                     {globalize.translate('LabelImageType')}
                                 </Text>
-                                <Select
-                                    value={libraryViewSettings.ImageType}
-                                    onValueChange={onSelectChange}
-                                >
+                                <Select value={libraryViewSettings.ImageType} onValueChange={onSelectChange}>
                                     <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
                                         <SelectValue placeholder={globalize.translate('LabelImageType')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {imageTypesOptions.map((imageType) => (
-                                            <SelectItem
-                                                key={imageType.value}
-                                                value={imageType.value}
-                                            >
+                                        {imageTypesOptions.map(imageType => (
+                                            <SelectItem key={imageType.value} value={imageType.value}>
                                                 {globalize.translate(imageType.label)}
                                             </SelectItem>
                                         ))}
@@ -146,27 +128,15 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                         </>
                     )}
                     <Box style={{ padding: vars.spacing.sm }}>
-                        <Checkbox
-                            checked={libraryViewSettings.ShowTitle}
-                            onChange={handleChange}
-                            name='ShowTitle'
-                        >
+                        <Checkbox checked={libraryViewSettings.ShowTitle} onChange={handleChange} name="ShowTitle">
                             {globalize.translate('ShowTitle')}
                         </Checkbox>
                         {isImageTypeVisible && (
-                            <Checkbox
-                                checked={libraryViewSettings.ShowYear}
-                                onChange={handleChange}
-                                name='ShowYear'
-                            >
+                            <Checkbox checked={libraryViewSettings.ShowYear} onChange={handleChange} name="ShowYear">
                                 {globalize.translate('ShowYear')}
                             </Checkbox>
                         )}
-                        <Checkbox
-                            checked={libraryViewSettings.CardLayout}
-                            onChange={handleChange}
-                            name='CardLayout'
-                        >
+                        <Checkbox checked={libraryViewSettings.CardLayout} onChange={handleChange} name="CardLayout">
                             {globalize.translate('EnableCardLayout')}
                         </Checkbox>
                     </Box>

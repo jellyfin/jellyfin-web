@@ -16,11 +16,7 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({ item }) => {
     }, [item]);
 
     return (
-        <IconButton
-            title={globalize.translate('Shuffle')}
-            className='button-flat btnShuffle'
-            onClick={shuffle}
-        >
+        <IconButton title={globalize.translate('Shuffle')} className="button-flat btnShuffle" onClick={shuffle}>
             <ShuffleIcon />
         </IconButton>
     );

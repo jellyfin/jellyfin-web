@@ -10,7 +10,7 @@ const LogLevelChip = ({ level }: { level: LogLevel }) => {
     const variant = getLogLevelColor(level);
 
     return (
-        <Chip size='sm' variant={variant as 'error' | 'warning' | 'info' | 'success' | 'neutral'}>
+        <Chip size="sm" variant={variant as 'error' | 'warning' | 'info' | 'success' | 'neutral'}>
             <span title={levelText}>{levelText}</span>
         </Chip>
     );

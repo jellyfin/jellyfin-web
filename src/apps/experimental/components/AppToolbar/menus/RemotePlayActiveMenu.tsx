@@ -1,8 +1,4 @@
-import {
-    CheckIcon,
-    Cross2Icon,
-    GearIcon
-} from '@radix-ui/react-icons';
+import { CheckIcon, Cross2Icon, GearIcon } from '@radix-ui/react-icons';
 import dialog from 'components/dialog/dialog';
 import { playbackManager } from 'components/playback/playbackmanager';
 import React, { type FC, useCallback, useState } from 'react';
@@ -16,97 +12,85 @@ import { enable, isEnabled } from 'scripts/autocast';
 import globalize from 'lib/globalize';
 
 interface RemotePlayActiveMenuProps {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-    trigger: React.ReactNode
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    trigger: React.ReactNode;
     playerInfo: {
-        name: string
-        isLocalPlayer: boolean
-        id?: string
-        deviceName?: string
-        playableMediaTypes?: string[]
-        supportedCommands?: string[]
-    } | null
+        name: string;
+        isLocalPlayer: boolean;
+        id?: string;
+        deviceName?: string;
+        playableMediaTypes?: string[];
+        supportedCommands?: string[];
+    } | null;
 }
 
 export const ID = 'app-remote-play-active-menu';
 
-const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
-    open,
-    onOpenChange,
-    trigger,
-    playerInfo
-}) => {
+const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({ open, onOpenChange, trigger, playerInfo }) => {
     const navigate = useNavigate();
-    const [ isDisplayMirrorEnabled, setIsDisplayMirrorEnabled ] = useState(playbackManager.enableDisplayMirroring());
-    const isDisplayMirrorSupported = playerInfo?.supportedCommands && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1;
+    const [isDisplayMirrorEnabled, setIsDisplayMirrorEnabled] = useState(playbackManager.enableDisplayMirroring());
+    const isDisplayMirrorSupported =
+        playerInfo?.supportedCommands && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1;
     const toggleDisplayMirror = useCallback(() => {
         playbackManager.enableDisplayMirroring(!isDisplayMirrorEnabled);
         setIsDisplayMirrorEnabled(!isDisplayMirrorEnabled);
-    }, [ isDisplayMirrorEnabled, setIsDisplayMirrorEnabled ]);
+    }, [isDisplayMirrorEnabled, setIsDisplayMirrorEnabled]);
 
-    const [ isAutoCastEnabled, setIsAutoCastEnabled ] = useState(isEnabled());
+    const [isAutoCastEnabled, setIsAutoCastEnabled] = useState(isEnabled());
     const toggleAutoCast = useCallback(() => {
         enable(!isAutoCastEnabled);
         setIsAutoCastEnabled(!isAutoCastEnabled);
-    }, [ isAutoCastEnabled ]);
+    }, [isAutoCastEnabled]);
 
     const remotePlayerName = playerInfo?.deviceName || playerInfo?.name;
 
     const disconnectRemotePlayer = useCallback(() => {
         if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
-            dialog.show({
-                buttons: [
-                    {
-                        name: globalize.translate('Yes'),
-                        id: 'yes'
-                    }, {
-                        name: globalize.translate('No'),
-                        id: 'no'
-                    }
-                ],
-                text: globalize.translate('ConfirmEndPlayerSession', remotePlayerName)
-            }).then(id => {
-                onOpenChange(false);
+            dialog
+                .show({
+                    buttons: [
+                        {
+                            name: globalize.translate('Yes'),
+                            id: 'yes'
+                        },
+                        {
+                            name: globalize.translate('No'),
+                            id: 'no'
+                        }
+                    ],
+                    text: globalize.translate('ConfirmEndPlayerSession', remotePlayerName)
+                })
+                .then(id => {
+                    onOpenChange(false);
 
-                if (id === 'yes') {
-                    const player = playbackManager.getCurrentPlayer();
-                    if (player?.endSession) {
-                        player.endSession();
+                    if (id === 'yes') {
+                        const player = playbackManager.getCurrentPlayer();
+                        if (player?.endSession) {
+                            player.endSession();
+                        }
                     }
-                }
-                playbackManager.setDefaultPlayerActive();
-            }).catch(() => {
-            // Dialog closed
-            });
+                    playbackManager.setDefaultPlayerActive();
+                })
+                .catch(() => {
+                    // Dialog closed
+                });
         } else {
             onOpenChange(false);
             playbackManager.setDefaultPlayerActive();
         }
-    }, [ onOpenChange, remotePlayerName ]);
+    }, [onOpenChange, remotePlayerName]);
 
     const renderMenuItemContent = (icon: React.ReactNode | null, label: string) => (
-        <Flex align='center' gap={vars.spacing.sm}>
-            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
-                {icon}
-            </Box>
-            <Text size='md'>{label}</Text>
+        <Flex align="center" gap={vars.spacing.sm}>
+            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>{icon}</Box>
+            <Text size="md">{label}</Text>
         </Flex>
     );
 
     return (
-        <Menu
-            open={open}
-            onOpenChange={onOpenChange}
-            trigger={trigger}
-            align='end'
-            id={ID}
-        >
-            {remotePlayerName && (
-                <MenuLabel>
-                    {remotePlayerName}
-                </MenuLabel>
-            )}
+        <Menu open={open} onOpenChange={onOpenChange} trigger={trigger} align="end" id={ID}>
+            {remotePlayerName && <MenuLabel>{remotePlayerName}</MenuLabel>}
             {isDisplayMirrorSupported ? (
                 <MenuItem onClick={toggleDisplayMirror}>
                     {renderMenuItemContent(
@@ -117,10 +101,7 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
             ) : null}
 
             <MenuItem onClick={toggleAutoCast}>
-                {renderMenuItemContent(
-                    isAutoCastEnabled ? <CheckIcon /> : null,
-                    globalize.translate('EnableAutoCast')
-                )}
+                {renderMenuItemContent(isAutoCastEnabled ? <CheckIcon /> : null, globalize.translate('EnableAutoCast'))}
             </MenuItem>
 
             <MenuSeparator />
@@ -131,17 +112,11 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
                     onOpenChange(false);
                 }}
             >
-                {renderMenuItemContent(
-                    <GearIcon />,
-                    globalize.translate('HeaderRemoteControl')
-                )}
+                {renderMenuItemContent(<GearIcon />, globalize.translate('HeaderRemoteControl'))}
             </MenuItem>
             <MenuSeparator />
-            <MenuItem variant='danger' onClick={disconnectRemotePlayer}>
-                {renderMenuItemContent(
-                    <Cross2Icon />,
-                    globalize.translate('Disconnect')
-                )}
+            <MenuItem variant="danger" onClick={disconnectRemotePlayer}>
+                {renderMenuItemContent(<Cross2Icon />, globalize.translate('Disconnect'))}
             </MenuItem>
         </Menu>
     );

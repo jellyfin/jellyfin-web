@@ -24,19 +24,19 @@ const getOwnerText = (pluginDetails?: PluginDetails): string => {
 
 const getRepositoryText = (pluginDetails?: PluginDetails): { text: string; url?: string; isBundled: boolean } => {
     if (pluginDetails == null) return { text: globalize.translate('Unknown'), isBundled: false };
-    
+
     if (pluginDetails.status != null && pluginDetails.canUninstall === false) {
         return { text: globalize.translate('LabelBundled'), isBundled: true };
     }
-    
+
     if (pluginDetails.version?.repositoryUrl != null) {
-        return { 
+        return {
             text: pluginDetails.version.repositoryName ?? '',
             url: pluginDetails.version.repositoryUrl,
             isBundled: false
         };
     }
-    
+
     return { text: globalize.translate('Unknown'), isBundled: false };
 };
 
@@ -56,43 +56,51 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
             <TableBody>
                 <TableRow>
                     <TableHead>
-                        <Text as='span' size='sm' color='secondary'>{globalize.translate('LabelStatus')}</Text>
+                        <Text as="span" size="sm" color="secondary">
+                            {globalize.translate('LabelStatus')}
+                        </Text>
                     </TableHead>
                     <TableCell>
                         {isPluginLoading ? (
                             <Skeleton width={100} height={20} />
                         ) : (
-                            <Text as='span'>{getStatusText(pluginDetails)}</Text>
+                            <Text as="span">{getStatusText(pluginDetails)}</Text>
                         )}
                     </TableCell>
                 </TableRow>
                 <TableRow>
                     <TableHead>
-                        <Text as='span' size='sm' color='secondary'>{globalize.translate('LabelVersion')}</Text>
+                        <Text as="span" size="sm" color="secondary">
+                            {globalize.translate('LabelVersion')}
+                        </Text>
                     </TableHead>
                     <TableCell>
                         {isPluginLoading ? (
                             <Skeleton width={80} height={20} />
                         ) : (
-                            <Text as='span'>{getVersionText(pluginDetails)}</Text>
+                            <Text as="span">{getVersionText(pluginDetails)}</Text>
                         )}
                     </TableCell>
                 </TableRow>
                 <TableRow>
                     <TableHead>
-                        <Text as='span' size='sm' color='secondary'>{globalize.translate('LabelDeveloper')}</Text>
+                        <Text as="span" size="sm" color="secondary">
+                            {globalize.translate('LabelDeveloper')}
+                        </Text>
                     </TableHead>
                     <TableCell>
                         {isRepositoryLoading ? (
                             <Skeleton width={120} height={20} />
                         ) : (
-                            <Text as='span'>{getOwnerText(pluginDetails)}</Text>
+                            <Text as="span">{getOwnerText(pluginDetails)}</Text>
                         )}
                     </TableCell>
                 </TableRow>
                 <TableRow>
                     <TableHead>
-                        <Text as='span' size='sm' color='secondary'>{globalize.translate('LabelRepository')}</Text>
+                        <Text as="span" size="sm" color="secondary">
+                            {globalize.translate('LabelRepository')}
+                        </Text>
                     </TableHead>
                     <TableCell>
                         {isRepositoryLoading ? (
@@ -101,23 +109,23 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                             (() => {
                                 const repo = getRepositoryText(pluginDetails);
                                 if (repo.isBundled) {
-                                    return <Text as='span'>{repo.text}</Text>;
+                                    return <Text as="span">{repo.text}</Text>;
                                 }
                                 if (repo.url != null) {
                                     return (
                                         <a
                                             href={repo.url}
-                                            target='_blank'
-                                            rel='noopener noreferrer'
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             style={{ color: 'var(--colors-primary)', textDecoration: 'none' }}
                                         >
                                             <Flex style={{ alignItems: 'center', gap: '4px' }}>
-                                                <Text as='span'>{repo.text}</Text>
+                                                <Text as="span">{repo.text}</Text>
                                             </Flex>
                                         </a>
                                     );
                                 }
-                                return <Text as='span'>{repo.text}</Text>;
+                                return <Text as="span">{repo.text}</Text>;
                             })()
                         )}
                     </TableCell>

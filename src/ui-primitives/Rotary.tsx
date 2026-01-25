@@ -76,7 +76,7 @@ export const Rotary = forwardRef<HTMLDivElement, RotaryProps>(
                 {artSrc !== undefined && artSrc !== '' && (
                     <motion.img
                         src={artSrc}
-                        alt='Album art'
+                        alt="Album art"
                         className={discArt}
                         animate={{ rotate: rotating ? 360 : 0 }}
                         transition={{

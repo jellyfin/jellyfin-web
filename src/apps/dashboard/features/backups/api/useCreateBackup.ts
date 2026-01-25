@@ -11,14 +11,13 @@ export const useCreateBackup = () => {
     const backupApi = new BackupApi(api?.configuration, undefined, api?.axiosInstance);
 
     return useMutation({
-        mutationFn: (backupOptions: BackupOptionsDto) => (
+        mutationFn: (backupOptions: BackupOptionsDto) =>
             backupApi.createBackup({
                 backupOptionsDto: backupOptions
-            })
-        ),
+            }),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [QUERY_KEY]
             });
         }
     });

@@ -9,16 +9,10 @@ const ServerPathWidget = (): React.ReactElement => {
     const { data: systemStorage } = useSystemStorage();
 
     return (
-        <Widget
-            title={globalize.translate('HeaderPaths')}
-            href='/dashboard/settings'
-        >
+        <Widget title={globalize.translate('HeaderPaths')} href="/dashboard/settings">
             <List>
                 <ListItem disablePadding>
-                    <StorageListItem
-                        label={globalize.translate('LabelCache')}
-                        folder={systemStorage?.CacheFolder}
-                    />
+                    <StorageListItem label={globalize.translate('LabelCache')} folder={systemStorage?.CacheFolder} />
                 </ListItem>
                 <ListItem disablePadding>
                     <StorageListItem
@@ -33,10 +27,7 @@ const ServerPathWidget = (): React.ReactElement => {
                     />
                 </ListItem>
                 <ListItem disablePadding>
-                    <StorageListItem
-                        label={globalize.translate('LabelLogs')}
-                        folder={systemStorage?.LogFolder}
-                    />
+                    <StorageListItem label={globalize.translate('LabelLogs')} folder={systemStorage?.LogFolder} />
                 </ListItem>
                 <ListItem disablePadding>
                     <StorageListItem
@@ -51,10 +42,7 @@ const ServerPathWidget = (): React.ReactElement => {
                     />
                 </ListItem>
                 <ListItem disablePadding>
-                    <StorageListItem
-                        label={globalize.translate('LabelWeb')}
-                        folder={systemStorage?.WebFolder}
-                    />
+                    <StorageListItem label={globalize.translate('LabelWeb')} folder={systemStorage?.WebFolder} />
                 </ListItem>
             </List>
         </Widget>

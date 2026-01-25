@@ -1,6 +1,6 @@
 /**
  * Quality Metrics Types
- * 
+ *
  * Defines types for tracking and measuring quality metrics throughout the migration.
  */
 
@@ -94,7 +94,7 @@ export const QUALITY_THRESHOLDS: QualityThreshold[] = [
     { metric: 'accessibilityScore', warning: 95, critical: 80, unit: 'percent' },
     { metric: 'typeErrors', warning: 0, critical: 0, unit: 'count' },
     { metric: 'lintErrors', warning: 0, critical: 0, unit: 'count' },
-    { metric: 'criticalPathCoverage', warning: 95, critical: 80, unit: 'percent' },
+    { metric: 'criticalPathCoverage', warning: 95, critical: 80, unit: 'percent' }
 ];
 
 export interface QualityReport {

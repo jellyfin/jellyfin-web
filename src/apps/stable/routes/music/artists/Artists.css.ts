@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css';
 
 export const container = style({
-    padding: vars.spacing.lg,
+    padding: vars.spacing.lg
 });
 
 export const headerRow = style({
@@ -11,13 +11,13 @@ export const headerRow = style({
     alignItems: 'center',
     marginBottom: vars.spacing.lg,
     flexWrap: 'wrap',
-    gap: vars.spacing.md,
+    gap: vars.spacing.md
 });
 
 export const controlsContainer = style({
     display: 'flex',
     gap: vars.spacing.md,
-    alignItems: 'center',
+    alignItems: 'center'
 });
 
 export const sortControl = style({
@@ -30,8 +30,8 @@ export const sortControl = style({
     border: `1px solid ${vars.colors.divider}`,
     color: vars.colors.text,
     ':hover': {
-        borderColor: vars.colors.primary,
-    },
+        borderColor: vars.colors.primary
+    }
 });
 
 export const sortSelect = style({
@@ -42,24 +42,24 @@ export const sortSelect = style({
     font: 'inherit',
     cursor: 'pointer',
     ':focus': {
-        outline: 'none',
-    },
+        outline: 'none'
+    }
 });
 
 export const viewToggleGroup = style({
     display: 'flex',
-    gap: '4px',
+    gap: '4px'
 });
 
 export const paginationRow = style({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: vars.spacing.md,
+    marginBottom: vars.spacing.md
 });
 
 export const paginationControls = style({
     display: 'flex',
     gap: vars.spacing.sm,
-    alignItems: 'center',
+    alignItems: 'center'
 });

@@ -69,11 +69,14 @@ class MockWorker {
 vi.stubGlobal('Worker', MockWorker);
 
 // Mock URL
-vi.stubGlobal('URL', class {
-    constructor(url: string, _base?: string) {
-        return { href: url };
+vi.stubGlobal(
+    'URL',
+    class {
+        constructor(url: string, _base?: string) {
+            return { href: url };
+        }
     }
-});
+);
 
 describe('FrequencyAnalyzer visibility handling', () => {
     beforeEach(() => {

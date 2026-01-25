@@ -49,22 +49,22 @@ interface PlaybackIconButtonProps {
 }
 
 const iconMap: Record<PlaybackIconType, React.ReactNode> = {
-    'play': <PlayIcon />,
-    'pause': <PauseIcon />,
-    'previous': <TrackPreviousIcon />,
-    'next': <TrackNextIcon />,
-    'stop': <StopIcon />,
+    play: <PlayIcon />,
+    pause: <PauseIcon />,
+    previous: <TrackPreviousIcon />,
+    next: <TrackNextIcon />,
+    stop: <StopIcon />,
     'volume-up': <SpeakerLoudIcon />,
     'volume-off': <SpeakerOffIcon />,
-    'repeat': <LoopIcon />,
+    repeat: <LoopIcon />,
     'repeat-one': <LoopIcon />,
-    'shuffle': <ShuffleIcon />,
-    'favorite': <HeartFilledIcon />,
+    shuffle: <ShuffleIcon />,
+    favorite: <HeartFilledIcon />,
     'favorite-border': <HeartIcon />,
-    'lyrics': <ChatBubbleIcon />,
-    'airplay': <DesktopIcon />,
+    lyrics: <ChatBubbleIcon />,
+    airplay: <DesktopIcon />,
     'more-vert': <DotsVerticalIcon />,
-    'crossfade': <MixerHorizontalIcon />,
+    crossfade: <MixerHorizontalIcon />
 };
 
 export const PlaybackIconButton: React.FC<PlaybackIconButtonProps> = ({
@@ -85,7 +85,7 @@ export const PlaybackIconButton: React.FC<PlaybackIconButtonProps> = ({
             style={{
                 color: active ? vars.colors.primary : vars.colors.text,
                 transition: vars.transitions.fast,
-                ...sx,
+                ...sx
             }}
             aria-label={ariaLabel}
             {...props}

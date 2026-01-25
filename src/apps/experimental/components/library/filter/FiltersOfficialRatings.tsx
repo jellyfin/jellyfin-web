@@ -21,11 +21,11 @@ const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
             const value = event.target.value;
             const existingOfficialRatings = libraryViewSettings?.Filters?.OfficialRatings ?? [];
 
-            const updatedOfficialRatings = existingOfficialRatings.includes(value) ?
-                existingOfficialRatings.filter((filter) => filter !== value) :
-                [...existingOfficialRatings, value];
+            const updatedOfficialRatings = existingOfficialRatings.includes(value)
+                ? existingOfficialRatings.filter(filter => filter !== value)
+                : [...existingOfficialRatings, value];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -39,14 +39,10 @@ const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
-            {OfficialRatingsOptions.map((filter) => (
+            {OfficialRatingsOptions.map(filter => (
                 <Checkbox
                     key={filter}
-                    checked={
-                        !!libraryViewSettings?.Filters?.OfficialRatings?.includes(
-                            String(filter)
-                        )
-                    }
+                    checked={!!libraryViewSettings?.Filters?.OfficialRatings?.includes(String(filter))}
                     onChange={onFiltersOfficialRatingsChange}
                     value={String(filter)}
                 >

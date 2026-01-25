@@ -89,20 +89,20 @@ const UserProfiles = (): React.ReactElement => {
 
     return (
         <Page
-            id='userProfilesPage'
-            className='mainAnimatedPage type-interior'
+            id="userProfilesPage"
+            className="mainAnimatedPage type-interior"
             title={globalize.translate('HeaderUsers')}
         >
             <ConfirmDialog
                 open={deleteConfirmOpen}
                 title={
-                    selectedUser?.name ?
-                        globalize.translate('DeleteName', selectedUser.name) :
-                        globalize.translate('DeleteUser')
+                    selectedUser?.name
+                        ? globalize.translate('DeleteName', selectedUser.name)
+                        : globalize.translate('DeleteUser')
                 }
                 text={globalize.translate('DeleteUserConfirmation')}
                 confirmButtonText={globalize.translate('Delete')}
-                confirmButtonColor='danger'
+                confirmButtonColor="danger"
                 onConfirm={handleConfirmDelete}
                 onCancel={() => setDeleteConfirmOpen(false)}
             />

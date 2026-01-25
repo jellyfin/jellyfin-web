@@ -153,4 +153,3 @@ export const commandLoading = style({
     padding: vars.spacing.lg,
     color: vars.colors.textSecondary
 });
-

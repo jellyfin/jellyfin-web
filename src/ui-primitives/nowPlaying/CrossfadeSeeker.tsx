@@ -185,9 +185,9 @@ export function CrossfadeSeeker({
             <div
                 ref={progressBarRef}
                 className={progressBar}
-                role='slider'
+                role="slider"
                 tabIndex={0}
-                aria-label='Seek'
+                aria-label="Seek"
                 aria-valuemin={0}
                 aria-valuemax={duration}
                 aria-valuenow={currentTime}

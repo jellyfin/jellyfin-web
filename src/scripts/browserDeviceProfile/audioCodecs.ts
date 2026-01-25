@@ -13,12 +13,17 @@ export function supportsAc3(videoTestElement: HTMLMediaElement): string | boolea
 }
 
 export function canPlayDts(videoTestElement: HTMLMediaElement): boolean | null {
-    if ((browser as any).tizenVersion >= 4 || ((browser as any).web0sVersion >= 5 && (browser as any).web0sVersion < 23)) {
+    if (
+        (browser as any).tizenVersion >= 4 ||
+        ((browser as any).web0sVersion >= 5 && (browser as any).web0sVersion < 23)
+    ) {
         return false;
     }
 
-    if (videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '')
-        || videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '')) {
+    if (
+        videoTestElement.canPlayType('video/mp4; codecs="dts-"').replace(/no/, '') ||
+        videoTestElement.canPlayType('video/mp4; codecs="dts+"').replace(/no/, '')
+    ) {
         return true;
     }
 
@@ -43,8 +48,10 @@ export function supportsAc3InHls(videoTestElement: HTMLMediaElement): string | b
     }
 
     if (videoTestElement.canPlayType) {
-        return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '')
-                || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
+        return (
+            videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '') ||
+            videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '')
+        );
     }
 
     return false;
@@ -52,8 +59,12 @@ export function supportsAc3InHls(videoTestElement: HTMLMediaElement): string | b
 
 export function supportsMp3InHls(videoTestElement: HTMLMediaElement): string | boolean {
     if (videoTestElement.canPlayType) {
-        return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '')
-                || videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '');
+        return (
+            videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '') ||
+            videoTestElement
+                .canPlayType('application/vnd.apple.mpegURL; codecs="avc1.64001E, mp4a.40.34"')
+                .replace(/no/, '')
+        );
     }
 
     return false;
@@ -78,7 +89,7 @@ export function canPlayAudioFormat(format: string): boolean {
 
         typeString = 'audio/ogg; codecs="opus"';
     } else if (format === 'alac') {
-        if (browser.iOS || (browser as any).osx && browser.safari) {
+        if (browser.iOS || ((browser as any).osx && browser.safari)) {
             return true;
         }
     } else if (format === 'mp2') {

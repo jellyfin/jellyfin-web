@@ -10,16 +10,13 @@ import { QueryKey } from './queryKey';
 export const useInstallPackage = () => {
     const { api } = useApi();
     return useMutation({
-        mutationFn: (params: PackageApiInstallPackageRequest) => (
-            getPackageApi(api!)
-                .installPackage(params)
-        ),
+        mutationFn: (params: PackageApiInstallPackageRequest) => getPackageApi(api!).installPackage(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ QueryKey.ConfigurationPages ]
+                queryKey: [QueryKey.ConfigurationPages]
             });
             void queryClient.invalidateQueries({
-                queryKey: [ QueryKey.Plugins ]
+                queryKey: [QueryKey.Plugins]
             });
         }
     });

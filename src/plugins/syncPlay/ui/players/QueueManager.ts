@@ -5,14 +5,18 @@ class QueueManager {
         this.queueCore = syncPlayManager.getQueueCore();
     }
 
-    getPlaylist() { return this.queueCore.getPlaylist(); }
+    getPlaylist() {
+        return this.queueCore.getPlaylist();
+    }
     setPlaylist() {}
     queue() {}
     shufflePlaylist() {}
     sortShuffledPlaylist() {}
     clearPlaylist() {}
     queueNext() {}
-    getCurrentPlaylistIndex() { return this.queueCore.getCurrentPlaylistIndex(); }
+    getCurrentPlaylistIndex() {
+        return this.queueCore.getCurrentPlaylistIndex();
+    }
 
     getCurrentItem() {
         const index = this.getCurrentPlaylistIndex();
@@ -23,17 +27,25 @@ class QueueManager {
         return null;
     }
 
-    getCurrentPlaylistItemId() { return this.queueCore.getCurrentPlaylistItemId(); }
+    getCurrentPlaylistItemId() {
+        return this.queueCore.getCurrentPlaylistItemId();
+    }
     setPlaylistState() {}
     setPlaylistIndex() {}
     removeFromPlaylist() {}
-    movePlaylistItem() { return { result: 'noop' }; }
+    movePlaylistItem() {
+        return { result: 'noop' };
+    }
     reset() {}
     setRepeatMode() {}
-    getRepeatMode() { return this.queueCore.getRepeatMode(); }
+    getRepeatMode() {
+        return this.queueCore.getRepeatMode();
+    }
     setShuffleMode() {}
     toggleShuffleMode() {}
-    getShuffleMode() { return this.queueCore.getShuffleMode(); }
+    getShuffleMode() {
+        return this.queueCore.getShuffleMode();
+    }
 
     getNextItemInfo() {
         const playlist = this.getPlaylist();

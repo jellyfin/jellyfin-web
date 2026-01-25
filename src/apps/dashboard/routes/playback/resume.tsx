@@ -14,8 +14,8 @@ import { Input } from 'ui-primitives/Input';
 import { Text } from 'ui-primitives/Text';
 
 export const Component = (): React.ReactElement => {
-    const [ actionData, setActionData ] = useState<ActionData | undefined>();
-    const [ isSubmitting, setIsSubmitting ] = useState(false);
+    const [actionData, setActionData] = useState<ActionData | undefined>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { isPending: isConfigurationPending, data: config } = useConfiguration();
 
@@ -43,11 +43,10 @@ export const Component = (): React.ReactElement => {
             if (maxAudiobookResume) currentConfig.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
             if (minResumeDuration) currentConfig.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
 
-            await getConfigurationApi(api)
-                .updateConfiguration({ serverConfiguration: currentConfig });
+            await getConfigurationApi(api).updateConfiguration({ serverConfiguration: currentConfig });
 
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [QUERY_KEY]
             });
 
             setActionData({ isSaved: true });
@@ -64,27 +63,25 @@ export const Component = (): React.ReactElement => {
 
     return (
         <Page
-            id='playbackConfigurationPage'
+            id="playbackConfigurationPage"
             title={globalize.translate('ButtonResume')}
-            className='mainAnimatedPage type-interior'
+            className="mainAnimatedPage type-interior"
         >
-            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 <form onSubmit={handleSubmit}>
                     <Flex style={{ flexDirection: 'column', gap: '24px' }}>
-                        <Text as='h1' size='xl' weight='bold'>
+                        <Text as="h1" size="xl" weight="bold">
                             {globalize.translate('ButtonResume')}
                         </Text>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert variant='success'>
-                                {globalize.translate('SettingsSaved')}
-                            </Alert>
+                            <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                         )}
 
                         <Input
                             label={globalize.translate('LabelMinResumePercentage')}
-                            name='MinResumePercentage'
-                            type='number'
+                            name="MinResumePercentage"
+                            type="number"
                             defaultValue={config?.MinResumePct}
                             min={0}
                             max={100}
@@ -93,8 +90,8 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelMaxResumePercentage')}
-                            name='MaxResumePercentage'
-                            type='number'
+                            name="MaxResumePercentage"
+                            type="number"
                             defaultValue={config?.MaxResumePct}
                             min={1}
                             max={100}
@@ -103,8 +100,8 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelMinAudiobookResume')}
-                            name='MinAudiobookResume'
-                            type='number'
+                            name="MinAudiobookResume"
+                            type="number"
                             defaultValue={config?.MinAudiobookResume}
                             min={0}
                             max={100}
@@ -113,8 +110,8 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelMaxAudiobookResume')}
-                            name='MaxAudiobookResume'
-                            type='number'
+                            name="MaxAudiobookResume"
+                            type="number"
                             defaultValue={config?.MaxAudiobookResume}
                             min={1}
                             max={100}
@@ -123,16 +120,14 @@ export const Component = (): React.ReactElement => {
 
                         <Input
                             label={globalize.translate('LabelMinResumeDuration')}
-                            name='MinResumeDuration'
-                            type='number'
+                            name="MinResumeDuration"
+                            type="number"
                             defaultValue={config?.MinResumeDurationSeconds}
                             min={0}
                             required
                         />
 
-                        <Button type='submit'>
-                            {globalize.translate('Save')}
-                        </Button>
+                        <Button type="submit">{globalize.translate('Save')}</Button>
                     </Flex>
                 </form>
             </Flex>

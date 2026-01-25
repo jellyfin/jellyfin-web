@@ -10,4 +10,4 @@ export enum LayoutMode {
     Mobile = 'mobile',
     /** The TV layout. */
     Tv = 'tv'
-};
+}

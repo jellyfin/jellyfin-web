@@ -1,6 +1,6 @@
 /**
  * Book Store
- * 
+ *
  * Manages reading progress and state for books, PDFs and comics.
  */
 
@@ -28,7 +28,7 @@ export interface BookActions {
 }
 
 export const useBookStore = create<BookState & BookActions>()(
-    subscribeWithSelector((set) => ({
+    subscribeWithSelector(set => ({
         currentItemId: null,
         currentPage: 1,
         totalPages: 0,
@@ -37,30 +37,31 @@ export const useBookStore = create<BookState & BookActions>()(
         theme: 'dark',
 
         setCurrentBook: (itemId, totalPages) => {
-            set({ 
-                currentItemId: itemId, 
-                totalPages, 
-                currentPage: 1, 
-                isLoaded: false 
+            set({
+                currentItemId: itemId,
+                totalPages,
+                currentPage: 1,
+                isLoaded: false
             });
             logger.info('Book selected', { component: 'BookStore', itemId });
         },
 
-        setPage: (currentPage) => set({ currentPage }),
+        setPage: currentPage => set({ currentPage }),
 
-        setTotalPages: (totalPages) => set({ totalPages }),
+        setTotalPages: totalPages => set({ totalPages }),
 
-        setLoaded: (isLoaded) => set({ isLoaded }),
+        setLoaded: isLoaded => set({ isLoaded }),
 
-        setFontSize: (fontSize) => set({ fontSize }),
+        setFontSize: fontSize => set({ fontSize }),
 
-        setTheme: (theme) => set({ theme }),
+        setTheme: theme => set({ theme }),
 
-        reset: () => set({
-            currentItemId: null,
-            currentPage: 1,
-            totalPages: 0,
-            isLoaded: false
-        })
+        reset: () =>
+            set({
+                currentItemId: null,
+                currentPage: 1,
+                totalPages: 0,
+                isLoaded: false
+            })
     }))
 );

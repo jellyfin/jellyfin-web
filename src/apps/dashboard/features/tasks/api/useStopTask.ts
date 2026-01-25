@@ -9,13 +9,10 @@ export const useStopTask = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: ScheduledTasksApiStartTaskRequest) => (
-            getScheduledTasksApi(api!)
-                .stopTask(params)
-        ),
+        mutationFn: (params: ScheduledTasksApiStartTaskRequest) => getScheduledTasksApi(api!).stopTask(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
-                queryKey: [ QUERY_KEY ]
+                queryKey: [QUERY_KEY]
             });
         }
     });

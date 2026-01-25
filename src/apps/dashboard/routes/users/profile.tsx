@@ -202,21 +202,28 @@ const UserEdit = (): React.ReactElement => {
         (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = !!user.Policy?.IsAdministrator;
         (page.querySelector('.chkDisabled') as HTMLInputElement).checked = !!user.Policy?.IsDisabled;
         (page.querySelector('.chkIsHidden') as HTMLInputElement).checked = !!user.Policy?.IsHidden;
-        (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked = !!user.Policy?.EnableCollectionManagement;
-        (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked = !!user.Policy?.EnableSubtitleManagement;
-        (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked = !!user.Policy?.EnableSharedDeviceControl;
+        (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked =
+            !!user.Policy?.EnableCollectionManagement;
+        (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked =
+            !!user.Policy?.EnableSubtitleManagement;
+        (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked =
+            !!user.Policy?.EnableSharedDeviceControl;
         (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked =
             !!user.Policy?.EnableRemoteControlOfOtherUsers;
-        (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked = !!user.Policy?.EnableContentDownloading;
+        (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked =
+            !!user.Policy?.EnableContentDownloading;
         (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked = !!user.Policy?.EnableLiveTvManagement;
         (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked = !!user.Policy?.EnableLiveTvAccess;
-        (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked = !!user.Policy?.EnableMediaPlayback;
+        (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked =
+            !!user.Policy?.EnableMediaPlayback;
         (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked =
             !!user.Policy?.EnableAudioPlaybackTranscoding;
         (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked =
             !!user.Policy?.EnableVideoPlaybackTranscoding;
-        (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked = !!user.Policy?.EnablePlaybackRemuxing;
-        (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = !!user.Policy?.ForceRemoteSourceTranscoding;
+        (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked =
+            !!user.Policy?.EnablePlaybackRemuxing;
+        (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked =
+            !!user.Policy?.ForceRemoteSourceTranscoding;
         (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked =
             user.Policy?.EnableRemoteAccess == null || user.Policy?.EnableRemoteAccess;
         (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value =
@@ -225,7 +232,8 @@ const UserEdit = (): React.ReactElement => {
                 : '';
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value =
             String(user.Policy?.LoginAttemptsBeforeLockout) || '-1';
-        (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(user.Policy?.MaxActiveSessions) || '0';
+        (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value =
+            String(user.Policy?.MaxActiveSessions) || '0';
         (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value = String(user.Policy?.SyncPlayAccess);
         loading.hide();
     }, []);
@@ -262,24 +270,38 @@ const UserEdit = (): React.ReactElement => {
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
             user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
-            user.Policy.EnableRemoteControlOfOtherUsers = (page.querySelector(
-                '.chkEnableRemoteControlOtherUsers'
-            ) as HTMLInputElement).checked;
+            user.Policy.EnableRemoteControlOfOtherUsers = (
+                page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement
+            ).checked;
             user.Policy.EnableLiveTvManagement = (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked;
             user.Policy.EnableLiveTvAccess = (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked;
-            user.Policy.EnableSharedDeviceControl = (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked;
-            user.Policy.EnableMediaPlayback = (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked;
-            user.Policy.EnableAudioPlaybackTranscoding = (page.querySelector(
-                '.chkEnableAudioPlaybackTranscoding'
-            ) as HTMLInputElement).checked;
-            user.Policy.EnableVideoPlaybackTranscoding = (page.querySelector(
-                '.chkEnableVideoPlaybackTranscoding'
-            ) as HTMLInputElement).checked;
-            user.Policy.EnablePlaybackRemuxing = (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked;
-            user.Policy.EnableCollectionManagement = (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked;
-            user.Policy.EnableSubtitleManagement = (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked;
-            user.Policy.ForceRemoteSourceTranscoding = (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked;
-            user.Policy.EnableContentDownloading = (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked;
+            user.Policy.EnableSharedDeviceControl = (
+                page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement
+            ).checked;
+            user.Policy.EnableMediaPlayback = (
+                page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement
+            ).checked;
+            user.Policy.EnableAudioPlaybackTranscoding = (
+                page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement
+            ).checked;
+            user.Policy.EnableVideoPlaybackTranscoding = (
+                page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement
+            ).checked;
+            user.Policy.EnablePlaybackRemuxing = (
+                page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement
+            ).checked;
+            user.Policy.EnableCollectionManagement = (
+                page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement
+            ).checked;
+            user.Policy.EnableSubtitleManagement = (
+                page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement
+            ).checked;
+            user.Policy.ForceRemoteSourceTranscoding = (
+                page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement
+            ).checked;
+            user.Policy.EnableContentDownloading = (
+                page.querySelector('.chkEnableDownloading') as HTMLInputElement
+            ).checked;
             user.Policy.EnableRemoteAccess = (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked;
             user.Policy.RemoteClientBitrateLimit = Math.floor(
                 1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0')
@@ -288,14 +310,24 @@ const UserEdit = (): React.ReactElement => {
                 (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0',
                 10
             );
-            user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0', 10);
-            user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLInputElement).value;
-            user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLInputElement).value;
-            user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
+            user.Policy.MaxActiveSessions = parseInt(
+                (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0',
+                10
+            );
+            user.Policy.AuthenticationProviderId = (
+                page.querySelector('#selectLoginProvider') as HTMLInputElement
+            ).value;
+            user.Policy.PasswordResetProviderId = (
+                page.querySelector('#selectPasswordResetProvider') as HTMLInputElement
+            ).value;
+            user.Policy.EnableContentDeletion = (
+                page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement
+            ).checked;
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion
                 ? []
                 : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
-            user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value as SyncPlayUserAccessType;
+            user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement)
+                .value as SyncPlayUserAccessType;
 
             updateUser.mutate(
                 { userId: user.Id, userDto: user },

@@ -1,1 +1,18 @@
-{"rustc":4996801173321332248,"features":"","declared_features":"","target":0,"profile":0,"path":0,"deps":[[10782246454719507279,"build_script_build",false,16792582275675957604],[9166542761925590510,"build_script_build",false,8122991225213980041]],"local":[{"RerunIfChanged":{"output":"debug/build/wasm-bindgen-7a3549c3b34311ff/output","paths":["build.rs"]}}],"rustflags":[],"config":0,"compile_kind":0}
+{
+  "rustc": 4996801173321332248,
+  "features": "",
+  "declared_features": "",
+  "target": 0,
+  "profile": 0,
+  "path": 0,
+  "deps": [
+    [10782246454719507279, "build_script_build", false, 16792582275675957604],
+    [9166542761925590510, "build_script_build", false, 8122991225213980041]
+  ],
+  "local": [
+    { "RerunIfChanged": { "output": "debug/build/wasm-bindgen-7a3549c3b34311ff/output", "paths": ["build.rs"] } }
+  ],
+  "rustflags": [],
+  "config": 0,
+  "compile_kind": 0
+}

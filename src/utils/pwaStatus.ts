@@ -160,21 +160,26 @@ class PWAStatusDashboard {
                 </ul>
 
                 <h3 style="color: #101010;">Cache Status</h3>
-                ${Object.keys(status.cache).length > 0 && !status.cache.error ?
-                        Object.entries(status.cache).map(([cache, info]: [string, any]) =>
-                            `<li><strong>${cache}:</strong> ${info.entries} entries, ${info.size}, limit: ${info.limit}</li>`
-                        ).join('') :
-                        '<li>No cache information available</li>'
+                ${
+                    Object.keys(status.cache).length > 0 && !status.cache.error
+                        ? Object.entries(status.cache)
+                              .map(
+                                  ([cache, info]: [string, any]) =>
+                                      `<li><strong>${cache}:</strong> ${info.entries} entries, ${info.size}, limit: ${info.limit}</li>`
+                              )
+                              .join('')
+                        : '<li>No cache information available</li>'
                 }
 
                 <h3 style="color: #101010;">Network Status</h3>
                 <ul>
                     <li><strong>Online:</strong> ${status.network.online ? '✅ Yes' : '❌ No'}</li>
-                    ${status.network.connection ?
-                            `<li><strong>Connection:</strong> ${status.network.connection.effectiveType}, ${status.network.connection.downlink} Mbps</li>
+                    ${
+                        status.network.connection
+                            ? `<li><strong>Connection:</strong> ${status.network.connection.effectiveType}, ${status.network.connection.downlink} Mbps</li>
                          <li><strong>RTT:</strong> ${status.network.connection.rtt}ms</li>
-                         <li><strong>Save Data:</strong> ${status.network.connection.saveData ? 'On' : 'Off'}</li>` :
-                            '<li>No connection information available</li>'
+                         <li><strong>Save Data:</strong> ${status.network.connection.saveData ? 'On' : 'Off'}</li>`
+                            : '<li>No connection information available</li>'
                     }
                 </ul>
 
@@ -192,7 +197,7 @@ class PWAStatusDashboard {
 
 // Add keyboard shortcut for status dashboard (Ctrl+Shift+P)
 if (typeof document !== 'undefined') {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
         if (e.ctrlKey && e.shiftKey && e.key === 'P') {
             e.preventDefault();
             PWAStatusDashboard.show();

@@ -73,14 +73,28 @@ class Manager {
         this.apiClient = apiClient;
     }
 
-    getApiClient() { return this.apiClient; }
-    getTimeSyncCore() { return this.timeSyncCore; }
-    getPlaybackCore() { return this.playbackCore; }
-    getQueueCore() { return this.queueCore; }
-    getController() { return this.controller; }
-    getPlayerWrapper() { return this.playerWrapper; }
+    getApiClient() {
+        return this.apiClient;
+    }
+    getTimeSyncCore() {
+        return this.timeSyncCore;
+    }
+    getPlaybackCore() {
+        return this.playbackCore;
+    }
+    getQueueCore() {
+        return this.queueCore;
+    }
+    getController() {
+        return this.controller;
+    }
+    getPlayerWrapper() {
+        return this.playerWrapper;
+    }
 
-    onPlayerChange(newPlayer: any) { this.bindToPlayer(newPlayer); }
+    onPlayerChange(newPlayer: any) {
+        this.bindToPlayer(newPlayer);
+    }
 
     bindToPlayer(player: any) {
         this.releaseCurrentPlayer();
@@ -125,7 +139,9 @@ class Manager {
             case 'UserLeft':
                 toast(globalize.translate('MessageSyncPlayUserLeft', cmd.Data));
                 if (this.groupInfo && this.groupInfo.Participants) {
-                    this.groupInfo.Participants = this.groupInfo.Participants.filter((user: string) => user !== cmd.Data);
+                    this.groupInfo.Participants = this.groupInfo.Participants.filter(
+                        (user: string) => user !== cmd.Data
+                    );
                     this.updateStoreGroupInfo();
                 }
                 break;
@@ -204,7 +220,7 @@ class Manager {
 
         this.groupInfo = groupInfo;
         this.syncPlayEnabledAt = groupInfo.LastUpdatedAt;
-        
+
         this.updateStoreGroupInfo();
         useSyncPlayStore.getState().setEnabled(true);
 
@@ -236,16 +252,18 @@ class Manager {
         this.lastPlaybackCommand = null;
         this.queuedCommand = null;
         this.playbackCore.syncEnabled = false;
-        
+
         useSyncPlayStore.getState().reset();
-        
+
         Events.trigger(this, 'enabled', [false]);
         if (this.playerWrapper) this.playerWrapper.unbindFromPlayer();
 
         if (showMessage) toast(globalize.translate('MessageSyncPlayDisabled'));
     }
 
-    isSyncPlayEnabled() { return this.syncPlayEnabledAt !== null; }
+    isSyncPlayEnabled() {
+        return this.syncPlayEnabledAt !== null;
+    }
 
     showSyncIcon(syncMethod: SyncPlayState['syncMethod']) {
         this.syncMethod = syncMethod;
@@ -259,10 +277,18 @@ class Manager {
         Events.trigger(this, 'syncing', [false, this.syncMethod]);
     }
 
-    isPlaybackActive() { return this.playerWrapper && this.playerWrapper.isPlaybackActive(); }
-    isPlaying() { return this.playerWrapper && this.playerWrapper.isPlaying(); }
-    isRemote() { return this.playerWrapper && this.playerWrapper.isRemote(); }
-    haltGroupPlayback(apiClient: any) { apiClient.requestSyncPlayStop(); }
+    isPlaybackActive() {
+        return this.playerWrapper && this.playerWrapper.isPlaybackActive();
+    }
+    isPlaying() {
+        return this.playerWrapper && this.playerWrapper.isPlaying();
+    }
+    isRemote() {
+        return this.playerWrapper && this.playerWrapper.isRemote();
+    }
+    haltGroupPlayback(apiClient: any) {
+        apiClient.requestSyncPlayStop();
+    }
     resumeGroupPlayback(apiClient: any) {
         const item = this.queueCore.getPlaylist()[this.queueCore.getCurrentPlaylistIndex()];
         if (item) {

@@ -8,4 +8,3 @@ export const canvas = style({
     height: '100%',
     pointerEvents: 'none'
 });
-

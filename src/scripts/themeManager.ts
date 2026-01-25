@@ -25,11 +25,17 @@ function getThemeStylesheetInfo(id?: string): Promise<ThemeInfo> {
 }
 
 export function setTheme(id: string): Promise<void> {
-    return new Promise((resolve) => {
-        if (currentThemeId === id) { resolve(); return; }
+    return new Promise(resolve => {
+        if (currentThemeId === id) {
+            resolve();
+            return;
+        }
 
-        getThemeStylesheetInfo(id).then((info) => {
-            if (currentThemeId === info.id) { resolve(); return; }
+        getThemeStylesheetInfo(id).then(info => {
+            if (currentThemeId === info.id) {
+                resolve();
+                return;
+            }
 
             currentThemeId = info.id;
             document.documentElement.setAttribute('data-theme', info.id);

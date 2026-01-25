@@ -9,7 +9,13 @@ import WavesurferPlayer from '@wavesurfer/react';
 import { useEffect, useRef, useCallback, type ReactElement } from 'react';
 import { useVisualizerStore } from 'store/visualizerStore';
 import { vars } from 'styles/tokens.css';
-import { container, bufferedOverlay, bufferedSegment, crossfadingOverlay, crossfadingText } from './CrossfadeWaveSurfer.css';
+import {
+    container,
+    bufferedOverlay,
+    bufferedSegment,
+    crossfadingOverlay,
+    crossfadingText
+} from './CrossfadeWaveSurfer.css';
 
 export interface TrackState {
     readonly id: string;
@@ -60,7 +66,14 @@ export function CrossfadeWaveSurfer({
     }, [effectiveZoom, isCrossfading]);
 
     useEffect(() => {
-        if (wsRef.current === null || nextTrack === null || nextTrack === undefined || !isCrossfading || !showCrossfadeOverlap) return;
+        if (
+            wsRef.current === null ||
+            nextTrack === null ||
+            nextTrack === undefined ||
+            !isCrossfading ||
+            !showCrossfadeOverlap
+        )
+            return;
         const overlay = document.getElementById('ws-crossfade-overlay');
         if (overlay !== null && document.getElementById(`ws-track-${nextTrack.id}`) === null) {
             const audio = document.createElement('audio');
@@ -102,7 +115,7 @@ export function CrossfadeWaveSurfer({
     return (
         <div className={`${container} ${className ?? ''}`} style={{ height }}>
             <div className={bufferedOverlay}>{renderBuffered()}</div>
-            <div id='ws-crossfade-overlay' ref={containerRef} style={{ position: 'relative', zIndex: 1 }}>
+            <div id="ws-crossfade-overlay" ref={containerRef} style={{ position: 'relative', zIndex: 1 }}>
                 <WavesurferPlayer
                     url={currentTrack.url}
                     height={height}
@@ -126,9 +139,7 @@ export function CrossfadeWaveSurfer({
             </div>
             {isCrossfading && showCrossfadeOverlap && (
                 <div className={crossfadingOverlay}>
-                    <span className={crossfadingText}>
-                        Crossfading...
-                    </span>
+                    <span className={crossfadingText}>Crossfading...</span>
                 </div>
             )}
         </div>

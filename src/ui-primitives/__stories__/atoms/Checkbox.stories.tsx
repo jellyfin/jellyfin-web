@@ -49,7 +49,9 @@ function Checkbox({ label, checked, onCheckedChange, disabled }: Readonly<Checkb
                     </motion.div>
                 </CheckboxPrimitive.Indicator>
             </CheckboxPrimitive.Root>
-            {label !== undefined && label !== '' && <span style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeMd }}>{label}</span>}
+            {label !== undefined && label !== '' && (
+                <span style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeMd }}>{label}</span>
+            )}
         </label>
     );
 }
@@ -66,7 +68,7 @@ type Story = StoryObj<typeof meta>;
 
 function DefaultStory(): ReactElement {
     const [checked, setChecked] = useState(false);
-    return <Checkbox label='Accept terms and conditions' checked={checked} onCheckedChange={setChecked} />;
+    return <Checkbox label="Accept terms and conditions" checked={checked} onCheckedChange={setChecked} />;
 }
 
 export const Default: Story = {
@@ -75,7 +77,7 @@ export const Default: Story = {
 
 function CheckedStory(): ReactElement {
     const [checked, setChecked] = useState(true);
-    return <Checkbox label='Checked by default' checked={checked} onCheckedChange={setChecked} />;
+    return <Checkbox label="Checked by default" checked={checked} onCheckedChange={setChecked} />;
 }
 
 export const Checked: Story = {
@@ -106,22 +108,10 @@ function GroupStory(): ReactElement {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.sm }}>
-            <Checkbox
-                label='Movies'
-                checked={selected.includes('movies')}
-                onCheckedChange={toggleMovies}
-            />
-            <Checkbox
-                label='TV Shows'
-                checked={selected.includes('tvshows')}
-                onCheckedChange={toggleTVShows}
-            />
-            <Checkbox label='Music' checked={selected.includes('music')} onCheckedChange={toggleMusic} />
-            <Checkbox
-                label='Photos'
-                checked={selected.includes('photos')}
-                onCheckedChange={togglePhotos}
-            />
+            <Checkbox label="Movies" checked={selected.includes('movies')} onCheckedChange={toggleMovies} />
+            <Checkbox label="TV Shows" checked={selected.includes('tvshows')} onCheckedChange={toggleTVShows} />
+            <Checkbox label="Music" checked={selected.includes('music')} onCheckedChange={toggleMusic} />
+            <Checkbox label="Photos" checked={selected.includes('photos')} onCheckedChange={togglePhotos} />
         </div>
     );
 }
