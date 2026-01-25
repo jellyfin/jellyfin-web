@@ -1,4 +1,4 @@
-export const DEFAULT_DEV_PROXY_BASE_PATH = '/__proxy__/jellyfin';
+export const DEFAULT_DEV_PROXY_BASE_PATH = '/__jellyfin-api';
 
 export interface DevConfig {
     serverBaseUrl: string;
@@ -12,11 +12,11 @@ export const DEFAULT_DEV_CONFIG: DevConfig = {
     proxyBasePath: DEFAULT_DEV_PROXY_BASE_PATH
 };
 
-const hasProtocol = (value: string) => /^[a-zA-Z][a-zA-Z\d+.-]*:\/\//.test(value);
+const hasProtocol = (value: string): boolean => /^[a-zA-Z][a-zA-Z\d+.-]*:\/\//.test(value);
 
 export const normalizeServerBaseUrl = (input: string): string => {
     const trimmed = input.trim();
-    if (!trimmed) return '';
+    if (trimmed === '') return '';
 
     const withProtocol = hasProtocol(trimmed) ? trimmed : `https://${trimmed}`;
     const url = new URL(withProtocol);
@@ -30,12 +30,12 @@ export const normalizeServerBaseUrl = (input: string): string => {
 
 export const resolveApiBaseUrl = (config: DevConfig, isDev: boolean): string | undefined => {
     if (isDev && config.useProxy) {
-        return config.proxyBasePath || DEFAULT_DEV_PROXY_BASE_PATH;
+        return config.proxyBasePath !== '' ? config.proxyBasePath : DEFAULT_DEV_PROXY_BASE_PATH;
     }
 
     try {
         const normalized = normalizeServerBaseUrl(config.serverBaseUrl);
-        return normalized || undefined;
+        return normalized !== '' ? normalized : undefined;
     } catch {
         return undefined;
     }

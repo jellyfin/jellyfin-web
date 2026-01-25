@@ -13,14 +13,102 @@ vi.mock('components/visualizer/butterchurn.logic', () => ({
     getButterchurnInstance: vi.fn(() => Promise.resolve({ nextPreset: vi.fn() }))
 }));
 
+const mockStoreState = {
+    visualizer: {
+        enabled: false,
+        type: 'butterchurn' as const
+    },
+    crossfade: {
+        crossfadeDuration: 5,
+        crossfadeEnabled: true,
+        networkLatencyCompensation: 1,
+        networkLatencyMode: 'auto' as const,
+        manualLatencyOffset: 0
+    },
+    _runtime: {
+        busy: false,
+        triggered: false,
+        manualTrigger: false
+    },
+    audio: {
+        volume: 100,
+        muted: false,
+        makeupGain: 1,
+        enableNormalization: true,
+        normalizationPercent: 95
+    },
+    autoDJ: {
+        enabled: false,
+        duration: 16,
+        preferHarmonic: true,
+        preferEnergyMatch: true,
+        useNotchFilter: true,
+        notchFrequency: 60,
+        transitionHistory: []
+    },
+    ui: {
+        theme: 'dark' as const,
+        compactMode: false,
+        showVisualizer: true,
+        showNowPlaying: true,
+        animationsEnabled: true,
+        highContrastMode: false,
+        reducedMotion: false,
+        brightness: 50
+    },
+    playback: {
+        defaultPlaybackRate: 1,
+        autoPlay: false,
+        rememberPlaybackPosition: true,
+        skipForwardSeconds: 10,
+        skipBackSeconds: 10,
+        gaplessPlayback: true
+    }
+};
+
+const setters = {
+    setCrossfadeDuration: (duration: number) => {
+        mockStoreState.crossfade.crossfadeDuration = duration;
+        mockStoreState.crossfade.crossfadeEnabled = duration >= 0.01;
+    },
+    setCrossfadeEnabled: (enabled: boolean) => {
+        mockStoreState.crossfade.crossfadeEnabled = enabled;
+        if (!enabled) {
+            mockStoreState.crossfade.crossfadeDuration = 0;
+        }
+    },
+    setCrossfadeBusy: (busy: boolean) => {
+        mockStoreState._runtime.busy = busy;
+    },
+    setCrossfadeTriggered: (triggered: boolean) => {
+        mockStoreState._runtime.triggered = triggered;
+    },
+    setCrossfadeManualTrigger: (triggered: boolean) => {
+        mockStoreState._runtime.manualTrigger = triggered;
+    },
+    cancelCrossfade: () => {
+        mockStoreState._runtime.busy = false;
+        mockStoreState._runtime.triggered = false;
+        mockStoreState._runtime.manualTrigger = false;
+    }
+};
+
 vi.mock('../../store/preferencesStore', () => ({
     usePreferencesStore: {
-        getState: () => ({
-            visualizer: {
-                enabled: false,
-                type: 'butterchurn'
-            }
-        })
+        getState: () => ({ ...mockStoreState, ...setters }),
+        setState: vi.fn()
+    },
+    isCrossfadeActive: () => mockStoreState._runtime.busy,
+    isCrossfadeEnabled: () => mockStoreState.crossfade.crossfadeEnabled,
+    getCrossfadeFadeOut: (duration: number) => {
+        if (duration < 0.01) return 0;
+        if (duration < 0.51) return duration;
+        return duration * 2;
+    },
+    getCrossfadeSustain: (duration: number) => {
+        if (duration < 0.01) return 0;
+        if (duration < 0.51) return duration / 2;
+        return duration / 12;
     }
 }));
 

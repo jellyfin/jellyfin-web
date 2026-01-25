@@ -22,14 +22,65 @@ vi.mock('components/visualizer/butterchurn.logic', () => ({
     }
 }));
 
+const mockStoreState = {
+    visualizer: {
+        enabled: false,
+        type: 'butterchurn' as const
+    },
+    crossfade: {
+        crossfadeDuration: 5,
+        crossfadeEnabled: true,
+        networkLatencyCompensation: 1,
+        networkLatencyMode: 'auto' as const,
+        manualLatencyOffset: 0
+    },
+    _runtime: {
+        busy: false,
+        triggered: false,
+        manualTrigger: false
+    }
+};
+
+const setters = {
+    setCrossfadeDuration: (duration: number) => {
+        mockStoreState.crossfade.crossfadeDuration = duration;
+        mockStoreState.crossfade.crossfadeEnabled = duration >= 0.01;
+    },
+    setCrossfadeEnabled: (enabled: boolean) => {
+        mockStoreState.crossfade.crossfadeEnabled = enabled;
+        if (!enabled) {
+            mockStoreState.crossfade.crossfadeDuration = 0;
+        }
+    },
+    setCrossfadeBusy: (busy: boolean) => {
+        mockStoreState._runtime.busy = busy;
+    },
+    setCrossfadeTriggered: (triggered: boolean) => {
+        mockStoreState._runtime.triggered = triggered;
+    },
+    setCrossfadeManualTrigger: (triggered: boolean) => {
+        mockStoreState._runtime.manualTrigger = triggered;
+    },
+    cancelCrossfade: () => {
+        mockStoreState._runtime.busy = false;
+        mockStoreState._runtime.triggered = false;
+        mockStoreState._runtime.manualTrigger = false;
+    }
+};
+
 vi.mock('../../store/preferencesStore', () => ({
     usePreferencesStore: {
-        getState: () => ({
-            visualizer: {
-                enabled: false,
-                type: 'butterchurn'
-            }
-        })
+        getState: () => ({ ...mockStoreState, ...setters }),
+        setState: (update: any) => {
+            Object.assign(mockStoreState, update);
+        }
+    },
+    isCrossfadeActive: () => mockStoreState._runtime.busy,
+    isCrossfadeEnabled: () => mockStoreState.crossfade.crossfadeEnabled,
+    getCrossfadeFadeOut: (duration: number) => {
+        if (duration < 0.01) return 0;
+        if (duration < 0.51) return duration;
+        return duration * 2;
     }
 }));
 

@@ -26,6 +26,14 @@ vi.mock('../../store/preferencesStore', () => ({
             visualizer: {
                 enabled: false,
                 type: 'butterchurn'
+            },
+            _runtime: {
+                busy: false,
+                triggered: false,
+                manualTrigger: false
+            },
+            cancelCrossfade: () => {
+                // Mock implementation
             }
         })
     }

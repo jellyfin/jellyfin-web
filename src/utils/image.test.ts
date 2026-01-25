@@ -99,9 +99,9 @@ describe('getLibraryIcon()', () => {
 
 describe('getDeviceIcon()', () => {
     it('should return correct icon for common devices', () => {
-        expect(getDeviceIcon({ Name: 'Samsung Smart TV' } as DeviceInfo)).toBe('assets/img/devices/samsungtv.svg');
-        expect(getDeviceIcon({ Name: 'Kodi' } as DeviceInfo)).toBe('assets/img/devices/kodi.svg');
-        expect(getDeviceIcon({ Name: 'Roku' } as DeviceInfo)).toBe('assets/img/devices/roku.svg');
+        expect(getDeviceIcon({ AppName: 'Samsung Smart TV' } as DeviceInfo)).toBe('assets/img/devices/samsungtv.svg');
+        expect(getDeviceIcon({ AppName: 'Kodi' } as DeviceInfo)).toBe('assets/img/devices/kodi.svg');
+        expect(getDeviceIcon({ AppName: 'Jellyfin Roku' } as DeviceInfo)).toBe('assets/img/devices/roku.svg');
     });
 
     it('should handle session info as device info', () => {

@@ -4,8 +4,10 @@ import {
     MobileIcon,
     LaptopIcon,
     Cross2Icon,
-    CheckIcon,
-    QuestionMarkCircledIcon
+    VideoIcon,
+    Share1Icon,
+    ExternalLinkIcon,
+    LinkNone2Icon
 } from '@radix-ui/react-icons';
 import { playbackManager } from '../playback/playbackmanager';
 import { usePlayerStore } from '../../store';
@@ -47,10 +49,9 @@ interface ActivePlayerInfo {
 interface PlayerSelectionDialogProps {
     open: boolean;
     onClose: () => void;
-    anchorElement?: HTMLElement;
 }
 
-export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ open, onClose, anchorElement }) => {
+export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogProps): React.JSX.Element {
     const [targets, setTargets] = useState<PlaybackTarget[]>([]);
     const [loading, setLoading] = useState(false);
     const [activePlayerInfo, setActivePlayerInfo] = useState<ActivePlayerInfo | null>(null);
@@ -58,32 +59,30 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
     const [enableMirror, setEnableMirror] = useState(false);
     const [enableAutoCast, setEnableAutoCast] = useState(false);
 
-    const currentPlayer = usePlayerStore(state => state.currentPlayer);
-
     const loadTargets = useCallback(async () => {
         setLoading(true);
         try {
             const playerInfo = playbackManager.getPlayerInfo();
 
-            if (playerInfo && !playerInfo.isLocalPlayer) {
+            if (playerInfo !== null && playerInfo.isLocalPlayer === false) {
                 setActivePlayerInfo(playerInfo);
                 setShowActivePlayerMenu(true);
                 return;
             }
 
-            const currentPlayerId = playerInfo?.id || null;
+            const currentPlayerId = playerInfo?.id ?? null;
             const playbackTargets = await playbackManager.getTargets();
 
             const mappedTargets: PlaybackTarget[] = playbackTargets.map((t: PlaybackTarget) => {
                 let name = t.name;
-                if (t.appName && t.appName !== t.name) {
+                if (t.appName !== undefined && t.appName !== null && t.appName !== t.name) {
                     name += ' - ' + t.appName;
                 }
                 return {
                     ...t,
                     name,
                     selected: currentPlayerId === t.id,
-                    secondaryText: t.user?.Name || null
+                    secondaryText: t.user?.Name ?? null
                 };
             });
 
@@ -100,8 +99,8 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
     }, []);
 
     useEffect(() => {
-        if (open && !showActivePlayerMenu) {
-            loadTargets();
+        if (open === true && showActivePlayerMenu === false) {
+            void loadTargets();
         }
     }, [open, showActivePlayerMenu, loadTargets]);
 
@@ -109,8 +108,8 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
         setEnableAutoCast(isEnabled());
     }, []);
 
-    const getDeviceIcon = (deviceType?: string, isLocalPlayer?: boolean) => {
-        if (isLocalPlayer) {
+    const getDeviceIcon = (deviceType?: string, isLocalPlayer?: boolean): React.JSX.Element => {
+        if (isLocalPlayer === true) {
             if (deviceType === 'tv') return <VideoIcon />;
             if (deviceType === 'smartphone') return <MobileIcon />;
             if (deviceType === 'tablet') return <LaptopIcon />;
@@ -120,9 +119,9 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
         return <Share1Icon />;
     };
 
-    const handleTargetSelect = async (target: PlaybackTarget) => {
+    const handleTargetSelect = async (target: PlaybackTarget): Promise<void> => {
         try {
-            await playbackManager.trySetActivePlayer(target.playerName!, target);
+            await playbackManager.trySetActivePlayer(target.playerName ?? '', target);
             onClose();
         } catch (error) {
             logger.error(
@@ -133,17 +132,17 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
         }
     };
 
-    const handleRemoteControl = () => {
-        import('../router/appRouter').then(({ appRouter }) => {
+    const handleRemoteControl = (): void => {
+        void import('../router/appRouter').then(({ appRouter }) => {
             appRouter.showNowPlaying();
         });
         onClose();
     };
 
-    const handleDisconnect = () => {
-        if (activePlayerInfo?.supportedCommands?.includes('EndSession')) {
-            const currentDeviceName = activePlayerInfo.deviceName || activePlayerInfo.name;
-            if (currentDeviceName) {
+    const handleDisconnect = (): void => {
+        if (activePlayerInfo?.supportedCommands?.includes('EndSession') === true) {
+            const currentDeviceName = activePlayerInfo.deviceName ?? activePlayerInfo.name;
+            if (currentDeviceName !== undefined && currentDeviceName !== null && currentDeviceName !== '') {
                 (playbackManager.getCurrentPlayer() as any)?.endSession();
                 (playbackManager as any).setDefaultPlayerActive();
             }
@@ -155,25 +154,19 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
         onClose();
     };
 
-    const handleMirrorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleMirrorChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const checked = event.target.checked;
         setEnableMirror(checked);
         (playbackManager as any).enableDisplayMirroring(checked);
     };
 
-    const handleAutoCastChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAutoCastChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const checked = event.target.checked;
         setEnableAutoCast(checked);
         enable(checked);
     };
 
-    const handleBack = () => {
-        setShowActivePlayerMenu(false);
-        setActivePlayerInfo(null);
-        loadTargets();
-    };
-
-    if (showActivePlayerMenu && activePlayerInfo) {
+    if (showActivePlayerMenu === true && activePlayerInfo !== null) {
         return (
             <Dialog open={open} onOpenChange={onClose}>
                 <DialogContent
@@ -185,16 +178,16 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
                     <Flex
                         style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}
                     >
-                        <DialogTitle>{activePlayerInfo.deviceName || activePlayerInfo.name}</DialogTitle>
+                        <DialogTitle>{activePlayerInfo.deviceName ?? activePlayerInfo.name}</DialogTitle>
                         <IconButton variant="plain" onClick={onClose} aria-label="Close">
-                            <Cross1Icon />
+                            <Cross2Icon />
                         </IconButton>
                     </Flex>
 
                     <Divider />
 
                     <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                        {activePlayerInfo.supportedCommands?.includes('DisplayContent') && (
+                        {activePlayerInfo.supportedCommands?.includes('DisplayContent') === true && (
                             <Box style={{ marginBottom: vars.spacing.md }}>
                                 <Checkbox checked={enableMirror} onChange={handleMirrorChange}>
                                     Enable display mirroring
@@ -253,7 +246,7 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
                 <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
                     <DialogTitle>Play On</DialogTitle>
                     <IconButton variant="plain" onClick={onClose} aria-label="Close">
-                        <Cross1Icon />
+                        <Cross2Icon />
                     </IconButton>
                 </Flex>
 
