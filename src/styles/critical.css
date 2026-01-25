@@ -3,9 +3,9 @@
 /* Extracted from site.scss and other critical styles */
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 html {
@@ -15,10 +15,10 @@ html {
 }
 
 body {
-    height: 100%;
     overflow-x: hidden;
-    background-color: transparent !important;
+    height: 100%;
     -webkit-font-smoothing: antialiased;
+    background-color: transparent !important;
 }
 
 @keyframes fadein {
@@ -32,17 +32,22 @@ body {
 }
 
 .splashLogo {
-    animation: fadein 0.5s;
-    width: 30%;
-    height: 30%;
-    background-image: url("../node_modules/@jellyfin/ux-web/favicons/touchicon.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    display: block;
+
+    width: 30%;
+    height: 30%;
+
+    background-image: url("../node_modules/@jellyfin/ux-web/favicons/touchicon.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+
+    animation: fadein 0.5s;
 }
 
 /* Preload critical images */
@@ -79,9 +84,4 @@ body {
 .mainDrawerPanel,
 .layoutManager {
     display: none;
-}
-
-/* Show only the loading screen initially */
-.splashLogo {
-    display: block;
 }

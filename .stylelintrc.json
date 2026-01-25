@@ -1,5 +1,6 @@
 {
   "defaultSeverity": "error",
+  "ignoreFiles": ["src/coverage/**", "dist/**", "node_modules/**"],
   "extends": ["stylelint-config-clean-order"],
   "plugins": ["@stylistic/stylelint-plugin", "stylelint-no-browser-hacks/lib"],
   "rules": {
