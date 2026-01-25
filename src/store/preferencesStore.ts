@@ -529,6 +529,11 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                         ui: { ...state.ui, highContrastMode: enabled }
                     }));
                 },
+                setBrightness: brightness => {
+                    set(state => ({
+                        ui: { ...state.ui, brightness }
+                    }));
+                },
 
                 setReducedMotion: reduced => {
                     set(state => ({
