@@ -194,6 +194,7 @@
     "semgrep": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- semgrep --config auto",
     "analyze-bundle": "npm run build:production && node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- npx rollup-plugin-visualizer",
     "test": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- vitest --watch=false --config vite.config.ts",
+    "test:related": "vitest related --run --passWithNoTests --config vite.config.ts",
     "test:watch": "node scripts/denyWatch.mjs test:watch",
     "test:coverage": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- vitest run --coverage --config vite.config.ts",
     "test:coverage:watch": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- vitest --coverage --ui --config vite.config.ts",
@@ -208,12 +209,14 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "prettier --write"
     ],
     "*.css": [
-      "stylelint --fix"
+      "stylelint --fix",
+      "prettier --write"
     ],
-    "*.{md,json,yml,yaml}": [
+    "*.{md,json,yml,yaml,html}": [
       "prettier --write"
     ]
   }
