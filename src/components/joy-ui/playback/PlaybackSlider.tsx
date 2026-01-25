@@ -11,14 +11,14 @@ interface PlaybackSliderProps {
     value: number;
     max?: number;
     bufferedRanges?: BufferRange[];
-    onChange?: (event: Event, value: number | number[]) => void;
-    onChangeCommitted?: (event: Event | React.SyntheticEvent, value: number | number[]) => void;
+    onChange?: (value: number) => void;
+    onChangeCommitted?: (value: number) => void;
     showBuffer?: boolean;
     waveSurferCompatible?: boolean;
     style?: React.CSSProperties;
 }
 
-export const PlaybackSlider: React.FC<PlaybackSliderProps> = ({
+function PlaybackSlider({
     value,
     max = 100,
     bufferedRanges = [],
@@ -28,45 +28,63 @@ export const PlaybackSlider: React.FC<PlaybackSliderProps> = ({
     waveSurferCompatible = true,
     style,
     ...props
-}) => {
+}): JSX.Element {
+    const handleValueChange = React.useCallback(
+        (newValue: number[]) => {
+            if (onChange) {
+                onChange(newValue[0]);
+            }
+        },
+        [onChange]
+    );
+
+    const handleValueCommit = React.useCallback(
+        (newValue: number[]) => {
+            if (onChangeCommitted) {
+                onChangeCommitted(newValue[0]);
+            }
+        },
+        [onChangeCommitted]
+    );
+
     return (
         <Box
             className={waveSurferCompatible ? 'barSurfer' : ''}
             style={{
                 position: 'relative',
                 width: '100%',
-                ...style,
+                ...style
             }}
         >
-            {showBuffer && bufferedRanges.length > 0 && bufferedRanges.map((range) => (
-                <Box
-                    key={`${range.start}-${range.end}`}
-                    className="sliderBufferOverlay"
-                    style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: `${range.start}%`,
-                        width: `${Math.max(0, range.end - range.start)}%`,
-                        height: '2px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                        transform: 'translateY(-50%)',
-                        pointerEvents: 'none',
-                        zIndex: 1,
-                    }}
-                />
-            ))}
+            {showBuffer &&
+                bufferedRanges.length > 0 &&
+                bufferedRanges.map(range => (
+                    <Box
+                        key={`${range.start}-${range.end}`}
+                        className="bufferedRange"
+                        style={{
+                            position: 'absolute',
+                            height: '3px',
+                            backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                            left: `${range.start}%`,
+                            width: `${range.end - range.start}%`,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none'
+                        }}
+                    />
+                ))}
             <Slider
-                value={value}
+                value={[value]}
                 max={max}
-                onChange={onChange}
-                onChangeCommitted={onChangeCommitted}
-                size="sm"
+                onValueChange={onChange ? handleValueChange : undefined}
+                onValueCommit={onChangeCommitted ? handleValueCommit : undefined}
                 style={{
                     '--Slider-thumb-size': '12px',
-                    '--Slider-track-width': '100%',
+                    '--Slider-track-width': '100%'
                 }}
                 {...props}
             />
         </Box>
     );
-};
+}
