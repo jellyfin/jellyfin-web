@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect } from 'react';
 import { Cross1Icon } from '@radix-ui/react-icons';
+import React, { useCallback, useEffect } from 'react';
 
+import { vars } from 'styles/tokens.css';
 import { Alert } from 'ui-primitives/Alert';
 import { IconButton } from 'ui-primitives/IconButton';
-import { vars } from 'styles/tokens.css';
 
 interface ToastProps {
-    open: boolean;
-    message?: React.ReactNode;
-    onClose?: () => void;
-    autoHideDuration?: number;
+    readonly open: boolean;
+    readonly message?: React.ReactNode;
+    readonly onClose?: () => void;
+    readonly autoHideDuration?: number;
 }
 
-const Toast = ({ open, message, onClose, autoHideDuration = 3300 }: ToastProps): React.ReactElement | null => {
+export function Toast({ open, message, onClose, autoHideDuration = 3300 }: ToastProps): React.ReactElement | null {
     const onCloseClick = useCallback(() => {
         onClose?.();
     }, [onClose]);
@@ -31,9 +31,9 @@ const Toast = ({ open, message, onClose, autoHideDuration = 3300 }: ToastProps):
 
     return (
         <Alert
-            variant="info"
+            variant='info'
             action={
-                <IconButton variant="plain" size="sm" color="neutral" onClick={onCloseClick}>
+                <IconButton variant='plain' size='sm' color='neutral' onClick={onCloseClick}>
                     <Cross1Icon />
                 </IconButton>
             }
@@ -48,6 +48,6 @@ const Toast = ({ open, message, onClose, autoHideDuration = 3300 }: ToastProps):
             {message}
         </Alert>
     );
-};
+}
 
 export default Toast;

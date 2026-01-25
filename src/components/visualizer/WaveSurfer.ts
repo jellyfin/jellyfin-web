@@ -10,9 +10,8 @@ import {
     WaveSurferColorScheme
 } from './WaveSurferOptions';
 import { usePlaybackActions, useQueueActions } from '../../store/hooks';
-import { useMediaStore, useQueueStore } from '../../store';
+import { useMediaStore, useQueueStore, usePreferencesStore } from '../../store';
 import { triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
-import { visualizerSettings } from './visualizers.logic';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import { useAudioStore } from '../../store/audioStore';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -565,7 +564,8 @@ async function loadWaveSurferAudio(apiClient: ApiClient, streamUrl: string, item
 async function waveSurferInitialization(container: string, _legacy: WaveSurferLegacy, newSongDuration = 0) {
     findElements();
 
-    if (!visualizerSettings.waveSurfer.enabled) {
+    const { visualizer } = usePreferencesStore.getState();
+    if (!visualizer.enabled || visualizer.type !== 'waveform') {
         resetVisibility();
         bindMediaSync(null);
         return;
@@ -658,3 +658,37 @@ export {
 };
 
 // clearPeakCache is already exported at definition
+
+/**
+ * React wrapper for WaveSurfer visualizer
+ */
+export const WaveSurferVisualizer: React.FC = () => {
+    const { waveSurfer: settings } = usePreferencesStore(state => state.visualizer);
+
+    useEffect(() => {
+        const init = async () => {
+            await waveSurferInitialization('#visualizerContainer', {
+                peaks: undefined,
+                duration: 0,
+                isPlaying: false,
+                currentTime: 0,
+                scrollPosition: 0
+            });
+        };
+        void init();
+
+        return () => {
+            void destroyWaveSurferInstance(true);
+        };
+    }, []);
+
+    // Effect to handle opacity changes reactively
+    useEffect(() => {
+        const container = document.getElementById('visualizerContainer');
+        if (container) {
+            container.style.opacity = String(settings.opacity);
+        }
+    }, [settings.opacity]);
+
+    return null; // WaveSurfer attaches to its container
+};

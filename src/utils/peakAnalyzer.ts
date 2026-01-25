@@ -6,7 +6,7 @@
  * Implements LRU cache for peak data.
  */
 
-import { logger } from '../utils/logger';
+import { logger } from './logger';
 
 interface PeakCacheEntry {
     peaks: number[][];
@@ -287,7 +287,7 @@ export async function extractPeaksWithOptions(
     }
 }
 
-export function evictOldCacheEntries(maxAgeMs: number = 3600000): void {
+export function evictOldCacheEntries(maxAgeMs = 3600000): void {
     const now = Date.now();
     let evicted = 0;
 

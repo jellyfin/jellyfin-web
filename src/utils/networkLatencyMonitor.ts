@@ -6,7 +6,7 @@
  * Stores per-connection-type history for smarter defaults.
  */
 
-import { logger } from '../utils/logger';
+import { logger } from './logger';
 
 export interface LatencySample {
     timestamp: number;
@@ -25,7 +25,7 @@ const TIMEOUT_WEIGHT = 2.0;
 const SAMPLE_HALF_LIFE_MS = 300000;
 
 let globalSamples: LatencySample[] = [];
-let connectionTypeSamples: Map<string, ConnectionTypeSamples> = new Map();
+const connectionTypeSamples: Map<string, ConnectionTypeSamples> = new Map();
 
 export class NetworkLatencyMonitor {
     private static instance: NetworkLatencyMonitor;

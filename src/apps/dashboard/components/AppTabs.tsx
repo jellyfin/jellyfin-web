@@ -1,14 +1,15 @@
-import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from '@tanstack/react-router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { EventType } from 'constants/eventType';
-import { Tabs, TabList, Tab } from 'ui-primitives/Tabs';
 import { vars } from 'styles/tokens.css';
+import { Tabs, TabList, Tab } from 'ui-primitives/Tabs';
 import Events from 'utils/events';
+
 import { debounce, isEqual } from '../../../utils/lodashUtils';
 
 interface AppTabsParams {
-    isDrawerOpen: boolean;
+    readonly isDrawerOpen: boolean;
 }
 
 interface TabDefinition {
@@ -18,7 +19,7 @@ interface TabDefinition {
 
 const handleResize = debounce(() => window.dispatchEvent(new Event('resize')), 100);
 
-const AppTabs: FC<AppTabsParams> = ({ isDrawerOpen }) => {
+function AppTabs({ isDrawerOpen }: AppTabsParams): React.ReactElement | null {
     const documentRef = useRef<Document>(document);
     const [activeIndex, setActiveIndex] = useState('0');
     const [tabs, setTabs] = useState<TabDefinition[]>();
@@ -44,7 +45,7 @@ const AppTabs: FC<AppTabsParams> = ({ isDrawerOpen }) => {
         };
     }, [onTabsUpdate]);
 
-    const handleTabChange = (value: string): void => setActiveIndex(value);
+    const handleTabChange = useCallback((value: string): void => setActiveIndex(value), []);
 
     useEffect(() => {
         handleResize();
@@ -93,6 +94,6 @@ const AppTabs: FC<AppTabsParams> = ({ isDrawerOpen }) => {
             </TabList>
         </Tabs>
     );
-};
+}
 
 export default AppTabs;

@@ -5,9 +5,10 @@
  */
 
 import { logger } from 'utils/logger';
-import { getSongAnalysis, saveSongAnalysis, type PeakData } from './peakStorage';
+
 import { readPeaksFromNfo } from './nfoPeaks';
 import type { ExtractPeaksRequest, ExtractPeaksResponse } from './peakExtractor.worker';
+import { getSongAnalysis, saveSongAnalysis, type PeakData } from './peakStorage';
 
 const WORKER_PATH = '/src/utils/peakExtractor.worker.ts';
 

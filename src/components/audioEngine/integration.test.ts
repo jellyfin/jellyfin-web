@@ -15,17 +15,30 @@ vi.mock('components/visualizer/butterchurn.logic', () => ({
     }
 }));
 
-vi.mock('components/visualizer/visualizers.logic', () => ({
-    getSavedVisualizerSettings: vi.fn(() => ({
-        waveSurfer: { enabled: false },
-        frequencyAnalyzer: { enabled: false },
-        butterchurn: { enabled: false }
-    })),
-    setVisualizerSettings: vi.fn(),
-    visualizerSettings: {
-        waveSurfer: { enabled: false },
-        frequencyAnalyzer: { enabled: false },
-        butterchurn: { enabled: false }
+vi.mock('../../store/preferencesStore', () => ({
+    usePreferencesStore: {
+        getState: () => ({
+            visualizer: {
+                enabled: false,
+                type: 'butterchurn'
+            },
+            crossfade: {
+                crossfadeDuration: 5,
+                crossfadeEnabled: true,
+                networkLatencyCompensation: 1,
+                networkLatencyMode: 'auto',
+                manualLatencyOffset: 0
+            },
+            _runtime: {
+                busy: false,
+                triggered: false,
+                manualTrigger: false
+            }
+        }),
+        setState: vi.fn(),
+        setCrossfadeDuration: vi.fn(),
+        setCrossfadeEnabled: vi.fn(),
+        setCrossfadeBusy: vi.fn()
     }
 }));
 

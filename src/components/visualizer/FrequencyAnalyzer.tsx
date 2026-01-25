@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
-import { visualizerSettings } from './visualizers.logic';
+import { usePreferencesStore } from '../../store/preferencesStore';
 import { isVisible, onVisibilityChange } from '../../utils/visibility';
 
 type FrequencyAnalyzersProps = {
@@ -198,10 +198,6 @@ function drawFrequencyLabels(
 const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     audioContext = masterAudioOutput.audioContext,
     mixerNode = masterAudioOutput.mixerNode,
-    fftSize = 4096,
-    smoothingTimeConstant = 0.3,
-    minDecibels = -132,
-    maxDecibels = 180,
     alpha = 4.5 // Adjust this value to control frequency distribution
 }) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -210,6 +206,11 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
     const previousBarHeightsRef = useRef<Float32Array | null>(null);
     const pinkNoiseReferenceRef = useRef<Float32Array | null>(null);
+
+    const { frequencyAnalyzer, advanced } = usePreferencesStore(state => state.visualizer);
+    const { fftSize, limiterThreshold: maxDecibels } = advanced;
+    const { smoothing: smoothingTimeConstant, opacity } = frequencyAnalyzer;
+    const minDecibels = -132; // Standard floor
 
     const stopLoop = useCallback(() => {
         if (animationFrameId.current) {
@@ -235,6 +236,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             ctx.scale(dpr, dpr);
 
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            ctx.globalAlpha = frequencyAnalyzer.opacity;
 
             const minBarWidth = Math.max(2, canvasWidth / 200);
             const barGap = Math.max(1, canvasWidth / 400);
@@ -264,11 +266,9 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             const previousBarHeights = previousBarHeightsRef.current!;
             const pinkNoiseReference = pinkNoiseReferenceRef.current!;
 
-            const colorScheme = visualizerSettings.frequencyAnalyzer.colorScheme;
-            const colorSolid = visualizerSettings.frequencyAnalyzer.colors.solid;
-            const colorLow = visualizerSettings.frequencyAnalyzer.colors.gradient.low;
-            const colorMid = visualizerSettings.frequencyAnalyzer.colors.gradient.mid;
-            const colorHigh = visualizerSettings.frequencyAnalyzer.colors.gradient.high;
+            const { colorScheme, colors } = frequencyAnalyzer;
+            const { solid: colorSolid } = colors;
+            const { low: colorLow, mid: colorMid, high: colorHigh } = colors.gradient;
 
             const nyquist = 44100 / 2;
             const MIN_FREQUENCY = 60;
@@ -311,7 +311,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             drawAmplitudeLabels(ctx, canvasWidth, canvasHeight, minDecibels, maxDecibels);
             drawFrequencyLabels(ctx, canvasWidth, logMinFreq, logMaxFreq);
         },
-        [fftSize, minDecibels, maxDecibels, alpha]
+        [fftSize, minDecibels, maxDecibels, alpha, frequencyAnalyzer]
     );
 
     const startLoop = useCallback(

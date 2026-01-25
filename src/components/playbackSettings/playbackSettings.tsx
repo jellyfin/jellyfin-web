@@ -1,34 +1,29 @@
-import { z } from 'zod';
-import { useForm } from '@tanstack/react-form';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useState, useEffect } from 'react';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import globalize from 'lib/globalize';
-import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
+import { GearIcon, PlayIcon, SpeakerLoudIcon, VideoIcon } from '@radix-ui/react-icons';
+import { useForm } from '@tanstack/react-form';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
 import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
 import { AppFeature } from 'constants/appFeature';
-import { safeAppHost } from '../apphost';
+import { useApi } from 'hooks/useApi';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert } from 'ui-primitives/Alert';
+import { Box, Flex, FlexCol } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { Slider } from 'ui-primitives/Slider';
+import { Tab, TabList, TabPanel, Tabs } from 'ui-primitives/Tabs';
+import { Text } from 'ui-primitives/Text';
+import { z } from 'zod';
+import { FormSection, FormSelectField, FormSwitchField } from 'apps/dashboard/components/forms/DashboardForm';
 import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
+import loading from '../loading/loading';
 import qualityoptions from '../qualityOptions';
 import toast from '../toast/toast';
-import loading from '../loading/loading';
-import { useApi } from 'hooks/useApi';
-
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex, FlexCol } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Input } from 'ui-primitives/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Slider } from 'ui-primitives/Slider';
-import { Divider } from 'ui-primitives/Divider';
-import { Alert } from 'ui-primitives/Alert';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { Tabs, TabList, Tab, TabPanel } from 'ui-primitives/Tabs';
-import { FormSection, FormSelectField, FormSwitchField } from 'apps/dashboard/components/forms/DashboardForm';
-import { SpeakerLoudIcon, VideoIcon, PlayIcon, GearIcon } from '@radix-ui/react-icons';
+import { safeAppHost } from '../apphost';
 
 const playbackSettingsSchema = z.object({
     allowedAudioChannels: z.string(),
@@ -71,10 +66,10 @@ const playbackSettingsSchema = z.object({
 type PlaybackSettingsValues = z.infer<typeof playbackSettingsSchema>;
 
 interface PlaybackSettingsProps {
-    userId: string;
-    serverId: string;
-    userSettings: any;
-    onSave?: () => void;
+    readonly userId: string;
+    readonly serverId: string;
+    readonly userSettings: any;
+    readonly onSave?: () => void;
 }
 
 const SKIP_LENGTHS = [5, 10, 15, 20, 25, 30];
@@ -128,35 +123,38 @@ const AUDIO_NORMALIZATION_OPTIONS = [
 ];
 
 interface FormSliderFieldProps {
-    name: string;
-    label: string;
-    value: number;
-    onChange: (value: number) => void;
-    min: number;
-    max: number;
-    step: number;
-    showValue?: boolean;
-    unit?: string;
-    helpText?: string;
+    readonly label: string;
+    readonly value: number;
+    readonly onChange: (value: number) => void;
+    readonly min: number;
+    readonly max: number;
+    readonly step: number;
+    readonly showValue?: boolean;
+    readonly unit?: string;
+    readonly helpText?: string;
 }
 
-function FormSliderField({ label, value, onChange, min, max, step, showValue, unit, helpText }: FormSliderFieldProps) {
+function FormSliderField({ label, value, onChange, min, max, step, showValue, unit, helpText }: FormSliderFieldProps): React.ReactElement {
+    const onSliderChange = useCallback((val: number[]) => {
+        onChange(val[0] ?? 0);
+    }, [onChange]);
+
     return (
         <Box style={{ marginBottom: '16px' }}>
             <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <Text size="sm" weight="medium">
+                <Text size='sm' weight='medium'>
                     {label}
                 </Text>
-                {showValue && (
-                    <Text size="sm" color="secondary">
+                {showValue === true && (
+                    <Text size='sm' color='secondary'>
                         {value}
-                        {unit ? ` ${unit}` : ''}
+                        {unit !== undefined ? ` ${unit}` : ''}
                     </Text>
                 )}
             </Flex>
-            <Slider value={value} onChange={onChange} min={min} max={max} step={step} style={{ width: '100%' }} />
-            {helpText && (
-                <Text size="xs" color="secondary" style={{ marginTop: '4px' }}>
+            <Slider value={[value]} onValueChange={onSliderChange} min={min} max={max} step={step} style={{ width: '100%' }} />
+            {helpText !== undefined && (
+                <Text size='xs' color='secondary' style={{ marginTop: '4px' }}>
                     {helpText}
                 </Text>
             )}
@@ -164,7 +162,7 @@ function FormSliderField({ label, value, onChange, min, max, step, showValue, un
     );
 }
 
-export function PlaybackSettings({ userId, serverId, userSettings, onSave }: PlaybackSettingsProps) {
+export function PlaybackSettings({ userId, serverId, userSettings, onSave }: PlaybackSettingsProps): React.ReactElement | null {
     const { api } = useApi();
     const queryClient = useQueryClient();
     const [saveError, setSaveError] = useState<string | null>(null);
@@ -175,22 +173,22 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
 
     const { data: user, isLoading: userLoading } = useQuery({
         queryKey: ['user', userId],
-        queryFn: () => apiClient.getUser(userId)
+        queryFn: async () => apiClient.getUser(userId)
     });
 
     const { data: systemInfo, isLoading: systemInfoLoading } = useQuery({
         queryKey: ['systemInfo'],
-        queryFn: () => apiClient.getSystemInfo()
+        queryFn: async () => apiClient.getSystemInfo()
     });
 
     const { data: cultures, isLoading: culturesLoading } = useQuery({
         queryKey: ['cultures'],
-        queryFn: () => apiClient.getCultures()
+        queryFn: async () => apiClient.getCultures()
     });
 
     useEffect(() => {
         if (!safeAppHost.supports(AppFeature.MultiServer)) {
-            apiClient
+            void apiClient
                 .getEndpointInfo()
                 .then(setEndpointInfo)
                 .catch(() => {});
@@ -215,9 +213,9 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
     const showMultiServerQuality = safeAppHost.supports(AppFeature.MultiServer);
     const isLocalUser = userId === apiClient.getCurrentUserId();
     const canShowQuality =
-        isLocalUser && (user?.Policy?.EnableVideoPlaybackTranscoding || user?.Policy?.EnableAudioPlaybackTranscoding);
-    const showInNetworkQuality = showMultiServerQuality || endpointInfo?.IsInNetwork;
-    const showInternetQuality = showMultiServerQuality || !endpointInfo?.IsInNetwork;
+        isLocalUser && ((user?.Policy?.EnableVideoPlaybackTranscoding ?? false) || (user?.Policy?.EnableAudioPlaybackTranscoding ?? false));
+    const showInNetworkQuality = showMultiServerQuality || (endpointInfo?.IsInNetwork ?? false);
+    const showInternetQuality = showMultiServerQuality || !(endpointInfo?.IsInNetwork ?? false);
 
     const form = useForm({
         defaultValues: {
@@ -287,7 +285,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                 userSettings.skipBackLength(value.skipBackLength);
                 userSettings.crossfadeDuration(value.crossfadeDuration);
 
-                if (user) {
+                if (user?.Configuration !== undefined) {
                     user.Configuration.AudioLanguagePreference = value.audioLanguagePreference;
                     user.Configuration.PlayDefaultAudioTrack = value.playDefaultAudioTrack;
                     user.Configuration.EnableNextEpisodeAutoPlay = value.enableNextEpisodeAutoPlay;
@@ -301,7 +299,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                 toast(globalize.translate('SettingsSaved'));
                 onSave?.();
             } catch (error) {
-                setSaveError(error instanceof Error ? error.message : globalize.translate('ErrorDefault'));
+                setSaveError(error instanceof Error ? error.message : (globalize.translate('ErrorDefault') as string));
             } finally {
                 loading.hide();
             }
@@ -313,13 +311,13 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
     if (isLoading) {
         return (
             <Box style={{ padding: '48px', textAlign: 'center' }}>
-                <CircularProgress size="lg" />
+                <CircularProgress size='lg' />
                 <Text style={{ marginTop: '16px' }}>{globalize.translate('Loading')}</Text>
             </Box>
         );
     }
 
-    if (!user || !systemInfo) {
+    if (user === undefined || systemInfo === undefined) {
         return null;
     }
 
@@ -332,8 +330,8 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
 
     return (
         <Box style={{ maxWidth: '900px', margin: '0 auto', padding: '24px' }}>
-            {saveError && (
-                <Alert variant="error" style={{ marginBottom: '24px' }}>
+            {saveError !== null && (
+                <Alert variant='error' style={{ marginBottom: '24px' }}>
                     {saveError}
                 </Alert>
             )}
@@ -341,34 +339,33 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
             <form
                 onSubmit={e => {
                     e.preventDefault();
-                    form.handleSubmit();
+                    void form.handleSubmit();
                 }}
             >
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabList>
-                        <Tab value="audio">
+                        <Tab value='audio'>
                             <SpeakerLoudIcon style={{ marginRight: 8, width: 20, height: 20 }} />
                             {globalize.translate('Audio')}
                         </Tab>
-                        <Tab value="video">
+                        <Tab value='video'>
                             <VideoIcon style={{ marginRight: 8, width: 20, height: 20 }} />
                             {globalize.translate('Video')}
                         </Tab>
-                        <Tab value="playback">
+                        <Tab value='playback'>
                             <PlayIcon style={{ marginRight: 8, width: 20, height: 20 }} />
                             {globalize.translate('Playback')}
                         </Tab>
-                        <Tab value="advanced">
+                        <Tab value='advanced'>
                             <GearIcon style={{ marginRight: 8, width: 20, height: 20 }} />
                             {globalize.translate('TabAdvanced')}
                         </Tab>
                     </TabList>
 
-                    <TabPanel value="audio">
+                    <TabPanel value='audio'>
                         <FormSection title={globalize.translate('HeaderAudioSettings')}>
                             <FlexCol style={{ gap: 16 }}>
                                 <FormSelectField
-                                    name="allowedAudioChannels"
                                     label={globalize.translate('LabelAllowedAudioChannels')}
                                     value={form.state.values.allowedAudioChannels}
                                     onChange={val => form.setFieldValue('allowedAudioChannels', val)}
@@ -376,28 +373,25 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                 />
 
                                 <FormSelectField
-                                    name="audioLanguagePreference"
                                     label={globalize.translate('LabelAudioLanguagePreference')}
                                     value={form.state.values.audioLanguagePreference}
                                     onChange={val => form.setFieldValue('audioLanguagePreference', val)}
                                     options={[
                                         { value: '', label: globalize.translate('AnyLanguage') },
                                         ...(cultures?.map((c: any) => ({
-                                            value: c.ThreeLetterISOLanguageName,
-                                            label: c.DisplayName
+                                            value: c.ThreeLetterISOLanguageName as string,
+                                            label: c.DisplayName as string
                                         })) || [])
                                     ]}
                                 />
 
                                 <FormSwitchField
-                                    name="playDefaultAudioTrack"
                                     label={globalize.translate('LabelPlayDefaultAudioTrack')}
                                     checked={form.state.values.playDefaultAudioTrack}
                                     onChange={checked => form.setFieldValue('playDefaultAudioTrack', checked)}
                                 />
 
                                 <FormSliderField
-                                    name="crossfadeDuration"
                                     label={globalize.translate('CrossfadeDuration')}
                                     value={form.state.values.crossfadeDuration}
                                     onChange={val => form.setFieldValue('crossfadeDuration', val)}
@@ -405,7 +399,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                     max={6}
                                     step={0.01}
                                     showValue
-                                    unit="s"
+                                    unit='s'
                                     helpText={globalize.translate('CrossfadeDurationHelp')}
                                 />
                             </FlexCol>
@@ -414,7 +408,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         <FormSection title={globalize.translate('HeaderVisualizer')}>
                             <FlexCol style={{ gap: 16 }}>
                                 <FormSwitchField
-                                    name="butterchurnEnabled"
                                     label={globalize.translate('EnableButterchurn')}
                                     checked={form.state.values.butterchurnEnabled}
                                     onChange={checked => form.setFieldValue('butterchurnEnabled', checked)}
@@ -422,7 +415,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
 
                                 {form.state.values.butterchurnEnabled && (
                                     <FormSliderField
-                                        name="butterchurnPresetInterval"
                                         label={globalize.translate('ButterchurnPresetInterval')}
                                         value={form.state.values.butterchurnPresetInterval}
                                         onChange={val => form.setFieldValue('butterchurnPresetInterval', val)}
@@ -430,26 +422,23 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                         max={120}
                                         step={1}
                                         showValue
-                                        unit="s"
+                                        unit='s'
                                     />
                                 )}
 
                                 <FormSwitchField
-                                    name="threeJsEnabled"
                                     label={globalize.translate('Enable 3D Visualizer (Experimental)')}
                                     checked={form.state.values.threeJsEnabled}
                                     onChange={checked => form.setFieldValue('threeJsEnabled', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="frequencyAnalyzerEnabled"
                                     label={globalize.translate('EnableFrequencyAnalyzer')}
                                     checked={form.state.values.frequencyAnalyzerEnabled}
                                     onChange={checked => form.setFieldValue('frequencyAnalyzerEnabled', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="waveSurferEnabled"
                                     label={globalize.translate('EnableWavesurfer')}
                                     checked={form.state.values.waveSurferEnabled}
                                     onChange={checked => form.setFieldValue('waveSurferEnabled', checked)}
@@ -460,7 +449,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         <FormSection title={globalize.translate('HeaderAudioAdvanced')}>
                             <FlexCol style={{ gap: 16 }}>
                                 <FormSelectField
-                                    name="selectAudioNormalization"
                                     label={globalize.translate('LabelSelectAudioNormalization')}
                                     value={form.state.values.selectAudioNormalization}
                                     onChange={val => form.setFieldValue('selectAudioNormalization', val)}
@@ -468,21 +456,18 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                 />
 
                                 <FormSwitchField
-                                    name="alwaysRemuxFlac"
                                     label={globalize.translate('LabelAlwaysRemuxFlacAudioFiles')}
                                     checked={form.state.values.alwaysRemuxFlac}
                                     onChange={checked => form.setFieldValue('alwaysRemuxFlac', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="alwaysRemuxMp3"
                                     label={globalize.translate('LabelAlwaysRemuxMp3AudioFiles')}
                                     checked={form.state.values.alwaysRemuxMp3}
                                     onChange={checked => form.setFieldValue('alwaysRemuxMp3', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="disableVbrAudioEncoding"
                                     label={globalize.translate('LabelDisableVbrAudioEncoding')}
                                     checked={form.state.values.disableVbrAudioEncoding}
                                     onChange={checked => form.setFieldValue('disableVbrAudioEncoding', checked)}
@@ -491,13 +476,12 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         </FormSection>
                     </TabPanel>
 
-                    <TabPanel value="video">
+                    <TabPanel value='video'>
                         <FormSection title={globalize.translate('HeaderVideoQuality')}>
                             {canShowQuality && (
                                 <FlexCol style={{ gap: 16 }}>
                                     {showInNetworkQuality && (
                                         <FormSelectField
-                                            name="maxInNetworkBitrate"
                                             label={globalize.translate('LabelHomeNetworkQuality')}
                                             value={form.state.values.maxInNetworkBitrate}
                                             onChange={val => form.setFieldValue('maxInNetworkBitrate', val)}
@@ -508,14 +492,14 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                                         currentMaxBitrate: appSettings.maxStreamingBitrate(
                                                             true,
                                                             'Video'
-                                                        ),
+                                                        ) as number,
                                                         isAutomaticBitrateEnabled:
-                                                            appSettings.enableAutomaticBitrateDetection(true, 'Video'),
+                                                            appSettings.enableAutomaticBitrateDetection(true, 'Video') as boolean,
                                                         enableAuto: true
                                                     })
                                                     .map((opt: any) => ({
                                                         value: String(opt.bitrate || ''),
-                                                        label: opt.name
+                                                        label: opt.name as string
                                                     }))
                                             ]}
                                         />
@@ -523,7 +507,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
 
                                     {showInternetQuality && (
                                         <FormSelectField
-                                            name="maxInternetBitrate"
                                             label={globalize.translate('LabelInternetQuality')}
                                             value={form.state.values.maxInternetBitrate}
                                             onChange={val => form.setFieldValue('maxInternetBitrate', val)}
@@ -534,14 +517,14 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                                         currentMaxBitrate: appSettings.maxStreamingBitrate(
                                                             false,
                                                             'Video'
-                                                        ),
+                                                        ) as number,
                                                         isAutomaticBitrateEnabled:
-                                                            appSettings.enableAutomaticBitrateDetection(false, 'Video'),
+                                                            appSettings.enableAutomaticBitrateDetection(false, 'Video') as boolean,
                                                         enableAuto: true
                                                     })
                                                     .map((opt: any) => ({
                                                         value: String(opt.bitrate || ''),
-                                                        label: opt.name
+                                                        label: opt.name as string
                                                     }))
                                             ]}
                                         />
@@ -549,9 +532,8 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
 
                                     {isLocalUser &&
                                         safeAppHost.supports(AppFeature.Chromecast) &&
-                                        user.Policy.EnableVideoPlaybackTranscoding && (
+                                        (user.Policy?.EnableVideoPlaybackTranscoding ?? false) && (
                                             <FormSelectField
-                                                name="maxChromecastBitrate"
                                                 label={globalize.translate('LabelMaxChromecastBitrate')}
                                                 value={form.state.values.maxChromecastBitrate}
                                                 onChange={val => form.setFieldValue('maxChromecastBitrate', val)}
@@ -559,21 +541,20 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                                     { value: '', label: globalize.translate('Auto') },
                                                     ...qualityoptions
                                                         .getVideoQualityOptions({
-                                                            currentMaxBitrate: appSettings.maxChromecastBitrate(),
+                                                            currentMaxBitrate: appSettings.maxChromecastBitrate() as number,
                                                             isAutomaticBitrateEnabled:
-                                                                !appSettings.maxChromecastBitrate(),
+                                                                !(appSettings.maxChromecastBitrate() as number),
                                                             enableAuto: true
                                                         })
                                                         .map((opt: any) => ({
                                                             value: String(opt.bitrate || ''),
-                                                            label: opt.name
+                                                            label: opt.name as string
                                                         }))
                                                 ]}
                                             />
                                         )}
 
                                     <FormSelectField
-                                        name="maxVideoWidth"
                                         label={globalize.translate('LabelMaxVideoResolution')}
                                         value={form.state.values.maxVideoWidth}
                                         onChange={val => form.setFieldValue('maxVideoWidth', val)}
@@ -581,7 +562,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                     />
 
                                     <FormSwitchField
-                                        name="limitSupportedVideoResolution"
                                         label={globalize.translate('LimitSupportedVideoResolution')}
                                         checked={form.state.values.limitSupportedVideoResolution}
                                         onChange={checked =>
@@ -592,10 +572,9 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                             )}
                         </FormSection>
 
-                        {showInternetQuality && user.Policy.EnableAudioPlaybackTranscoding && (
+                        {showInternetQuality && (user.Policy?.EnableAudioPlaybackTranscoding ?? false) && (
                             <FormSection title={globalize.translate('HeaderMusicQuality')}>
                                 <FormSelectField
-                                    name="maxMusicBitrate"
                                     label={globalize.translate('LabelInternetQuality')}
                                     value={form.state.values.maxMusicBitrate}
                                     onChange={val => form.setFieldValue('maxMusicBitrate', val)}
@@ -603,16 +582,16 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                         { value: '', label: globalize.translate('Auto') },
                                         ...qualityoptions
                                             .getAudioQualityOptions({
-                                                currentMaxBitrate: appSettings.maxStreamingBitrate(false, 'Audio'),
+                                                currentMaxBitrate: appSettings.maxStreamingBitrate(false, 'Audio') as number,
                                                 isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(
                                                     false,
                                                     'Audio'
-                                                ),
+                                                ) as boolean,
                                                 enableAuto: true
                                             })
                                             .map((opt: any) => ({
                                                 value: String(opt.bitrate || ''),
-                                                label: opt.name
+                                                label: opt.name as string
                                             }))
                                     ]}
                                 />
@@ -622,14 +601,12 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         <FormSection title={globalize.translate('HeaderVideoAdvanced')}>
                             <FlexCol style={{ gap: 16 }}>
                                 <FormSwitchField
-                                    name="enableDts"
                                     label={globalize.translate('EnableDts')}
                                     checked={form.state.values.enableDts}
                                     onChange={checked => form.setFieldValue('enableDts', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="enableTrueHd"
                                     label={globalize.translate('EnableTrueHd')}
                                     checked={form.state.values.enableTrueHd}
                                     onChange={checked => form.setFieldValue('enableTrueHd', checked)}
@@ -637,7 +614,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
 
                                 {browser.safari && (
                                     <FormSwitchField
-                                        name="enableHi10p"
                                         label={globalize.translate('EnableHi10p')}
                                         checked={form.state.values.enableHi10p || false}
                                         onChange={checked => form.setFieldValue('enableHi10p', checked)}
@@ -646,7 +622,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
 
                                 {browser.web0s && (
                                     <FormSwitchField
-                                        name="limitSegmentLength"
                                         label={globalize.translate('LimitSegmentLength')}
                                         checked={form.state.values.limitSegmentLength}
                                         onChange={checked => form.setFieldValue('limitSegmentLength', checked)}
@@ -654,7 +629,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                 )}
 
                                 <FormSelectField
-                                    name="preferredTranscodeVideoCodec"
                                     label={globalize.translate('LabelSelectPreferredTranscodeVideoCodec')}
                                     value={form.state.values.preferredTranscodeVideoCodec}
                                     onChange={val => form.setFieldValue('preferredTranscodeVideoCodec', val)}
@@ -662,7 +636,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                 />
 
                                 <FormSelectField
-                                    name="preferredTranscodeVideoAudioCodec"
                                     label={globalize.translate('LabelSelectPreferredTranscodeVideoAudioCodec')}
                                     value={form.state.values.preferredTranscodeVideoAudioCodec}
                                     onChange={val => form.setFieldValue('preferredTranscodeVideoAudioCodec', val)}
@@ -672,55 +645,48 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         </FormSection>
                     </TabPanel>
 
-                    <TabPanel value="playback">
+                    <TabPanel value='playback'>
                         <FormSection title={globalize.translate('TabPlayback')}>
                             <FlexCol style={{ gap: 16 }}>
                                 <FormSwitchField
-                                    name="preferFmp4HlsContainer"
                                     label={globalize.translate('PreferFmp4HlsContainer')}
                                     checked={form.state.values.preferFmp4HlsContainer}
                                     onChange={checked => form.setFieldValue('preferFmp4HlsContainer', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="enableCinemaMode"
                                     label={globalize.translate('EnableCinemaMode')}
                                     checked={form.state.values.enableCinemaMode}
                                     onChange={checked => form.setFieldValue('enableCinemaMode', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="enableNextEpisodeAutoPlay"
                                     label={globalize.translate('PlayNextEpisodeAutomatically')}
                                     checked={form.state.values.enableNextEpisodeAutoPlay}
                                     onChange={checked => form.setFieldValue('enableNextEpisodeAutoPlay', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="rememberAudioSelections"
                                     label={globalize.translate('RememberAudioSelections')}
                                     checked={form.state.values.rememberAudioSelections}
                                     onChange={checked => form.setFieldValue('rememberAudioSelections', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="rememberSubtitleSelections"
                                     label={globalize.translate('RememberSubtitleSelections')}
                                     checked={form.state.values.rememberSubtitleSelections}
                                     onChange={checked => form.setFieldValue('rememberSubtitleSelections', checked)}
                                 />
 
                                 <FormSwitchField
-                                    name="enableNextVideoInfoOverlay"
                                     label={globalize.translate('EnableNextVideoInfoOverlay')}
                                     checked={form.state.values.enableNextVideoInfoOverlay}
                                     onChange={checked => form.setFieldValue('enableNextVideoInfoOverlay', checked)}
                                 />
 
                                 <FormSelectField
-                                    name="skipForwardLength"
                                     label={globalize.translate('LabelSkipForwardLength')}
-                                    value={String(form.state.values.skipForwardLength)}
+                                    value={String(form.state.values.skipForwardLength * 1000)}
                                     onChange={val => form.setFieldValue('skipForwardLength', parseInt(val) / 1000)}
                                     options={SKIP_LENGTHS.map(len => ({
                                         value: String(len * 1000),
@@ -729,9 +695,8 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                 />
 
                                 <FormSelectField
-                                    name="skipBackLength"
                                     label={globalize.translate('LabelSkipBackLength')}
-                                    value={String(form.state.values.skipBackLength)}
+                                    value={String(form.state.values.skipBackLength * 1000)}
                                     onChange={val => form.setFieldValue('skipBackLength', parseInt(val) / 1000)}
                                     options={SKIP_LENGTHS.map(len => ({
                                         value: String(len * 1000),
@@ -746,9 +711,8 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                 {mediaSegmentActions.map(action => (
                                     <FormSelectField
                                         key={action.id}
-                                        name={action.id}
                                         label={action.label}
-                                        value={action.value}
+                                        value={action.value as string}
                                         onChange={val => userSettings.set(action.id, val, false)}
                                         options={Object.values(MediaSegmentAction).map(act => ({
                                             value: act,
@@ -762,7 +726,6 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         <FormSection title={globalize.translate('HeaderExternalPlayers')}>
                             {safeAppHost.supports(AppFeature.ExternalPlayerIntent) && isLocalUser && (
                                 <FormSwitchField
-                                    name="enableSystemExternalPlayers"
                                     label={globalize.translate('EnableExternalVideoPlayers')}
                                     checked={form.state.values.enableSystemExternalPlayers}
                                     onChange={checked => form.setFieldValue('enableSystemExternalPlayers', checked)}
@@ -770,27 +733,26 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                             )}
 
                             <FormSelectField
-                                name="castReceiverId"
                                 label={globalize.translate('LabelChromecastVersion')}
                                 value={form.state.values.castReceiverId}
                                 onChange={val => form.setFieldValue('castReceiverId', val)}
                                 options={(systemInfo.CastReceiverApplications || []).map((app: any) => ({
-                                    value: app.Id,
-                                    label: app.Name
+                                    value: app.Id as string,
+                                    label: app.Name as string
                                 }))}
                             />
                         </FormSection>
                     </TabPanel>
 
-                    <TabPanel value="advanced">
+                    <TabPanel value='advanced'>
                         <Box style={{ textAlign: 'center', padding: '48px' }}>
-                            <Text color="secondary">{globalize.translate('AdvancedSettingsComingSoon')}</Text>
+                            <Text color='secondary'>{globalize.translate('AdvancedSettingsComingSoon')}</Text>
                         </Box>
                     </TabPanel>
                 </Tabs>
 
-                <Flex justify="flex-end" gap="12px" style={{ marginTop: '24px' }}>
-                    <Button type="submit" variant="primary" loading={isLoading}>
+                <Flex justify='flex-end' gap='12px' style={{ marginTop: '24px' }}>
+                    <Button type='submit' variant='primary' loading={isLoading}>
                         {globalize.translate('Save')}
                     </Button>
                 </Flex>

@@ -1,35 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Progress } from 'ui-primitives/Progress';
-import { vars } from 'styles/tokens.css';
 import { SpeakerLoudIcon, SpeakerOffIcon, SunIcon } from '@radix-ui/react-icons';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
 import { usePreferencesStore } from '../../../store';
+import { vars } from 'styles/tokens.css';
+import { Flex } from 'ui-primitives/Box';
+import { Progress } from 'ui-primitives/Progress';
+
 import * as styles from './OSDOverlay.css';
 
 type OSDType = 'volume' | 'brightness' | null;
 
-export const OSDOverlay: React.FC = () => {
+export function OSDOverlay(): React.ReactElement {
     const volume = usePreferencesStore(state => state.audio.volume);
     const muted = usePreferencesStore(state => state.audio.muted);
-    const [brightness, setBrightness] = useState(100); // Managed locally for now or move to store
+    const brightness = usePreferencesStore(state => state.ui.brightness);
     const [activeOSD, setActiveOSD] = useState<OSDType>(null);
     const [isVisible, setIsVisible] = useState(false);
 
-    let hideTimeout: ReturnType<typeof setTimeout>;
-    const triggerShow = () => {
+    const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const triggerShow = useCallback((type: OSDType = 'volume') => {
+        if (type !== null) setActiveOSD(type);
         setIsVisible(true);
-        clearTimeout(hideTimeout);
-        hideTimeout = setTimeout(() => setIsVisible(false), 3000);
-    };
+        if (hideTimeoutRef.current) {
+            clearTimeout(hideTimeoutRef.current);
+        }
+        hideTimeoutRef.current = setTimeout(() => setIsVisible(false), 3000);
+    }, []);
 
-    const getVolumeIcon = () => {
+    const getVolumeIcon = (): React.ReactElement => {
         if (muted || volume === 0) return <SpeakerOffIcon style={{ fontSize: 40 }} />;
         return <SpeakerLoudIcon style={{ fontSize: 40 }} />;
     };
 
-    const getBrightnessIcon = () => {
-        const opacity = brightness >= 80 ? 1 : brightness >= 30 ? 0.75 : 0.5;
+    const getBrightnessIcon = (): React.ReactElement => {
+        let opacity = 0.5;
+        if (brightness >= 80) {
+            opacity = 1;
+        } else if (brightness >= 30) {
+            opacity = 0.75;
+        }
         return <SunIcon style={{ fontSize: 40, opacity }} />;
     };
 
@@ -38,18 +48,18 @@ export const OSDOverlay: React.FC = () => {
         const unsubVolume = usePreferencesStore.subscribe(
             state => state.audio.volume,
             () => {
-                setActiveOSD('volume');
-                triggerShow();
-            }
+                triggerShow('volume');
+            },
+            { fireImmediately: false }
         );
 
         // Show muted OSD on mute change
         const unsubMuted = usePreferencesStore.subscribe(
             state => state.audio.muted,
             () => {
-                setActiveOSD('volume');
-                triggerShow();
-            }
+                triggerShow('volume');
+            },
+            { fireImmediately: false }
         );
 
         return () => {
@@ -61,20 +71,19 @@ export const OSDOverlay: React.FC = () => {
     useEffect(() => {
         // Handle brightness control
         const unsub = usePreferencesStore.subscribe(
-            state => state.brightness,
-            brightness => {
-                setActiveOSD('brightness');
-                setBrightness(brightness);
-                triggerShow();
-            }
+            state => state.ui.brightness,
+            () => {
+                triggerShow('brightness');
+            },
+            { fireImmediately: false }
         );
 
         return unsub;
-    }, [triggerShow, setBrightness]);
+    }, [triggerShow]);
 
     return (
         <AnimatePresence>
-            {isVisible && activeOSD && (
+            {isVisible && activeOSD !== null && (
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9, y: -20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -91,7 +100,7 @@ export const OSDOverlay: React.FC = () => {
                         backgroundColor: 'rgba(0, 0, 0, 0.6)'
                     }}
                 >
-                    <Flex direction="column" align="center" gap={vars.spacing.md}>
+                    <Flex direction='column' align='center' gap={vars.spacing.md}>
                         {activeOSD === 'volume' ? getVolumeIcon() : getBrightnessIcon()}
                         <Progress
                             value={activeOSD === 'volume' ? volume : brightness}
@@ -103,4 +112,4 @@ export const OSDOverlay: React.FC = () => {
             )}
         </AnimatePresence>
     );
-};
+}

@@ -1,43 +1,47 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Box } from 'ui-primitives/Box';
+import React, { useCallback, useEffect, useRef } from 'react';
+
 import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives/Box';
 
 interface WaveformCellProps {
-    itemId: string;
-    streamUrl?: string;
-    peaks?: number[][];
-    duration?: number;
-    currentTime?: number;
-    isCurrentTrack: boolean;
-    isNextTrack: boolean;
-    height?: number;
+    readonly itemId: string;
+    readonly streamUrl?: string;
+    readonly peaks?: number[][];
+    readonly duration?: number;
+    readonly currentTime?: number;
+    readonly isCurrentTrack: boolean;
+    readonly isNextTrack: boolean;
+    readonly height?: number;
 }
 
 const DEFAULT_HEIGHT = 40;
 
-export const WaveformCell: React.FC<WaveformCellProps> = ({
-    itemId,
-    streamUrl,
+function formatDuration(ticks?: number): string {
+    if (ticks === undefined || ticks <= 0) return '--:--';
+    const seconds = ticks / 10000000;
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+export function WaveformCell({
     peaks,
     duration,
     currentTime = 0,
-    isCurrentTrack,
-    isNextTrack,
     height = DEFAULT_HEIGHT
-}) => {
+}: WaveformCellProps): React.ReactElement {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [error, setError] = useState(false);
 
-    const shouldShowWaveform = peaks && peaks.length > 0;
+    const shouldShowWaveform = peaks !== undefined && peaks.length > 0;
 
     const drawWaveform = useCallback(() => {
         const canvas = canvasRef.current;
-        if (!canvas || !peaks || peaks.length === 0) return;
+        if (canvas === null || peaks === undefined || peaks.length === 0) return;
 
         const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+        if (ctx === null || ctx === undefined) return;
 
-        const dpr = window.devicePixelRatio || 1;
+        const dpr = window.devicePixelRatio;
         const width = canvas.offsetWidth * dpr;
         const heightPx = canvas.offsetHeight * dpr;
 
@@ -53,7 +57,7 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
 
         const waveColor = vars.colors.waveformWave;
         const progressColor = vars.colors.waveformProgress;
-        const progress = duration ? currentTime / duration : 0;
+        const progress = (duration !== undefined && duration !== 0) ? currentTime / duration : 0;
 
         for (let i = 0; i < totalBars; i++) {
             const sampleStart = i * samplesPerBar;
@@ -61,7 +65,7 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
             let max = 0;
 
             for (let j = sampleStart; j < sampleEnd; j++) {
-                const abs = Math.abs(peaks[0][j] || 0);
+                const abs = Math.abs(peaks[0][j] ?? 0);
                 if (abs > max) max = abs;
             }
 
@@ -99,7 +103,7 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
                 }}
             >
                 {duration !== undefined && duration > 0 && (
-                    <Box as="span" style={{ fontSize: vars.typography.fontSizeXs, color: vars.colors.textSecondary }}>
+                    <Box as='span' style={{ fontSize: vars.typography.fontSizeXs, color: vars.colors.textSecondary }}>
                         {formatDuration(duration)}
                     </Box>
                 )}
@@ -127,14 +131,6 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
             />
         </Box>
     );
-};
-
-function formatDuration(ticks?: number): string {
-    if (!ticks || ticks <= 0) return '--:--';
-    const seconds = ticks / 10000000;
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
 export default WaveformCell;

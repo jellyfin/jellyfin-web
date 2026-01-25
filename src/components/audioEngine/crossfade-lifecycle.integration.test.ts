@@ -13,17 +13,14 @@ vi.mock('components/visualizer/butterchurn.logic', () => ({
     getButterchurnInstance: vi.fn(() => Promise.resolve({ nextPreset: vi.fn() }))
 }));
 
-vi.mock('components/visualizer/visualizers.logic', () => ({
-    getSavedVisualizerSettings: vi.fn(() => ({
-        waveSurfer: { enabled: false },
-        frequencyAnalyzer: { enabled: false },
-        butterchurn: { enabled: false }
-    })),
-    setVisualizerSettings: vi.fn(),
-    visualizerSettings: {
-        waveSurfer: { enabled: false },
-        frequencyAnalyzer: { enabled: false },
-        butterchurn: { enabled: false }
+vi.mock('../../store/preferencesStore', () => ({
+    usePreferencesStore: {
+        getState: () => ({
+            visualizer: {
+                enabled: false,
+                type: 'butterchurn'
+            }
+        })
     }
 }));
 

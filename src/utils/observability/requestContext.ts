@@ -1,5 +1,5 @@
-import { RequestContextData, WideEvent, CreateEventOptions, JourneyContext } from './types';
 import { generateEventId, getEnvironmentContext, getCurrentUserId, getCurrentServerId } from './environment';
+import { type RequestContextData, type WideEvent, type CreateEventOptions, type JourneyContext } from './types';
 
 /**
  * RequestContext middleware for automatic context propagation

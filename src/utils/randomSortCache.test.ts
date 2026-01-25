@@ -3,6 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+
 import { getCachedRandomItems, getPaginatedRandomItems } from './randomSortCache';
 
 // Mock sessionStorage
@@ -85,11 +86,10 @@ describe('randomSortCache', () => {
             const items = [{ id: '1' }, { id: '2' }, { id: '3' }];
             const fetchAllItems = vi.fn().mockResolvedValue(items);
 
-            // eslint-disable-next-line @stylistic/max-statements-per-line
             mockSessionStorage.getItem.mockImplementation(() => {
                 throw new Error('Storage error');
             });
-            // eslint-disable-next-line @stylistic/max-statements-per-line
+
             mockSessionStorage.setItem.mockImplementation(() => {
                 throw new Error('Storage error');
             });

@@ -1,5 +1,7 @@
 # Jellyfin Web (Modernized fork)
 
+![Coverage](https://img.shields.io/badge/coverage-70%25%2B-blue) ![Tests](https://img.shields.io/badge/tests-Vitest-green)
+
 This repository is a personal/hobby fork of the upstream Jellyfin Web client.
 
 The goal is to keep a working Jellyfin web UI while incrementally modernizing parts of the codebase (build tooling, React/TypeScript, state management, and audio playback). Some areas are intentionally experimental.
@@ -89,6 +91,8 @@ npm run build:check       # TypeScript check
 
 npm run lint              # ESLint + Stylelint
 npm test                  # Vitest
+npm run test:coverage      # Generate coverage report
+npm run test:coverage:watch # Interactive coverage with UI
 ```
 
 ### Dev Settings (local browser)

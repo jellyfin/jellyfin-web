@@ -1,5 +1,6 @@
 import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
 import { type ApiClient } from 'jellyfin-apiclient';
+
 import { logger } from '../logger';
 
 interface GetItemsRequest {

@@ -181,21 +181,21 @@ export default defineConfig(({ mode }) => {
                         }
 
                         if (
-                            id.includes('lodash-es')
-                            || id.includes('date-fns')
-                            || id.includes('dompurify')
-                            || id.includes('markdown-it')
+                            id.includes('lodash-es') ||
+                            id.includes('date-fns') ||
+                            id.includes('dompurify') ||
+                            id.includes('markdown-it')
                         ) {
                             return 'vendor-utils';
                         }
 
                         if (
-                            id.includes('react')
-                            || id.includes('react-dom')
-                            || id.includes('react-router-dom')
-                            || id.includes('@tanstack/react-query')
-                            || id.includes('zustand')
-                            || id.includes('motion')
+                            id.includes('react') ||
+                            id.includes('react-dom') ||
+                            id.includes('react-router-dom') ||
+                            id.includes('@tanstack/react-query') ||
+                            id.includes('zustand') ||
+                            id.includes('motion')
                         ) {
                             return 'vendor-framework';
                         }
@@ -232,122 +232,122 @@ export default defineConfig(({ mode }) => {
             react(),
             tsconfigPaths({ root: '..' }),
             serviceWorkerManifestPlugin,
-            ...(devMode ?
-                [
-                    {
-                        name: 'dev-config',
-                        configureServer(server) {
-                            server.middlewares.use('/__dev-config', (req, res) => {
-                                res.setHeader('Content-Type', 'application/json');
-                                res.setHeader('Cache-Control', 'no-store');
-                                res.setHeader('Access-Control-Allow-Origin', '*');
-                                res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,OPTIONS');
-                                res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+            ...(devMode
+                ? [
+                      {
+                          name: 'dev-config',
+                          configureServer(server) {
+                              server.middlewares.use('/__dev-config', (req, res) => {
+                                  res.setHeader('Content-Type', 'application/json');
+                                  res.setHeader('Cache-Control', 'no-store');
+                                  res.setHeader('Access-Control-Allow-Origin', '*');
+                                  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,OPTIONS');
+                                  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-                                if (req.method === 'OPTIONS') {
-                                    res.writeHead(204);
-                                    res.end();
-                                    return;
-                                }
+                                  if (req.method === 'OPTIONS') {
+                                      res.writeHead(204);
+                                      res.end();
+                                      return;
+                                  }
 
-                                if (req.method === 'GET') {
-                                    res.end(JSON.stringify(readDevConfigFile()));
-                                    return;
-                                }
+                                  if (req.method === 'GET') {
+                                      res.end(JSON.stringify(readDevConfigFile()));
+                                      return;
+                                  }
 
-                                if (req.method === 'PUT') {
-                                    let body = '';
-                                    req.on('data', chunk => {
-                                        body += chunk;
-                                    });
-                                    req.on('end', () => {
-                                        try {
-                                            const parsed = body ? JSON.parse(body) : {};
-                                            const updated = writeDevConfigFile(parsed);
-                                            res.end(JSON.stringify(updated));
-                                        } catch {
-                                            res.statusCode = 400;
-                                            res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
-                                        }
-                                    });
-                                    return;
-                                }
+                                  if (req.method === 'PUT') {
+                                      let body = '';
+                                      req.on('data', chunk => {
+                                          body += chunk;
+                                      });
+                                      req.on('end', () => {
+                                          try {
+                                              const parsed = body ? JSON.parse(body) : {};
+                                              const updated = writeDevConfigFile(parsed);
+                                              res.end(JSON.stringify(updated));
+                                          } catch {
+                                              res.statusCode = 400;
+                                              res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+                                          }
+                                      });
+                                      return;
+                                  }
 
-                                res.statusCode = 405;
-                                res.end(JSON.stringify({ error: 'Method not allowed' }));
-                            });
-                        }
-                    },
-                    serviceWorkerManifestDevPlugin,
-                    {
-                        name: 'error-monitor',
-                        configureServer(server) {
-                            let errorLog: ErrorEntry[] = [];
-                            let errorCount = 0;
-                            server.middlewares.use('/__error-monitor/api/errors', (req, res) => {
-                                res.setHeader('Content-Type', 'application/json');
-                                res.setHeader('Access-Control-Allow-Origin', '*');
-                                if (req.method === 'OPTIONS') {
-                                    res.writeHead(204);
-                                    res.end();
-                                    return;
-                                }
-                                const url = new URL(req.url || '', `http://${req.headers.host}`);
-                                const action = url.searchParams.get('action');
-                                if (action === 'clear') {
-                                    errorLog = [] as ErrorEntry[];
-                                    errorCount = 0;
-                                    res.writeHead(200);
-                                    res.end(JSON.stringify({ success: true }));
-                                    return;
-                                }
-                                const since = url.searchParams.get('since');
-                                let errors = errorLog;
-                                if (since) {
-                                    const sinceTime = parseInt(since, 10);
-                                    errors = errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime);
-                                }
-                                res.writeHead(200);
-                                res.end(JSON.stringify({ count: errorCount, errors }));
-                            });
-                            server.middlewares.use('/__error-monitor/event', (req, res) => {
-                                res.setHeader('Content-Type', 'text/event-stream');
-                                res.setHeader('Cache-Control', 'no-cache');
-                                res.setHeader('Connection', 'keep-alive');
-                                res.setHeader('Access-Control-Allow-Origin', '*');
-                                res.write('retry: 1000\n\n');
-                                const sendEvent = (data: ErrorEntry) =>
-                                    res.write(`event: error\ndata: ${JSON.stringify(data)}\n\n`);
-                                const since = new URL(req.url || '', `http://${req.headers.host}`).searchParams.get(
-                                    'since'
-                                );
-                                const sinceTime = since ? parseInt(since, 10) : 0;
-                                errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime).forEach(sendEvent);
-                                const captureError = (error: unknown, type: string) => {
-                                    const entry: ErrorEntry = {
-                                        id: ++errorCount,
-                                        message: String(error instanceof Error ? error.message : error),
-                                        stack: error instanceof Error ? error.stack : undefined,
-                                        timestamp: new Date().toISOString(),
-                                        type
-                                    };
-                                    errorLog.push(entry);
-                                    if (errorLog.length > 1000) errorLog.shift();
-                                    sendEvent(entry);
-                                };
-                                global.__errorMonitorListeners = global.__errorMonitorListeners || new Set();
-                                const listener = event =>
-                                    captureError(
-                                        event.detail?.error || event.detail?.message,
-                                        event.detail?.type || 'ERROR'
-                                    );
-                                global.__errorMonitorListeners.add(listener);
-                                req.on('close', () => global.__errorMonitorListeners?.delete(listener));
-                            });
-                        }
-                    }
-                ] :
-                []),
+                                  res.statusCode = 405;
+                                  res.end(JSON.stringify({ error: 'Method not allowed' }));
+                              });
+                          }
+                      },
+                      serviceWorkerManifestDevPlugin,
+                      {
+                          name: 'error-monitor',
+                          configureServer(server) {
+                              let errorLog: ErrorEntry[] = [];
+                              let errorCount = 0;
+                              server.middlewares.use('/__error-monitor/api/errors', (req, res) => {
+                                  res.setHeader('Content-Type', 'application/json');
+                                  res.setHeader('Access-Control-Allow-Origin', '*');
+                                  if (req.method === 'OPTIONS') {
+                                      res.writeHead(204);
+                                      res.end();
+                                      return;
+                                  }
+                                  const url = new URL(req.url || '', `http://${req.headers.host}`);
+                                  const action = url.searchParams.get('action');
+                                  if (action === 'clear') {
+                                      errorLog = [] as ErrorEntry[];
+                                      errorCount = 0;
+                                      res.writeHead(200);
+                                      res.end(JSON.stringify({ success: true }));
+                                      return;
+                                  }
+                                  const since = url.searchParams.get('since');
+                                  let errors = errorLog;
+                                  if (since) {
+                                      const sinceTime = parseInt(since, 10);
+                                      errors = errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime);
+                                  }
+                                  res.writeHead(200);
+                                  res.end(JSON.stringify({ count: errorCount, errors }));
+                              });
+                              server.middlewares.use('/__error-monitor/event', (req, res) => {
+                                  res.setHeader('Content-Type', 'text/event-stream');
+                                  res.setHeader('Cache-Control', 'no-cache');
+                                  res.setHeader('Connection', 'keep-alive');
+                                  res.setHeader('Access-Control-Allow-Origin', '*');
+                                  res.write('retry: 1000\n\n');
+                                  const sendEvent = (data: ErrorEntry) =>
+                                      res.write(`event: error\ndata: ${JSON.stringify(data)}\n\n`);
+                                  const since = new URL(req.url || '', `http://${req.headers.host}`).searchParams.get(
+                                      'since'
+                                  );
+                                  const sinceTime = since ? parseInt(since, 10) : 0;
+                                  errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime).forEach(sendEvent);
+                                  const captureError = (error: unknown, type: string) => {
+                                      const entry: ErrorEntry = {
+                                          id: ++errorCount,
+                                          message: String(error instanceof Error ? error.message : error),
+                                          stack: error instanceof Error ? error.stack : undefined,
+                                          timestamp: new Date().toISOString(),
+                                          type
+                                      };
+                                      errorLog.push(entry);
+                                      if (errorLog.length > 1000) errorLog.shift();
+                                      sendEvent(entry);
+                                  };
+                                  global.__errorMonitorListeners = global.__errorMonitorListeners || new Set();
+                                  const listener = event =>
+                                      captureError(
+                                          event.detail?.error || event.detail?.message,
+                                          event.detail?.type || 'ERROR'
+                                      );
+                                  global.__errorMonitorListeners.add(listener);
+                                  req.on('close', () => global.__errorMonitorListeners?.delete(listener));
+                              });
+                          }
+                      }
+                  ]
+                : []),
             viteStaticCopy({
                 targets: [
                     { src: 'assets', dest: '.' },
@@ -365,6 +365,30 @@ export default defineConfig(({ mode }) => {
                 ]
             })
         ],
-        test: { globals: true, environment: 'jsdom', restoreMocks: true, setupFiles: ['./src/vitest.setup.ts'] }
+        test: {
+            globals: true,
+            environment: 'jsdom',
+            restoreMocks: true,
+            setupFiles: ['./src/vitest.setup.ts'],
+            coverage: {
+                provider: 'v8',
+                reporter: ['text', 'json', 'html', 'lcov'],
+                include: ['src/**/*.{ts,tsx}'],
+                exclude: [
+                    'src/**/*.d.ts',
+                    'src/**/*.test.{ts,tsx}',
+                    'src/**/*.stories.{ts,tsx}',
+                    'src/vitest.setup.ts'
+                ],
+                thresholds: {
+                    global: {
+                        lines: 70,
+                        functions: 70,
+                        branches: 70,
+                        statements: 70
+                    }
+                }
+            }
+        }
     };
 });

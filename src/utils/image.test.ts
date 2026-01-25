@@ -1,8 +1,10 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { describe, expect, it } from 'vitest';
-
-import { getItemTypeIcon, getLibraryIcon } from './image';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import type { DeviceInfo } from '@jellyfin/sdk/lib/generated-client/models/device-info';
+import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
+import { describe, expect, it, vi } from 'vitest';
+
+import { getItemTypeIcon, getLibraryIcon, getDeviceIcon } from './image';
 
 const ITEM_ICON_MAP: Record<string, string | undefined> = {
     AggregateFolder: undefined,
@@ -92,5 +94,43 @@ describe('getLibraryIcon()', () => {
 
     it('Should return the default icon for unknown types', () => {
         expect(getLibraryIcon('foobar')).toBe('folder');
+    });
+});
+
+describe('getDeviceIcon()', () => {
+    it('should return correct icon for common devices', () => {
+        expect(getDeviceIcon({ Name: 'Samsung Smart TV' } as DeviceInfo)).toBe('assets/img/devices/samsungtv.svg');
+        expect(getDeviceIcon({ Name: 'Kodi' } as DeviceInfo)).toBe('assets/img/devices/kodi.svg');
+        expect(getDeviceIcon({ Name: 'Roku' } as DeviceInfo)).toBe('assets/img/devices/roku.svg');
+    });
+
+    it('should handle session info as device info', () => {
+        expect(getDeviceIcon({ Client: 'Jellyfin Web' } as SessionInfo)).toBe('assets/img/devices/html5.svg');
+    });
+
+    it('should handle unknown device', () => {
+        expect(getDeviceIcon({ Name: 'Unknown Device' } as DeviceInfo)).toBe('assets/img/devices/other.svg');
+    });
+
+    it('should use IconUrl from capabilities when available', () => {
+        const deviceWithIcon = {
+            Name: 'Custom Device',
+            Capabilities: {
+                IconUrl: 'https://example.com/icon.png'
+            }
+        } as DeviceInfo;
+
+        expect(getDeviceIcon(deviceWithIcon)).toBe('https://example.com/icon.png');
+    });
+
+    it('should handle invalid IconUrl gracefully', () => {
+        const deviceWithInvalidIcon = {
+            Name: 'Custom Device',
+            Capabilities: {
+                IconUrl: 'invalid-url'
+            }
+        } as DeviceInfo;
+
+        expect(getDeviceIcon(deviceWithInvalidIcon)).toBe('assets/img/devices/other.svg');
     });
 });

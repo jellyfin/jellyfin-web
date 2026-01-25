@@ -1,22 +1,5 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useRouter } from '@tanstack/react-router';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Divider } from 'ui-primitives/Divider';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Input } from 'ui-primitives/Input';
-import { List, ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
-import { ListItemButton } from 'ui-primitives/ListItemButton';
-import { Paper } from 'ui-primitives/Paper';
-import { Slider } from 'ui-primitives/Slider';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
-import { lyricsRoute } from 'routes/lyrics';
-
 import {
     ArrowLeftIcon,
     BookmarkIcon,
@@ -50,38 +33,52 @@ import {
     TrackNextIcon,
     TrackPreviousIcon
 } from '@radix-ui/react-icons';
+import { useNavigate, useRouter } from '@tanstack/react-router';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
+import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Divider } from 'ui-primitives/Divider';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Input } from 'ui-primitives/Input';
+import { List, ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
+import { ListItemButton } from 'ui-primitives/ListItemButton';
+import { Paper } from 'ui-primitives/Paper';
+import { Slider } from 'ui-primitives/Slider';
+import { Text } from 'ui-primitives/Text';
 
 import {
-    useIsPlaying,
     useCurrentItem,
+    useCurrentPlayer,
+    useCurrentQueueIndex,
     useCurrentTime,
     useDuration,
-    useVolume,
+    useFormattedTime,
     useIsMuted,
+    useIsPlaying,
+    usePlaybackActions,
+    usePreferencesStore,
+    useQueueActions,
+    useQueueItems,
     useRepeatMode,
     useShuffleMode,
-    useQueueItems,
-    useCurrentQueueIndex,
-    usePlaybackActions,
-    useQueueActions,
-    useFormattedTime,
-    useCurrentPlayer
+    useVolume
 } from '../../../../store';
-
-import { visualizerSettings } from '../../../../components/visualizer/visualizers.logic';
-import type { PlayableItem, QueueItem } from '../../../../store/types';
+import type { PlayableItem } from '../../../../store/types';
 import { logger } from '../../../../utils/logger';
+
 import './NowPlayingPage.scss';
 
 interface QueueListItemProps {
-    item: PlayableItem;
-    index: number;
-    isCurrent: boolean;
-    onPlay: (index: number) => void;
-    onRemove: (id: string) => void;
+    readonly item: PlayableItem;
+    readonly index: number;
+    readonly isCurrent: boolean;
+    readonly onPlay: (index: number) => void;
 }
 
-function QueueListItem({ item, index, isCurrent, onPlay, onRemove }: QueueListItemProps) {
+function QueueListItem({ item, index, isCurrent, onPlay }: QueueListItemProps): React.ReactElement {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: `queue-${item.id}`
     });
@@ -92,16 +89,18 @@ function QueueListItem({ item, index, isCurrent, onPlay, onRemove }: QueueListIt
         opacity: isDragging ? 0.5 : 1
     };
 
-    const trackName = item.name || item.title || 'Unknown Track';
-    const artistName = item.artist || item.albumArtist || '';
-    const duration = item.duration || 0;
-    const imageUrl = item.imageUrl || item.artwork?.[0]?.url;
+    const trackName = item.name ?? item.title ?? 'Unknown Track';
+    const artistName = item.artist ?? item.albumArtist ?? '';
+    const duration = item.duration ?? 0;
+    const imageUrl = item.imageUrl ?? item.artwork?.[0]?.url;
 
-    const formatTime = (seconds: number) => {
+    const formatTime = useCallback((seconds: number): string => {
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs.toString().padStart(2, '0')}`;
-    };
+    }, []);
+
+    const onPlayItem = useCallback(() => onPlay(index), [index, onPlay]);
 
     return (
         <ListItem
@@ -115,7 +114,7 @@ function QueueListItem({ item, index, isCurrent, onPlay, onRemove }: QueueListIt
                 marginBottom: vars.spacing.xs
             }}
         >
-            <ListItemButton onClick={() => onPlay(index)}>
+            <ListItemButton onClick={onPlayItem}>
                 <ListItemDecorator style={{ width: 24, color: vars.colors.textSecondary }}>
                     {index + 1}
                 </ListItemDecorator>
@@ -128,7 +127,7 @@ function QueueListItem({ item, index, isCurrent, onPlay, onRemove }: QueueListIt
                             overflow: 'hidden'
                         }}
                     >
-                        {imageUrl ? (
+                        {imageUrl !== undefined ? (
                             <img src={imageUrl} alt={trackName} style={{ objectFit: 'cover' }} />
                         ) : (
                             <Box
@@ -145,14 +144,14 @@ function QueueListItem({ item, index, isCurrent, onPlay, onRemove }: QueueListIt
                     </Box>
                 </ListItemDecorator>
                 <ListItemContent>
-                    <Text size="sm" weight={isCurrent ? 'bold' : 'normal'}>
+                    <Text size='sm' weight={isCurrent ? 'bold' : 'normal'}>
                         {trackName}
                     </Text>
-                    <Text size="xs" color="muted">
+                    <Text size='xs' color='muted'>
                         {artistName}
                     </Text>
                 </ListItemContent>
-                <Text size="xs" color="muted" style={{ marginRight: vars.spacing.xs }}>
+                <Text size='xs' color='muted' style={{ marginRight: vars.spacing.xs }}>
                     {formatTime(duration)}
                 </Text>
                 <Box {...listeners} style={{ cursor: 'grab', color: vars.colors.textMuted }}>
@@ -164,18 +163,20 @@ function QueueListItem({ item, index, isCurrent, onPlay, onRemove }: QueueListIt
 }
 
 interface CollapseSectionProps {
-    title: string;
-    children: React.ReactNode;
-    defaultExpanded?: boolean;
+    readonly title: string;
+    readonly children: React.ReactNode;
+    readonly defaultExpanded?: boolean;
 }
 
-function CollapseSection({ title, children, defaultExpanded = true }: CollapseSectionProps) {
+function CollapseSection({ title, children, defaultExpanded = true }: CollapseSectionProps): React.ReactElement {
     const [expanded, setExpanded] = useState(defaultExpanded);
 
+    const toggleExpanded = useCallback(() => setExpanded(prev => !prev), []);
+
     return (
-        <Paper variant="outlined" style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.md }}>
+        <Paper variant='outlined' style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.md }}>
             <Box
-                onClick={() => setExpanded(!expanded)}
+                onClick={toggleExpanded}
                 style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -185,10 +186,10 @@ function CollapseSection({ title, children, defaultExpanded = true }: CollapseSe
                     backgroundColor: 'transparent'
                 }}
             >
-                <Text size="sm" weight="medium">
+                <Text size='sm' weight='medium'>
                     {title}
                 </Text>
-                <IconButton size="sm" variant="plain">
+                <IconButton size='sm' variant='plain'>
                     {expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 </IconButton>
             </Box>
@@ -210,13 +211,13 @@ function CollapseSection({ title, children, defaultExpanded = true }: CollapseSe
 }
 
 interface RemoteControlSectionProps {
-    onCommand: (command: string) => void;
+    readonly onCommand: (command: string) => void;
 }
 
-function RemoteControlSection({ onCommand }: RemoteControlSectionProps) {
-    const handleNavClick = (command: string) => () => {
+function RemoteControlSection({ onCommand }: RemoteControlSectionProps): React.ReactElement {
+    const handleNavClick = useCallback((command: string) => () => {
         onCommand(command);
-    };
+    }, [onCommand]);
 
     const navButtonSx = {
         width: 48,
@@ -225,12 +226,12 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps) {
     };
 
     return (
-        <CollapseSection title="Navigation" defaultExpanded={false}>
-            <Flex direction="column" align="center" gap={vars.spacing.sm}>
+        <CollapseSection title='Navigation' defaultExpanded={false}>
+            <Flex direction='column' align='center' gap={vars.spacing.sm}>
                 <IconButton style={navButtonSx} onClick={handleNavClick('MoveUp')}>
                     <ChevronUpIcon />
                 </IconButton>
-                <Flex direction="row" gap={vars.spacing.sm}>
+                <Flex direction='row' gap={vars.spacing.sm}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('MoveLeft')}>
                         <ChevronLeftIcon />
                     </IconButton>
@@ -241,7 +242,7 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps) {
                         <ChevronRightIcon />
                     </IconButton>
                 </Flex>
-                <Flex direction="row" gap={vars.spacing.sm}>
+                <Flex direction='row' gap={vars.spacing.sm}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('Back')}>
                         <ArrowLeftIcon />
                     </IconButton>
@@ -253,7 +254,7 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps) {
                     </IconButton>
                 </Flex>
                 <Divider style={{ margin: `${vars.spacing.sm} 0`, width: '100%' }} />
-                <Flex direction="row" gap={vars.spacing.sm}>
+                <Flex direction='row' gap={vars.spacing.sm}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('GoHome')}>
                         <HomeIcon />
                     </IconButton>
@@ -270,59 +271,66 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps) {
 }
 
 interface MessageSectionProps {
-    onSendMessage: (title: string, text: string) => void;
-    onSendText: (text: string) => void;
+    readonly onSendMessage: (title: string, text: string) => void;
+    readonly onSendText: (text: string) => void;
 }
 
-function MessageSection({ onSendMessage, onSendText }: MessageSectionProps) {
+function MessageSection({ onSendMessage, onSendText }: MessageSectionProps): React.ReactElement {
     const [messageTitle, setMessageTitle] = useState('');
     const [messageText, setMessageText] = useState('');
     const [typeText, setTypeText] = useState('');
 
-    const handleSendMessage = () => {
-        if (messageTitle.trim() || messageText.trim()) {
+    const handleSendMessage = useCallback(() => {
+        if (messageTitle.trim() !== '' || messageText.trim() !== '') {
             onSendMessage(messageTitle, messageText);
             setMessageTitle('');
             setMessageText('');
         }
-    };
+    }, [messageTitle, messageText, onSendMessage]);
 
-    const handleSendText = () => {
-        if (typeText.trim()) {
+    const handleSendText = useCallback(() => {
+        if (typeText.trim() !== '') {
             onSendText(typeText);
             setTypeText('');
         }
-    };
+    }, [typeText, onSendText]);
+
+    const onMessageTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setMessageTitle(e.target.value), []);
+    const onMessageTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setMessageText(e.target.value), []);
+    const onTypeTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setTypeText(e.target.value), []);
+    const onTypeTextKeyDown = useCallback((e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') handleSendText();
+    }, [handleSendText]);
 
     return (
-        <Flex direction="column" gap={vars.spacing.md}>
-            <CollapseSection title="Send Message" defaultExpanded={false}>
-                <Flex direction="column" gap={vars.spacing.md}>
+        <Flex direction='column' gap={vars.spacing.md}>
+            <CollapseSection title='Send Message' defaultExpanded={false}>
+                <Flex direction='column' gap={vars.spacing.md}>
                     <Input
-                        placeholder="Message title"
+                        placeholder='Message title'
                         value={messageTitle}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessageTitle(e.target.value)}
+                        onChange={onMessageTitleChange}
                     />
                     <Input
-                        placeholder="Message text"
+                        placeholder='Message text'
                         value={messageText}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessageText(e.target.value)}
+                        onChange={onMessageTextChange}
                     />
-                    <Button onClick={handleSendMessage} startDecorator={<PaperPlaneIcon />} size="sm">
+                    <Button onClick={handleSendMessage} startDecorator={<PaperPlaneIcon />} size='sm'>
                         Send
                     </Button>
                 </Flex>
             </CollapseSection>
 
-            <CollapseSection title="Enter Text" defaultExpanded={false}>
-                <Flex direction="column" gap={vars.spacing.md}>
+            <CollapseSection title='Enter Text' defaultExpanded={false}>
+                <Flex direction='column' gap={vars.spacing.md}>
                     <Input
-                        placeholder="Enter text"
+                        placeholder='Enter text'
                         value={typeText}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTypeText(e.target.value)}
-                        onKeyPress={(e: React.KeyboardEvent) => e.key === 'Enter' && handleSendText()}
+                        onChange={onTypeTextChange}
+                        onKeyDown={onTypeTextKeyDown}
                     />
-                    <Button onClick={handleSendText} startDecorator={<PaperPlaneIcon />} size="sm">
+                    <Button onClick={handleSendText} startDecorator={<PaperPlaneIcon />} size='sm'>
                         Send
                     </Button>
                 </Flex>
@@ -332,47 +340,37 @@ function MessageSection({ onSendMessage, onSendText }: MessageSectionProps) {
 }
 
 interface PlaylistSectionProps {
-    items: PlayableItem[];
-    currentIndex: number;
-    onPlayItem: (index: number) => void;
-    onRemoveItem: (id: string) => void;
-    onMoveItem: (fromIndex: number, toIndex: number) => void;
-    onSavePlaylist: () => void;
-    onTogglePlaylist: () => void;
+    readonly items: PlayableItem[];
+    readonly currentIndex: number;
+    readonly onPlayItem: (index: number) => void;
+    readonly onSavePlaylist: () => void;
+    readonly onTogglePlaylist: () => void;
 }
 
 function PlaylistSection({
     items,
     currentIndex,
     onPlayItem,
-    onRemoveItem,
-    onMoveItem,
     onSavePlaylist,
     onTogglePlaylist
-}: PlaylistSectionProps) {
+}: PlaylistSectionProps): React.ReactElement {
     const [showPlaylist, setShowPlaylist] = useState(false);
 
-    const handleTogglePlaylist = () => {
-        setShowPlaylist(!showPlaylist);
+    const handleTogglePlaylist = useCallback(() => {
+        setShowPlaylist(prev => !prev);
         onTogglePlaylist();
-    };
-
-    const formatTime = (seconds: number) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    };
+    }, [onTogglePlaylist]);
 
     return (
-        <Box className="playlistSection">
-            <Flex direction="row" justify="center" gap={vars.spacing.sm} className="playlistSectionButton">
-                <IconButton onClick={handleTogglePlaylist} title="Playlist">
+        <Box className='playlistSection'>
+            <Flex direction='row' justify='center' gap={vars.spacing.sm} className='playlistSectionButton'>
+                <IconButton onClick={handleTogglePlaylist} title='Playlist'>
                     <StackIcon />
                 </IconButton>
-                <IconButton onClick={onSavePlaylist} title="Save" className="btnSavePlaylist">
+                <IconButton onClick={onSavePlaylist} title='Save' className='btnSavePlaylist'>
                     <BookmarkIcon />
                 </IconButton>
-                <IconButton title="More">
+                <IconButton title='More'>
                     <DotsVerticalIcon />
                 </IconButton>
             </Flex>
@@ -383,7 +381,7 @@ function PlaylistSection({
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                     >
-                        <List className="playlist itemsContainer vertical-list nowPlayingPlaylist">
+                        <List className='playlist itemsContainer vertical-list nowPlayingPlaylist'>
                             {items.map((item: PlayableItem, index: number) => (
                                 <QueueListItem
                                     key={item.id}
@@ -391,7 +389,6 @@ function PlaylistSection({
                                     index={index}
                                     isCurrent={index === currentIndex}
                                     onPlay={onPlayItem}
-                                    onRemove={onRemoveItem}
                                 />
                             ))}
                         </List>
@@ -403,37 +400,35 @@ function PlaylistSection({
 }
 
 interface PlaybackControlsProps {
-    isPlaying: boolean;
-    onPlayPause: () => void;
-    onStop: () => void;
-    onNext: () => void;
-    onPrevious: () => void;
-    onRewind: () => void;
-    onFastForward: () => void;
-    onSeekChange: (value: number[]) => void;
-    onSeek: (value: number[]) => void;
-    onSeekStart: () => void;
-    onSetVolume: (volume: number) => void;
-    onToggleMute: () => void;
-    repeatMode: string;
-    onToggleRepeat: () => void;
-    shuffleMode: string;
-    onToggleShuffle: () => void;
-    volume: number;
-    muted: boolean;
-    currentTime: number;
-    duration: number;
-    currentTimeFormatted: string;
-    durationFormatted: string;
-    isMobile: boolean;
-    localSeekValue: number;
-    hasAudioTracks?: boolean;
-    hasSubtitles?: boolean;
-    onAudioTracks?: () => void;
-    onSubtitles?: () => void;
-    onFullscreen?: () => void;
-    hasLyrics?: boolean;
-    onLyrics?: () => void;
+    readonly isPlaying: boolean;
+    readonly onPlayPause: () => void;
+    readonly onStop: () => void;
+    readonly onNext: () => void;
+    readonly onPrevious: () => void;
+    readonly onRewind: () => void;
+    readonly onFastForward: () => void;
+    readonly onSeekChange: (value: number[]) => void;
+    readonly onSeek: (value: number[]) => void;
+    readonly onSeekStart: () => void;
+    readonly onSetVolume: (volume: number) => void;
+    readonly onToggleMute: () => void;
+    readonly repeatMode: string;
+    readonly onToggleRepeat: () => void;
+    readonly shuffleMode: string;
+    readonly onToggleShuffle: () => void;
+    readonly volume: number;
+    readonly muted: boolean;
+    readonly currentTimeFormatted: string;
+    readonly durationFormatted: string;
+    readonly duration: number;
+    readonly localSeekValue: number;
+    readonly hasAudioTracks?: boolean;
+    readonly hasSubtitles?: boolean;
+    readonly onAudioTracks?: () => void;
+    readonly onSubtitles?: () => void;
+    readonly onFullscreen?: () => void;
+    readonly hasLyrics?: boolean;
+    readonly onLyrics?: () => void;
 }
 
 function PlaybackControls({
@@ -455,11 +450,9 @@ function PlaybackControls({
     onToggleShuffle,
     volume,
     muted,
-    currentTime,
     duration,
     currentTimeFormatted,
     durationFormatted,
-    isMobile,
     localSeekValue,
     hasAudioTracks,
     hasSubtitles,
@@ -468,18 +461,20 @@ function PlaybackControls({
     onFullscreen,
     hasLyrics,
     onLyrics
-}: PlaybackControlsProps) {
+}: PlaybackControlsProps): React.ReactElement {
     const isRepeatActive = repeatMode !== 'RepeatNone';
     const isShuffleActive = shuffleMode === 'Shuffle';
 
+    const onVolumeSliderChange = useCallback((value: number[]) => onSetVolume(value[0] ?? 0), [onSetVolume]);
+
     return (
         <>
-            <Box className="sliderContainer flex" dir="ltr">
-                <Box className="positionTime">{currentTimeFormatted}</Box>
-                <Box className="nowPlayingPositionSliderContainer mdl-slider-container">
+            <Box className='sliderContainer flex' dir='ltr'>
+                <Box className='positionTime'>{currentTimeFormatted}</Box>
+                <Box className='nowPlayingPositionSliderContainer mdl-slider-container'>
                     <Slider
                         min={0}
-                        max={duration || 100}
+                        max={duration !== 0 ? duration : 100}
                         step={0.1}
                         value={[localSeekValue]}
                         onMouseDown={onSeekStart}
@@ -488,39 +483,39 @@ function PlaybackControls({
                         onValueCommit={onSeek}
                     />
                 </Box>
-                <Box className="runtime">{durationFormatted}</Box>
+                <Box className='runtime'>{durationFormatted}</Box>
             </Box>
 
             <Flex
-                direction="row"
-                align="center"
-                justify="space-between"
-                className="nowPlayingButtonsContainer focuscontainer-x"
+                direction='row'
+                align='center'
+                justify='space-between'
+                className='nowPlayingButtonsContainer focuscontainer-x'
                 gap={vars.spacing.sm}
             >
-                <Flex direction="row" align="center" className="nowPlayingInfoButtons" gap={vars.spacing.xs}>
+                <Flex direction='row' align='center' className='nowPlayingInfoButtons' gap={vars.spacing.xs}>
                     <IconButton
                         onClick={onToggleRepeat}
-                        variant="plain"
-                        size="sm"
+                        variant='plain'
+                        size='sm'
                         color={isRepeatActive ? 'primary' : 'neutral'}
-                        title="Repeat"
+                        title='Repeat'
                     >
                         <LoopIcon />
                     </IconButton>
 
-                    <IconButton onClick={onRewind} variant="plain" size="sm" color="neutral" title="Rewind 10 seconds">
+                    <IconButton onClick={onRewind} variant='plain' size='sm' color='neutral' title='Rewind 10 seconds'>
                         <DoubleArrowLeftIcon />
                     </IconButton>
 
-                    <IconButton onClick={onPrevious} variant="plain" size="sm" color="neutral" title="Previous track">
+                    <IconButton onClick={onPrevious} variant='plain' size='sm' color='neutral' title='Previous track'>
                         <TrackPreviousIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onPlayPause}
-                        variant="solid"
-                        size="lg"
+                        variant='solid'
+                        size='lg'
                         style={{ width: 56, height: 56, borderRadius: '50%' }}
                         title={isPlaying ? 'Pause' : 'Play'}
                     >
@@ -531,70 +526,70 @@ function PlaybackControls({
                         )}
                     </IconButton>
 
-                    <IconButton onClick={onStop} variant="plain" size="sm" color="neutral" title="Stop">
+                    <IconButton onClick={onStop} variant='plain' size='sm' color='neutral' title='Stop'>
                         <StopIcon />
                     </IconButton>
 
-                    <IconButton onClick={onNext} variant="plain" size="sm" color="neutral" title="Next track">
+                    <IconButton onClick={onNext} variant='plain' size='sm' color='neutral' title='Next track'>
                         <TrackNextIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onFastForward}
-                        variant="plain"
-                        size="sm"
-                        color="neutral"
-                        title="Fast-forward 30 seconds"
+                        variant='plain'
+                        size='sm'
+                        color='neutral'
+                        title='Fast-forward 30 seconds'
                     >
                         <DoubleArrowRightIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onToggleShuffle}
-                        variant="plain"
-                        size="sm"
+                        variant='plain'
+                        size='sm'
                         color={isShuffleActive ? 'primary' : 'neutral'}
-                        title="Shuffle"
+                        title='Shuffle'
                     >
                         <ShuffleIcon />
                     </IconButton>
                 </Flex>
 
-                <Flex direction="row" align="center" className="nowPlayingSecondaryButtons" gap={vars.spacing.xs}>
-                    {hasAudioTracks && (
+                <Flex direction='row' align='center' className='nowPlayingSecondaryButtons' gap={vars.spacing.xs}>
+                    {hasAudioTracks === true && (
                         <IconButton
                             onClick={onAudioTracks}
-                            variant="plain"
-                            size="sm"
-                            color="neutral"
-                            title="Audio Tracks"
+                            variant='plain'
+                            size='sm'
+                            color='neutral'
+                            title='Audio Tracks'
                         >
                             <DiscIcon />
                         </IconButton>
                     )}
 
-                    {hasSubtitles && (
-                        <IconButton onClick={onSubtitles} variant="plain" size="sm" color="neutral" title="Subtitles">
+                    {hasSubtitles === true && (
+                        <IconButton onClick={onSubtitles} variant='plain' size='sm' color='neutral' title='Subtitles'>
                             <ReaderIcon />
                         </IconButton>
                     )}
 
-                    <Box className="nowPlayingPageUserDataButtons" />
+                    <Box className='nowPlayingPageUserDataButtons' />
 
-                    {onFullscreen && (
-                        <IconButton onClick={onFullscreen} variant="plain" size="sm" color="neutral" title="Fullscreen">
+                    {onFullscreen !== undefined && (
+                        <IconButton onClick={onFullscreen} variant='plain' size='sm' color='neutral' title='Fullscreen'>
                             <EnterFullScreenIcon />
                         </IconButton>
                     )}
 
-                    {hasLyrics && (
+                    {hasLyrics === true && (
                         <IconButton
                             onClick={onLyrics}
-                            variant="plain"
-                            size="sm"
-                            color="neutral"
-                            className="btnLyrics"
-                            title="Lyrics"
+                            variant='plain'
+                            size='sm'
+                            color='neutral'
+                            className='btnLyrics'
+                            title='Lyrics'
                         >
                             <ChatBubbleIcon />
                         </IconButton>
@@ -602,15 +597,15 @@ function PlaybackControls({
                 </Flex>
             </Flex>
 
-            <Flex direction="row" align="center" gap={vars.spacing.xs} style={{ marginTop: vars.spacing.xs }}>
-                <IconButton onClick={onToggleMute} variant="plain" size="sm" color="neutral">
+            <Flex direction='row' align='center' gap={vars.spacing.xs} style={{ marginTop: vars.spacing.xs }}>
+                <IconButton onClick={onToggleMute} variant='plain' size='sm' color='neutral'>
                     {muted ? <SpeakerOffIcon /> : <SpeakerLoudIcon />}
                 </IconButton>
                 <Slider
                     min={0}
                     max={100}
                     value={[muted ? 0 : volume]}
-                    onValueChange={value => onSetVolume(value[0] ?? 0)}
+                    onValueChange={onVolumeSliderChange}
                     style={{ width: 80 }}
                 />
             </Flex>
@@ -618,16 +613,20 @@ function PlaybackControls({
     );
 }
 
-const NowPlayingPage: React.FC = () => {
+const onAudioTracksPlaceholder = (): void => {
+    // Placeholder for audio tracks
+};
+const onSubtitlesPlaceholder = (): void => {
+    // Placeholder for subtitles
+};
+
+export function NowPlayingPage(): React.ReactElement {
     const router = useRouter();
     const navigate = useNavigate();
     const [showTechnicalInfo, setShowTechnicalInfo] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
     const [localSeekValue, setLocalSeekValue] = useState(0);
     const [showPlaylist, setShowPlaylist] = useState(false);
-    const [messageTitle, setMessageTitle] = useState('');
-    const [messageText, setMessageText] = useState('');
-    const [typeText, setTypeText] = useState('');
 
     const isPlaying = useIsPlaying();
     const currentItem = useCurrentItem();
@@ -642,31 +641,40 @@ const NowPlayingPage: React.FC = () => {
     const { currentTimeFormatted, durationFormatted } = useFormattedTime();
     const currentPlayer = useCurrentPlayer();
 
-    const { togglePlayPause, stop, seek, seekPercent, setVolume, toggleMute, setPlaybackRate } = usePlaybackActions();
+    const { togglePlayPause, stop, seek, seekPercent, setVolume, toggleMute } = usePlaybackActions();
 
-    const { next, previous, toggleRepeatMode, toggleShuffleMode, setQueue, removeFromQueue, moveItem } =
+    const { next, previous, toggleRepeatMode, toggleShuffleMode, setQueue } =
         useQueueActions();
 
-    const supportedCommands = currentPlayer?.supportedCommands || [];
+    const supportedCommands = currentPlayer?.supportedCommands ?? [];
     const hasAudioTracks = supportedCommands.includes('SetAudioStreamIndex');
     const hasSubtitles = supportedCommands.includes('SetSubtitleStreamIndex');
     const hasFullscreen = supportedCommands.includes('ToggleFullscreen');
     const hasLyrics =
-        (currentItem as PlayableItem & { hasLyrics?: boolean }).hasLyrics ||
-        (currentItem as PlayableItem & { Type?: string }).Type === 'Audio';
+        (currentItem as PlayableItem & { readonly hasLyrics?: boolean }).hasLyrics === true
+        || (currentItem as PlayableItem & { readonly Type?: string }).Type === 'Audio';
 
     const isMobile = window.innerWidth < 600;
 
+    const setVisualizerEnabled = usePreferencesStore(state => state.setVisualizerEnabled);
+    const setVisualizerType = usePreferencesStore(state => state.setVisualizerType);
+    const originalEnabled = useRef(usePreferencesStore.getState().visualizer.enabled);
+    const originalType = useRef(usePreferencesStore.getState().visualizer.type);
+
     useEffect(() => {
-        const originalState = visualizerSettings.butterchurn.enabled;
-        visualizerSettings.butterchurn.enabled = true;
+        const savedEnabled = originalEnabled.current;
+        const savedType = originalType.current;
+
+        setVisualizerEnabled(true);
+        setVisualizerType('butterchurn');
         document.body.classList.add('is-fullscreen-player');
 
         return () => {
-            visualizerSettings.butterchurn.enabled = originalState;
+            setVisualizerEnabled(savedEnabled);
+            setVisualizerType(savedType);
             document.body.classList.remove('is-fullscreen-player');
         };
-    }, []);
+    }, [setVisualizerEnabled, setVisualizerType]);
 
     useEffect(() => {
         if (!isDragging) {
@@ -674,95 +682,89 @@ const NowPlayingPage: React.FC = () => {
         }
     }, [currentTime, isDragging]);
 
-    const trackName = currentItem?.name || currentItem?.title || 'Unknown Track';
-    const artistName = currentItem?.artist || currentItem?.albumArtist || '';
-    const albumName = currentItem?.album || '';
+    const trackName = currentItem?.name ?? currentItem?.title ?? 'Unknown Track';
+    const artistName = currentItem?.artist ?? currentItem?.albumArtist ?? '';
+    const albumName = currentItem?.album ?? '';
     const imageUrl =
-        currentItem?.imageUrl ||
-        currentItem?.artwork?.find(img => img.type === 'Primary')?.url ||
-        currentItem?.artwork?.[0]?.url;
+        currentItem?.imageUrl
+        ?? currentItem?.artwork?.find(img => img.type === 'Primary')?.url
+        ?? currentItem?.artwork?.[0]?.url;
     const discImageUrl = currentItem?.artwork?.find(img => img.type === 'Disc')?.url;
 
-    const handleSeekChange = (value: number[]) => {
+    const handleSeekChange = useCallback((value: number[]) => {
         setLocalSeekValue(value[0] ?? 0);
-    };
+    }, []);
 
-    const handleSeekEnd = (value: number[]) => {
+    const handleSeekEnd = useCallback((value: number[]) => {
         const seekValue = value[0] ?? 0;
         setIsDragging(false);
         if (duration > 0) {
             const percent = (seekValue / duration) * 100;
             seekPercent(percent);
         }
-    };
+    }, [duration, seekPercent]);
 
-    const handleSeekStart = () => setIsDragging(true);
+    const handleSeekStart = useCallback(() => setIsDragging(true), []);
 
-    const handlePrevious = () => {
+    const handlePrevious = useCallback(() => {
         if (currentTime >= 5 || currentQueueIndex <= 0) {
             seek(0);
         } else {
             previous();
         }
-    };
+    }, [currentTime, currentQueueIndex, previous, seek]);
 
-    const handleRewind = () => {
+    const handleRewind = useCallback(() => {
         const newTime = Math.max(0, currentTime - 10);
         seek(newTime);
-    };
+    }, [currentTime, seek]);
 
-    const handleFastForward = () => {
+    const handleFastForward = useCallback(() => {
         const newTime = Math.min(duration, currentTime + 30);
         seek(newTime);
-    };
+    }, [currentTime, duration, seek]);
 
-    const handlePlayItem = (index: number) => {
+    const handlePlayItem = useCallback((index: number) => {
         setQueue(queueItems, index);
-    };
+    }, [queueItems, setQueue]);
 
-    const handleRemoveItem = (id: string) => {
-        removeFromQueue([id]);
-    };
-
-    const handleMoveItem = (fromIndex: number, toIndex: number) => {
-        moveItem(fromIndex, toIndex);
-    };
-
-    const handleSendMessage = (title: string, text: string) => {
+    const handleSendMessage = useCallback((title: string, text: string) => {
         logger.debug('Send message', { component: 'NowPlayingPage', title, text });
-        setMessageTitle('');
-        setMessageText('');
-    };
+    }, []);
 
-    const handleSendText = (text: string) => {
+    const handleSendText = useCallback((text: string) => {
         logger.debug('Send text', { component: 'NowPlayingPage', text });
-        setTypeText('');
-    };
+    }, []);
 
-    const handleRemoteCommand = (command: string) => {
+    const handleRemoteCommand = useCallback((command: string) => {
         logger.debug('Remote command', { component: 'NowPlayingPage', command });
-    };
+    }, []);
 
-    const handleSavePlaylist = () => {
+    const handleSavePlaylist = useCallback(() => {
         logger.info('Save playlist', { component: 'NowPlayingPage' });
-    };
+    }, []);
 
-    const handleFullscreen = () => {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
+    const handleFullscreen = useCallback(() => {
+        if (document.fullscreenElement != null) {
+            void document.exitFullscreen();
         } else {
-            document.documentElement.requestFullscreen();
+            void document.documentElement.requestFullscreen();
         }
-    };
+    }, []);
 
-    const handleLyrics = () => {
-        navigate({ to: '/lyrics' });
-    };
+    const handleLyrics = useCallback(() => {
+        void navigate({ to: '/lyrics' });
+    }, [navigate]);
 
-    if (!currentItem) {
+    const toggleTechnicalInfo = useCallback(() => setShowTechnicalInfo(prev => !prev), []);
+    const togglePlaylistOverlay = useCallback(() => setShowPlaylist(prev => !prev), []);
+    const hidePlaylistOverlay = useCallback(() => setShowPlaylist(false), []);
+    const goBack = useCallback(() => router.history.back(), [router.history]);
+
+    if (currentItem == null) {
         return (
             <Box
-                className="nowPlayingPageEmpty"
+                className='nowPlayingPageEmpty'
                 style={{
                     position: 'relative',
                     height: '100vh',
@@ -772,14 +774,14 @@ const NowPlayingPage: React.FC = () => {
                 }}
             >
                 <IconButton
-                    onClick={() => router.history.back()}
-                    variant="plain"
-                    color="neutral"
+                    onClick={goBack}
+                    variant='plain'
+                    color='neutral'
                     style={{ position: 'absolute', top: 20, left: 20 }}
                 >
                     <ArrowLeftIcon />
                 </IconButton>
-                <Text size="lg" color="secondary">
+                <Text size='lg' color='secondary'>
                     No track playing
                 </Text>
             </Box>
@@ -787,10 +789,10 @@ const NowPlayingPage: React.FC = () => {
     }
 
     return (
-        <Box className="nowPlayingPage" style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
-            <Box className="fullscreenBackground" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <Box className='nowPlayingPage' style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+            <Box className='fullscreenBackground' style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
                 <Box
-                    className="gradientOverlay"
+                    className='gradientOverlay'
                     style={{
                         position: 'absolute',
                         inset: 0,
@@ -800,21 +802,21 @@ const NowPlayingPage: React.FC = () => {
             </Box>
 
             <Flex
-                as="header"
-                direction="row"
-                justify="space-between"
-                align="center"
+                as='header'
+                direction='row'
+                justify='space-between'
+                align='center'
                 style={{ position: 'relative', zIndex: 1, padding: vars.spacing.md }}
             >
-                <IconButton onClick={() => router.history.back()} variant="plain" color="neutral">
+                <IconButton onClick={goBack} variant='plain' color='neutral'>
                     <ArrowLeftIcon />
                 </IconButton>
-                <Text size="sm" color="secondary">
+                <Text size='sm' color='secondary'>
                     {albumName}
                 </Text>
                 <IconButton
-                    onClick={() => setShowTechnicalInfo(!showTechnicalInfo)}
-                    variant="plain"
+                    onClick={toggleTechnicalInfo}
+                    variant='plain'
                     color={showTechnicalInfo ? 'primary' : 'neutral'}
                 >
                     <InfoCircledIcon />
@@ -822,11 +824,11 @@ const NowPlayingPage: React.FC = () => {
             </Flex>
 
             <Flex
-                as="main"
+                as='main'
                 direction={isMobile ? 'column' : 'row'}
                 gap={vars.spacing.xl}
-                align="center"
-                justify="center"
+                align='center'
+                justify='center'
                 style={{
                     position: 'relative',
                     zIndex: 1,
@@ -835,11 +837,11 @@ const NowPlayingPage: React.FC = () => {
                     height: 'calc(100vh - 80px)'
                 }}
             >
-                <Box className="nowPlayingInfoContainer" style={{ flex: '1 1 auto', maxWidth: 600 }}>
-                    <Flex direction="column" gap={vars.spacing.lg}>
-                        <Flex direction="row" gap={vars.spacing.lg} align="flex-start">
+                <Box className='nowPlayingInfoContainer' style={{ flex: '1 1 auto', maxWidth: 600 }}>
+                    <Flex direction='column' gap={vars.spacing.lg}>
+                        <Flex direction='row' gap={vars.spacing.lg} align='flex-start'>
                             <Box style={{ position: 'relative' }}>
-                                <motion.div layoutId="now-playing-art">
+                                <motion.div layoutId='now-playing-art'>
                                     <Box
                                         style={{
                                             width: isMobile ? 280 : 360,
@@ -850,7 +852,7 @@ const NowPlayingPage: React.FC = () => {
                                             backgroundColor: vars.colors.surface
                                         }}
                                     >
-                                        {imageUrl ? (
+                                        {imageUrl !== undefined ? (
                                             <img src={imageUrl} alt={trackName} style={{ objectFit: 'cover' }} />
                                         ) : (
                                             <Box
@@ -868,9 +870,9 @@ const NowPlayingPage: React.FC = () => {
                                         )}
                                     </Box>
                                 </motion.div>
-                                {discImageUrl && (
+                                {discImageUrl !== undefined && (
                                     <motion.div
-                                        className="discImage"
+                                        className='discImage'
                                         style={{
                                             position: 'absolute',
                                             top: -20,
@@ -891,12 +893,12 @@ const NowPlayingPage: React.FC = () => {
                                 )}
                             </Box>
 
-                            <Box className="infoContainer flex" style={{ flex: 1, minWidth: 0 }}>
-                                <Box className="nowPlayingInfoContainerMedia">
+                            <Box className='infoContainer flex' style={{ flex: 1, minWidth: 0 }}>
+                                <Box className='nowPlayingInfoContainerMedia'>
                                     <Text
-                                        as="h2"
-                                        size="xl"
-                                        weight="bold"
+                                        as='h2'
+                                        size='xl'
+                                        weight='bold'
                                         style={{
                                             color: vars.colors.text,
                                             whiteSpace: 'nowrap',
@@ -907,17 +909,17 @@ const NowPlayingPage: React.FC = () => {
                                         {trackName}
                                     </Text>
                                     <Text
-                                        size="lg"
-                                        color="secondary"
+                                        size='lg'
+                                        color='secondary'
                                         style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                                     >
                                         {artistName}
                                     </Text>
-                                    <Text size="sm" color="muted">
+                                    <Text size='sm' color='muted'>
                                         {albumName}
                                     </Text>
                                 </Box>
-                                <Box className="nowPlayingPageUserDataButtonsTitle" />
+                                <Box className='nowPlayingPageUserDataButtonsTitle' />
                             </Box>
                         </Flex>
 
@@ -940,16 +942,14 @@ const NowPlayingPage: React.FC = () => {
                             onToggleShuffle={toggleShuffleMode}
                             volume={volume}
                             muted={muted}
-                            currentTime={currentTime}
                             duration={duration}
                             currentTimeFormatted={currentTimeFormatted}
                             durationFormatted={durationFormatted}
-                            isMobile={isMobile}
                             localSeekValue={localSeekValue}
                             hasAudioTracks={hasAudioTracks}
                             hasSubtitles={hasSubtitles}
-                            onAudioTracks={() => {}}
-                            onSubtitles={() => {}}
+                            onAudioTracks={onAudioTracksPlaceholder}
+                            onSubtitles={onSubtitlesPlaceholder}
                             onFullscreen={hasFullscreen ? handleFullscreen : undefined}
                             hasLyrics={hasLyrics}
                             onLyrics={handleLyrics}
@@ -958,20 +958,18 @@ const NowPlayingPage: React.FC = () => {
                 </Box>
 
                 <Box
-                    className="remoteControlSection"
+                    className='remoteControlSection'
                     style={{ flex: '0 0 280px', marginLeft: vars.spacing.lg, display: isMobile ? 'none' : 'block' }}
                 >
-                    <Flex direction="column" gap={vars.spacing.md}>
+                    <Flex direction='column' gap={vars.spacing.md}>
                         <RemoteControlSection onCommand={handleRemoteCommand} />
                         <MessageSection onSendMessage={handleSendMessage} onSendText={handleSendText} />
                         <PlaylistSection
                             items={queueItems}
                             currentIndex={currentQueueIndex}
                             onPlayItem={handlePlayItem}
-                            onRemoveItem={handleRemoveItem}
-                            onMoveItem={handleMoveItem}
                             onSavePlaylist={handleSavePlaylist}
-                            onTogglePlaylist={() => setShowPlaylist(!showPlaylist)}
+                            onTogglePlaylist={togglePlaylistOverlay}
                         />
                     </Flex>
                 </Box>
@@ -986,7 +984,7 @@ const NowPlayingPage: React.FC = () => {
                         style={{ position: 'absolute', bottom: 20, left: 20, right: 20, zIndex: 10 }}
                     >
                         <Paper
-                            variant="outlined"
+                            variant='outlined'
                             style={{
                                 padding: vars.spacing.lg,
                                 borderRadius: vars.borderRadius.lg,
@@ -995,44 +993,44 @@ const NowPlayingPage: React.FC = () => {
                             }}
                         >
                             <Text
-                                size="sm"
-                                weight="medium"
+                                size='sm'
+                                weight='medium'
                                 style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}
                             >
                                 Technical Stream Info
                             </Text>
-                            <Flex direction="row" gap={vars.spacing.lg} wrap="wrap">
+                            <Flex direction='row' gap={vars.spacing.lg} wrap='wrap'>
                                 <Box>
-                                    <Text size="xs" color="muted">
+                                    <Text size='xs' color='muted'>
                                         Codec
                                     </Text>
-                                    <Text size="sm" style={{ color: vars.colors.text }}>
-                                        {currentItem.streamInfo?.codec?.toUpperCase() || 'Unknown'}
+                                    <Text size='sm' style={{ color: vars.colors.text }}>
+                                        {currentItem.streamInfo?.codec?.toUpperCase() ?? 'Unknown'}
                                     </Text>
                                 </Box>
                                 <Box>
-                                    <Text size="xs" color="muted">
+                                    <Text size='xs' color='muted'>
                                         Bitrate
                                     </Text>
-                                    <Text size="sm" style={{ color: vars.colors.text }}>
-                                        {currentItem.streamInfo?.bitrate
-                                            ? `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps`
-                                            : 'Unknown'}
+                                    <Text size='sm' style={{ color: vars.colors.text }}>
+                                        {currentItem.streamInfo?.bitrate != null ?
+                                            `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps` :
+                                            'Unknown'}
                                     </Text>
                                 </Box>
                                 <Box>
-                                    <Text size="xs" color="muted">
+                                    <Text size='xs' color='muted'>
                                         Play Method
                                     </Text>
-                                    <Text size="sm" style={{ color: vars.colors.text }}>
-                                        {currentItem.streamInfo?.playMethod || 'Unknown'}
+                                    <Text size='sm' style={{ color: vars.colors.text }}>
+                                        {currentItem.streamInfo?.playMethod ?? 'Unknown'}
                                     </Text>
                                 </Box>
                                 <Box>
-                                    <Text size="xs" color="muted">
+                                    <Text size='xs' color='muted'>
                                         Engine
                                     </Text>
-                                    <Text size="sm" style={{ color: vars.colors.text }}>
+                                    <Text size='sm' style={{ color: vars.colors.text }}>
                                         Web Audio
                                     </Text>
                                 </Box>
@@ -1044,7 +1042,7 @@ const NowPlayingPage: React.FC = () => {
 
             {showPlaylist && (
                 <Box
-                    className="playlistOverlay"
+                    className='playlistOverlay'
                     style={{
                         position: 'fixed',
                         top: 0,
@@ -1057,12 +1055,12 @@ const NowPlayingPage: React.FC = () => {
                         overflow: 'auto'
                     }}
                 >
-                    <Flex direction="column" gap={vars.spacing.md}>
-                        <Flex direction="row" justify="space-between" align="center">
-                            <Text size="lg" weight="bold">
+                    <Flex direction='column' gap={vars.spacing.md}>
+                        <Flex direction='row' justify='space-between' align='center'>
+                            <Text size='lg' weight='bold'>
                                 Playlist
                             </Text>
-                            <IconButton onClick={() => setShowPlaylist(false)}>
+                            <IconButton onClick={hidePlaylistOverlay}>
                                 <ArrowLeftIcon />
                             </IconButton>
                         </Flex>
@@ -1074,7 +1072,6 @@ const NowPlayingPage: React.FC = () => {
                                     index={index}
                                     isCurrent={index === currentQueueIndex}
                                     onPlay={handlePlayItem}
-                                    onRemove={handleRemoveItem}
                                 />
                             ))}
                         </List>
@@ -1083,6 +1080,6 @@ const NowPlayingPage: React.FC = () => {
             )}
         </Box>
     );
-};
+}
 
 export default NowPlayingPage;

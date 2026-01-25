@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import eventsUtils, { EventObject } from './events';
+
+import eventsUtils, { type EventObject } from './events';
 
 describe('Utils: events', () => {
     describe('Method: on', () => {

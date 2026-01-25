@@ -13,20 +13,53 @@ vi.mock('components/audioEngine/master.logic', () => ({
     }
 }));
 
-vi.mock('./visualizers.logic', () => ({
-    visualizerSettings: {
-        frequencyAnalyzer: {
-            colorScheme: 'spectrum',
-            colors: {
-                gradient: {
-                    low: '#1ED24B',
-                    mid: '#FFD700',
-                    high: '#FF3232'
-                },
-                solid: '#1ED24B'
-            }
+vi.mock('../../store/preferencesStore', () => ({
+    usePreferencesStore: Object.assign(
+        (selector: any) =>
+            selector({
+                visualizer: {
+                    frequencyAnalyzer: {
+                        opacity: 1.0,
+                        colorScheme: 'spectrum',
+                        colors: {
+                            solid: '#1ED24B',
+                            gradient: {
+                                low: '#1ED24B',
+                                mid: '#FFD700',
+                                high: '#FF3232'
+                            }
+                        }
+                    },
+                    advanced: {
+                        fftSize: 4096,
+                        limiterThreshold: -1
+                    }
+                }
+            }),
+        {
+            getState: () => ({
+                visualizer: {
+                    frequencyAnalyzer: {
+                        opacity: 1.0,
+                        colorScheme: 'spectrum',
+                        colors: {
+                            solid: '#1ED24B',
+                            gradient: {
+                                low: '#1ED24B',
+                                mid: '#FFD700',
+                                high: '#FF3232'
+                            }
+                        }
+                    },
+                    advanced: {
+                        fftSize: 4096,
+                        limiterThreshold: -1
+                    }
+                }
+            }),
+            subscribe: vi.fn()
         }
-    }
+    )
 }));
 
 let mockIsVisible = true;

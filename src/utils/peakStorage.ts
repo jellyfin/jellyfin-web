@@ -9,7 +9,7 @@
  * NFO file format: <mediafilename>.peaks.nfo
  */
 
-import { openDB, DBSchema, IDBPDatabase } from 'idb';
+import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 
 export interface PeakData {
     low: number[][]; // 500 samples

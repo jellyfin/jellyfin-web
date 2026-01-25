@@ -4,6 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+
 import { isVisible } from './visibility';
 
 describe('visibility - Document Visibility', () => {

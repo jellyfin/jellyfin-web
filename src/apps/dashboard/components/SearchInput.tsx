@@ -1,15 +1,15 @@
-import React, { type FC } from 'react';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import React from 'react';
 
+import { vars } from 'styles/tokens.css';
 import { Box } from 'ui-primitives/Box';
 import { inputStyles } from 'ui-primitives/Input';
-import { vars } from 'styles/tokens.css';
 
 interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    label?: string;
+    readonly label?: string;
 }
 
-const SearchInput: FC<SearchInputProps> = ({ label, ...props }) => {
+export function SearchInput({ label, ...props }: SearchInputProps): React.ReactElement {
     return (
         <Box
             style={{
@@ -49,6 +49,6 @@ const SearchInput: FC<SearchInputProps> = ({ label, ...props }) => {
             />
         </Box>
     );
-};
+}
 
 export default SearchInput;

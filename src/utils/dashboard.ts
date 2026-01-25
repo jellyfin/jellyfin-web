@@ -15,19 +15,20 @@ import viewContainer from 'components/viewContainer';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
+import { setBackdropTransparency } from '../components/backdrop/backdrop';
+import baseConfirm from '../components/confirm/confirm';
+import dialogHelper from '../components/dialogHelper/dialogHelper';
+import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
+import itemIdentifier from '../components/itemidentifier/itemidentifier';
 import loading from '../components/loading/loading';
 import { appRouter } from '../components/router/appRouter';
-import baseConfirm from '../components/confirm/confirm';
 import globalize from '../lib/globalize';
-import * as webSettings from '../scripts/settings/webSettings';
 import datetime from '../scripts/datetime';
-import { setBackdropTransparency } from '../components/backdrop/backdrop';
-import DirectoryBrowser from '../components/directorybrowser/directorybrowser';
-import dialogHelper from '../components/dialogHelper/dialogHelper';
-import itemIdentifier from '../components/itemidentifier/itemidentifier';
-import { getLocationSearch } from './url';
-import { queryClient } from './query/queryClient';
+import * as webSettings from '../scripts/settings/webSettings';
+
 import { logger } from './logger';
+import { queryClient } from './query/queryClient';
+import { getLocationSearch } from './url';
 
 declare global {
     interface Window {

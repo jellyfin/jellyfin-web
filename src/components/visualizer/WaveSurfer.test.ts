@@ -57,11 +57,20 @@ vi.mock('components/sitbackMode/sitback.logic', () => ({
     triggerSongInfoDisplay: vi.fn()
 }));
 
-vi.mock('./visualizers.logic', () => ({
-    visualizerSettings: {
-        waveSurfer: {
-            enabled: false
-        }
+vi.mock('../../store', () => ({
+    useMediaStore: { getState: vi.fn() },
+    useQueueStore: { getState: vi.fn() },
+    usePreferencesStore: {
+        getState: () => ({
+            visualizer: {
+                enabled: true,
+                type: 'waveform',
+                waveSurfer: {
+                    opacity: 0.7,
+                    colorScheme: 'albumArt'
+                }
+            }
+        })
     }
 }));
 

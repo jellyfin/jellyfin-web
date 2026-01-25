@@ -1,7 +1,9 @@
+import React, { lazy, Suspense } from 'react';
+
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
-import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import { visualizerSettings } from './visualizers.logic';
 import { logger } from 'utils/logger';
+import { useAudioStore } from '../../store/audioStore';
+import { usePreferencesStore } from '../../store/preferencesStore';
 
 // Lazy load visualizer components to reduce initial bundle size
 const ButterchurnVisualizer = lazy(() =>
@@ -25,83 +27,44 @@ const ThreeDimensionVisualizer = lazy(() =>
     })
 );
 
+const WaveformVisualizer = lazy(() => import('./WaveSurfer').then(m => ({ default: m.WaveSurferVisualizer })));
+
 // Loading fallback component
-const VisualizerLoading = () => (
-    <div
-        style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            background: 'rgba(0, 0, 0, 0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            zIndex: 9999
-        }}
-    >
-        Loading visualizer...
-    </div>
-);
+function VisualizerLoading(): React.ReactElement {
+    return (
+        <div
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                background: 'rgba(0, 0, 0, 0.8)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                zIndex: 9999
+            }}
+        >
+            Loading visualizer...
+        </div>
+    );
+}
 
-const Visualizers: React.FC = () => {
-    const [isInitialized, setIsInitialized] = useState(!!masterAudioOutput.audioContext);
-    const [, forceUpdate] = useState(0);
-    const settingsRef = useRef(visualizerSettings);
-    const checkTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+export function Visualizers(): React.ReactElement | null {
+    const isReady = useAudioStore(state => state.isReady);
+    const { enabled, type } = usePreferencesStore(state => state.visualizer);
+    const showVisualizer = usePreferencesStore(state => state.ui.showVisualizer);
 
-    useEffect(() => {
-        // Poll for audio engine initialization with a 100ms interval
-        // Add a 10 second timeout to prevent infinite polling
-        const checkInterval = setInterval(() => {
-            if (masterAudioOutput.audioContext && masterAudioOutput.mixerNode) {
-                setIsInitialized(true);
-                clearInterval(checkInterval);
-                if (checkTimeoutRef.current) {
-                    clearTimeout(checkTimeoutRef.current);
-                }
-            }
-        }, 100);
-
-        // Timeout to stop checking after 10 seconds
-        checkTimeoutRef.current = setTimeout(() => {
-            clearInterval(checkInterval);
-        }, 10000);
-
-        // Also poll for settings changes
-        const settingsInterval = setInterval(() => {
-            if (
-                settingsRef.current !== visualizerSettings ||
-                settingsRef.current.butterchurn?.enabled !== visualizerSettings.butterchurn?.enabled ||
-                settingsRef.current.threeJs?.enabled !== visualizerSettings.threeJs?.enabled ||
-                settingsRef.current.frequencyAnalyzer?.enabled !== visualizerSettings.frequencyAnalyzer?.enabled
-            ) {
-                settingsRef.current = visualizerSettings;
-                forceUpdate(prev => prev + 1);
-            }
-        }, 500);
-
-        // Cleanup intervals on unmount
-        return () => {
-            clearInterval(checkInterval);
-            if (checkTimeoutRef.current) {
-                clearTimeout(checkTimeoutRef.current);
-            }
-            clearInterval(settingsInterval);
-        };
-    }, []);
-
-    if (!isInitialized || !masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
+    // Only render if audio engine is ready and visualizer is enabled both globally and in UI
+    if (!isReady || !enabled || !showVisualizer || !masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
         return null;
     }
 
-    const { butterchurn, frequencyAnalyzer, threeJs } = visualizerSettings;
-
     return (
         <div
-            id="visualizerContainer"
+            id='visualizerContainer'
             style={{
                 pointerEvents: 'none',
                 position: 'fixed',
@@ -113,12 +76,13 @@ const Visualizers: React.FC = () => {
             }}
         >
             <Suspense fallback={<VisualizerLoading />}>
-                {frequencyAnalyzer.enabled && <FrequencyAnalyzer />}
-                {butterchurn.enabled && <ButterchurnVisualizer />}
-                {threeJs?.enabled && <ThreeDimensionVisualizer />}
+                {type === 'frequency' && <FrequencyAnalyzer />}
+                {type === 'butterchurn' && <ButterchurnVisualizer />}
+                {type === 'threed' && <ThreeDimensionVisualizer />}
+                {type === 'waveform' && <WaveformVisualizer />}
             </Suspense>
         </div>
     );
-};
+}
 
 export default Visualizers;

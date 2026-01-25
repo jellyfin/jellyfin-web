@@ -39,6 +39,7 @@ jobs:
           - stylelint
           - build:check
           - test
+          - test:coverage
 
     steps:
       - name: Checkout ⬇️
@@ -59,3 +60,21 @@ jobs:
 
       - name: Run ${{ matrix.command }} ⚙️
         run: npm run ${{ matrix.command }}
+
+      - name: Upload coverage artifacts 📊
+        if: matrix.command == 'test:coverage'
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698f16b169925b423c5e28f # v4.6.0
+        with:
+          name: coverage-report
+          path: |
+            coverage/
+            src/coverage/
+          retention-days: 30
+
+      - name: Upload coverage to Codecov 📈
+        if: matrix.command == 'test:coverage'
+        uses: codecov/codecov-action@e28ff5e4a072326473563a34143d2b6e008a4c5d # v5.1.2
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: true
+          verbose: true

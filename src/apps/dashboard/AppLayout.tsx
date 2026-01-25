@@ -1,14 +1,14 @@
-import React, { type FC, StrictMode, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from '@tanstack/react-router';
+import React, { StrictMode, useCallback, useEffect, useState } from 'react';
 
 import AppBody from 'components/AppBody';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
+import { appRouter } from 'components/router/appRouter';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
-import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
-import { Box, Flex } from 'ui-primitives/Box';
 import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives/Box';
 
 import AppTabs from './components/AppTabs';
 import AppDrawer from './components/drawer/AppDrawer';
@@ -17,7 +17,7 @@ import { DASHBOARD_APP_PATHS } from './routes/routes';
 
 import './AppOverrides.scss';
 
-export const Component: FC = () => {
+export function Component(): React.ReactElement {
     const [isDrawerActive, setIsDrawerActive] = useState(false);
     const location = useLocation();
     const { user } = useApi();
@@ -42,7 +42,7 @@ export const Component: FC = () => {
         <Flex style={{ minHeight: '100vh', display: 'flex' }}>
             <StrictMode>
                 <Box
-                    component="header"
+                    component='header'
                     style={{
                         position: 'fixed',
                         top: 0,
@@ -72,7 +72,7 @@ export const Component: FC = () => {
             </StrictMode>
 
             <Box
-                component="main"
+                component='main'
                 style={{
                     width: '100%',
                     flexGrow: 1,
@@ -86,4 +86,4 @@ export const Component: FC = () => {
             </Box>
         </Flex>
     );
-};
+}

@@ -12,7 +12,7 @@ export type FullscreenChangeCallback = (event: FullscreenEvent) => void;
 
 class FullscreenManager {
     private static instance: FullscreenManager | null = null;
-    private listeners: FullscreenChangeCallback[] = [];
+    private readonly listeners: FullscreenChangeCallback[] = [];
     private isInitialized = false;
 
     private constructor() {

@@ -20,10 +20,15 @@ vi.mock('components/sitbackMode/sitback.logic', () => ({
     triggerSongInfoDisplay: vi.fn()
 }));
 
-vi.mock('components/visualizer/visualizers.logic', () => ({
-    visualizerSettings: { butterchurn: { enabled: false } },
-    setVisualizerSettings: vi.fn(),
-    getSavedVisualizerSettings: vi.fn()
+vi.mock('../../store/preferencesStore', () => ({
+    usePreferencesStore: {
+        getState: () => ({
+            visualizer: {
+                enabled: false,
+                type: 'butterchurn'
+            }
+        })
+    }
 }));
 
 vi.mock('scripts/settings/userSettings', () => ({

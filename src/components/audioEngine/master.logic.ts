@@ -1,8 +1,3 @@
-import {
-    getSavedVisualizerSettings,
-    setVisualizerSettings,
-    visualizerSettings
-} from 'components/visualizer/visualizers.logic';
 import * as userSettings from '../../scripts/settings/userSettings';
 import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from './audioErrorHandler';
 import { safeConnect, dBToLinear } from './audioUtils';
@@ -194,7 +189,6 @@ function getCrossfadeDuration(): number {
  */
 export function initializeMasterAudio(unbind: () => void) {
     getCrossfadeDuration(); // Ensure store is initialized from settings
-    setVisualizerSettings(getSavedVisualizerSettings());
 
     unbindCallback = unbind;
 
@@ -321,7 +315,8 @@ function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initial
 
     const sourceNode = masterAudioOutput.audioContext.createMediaElementSource(elem);
     let delayNode: DelayNode | undefined;
-    const shouldDelay = visualizerSettings.waveSurfer.enabled;
+    const visualizer = usePreferencesStore.getState().visualizer;
+    const shouldDelay = visualizer.enabled && visualizer.type === 'waveform';
 
     if (registerInBus || shouldDelay) {
         delayNode = masterAudioOutput.audioContext.createDelay(1);

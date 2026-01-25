@@ -23,10 +23,14 @@ npm run build:check  # TypeScript validation
 ```bash
 npm test                    # Full Vitest run
 npm run test:watch          # Watch mode
+npm run test:coverage       # Generate coverage report (70%+ required)
+npm run test:coverage:watch # Interactive coverage with UI
 npx vitest run path/to/test.tsx     # Single test file
 npx vitest run -t "test name"       # Run matching tests
 ```
 **Single test focus:** Use `npx vitest run path/to/Component.test.tsx` for targeted testing.
+
+**Coverage Requirements:** 70%+ coverage for lines, functions, branches, and statements. PRs are blocked if thresholds are not met.
 
 ## Code Style Guidelines
 

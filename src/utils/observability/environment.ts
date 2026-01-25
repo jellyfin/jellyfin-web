@@ -1,4 +1,4 @@
-import { EnvironmentContext } from './types';
+import { type EnvironmentContext } from './types';
 
 /**
  * Environment utilities for consistent context
@@ -17,7 +17,7 @@ function generateSessionId(): string {
     }
 
     // Check for existing session ID
-    let existingId = sessionStorage.getItem('jellyfin-session-id');
+    const existingId = sessionStorage.getItem('jellyfin-session-id');
     if (existingId) {
         return existingId;
     }

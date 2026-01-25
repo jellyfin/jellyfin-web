@@ -1,19 +1,19 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import React, { type FC } from 'react';
+import React from 'react';
 
 import UserAvatar from 'components/UserAvatar';
 import { IconButton } from 'ui-primitives/IconButton';
 
 interface UserAvatarButtonProps {
-    user?: UserDto;
-    style?: React.CSSProperties;
+    readonly user?: UserDto;
+    readonly style?: React.CSSProperties;
 }
 
-export const UserAvatarButton: FC<UserAvatarButtonProps> = ({ user, style }) => {
+export function UserAvatarButton({ user, style }: UserAvatarButtonProps): React.ReactElement | null {
     const userId = user?.Id;
 
     if (userId == null) {
-        return undefined;
+        return null;
     }
 
     return (
@@ -21,11 +21,11 @@ export const UserAvatarButton: FC<UserAvatarButtonProps> = ({ user, style }) => 
             href={`/dashboard/users/profile?userId=${userId}`}
             style={{ textDecoration: 'none', color: 'inherit', display: 'inline-flex' }}
         >
-            <IconButton variant="plain" size="lg" title={user?.Name ?? undefined} style={{ padding: 0, ...style }}>
+            <IconButton variant='plain' size='lg' title={user?.Name ?? undefined} style={{ padding: 0, ...style }}>
                 <UserAvatar user={user} />
             </IconButton>
         </a>
     );
-};
+}
 
 export default UserAvatarButton;

@@ -85,7 +85,7 @@ export { useTimeStretchStore } from './timeStretchStore';
 // Domain logic
 export {
     shouldTranscode,
-    handlePlaybackFailure,
+    handlePlaybackError as handlePlaybackFailure,
     getOptimalDirectPlayCodecs,
     isFormatSupported,
     TranscodeDecisionReason,

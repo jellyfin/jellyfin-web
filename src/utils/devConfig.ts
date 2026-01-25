@@ -1,10 +1,10 @@
 export const DEFAULT_DEV_PROXY_BASE_PATH = '/__proxy__/jellyfin';
 
-export type DevConfig = {
+export interface DevConfig {
     serverBaseUrl: string;
     useProxy: boolean;
     proxyBasePath: string;
-};
+}
 
 export const DEFAULT_DEV_CONFIG: DevConfig = {
     serverBaseUrl: '',

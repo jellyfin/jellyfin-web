@@ -6,7 +6,7 @@ import butterchurn from 'butterchurn';
 import butterchurnPresets from 'butterchurn-presets';
 import { usePreferencesStore, getCrossfadeFadeOut } from '../../store/preferencesStore';
 import { useAudioStore } from '../../store/audioStore';
-import { visualizerSettings } from './visualizers.logic';
+import { masterAudioOutput } from 'components/audioEngine/master.logic';
 // @ts-ignore
 import isButterchurnSupported from 'butterchurn/lib/isSupported.min';
 import { isVisible } from '../../utils/visibility';
@@ -161,8 +161,9 @@ function setupPresetsAndAnimation() {
             logger.error('Failed to load preset', { component: 'Butterchurn', error: error as Error });
         }
 
-        if (visualizerSettings.butterchurn.presetInterval > 10) {
-            presetSwitchInterval = setInterval(loadNextPreset, visualizerSettings.butterchurn.presetInterval * 1000);
+        const { butterchurn } = usePreferencesStore.getState().visualizer;
+        if (butterchurn.presetInterval > 10) {
+            presetSwitchInterval = setInterval(loadNextPreset, butterchurn.presetInterval * 1000);
         }
     };
 

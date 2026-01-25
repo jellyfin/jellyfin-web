@@ -17,20 +17,30 @@ import {
     unbindCallback
 } from './master.logic';
 import { getCrossfadeFadeOut, usePreferencesStore } from '../../store/preferencesStore';
+import { getCrossfadeDuration } from './crossfader.logic';
 
 // Mock dependencies
-vi.mock('components/visualizer/visualizers.logic', () => ({
-    getSavedVisualizerSettings: vi.fn(() => ({
-        waveSurfer: { enabled: false },
-        frequencyAnalyzer: { enabled: false },
-        butterchurn: { enabled: false }
-    })),
-    setVisualizerSettings: vi.fn(),
-    visualizerSettings: {
-        waveSurfer: { enabled: false },
-        frequencyAnalyzer: { enabled: false },
-        butterchurn: { enabled: false }
-    }
+vi.mock('../../store/preferencesStore', () => ({
+    usePreferencesStore: {
+        getState: () => ({
+            visualizer: {
+                enabled: false,
+                type: 'butterchurn',
+                frequencyAnalyzer: { enabled: false },
+                waveSurfer: { enabled: false },
+                butterchurn: { enabled: false },
+                sitback: { enabled: false },
+                advanced: {}
+            },
+            crossfade: {
+                crossfadeDuration: 3
+            },
+            setCrossfadeDuration: vi.fn(),
+            setCrossfadeEnabled: vi.fn(),
+            setCrossfadeBusy: vi.fn()
+        })
+    },
+    getCrossfadeFadeOut: vi.fn(() => 3)
 }));
 
 vi.mock('../../scripts/settings/userSettings', () => ({
@@ -604,10 +614,11 @@ describe('master.logic - Audio Engine', () => {
             expect(lastCall[0]).toBeCloseTo(1, 3);
         });
 
-        it('should use calculated sustain for ramp duration', () => {
-            // Set the store to match the mock's return value
+        it('should use current crossfade duration from store', () => {
+            // Set the crossfade duration in the store
             usePreferencesStore.getState().setCrossfadeDuration(3);
-            const duration = 3; // Must match store value
+
+            const duration = 3; // Use the value we set
             const fadeOut = getCrossfadeFadeOut(duration);
             const sustain = fadeOut / 24; // sustain = fadeOut / 24
 

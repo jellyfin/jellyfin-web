@@ -3,12 +3,6 @@ import { toBoolean } from '../../utils/string';
 import { usePreferencesStore } from '../../store/preferencesStore';
 import browser from '../browser';
 import appSettings from './appSettings';
-import {
-    getDefaultVisualizerSettings,
-    getVisualizerSettings,
-    setVisualizerSettings,
-    visualizerSettings
-} from 'components/visualizer/visualizers.logic';
 import { logger } from 'utils/logger';
 import { useDevConfigStore } from 'store/devConfigStore';
 import { resolveApiBaseUrl } from 'utils/devConfig';
@@ -365,13 +359,14 @@ export class UserSettings implements UserSettingsInstance {
     }
 
     visualizerConfiguration(val?: any): any {
+        const store = usePreferencesStore.getState();
         if (val !== undefined) {
             if (val !== null && typeof val !== 'object') {
                 throw new Error('Visualizer configuration must be an object or null');
             }
-            setVisualizerSettings(val);
-            this.set('visualizerConfiguration', getVisualizerSettings(), true);
-            return getVisualizerSettings();
+            store.importPreferences({ visualizer: val });
+            this.set('visualizerConfiguration', JSON.stringify(store.visualizer), true);
+            return store.visualizer;
         }
 
         let raw = this.get('visualizerConfiguration', true);
@@ -379,17 +374,15 @@ export class UserSettings implements UserSettingsInstance {
             raw = appSettings.get('visualizerConfiguration', this.currentUserId || undefined);
         }
         if (!raw) {
-            setVisualizerSettings(null);
-            return visualizerSettings;
+            return store.visualizer;
         }
 
         try {
             const parsed = JSON.parse(raw);
-            setVisualizerSettings(parsed);
-            return visualizerSettings;
+            store.importPreferences({ visualizer: parsed });
+            return store.visualizer;
         } catch (error) {
-            setVisualizerSettings(null);
-            return visualizerSettings;
+            return store.visualizer;
         }
     }
 

@@ -9,7 +9,7 @@
 import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, usePreferencesStore } from './index';
 import type { PlayableItem, PlaybackProgress, PlaybackStatus, RepeatMode, ShuffleMode, PlayerInfo } from './types';
 import type { ControlSource } from './controlsStore';
-import { playbackManager } from 'components/playback/playbackmanager';
+import { playbackManager } from '../components/playback/playbackmanager';
 
 class PlaybackManagerBridge {
     private static instance: PlaybackManagerBridge;

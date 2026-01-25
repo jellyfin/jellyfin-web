@@ -290,3 +290,19 @@ export function handlePlaybackError(
         }
     );
 }
+
+/**
+ * Get optimal direct play codecs for the current platform
+ */
+export function getOptimalDirectPlayCodecs(_mediaType: MediaType): string[] {
+    // Basic implementation - can be expanded based on browser/platform detection
+    return ['mp3', 'aac', 'flac', 'opus'];
+}
+
+/**
+ * Check if a specific format is supported for direct play
+ */
+export function isFormatSupported(_mediaType: MediaType, _format: string): boolean {
+    // Basic implementation
+    return true;
+}

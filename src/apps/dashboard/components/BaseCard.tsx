@@ -1,31 +1,30 @@
-/* eslint-disable react/jsx-no-bind */
-import React from 'react';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { Link, type LinkProps } from '@tanstack/react-router';
+import React, { useCallback, useMemo } from 'react';
 
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import { vars } from 'styles/tokens.css';
 import { AspectRatio } from 'ui-primitives/AspectRatio';
 import { Box, Flex } from 'ui-primitives/Box';
 import { Card } from 'ui-primitives/Card';
 import { IconButton } from 'ui-primitives/IconButton';
 import { Heading, Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
 
 interface BaseCardProps {
-    title?: string;
-    text?: string;
-    image?: string | null;
-    icon?: React.ReactNode;
-    to?: LinkProps['to'];
-    onClick?: () => void;
-    action?: boolean;
-    actionRef?: React.RefObject<HTMLButtonElement | null>;
-    onActionClick?: () => void;
-    height?: number | string;
-    width?: number | string;
+    readonly title?: string;
+    readonly text?: string;
+    readonly image?: string | null;
+    readonly icon?: React.ReactNode;
+    readonly to?: LinkProps['to'];
+    readonly onClick?: () => void;
+    readonly action?: boolean;
+    readonly actionRef?: React.RefObject<HTMLButtonElement | null>;
+    readonly onActionClick?: () => void;
+    readonly height?: number | string;
+    readonly width?: number | string;
 }
 
-const BaseCard = ({
+export function BaseCard({
     title,
     text,
     image,
@@ -37,12 +36,18 @@ const BaseCard = ({
     onActionClick,
     height,
     width
-}: BaseCardProps): React.ReactElement => {
+}: BaseCardProps): React.ReactElement {
+    const handleActionClick = useCallback((e: React.MouseEvent): void => {
+        e.preventDefault();
+        e.stopPropagation();
+        onActionClick?.();
+    }, [onActionClick]);
+
     const cardContent = (
         <>
-            <AspectRatio ratio="16/9" style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
+            <AspectRatio ratio='16/9' style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
                 {image != null ? (
-                    <img src={image} loading="lazy" alt={title ?? ''} />
+                    <img src={image} loading='lazy' alt={title ?? ''} />
                 ) : (
                     <Box
                         className={getDefaultBackgroundClass(title ?? '')}
@@ -78,7 +83,7 @@ const BaseCard = ({
                         </Heading.H5>
                         {text != null && text !== '' && (
                             <Text
-                                size="xs"
+                                size='xs'
                                 style={{
                                     wordBreak: 'break-all',
                                     marginTop: vars.spacing.xs
@@ -90,9 +95,9 @@ const BaseCard = ({
                     </Box>
                     {action && (
                         <IconButton
-                            variant="plain"
-                            color="neutral"
-                            size="sm"
+                            variant='plain'
+                            color='neutral'
+                            size='sm'
                             ref={actionRef}
                             onClick={handleActionClick}
                         >
@@ -114,29 +119,24 @@ const BaseCard = ({
         cursor: 'pointer'
     };
 
-    const hoverStyle = {
+    const hoverStyle = useMemo(() => ({
         transform: 'translateY(-4px)',
         boxShadow: vars.shadows.md,
         borderColor: vars.colors.primary,
         backgroundColor: vars.colors.surface
-    };
+    }), []);
 
-    function handleMouseEnter(e: React.MouseEvent): void {
+    const handleMouseEnter = useCallback((e: React.MouseEvent): void => {
         Object.assign((e.currentTarget as HTMLElement).style, hoverStyle);
-    }
+    }, [hoverStyle]);
 
-    function handleMouseLeave(e: React.MouseEvent): void {
-        (e.currentTarget as HTMLElement).style.transform = '';
-        (e.currentTarget as HTMLElement).style.boxShadow = '';
-        (e.currentTarget as HTMLElement).style.borderColor = vars.colors.divider;
-        (e.currentTarget as HTMLElement).style.backgroundColor = '';
-    }
-
-    function handleActionClick(e: React.MouseEvent): void {
-        e.preventDefault();
-        e.stopPropagation();
-        onActionClick?.();
-    }
+    const handleMouseLeave = useCallback((e: React.MouseEvent): void => {
+        const target = e.currentTarget as HTMLElement;
+        target.style.transform = '';
+        target.style.boxShadow = '';
+        target.style.borderColor = vars.colors.divider;
+        target.style.backgroundColor = '';
+    }, []);
 
     if (to != null) {
         return (
@@ -153,8 +153,6 @@ const BaseCard = ({
             {cardContent}
         </Card>
     );
-};
+}
 
 export default BaseCard;
-
-/* eslint-enable react/jsx-no-bind */

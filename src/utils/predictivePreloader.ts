@@ -5,8 +5,8 @@
  * IMPACT: 20-40% improvement in navigation speed through intelligent prefetching
  */
 
-import { preloadPerformanceMonitor } from './preloadPerformanceMonitor';
 import { logger } from './logger';
+import { preloadPerformanceMonitor } from './preloadPerformanceMonitor';
 
 // Preloading strategies based on current location and user behavior
 export class PredictivePreloader {

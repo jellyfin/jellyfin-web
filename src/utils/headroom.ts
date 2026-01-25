@@ -1,6 +1,6 @@
 let lastScrollY = 0;
 let scrollDirection: 'up' | 'down' | null = null;
-let headroomElements: Map<HTMLElement, { pinned: boolean; unpinThreshold: number; tolerance: number }> = new Map();
+const headroomElements: Map<HTMLElement, { pinned: boolean; unpinThreshold: number; tolerance: number }> = new Map();
 let scrollHandlerAdded = false;
 
 function handleGlobalScroll(): void {

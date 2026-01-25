@@ -6,6 +6,7 @@
  */
 
 import { logger } from 'utils/logger';
+
 import type { PeakData } from './peakStorage';
 
 export function getPeaksNfoUrl(mediaUrl: string): string {

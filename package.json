@@ -195,6 +195,8 @@
     "analyze-bundle": "npm run build:production && node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- npx rollup-plugin-visualizer",
     "test": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- vitest --watch=false --config vite.config.ts",
     "test:watch": "node scripts/denyWatch.mjs test:watch",
+    "test:coverage": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- vitest run --coverage --config vite.config.ts",
+    "test:coverage:watch": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- vitest --coverage --ui --config vite.config.ts",
     "stylelint": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- stylelint \"src/**/*.css\"",
     "storybook": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- npx storybook dev -p 6006",
     "storybook:build": "node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- npx storybook build",

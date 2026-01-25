@@ -10,28 +10,40 @@ import { vars } from 'styles/tokens.css';
 
 export const VisualizerSettings: React.FC = () => {
     const {
-        visualizer: { enabled, type, colorScheme, sensitivity, barCount, smoothing },
+        visualizer: {
+            enabled,
+            type,
+            sensitivity,
+            barCount,
+            smoothing,
+            frequencyAnalyzer,
+            waveSurfer,
+            butterchurn,
+            advanced
+        },
         setVisualizerEnabled,
         setVisualizerType,
         setVisualizerColorScheme,
         setSensitivity,
         setBarCount,
-        setSmoothing
+        setSmoothing,
+        setVisualizerOpacity,
+        setFftSize
     } = usePreferencesStore();
 
     const visualizerTypes = [
         { value: 'butterchurn', label: 'Butterchurn (Liquid)' },
         { value: 'waveform', label: 'Waveform' },
-        { value: 'frequency', label: 'Frequency Bars' }
+        { value: 'frequency', label: 'Frequency Bars' },
+        { value: 'threed', label: '3D Geometric (Beta)' }
     ] as const;
 
-    const colorSchemes = [
-        { value: 'default', label: 'Default' },
-        { value: 'vintage', label: 'Vintage' },
-        { value: 'neon', label: 'Neon' },
-        { value: 'warm', label: 'Warm' },
-        { value: 'cool', label: 'Cool' }
-    ] as const;
+    const currentOpacity =
+        type === 'frequency'
+            ? frequencyAnalyzer.opacity
+            : type === 'waveform'
+              ? waveSurfer.opacity
+              : butterchurn.opacity;
 
     return (
         <Card style={{ marginBottom: vars.spacing.md }}>
@@ -63,42 +75,63 @@ export const VisualizerSettings: React.FC = () => {
                             </Text>
                             <Flex style={{ gap: vars.spacing.xs, flexWrap: 'wrap' }}>
                                 {visualizerTypes.map(t => (
-                                    <Switch
+                                    <Box
                                         key={t.value}
-                                        checked={type === t.value}
-                                        onChange={e => {
-                                            if (e.target.checked) {
-                                                setVisualizerType(t.value);
-                                            }
+                                        onClick={() => setVisualizerType(t.value)}
+                                        style={{
+                                            padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+                                            borderRadius: vars.radius.sm,
+                                            background:
+                                                type === t.value ? vars.colors.primary : vars.colors.surfaceSecondary,
+                                            color: type === t.value ? 'white' : vars.colors.textPrimary,
+                                            cursor: 'pointer',
+                                            fontSize: vars.typography.fontSizeXs
                                         }}
-                                    />
+                                    >
+                                        {t.label}
+                                    </Box>
                                 ))}
                             </Flex>
-                            <Text size="xs" color="secondary">
-                                {visualizerTypes.find(t => t.value === type)?.label}
-                            </Text>
                         </Box>
 
                         <Box>
                             <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
-                                Color Scheme
+                                Opacity: {Math.round(currentOpacity * 100)}%
                             </Text>
-                            <Flex style={{ gap: vars.spacing.xs, flexWrap: 'wrap' }}>
-                                {colorSchemes.map(c => (
-                                    <Switch
-                                        key={c.value}
-                                        checked={colorScheme === c.value}
-                                        onChange={e => {
-                                            if (e.target.checked) {
-                                                setVisualizerColorScheme(c.value);
-                                            }
+                            <Slider
+                                value={[currentOpacity * 100]}
+                                onValueChange={v => setVisualizerOpacity(v[0] / 100)}
+                                min={10}
+                                max={100}
+                                step={5}
+                            />
+                        </Box>
+
+                        <Box>
+                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                FFT Size (Detail): {advanced.fftSize}
+                            </Text>
+                            <Flex style={{ gap: vars.spacing.xs }}>
+                                {[1024, 2048, 4096, 8192].map(size => (
+                                    <Box
+                                        key={size}
+                                        onClick={() => setFftSize(size)}
+                                        style={{
+                                            padding: `4px 8px`,
+                                            borderRadius: vars.radius.xs,
+                                            background:
+                                                advanced.fftSize === size
+                                                    ? vars.colors.primary
+                                                    : vars.colors.surfaceSecondary,
+                                            color: advanced.fftSize === size ? 'white' : vars.colors.textPrimary,
+                                            cursor: 'pointer',
+                                            fontSize: '10px'
                                         }}
-                                    />
+                                    >
+                                        {size}
+                                    </Box>
                                 ))}
                             </Flex>
-                            <Text size="xs" color="secondary">
-                                {colorSchemes.find(c => c.value === colorScheme)?.label}
-                            </Text>
                         </Box>
 
                         <Box>

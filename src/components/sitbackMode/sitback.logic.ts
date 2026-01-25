@@ -1,6 +1,6 @@
 import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
-import { visualizerSettings } from '../visualizer/visualizers.logic';
+import { usePreferencesStore } from '../../store/preferencesStore';
 
 const defaultSitbackSettings = {
     trackInfoDuration: 5,
@@ -84,11 +84,13 @@ export function triggerSongInfoDisplay() {
 
     startTransition();
 
+    const { sitback } = usePreferencesStore.getState().visualizer;
+
     setTimeout(
         () => {
             endTransition();
         },
-        (visualizerSettings.sitback?.trackInfoDuration ?? defaultSitbackSettings.trackInfoDuration) * 1000
+        (sitback?.trackInfoDuration ?? defaultSitbackSettings.trackInfoDuration) * 1000
     );
 }
 
@@ -137,7 +139,8 @@ if (layoutManager.mobile) {
     });
 
     const getIdleDelayMs = () => {
-        const seconds = visualizerSettings.sitback?.autoHideTimer ?? defaultSitbackSettings.autoHideTimer;
+        const { sitback } = usePreferencesStore.getState().visualizer;
+        const seconds = sitback?.autoHideTimer ?? defaultSitbackSettings.autoHideTimer;
         return Math.max(1, seconds) * 1000;
     };
 

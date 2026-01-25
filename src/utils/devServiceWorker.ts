@@ -1,7 +1,7 @@
-export type ServiceWorkerResetResult = {
+export interface ServiceWorkerResetResult {
     unregisteredCount: number;
     deletedCaches: string[];
-};
+}
 
 export const resetServiceWorkerAndCaches = async (): Promise<ServiceWorkerResetResult> => {
     const deletedCaches: string[] = [];

@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-    Cross1Icon,
     DesktopIcon,
-    ExternalLinkIcon,
-    LinkNone2Icon,
     MobileIcon,
-    Share1Icon,
-    TabletIcon,
-    VideoIcon
+    LaptopIcon,
+    Cross2Icon,
+    CheckIcon,
+    QuestionMarkCircledIcon
 } from '@radix-ui/react-icons';
 import { playbackManager } from '../playback/playbackmanager';
 import { usePlayerStore } from '../../store';
@@ -115,7 +113,7 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({ op
         if (isLocalPlayer) {
             if (deviceType === 'tv') return <VideoIcon />;
             if (deviceType === 'smartphone') return <MobileIcon />;
-            if (deviceType === 'tablet') return <TabletIcon />;
+            if (deviceType === 'tablet') return <LaptopIcon />;
             if (deviceType === 'desktop') return <DesktopIcon />;
             return <DesktopIcon />;
         }

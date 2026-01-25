@@ -11,12 +11,22 @@ export interface CrossfadeEventDetail {
 
 export interface VisualizerEventDetail {
     enabled: boolean;
-    type: 'waveform' | 'frequency' | 'butterchurn';
-    butterchurnPreset: string;
-    colorScheme: 'default' | 'vintage' | 'neon' | 'warm' | 'cool';
+    type: 'waveform' | 'frequency' | 'butterchurn' | 'threed';
     sensitivity: number;
     barCount: number;
     smoothing: number;
+    butterchurn: {
+        preset: string;
+        opacity: number;
+    };
+    frequencyAnalyzer: {
+        opacity: number;
+        colorScheme: string;
+    };
+    waveSurfer: {
+        opacity: number;
+        colorScheme: string;
+    };
 }
 
 export interface AutoDJEventDetail {
@@ -80,11 +90,21 @@ export function initSettingsEventHandler(): void {
             const detail: VisualizerEventDetail = {
                 enabled: state.visualizer.enabled,
                 type: state.visualizer.type,
-                butterchurnPreset: state.visualizer.butterchurnPreset,
-                colorScheme: state.visualizer.colorScheme,
                 sensitivity: state.visualizer.sensitivity,
                 barCount: state.visualizer.barCount,
-                smoothing: state.visualizer.smoothing
+                smoothing: state.visualizer.smoothing,
+                butterchurn: {
+                    preset: state.visualizer.butterchurn.preset,
+                    opacity: state.visualizer.butterchurn.opacity
+                },
+                frequencyAnalyzer: {
+                    opacity: state.visualizer.frequencyAnalyzer.opacity,
+                    colorScheme: state.visualizer.frequencyAnalyzer.colorScheme
+                },
+                waveSurfer: {
+                    opacity: state.visualizer.waveSurfer.opacity,
+                    colorScheme: state.visualizer.waveSurfer.colorScheme
+                }
             };
             window.dispatchEvent(new CustomEvent('preferences:visualizer', { detail }));
             logger.debug('[SettingsEventHandler] Dispatched visualizer preferences change', {
@@ -181,11 +201,21 @@ export function getVisualizerPreferences(): VisualizerEventDetail {
     return {
         enabled: state.visualizer.enabled,
         type: state.visualizer.type,
-        butterchurnPreset: state.visualizer.butterchurnPreset,
-        colorScheme: state.visualizer.colorScheme,
         sensitivity: state.visualizer.sensitivity,
         barCount: state.visualizer.barCount,
-        smoothing: state.visualizer.smoothing
+        smoothing: state.visualizer.smoothing,
+        butterchurn: {
+            preset: state.visualizer.butterchurn.preset,
+            opacity: state.visualizer.butterchurn.opacity
+        },
+        frequencyAnalyzer: {
+            opacity: state.visualizer.frequencyAnalyzer.opacity,
+            colorScheme: state.visualizer.frequencyAnalyzer.colorScheme
+        },
+        waveSurfer: {
+            opacity: state.visualizer.waveSurfer.opacity,
+            colorScheme: state.visualizer.waveSurfer.colorScheme
+        }
     };
 }
 

@@ -172,6 +172,11 @@ export function useVisualizerType(): ReturnType<typeof usePreferencesStore.getSt
     return type;
 }
 
+export function useVisualizerSettings() {
+    const settings = usePreferencesStore(state => state.visualizer);
+    return settings;
+}
+
 // Action hooks
 export function usePlaybackActions() {
     const mediaStore = useMediaStore.getState();
