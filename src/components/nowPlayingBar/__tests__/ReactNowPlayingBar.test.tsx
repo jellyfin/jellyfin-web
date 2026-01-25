@@ -194,8 +194,8 @@ describe('NowPlayingBar', () => {
 
     it('displays correct time format', () => {
         render(<NowPlayingBar />);
-        expect(screen.getByText(/0:30/)).toBeInTheDocument();
-        expect(screen.getByText(/3:00/)).toBeInTheDocument();
+        expect(screen.getAllByText(/0:30/)[0]).toBeInTheDocument();
+        expect(screen.getAllByText(/3:00/)[0]).toBeInTheDocument();
     });
 
     it('shows repeat button', () => {

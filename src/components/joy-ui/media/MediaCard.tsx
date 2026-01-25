@@ -189,6 +189,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
             <Card
                 style={cardStyle}
                 onClick={handleClick}
+                data-testid="media-card"
             >
                 <Box
                     style={{
@@ -295,6 +296,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                         <IconButton
                             size="sm"
                             variant="solid"
+                            aria-label="More"
                             style={{
                                 position: 'absolute',
                                 top: 8,

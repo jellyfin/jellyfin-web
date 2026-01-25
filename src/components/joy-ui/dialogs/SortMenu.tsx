@@ -9,10 +9,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Box, Flex } from 'ui-primitives';
 import { Text } from 'ui-primitives/Text';
 import { List, ListItem } from 'ui-primitives/List';
-import { RadioGroupItem } from 'ui-primitives/RadioGroup';
+import { RadioGroup, RadioGroupItem } from 'ui-primitives/RadioGroup';
 import { Paper } from 'ui-primitives/Paper';
 
-import { useSortStore, SortOrder } from 'store/sortStore';
+import { useSortStore } from 'store/sortStore';
 
 interface SortMenuProps {
     open: boolean;
@@ -75,33 +75,31 @@ export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
                             <Text size="xs" color="secondary" style={{ padding: '4px 8px', display: 'block', color: '#b0b0b0' }}>
                                 Sort By
                             </Text>
-                            <List style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                                {SORT_OPTIONS.map((sort) => (
-                                    <ListItem key={sort.value} style={{ padding: 0 }}>
-                                        <div
-                                            role="button"
-                                            tabIndex={0}
-                                            onClick={() => setSortBy(sort.value)}
-                                            onKeyDown={(e) => e.key === 'Enter' && setSortBy(sort.value)}
-                                            style={{
-                                                padding: '4px 8px',
-                                                borderRadius: '4px',
-                                                backgroundColor: sortBy === sort.value ? '#aa5eaa' : 'transparent',
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '8px',
-                                            }}
-                                        >
-                                            <RadioGroupItem
-                                                value={sort.value}
-                                                id={`sort-${sort.value}`}
-                                                label={sort.label}
-                                            />
-                                        </div>
-                                    </ListItem>
-                                ))}
-                            </List>
+                            <RadioGroup value={sortBy} onValueChange={setSortBy}>
+                                <List style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                                    {SORT_OPTIONS.map((sort) => (
+                                        <ListItem key={sort.value} style={{ padding: 0 }}>
+                                            <div
+                                                style={{
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    backgroundColor: sortBy === sort.value ? 'rgba(170, 94, 170, 0.2)' : 'transparent',
+                                                    cursor: 'pointer',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '8px',
+                                                }}
+                                            >
+                                                <RadioGroupItem
+                                                    value={sort.value}
+                                                    id={`sort-${sort.value}`}
+                                                    label={sort.label}
+                                                />
+                                            </div>
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </RadioGroup>
 
                             <Box
                                 style={{
@@ -113,18 +111,20 @@ export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
                                 <Text size="xs" color="secondary" style={{ padding: '4px 8px', display: 'block', color: '#b0b0b0' }}>
                                     Order
                                 </Text>
-                                <Flex style={{ flexDirection: 'row', gap: '16px', padding: '0 8px' }}>
-                                    <RadioGroupItem
-                                        value="Ascending"
-                                        id="order-asc"
-                                        label="Asc"
-                                    />
-                                    <RadioGroupItem
-                                        value="Descending"
-                                        id="order-desc"
-                                        label="Desc"
-                                    />
-                                </Flex>
+                                <RadioGroup value={sortOrder} onValueChange={(val) => setSortOrder(val as 'Ascending' | 'Descending')}>
+                                    <Flex style={{ flexDirection: 'row', gap: '16px', padding: '0 8px' }}>
+                                        <RadioGroupItem
+                                            value="Ascending"
+                                            id="order-asc"
+                                            label="Ascending"
+                                        />
+                                        <RadioGroupItem
+                                            value="Descending"
+                                            id="order-desc"
+                                            label="Descending"
+                                        />
+                                    </Flex>
+                                </RadioGroup>
                             </Box>
                         </Box>
                     </Paper>

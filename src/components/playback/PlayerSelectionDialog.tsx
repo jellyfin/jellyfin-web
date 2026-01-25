@@ -21,6 +21,7 @@ import { Divider } from 'ui-primitives/Divider';
 import { Box, Flex } from 'ui-primitives/Box';
 import { Text } from 'ui-primitives/Text';
 import { vars } from 'styles/tokens.css';
+import { isEnabled, enable } from '../../scripts/autocast';
 
 interface PlaybackTarget {
     id: string;
@@ -178,9 +179,9 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
                     '--Dialog-padding': '24px'
                 }}>
                     <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
-                        <Heading level="h4">
+                        <DialogTitle>
                             {activePlayerInfo.deviceName || activePlayerInfo.name}
-                        </Heading>
+                        </DialogTitle>
                         <IconButton variant="plain" onClick={onClose} aria-label="Close">
                             <Cross1Icon />
                         </IconButton>
@@ -194,8 +195,9 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
                                 <Checkbox
                                     checked={enableMirror}
                                     onChange={handleMirrorChange}
-                                    label="Enable display mirroring"
-                                />
+                                >
+                                    Enable display mirroring
+                                </Checkbox>
                             </Box>
                         )}
 
@@ -203,8 +205,9 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
                             <Checkbox
                                 checked={enableAutoCast}
                                 onChange={handleAutoCastChange}
-                                label="Enable auto-cast"
-                            />
+                            >
+                                Enable auto-cast
+                            </Checkbox>
                         </Box>
                     </Flex>
 
@@ -266,7 +269,7 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
                     ) : (
                         <List>
                             {targets.map((target) => (
-                                <ListItem key={target.id}>
+                                <ListItem key={target.id} data-testid="player-item">
                                     <ListItemButton
                                         onClick={() => handleTargetSelect(target)}
                                         selected={target.selected || false}

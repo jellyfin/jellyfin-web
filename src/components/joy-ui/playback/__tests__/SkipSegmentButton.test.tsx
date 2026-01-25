@@ -9,9 +9,9 @@ describe('SkipSegmentButton', () => {
     const mockOnDismiss = vi.fn();
 
     // Set up mock with segmentLabel support
-    mockOnSkip.mockImplementation((props: { segmentLabel?: string }) => {
+    mockOnSkip.mockImplementation((props?: { segmentLabel?: string }) => {
         // Mock implementation
-        if (props.segmentLabel) {
+        if (props?.segmentLabel) {
             // Handle segment label
         }
     });

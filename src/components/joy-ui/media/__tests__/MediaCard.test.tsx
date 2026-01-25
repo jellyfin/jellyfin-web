@@ -58,17 +58,17 @@ describe('MediaCard', () => {
         const handleClick = vi.fn();
         render(<MediaCard item={mockItem} onClick={handleClick} />);
 
-        // Click on the card content area
-        const card = screen.getByText('Test Movie').closest('[class*="MuiCard-root"]');
-        fireEvent.click(card!);
+        // Click on the card
+        const card = screen.getByTestId('media-card');
+        fireEvent.click(card);
         expect(handleClick).toHaveBeenCalledWith(mockItem);
     });
 
     it('shows play button when showPlayButton is true', () => {
         render(<MediaCard item={mockItem} showPlayButton />);
 
-        // The play button overlay should be present (hidden by default until hover)
-        const card = screen.getByText('Test Movie').closest('.MuiCard-root');
+        // The card should be present
+        const card = screen.getByTestId('media-card');
         expect(card).toBeInTheDocument();
     });
 
@@ -77,7 +77,7 @@ describe('MediaCard', () => {
         render(<MediaCard item={mockItem} onMoreClick={handleMore} />);
 
         // The more button is an IconButton
-        const moreButton = screen.getByTestId('MoreVertIcon');
+        const moreButton = screen.getByRole('button', { name: /more/i });
         expect(moreButton).toBeInTheDocument();
     });
 
@@ -120,14 +120,14 @@ describe('MediaCard', () => {
     it('applies hover effect when onClick is provided', () => {
         render(<MediaCard item={mockItem} onClick={() => {}} />);
 
-        const card = screen.getByText('Test Movie').closest('.MuiCard-root');
+        const card = screen.getByTestId('media-card');
         expect(card).toHaveStyle({ cursor: 'pointer' });
     });
 
     it('does not apply hover effect when onClick is not provided', () => {
         render(<MediaCard item={mockItem} />);
 
-        const card = screen.getByText('Test Movie').closest('.MuiCard-root');
+        const card = screen.getByTestId('media-card');
         expect(card).toHaveStyle({ cursor: 'default' });
     });
 });

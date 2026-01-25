@@ -1,7 +1,7 @@
 import React, { type CSSProperties, type KeyboardEvent, type MouseEventHandler, type ReactNode, type ReactElement } from 'react';
 import { cardStyles, cardPadding, cardInteractive, cardHeader, cardBody, cardFooter } from './Card.css';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
     readonly children: ReactNode;
     readonly interactive?: boolean;
     readonly className?: string;
@@ -18,9 +18,10 @@ export function Card({
     onClick,
     onMouseEnter,
     onMouseLeave,
-    style
+    style,
+    ...props
 }: CardProps): ReactElement {
-    const isInteractive = Boolean(interactive) && Boolean(onClick);
+    const isInteractive = Boolean(interactive) || Boolean(onClick);
 
     const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
         if (!isInteractive || onClick === undefined) return;
@@ -46,6 +47,7 @@ export function Card({
             className={[cardStyles, cardPadding, isInteractive ? cardInteractive : '', className ?? ''].join(' ')}
             style={style}
             {...interactiveProps}
+            {...props}
         >
             {children}
         </div>

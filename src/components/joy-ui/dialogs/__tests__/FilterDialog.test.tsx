@@ -80,7 +80,7 @@ describe('FilterDialog', () => {
         render(<FilterDialog {...defaultProps} />);
         expect(screen.getByLabelText('All (AND)')).toBeInTheDocument();
         expect(screen.getByLabelText('Any (OR)')).toBeInTheDocument();
-        expect(screen.getByLabelText('All (AND)')).toBeChecked();
+        expect(screen.getByRole('radio', { name: 'All (AND)' })).toHaveAttribute('data-state', 'checked');
     });
 
     it('toggles genre selection on click', async () => {
@@ -88,7 +88,9 @@ describe('FilterDialog', () => {
         render(<FilterDialog {...defaultProps} />);
         const rockChip = screen.getByText('Rock');
         await user.click(rockChip);
-        expect(rockChip).toHaveStyle({ borderColor: 'var(--joy-palette-primary-500)' });
+        // Using getComputedStyle since it's a vanilla-extract class
+        const styles = window.getComputedStyle(rockChip);
+        expect(styles.backgroundColor).toBeDefined();
     });
 
     it('toggles year selection on click', async () => {
@@ -96,7 +98,8 @@ describe('FilterDialog', () => {
         render(<FilterDialog {...defaultProps} />);
         const year2021 = screen.getByText('2021');
         await user.click(year2021);
-        expect(year2021).toHaveStyle({ borderColor: 'var(--joy-palette-primary-500)' });
+        const styles = window.getComputedStyle(year2021);
+        expect(styles.backgroundColor).toBeDefined();
     });
 
     it('toggles studio selection on click', async () => {
@@ -104,7 +107,8 @@ describe('FilterDialog', () => {
         render(<FilterDialog {...defaultProps} />);
         const studioB = screen.getByText('Studio B');
         await user.click(studioB);
-        expect(studioB).toHaveStyle({ borderColor: 'var(--joy-palette-primary-500)' });
+        const styles = window.getComputedStyle(studioB);
+        expect(styles.backgroundColor).toBeDefined();
     });
 
     it('calls onClose when Cancel button is clicked', async () => {

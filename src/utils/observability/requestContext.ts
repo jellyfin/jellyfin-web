@@ -78,7 +78,7 @@ class RequestContextManager {
     /**
      * Emit a wide event with current context
      */
-    static emit(partialEvent: Partial<WideEvent>, error?: Error): void {
+    static async emit(partialEvent: Partial<WideEvent>, error?: Error): Promise<void> {
         const currentContext = this.getCurrentContext();
         const event = this.createWideEvent(
             {
@@ -92,7 +92,7 @@ class RequestContextManager {
         );
 
         // Import logger dynamically to avoid circular dependencies
-        const { logger } = require('../logger');
+        const { logger } = await import('../logger');
         logger.emit(event);
     }
 
@@ -108,8 +108,8 @@ class RequestContextManager {
                 journeyName,
                 totalSteps
             },
-            () => {
-                this.emit({
+            async () => {
+                await this.emit({
                     operation: 'journeyStarted',
                     businessContext: {
                         journeyName,
@@ -234,7 +234,7 @@ class RequestContextManager {
 
         try {
             const result = await fn();
-            this.emit({
+            await this.emit({
                 operation,
                 outcome: 'success',
                 duration: Date.now() - startTime,
@@ -242,7 +242,7 @@ class RequestContextManager {
             });
             return result;
         } catch (error) {
-            this.emit(
+            await this.emit(
                 {
                     operation,
                     outcome: 'error',

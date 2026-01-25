@@ -11,7 +11,7 @@ import { Box, Flex } from 'ui-primitives';
 import { Button } from 'ui-primitives/Button';
 import { Text } from 'ui-primitives/Text';
 import { Chip } from 'ui-primitives/Chip';
-import { RadioGroupItem } from 'ui-primitives/RadioGroup';
+import { RadioGroup, RadioGroupItem } from 'ui-primitives/RadioGroup';
 import { Divider } from 'ui-primitives/Divider';
 
 import { useFilterStore } from 'store/filterStore';
@@ -182,10 +182,12 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     <Text size="sm" style={{ fontWeight: 500, marginBottom: '8px', color: '#ffffff' }}>
                                         Genre Match
                                     </Text>
-                                    <Flex style={{ gap: '16px' }}>
-                                        <RadioGroupItem value="and" id="genre-and" label="All (AND)" />
-                                        <RadioGroupItem value="or" id="genre-or" label="Any (OR)" />
-                                    </Flex>
+                                    <RadioGroup value={localGenresMode} onValueChange={(val) => setLocalGenresMode(val as 'and' | 'or')}>
+                                        <Flex style={{ gap: '16px' }}>
+                                            <RadioGroupItem value="and" id="genre-and" label="All (AND)" />
+                                            <RadioGroupItem value="or" id="genre-or" label="Any (OR)" />
+                                        </Flex>
+                                    </RadioGroup>
                                 </Box>
 
                                 <Divider style={{ margin: '16px 0', borderColor: '#404040' }} />

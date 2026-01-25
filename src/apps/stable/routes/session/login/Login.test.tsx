@@ -4,11 +4,17 @@
  * Tests for the Login component.
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import Login from './Login';
+
+// Mock useNavigate
+const mockNavigate = vi.fn();
+vi.mock('@tanstack/react-router', () => ({
+    useNavigate: () => mockNavigate
+}));
 
 // Mock stores
 const mockSetCurrentServer = vi.fn();
@@ -25,6 +31,7 @@ const mockGetApiClient = vi.fn();
 const mockAuthenticateUserByName = vi.fn();
 const mockAuthenticateUserById = vi.fn();
 const mockGetPublicUsers = vi.fn();
+const mockGetUserImageUrl = vi.fn();
 
 vi.mock('lib/jellyfin-apiclient', () => ({
     ServerConnections: {
@@ -51,12 +58,18 @@ describe('Login', () => {
         mockGetApiClient.mockReturnValue({
             authenticateUserByName: mockAuthenticateUserByName,
             authenticateUserById: mockAuthenticateUserById,
-            getPublicUsers: mockGetPublicUsers
+            getPublicUsers: mockGetPublicUsers,
+            getUserImageUrl: mockGetUserImageUrl
         });
         mockGetPublicUsers.mockResolvedValue([
             { Id: 'user-1', Name: 'Test User', HasPassword: false },
             { Id: 'user-2', Name: 'Admin', HasPassword: true, PrimaryImageTag: 'tag1' }
         ]);
+        mockGetUserImageUrl.mockReturnValue('http://image-url');
+    });
+
+    afterEach(() => {
+        cleanup();
     });
 
     it('renders user selection when server is connected', async () => {
@@ -76,8 +89,8 @@ describe('Login', () => {
         const manualButton = screen.getByRole('button', { name: /sign in manually/i });
         fireEvent.click(manualButton);
 
-        expect(screen.getByText('Sign in')).toBeInTheDocument();
-        expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
+        expect(screen.getByRole('heading', { name: /sign in/i })).toBeInTheDocument();
+        expect(screen.getByRole('textbox', { name: /username/i })).toBeInTheDocument();
         expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     });
 
@@ -105,7 +118,7 @@ describe('Login', () => {
         const manualButton = screen.getByRole('button', { name: /sign in manually/i });
         fireEvent.click(manualButton);
 
-        const usernameInput = screen.getByLabelText(/username/i);
+        const usernameInput = screen.getByRole('textbox', { name: /username/i });
         const passwordInput = screen.getByLabelText(/password/i);
         const signInButton = screen.getByRole('button', { name: /sign in/i });
 

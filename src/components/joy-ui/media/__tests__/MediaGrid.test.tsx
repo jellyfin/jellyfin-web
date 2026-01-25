@@ -52,11 +52,12 @@ describe('MediaGrid', () => {
         expect(screen.queryByText('No items found')).not.toBeInTheDocument();
     });
 
-    it('calls onItemClick when item is clicked', () => {
+    it('calls onItemClick when item is clicked', async () => {
         const handleClick = vi.fn();
         render(<MediaGrid items={mockItems} onItemClick={handleClick} />);
 
-        fireEvent.click(screen.getByText('Movie 2'));
+        const cards = await screen.findAllByTestId('media-card');
+        fireEvent.click(cards[1]);
         expect(handleClick).toHaveBeenCalledWith(mockItems[1]);
     });
 

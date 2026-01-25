@@ -54,3 +54,15 @@ global.ResizeObserver = class ResizeObserver {
     unobserve = vi.fn();
     disconnect = vi.fn();
 };
+
+// Mock textTracks for HTML5 video
+Object.defineProperty(HTMLVideoElement.prototype, 'textTracks', {
+    get() {
+        return {
+            addEventListener: vi.fn(),
+            removeEventListener: vi.fn(),
+            dispatchEvent: vi.fn(),
+            length: 0,
+        };
+    },
+});

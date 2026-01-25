@@ -3,6 +3,25 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 import { PlayerSelectionDialog } from '../PlayerSelectionDialog';
 
+// Mock apphost
+vi.mock('components/apphost', () => ({
+    appHost: {
+        appName: vi.fn(() => 'Test App'),
+        appVersion: vi.fn(() => '1.0.0'),
+        deviceName: vi.fn(() => 'Test Device'),
+        deviceId: vi.fn(() => 'test-device-id'),
+        init: vi.fn(),
+        supports: vi.fn(() => true),
+    },
+    safeAppHost: {
+        appName: vi.fn(() => 'Test App'),
+        appVersion: vi.fn(() => '1.0.0'),
+        deviceName: vi.fn(() => 'Test Device'),
+        deviceId: vi.fn(() => 'test-device-id'),
+        supports: vi.fn(() => true),
+    }
+}));
+
 // Mock playbackManager
 const mockGetPlayerInfo = vi.fn();
 const mockGetTargets = vi.fn();
@@ -10,7 +29,7 @@ const mockTrySetActivePlayer = vi.fn();
 const mockGetCurrentPlayer = vi.fn();
 const mockEnableDisplayMirroring = vi.fn();
 
-vi.mock('../playback/playbackmanager', () => ({
+vi.mock('components/playback/playbackmanager', () => ({
     playbackManager: {
         getPlayerInfo: (...args: unknown[]) => mockGetPlayerInfo(...args),
         getTargets: (...args: unknown[]) => mockGetTargets(...args),
@@ -27,15 +46,15 @@ vi.mock('../../store', () => ({
 }));
 
 // Mock autocast
-const mockIsEnabled = vi.fn();
-const mockEnable = vi.fn();
-vi.mock('../../scripts/autocast', () => ({
-    enable: (...args: unknown[]) => mockEnable(...args),
-    isEnabled: (...args: unknown[]) => mockIsEnabled(...args),
+vi.mock('../../../scripts/autocast', () => ({
+    enable: vi.fn(),
+    isEnabled: vi.fn(),
 }));
 
+import { enable as mockEnable, isEnabled as mockIsEnabled } from '../../../scripts/autocast';
+
 // Mock appRouter
-vi.mock('../router/appRouter', () => ({
+vi.mock('../../router/appRouter', () => ({
     appRouter: {
         showNowPlaying: vi.fn()
     }
@@ -99,10 +118,8 @@ describe('PlayerSelectionDialog', () => {
 
     it('renders list of playback targets', async () => {
         render(<PlayerSelectionDialog {...defaultProps} />);
-        await waitFor(() => {
-            expect(screen.getByText('Living Room TV')).toBeInTheDocument();
-            expect(screen.getByText('Chrome Cast')).toBeInTheDocument();
-        });
+        expect(await screen.findByText('Living Room TV - Jellyfin for TV')).toBeInTheDocument();
+        expect(await screen.findByText('Chrome Cast - Jellyfin Chrome')).toBeInTheDocument();
     });
 
     it('shows message when no targets found', async () => {
@@ -116,7 +133,8 @@ describe('PlayerSelectionDialog', () => {
     it('calls onClose when close button clicked', () => {
         const onClose = vi.fn();
         render(<PlayerSelectionDialog {...defaultProps} onClose={onClose} />);
-        fireEvent.click(screen.getByLabelText('Close'));
+        const closeButtons = screen.getAllByRole('button', { name: /close/i });
+        fireEvent.click(closeButtons[0]);
         expect(onClose).toHaveBeenCalled();
     });
 
@@ -129,9 +147,7 @@ describe('PlayerSelectionDialog', () => {
         });
 
         render(<PlayerSelectionDialog {...defaultProps} />);
-        await waitFor(() => {
-            expect(screen.getByText('Chromecast')).toBeInTheDocument();
-        });
+        expect(await screen.findByText('Chromecast')).toBeInTheDocument();
     });
 
     it('shows remote control and disconnect buttons for active player', async () => {
@@ -143,10 +159,8 @@ describe('PlayerSelectionDialog', () => {
         });
 
         render(<PlayerSelectionDialog {...defaultProps} />);
-        await waitFor(() => {
-            expect(screen.getByText('Remote Control')).toBeInTheDocument();
-            expect(screen.getByText('Disconnect')).toBeInTheDocument();
-        });
+        expect(await screen.findByText('Remote Control')).toBeInTheDocument();
+        expect(await screen.findByText('Disconnect')).toBeInTheDocument();
     });
 
     it('shows display mirroring checkbox when supported', async () => {
@@ -158,16 +172,19 @@ describe('PlayerSelectionDialog', () => {
         });
 
         render(<PlayerSelectionDialog {...defaultProps} />);
-        await waitFor(() => {
-            expect(screen.getByLabelText('Enable display mirroring')).toBeInTheDocument();
-        });
+        expect(await screen.findByLabelText('Enable display mirroring')).toBeInTheDocument();
     });
 
     it('shows auto-cast checkbox', async () => {
-        render(<PlayerSelectionDialog {...defaultProps} />);
-        await waitFor(() => {
-            expect(screen.getByLabelText('Enable auto-cast')).toBeInTheDocument();
+        mockGetPlayerInfo.mockReturnValue({
+            deviceName: 'Chromecast',
+            name: 'Chromecast',
+            isLocalPlayer: false,
+            supportedCommands: ['DisplayContent', 'EndSession']
         });
+
+        render(<PlayerSelectionDialog {...defaultProps} />);
+        expect(await screen.findByLabelText('Enable auto-cast')).toBeInTheDocument();
     });
 
     it('highlights currently active player', async () => {

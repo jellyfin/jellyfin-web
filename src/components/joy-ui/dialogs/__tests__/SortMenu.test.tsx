@@ -36,7 +36,7 @@ describe('SortMenu', () => {
 
     it('does not render visible content when open is false', () => {
         render(<SortMenu open={false} onClose={mockOnClose} />);
-        expect(screen.queryByText('Sort By')).not.toBeVisible();
+        expect(screen.queryByText('Sort By')).not.toBeInTheDocument();
     });
 
     it('displays all sort options', () => {
@@ -65,8 +65,8 @@ describe('SortMenu', () => {
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
-        const premiereDateButton = screen.getByRole('button', { name: 'Premiere Date' });
-        expect(premiereDateButton).toHaveClass('Mui-selected');
+        const premiereDateRadio = screen.getByRole('radio', { name: 'Premiere Date' });
+        expect(premiereDateRadio).toHaveAttribute('data-state', 'checked');
     });
 
     it('highlights selected sort order', () => {
@@ -78,8 +78,8 @@ describe('SortMenu', () => {
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
-        const descendingRadio = screen.getByLabelText('Descending');
-        expect(descendingRadio).toBeChecked();
+        const descendingRadio = screen.getByRole('radio', { name: 'Descending' });
+        expect(descendingRadio).toHaveAttribute('data-state', 'checked');
     });
 
     it('calls setSortBy when sort option is clicked', async () => {
@@ -106,7 +106,7 @@ describe('SortMenu', () => {
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
-        const ascendingRadio = screen.getByLabelText('Ascending');
+        const ascendingRadio = screen.getByRole('radio', { name: 'Ascending' });
         await userEvent.click(ascendingRadio);
         expect(mockSetSortOrder).toHaveBeenCalledWith('Ascending');
     });
@@ -121,7 +121,7 @@ describe('SortMenu', () => {
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
-        const descendingRadio = screen.getByLabelText('Descending');
+        const descendingRadio = screen.getByRole('radio', { name: 'Descending' });
         await userEvent.click(descendingRadio);
         expect(mockSetSortOrder).toHaveBeenCalledWith('Descending');
     });
@@ -135,19 +135,19 @@ describe('SortMenu', () => {
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
-        expect(screen.getByLabelText('Name')).not.toBeChecked();
-        expect(screen.getByLabelText('Runtime')).toBeChecked();
-        expect(screen.getByLabelText('Ascending')).toBeChecked();
-        expect(screen.getByLabelText('Descending')).not.toBeChecked();
+        expect(screen.getByRole('radio', { name: 'Name' })).toHaveAttribute('data-state', 'unchecked');
+        expect(screen.getByRole('radio', { name: 'Runtime' })).toHaveAttribute('data-state', 'checked');
+        expect(screen.getByRole('radio', { name: 'Ascending' })).toHaveAttribute('data-state', 'checked');
+        expect(screen.getByRole('radio', { name: 'Descending' })).toHaveAttribute('data-state', 'unchecked');
     });
 
     it('positions correctly when open', () => {
         render(<SortMenu open={true} onClose={mockOnClose} />);
-        expect(screen.getByText('Sort By')).toBeVisible();
+        expect(screen.getByText('Sort By')).toBeInTheDocument();
     });
 
     it('hides when closed', () => {
         render(<SortMenu open={false} onClose={mockOnClose} />);
-        expect(screen.queryByText('Sort By')).not.toBeVisible();
+        expect(screen.queryByText('Sort By')).not.toBeInTheDocument();
     });
 });
