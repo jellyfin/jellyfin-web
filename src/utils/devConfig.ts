@@ -30,7 +30,8 @@ export const normalizeServerBaseUrl = (input: string): string => {
 
 export const resolveApiBaseUrl = (config: DevConfig, isDev: boolean): string | undefined => {
     if (isDev && config.useProxy) {
-        return config.proxyBasePath !== '' ? config.proxyBasePath : DEFAULT_DEV_PROXY_BASE_PATH;
+        const proxyPath = config.proxyBasePath || DEFAULT_DEV_PROXY_BASE_PATH;
+        return proxyPath !== '' ? proxyPath : DEFAULT_DEV_PROXY_BASE_PATH;
     }
 
     try {
