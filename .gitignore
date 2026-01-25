@@ -41,3 +41,6 @@ opencode.jsonc
 # Backup files
 *.bak
 *.bak2
+
+# environment related
+.envrc
