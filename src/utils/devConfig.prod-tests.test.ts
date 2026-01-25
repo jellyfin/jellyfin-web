@@ -1,13 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import {
-    normalizeServerBaseUrl,
-    resolveApiBaseUrl,
-    fetchDevConfig,
-    saveDevConfig,
-    DEFAULT_DEV_CONFIG,
-    DEFAULT_DEV_PROXY_BASE_PATH,
-    type DevConfig
-} from './devConfig';
+
+import { fetchDevConfig, saveDevConfig, DEFAULT_DEV_CONFIG } from './devConfig';
 
 describe('Production Mode Tests', () => {
     beforeEach(() => {
@@ -21,7 +14,7 @@ describe('Production Mode Tests', () => {
     });
 
     it('returns default config when save fails in production', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: false
         });
 
@@ -36,7 +29,7 @@ describe('Network Error Handling for fetchDevConfig', () => {
     });
 
     it('handles malformed JSON response gracefully', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: true,
             json: () => Promise.reject(new SyntaxError('Unexpected token'))
         });
@@ -46,16 +39,18 @@ describe('Network Error Handling for fetchDevConfig', () => {
     });
 
     it('handles fetch timeout', async () => {
-        global.fetch = vi.fn().mockImplementation(() => {
-            return new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 100));
-        });
+        const rejectWithTimeout = (reject: (reason?: any) => void) => {
+            setTimeout(() => reject(new Error('Timeout')), 100);
+        };
+        const createTimeoutPromise = () => new Promise((_, reject) => rejectWithTimeout(reject));
+        globalThis.fetch = vi.fn().mockImplementation(createTimeoutPromise);
 
         const result = await fetchDevConfig();
         expect(result).toEqual(DEFAULT_DEV_CONFIG);
     });
 
     it('handles network errors during fetch', async () => {
-        global.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
+        globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
 
         const result = await fetchDevConfig();
         expect(result).toEqual(DEFAULT_DEV_CONFIG);

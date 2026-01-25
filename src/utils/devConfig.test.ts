@@ -1,4 +1,5 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
+
 import {
     normalizeServerBaseUrl,
     resolveApiBaseUrl,
@@ -20,35 +21,37 @@ describe('fetchDevConfig', () => {
     });
 
     it('returns default config when fetch fails', async () => {
-        global.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
-        
+        globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
+
         const result = await fetchDevConfig();
         expect(result).toEqual(DEFAULT_DEV_CONFIG);
     });
 
     it('returns default config when response is not ok', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: false
         });
-        
+
         const result = await fetchDevConfig();
         expect(result).toEqual(DEFAULT_DEV_CONFIG);
     });
 
     it('handles malformed JSON response gracefully', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: true,
             json: () => Promise.reject(new SyntaxError('Unexpected token'))
         });
-        
+
         const result = await fetchDevConfig();
         expect(result).toEqual(DEFAULT_DEV_CONFIG);
     });
 
     it('handles fetch timeout', async () => {
-        global.fetch = vi.fn().mockImplementation(() => {
-            return new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 100));
-        });
+        const rejectWithTimeout = (reject: (reason?: any) => void) => {
+            setTimeout(() => reject(new Error('Timeout')), 100);
+        };
+        const createTimeoutPromise = () => new Promise((_, reject) => rejectWithTimeout(reject));
+        globalThis.fetch = vi.fn().mockImplementation(createTimeoutPromise);
 
         const result = await fetchDevConfig();
         expect(result).toEqual(DEFAULT_DEV_CONFIG);
@@ -68,12 +71,12 @@ describe('saveDevConfig', () => {
     it('saves config successfully', async () => {
         const partialConfig = { serverBaseUrl: 'https://test.com' };
         const expectedResponse = { ...DEFAULT_DEV_CONFIG, ...partialConfig };
-        
-        global.fetch = vi.fn().mockResolvedValue({
+
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: true,
             json: () => Promise.resolve(partialConfig)
         });
-        
+
         const result = await saveDevConfig(partialConfig);
         expect(fetch).toHaveBeenCalledWith('/__dev-config', {
             method: 'PUT',
@@ -86,19 +89,19 @@ describe('saveDevConfig', () => {
     });
 
     it('throws error when save fails', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: false
         });
-        
+
         await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow('Failed to save dev config');
     });
 
     it('handles malformed JSON response during save', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: true,
             json: () => Promise.reject(new SyntaxError('Unexpected token'))
         });
-        
+
         await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow();
     });
 });
@@ -115,10 +118,10 @@ describe('Production Mode Tests', () => {
     });
 
     it('returns default config when save fails in production', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: false
         });
-        
+
         await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow('Failed to save dev config');
     });
 });
@@ -159,12 +162,12 @@ describe('Production Mode Tests for saveDevConfig', () => {
     it('saves config successfully', async () => {
         const partialConfig = { serverBaseUrl: 'https://test.com' };
         const expectedResponse = { ...DEFAULT_DEV_CONFIG, ...partialConfig };
-        
-        global.fetch = vi.fn().mockResolvedValue({
+
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: true,
             json: () => Promise.resolve(partialConfig)
         });
-        
+
         const result = await saveDevConfig(partialConfig);
         expect(fetch).toHaveBeenCalledWith('/__dev-config', {
             method: 'PUT',
@@ -177,10 +180,10 @@ describe('Production Mode Tests for saveDevConfig', () => {
     });
 
     it('throws error when save fails', async () => {
-        global.fetch = vi.fn().mockResolvedValue({
+        globalThis.fetch = vi.fn().mockResolvedValue({
             ok: false
         });
-        
+
         await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow('Failed to save dev config');
     });
 });
@@ -194,7 +197,9 @@ describe('normalizeServerBaseUrl - Edge Cases', () => {
 
     it('removes hash and search parameters', () => {
         expect(normalizeServerBaseUrl('https://example.com/path?query=value#hash')).toBe('https://example.com/path');
-        expect(normalizeServerBaseUrl('https://example.com/path?query=value&other=test')).toBe('https://example.com/path');
+        expect(normalizeServerBaseUrl('https://example.com/path?query=value&other=test')).toBe(
+            'https://example.com/path'
+        );
         expect(normalizeServerBaseUrl('https://example.com/path#hash')).toBe('https://example.com/path');
     });
 
@@ -205,7 +210,7 @@ describe('normalizeServerBaseUrl - Edge Cases', () => {
 
     it('throws on invalid URLs when protocol detection works but URL construction fails', () => {
         expect(() => normalizeServerBaseUrl('https://')).toThrow();
-        expect(() => normalizeServerBaseUrl('http://[invalid-ipv6]')).toThrow();
+        expect(() => normalizeServerBaseUrl('https://[invalid-ipv6]')).toThrow();
     });
 });
 
@@ -235,6 +240,7 @@ describe('resolveApiBaseUrl - Additional Edge Cases', () => {
         const config: DevConfig = {
             serverBaseUrl: 'https://example.com',
             useProxy: true,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             proxyBasePath: null as any
         };
 
@@ -258,7 +264,7 @@ describe('Constants and Types', () => {
             useProxy: true,
             proxyBasePath: '/custom/path'
         };
-        
+
         expect(config.serverBaseUrl).toBe('https://test.com');
         expect(config.useProxy).toBe(true);
         expect(config.proxyBasePath).toBe('/custom/path');
