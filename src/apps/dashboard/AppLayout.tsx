@@ -42,7 +42,7 @@ export function Component(): React.ReactElement {
         <Flex style={{ minHeight: '100vh', display: 'flex' }}>
             <StrictMode>
                 <Box
-                    component='header'
+                    component="header"
                     style={{
                         position: 'fixed',
                         top: 0,
@@ -72,7 +72,7 @@ export function Component(): React.ReactElement {
             </StrictMode>
 
             <Box
-                component='main'
+                component="main"
                 style={{
                     width: '100%',
                     flexGrow: 1,

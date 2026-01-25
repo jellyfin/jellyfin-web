@@ -1,3 +1,5 @@
 {
-  "serverBaseUrl": "https://2activedesign.com"
+  "serverBaseUrl": "https://2activedesign.com",
+  "useProxy": true,
+  "proxyBasePath": "/__proxy__/"
 }

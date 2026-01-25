@@ -100,7 +100,7 @@ export function OSDOverlay(): React.ReactElement {
                         backgroundColor: 'rgba(0, 0, 0, 0.6)'
                     }}
                 >
-                    <Flex direction='column' align='center' gap={vars.spacing.md}>
+                    <Flex direction="column" align="center" gap={vars.spacing.md}>
                         {activeOSD === 'volume' ? getVolumeIcon() : getBrightnessIcon()}
                         <Progress
                             value={activeOSD === 'volume' ? volume : brightness}

@@ -134,27 +134,47 @@ interface FormSliderFieldProps {
     readonly helpText?: string;
 }
 
-function FormSliderField({ label, value, onChange, min, max, step, showValue, unit, helpText }: FormSliderFieldProps): React.ReactElement {
-    const onSliderChange = useCallback((val: number[]) => {
-        onChange(val[0] ?? 0);
-    }, [onChange]);
+function FormSliderField({
+    label,
+    value,
+    onChange,
+    min,
+    max,
+    step,
+    showValue,
+    unit,
+    helpText
+}: FormSliderFieldProps): React.ReactElement {
+    const onSliderChange = useCallback(
+        (val: number[]) => {
+            onChange(val[0] ?? 0);
+        },
+        [onChange]
+    );
 
     return (
         <Box style={{ marginBottom: '16px' }}>
             <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <Text size='sm' weight='medium'>
+                <Text size="sm" weight="medium">
                     {label}
                 </Text>
                 {showValue === true && (
-                    <Text size='sm' color='secondary'>
+                    <Text size="sm" color="secondary">
                         {value}
                         {unit !== undefined ? ` ${unit}` : ''}
                     </Text>
                 )}
             </Flex>
-            <Slider value={[value]} onValueChange={onSliderChange} min={min} max={max} step={step} style={{ width: '100%' }} />
+            <Slider
+                value={[value]}
+                onValueChange={onSliderChange}
+                min={min}
+                max={max}
+                step={step}
+                style={{ width: '100%' }}
+            />
             {helpText !== undefined && (
-                <Text size='xs' color='secondary' style={{ marginTop: '4px' }}>
+                <Text size="xs" color="secondary" style={{ marginTop: '4px' }}>
                     {helpText}
                 </Text>
             )}
@@ -162,7 +182,12 @@ function FormSliderField({ label, value, onChange, min, max, step, showValue, un
     );
 }
 
-export function PlaybackSettings({ userId, serverId, userSettings, onSave }: PlaybackSettingsProps): React.ReactElement | null {
+export function PlaybackSettings({
+    userId,
+    serverId,
+    userSettings,
+    onSave
+}: PlaybackSettingsProps): React.ReactElement | null {
     const { api } = useApi();
     const queryClient = useQueryClient();
     const [saveError, setSaveError] = useState<string | null>(null);
@@ -213,7 +238,9 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
     const showMultiServerQuality = safeAppHost.supports(AppFeature.MultiServer);
     const isLocalUser = userId === apiClient.getCurrentUserId();
     const canShowQuality =
-        isLocalUser && ((user?.Policy?.EnableVideoPlaybackTranscoding ?? false) || (user?.Policy?.EnableAudioPlaybackTranscoding ?? false));
+        isLocalUser &&
+        ((user?.Policy?.EnableVideoPlaybackTranscoding ?? false) ||
+            (user?.Policy?.EnableAudioPlaybackTranscoding ?? false));
     const showInNetworkQuality = showMultiServerQuality || (endpointInfo?.IsInNetwork ?? false);
     const showInternetQuality = showMultiServerQuality || !(endpointInfo?.IsInNetwork ?? false);
 
@@ -311,7 +338,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
     if (isLoading) {
         return (
             <Box style={{ padding: '48px', textAlign: 'center' }}>
-                <CircularProgress size='lg' />
+                <CircularProgress size="lg" />
                 <Text style={{ marginTop: '16px' }}>{globalize.translate('Loading')}</Text>
             </Box>
         );
@@ -331,7 +358,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
     return (
         <Box style={{ maxWidth: '900px', margin: '0 auto', padding: '24px' }}>
             {saveError !== null && (
-                <Alert variant='error' style={{ marginBottom: '24px' }}>
+                <Alert variant="error" style={{ marginBottom: '24px' }}>
                     {saveError}
                 </Alert>
             )}
@@ -344,25 +371,25 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
             >
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabList>
-                        <Tab value='audio'>
+                        <Tab value="audio">
                             <SpeakerLoudIcon style={{ marginRight: 8, width: 20, height: 20 }} />
                             {globalize.translate('Audio')}
                         </Tab>
-                        <Tab value='video'>
+                        <Tab value="video">
                             <VideoIcon style={{ marginRight: 8, width: 20, height: 20 }} />
                             {globalize.translate('Video')}
                         </Tab>
-                        <Tab value='playback'>
+                        <Tab value="playback">
                             <PlayIcon style={{ marginRight: 8, width: 20, height: 20 }} />
                             {globalize.translate('Playback')}
                         </Tab>
-                        <Tab value='advanced'>
+                        <Tab value="advanced">
                             <GearIcon style={{ marginRight: 8, width: 20, height: 20 }} />
                             {globalize.translate('TabAdvanced')}
                         </Tab>
                     </TabList>
 
-                    <TabPanel value='audio'>
+                    <TabPanel value="audio">
                         <FormSection title={globalize.translate('HeaderAudioSettings')}>
                             <FlexCol style={{ gap: 16 }}>
                                 <FormSelectField
@@ -399,7 +426,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                     max={6}
                                     step={0.01}
                                     showValue
-                                    unit='s'
+                                    unit="s"
                                     helpText={globalize.translate('CrossfadeDurationHelp')}
                                 />
                             </FlexCol>
@@ -422,7 +449,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                         max={120}
                                         step={1}
                                         showValue
-                                        unit='s'
+                                        unit="s"
                                     />
                                 )}
 
@@ -476,7 +503,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         </FormSection>
                     </TabPanel>
 
-                    <TabPanel value='video'>
+                    <TabPanel value="video">
                         <FormSection title={globalize.translate('HeaderVideoQuality')}>
                             {canShowQuality && (
                                 <FlexCol style={{ gap: 16 }}>
@@ -494,7 +521,10 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                                             'Video'
                                                         ) as number,
                                                         isAutomaticBitrateEnabled:
-                                                            appSettings.enableAutomaticBitrateDetection(true, 'Video') as boolean,
+                                                            appSettings.enableAutomaticBitrateDetection(
+                                                                true,
+                                                                'Video'
+                                                            ) as boolean,
                                                         enableAuto: true
                                                     })
                                                     .map((opt: any) => ({
@@ -519,7 +549,10 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                                             'Video'
                                                         ) as number,
                                                         isAutomaticBitrateEnabled:
-                                                            appSettings.enableAutomaticBitrateDetection(false, 'Video') as boolean,
+                                                            appSettings.enableAutomaticBitrateDetection(
+                                                                false,
+                                                                'Video'
+                                                            ) as boolean,
                                                         enableAuto: true
                                                     })
                                                     .map((opt: any) => ({
@@ -541,7 +574,8 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                                     { value: '', label: globalize.translate('Auto') },
                                                     ...qualityoptions
                                                         .getVideoQualityOptions({
-                                                            currentMaxBitrate: appSettings.maxChromecastBitrate() as number,
+                                                            currentMaxBitrate:
+                                                                appSettings.maxChromecastBitrate() as number,
                                                             isAutomaticBitrateEnabled:
                                                                 !(appSettings.maxChromecastBitrate() as number),
                                                             enableAuto: true
@@ -582,7 +616,10 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                                         { value: '', label: globalize.translate('Auto') },
                                         ...qualityoptions
                                             .getAudioQualityOptions({
-                                                currentMaxBitrate: appSettings.maxStreamingBitrate(false, 'Audio') as number,
+                                                currentMaxBitrate: appSettings.maxStreamingBitrate(
+                                                    false,
+                                                    'Audio'
+                                                ) as number,
                                                 isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(
                                                     false,
                                                     'Audio'
@@ -645,7 +682,7 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         </FormSection>
                     </TabPanel>
 
-                    <TabPanel value='playback'>
+                    <TabPanel value="playback">
                         <FormSection title={globalize.translate('TabPlayback')}>
                             <FlexCol style={{ gap: 16 }}>
                                 <FormSwitchField
@@ -744,15 +781,15 @@ export function PlaybackSettings({ userId, serverId, userSettings, onSave }: Pla
                         </FormSection>
                     </TabPanel>
 
-                    <TabPanel value='advanced'>
+                    <TabPanel value="advanced">
                         <Box style={{ textAlign: 'center', padding: '48px' }}>
-                            <Text color='secondary'>{globalize.translate('AdvancedSettingsComingSoon')}</Text>
+                            <Text color="secondary">{globalize.translate('AdvancedSettingsComingSoon')}</Text>
                         </Box>
                     </TabPanel>
                 </Tabs>
 
-                <Flex justify='flex-end' gap='12px' style={{ marginTop: '24px' }}>
-                    <Button type='submit' variant='primary' loading={isLoading}>
+                <Flex justify="flex-end" gap="12px" style={{ marginTop: '24px' }}>
+                    <Button type="submit" variant="primary" loading={isLoading}>
                         {globalize.translate('Save')}
                     </Button>
                 </Flex>

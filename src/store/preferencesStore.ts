@@ -328,12 +328,12 @@ function deepMerge<T extends Record<string, unknown>>(target: T, source: Partial
         const targetValue = target[key];
 
         if (
-            sourceValue != null
-            && typeof sourceValue === 'object'
-            && !Array.isArray(sourceValue)
-            && targetValue != null
-            && typeof targetValue === 'object'
-            && !Array.isArray(targetValue)
+            sourceValue != null &&
+            typeof sourceValue === 'object' &&
+            !Array.isArray(sourceValue) &&
+            targetValue != null &&
+            typeof targetValue === 'object' &&
+            !Array.isArray(targetValue)
         ) {
             result[key as keyof T] = deepMerge(
                 targetValue as Record<string, unknown>,
@@ -747,7 +747,10 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     const current = get();
                     set({
                         audio: { ...current.audio, ...(prefs.audio ?? {}) },
-                        visualizer: deepMerge(current.visualizer as unknown as Record<string, unknown>, (prefs.visualizer ?? {}) as Record<string, unknown>) as unknown as VisualizerPreferences,
+                        visualizer: deepMerge(
+                            current.visualizer as unknown as Record<string, unknown>,
+                            (prefs.visualizer ?? {}) as Record<string, unknown>
+                        ) as unknown as VisualizerPreferences,
                         playback: { ...current.playback, ...(prefs.playback ?? {}) },
                         crossfade: { ...current.crossfade, ...(prefs.crossfade ?? {}) },
                         autoDJ: { ...current.autoDJ, ...(prefs.autoDJ ?? {}) },
@@ -792,7 +795,10 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                         ...current,
                         ...p,
                         audio: { ...current.audio, ...(p?.audio ?? {}) },
-                        visualizer: deepMerge(current.visualizer as unknown as Record<string, unknown>, (p?.visualizer ?? {}) as Record<string, unknown>) as unknown as VisualizerPreferences,
+                        visualizer: deepMerge(
+                            current.visualizer as unknown as Record<string, unknown>,
+                            (p?.visualizer ?? {}) as Record<string, unknown>
+                        ) as unknown as VisualizerPreferences,
                         playback: { ...current.playback, ...(p?.playback ?? {}) },
                         crossfade: { ...current.crossfade, ...(p?.crossfade ?? {}) },
                         autoDJ: { ...current.autoDJ, ...(p?.autoDJ ?? {}) },

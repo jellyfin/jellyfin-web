@@ -57,7 +57,7 @@ export function WaveformCell({
 
         const waveColor = vars.colors.waveformWave;
         const progressColor = vars.colors.waveformProgress;
-        const progress = (duration !== undefined && duration !== 0) ? currentTime / duration : 0;
+        const progress = duration !== undefined && duration !== 0 ? currentTime / duration : 0;
 
         for (let i = 0; i < totalBars; i++) {
             const sampleStart = i * samplesPerBar;
@@ -103,7 +103,7 @@ export function WaveformCell({
                 }}
             >
                 {duration !== undefined && duration > 0 && (
-                    <Box as='span' style={{ fontSize: vars.typography.fontSizeXs, color: vars.colors.textSecondary }}>
+                    <Box as="span" style={{ fontSize: vars.typography.fontSizeXs, color: vars.colors.textSecondary }}>
                         {formatDuration(duration)}
                     </Box>
                 )}

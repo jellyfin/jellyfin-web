@@ -1,4 +1,10 @@
-import { Select as UIPrimitiveSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
+import {
+    Select as UIPrimitiveSelect,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from 'ui-primitives/Select';
 import { FormField } from './FormField';
 
 export interface SelectProps {

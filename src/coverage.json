@@ -1,1 +1,442 @@
-{"numTotalTestSuites":5,"numPassedTestSuites":5,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":13,"numPassedTests":13,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1769368677708,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["normalizeServerBaseUrl"],"fullName":"normalizeServerBaseUrl adds https when protocol is missing","status":"passed","title":"adds https when protocol is missing","duration":0.6728749999999764,"failureMessages":[],"meta":{}},{"ancestorTitles":["normalizeServerBaseUrl"],"fullName":"normalizeServerBaseUrl keeps http and trims trailing slash","status":"passed","title":"keeps http and trims trailing slash","duration":0.1424159999999688,"failureMessages":[],"meta":{}},{"ancestorTitles":["normalizeServerBaseUrl"],"fullName":"normalizeServerBaseUrl preserves base paths","status":"passed","title":"preserves base paths","duration":0.06083300000000236,"failureMessages":[],"meta":{}},{"ancestorTitles":["normalizeServerBaseUrl"],"fullName":"normalizeServerBaseUrl returns empty string for blank input","status":"passed","title":"returns empty string for blank input","duration":0.04004199999997127,"failureMessages":[],"meta":{}},{"ancestorTitles":["resolveApiBaseUrl"],"fullName":"resolveApiBaseUrl uses proxy base path in dev when enabled","status":"passed","title":"uses proxy base path in dev when enabled","duration":0.060708000000033735,"failureMessages":[],"meta":{}},{"ancestorTitles":["resolveApiBaseUrl"],"fullName":"resolveApiBaseUrl uses server base URL when proxy is disabled","status":"passed","title":"uses server base URL when proxy is disabled","duration":0.04199999999997317,"failureMessages":[],"meta":{}},{"ancestorTitles":["resolveApiBaseUrl"],"fullName":"resolveApiBaseUrl ignores proxy in production","status":"passed","title":"ignores proxy in production","duration":0.03879100000000335,"failureMessages":[],"meta":{}},{"ancestorTitles":["resolveApiBaseUrl"],"fullName":"resolveApiBaseUrl handles malformed server URLs gracefully","status":"passed","title":"handles malformed server URLs gracefully","duration":0.055124999999975444,"failureMessages":[],"meta":{}},{"ancestorTitles":["fetchDevConfig"],"fullName":"fetchDevConfig returns default config when fetch fails","status":"passed","title":"returns default config when fetch fails","duration":0.7892499999999814,"failureMessages":[],"meta":{}},{"ancestorTitles":["fetchDevConfig"],"fullName":"fetchDevConfig returns default config when response is not ok","status":"passed","title":"returns default config when response is not ok","duration":0.17091600000003382,"failureMessages":[],"meta":{}},{"ancestorTitles":["fetchDevConfig"],"fullName":"fetchDevConfig merges fetched config with defaults","status":"passed","title":"merges fetched config with defaults","duration":0.10366700000002993,"failureMessages":[],"meta":{}},{"ancestorTitles":["saveDevConfig"],"fullName":"saveDevConfig saves config successfully","status":"passed","title":"saves config successfully","duration":0.6295829999999683,"failureMessages":[],"meta":{}},{"ancestorTitles":["saveDevConfig"],"fullName":"saveDevConfig throws error when save fails","status":"passed","title":"throws error when save fails","duration":0.599125000000015,"failureMessages":[],"meta":{}}],"startTime":1769368678048,"endTime":1769368678051.599,"status":"passed","message":"","name":"/Users/carlos/Documents/jellyfin-web/src/utils/devConfig.test.ts"}],"coverageMap":{"/Users/carlos/Documents/jellyfin-web/src/utils/devConfig.ts":{"path":"/Users/carlos/Documents/jellyfin-web/src/utils/devConfig.ts","statementMap":{"0":{"start":{"line":1,"column":43},"end":{"line":1,"column":null}},"1":{"start":{"line":9,"column":45},"end":{"line":13,"column":null}},"2":{"start":{"line":15,"column":20},"end":{"line":15,"column":null}},"3":{"start":{"line":15,"column":39},"end":{"line":15,"column":null}},"4":{"start":{"line":17,"column":38},"end":{"line":29,"column":null}},"5":{"start":{"line":18,"column":20},"end":{"line":18,"column":null}},"6":{"start":{"line":19,"column":4},"end":{"line":19,"column":null}},"7":{"start":{"line":19,"column":18},"end":{"line":19,"column":null}},"8":{"start":{"line":21,"column":25},"end":{"line":21,"column":null}},"9":{"start":{"line":22,"column":16},"end":{"line":22,"column":null}},"10":{"start":{"line":24,"column":4},"end":{"line":24,"column":null}},"11":{"start":{"line":25,"column":4},"end":{"line":25,"column":null}},"12":{"start":{"line":27,"column":23},"end":{"line":27,"column":null}},"13":{"start":{"line":28,"column":4},"end":{"line":28,"column":null}},"14":{"start":{"line":31,"column":33},"end":{"line":42,"column":null}},"15":{"start":{"line":32,"column":4},"end":{"line":34,"column":null}},"16":{"start":{"line":33,"column":8},"end":{"line":33,"column":null}},"17":{"start":{"line":36,"column":4},"end":{"line":41,"column":null}},"18":{"start":{"line":37,"column":27},"end":{"line":37,"column":null}},"19":{"start":{"line":38,"column":8},"end":{"line":38,"column":null}},"20":{"start":{"line":40,"column":8},"end":{"line":40,"column":null}},"21":{"start":{"line":44,"column":30},"end":{"line":63,"column":null}},"22":{"start":{"line":45,"column":4},"end":{"line":47,"column":null}},"23":{"start":{"line":46,"column":8},"end":{"line":46,"column":null}},"24":{"start":{"line":49,"column":4},"end":{"line":62,"column":null}},"25":{"start":{"line":50,"column":25},"end":{"line":50,"column":null}},"26":{"start":{"line":51,"column":8},"end":{"line":53,"column":null}},"27":{"start":{"line":52,"column":12},"end":{"line":52,"column":null}},"28":{"start":{"line":55,"column":22},"end":{"line":55,"column":null}},"29":{"start":{"line":56,"column":8},"end":{"line":59,"column":null}},"30":{"start":{"line":61,"column":8},"end":{"line":61,"column":null}},"31":{"start":{"line":65,"column":29},"end":{"line":87,"column":null}},"32":{"start":{"line":66,"column":4},"end":{"line":68,"column":null}},"33":{"start":{"line":67,"column":8},"end":{"line":67,"column":null}},"34":{"start":{"line":70,"column":21},"end":{"line":76,"column":null}},"35":{"start":{"line":78,"column":4},"end":{"line":80,"column":null}},"36":{"start":{"line":79,"column":8},"end":{"line":79,"column":null}},"37":{"start":{"line":82,"column":18},"end":{"line":82,"column":null}},"38":{"start":{"line":83,"column":4},"end":{"line":86,"column":null}}},"fnMap":{"0":{"name":"(anonymous_0)","decl":{"start":{"line":15,"column":20},"end":{"line":15,"column":21}},"loc":{"start":{"line":15,"column":39},"end":{"line":15,"column":null}},"line":15},"1":{"name":"(anonymous_1)","decl":{"start":{"line":17,"column":38},"end":{"line":17,"column":39}},"loc":{"start":{"line":17,"column":65},"end":{"line":29,"column":null}},"line":17},"2":{"name":"(anonymous_2)","decl":{"start":{"line":31,"column":33},"end":{"line":31,"column":34}},"loc":{"start":{"line":31,"column":92},"end":{"line":42,"column":null}},"line":31},"3":{"name":"(anonymous_3)","decl":{"start":{"line":44,"column":30},"end":{"line":44,"column":62}},"loc":{"start":{"line":44,"column":62},"end":{"line":63,"column":null}},"line":44},"4":{"name":"(anonymous_4)","decl":{"start":{"line":65,"column":29},"end":{"line":65,"column":36}},"loc":{"start":{"line":65,"column":87},"end":{"line":87,"column":null}},"line":65}},"branchMap":{"0":{"loc":{"start":{"line":19,"column":4},"end":{"line":19,"column":null}},"type":"if","locations":[{"start":{"line":19,"column":4},"end":{"line":19,"column":null}},{"start":{},"end":{}}],"line":19},"1":{"loc":{"start":{"line":21,"column":25},"end":{"line":21,"column":null}},"type":"cond-expr","locations":[{"start":{"line":21,"column":48},"end":{"line":21,"column":58}},{"start":{"line":21,"column":58},"end":{"line":21,"column":null}}],"line":21},"2":{"loc":{"start":{"line":32,"column":4},"end":{"line":34,"column":null}},"type":"if","locations":[{"start":{"line":32,"column":4},"end":{"line":34,"column":null}},{"start":{},"end":{}}],"line":32},"3":{"loc":{"start":{"line":32,"column":8},"end":{"line":32,"column":34}},"type":"binary-expr","locations":[{"start":{"line":32,"column":8},"end":{"line":32,"column":17}},{"start":{"line":32,"column":17},"end":{"line":32,"column":34}}],"line":32},"4":{"loc":{"start":{"line":33,"column":15},"end":{"line":33,"column":null}},"type":"binary-expr","locations":[{"start":{"line":33,"column":15},"end":{"line":33,"column":39}},{"start":{"line":33,"column":39},"end":{"line":33,"column":null}}],"line":33},"5":{"loc":{"start":{"line":38,"column":15},"end":{"line":38,"column":null}},"type":"binary-expr","locations":[{"start":{"line":38,"column":15},"end":{"line":38,"column":29}},{"start":{"line":38,"column":29},"end":{"line":38,"column":null}}],"line":38},"6":{"loc":{"start":{"line":45,"column":4},"end":{"line":47,"column":null}},"type":"if","locations":[{"start":{"line":45,"column":4},"end":{"line":47,"column":null}},{"start":{},"end":{}}],"line":45},"7":{"loc":{"start":{"line":51,"column":8},"end":{"line":53,"column":null}},"type":"if","locations":[{"start":{"line":51,"column":8},"end":{"line":53,"column":null}},{"start":{},"end":{}}],"line":51},"8":{"loc":{"start":{"line":66,"column":4},"end":{"line":68,"column":null}},"type":"if","locations":[{"start":{"line":66,"column":4},"end":{"line":68,"column":null}},{"start":{},"end":{}}],"line":66},"9":{"loc":{"start":{"line":78,"column":4},"end":{"line":80,"column":null}},"type":"if","locations":[{"start":{"line":78,"column":4},"end":{"line":80,"column":null}},{"start":{},"end":{}}],"line":78}},"s":{"0":1,"1":1,"2":1,"3":6,"4":1,"5":7,"6":7,"7":1,"8":6,"9":7,"10":7,"11":7,"12":7,"13":7,"14":1,"15":4,"16":1,"17":3,"18":3,"19":3,"20":1,"21":1,"22":3,"23":0,"24":3,"25":3,"26":2,"27":1,"28":1,"29":1,"30":1,"31":1,"32":2,"33":0,"34":2,"35":2,"36":1,"37":1,"38":1},"f":{"0":6,"1":7,"2":4,"3":3,"4":2},"b":{"0":[1,6],"1":[4,2],"2":[1,3],"3":[4,3],"4":[1,0],"5":[3,0],"6":[0,3],"7":[1,1],"8":[0,2],"9":[1,1]},"meta":{"lastBranch":10,"lastFunction":5,"lastStatement":39,"seen":{"s:1:43:1:Infinity":0,"s:9:45:13:Infinity":1,"s:15:20:15:Infinity":2,"f:15:20:15:21":0,"s:15:39:15:Infinity":3,"s:17:38:29:Infinity":4,"f:17:38:17:39":1,"s:18:20:18:Infinity":5,"b:19:4:19:Infinity:undefined:undefined:undefined:undefined":0,"s:19:4:19:Infinity":6,"s:19:18:19:Infinity":7,"s:21:25:21:Infinity":8,"b:21:48:21:58:21:58:21:Infinity":1,"s:22:16:22:Infinity":9,"s:24:4:24:Infinity":10,"s:25:4:25:Infinity":11,"s:27:23:27:Infinity":12,"s:28:4:28:Infinity":13,"s:31:33:42:Infinity":14,"f:31:33:31:34":2,"b:32:4:34:Infinity:undefined:undefined:undefined:undefined":2,"s:32:4:34:Infinity":15,"b:32:8:32:17:32:17:32:34":3,"s:33:8:33:Infinity":16,"b:33:15:33:39:33:39:33:Infinity":4,"s:36:4:41:Infinity":17,"s:37:27:37:Infinity":18,"s:38:8:38:Infinity":19,"b:38:15:38:29:38:29:38:Infinity":5,"s:40:8:40:Infinity":20,"s:44:30:63:Infinity":21,"f:44:30:44:62":3,"b:45:4:47:Infinity:undefined:undefined:undefined:undefined":6,"s:45:4:47:Infinity":22,"s:46:8:46:Infinity":23,"s:49:4:62:Infinity":24,"s:50:25:50:Infinity":25,"b:51:8:53:Infinity:undefined:undefined:undefined:undefined":7,"s:51:8:53:Infinity":26,"s:52:12:52:Infinity":27,"s:55:22:55:Infinity":28,"s:56:8:59:Infinity":29,"s:61:8:61:Infinity":30,"s:65:29:87:Infinity":31,"f:65:29:65:36":4,"b:66:4:68:Infinity:undefined:undefined:undefined:undefined":8,"s:66:4:68:Infinity":32,"s:67:8:67:Infinity":33,"s:70:21:76:Infinity":34,"b:78:4:80:Infinity:undefined:undefined:undefined:undefined":9,"s:78:4:80:Infinity":35,"s:79:8:79:Infinity":36,"s:82:18:82:Infinity":37,"s:83:4:86:Infinity":38}}}}}
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 13,
+  "numPassedTests": 13,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1769368677708,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["normalizeServerBaseUrl"],
+          "fullName": "normalizeServerBaseUrl adds https when protocol is missing",
+          "status": "passed",
+          "title": "adds https when protocol is missing",
+          "duration": 0.6728749999999764,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["normalizeServerBaseUrl"],
+          "fullName": "normalizeServerBaseUrl keeps http and trims trailing slash",
+          "status": "passed",
+          "title": "keeps http and trims trailing slash",
+          "duration": 0.1424159999999688,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["normalizeServerBaseUrl"],
+          "fullName": "normalizeServerBaseUrl preserves base paths",
+          "status": "passed",
+          "title": "preserves base paths",
+          "duration": 0.06083300000000236,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["normalizeServerBaseUrl"],
+          "fullName": "normalizeServerBaseUrl returns empty string for blank input",
+          "status": "passed",
+          "title": "returns empty string for blank input",
+          "duration": 0.04004199999997127,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["resolveApiBaseUrl"],
+          "fullName": "resolveApiBaseUrl uses proxy base path in dev when enabled",
+          "status": "passed",
+          "title": "uses proxy base path in dev when enabled",
+          "duration": 0.060708000000033735,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["resolveApiBaseUrl"],
+          "fullName": "resolveApiBaseUrl uses server base URL when proxy is disabled",
+          "status": "passed",
+          "title": "uses server base URL when proxy is disabled",
+          "duration": 0.04199999999997317,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["resolveApiBaseUrl"],
+          "fullName": "resolveApiBaseUrl ignores proxy in production",
+          "status": "passed",
+          "title": "ignores proxy in production",
+          "duration": 0.03879100000000335,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["resolveApiBaseUrl"],
+          "fullName": "resolveApiBaseUrl handles malformed server URLs gracefully",
+          "status": "passed",
+          "title": "handles malformed server URLs gracefully",
+          "duration": 0.055124999999975444,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["fetchDevConfig"],
+          "fullName": "fetchDevConfig returns default config when fetch fails",
+          "status": "passed",
+          "title": "returns default config when fetch fails",
+          "duration": 0.7892499999999814,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["fetchDevConfig"],
+          "fullName": "fetchDevConfig returns default config when response is not ok",
+          "status": "passed",
+          "title": "returns default config when response is not ok",
+          "duration": 0.17091600000003382,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["fetchDevConfig"],
+          "fullName": "fetchDevConfig merges fetched config with defaults",
+          "status": "passed",
+          "title": "merges fetched config with defaults",
+          "duration": 0.10366700000002993,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["saveDevConfig"],
+          "fullName": "saveDevConfig saves config successfully",
+          "status": "passed",
+          "title": "saves config successfully",
+          "duration": 0.6295829999999683,
+          "failureMessages": [],
+          "meta": {}
+        },
+        {
+          "ancestorTitles": ["saveDevConfig"],
+          "fullName": "saveDevConfig throws error when save fails",
+          "status": "passed",
+          "title": "throws error when save fails",
+          "duration": 0.599125000000015,
+          "failureMessages": [],
+          "meta": {}
+        }
+      ],
+      "startTime": 1769368678048,
+      "endTime": 1769368678051.599,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/carlos/Documents/jellyfin-web/src/utils/devConfig.test.ts"
+    }
+  ],
+  "coverageMap": {
+    "/Users/carlos/Documents/jellyfin-web/src/utils/devConfig.ts": {
+      "path": "/Users/carlos/Documents/jellyfin-web/src/utils/devConfig.ts",
+      "statementMap": {
+        "0": { "start": { "line": 1, "column": 43 }, "end": { "line": 1, "column": null } },
+        "1": { "start": { "line": 9, "column": 45 }, "end": { "line": 13, "column": null } },
+        "2": { "start": { "line": 15, "column": 20 }, "end": { "line": 15, "column": null } },
+        "3": { "start": { "line": 15, "column": 39 }, "end": { "line": 15, "column": null } },
+        "4": { "start": { "line": 17, "column": 38 }, "end": { "line": 29, "column": null } },
+        "5": { "start": { "line": 18, "column": 20 }, "end": { "line": 18, "column": null } },
+        "6": { "start": { "line": 19, "column": 4 }, "end": { "line": 19, "column": null } },
+        "7": { "start": { "line": 19, "column": 18 }, "end": { "line": 19, "column": null } },
+        "8": { "start": { "line": 21, "column": 25 }, "end": { "line": 21, "column": null } },
+        "9": { "start": { "line": 22, "column": 16 }, "end": { "line": 22, "column": null } },
+        "10": { "start": { "line": 24, "column": 4 }, "end": { "line": 24, "column": null } },
+        "11": { "start": { "line": 25, "column": 4 }, "end": { "line": 25, "column": null } },
+        "12": { "start": { "line": 27, "column": 23 }, "end": { "line": 27, "column": null } },
+        "13": { "start": { "line": 28, "column": 4 }, "end": { "line": 28, "column": null } },
+        "14": { "start": { "line": 31, "column": 33 }, "end": { "line": 42, "column": null } },
+        "15": { "start": { "line": 32, "column": 4 }, "end": { "line": 34, "column": null } },
+        "16": { "start": { "line": 33, "column": 8 }, "end": { "line": 33, "column": null } },
+        "17": { "start": { "line": 36, "column": 4 }, "end": { "line": 41, "column": null } },
+        "18": { "start": { "line": 37, "column": 27 }, "end": { "line": 37, "column": null } },
+        "19": { "start": { "line": 38, "column": 8 }, "end": { "line": 38, "column": null } },
+        "20": { "start": { "line": 40, "column": 8 }, "end": { "line": 40, "column": null } },
+        "21": { "start": { "line": 44, "column": 30 }, "end": { "line": 63, "column": null } },
+        "22": { "start": { "line": 45, "column": 4 }, "end": { "line": 47, "column": null } },
+        "23": { "start": { "line": 46, "column": 8 }, "end": { "line": 46, "column": null } },
+        "24": { "start": { "line": 49, "column": 4 }, "end": { "line": 62, "column": null } },
+        "25": { "start": { "line": 50, "column": 25 }, "end": { "line": 50, "column": null } },
+        "26": { "start": { "line": 51, "column": 8 }, "end": { "line": 53, "column": null } },
+        "27": { "start": { "line": 52, "column": 12 }, "end": { "line": 52, "column": null } },
+        "28": { "start": { "line": 55, "column": 22 }, "end": { "line": 55, "column": null } },
+        "29": { "start": { "line": 56, "column": 8 }, "end": { "line": 59, "column": null } },
+        "30": { "start": { "line": 61, "column": 8 }, "end": { "line": 61, "column": null } },
+        "31": { "start": { "line": 65, "column": 29 }, "end": { "line": 87, "column": null } },
+        "32": { "start": { "line": 66, "column": 4 }, "end": { "line": 68, "column": null } },
+        "33": { "start": { "line": 67, "column": 8 }, "end": { "line": 67, "column": null } },
+        "34": { "start": { "line": 70, "column": 21 }, "end": { "line": 76, "column": null } },
+        "35": { "start": { "line": 78, "column": 4 }, "end": { "line": 80, "column": null } },
+        "36": { "start": { "line": 79, "column": 8 }, "end": { "line": 79, "column": null } },
+        "37": { "start": { "line": 82, "column": 18 }, "end": { "line": 82, "column": null } },
+        "38": { "start": { "line": 83, "column": 4 }, "end": { "line": 86, "column": null } }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": { "start": { "line": 15, "column": 20 }, "end": { "line": 15, "column": 21 } },
+          "loc": { "start": { "line": 15, "column": 39 }, "end": { "line": 15, "column": null } },
+          "line": 15
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": { "start": { "line": 17, "column": 38 }, "end": { "line": 17, "column": 39 } },
+          "loc": { "start": { "line": 17, "column": 65 }, "end": { "line": 29, "column": null } },
+          "line": 17
+        },
+        "2": {
+          "name": "(anonymous_2)",
+          "decl": { "start": { "line": 31, "column": 33 }, "end": { "line": 31, "column": 34 } },
+          "loc": { "start": { "line": 31, "column": 92 }, "end": { "line": 42, "column": null } },
+          "line": 31
+        },
+        "3": {
+          "name": "(anonymous_3)",
+          "decl": { "start": { "line": 44, "column": 30 }, "end": { "line": 44, "column": 62 } },
+          "loc": { "start": { "line": 44, "column": 62 }, "end": { "line": 63, "column": null } },
+          "line": 44
+        },
+        "4": {
+          "name": "(anonymous_4)",
+          "decl": { "start": { "line": 65, "column": 29 }, "end": { "line": 65, "column": 36 } },
+          "loc": { "start": { "line": 65, "column": 87 }, "end": { "line": 87, "column": null } },
+          "line": 65
+        }
+      },
+      "branchMap": {
+        "0": {
+          "loc": { "start": { "line": 19, "column": 4 }, "end": { "line": 19, "column": null } },
+          "type": "if",
+          "locations": [
+            { "start": { "line": 19, "column": 4 }, "end": { "line": 19, "column": null } },
+            { "start": {}, "end": {} }
+          ],
+          "line": 19
+        },
+        "1": {
+          "loc": { "start": { "line": 21, "column": 25 }, "end": { "line": 21, "column": null } },
+          "type": "cond-expr",
+          "locations": [
+            { "start": { "line": 21, "column": 48 }, "end": { "line": 21, "column": 58 } },
+            { "start": { "line": 21, "column": 58 }, "end": { "line": 21, "column": null } }
+          ],
+          "line": 21
+        },
+        "2": {
+          "loc": { "start": { "line": 32, "column": 4 }, "end": { "line": 34, "column": null } },
+          "type": "if",
+          "locations": [
+            { "start": { "line": 32, "column": 4 }, "end": { "line": 34, "column": null } },
+            { "start": {}, "end": {} }
+          ],
+          "line": 32
+        },
+        "3": {
+          "loc": { "start": { "line": 32, "column": 8 }, "end": { "line": 32, "column": 34 } },
+          "type": "binary-expr",
+          "locations": [
+            { "start": { "line": 32, "column": 8 }, "end": { "line": 32, "column": 17 } },
+            { "start": { "line": 32, "column": 17 }, "end": { "line": 32, "column": 34 } }
+          ],
+          "line": 32
+        },
+        "4": {
+          "loc": { "start": { "line": 33, "column": 15 }, "end": { "line": 33, "column": null } },
+          "type": "binary-expr",
+          "locations": [
+            { "start": { "line": 33, "column": 15 }, "end": { "line": 33, "column": 39 } },
+            { "start": { "line": 33, "column": 39 }, "end": { "line": 33, "column": null } }
+          ],
+          "line": 33
+        },
+        "5": {
+          "loc": { "start": { "line": 38, "column": 15 }, "end": { "line": 38, "column": null } },
+          "type": "binary-expr",
+          "locations": [
+            { "start": { "line": 38, "column": 15 }, "end": { "line": 38, "column": 29 } },
+            { "start": { "line": 38, "column": 29 }, "end": { "line": 38, "column": null } }
+          ],
+          "line": 38
+        },
+        "6": {
+          "loc": { "start": { "line": 45, "column": 4 }, "end": { "line": 47, "column": null } },
+          "type": "if",
+          "locations": [
+            { "start": { "line": 45, "column": 4 }, "end": { "line": 47, "column": null } },
+            { "start": {}, "end": {} }
+          ],
+          "line": 45
+        },
+        "7": {
+          "loc": { "start": { "line": 51, "column": 8 }, "end": { "line": 53, "column": null } },
+          "type": "if",
+          "locations": [
+            { "start": { "line": 51, "column": 8 }, "end": { "line": 53, "column": null } },
+            { "start": {}, "end": {} }
+          ],
+          "line": 51
+        },
+        "8": {
+          "loc": { "start": { "line": 66, "column": 4 }, "end": { "line": 68, "column": null } },
+          "type": "if",
+          "locations": [
+            { "start": { "line": 66, "column": 4 }, "end": { "line": 68, "column": null } },
+            { "start": {}, "end": {} }
+          ],
+          "line": 66
+        },
+        "9": {
+          "loc": { "start": { "line": 78, "column": 4 }, "end": { "line": 80, "column": null } },
+          "type": "if",
+          "locations": [
+            { "start": { "line": 78, "column": 4 }, "end": { "line": 80, "column": null } },
+            { "start": {}, "end": {} }
+          ],
+          "line": 78
+        }
+      },
+      "s": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 6,
+        "4": 1,
+        "5": 7,
+        "6": 7,
+        "7": 1,
+        "8": 6,
+        "9": 7,
+        "10": 7,
+        "11": 7,
+        "12": 7,
+        "13": 7,
+        "14": 1,
+        "15": 4,
+        "16": 1,
+        "17": 3,
+        "18": 3,
+        "19": 3,
+        "20": 1,
+        "21": 1,
+        "22": 3,
+        "23": 0,
+        "24": 3,
+        "25": 3,
+        "26": 2,
+        "27": 1,
+        "28": 1,
+        "29": 1,
+        "30": 1,
+        "31": 1,
+        "32": 2,
+        "33": 0,
+        "34": 2,
+        "35": 2,
+        "36": 1,
+        "37": 1,
+        "38": 1
+      },
+      "f": { "0": 6, "1": 7, "2": 4, "3": 3, "4": 2 },
+      "b": {
+        "0": [1, 6],
+        "1": [4, 2],
+        "2": [1, 3],
+        "3": [4, 3],
+        "4": [1, 0],
+        "5": [3, 0],
+        "6": [0, 3],
+        "7": [1, 1],
+        "8": [0, 2],
+        "9": [1, 1]
+      },
+      "meta": {
+        "lastBranch": 10,
+        "lastFunction": 5,
+        "lastStatement": 39,
+        "seen": {
+          "s:1:43:1:Infinity": 0,
+          "s:9:45:13:Infinity": 1,
+          "s:15:20:15:Infinity": 2,
+          "f:15:20:15:21": 0,
+          "s:15:39:15:Infinity": 3,
+          "s:17:38:29:Infinity": 4,
+          "f:17:38:17:39": 1,
+          "s:18:20:18:Infinity": 5,
+          "b:19:4:19:Infinity:undefined:undefined:undefined:undefined": 0,
+          "s:19:4:19:Infinity": 6,
+          "s:19:18:19:Infinity": 7,
+          "s:21:25:21:Infinity": 8,
+          "b:21:48:21:58:21:58:21:Infinity": 1,
+          "s:22:16:22:Infinity": 9,
+          "s:24:4:24:Infinity": 10,
+          "s:25:4:25:Infinity": 11,
+          "s:27:23:27:Infinity": 12,
+          "s:28:4:28:Infinity": 13,
+          "s:31:33:42:Infinity": 14,
+          "f:31:33:31:34": 2,
+          "b:32:4:34:Infinity:undefined:undefined:undefined:undefined": 2,
+          "s:32:4:34:Infinity": 15,
+          "b:32:8:32:17:32:17:32:34": 3,
+          "s:33:8:33:Infinity": 16,
+          "b:33:15:33:39:33:39:33:Infinity": 4,
+          "s:36:4:41:Infinity": 17,
+          "s:37:27:37:Infinity": 18,
+          "s:38:8:38:Infinity": 19,
+          "b:38:15:38:29:38:29:38:Infinity": 5,
+          "s:40:8:40:Infinity": 20,
+          "s:44:30:63:Infinity": 21,
+          "f:44:30:44:62": 3,
+          "b:45:4:47:Infinity:undefined:undefined:undefined:undefined": 6,
+          "s:45:4:47:Infinity": 22,
+          "s:46:8:46:Infinity": 23,
+          "s:49:4:62:Infinity": 24,
+          "s:50:25:50:Infinity": 25,
+          "b:51:8:53:Infinity:undefined:undefined:undefined:undefined": 7,
+          "s:51:8:53:Infinity": 26,
+          "s:52:12:52:Infinity": 27,
+          "s:55:22:55:Infinity": 28,
+          "s:56:8:59:Infinity": 29,
+          "s:61:8:61:Infinity": 30,
+          "s:65:29:87:Infinity": 31,
+          "f:65:29:65:36": 4,
+          "b:66:4:68:Infinity:undefined:undefined:undefined:undefined": 8,
+          "s:66:4:68:Infinity": 32,
+          "s:67:8:67:Infinity": 33,
+          "s:70:21:76:Infinity": 34,
+          "b:78:4:80:Infinity:undefined:undefined:undefined:undefined": 9,
+          "s:78:4:80:Infinity": 35,
+          "s:79:8:79:Infinity": 36,
+          "s:82:18:82:Infinity": 37,
+          "s:83:4:86:Infinity": 38
+        }
+      }
+    }
+  }
+}

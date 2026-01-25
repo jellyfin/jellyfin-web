@@ -624,6 +624,24 @@ export default tseslint.config(
             'no-empty-function': 'off'
         }
     },
+    // Tree-shaking enforcement - Prevent wildcard imports that defeat dead code elimination
+    {
+        files: ['src/**/*.{ts,tsx}'],
+        rules: {
+            // Wildcard imports prevent tree-shaking. Force explicit named imports.
+            'no-restricted-syntax': [
+                'error',
+                {
+                    selector: 'ImportNamespaceSpecifier[parent.source.value=/^(components|apps|store|hooks|lib|utils|styles)/]',
+                    message: 'Wildcard imports from internal modules hurt tree-shaking. Use explicit named imports instead: import { ComponentName } from "components/dialogs"'
+                },
+                {
+                    selector: 'ImportNamespaceSpecifier[parent.source.value=/^\.\/.*\/(index|)$/]',
+                    message: 'Wildcard imports from barrel exports hurt tree-shaking. Use explicit named imports instead.'
+                }
+            ]
+        }
+    },
     // React patterns - No legacy patterns
     {
         files: ['src/**/*.{tsx,jsx}'],
@@ -708,16 +726,33 @@ export default tseslint.config(
             ],
 
             // Modularization, Tree Shaking, Lazy Loading patterns
-            'import/no-useless-path-segments': 'error',
+            'no-restricted-exports': [
+                'error',
+                {
+                    restrictedNamedExports: ['default'],
+                    message: 'Default exports prevent tree-shaking and complicate refactoring. Use named exports only.'
+                }
+            ],
+            'prefer-const': 'error',
+            'no-param-reassign': 'error',
+            'no-restricted-globals': ['error', 'global'],
+            // Enforce explicit import paths for all internal modules
+            'import/no-useless-path-segments': ['error', { noUselessIndex: true }]
+        }
+    },
+    // Strict tree-shaking rules for component files
+    {
+        files: ['src/components/**/*.tsx', 'src/components/**/*.ts', '!src/components/**/*.test.ts', '!src/components/**/*.test.tsx'],
+        rules: {
+            // Each component file should have a single export
             'no-restricted-exports': [
                 'error',
                 {
                     restrictedNamedExports: ['default']
                 }
             ],
-            'prefer-const': 'error',
-            'no-param-reassign': 'error',
-            'no-restricted-globals': ['error', 'global']
+            // Barrel exports (index.ts) should ONLY re-export, never define components
+            'no-unused-expressions': 'error'
         }
     },
     storybook.configs['flat/recommended']

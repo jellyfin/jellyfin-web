@@ -62,30 +62,34 @@ interface TargetListItemProps {
 const TargetListItem = React.memo(({ target, onClick, getDeviceIcon }: TargetListItemProps) => {
     const handleClick = useCallback((): void => {
         onClick(target).catch((error: unknown) => {
-            logger.error('[PlayerSelectionDialog] Target click failed', { component: 'PlayerSelectionDialog' }, error as Error);
+            logger.error(
+                '[PlayerSelectionDialog] Target click failed',
+                { component: 'PlayerSelectionDialog' },
+                error as Error
+            );
         });
     }, [target, onClick]);
 
     return (
-        <ListItem key={target.id} data-testid='player-item'>
+        <ListItem key={target.id} data-testid="player-item">
             <ListItemButton
                 onClick={handleClick}
                 selected={target.selected ?? false}
                 style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.xs }}
             >
-                <ListItemDecorator>
-                    {getDeviceIcon(target.deviceType, target.isLocalPlayer)}
-                </ListItemDecorator>
+                <ListItemDecorator>{getDeviceIcon(target.deviceType, target.isLocalPlayer)}</ListItemDecorator>
                 <ListItemContent>
                     <Text>{target.name}</Text>
-                    {target.secondaryText !== null && target.secondaryText !== undefined && target.secondaryText !== '' && (
-                        <Text size='xs' color='secondary'>
-                            {target.secondaryText}
-                        </Text>
-                    )}
+                    {target.secondaryText !== null &&
+                        target.secondaryText !== undefined &&
+                        target.secondaryText !== '' && (
+                            <Text size="xs" color="secondary">
+                                {target.secondaryText}
+                            </Text>
+                        )}
                 </ListItemContent>
                 {target.selected === true && (
-                    <Text size='sm' color='primary'>
+                    <Text size="sm" color="primary">
                         Playing
                     </Text>
                 )}
@@ -151,7 +155,11 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
     useEffect(() => {
         if (open === true && showActivePlayerMenu === false) {
             loadTargets().catch((error: unknown) => {
-                logger.error('[PlayerSelectionDialog] useEffect loadTargets failed', { component: 'PlayerSelectionDialog' }, error as Error);
+                logger.error(
+                    '[PlayerSelectionDialog] useEffect loadTargets failed',
+                    { component: 'PlayerSelectionDialog' },
+                    error as Error
+                );
             });
         }
     }, [open, showActivePlayerMenu, loadTargets]);
@@ -171,18 +179,21 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
         return <Share1Icon />;
     }, []);
 
-    const handleTargetSelect = useCallback(async (target: PlaybackTarget): Promise<void> => {
-        try {
-            await playbackManager.trySetActivePlayer(target.playerName ?? '', target);
-            handleClose();
-        } catch (error) {
-            logger.error(
-                '[PlayerSelectionDialog] Failed to select target',
-                { component: 'PlayerSelectionDialog' },
-                error as Error
-            );
-        }
-    }, [handleClose]);
+    const handleTargetSelect = useCallback(
+        async (target: PlaybackTarget): Promise<void> => {
+            try {
+                await playbackManager.trySetActivePlayer(target.playerName ?? '', target);
+                handleClose();
+            } catch (error) {
+                logger.error(
+                    '[PlayerSelectionDialog] Failed to select target',
+                    { component: 'PlayerSelectionDialog' },
+                    error as Error
+                );
+            }
+        },
+        [handleClose]
+    );
 
     const handleRemoteControl = useCallback((): void => {
         void import('../router/appRouter').then(({ appRouter }) => {
@@ -238,7 +249,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                         style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}
                     >
                         <DialogTitle>{activeDeviceName}</DialogTitle>
-                        <IconButton variant='plain' onClick={handleClose} aria-label='Close'>
+                        <IconButton variant="plain" onClick={handleClose} aria-label="Close">
                             <Cross2Icon />
                         </IconButton>
                     </Flex>
@@ -265,7 +276,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
                     <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
                         <Button
-                            variant='plain'
+                            variant="plain"
                             startDecorator={<ExternalLinkIcon />}
                             onClick={handleRemoteControl}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
@@ -273,8 +284,8 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                             Remote Control
                         </Button>
                         <Button
-                            variant='plain'
-                            color='danger'
+                            variant="plain"
+                            color="danger"
                             startDecorator={<LinkNone2Icon />}
                             onClick={handleDisconnect}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
@@ -282,7 +293,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                             Disconnect
                         </Button>
                         <Button
-                            variant='plain'
+                            variant="plain"
                             onClick={handleClose}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
                         >
@@ -296,15 +307,9 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
     let content;
     if (loading === true) {
-        content = (
-            <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>
-                Loading playback devices...
-            </Text>
-        );
+        content = <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>Loading playback devices...</Text>;
     } else if (targets.length === 0) {
-        content = (
-            <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>No playback devices found</Text>
-        );
+        content = <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>No playback devices found</Text>;
     } else {
         content = (
             <List>
@@ -330,17 +335,15 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
             >
                 <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
                     <DialogTitle>Play On</DialogTitle>
-                    <IconButton variant='plain' onClick={handleClose} aria-label='Close'>
+                    <IconButton variant="plain" onClick={handleClose} aria-label="Close">
                         <Cross2Icon />
                     </IconButton>
                 </Flex>
 
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
-                    {content}
-                </Flex>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>{content}</Flex>
             </DialogContent>
         </Dialog>
     );
-};
+}
 
 export default PlayerSelectionDialog;

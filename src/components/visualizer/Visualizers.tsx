@@ -64,7 +64,7 @@ export function Visualizers(): React.ReactElement | null {
 
     return (
         <div
-            id='visualizerContainer'
+            id="visualizerContainer"
             style={{
                 pointerEvents: 'none',
                 position: 'fixed',

@@ -81,9 +81,9 @@ export function QueuePage(): React.ReactElement {
     const artistName = currentItem?.artist ?? currentItem?.albumArtist ?? '';
     const albumName = currentItem?.album ?? '';
     const imageUrl =
-        currentItem?.imageUrl
-        ?? currentItem?.artwork?.find(img => img.type === 'Primary')?.url
-        ?? currentItem?.artwork?.[0]?.url;
+        currentItem?.imageUrl ??
+        currentItem?.artwork?.find(img => img.type === 'Primary')?.url ??
+        currentItem?.artwork?.[0]?.url;
 
     // Next track info
     const nextItem = currentItem?.nextItem;
@@ -198,7 +198,11 @@ export function QueuePage(): React.ReactElement {
 
     const handleRemoveItem = useCallback(
         (item: QueueItem) => {
-            const queueManager = (playbackManager as { readonly _playQueueManager?: { readonly removeFromPlaylist: (ids: string[]) => void } })._playQueueManager;
+            const queueManager = (
+                playbackManager as {
+                    readonly _playQueueManager?: { readonly removeFromPlaylist: (ids: string[]) => void };
+                }
+            )._playQueueManager;
             const playlistItemId = (item as { readonly PlaylistItemId?: string }).PlaylistItemId;
             if (queueManager != null && playlistItemId != null) {
                 queueManager.removeFromPlaylist([playlistItemId]);
@@ -210,7 +214,9 @@ export function QueuePage(): React.ReactElement {
 
     const handleReorder = useCallback(
         (fromIndex: number, toIndex: number) => {
-            const queueManager = (playbackManager as { readonly _playQueueManager?: { readonly _playlist?: unknown[] } })._playQueueManager;
+            const queueManager = (
+                playbackManager as { readonly _playQueueManager?: { readonly _playlist?: unknown[] } }
+            )._playQueueManager;
             if (queueManager?._playlist != null) {
                 const playlist = queueManager._playlist;
                 const [removed] = playlist.splice(fromIndex, 1);
@@ -238,8 +244,8 @@ export function QueuePage(): React.ReactElement {
                     backgroundColor: vars.colors.background
                 }}
             >
-                <CircularProgress size='lg' />
-                <Text size='lg' color='secondary' style={{ marginTop: vars.spacing.md }}>
+                <CircularProgress size="lg" />
+                <Text size="lg" color="secondary" style={{ marginTop: vars.spacing.md }}>
                     {globalize.translate('Loading')}...
                 </Text>
             </Box>
@@ -262,8 +268,8 @@ export function QueuePage(): React.ReactElement {
             >
                 <IconButton
                     onClick={onBackClick}
-                    variant='plain'
-                    color='neutral'
+                    variant="plain"
+                    color="neutral"
                     style={{ position: 'absolute', top: 20, left: 20 }}
                 >
                     <ArrowLeftIcon />
@@ -271,10 +277,10 @@ export function QueuePage(): React.ReactElement {
                 <DiscIcon
                     style={{ width: 80, height: 80, color: vars.colors.textMuted, marginBottom: vars.spacing.md }}
                 />
-                <Text size='xl' weight='bold' color='secondary'>
+                <Text size="xl" weight="bold" color="secondary">
                     {globalize.translate('MessageNoItemsAvailable')}
                 </Text>
-                <Text size='md' color='muted' style={{ marginTop: vars.spacing.xs }}>
+                <Text size="md" color="muted" style={{ marginTop: vars.spacing.xs }}>
                     Start playing something to see the queue
                 </Text>
             </Box>
@@ -296,55 +302,47 @@ export function QueuePage(): React.ReactElement {
 
             {/* Header */}
             <Flex
-                direction='row'
-                justify='space-between'
-                align='center'
+                direction="row"
+                justify="space-between"
+                align="center"
                 style={{ position: 'relative', zIndex: 1, padding: vars.spacing.md }}
             >
-                <IconButton onClick={onBackClick} variant='plain' color='neutral'>
+                <IconButton onClick={onBackClick} variant="plain" color="neutral">
                     <ArrowLeftIcon />
                 </IconButton>
-                <Text size='sm' color='secondary'>
+                <Text size="sm" color="secondary">
                     {albumName}
                 </Text>
-                <IconButton
-                    onClick={onInfoClick}
-                    variant='plain'
-                    color={showTechnicalInfo ? 'primary' : 'neutral'}
-                >
+                <IconButton onClick={onInfoClick} variant="plain" color={showTechnicalInfo ? 'primary' : 'neutral'}>
                     <InfoCircledIcon />
                 </IconButton>
             </Flex>
 
             {/* Tabs */}
-            <Tabs
-                value={String(activeTab)}
-                onValueChange={onTabsChange}
-                style={{ position: 'relative', zIndex: 1 }}
-            >
+            <Tabs value={String(activeTab)} onValueChange={onTabsChange} style={{ position: 'relative', zIndex: 1 }}>
                 <TabList style={{ justifyContent: 'center', gap: vars.spacing.md, backgroundColor: 'transparent' }}>
-                    <Tab value='0'>
+                    <Tab value="0">
                         <DiscIcon style={{ marginRight: vars.spacing.xs }} />
                         Now Playing
                     </Tab>
-                    <Tab value='1'>
+                    <Tab value="1">
                         <StackIcon style={{ marginRight: vars.spacing.xs }} />
                         Queue ({queueData.length})
                     </Tab>
                 </TabList>
 
                 {/* Now Playing Tab */}
-                <TabPanel value='0' style={{ padding: 0 }}>
+                <TabPanel value="0" style={{ padding: 0 }}>
                     <Flex
                         direction={window.innerWidth < 600 ? 'column' : 'row'}
                         gap={vars.spacing.xl}
-                        align='center'
-                        justify='center'
+                        align="center"
+                        justify="center"
                         style={{ padding: vars.spacing.xl, minHeight: 'calc(100vh - 180px)' }}
                     >
                         {/* Artwork */}
                         <Box style={{ flex: '0 0 auto' }}>
-                            <motion.div layoutId='now-playing-art'>
+                            <motion.div layoutId="now-playing-art">
                                 <Box
                                     style={{
                                         width: window.innerWidth < 600 ? 280 : 400,
@@ -375,15 +373,15 @@ export function QueuePage(): React.ReactElement {
 
                         {/* Info and Controls */}
                         <Flex
-                            direction='column'
+                            direction="column"
                             gap={vars.spacing.lg}
                             style={{ flex: '1 1 auto', maxWidth: 500, width: '100%' }}
                         >
                             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                                <Text as='h2' size='xl' weight='bold' style={{ color: vars.colors.text }}>
+                                <Text as="h2" size="xl" weight="bold" style={{ color: vars.colors.text }}>
                                     {trackName}
                                 </Text>
-                                <Text size='lg' color='secondary'>
+                                <Text size="lg" color="secondary">
                                     {artistName}
                                 </Text>
                             </motion.div>
@@ -400,25 +398,25 @@ export function QueuePage(): React.ReactElement {
                                     onValueChange={handleSeekChange}
                                     onValueCommit={handleSeekEnd}
                                 />
-                                <Flex direction='row' justify='space-between' style={{ marginTop: vars.spacing.xs }}>
-                                    <Text size='xs' color='muted'>
+                                <Flex direction="row" justify="space-between" style={{ marginTop: vars.spacing.xs }}>
+                                    <Text size="xs" color="muted">
                                         {currentTimeFormatted}
                                     </Text>
-                                    <Text size='xs' color='muted'>
+                                    <Text size="xs" color="muted">
                                         {durationFormatted}
                                     </Text>
                                 </Flex>
                             </Box>
 
                             {/* Playback Buttons */}
-                            <Flex direction='row' gap={vars.spacing.md} justify='center' align='center'>
-                                <IconButton onClick={handlePrevious} variant='plain' size='lg' color='neutral'>
+                            <Flex direction="row" gap={vars.spacing.md} justify="center" align="center">
+                                <IconButton onClick={handlePrevious} variant="plain" size="lg" color="neutral">
                                     <TrackPreviousIcon style={{ width: 40, height: 40 }} />
                                 </IconButton>
                                 <IconButton
                                     onClick={togglePlayPause}
-                                    variant='solid'
-                                    size='lg'
+                                    variant="solid"
+                                    size="lg"
                                     style={{ width: 72, height: 72, borderRadius: '50%' }}
                                 >
                                     {isPlaying ? (
@@ -427,7 +425,7 @@ export function QueuePage(): React.ReactElement {
                                         <PlayIcon style={{ width: 40, height: 40 }} />
                                     )}
                                 </IconButton>
-                                <IconButton onClick={next} variant='plain' size='lg' color='neutral'>
+                                <IconButton onClick={next} variant="plain" size="lg" color="neutral">
                                     <TrackNextIcon style={{ width: 40, height: 40 }} />
                                 </IconButton>
                             </Flex>
@@ -436,7 +434,7 @@ export function QueuePage(): React.ReactElement {
                             {nextItem != null && (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                     <Paper
-                                        variant='outlined'
+                                        variant="outlined"
                                         style={{
                                             padding: vars.spacing.md,
                                             borderRadius: vars.borderRadius.md,
@@ -444,10 +442,10 @@ export function QueuePage(): React.ReactElement {
                                             backdropFilter: 'blur(10px)'
                                         }}
                                     >
-                                        <Chip size='sm' variant='soft' style={{ marginBottom: vars.spacing.xs }}>
+                                        <Chip size="sm" variant="soft" style={{ marginBottom: vars.spacing.xs }}>
                                             NEXT UP
                                         </Chip>
-                                        <Flex direction='row' gap={vars.spacing.md} align='center'>
+                                        <Flex direction="row" gap={vars.spacing.md} align="center">
                                             <Box
                                                 style={{
                                                     width: 48,
@@ -483,8 +481,8 @@ export function QueuePage(): React.ReactElement {
                                             </Box>
                                             <Box style={{ minWidth: 0 }}>
                                                 <Text
-                                                    size='sm'
-                                                    weight='bold'
+                                                    size="sm"
+                                                    weight="bold"
                                                     style={{
                                                         color: vars.colors.text,
                                                         whiteSpace: 'nowrap',
@@ -495,8 +493,8 @@ export function QueuePage(): React.ReactElement {
                                                     {nextTrackName}
                                                 </Text>
                                                 <Text
-                                                    size='xs'
-                                                    color='muted'
+                                                    size="xs"
+                                                    color="muted"
                                                     style={{
                                                         whiteSpace: 'nowrap',
                                                         overflow: 'hidden',
@@ -515,12 +513,12 @@ export function QueuePage(): React.ReactElement {
                 </TabPanel>
 
                 {/* Queue Tab */}
-                <TabPanel value='1' style={{ padding: 0 }}>
+                <TabPanel value="1" style={{ padding: 0 }}>
                     <Box style={{ padding: vars.spacing.lg, paddingBottom: vars.spacing.md }}>
-                        <Text size='xl' weight='bold'>
+                        <Text size="xl" weight="bold">
                             {(globalize.translate('HeaderPlaybackQueue') as string) ?? 'Playback Queue'}
                         </Text>
-                        <Text size='sm' color='muted' style={{ marginTop: vars.spacing.xs }}>
+                        <Text size="sm" color="muted" style={{ marginTop: vars.spacing.xs }}>
                             {queueData.length} {(globalize.translate('Items') as string).toLowerCase()}
                         </Text>
                     </Box>
@@ -545,7 +543,7 @@ export function QueuePage(): React.ReactElement {
                         style={{ position: 'fixed', bottom: 100, left: 20, right: 20, zIndex: 10 }}
                     >
                         <Paper
-                            variant='outlined'
+                            variant="outlined"
                             style={{
                                 padding: vars.spacing.lg,
                                 borderRadius: vars.borderRadius.lg,
@@ -554,36 +552,36 @@ export function QueuePage(): React.ReactElement {
                             }}
                         >
                             <Text
-                                size='sm'
-                                weight='medium'
+                                size="sm"
+                                weight="medium"
                                 style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}
                             >
                                 Technical Stream Info
                             </Text>
-                            <Flex direction='row' gap={vars.spacing.lg}>
+                            <Flex direction="row" gap={vars.spacing.lg}>
                                 <Box>
-                                    <Text size='xs' color='muted'>
+                                    <Text size="xs" color="muted">
                                         Codec
                                     </Text>
-                                    <Text size='sm' style={{ color: vars.colors.text }}>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
                                         {currentItem.streamInfo?.codec?.toUpperCase() ?? 'Unknown'}
                                     </Text>
                                 </Box>
                                 <Box>
-                                    <Text size='xs' color='muted'>
+                                    <Text size="xs" color="muted">
                                         Bitrate
                                     </Text>
-                                    <Text size='sm' style={{ color: vars.colors.text }}>
-                                        {currentItem.streamInfo?.bitrate != null ?
-                                            `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps` :
-                                            'Unknown'}
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
+                                        {currentItem.streamInfo?.bitrate != null
+                                            ? `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps`
+                                            : 'Unknown'}
                                     </Text>
                                 </Box>
                                 <Box>
-                                    <Text size='xs' color='muted'>
+                                    <Text size="xs" color="muted">
                                         Engine
                                     </Text>
-                                    <Text size='sm' style={{ color: vars.colors.text }}>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
                                         Wasm (Next-Gen)
                                     </Text>
                                 </Box>

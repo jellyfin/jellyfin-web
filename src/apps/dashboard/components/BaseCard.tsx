@@ -37,17 +37,20 @@ export function BaseCard({
     height,
     width
 }: BaseCardProps): React.ReactElement {
-    const handleActionClick = useCallback((e: React.MouseEvent): void => {
-        e.preventDefault();
-        e.stopPropagation();
-        onActionClick?.();
-    }, [onActionClick]);
+    const handleActionClick = useCallback(
+        (e: React.MouseEvent): void => {
+            e.preventDefault();
+            e.stopPropagation();
+            onActionClick?.();
+        },
+        [onActionClick]
+    );
 
     const cardContent = (
         <>
-            <AspectRatio ratio='16/9' style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
+            <AspectRatio ratio="16/9" style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
                 {image != null ? (
-                    <img src={image} loading='lazy' alt={title ?? ''} />
+                    <img src={image} loading="lazy" alt={title ?? ''} />
                 ) : (
                     <Box
                         className={getDefaultBackgroundClass(title ?? '')}
@@ -83,7 +86,7 @@ export function BaseCard({
                         </Heading.H5>
                         {text != null && text !== '' && (
                             <Text
-                                size='xs'
+                                size="xs"
                                 style={{
                                     wordBreak: 'break-all',
                                     marginTop: vars.spacing.xs
@@ -95,9 +98,9 @@ export function BaseCard({
                     </Box>
                     {action && (
                         <IconButton
-                            variant='plain'
-                            color='neutral'
-                            size='sm'
+                            variant="plain"
+                            color="neutral"
+                            size="sm"
                             ref={actionRef}
                             onClick={handleActionClick}
                         >
@@ -119,16 +122,22 @@ export function BaseCard({
         cursor: 'pointer'
     };
 
-    const hoverStyle = useMemo(() => ({
-        transform: 'translateY(-4px)',
-        boxShadow: vars.shadows.md,
-        borderColor: vars.colors.primary,
-        backgroundColor: vars.colors.surface
-    }), []);
+    const hoverStyle = useMemo(
+        () => ({
+            transform: 'translateY(-4px)',
+            boxShadow: vars.shadows.md,
+            borderColor: vars.colors.primary,
+            backgroundColor: vars.colors.surface
+        }),
+        []
+    );
 
-    const handleMouseEnter = useCallback((e: React.MouseEvent): void => {
-        Object.assign((e.currentTarget as HTMLElement).style, hoverStyle);
-    }, [hoverStyle]);
+    const handleMouseEnter = useCallback(
+        (e: React.MouseEvent): void => {
+            Object.assign((e.currentTarget as HTMLElement).style, hoverStyle);
+        },
+        [hoverStyle]
+    );
 
     const handleMouseLeave = useCallback((e: React.MouseEvent): void => {
         const target = e.currentTarget as HTMLElement;

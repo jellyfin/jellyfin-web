@@ -144,14 +144,14 @@ function QueueListItem({ item, index, isCurrent, onPlay }: QueueListItemProps): 
                     </Box>
                 </ListItemDecorator>
                 <ListItemContent>
-                    <Text size='sm' weight={isCurrent ? 'bold' : 'normal'}>
+                    <Text size="sm" weight={isCurrent ? 'bold' : 'normal'}>
                         {trackName}
                     </Text>
-                    <Text size='xs' color='muted'>
+                    <Text size="xs" color="muted">
                         {artistName}
                     </Text>
                 </ListItemContent>
-                <Text size='xs' color='muted' style={{ marginRight: vars.spacing.xs }}>
+                <Text size="xs" color="muted" style={{ marginRight: vars.spacing.xs }}>
                     {formatTime(duration)}
                 </Text>
                 <Box {...listeners} style={{ cursor: 'grab', color: vars.colors.textMuted }}>
@@ -174,7 +174,7 @@ function CollapseSection({ title, children, defaultExpanded = true }: CollapseSe
     const toggleExpanded = useCallback(() => setExpanded(prev => !prev), []);
 
     return (
-        <Paper variant='outlined' style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.md }}>
+        <Paper variant="outlined" style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.md }}>
             <Box
                 onClick={toggleExpanded}
                 style={{
@@ -186,10 +186,10 @@ function CollapseSection({ title, children, defaultExpanded = true }: CollapseSe
                     backgroundColor: 'transparent'
                 }}
             >
-                <Text size='sm' weight='medium'>
+                <Text size="sm" weight="medium">
                     {title}
                 </Text>
-                <IconButton size='sm' variant='plain'>
+                <IconButton size="sm" variant="plain">
                     {expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 </IconButton>
             </Box>
@@ -215,9 +215,12 @@ interface RemoteControlSectionProps {
 }
 
 function RemoteControlSection({ onCommand }: RemoteControlSectionProps): React.ReactElement {
-    const handleNavClick = useCallback((command: string) => () => {
-        onCommand(command);
-    }, [onCommand]);
+    const handleNavClick = useCallback(
+        (command: string) => () => {
+            onCommand(command);
+        },
+        [onCommand]
+    );
 
     const navButtonSx = {
         width: 48,
@@ -226,12 +229,12 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps): React.R
     };
 
     return (
-        <CollapseSection title='Navigation' defaultExpanded={false}>
-            <Flex direction='column' align='center' gap={vars.spacing.sm}>
+        <CollapseSection title="Navigation" defaultExpanded={false}>
+            <Flex direction="column" align="center" gap={vars.spacing.sm}>
                 <IconButton style={navButtonSx} onClick={handleNavClick('MoveUp')}>
                     <ChevronUpIcon />
                 </IconButton>
-                <Flex direction='row' gap={vars.spacing.sm}>
+                <Flex direction="row" gap={vars.spacing.sm}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('MoveLeft')}>
                         <ChevronLeftIcon />
                     </IconButton>
@@ -242,7 +245,7 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps): React.R
                         <ChevronRightIcon />
                     </IconButton>
                 </Flex>
-                <Flex direction='row' gap={vars.spacing.sm}>
+                <Flex direction="row" gap={vars.spacing.sm}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('Back')}>
                         <ArrowLeftIcon />
                     </IconButton>
@@ -254,7 +257,7 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps): React.R
                     </IconButton>
                 </Flex>
                 <Divider style={{ margin: `${vars.spacing.sm} 0`, width: '100%' }} />
-                <Flex direction='row' gap={vars.spacing.sm}>
+                <Flex direction="row" gap={vars.spacing.sm}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('GoHome')}>
                         <HomeIcon />
                     </IconButton>
@@ -295,42 +298,43 @@ function MessageSection({ onSendMessage, onSendText }: MessageSectionProps): Rea
         }
     }, [typeText, onSendText]);
 
-    const onMessageTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setMessageTitle(e.target.value), []);
-    const onMessageTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setMessageText(e.target.value), []);
+    const onMessageTitleChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => setMessageTitle(e.target.value),
+        []
+    );
+    const onMessageTextChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => setMessageText(e.target.value),
+        []
+    );
     const onTypeTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setTypeText(e.target.value), []);
-    const onTypeTextKeyDown = useCallback((e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') handleSendText();
-    }, [handleSendText]);
+    const onTypeTextKeyDown = useCallback(
+        (e: React.KeyboardEvent) => {
+            if (e.key === 'Enter') handleSendText();
+        },
+        [handleSendText]
+    );
 
     return (
-        <Flex direction='column' gap={vars.spacing.md}>
-            <CollapseSection title='Send Message' defaultExpanded={false}>
-                <Flex direction='column' gap={vars.spacing.md}>
-                    <Input
-                        placeholder='Message title'
-                        value={messageTitle}
-                        onChange={onMessageTitleChange}
-                    />
-                    <Input
-                        placeholder='Message text'
-                        value={messageText}
-                        onChange={onMessageTextChange}
-                    />
-                    <Button onClick={handleSendMessage} startDecorator={<PaperPlaneIcon />} size='sm'>
+        <Flex direction="column" gap={vars.spacing.md}>
+            <CollapseSection title="Send Message" defaultExpanded={false}>
+                <Flex direction="column" gap={vars.spacing.md}>
+                    <Input placeholder="Message title" value={messageTitle} onChange={onMessageTitleChange} />
+                    <Input placeholder="Message text" value={messageText} onChange={onMessageTextChange} />
+                    <Button onClick={handleSendMessage} startDecorator={<PaperPlaneIcon />} size="sm">
                         Send
                     </Button>
                 </Flex>
             </CollapseSection>
 
-            <CollapseSection title='Enter Text' defaultExpanded={false}>
-                <Flex direction='column' gap={vars.spacing.md}>
+            <CollapseSection title="Enter Text" defaultExpanded={false}>
+                <Flex direction="column" gap={vars.spacing.md}>
                     <Input
-                        placeholder='Enter text'
+                        placeholder="Enter text"
                         value={typeText}
                         onChange={onTypeTextChange}
                         onKeyDown={onTypeTextKeyDown}
                     />
-                    <Button onClick={handleSendText} startDecorator={<PaperPlaneIcon />} size='sm'>
+                    <Button onClick={handleSendText} startDecorator={<PaperPlaneIcon />} size="sm">
                         Send
                     </Button>
                 </Flex>
@@ -362,15 +366,15 @@ function PlaylistSection({
     }, [onTogglePlaylist]);
 
     return (
-        <Box className='playlistSection'>
-            <Flex direction='row' justify='center' gap={vars.spacing.sm} className='playlistSectionButton'>
-                <IconButton onClick={handleTogglePlaylist} title='Playlist'>
+        <Box className="playlistSection">
+            <Flex direction="row" justify="center" gap={vars.spacing.sm} className="playlistSectionButton">
+                <IconButton onClick={handleTogglePlaylist} title="Playlist">
                     <StackIcon />
                 </IconButton>
-                <IconButton onClick={onSavePlaylist} title='Save' className='btnSavePlaylist'>
+                <IconButton onClick={onSavePlaylist} title="Save" className="btnSavePlaylist">
                     <BookmarkIcon />
                 </IconButton>
-                <IconButton title='More'>
+                <IconButton title="More">
                     <DotsVerticalIcon />
                 </IconButton>
             </Flex>
@@ -381,7 +385,7 @@ function PlaylistSection({
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                     >
-                        <List className='playlist itemsContainer vertical-list nowPlayingPlaylist'>
+                        <List className="playlist itemsContainer vertical-list nowPlayingPlaylist">
                             {items.map((item: PlayableItem, index: number) => (
                                 <QueueListItem
                                     key={item.id}
@@ -469,9 +473,9 @@ function PlaybackControls({
 
     return (
         <>
-            <Box className='sliderContainer flex' dir='ltr'>
-                <Box className='positionTime'>{currentTimeFormatted}</Box>
-                <Box className='nowPlayingPositionSliderContainer mdl-slider-container'>
+            <Box className="sliderContainer flex" dir="ltr">
+                <Box className="positionTime">{currentTimeFormatted}</Box>
+                <Box className="nowPlayingPositionSliderContainer mdl-slider-container">
                     <Slider
                         min={0}
                         max={duration !== 0 ? duration : 100}
@@ -483,39 +487,39 @@ function PlaybackControls({
                         onValueCommit={onSeek}
                     />
                 </Box>
-                <Box className='runtime'>{durationFormatted}</Box>
+                <Box className="runtime">{durationFormatted}</Box>
             </Box>
 
             <Flex
-                direction='row'
-                align='center'
-                justify='space-between'
-                className='nowPlayingButtonsContainer focuscontainer-x'
+                direction="row"
+                align="center"
+                justify="space-between"
+                className="nowPlayingButtonsContainer focuscontainer-x"
                 gap={vars.spacing.sm}
             >
-                <Flex direction='row' align='center' className='nowPlayingInfoButtons' gap={vars.spacing.xs}>
+                <Flex direction="row" align="center" className="nowPlayingInfoButtons" gap={vars.spacing.xs}>
                     <IconButton
                         onClick={onToggleRepeat}
-                        variant='plain'
-                        size='sm'
+                        variant="plain"
+                        size="sm"
                         color={isRepeatActive ? 'primary' : 'neutral'}
-                        title='Repeat'
+                        title="Repeat"
                     >
                         <LoopIcon />
                     </IconButton>
 
-                    <IconButton onClick={onRewind} variant='plain' size='sm' color='neutral' title='Rewind 10 seconds'>
+                    <IconButton onClick={onRewind} variant="plain" size="sm" color="neutral" title="Rewind 10 seconds">
                         <DoubleArrowLeftIcon />
                     </IconButton>
 
-                    <IconButton onClick={onPrevious} variant='plain' size='sm' color='neutral' title='Previous track'>
+                    <IconButton onClick={onPrevious} variant="plain" size="sm" color="neutral" title="Previous track">
                         <TrackPreviousIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onPlayPause}
-                        variant='solid'
-                        size='lg'
+                        variant="solid"
+                        size="lg"
                         style={{ width: 56, height: 56, borderRadius: '50%' }}
                         title={isPlaying ? 'Pause' : 'Play'}
                     >
@@ -526,58 +530,58 @@ function PlaybackControls({
                         )}
                     </IconButton>
 
-                    <IconButton onClick={onStop} variant='plain' size='sm' color='neutral' title='Stop'>
+                    <IconButton onClick={onStop} variant="plain" size="sm" color="neutral" title="Stop">
                         <StopIcon />
                     </IconButton>
 
-                    <IconButton onClick={onNext} variant='plain' size='sm' color='neutral' title='Next track'>
+                    <IconButton onClick={onNext} variant="plain" size="sm" color="neutral" title="Next track">
                         <TrackNextIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onFastForward}
-                        variant='plain'
-                        size='sm'
-                        color='neutral'
-                        title='Fast-forward 30 seconds'
+                        variant="plain"
+                        size="sm"
+                        color="neutral"
+                        title="Fast-forward 30 seconds"
                     >
                         <DoubleArrowRightIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onToggleShuffle}
-                        variant='plain'
-                        size='sm'
+                        variant="plain"
+                        size="sm"
                         color={isShuffleActive ? 'primary' : 'neutral'}
-                        title='Shuffle'
+                        title="Shuffle"
                     >
                         <ShuffleIcon />
                     </IconButton>
                 </Flex>
 
-                <Flex direction='row' align='center' className='nowPlayingSecondaryButtons' gap={vars.spacing.xs}>
+                <Flex direction="row" align="center" className="nowPlayingSecondaryButtons" gap={vars.spacing.xs}>
                     {hasAudioTracks === true && (
                         <IconButton
                             onClick={onAudioTracks}
-                            variant='plain'
-                            size='sm'
-                            color='neutral'
-                            title='Audio Tracks'
+                            variant="plain"
+                            size="sm"
+                            color="neutral"
+                            title="Audio Tracks"
                         >
                             <DiscIcon />
                         </IconButton>
                     )}
 
                     {hasSubtitles === true && (
-                        <IconButton onClick={onSubtitles} variant='plain' size='sm' color='neutral' title='Subtitles'>
+                        <IconButton onClick={onSubtitles} variant="plain" size="sm" color="neutral" title="Subtitles">
                             <ReaderIcon />
                         </IconButton>
                     )}
 
-                    <Box className='nowPlayingPageUserDataButtons' />
+                    <Box className="nowPlayingPageUserDataButtons" />
 
                     {onFullscreen !== undefined && (
-                        <IconButton onClick={onFullscreen} variant='plain' size='sm' color='neutral' title='Fullscreen'>
+                        <IconButton onClick={onFullscreen} variant="plain" size="sm" color="neutral" title="Fullscreen">
                             <EnterFullScreenIcon />
                         </IconButton>
                     )}
@@ -585,11 +589,11 @@ function PlaybackControls({
                     {hasLyrics === true && (
                         <IconButton
                             onClick={onLyrics}
-                            variant='plain'
-                            size='sm'
-                            color='neutral'
-                            className='btnLyrics'
-                            title='Lyrics'
+                            variant="plain"
+                            size="sm"
+                            color="neutral"
+                            className="btnLyrics"
+                            title="Lyrics"
                         >
                             <ChatBubbleIcon />
                         </IconButton>
@@ -597,8 +601,8 @@ function PlaybackControls({
                 </Flex>
             </Flex>
 
-            <Flex direction='row' align='center' gap={vars.spacing.xs} style={{ marginTop: vars.spacing.xs }}>
-                <IconButton onClick={onToggleMute} variant='plain' size='sm' color='neutral'>
+            <Flex direction="row" align="center" gap={vars.spacing.xs} style={{ marginTop: vars.spacing.xs }}>
+                <IconButton onClick={onToggleMute} variant="plain" size="sm" color="neutral">
                     {muted ? <SpeakerOffIcon /> : <SpeakerLoudIcon />}
                 </IconButton>
                 <Slider
@@ -643,16 +647,15 @@ export function NowPlayingPage(): React.ReactElement {
 
     const { togglePlayPause, stop, seek, seekPercent, setVolume, toggleMute } = usePlaybackActions();
 
-    const { next, previous, toggleRepeatMode, toggleShuffleMode, setQueue } =
-        useQueueActions();
+    const { next, previous, toggleRepeatMode, toggleShuffleMode, setQueue } = useQueueActions();
 
     const supportedCommands = currentPlayer?.supportedCommands ?? [];
     const hasAudioTracks = supportedCommands.includes('SetAudioStreamIndex');
     const hasSubtitles = supportedCommands.includes('SetSubtitleStreamIndex');
     const hasFullscreen = supportedCommands.includes('ToggleFullscreen');
     const hasLyrics =
-        (currentItem as PlayableItem & { readonly hasLyrics?: boolean }).hasLyrics === true
-        || (currentItem as PlayableItem & { readonly Type?: string }).Type === 'Audio';
+        (currentItem as PlayableItem & { readonly hasLyrics?: boolean }).hasLyrics === true ||
+        (currentItem as PlayableItem & { readonly Type?: string }).Type === 'Audio';
 
     const isMobile = window.innerWidth < 600;
 
@@ -686,23 +689,26 @@ export function NowPlayingPage(): React.ReactElement {
     const artistName = currentItem?.artist ?? currentItem?.albumArtist ?? '';
     const albumName = currentItem?.album ?? '';
     const imageUrl =
-        currentItem?.imageUrl
-        ?? currentItem?.artwork?.find(img => img.type === 'Primary')?.url
-        ?? currentItem?.artwork?.[0]?.url;
+        currentItem?.imageUrl ??
+        currentItem?.artwork?.find(img => img.type === 'Primary')?.url ??
+        currentItem?.artwork?.[0]?.url;
     const discImageUrl = currentItem?.artwork?.find(img => img.type === 'Disc')?.url;
 
     const handleSeekChange = useCallback((value: number[]) => {
         setLocalSeekValue(value[0] ?? 0);
     }, []);
 
-    const handleSeekEnd = useCallback((value: number[]) => {
-        const seekValue = value[0] ?? 0;
-        setIsDragging(false);
-        if (duration > 0) {
-            const percent = (seekValue / duration) * 100;
-            seekPercent(percent);
-        }
-    }, [duration, seekPercent]);
+    const handleSeekEnd = useCallback(
+        (value: number[]) => {
+            const seekValue = value[0] ?? 0;
+            setIsDragging(false);
+            if (duration > 0) {
+                const percent = (seekValue / duration) * 100;
+                seekPercent(percent);
+            }
+        },
+        [duration, seekPercent]
+    );
 
     const handleSeekStart = useCallback(() => setIsDragging(true), []);
 
@@ -724,9 +730,12 @@ export function NowPlayingPage(): React.ReactElement {
         seek(newTime);
     }, [currentTime, duration, seek]);
 
-    const handlePlayItem = useCallback((index: number) => {
-        setQueue(queueItems, index);
-    }, [queueItems, setQueue]);
+    const handlePlayItem = useCallback(
+        (index: number) => {
+            setQueue(queueItems, index);
+        },
+        [queueItems, setQueue]
+    );
 
     const handleSendMessage = useCallback((title: string, text: string) => {
         logger.debug('Send message', { component: 'NowPlayingPage', title, text });
@@ -764,7 +773,7 @@ export function NowPlayingPage(): React.ReactElement {
     if (currentItem == null) {
         return (
             <Box
-                className='nowPlayingPageEmpty'
+                className="nowPlayingPageEmpty"
                 style={{
                     position: 'relative',
                     height: '100vh',
@@ -775,13 +784,13 @@ export function NowPlayingPage(): React.ReactElement {
             >
                 <IconButton
                     onClick={goBack}
-                    variant='plain'
-                    color='neutral'
+                    variant="plain"
+                    color="neutral"
                     style={{ position: 'absolute', top: 20, left: 20 }}
                 >
                     <ArrowLeftIcon />
                 </IconButton>
-                <Text size='lg' color='secondary'>
+                <Text size="lg" color="secondary">
                     No track playing
                 </Text>
             </Box>
@@ -789,10 +798,10 @@ export function NowPlayingPage(): React.ReactElement {
     }
 
     return (
-        <Box className='nowPlayingPage' style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
-            <Box className='fullscreenBackground' style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <Box className="nowPlayingPage" style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+            <Box className="fullscreenBackground" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
                 <Box
-                    className='gradientOverlay'
+                    className="gradientOverlay"
                     style={{
                         position: 'absolute',
                         inset: 0,
@@ -802,21 +811,21 @@ export function NowPlayingPage(): React.ReactElement {
             </Box>
 
             <Flex
-                as='header'
-                direction='row'
-                justify='space-between'
-                align='center'
+                as="header"
+                direction="row"
+                justify="space-between"
+                align="center"
                 style={{ position: 'relative', zIndex: 1, padding: vars.spacing.md }}
             >
-                <IconButton onClick={goBack} variant='plain' color='neutral'>
+                <IconButton onClick={goBack} variant="plain" color="neutral">
                     <ArrowLeftIcon />
                 </IconButton>
-                <Text size='sm' color='secondary'>
+                <Text size="sm" color="secondary">
                     {albumName}
                 </Text>
                 <IconButton
                     onClick={toggleTechnicalInfo}
-                    variant='plain'
+                    variant="plain"
                     color={showTechnicalInfo ? 'primary' : 'neutral'}
                 >
                     <InfoCircledIcon />
@@ -824,11 +833,11 @@ export function NowPlayingPage(): React.ReactElement {
             </Flex>
 
             <Flex
-                as='main'
+                as="main"
                 direction={isMobile ? 'column' : 'row'}
                 gap={vars.spacing.xl}
-                align='center'
-                justify='center'
+                align="center"
+                justify="center"
                 style={{
                     position: 'relative',
                     zIndex: 1,
@@ -837,11 +846,11 @@ export function NowPlayingPage(): React.ReactElement {
                     height: 'calc(100vh - 80px)'
                 }}
             >
-                <Box className='nowPlayingInfoContainer' style={{ flex: '1 1 auto', maxWidth: 600 }}>
-                    <Flex direction='column' gap={vars.spacing.lg}>
-                        <Flex direction='row' gap={vars.spacing.lg} align='flex-start'>
+                <Box className="nowPlayingInfoContainer" style={{ flex: '1 1 auto', maxWidth: 600 }}>
+                    <Flex direction="column" gap={vars.spacing.lg}>
+                        <Flex direction="row" gap={vars.spacing.lg} align="flex-start">
                             <Box style={{ position: 'relative' }}>
-                                <motion.div layoutId='now-playing-art'>
+                                <motion.div layoutId="now-playing-art">
                                     <Box
                                         style={{
                                             width: isMobile ? 280 : 360,
@@ -872,7 +881,7 @@ export function NowPlayingPage(): React.ReactElement {
                                 </motion.div>
                                 {discImageUrl !== undefined && (
                                     <motion.div
-                                        className='discImage'
+                                        className="discImage"
                                         style={{
                                             position: 'absolute',
                                             top: -20,
@@ -893,12 +902,12 @@ export function NowPlayingPage(): React.ReactElement {
                                 )}
                             </Box>
 
-                            <Box className='infoContainer flex' style={{ flex: 1, minWidth: 0 }}>
-                                <Box className='nowPlayingInfoContainerMedia'>
+                            <Box className="infoContainer flex" style={{ flex: 1, minWidth: 0 }}>
+                                <Box className="nowPlayingInfoContainerMedia">
                                     <Text
-                                        as='h2'
-                                        size='xl'
-                                        weight='bold'
+                                        as="h2"
+                                        size="xl"
+                                        weight="bold"
                                         style={{
                                             color: vars.colors.text,
                                             whiteSpace: 'nowrap',
@@ -909,17 +918,17 @@ export function NowPlayingPage(): React.ReactElement {
                                         {trackName}
                                     </Text>
                                     <Text
-                                        size='lg'
-                                        color='secondary'
+                                        size="lg"
+                                        color="secondary"
                                         style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                                     >
                                         {artistName}
                                     </Text>
-                                    <Text size='sm' color='muted'>
+                                    <Text size="sm" color="muted">
                                         {albumName}
                                     </Text>
                                 </Box>
-                                <Box className='nowPlayingPageUserDataButtonsTitle' />
+                                <Box className="nowPlayingPageUserDataButtonsTitle" />
                             </Box>
                         </Flex>
 
@@ -958,10 +967,10 @@ export function NowPlayingPage(): React.ReactElement {
                 </Box>
 
                 <Box
-                    className='remoteControlSection'
+                    className="remoteControlSection"
                     style={{ flex: '0 0 280px', marginLeft: vars.spacing.lg, display: isMobile ? 'none' : 'block' }}
                 >
-                    <Flex direction='column' gap={vars.spacing.md}>
+                    <Flex direction="column" gap={vars.spacing.md}>
                         <RemoteControlSection onCommand={handleRemoteCommand} />
                         <MessageSection onSendMessage={handleSendMessage} onSendText={handleSendText} />
                         <PlaylistSection
@@ -984,7 +993,7 @@ export function NowPlayingPage(): React.ReactElement {
                         style={{ position: 'absolute', bottom: 20, left: 20, right: 20, zIndex: 10 }}
                     >
                         <Paper
-                            variant='outlined'
+                            variant="outlined"
                             style={{
                                 padding: vars.spacing.lg,
                                 borderRadius: vars.borderRadius.lg,
@@ -993,44 +1002,44 @@ export function NowPlayingPage(): React.ReactElement {
                             }}
                         >
                             <Text
-                                size='sm'
-                                weight='medium'
+                                size="sm"
+                                weight="medium"
                                 style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}
                             >
                                 Technical Stream Info
                             </Text>
-                            <Flex direction='row' gap={vars.spacing.lg} wrap='wrap'>
+                            <Flex direction="row" gap={vars.spacing.lg} wrap="wrap">
                                 <Box>
-                                    <Text size='xs' color='muted'>
+                                    <Text size="xs" color="muted">
                                         Codec
                                     </Text>
-                                    <Text size='sm' style={{ color: vars.colors.text }}>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
                                         {currentItem.streamInfo?.codec?.toUpperCase() ?? 'Unknown'}
                                     </Text>
                                 </Box>
                                 <Box>
-                                    <Text size='xs' color='muted'>
+                                    <Text size="xs" color="muted">
                                         Bitrate
                                     </Text>
-                                    <Text size='sm' style={{ color: vars.colors.text }}>
-                                        {currentItem.streamInfo?.bitrate != null ?
-                                            `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps` :
-                                            'Unknown'}
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
+                                        {currentItem.streamInfo?.bitrate != null
+                                            ? `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps`
+                                            : 'Unknown'}
                                     </Text>
                                 </Box>
                                 <Box>
-                                    <Text size='xs' color='muted'>
+                                    <Text size="xs" color="muted">
                                         Play Method
                                     </Text>
-                                    <Text size='sm' style={{ color: vars.colors.text }}>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
                                         {currentItem.streamInfo?.playMethod ?? 'Unknown'}
                                     </Text>
                                 </Box>
                                 <Box>
-                                    <Text size='xs' color='muted'>
+                                    <Text size="xs" color="muted">
                                         Engine
                                     </Text>
-                                    <Text size='sm' style={{ color: vars.colors.text }}>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
                                         Web Audio
                                     </Text>
                                 </Box>
@@ -1042,7 +1051,7 @@ export function NowPlayingPage(): React.ReactElement {
 
             {showPlaylist && (
                 <Box
-                    className='playlistOverlay'
+                    className="playlistOverlay"
                     style={{
                         position: 'fixed',
                         top: 0,
@@ -1055,9 +1064,9 @@ export function NowPlayingPage(): React.ReactElement {
                         overflow: 'auto'
                     }}
                 >
-                    <Flex direction='column' gap={vars.spacing.md}>
-                        <Flex direction='row' justify='space-between' align='center'>
-                            <Text size='lg' weight='bold'>
+                    <Flex direction="column" gap={vars.spacing.md}>
+                        <Flex direction="row" justify="space-between" align="center">
+                            <Text size="lg" weight="bold">
                                 Playlist
                             </Text>
                             <IconButton onClick={hidePlaylistOverlay}>
