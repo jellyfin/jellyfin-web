@@ -18,17 +18,18 @@ interface PlaybackSliderProps {
     style?: React.CSSProperties;
 }
 
-function PlaybackSlider({
-    value,
-    max = 100,
-    bufferedRanges = [],
-    onChange,
-    onChangeCommitted,
-    showBuffer = true,
-    waveSurferCompatible = true,
-    style,
-    ...props
-}): JSX.Element {
+const PlaybackSlider: React.FC<PlaybackSliderProps> = props => {
+    const {
+        value,
+        max = 100,
+        bufferedRanges = [],
+        onChange,
+        onChangeCommitted,
+        showBuffer = true,
+        waveSurferCompatible = true,
+        style
+    } = props;
+
     const handleValueChange = React.useCallback(
         (newValue: number[]) => {
             if (onChange) {
@@ -83,8 +84,9 @@ function PlaybackSlider({
                     '--Slider-thumb-size': '12px',
                     '--Slider-track-width': '100%'
                 }}
-                {...props}
             />
         </Box>
     );
-}
+};
+
+export { PlaybackSlider };
