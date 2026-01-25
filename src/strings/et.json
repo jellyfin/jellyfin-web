@@ -431,7 +431,7 @@
     "Down": "Alla",
     "DoNotRecord": "Ära salvesta",
     "DisplayModeHelp": "Vali kasutajaliidesele soovitud välimus.",
-    "DisplayMissingEpisodesWithinSeasonsHelp": "See peab olema lubatud serveri seadetes ka TV meediakogudes.",
+    "DisplayMissingEpisodesWithinSeasonsHelp": "See tuleb aktiveerida sarjade meediakogude jaoks ka serveri seadetes.",
     "DisplayMissingEpisodesWithinSeasons": "Kuva hooaegades ka puuduvad episoodid",
     "DisplayInOtherHomeScreenSections": "Kuva avakuva jaotistes nagu 'Viimati lisatud meedia' ja 'Jätka vaatamist'",
     "DisplayInMyMedia": "Kuva avakuval",
