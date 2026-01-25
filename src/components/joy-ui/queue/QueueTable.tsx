@@ -107,13 +107,6 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
                     </IconButton>
                 </Flex>
             }
-            style={{
-                backgroundColor: isCurrent ? 'rgba(33, 150, 243, 0.1)' : 'transparent',
-                borderRadius: vars.borderRadius.sm,
-                marginBottom: vars.spacing.xs,
-                padding: 0,
-                ...style
-            }}
         >
             <ListItemButton
                 onClick={onSelect}

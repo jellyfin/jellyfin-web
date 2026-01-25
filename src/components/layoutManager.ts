@@ -29,7 +29,7 @@ class LayoutManager {
         useUiStore.getState().setLayout(layout || LayoutMode.Auto);
 
         // Trigger legacy event for non-reactive components
-        Events.trigger(this, 'modechange');
+        Events.trigger(this as any, 'modechange');
     }
 
     init(): void {

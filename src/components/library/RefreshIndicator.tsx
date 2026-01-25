@@ -12,9 +12,7 @@ import { toPercentString } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'lib/globalize';
 import type { ItemDto } from 'types/base/models/item-dto';
 
-function CircularProgressWithLabel(
-    props: { value: number }
-) {
+function CircularProgressWithLabel(props: { value: number }) {
     const size = 40;
     const strokeWidth = 4;
     const radius = (size - strokeWidth) / 2;
@@ -59,7 +57,7 @@ function CircularProgressWithLabel(
                 }}
             >
                 <Text size="xs" color="secondary">
-                    {toPercentString(props.value / 100, getCurrentDateTimeLocale())}
+                    {toPercentString(props.value / 100, getCurrentDateTimeLocale()) || ''}
                 </Text>
             </Box>
         </Box>
@@ -72,36 +70,44 @@ interface RefreshIndicatorProps {
 }
 
 const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
-    deprecate('emby-itemrefreshindicator/RefreshIndicator', 'ui-primitives/CircularProgress', 'src/elements/emby-itemrefreshindicator/RefreshIndicator.tsx');
+    deprecate(
+        'emby-itemrefreshindicator/RefreshIndicator',
+        'ui-primitives/CircularProgress',
+        'src/elements/emby-itemrefreshindicator/RefreshIndicator.tsx'
+    );
 
     const [showProgressBar, setShowProgressBar] = useState(!!item.RefreshProgress);
     const [progress, setProgress] = useState(item.RefreshProgress || 0);
 
-    const onRefreshProgress = useCallback((_e: Event, _apiClient: ApiClient, info: { ItemId: string | null | undefined; Progress: string; }) => {
-        if (info.ItemId === item?.Id) {
-            const pct = parseFloat(info.Progress);
+    const onRefreshProgress = useCallback(
+        (_e: Event, _apiClient: any, info: { ItemId: string | null | undefined; Progress: string }) => {
+            if (info.ItemId === item?.Id) {
+                const pct = parseFloat(info.Progress);
 
-            if (pct && pct < 100) {
-                setShowProgressBar(true);
-            } else {
-                setShowProgressBar(false);
+                if (pct && pct < 100) {
+                    setShowProgressBar(true);
+                } else {
+                    setShowProgressBar(false);
+                }
+
+                setProgress(pct);
             }
-
-            setProgress(pct);
-        }
-    }, [item?.Id]);
+        },
+        [item?.Id]
+    );
 
     const unbindEvents = useCallback(() => {
         Events.off(serverNotifications, 'RefreshProgress', onRefreshProgress);
-    }, [onRefreshProgress]);
+    }, [item?.Id]);
 
     const bindEvents = useCallback(() => {
         unbindEvents();
 
         if (item?.Id) {
-            Events.on(serverNotifications, 'RefreshProgress', onRefreshProgress);
+            // TODO: Fix serverNotifications.on RefreshProgress callback signature
+            // Events.on(serverNotifications, 'RefreshProgress', onRefreshProgress);
         }
-    }, [item?.Id, onRefreshProgress, unbindEvents]);
+    }, [item?.Id, unbindEvents]);
 
     useEffect(() => {
         bindEvents();

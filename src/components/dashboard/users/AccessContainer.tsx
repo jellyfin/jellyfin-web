@@ -37,7 +37,7 @@ const AccessContainer: FC<PropsWithChildren<AccessContainerProps>> = ({
 }) => {
     return (
         <div className={containerClassName}>
-            {headerTitle && <h2>{globalize.translate(headerTitle)}</h2>}
+            {headerTitle && <h2>{globalize.translate(headerTitle) || ''}</h2>}
             <CheckBoxElement labelClassName="checkboxContainer" className={checkBoxClassName} title={checkBoxTitle} />
             <div className={listContainerClassName}>
                 <div className={accessClassName}>

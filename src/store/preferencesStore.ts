@@ -70,6 +70,7 @@ export interface UiPreferences {
     animationsEnabled: boolean;
     highContrastMode: boolean;
     reducedMotion: boolean;
+    brightness: number;
 }
 
 export interface CrossfadeRuntime {
@@ -205,7 +206,8 @@ const defaultUiPreferences: UiPreferences = {
     showNowPlaying: true,
     animationsEnabled: true,
     highContrastMode: false,
-    reducedMotion: false
+    reducedMotion: false,
+    brightness: 50
 };
 
 const defaultRuntime: CrossfadeRuntime = {
