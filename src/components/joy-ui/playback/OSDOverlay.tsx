@@ -17,6 +17,13 @@ export const OSDOverlay: React.FC = () => {
     const [activeOSD, setActiveOSD] = useState<OSDType>(null);
     const [isVisible, setIsVisible] = useState(false);
 
+    let hideTimeout: ReturnType<typeof setTimeout>;
+    const triggerShow = () => {
+        setIsVisible(true);
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => setIsVisible(false), 3000);
+    };
+
     useEffect(() => {
         // Show volume OSD on volume change
         const unsubVolume = usePreferencesStore.subscribe(
@@ -39,14 +46,9 @@ export const OSDOverlay: React.FC = () => {
             unsubVolume();
             unsubMuted();
         };
-    }, []);
+    }, [triggerShow]);
 
-    let hideTimeout: ReturnType<typeof setTimeout>;
-    const triggerShow = () => {
-        setIsVisible(true);
-        clearTimeout(hideTimeout);
-        hideTimeout = setTimeout(() => setIsVisible(false), 3000);
-    };
+    const getVolumeIcon = () => {
 
     const getVolumeIcon = () => {
         if (muted || volume === 0) return <SpeakerOffIcon style={{ fontSize: 40 }} />;
@@ -61,8 +63,7 @@ export const OSDOverlay: React.FC = () => {
     return (
         <AnimatePresence>
             {isVisible && activeOSD && (
-                <Box
-                    as={motion.div}
+                <motion.div
                     initial={{ opacity: 0, scale: 0.9, y: -20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: -20 }}
@@ -84,9 +85,10 @@ export const OSDOverlay: React.FC = () => {
                         <Progress
                             value={activeOSD === 'volume' ? volume : brightness}
                             className={activeOSD === 'brightness' ? styles.warningProgress : undefined}
-                            style={{ width: '100%' }}
-                        />
-                    </Flex>
+                        style={{ width: '100%' }}
+                    />
+                </Flex>
+                </motion.div>
                 </Box>
             )}
         </AnimatePresence>
