@@ -1,0 +1,25 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+        "vite": {
+            "type": "remote",
+            "url": "http://localhost:5173/sse/db180d02-fe08-4f96-b9f8-e5334d58e76b",
+            "enabled": true
+        },
+        "chrome-devtools": {
+            "type": "local",
+            "command": ["chrome-devtools-mcp", "--browserUrl", "http://127.0.0.1:9222"],
+            "enabled": true
+        },
+        "exa": {
+            "type": "remote",
+            "url": "https://mcp.exa.ai/mcp",
+            "enabled": true
+        }
+    },
+    "permission": {
+        "skill": {
+            "jellyfin-*": "allow"
+        }
+    }
+}
