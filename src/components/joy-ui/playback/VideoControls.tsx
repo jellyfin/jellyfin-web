@@ -40,6 +40,7 @@ export interface VideoControlsProps {
     isRecording?: boolean;
     hasSubtitles?: boolean;
     hasMultipleAudioTracks?: boolean;
+    hasChapters?: boolean;
     isFavorite?: boolean;
     canAirPlay?: boolean;
     canPiP?: boolean;

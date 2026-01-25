@@ -69,14 +69,7 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
     onRemove,
     onSelect
 }) => {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging
-    } = useSortable({ id: item.id });
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -90,24 +83,24 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
     return (
         <ListItem
             ref={setNodeRef}
-            style={style}
-            secondaryAction={
+            style={{
+                backgroundColor: isCurrent ? 'rgba(33, 150, 243, 0.1)' : 'transparent',
+                borderRadius: vars.borderRadius.sm,
+                marginBottom: vars.spacing.xs,
+                padding: 0,
+                ...style
+            }}
+            endAction={
                 <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
-                    <IconButton
-                        size='sm'
-                        variant='plain'
-                        color='neutral'
-                        onClick={onRemove}
-                        style={{ opacity: 0.7 }}
-                    >
+                    <IconButton size="sm" variant="plain" color="neutral" onClick={onRemove}>
                         <TrashIcon />
                     </IconButton>
                     <IconButton
                         {...attributes}
                         {...listeners}
-                        size='sm'
-                        variant='plain'
-                        color='neutral'
+                        size="sm"
+                        variant="plain"
+                        color="neutral"
                         style={{ cursor: 'grab', opacity: 0.7 }}
                     >
                         <DragHandleDots2Icon />
@@ -126,17 +119,16 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
                 onClick={onSelect}
                 style={{
                     paddingTop: vars.spacing.sm,
-                    paddingRight: `calc(${vars.spacing.xl} * 3)`,
+                    paddingRight: `calc(${vars.spacing.xl} * 3)`
                 }}
             >
                 <ListItemAvatar style={{ minWidth: 56 }}>
                     <Avatar
-                        variant='rounded'
                         src={imageUrl || undefined}
                         style={{
                             width: 48,
                             height: 48,
-                            backgroundColor: imageUrl ? 'transparent' : vars.colors.actionHover
+                            backgroundColor: imageUrl ? 'transparent' : vars.colors.primary
                         }}
                     >
                         {!imageUrl && <DiscIcon style={{ color: vars.colors.textSecondary }} />}
@@ -158,9 +150,7 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
                             >
                                 {item.item.name}
                             </Text>
-                            {isPlaying && (
-                                <PlayIcon style={{ fontSize: 14, color: vars.colors.primary }} />
-                            )}
+                            {isPlaying && <PlayIcon style={{ fontSize: 14, color: vars.colors.primary }} />}
                         </Flex>
                     }
                     secondary={
@@ -207,18 +197,21 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         setActiveId(event.active.id as string);
     }, []);
 
-    const handleDragEnd = useCallback((event: DragEndEvent) => {
-        const { active, over } = event;
-        setActiveId(null);
+    const handleDragEnd = useCallback(
+        (event: DragEndEvent) => {
+            const { active, over } = event;
+            setActiveId(null);
 
-        if (over && active.id !== over.id) {
-            const oldIndex = items.findIndex(item => item.id === active.id);
-            const newIndex = items.findIndex(item => item.id === over.id);
-            if (oldIndex !== -1 && newIndex !== -1) {
-                onReorder(oldIndex, newIndex);
+            if (over && active.id !== over.id) {
+                const oldIndex = items.findIndex(item => item.id === active.id);
+                const newIndex = items.findIndex(item => item.id === over.id);
+                if (oldIndex !== -1 && newIndex !== -1) {
+                    onReorder(oldIndex, newIndex);
+                }
             }
-        }
-    }, [items, onReorder]);
+        },
+        [items, onReorder]
+    );
 
     const activeItem = activeId ? items.find(item => item.id === activeId) : null;
 
@@ -233,17 +226,14 @@ export const QueueTable: React.FC<QueueTableProps> = ({
     };
 
     return (
-        <Box className='playlist itemsContainer vertical-list nowPlayingPlaylist' style={{ width: '100%' }}>
+        <Box className="playlist itemsContainer vertical-list nowPlayingPlaylist" style={{ width: '100%' }}>
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
             >
-                <SortableContext
-                    items={itemIds}
-                    strategy={verticalListSortingStrategy}
-                >
+                <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
                     {items.map((item, index) => (
                         <SortableQueueItem
                             key={item.id}
@@ -269,16 +259,10 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                             }}
                         >
                             <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
-                                <Avatar
-                                    variant='rounded'
-                                    src={activeItem.item.imageUrl || undefined}
-                                    style={{ width: 40, height: 40 }}
-                                >
+                                <Avatar src={activeItem.item.imageUrl || undefined} style={{ width: 40, height: 40 }}>
                                     <DiscIcon />
                                 </Avatar>
-                                <Text size="sm">
-                                    {activeItem.item.name}
-                                </Text>
+                                <Text size="sm">{activeItem.item.name}</Text>
                             </Flex>
                         </Box>
                     ) : null}

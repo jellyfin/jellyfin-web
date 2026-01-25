@@ -9,7 +9,7 @@ import * as styles from './OSDOverlay.css';
 
 type OSDType = 'volume' | 'brightness' | null;
 
-export const OSDOverlay: React.FC = () => {
+export const OSDOverlay: React.FC<{}> = () => {
     const volume = usePreferencesStore(state => state.audio.volume);
     const muted = usePreferencesStore(state => state.audio.muted);
     const [brightness, setBrightness] = useState(100); // Managed locally for now or move to store
@@ -88,9 +88,8 @@ export const OSDOverlay: React.FC = () => {
                         style={{ width: '100%' }}
                     />
                 </Flex>
-                </motion.div>
-                </Box>
-            )}
-        </AnimatePresence>
-    );
-};
+            </motion.div>
+            </Box>
+        )}
+    </AnimatePresence>
+);
