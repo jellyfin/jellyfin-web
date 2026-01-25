@@ -5,7 +5,7 @@ import { Heading, Text } from 'ui-primitives/Text';
 import { Button } from 'ui-primitives/Button';
 import { vars } from 'styles/tokens.css';
 import { useServerStore } from 'store/serverStore';
-import { LoadingView } from 'components/joy-ui/feedback/LoadingView';
+import { LoadingView } from 'components/feedback/LoadingView';
 
 export function ListView() {
     const [searchParams] = useSearchParams();

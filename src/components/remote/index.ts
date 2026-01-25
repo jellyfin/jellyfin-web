@@ -1,0 +1,1 @@
+export { RemoteControl } from './RemoteControl';

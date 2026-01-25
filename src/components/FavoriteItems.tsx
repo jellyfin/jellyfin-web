@@ -3,7 +3,7 @@ import { Box } from 'ui-primitives/Box';
 import { Text } from 'ui-primitives/Text';
 
 import { useServerStore } from '../store/serverStore';
-import { LoadingView } from './joy-ui/feedback/LoadingView';
+import { LoadingView } from './feedback';
 import { vars } from 'styles/tokens.css';
 
 interface FavoriteItemsProps {

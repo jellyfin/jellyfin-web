@@ -39,7 +39,7 @@ describe('Network Error Handling for fetchDevConfig', () => {
     });
 
     it('handles fetch timeout', async () => {
-        const rejectWithTimeout = (reject: (reason?: any) => void) => {
+        const rejectWithTimeout = (reject: (reason?: unknown) => void) => {
             setTimeout(() => reject(new Error('Timeout')), 100);
         };
         const createTimeoutPromise = () => new Promise((_, reject) => rejectWithTimeout(reject));

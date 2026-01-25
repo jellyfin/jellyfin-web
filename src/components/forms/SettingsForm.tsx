@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { z } from 'zod';
-import { JoyInput, JoyTextarea, JoySwitch, JoySelect } from '../joy-ui/forms';
+import { Input, Textarea, Switch, Select } from './index';
 import { Button } from 'ui-primitives/Button';
 import { Divider } from 'ui-primitives/Divider';
 import { Box, Flex } from 'ui-primitives/Box';
@@ -156,7 +156,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
             <Heading.H4 style={{ marginBottom: vars.spacing.lg }}>General Settings</Heading.H4>
 
             <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg }}>
-                <JoyInput
+                <Input
                     label="Application Title"
                     value={String(formData.appTitle.value)}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('appTitle', e.target.value)}
@@ -164,7 +164,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                     error={formData.appTitle.touched ? formData.appTitle.error : undefined}
                 />
 
-                <JoyTextarea
+                <Textarea
                     label="Login Disclaimer"
                     placeholder="Optional message shown on login screen"
                     value={String(formData.loginDisclaimer.value)}
@@ -179,7 +179,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
 
                 <Heading.H3>Playback Settings</Heading.H3>
 
-                <JoySwitch
+                <Switch
                     label="Enable Automatic Updates"
                     checked={formData.enableAutomaticUpdates.value as boolean}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -187,7 +187,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                     }
                 />
 
-                <JoyInput
+                <Input
                     label="Maximum Concurrent Streams"
                     type="number"
                     value={String(formData.maxConcurrentStreams.value)}
@@ -204,7 +204,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
 
                 <Heading.H3>Transcoding Settings</Heading.H3>
 
-                <JoySwitch
+                <Switch
                     label="Enable H.265 Transcoding"
                     checked={formData.transcodeH265.value as boolean}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -212,13 +212,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                     }
                 />
 
-                <JoySwitch
+                <Switch
                     label="Enable DTS Pass-through"
                     checked={formData.enableDts.value as boolean}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('enableDts', e.target.checked)}
                 />
 
-                <JoySwitch
+                <Switch
                     label="Enable TrueHD Pass-through"
                     checked={formData.enableTrueHd.value as boolean}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -230,7 +230,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
 
                 <Heading.H3>Language Settings</Heading.H3>
 
-                <JoyInput
+                <Input
                     label="Default Audio Language"
                     value={String(formData.defaultAudioLanguage.value)}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -240,7 +240,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                     helperText="Leave empty for no preference"
                 />
 
-                <JoySelect
+                <Select
                     label="Subtitle Mode"
                     value={formData.subtitleMode.value as string}
                     onChange={(_, newValue) => handleChange('subtitleMode', newValue)}

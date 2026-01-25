@@ -10,8 +10,8 @@ import RootAppRouter from 'RootAppRouter';
 import browser from 'scripts/browser';
 import { queryClient } from 'utils/query/queryClient';
 
-import { LoadingOverlay } from './components/joy-ui/feedback';
-import { OSDOverlay } from './components/joy-ui/playback';
+import { LoadingOverlay } from './components/feedback';
+import { OSDOverlay } from './components/playback';
 
 import './components/visualizer/visualizers.scss';
 

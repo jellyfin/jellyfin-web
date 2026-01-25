@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Text, Button, Input, Alert, Checkbox } from 'ui-primitives';
-import { LoadingView } from 'components/joy-ui/feedback/LoadingView';
+import { LoadingView } from 'components/feedback/LoadingView';
 import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 import { useServerStore } from 'store/serverStore';

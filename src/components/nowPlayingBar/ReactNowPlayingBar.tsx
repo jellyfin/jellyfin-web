@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './nowPlayingBar.scss';
 import { DiscIcon } from '@radix-ui/react-icons';
 
-import { PlaybackIconButton, AutoDJToggle } from '../joy-ui/playback';
+import { PlaybackIconButton, AutoDJToggle } from '../playback';
 
 import { VolumeSlider } from 'ui-primitives/VolumeSlider';
 import { SeekSlider } from 'ui-primitives/SeekSlider';

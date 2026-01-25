@@ -15,8 +15,8 @@ import { PlayIcon, ShuffleIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
 
-import { MediaGrid } from 'components/joy-ui/media';
-import { FilterDialog, SortMenu } from 'components/joy-ui/dialogs';
+import { MediaGrid } from 'components/media';
+import { FilterDialog, SortMenu } from 'components/dialogs';
 import { useFilterStore } from 'store/filterStore';
 import { useSortStore } from 'store/sortStore';
 import { useListStore } from 'store/listStore';

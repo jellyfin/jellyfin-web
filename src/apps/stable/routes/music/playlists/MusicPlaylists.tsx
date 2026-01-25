@@ -17,8 +17,8 @@ import { ChevronLeftIcon, ChevronRightIcon, GridIcon, ListBulletIcon } from '@ra
 import { itemsApi } from 'lib/api/items';
 import { useViewStyle } from 'hooks/useViewStyle';
 import { usePagination } from 'hooks/usePagination';
-import { MediaGrid } from 'components/joy-ui/media/MediaGrid';
-import { MediaCard } from 'components/joy-ui/media/MediaCard';
+import { MediaGrid } from 'components/media/MediaGrid';
+import { MediaCard } from 'components/media/MediaCard';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';

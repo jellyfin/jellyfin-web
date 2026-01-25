@@ -18,7 +18,7 @@ import { vars } from 'styles/tokens.css';
 import { Cross2Icon, DesktopIcon, DiscIcon, MagnifyingGlassIcon, PersonIcon, VideoIcon } from '@radix-ui/react-icons';
 
 import { itemsApi } from 'lib/api/items';
-import { MediaGrid } from 'components/joy-ui/media/MediaGrid';
+import { MediaGrid } from 'components/media/MediaGrid';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';

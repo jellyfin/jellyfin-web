@@ -240,8 +240,7 @@ describe('resolveApiBaseUrl - Additional Edge Cases', () => {
         const config: DevConfig = {
             serverBaseUrl: 'https://example.com',
             useProxy: true,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            proxyBasePath: null as any
+            proxyBasePath: null as unknown as string
         };
 
         expect(resolveApiBaseUrl(config, true)).toBe(DEFAULT_DEV_PROXY_BASE_PATH);

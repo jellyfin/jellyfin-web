@@ -3,7 +3,7 @@ import { Box, Flex } from 'ui-primitives';
 import { Heading, Text } from 'ui-primitives/Text';
 
 import { useServerStore } from 'store/serverStore';
-import { LoadingView } from 'components/joy-ui/feedback/LoadingView';
+import { LoadingView } from 'components/feedback/LoadingView';
 import { vars } from 'styles/tokens.css';
 
 interface TVUpcomingParams {

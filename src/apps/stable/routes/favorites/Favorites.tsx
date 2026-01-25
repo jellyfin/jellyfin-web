@@ -4,8 +4,8 @@ import { Text, Heading } from 'ui-primitives/Text';
 
 import { useServerStore } from 'store/serverStore';
 import { useUiStore } from 'store/uiStore';
-import { MediaCard } from 'components/joy-ui/media/MediaCard';
-import { LoadingView } from 'components/joy-ui/feedback/LoadingView';
+import { MediaCard } from 'components/media/MediaCard';
+import { LoadingView } from 'components/feedback/LoadingView';
 import globalize from 'lib/globalize';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 

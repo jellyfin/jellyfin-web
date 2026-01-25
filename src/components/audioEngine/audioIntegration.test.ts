@@ -5,14 +5,14 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 // Mock AudioContext and related APIs
 const mockAudioContext = {
     state: 'running',
-    createGain: vi.fn(function () {
+    createGain: vi.fn(() => {
         return {
             gain: { value: 1, setValueAtTime: vi.fn(), setTargetAtTime: vi.fn() },
             connect: vi.fn(),
             disconnect: vi.fn()
         };
     }),
-    createDynamicsCompressor: vi.fn(function () {
+    createDynamicsCompressor: vi.fn(() => {
         return {
             threshold: { setValueAtTime: vi.fn() },
             knee: { setValueAtTime: vi.fn() },
@@ -24,19 +24,19 @@ const mockAudioContext = {
         };
     }),
     audioWorklet: {
-        addModule: vi.fn(function () {
+        addModule: vi.fn(() => {
             return Promise.resolve();
         })
     },
     currentTime: 0,
     destination: {},
-    resume: vi.fn(function () {
+    resume: vi.fn(() => {
         return Promise.resolve();
     }),
-    suspend: vi.fn(function () {
+    suspend: vi.fn(() => {
         return Promise.resolve();
     }),
-    close: vi.fn(function () {
+    close: vi.fn(() => {
         return Promise.resolve();
     })
 };

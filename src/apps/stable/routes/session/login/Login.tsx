@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
 import { Box, Text, Button, Input, Alert } from 'ui-primitives';
-import { LoadingView } from 'components/joy-ui/feedback/LoadingView';
+import { LoadingView } from 'components/feedback/LoadingView';
 import { useServerStore } from 'store/serverStore';
 import { useAuthStore } from 'store/authStore';
 import type { ServerInfo } from 'store/serverStore';

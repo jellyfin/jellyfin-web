@@ -15,7 +15,7 @@ vi.mock('components/visualizer/butterchurn.logic', () => ({
     }
 }));
 
-let mockStoreState = {
+const mockStoreState = {
     visualizer: {
         enabled: false,
         type: 'butterchurn' as const
@@ -115,20 +115,20 @@ vi.mock('../../store/preferencesStore', () => ({
 }));
 
 import {
-    initializeMasterAudio,
-    createGainNode,
-    removeAudioNodeBundle,
-    audioNodeBus,
-    delayNodeBus,
-    masterAudioOutput
-} from './master.logic';
-import { timeRunningOut, syncManager } from './crossfader.logic';
-import {
     usePreferencesStore,
     getCrossfadeFadeOut,
     isCrossfadeEnabled,
     isCrossfadeActive
 } from '../../store/preferencesStore';
+
+import { timeRunningOut, syncManager } from './crossfader.logic';
+import {
+    initializeMasterAudio,
+    createGainNode,
+    removeAudioNodeBundle,
+    audioNodeBus,
+    delayNodeBus
+} from './master.logic';
 
 const createMockAudioContext = () => {
     const createMockAudioParam = () => ({
@@ -172,22 +172,22 @@ const createMockAudioContext = () => {
     return {
         currentTime: 0,
         destination: {},
-        createGain: vi.fn(function () {
+        createGain: vi.fn(() => {
             return createMockGainNode();
         }),
-        createMediaElementSource: vi.fn(function () {
+        createMediaElementSource: vi.fn(() => {
             return { connect: vi.fn(), disconnect: vi.fn() };
         }),
-        createDynamicsCompressor: vi.fn(function () {
+        createDynamicsCompressor: vi.fn(() => {
             return createMockCompressor();
         }),
-        createBiquadFilter: vi.fn(function () {
+        createBiquadFilter: vi.fn(() => {
             return createMockBiquadFilter();
         }),
-        createDelay: vi.fn(function () {
+        createDelay: vi.fn(() => {
             return createMockDelayNode();
         }),
-        resume: vi.fn(function () {
+        resume: vi.fn(() => {
             return Promise.resolve();
         })
     };

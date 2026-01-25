@@ -1,4 +1,3 @@
-import React, { useState, useEffect, useCallback } from 'react';
 import {
     DesktopIcon,
     MobileIcon,
@@ -9,19 +8,22 @@ import {
     ExternalLinkIcon,
     LinkNone2Icon
 } from '@radix-ui/react-icons';
-import { playbackManager } from '../playback/playbackmanager';
-import { usePlayerStore } from '../../store';
-import { logger } from '../../utils/logger';
-import { Dialog, DialogContent, DialogTitle } from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { List, ListItem, ListItemButton, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Divider } from 'ui-primitives/Divider';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
+import React, { useState, useEffect, useCallback } from 'react';
+
 import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { Dialog, DialogContent, DialogTitle } from 'ui-primitives/Dialog';
+import { Divider } from 'ui-primitives/Divider';
+import { IconButton } from 'ui-primitives/IconButton';
+import { List, ListItem, ListItemButton, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
+import { Text } from 'ui-primitives/Text';
+
 import { isEnabled, enable } from '../../scripts/autocast';
+import { logger } from '../../utils/logger';
+
+import { playbackManager } from './playbackmanager';
 
 interface PlaybackTarget {
     id: string;
@@ -47,9 +49,52 @@ interface ActivePlayerInfo {
 }
 
 interface PlayerSelectionDialogProps {
-    open: boolean;
-    onClose: () => void;
+    readonly open: boolean;
+    readonly onClose: () => void;
 }
+
+interface TargetListItemProps {
+    readonly target: PlaybackTarget;
+    readonly onClick: (target: PlaybackTarget) => Promise<void>;
+    readonly getDeviceIcon: (deviceType?: string, isLocalPlayer?: boolean) => React.JSX.Element;
+}
+
+const TargetListItem = React.memo(({ target, onClick, getDeviceIcon }: TargetListItemProps) => {
+    const handleClick = useCallback((): void => {
+        onClick(target).catch((error: unknown) => {
+            logger.error('[PlayerSelectionDialog] Target click failed', { component: 'PlayerSelectionDialog' }, error as Error);
+        });
+    }, [target, onClick]);
+
+    return (
+        <ListItem key={target.id} data-testid='player-item'>
+            <ListItemButton
+                onClick={handleClick}
+                selected={target.selected ?? false}
+                style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.xs }}
+            >
+                <ListItemDecorator>
+                    {getDeviceIcon(target.deviceType, target.isLocalPlayer)}
+                </ListItemDecorator>
+                <ListItemContent>
+                    <Text>{target.name}</Text>
+                    {target.secondaryText !== null && target.secondaryText !== undefined && target.secondaryText !== '' && (
+                        <Text size='xs' color='secondary'>
+                            {target.secondaryText}
+                        </Text>
+                    )}
+                </ListItemContent>
+                {target.selected === true && (
+                    <Text size='sm' color='primary'>
+                        Playing
+                    </Text>
+                )}
+            </ListItemButton>
+        </ListItem>
+    );
+});
+
+TargetListItem.displayName = 'TargetListItem';
 
 export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogProps): React.JSX.Element {
     const [targets, setTargets] = useState<PlaybackTarget[]>([]);
@@ -59,12 +104,16 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
     const [enableMirror, setEnableMirror] = useState(false);
     const [enableAutoCast, setEnableAutoCast] = useState(false);
 
+    const handleClose = useCallback((): void => {
+        onClose();
+    }, [onClose]);
+
     const loadTargets = useCallback(async () => {
         setLoading(true);
         try {
-            const playerInfo = playbackManager.getPlayerInfo();
+            const playerInfo = playbackManager.getPlayerInfo() as ActivePlayerInfo | null;
 
-            if (playerInfo !== null && playerInfo.isLocalPlayer === false) {
+            if (playerInfo && !playerInfo.isLocalPlayer) {
                 setActivePlayerInfo(playerInfo);
                 setShowActivePlayerMenu(true);
                 return;
@@ -73,10 +122,11 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
             const currentPlayerId = playerInfo?.id ?? null;
             const playbackTargets = await playbackManager.getTargets();
 
-            const mappedTargets: PlaybackTarget[] = playbackTargets.map((t: PlaybackTarget) => {
+            const mappedTargets: PlaybackTarget[] = (playbackTargets as PlaybackTarget[]).map((t: PlaybackTarget) => {
                 let name = t.name;
-                if (t.appName !== undefined && t.appName !== null && t.appName !== t.name) {
-                    name += ' - ' + t.appName;
+                const appName = t.appName as string | undefined;
+                if (appName !== undefined && appName !== '' && appName !== t.name) {
+                    name += ' - ' + appName;
                 }
                 return {
                     ...t,
@@ -100,7 +150,9 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
     useEffect(() => {
         if (open === true && showActivePlayerMenu === false) {
-            void loadTargets();
+            loadTargets().catch((error: unknown) => {
+                logger.error('[PlayerSelectionDialog] useEffect loadTargets failed', { component: 'PlayerSelectionDialog' }, error as Error);
+            });
         }
     }, [open, showActivePlayerMenu, loadTargets]);
 
@@ -108,7 +160,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
         setEnableAutoCast(isEnabled());
     }, []);
 
-    const getDeviceIcon = (deviceType?: string, isLocalPlayer?: boolean): React.JSX.Element => {
+    const getDeviceIcon = useCallback((deviceType?: string, isLocalPlayer?: boolean): React.JSX.Element => {
         if (isLocalPlayer === true) {
             if (deviceType === 'tv') return <VideoIcon />;
             if (deviceType === 'smartphone') return <MobileIcon />;
@@ -117,12 +169,12 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
             return <DesktopIcon />;
         }
         return <Share1Icon />;
-    };
+    }, []);
 
-    const handleTargetSelect = async (target: PlaybackTarget): Promise<void> => {
+    const handleTargetSelect = useCallback(async (target: PlaybackTarget): Promise<void> => {
         try {
             await playbackManager.trySetActivePlayer(target.playerName ?? '', target);
-            onClose();
+            handleClose();
         } catch (error) {
             logger.error(
                 '[PlayerSelectionDialog] Failed to select target',
@@ -130,45 +182,52 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                 error as Error
             );
         }
-    };
+    }, [handleClose]);
 
-    const handleRemoteControl = (): void => {
+    const handleRemoteControl = useCallback((): void => {
         void import('../router/appRouter').then(({ appRouter }) => {
-            appRouter.showNowPlaying();
+            void appRouter.showNowPlaying();
         });
-        onClose();
-    };
+        handleClose();
+    }, [handleClose]);
 
-    const handleDisconnect = (): void => {
+    const handleDisconnect = useCallback((): void => {
         if (activePlayerInfo?.supportedCommands?.includes('EndSession') === true) {
             const currentDeviceName = activePlayerInfo.deviceName ?? activePlayerInfo.name;
-            if (currentDeviceName !== undefined && currentDeviceName !== null && currentDeviceName !== '') {
-                (playbackManager.getCurrentPlayer() as any)?.endSession();
-                (playbackManager as any).setDefaultPlayerActive();
+            if (currentDeviceName !== undefined && currentDeviceName !== '') {
+                interface PlayerWithEndSession {
+                    endSession: () => void;
+                }
+                const currentPlayer = playbackManager.getCurrentPlayer() as PlayerWithEndSession | null;
+                currentPlayer?.endSession();
+                (playbackManager as { setDefaultPlayerActive: () => void }).setDefaultPlayerActive();
             }
         } else {
-            (playbackManager as any).setDefaultPlayerActive();
+            (playbackManager as { setDefaultPlayerActive: () => void }).setDefaultPlayerActive();
         }
         setShowActivePlayerMenu(false);
         setActivePlayerInfo(null);
-        onClose();
-    };
+        handleClose();
+    }, [activePlayerInfo, handleClose]);
 
-    const handleMirrorChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleMirrorChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
         const checked = event.target.checked;
         setEnableMirror(checked);
-        (playbackManager as any).enableDisplayMirroring(checked);
-    };
+        (playbackManager as { enableDisplayMirroring: (enabled: boolean) => void }).enableDisplayMirroring(checked);
+    }, []);
 
-    const handleAutoCastChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleAutoCastChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
         const checked = event.target.checked;
         setEnableAutoCast(checked);
         enable(checked);
-    };
+    }, []);
 
     if (showActivePlayerMenu === true && activePlayerInfo !== null) {
+        const activeDeviceName = activePlayerInfo.deviceName ?? activePlayerInfo.name ?? 'Unknown Device';
+        const supportsMirroring = activePlayerInfo.supportedCommands?.includes('DisplayContent') === true;
+
         return (
-            <Dialog open={open} onOpenChange={onClose}>
+            <Dialog open={open} onOpenChange={handleClose}>
                 <DialogContent
                     style={{
                         '--Dialog-width': '400px',
@@ -178,8 +237,8 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                     <Flex
                         style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}
                     >
-                        <DialogTitle>{activePlayerInfo.deviceName ?? activePlayerInfo.name}</DialogTitle>
-                        <IconButton variant="plain" onClick={onClose} aria-label="Close">
+                        <DialogTitle>{activeDeviceName}</DialogTitle>
+                        <IconButton variant='plain' onClick={handleClose} aria-label='Close'>
                             <Cross2Icon />
                         </IconButton>
                     </Flex>
@@ -187,7 +246,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                     <Divider />
 
                     <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                        {activePlayerInfo.supportedCommands?.includes('DisplayContent') === true && (
+                        {supportsMirroring && (
                             <Box style={{ marginBottom: vars.spacing.md }}>
                                 <Checkbox checked={enableMirror} onChange={handleMirrorChange}>
                                     Enable display mirroring
@@ -206,7 +265,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
                     <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
                         <Button
-                            variant="plain"
+                            variant='plain'
                             startDecorator={<ExternalLinkIcon />}
                             onClick={handleRemoteControl}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
@@ -214,8 +273,8 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                             Remote Control
                         </Button>
                         <Button
-                            variant="plain"
-                            color="danger"
+                            variant='plain'
+                            color='danger'
                             startDecorator={<LinkNone2Icon />}
                             onClick={handleDisconnect}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
@@ -223,8 +282,8 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                             Disconnect
                         </Button>
                         <Button
-                            variant="plain"
-                            onClick={onClose}
+                            variant='plain'
+                            onClick={handleClose}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
                         >
                             Cancel
@@ -235,8 +294,34 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
         );
     }
 
+    let content;
+    if (loading === true) {
+        content = (
+            <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>
+                Loading playback devices...
+            </Text>
+        );
+    } else if (targets.length === 0) {
+        content = (
+            <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>No playback devices found</Text>
+        );
+    } else {
+        content = (
+            <List>
+                {targets.map(target => (
+                    <TargetListItem
+                        key={target.id}
+                        target={target}
+                        onClick={handleTargetSelect}
+                        getDeviceIcon={getDeviceIcon}
+                    />
+                ))}
+            </List>
+        );
+    }
+
     return (
-        <Dialog open={open} onOpenChange={onClose}>
+        <Dialog open={open} onOpenChange={handleClose}>
             <DialogContent
                 style={{
                     '--Dialog-width': '400px',
@@ -245,48 +330,13 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
             >
                 <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
                     <DialogTitle>Play On</DialogTitle>
-                    <IconButton variant="plain" onClick={onClose} aria-label="Close">
+                    <IconButton variant='plain' onClick={handleClose} aria-label='Close'>
                         <Cross2Icon />
                     </IconButton>
                 </Flex>
 
                 <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
-                    {loading ? (
-                        <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>
-                            Loading playback devices...
-                        </Text>
-                    ) : targets.length === 0 ? (
-                        <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>No playback devices found</Text>
-                    ) : (
-                        <List>
-                            {targets.map(target => (
-                                <ListItem key={target.id} data-testid="player-item">
-                                    <ListItemButton
-                                        onClick={() => handleTargetSelect(target)}
-                                        selected={target.selected || false}
-                                        style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.xs }}
-                                    >
-                                        <ListItemDecorator>
-                                            {getDeviceIcon(target.deviceType, target.isLocalPlayer)}
-                                        </ListItemDecorator>
-                                        <ListItemContent>
-                                            <Text>{target.name}</Text>
-                                            {target.secondaryText && (
-                                                <Text size="xs" color="secondary">
-                                                    {target.secondaryText}
-                                                </Text>
-                                            )}
-                                        </ListItemContent>
-                                        {target.selected && (
-                                            <Text size="sm" color="primary">
-                                                Playing
-                                            </Text>
-                                        )}
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
-                    )}
+                    {content}
                 </Flex>
             </DialogContent>
         </Dialog>

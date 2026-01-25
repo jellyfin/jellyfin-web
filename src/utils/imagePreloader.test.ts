@@ -281,7 +281,7 @@ describe('ImagePreloader', () => {
                 open: vi.fn().mockResolvedValue(mockCache)
             };
 
-            global.caches = mockCaches as any;
+            globalThis.caches = mockCaches as any;
 
             const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
             expect(isCached).toBe(true);
@@ -289,7 +289,7 @@ describe('ImagePreloader', () => {
         });
 
         it('should return false when Service Worker is unavailable', async () => {
-            global.caches = undefined as any;
+            globalThis.caches = undefined as any;
 
             const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
             expect(isCached).toBe(false);
@@ -300,7 +300,7 @@ describe('ImagePreloader', () => {
                 open: vi.fn().mockRejectedValue(new Error('Cache error'))
             };
 
-            global.caches = mockCaches as any;
+            globalThis.caches = mockCaches as any;
 
             const isCached = await imagePreloader.checkCacheStatus('https://example.com/image.jpg');
             expect(isCached).toBe(false);

@@ -4,7 +4,7 @@ import { Heading, Text } from 'ui-primitives/Text';
 import { Button } from 'ui-primitives/Button';
 
 import { useServerStore } from 'store/serverStore';
-import { LoadingView } from 'components/joy-ui/feedback/LoadingView';
+import { LoadingView } from 'components/feedback/LoadingView';
 import { vars } from 'styles/tokens.css';
 
 export function TVStudios() {

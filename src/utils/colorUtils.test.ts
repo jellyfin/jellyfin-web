@@ -13,8 +13,7 @@ import {
     isValidHex,
     getContrastRatio,
     hasGoodContrast,
-    getColorBlindPalette,
-    RGBColor
+    getColorBlindPalette
 } from './colorUtils';
 
 beforeEach(() => {

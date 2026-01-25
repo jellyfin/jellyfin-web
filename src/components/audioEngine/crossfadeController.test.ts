@@ -40,7 +40,6 @@ vi.mock('./master.logic', () => ({
 }));
 
 import { consumePreloadedTrack, preloadNextTrack, resetPreloadedTrack, startCrossfade } from './crossfadeController';
-import { getAudioNodeBundle } from './master.logic';
 
 function getPreloadedElement() {
     return document.querySelector('audio[data-crossfade-preload="true"]') as HTMLAudioElement | null;

@@ -12,7 +12,7 @@ import { useDeleteUser } from 'apps/dashboard/features/users/api/useDeleteUser';
 import Page from 'components/Page';
 import UserCardBox from 'components/dashboard/users/UserCardBox';
 import ConfirmDialog from 'components/ConfirmDialog';
-import ActionMenu, { type ActionMenuItem } from 'components/joy-ui/action/ActionMenu';
+import ActionMenu, { type ActionMenuItem } from 'components/dialogs/ActionMenu';
 
 const UserProfiles = (): React.ReactElement => {
     const location = useLocation();

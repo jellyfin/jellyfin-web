@@ -91,7 +91,6 @@ describe('Logger', () => {
         it('should handle error objects', () => {
             const groupSpy = vi.spyOn(console, 'groupCollapsed').mockImplementation(() => {});
 
-            const error = new Error('Test error message');
             logger.error('operation failed', { component: 'ErrorComponent' });
 
             expect(groupSpy).toHaveBeenCalled();

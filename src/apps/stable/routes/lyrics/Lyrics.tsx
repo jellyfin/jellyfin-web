@@ -12,7 +12,7 @@ import { Box, Flex } from 'ui-primitives/Box';
 import { Text, Heading } from 'ui-primitives/Text';
 import { Button } from 'ui-primitives/Button';
 import { IconButton } from 'ui-primitives/IconButton';
-import { LoadingView } from 'components/joy-ui/feedback/LoadingView';
+import { LoadingView } from 'components/feedback/LoadingView';
 import { vars } from 'styles/tokens.css';
 
 import { ChevronUpIcon, ChevronDownIcon, PlayIcon, PauseIcon } from '@radix-ui/react-icons';

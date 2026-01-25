@@ -237,31 +237,67 @@ export default tseslint.config(
                         },
                         {
                             name: 'components',
-                            message: 'No barrel exports. Import directly from concrete file paths.'
+                            message: 'Barrel exports hurt tree-shaking. Import from specific component path: components/dialogs, components/playback, etc.'
+                        },
+                        {
+                            name: 'components/dialogs',
+                            message: 'Use named imports only. Do not use wildcard imports.'
+                        },
+                        {
+                            name: 'components/feedback',
+                            message: 'Use named imports only. Do not use wildcard imports.'
+                        },
+                        {
+                            name: 'components/forms',
+                            message: 'Use named imports only. Do not use wildcard imports.'
+                        },
+                        {
+                            name: 'components/media',
+                            message: 'Use named imports only. Do not use wildcard imports.'
+                        },
+                        {
+                            name: 'components/playback',
+                            message: 'Use named imports only. Do not use wildcard imports.'
+                        },
+                        {
+                            name: 'components/queue',
+                            message: 'Use named imports only. Do not use wildcard imports.'
+                        },
+                        {
+                            name: 'components/remote',
+                            message: 'Use named imports only. Do not use wildcard imports.'
+                        },
+                        {
+                            name: 'components/settings',
+                            message: 'Use named imports only. Do not use wildcard imports.'
+                        },
+                        {
+                            name: 'components/userdata',
+                            message: 'Use named imports only. Do not use wildcard imports.'
                         },
                         {
                             name: 'apps',
-                            message: 'No barrel exports. Import directly from concrete file paths.'
+                            message: 'Barrel exports hurt tree-shaking. Import directly from concrete file paths.'
                         },
                         {
                             name: 'store',
-                            message: 'No barrel exports. Import directly from concrete file paths.'
+                            message: 'Barrel exports hurt tree-shaking. Import directly from concrete file paths.'
                         },
                         {
                             name: 'hooks',
-                            message: 'No barrel exports. Import directly from concrete file paths.'
+                            message: 'Barrel exports hurt tree-shaking. Import directly from concrete file paths.'
                         },
                         {
                             name: 'lib',
-                            message: 'No barrel exports. Import directly from concrete file paths.'
+                            message: 'Barrel exports hurt tree-shaking. Import directly from concrete file paths.'
                         },
                         {
                             name: 'utils',
-                            message: 'No barrel exports. Import directly from concrete file paths.'
+                            message: 'Barrel exports hurt tree-shaking. Import directly from concrete file paths.'
                         },
                         {
                             name: 'styles',
-                            message: 'No barrel exports. Import directly from concrete file paths.'
+                            message: 'Barrel exports hurt tree-shaking. Import directly from concrete file paths.'
                         }
                     ]
                 }

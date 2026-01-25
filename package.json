@@ -28,6 +28,7 @@
     "audio",
     "music-player"
   ],
+  "sideEffects": false,
   "devDependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "4.5.0",
     "@eslint/js": "9.39.2",

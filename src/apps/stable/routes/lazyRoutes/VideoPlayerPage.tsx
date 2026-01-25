@@ -7,7 +7,7 @@ import AppToolbar from 'components/toolbar/AppToolbar';
 import ViewManagerPage from 'components/viewManager/ViewManagerPage';
 import { EventType } from 'constants/eventType';
 import Events, { type Event } from 'utils/events';
-import { VideoControls } from 'components/joy-ui/playback/VideoControls';
+import { VideoControls } from 'components/playback/VideoControls';
 
 const VideoPlayerPage: FC = () => {
     const documentRef = useRef<Document>(document);

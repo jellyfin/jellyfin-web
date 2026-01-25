@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/no-identical-functions */
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
@@ -396,3 +398,5 @@ describe('crossfadePreloadManager', () => {
         });
     });
 });
+
+/* eslint-enable sonarjs/no-identical-functions */

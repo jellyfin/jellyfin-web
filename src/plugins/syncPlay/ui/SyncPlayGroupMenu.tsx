@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import globalize from '../../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { useSyncPlayStore } from '../../../store/syncPlayStore';
-import ActionMenu, { ActionMenuItem } from '../../../components/joy-ui/action/ActionMenu';
+import { ActionMenu, type ActionMenuItem } from '../../../components/dialogs';
 import SyncPlaySettingsDialog from './settings/SyncPlaySettingsDialog';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin';
