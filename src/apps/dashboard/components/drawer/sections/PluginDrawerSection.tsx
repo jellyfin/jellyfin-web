@@ -1,61 +1,47 @@
-import Extension from '@mui/icons-material/Extension';
-import Folder from '@mui/icons-material/Folder';
-import List from '@mui/material/List';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
+import { Component2Icon, FileIcon } from '@radix-ui/react-icons';
 import React, { useEffect } from 'react';
 
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
+import { List, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
 import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
+import { logger } from 'utils/logger';
 
-const PluginDrawerSection = () => {
-    const {
-        data: pagesInfo,
-        error
-    } = useConfigurationPages({ enableInMainMenu: true });
+const PluginDrawerSection = (): React.ReactElement => {
+    const { data: pagesInfo, error } = useConfigurationPages({ enableInMainMenu: true });
 
     useEffect(() => {
-        if (error) console.error('[PluginDrawerSection] unable to fetch plugin config pages', error);
-    }, [ error ]);
+        if (error) logger.error('[PluginDrawerSection] unable to fetch plugin config pages', { error });
+    }, [error]);
 
     return (
         <List
             aria-labelledby='plugins-subheader'
-            subheader={
-                <ListSubheader component='div' id='plugins-subheader'>
-                    {globalize.translate('TabPlugins')}
-                </ListSubheader>
-            }
+            subheader={<ListSubheader id='plugins-subheader'>{globalize.translate('TabPlugins')}</ListSubheader>}
         >
             <ListItemLink
                 to='/dashboard/plugins'
-                includePaths={[
-                    '/configurationpage',
-                    '/dashboard/plugins/repositories'
-                ]}
-                excludePaths={Array.isArray(pagesInfo) ? pagesInfo.map(p => `/${Dashboard.getPluginUrl(p.Name)}`) : []}
+                includePaths={['/configurationpage', '/dashboard/plugins/repositories']}
+                excludePaths={
+                    Array.isArray(pagesInfo) ? pagesInfo.map(p => `/${Dashboard.getPluginUrl(p.Name ?? '')}`) : []
+                }
             >
-                <ListItemIcon>
-                    <Extension />
-                </ListItemIcon>
-                <ListItemText primary={globalize.translate('TabPlugins')} />
+                <ListItemDecorator>
+                    <Component2Icon />
+                </ListItemDecorator>
+                {globalize.translate('TabPlugins')}
             </ListItemLink>
 
-            {Array.isArray(pagesInfo) && pagesInfo.map(pageInfo => (
-                <ListItemLink
-                    key={pageInfo.PluginId}
-                    to={`/${Dashboard.getPluginUrl(pageInfo.Name)}`}
-                >
-                    <ListItemIcon>
-                        {/* TODO: Support different icons? */}
-                        <Folder />
-                    </ListItemIcon>
-                    <ListItemText primary={pageInfo.DisplayName} />
-                </ListItemLink>
-            ))}
+            {Array.isArray(pagesInfo)
+                && pagesInfo.map(pageInfo => (
+                    <ListItemLink key={pageInfo.PluginId} to={`/${Dashboard.getPluginUrl(pageInfo.Name ?? '')}`}>
+                        <ListItemDecorator>
+                            <FileIcon />
+                        </ListItemDecorator>
+                        {pageInfo.DisplayName}
+                    </ListItemLink>
+                ))}
         </List>
     );
 };

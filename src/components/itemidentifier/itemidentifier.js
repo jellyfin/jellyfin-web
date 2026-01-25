@@ -1,4 +1,3 @@
-
 /**
  * Module for itemidentifier media item.
  * @module components/itemidentifier/itemidentifier
@@ -17,10 +16,9 @@ import '../../elements/emby-input/emby-input';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
-import 'material-design-icons-iconfont';
 import '../cardbuilder/card.scss';
 import toast from '../toast/toast';
-import template from './itemidentifier.template.html';
+import template from './itemidentifier.template.html?raw';
 import datetime from '../../scripts/datetime';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
@@ -89,17 +87,18 @@ function searchForIdentificationResults(page) {
 
     const apiClient = getApiClient();
 
-    apiClient.ajax({
-        type: 'POST',
-        url: apiClient.getUrl(`Items/RemoteSearch/${currentItemType}`),
-        data: JSON.stringify(lookupInfo),
-        contentType: 'application/json',
-        dataType: 'json'
-
-    }).then(results => {
-        loading.hide();
-        showIdentificationSearchResults(page, results);
-    });
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: apiClient.getUrl(`Items/RemoteSearch/${currentItemType}`),
+            data: JSON.stringify(lookupInfo),
+            contentType: 'application/json',
+            dataType: 'json'
+        })
+        .then(results => {
+            loading.hide();
+            showIdentificationSearchResults(page, results);
+        });
 }
 
 function showIdentificationSearchResults(page, results) {
@@ -264,22 +263,26 @@ function submitIdentficationResult(page) {
 
     const apiClient = getApiClient();
 
-    apiClient.ajax({
-        type: 'POST',
-        url: apiClient.getUrl(`Items/RemoteSearch/Apply/${currentItem.Id}`, options),
-        data: JSON.stringify(currentSearchResult),
-        contentType: 'application/json'
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: apiClient.getUrl(`Items/RemoteSearch/Apply/${currentItem.Id}`, options),
+            data: JSON.stringify(currentSearchResult),
+            contentType: 'application/json'
+        })
+        .then(
+            () => {
+                hasChanges = true;
+                loading.hide();
 
-    }).then(() => {
-        hasChanges = true;
-        loading.hide();
+                dialogHelper.close(page);
+            },
+            () => {
+                loading.hide();
 
-        dialogHelper.close(page);
-    }, () => {
-        loading.hide();
-
-        dialogHelper.close(page);
-    });
+                dialogHelper.close(page);
+            }
+        );
 }
 
 function showIdentificationForm(page, item) {
@@ -480,7 +483,7 @@ export function show(itemId, serverId) {
 }
 
 export function showFindNew(itemName, itemYear, itemType, serverId) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         currentServerId = serverId;
 
         hasChanges = false;

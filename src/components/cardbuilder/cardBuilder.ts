@@ -1,6 +1,6 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
-import escapeHtml from 'escape-html';
+import { escapeHtml } from 'utils/html';
 
 import { ItemAction } from '../../constants/itemAction';
 import browser from '../../scripts/browser';
@@ -33,7 +33,7 @@ import {
     resolveMixedShapeByAspectRatio
 } from './cardBuilderUtils';
 
-const enableFocusTransform = !browser.slow && !browser.edge;
+const enableFocusTransform = !browser.mobile && !browser.edge;
 
 export interface CardOptions {
     shape?: string;
@@ -94,6 +94,7 @@ export interface CardOptions {
     parentContainer?: HTMLElement;
     autoFocus?: boolean;
     action?: string;
+    defaultCardImageIcon?: string;
 }
 
 export function setCardData(items: any[], options: CardOptions): void {
@@ -137,14 +138,19 @@ export function setCardData(items: any[], options: CardOptions): void {
             screenWidth = Math.floor(screenWidth / 100) * 100;
         }
 
-        const imagesPerRow = getPostersPerRow(options.shape, screenWidth, screenWidth > (screenHeight * 1.3), layoutManager.tv);
+        const imagesPerRow = getPostersPerRow(
+            options.shape,
+            screenWidth,
+            screenWidth > screenHeight * 1.3,
+            layoutManager.tv
+        );
         options.width = Math.round(screenWidth / imagesPerRow);
     }
 }
 
 export function buildCard(index: number, item: any, apiClient: any, options: CardOptions): string {
     const action = resolveAction({
-        defaultAction: options.action || ItemAction.Link,
+        defaultAction: (options.action as ItemAction) || ItemAction.Link,
         isFolder: item.IsFolder,
         isPhoto: item.MediaType === 'Photo'
     });
@@ -156,7 +162,7 @@ export function buildCard(index: number, item: any, apiClient: any, options: Car
 
     const imgInfo = getCardImageUrl(item, apiClient, options, shape);
     const imgUrl = imgInfo.imgUrl;
-    
+
     // Minimal card shell for now, expanding as needed
     const className = resolveCardCssClasses({
         shape: shape,
@@ -166,7 +172,9 @@ export function buildCard(index: number, item: any, apiClient: any, options: Car
         enableFocusTransform: enableFocusTransform,
         isDesktop: layoutManager.desktop,
         tagName: 'div',
-        itemType: item.Type
+        itemType: item.Type,
+        childCount: item.ChildCount || 0,
+        showChildCountIndicator: Boolean(item.ChildCount)
     });
 
     return `<div class="${className}" data-id="${item.Id}">${escapeHtml(item.Name)}</div>`;
@@ -231,7 +239,10 @@ export function getCardsHtml(items: any[], options: CardOptions = {}): string {
 }
 
 export function getDefaultText(item: any, options: CardOptions): string {
-    let icon = (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) ? getLibraryIcon(item.CollectionType) : getItemTypeIcon(item.Type, options.defaultCardImageIcon);
+    let icon =
+        item.Type === BaseItemKind.CollectionFolder || item.CollectionType
+            ? getLibraryIcon(item.CollectionType)
+            : getItemTypeIcon(item.Type, options.defaultCardImageIcon);
     if (icon) return `<span class="cardImageIcon material-icons ${icon}" aria-hidden="true"></span>`;
     return `<div class="cardText cardDefaultText">${escapeHtml(item.Name)}</div>`;
 }

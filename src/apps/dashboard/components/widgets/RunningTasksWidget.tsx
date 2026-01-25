@@ -2,48 +2,48 @@ import React, { useMemo } from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
-import Sheet from '@mui/joy/Sheet';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
-import Typography from '@mui/joy/Typography';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import Box from '@mui/joy/Box';
-import Stack from '@mui/joy/Stack';
+import { Paper } from 'ui-primitives/Paper';
+import { Text } from 'ui-primitives/Text';
+import { Box, Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
-type RunningTasksWidgetProps = {
+interface RunningTasksWidgetProps {
     tasks?: TaskInfo[];
-};
+}
 
-const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps) => {
+const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps): React.ReactElement | null => {
     const runningTasks = useMemo(() => {
-        return tasks?.filter(v => v.State === TaskState.Running) || [];
-    }, [ tasks ]);
+        return tasks?.filter(v => v.State === TaskState.Running) ?? [];
+    }, [tasks]);
 
     if (runningTasks.length === 0) return null;
 
     return (
-        <Widget
-            title={globalize.translate('HeaderRunningTasks')}
-            href='/dashboard/tasks'
-        >
-            <Sheet
+        <Widget title={globalize.translate('HeaderRunningTasks')} href="/dashboard/tasks">
+            <Paper
                 variant="outlined"
-                sx={{
-                    p: 2,
-                    borderRadius: 'md',
-                    bgcolor: 'background.surface'
+                style={{
+                    padding: vars.spacing.md,
+                    borderRadius: vars.borderRadius.md,
+                    backgroundColor: vars.colors.surface
                 }}
             >
-                <Stack spacing={2.5}>
-                    {runningTasks.map((task => (
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                    {runningTasks.map(task => (
                         <Box key={task.Id}>
-                            <Typography level="body-sm" fontWeight="bold" sx={{ mb: 0.5 }}>
+                            <Text
+                                size="sm"
+                                style={{ fontWeight: vars.typography.fontWeightBold, marginBottom: vars.spacing.xs }}
+                            >
                                 {task.Name}
-                            </Typography>
+                            </Text>
                             <TaskProgress task={task} />
                         </Box>
-                    )))}
-                </Stack>
-            </Sheet>
+                    ))}
+                </Flex>
+            </Paper>
         </Widget>
     );
 };

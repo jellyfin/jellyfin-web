@@ -1,7 +1,6 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
-import Box from '@mui/material/Box/Box';
+import { Box } from 'ui-primitives/Box';
 
 interface CaptionMediaInfoProps {
     className?: string;
@@ -16,7 +15,7 @@ const CaptionMediaInfo: FC<CaptionMediaInfoProps> = ({ className }) => {
 
     return (
         <Box className={cssClass}>
-            <ClosedCaptionIcon />
+            <span className='material-icons' aria-hidden='true'>closed_caption</span>
         </Box>
     );
 };

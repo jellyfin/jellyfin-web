@@ -1,3 +1,14 @@
+/**
+ * @deprecated This file is deprecated in favor of ui-primitives/CircularProgress.
+ *
+ * Migration:
+ * - Web Component `emby-progressring` → ui-primitives/CircularProgress
+ * - Template-based rendering → React rendering
+ *
+ * @see src/ui-primitives/CircularProgress.tsx
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import './emby-progressring.scss';
 import 'webcomponents.js/webcomponents-lite';
 import template from './emby-progressring.template.html';
@@ -15,7 +26,7 @@ EmbyProgressRing.createdCallback = function () {
 
     if (window.MutationObserver) {
         // create an observer instance
-        const observer = new MutationObserver((mutations) => {
+        const observer = new MutationObserver(mutations => {
             mutations.forEach(() => {
                 instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
             });
@@ -95,4 +106,3 @@ document.registerElement('emby-progressring', {
 });
 
 export default EmbyProgressRing;
-

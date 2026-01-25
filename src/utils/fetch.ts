@@ -99,10 +99,10 @@ export function ajax(request: AjaxOptions): Promise<any> {
 
     return getFetchPromise(request).then((response) => {
         logger.debug(`response status: ${response.status}, url: ${request.url}`, { component: 'Fetch' });
-        
+
         if (response.status < 400) {
-            if (request.dataType === 'json' || request.headers?.accept === 'application/json' || 
-                (response.headers.get('Content-Type') || '').toLowerCase().includes('application/json')) {
+            if (request.dataType === 'json' || request.headers?.accept === 'application/json'
+                || (response.headers.get('Content-Type') || '').toLowerCase().includes('application/json')) {
                 return response.json();
             } else if (request.dataType === 'text' || (response.headers.get('Content-Type') || '').toLowerCase().startsWith('text/')) {
                 return response.text();

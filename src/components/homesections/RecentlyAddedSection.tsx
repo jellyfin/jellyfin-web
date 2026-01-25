@@ -18,6 +18,7 @@ const RecentlyAddedLibrarySection: React.FC<RecentlyAddedLibrarySectionProps> = 
     const apiClient = ServerConnections.currentApiClient();
 
     useEffect(() => {
+        if (!apiClient) return;
         const options = {
             Limit: 16,
             Fields: 'PrimaryImageAspectRatio,Path',
@@ -35,7 +36,11 @@ const RecentlyAddedLibrarySection: React.FC<RecentlyAddedLibrarySectionProps> = 
     if (isLoading || items.length === 0) return null;
 
     let shape = 'backdrop';
-    if (library.CollectionType === 'movies' || library.CollectionType === 'books' || library.CollectionType === 'tvshows') {
+    if (
+        library.CollectionType === 'movies' ||
+        library.CollectionType === 'books' ||
+        library.CollectionType === 'tvshows'
+    ) {
         shape = 'portrait';
     } else if (library.CollectionType === 'music' || library.CollectionType === 'homevideos') {
         shape = 'square';
@@ -44,17 +49,17 @@ const RecentlyAddedLibrarySection: React.FC<RecentlyAddedLibrarySectionProps> = 
     const cardOptions: CardOptions = {
         shape,
         showTitle: library.CollectionType !== 'photos',
-        showYear: library.CollectionType === 'movies' || library.CollectionType === 'tvshows' || !library.CollectionType,
-        showParentTitle: library.CollectionType === 'music' || library.CollectionType === 'tvshows' || !library.CollectionType,
+        showYear:
+            library.CollectionType === 'movies' || library.CollectionType === 'tvshows' || !library.CollectionType,
+        showParentTitle:
+            library.CollectionType === 'music' || library.CollectionType === 'tvshows' || !library.CollectionType,
         overlayPlayButton: library.CollectionType !== 'photos',
         lines: 2
     };
 
     return (
         <div className={styles.container}>
-            <Heading.H3 className={styles.header}>
-                {globalize.translate('LatestFromLibrary', library.Name)}
-            </Heading.H3>
+            <Heading.H3 className={styles.header}>{globalize.translate('LatestFromLibrary', library.Name)}</Heading.H3>
             <CardBuilder items={items} options={cardOptions} />
         </div>
     );
@@ -66,9 +71,9 @@ interface RecentlyAddedSectionProps {
 
 const RecentlyAddedSection: React.FC<RecentlyAddedSectionProps> = ({ userViews }) => {
     const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels', 'folders'];
-    
-    const librariesToShow = userViews.filter(item => 
-        item.Id && (!item.CollectionType || !excludeViewTypes.includes(item.CollectionType))
+
+    const librariesToShow = userViews.filter(
+        item => item.Id && (!item.CollectionType || !excludeViewTypes.includes(item.CollectionType))
     );
 
     return (

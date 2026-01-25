@@ -1,34 +1,28 @@
-import React, { useMemo } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 
 const BangRedirect = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
-    const to = useMemo(() => {
-        const _to = {
-            search: location.search,
-            hash: location.hash
-        };
+    const to = location.pathname.startsWith('/!/')
+        ? `${location.pathname.substring(2)}${location.search}${location.hash}`
+        : location.pathname.startsWith('/!')
+            ? `${location.pathname.replace(/^\/!/, '/')}${location.search}${location.hash}`
+            : location.pathname.startsWith('!')
+                ? `${location.pathname.substring(1)}${location.search}${location.hash}`
+                : undefined;
 
-        if (location.pathname.startsWith('/!/')) {
-            return { ..._to, pathname: location.pathname.substring(2) };
-        } else if (location.pathname.startsWith('/!')) {
-            return { ..._to, pathname: location.pathname.replace(/^\/!/, '/') };
-        } else if (location.pathname.startsWith('!')) {
-            return { ..._to, pathname: location.pathname.substring(1) };
+    useEffect(() => {
+        if (!to) {
+            return;
         }
-    }, [ location ]);
 
-    if (!to) return null;
+        console.warn('[BangRedirect] You are using a deprecated URL format. This will stop working in a future Jellyfin update.');
+        navigate({ to, replace: true });
+    }, [navigate, to]);
 
-    console.warn('[BangRedirect] You are using a deprecated URL format. This will stop working in a future Jellyfin update.');
-
-    return (
-        <Navigate
-            replace
-            to={to}
-        />
-    );
+    return null;
 };
 
 export default BangRedirect;

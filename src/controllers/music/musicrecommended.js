@@ -17,8 +17,6 @@ import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-tabs/emby-tabs';
 import 'elements/emby-button/emby-button';
 
-import 'styles/flexstyles.scss';
-import 'styles/scrollstyles.scss';
 
 function itemsPerRow() {
     const screenWidth = dom.getWindowSize().innerWidth;
@@ -54,7 +52,7 @@ function loadLatest(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then((items) => {
+    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(items => {
         const elem = page.querySelector('#recentlyAddedSongs');
         elem.innerHTML = cardBuilder.getCardsHtml({
             items: items,
@@ -93,7 +91,7 @@ function loadRecentlyPlayed(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then((result) => {
+    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(result => {
         const elem = page.querySelector('#recentlyPlayed');
 
         if (result.Items.length) {
@@ -135,7 +133,7 @@ function loadFrequentlyPlayed(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then((result) => {
+    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(result => {
         const elem = page.querySelector('#topPlayed');
 
         if (result.Items.length) {
@@ -170,26 +168,38 @@ function loadSuggestionsTab(page, tabContent, parentId) {
     loadFrequentlyPlayed(tabContent, parentId);
 
     import('../../components/favoriteitems').then(({ default: favoriteItems }) => {
-        favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
+        favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, [
+            'favoriteArtists',
+            'favoriteAlbums',
+            'favoriteSongs'
+        ]);
     });
 }
 
 function getTabs() {
-    return [{
-        name: globalize.translate('Albums')
-    }, {
-        name: globalize.translate('Suggestions')
-    }, {
-        name: globalize.translate('HeaderAlbumArtists')
-    }, {
-        name: globalize.translate('Artists')
-    }, {
-        name: globalize.translate('Playlists')
-    }, {
-        name: globalize.translate('Songs')
-    }, {
-        name: globalize.translate('Genres')
-    }];
+    return [
+        {
+            name: globalize.translate('Albums')
+        },
+        {
+            name: globalize.translate('Suggestions')
+        },
+        {
+            name: globalize.translate('HeaderAlbumArtists')
+        },
+        {
+            name: globalize.translate('Artists')
+        },
+        {
+            name: globalize.translate('Playlists')
+        },
+        {
+            name: globalize.translate('Songs')
+        },
+        {
+            name: globalize.translate('Genres')
+        }
+    ];
 }
 
 function getDefaultTabIndex(folderId) {
@@ -328,7 +338,7 @@ export default function (view, params) {
     };
 
     function preLoadTab(page, index) {
-        getTabController(page, index, (controller) => {
+        getTabController(page, index, controller => {
             if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                 controller.preRender();
             }
@@ -337,7 +347,7 @@ export default function (view, params) {
 
     function loadTab(page, index) {
         currentTabIndex = index;
-        getTabController(page, index, (controller) => {
+        getTabController(page, index, controller => {
             if (renderedTabs.indexOf(index) == -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
@@ -376,7 +386,7 @@ export default function (view, params) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then((item) => {
+                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(item => {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });
@@ -392,7 +402,7 @@ export default function (view, params) {
         inputManager.off(window, onInputCommand);
     });
     view.addEventListener('viewdestroy', () => {
-        tabControllers.forEach((t) => {
+        tabControllers.forEach(t => {
             if (t.destroy) {
                 t.destroy();
             }

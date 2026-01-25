@@ -93,12 +93,13 @@ describe('RemoteControl', () => {
 
     it('shows album art', () => {
         const { container } = render(<RemoteControl {...defaultProps} />);
-        expect(container.querySelector('.MuiAvatar-root')).toBeInTheDocument();
+        const avatar = container.querySelector('.nowPlayingPageImageContainer');
+        expect(avatar).toBeInTheDocument();
     });
 
     it('shows container with paper styling', () => {
         const { container } = render(<RemoteControl {...defaultProps} />);
-        expect(container.querySelector('.MuiPaper-root')).toBeInTheDocument();
+        expect(container.querySelector('.remoteControlContent')).toBeInTheDocument();
     });
 
     it('handles empty current item', () => {

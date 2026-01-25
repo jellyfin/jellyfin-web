@@ -1,13 +1,12 @@
 import React from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
-import Chip from '@mui/joy/Chip';
-import LinearProgress from '@mui/joy/LinearProgress';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import Tooltip from '@mui/joy/Tooltip';
-
 import { type FullTrackAnalysis } from './autoDJ';
+import { Chip } from 'ui-primitives/Chip';
+import { Progress } from 'ui-primitives/Progress';
+import { Card } from 'ui-primitives/Card';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 interface AnalysisDisplayProps {
     analysis: FullTrackAnalysis | null;
@@ -17,152 +16,138 @@ interface AnalysisDisplayProps {
 export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, compact = false }) => {
     if (!analysis) {
         return (
-            <Card variant='outlined' sx={{ minWidth: compact ? 200 : 280 }}>
-                <CardContent>
-                    <Typography level='title-sm' sx={{ mb: 1 }}>
+            <Card style={{ minWidth: compact ? 200 : 280 }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
+                    <Text size="sm" style={{ marginBottom: vars.spacing.xs }}>
                         Track Analysis
-                    </Typography>
-                    <Typography level='body-sm' color='neutral'>
+                    </Text>
+                    <Text size="sm" color="secondary">
                         No analysis available
-                    </Typography>
-                </CardContent>
+                    </Text>
+                </Flex>
             </Card>
         );
     }
 
     const bpmColor = getBPMColor(analysis.bpm);
+    const normalizedBpmColor = bpmColor === 'error' ? 'error' : bpmColor;
     const energyPercent = Math.min(100, Math.round(analysis.energy * 200));
     const brightnessPercent = Math.min(100, Math.round(analysis.brightness * 100));
 
     if (compact) {
         return (
-            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
+            <Flex style={{ gap: vars.spacing.sm, flexWrap: 'wrap', alignItems: 'center' }}>
                 <Tooltip title={`${analysis.bpm.toFixed(1)} BPM`}>
-                    <Chip size='sm' variant='soft' color={bpmColor}>
-                        {Math.round(analysis.bpm)} BPM
-                    </Chip>
+                    <Chip size="sm">{analysis.bpm.toFixed(1)}</Chip>
                 </Tooltip>
                 <Tooltip title={analysis.key}>
-                    <Chip size='sm' variant='soft' color='primary'>
-                        {analysis.camelotKey}
-                    </Chip>
+                    <Chip size="sm">{analysis.camelotKey}</Chip>
                 </Tooltip>
                 <Tooltip title={`Energy: ${energyPercent}%`}>
-                    <Chip
-                        size='sm'
-                        variant='soft'
-                        color={energyPercent > 60 ? 'danger' : energyPercent > 30 ? 'warning' : 'success'}
-                    >
-                        {energyPercent}% Energy
-                    </Chip>
+                    <Chip size="sm">{energyPercent}% Energy</Chip>
                 </Tooltip>
                 <Tooltip title={analysis.primaryGenre}>
-                    <Chip size='sm' variant='outlined'>
-                        {analysis.primaryGenre}
-                    </Chip>
+                    <Chip size="sm">{analysis.primaryGenre}</Chip>
                 </Tooltip>
-            </Box>
+            </Flex>
         );
     }
 
     return (
-        <Card variant='outlined' sx={{ minWidth: 280, maxWidth: 320 }}>
-            <CardContent>
-                <Typography level='title-sm' sx={{ mb: 2 }}>
+        <Card style={{ minWidth: 280, maxWidth: 320 }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                <Text size="sm" style={{ marginBottom: vars.spacing.md }}>
                     Track Analysis
-                </Typography>
+                </Text>
 
-                <Box sx={{ display: 'grid', gap: 1.5 }}>
+                <Box style={{ display: 'grid', gap: vars.spacing.sm }}>
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                            <Typography level='body-xs'>BPM</Typography>
-                            <Typography level='body-xs' fontWeight='bold' color={bpmColor}>
+                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" color="secondary">
+                                BPM
+                            </Text>
+                            <Text size="xs" style={{ fontWeight: 'bold' }} color={normalizedBpmColor}>
                                 {analysis.bpm.toFixed(1)}
-                            </Typography>
-                        </Box>
-                        <LinearProgress
-                            value={Math.min(100, (analysis.bpm / 180) * 100)}
-                            variant='soft'
-                            color={bpmColor}
-                            size='sm'
-                        />
+                            </Text>
+                        </Flex>
+                        <Progress value={Math.min(100, (analysis.bpm / 180) * 100)} />
                     </Box>
 
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                            <Typography level='body-xs'>Key</Typography>
-                            <Typography level='body-xs' fontWeight='bold'>
+                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" color="secondary">
+                                Key
+                            </Text>
+                            <Text size="xs" style={{ fontWeight: 'bold' }}>
                                 {analysis.camelotKey}
-                            </Typography>
-                        </Box>
-                        <Typography level='body-xs' color='neutral'>
+                            </Text>
+                        </Flex>
+                        <Text size="xs" color="secondary">
                             {analysis.key} ({Math.round(analysis.keyConfidence * 100)}% confidence)
-                        </Typography>
+                        </Text>
                     </Box>
 
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                            <Typography level='body-xs'>Energy</Typography>
-                            <Typography
-                                level='body-xs'
-                                fontWeight='bold'
-                                color={energyPercent > 60 ? 'danger' : energyPercent > 30 ? 'warning' : 'success'}
+                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" color="secondary">
+                                Energy
+                            </Text>
+                            <Text
+                                size="xs"
+                                style={{ fontWeight: 'bold' }}
+                                color={energyPercent > 60 ? 'error' : energyPercent > 30 ? 'warning' : 'success'}
                             >
                                 {energyPercent}%
-                            </Typography>
-                        </Box>
-                        <LinearProgress
-                            value={energyPercent}
-                            variant='soft'
-                            color={energyPercent > 60 ? 'danger' : energyPercent > 30 ? 'warning' : 'success'}
-                            size='sm'
-                        />
+                            </Text>
+                        </Flex>
+                        <Progress value={energyPercent} />
                     </Box>
 
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                            <Typography level='body-xs'>Brightness</Typography>
-                            <Typography level='body-xs' fontWeight='bold'>
+                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" color="secondary">
+                                Brightness
+                            </Text>
+                            <Text size="xs" style={{ fontWeight: 'bold' }}>
                                 {brightnessPercent}%
-                            </Typography>
-                        </Box>
-                        <LinearProgress
-                            value={brightnessPercent}
-                            variant='soft'
-                            color='primary'
-                            size='sm'
-                        />
+                            </Text>
+                        </Flex>
+                        <Progress value={brightnessPercent} />
                     </Box>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
-                        <Typography level='body-xs' color='neutral'>
+                    <Flex
+                        style={{
+                            justifyContent: 'space-between',
+                            paddingTop: vars.spacing.sm,
+                            borderTop: `1px solid ${vars.colors.border}`
+                        }}
+                    >
+                        <Text size="xs" color="secondary">
                             Genre
-                        </Typography>
-                        <Chip size='sm' variant='soft' color='primary'>
+                        </Text>
+                        <Chip size="sm" variant="primary">
                             {analysis.primaryGenre}
                         </Chip>
-                    </Box>
+                    </Flex>
 
                     {analysis.bpmConfidence > 0 && (
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Typography level='body-xs' color='neutral'>
+                        <Flex style={{ justifyContent: 'space-between' }}>
+                            <Text size="xs" color="secondary">
                                 BPM Confidence
-                            </Typography>
-                            <Typography level='body-xs'>
-                                {Math.round(analysis.bpmConfidence * 100)}%
-                            </Typography>
-                        </Box>
+                            </Text>
+                            <Text size="xs">{Math.round(analysis.bpmConfidence * 100)}%</Text>
+                        </Flex>
                     )}
                 </Box>
-            </CardContent>
+            </Flex>
         </Card>
     );
 };
 
-function getBPMColor(bpm: number): 'success' | 'warning' | 'danger' | 'primary' {
+function getBPMColor(bpm: number): 'success' | 'warning' | 'error' | 'primary' {
     if (bpm >= 118 && bpm <= 130) return 'success';
     if (bpm >= 60 && bpm < 100) return 'primary';
-    if (bpm >= 160 && bpm <= 180) return 'danger';
+    if (bpm >= 160 && bpm <= 180) return 'error';
     return 'warning';
 }
 

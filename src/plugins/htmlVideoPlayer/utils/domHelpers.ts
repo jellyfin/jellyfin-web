@@ -1,5 +1,5 @@
-import dom from '../../../../utils/dom';
-import { logger } from '../../../../utils/logger';
+import dom from '../../../utils/dom';
+import { logger } from '../../../utils/logger';
 
 /**
  * Returns resolved URL.

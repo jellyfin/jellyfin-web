@@ -1,39 +1,30 @@
-import Assessment from '@mui/icons-material/Assessment';
-import Devices from '@mui/icons-material/Devices';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
+import { BarChartIcon, DesktopIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
 import ListItemLink from 'components/ListItemLink';
+import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
 import globalize from 'lib/globalize';
 
-const DevicesDrawerSection = () => {
+const DevicesDrawerSection = (): React.ReactElement => {
     return (
         <List
             aria-labelledby='devices-subheader'
-            subheader={
-                <ListSubheader component='div' id='devices-subheader'>
-                    {globalize.translate('HeaderDevices')}
-                </ListSubheader>
-            }
+            subheader={<ListSubheader id='devices-subheader'>{globalize.translate('HeaderDevices')}</ListSubheader>}
         >
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/devices'>
-                    <ListItemIcon>
-                        <Devices />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderDevices')} />
+                    <ListItemDecorator>
+                        <DesktopIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('HeaderDevices')}
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/activity'>
-                    <ListItemIcon>
-                        <Assessment />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderActivity')} />
+                    <ListItemDecorator>
+                        <BarChartIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('HeaderActivity')}
                 </ListItemLink>
             </ListItem>
         </List>

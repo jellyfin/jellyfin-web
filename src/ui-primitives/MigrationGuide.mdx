@@ -1,0 +1,249 @@
+import { Meta, Canvas } from '@storybook/blocks';
+import { vars } from '../styles/tokens.css.ts';
+
+<Meta title="UI Primitives/Migration Guide" />
+
+# Migration Guide
+
+Migration patterns from MUI Joy to Radix UI + ui-primitives.
+
+## Component Mapping
+
+| MUI Joy | ui-primitives | Notes |
+|---------|---------------|-------|
+| `Box sx={{ p: 3 }}` | `style={{ padding: vars.spacing.lg }}` | Direct style prop |
+| `Typography level='h3'` | `<Heading.H3>` | Heading component |
+| `Card` | `Card` | Similar API |
+| `Chip` | `Chip` | Similar API |
+| `Tooltip` | `Tooltip` | Radix-based |
+| `Dialog` | `Dialog` | Radix-based |
+| `Tabs` | `Tabs` | Radix-based |
+| `Select` | `Select` | Custom implementation |
+
+## Spacing Conversion
+
+| MUI Value | Tokens Value | pixels |
+|-----------|--------------|--------|
+| `px` | `vars.spacing.xs` | 4px |
+| `py={0.5}` | `vars.spacing.xs` | 4px |
+| `p={1}` | `vars.spacing.sm` | 8px |
+| `p={2}` | `vars.spacing.md` | 16px |
+| `p={3}` | `vars.spacing.lg` | 24px |
+| `p={4}` | `vars.spacing.xl` | 32px |
+
+## Color Conversion
+
+| MUI Joy | ui-primitives |
+|---------|---------------|
+| `color="neutral"` | `color="secondary"` |
+| `color="primary"` | `color="primary"` |
+| `color="warning"` | `variant="warning"` (Chip, Alert) |
+| `color="danger"` | `variant="danger"` |
+| `color="success"` | `variant="success"` |
+
+## Before/After Examples
+
+### Simple Box Layout
+
+```tsx
+// BEFORE (MUI Joy)
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text, Heading } from 'ui-primitives/Text';
+
+<Box sx={{ p: 3, display: 'flex', gap: 2 }}>
+  <Typography level='h3'>Title</Typography>
+  <Typography level='body-sm'>Description</Typography>
+</Box>
+
+// AFTER (ui-primitives)
+import { Box, Flex } from 'ui-primitives/Box';
+import { Heading, Text } from 'ui-primitives/Text';
+
+<Box style={{ padding: vars.spacing.lg, display: 'flex', gap: vars.spacing.md }}>
+  <Heading.H3>Title</Heading.H3>
+  <Text size="sm" color="secondary">Description</Text>
+</Box>
+```
+
+### Card with Actions
+
+```tsx
+// BEFORE (MUI Joy)
+import { Card, CardBody, CardFooter } from 'ui-primitives/Card';
+import { Button } from 'ui-primitives/Button';
+import { Text, Heading } from 'ui-primitives/Text';
+
+<Card>
+  <CardContent>
+    <Typography level='h4'>Card Title</Typography>
+    <Typography level='body-md'>Card content here</Typography>
+  </CardContent>
+  <CardActions>
+    <Button variant="solid">Action</Button>
+    <Button variant="soft">Cancel</Button>
+  </CardActions>
+</Card>
+
+// AFTER (ui-primitives)
+import { Card, CardBody, CardFooter } from 'ui-primitives/Card';
+import { Button } from 'ui-primitives/Button';
+import { Heading, Text } from 'ui-primitives/Text';
+
+<Card>
+  <CardBody>
+    <Heading.H4>Card Title</Heading.H4>
+    <Text size="md">Card content here</Text>
+  </CardBody>
+  <CardFooter>
+    <Button variant="primary">Action</Button>
+    <Button variant="secondary">Cancel</Button>
+  </CardFooter>
+</Card>
+```
+
+### Tooltip
+
+```tsx
+// BEFORE (MUI Joy)
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { IconButton } from 'ui-primitives/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+
+<Tooltip title="Edit item" placement="top">
+  <IconButton><EditIcon /></IconButton>
+</Tooltip>
+
+// AFTER (ui-primitives)
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { IconButton } from 'ui-primitives/IconButton';
+import { EditIcon } from 'components/icons/EditIcon';
+
+<Tooltip content="Edit item" side="top">
+  <IconButton variant="ghost">
+    <EditIcon />
+  </IconButton>
+</Tooltip>
+```
+
+### Dialog
+
+```tsx
+// BEFORE (MUI Joy)
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from 'ui-primitives/Dialog';
+
+<Dialog open={open} onClose={handleClose}>
+  <DialogTitle>Confirm Action</DialogTitle>
+  <DialogContent>
+    <Typography>Are you sure?</Typography>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleClose}>Cancel</Button>
+    <Button onClick={handleConfirm}>Confirm</Button>
+  </DialogActions>
+</Dialog>
+
+// AFTER (ui-primitives)
+import { Dialog, DialogContent } from 'ui-primitives/Dialog';
+import { Button } from 'ui-primitives/Button';
+
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogContent title="Confirm Action" description="Are you sure?">
+    <p>Are you sure?</p>
+    <div style={{ display: 'flex', gap: vars.spacing.sm, justifyContent: 'flex-end' }}>
+      <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+      <Button variant="primary" onClick={handleConfirm}>Confirm</Button>
+    </div>
+  </DialogContent>
+</Dialog>
+```
+
+### Chip Variants
+
+```tsx
+// BEFORE (MUI Joy)
+import { Chip } from 'ui-primitives/Chip';
+
+<Chip color="primary">Primary</Chip>
+<Chip color="neutral">Neutral</Chip>
+<Chip color="warning">Warning</Chip>
+<Chip color="danger">Danger</Chip>
+<Chip color="success">Success</Chip>
+
+// AFTER (ui-primitives)
+import { Chip } from 'ui-primitives/Chip';
+
+<Chip variant="primary">Primary</Chip>
+<Chip variant="secondary">Neutral</Chip>
+<Chip variant="warning">Warning</Chip>
+<Chip variant="danger">Danger</Chip>
+<Chip variant="success">Success</Chip>
+```
+
+### Alert
+
+```tsx
+// BEFORE (MUI Joy)
+import { Alert } from 'ui-primitives/Alert';
+
+<Alert severity="error">
+  <AlertTitle>Error</AlertTitle>
+  Something went wrong
+</Alert>
+
+// AFTER (ui-primitives)
+import { Alert } from 'ui-primitives/Alert';
+
+<Alert variant="error" title="Error">
+  Something went wrong
+</Alert>
+```
+
+## Common Patterns
+
+### Flex Layout
+
+```tsx
+// BEFORE (MUI Joy)
+<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+  Content
+</Box>
+
+// AFTER (ui-primitives)
+import { Flex } from 'ui-primitives/Box';
+
+<Flex alignItems="center" justifyContent="space-between">
+  Content
+</Flex>
+```
+
+### Scrolling Container
+
+```tsx
+// BEFORE (MUI Joy)
+<Box sx={{ overflow: 'auto' }}>Content</Box>
+
+// AFTER (ui-primitives)
+import { ScrollArea } from 'ui-primitives/ScrollArea';
+
+<ScrollArea>
+  Content
+</ScrollArea>
+```
+
+## Style Prop Migration
+
+| MUI sx prop | ui-primitives |
+|-------------|---------------|
+| `p: 2` | `style={{ padding: vars.spacing.md }}` |
+| `m: 2` | `style={{ margin: vars.spacing.md }}` |
+| `gap: 2` | `style={{ gap: vars.spacing.md }}` |
+| `display: 'flex'` | `style={{ display: 'flex' }}` |
+| `flexDirection: 'column'` | `style={{ flexDirection: 'column' }}` |
+| `borderRadius: 2` | `style={{ borderRadius: vars.borderRadius.md }}` |
+| `boxShadow: 'md'` | `style={{ boxShadow: vars.shadows.md }}` |
+
+## Related Documentation
+
+- [Overview](/storybook/ui-primitives-overview--docs)
+- [Design Tokens](/storybook/ui-primitives-overview--docs#design-tokens)
+- [Component Library](/storybook/?path=/docs/ui-primitives-button--docs)

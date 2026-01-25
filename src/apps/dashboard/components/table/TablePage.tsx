@@ -1,73 +1,108 @@
-import Box from '@mui/material/Box/Box';
-import Stack from '@mui/material/Stack/Stack';
-import type {} from '@mui/material/themeCssVarsAugmentation';
-import Typography from '@mui/material/Typography/Typography';
-import { type MRT_RowData, type MRT_TableInstance, type MRT_TableOptions, MaterialReactTable } from 'material-react-table';
-import React from 'react';
+import React, { type ReactNode } from 'react';
+import type { ColumnDef, ColumnPinningState } from '@tanstack/react-table';
 
 import Page, { type PageProps } from 'components/Page';
+import { Box as UIBox, Flex } from 'ui-primitives/Box';
+import { Heading, Text } from 'ui-primitives/Text';
+import { DataTable } from 'ui-primitives/DataTable';
+import { vars } from 'styles/tokens.css';
 
-interface TablePageProps<T extends MRT_RowData> extends PageProps {
-    title: string
-    subtitle?: string
-    table: MRT_TableInstance<T>
+interface TablePageProps<T> extends PageProps {
+    title: string;
+    subtitle?: string;
+    data: T[];
+    columns: ColumnDef<T>[];
+    isLoading?: boolean;
+    pageSize?: number;
+    onRowClick?: (row: T) => void;
+    manualPagination?: boolean;
+    rowCount?: number;
+    pagination?: {
+        pageIndex: number;
+        pageSize: number;
+    };
+    onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
+    enableColumnResizing?: boolean;
+    enableStickyHeader?: boolean;
+    enableStickyFooter?: boolean;
+    enableRowActions?: boolean;
+    renderRowActions?: (row: T) => ReactNode;
+    columnPinning?: ColumnPinningState;
+    renderToolbar?: () => ReactNode;
+    getRowId?: (row: T) => string;
+    children?: ReactNode;
 }
 
-export const DEFAULT_TABLE_OPTIONS: Partial<MRT_TableOptions<MRT_RowData>> = {
-    // Enable custom features
-    enableColumnPinning: true,
-    enableColumnResizing: true,
-
-    // Sticky header/footer
-    enableStickyFooter: true,
-    enableStickyHeader: true,
-    muiTableContainerProps: {
-        sx: {
-            maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
-        }
-    }
-};
-
-const TablePage = <T extends MRT_RowData>({
+const TablePage = <T extends unknown>({
     title,
     subtitle,
-    table,
+    data,
+    columns,
+    isLoading = false,
+    pageSize = 25,
+    onRowClick,
+    manualPagination = false,
+    rowCount,
+    pagination,
+    onPaginationChange,
+    enableColumnResizing = false,
+    enableStickyHeader = true,
+    enableStickyFooter = true,
+    enableRowActions = false,
+    renderRowActions,
+    columnPinning,
+    renderToolbar,
+    getRowId,
     children,
     ...pageProps
-}: TablePageProps<T>) => {
+}: TablePageProps<T>): React.ReactElement => {
+    const isEmpty = data.length === 0 && !isLoading;
+
     return (
-        <Page
-            title={title}
-            {...pageProps}
-        >
-            <Box
-                className='content-primary'
-                sx={{
+        <Page title={title} {...pageProps}>
+            <UIBox
+                className="content-primary"
+                style={{
                     display: 'flex',
                     flexDirection: 'column',
                     height: '100%'
                 }}
             >
-                <Stack
-                    spacing={2}
-                    sx={{
-                        marginBottom: 1
+                <Flex
+                    style={{
+                        flexDirection: 'column',
+                        gap: vars.spacing.sm,
+                        marginBottom: vars.spacing.md
                     }}
                 >
-                    <Typography variant='h1'>
-                        {title}
-                    </Typography>
-                    {subtitle && (
-                        <Typography>
-                            {subtitle}
-                        </Typography>
-                    )}
-                </Stack>
-                <MaterialReactTable table={table} />
-            </Box>
+                    <Heading.H1>{title}</Heading.H1>
+                    {subtitle && <Text>{subtitle}</Text>}
+                </Flex>
+                <DataTable<T>
+                    data={data}
+                    columns={columns}
+                    isLoading={isLoading}
+                    isEmpty={isEmpty}
+                    pageSize={pageSize}
+                    onRowClick={onRowClick}
+                    manualPagination={manualPagination}
+                    rowCount={rowCount}
+                    pagination={pagination}
+                    onPaginationChange={onPaginationChange}
+                    enableColumnResizing={enableColumnResizing}
+                    enableStickyHeader={enableStickyHeader}
+                    enableStickyFooter={enableStickyFooter}
+                    enableRowActions={enableRowActions}
+                    renderRowActions={renderRowActions}
+                    columnPinning={columnPinning}
+                    renderToolbar={renderToolbar}
+                    getRowId={getRowId}
+                />
+            </UIBox>
             {children}
         </Page>
     );
 };
 
 export default TablePage;
+export type { TablePageProps };

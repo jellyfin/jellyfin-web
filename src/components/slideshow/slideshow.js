@@ -3,7 +3,7 @@
  * @module components/slideshow/slideshow
  */
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import screenfull from 'screenfull';
+import fullscreen from '../../utils/fullscreen';
 
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -19,7 +19,6 @@ import { appHost, safeAppHost } from '../apphost';
 import dom from '../../utils/dom';
 
 import './style.scss';
-import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 
 /**
@@ -44,7 +43,7 @@ function getImageUrl(item, options, apiClient) {
     options = options || {};
     options.type = options.type || 'Primary';
 
-    if (typeof (item) === 'string') {
+    if (typeof item === 'string') {
         return apiClient.getScaledImageUrl(item, options);
     }
 
@@ -73,7 +72,14 @@ function getBackdropImageUrl(item, options, apiClient) {
     options.type = options.type || 'Backdrop';
 
     // If not resizing, get the original image
-    if (!options.maxWidth && !options.width && !options.maxHeight && !options.height && !options.fillWidth && !options.fillHeight) {
+    if (
+        !options.maxWidth &&
+        !options.width &&
+        !options.maxHeight &&
+        !options.height &&
+        !options.fillWidth &&
+        !options.fillHeight
+    ) {
         options.quality = 100;
     }
 
@@ -118,7 +124,16 @@ function getImgUrl(item, user) {
 function getIcon(icon, cssClass, canFocus, autoFocus) {
     const tabIndex = canFocus ? '' : ' tabindex="-1"';
     autoFocus = autoFocus ? ' autofocus' : '';
-    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '" aria-hidden="true"></span></button>';
+    return (
+        '<button is="paper-icon-button-light" class="autoSize ' +
+        cssClass +
+        '"' +
+        tabIndex +
+        autoFocus +
+        '><span class="material-icons slideshowButtonIcon ' +
+        icon +
+        '" aria-hidden="true"></span></button>'
+    );
 }
 
 /**
@@ -178,13 +193,16 @@ export default function (options) {
             if (actionButtonsOnTop) {
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true);
 
-                if (safeAppHost.supports(AppFeature.FileDownload) && slideshowOptions.user?.Policy.EnableContentDownloading) {
+                if (
+                    safeAppHost.supports(AppFeature.FileDownload) &&
+                    slideshowOptions.user?.Policy.EnableContentDownloading
+                ) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
                 if (safeAppHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
-                if (screenfull.isEnabled) {
+                if (fullscreen.isEnabled) {
                     html += getIcon('fullscreen', 'btnFullscreen', true);
                     html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
                 }
@@ -196,13 +214,16 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                if (safeAppHost.supports(AppFeature.FileDownload) && slideshowOptions?.user.Policy.EnableContentDownloading) {
+                if (
+                    safeAppHost.supports(AppFeature.FileDownload) &&
+                    slideshowOptions?.user.Policy.EnableContentDownloading
+                ) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
                 if (safeAppHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
-                if (screenfull.isEnabled) {
+                if (fullscreen.isEnabled) {
                     html += getIcon('fullscreen', 'btnFullscreen', true);
                     html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
                 }
@@ -248,9 +269,9 @@ export default function (options) {
                 btnFullscreenExit.addEventListener('click', getClickHandler(fullscreenExit));
             }
 
-            if (screenfull.isEnabled) {
-                screenfull.on('change', () => {
-                    toggleFullscreenButtons(screenfull.isFullscreen);
+            if (fullscreen.isEnabled) {
+                fullscreen.on('change', () => {
+                    toggleFullscreenButtons(fullscreen.isFullscreen);
                 });
             }
         }
@@ -263,7 +284,7 @@ export default function (options) {
 
         inputManager.on(window, onInputCommand);
         /* eslint-disable-next-line compat/compat */
-        document.addEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
+        document.addEventListener(window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove);
 
         dialog.addEventListener('close', onDialogClosed);
 
@@ -428,7 +449,14 @@ export default function (options) {
      */
     function getSwiperSlideHtmlFromSlide(item) {
         let html = '';
-        html += '<div class="swiper-slide" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
+        html +=
+            '<div class="swiper-slide" data-original="' +
+            item.originalImage +
+            '" data-itemid="' +
+            item.Id +
+            '" data-serverid="' +
+            item.ServerId +
+            '">';
         html += '<div class="swiper-zoom-container">';
         if (useFakeZoomImage) {
             html += `<div class="swiper-zoom-fakeimg swiper-zoom-fakeimg-hidden" style="background-image: url('${item.originalImage}')"></div>`;
@@ -484,7 +512,7 @@ export default function (options) {
     function download() {
         const imageInfo = getCurrentImageInfo();
 
-        import('../../scripts/fileDownloader').then((fileDownloader) => {
+        import('../../scripts/fileDownloader').then(fileDownloader => {
             fileDownloader.download([imageInfo]);
         });
     }
@@ -501,18 +529,18 @@ export default function (options) {
     }
 
     /**
-     * Goes to fullscreen using screenfull plugin
+     * Goes to fullscreen using fullscreen plugin
      */
     function fullscreen() {
-        if (!screenfull.isFullscreen) screenfull.request();
+        if (!fullscreen.isFullscreen) fullscreen.request();
         toggleFullscreenButtons(true);
     }
 
     /**
-     * Exits fullscreen using screenfull plugin
+     * Exits fullscreen using fullscreen plugin
      */
     function fullscreenExit() {
-        if (screenfull.isFullscreen) screenfull.exit();
+        if (fullscreen.isFullscreen) fullscreen.exit();
         toggleFullscreenButtons(false);
     }
 
@@ -576,7 +604,7 @@ export default function (options) {
 
         inputManager.off(window, onInputCommand);
         /* eslint-disable-next-line compat/compat */
-        document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
+        document.removeEventListener(window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove);
     }
 
     /**
@@ -649,9 +677,11 @@ export default function (options) {
         const invisible = { opacity: '.3' };
 
         if (hiddenPosition === 'up' || hiddenPosition === 'down') {
-            invisible['transform'] = 'translate3d(0,' + element.offsetHeight * (hiddenPosition === 'down' ? 1 : -1) + 'px,0)';
+            invisible['transform'] =
+                'translate3d(0,' + element.offsetHeight * (hiddenPosition === 'down' ? 1 : -1) + 'px,0)';
         } else if (hiddenPosition === 'left' || hiddenPosition === 'right') {
-            invisible['transform'] = 'translate3d(' + element.offsetWidth * (hiddenPosition === 'right' ? 1 : -1) + 'px,0,0)';
+            invisible['transform'] =
+                'translate3d(' + element.offsetWidth * (hiddenPosition === 'right' ? 1 : -1) + 'px,0,0)';
         }
 
         return fadingOut ? [visible, invisible] : [invisible, visible];
@@ -775,7 +805,7 @@ export default function (options) {
      * @param {function|null|undefined} callback - Click event handler.
      */
     function getClickHandler(callback) {
-        return (e) => {
+        return e => {
             showOsd();
             callback?.(e);
         };

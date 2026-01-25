@@ -2,9 +2,7 @@ import React from 'react';
 import { Avatar } from 'ui-primitives/Avatar';
 import { Text, Heading } from 'ui-primitives/Text';
 import { IconButton } from 'ui-primitives/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import { DiscIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons';
 import { vars } from 'styles/tokens.css';
 
 import type { PlayableItem } from 'store/types';
@@ -45,7 +43,7 @@ export const QueueNowPlaying: React.FC<QueueNowPlayingProps> = ({
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    {!imageUrl && <MusicNoteIcon style={{ fontSize: 64, color: vars.colors.textSecondary }} />}
+                    {!imageUrl && <DiscIcon style={{ fontSize: 64, color: vars.colors.textSecondary }} />}
                 </Avatar>
             </div>
             <div className='nowPlayingInfoControls' style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -68,7 +66,7 @@ export const QueueNowPlaying: React.FC<QueueNowPlayingProps> = ({
                                 onClick={onFavoriteClick}
                                 style={{ color: isFavorite ? vars.colors.error : vars.colors.textSecondary }}
                             >
-                                {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                {isFavorite ? <HeartFilledIcon /> : <HeartIcon />}
                             </IconButton>
                         </div>
                     )}

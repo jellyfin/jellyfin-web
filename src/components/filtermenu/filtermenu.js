@@ -12,10 +12,8 @@ import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-select/emby-select';
-import 'material-design-icons-iconfont';
 import '../formdialog.scss';
-import '../../styles/flexstyles.scss';
-import template from './filtermenu.template.html';
+import template from './filtermenu.template.html?raw';
 
 function onSubmit(e) {
     e.preventDefault();
@@ -32,23 +30,32 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 
     let html = '';
 
-    html += items.map((filter) => {
-        let itemHtml = '';
+    html += items
+        .map(filter => {
+            let itemHtml = '';
 
-        const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
-        itemHtml += '<label>';
-        itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter.Id + '" class="' + cssClass + '"/>';
-        itemHtml += '<span>' + escapeHtml(filter.Name) + '</span>';
-        itemHtml += '</label>';
+            const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
+            itemHtml += '<label>';
+            itemHtml +=
+                '<input is="emby-checkbox" type="checkbox"' +
+                checkedHtml +
+                ' data-filter="' +
+                filter.Id +
+                '" class="' +
+                cssClass +
+                '"/>';
+            itemHtml += '<span>' + escapeHtml(filter.Name) + '</span>';
+            itemHtml += '</label>';
 
-        return itemHtml;
-    }).join('');
+            return itemHtml;
+        })
+        .join('');
 
     elem.querySelector('.filterOptions').innerHTML = html;
 }
 
 function renderDynamicFilters(context, result, options) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, (i) => {
+    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, i => {
         // Switching from | to ,
         const delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
         return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
@@ -83,7 +90,7 @@ function moveCheckboxFocus(elem, offset) {
     }
 }
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then((scrollHelper) => {
+    import('../../scripts/scrollHelper').then(scrollHelper => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -107,7 +114,11 @@ function saveValues(context, settings, settingsKey) {
         if (elem.tagName === 'INPUT') {
             setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
         } else {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem.querySelector('input'));
+            setBasicFilter(
+                context,
+                settingsKey + '-filter-' + elem.getAttribute('data-settingname'),
+                elem.querySelector('input')
+            );
         }
     });
 
@@ -196,19 +207,18 @@ function loadDynamicFilters(context, options) {
     const apiClient = ServerConnections.getApiClient(options.serverId);
 
     const filterMenuOptions = Object.assign(options.filterMenuOptions, {
-
         UserId: apiClient.getCurrentUserId(),
         ParentId: options.parentId,
         IncludeItemTypes: options.itemTypes.join(',')
     });
 
-    apiClient.getFilters(filterMenuOptions).then((result) => {
+    apiClient.getFilters(filterMenuOptions).then(result => {
         renderDynamicFilters(context, result, options);
     });
 }
 class FilterMenu {
     show(options) {
-        return new Promise( (resolve) => {
+        return new Promise(resolve => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -258,11 +268,15 @@ class FilterMenu {
 
             let submitted;
 
-            dlg.querySelector('form').addEventListener('change', () => {
-                submitted = true;
-            }, true);
+            dlg.querySelector('form').addEventListener(
+                'change',
+                () => {
+                    submitted = true;
+                },
+                true
+            );
 
-            dialogHelper.open(dlg).then( () => {
+            dialogHelper.open(dlg).then(() => {
                 bindCheckboxInput(dlg, false);
 
                 if (layoutManager.tv) {

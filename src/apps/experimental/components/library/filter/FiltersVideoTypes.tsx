@@ -1,10 +1,10 @@
 import { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-type';
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
 
-import { LibraryViewSettings, VideoBasicFilter } from 'types/library';
+import { type LibraryViewSettings, VideoBasicFilter } from 'types/library';
 
 const videoBasicFilterOptions = [
     { label: 'SD', value: VideoBasicFilter.IsSD },
@@ -72,40 +72,34 @@ const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({
     );
 
     return (
-        <FormGroup>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {videoBasicFilterOptions
                 .map((filter) => (
-                    <FormControlLabel
+                    <Checkbox
                         key={filter.value}
-                        control={
-                            <Checkbox
-                                checked={
-                                    !!libraryViewSettings?.Filters?.VideoBasicFilter?.includes(filter.value)
-                                }
-                                onChange={onFiltersvideoStandardChange}
-                                value={filter.value}
-                            />
+                        checked={
+                            !!libraryViewSettings?.Filters?.VideoBasicFilter?.includes(filter.value)
                         }
-                        label={filter.label}
-                    />
+                        onChange={onFiltersvideoStandardChange}
+                        value={filter.value}
+                    >
+                        {filter.label}
+                    </Checkbox>
                 ))}
             {videoTypesOptions
                 .map((filter) => (
-                    <FormControlLabel
+                    <Checkbox
                         key={filter.value}
-                        control={
-                            <Checkbox
-                                checked={
-                                    !!libraryViewSettings?.Filters?.VideoTypes?.includes(filter.value)
-                                }
-                                onChange={onFiltersVideoTypesChange}
-                                value={filter.value}
-                            />
+                        checked={
+                            !!libraryViewSettings?.Filters?.VideoTypes?.includes(filter.value)
                         }
-                        label={filter.label}
-                    />
+                        onChange={onFiltersVideoTypesChange}
+                        value={filter.value}
+                    >
+                        {filter.label}
+                    </Checkbox>
                 ))}
-        </FormGroup>
+        </Box>
     );
 };
 

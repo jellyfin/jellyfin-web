@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import "./nowPlayingBar.scss";
-import Stack from "@mui/joy/Stack";
-import Typography from "@mui/joy/Typography";
-import AspectRatio from "@mui/joy/AspectRatio";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import './nowPlayingBar.scss';
+import { DiscIcon } from '@radix-ui/react-icons';
 
-import {
-    PlaybackIconButton,
-    PlaybackSlider,
-    VolumeSlider,
-    AutoDJToggle
-} from "../joy-ui/playback";
+import { PlaybackIconButton, AutoDJToggle } from '../joy-ui/playback';
+
+import { VolumeSlider } from 'ui-primitives/VolumeSlider';
+import { SeekSlider } from 'ui-primitives/SeekSlider';
 
 import {
     useIsPlaying,
@@ -27,17 +22,21 @@ import {
     useFormattedTime,
     useCurrentQueueIndex,
     useCurrentPlayer,
-    useProgress,
-    useNotificationStore
-} from "../../store";
-import type { PlayableItem, PlayerInfo } from "../../store/types";
+    useNotificationStore,
+    useCrossfadeStore
+} from '../../store';
+import type { PlayableItem, PlayerInfo } from '../../store/types';
 
-import layoutManager from "../layoutManager";
-import Events from "../../utils/events";
-import { appRouter } from "../router/appRouter";
-import { ServerConnections } from "lib/jellyfin-apiclient";
-import { playbackManagerBridge } from "../../store/playbackManagerBridge";
-import { logger } from "../../utils/logger";
+import layoutManager from '../layoutManager';
+import Events from '../../utils/events';
+import { appRouter } from '../router/appRouter';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { playbackManagerBridge } from '../../store/playbackManagerBridge';
+import { logger } from '../../utils/logger';
+import { AspectRatio } from 'ui-primitives/AspectRatio';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 export const NowPlayingBar: React.FC = () => {
     const isPlaying = useIsPlaying();
@@ -55,7 +54,11 @@ export const NowPlayingBar: React.FC = () => {
     const { togglePlayPause, stop, seek, seekPercent, setVolume, toggleMute } = usePlaybackActions();
     const { next, previous, toggleRepeatMode, toggleShuffleMode } = useQueueActions();
 
-    const progress = useProgress();
+    const crossfadeEnabled = useCrossfadeStore(state => state.enabled);
+    const crossfadeDuration = useCrossfadeStore(state => state.duration);
+    const crossfadeBusy = useCrossfadeStore(state => state.busy);
+    const setCrossfadeEnabled = useCrossfadeStore(state => state.setEnabled);
+    const syncCrossfade = useCrossfadeStore(state => state.syncFromEngine);
 
     const [isMobile, setIsMobile] = useState(layoutManager.mobile);
     const [isDragging, setIsDragging] = useState(false);
@@ -68,30 +71,32 @@ export const NowPlayingBar: React.FC = () => {
     const [bufferedRanges, setBufferedRanges] = useState<{ start: number; end: number }[]>([]);
 
     const supportedCommands = currentPlayer?.supportedCommands || [];
-    const hasAirPlay = supportedCommands.includes("AirPlay");
-    const hasRepeat = supportedCommands.includes("SetRepeatMode");
-    const hasLyrics = currentItem ? ((currentItem as PlayableItem & { hasLyrics?: boolean }).hasLyrics ||
-        (currentItem as PlayableItem & { Type?: string }).Type === "Audio") : false;
+    const hasAirPlay = supportedCommands.includes('AirPlay');
+    const hasRepeat = supportedCommands.includes('SetRepeatMode');
+    const hasLyrics = currentItem
+        ? (currentItem as PlayableItem & { hasLyrics?: boolean }).hasLyrics ||
+          (currentItem as PlayableItem & { Type?: string }).Type === 'Audio'
+        : false;
 
     useEffect(() => {
         const handleLayoutChange = () => {
             setIsMobile(layoutManager.mobile);
         };
 
-        Events.on(layoutManager, "modechange", handleLayoutChange);
+        Events.on(layoutManager, 'modechange', handleLayoutChange);
         return () => {
-            Events.off(layoutManager, "modechange", handleLayoutChange);
+            Events.off(layoutManager, 'modechange', handleLayoutChange);
         };
     }, []);
 
     useEffect(() => {
         const checkLyricsPage = () => {
             const path = window.location.hash;
-            setIsLyricsActive(path.includes("lyrics"));
+            setIsLyricsActive(path.includes('lyrics'));
         };
         checkLyricsPage();
-        Events.on(window, "hashchange", checkLyricsPage);
-        return () => Events.off(window, "hashchange", checkLyricsPage);
+        Events.on(window, 'hashchange', checkLyricsPage);
+        return () => Events.off(window, 'hashchange', checkLyricsPage);
     }, []);
 
     useEffect(() => {
@@ -104,7 +109,7 @@ export const NowPlayingBar: React.FC = () => {
         const prevItemRef = { current: currentItem };
 
         if (currentItem && !prevItemRef.current) {
-            Events.trigger(document, "nowplayingbar:show");
+            Events.trigger(document, 'nowplayingbar:show');
         }
 
         prevItemRef.current = currentItem;
@@ -120,17 +125,17 @@ export const NowPlayingBar: React.FC = () => {
             }
         };
 
-        document.addEventListener("viewbeforeshow", handleViewBeforeShow);
+        document.addEventListener('viewbeforeshow', handleViewBeforeShow);
 
         const showNowPlayingBar = () => {
             setIsVisible(true);
         };
 
-        Events.on(document, "nowplayingbar:show", showNowPlayingBar);
+        Events.on(document, 'nowplayingbar:show', showNowPlayingBar);
 
         return () => {
-            document.removeEventListener("viewbeforeshow", handleViewBeforeShow);
-            Events.off(document, "nowplayingbar:show", showNowPlayingBar);
+            document.removeEventListener('viewbeforeshow', handleViewBeforeShow);
+            Events.off(document, 'nowplayingbar:show', showNowPlayingBar);
         };
     }, []);
 
@@ -143,7 +148,7 @@ export const NowPlayingBar: React.FC = () => {
     useEffect(() => {
         const unsub = useNotificationStore.subscribe(
             state => state.lastUserDataUpdate,
-            (update) => {
+            update => {
                 if (currentItem && update?.itemId === currentItem.id) {
                     setIsFavorite(update.isFavorite);
                 }
@@ -159,13 +164,13 @@ export const NowPlayingBar: React.FC = () => {
         const updateBufferedRanges = () => {
             if (currentItem && duration > 0) {
                 const ranges = playbackManagerBridge.getBufferedRanges();
-                const progressPercent = (currentTime / duration) * 100;
                 const normalizedRanges = ranges.map(range => ({
                     start: (range.start / duration) * 100,
                     end: (range.end / duration) * 100
                 }));
                 setBufferedRanges(normalizedRanges);
             }
+            syncCrossfade();
         };
 
         updateBufferedRanges();
@@ -176,7 +181,7 @@ export const NowPlayingBar: React.FC = () => {
                 clearInterval(intervalId);
             }
         };
-    }, [currentItem, currentTime, duration]);
+    }, [currentItem, currentTime, duration, syncCrossfade]);
 
     if (!currentItem || !isVisible) {
         return null;
@@ -206,17 +211,16 @@ export const NowPlayingBar: React.FC = () => {
         toggleMute();
     };
 
-    const handleVolumeChange = (_event: React.SyntheticEvent | Event, newValue: number | number[]) => {
-        const newVolume = Array.isArray(newValue) ? newValue[0] : newValue;
-        setVolume(newVolume);
-    };
-
     const handleRepeatToggle = () => {
         toggleRepeatMode();
     };
 
     const handleShuffleToggle = () => {
         toggleShuffleMode();
+    };
+
+    const handleCrossfadeToggle = () => {
+        setCrossfadeEnabled(!crossfadeEnabled);
     };
 
     const handleSeekStart = () => {
@@ -244,7 +248,7 @@ export const NowPlayingBar: React.FC = () => {
         if (isLyricsActive) {
             appRouter.back();
         } else {
-            appRouter.show("lyrics");
+            appRouter.show('lyrics');
         }
     };
 
@@ -270,7 +274,7 @@ export const NowPlayingBar: React.FC = () => {
 
             setIsFavorite(newFavoriteState);
         } catch (error) {
-            logger.error("Failed to update favorite status", { component: "ReactNowPlayingBar" }, error as Error);
+            logger.error('Failed to update favorite status', { component: 'ReactNowPlayingBar' }, error as Error);
             setIsFavorite(!newFavoriteState);
         } finally {
             setIsFavoritesLoading(false);
@@ -283,25 +287,26 @@ export const NowPlayingBar: React.FC = () => {
     };
 
     const getRepeatIconType = (): 'repeat' | 'repeat-one' => {
-        return repeatMode === "RepeatOne" ? 'repeat-one' : 'repeat';
+        return repeatMode === 'RepeatOne' ? 'repeat-one' : 'repeat';
     };
 
-    const isRepeatActive = repeatMode !== "RepeatNone";
-    const isShuffleActive = shuffleMode === "Shuffle";
+    const isRepeatActive = repeatMode !== 'RepeatNone';
+    const isShuffleActive = shuffleMode === 'Shuffle';
 
-    const trackName = currentItem.name || currentItem.title || "Unknown Track";
-    const artistName = currentItem.artist || currentItem.albumArtist || "";
-    const imageUrl = currentItem.imageUrl
-        || currentItem.artwork?.find(img => img.type === "Primary")?.url
-        || currentItem.artwork?.[0]?.url;
+    const trackName = currentItem.name || currentItem.title || 'Unknown Track';
+    const artistName = currentItem.artist || currentItem.albumArtist || '';
+    const imageUrl =
+        currentItem.imageUrl ||
+        currentItem.artwork?.find(img => img.type === 'Primary')?.url ||
+        currentItem.artwork?.[0]?.url;
 
     const albumArtStyle: React.CSSProperties = {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "var(--joy-palette-neutral-700, #303030)",
-        width: "100%",
-        height: "100%",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: vars.colors.neutral700,
+        width: '100%',
+        height: '100%'
     };
 
     return (
@@ -311,120 +316,154 @@ export const NowPlayingBar: React.FC = () => {
                 initial={{ y: 100 }}
                 animate={{ y: 0 }}
                 exit={{ y: 100 }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             >
                 <div className="nowPlayingBarTop">
                     <div id="barSurfer" className="nowPlayingBarPositionContainer sliderContainer">
-                        <PlaybackSlider
-                            value={localSeekValue}
-                            max={duration || 100}
+                        <SeekSlider
+                            currentTime={currentTime}
+                            duration={duration || 100}
                             bufferedRanges={bufferedRanges}
-                            onChange={handleSeekChange}
-                            onChangeCommitted={handleSeekEnd}
+                            onSeek={time => seekPercent((time / duration) * 100)}
+                            onSeekStart={handleSeekStart}
+                            onSeekEnd={handleSeekEnd}
                             waveSurferCompatible
                         />
                     </div>
 
-                    <Stack
-                        direction="row"
-                        spacing={1.5}
-                        alignItems="center"
+                    <Flex
+                        style={{
+                            flexDirection: 'row',
+                            gap: vars.spacing.md,
+                            alignItems: 'center',
+                            cursor: 'pointer',
+                            minWidth: 0,
+                            flex: '0 1 auto'
+                        }}
                         className="nowPlayingBarInfoContainer"
                         onClick={openNowPlaying}
-                        sx={{ cursor: "pointer", minWidth: 0, flex: "0 1 auto" }}
                     >
                         <motion.div layoutId="now-playing-art">
                             <AspectRatio
                                 ratio="1"
-                                sx={{
+                                style={{
                                     width: 48,
                                     minWidth: 48,
-                                    borderRadius: "sm",
-                                    overflow: "hidden",
-                                    bgcolor: "neutral.800",
+                                    borderRadius: vars.borderRadius.sm,
+                                    overflow: 'hidden',
+                                    backgroundColor: vars.colors.neutral800
                                 }}
                             >
                                 {imageUrl ? (
-                                    <img
-                                        src={imageUrl}
-                                        alt={trackName}
-                                        loading="lazy"
-                                        style={{ objectFit: "cover" }}
-                                    />
+                                    <img src={imageUrl} alt={trackName} loading="lazy" style={{ objectFit: 'cover' }} />
                                 ) : (
                                     <div style={albumArtStyle}>
-                                        <MusicNoteIcon sx={{ fontSize: 24, color: "neutral.400" }} />
+                                        <DiscIcon
+                                            data-testid="nowPlayingBarPlaceholderIcon"
+                                            style={{
+                                                fontSize: vars.typography.fontSizeMd,
+                                                color: vars.colors.textSecondary
+                                            }}
+                                        />
                                     </div>
                                 )}
                             </AspectRatio>
                         </motion.div>
                         <div className="nowPlayingBarText">
-                            <Typography
-                                level="body-sm"
-                                sx={{
-                                    fontWeight: "bold",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
+                            <Text
+                                size="sm"
+                                style={{
+                                    fontWeight: vars.typography.fontWeightBold,
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis'
                                 }}
                             >
                                 {trackName}
-                            </Typography>
-                            <Typography
-                                level="body-xs"
-                                sx={{
-                                    color: "neutral.400",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
+                            </Text>
+                            <Text
+                                size="xs"
+                                style={{
+                                    color: vars.colors.neutral400,
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis'
                                 }}
                             >
                                 {artistName}
-                            </Typography>
+                            </Text>
                         </div>
-                    </Stack>
+                    </Flex>
 
-                    <Stack direction="row" spacing={0.5} alignItems="center" className="nowPlayingBarCenter">
-                        <PlaybackIconButton
-                            icon="previous"
-                            onClick={handlePrevious}
-                            aria-label="Previous"
-                        />
+                    <Flex
+                        style={{
+                            flexDirection: 'row',
+                            gap: vars.spacing.xs,
+                            alignItems: 'center'
+                        }}
+                        className="nowPlayingBarCenter"
+                    >
+                        <PlaybackIconButton icon="previous" onClick={handlePrevious} aria-label="Previous" />
 
                         <PlaybackIconButton
-                            icon={isPlaying ? "pause" : "play"}
+                            icon={isPlaying ? 'pause' : 'play'}
                             onClick={handlePlayPause}
                             size="md"
-                            aria-label={isPlaying ? "Pause" : "Play"}
+                            aria-label={isPlaying ? 'Pause' : 'Play'}
                         />
 
-                        <PlaybackIconButton
-                            icon="stop"
-                            onClick={handleStop}
-                            aria-label="Stop"
-                        />
+                        <PlaybackIconButton icon="stop" onClick={handleStop} aria-label="Stop" />
 
-                        {!isMobile && (
-                            <PlaybackIconButton
-                                icon="next"
-                                onClick={handleNext}
-                                aria-label="Next"
-                            />
-                        )}
+                        {!isMobile && <PlaybackIconButton icon="next" onClick={handleNext} aria-label="Next" />}
 
-                        <Typography level="body-xs" className="nowPlayingBarCurrentTime" sx={{ ml: 1 }}>
+                        <Text size="xs" className="nowPlayingBarCurrentTime" style={{ marginLeft: vars.spacing.sm }}>
                             {currentTimeFormatted}
                             {duration > 0 && ` / ${durationFormatted}`}
-                        </Typography>
-                    </Stack>
+                        </Text>
+                    </Flex>
 
-                    <Stack direction="row" spacing={0.5} alignItems="center" className="nowPlayingBarRight">
+                    <Flex
+                        style={{
+                            flexDirection: 'row',
+                            gap: vars.spacing.xs,
+                            alignItems: 'center'
+                        }}
+                        className="nowPlayingBarRight"
+                    >
                         <VolumeSlider
                             volume={volume}
                             muted={muted}
                             onVolumeChange={setVolume}
                             onMuteToggle={toggleMute}
                         />
+
+                        <PlaybackIconButton
+                            icon="crossfade"
+                            onClick={handleCrossfadeToggle}
+                            active={crossfadeEnabled}
+                            aria-label={crossfadeEnabled ? 'Disable crossfade' : 'Enable crossfade'}
+                        />
+
+                        <AnimatePresence>
+                            {crossfadeEnabled && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 4 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 4 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <Text
+                                        size="xs"
+                                        style={{
+                                            color: crossfadeBusy ? vars.colors.primary : vars.colors.textSecondary,
+                                            fontWeight: crossfadeBusy ? 600 : 500
+                                        }}
+                                    >
+                                        XF {Math.round(crossfadeDuration)}s
+                                    </Text>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
 
                         {hasRepeat && (
                             <PlaybackIconButton
@@ -465,11 +504,11 @@ export const NowPlayingBar: React.FC = () => {
 
                         <div className="nowPlayingBarUserDataButtons">
                             <PlaybackIconButton
-                                icon={isFavorite ? "favorite" : "favorite-border"}
+                                icon={isFavorite ? 'favorite' : 'favorite-border'}
                                 onClick={handleFavorite}
                                 active={isFavorite}
                                 className="emby-ratingbutton"
-                                aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                                aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                             />
                         </div>
 
@@ -483,19 +522,15 @@ export const NowPlayingBar: React.FC = () => {
                         {isMobile && (
                             <>
                                 <PlaybackIconButton
-                                    icon={isPlaying ? "pause" : "play"}
+                                    icon={isPlaying ? 'pause' : 'play'}
                                     onClick={handlePlayPause}
                                     size="md"
-                                    aria-label={isPlaying ? "Pause" : "Play"}
+                                    aria-label={isPlaying ? 'Pause' : 'Play'}
                                 />
-                                <PlaybackIconButton
-                                    icon="next"
-                                    onClick={handleNext}
-                                    aria-label="Next"
-                                />
+                                <PlaybackIconButton icon="next" onClick={handleNext} aria-label="Next" />
                             </>
                         )}
-                    </Stack>
+                    </Flex>
                 </div>
             </motion.div>
         </AnimatePresence>

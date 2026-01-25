@@ -1,25 +1,25 @@
-import DOMPurify from 'dompurify';
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 
 import { safeAppHost } from 'components/apphost';
 import Page from 'components/Page';
+import ReactMarkdownBox from 'components/ReactMarkdownBox';
 import toast from 'components/toast/toast';
 import { AppFeature } from 'constants/appFeature';
-import LinkButton from 'elements/emby-button/LinkButton';
+import { Button } from 'ui-primitives/Button';
 import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 interface ConnectionErrorPageProps {
-    state: ConnectionState
+    state: ConnectionState;
 }
 
-const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
-    state
-}) => {
-    const [ title, setTitle ] = useState<string>();
-    const [ htmlMessage, setHtmlMessage ] = useState<string>();
-    const [ message, setMessage ] = useState<string>();
-    const [ isConnectDisabled, setIsConnectDisabled ] = useState(false);
+const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({ state }) => {
+    const navigate = useNavigate();
+    const [title, setTitle] = useState<string>();
+    const [htmlMessage, setHtmlMessage] = useState<string>();
+    const [message, setMessage] = useState<string>();
+    const [isConnectDisabled, setIsConnectDisabled] = useState(false);
 
     const onForceConnect = useCallback(async () => {
         setIsConnectDisabled(true);
@@ -27,13 +27,18 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
         try {
             const server = ServerConnections.getLastUsedServer();
             await ServerConnections.updateSavedServerId(server);
-            window.location.reload();
+            // Try to navigate home instead of forcing a reload
+            navigate({ to: '/home' });
         } catch (err) {
             console.error('[ConnectionErrorPage] Failed to force connect to server', err);
             toast(globalize.translate('HeaderConnectionFailure'));
             setIsConnectDisabled(false);
         }
-    }, []);
+    }, [navigate]);
+
+    const onSelectServer = useCallback(() => {
+        navigate({ to: '/selectserver' });
+    }, [navigate]);
 
     useEffect(() => {
         switch (state) {
@@ -44,10 +49,12 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                 return;
             case ConnectionState.ServerUpdateNeeded:
                 setTitle(globalize.translate('HeaderUpdateRequired'));
-                setHtmlMessage(globalize.translate(
-                    'ServerUpdateNeeded',
-                    '<a href="https://jellyfin.org/downloads/server/">jellyfin.org/downloads/server</a>'
-                ));
+                setHtmlMessage(
+                    globalize.translate(
+                        'ServerUpdateNeeded',
+                        '<a href="https://jellyfin.org/downloads/server/">jellyfin.org/downloads/server</a>'
+                    )
+                );
                 setMessage(undefined);
                 return;
             case ConnectionState.Unavailable:
@@ -55,46 +62,31 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                 setHtmlMessage(undefined);
                 setMessage(globalize.translate('MessageUnableToConnectToServer'));
         }
-    }, [ state ]);
+    }, [state]);
 
     if (!title) return;
 
     return (
-        <Page
-            id='connectionErrorPage'
-            className='mainAnimatedPage standalonePage'
-            isBackButtonEnabled={false}
-        >
-            <div className='padded-left padded-right'>
+        <Page id="connectionErrorPage" className="mainAnimatedPage standalonePage" isBackButtonEnabled={false}>
+            <div className="padded-left padded-right">
                 <h1>{title}</h1>
                 {htmlMessage && (
-                    <p
-                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlMessage) }}
-                        style={{ maxWidth: '80ch' }}
-                    />
+                    <div style={{ maxWidth: '80ch' }}>
+                        <ReactMarkdownBox markdown={htmlMessage} />
+                    </div>
                 )}
-                {message && (
-                    <p style={{ maxWidth: '80ch' }}>
-                        {message}
-                    </p>
-                )}
+                {message && <p style={{ maxWidth: '80ch' }}>{message}</p>}
 
                 {safeAppHost.supports(AppFeature.MultiServer) && (
-                    <LinkButton
-                        className='raised'
-                        href='/selectserver'
-                    >
+                    <Button className="raised" onClick={onSelectServer}>
                         {globalize.translate('ButtonChangeServer')}
-                    </LinkButton>
+                    </Button>
                 )}
 
                 {state === ConnectionState.ServerMismatch && (
-                    <LinkButton
-                        onClick={onForceConnect}
-                        style={ isConnectDisabled ? { pointerEvents: 'none' } : undefined }
-                    >
+                    <Button onClick={onForceConnect} style={isConnectDisabled ? { pointerEvents: 'none' } : undefined}>
                         {globalize.translate('ConnectAnyway')}
-                    </LinkButton>
+                    </Button>
                 )}
             </div>
         </Page>

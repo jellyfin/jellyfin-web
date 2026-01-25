@@ -1,12 +1,8 @@
-import FormControl from '@mui/material/FormControl/FormControl';
-import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
-import InputLabel from '@mui/material/InputLabel/InputLabel';
-import Link from '@mui/material/Link/Link';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select/Select';
-import Stack from '@mui/material/Stack/Stack';
-import Typography from '@mui/material/Typography/Typography';
 import React from 'react';
+import { Box, Flex } from 'ui-primitives/Box';
+import { FormControl, FormHelperText, FormLabel } from 'ui-primitives/FormControl';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
+import { Heading } from 'ui-primitives/Text';
 
 import { DATE_LOCALE_OPTIONS, LANGUAGE_OPTIONS } from 'apps/experimental/features/preferences/constants/locales';
 import { safeAppHost } from 'components/apphost';
@@ -17,7 +13,7 @@ import datetime from 'scripts/datetime';
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface LocalizationPreferencesProps {
-    onChange: (event: SelectChangeEvent) => void;
+    onChange: (event: React.SyntheticEvent) => void;
     values: DisplaySettingsValues;
 }
 
@@ -25,58 +21,68 @@ export function LocalizationPreferences({ onChange, values }: Readonly<Localizat
     if (!safeAppHost.supports(AppFeature.DisplayLanguage) && !datetime.supportsLocalization()) {
         return null;
     }
+
+    const handleSelectChange = (name: string) => (value: string) => {
+        onChange({
+            target: { name, value }
+        } as unknown as React.SyntheticEvent);
+    };
+
     return (
-        <Stack spacing={3}>
-            <Typography variant='h2'>{globalize.translate('Localization')}</Typography>
+        <Flex direction='column' gap='24px'>
+            <Heading.H2>{globalize.translate('Localization')}</Heading.H2>
 
             { safeAppHost.supports(AppFeature.DisplayLanguage) && (
-                <FormControl fullWidth>
-                    <InputLabel id='display-settings-language-label'>{globalize.translate('LabelDisplayLanguage')}</InputLabel>
+                <FormControl>
+                    <FormLabel>{globalize.translate('LabelDisplayLanguage')}</FormLabel>
                     <Select
-                        aria-describedby='display-settings-language-description'
-                        inputProps={{
-                            name: 'language'
-                        }}
-                        labelId='display-settings-language-label'
-                        onChange={onChange}
-                        value={values.language}
+                        value={values.language || ''}
+                        onValueChange={handleSelectChange('language')}
                     >
-                        {LANGUAGE_OPTIONS.map(({ value, label }) => (
-                            <MenuItem key={value } value={value}>{ label }</MenuItem>
-                        ))}
+                        <SelectTrigger>
+                            <SelectValue placeholder={globalize.translate('LabelDisplayLanguage')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {LANGUAGE_OPTIONS.map(({ value, label }) => (
+                                <SelectItem key={value } value={value}>{ label }</SelectItem>
+                            ))}
+                        </SelectContent>
                     </Select>
-                    <FormHelperText component={Stack} id='display-settings-language-description'>
+                    <FormHelperText>
                         <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
                         { safeAppHost.supports(AppFeature.ExternalLinks) && (
-                            <Link
+                            <Box
+                                as='a'
                                 href='https://github.com/jellyfin/jellyfin'
                                 rel='noopener noreferrer'
                                 target='_blank'
+                                style={{ color: 'inherit', textDecoration: 'underline' }}
                             >
                                 {globalize.translate('LearnHowYouCanContribute')}
-                            </Link>
+                            </Box>
                         ) }
                     </FormHelperText>
                 </FormControl>
             ) }
 
             { datetime.supportsLocalization() && (
-                <FormControl fullWidth>
-                    <InputLabel id='display-settings-locale-label'>{globalize.translate('LabelDateTimeLocale')}</InputLabel>
+                <FormControl>
+                    <FormLabel>{globalize.translate('LabelDateTimeLocale')}</FormLabel>
                     <Select
-                        inputProps={{
-                            name: 'dateTimeLocale'
-                        }}
-                        labelId='display-settings-locale-label'
-                        onChange={onChange}
-                        value={values.dateTimeLocale}
+                        value={values.dateTimeLocale || ''}
+                        onValueChange={handleSelectChange('dateTimeLocale')}
                     >
-                        {DATE_LOCALE_OPTIONS.map(({ value, label }) => (
-                            <MenuItem key={value} value={value}>{label}</MenuItem>
-                        ))}
+                        <SelectTrigger>
+                            <SelectValue placeholder={globalize.translate('LabelDateTimeLocale')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {DATE_LOCALE_OPTIONS.map(({ value, label }) => (
+                                <SelectItem key={value} value={value}>{label}</SelectItem>
+                            ))}
+                        </SelectContent>
                     </Select>
                 </FormControl>
             ) }
-        </Stack>
+        </Flex>
     );
 }

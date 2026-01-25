@@ -5,7 +5,7 @@ import { Menu, MenuItem } from 'ui-primitives/Menu';
 import { IconButton } from 'ui-primitives/IconButton';
 import getTunerName from '../utils/getTunerName';
 import globalize from 'lib/globalize';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 import ConfirmDialog from 'components/ConfirmDialog';
 import { useDeleteTuner } from '../api/useDeleteTuner';
 
@@ -43,7 +43,7 @@ const TunerDeviceCard = ({ tunerHost }: TunerDeviceCardProps) => {
     const deleteTuner = useDeleteTuner();
 
     const navigateToEditPage = useCallback(() => {
-        navigate(`/dashboard/livetv/tuner?id=${tunerHost.Id}`);
+        navigate({ to: `/dashboard/livetv/tuner?id=${tunerHost.Id}` });
     }, [ navigate, tunerHost ]);
 
     const onDelete = useCallback(() => {

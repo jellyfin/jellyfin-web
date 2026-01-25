@@ -8,7 +8,7 @@
 import type { PlayableItem, PlaybackProgress, RepeatMode, ShuffleMode, PlayerInfo, QueueItem } from './types';
 import type { ControlSource } from './controlsStore';
 import type { UiSettings, VisualizerSettings } from './settingsStore';
-import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, useSettingsStore } from './index';
+import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, usePreferencesStore } from './index';
 
 // Type Guards
 export function isPlaybackActive(state: ReturnType<typeof useMediaStore.getState>): boolean {
@@ -54,14 +54,14 @@ export function isLocalPlayerActive(state: ReturnType<typeof usePlayerStore.getS
 }
 
 export function isRemoteActive(state: ReturnType<typeof useControlsStore.getState>): boolean {
-    return state.remoteConnected && (Date.now() - state.remoteLastActivity < 5 * 60 * 1000);
+    return state.remoteConnected && Date.now() - state.remoteLastActivity < 5 * 60 * 1000;
 }
 
 export function hasPendingTransfer(state: ReturnType<typeof useControlsStore.getState>): boolean {
     return state.pendingTransfer !== null;
 }
 
-export function isVisualizerEnabled(state: ReturnType<typeof useSettingsStore.getState>): boolean {
+export function isVisualizerEnabled(state: ReturnType<typeof usePreferencesStore.getState>): boolean {
     return state.visualizer.enabled && state.ui.showVisualizer;
 }
 
@@ -110,19 +110,19 @@ export function selectActivePlayer(state: ReturnType<typeof usePlayerStore.getSt
     return state.currentPlayer;
 }
 
-export function selectAudioVolume(state: ReturnType<typeof useSettingsStore.getState>): number {
+export function selectAudioVolume(state: ReturnType<typeof usePreferencesStore.getState>): number {
     return state.audio.volume;
 }
 
-export function selectIsMuted(state: ReturnType<typeof useSettingsStore.getState>): boolean {
+export function selectIsMuted(state: ReturnType<typeof usePreferencesStore.getState>): boolean {
     return state.audio.muted;
 }
 
-export function selectTheme(state: ReturnType<typeof useSettingsStore.getState>): UiSettings['theme'] {
+export function selectTheme(state: ReturnType<typeof usePreferencesStore.getState>): UiSettings['theme'] {
     return state.ui.theme;
 }
 
-export function selectVisualizerEnabled(state: ReturnType<typeof useSettingsStore.getState>): boolean {
+export function selectVisualizerEnabled(state: ReturnType<typeof usePreferencesStore.getState>): boolean {
     return state.visualizer.enabled && state.ui.showVisualizer;
 }
 
@@ -157,10 +157,10 @@ export function selectFullPlayerState(
 
 // Control Actions
 export function createControlActions() {
-    const mediaStore = useMediaStore.getState();
-    const queueStore = useQueueStore.getState();
-    const controlsStore = useControlsStore.getState();
-    const settingsStore = useSettingsStore.getState();
+    const mediaStore = useMediaStore();
+    const queueStore = useQueueStore();
+    const controlsStore = useControlsStore();
+    const preferencesStore = usePreferencesStore();
 
     return {
         play: (item?: PlayableItem) => {
@@ -199,12 +199,12 @@ export function createControlActions() {
         setVolume: (volume: number) => {
             const clampedVolume = Math.max(0, Math.min(100, volume));
             mediaStore.setVolume(clampedVolume);
-            settingsStore.setVolume(clampedVolume);
+            preferencesStore.setVolume(clampedVolume);
         },
 
         toggleMute: () => {
-            const muted = !settingsStore.audio.muted;
-            settingsStore.setMuted(muted);
+            const muted = !preferencesStore.audio.muted;
+            preferencesStore.setMuted(muted);
             mediaStore.setMuted(muted);
         },
 
@@ -299,10 +299,14 @@ export function getPlayerDisplayName(player: PlayerInfo | null): string {
 
 export function getActiveSourceDisplayName(state: ReturnType<typeof useControlsStore.getState>): string {
     switch (state.activeControlSource) {
-        case 'local': return 'Local';
-        case 'remote': return state.remoteClientName || 'Remote';
-        case 'server': return 'Server';
-        default: return 'Unknown';
+        case 'local':
+            return 'Local';
+        case 'remote':
+            return state.remoteClientName || 'Remote';
+        case 'server':
+            return 'Server';
+        default:
+            return 'Unknown';
     }
 }
 
@@ -321,35 +325,50 @@ export function getVolumeIcon(volume: number, muted: boolean): string {
 // Settings utilities
 export function getThemeDisplayName(theme: UiSettings['theme']): string {
     switch (theme) {
-        case 'dark': return 'Dark';
-        case 'light': return 'Light';
-        case 'system': return 'System';
-        default: return 'Unknown';
+        case 'dark':
+            return 'Dark';
+        case 'light':
+            return 'Light';
+        case 'system':
+            return 'System';
+        default:
+            return 'Unknown';
     }
 }
 
 export function getVisualizerTypeDisplayName(type: VisualizerSettings['type']): string {
     switch (type) {
-        case 'waveform': return 'Waveform';
-        case 'frequency': return 'Frequency';
-        case 'butterchurn': return 'Butterchurn';
-        default: return 'Unknown';
+        case 'waveform':
+            return 'Waveform';
+        case 'frequency':
+            return 'Frequency';
+        case 'butterchurn':
+            return 'Butterchurn';
+        default:
+            return 'Unknown';
     }
 }
 
 export function getRepeatModeDisplayName(mode: RepeatMode): string {
     switch (mode) {
-        case 'RepeatNone': return 'Off';
-        case 'RepeatAll': return 'All';
-        case 'RepeatOne': return 'One';
-        default: return 'Unknown';
+        case 'RepeatNone':
+            return 'Off';
+        case 'RepeatAll':
+            return 'All';
+        case 'RepeatOne':
+            return 'One';
+        default:
+            return 'Unknown';
     }
 }
 
 export function getShuffleModeDisplayName(mode: ShuffleMode): string {
     switch (mode) {
-        case 'Sorted': return 'Sorted';
-        case 'Shuffle': return 'Shuffle';
-        default: return 'Unknown';
+        case 'Sorted':
+            return 'Sorted';
+        case 'Shuffle':
+            return 'Shuffle';
+        default:
+            return 'Unknown';
     }
 }

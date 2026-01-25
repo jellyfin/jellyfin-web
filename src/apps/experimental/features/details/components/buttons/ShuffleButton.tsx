@@ -1,6 +1,6 @@
-import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { ShuffleIcon } from '@radix-ui/react-icons';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';

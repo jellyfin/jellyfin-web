@@ -1,11 +1,11 @@
-import { Api } from '@jellyfin/sdk';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { type Api } from '@jellyfin/sdk';
+import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { useQuery } from '@tanstack/react-query';
-import { AxiosRequestConfig } from 'axios';
+import { type AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
 import { QUERY_OPTIONS } from '../constants/queryOptions';
 import { isMovies, isTVShows } from '../utils/search';
-import { PersonsApiGetPersonsRequest } from '@jellyfin/sdk/lib/generated-client/api/persons-api';
+import { type PersonsApiGetPersonsRequest } from '@jellyfin/sdk/lib/generated-client/api/persons-api';
 import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 
 const fetchPeople = async (

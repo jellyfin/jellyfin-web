@@ -1,53 +1,58 @@
 import React from 'react';
-import globalize from 'lib/globalize';
-import Widget from './Widget';
-import Sheet from '@mui/joy/Sheet';
-import Typography from '@mui/joy/Typography';
-import Stack from '@mui/joy/Stack';
-import Button from '@mui/joy/Button';
-import Skeleton from '@mui/joy/Skeleton';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import { useSystemInfo } from 'hooks/useSystemInfo';
+import { ExitIcon, ReloadIcon, ResetIcon } from '@radix-ui/react-icons';
 
-type ServerInfoWidgetProps = {
+import { useSystemInfo } from 'hooks/useSystemInfo';
+import globalize from 'lib/globalize';
+import { Button } from 'ui-primitives/Button';
+import { Flex } from 'ui-primitives/Box';
+import { Paper } from 'ui-primitives/Paper';
+import { Skeleton } from 'ui-primitives/Skeleton';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
+import Widget from './Widget';
+
+interface ServerInfoWidgetProps {
     onScanLibrariesClick?: () => void;
     onRestartClick?: () => void;
     onShutdownClick?: () => void;
     isScanning?: boolean;
-};
+}
 
 const ServerInfoWidget = ({
     onScanLibrariesClick,
     onRestartClick,
     onShutdownClick,
     isScanning
-}: ServerInfoWidgetProps) => {
+}: ServerInfoWidgetProps): React.ReactElement => {
     const { data: systemInfo, isPending } = useSystemInfo();
 
     return (
-        <Widget
-            title={globalize.translate('TabServer')}
-            href='/dashboard/settings'
-        >
-            <Stack spacing={3}>
-                <Sheet
+        <Widget title={globalize.translate('TabServer')} href="/dashboard/settings">
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg }}>
+                <Paper
                     variant="outlined"
-                    sx={{
-                        p: 2,
-                        borderRadius: 'md',
-                        bgcolor: 'background.surface'
+                    style={{
+                        padding: vars.spacing.md,
+                        borderRadius: vars.borderRadius.md,
+                        backgroundColor: vars.colors.surface
                     }}
                 >
-                    <Stack direction='row' spacing={2}>
-                        <Stack spacing={1.5} sx={{ minWidth: 140 }}>
-                            <Typography level="body-sm" fontWeight="bold">{globalize.translate('LabelServerName')}</Typography>
-                            <Typography level="body-sm" fontWeight="bold">{globalize.translate('LabelServerVersion')}</Typography>
-                            <Typography level="body-sm" fontWeight="bold">{globalize.translate('LabelWebVersion')}</Typography>
-                            <Typography level="body-sm" fontWeight="bold">{globalize.translate('LabelBuildVersion')}</Typography>
-                        </Stack>
-                        <Stack spacing={1.5} flexGrow={1}>
+                    <Flex style={{ flexDirection: 'row', gap: vars.spacing.md }}>
+                        <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm, minWidth: 140 }}>
+                            <Text size="sm" style={{ fontWeight: vars.typography.fontWeightBold }}>
+                                {globalize.translate('LabelServerName')}
+                            </Text>
+                            <Text size="sm" style={{ fontWeight: vars.typography.fontWeightBold }}>
+                                {globalize.translate('LabelServerVersion')}
+                            </Text>
+                            <Text size="sm" style={{ fontWeight: vars.typography.fontWeightBold }}>
+                                {globalize.translate('LabelWebVersion')}
+                            </Text>
+                            <Text size="sm" style={{ fontWeight: vars.typography.fontWeightBold }}>
+                                {globalize.translate('LabelBuildVersion')}
+                            </Text>
+                        </Flex>
+                        <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm, flexGrow: 1 }}>
                             {isPending ? (
                                 <>
                                     <Skeleton variant="text" width="80%" />
@@ -57,48 +62,48 @@ const ServerInfoWidget = ({
                                 </>
                             ) : (
                                 <>
-                                    <Typography level="body-sm">{systemInfo?.ServerName}</Typography>
-                                    <Typography level="body-sm">{systemInfo?.Version}</Typography>
-                                    <Typography level="body-sm">{__PACKAGE_JSON_VERSION__}</Typography>
-                                    <Typography level="body-sm">{__JF_BUILD_VERSION__}</Typography>
+                                    <Text size="sm">{systemInfo?.ServerName}</Text>
+                                    <Text size="sm">{systemInfo?.Version}</Text>
+                                    <Text size="sm">{__PACKAGE_JSON_VERSION__}</Text>
+                                    <Text size="sm">{__JF_BUILD_VERSION__}</Text>
                                 </>
                             )}
-                        </Stack>
-                    </Stack>
-                </Sheet>
+                        </Flex>
+                    </Flex>
+                </Paper>
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
+                <Flex style={{ flexDirection: 'row', flexWrap: 'wrap', gap: vars.spacing.sm }}>
                     <Button
                         onClick={onScanLibrariesClick}
-                        startDecorator={<RefreshIcon />}
+                        startDecorator={<ReloadIcon />}
                         disabled={isScanning}
                         loading={isScanning}
-                        sx={{ flex: 1 }}
+                        style={{ flex: 1 }}
                     >
                         {globalize.translate('ButtonScanAllLibraries')}
                     </Button>
 
                     <Button
                         onClick={onRestartClick}
-                        startDecorator={<RestartAltIcon />}
-                        color='danger'
+                        startDecorator={<ResetIcon />}
+                        color="danger"
                         variant="soft"
-                        sx={{ flex: 1 }}
+                        style={{ flex: 1 }}
                     >
                         {globalize.translate('Restart')}
                     </Button>
 
                     <Button
                         onClick={onShutdownClick}
-                        startDecorator={<PowerSettingsNewIcon />}
-                        color='danger'
+                        startDecorator={<ExitIcon />}
+                        color="danger"
                         variant="soft"
-                        sx={{ flex: 1 }}
+                        style={{ flex: 1 }}
                     >
                         {globalize.translate('ButtonShutdown')}
                     </Button>
-                </Stack>
-            </Stack>
+                </Flex>
+            </Flex>
         </Widget>
     );
 };

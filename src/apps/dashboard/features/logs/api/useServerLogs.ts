@@ -1,4 +1,4 @@
-import { Api } from '@jellyfin/sdk';
+import { type Api } from '@jellyfin/sdk';
 import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';

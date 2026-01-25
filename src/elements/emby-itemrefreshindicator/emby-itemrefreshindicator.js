@@ -1,3 +1,14 @@
+/**
+ * @deprecated This file is deprecated in favor of React + ui-primitives.
+ *
+ * Migration:
+ * - Web Component `emby-itemrefreshindicator` → ui-primitives/CircularProgress
+ * - Server notifications → TanStack Query subscriptions
+ *
+ * @see src/ui-primitives/CircularProgress.tsx
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import EmbyProgressRing from '../emby-progressring/emby-progressring';
 import dom from '../../utils/dom';
 import serverNotifications from '../../scripts/serverNotifications';
@@ -71,4 +82,3 @@ document.registerElement('emby-itemrefreshindicator', {
     prototype: EmbyItemRefreshIndicatorPrototype,
     extends: 'div'
 });
-

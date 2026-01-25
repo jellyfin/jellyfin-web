@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-member-accessibility */
 declare module 'jellyfin-apiclient' {
     import type {
         AllThemeMediaResult,
@@ -73,7 +73,12 @@ declare module 'jellyfin-apiclient' {
         constructor(serverAddress: string, appName: string, appVersion: string, deviceName: string, deviceId: string);
 
         accessToken(): string;
-        addMediaPath(virtualFolderName: string, mediaPath: string, networkSharePath: string, refreshLibrary?: boolean): Promise<void>;
+        addMediaPath(
+            virtualFolderName: string,
+            mediaPath: string,
+            networkSharePath: string,
+            refreshLibrary?: boolean
+        ): Promise<void>;
         addVirtualFolder(name: string, type?: string, refreshLibrary?: boolean, libraryOptions?: any): Promise<void>;
         ajax(request: any): Promise<any>;
         appName(): string;
@@ -85,8 +90,8 @@ declare module 'jellyfin-apiclient' {
         clearAuthenticationInfo(): void;
         clearUserItemRating(userId: string, itemId: string): Promise<UserItemDataDto>;
         closeWebSocket(): void;
-        createLiveTvSeriesTimer(item: string): Promise<void>;
-        createLiveTvTimer(item: string): Promise<void>;
+        createLiveTvSeriesTimer(item: SeriesTimerInfoDto): Promise<void>;
+        createLiveTvTimer(item: TimerInfoDto): Promise<void>;
         createPackageReview(review: any): Promise<any>;
         createSyncPlayGroup(options?: NewGroupRequestDto): Promise<void>;
         createUser(user: UserDto): Promise<UserDto>;
@@ -314,13 +319,20 @@ declare module 'jellyfin-apiclient' {
     }
 
     interface ConnectResponse {
-        ApiClient: ApiClient
-        Servers: any[]
-        State: ConnectionState
+        ApiClient: ApiClient;
+        Servers: any[];
+        State: ConnectionState;
     }
 
     class ConnectionManager {
-        constructor(credentialProvider: Credentials, appName: string, appVersion: string, deviceName: string, deviceId: string, capabilities: ClientCapabilities);
+        constructor(
+            credentialProvider: Credentials,
+            appName: string,
+            appVersion: string,
+            deviceName: string,
+            deviceId: string,
+            capabilities: ClientCapabilities
+        );
 
         addApiClient(apiClient: ApiClient): void;
         clearData(): void;
@@ -359,14 +371,14 @@ declare module 'jellyfin-apiclient' {
         trigger(obj: any, eventName: string, ...args: any[]): void;
     };
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-member-accessibility */
 
 /**
  * Type declarations for the internal lib/jellyfin-apiclient module
  */
 declare module 'lib/jellyfin-apiclient' {
     import type { Api } from '@jellyfin/sdk';
-    import { ApiClient, ConnectionManager } from 'jellyfin-apiclient';
+    import type { ApiClient, ConnectionManager } from 'jellyfin-apiclient';
 
     export const ConnectionMode: {
         Local: number;

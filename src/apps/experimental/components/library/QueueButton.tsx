@@ -1,8 +1,9 @@
-import React, { FC, useCallback } from 'react';
-import Button from '@mui/joy/Button';
-import IconButton from '@mui/joy/IconButton';
-import Tooltip from '@mui/joy/Tooltip';
-import QueueIcon from '@mui/icons-material/Queue';
+import React, { type FC, useCallback } from 'react';
+import { StackIcon } from '@radix-ui/react-icons';
+import { Button } from 'ui-primitives/Button';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { vars } from 'styles/tokens.css';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
@@ -43,11 +44,11 @@ const QueueButton: FC<QueueButtonProps> = ({
     if (isTextVisible) {
         return (
             <Button
-                variant="plain"
-                color="neutral"
-                startDecorator={<QueueIcon />}
+                variant='plain'
+                color='neutral'
+                startDecorator={<StackIcon />}
                 onClick={queue}
-                sx={{ color: 'neutral.50' }}
+                style={{ color: vars.colors.textSecondary }}
             >
                 {label}
             </Button>
@@ -55,15 +56,14 @@ const QueueButton: FC<QueueButtonProps> = ({
     }
 
     return (
-        <Tooltip title={label} placement="top">
+        <Tooltip title={label}>
             <IconButton
-                variant="plain"
-                color="neutral"
+                variant='plain'
+                color='neutral'
                 onClick={queue}
-                sx={{ color: 'neutral.50' }}
                 aria-label={label}
             >
-                <QueueIcon />
+                <StackIcon />
             </IconButton>
         </Tooltip>
     );

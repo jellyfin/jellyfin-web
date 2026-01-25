@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import ModalClose from '@mui/joy/ModalClose';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemButton from '@mui/joy/ListItemButton';
-import ListItemContent from '@mui/joy/ListItemContent';
-import Typography from '@mui/joy/Typography';
-import Divider from '@mui/joy/Divider';
-import Box from '@mui/joy/Box';
-import ChevronRight from '@mui/icons-material/ChevronRight';
-import Check from '@mui/icons-material/Check';
-import { usePlaybackStatus, usePlaybackActions, useMediaStore } from '../../../store';
+import { Box } from 'ui-primitives/Box';
+import { Dialog, DialogContentComponent, DialogOverlayComponent, DialogPortal } from 'ui-primitives/Dialog';
+import { List, ListItem, ListItemButton, ListItemContent } from 'ui-primitives/List';
+import { Text } from 'ui-primitives/Text';
+import { CheckIcon, ChevronRightIcon } from '@radix-ui/react-icons';
+import { usePlaybackActions, useMediaStore } from '../../../store';
 import globalize from '../../../lib/globalize';
+import { vars } from 'styles/tokens.css';
 
 interface PlayerSettingsMenuProps {
     open: boolean;
@@ -23,28 +17,30 @@ type MenuPage = 'main' | 'quality' | 'playback-rate' | 'aspect-ratio' | 'repeat-
 
 export const PlayerSettingsMenu: React.FC<PlayerSettingsMenuProps> = ({ open, onClose }) => {
     const [page, setPage] = useState<MenuPage>('main');
-    const status = usePlaybackStatus();
-    const currentItem = useMediaStore(state => state.currentItem);
     const playbackRate = useMediaStore(state => state.playbackRate);
     const { setPlaybackRate, toggleRepeatMode } = usePlaybackActions();
 
     const renderMainPage = () => (
         <>
-            <Typography level="title-lg" sx={{ mb: 2 }}>{globalize.translate('Settings')}</Typography>
-            <List sx={{ '--ListItem-radius': '8px' }}>
+            <Text as='h2' size='lg' weight='bold' style={{ marginBottom: vars.spacing.md }}>
+                {globalize.translate('Settings')}
+            </Text>
+            <List>
                 <ListItem>
                     <ListItemButton onClick={() => setPage('playback-rate')}>
                         <ListItemContent>
-                            <Typography level="title-md">{globalize.translate('PlaybackRate')}</Typography>
-                            <Typography level="body-xs">{playbackRate}x</Typography>
+                            <Text weight='medium'>{globalize.translate('PlaybackRate')}</Text>
+                            <Text size='xs' color='secondary'>{playbackRate}x</Text>
                         </ListItemContent>
-                        <ChevronRight />
+                        <Box style={{ marginLeft: 'auto' }}>
+                            <ChevronRightIcon />
+                        </Box>
                     </ListItemButton>
                 </ListItem>
                 <ListItem>
                     <ListItemButton onClick={toggleRepeatMode}>
                         <ListItemContent>
-                            <Typography level="title-md">{globalize.translate('RepeatMode')}</Typography>
+                            <Text weight='medium'>{globalize.translate('RepeatMode')}</Text>
                         </ListItemContent>
                     </ListItemButton>
                 </ListItem>
@@ -56,13 +52,19 @@ export const PlayerSettingsMenu: React.FC<PlayerSettingsMenuProps> = ({ open, on
         const rates = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
         return (
             <>
-                <Typography level="title-lg" sx={{ mb: 2 }}>{globalize.translate('PlaybackRate')}</Typography>
+                <Text as='h2' size='lg' weight='bold' style={{ marginBottom: vars.spacing.md }}>
+                    {globalize.translate('PlaybackRate')}
+                </Text>
                 <List>
                     {rates.map(rate => (
                         <ListItem key={rate}>
                             <ListItemButton onClick={() => { setPlaybackRate(rate); setPage('main'); }}>
                                 <ListItemContent>{rate}x</ListItemContent>
-                                {playbackRate === rate && <Check color="primary" />}
+                                {playbackRate === rate && (
+                                    <Box style={{ marginLeft: 'auto', color: vars.colors.primary }}>
+                                        <CheckIcon />
+                                    </Box>
+                                )}
                             </ListItemButton>
                         </ListItem>
                     ))}
@@ -72,19 +74,27 @@ export const PlayerSettingsMenu: React.FC<PlayerSettingsMenuProps> = ({ open, on
     };
 
     return (
-        <Modal open={open} onClose={() => { setPage('main'); onClose(); }}>
-            <ModalDialog
-                variant="outlined"
-                sx={{
-                    minWidth: 300,
-                    maxWidth: '90vw',
-                    bgcolor: 'background.surface',
-                    boxShadow: 'lg',
-                }}
-            >
-                {page === 'main' && renderMainPage()}
-                {page === 'playback-rate' && renderPlaybackRatePage()}
-            </ModalDialog>
-        </Modal>
+        <Dialog
+            open={open}
+            onOpenChange={(nextOpen) => {
+                if (!nextOpen) {
+                    setPage('main');
+                    onClose();
+                }
+            }}
+        >
+            <DialogPortal>
+                <DialogOverlayComponent />
+                <DialogContentComponent
+                    style={{
+                        minWidth: 300,
+                        maxWidth: '90vw',
+                    }}
+                >
+                    {page === 'main' && renderMainPage()}
+                    {page === 'playback-rate' && renderPlaybackRatePage()}
+                </DialogContentComponent>
+            </DialogPortal>
+        </Dialog>
     );
 };

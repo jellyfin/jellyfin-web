@@ -1,3 +1,14 @@
+/**
+ * @deprecated This component uses legacy patterns (CheckBoxElement, className-based styling).
+ *
+ * Migration:
+ * - Replace CheckBoxElement with ui-primitives/Checkbox
+ * - Use CSS-in-JS (vanilla-extract) instead of className strings
+ * - Use ui-primitives layout components
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import React, { type FC, type PropsWithChildren } from 'react';
 import globalize from '../../../lib/globalize';
 import CheckBoxElement from '../../../elements/CheckBoxElement';
@@ -26,19 +37,13 @@ const AccessContainer: FC<PropsWithChildren<AccessContainerProps>> = ({
 }) => {
     return (
         <div className={containerClassName}>
-            <h2>{globalize.translate(headerTitle)}</h2>
-            <CheckBoxElement
-                labelClassName='checkboxContainer'
-                className={checkBoxClassName}
-                title={checkBoxTitle}
-            />
+            {headerTitle && <h2>{globalize.translate(headerTitle)}</h2>}
+            <CheckBoxElement labelClassName="checkboxContainer" className={checkBoxClassName} title={checkBoxTitle} />
             <div className={listContainerClassName}>
                 <div className={accessClassName}>
-                    <h3 className='checkboxListLabel'>
-                        {globalize.translate(listTitle)}
-                    </h3>
+                    {listTitle && <h3 className="checkboxListLabel">{globalize.translate(listTitle)}</h3>}
                     <div
-                        className='checkboxList paperList'
+                        className="checkboxList paperList"
                         style={{
                             padding: '.5em 1em'
                         }}
@@ -46,9 +51,7 @@ const AccessContainer: FC<PropsWithChildren<AccessContainerProps>> = ({
                         {children}
                     </div>
                 </div>
-                <div className='fieldDescription'>
-                    {globalize.translate(description)}
-                </div>
+                {description && <div className="fieldDescription">{globalize.translate(description)}</div>}
             </div>
         </div>
     );

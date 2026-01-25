@@ -1,23 +1,17 @@
-import React, { FunctionComponent, useCallback } from 'react';
+import React, { type FunctionComponent, useCallback } from 'react';
 import globalize from 'lib/globalize';
 import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
-import Dialog from '@mui/material/Dialog/Dialog';
-import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
-import DialogContent from '@mui/material/DialogContent/DialogContent';
-import Stack from '@mui/material/Stack/Stack';
-import DialogActions from '@mui/material/DialogActions/DialogActions';
-import Button from '@mui/material/Button/Button';
-import FormControl from '@mui/material/FormControl/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import DialogContentText from '@mui/material/DialogContentText/DialogContentText';
+import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
+import { Button } from 'ui-primitives/Button';
+import { Flex } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { FormControl, FormControlLabel, FormLabel } from 'ui-primitives/FormControl';
 
-type IProps = {
-    open: boolean,
-    onClose?: () => void,
-    onCreate: (backupOptions: BackupOptionsDto) => void
-};
+interface IProps {
+    open: boolean;
+    onClose?: () => void;
+    onCreate: (backupOptions: BackupOptionsDto) => void;
+}
 
 const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }) => {
     const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
@@ -37,26 +31,14 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
     }, [ onCreate ]);
 
     return (
-        <Dialog
-            open={open}
-            maxWidth={'xs'}
-            fullWidth
-            onClose={onClose}
-            slotProps={{
-                paper: {
-                    component: 'form',
-                    onSubmit
-                }
-            }}
-        >
-            <DialogTitle>{globalize.translate('ButtonCreateBackup')}</DialogTitle>
-
-            <DialogContent>
-                <Stack spacing={2}>
-                    <DialogContentText>
-                        {globalize.translate('MessageBackupDisclaimer')}
-                    </DialogContentText>
-                    <FormGroup>
+        <Dialog open={open} onOpenChange={(open) => !open && onClose?.()}>
+            <DialogOverlayComponent />
+            <DialogContentComponent
+                title={globalize.translate('ButtonCreateBackup')}
+                description={globalize.translate('MessageBackupDisclaimer')}
+            >
+                <form onSubmit={onSubmit}>
+                    <Flex style={{ flexDirection: 'column', gap: '16px' }}>
                         <FormControl>
                             <FormControlLabel
                                 control={
@@ -105,17 +87,17 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
                                 label={globalize.translate('Trickplay')}
                             />
                         </FormControl>
-                    </FormGroup>
-                </Stack>
-            </DialogContent>
+                    </Flex>
 
-            <DialogActions>
-                <Button
-                    onClick={onClose}
-                    variant='text'
-                >{globalize.translate('ButtonCancel')}</Button>
-                <Button type='submit'>{globalize.translate('Create')}</Button>
-            </DialogActions>
+                    <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
+                        <Button
+                            variant='ghost'
+                            onClick={onClose}
+                        >{globalize.translate('ButtonCancel')}</Button>
+                        <Button type='submit'>{globalize.translate('Create')}</Button>
+                    </Flex>
+                </form>
+            </DialogContentComponent>
         </Dialog>
     );
 };

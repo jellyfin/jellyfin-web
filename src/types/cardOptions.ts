@@ -24,7 +24,7 @@ export interface CardOptions {
     overlayText?: boolean;
     imageBlurhashes?: BaseItemDtoImageBlurHashes | null;
     preferBanner?: boolean;
-    preferThumb?: boolean | string | null;
+    preferThumb?: boolean | 'auto' | null;
     preferDisc?: boolean;
     preferLogo?: boolean;
     scalable?: boolean;
@@ -126,6 +126,5 @@ export interface CardOptions {
     primaryImageAspectRatio?: number | null;
     rows?: number | null;
     imageType?: ImageType;
-    queryKey?: string[]
+    queryKey?: string[];
 }
-

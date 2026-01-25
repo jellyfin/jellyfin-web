@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from 'react';
+import React, { type FunctionComponent } from 'react';
 import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
 import { List, ListItem, ListItemContent } from 'ui-primitives/List';
 import { Text } from 'ui-primitives/Text';
 import datetime from 'scripts/datetime';
 import ListItemLink from 'components/ListItemLink';
 
-type LogItemProps = {
+interface LogItemProps {
     logs: LogFile[];
-};
+}
 
 const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) => {
     const getDate = (logFile: LogFile) => {

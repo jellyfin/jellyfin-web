@@ -1,3 +1,14 @@
+/**
+ * @deprecated This module is deprecated in favor of React components.
+ *
+ * Migration:
+    - Image editor → React with canvas and state
+    - Template-based → React rendering
+    - Dialog helpers → ui-primitives/Dialog
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import { AppFeature } from 'constants/appFeature';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
@@ -17,7 +28,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import './imageeditor.scss';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
-import template from './imageeditor.template.html';
+import template from './imageeditor.template.html?raw';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 

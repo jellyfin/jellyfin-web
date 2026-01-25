@@ -3,9 +3,9 @@ import { Button } from 'ui-primitives/Button';
 import { Heading, Text } from 'ui-primitives/Text';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 import Loading from '../../../components/loading/LoadingComponent';
-import AddIcon from '@mui/icons-material/Add';
+import { PlusIcon } from '@radix-ui/react-icons';
 import BaseCard from '../../../components/cardbuilder/Card/BaseCard';
 import imageHelper from '../../../utils/image';
 import * as styles from './WizardLibrary.css';
@@ -52,13 +52,13 @@ const WizardLibrary = () => {
         <div className={styles.container}>
             <Heading.H2 className={styles.header}>{globalize.translate('HeaderSetupLibraries')}</Heading.H2>
             <Text className={styles.helpText}>{globalize.translate('HeaderSetupLibrariesHelp')}</Text>
-            
+
             <div className={styles.grid}>
                 <div>
                     <BaseCard
                         title={globalize.translate('ButtonAddMediaLibrary')}
                         onClick={handleAddLibrary}
-                        icon={<AddIcon style={{ fontSize: 48 }} />}
+                        icon={<PlusIcon style={{ width: 48, height: 48 }} />}
                     />
                 </div>
                 {libraries.map(lib => (
@@ -74,7 +74,7 @@ const WizardLibrary = () => {
             </div>
 
             <div className={styles.buttonRow}>
-                <Button size="lg" onClick={() => navigate('/wizard/settings')}>
+                <Button size='lg' onClick={() => navigate({ to: '/wizard/settings' })}>
                     {globalize.translate('ButtonNext')}
                 </Button>
             </div>

@@ -1,6 +1,6 @@
 import { LibraryTab } from 'types/libraryTab';
 
-import { LibraryRoute } from '../types/LibraryRoute';
+import { type LibraryRoute } from '../types/LibraryRoute';
 
 export const LibraryRoutes: LibraryRoute[] = [
     {

@@ -2,6 +2,7 @@ import React, { type FC, useCallback, useEffect, useRef, useState } from 'react'
 import scrollerFactory from 'lib/scroller';
 import globalize from 'lib/globalize';
 import IconButton from '../emby-button/IconButton';
+import { deprecate } from '../../utils/deprecation';
 import './emby-scrollbuttons.scss';
 import { ScrollDirection, scrollerItemSlideIntoView } from './utils';
 
@@ -15,6 +16,8 @@ interface ScrollButtonsProps {
 }
 
 const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState }) => {
+    deprecate('emby-scrollbuttons/ScrollButtons', 'Use native CSS scroll buttons or ui-primitives', 'src/elements/emby-scrollbuttons/ScrollButtons.tsx');
+
     const [localeScrollPos, setLocaleScrollPos] = useState<number>(0);
     const scrollButtonsRef = useRef<HTMLDivElement>(null);
 

@@ -1,5 +1,5 @@
-import IconButton from '@mui/joy/IconButton';
-import Tooltip from '@mui/joy/Tooltip';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
 import React, { useCallback, useState } from 'react';
 
 import UserAvatar from 'components/UserAvatar';
@@ -24,15 +24,15 @@ const UserMenuButton = () => {
 
     return (
         <>
-            <Tooltip title={globalize.translate('UserMenu')} variant="soft">
+            <Tooltip title={globalize.translate('UserMenu')}>
                 <IconButton
-                    variant="plain"
-                    color="neutral"
+                    variant='plain'
+                    color='neutral'
                     aria-label={globalize.translate('UserMenu')}
                     aria-controls={ID}
                     aria-haspopup='true'
                     onClick={onUserButtonClick}
-                    sx={{ p: 0.5, borderRadius: '50%' }}
+                    style={{ padding: 4, borderRadius: '50%' }}
                 >
                     <UserAvatar user={user} />
                 </IconButton>

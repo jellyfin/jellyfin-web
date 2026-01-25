@@ -22,22 +22,22 @@ const HomeSections: React.FC = () => {
     const apiClient = ServerConnections.currentApiClient();
 
     useEffect(() => {
+        if (!apiClient) return;
         const userId = apiClient.getCurrentUserId();
-        
-        queryClient.fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
-            .then(result => {
-                setUserViews(result.Items || []);
-                
-                const userSections: HomeSectionType[] = [];
-                for (let i = 0; i < 7; i++) {
-                    let section = (userSettings as any).get('homesection' + i) as HomeSectionType || DEFAULT_SECTIONS[i];
-                    if (section && section !== HomeSectionType.None) {
-                        userSections.push(section);
-                    }
+
+        queryClient.fetchQuery(getUserViewsQuery(toApi(apiClient), userId)).then(result => {
+            setUserViews(result.Items || []);
+
+            const userSections: HomeSectionType[] = [];
+            for (let i = 0; i < 7; i++) {
+                let section = ((userSettings as any).get('homesection' + i) as HomeSectionType) || DEFAULT_SECTIONS[i];
+                if (section && section !== HomeSectionType.None) {
+                    userSections.push(section);
                 }
-                setSections(userSections);
-                setIsLoading(false);
-            });
+            }
+            setSections(userSections);
+            setIsLoading(false);
+        });
     }, [apiClient]);
 
     if (isLoading) {

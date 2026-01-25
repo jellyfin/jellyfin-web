@@ -1,11 +1,9 @@
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import FormControl from '@mui/material/FormControl/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
-import Stack from '@mui/material/Stack/Stack';
-import TextField from '@mui/material/TextField/TextField';
-import Typography from '@mui/material/Typography/Typography';
 import React from 'react';
+import { Flex } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { FormControl, FormHelperText } from 'ui-primitives/FormControl';
+import { Input } from 'ui-primitives/Input';
+import { Heading } from 'ui-primitives/Text';
 
 import globalize from 'lib/globalize';
 
@@ -18,100 +16,80 @@ interface LibraryPreferencesProps {
 
 export function LibraryPreferences({ onChange, values }: Readonly<LibraryPreferencesProps>) {
     return (
-        <Stack spacing={3}>
-            <Typography variant='h2'>{globalize.translate('HeaderLibraries')}</Typography>
+        <Flex direction='column' gap='24px'>
+            <Heading.H2>{globalize.translate('HeaderLibraries')}</Heading.H2>
 
-            <FormControl fullWidth>
-                <TextField
-                    aria-describedby='display-settings-lib-pagesize-description'
-                    value={values.libraryPageSize}
-                    label={globalize.translate('LabelLibraryPageSize')}
-                    name='libraryPageSize'
-                    onChange={onChange}
-                    slotProps={{
-                        htmlInput: {
-                            type: 'number',
-                            inputMode: 'numeric',
-                            max: '1000',
-                            min: '0',
-                            pattern: '[0-9]',
-                            required: true,
-                            step: '1'
-                        }
-                    }}
-                />
-                <FormHelperText id='display-settings-lib-pagesize-description'>
-                    {globalize.translate('LabelLibraryPageSizeHelp')}
-                </FormHelperText>
-            </FormControl>
+            <Input
+                aria-describedby='display-settings-lib-pagesize-description'
+                value={values.libraryPageSize}
+                label={globalize.translate('LabelLibraryPageSize')}
+                name='libraryPageSize'
+                onChange={onChange}
+                type='number'
+                inputMode='numeric'
+                max={1000}
+                min={0}
+                pattern='[0-9]'
+                required
+                step={1}
+                helperText={globalize.translate('LabelLibraryPageSizeHelp')}
+            />
 
-            <FormControl fullWidth>
-                <FormControlLabel
+            <FormControl>
+                <Checkbox
                     aria-describedby='display-settings-lib-backdrops-description'
-                    control={
-                        <Checkbox
-                            checked={values.enableLibraryBackdrops}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('Backdrops')}
+                    checked={values.enableLibraryBackdrops}
+                    onChange={onChange}
                     name='enableLibraryBackdrops'
-                />
+                >
+                    {globalize.translate('Backdrops')}
+                </Checkbox>
                 <FormHelperText id='display-settings-lib-backdrops-description'>
                     {globalize.translate('EnableBackdropsHelp')}
                 </FormHelperText>
             </FormControl>
 
-            <FormControl fullWidth>
-                <FormControlLabel
+            <FormControl>
+                <Checkbox
                     aria-describedby='display-settings-lib-theme-songs-description'
-                    control={
-                        <Checkbox
-                            checked={values.enableLibraryThemeSongs}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('ThemeSongs')}
+                    checked={values.enableLibraryThemeSongs}
+                    onChange={onChange}
                     name='enableLibraryThemeSongs'
-                />
+                >
+                    {globalize.translate('ThemeSongs')}
+                </Checkbox>
                 <FormHelperText id='display-settings-lib-theme-songs-description'>
                     {globalize.translate('EnableThemeSongsHelp')}
                 </FormHelperText>
             </FormControl>
 
-            <FormControl fullWidth>
-                <FormControlLabel
+            <FormControl>
+                <Checkbox
                     aria-describedby='display-settings-lib-theme-videos-description'
-                    control={
-                        <Checkbox
-                            checked={values.enableLibraryThemeVideos}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('ThemeVideos')}
+                    checked={values.enableLibraryThemeVideos}
+                    onChange={onChange}
                     name='enableLibraryThemeVideos'
-                />
+                >
+                    {globalize.translate('ThemeVideos')}
+                </Checkbox>
                 <FormHelperText id='display-settings-lib-theme-videos-description'>
                     {globalize.translate('EnableThemeVideosHelp')}
                 </FormHelperText>
             </FormControl>
 
-            <FormControl fullWidth>
-                <FormControlLabel
+            <FormControl>
+                <Checkbox
                     aria-describedby='display-settings-show-missing-episodes-description'
-                    control={
-                        <Checkbox
-                            checked={values.displayMissingEpisodes}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('DisplayMissingEpisodesWithinSeasons')}
+                    checked={values.displayMissingEpisodes}
+                    onChange={onChange}
                     name='displayMissingEpisodes'
-                />
+                >
+                    {globalize.translate('DisplayMissingEpisodesWithinSeasons')}
+                </Checkbox>
                 <FormHelperText id='display-settings-show-missing-episodes-description'>
                     {globalize.translate('DisplayMissingEpisodesWithinSeasonsHelp')}
                 </FormHelperText>
             </FormControl>
-        </Stack>
+        </Flex>
     );
 }

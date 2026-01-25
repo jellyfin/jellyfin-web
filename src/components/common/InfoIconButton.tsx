@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
+import { IconButton } from 'ui-primitives/IconButton';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
 
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
@@ -16,7 +16,7 @@ const InfoIconButton: FC<InfoIconButtonProps> = ({ className }) => {
             data-action={ItemAction.Link}
             title={globalize.translate('ButtonInfo')}
         >
-            <InfoIcon />
+            <InfoCircledIcon />
         </IconButton>
     );
 };

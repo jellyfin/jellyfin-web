@@ -1,15 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import Box from '@mui/joy/Box';
-import Menu from '@mui/joy/Menu';
-import MenuItem from '@mui/joy/MenuItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import ListItemContent from '@mui/joy/ListItemContent';
-import Typography from '@mui/joy/Typography';
-import Divider from '@mui/joy/Divider';
-import List from '@mui/joy/List';
-
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import classNames from 'classnames';
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import { Box } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { menuStyles } from 'ui-primitives/Menu';
+import * as styles from './ActionMenu.css';
 
 export interface ActionMenuItem {
     id?: string;
@@ -49,6 +45,28 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
     onCancel,
     dialogClass
 }) => {
+    const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
+
+    useEffect(() => {
+        if (!open || !anchorEl) {
+            setAnchorRect(null);
+            return;
+        }
+
+        const updateRect = () => {
+            setAnchorRect(anchorEl.getBoundingClientRect());
+        };
+
+        updateRect();
+        window.addEventListener('scroll', updateRect, true);
+        window.addEventListener('resize', updateRect);
+
+        return () => {
+            window.removeEventListener('scroll', updateRect, true);
+            window.removeEventListener('resize', updateRect);
+        };
+    }, [anchorEl, open]);
+
     const handleItemClick = useCallback((item: ActionMenuItem) => {
         const itemId = item.id == null || item.id === '' ? item.value : item.id;
         if (itemId) {
@@ -67,101 +85,133 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
     const renderIcon = (icon: string | undefined, isSelected: boolean) => {
         if (!icon) {
             if (isSelected) {
-                return <CheckIcon />;
+                return <span className='material-icons' aria-hidden='true'>check</span>;
             }
             return null;
         }
-        return <span className={`material-icons ${icon}`}>{icon}</span>;
+        return <span className={`material-icons ${icon}`} aria-hidden='true'>{icon}</span>;
     };
 
+    const handleOpenChange = useCallback((nextOpen: boolean) => {
+        if (!nextOpen) {
+            onClose();
+        }
+    }, [onClose]);
+
+    if (!anchorEl) {
+        return null;
+    }
+
     return (
-        <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={onClose}
-            className={dialogClass}
-            placement="bottom-start"
-            sx={{
-                minWidth: 240,
-                maxHeight: 400,
-                overflow: 'auto',
-                borderRadius: 'md',
-                boxShadow: 'md',
-                zIndex: 1300
-            }}
-        >
-            {title && (
-                <Box sx={{ px: 2, py: 1.5 }}>
-                    <Typography level="title-sm" fontWeight="bold">
-                        {title}
-                    </Typography>
-                </Box>
+        <DropdownMenuPrimitive.Root open={open} onOpenChange={handleOpenChange} modal={false}>
+            {anchorRect && typeof document !== 'undefined' && createPortal(
+                <DropdownMenuPrimitive.Trigger asChild>
+                    <button
+                        type='button'
+                        aria-hidden='true'
+                        tabIndex={-1}
+                        className={styles.anchorTrigger}
+                        style={{
+                            left: anchorRect.left,
+                            top: anchorRect.top,
+                            width: anchorRect.width,
+                            height: anchorRect.height
+                        }}
+                    />
+                </DropdownMenuPrimitive.Trigger>,
+                document.body
             )}
+            <DropdownMenuPrimitive.Portal>
+                <DropdownMenuPrimitive.Content
+                    className={classNames(menuStyles.content, styles.menuContent, dialogClass)}
+                    align='start'
+                    sideOffset={4}
+                >
+                    {title && (
+                        <Box className={styles.header}>
+                            <Text size='sm' weight='bold'>
+                                {title}
+                            </Text>
+                        </Box>
+                    )}
 
-            {text && (
-                <Box sx={{ px: 2, py: 1 }}>
-                    <Typography level="body-sm" color="neutral">
-                        {text}
-                    </Typography>
-                </Box>
-            )}
+                    {text && (
+                        <Box className={styles.description}>
+                            <Text size='sm' color='secondary'>
+                                {text}
+                            </Text>
+                        </Box>
+                    )}
 
-            {(title || text) && <Divider />}
+                    {(title || text) && (
+                        <DropdownMenuPrimitive.Separator className={menuStyles.separator} />
+                    )}
 
-            <List sx={{ '--ListItem-radius': '8px', p: 1 }}>
-                {items.map((item, index) => {
-                    if (item.divider) {
-                        return <Divider key={`divider-${index}`} sx={{ my: 1 }} />;
-                    }
+                    {items.map((item, index) => {
+                        if (item.divider) {
+                            return <DropdownMenuPrimitive.Separator key={`divider-${index}`} className={menuStyles.separator} />;
+                        }
 
-                    const itemKey = item.id || item.value || `item-${index}`;
+                        const itemKey = item.id || item.value || `item-${index}`;
+                        const itemText = item.name || item.textContent || item.innerText;
+                        const itemClassName = classNames(
+                            menuStyles.item,
+                            menuStyles.itemVariant.default,
+                            item.selected && styles.selectedItem
+                        );
 
-                    return (
-                        <MenuItem
-                            key={itemKey}
-                            selected={item.selected}
-                            onClick={() => handleItemClick(item)}
-                        >
-                            {(item.icon || item.selected) && (
-                                <ListItemDecorator>
-                                    {renderIcon(item.icon, !!item.selected)}
-                                </ListItemDecorator>
-                            )}
-                            <ListItemContent>
-                                <Typography level="body-md">
-                                    {item.name || item.textContent || item.innerText}
-                                </Typography>
-                                {item.secondaryText && (
-                                    <Typography level="body-xs" color="neutral">
-                                        {item.secondaryText}
-                                    </Typography>
+                        return (
+                            <DropdownMenuPrimitive.Item
+                                key={itemKey}
+                                className={itemClassName}
+                                data-selected={item.selected ? 'true' : undefined}
+                                onSelect={(event) => {
+                                    event.preventDefault();
+                                    handleItemClick(item);
+                                }}
+                            >
+                                {(item.icon || item.selected) && (
+                                    <span className={styles.iconSlot}>
+                                        {renderIcon(item.icon, !!item.selected)}
+                                    </span>
                                 )}
-                            </ListItemContent>
-                            {item.asideText && (
-                                <Typography level="body-xs" color="neutral" sx={{ ml: 2 }}>
-                                    {item.asideText}
-                                </Typography>
-                            )}
-                        </MenuItem>
-                    );
-                })}
-            </List>
+                                <div className={styles.itemContent}>
+                                    <Text size='md'>{itemText}</Text>
+                                    {item.secondaryText && (
+                                        <Text size='xs' color='secondary'>
+                                            {item.secondaryText}
+                                        </Text>
+                                    )}
+                                </div>
+                                {item.asideText && (
+                                    <Text size='xs' color='secondary' className={styles.asideText}>
+                                        {item.asideText}
+                                    </Text>
+                                )}
+                            </DropdownMenuPrimitive.Item>
+                        );
+                    })}
 
-            {showCancel && (
-                <>
-                    <Divider />
-                    <MenuItem
-                        onClick={handleCancel}
-                        sx={{ color: 'danger.plainColor' }}
-                    >
-                        <ListItemDecorator>
-                            <CloseIcon />
-                        </ListItemDecorator>
-                        Cancel
-                    </MenuItem>
-                </>
-            )}
-        </Menu>
+                    {showCancel && (
+                        <>
+                            <DropdownMenuPrimitive.Separator className={menuStyles.separator} />
+                            <DropdownMenuPrimitive.Item
+                                className={classNames(menuStyles.item, menuStyles.itemVariant.danger)}
+                                onSelect={(event) => {
+                                    event.preventDefault();
+                                    handleCancel();
+                                }}
+                            >
+                                <span className={styles.iconSlot}>
+                                    <span className='material-icons' aria-hidden='true'>close</span>
+                                </span>
+                                <Text size='md'>Cancel</Text>
+                            </DropdownMenuPrimitive.Item>
+                        </>
+                    )}
+                </DropdownMenuPrimitive.Content>
+            </DropdownMenuPrimitive.Portal>
+        </DropdownMenuPrimitive.Root>
     );
 };
 

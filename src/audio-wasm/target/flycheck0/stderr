@@ -1,0 +1,135 @@
+   0.100010416s  INFO prepare_target{force=false package_id=jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm) target="jellyfin_audio_wasm"}: cargo::core::compiler::fingerprint: fingerprint error for jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("jellyfin_audio_wasm", ["cdylib", "rlib"], "/Users/carlos/Documents/jellyfin-web/src/audio-wasm/src/lib.rs", Edition2021) }
+   0.100182208s  INFO prepare_target{force=false package_id=jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm) target="jellyfin_audio_wasm"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/.fingerprint/jellyfin-audio-wasm-ee844e28bcdfb4c7/lib-jellyfin_audio_wasm`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.115427666s  INFO prepare_target{force=false package_id=jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm) target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm)/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/Users/carlos/Documents/jellyfin-web/src/audio-wasm/build.rs", Edition2021) }
+   0.115438291s  INFO prepare_target{force=false package_id=jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm) target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/.fingerprint/jellyfin-audio-wasm-effc0567758cb801/run-build-script-build-script-build`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::custom_build::build_work
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.115509416s  INFO prepare_target{force=false package_id=jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm) target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm)/Build/TargetInner { ..: custom_build_target("build-script-build", "/Users/carlos/Documents/jellyfin-web/src/audio-wasm/build.rs", Edition2021) }
+   0.115513291s  INFO prepare_target{force=false package_id=jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm) target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/.fingerprint/jellyfin-audio-wasm-ec9cc61043071c8f/build-script-build-script-build`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.122113166s  INFO prepare_target{force=false package_id=sample v0.11.0 target="sample"}: cargo::core::compiler::fingerprint: fingerprint error for sample v0.11.0/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("sample", ["lib"], "/Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sample-0.11.0/src/lib.rs", Edition2015) }
+   0.122129666s  INFO prepare_target{force=false package_id=sample v0.11.0 target="sample"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/.fingerprint/sample-b0070661ef892023/lib-sample`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.133082916s  INFO prepare_target{force=false package_id=jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm) target="jellyfin_audio_wasm"}: cargo::core::compiler::fingerprint: fingerprint error for jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("jellyfin_audio_wasm", ["cdylib", "rlib"], "/Users/carlos/Documents/jellyfin-web/src/audio-wasm/src/lib.rs", Edition2021) }
+   0.133101041s  INFO prepare_target{force=false package_id=jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm) target="jellyfin_audio_wasm"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/.fingerprint/jellyfin-audio-wasm-aee570b50387caf6/test-lib-jellyfin_audio_wasm`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   Compiling jellyfin-audio-wasm v0.1.0 (/Users/carlos/Documents/jellyfin-web/src/audio-wasm)
+    Checking sample v0.11.0
+error: could not compile `jellyfin-audio-wasm` (build script) due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `sample` (lib) due to 1 previous error

@@ -9,6 +9,8 @@ const getLogLevelColor = (level: LogLevel) => {
         case LogLevel.Error:
         case LogLevel.Critical:
             return 'error';
+        default:
+            return 'neutral';
     }
 };
 

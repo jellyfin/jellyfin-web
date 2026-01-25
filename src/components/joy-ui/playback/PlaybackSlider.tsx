@@ -1,14 +1,13 @@
 import React from 'react';
-import Box from '@mui/joy/Box';
-import Slider from '@mui/joy/Slider';
-import type { SliderProps } from '@mui/joy/Slider';
+import { Slider } from 'ui-primitives/Slider';
+import { Box } from 'ui-primitives/Box';
 
 interface BufferRange {
     start: number;
     end: number;
 }
 
-interface PlaybackSliderProps extends Omit<SliderProps, 'value' | 'onChange' | 'max'> {
+interface PlaybackSliderProps {
     value: number;
     max?: number;
     bufferedRanges?: BufferRange[];
@@ -16,6 +15,7 @@ interface PlaybackSliderProps extends Omit<SliderProps, 'value' | 'onChange' | '
     onChangeCommitted?: (event: Event | React.SyntheticEvent, value: number | number[]) => void;
     showBuffer?: boolean;
     waveSurferCompatible?: boolean;
+    style?: React.CSSProperties;
 }
 
 export const PlaybackSlider: React.FC<PlaybackSliderProps> = ({
@@ -26,29 +26,27 @@ export const PlaybackSlider: React.FC<PlaybackSliderProps> = ({
     onChangeCommitted,
     showBuffer = true,
     waveSurferCompatible = true,
-    sx,
+    style,
     ...props
 }) => {
-    const bufferStart = bufferedRanges[0]?.start ?? 0;
-    const bufferEnd = bufferedRanges[0]?.end ?? 0;
-
     return (
         <Box
             className={waveSurferCompatible ? 'barSurfer' : ''}
-            sx={{
+            style={{
                 position: 'relative',
                 width: '100%',
-                ...sx,
+                ...style,
             }}
         >
-            {showBuffer && bufferedRanges.length > 0 && (
+            {showBuffer && bufferedRanges.length > 0 && bufferedRanges.map((range) => (
                 <Box
+                    key={`${range.start}-${range.end}`}
                     className="sliderBufferOverlay"
-                    sx={{
+                    style={{
                         position: 'absolute',
                         top: '50%',
-                        left: `${bufferStart}%`,
-                        right: `calc(100% - ${bufferEnd}%)`,
+                        left: `${range.start}%`,
+                        width: `${Math.max(0, range.end - range.start)}%`,
                         height: '2px',
                         backgroundColor: 'rgba(255, 255, 255, 0.3)',
                         transform: 'translateY(-50%)',
@@ -56,20 +54,16 @@ export const PlaybackSlider: React.FC<PlaybackSliderProps> = ({
                         zIndex: 1,
                     }}
                 />
-            )}
+            ))}
             <Slider
                 value={value}
                 max={max}
                 onChange={onChange}
                 onChangeCommitted={onChangeCommitted}
                 size="sm"
-                sx={{
+                style={{
                     '--Slider-thumb-size': '12px',
                     '--Slider-track-width': '100%',
-                    '& .joy-slider-track': {
-                        position: 'relative',
-                    },
-                    ...sx,
                 }}
                 {...props}
             />

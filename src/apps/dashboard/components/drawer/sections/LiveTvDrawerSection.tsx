@@ -1,39 +1,30 @@
-import Dvr from '@mui/icons-material/Dvr';
-import LiveTv from '@mui/icons-material/LiveTv';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
+import { CameraIcon, VideoIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
 import ListItemLink from 'components/ListItemLink';
+import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
 import globalize from 'lib/globalize';
 
-const LiveTvDrawerSection = () => {
+const LiveTvDrawerSection = (): React.ReactElement => {
     return (
         <List
             aria-labelledby='livetv-subheader'
-            subheader={
-                <ListSubheader component='div' id='livetv-subheader'>
-                    {globalize.translate('LiveTV')}
-                </ListSubheader>
-            }
+            subheader={<ListSubheader id='livetv-subheader'>{globalize.translate('LiveTV')}</ListSubheader>}
         >
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/livetv'>
-                    <ListItemIcon>
-                        <LiveTv />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('LiveTV')} />
+                    <ListItemDecorator>
+                        <VideoIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('LiveTV')}
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/livetv/recordings'>
-                    <ListItemIcon>
-                        <Dvr />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderDVR')} />
+                    <ListItemDecorator>
+                        <CameraIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('HeaderDVR')}
                 </ListItemLink>
             </ListItem>
         </List>

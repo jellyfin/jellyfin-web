@@ -51,7 +51,7 @@ describe('ActionMenu', () => {
 
     it('shows divider between items', () => {
         render(<ActionMenu {...defaultProps} />);
-        expect(screen.getByRole('separator')).toBeInTheDocument();
+        expect(screen.getAllByRole('separator').length).toBeGreaterThan(0);
     });
 
     it('calls onSelect when item is clicked', async () => {
@@ -76,7 +76,7 @@ describe('ActionMenu', () => {
     it('highlights selected items', () => {
         render(<ActionMenu {...defaultProps} />);
         const favoriteItem = screen.getByText('Favorite').closest('[role="menuitem"]');
-        expect(favoriteItem).toHaveClass('Mui-selected');
+        expect(favoriteItem).toHaveAttribute('data-selected', 'true');
     });
 
     it('renders icons for items', () => {
@@ -92,12 +92,10 @@ describe('ActionMenu', () => {
 
     it('handles keyboard navigation', async () => {
         render(<ActionMenu {...defaultProps} />);
-        const menu = screen.getByRole('menu');
-        menu.focus();
-
+        const menuItem = screen.getByText('Play').closest('[role="menuitem"]');
+        (menuItem as HTMLElement)?.focus();
         await userEvent.keyboard('[Enter]');
-
-        expect(mockOnSelect).toHaveBeenCalled();
+        expect(mockOnSelect).toHaveBeenCalledWith('play');
     });
 
     it('handles Escape key to close', async () => {
@@ -116,26 +114,20 @@ describe('ActionMenu', () => {
     });
 
     it('renders items with aside text', () => {
-        const itemsWithAside = [
-            { id: '1', name: 'Item', asideText: '1:30' }
-        ];
+        const itemsWithAside = [{ id: '1', name: 'Item', asideText: '1:30' }];
         render(<ActionMenu {...defaultProps} items={itemsWithAside} />);
         expect(screen.getByText('1:30')).toBeInTheDocument();
     });
 
     it('handles items without icons', async () => {
-        const itemsNoIcon = [
-            { id: 'simple', name: 'Simple Item' }
-        ];
+        const itemsNoIcon = [{ id: 'simple', name: 'Simple Item' }];
         render(<ActionMenu {...defaultProps} items={itemsNoIcon} />);
         await userEvent.click(screen.getByText('Simple Item'));
         expect(mockOnSelect).toHaveBeenCalledWith('simple');
     });
 
     it('uses value as id when id is not provided', async () => {
-        const itemsWithValue = [
-            { value: 'value-123', name: 'Item with Value' }
-        ];
+        const itemsWithValue = [{ value: 'value-123', name: 'Item with Value' }];
         render(<ActionMenu {...defaultProps} items={itemsWithValue} />);
         await userEvent.click(screen.getByText('Item with Value'));
         expect(mockOnSelect).toHaveBeenCalledWith('value-123');

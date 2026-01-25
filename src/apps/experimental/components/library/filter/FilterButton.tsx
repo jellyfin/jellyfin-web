@@ -1,17 +1,11 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { FC, useCallback } from 'react';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import FilterAlt from '@mui/icons-material/FilterAlt';
-import Button from '@mui/material/Button/Button';
-import Popover from '@mui/material/Popover/Popover';
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import MuiAccordionSummary, {
-    AccordionSummaryProps
-} from '@mui/material/AccordionSummary';
-import Badge from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography/Typography';
+import { type BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import React, { type FC, useCallback } from 'react';
+import { ChevronRightIcon, MixerHorizontalIcon } from '@radix-ui/react-icons';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Menu } from 'ui-primitives/Menu';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
@@ -27,51 +21,26 @@ import FiltersTags from './FiltersTags';
 import FiltersVideoTypes from './FiltersVideoTypes';
 import FiltersYears from './FiltersYears';
 
-import { LibraryViewSettings, ParentId } from 'types/library';
+import { type LibraryViewSettings, type ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
-const Accordion = styled((props: AccordionProps) => (
-    <MuiAccordion
-        disableGutters
-        elevation={0}
-        square
-        {...props}
-        slotProps={{
-            transition: { unmountOnExit: true }
-        }}
-    />
-))(({ theme }) => ({
-    border: `1px solid ${theme.palette.divider}`,
-    '&:not(:last-child)': {
-        borderBottom: 0
-    },
-    '&:before': {
-        display: 'none'
-    }
-}));
+const sectionHeaderStyle: React.CSSProperties = {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    backgroundColor: vars.colors.surfaceHover,
+    border: `1px solid ${vars.colors.divider}`,
+    cursor: 'pointer'
+};
 
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
-    <MuiAccordionSummary
-        expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
-        {...props}
-    />
-))(({ theme }) => ({
-    backgroundColor:
-        theme.palette.mode === 'dark' ?
-            'rgba(255, 255, 255, .05)' :
-            'rgba(0, 0, 0, .03)',
-    '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-        transform: 'rotate(90deg)'
-    },
-    '& .MuiAccordionSummary-content': {
-        marginLeft: theme.spacing(1)
-    }
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-    padding: theme.spacing(2),
-    borderTop: '1px solid rgba(0, 0, 0, .125)'
-}));
+const sectionBodyStyle: React.CSSProperties = {
+    padding: vars.spacing.md,
+    borderLeft: `1px solid ${vars.colors.divider}`,
+    borderRight: `1px solid ${vars.colors.divider}`,
+    borderBottom: `1px solid ${vars.colors.divider}`
+};
 
 interface FilterButtonProps {
     parentId: ParentId;
@@ -79,9 +48,7 @@ interface FilterButtonProps {
     viewType: LibraryTab;
     hasFilters: boolean;
     libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<
-        React.SetStateAction<LibraryViewSettings>
-    >;
+    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
 const FilterButton: FC<FilterButtonProps> = ({
@@ -92,60 +59,38 @@ const FilterButton: FC<FilterButtonProps> = ({
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [expanded, setExpanded] = React.useState<string | false>(false);
-    const open = Boolean(anchorEl);
-    const id = open ? 'filter-popover' : undefined;
 
     const { data } = useGetQueryFiltersLegacy(parentId, itemType);
     const { data: studios } = useGetStudios(parentId, itemType);
 
-    const handleChange =
-        (panel: string) =>
-            (event: React.SyntheticEvent, newExpanded: boolean) => {
-                setExpanded(newExpanded ? panel : false);
-            };
-
-    const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    }, []);
-
-    const handleClose = useCallback(() => {
-        setAnchorEl(null);
+    const toggleSection = useCallback((panel: string) => {
+        setExpanded(current => (current === panel ? false : panel));
     }, []);
 
     const isFiltersLegacyEnabled = () => {
         return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Series
-            || viewType === LibraryTab.Albums
-            || viewType === LibraryTab.AlbumArtists
-            || viewType === LibraryTab.Artists
-            || viewType === LibraryTab.Songs
-            || viewType === LibraryTab.Episodes
+            viewType === LibraryTab.Movies ||
+            viewType === LibraryTab.Series ||
+            viewType === LibraryTab.Albums ||
+            viewType === LibraryTab.AlbumArtists ||
+            viewType === LibraryTab.Artists ||
+            viewType === LibraryTab.Songs ||
+            viewType === LibraryTab.Episodes
         );
     };
 
     const isFiltersStudiosEnabled = () => {
-        return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Series
-        );
+        return viewType === LibraryTab.Movies || viewType === LibraryTab.Series;
     };
 
     const isFiltersFeaturesEnabled = () => {
-        return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Series
-            || viewType === LibraryTab.Episodes
-        );
+        return viewType === LibraryTab.Movies || viewType === LibraryTab.Series || viewType === LibraryTab.Episodes;
     };
 
     const isFiltersVideoTypesEnabled = () => {
-        return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Episodes
-        );
+        return viewType === LibraryTab.Movies || viewType === LibraryTab.Episodes;
     };
 
     const isFiltersSeriesStatusEnabled = () => {
@@ -157,298 +102,296 @@ const FilterButton: FC<FilterButtonProps> = ({
     };
 
     return (
-        <>
-            <Button
-                title={globalize.translate('Filter')}
-                aria-describedby={id}
-                onClick={handleClick}
-            >
-                <Badge color='info' variant='dot' invisible={!hasFilters}>
-                    <FilterAlt />
-                </Badge>
-            </Button>
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center'
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center'
-                }}
-                slotProps={{
-                    paper: {
-                        style: {
-                            maxHeight: '50%',
-                            width: 250
-                        }
-                    }
-                }}
-            >
-                <Accordion
-                    expanded={expanded === 'filtersStatus'}
-                    onChange={handleChange('filtersStatus')}
-                >
-                    <AccordionSummary
-                        aria-controls='filtersStatus-content'
-                        id='filtersStatus-header'
-                    >
-                        <Typography>
-                            {globalize.translate('Filters')}
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <FiltersStatus
-                            viewType={viewType}
-                            libraryViewSettings={libraryViewSettings}
-                            setLibraryViewSettings={setLibraryViewSettings}
-                        />
-                    </AccordionDetails>
-                </Accordion>
-                {isFiltersSeriesStatusEnabled() && (
-                    <Accordion
-                        expanded={expanded === 'filtersSeriesStatus'}
-                        onChange={handleChange('filtersSeriesStatus')}
-                    >
-                        <AccordionSummary
-                            aria-controls='filtersSeriesStatus-content'
-                            id='filtersSeriesStatus-header'
-                        >
-                            <Typography>
-                                {globalize.translate('HeaderSeriesStatus')}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FiltersSeriesStatus
-                                libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+        <Menu
+            id="filter-popover"
+            open={isMenuOpen}
+            onOpenChange={setIsMenuOpen}
+            align="center"
+            trigger={
+                <Button title={globalize.translate('Filter')} variant="plain">
+                    <Box style={{ position: 'relative', display: 'inline-flex' }}>
+                        <MixerHorizontalIcon />
+                        {hasFilters && (
+                            <Box
+                                style={{
+                                    position: 'absolute',
+                                    top: -2,
+                                    right: -2,
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: '50%',
+                                    backgroundColor: vars.colors.info
+                                }}
                             />
-                        </AccordionDetails>
-                    </Accordion>
+                        )}
+                    </Box>
+                </Button>
+            }
+        >
+            <Box style={{ maxHeight: '50vh', width: 260, overflow: 'auto' }}>
+                <Box>
+                    <button type="button" style={sectionHeaderStyle} onClick={() => toggleSection('filtersStatus')}>
+                        <Text size="md">{globalize.translate('Filters')}</Text>
+                        <ChevronRightIcon
+                            style={{
+                                width: 14,
+                                height: 14,
+                                transform: expanded === 'filtersStatus' ? 'rotate(90deg)' : undefined
+                            }}
+                        />
+                    </button>
+                    {expanded === 'filtersStatus' && (
+                        <Box style={sectionBodyStyle}>
+                            <FiltersStatus
+                                viewType={viewType}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
+                            />
+                        </Box>
+                    )}
+                </Box>
+                {isFiltersSeriesStatusEnabled() && (
+                    <Box>
+                        <button
+                            type="button"
+                            style={sectionHeaderStyle}
+                            onClick={() => toggleSection('filtersSeriesStatus')}
+                        >
+                            <Text size="md">{globalize.translate('HeaderSeriesStatus')}</Text>
+                            <ChevronRightIcon
+                                style={{
+                                    fontSize: vars.typography.fontSizeSm,
+                                    transform: expanded === 'filtersSeriesStatus' ? 'rotate(90deg)' : undefined
+                                }}
+                            />
+                        </button>
+                        {expanded === 'filtersSeriesStatus' && (
+                            <Box style={sectionBodyStyle}>
+                                <FiltersSeriesStatus
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            </Box>
+                        )}
+                    </Box>
                 )}
                 {isFiltersEpisodesStatusEnabled() && (
-                    <Accordion
-                        expanded={expanded === 'filtersEpisodesStatus'}
-                        onChange={handleChange('filtersEpisodesStatus')}
-                    >
-                        <AccordionSummary
-                            aria-controls='filtersEpisodesStatus-content'
-                            id='filtersEpisodesStatus-header'
+                    <Box>
+                        <button
+                            type="button"
+                            style={sectionHeaderStyle}
+                            onClick={() => toggleSection('filtersEpisodesStatus')}
                         >
-                            <Typography>
-                                {globalize.translate(
-                                    'HeaderEpisodesStatus'
-                                )}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FiltersEpisodesStatus
-                                libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                            <Text size="md">{globalize.translate('HeaderEpisodesStatus')}</Text>
+                            <ChevronRightIcon
+                                style={{
+                                    fontSize: vars.typography.fontSizeSm,
+                                    transform: expanded === 'filtersEpisodesStatus' ? 'rotate(90deg)' : undefined
+                                }}
                             />
-                        </AccordionDetails>
-                    </Accordion>
+                        </button>
+                        {expanded === 'filtersEpisodesStatus' && (
+                            <Box style={sectionBodyStyle}>
+                                <FiltersEpisodesStatus
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            </Box>
+                        )}
+                    </Box>
                 )}
                 {isFiltersFeaturesEnabled() && (
-                    <Accordion
-                        expanded={expanded === 'filtersFeatures'}
-                        onChange={handleChange('filtersFeatures')}
-                    >
-                        <AccordionSummary
-                            aria-controls='filtersFeatures-content'
-                            id='filtersFeatures-header'
+                    <Box>
+                        <button
+                            type="button"
+                            style={sectionHeaderStyle}
+                            onClick={() => toggleSection('filtersFeatures')}
                         >
-                            <Typography>
-                                {globalize.translate('Features')}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FiltersFeatures
-                                libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                            <Text size="md">{globalize.translate('Features')}</Text>
+                            <ChevronRightIcon
+                                style={{
+                                    fontSize: vars.typography.fontSizeSm,
+                                    transform: expanded === 'filtersFeatures' ? 'rotate(90deg)' : undefined
+                                }}
                             />
-                        </AccordionDetails>
-                    </Accordion>
+                        </button>
+                        {expanded === 'filtersFeatures' && (
+                            <Box style={sectionBodyStyle}>
+                                <FiltersFeatures
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            </Box>
+                        )}
+                    </Box>
                 )}
 
                 {isFiltersVideoTypesEnabled() && (
-                    <Accordion
-                        expanded={expanded === 'filtersVideoTypes'}
-                        onChange={handleChange('filtersVideoTypes')}
-                    >
-                        <AccordionSummary
-                            aria-controls='filtersVideoTypes-content'
-                            id='filtersVideoTypes-header'
+                    <Box>
+                        <button
+                            type="button"
+                            style={sectionHeaderStyle}
+                            onClick={() => toggleSection('filtersVideoTypes')}
                         >
-                            <Typography>
-                                {globalize.translate('HeaderVideoType')}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FiltersVideoTypes
-                                libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                            <Text size="md">{globalize.translate('HeaderVideoType')}</Text>
+                            <ChevronRightIcon
+                                style={{
+                                    fontSize: vars.typography.fontSizeSm,
+                                    transform: expanded === 'filtersVideoTypes' ? 'rotate(90deg)' : undefined
+                                }}
                             />
-                        </AccordionDetails>
-                    </Accordion>
+                        </button>
+                        {expanded === 'filtersVideoTypes' && (
+                            <Box style={sectionBodyStyle}>
+                                <FiltersVideoTypes
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            </Box>
+                        )}
+                    </Box>
                 )}
 
                 {isFiltersLegacyEnabled() && (
                     <>
                         {data?.Genres && data?.Genres?.length > 0 && (
-                            <Accordion
-                                expanded={expanded === 'filtersGenres'}
-                                onChange={handleChange('filtersGenres')}
-                            >
-                                <AccordionSummary
-                                    aria-controls='filtersGenres-content'
-                                    id='filtersGenres-header'
+                            <Box>
+                                <button
+                                    type="button"
+                                    style={sectionHeaderStyle}
+                                    onClick={() => toggleSection('filtersGenres')}
                                 >
-                                    <Typography>
-                                        {globalize.translate('Genres')}
-                                    </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <FiltersGenres
-                                        genresOptions={data.Genres}
-                                        libraryViewSettings={
-                                            libraryViewSettings
-                                        }
-                                        setLibraryViewSettings={
-                                            setLibraryViewSettings
-                                        }
+                                    <Text size="md">{globalize.translate('Genres')}</Text>
+                                    <ChevronRightIcon
+                                        style={{
+                                            fontSize: vars.typography.fontSizeSm,
+                                            transform: expanded === 'filtersGenres' ? 'rotate(90deg)' : undefined
+                                        }}
                                     />
-                                </AccordionDetails>
-                            </Accordion>
+                                </button>
+                                {expanded === 'filtersGenres' && (
+                                    <Box style={sectionBodyStyle}>
+                                        <FiltersGenres
+                                            genresOptions={data.Genres}
+                                            libraryViewSettings={libraryViewSettings}
+                                            setLibraryViewSettings={setLibraryViewSettings}
+                                        />
+                                    </Box>
+                                )}
+                            </Box>
                         )}
 
-                        {data?.OfficialRatings
-                            && data?.OfficialRatings?.length > 0 && (
-                            <Accordion
-                                expanded={
-                                    expanded === 'filtersOfficialRatings'
-                                }
-                                onChange={handleChange(
-                                    'filtersOfficialRatings'
-                                )}
-                            >
-                                <AccordionSummary
-                                    aria-controls='filtersOfficialRatings-content'
-                                    id='filtersOfficialRatings-header'
+                        {data?.OfficialRatings && data?.OfficialRatings?.length > 0 && (
+                            <Box>
+                                <button
+                                    type="button"
+                                    style={sectionHeaderStyle}
+                                    onClick={() => toggleSection('filtersOfficialRatings')}
                                 >
-                                    <Typography>
-                                        {globalize.translate(
-                                            'HeaderParentalRatings'
-                                        )}
-                                    </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <FiltersOfficialRatings
-                                        OfficialRatingsOptions={data.OfficialRatings}
-                                        libraryViewSettings={
-                                            libraryViewSettings
-                                        }
-                                        setLibraryViewSettings={
-                                            setLibraryViewSettings
-                                        }
+                                    <Text size="md">{globalize.translate('HeaderParentalRatings')}</Text>
+                                    <ChevronRightIcon
+                                        style={{
+                                            fontSize: vars.typography.fontSizeSm,
+                                            transform:
+                                                expanded === 'filtersOfficialRatings' ? 'rotate(90deg)' : undefined
+                                        }}
                                     />
-                                </AccordionDetails>
-                            </Accordion>
+                                </button>
+                                {expanded === 'filtersOfficialRatings' && (
+                                    <Box style={sectionBodyStyle}>
+                                        <FiltersOfficialRatings
+                                            OfficialRatingsOptions={data.OfficialRatings}
+                                            libraryViewSettings={libraryViewSettings}
+                                            setLibraryViewSettings={setLibraryViewSettings}
+                                        />
+                                    </Box>
+                                )}
+                            </Box>
                         )}
 
                         {data?.Tags && data?.Tags.length > 0 && (
-                            <Accordion
-                                expanded={expanded === 'filtersTags'}
-                                onChange={handleChange('filtersTags')}
-                            >
-                                <AccordionSummary
-                                    aria-controls='filtersTags-content'
-                                    id='filtersTags-header'
+                            <Box>
+                                <button
+                                    type="button"
+                                    style={sectionHeaderStyle}
+                                    onClick={() => toggleSection('filtersTags')}
                                 >
-                                    <Typography>
-                                        {globalize.translate('Tags')}
-                                    </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <FiltersTags
-                                        tagsOptions={data.Tags}
-                                        libraryViewSettings={
-                                            libraryViewSettings
-                                        }
-                                        setLibraryViewSettings={
-                                            setLibraryViewSettings
-                                        }
+                                    <Text size="md">{globalize.translate('Tags')}</Text>
+                                    <ChevronRightIcon
+                                        style={{
+                                            fontSize: vars.typography.fontSizeSm,
+                                            transform: expanded === 'filtersTags' ? 'rotate(90deg)' : undefined
+                                        }}
                                     />
-                                </AccordionDetails>
-                            </Accordion>
+                                </button>
+                                {expanded === 'filtersTags' && (
+                                    <Box style={sectionBodyStyle}>
+                                        <FiltersTags
+                                            tagsOptions={data.Tags}
+                                            libraryViewSettings={libraryViewSettings}
+                                            setLibraryViewSettings={setLibraryViewSettings}
+                                        />
+                                    </Box>
+                                )}
+                            </Box>
                         )}
 
                         {data?.Years && data?.Years?.length > 0 && (
-                            <Accordion
-                                expanded={expanded === 'filtersYears'}
-                                onChange={handleChange('filtersYears')}
-                            >
-                                <AccordionSummary
-                                    aria-controls='filtersYears-content'
-                                    id='filtersYears-header'
+                            <Box>
+                                <button
+                                    type="button"
+                                    style={sectionHeaderStyle}
+                                    onClick={() => toggleSection('filtersYears')}
                                 >
-                                    <Typography>
-                                        {globalize.translate('HeaderYears')}
-                                    </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <FiltersYears
-                                        yearsOptions={data.Years}
-                                        libraryViewSettings={
-                                            libraryViewSettings
-                                        }
-                                        setLibraryViewSettings={
-                                            setLibraryViewSettings
-                                        }
+                                    <Text size="md">{globalize.translate('HeaderYears')}</Text>
+                                    <ChevronRightIcon
+                                        style={{
+                                            fontSize: vars.typography.fontSizeSm,
+                                            transform: expanded === 'filtersYears' ? 'rotate(90deg)' : undefined
+                                        }}
                                     />
-                                </AccordionDetails>
-                            </Accordion>
+                                </button>
+                                {expanded === 'filtersYears' && (
+                                    <Box style={sectionBodyStyle}>
+                                        <FiltersYears
+                                            yearsOptions={data.Years}
+                                            libraryViewSettings={libraryViewSettings}
+                                            setLibraryViewSettings={setLibraryViewSettings}
+                                        />
+                                    </Box>
+                                )}
+                            </Box>
                         )}
                     </>
                 )}
                 {isFiltersStudiosEnabled() && studios && (
-                    <Accordion
-                        expanded={expanded === 'filtersStudios'}
-                        onChange={handleChange('filtersStudios')}
-                    >
-                        <AccordionSummary
-                            aria-controls='filtersStudios-content'
-                            id='filtersStudios-header'
+                    <Box>
+                        <button
+                            type="button"
+                            style={sectionHeaderStyle}
+                            onClick={() => toggleSection('filtersStudios')}
                         >
-                            <Typography>
-                                {globalize.translate('Studios')}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <FiltersStudios
-                                studiosOptions={studios}
-                                libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={
-                                    setLibraryViewSettings
-                                }
+                            <Text size="md">{globalize.translate('Studios')}</Text>
+                            <ChevronRightIcon
+                                style={{
+                                    fontSize: vars.typography.fontSizeSm,
+                                    transform: expanded === 'filtersStudios' ? 'rotate(90deg)' : undefined
+                                }}
                             />
-                        </AccordionDetails>
-                    </Accordion>
+                        </button>
+                        {expanded === 'filtersStudios' && (
+                            <Box style={sectionBodyStyle}>
+                                <FiltersStudios
+                                    studiosOptions={studios}
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            </Box>
+                        )}
+                    </Box>
                 )}
-            </Popover>
-        </>
+            </Box>
+        </Menu>
     );
 };
 

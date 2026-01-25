@@ -1,55 +1,54 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import Box from '@mui/material/Box/Box';
 import Page from 'components/Page';
 import { useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import type { LiveTvOptions } from '@jellyfin/sdk/lib/generated-client/models/live-tv-options';
 import globalize from 'lib/globalize';
-import Stack from '@mui/material/Stack/Stack';
-import Typography from '@mui/material/Typography/Typography';
 import Loading from 'components/loading/LoadingComponent';
 import TunerDeviceCard from 'apps/dashboard/features/livetv/components/TunerDeviceCard';
+import Provider from 'apps/dashboard/features/livetv/components/Provider';
 import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
-import Button from '@mui/material/Button/Button';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import AddIcon from '@mui/icons-material/Add';
-import { Link, useNavigate } from 'react-router-dom';
+import { Button } from 'ui-primitives/Button';
+import { Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
 import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import Menu from '@mui/material/Menu/Menu';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import Alert from '@mui/material/Alert/Alert';
-import List from '@mui/material/List';
-import Provider from 'apps/dashboard/features/livetv/components/Provider';
-import Grid from '@mui/material/Grid/Grid';
+import { Menu, MenuTrigger, MenuContent, MenuItem } from 'ui-primitives/Menu';
+import { Alert } from 'ui-primitives/Alert';
+
+const RefreshIcon = () => (
+    <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor' role='img' aria-label='Refresh'>
+        <path d='M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z' />
+    </svg>
+);
+
+const AddIcon = () => (
+    <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor' role='img' aria-label='Add'>
+        <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
+    </svg>
+);
 
 const CONFIG_KEY = 'livetv';
 
-export const Component = () => {
-    const navigate = useNavigate();
+export const Component = (): React.ReactElement => {
     const {
         data: config,
         isPending: isConfigPending,
         isError: isConfigError
     } = useNamedConfiguration<LiveTvOptions>(CONFIG_KEY);
-    const {
-        data: tasks,
-        isPending: isTasksPending,
-        isError: isTasksError
-    } = useLiveTasks({ isHidden: false });
+    const { data: tasks, isPending: isTasksPending, isError: isTasksError } = useLiveTasks({ isHidden: false });
     const providerButtonRef = useRef<HTMLButtonElement | null>(null);
-    const [ anchorEl, setAnchorEl ] = useState<HTMLButtonElement | null>(null);
-    const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const startTask = useStartTask();
 
     const navigateToSchedulesDirect = useCallback(() => {
-        navigate('/dashboard/livetv/guide?type=schedulesdirect');
-    }, [ navigate ]);
+        window.location.href = '/dashboard/livetv/guide?type=schedulesdirect';
+    }, []);
 
     const navigateToXMLTV = useCallback(() => {
-        navigate('/dashboard/livetv/guide?type=xmltv');
-    }, [ navigate ]);
+        window.location.href = '/dashboard/livetv/guide?type=xmltv';
+    }, []);
 
     const showProviderMenu = useCallback(() => {
         setAnchorEl(providerButtonRef.current);
@@ -61,9 +60,7 @@ export const Component = () => {
         setIsMenuOpen(false);
     }, []);
 
-    const refreshGuideTask = useMemo(() => (
-        tasks?.find((value) => value.Key === 'RefreshGuide')
-    ), [ tasks ]);
+    const refreshGuideTask = useMemo(() => tasks?.find(value => value.Key === 'RefreshGuide'), [tasks]);
 
     const refreshGuideData = useCallback(() => {
         if (refreshGuideTask?.Id) {
@@ -71,107 +68,101 @@ export const Component = () => {
                 taskId: refreshGuideTask.Id
             });
         }
-    }, [ startTask, refreshGuideTask ]);
+    }, [startTask, refreshGuideTask]);
 
     if (isConfigPending || isTasksPending) return <Loading />;
 
     return (
-        <Page
-            id='liveTvStatusPage'
-            title={globalize.translate('LiveTV')}
-            className='mainAnimatedPage type-interior'
-        >
-            <Box className='content-primary'>
-                {(isConfigError || isTasksError) ? (
-                    <Alert severity='error'>{globalize.translate('HeaderError')}</Alert>
+        <Page id='liveTvStatusPage' title={globalize.translate('LiveTV')} className='mainAnimatedPage type-interior'>
+            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+                {isConfigError || isTasksError ? (
+                    <Alert variant='error'>{globalize.translate('HeaderError')}</Alert>
                 ) : (
-                    <Stack spacing={3}>
-                        <Typography variant='h2'>{globalize.translate('HeaderTunerDevices')}</Typography>
+                    <Flex style={{ flexDirection: 'column', gap: '24px' }}>
+                        <Text as='h2' size='lg' weight='bold'>
+                            {globalize.translate('HeaderTunerDevices')}
+                        </Text>
 
                         <Button
-                            sx={{ alignSelf: 'flex-start' }}
-                            startIcon={<AddIcon />}
-                            component={Link}
-                            to='/dashboard/livetv/tuner'
+                            style={{ alignSelf: 'flex-start' }}
+                            startDecorator={<AddIcon />}
+                            onClick={() => {
+                                window.location.href = '/dashboard/livetv/tuner';
+                            }}
                         >
                             {globalize.translate('ButtonAddTunerDevice')}
                         </Button>
 
-                        <Box>
-                            <Grid container spacing={2}>
-                                {config.TunerHosts?.map(tunerHost => (
-                                    <Grid
-                                        key={tunerHost.Id}
-                                        item
-                                        xs={12}
-                                        sm={6}
-                                        md={3}
-                                        lg={2.4}
-                                    >
-                                        <TunerDeviceCard
-                                            key={tunerHost.Id}
-                                            tunerHost={tunerHost}
-                                        />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </Box>
+                        <div
+                            style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                                gap: '16px'
+                            }}
+                        >
+                            {config.TunerHosts?.map(tunerHost => (
+                                <TunerDeviceCard key={tunerHost.Id} tunerHost={tunerHost} />
+                            ))}
+                        </div>
 
-                        <Typography variant='h2'>{globalize.translate('HeaderGuideProviders')}</Typography>
+                        <Text as='h2' size='lg' weight='bold'>
+                            {globalize.translate('HeaderGuideProviders')}
+                        </Text>
 
-                        <Stack sx={{ alignSelf: 'flex-start' }} spacing={2}>
-                            <Stack direction='row' spacing={1.5}>
+                        <Flex style={{ alignSelf: 'flex-start', flexDirection: 'column', gap: '16px' }}>
+                            <Flex style={{ alignItems: 'center', gap: '12px' }}>
                                 <Button
-                                    sx={{ alignSelf: 'flex-start' }}
-                                    startIcon={<AddIcon />}
+                                    style={{ alignSelf: 'flex-start' }}
+                                    startDecorator={<AddIcon />}
                                     onClick={showProviderMenu}
-                                    ref={providerButtonRef}
+                                    ref={providerButtonRef as React.RefObject<HTMLButtonElement>}
                                 >
                                     {globalize.translate('ButtonAddProvider')}
                                 </Button>
                                 <Button
-                                    sx={{ alignSelf: 'flex-start' }}
-                                    startIcon={<RefreshIcon />}
+                                    style={{ alignSelf: 'flex-start' }}
+                                    startDecorator={<RefreshIcon />}
                                     variant='outlined'
                                     onClick={refreshGuideData}
-                                    loading={refreshGuideTask && refreshGuideTask.State === TaskState.Running}
-                                    loadingPosition='start'
                                 >
                                     {globalize.translate('ButtonRefreshGuideData')}
                                 </Button>
-                            </Stack>
+                            </Flex>
 
-                            {(refreshGuideTask && refreshGuideTask.State === TaskState.Running) && (
+                            {refreshGuideTask?.State === TaskState.Running && (
                                 <TaskProgress task={refreshGuideTask} />
                             )}
-                        </Stack>
+                        </Flex>
 
                         <Menu
-                            anchorEl={anchorEl}
                             open={isMenuOpen}
-                            onClose={onMenuClose}
+                            onOpenChange={open => !open && onMenuClose()}
+                            trigger={
+                                <MenuTrigger>
+                                    <button
+                                        type='button'
+                                        ref={providerButtonRef as React.RefObject<HTMLButtonElement>}
+                                        style={{ display: 'none' }}
+                                    />
+                                </MenuTrigger>
+                            }
                         >
-                            <MenuItem onClick={navigateToSchedulesDirect}>
-                                <ListItemText>Schedules Direct</ListItemText>
-                            </MenuItem>
-                            <MenuItem onClick={navigateToXMLTV}>
-                                <ListItemText>XMLTV</ListItemText>
-                            </MenuItem>
+                            <MenuContent>
+                                <MenuItem onClick={navigateToSchedulesDirect}>Schedules Direct</MenuItem>
+                                <MenuItem onClick={navigateToXMLTV}>XMLTV</MenuItem>
+                            </MenuContent>
                         </Menu>
 
-                        {(config.ListingProviders && config.ListingProviders?.length > 0) && (
-                            <List sx={{ backgroundColor: 'background.paper' }}>
+                        {config.ListingProviders && config.ListingProviders?.length > 0 && (
+                            <div style={{ backgroundColor: 'var(--colors-surface)' }}>
                                 {config.ListingProviders?.map(provider => (
-                                    <Provider
-                                        key={provider.Id}
-                                        provider={provider}
-                                    />
+                                    <Provider key={provider.Id} provider={provider} />
                                 ))}
-                            </List>
+                            </div>
                         )}
-                    </Stack>
+                    </Flex>
                 )}
-            </Box>
+            </Flex>
         </Page>
     );
 };

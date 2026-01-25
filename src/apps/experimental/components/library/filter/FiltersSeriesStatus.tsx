@@ -1,11 +1,11 @@
 import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
 
 import globalize from 'lib/globalize';
-import { LibraryViewSettings } from 'types/library';
+import { type LibraryViewSettings } from 'types/library';
 
 const statusFiltersOptions = [
     { label: 'Continuing', value: SeriesStatus.Continuing },
@@ -45,23 +45,20 @@ const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({
     );
 
     return (
-        <FormGroup>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {statusFiltersOptions.map((filter) => (
-                <FormControlLabel
+                <Checkbox
                     key={filter.value}
-                    control={
-                        <Checkbox
-                            checked={
-                                !!libraryViewSettings?.Filters?.SeriesStatus?.includes( filter.value)
-                            }
-                            onChange={onFiltersSeriesStatusChange}
-                            value={filter.value}
-                        />
+                    checked={
+                        !!libraryViewSettings?.Filters?.SeriesStatus?.includes(filter.value)
                     }
-                    label={globalize.translate(filter.label)}
-                />
+                    onChange={onFiltersSeriesStatusChange}
+                    value={filter.value}
+                >
+                    {globalize.translate(filter.label)}
+                </Checkbox>
             ))}
-        </FormGroup>
+        </Box>
     );
 };
 

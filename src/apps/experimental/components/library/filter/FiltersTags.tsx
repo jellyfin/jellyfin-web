@@ -1,8 +1,8 @@
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import { LibraryViewSettings } from 'types/library';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
+import { type LibraryViewSettings } from 'types/library';
 
 interface FiltersTagsProps {
     tagsOptions: string[];
@@ -38,25 +38,22 @@ const FiltersTags: FC<FiltersTagsProps> = ({
     );
 
     return (
-        <FormGroup>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {tagsOptions.map((filter) => (
-                <FormControlLabel
+                <Checkbox
                     key={filter}
-                    control={
-                        <Checkbox
-                            checked={
-                                !!libraryViewSettings?.Filters?.Tags?.includes(
-                                    String(filter)
-                                )
-                            }
-                            onChange={onFiltersTagsChange}
-                            value={String(filter)}
-                        />
+                    checked={
+                        !!libraryViewSettings?.Filters?.Tags?.includes(
+                            String(filter)
+                        )
                     }
-                    label={filter}
-                />
+                    onChange={onFiltersTagsChange}
+                    value={String(filter)}
+                >
+                    {filter}
+                </Checkbox>
             ))}
-        </FormGroup>
+        </Box>
     );
 };
 

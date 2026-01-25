@@ -1,14 +1,24 @@
+/**
+ * @deprecated This file is deprecated in favor of React + ui-primitives.
+ *
+ * Migration:
+ * - Dialog-based UI → Radix UI Dialog
+ * - Template-based rendering → React rendering
+ * - imperative show() → React component with onSubmit callback
+ *
+ * @see src/ui-primitives/Dialog
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import dialogHelper from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/paper-icon-button-light';
-import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
-import template from './sortmenu.template.html';
+import template from './sortmenu.template.html?raw';
 
 function onSubmit(e) {
     e.preventDefault();
@@ -23,7 +33,7 @@ function initEditor(context, settings) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then((scrollHelper) => {
+    import('../../scripts/scrollHelper').then(scrollHelper => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -32,9 +42,11 @@ function centerFocus(elem, horiz, on) {
 function fillSortBy(context, options) {
     const selectSortBy = context.querySelector('.selectSortBy');
 
-    selectSortBy.innerHTML = options.map((o) => {
-        return '<option value="' + o.value + '">' + o.name + '</option>';
-    }).join('');
+    selectSortBy.innerHTML = options
+        .map(o => {
+            return '<option value="' + o.value + '">' + o.name + '</option>';
+        })
+        .join('');
 }
 
 function saveValues(context, settingsKey) {
@@ -85,9 +97,13 @@ class SortMenu {
 
             let submitted;
 
-            dlg.querySelector('form').addEventListener('change', () => {
-                submitted = true;
-            }, true);
+            dlg.querySelector('form').addEventListener(
+                'change',
+                () => {
+                    submitted = true;
+                },
+                true
+            );
 
             dialogHelper.open(dlg).then(() => {
                 if (layoutManager.tv) {

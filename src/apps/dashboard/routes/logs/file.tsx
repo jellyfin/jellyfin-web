@@ -1,23 +1,32 @@
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import React, { useCallback, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from '@tanstack/react-router';
 import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
-import Alert from '@mui/material/Alert/Alert';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography/Typography';
-import ContentCopy from '@mui/icons-material/ContentCopy';
-import FileDownload from '@mui/icons-material/FileDownload';
+import { Alert } from 'ui-primitives/Alert';
+import { Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Paper } from 'ui-primitives/Paper';
+import { Text } from 'ui-primitives/Text';
+import { Container } from 'ui-primitives/Container';
+import Toast from 'apps/dashboard/components/Toast';
 import globalize from 'lib/globalize';
 import { copy } from 'scripts/clipboard';
-import Toast from 'apps/dashboard/components/Toast';
 
-export const Component = () => {
-    const { file: fileName } = useParams();
+const ContentCopyIcon = (): React.ReactElement => (
+    <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
+        <path d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/>
+    </svg>
+);
+
+const FileDownloadIcon = (): React.ReactElement => (
+    <svg width='20' height='20' viewBox='0 0 24 24' fill='currentColor'>
+        <path d='M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z'/>
+    </svg>
+);
+
+export const Component = (): React.ReactElement => {
+    const { file: fileName } = useParams({ strict: false }) as { file?: string };
     const {
         isError: error,
         isPending: loading,
@@ -62,19 +71,18 @@ export const Component = () => {
                 onClose={handleToastClose}
                 message={globalize.translate('CopyLogSuccess')}
             />
-            <Container className='content-primary' maxWidth={false}>
-                <Box>
-                    <Typography variant='h1'>{fileName}</Typography>
+            <Container className='content-primary' style={{ maxWidth: 'none' }}>
+                <Flex style={{ flexDirection: 'column', gap: '16px' }}>
+                    <Text as='h1' size='xl' weight='bold'>{fileName}</Text>
 
                     {error && (
                         <Alert
-                            key='error'
-                            severity='error'
-                            sx={{ mt: 2 }}
+                            variant='error'
+                            style={{ marginTop: '16px' }}
                             action={
                                 <Button
-                                    color='inherit'
-                                    size='small'
+                                    variant='ghost'
+                                    size='sm'
                                     onClick={retry}
                                 >
                                     {globalize.translate('Retry')}
@@ -89,25 +97,25 @@ export const Component = () => {
 
                     {!error && !loading && (
                         <>
-                            <ButtonGroup variant='contained' sx={{ mt: 2 }}>
+                            <Flex style={{ gap: '8px', marginTop: '16px' }}>
                                 <Button
-                                    startIcon={<ContentCopy />}
+                                    startDecorator={<ContentCopyIcon />}
                                     onClick={copyToClipboard}
                                 >
                                     {globalize.translate('Copy')}
                                 </Button>
                                 <Button
-                                    startIcon={<FileDownload />}
+                                    startDecorator={<FileDownloadIcon />}
                                     onClick={downloadFile}
                                 >
                                     {globalize.translate('Download')}
                                 </Button>
-                            </ButtonGroup>
+                            </Flex>
 
-                            <Paper sx={{ mt: 2 }}>
+                            <Paper>
                                 <code>
                                     <pre style={{
-                                        overflow:'auto',
+                                        overflow: 'auto',
                                         margin: 0,
                                         padding: '16px',
                                         whiteSpace: 'pre-wrap'
@@ -118,7 +126,7 @@ export const Component = () => {
                             </Paper>
                         </>
                     )}
-                </Box>
+                </Flex>
             </Container>
         </Page>
     );

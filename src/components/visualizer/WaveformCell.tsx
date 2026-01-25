@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import Box from '@mui/material/Box/Box';
-import { useTheme } from '@mui/material/styles';
+import { Box } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
 interface WaveformCellProps {
     itemId: string;
@@ -25,7 +25,6 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
     isNextTrack,
     height = DEFAULT_HEIGHT
 }) => {
-    const theme = useTheme();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [error, setError] = useState(false);
 
@@ -52,8 +51,8 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
         const totalBars = Math.floor(width / (barWidth + barGap));
         const samplesPerBar = Math.floor(peaks[0].length / totalBars);
 
-        const waveColor = theme.palette.mode === 'dark' ? '#4CAF50' : '#2E7D32';
-        const progressColor = theme.palette.mode === 'dark' ? '#81C784' : '#4CAF50';
+        const waveColor = vars.colors.waveformWave;
+        const progressColor = vars.colors.waveformProgress;
         const progress = duration ? currentTime / duration : 0;
 
         for (let i = 0; i < totalBars; i++) {
@@ -82,7 +81,7 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
             ctx.roundRect(x, y, barWidth, barHeight, 1);
             ctx.fill();
         }
-    }, [peaks, duration, currentTime, theme]);
+    }, [peaks, duration, currentTime]);
 
     useEffect(() => {
         drawWaveform();
@@ -91,7 +90,7 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
     if (!shouldShowWaveform) {
         return (
             <Box
-                sx={{
+                style={{
                     height: height,
                     minWidth: 100,
                     display: 'flex',
@@ -100,7 +99,7 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
                 }}
             >
                 {duration !== undefined && duration > 0 && (
-                    <Box component="span" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
+                    <Box as="span" style={{ fontSize: vars.typography.fontSizeXs, color: vars.colors.textSecondary }}>
                         {formatDuration(duration)}
                     </Box>
                 )}
@@ -110,7 +109,7 @@ export const WaveformCell: React.FC<WaveformCellProps> = ({
 
     return (
         <Box
-            sx={{
+            style={{
                 height: height,
                 width: '100%',
                 minWidth: 100,

@@ -1,153 +1,194 @@
 import React from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
-import Switch from '@mui/joy/Switch';
-import Slider from '@mui/joy/Slider';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Divider from '@mui/joy/Divider';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import LinearProgress from '@mui/joy/LinearProgress';
-import Accordion from '@mui/joy/Accordion';
-import AccordionSummary from '@mui/joy/AccordionSummary';
-import AccordionDetails from '@mui/joy/AccordionDetails';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import HistoryIcon from '@mui/icons-material/History';
-
+import { CounterClockwiseClockIcon, MagicWandIcon } from '@radix-ui/react-icons';
 import { useAutoDJStore } from 'store/autoDJStore';
+import { usePreferencesStore } from 'store/preferencesStore';
+import { Card } from 'ui-primitives/Card';
+import { Slider } from 'ui-primitives/Slider';
+import { Switch } from 'ui-primitives/FormControl';
+import { Divider } from 'ui-primitives/Divider';
+import { Progress } from 'ui-primitives/Progress';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 export const AutoDJSettings: React.FC = () => {
+    const { getTransitionStats } = useAutoDJStore();
+
     const {
-        enabled,
-        setEnabled,
-        crossfadeDuration,
-        setCrossfadeDuration,
-        getTransitionStats,
-    } = useAutoDJStore();
+        autoDJ: { enabled: prefEnabled, duration, preferHarmonic, preferEnergyMatch, useNotchFilter, notchFrequency },
+        setAutoDJEnabled: setPrefEnabled,
+        setAutoDJDuration,
+        setPreferHarmonic,
+        setPreferEnergyMatch,
+        setUseNotchFilter,
+        setNotchFrequency
+    } = usePreferencesStore();
 
     const stats = getTransitionStats();
 
     return (
-        <Accordion defaultExpanded>
-            <AccordionSummary>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <AutoAwesomeIcon />
-                    <Typography level='title-sm'>Auto-DJ</Typography>
-                </Box>
-            </AccordionSummary>
-            <AccordionDetails>
-                <Card variant='outlined' sx={{ mb: 2 }}>
-                    <CardContent>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+        <Card style={{ marginBottom: vars.spacing.md }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+                    <MagicWandIcon />
+                    <Text size="sm" style={{ fontWeight: 'bold' }}>
+                        Auto-DJ
+                    </Text>
+                </Flex>
+
+                <Card style={{ marginBottom: vars.spacing.md }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                        <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                             <Box>
-                                <Typography level='body-sm' fontWeight='bold'>
+                                <Text size="sm" style={{ fontWeight: 'bold' }}>
                                     Enable Auto-DJ
-                                </Typography>
-<Typography level='body-xs' sx={{ color: 'text.secondary' }}>
+                                </Text>
+                                <Text size="xs" color="secondary">
                                     Automatically manage track transitions with smart mixing
-                                </Typography>
+                                </Text>
                             </Box>
-                            <Switch
-                                checked={enabled}
-                                onChange={(e) => setEnabled(e.target.checked)}
-                                color='primary'
-                            />
-                        </Box>
+                            <Switch checked={prefEnabled} onChange={e => setPrefEnabled(e.target.checked)} />
+                        </Flex>
 
-                        <Divider sx={{ my: 2 }} />
+                        <Divider />
 
-                        <Box sx={{ mb: 2 }}>
-                            <Typography level='body-xs' sx={{ mb: 1 }}>
-                                Default Crossfade Duration: {crossfadeDuration}s
-                            </Typography>
+                        <Box>
+                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                Default Crossfade Duration: {duration}s
+                            </Text>
                             <Slider
-                                value={crossfadeDuration}
-                                onChange={(_, v) => setCrossfadeDuration(v as number)}
+                                value={[duration]}
+                                onValueChange={v => setAutoDJDuration(v[0])}
                                 min={4}
                                 max={60}
                                 step={2}
-                                disabled={!enabled}
-                                size='sm'
+                                disabled={!prefEnabled}
                             />
                         </Box>
-                    </CardContent>
-                </Card>
 
-                <Card variant='outlined'>
-                    <CardContent>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                            <HistoryIcon fontSize='small' />
-                            <Typography level='body-sm' fontWeight='bold'>
-                                Transition History
-                            </Typography>
+                        <Divider />
+
+                        <Box>
+                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                Prefer Harmonic Transitions
+                            </Text>
+                            <Switch
+                                checked={preferHarmonic}
+                                onChange={e => setPreferHarmonic(e.target.checked)}
+                                disabled={!prefEnabled}
+                            />
                         </Box>
 
-                        <Box sx={{ display: 'grid', gap: 1.5 }}>
+                        <Box>
+                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                Prefer Energy Match Transitions
+                            </Text>
+                            <Switch
+                                checked={preferEnergyMatch}
+                                onChange={e => setPreferEnergyMatch(e.target.checked)}
+                                disabled={!prefEnabled}
+                            />
+                        </Box>
+
+                        <Box>
+                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                Use Notch Filter
+                            </Text>
+                            <Switch
+                                checked={useNotchFilter}
+                                onChange={e => setUseNotchFilter(e.target.checked)}
+                                disabled={!prefEnabled}
+                            />
+                        </Box>
+
+                        {useNotchFilter && (
                             <Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                                    <Typography level='body-xs'>Total Transitions</Typography>
-                                    <Typography level='body-xs' fontWeight='bold'>
+                                <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                    Notch Frequency: {notchFrequency}Hz
+                                </Text>
+                                <Slider
+                                    value={[notchFrequency]}
+                                    onValueChange={v => setNotchFrequency(v[0])}
+                                    min={20}
+                                    max={200}
+                                    step={5}
+                                    disabled={!prefEnabled}
+                                />
+                            </Box>
+                        )}
+                    </Flex>
+                </Card>
+
+                <Card>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+                            <CounterClockwiseClockIcon />
+                            <Text size="sm" style={{ fontWeight: 'bold' }}>
+                                Transition History
+                            </Text>
+                        </Flex>
+
+                        <Box style={{ display: 'grid', gap: vars.spacing.sm }}>
+                            <Box>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                    <Text size="xs" color="secondary">
+                                        Total Transitions
+                                    </Text>
+                                    <Text size="xs" style={{ fontWeight: 'bold' }}>
                                         {stats.totalTransitions}
-                                    </Typography>
-                                </Box>
+                                    </Text>
+                                </Flex>
                             </Box>
 
-                            <Box sx={{ display: 'flex', gap: 2 }}>
-                                <ChipStat label='Harmonic' value={stats.harmonicMixes} />
-                                <ChipStat label='Energy' value={stats.energyMixes} />
-                                <ChipStat label='Tempo' value={stats.tempoChanges} />
-                                <ChipStat label='Standard' value={stats.standardMixes} />
-                            </Box>
+                            <Flex style={{ gap: vars.spacing.md }}>
+                                <ChipStat label="Harmonic" value={stats.harmonicMixes} />
+                                <ChipStat label="Energy" value={stats.energyMixes} />
+                                <ChipStat label="Tempo" value={stats.tempoChanges} />
+                                <ChipStat label="Standard" value={stats.standardMixes} />
+                            </Flex>
 
                             <Divider />
 
                             <Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                                    <Typography level='body-xs'>Avg Compatibility</Typography>
-                                    <Typography level='body-xs' fontWeight='bold'>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                    <Text size="xs" color="secondary">
+                                        Avg Compatibility
+                                    </Text>
+                                    <Text size="xs" style={{ fontWeight: 'bold' }}>
                                         {Math.round(stats.averageCompatibility * 100)}%
-                                    </Typography>
-                                </Box>
-                                <LinearProgress
-                                    value={stats.averageCompatibility * 100}
-                                    variant='soft'
-                                    color='primary'
-                                    size='sm'
-                                />
+                                    </Text>
+                                </Flex>
+                                <Progress value={stats.averageCompatibility * 100} />
                             </Box>
 
                             <Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                                    <Typography level='body-xs'>Variety Score</Typography>
-                                    <Typography level='body-xs' fontWeight='bold'>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                    <Text size="xs" color="secondary">
+                                        Variety Score
+                                    </Text>
+                                    <Text size="xs" style={{ fontWeight: 'bold' }}>
                                         {Math.round(stats.varietyScore * 100)}%
-                                    </Typography>
-                                </Box>
-                                <LinearProgress
-                                    value={stats.varietyScore * 100}
-                                    variant='soft'
-                                    color={stats.varietyScore > 0.5 ? 'success' : 'warning'}
-                                    size='sm'
-                                />
+                                    </Text>
+                                </Flex>
+                                <Progress value={stats.varietyScore * 100} />
                             </Box>
                         </Box>
-                    </CardContent>
+                    </Flex>
                 </Card>
-            </AccordionDetails>
-        </Accordion>
+            </Flex>
+        </Card>
     );
 };
 
 const ChipStat: React.FC<{ label: string; value: number }> = ({ label, value }) => {
     return (
-        <Box sx={{ textAlign: 'center' }}>
-            <Typography level='body-xs' fontWeight='bold'>
+        <Box style={{ textAlign: 'center' }}>
+            <Text size="xs" style={{ fontWeight: 'bold' }}>
                 {value}
-            </Typography>
-            <Typography level='body-xs' sx={{ color: 'text.secondary' }}>
+            </Text>
+            <Text size="xs" color="secondary">
                 {label}
-            </Typography>
+            </Text>
         </Box>
     );
 };

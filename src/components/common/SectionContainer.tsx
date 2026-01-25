@@ -1,13 +1,10 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import Box from '@mui/material/Box/Box';
-import Link from '@mui/material/Link/Link';
-import Typography from '@mui/material/Typography/Typography';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Box } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { ChevronRightIcon } from '@radix-ui/react-icons';
 import classNames from 'classnames';
-import ItemsContainer, {
-    type ItemsContainerProps
-} from 'elements/emby-itemscontainer/ItemsContainer';
-import Scroller, { type ScrollerProps } from 'elements/emby-scroller/Scroller';
+import ItemsContainer, { type ItemsContainerProps } from '../items/ItemsContainer';
+import Scroller, { type ScrollerProps } from '../scroller/Scroller';
 import Cards from 'components/cardbuilder/Card/Cards';
 import Lists from 'components/listview/List/Lists';
 import type { CardOptions } from 'types/cardOptions';
@@ -21,12 +18,7 @@ interface SectionHeaderProps {
     title: string;
 }
 
-const SectionHeader: FC<SectionHeaderProps> = ({
-    title,
-    className,
-    itemsLength = 0,
-    url
-}) => {
+const SectionHeader: FC<SectionHeaderProps> = ({ title, className, itemsLength = 0, url }) => {
     const sectionHeaderClass = classNames(
         'sectionTitleContainer sectionTitleContainer-cards',
         'padded-left',
@@ -36,26 +28,16 @@ const SectionHeader: FC<SectionHeaderProps> = ({
     return (
         <Box className={sectionHeaderClass}>
             {url && itemsLength > 5 ? (
-                <Link
-                    className='clearLink button-flat sectionTitleTextButton'
-                    underline='none'
-                    href={url}
-                >
-                    <Typography
-                        className='sectionTitle sectionTitle-cards'
-                        variant='h2'
-                    >
+                <Box as="a" className="clearLink button-flat sectionTitleTextButton" href={url}>
+                    <Text as="h2" size="xxl" weight="bold" className="sectionTitle sectionTitle-cards">
                         {title}
-                    </Typography>
-                    <ChevronRightIcon sx={{ pt: '5px' }} />
-                </Link>
+                    </Text>
+                    <ChevronRightIcon style={{ paddingTop: '5px' }} />
+                </Box>
             ) : (
-                <Typography
-                    className='sectionTitle sectionTitle-cards'
-                    variant='h2'
-                >
+                <Text as="h2" size="xxl" weight="bold" className="sectionTitle sectionTitle-cards">
                     {title}
-                </Typography>
+                </Text>
             )}
         </Box>
     );
@@ -103,10 +85,7 @@ const SectionContainer: FC<PropsWithChildren<SectionContainerProps>> = ({
 
     const content = (
         <ItemsContainer
-            className={classNames(
-                { scrollSlider: isScrollerMode },
-                itemsContainerProps?.className
-            )}
+            className={classNames({ scrollSlider: isScrollerMode }, itemsContainerProps?.className)}
             {...itemsContainerProps}
         >
             {renderItems()}
@@ -117,20 +96,14 @@ const SectionContainer: FC<PropsWithChildren<SectionContainerProps>> = ({
         <Box className={sectionClass}>
             {sectionHeaderProps?.title && (
                 <SectionHeader
-                    className={classNames(
-                        { 'no-padding': noPadding },
-                        sectionHeaderProps?.className
-                    )}
+                    className={classNames({ 'no-padding': noPadding }, sectionHeaderProps?.className)}
                     itemsLength={items.length}
                     {...sectionHeaderProps}
                 />
             )}
             {isScrollerMode && !isListMode ? (
                 <Scroller
-                    className={classNames(
-                        { 'no-padding': noPadding },
-                        scrollerProps?.className
-                    )}
+                    className={classNames({ 'no-padding': noPadding }, scrollerProps?.className)}
                     {...scrollerProps}
                 >
                     {content}

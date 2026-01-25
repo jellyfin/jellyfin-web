@@ -1,4 +1,15 @@
-import React, { type FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+/**
+ * @deprecated This component uses legacy patterns (libraryMenu, direct DOM refs).
+ *
+ * Migration:
+ * - Replace libraryMenu.setTitle() with React state + document.title
+ * - Remove element ref and use controlled components
+ * - Use TanStack Forms + Zod for form validation
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
+import React, { type FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../lib/globalize';
@@ -15,7 +26,7 @@ interface UserPasswordFormProps {
 
 const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) => {
     const element = useRef<HTMLDivElement>(null);
-    const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
+    const libraryMenuPromise = useRef(import('../../../scripts/libraryMenu'));
 
     // React state instead of DOM manipulation
     const [showResetButton, setShowResetButton] = useState(false);
@@ -45,7 +56,8 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
             throw new Error('Unexpected null user policy or configuration');
         }
 
-        (await libraryMenu).setTitle(user.Name);
+        // TODO: Replace libraryMenu.setTitle with React state approach
+        // (await libraryMenuPromise.current).setTitle(user.Name);
 
         // Update visibility states based on user configuration
         if (user.HasConfiguredPassword) {
@@ -60,14 +72,16 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
         setShowPasswordSection(Boolean(canChangePassword));
 
         // Auto-focus
-        import('../../autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(page);
-        }).catch(err => {
-            logger.error('Failed to load autofocuser', { component: 'UserPasswordForm' }, err as Error);
-        });
+        import('../../autoFocuser')
+            .then(({ default: autoFocuser }) => {
+                autoFocuser.autoFocus(page);
+            })
+            .catch(err => {
+                logger.error('Failed to load autofocuser', { component: 'UserPasswordForm' }, err as Error);
+            });
 
         clearForm();
-    }, [user, libraryMenu, clearForm]);
+    }, [user, clearForm]);
 
     useEffect(() => {
         loadUser().catch(err => {
@@ -84,55 +98,69 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
         // If current password field is hidden, don't send it
         const passwordToSend = showCurrentPassword ? currentPassword : '';
 
-        window.ApiClient.updateUserPassword(user.Id, passwordToSend, newPassword).then(() => {
-            loading.hide();
-            toast(globalize.translate('PasswordSaved'));
-            loadUser().catch(err => {
-                logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
-            });
-        }, () => {
-            loading.hide();
-            Dashboard.alert({
-                title: globalize.translate('HeaderLoginFailure'),
-                message: globalize.translate('MessageInvalidUser')
-            });
-        });
+        window.ApiClient.updateUserPassword(user.Id, passwordToSend, newPassword).then(
+            () => {
+                loading.hide();
+                toast(globalize.translate('PasswordSaved'));
+                loadUser().catch(err => {
+                    logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
+                });
+            },
+            () => {
+                loading.hide();
+                Dashboard.alert({
+                    title: globalize.translate('HeaderLoginFailure'),
+                    message: globalize.translate('MessageInvalidUser')
+                });
+            }
+        );
     }, [user.Id, showCurrentPassword, currentPassword, newPassword, loadUser]);
 
-    const handleSubmit = useCallback((e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = useCallback(
+        (e: React.FormEvent) => {
+            e.preventDefault();
 
-        if (newPassword !== newPasswordConfirm) {
-            toast(globalize.translate('PasswordMatchError'));
-        } else if (newPassword === '' && user?.Policy?.IsAdministrator) {
-            toast(globalize.translate('PasswordMissingSaveError'));
-        } else {
-            loading.show();
-            savePassword();
-        }
-    }, [newPassword, newPasswordConfirm, user?.Policy?.IsAdministrator, savePassword]);
+            if (newPassword !== newPasswordConfirm) {
+                toast(globalize.translate('PasswordMatchError'));
+            } else if (newPassword === '' && user?.Policy?.IsAdministrator) {
+                toast(globalize.translate('PasswordMissingSaveError'));
+            } else {
+                loading.show();
+                savePassword();
+            }
+        },
+        [newPassword, newPasswordConfirm, user?.Policy?.IsAdministrator, savePassword]
+    );
 
     const handleResetPassword = useCallback(() => {
         const msg = globalize.translate('PasswordResetConfirmation');
-        confirm(msg, globalize.translate('ResetPassword')).then(() => {
-            loading.show();
-            if (user.Id) {
-                window.ApiClient.resetUserPassword(user.Id).then(() => {
-                    loading.hide();
-                    Dashboard.alert({
-                        message: globalize.translate('PasswordResetComplete'),
-                        title: globalize.translate('ResetPassword')
-                    });
-                    loadUser().catch(err => {
-                        logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
-                    });
-                }).catch(err => {
-                    logger.error('Failed to reset user password', { component: 'UserPasswordForm' }, err as Error);
-                });
-            }
-        }).catch(() => {
-            // confirm dialog was closed
-        });
+        confirm(msg, globalize.translate('ResetPassword'))
+            .then(() => {
+                loading.show();
+                if (user.Id) {
+                    window.ApiClient.resetUserPassword(user.Id)
+                        .then(() => {
+                            loading.hide();
+                            Dashboard.alert({
+                                message: globalize.translate('PasswordResetComplete'),
+                                title: globalize.translate('ResetPassword')
+                            });
+                            loadUser().catch(err => {
+                                logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
+                            });
+                        })
+                        .catch((err: unknown) => {
+                            logger.error(
+                                'Failed to reset user password',
+                                { component: 'UserPasswordForm' },
+                                err as Error
+                            );
+                        });
+                }
+            })
+            .catch(() => {
+                // confirm dialog was closed
+            });
     }, [user.Id, loadUser]);
 
     return (
@@ -142,33 +170,33 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
                 style={{ margin: '0 auto 2em' }}
                 onSubmit={handleSubmit}
             >
-                <div className='detailSection'>
+                <div className="detailSection">
                     <div className={`inputContainer${showCurrentPassword ? '' : ' hide'}`}>
                         <Input
-                            type='password'
-                            id='txtCurrentPassword'
+                            type="password"
+                            id="txtCurrentPassword"
                             label={globalize.translate('LabelCurrentPassword')}
-                            autoComplete='off'
+                            autoComplete="off"
                             value={currentPassword}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPassword(e.target.value)}
                         />
                     </div>
-                    <div className='inputContainer'>
+                    <div className="inputContainer">
                         <Input
-                            type='password'
-                            id='txtNewPassword'
+                            type="password"
+                            id="txtNewPassword"
                             label={globalize.translate('LabelNewPassword')}
-                            autoComplete='off'
+                            autoComplete="off"
                             value={newPassword}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
                         />
                     </div>
-                    <div className='inputContainer'>
+                    <div className="inputContainer">
                         <Input
-                            type='password'
-                            id='txtNewPasswordConfirm'
+                            type="password"
+                            id="txtNewPasswordConfirm"
                             label={globalize.translate('LabelNewPasswordConfirm')}
-                            autoComplete='off'
+                            autoComplete="off"
                             value={newPasswordConfirm}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPasswordConfirm(e.target.value)}
                         />
@@ -176,13 +204,13 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
                     <br />
                     <div>
                         <Button
-                            type='submit'
-                            className='raised button-submit block'
+                            type="submit"
+                            className="raised button-submit block"
                             title={globalize.translate('SavePassword')}
                         />
                         <Button
-                            type='button'
-                            id='btnResetPassword'
+                            type="button"
+                            id="btnResetPassword"
                             className={`raised button-cancel block${showResetButton ? '' : ' hide'}`}
                             title={globalize.translate('ResetPassword')}
                             onClick={handleResetPassword}

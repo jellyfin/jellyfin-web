@@ -98,7 +98,18 @@ const Visualizers: React.FC = () => {
     const { butterchurn, frequencyAnalyzer, threeJs } = visualizerSettings;
 
     return (
-        <div id="visualizerContainer">
+        <div 
+            id="visualizerContainer"
+            style={{
+                pointerEvents: 'none',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1
+            }}
+        >
             <Suspense fallback={<VisualizerLoading />}>
                 {frequencyAnalyzer.enabled && (<FrequencyAnalyzer />)}
                 {butterchurn.enabled && (<ButterchurnVisualizer />)}

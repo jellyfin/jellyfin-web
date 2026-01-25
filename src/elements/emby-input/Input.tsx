@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 
 import './emby-input.scss';
+import { deprecate } from '../../utils/deprecation';
 
 interface InputProps
     extends DetailedHTMLProps<
@@ -20,6 +21,8 @@ interface InputProps
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
     ({ id, label, className, onBlur, onFocus, ...props }, ref) => {
+        deprecate('emby-input/Input', 'ui-primitives/Input', 'src/elements/emby-input/Input.tsx');
+
         const [isFocused, setIsFocused] = useState(false);
 
         const onBlurInternal = useCallback(

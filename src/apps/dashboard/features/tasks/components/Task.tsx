@@ -1,19 +1,20 @@
-import React, { FunctionComponent, useCallback } from 'react';
-import ListItem from '@mui/joy/ListItem';
-import Avatar from '@mui/joy/Avatar';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import ListItemContent from '@mui/joy/ListItemContent';
-import Typography from '@mui/joy/Typography';
-import { TaskProps } from '../types/taskProps';
+import React, { type FunctionComponent, useCallback } from 'react';
+import { ClockIcon, PlayIcon, StopIcon } from '@radix-ui/react-icons';
+import { type TaskProps } from '../types/taskProps';
 import TaskProgress from './TaskProgress';
 import TaskLastRan from './TaskLastRan';
-import IconButton from '@mui/joy/IconButton';
-import PlayArrow from '@mui/icons-material/PlayArrow';
-import Stop from '@mui/icons-material/Stop';
 import { useStartTask } from '../api/useStartTask';
 import { useStopTask } from '../api/useStopTask';
 import ListItemLink from 'components/ListItemLink';
+import { ListItem } from 'ui-primitives/List';
+import { ListItemButton } from 'ui-primitives/ListItemButton';
+import { ListItemDecorator } from 'ui-primitives/List';
+import { ListItemContent } from 'ui-primitives/List';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Avatar } from 'ui-primitives/Avatar';
+import { Heading } from 'ui-primitives/Text';
+import { Box } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
 const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const startTask = useStartTask();
@@ -41,24 +42,24 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
         <ListItem
             endAction={
                 <IconButton
-                    variant="plain"
-                    color={isRunning ? "danger" : "primary"}
+                    variant='plain'
+                    color={isRunning ? 'danger' : 'primary'}
                     onClick={isRunning ? handleStopTask : handleStartTask}
                 >
-                    {isRunning ? <Stop /> : <PlayArrow />}
+                    {isRunning ? <StopIcon /> : <PlayIcon />}
                 </IconButton>
             }
-            sx={{ p: 0 }}
+            style={{ padding: 0 }}
         >
-            <ListItemLink to={`/dashboard/tasks/${task.Id}`} sx={{ width: '100%', py: 1.5, px: 2 }}>
+            <ListItemLink to={`/dashboard/tasks/${task.Id}`} style={{ width: '100%', paddingTop: vars.spacing.sm, paddingBottom: vars.spacing.sm, paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
                 <ListItemDecorator>
-                    <Avatar variant="soft" color="primary">
-                        <AccessTimeIcon />
+                    <Avatar variant='soft' color='primary'>
+                        <ClockIcon />
                     </Avatar>
                 </ListItemDecorator>
                 <ListItemContent>
-                    <Typography level="title-md">{task.Name}</Typography>
-                    <Box component="div">
+                    <Heading.H5>{task.Name}</Heading.H5>
+                    <Box component='div'>
                         {isRunning ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}
                     </Box>
                 </ListItemContent>
@@ -66,7 +67,5 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
         </ListItem>
     );
 };
-
-import Box from '@mui/joy/Box';
 
 export default Task;

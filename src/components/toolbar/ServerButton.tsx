@@ -1,7 +1,7 @@
 import icon from '@jellyfin/ux-web/icon-transparent.png';
-import Button from '@mui/material/Button/Button';
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
+import { Button } from 'ui-primitives/Button';
 
 import { useSystemInfo } from 'hooks/useSystemInfo';
 
@@ -13,9 +13,9 @@ const ServerButton: FC = () => {
 
     return (
         <Button
-            variant='text'
-            size='large'
-            color='inherit'
+            variant='plain'
+            size='lg'
+            color='neutral'
             startIcon={
                 <img
                     src={icon}

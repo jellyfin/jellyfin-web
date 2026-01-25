@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/joy/Typography/Typography';
-import IconButton from '@mui/joy/IconButton';
-import Button from '@mui/material/Button/Button';
-import Fade from '@mui/material/Fade/Fade';
-import Slide from '@mui/material/Slide/Slide';
+import { Box } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives/Button';
+import { vars } from 'styles/tokens.css';
 
-import SkipNextIcon from '@mui/icons-material/SkipNext';
+import { TrackNextIcon } from '@radix-ui/react-icons';
 
 export interface SkipSegmentButtonProps {
     segmentLabel: string;
@@ -79,60 +77,53 @@ export const SkipSegmentButton: React.FC<SkipSegmentButtonProps> = ({
     }
 
     return (
-        <Slide direction="up" in={show} mountOnEnter unmountOnExit>
-            <Box
-                className="skip-button-container"
-                sx={{
-                    position: 'fixed',
-                    bottom: 120,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 9999,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2
+        <Box
+            className="skip-button-container"
+            style={{
+                position: 'fixed',
+                bottom: 120,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 9999,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 16
+            }}
+        >
+            <Button
+                variant="primary"
+                color="primary"
+                onClick={handleSkip}
+                startDecorator={<TrackNextIcon />}
+                style={{
+                    borderRadius: 24,
+                    paddingLeft: 24,
+                    paddingRight: 24,
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                    textTransform: 'none',
+                    fontSize: vars.typography.fontSizeSm,
+                    boxShadow: 'var(--joy-palette-shadow-3)',
+                    transition: 'all 0.2s ease-in-out'
                 }}
             >
-                <Fade in={show} timeout={300}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSkip}
-                        startIcon={<SkipNextIcon />}
-                        sx={{
-                            borderRadius: 3,
-                            px: 3,
-                            py: 1,
-                            textTransform: 'none',
-                            fontSize: '1rem',
-                            boxShadow: 3,
-                            '&:hover': {
-                                boxShadow: 4,
-                                transform: 'scale(1.02)'
-                            },
-                            transition: 'all 0.2s ease-in-out'
+                {segmentLabel}
+                {autoHide && hideAfter > 0 && (
+                    <Text
+                        as="span"
+                        style={{
+                            marginLeft: 8,
+                            opacity: 0.7,
+                            fontSize: vars.typography.fontSizeSm,
+                            borderLeft: '1px solid var(--joy-palette-divider)',
+                            paddingLeft: 8
                         }}
                     >
-                        {segmentLabel}
-                        {autoHide && hideAfter > 0 && (
-                            <Typography
-                                component="span"
-                                sx={{
-                                    ml: 1,
-                                    opacity: 0.7,
-                                    fontSize: '0.875rem',
-                                    borderLeft: 1,
-                                    borderColor: 'divider',
-                                    pl: 1
-                                }}
-                            >
-                                {countdown}
-                            </Typography>
-                        )}
-                    </Button>
-                </Fade>
-            </Box>
-        </Slide>
+                        {countdown}
+                    </Text>
+                )}
+            </Button>
+        </Box>
     );
 };
 

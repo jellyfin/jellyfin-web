@@ -5,8 +5,8 @@ import { Text, Heading } from 'ui-primitives/Text';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { EmbyCheckbox } from '../../../elements';
-import { useNavigate } from 'react-router-dom';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { useNavigate } from '@tanstack/react-router';
 import Loading from '../../../components/loading/LoadingComponent';
 import * as styles from './WizardRemote.css';
 
@@ -32,7 +32,7 @@ const WizardRemote = () => {
             url: client.getUrl('Startup/RemoteAccess'),
             contentType: 'application/json'
         });
-        navigate('/wizard/finish');
+        navigate({ to: '/wizard/finish' });
     };
 
     if (isLoading) return <Loading />;
@@ -41,15 +41,16 @@ const WizardRemote = () => {
         <div className={styles.container}>
             <Heading.H2 className={styles.title}>{globalize.translate('HeaderRemoteAccess')}</Heading.H2>
             <Text className={styles.helpText}>{globalize.translate('HeaderRemoteAccessHelp')}</Text>
-            
+
             <form onSubmit={handleSubmit}>
                 <div className={styles.checkboxGroup}>
-                    <EmbyCheckbox
-                        label={globalize.translate('LabelEnableAutomaticPortMapping')}
+                    <Checkbox
                         checked={remoteAccess}
                         onChange={(e) => setRemoteAccess(e.target.checked)}
-                    />
-                    <Button type="submit" size="lg" className={styles.submitButton}>
+                    >
+                        {globalize.translate('LabelEnableAutomaticPortMapping')}
+                    </Checkbox>
+                    <Button type='submit' size='lg' className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
                 </div>

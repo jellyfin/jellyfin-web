@@ -19,6 +19,7 @@ const pluginModules = import.meta.glob('../plugins/*/plugin.{js,ts}');
 
 export interface Plugin {
     id: string;
+    name?: string;
     packageName?: string;
     type: string;
     priority?: number;
@@ -57,7 +58,7 @@ class PluginManager {
     async #preparePlugin(pluginSpec: any, plugin: Plugin) {
         if (typeof pluginSpec === 'string') {
             // See if it's already installed
-            const existing = this.plugins.filter((p) => {
+            const existing = this.plugins.filter(p => {
                 return p.id === plugin.id;
             })[0];
 
@@ -67,7 +68,8 @@ class PluginManager {
 
             plugin.installUrl = pluginSpec;
 
-            const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf('\'));
+            const backslash = '\x5c';
+            const separatorIndex = Math.max(pluginSpec.lastIndexOf('/'), pluginSpec.lastIndexOf(backslash));
             plugin.baseUrl = pluginSpec.substring(0, separatorIndex);
         }
 
@@ -83,7 +85,9 @@ class PluginManager {
 
                 const pluginDefinition = await (window as any)[pluginSpec];
                 if (typeof pluginDefinition !== 'function') {
-                    throw new TypeError('Plugin definitions in window have to be an (async) function returning the plugin class');
+                    throw new TypeError(
+                        'Plugin definitions in window have to be an (async) function returning the plugin class'
+                    );
                 }
 
                 const PluginClass = await pluginDefinition();
@@ -108,7 +112,8 @@ class PluginManager {
                 });
             } else {
                 logger.debug(`Loading plugin (via dynamic import): ${pluginSpec}`, { component: 'pluginManager' });
-                const moduleLoader = pluginModules[`../plugins/${pluginSpec}.js`] || pluginModules[`../plugins/${pluginSpec}.ts`];
+                const moduleLoader =
+                    pluginModules[`../plugins/${pluginSpec}.js`] || pluginModules[`../plugins/${pluginSpec}.ts`];
                 if (!moduleLoader) {
                     throw new Error(`Plugin not found: ${pluginSpec}`);
                 }
@@ -142,15 +147,17 @@ class PluginManager {
 
     firstOfType(type: string): Plugin | undefined {
         // Get all plugins of the specified type
-        return this.ofType(type)
-            // Return the plugin with the "highest" (lowest numeric value) priority
-            .sort((p1, p2) => (p1.priority || 0) - (p2.priority || 0))[0];
+        return (
+            this.ofType(type)
+                // Return the plugin with the "highest" (lowest numeric value) priority
+                .sort((p1, p2) => (p1.priority || 0) - (p2.priority || 0))[0]
+        );
     }
 
     mapPath(plugin: Plugin | string, path: string, addCacheParam?: boolean): string {
         let pluginObj: Plugin | undefined;
         if (typeof plugin === 'string') {
-            pluginObj = this.pluginsList.filter((p) => {
+            pluginObj = this.pluginsList.filter(p => {
                 return (p.id || p.packageName) === plugin;
             })[0];
         } else {

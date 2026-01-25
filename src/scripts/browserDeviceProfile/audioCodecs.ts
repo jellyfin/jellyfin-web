@@ -1,4 +1,4 @@
-import browser from '../../browser';
+import browser from 'scripts/browser';
 
 export function supportsAc3(videoTestElement: HTMLMediaElement): string | boolean {
     if (browser.edgeUwp || (browser as any).tizen || browser.web0s) {

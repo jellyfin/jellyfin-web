@@ -1,78 +1,100 @@
 import React, { useCallback } from 'react';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
-import Button from '@mui/joy/Button';
-import Stack from '@mui/joy/Stack';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { Dialog, DialogPortal, DialogOverlayComponent, DialogContentClass } from 'ui-primitives/Dialog';
+import { Button } from 'ui-primitives/Button';
+import { Box, Flex, FlexRow, FlexCol } from 'ui-primitives/Box';
 import globalize from 'lib/globalize';
-import { EmbyInput } from '../../../../elements';
+import { Input } from 'ui-primitives/Input';
+import { DialogContent, DialogOverlay } from 'ui-primitives/Dialog';
+import { vars } from 'styles/tokens.css';
 
-type IProps = {
+interface IProps {
     open: boolean;
     onClose: () => void;
     onAdd: (repository: RepositoryInfo) => void;
-};
+}
 
 const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
-    const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const onSubmit = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
+            const formData = new FormData(e.currentTarget);
+            const data = Object.fromEntries(formData.entries());
 
-        const repository: RepositoryInfo = {
-            Name: data.Name?.toString(),
-            Url: data.Url?.toString(),
-            Enabled: true
-        };
+            const repository: RepositoryInfo = {
+                Name: data.Name?.toString(),
+                Url: data.Url?.toString(),
+                Enabled: true
+            };
 
-        onAdd(repository);
-    }, [ onAdd ]);
+            onAdd(repository);
+        },
+        [onAdd]
+    );
 
     return (
-        <Modal open={open} onClose={onClose}>
-            <ModalDialog
-                component="form"
-                onSubmit={onSubmit}
-                sx={{ minWidth: 400 }}
-            >
-                <DialogTitle>{globalize.translate('HeaderNewRepository')}</DialogTitle>
+        <Dialog open={open} onOpenChange={open => !open && onClose()}>
+            <DialogPrimitive.Portal>
+                <DialogOverlay />
+                <DialogPrimitive.Content className={DialogContentClass} style={{ minWidth: 400 }}>
+                    <Box style={{ padding: '24px' }}>
+                        <FlexRow style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                            <span
+                                style={{
+                                    fontSize: vars.typography.fontSizeMd,
+                                    fontWeight: vars.typography.fontWeightMedium
+                                }}
+                            >
+                                {globalize.translate('HeaderNewRepository')}
+                            </span>
+                            <DialogPrimitive.Close asChild>
+                                <button
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        fontSize: vars.typography.fontSizeMd,
+                                        color: vars.colors.textSecondary
+                                    }}
+                                    type="button"
+                                >
+                                    ×
+                                </button>
+                            </DialogPrimitive.Close>
+                        </FlexRow>
 
-                <DialogContent>
-                    <Stack spacing={3} sx={{ mt: 1 }}>
-                        <EmbyInput
-                            name='Name'
-                            label={globalize.translate('LabelRepositoryName')}
-                            helperText={globalize.translate('LabelRepositoryNameHelp')}
-                            required
-                            autoFocus
-                        />
+                        <form onSubmit={onSubmit}>
+                            <FlexCol style={{ gap: 24, marginTop: 8 }}>
+                                <Input
+                                    name="Name"
+                                    label={globalize.translate('LabelRepositoryName')}
+                                    helperText={globalize.translate('LabelRepositoryNameHelp')}
+                                    required
+                                    autoFocus
+                                />
 
-                        <EmbyInput
-                            name='Url'
-                            label={globalize.translate('LabelRepositoryUrl')}
-                            helperText={globalize.translate('LabelRepositoryUrlHelp')}
-                            type='url'
-                            required
-                        />
-                    </Stack>
-                </DialogContent>
+                                <Input
+                                    name="Url"
+                                    label={globalize.translate('LabelRepositoryUrl')}
+                                    helperText={globalize.translate('LabelRepositoryUrlHelp')}
+                                    type="url"
+                                    required
+                                />
 
-                <DialogActions sx={{ mt: 2 }}>
-                    <Button type='submit'>{globalize.translate('Add')}</Button>
-                    <Button
-                        onClick={onClose}
-                        variant='plain'
-                        color="neutral"
-                    >
-                        {globalize.translate('ButtonCancel')}
-                    </Button>
-                </DialogActions>
-            </ModalDialog>
-        </Modal>
+                                <FlexRow style={{ gap: 8, justifyContent: 'flex-end', marginTop: 16 }}>
+                                    <Button type="submit">{globalize.translate('Add')}</Button>
+                                    <Button onClick={onClose} variant="ghost">
+                                        {globalize.translate('ButtonCancel')}
+                                    </Button>
+                                </FlexRow>
+                            </FlexCol>
+                        </form>
+                    </Box>
+                </DialogPrimitive.Content>
+            </DialogPrimitive.Portal>
+        </Dialog>
     );
 };
 

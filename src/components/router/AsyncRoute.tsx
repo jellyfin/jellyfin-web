@@ -1,8 +1,16 @@
-import type { RouteObject } from 'react-router-dom';
 import React from 'react';
 
 import { AppType } from 'constants/appType';
 import { LazyRouteWrapper } from './LazyRouteWrapper';
+
+type RouteObject = {
+    path?: string
+    children?: RouteObject[]
+    element?: React.ReactNode
+    Component?: React.ComponentType
+    lazy?: () => Promise<Record<string, unknown>>
+    [key: string]: unknown
+};
 
 export interface AsyncRoute {
     /** The URL path for this route. */

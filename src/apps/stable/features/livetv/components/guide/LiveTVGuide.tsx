@@ -12,7 +12,7 @@ const LiveTVGuide: React.FC = () => {
     const [programs, setPrograms] = useState<any[]>([]);
     const [currentDate] = useState(new Date());
     const apiClient = ServerConnections.currentApiClient();
-    
+
     const channelScrollRef = useRef<HTMLDivElement>(null);
     const gridScrollRef = useRef<HTMLDivElement>(null);
     const headerScrollRef = useRef<HTMLDivElement>(null);
@@ -29,7 +29,7 @@ const LiveTVGuide: React.FC = () => {
             return;
         }
 
-        const channelsResult: any = await apiClient.getLiveTvChannels({ 
+        const channelsResult: any = await apiClient.getLiveTvChannels({
             UserId: apiClient.getCurrentUserId(),
             Limit: 50
         });
@@ -59,7 +59,7 @@ const LiveTVGuide: React.FC = () => {
     if (isLoading) {
         return (
             <div className={styles.loadingContainer}>
-                <CircularProgress size="lg" />
+                <CircularProgress size='lg' />
             </div>
         );
     }
@@ -75,14 +75,14 @@ const LiveTVGuide: React.FC = () => {
                     <TimeslotHeader startDate={currentDate} />
                 </div>
             </div>
-            
+
             <div className={styles.gridBody}>
                 <div ref={channelScrollRef} className={styles.channelColumn}>
                     {channels.map(channel => (
                         <ChannelHeader key={channel.Id} channel={channel} />
                     ))}
                 </div>
-                
+
                 <div ref={gridScrollRef} className={styles.programGrid} onScroll={handleGridScroll}>
                     <div className={styles.gridContent} style={{ height: channels.length * 80 }}>
                         {channels.map((channel, rowIndex) => (

@@ -4,8 +4,8 @@ import logger from 'utils/logger';
 import butterchurn from 'butterchurn';
 // @ts-ignore
 import butterchurnPresets from 'butterchurn-presets';
-import { xDuration } from 'components/audioEngine/crossfader.logic';
-import { masterAudioOutput } from 'components/audioEngine/master.logic';
+import { usePreferencesStore, getCrossfadeFadeOut } from '../../store/preferencesStore';
+import { useAudioStore } from '../../store/audioStore';
 import { visualizerSettings } from './visualizers.logic';
 // @ts-ignore
 import isButterchurnSupported from 'butterchurn/lib/isSupported.min';
@@ -78,7 +78,7 @@ async function validateButterchurnPrerequisites(): Promise<boolean> {
         return false;
     }
 
-    if (!masterAudioOutput.audioContext) {
+    if (!useAudioStore.getState().audioContext) {
         logger.warn('AudioContext not available - cannot initialize', { component: 'Butterchurn' });
         return false;
     }
@@ -107,14 +107,21 @@ function createVisualizerOptions() {
     };
 }
 
-function createInitialVisualizer(audioContext: AudioContext, canvas: HTMLCanvasElement, options: ReturnType<typeof createVisualizerOptions>) {
+function createInitialVisualizer(
+    audioContext: AudioContext,
+    canvas: HTMLCanvasElement,
+    options: ReturnType<typeof createVisualizerOptions>
+) {
     try {
         logger.info('Initializing with regular canvas', { component: 'Butterchurn' });
         const visualizer = butterchurn.createVisualizer(audioContext, canvas, options);
         logger.info('Regular canvas initialized successfully', { component: 'Butterchurn' });
         return visualizer;
     } catch (error) {
-        logger.error('Failed to create visualizer with regular canvas', { component: 'Butterchurn', error: error as Error });
+        logger.error('Failed to create visualizer with regular canvas', {
+            component: 'Butterchurn',
+            error: error as Error
+        });
         return null;
     }
 }
@@ -144,7 +151,10 @@ function setupPresetsAndAnimation() {
             const nextPreset = presets[nextPresetName];
             if (nextPreset) {
                 // @ts-ignore
-                butterchurnInstance.visualizer.loadPreset(nextPreset, xDuration.fadeOut || 0);
+                butterchurnInstance.visualizer.loadPreset(
+                    nextPreset,
+                    getCrossfadeFadeOut(usePreferencesStore.getState().crossfade.crossfadeDuration) || 0
+                );
                 logger.debug(`Loaded preset: ${nextPresetName}`, { component: 'Butterchurn' });
             }
         } catch (error) {
@@ -218,22 +228,25 @@ export async function initializeButterChurn(canvas: HTMLCanvasElement) {
         return;
     }
 
-    const isDevelopment = typeof import.meta.url === 'string' && (
-        import.meta.url.startsWith('file://')
-        || import.meta.url.includes('localhost')
-        || import.meta.url.includes('127.0.0.1')
-        || window.location.protocol === 'file:'
-    );
+    const isDevelopment =
+        typeof import.meta.url === 'string' &&
+        (import.meta.url.startsWith('file://') ||
+            import.meta.url.includes('localhost') ||
+            import.meta.url.includes('127.0.0.1') ||
+            window.location.protocol === 'file:');
 
     if (isDevelopment) {
-        logger.info('Skipping AudioWorklet loading in development environment. Using fallback rendering.', { component: 'Butterchurn' });
+        logger.info('Skipping AudioWorklet loading in development environment. Using fallback rendering.', {
+            component: 'Butterchurn'
+        });
     }
 
     logger.info('AudioContext and support check passed, proceeding with initialization', { component: 'Butterchurn' });
 
     const options = createVisualizerOptions();
 
-    butterchurnInstance.visualizer = createInitialVisualizer(masterAudioOutput.audioContext!, canvas, options);
+    const audioContext = useAudioStore.getState().audioContext;
+    butterchurnInstance.visualizer = createInitialVisualizer(audioContext!, canvas, options);
     if (!butterchurnInstance.visualizer) {
         logger.error('Visualizer creation failed', { component: 'Butterchurn' });
         return;

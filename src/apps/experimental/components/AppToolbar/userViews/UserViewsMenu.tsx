@@ -1,47 +1,62 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import Menu, { type MenuProps } from '@mui/material/Menu/Menu';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import React, { type FC } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Menu, MenuItem } from 'ui-primitives/Menu';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { appRouter } from 'components/router/appRouter';
 
-interface UserViewsMenuProps extends MenuProps {
+interface UserViewsMenuProps {
+    open: boolean
+    onOpenChange: (open: boolean) => void
+    trigger: React.ReactNode
     userViews: BaseItemDto[]
     selectedId?: string
     includeGlobalViews?: boolean
-    onMenuClose: () => void
 }
 
 const UserViewsMenu: FC<UserViewsMenuProps> = ({
     userViews,
     selectedId,
-    onMenuClose,
-    ...props
+    open,
+    onOpenChange,
+    trigger
 }) => {
+    const navigate = useNavigate();
+
+    const renderMenuItemContent = (icon: React.ReactNode, label: string, isSelected: boolean) => (
+        <Flex align='center' gap={vars.spacing.sm}>
+            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                {icon}
+            </Box>
+            <Text size='md' weight={isSelected ? 'medium' : 'normal'}>
+                {label}
+            </Text>
+        </Flex>
+    );
+
     return (
         <Menu
-            {...props}
-            keepMounted
-            onClose={onMenuClose}
+            open={open}
+            onOpenChange={onOpenChange}
+            trigger={trigger}
         >
             {userViews.map(view => (
                 <MenuItem
                     key={view.Id}
-                    component={Link}
-                    to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
-                    onClick={onMenuClose}
-                    selected={view.Id === selectedId}
+                    onClick={() => {
+                        navigate({ to: appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1) });
+                        onOpenChange(false);
+                    }}
                 >
-                    <ListItemIcon>
-                        <LibraryIcon item={view} />
-                    </ListItemIcon>
-                    <ListItemText>
-                        {view.Name}
-                    </ListItemText>
+                    {renderMenuItemContent(
+                        <LibraryIcon item={view} />,
+                        view.Name ?? '',
+                        view.Id === selectedId
+                    )}
                 </MenuItem>
             ))}
         </Menu>

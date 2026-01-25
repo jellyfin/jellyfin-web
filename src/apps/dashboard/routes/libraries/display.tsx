@@ -1,15 +1,15 @@
-import React from 'react';
-import Alert from '@mui/material/Alert/Alert';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import FormControl from '@mui/material/FormControl/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Stack from '@mui/material/Stack/Stack';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import TextField from '@mui/material/TextField/TextField';
-import Typography from '@mui/material/Typography/Typography';
+/**
+ * @deprecated This route uses legacy patterns (direct API calls, querySelector-style state).
+ *
+ * Migration:
+ * - Use TanStack Query for data fetching
+ * - Replace form state with TanStack Forms + Zod
+ * - Use controlled components instead of direct DOM manipulation
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
+import React, { useCallback, useState } from 'react';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
@@ -17,106 +17,112 @@ import { QUERY_KEY as CONFIG_QUERY_KEY, useConfiguration } from 'hooks/useConfig
 import { QUERY_KEY as NAMED_CONFIG_QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { ActionData } from 'types/actionData';
+import { type ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
 import type { MetadataConfiguration } from '@jellyfin/sdk/lib/generated-client/models/metadata-configuration';
+import { Alert } from 'ui-primitives/Alert';
+import { Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives/FormControl';
+import { Input } from 'ui-primitives/Input';
+import { Text } from 'ui-primitives/Text';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
 
 const CONFIG_KEY = 'metadata';
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
-    if (!api) throw new Error('No Api instance available');
-
-    const formData = await request.formData();
-    const data = Object.fromEntries(formData);
-
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
-
-    const metadataConfig: MetadataConfiguration = {
-        UseFileCreationTimeForDateAdded: data.DateAddedBehavior.toString() === '1'
-    };
-
-    config.EnableFolderView = data.DisplayFolderView?.toString() === 'on';
-    config.DisplaySpecialsWithinSeasons = data.DisplaySpecialsWithinSeasons?.toString() === 'on';
-    config.EnableGroupingMoviesIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
-    config.EnableGroupingShowsIntoCollections = data.GroupShowsIntoCollections?.toString() === 'on';
-    config.EnableExternalContentInSuggestions = data.EnableExternalContentInSuggestions?.toString() === 'on';
-
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
-
-    await getConfigurationApi(api)
-        .updateNamedConfiguration({ key: CONFIG_KEY, body: metadataConfig });
-
-    void queryClient.invalidateQueries({
-        queryKey: [ CONFIG_QUERY_KEY ]
-    });
-    void queryClient.invalidateQueries({
-        queryKey: [ NAMED_CONFIG_QUERY_KEY, CONFIG_KEY ]
-    });
-
-    return {
-        isSaved: true
-    };
-};
-
-export const Component = () => {
-    const {
-        data: config,
-        isPending: isConfigPending,
-        isError: isConfigError
-    } = useConfiguration();
+export const Component = (): React.ReactElement => {
+    const { data: config, isPending: isConfigPending, isError: isConfigError } = useConfiguration();
     const {
         data: namedConfig,
         isPending: isNamedConfigPending,
         isError: isNamedConfigError
     } = useNamedConfiguration<MetadataConfiguration>(CONFIG_KEY);
 
-    const navigation = useNavigation();
-    const actionData = useActionData() as ActionData | undefined;
-    const isSubmitting = navigation.state === 'submitting';
+    const [actionData, setActionData] = useState<ActionData | undefined>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const api = ServerConnections.getCurrentApi();
+            if (!api) {
+                throw new Error('No Api instance available');
+            }
+
+            const formData = new FormData(event.currentTarget);
+            const data = Object.fromEntries(formData);
+
+            const { data: config } = await getConfigurationApi(api).getConfiguration();
+
+            const metadataConfig: MetadataConfiguration = {
+                UseFileCreationTimeForDateAdded: data.DateAddedBehavior.toString() === '1'
+            };
+
+            config.EnableFolderView = data.DisplayFolderView?.toString() === 'on';
+            config.DisplaySpecialsWithinSeasons = data.DisplaySpecialsWithinSeasons?.toString() === 'on';
+            config.EnableGroupingMoviesIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
+            config.EnableGroupingShowsIntoCollections = data.GroupShowsIntoCollections?.toString() === 'on';
+            config.EnableExternalContentInSuggestions = data.EnableExternalContentInSuggestions?.toString() === 'on';
+
+            await getConfigurationApi(api).updateConfiguration({ serverConfiguration: config });
+
+            await getConfigurationApi(api).updateNamedConfiguration({ key: CONFIG_KEY, body: metadataConfig });
+
+            void queryClient.invalidateQueries({
+                queryKey: [CONFIG_QUERY_KEY]
+            });
+            void queryClient.invalidateQueries({
+                queryKey: [NAMED_CONFIG_QUERY_KEY, CONFIG_KEY]
+            });
+
+            setActionData({ isSaved: true });
+        } catch (error) {
+            setActionData({ isSaved: false });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, []);
 
     if (isConfigPending || isNamedConfigPending) {
         return <Loading />;
     }
 
     return (
-        <Page
-            id='libraryDisplayPage'
-            title={globalize.translate('Display')}
-            className='mainAnimatedPage type-interior'
-        >
-            <Box className='content-primary'>
+        <Page id="libraryDisplayPage" title={globalize.translate('Display')} className="mainAnimatedPage type-interior">
+            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 {isConfigError || isNamedConfigError ? (
-                    <Alert severity='error'>{globalize.translate('DisplayLoadError')}</Alert>
+                    <Alert variant="error">{globalize.translate('DisplayLoadError')}</Alert>
                 ) : (
-                    <Form method='POST'>
-                        <Stack spacing={3}>
+                    <form onSubmit={handleSubmit}>
+                        <Flex style={{ flexDirection: 'column', gap: '24px' }}>
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert severity='success'>
-                                    {globalize.translate('SettingsSaved')}
-                                </Alert>
+                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                             )}
-                            <Typography variant='h1'>{globalize.translate('Display')}</Typography>
-                            <TextField
-                                name={'DateAddedBehavior'}
-                                label={globalize.translate('LabelDateAddedBehavior')}
-                                select
+                            <Text as="h1" size="xl" weight="bold">
+                                {globalize.translate('Display')}
+                            </Text>
+
+                            <Select
+                                name="DateAddedBehavior"
                                 defaultValue={namedConfig.UseFileCreationTimeForDateAdded ? '1' : '0'}
-                                helperText={globalize.translate('LabelDateAddedBehaviorHelp')}
                             >
-                                <MenuItem value={'0'}>{globalize.translate('OptionDateAddedImportTime')}</MenuItem>
-                                <MenuItem value={'1'}>{globalize.translate('OptionDateAddedFileTime')}</MenuItem>
-                            </TextField>
+                                <SelectTrigger style={{ width: '100%' }}>
+                                    <SelectValue placeholder={globalize.translate('LabelDateAddedBehavior')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="0">
+                                        {globalize.translate('OptionDateAddedImportTime')}
+                                    </SelectItem>
+                                    <SelectItem value="1">{globalize.translate('OptionDateAddedFileTime')}</SelectItem>
+                                </SelectContent>
+                            </Select>
 
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Checkbox
-                                            name={'DisplayFolderView'}
-                                            defaultChecked={config.EnableFolderView}
-                                        />
+                                        <Checkbox name="DisplayFolderView" defaultChecked={config.EnableFolderView} />
                                     }
                                     label={globalize.translate('OptionDisplayFolderView')}
                                 />
@@ -127,7 +133,7 @@ export const Component = () => {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name={'DisplaySpecialsWithinSeasons'}
+                                            name="DisplaySpecialsWithinSeasons"
                                             defaultChecked={config.DisplaySpecialsWithinSeasons}
                                         />
                                     }
@@ -139,51 +145,52 @@ export const Component = () => {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name={'GroupMoviesIntoCollections'}
+                                            name="GroupMoviesIntoCollections"
                                             defaultChecked={config.EnableGroupingMoviesIntoCollections}
                                         />
                                     }
                                     label={globalize.translate('LabelGroupMoviesIntoCollections')}
                                 />
-                                <FormHelperText>{globalize.translate('LabelGroupMoviesIntoCollectionsHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('LabelGroupMoviesIntoCollectionsHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name={'GroupShowsIntoCollections'}
+                                            name="GroupShowsIntoCollections"
                                             defaultChecked={config.EnableGroupingShowsIntoCollections}
                                         />
                                     }
                                     label={globalize.translate('LabelGroupShowsIntoCollections')}
                                 />
-                                <FormHelperText>{globalize.translate('LabelGroupShowsIntoCollectionsHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('LabelGroupShowsIntoCollectionsHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name={'EnableExternalContentInSuggestions'}
+                                            name="EnableExternalContentInSuggestions"
                                             defaultChecked={config.EnableExternalContentInSuggestions}
                                         />
                                     }
                                     label={globalize.translate('OptionEnableExternalContentInSuggestions')}
                                 />
-                                <FormHelperText>{globalize.translate('OptionEnableExternalContentInSuggestionsHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('OptionEnableExternalContentInSuggestionsHelp')}
+                                </FormHelperText>
                             </FormControl>
 
-                            <Button
-                                type='submit'
-                                size='large'
-                            >
-                                {globalize.translate('Save')}
-                            </Button>
-                        </Stack>
-                    </Form>
+                            <Button type="submit">{globalize.translate('Save')}</Button>
+                        </Flex>
+                    </form>
                 )}
-            </Box>
+            </Flex>
         </Page>
     );
 };

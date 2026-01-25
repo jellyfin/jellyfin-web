@@ -1,5 +1,5 @@
-import { Api } from '@jellyfin/sdk';
-import { LibraryApiGetMediaFoldersRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
+import { type Api } from '@jellyfin/sdk';
+import { type LibraryApiGetMediaFoldersRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';

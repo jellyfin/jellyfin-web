@@ -1,6 +1,6 @@
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
 
-import { UserSettings } from 'scripts/settings/userSettings';
+import { type UserSettings } from 'scripts/settings/userSettings';
 
 import { MediaSegmentAction } from '../constants/mediaSegmentAction';
 

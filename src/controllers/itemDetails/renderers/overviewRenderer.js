@@ -1,5 +1,4 @@
-import DOMPurify from 'dompurify';
-import markdownIt from 'markdown-it';
+import { escapeHtml } from '../../../utils/html';
 import { appRouter } from '../../../components/router/appRouter';
 import globalize from 'lib/globalize';
 import { hideAll } from '../utils/viewHelpers';
@@ -8,11 +7,15 @@ export function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
+        const overviewText = item.Overview || '';
 
-        if (overview) {
+        if (overviewText) {
+            // For now, use escaped HTML until we convert this to React
+            // TODO: Convert to React component using ReactMarkdownBox
+            const escapedOverview = escapeHtml(overviewText);
+
             for (const overviewElement of overviewElements) {
-                overviewElement.innerHTML = '<bdi>' + overview + '</bdi>';
+                overviewElement.innerHTML = '<bdi>' + escapedOverview.replace(/\n/g, '<br>') + '</bdi>';
                 overviewElement.classList.remove('hide');
                 overviewElement.classList.add('detail-clamp-text');
 
@@ -25,10 +28,6 @@ export function renderOverview(page, item) {
                 }
 
                 expandButton.addEventListener('click', toggleLineClamp.bind(null, overviewElement));
-
-                for (const anchor of overviewElement.querySelectorAll('a')) {
-                    anchor.setAttribute('target', '_blank');
-                }
             }
         } else {
             for (const overviewElement of overviewElements) {

@@ -1,7 +1,8 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { FunctionComponent, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { type FunctionComponent, useEffect, useRef, useCallback } from 'react';
+import { useSearchParams } from 'hooks/useSearchParams';
+import { vars } from 'styles/tokens.css';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
@@ -14,13 +15,13 @@ import { queryClient } from 'utils/query/queryClient';
 import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
 import Page from 'components/Page';
 import Loading from 'components/loading/LoadingComponent';
-import Button from 'elements/emby-button/Button';
+import { Button } from 'ui-primitives/Button';
 
 const UserProfile: FunctionComponent = () => {
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const userId = searchParams.get('userId');
     const { data: user, isPending: isUserPending } = useUser(userId ? { userId: userId } : undefined);
-    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
+    const libraryMenuPromise = useRef(import('../../../../scripts/libraryMenu'));
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -36,7 +37,11 @@ const UserProfile: FunctionComponent = () => {
             throw new Error('Unexpected null user name or id');
         }
 
-        void libraryMenu.then(menu => menu.setTitle(user.Name));
+        void (libraryMenuPromise.current as any).then((menu: any) => {
+            if ((menu as any).setTitle) {
+                (menu as any).setTitle(user.Name);
+            }
+        });
 
         let imageUrl = 'assets/img/avatar.png';
         if (user.PrimaryImageTag) {
@@ -45,25 +50,30 @@ const UserProfile: FunctionComponent = () => {
                 type: 'Primary'
             });
         }
-        const userImage = (page.querySelector('#image') as HTMLDivElement);
+        const userImage = page.querySelector('#image') as HTMLImageElement;
         userImage.style.backgroundImage = 'url(' + imageUrl + ')';
 
-        Dashboard.getCurrentUser().then((loggedInUser: UserDto) => {
-            if (!user.Policy) {
-                throw new Error('Unexpected null user.Policy');
-            }
+        Dashboard.getCurrentUser()
+            .then((loggedInUser: UserDto) => {
+                if (!user.Policy) {
+                    throw new Error('Unexpected null user.Policy');
+                }
 
-            if (user.PrimaryImageTag) {
-                (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
-                (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
-            } else if (safeAppHost.supports('fileinput') && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
-                (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
-            }
-        }).catch(err => {
-            console.error('[userprofile] failed to get current user', err);
-        });
-    }, [user, libraryMenu]);
+                if (user.PrimaryImageTag) {
+                    page.querySelector('#btnAddImage')!.classList.add('hide');
+                    page.querySelector('#btnDeleteImage')!.classList.remove('hide');
+                } else if (
+                    safeAppHost.supports('fileinput') &&
+                    (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)
+                ) {
+                    page.querySelector('#btnDeleteImage')!.classList.add('hide');
+                    page.querySelector('#btnAddImage')!.classList.remove('hide');
+                }
+            })
+            .catch((err: any) => {
+                console.error('[userprofile] failed to get current user', err);
+            });
+    }, [user]);
 
     useEffect(() => {
         const page = element.current;
@@ -95,9 +105,9 @@ const UserProfile: FunctionComponent = () => {
         };
 
         const setFiles = (evt: Event) => {
-            const userImage = (page.querySelector('#image') as HTMLDivElement);
+            const userImage = page.querySelector('#image')!;
             const target = evt.target as HTMLInputElement;
-            const file = (target.files as FileList)[0];
+            const file = target.files![0];
 
             if (!file || !/image.*/.exec(file.type)) {
                 return false;
@@ -112,15 +122,18 @@ const UserProfile: FunctionComponent = () => {
                     return;
                 }
 
+                const userImage = page.querySelector('#image') as HTMLImageElement;
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(() => {
-                    loading.hide();
-                    void queryClient.invalidateQueries({
-                        queryKey: ['User']
+                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file)
+                    .then(() => {
+                        loading.hide();
+                        void queryClient.invalidateQueries({
+                            queryKey: ['User']
+                        });
+                    })
+                    .catch((err: any) => {
+                        console.error('[userprofile] failed to upload image', err);
                     });
-                }).catch(err => {
-                    console.error('[userprofile] failed to upload image', err);
-                });
             };
 
             reader.readAsDataURL(file);
@@ -132,42 +145,45 @@ const UserProfile: FunctionComponent = () => {
                 return;
             }
 
-            confirm(
-                globalize.translate('DeleteImageConfirmation'),
-                globalize.translate('DeleteImage')
-            ).then(() => {
-                loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(() => {
-                    loading.hide();
-                    void queryClient.invalidateQueries({
-                        queryKey: ['User']
-                    });
-                }).catch(err => {
-                    console.error('[userprofile] failed to delete image', err);
+            confirm(globalize.translate('DeleteImageConfirmation'), globalize.translate('DeleteImage'))
+                .then(() => {
+                    loading.show();
+                    window.ApiClient.deleteUserImage(userId, ImageType.Primary)
+                        .then(() => {
+                            loading.hide();
+                            void queryClient.invalidateQueries({
+                                queryKey: ['User']
+                            });
+                        })
+                        .catch((err: any) => {
+                            console.error('[userprofile] failed to delete image', err);
+                        });
+                })
+                .catch(() => {
+                    // confirm dialog closed
                 });
-            }).catch(() => {
-                // confirm dialog closed
-            });
         };
 
         const addImageClick = function () {
             const uploadImage = page.querySelector('#uploadImage') as HTMLInputElement;
-            uploadImage.value = '';
-            uploadImage.click();
+            if (uploadImage) {
+                uploadImage.value = '';
+                uploadImage.click();
+            }
         };
 
         const onUploadImage = (e: Event) => {
             setFiles(e);
         };
 
-        (page.querySelector('#btnDeleteImage') as HTMLButtonElement).addEventListener('click', onDeleteImageClick);
-        (page.querySelector('#btnAddImage') as HTMLButtonElement).addEventListener('click', addImageClick);
-        (page.querySelector('#uploadImage') as HTMLInputElement).addEventListener('change', onUploadImage);
+        page.querySelector('#btnDeleteImage')!.addEventListener('click', onDeleteImageClick);
+        page.querySelector('#btnAddImage')!.addEventListener('click', addImageClick);
+        page.querySelector('#uploadImage')!.addEventListener('change', onUploadImage);
 
         return () => {
-            (page.querySelector('#btnDeleteImage') as HTMLButtonElement).removeEventListener('click', onDeleteImageClick);
-            (page.querySelector('#btnAddImage') as HTMLButtonElement).removeEventListener('click', addImageClick);
-            (page.querySelector('#uploadImage') as HTMLInputElement).removeEventListener('change', onUploadImage);
+            page.querySelector('#btnDeleteImage')!.removeEventListener('click', onDeleteImageClick);
+            page.querySelector('#btnAddImage')!.removeEventListener('click', addImageClick);
+            page.querySelector('#uploadImage')!.removeEventListener('change', onUploadImage);
         };
     }, [reloadUser, user, userId]);
 
@@ -177,55 +193,83 @@ const UserProfile: FunctionComponent = () => {
 
     return (
         <Page
-            id='userProfilePage'
+            id="userProfilePage"
             title={globalize.translate('Profile')}
-            className='mainAnimatedPage libraryPage userPreferencesPage userPasswordPage noSecondaryNavPage'
+            className="mainAnimatedPage libraryPage userPreferencesPage userPasswordPage noSecondaryNavPage"
         >
-            <div ref={element} className='padded-left padded-right padded-bottom-page'>
+            <div ref={element} className="padded-left padded-right padded-bottom-page">
                 <div
-                    className='readOnlyContent'
-                    style={{ margin: '0 auto', marginBottom: '1.8em', padding: '0 1em', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                    className="readOnlyContent"
+                    style={{
+                        margin: '0 auto',
+                        marginBottom: '1.8em',
+                        padding: '0 1em',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}
                 >
                     <div
-                        className='imagePlaceHolder'
+                        className="imagePlaceHolder"
                         style={{ position: 'relative', display: 'inline-block', maxWidth: 200 }}
                     >
                         <input
-                            id='uploadImage'
-                            type='file'
-                            accept='image/*'
-                            style={{ position: 'absolute', right: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
+                            id="uploadImage"
+                            type="file"
+                            accept="image/*"
+                            style={{
+                                position: 'absolute',
+                                right: 0,
+                                width: '100%',
+                                height: '100%',
+                                opacity: 0,
+                                cursor: 'pointer'
+                            }}
                         />
                         <div
-                            id='image'
-                            style={{ width: 200, height: 200, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderRadius: '100%', backgroundSize: 'cover' }}
+                            id="image"
+                            style={{
+                                width: 200,
+                                height: 200,
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center',
+                                borderRadius: '100%',
+                                backgroundSize: 'cover'
+                            }}
                         />
                     </div>
-                    <div style={{ verticalAlign: 'top', margin: '1em 2em', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <h2 className='username' style={{ margin: 0, fontSize: 'xx-large' }}>
+                    <div
+                        style={{
+                            verticalAlign: 'top',
+                            margin: '1em 2em',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <h2 className="username" style={{ margin: 0, fontSize: vars.typography.fontSizeXl }}>
                             {user?.Name}
                         </h2>
                         <br />
                         <Button
-                            type='button'
-                            id='btnAddImage'
-                            className='raised button-submit hide'
+                            type="button"
+                            id="btnAddImage"
+                            className="raised button-submit hide"
                             title={globalize.translate('ButtonAddImage')}
+                            children={globalize.translate('ButtonAddImage')}
                         />
                         <Button
-                            type='button'
-                            id='btnDeleteImage'
-                            className='raised hide'
+                            type="button"
+                            id="btnDeleteImage"
+                            className="raised hide"
                             title={globalize.translate('DeleteImage')}
+                            children={globalize.translate('DeleteImage')}
                         />
                     </div>
                 </div>
-                <UserPasswordForm
-                    user={user}
-                />
+                <UserPasswordForm user={user} />
             </div>
         </Page>
-
     );
 };
 

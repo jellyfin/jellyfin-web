@@ -1,3 +1,14 @@
+/**
+ * @deprecated This module is deprecated in favor of React components.
+ *
+ * Migration:
+    - Subtitle editor → React with TanStack Forms + Zod
+    - Template-based → React rendering
+    - List view → ui-primitives/List or DataTable
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import escapeHtml from 'escape-html';
 
 import { AppFeature } from 'constants/appFeature';
@@ -15,13 +26,11 @@ import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
-import 'material-design-icons-iconfont';
 import './subtitleeditor.scss';
 import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
-import template from './subtitleeditor.template.html';
+import template from './subtitleeditor.template.html?raw';
 
 let currentItem;
 let hasChanges;
@@ -30,30 +39,28 @@ function downloadRemoteSubtitles(context, id) {
     const url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
 
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-    apiClient.ajax({
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: apiClient.getUrl(url)
+        })
+        .then(() => {
+            hasChanges = true;
 
-        type: 'POST',
-        url: apiClient.getUrl(url)
+            toast(globalize.translate('MessageDownloadQueued'));
 
-    }).then(() => {
-        hasChanges = true;
-
-        toast(globalize.translate('MessageDownloadQueued'));
-
-        focusManager.autoFocus(context);
-    });
+            focusManager.autoFocus(context);
+        });
 }
 
 function deleteLocalSubtitle(context, index) {
     const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
     confirm({
-
         title: globalize.translate('ConfirmDeletion'),
         text: msg,
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
-
     }).then(() => {
         loading.show();
 
@@ -62,22 +69,22 @@ function deleteLocalSubtitle(context, index) {
 
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
-        apiClient.ajax({
-
-            type: 'DELETE',
-            url: apiClient.getUrl(url)
-
-        }).then(() => {
-            hasChanges = true;
-            reload(context, apiClient, itemId);
-        });
+        apiClient
+            .ajax({
+                type: 'DELETE',
+                url: apiClient.getUrl(url)
+            })
+            .then(() => {
+                hasChanges = true;
+                reload(context, apiClient, itemId);
+            });
     });
 }
 
 function fillSubtitleList(context, item) {
     const streams = item.MediaStreams || [];
 
-    const subs = streams.filter((s) => {
+    const subs = streams.filter(s => {
         return s.Type === 'Subtitle';
     });
 
@@ -88,43 +95,51 @@ function fillSubtitleList(context, item) {
 
         html += '<div>';
 
-        html += subs.map((s) => {
-            let itemHtml = '';
+        html += subs
+            .map(s => {
+                let itemHtml = '';
 
-            const tagName = layoutManager.tv ? 'button' : 'div';
-            let className = layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
+                const tagName = layoutManager.tv ? 'button' : 'div';
+                let className =
+                    layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
 
-            if (layoutManager.tv) {
-                className += ' listItem-focusscale listItem-button';
-            }
+                if (layoutManager.tv) {
+                    className += ' listItem-focusscale listItem-button';
+                }
 
-            className += ' listItem-noborder';
+                className += ' listItem-noborder';
 
-            itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
+                itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-            itemHtml += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
+                itemHtml += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
-            itemHtml += '<div class="listItemBody two-line">';
+                itemHtml += '<div class="listItemBody two-line">';
 
-            itemHtml += '<div>';
-            itemHtml += escapeHtml(s.DisplayTitle || '');
-            itemHtml += '</div>';
+                itemHtml += '<div>';
+                itemHtml += escapeHtml(s.DisplayTitle || '');
+                itemHtml += '</div>';
 
-            if (s.Path) {
-                itemHtml += '<div class="secondary listItemBodyText">' + escapeHtml(s.Path) + '</div>';
-            }
+                if (s.Path) {
+                    itemHtml += '<div class="secondary listItemBodyText">' + escapeHtml(s.Path) + '</div>';
+                }
 
-            itemHtml += '</a>';
-            itemHtml += '</div>';
+                itemHtml += '</a>';
+                itemHtml += '</div>';
 
-            if (!layoutManager.tv && s.Path) {
-                itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
-            }
+                if (!layoutManager.tv && s.Path) {
+                    itemHtml +=
+                        '<button is="paper-icon-button-light" data-index="' +
+                        s.Index +
+                        '" title="' +
+                        globalize.translate('Delete') +
+                        '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
+                }
 
-            itemHtml += '</' + tagName + '>';
+                itemHtml += '</' + tagName + '>';
 
-            return itemHtml;
-        }).join('');
+                return itemHtml;
+            })
+            .join('');
 
         html += '</div>';
     }
@@ -142,7 +157,7 @@ function fillSubtitleList(context, item) {
 function fillLanguages(context, apiClient, languages) {
     const selectLanguage = context.querySelector('#selectLanguage');
 
-    selectLanguage.innerHTML = languages.map((l) => {
+    selectLanguage.innerHTML = languages.map(l => {
         return '<option value="' + l.ThreeLetterISOLanguageName + '">' + l.DisplayName + '</option>';
     });
 
@@ -150,7 +165,7 @@ function fillLanguages(context, apiClient, languages) {
     if (lastLanguage) {
         selectLanguage.value = lastLanguage;
     } else {
-        apiClient.getCurrentUser().then((user) => {
+        apiClient.getCurrentUser().then(user => {
             const lang = user.Configuration.SubtitleLanguagePreference;
 
             if (lang) {
@@ -197,7 +212,12 @@ function renderSearchResults(context, results) {
 
         html += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
-        const hasAnyFlags = result.IsHashMatch || result.AiTranslated || result.MachineTranslated || result.Forced || result.HearingImpaired;
+        const hasAnyFlags =
+            result.IsHashMatch ||
+            result.AiTranslated ||
+            result.MachineTranslated ||
+            result.Forced ||
+            result.HearingImpaired;
         const bodyClass = result.Comment || hasAnyFlags ? 'three-line' : 'two-line';
 
         html += '<div class="listItemBody ' + bodyClass + '">';
@@ -210,7 +230,10 @@ function renderSearchResults(context, results) {
         }
 
         if (result.DownloadCount != null) {
-            html += '<span style="margin-right:1em;">' + globalize.translate('DownloadsValue', result.DownloadCount) + '</span>';
+            html +=
+                '<span style="margin-right:1em;">' +
+                globalize.translate('DownloadsValue', result.DownloadCount) +
+                '</span>';
         }
 
         if (result.FrameRate) {
@@ -220,13 +243,17 @@ function renderSearchResults(context, results) {
         html += '</div>';
 
         if (result.Comment) {
-            html += '<div class="secondary listItemBodyText" style="white-space:pre-line;">' + escapeHtml(result.Comment) + '</div>';
+            html +=
+                '<div class="secondary listItemBodyText" style="white-space:pre-line;">' +
+                escapeHtml(result.Comment) +
+                '</div>';
         }
 
         if (hasAnyFlags) {
             html += '<div class="secondary listItemBodyText">';
 
-            const spanOpen = '<span class="inline-flex align-items-center justify-content-center subtitleFeaturePillow">';
+            const spanOpen =
+                '<span class="inline-flex align-items-center justify-content-center subtitleFeaturePillow">';
 
             if (result.IsHashMatch) {
                 html += spanOpen + globalize.translate('PerfectMatch') + '</span>';
@@ -254,7 +281,10 @@ function renderSearchResults(context, results) {
         html += '</div>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download" aria-hidden="true"></span></button>';
+            html +=
+                '<button type="button" is="paper-icon-button-light" data-subid="' +
+                result.Id +
+                '" class="btnDownload listItemButton"><span class="material-icons file_download" aria-hidden="true"></span></button>';
         }
 
         html += '</' + tagName + '>';
@@ -278,7 +308,7 @@ function searchForSubtitles(context, language) {
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
     const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
-    apiClient.getJSON(url).then((results) => {
+    apiClient.getJSON(url).then(results => {
         renderSearchResults(context, results);
     });
 }
@@ -361,16 +391,17 @@ function showDownloadOptions(button, context, subtitleId) {
         id: 'download'
     });
 
-    import('../actionSheet/actionSheet').then((actionsheet) => {
-        actionsheet.show({
-            items: items,
-            positionTo: button
-
-        }).then((id) => {
-            if (id === 'download') {
-                downloadRemoteSubtitles(context, subtitleId);
-            }
-        });
+    import('../actionSheet/actionSheet').then(actionsheet => {
+        actionsheet
+            .show({
+                items: items,
+                positionTo: button
+            })
+            .then(id => {
+                if (id === 'download') {
+                    downloadRemoteSubtitles(context, subtitleId);
+                }
+            });
     });
 }
 
@@ -387,19 +418,21 @@ function onOpenUploadMenu(e) {
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
     import('../subtitleuploader/subtitleuploader').then(({ default: subtitleUploader }) => {
-        subtitleUploader.show({
-            languages: {
-                list: selectLanguage.innerHTML,
-                value: selectLanguage.value
-            },
-            itemId: currentItem.Id,
-            serverId: currentItem.ServerId
-        }).then((hasChanged) => {
-            if (hasChanged) {
-                hasChanges = true;
-                reload(dialog, apiClient, currentItem.Id);
-            }
-        });
+        subtitleUploader
+            .show({
+                languages: {
+                    list: selectLanguage.innerHTML,
+                    value: selectLanguage.value
+                },
+                itemId: currentItem.Id,
+                serverId: currentItem.ServerId
+            })
+            .then(hasChanged => {
+                if (hasChanged) {
+                    hasChanges = true;
+                    reload(dialog, apiClient, currentItem.Id);
+                }
+            });
     });
 }
 
@@ -407,7 +440,7 @@ function showEditorInternal(itemId, serverId) {
     hasChanges = false;
 
     const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
+    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -451,7 +484,7 @@ function showEditorInternal(itemId, serverId) {
         dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
         dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
 
-        apiClient.getCultures().then((languages) => {
+        apiClient.getCultures().then(languages => {
             fillLanguages(editorContent, apiClient, languages);
         });
 

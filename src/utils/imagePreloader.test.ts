@@ -5,14 +5,16 @@ const mockFetch = vi.fn();
 
 describe('ImagePreloader', () => {
     beforeEach(() => {
-        vi.useFakeTimers();
         imagePreloader.clearCacheStatus();
-        global.fetch = mockFetch as any;
+        imagePreloader['imageCache'].clear();
+        imagePreloader['requestQueue'].length = 0;
+        imagePreloader['activeRequests'].clear();
         mockFetch.mockClear();
+        vi.spyOn(window, 'fetch').mockImplementation(mockFetch);
     });
 
     afterEach(() => {
-        vi.useRealTimers();
+        vi.restoreAllMocks();
     });
 
     describe('Initialization', () => {
@@ -48,14 +50,14 @@ describe('ImagePreloader', () => {
                 { itemId: 'track-3', imageUrl: 'https://example.com/image3.jpg' }
             ];
 
-            (global as any).fetch.mockResolvedValue({
+            mockFetch.mockResolvedValue({
                 type: 'opaque',
                 ok: true
             });
 
             await imagePreloader.preloadQueueImages(queueItems);
 
-            expect((global as any).fetch).toHaveBeenCalledTimes(3);
+            expect(mockFetch).toHaveBeenCalledTimes(3);
         });
 
         it('should handle empty queue', async () => {
@@ -69,46 +71,62 @@ describe('ImagePreloader', () => {
                 { itemId: 'track-2' }
             ];
 
-            (global as any).fetch.mockResolvedValue({
+            mockFetch.mockResolvedValue({
                 type: 'opaque',
                 ok: true
             });
 
             await imagePreloader.preloadQueueImages(queueItems);
 
-            expect((global as any).fetch).toHaveBeenCalledTimes(1);
+            expect(mockFetch).toHaveBeenCalledTimes(1);
         });
 
         it('should preload all image types for queue items', async () => {
             const queueItems = [
-                { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg', backdropUrl: 'https://example.com/backdrop1.jpg', artistLogoUrl: 'https://example.com/logo1.png', discImageUrl: 'https://example.com/disc1.png' },
-                { itemId: 'track-2', imageUrl: 'https://example.com/image2.jpg', backdropUrl: 'https://example.com/backdrop2.jpg', artistLogoUrl: 'https://example.com/logo2.png', discImageUrl: 'https://example.com/disc2.png' }
+                {
+                    itemId: 'track-1',
+                    imageUrl: 'https://example.com/image1.jpg',
+                    backdropUrl: 'https://example.com/backdrop1.jpg',
+                    artistLogoUrl: 'https://example.com/logo1.png',
+                    discImageUrl: 'https://example.com/disc1.png'
+                },
+                {
+                    itemId: 'track-2',
+                    imageUrl: 'https://example.com/image2.jpg',
+                    backdropUrl: 'https://example.com/backdrop2.jpg',
+                    artistLogoUrl: 'https://example.com/logo2.png',
+                    discImageUrl: 'https://example.com/disc2.png'
+                }
             ];
 
-            (global as any).fetch.mockResolvedValue({
+            mockFetch.mockResolvedValue({
                 type: 'opaque',
                 ok: true
             });
 
             await imagePreloader.preloadQueueImages(queueItems);
 
-            expect((global as any).fetch).toHaveBeenCalledTimes(8);
+            expect(mockFetch).toHaveBeenCalledTimes(8);
         });
 
         it('should preload only available image types', async () => {
             const queueItems = [
-                { itemId: 'track-1', imageUrl: 'https://example.com/image1.jpg', discImageUrl: 'https://example.com/disc1.png' },
+                {
+                    itemId: 'track-1',
+                    imageUrl: 'https://example.com/image1.jpg',
+                    discImageUrl: 'https://example.com/disc1.png'
+                },
                 { itemId: 'track-2', artistLogoUrl: 'https://example.com/logo2.png' }
             ];
 
-            (global as any).fetch.mockResolvedValue({
+            mockFetch.mockResolvedValue({
                 type: 'opaque',
                 ok: true
             });
 
             await imagePreloader.preloadQueueImages(queueItems);
 
-            expect((global as any).fetch).toHaveBeenCalledTimes(3);
+            expect(mockFetch).toHaveBeenCalledTimes(3);
         });
     });
 
@@ -138,13 +156,18 @@ describe('ImagePreloader', () => {
 
     describe('Single Image Preloading', () => {
         it('should cache status as loading initially', async () => {
-            mockFetch.mockReturnValue(new Promise(() => {}));
+            let resolvePromise: (value: string) => void;
+            const pendingPromise = new Promise<string>(resolve => {
+                resolvePromise = resolve;
+            });
+            mockFetch.mockReturnValue(pendingPromise);
 
             const preloadPromise = imagePreloader.preloadImage('https://example.com/image.jpg');
 
             expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('loading');
 
-            preloadPromise.catch(() => {});
+            resolvePromise!('opaque');
+            await preloadPromise;
         });
 
         it('should update status to cached on success', async () => {
@@ -167,7 +190,7 @@ describe('ImagePreloader', () => {
         });
 
         it('should handle undefined URL', async () => {
-            const result = await imagePreloader.preloadImage(undefined);
+            const result = await imagePreloader.preloadImage();
             expect(result).toBe('error');
         });
 
@@ -216,10 +239,18 @@ describe('ImagePreloader', () => {
             expect(status).toBe('unknown');
         });
 
-        it('should track loading status', () => {
-            mockFetch.mockReturnValue(new Promise(() => {}));
-            imagePreloader.preloadImage('https://example.com/image.jpg').catch(() => {});
+        it('should track loading status', async () => {
+            let resolvePromise: (value: string) => void;
+            const pendingPromise = new Promise<string>(resolve => {
+                resolvePromise = resolve;
+            });
+            mockFetch.mockReturnValue(pendingPromise);
+
+            const preloadPromise = imagePreloader.preloadImage('https://example.com/image.jpg').catch(() => {});
             expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('loading');
+
+            resolvePromise!('opaque');
+            await preloadPromise;
         });
 
         it('should track cached status', async () => {

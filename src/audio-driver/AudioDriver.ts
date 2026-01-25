@@ -25,7 +25,7 @@ export class AudioDriver {
             onPreviousTrack: () => this.previous(),
             onSeekBackward: () => this.seekRelative(-10),
             onSeekForward: () => this.seekRelative(10),
-            onSeekTo: (time) => this.seek(time),
+            onSeekTo: time => this.seek(time),
             onStop: () => this.stop()
         });
 
@@ -50,7 +50,7 @@ export class AudioDriver {
     async loadAndPlay(url: string, item: any) {
         // Determine player type based on item or explicitly passed type
         const isVideo = item?.mediaType === 'Video' || item?.MediaType === 'Video';
-        
+
         // Stop current player if switching types
         if (isVideo && this.activePlayer !== this.videoPlayer) {
             this.audioPlayer.stop();
@@ -62,7 +62,7 @@ export class AudioDriver {
 
         this.activePlayer.load(url, true);
         this.mediaSession.updateMetadata(item);
-        
+
         // Sync volume to new player
         const { volume, muted } = useSettingsStore.getState().audio;
         this.activePlayer.setVolume(volume);
@@ -102,30 +102,50 @@ export class AudioDriver {
 
     private setupPlayerEvents(player: HTML5Player) {
         player.setEvents({
-            onTimeUpdate: (time) => {
+            onTimeUpdate: time => {
                 if (player !== this.activePlayer) return;
-                useMediaStore.getState().setProgress({ currentTime: time });
+                useMediaStore.getState().setProgress({
+                    currentTime: time,
+                    percent: 0, // Add default values
+                    buffered: 0,
+                    duration: 0
+                });
                 this.updateMediaSessionPosition();
             },
-            onDurationChange: (duration) => {
+            onDurationChange: duration => {
                 if (player !== this.activePlayer) return;
-                useMediaStore.getState().setProgress({ duration });
+                useMediaStore.getState().setProgress({
+                    currentTime: 0,
+                    percent: 0,
+                    buffered: 0,
+                    duration
+                });
                 this.updateMediaSessionPosition();
             },
-            onStatusChange: (status) => {
+            onStatusChange: status => {
                 if (player !== this.activePlayer) return;
-                useMediaStore.getState().setStatus(status);
-                this.mediaSession.updatePlaybackState(status === 'playing' ? 'playing' : status === 'paused' ? 'paused' : 'none');
+                useMediaStore.getState().setBuffering(status === 'buffering');
+                if (status === 'playing' || status === 'paused') {
+                    useMediaStore.getState().setStatus?.(status);
+                }
+                this.mediaSession.updatePlaybackState(
+                    status === 'playing' ? 'playing' : status === 'paused' ? 'paused' : 'none'
+                );
             },
-            onBufferedChange: (buffered) => {
+            onBufferedChange: buffered => {
                 if (player !== this.activePlayer) return;
-                useMediaStore.getState().setProgress({ buffered });
+                useMediaStore.getState().setProgress({
+                    currentTime: 0,
+                    percent: 0,
+                    buffered,
+                    duration: 0
+                });
             },
             onVolumeChange: (volume, muted) => {
                 if (player !== this.activePlayer) return;
                 // Sync back to store if changed externally (e.g. OS volume)
             },
-            onError: (err) => {
+            onError: err => {
                 if (player !== this.activePlayer) return;
                 useMediaStore.getState().setError(err.message);
             },
@@ -139,8 +159,8 @@ export class AudioDriver {
     private setupStoreSubscriptions() {
         // Subscribe to item changes
         useMediaStore.subscribe(
-            (state) => state.currentItem,
-            (item) => {
+            state => state.currentItem,
+            item => {
                 if (item) {
                     this.mediaSession.updateMetadata(item);
                 }
@@ -148,8 +168,8 @@ export class AudioDriver {
         );
 
         useSettingsStore.subscribe(
-            (state) => state.audio.volume,
-            (volume) => {
+            state => state.audio.volume,
+            volume => {
                 if (this.activePlayer) {
                     this.activePlayer.setVolume(volume);
                 }
@@ -157,8 +177,8 @@ export class AudioDriver {
         );
 
         useSettingsStore.subscribe(
-            (state) => state.audio.muted,
-            (muted) => {
+            state => state.audio.muted,
+            muted => {
                 if (this.activePlayer) {
                     this.activePlayer.setMuted(muted);
                 }
@@ -167,8 +187,8 @@ export class AudioDriver {
 
         // Sync playback rate
         useMediaStore.subscribe(
-            (state) => state.playbackRate,
-            (rate) => {
+            state => state.playbackRate,
+            rate => {
                 if (this.activePlayer) {
                     this.activePlayer.setPlaybackRate(rate);
                 }
@@ -185,7 +205,7 @@ export class AudioDriver {
     getElement() {
         return this.activePlayer.getElement();
     }
-    
+
     // Explicitly for Video Player access
     getVideoPlayer(): VideoPlayer {
         return this.videoPlayer;

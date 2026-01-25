@@ -1,12 +1,14 @@
-import { AsyncRoute } from '../../../../components/router/AsyncRoute';
+import { type AsyncRoute } from '../../../../components/router/AsyncRoute';
 
 export const ASYNC_USER_ROUTES: AsyncRoute[] = [
     { path: 'mypreferencesmenu', page: 'user/settings' },
+    { path: 'mypreferencesdisplay', page: 'user/display' },
     { path: 'quickconnect', page: 'quickConnect' },
     { path: 'search', page: 'search' },
     { path: 'userprofile', page: 'user/userprofile' },
     // 🔥 CRITICAL: Lazy-loaded main entry point - MAXIMUM IMPACT
     { path: 'home', page: 'lazyRoutes/HomePage' },
+    { path: 'homevideos', page: 'lazyRoutes/HomeVideosPage' },
     { path: 'livetv', page: 'lazyRoutes/LiveTVPage' },
     { path: 'nowplaying', page: 'lazyRoutes/NowPlayingPage' },
 

@@ -1,39 +1,32 @@
-import React, { FunctionComponent } from 'react';
-import { TaskProps } from '../types/taskProps';
-import Box from '@mui/joy/Box';
-import LinearProgress from '@mui/joy/LinearProgress';
-import Typography from '@mui/joy/Typography';
+import React, { type FunctionComponent } from 'react';
+import { type TaskProps } from '../types/taskProps';
+import { Progress } from 'ui-primitives/Progress';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const progress = task.CurrentProgressPercentage;
 
     return (
         <Box
-            sx={{
+            style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1.5,
-                mt: 0.5,
+                gap: vars.spacing.sm,
+                marginTop: vars.spacing.xs,
                 minWidth: '170px'
             }}
         >
             {progress != null ? (
                 <>
-                    <LinearProgress
-                        determinate
-                        value={progress}
-                        color="primary"
-                        sx={{ flex: 1, borderRadius: 'sm' }}
-                    />
-                    <Typography level="body-xs" fontWeight="bold">
+                    <Progress value={progress} style={{ flex: 1, borderRadius: vars.borderRadius.sm }} />
+                    <Text size="xs" style={{ fontWeight: vars.typography.fontWeightBold }}>
                         {`${Math.round(progress)}%`}
-                    </Typography>
+                    </Text>
                 </>
             ) : (
-                <LinearProgress
-                    color="primary"
-                    sx={{ flex: 1, borderRadius: 'sm' }}
-                />
+                <Progress style={{ flex: 1, borderRadius: vars.borderRadius.sm }} />
             )}
         </Box>
     );

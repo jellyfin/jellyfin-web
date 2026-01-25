@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@tanstack/react-router';
 import { predictivePreloader } from '../utils/predictivePreloader';
 import { logger } from '../utils/logger';
 

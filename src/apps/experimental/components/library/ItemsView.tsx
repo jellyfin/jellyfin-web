@@ -1,13 +1,12 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import Box from '@mui/material/Box/Box';
-import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
-import type { Theme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
+import { Box, Flex } from 'ui-primitives/Box';
+import useMediaQuery from 'hooks/useMediaQuery';
+import { vars } from 'styles/tokens.css';
 
 import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
@@ -17,7 +16,7 @@ import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
 import { CardShape } from 'utils/card';
 import Loading from 'components/loading/LoadingComponent';
 import { playbackManager } from 'components/playback/playbackmanager';
-import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
+import ItemsContainer from '../../../../components/items/ItemsContainer';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import Lists from 'components/listview/List/Lists';
 import Cards from 'components/cardbuilder/Card/Cards';
@@ -71,12 +70,11 @@ const ItemsView: FC<ItemsViewProps> = ({
     itemType,
     noItemsMessage
 }) => {
-    const [libraryViewSettings, setLibraryViewSettings] =
-        useLocalStorage<LibraryViewSettings>(
-            getSettingsKey(viewType, parentId),
-            getDefaultLibraryViewSettings(viewType)
-        );
-    const isSmallScreen = useMediaQuery((t: Theme) => t.breakpoints.up('sm'));
+    const [libraryViewSettings, setLibraryViewSettings] = useLocalStorage<LibraryViewSettings>(
+        getSettingsKey(viewType, parentId),
+        getDefaultLibraryViewSettings(viewType)
+    );
+    const isSmallScreen = useMediaQuery('(min-width: 600px)');
 
     const { __legacyApiClient__ } = useApi();
     const {
@@ -84,12 +82,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         data: itemsResult,
         isPlaceholderData,
         refetch
-    } = useGetItemsViewByType(
-        viewType,
-        parentId,
-        itemType,
-        libraryViewSettings
-    );
+    } = useGetItemsViewByType(viewType, parentId, itemType, libraryViewSettings);
     const { data: item } = useItem(parentId || undefined);
 
     const getListOptions = useCallback(() => {
@@ -152,11 +145,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             serverId: __legacyApiClient__?.serverId()
         };
 
-        if (
-            viewType === LibraryTab.Songs
-            || viewType === LibraryTab.Albums
-            || viewType === LibraryTab.Episodes
-        ) {
+        if (viewType === LibraryTab.Songs || viewType === LibraryTab.Albums || viewType === LibraryTab.Episodes) {
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
             cardOptions.overlayPlayButton = true;
         } else if (viewType === LibraryTab.Artists) {
@@ -196,73 +185,44 @@ const ItemsView: FC<ItemsViewProps> = ({
         }
 
         if (libraryViewSettings.ViewMode === ViewMode.ListView) {
-            return (
-                <Lists
-                    items={itemsResult?.Items ?? []}
-                    listOptions={getListOptions()}
-                />
-            );
+            return <Lists items={itemsResult?.Items ?? []} listOptions={getListOptions()} />;
         }
-        return (
-            <Cards
-                items={itemsResult?.Items ?? []}
-                cardOptions={getCardOptions()}
-            />
-        );
-    }, [
-        libraryViewSettings.ViewMode,
-        itemsResult?.Items,
-        getListOptions,
-        getCardOptions,
-        noItemsMessage
-    ]);
+        return <Cards items={itemsResult?.Items ?? []} cardOptions={getCardOptions()} />;
+    }, [libraryViewSettings.ViewMode, itemsResult?.Items, getListOptions, getCardOptions, noItemsMessage]);
 
     const totalRecordCount = itemsResult?.TotalRecordCount ?? 0;
     const items = itemsResult?.Items ?? [];
-    const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some(
-        (filter) => !!filter
-    );
+    const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some(filter => !!filter);
     const hasSortName = libraryViewSettings.SortBy !== ItemSortBy.Random;
 
     const itemsContainerClass = classNames(
         'padded-left padded-right padded-right-withalphapicker',
-        libraryViewSettings.ViewMode === ViewMode.ListView ?
-            'vertical-list' :
-            'vertical-wrap'
+        libraryViewSettings.ViewMode === ViewMode.ListView ? 'vertical-list' : 'vertical-wrap'
     );
 
     return (
-        <Box className='padded-bottom-page'>
+        <Box className="padded-bottom-page">
             <Box
-                className={classNames(
-                    'padded-top padded-left padded-right',
-                    { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
-                )}
-                sx={{
+                className={classNames('padded-top padded-left padded-right', {
+                    'padded-right-withalphapicker': isAlphabetPickerEnabled
+                })}
+                style={{
                     display: 'flex',
                     flexWrap: 'wrap',
                     alignItems: 'center'
                 }}
             >
-                <Box
-                    sx={{ marginRight: 1 }}
-                >
+                <Box style={{ marginRight: vars.spacing.sm }}>
                     <LibraryViewMenu />
                 </Box>
 
                 <Box
-                    sx={{
-                        flexGrow: {
-                            xs: 1,
-                            sm: 0
-                        },
-                        marginRight: 1
+                    style={{
+                        flexGrow: isSmallScreen ? 0 : 1,
+                        marginRight: vars.spacing.sm
                     }}
                 >
-                    <ButtonGroup
-                        color='inherit'
-                        variant='text'
-                    >
+                    <Flex align="center" gap={vars.spacing.xs}>
                         {isBtnFilterEnabled && (
                             <FilterButton
                                 parentId={parentId}
@@ -289,24 +249,19 @@ const ItemsView: FC<ItemsViewProps> = ({
                                 setLibraryViewSettings={setLibraryViewSettings}
                             />
                         )}
-                    </ButtonGroup>
+                    </Flex>
                 </Box>
 
                 <Box
-                    sx={{
+                    style={{
                         display: 'flex',
-                        flexGrow: {
-                            xs: 1,
-                            sm: 0
-                        },
+                        flexGrow: isSmallScreen ? 0 : 1,
                         justifyContent: 'flex-end'
                     }}
                 >
                     {!isPending && (
                         <>
-                            <ButtonGroup
-                                variant='contained'
-                            >
+                            <Flex align="center" gap={vars.spacing.xs}>
                                 {isBtnPlayAllEnabled && (
                                     <PlayAllButton
                                         item={item}
@@ -337,7 +292,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                                         isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
                                     />
                                 )}
-                            </ButtonGroup>
+                            </Flex>
 
                             {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
                         </>
@@ -345,18 +300,12 @@ const ItemsView: FC<ItemsViewProps> = ({
                 </Box>
 
                 <Box
-                    sx={{
+                    style={{
                         display: 'flex',
                         justifyContent: 'end',
-                        flexBasis: {
-                            xs: '100%',
-                            sm: 'auto'
-                        },
+                        flexBasis: isSmallScreen ? 'auto' : '100%',
                         flexGrow: 1,
-                        marginTop: {
-                            xs: 0.5,
-                            sm: 0
-                        }
+                        marginTop: isSmallScreen ? 0 : vars.spacing.xs
                     }}
                 >
                     {!isPending && isPaginationEnabled && (
@@ -392,11 +341,10 @@ const ItemsView: FC<ItemsViewProps> = ({
 
             {!isPending && isPaginationEnabled && (
                 <Box
-                    className={classNames(
-                        'padded-left padded-right',
-                        { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
-                    )}
-                    sx={{
+                    className={classNames('padded-left padded-right', {
+                        'padded-right-withalphapicker': isAlphabetPickerEnabled
+                    })}
+                    style={{
                         display: 'flex',
                         justifyContent: 'flex-end'
                     }}

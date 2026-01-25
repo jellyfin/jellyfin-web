@@ -1,22 +1,24 @@
-import Check from '@mui/icons-material/Check';
-import Close from '@mui/icons-material/Close';
-import SettingsRemote from '@mui/icons-material/SettingsRemote';
-import Divider from '@mui/material/Divider/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import Menu, { MenuProps } from '@mui/material/Menu/Menu';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
+import {
+    CheckIcon,
+    Cross2Icon,
+    GearIcon
+} from '@radix-ui/react-icons';
 import dialog from 'components/dialog/dialog';
 import { playbackManager } from 'components/playback/playbackmanager';
-import React, { FC, useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { type FC, useCallback, useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Menu, MenuItem, MenuLabel, MenuSeparator } from 'ui-primitives/Menu';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 import { enable, isEnabled } from 'scripts/autocast';
 import globalize from 'lib/globalize';
 
-interface RemotePlayActiveMenuProps extends MenuProps {
-    onMenuClose: () => void
+interface RemotePlayActiveMenuProps {
+    open: boolean
+    onOpenChange: (open: boolean) => void
+    trigger: React.ReactNode
     playerInfo: {
         name: string
         isLocalPlayer: boolean
@@ -30,11 +32,12 @@ interface RemotePlayActiveMenuProps extends MenuProps {
 export const ID = 'app-remote-play-active-menu';
 
 const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
-    anchorEl,
     open,
-    onMenuClose,
+    onOpenChange,
+    trigger,
     playerInfo
 }) => {
+    const navigate = useNavigate();
     const [ isDisplayMirrorEnabled, setIsDisplayMirrorEnabled ] = useState(playbackManager.enableDisplayMirroring());
     const isDisplayMirrorSupported = playerInfo?.supportedCommands && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1;
     const toggleDisplayMirror = useCallback(() => {
@@ -64,7 +67,7 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
                 ],
                 text: globalize.translate('ConfirmEndPlayerSession', remotePlayerName)
             }).then(id => {
-                onMenuClose();
+                onOpenChange(false);
 
                 if (id === 'yes') {
                     const player = playbackManager.getCurrentPlayer();
@@ -77,83 +80,68 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
             // Dialog closed
             });
         } else {
-            onMenuClose();
+            onOpenChange(false);
             playbackManager.setDefaultPlayerActive();
         }
-    }, [ onMenuClose, remotePlayerName ]);
+    }, [ onOpenChange, remotePlayerName ]);
+
+    const renderMenuItemContent = (icon: React.ReactNode | null, label: string) => (
+        <Flex align='center' gap={vars.spacing.sm}>
+            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                {icon}
+            </Box>
+            <Text size='md'>{label}</Text>
+        </Flex>
+    );
 
     return (
         <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-            }}
-            id={ID}
-            keepMounted
             open={open}
-            onClose={onMenuClose}
-            slotProps={{
-                list: {
-                    'aria-labelledby': 'remote-play-active-subheader',
-                    subheader: (
-                        <ListSubheader component='div' id='remote-play-active-subheader'>
-                            {remotePlayerName}
-                        </ListSubheader>
-                    )
-                }
-            }}
+            onOpenChange={onOpenChange}
+            trigger={trigger}
+            align='end'
+            id={ID}
         >
+            {remotePlayerName && (
+                <MenuLabel>
+                    {remotePlayerName}
+                </MenuLabel>
+            )}
             {isDisplayMirrorSupported ? (
                 <MenuItem onClick={toggleDisplayMirror}>
-                    {isDisplayMirrorEnabled ? (
-                        <ListItemIcon>
-                            <Check />
-                        </ListItemIcon>
-                    ) : null}
-                    <ListItemText inset={!isDisplayMirrorEnabled}>
-                        {globalize.translate('EnableDisplayMirroring')}
-                    </ListItemText>
+                    {renderMenuItemContent(
+                        isDisplayMirrorEnabled ? <CheckIcon /> : null,
+                        globalize.translate('EnableDisplayMirroring')
+                    )}
                 </MenuItem>
             ) : null}
 
             <MenuItem onClick={toggleAutoCast}>
-                {isAutoCastEnabled ? (
-                    <ListItemIcon>
-                        <Check />
-                    </ListItemIcon>
-                ) : null}
-                <ListItemText inset={!isAutoCastEnabled}>
-                    {globalize.translate('EnableAutoCast')}
-                </ListItemText>
+                {renderMenuItemContent(
+                    isAutoCastEnabled ? <CheckIcon /> : null,
+                    globalize.translate('EnableAutoCast')
+                )}
             </MenuItem>
 
-            <Divider />
+            <MenuSeparator />
 
             <MenuItem
-                component={Link}
-                to='/queue'
-                onClick={onMenuClose}
+                onClick={() => {
+                    navigate({ to: '/queue' });
+                    onOpenChange(false);
+                }}
             >
-                <ListItemIcon>
-                    <SettingsRemote />
-                </ListItemIcon>
-                <ListItemText>
-                    {globalize.translate('HeaderRemoteControl')}
-                </ListItemText>
+                {renderMenuItemContent(
+                    <GearIcon />,
+                    globalize.translate('HeaderRemoteControl')
+                )}
             </MenuItem>
-            <Divider />
-            <MenuItem onClick={disconnectRemotePlayer}>
-                <ListItemIcon>
-                    <Close />
-                </ListItemIcon>
-                <ListItemText>
-                    {globalize.translate('Disconnect')}
-                </ListItemText>
+            <MenuSeparator />
+            <MenuItem variant='danger' onClick={disconnectRemotePlayer}>
+                {renderMenuItemContent(
+                    <Cross2Icon />,
+                    globalize.translate('Disconnect')
+                )}
             </MenuItem>
         </Menu>
     );

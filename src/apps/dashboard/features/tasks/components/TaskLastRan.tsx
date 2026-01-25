@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useMemo } from 'react';
-import { TaskProps } from '../types/taskProps';
+import React, { type FunctionComponent, useMemo } from 'react';
+import { type TaskProps } from '../types/taskProps';
 import { useLocale } from 'hooks/useLocale';
 import { formatDistance, formatDistanceToNow, parseISO } from 'date-fns';
-import Typography from '@mui/joy/Typography';
 import globalize from 'lib/globalize';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const { dateFnsLocale } = useLocale();
@@ -26,33 +27,33 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
             const lastResultStatus = task.LastExecutionResult.Status;
 
             return (
-                <Typography level="body-xs" color="neutral">
+                <Text size='xs' color='secondary'>
                     {globalize.translate('LabelScheduledTaskLastRan', lastRan, timeTaken)}
 
                     {lastResultStatus === 'Failed' && (
-                        <Typography level="body-xs" color="danger" sx={{ display: 'inline' }}>
+                        <Text size='xs' color='error' style={{ display: 'inline' }}>
                             {` (${globalize.translate('LabelFailed')})`}
-                        </Typography>
+                        </Text>
                     )}
                     {lastResultStatus === 'Cancelled' && (
-                        <Typography level="body-xs" color="primary" sx={{ display: 'inline' }}>
+                        <Text size='xs' color='info' style={{ display: 'inline' }}>
                             {` (${globalize.translate('LabelCancelled')})`}
-                        </Typography>
+                        </Text>
                     )}
                     {lastResultStatus === 'Aborted' && (
-                        <Typography level="body-xs" color="danger" sx={{ display: 'inline' }}>
+                        <Text size='xs' color='error' style={{ display: 'inline' }}>
                             {` (${globalize.translate('LabelAbortedByServerShutdown')})`}
-                        </Typography>
+                        </Text>
                     )}
-                </Typography>
+                </Text>
             );
         }
         return null;
     } else {
         return (
-            <Typography level="body-xs" color="neutral">
+            <Text size='xs' color='secondary'>
                 {globalize.translate('LabelStopping')}
-            </Typography>
+            </Text>
         );
     }
 };

@@ -1,0 +1,14 @@
+/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/deps/clang_sys-f43748e219e8056c.d: /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/lib.rs /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/support.rs /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/link.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/macros.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/common.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/dynamic.rs
+
+/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/deps/libclang_sys-f43748e219e8056c.rlib: /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/lib.rs /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/support.rs /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/link.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/macros.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/common.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/dynamic.rs
+
+/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/deps/libclang_sys-f43748e219e8056c.rmeta: /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/lib.rs /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/support.rs /Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/link.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/macros.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/common.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/dynamic.rs
+
+/Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/lib.rs:
+/Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/support.rs:
+/Users/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/clang-sys-1.8.1/src/link.rs:
+/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/macros.rs:
+/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/common.rs:
+/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out/dynamic.rs:
+
+# env-dep:OUT_DIR=/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/debug/build/clang-sys-0e62cada3f4ef16e/out

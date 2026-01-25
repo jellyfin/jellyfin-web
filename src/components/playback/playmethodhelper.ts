@@ -3,10 +3,10 @@ export interface PlaybackSession {
     TranscodingInfo?: {
         IsVideoDirect?: boolean;
         IsAudioDirect?: boolean;
-        VideoCodec?: string;
+        VideoCodec?: string | null;
     };
-    PlayState: {
-        PlayMethod: 'Transcode' | 'DirectStream' | 'DirectPlay';
+    PlayState?: {
+        PlayMethod?: 'Transcode' | 'DirectStream' | 'DirectPlay';
     };
 }
 
@@ -15,18 +15,21 @@ export function getDisplayPlayMethod(session: PlaybackSession): string | null {
         return null;
     }
 
-    if ((session.TranscodingInfo?.IsVideoDirect || !session.TranscodingInfo?.VideoCodec) && session.TranscodingInfo?.IsAudioDirect) {
+    if (
+        (session.TranscodingInfo?.IsVideoDirect || !session.TranscodingInfo?.VideoCodec) &&
+        session.TranscodingInfo?.IsAudioDirect
+    ) {
         return 'Remux';
     } else if (session.TranscodingInfo?.IsVideoDirect) {
         return 'DirectStream';
-    } else if (session.PlayState.PlayMethod === 'Transcode') {
+    } else if (session.PlayState?.PlayMethod === 'Transcode') {
         return 'Transcode';
-    } else if (session.PlayState.PlayMethod === 'DirectStream') {
+    } else if (session.PlayState?.PlayMethod === 'DirectStream') {
         return 'DirectPlay';
-    } else if (session.PlayState.PlayMethod === 'DirectPlay') {
+    } else if (session.PlayState?.PlayMethod === 'DirectPlay') {
         return 'DirectPlay';
     }
-    
+
     return null;
 }
 

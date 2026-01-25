@@ -4,7 +4,7 @@
  * includes search parameters in the hash portion of the url.
  * @returns The url search string.
  */
-export const getLocationSearch = () => {
+export const getLocationSearch = (): string => {
     // Check location.hash for a search string (this should be the case for our routing library)
     let index = window.location.hash.indexOf('?');
     if (index !== -1) {
@@ -12,7 +12,7 @@ export const getLocationSearch = () => {
     }
 
     // Return location.search if it exists
-    if (window.location.search) {
+    if (window.location.search.length > 0) {
         return window.location.search;
     }
 
@@ -31,11 +31,8 @@ export const getLocationSearch = () => {
  * @param url The url to search (optional).
  * @returns The parameter value.
  */
-export const getParameterByName = (name: string, url?: string | null | undefined) => {
-    if (!url) {
-        url = getLocationSearch();
-    }
+export const getParameterByName = (name: string, url?: string | null): string => {
+    const searchUrl = url ?? getLocationSearch();
 
-    // eslint-disable-next-line compat/compat
-    return new URLSearchParams(url).get(name) || '';
+    return new URLSearchParams(searchUrl).get(name) ?? '';
 };

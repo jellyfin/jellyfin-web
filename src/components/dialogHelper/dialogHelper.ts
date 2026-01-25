@@ -6,9 +6,9 @@ import { toBoolean } from '../../utils/string';
 import { hide } from '../loading/loading';
 import dom from '../../utils/dom';
 import { logger } from '../../utils/logger';
-import { getAppHistory } from '../router/appHistory';
+import { simpleHistory } from '../../utils/history';
 
-import './dialoghelper.scss';
+import './dialoghelper.css.ts';
 
 let globalOnOpenCallback: ((dlg: HTMLElement) => void) | undefined;
 
@@ -35,7 +35,7 @@ function enableAnimation(): boolean {
 function removeCenterFocus(dlg: HTMLElement): void {
     if (layoutManager.tv) {
         const fn = 'off';
-        import('../../scripts/scrollHelper').then((scrollHelper) => {
+        import('../../scripts/scrollHelper').then(scrollHelper => {
             if (dlg.classList.contains('scrollX')) scrollHelper.default.centerFocus[fn](dlg, true);
             else if (dlg.classList.contains('smoothScrollY')) scrollHelper.default.centerFocus[fn](dlg, false);
         });
@@ -50,16 +50,26 @@ class DialogHashHandler {
     private originalUrl: string;
     private unlisten: (() => void) | null = null;
 
-    constructor(private dlg: HTMLElement & { dialogContainer?: HTMLElement | null, backdrop?: HTMLElement | null, animationConfig?: any }, private hash: string, resolve: (val: any) => void) {
+    constructor(
+        private dlg: HTMLElement & {
+            dialogContainer?: HTMLElement | null;
+            backdrop?: HTMLElement | null;
+            animationConfig?: any;
+        },
+        private hash: string,
+        resolve: (val: any) => void
+    ) {
         this.originalUrl = window.location.href;
-        const history = getAppHistory();
-        const historyEnabled = history && dlg.getAttribute('data-history') === 'true';
+        const historyEnabled = dlg.getAttribute('data-history') === 'true';
         const activeElement = document.activeElement as HTMLElement | null;
         let removeScrollLockOnClose = false;
 
         const onDialogClosed = () => {
             if (!historyEnabled) inputManager.off(dlg, onBackCommand);
-            if (this.unlisten) { this.unlisten(); this.unlisten = null; }
+            if (this.unlisten) {
+                this.unlisten();
+                this.unlisten = null;
+            }
 
             if (dlg.backdrop) {
                 const backdrop = dlg.backdrop;
@@ -75,31 +85,38 @@ class DialogHashHandler {
             if (removeScrollLockOnClose) document.body.classList.remove('noScroll');
 
             if (historyEnabled) {
-                const state = history.location.state || {};
-                if (state.dialogs?.[state.dialogs.length - 1] === hash) {
-                    this.unlisten = history.listen(() => finishClose());
-                    history.back();
+                const state = (simpleHistory.location.state as Record<string, unknown> | null) || {};
+                const dialogs = (state.dialogs as string[]) || [];
+                if (dialogs[dialogs.length - 1] === hash) {
+                    this.unlisten = simpleHistory.listen(() => finishClose());
+                    simpleHistory.back();
                 }
             }
 
             if (layoutManager.tv) focusManager.focus(activeElement);
             if (toBoolean(dlg.getAttribute('data-removeonclose'), true)) {
                 removeCenterFocus(dlg);
-                if (dlg.dialogContainer) { tryRemoveElement(dlg.dialogContainer); dlg.dialogContainer = null; }
-                else tryRemoveElement(dlg);
+                if (dlg.dialogContainer) {
+                    tryRemoveElement(dlg.dialogContainer);
+                    dlg.dialogContainer = null;
+                } else tryRemoveElement(dlg);
             }
             if (!this.unlisten) finishClose();
         };
 
         const finishClose = () => {
-            if (this.unlisten) { this.unlisten(); this.unlisten = null; }
+            if (this.unlisten) {
+                this.unlisten();
+                this.unlisten = null;
+            }
             dlg.dispatchEvent(new CustomEvent('close'));
             resolve({ element: dlg });
         };
 
         const onBackCommand = (e: any) => {
             if (e.detail.command === 'back') {
-                e.preventDefault(); e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
                 close(dlg);
             }
         };
@@ -117,9 +134,14 @@ class DialogHashHandler {
         void backdrop.offsetWidth;
         backdrop.classList.add('dialogBackdropOpened');
 
-        dom.addEventListener(dlg.dialogContainer || backdrop, 'click', (e) => {
-            if (e.target === dlg.dialogContainer) close(dlg);
-        }, { passive: true });
+        dom.addEventListener(
+            dlg.dialogContainer || backdrop,
+            'click',
+            e => {
+                if (e.target === dlg.dialogContainer) close(dlg);
+            },
+            { passive: true }
+        );
 
         dlg.classList.add('opened');
         dlg.dispatchEvent(new CustomEvent('open'));
@@ -133,18 +155,20 @@ class DialogHashHandler {
         const onOpenAnimFinish = () => {
             focusManager.pushScope(dlg);
             if (dlg.getAttribute('data-autofocus') === 'true') focusManager.autoFocus(dlg);
-            if (document.activeElement && !dlg.contains(document.activeElement)) (document.activeElement as HTMLElement).blur();
+            if (document.activeElement && !dlg.contains(document.activeElement))
+                (document.activeElement as HTMLElement).blur();
         };
 
         if (enableAnimation()) dom.addEventListener(dlg, dom.whichAnimationEvent(), onOpenAnimFinish, { once: true });
         else onOpenAnimFinish();
 
         if (historyEnabled) {
-            const state = history.location.state || {};
-            const dialogs = [...(state.dialogs || []), hash];
-            history.push(history.location.pathname + history.location.search, { ...state, dialogs });
-            this.unlisten = history.listen(({ location }) => {
-                if (!(location.state?.dialogs || []).includes(hash)) close(dlg);
+            const state = (simpleHistory.location.state as Record<string, unknown> | null) || {};
+            const dialogs = [...((state.dialogs as string[]) || []), hash];
+            simpleHistory.push(simpleHistory.location.pathname + simpleHistory.location.search, { ...state, dialogs });
+            this.unlisten = simpleHistory.listen(({ location }) => {
+                const locState = (location.state as Record<string, unknown> | null) || {};
+                if (!((locState.dialogs as string[]) || []).includes(hash)) close(dlg);
             });
         } else inputManager.on(dlg, onBackCommand);
     }
@@ -158,7 +182,7 @@ export function open(dlg: HTMLElement): Promise<any> {
     container.appendChild(dlg);
     (dlg as any).dialogContainer = container;
     document.body.appendChild(container);
-    return new Promise((resolve) => new DialogHashHandler(dlg, `dlg${Date.now()}`, resolve));
+    return new Promise(resolve => new DialogHashHandler(dlg, `dlg${Date.now()}`, resolve));
 }
 
 export function close(dlg: HTMLElement): void {

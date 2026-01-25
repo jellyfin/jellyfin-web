@@ -1,57 +1,62 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Alert from '@mui/material/Alert/Alert';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import Stack from '@mui/material/Stack/Stack';
-import TextField from '@mui/material/TextField/TextField';
-import Typography from '@mui/material/Typography/Typography';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { ActionData } from 'types/actionData';
+import { type ActionData } from 'types/actionData';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
+import { Alert } from 'ui-primitives/Alert';
+import { Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Input } from 'ui-primitives/Input';
+import { Text } from 'ui-primitives/Text';
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
-    if (!api) throw new Error('No Api instance available');
-
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
-    const formData = await request.formData();
-
-    const minResumePercentage = formData.get('MinResumePercentage')?.toString();
-    const maxResumePercentage = formData.get('MaxResumePercentage')?.toString();
-    const minAudiobookResume = formData.get('MinAudiobookResume')?.toString();
-    const maxAudiobookResume = formData.get('MaxAudiobookResume')?.toString();
-    const minResumeDuration = formData.get('MinResumeDuration')?.toString();
-
-    if (minResumePercentage) config.MinResumePct = parseInt(minResumePercentage, 10);
-    if (maxResumePercentage) config.MaxResumePct = parseInt(maxResumePercentage, 10);
-    if (minAudiobookResume) config.MinAudiobookResume = parseInt(minAudiobookResume, 10);
-    if (maxAudiobookResume) config.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
-    if (minResumeDuration) config.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
-
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
-
-    void queryClient.invalidateQueries({
-        queryKey: [ QUERY_KEY ]
-    });
-
-    return {
-        isSaved: true
-    };
-};
-
-export const Component = () => {
-    const navigation = useNavigation();
-    const actionData = useActionData() as ActionData | undefined;
-    const isSubmitting = navigation.state === 'submitting';
+export const Component = (): React.ReactElement => {
+    const [ actionData, setActionData ] = useState<ActionData | undefined>();
+    const [ isSubmitting, setIsSubmitting ] = useState(false);
 
     const { isPending: isConfigurationPending, data: config } = useConfiguration();
+
+    const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const api = ServerConnections.getCurrentApi();
+            if (!api) {
+                throw new Error('No Api instance available');
+            }
+
+            const { data: currentConfig } = await getConfigurationApi(api).getConfiguration();
+            const formData = new FormData(event.currentTarget);
+
+            const minResumePercentage = formData.get('MinResumePercentage')?.toString();
+            const maxResumePercentage = formData.get('MaxResumePercentage')?.toString();
+            const minAudiobookResume = formData.get('MinAudiobookResume')?.toString();
+            const maxAudiobookResume = formData.get('MaxAudiobookResume')?.toString();
+            const minResumeDuration = formData.get('MinResumeDuration')?.toString();
+
+            if (minResumePercentage) currentConfig.MinResumePct = parseInt(minResumePercentage, 10);
+            if (maxResumePercentage) currentConfig.MaxResumePct = parseInt(maxResumePercentage, 10);
+            if (minAudiobookResume) currentConfig.MinAudiobookResume = parseInt(minAudiobookResume, 10);
+            if (maxAudiobookResume) currentConfig.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
+            if (minResumeDuration) currentConfig.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
+
+            await getConfigurationApi(api)
+                .updateConfiguration({ serverConfiguration: currentConfig });
+
+            void queryClient.invalidateQueries({
+                queryKey: [ QUERY_KEY ]
+            });
+
+            setActionData({ isSaved: true });
+        } catch (error) {
+            setActionData({ isSaved: false });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, []);
 
     if (isConfigurationPending) {
         return <Loading />;
@@ -63,102 +68,74 @@ export const Component = () => {
             title={globalize.translate('ButtonResume')}
             className='mainAnimatedPage type-interior'
         >
-            <Box className='content-primary'>
-                <Form method='POST'>
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
+            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+                <form onSubmit={handleSubmit}>
+                    <Flex style={{ flexDirection: 'column', gap: '24px' }}>
+                        <Text as='h1' size='xl' weight='bold'>
                             {globalize.translate('ButtonResume')}
-                        </Typography>
+                        </Text>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert severity='success'>
+                            <Alert variant='success'>
                                 {globalize.translate('SettingsSaved')}
                             </Alert>
                         )}
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelMinResumePercentage')}
                             name='MinResumePercentage'
                             type='number'
                             defaultValue={config?.MinResumePct}
-                            helperText={globalize.translate('LabelMinResumePercentageHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
+                            min={0}
+                            max={100}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelMaxResumePercentage')}
                             name='MaxResumePercentage'
                             type='number'
                             defaultValue={config?.MaxResumePct}
-                            helperText={globalize.translate('LabelMaxResumePercentageHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 1,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
+                            min={1}
+                            max={100}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelMinAudiobookResume')}
                             name='MinAudiobookResume'
                             type='number'
                             defaultValue={config?.MinAudiobookResume}
-                            helperText={globalize.translate('LabelMinAudiobookResumeHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
+                            min={0}
+                            max={100}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelMaxAudiobookResume')}
                             name='MaxAudiobookResume'
                             type='number'
                             defaultValue={config?.MaxAudiobookResume}
-                            helperText={globalize.translate('LabelMaxAudiobookResumeHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 1,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
+                            min={1}
+                            max={100}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelMinResumeDuration')}
                             name='MinResumeDuration'
                             type='number'
                             defaultValue={config?.MinResumeDurationSeconds}
-                            helperText={globalize.translate('LabelMinResumeDurationHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    required: true
-                                }
-                            }}
+                            min={0}
+                            required
                         />
 
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
+                        <Button type='submit'>
                             {globalize.translate('Save')}
                         </Button>
-                    </Stack>
-                </Form>
-            </Box>
+                    </Flex>
+                </form>
+            </Flex>
         </Page>
     );
 };

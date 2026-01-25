@@ -1,6 +1,6 @@
-import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import TheatersIcon from '@mui/icons-material/Theaters';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { VideoIcon } from '@radix-ui/react-icons';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
@@ -21,7 +21,7 @@ const PlayTrailerButton: FC<PlayTrailerButtonProps> = ({ item }) => {
             title={globalize.translate('ButtonTrailer')}
             onClick={onPlayTrailerClick}
         >
-            <TheatersIcon />
+            <VideoIcon />
         </IconButton>
     );
 };

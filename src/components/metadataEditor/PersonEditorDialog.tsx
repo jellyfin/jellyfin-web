@@ -1,74 +1,137 @@
+import { z } from 'zod';
+import { useForm } from '@tanstack/react-form';
 import React, { useState } from 'react';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
-import Button from '@mui/joy/Button';
-import Stack from '@mui/joy/Stack';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import globalize from '../../lib/globalize';
-import { EmbyInput, EmbySelect } from '../../elements';
+import { Input } from 'ui-primitives/Input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { FormControl, FormLabel } from 'ui-primitives/FormControl';
+import {
+    Dialog,
+    DialogPortal,
+    DialogOverlayComponent,
+    DialogContentComponent,
+    DialogTitle
+} from 'ui-primitives/Dialog';
+import { Button } from 'ui-primitives/Button';
+import { Flex } from 'ui-primitives/Box';
+
+const personSchema = z.object({
+    Name: z.string().min(1, globalize.translate('NameIsRequired')),
+    Type: z.nativeEnum(PersonKind),
+    Role: z.string().optional().nullable()
+});
+
+type PersonValues = z.infer<typeof personSchema>;
 
 interface PersonEditorDialogProps {
     open: boolean;
-    person: any;
+    person: PersonValues | null;
     onClose: () => void;
-    onSave: (updatedPerson: any) => void;
+    onSave: (updatedPerson: PersonValues) => void;
 }
 
-const PersonEditorDialog: React.FC<PersonEditorDialogProps> = ({ open, person, onClose, onSave }) => {
-    const [ name, setName ] = useState(person.Name || '');
-    const [ type, setType ] = useState(person.Type || PersonKind.Actor);
-    const [ role, setRole ] = useState(person.Role || '');
+const typeOptions = Object.values(PersonKind)
+    .filter(t => t !== PersonKind.Unknown)
+    .map(t => ({ label: globalize.translate(t), value: t }));
 
-    const handleSave = (e: React.FormEvent) => {
-        e.preventDefault();
-        onSave({ ...person, Name: name, Type: type, Role: role || null });
-        onClose();
-    };
-
-    const typeOptions = Object.values(PersonKind)
-        .filter(t => t !== PersonKind.Unknown)
-        .map(t => ({ label: globalize.translate(t), value: t }));
-
-    const showRole = [ PersonKind.Actor, PersonKind.GuestStar ].includes(type as PersonKind);
-
-    return (
-        <Modal open={open} onClose={onClose}>
-            <ModalDialog component="form" onSubmit={handleSave} sx={{ minWidth: 400 }}>
-                <DialogTitle>{globalize.translate('HeaderEditPerson')}</DialogTitle>
-                <DialogContent>
-                    <Stack spacing={3} sx={{ mt: 1 }}>
-                        <EmbyInput
-                            label={globalize.translate('LabelName')}
-                            value={name}
-                            onChange={(e: any) => setName(e.target.value)}
-                            required
-                            autoFocus
-                        />
-                        <EmbySelect
-                            label={globalize.translate('LabelType')}
-                            value={type}
-                            onChange={(_: any, val: any) => setType(val)}
-                            options={typeOptions}
-                        />
-                        {showRole && (
-                            <EmbyInput
-                                label={globalize.translate('LabelRole')}
-                                value={role}
-                                onChange={(e: any) => setRole(e.target.value)}
-                            />
-                        )}
-                    </Stack>
-                </DialogContent>
-                <DialogActions>
-                    <Button type="submit">{globalize.translate('Save')}</Button>
-                    <Button variant="plain" color="neutral" onClick={onClose}>{globalize.translate('ButtonCancel')}</Button>
-                </DialogActions>
-            </ModalDialog>
-        </Modal>
-    );
+const showRoleForType = (type: PersonKind): boolean => {
+    return type === PersonKind.Actor || type === PersonKind.GuestStar;
 };
 
-export default PersonEditorDialog;
+function PersonEditorDialog({ open, person, onClose, onSave }: PersonEditorDialogProps) {
+    const [showRole, setShowRole] = useState(person ? showRoleForType(person.Type) : true);
+
+    const form = useForm({
+        defaultValues:
+            person ||
+            ({
+                Name: '',
+                Type: PersonKind.Actor,
+                Role: ''
+            } as PersonValues),
+        onSubmit: async ({ value }) => {
+            onSave(value);
+            onClose();
+        }
+    });
+
+    const handleTypeChange = (value: string) => {
+        const type = value as PersonKind;
+        form.setFieldValue('Type', type);
+        setShowRole(showRoleForType(type));
+        if (!showRoleForType(type)) {
+            form.setFieldValue('Role', null);
+        }
+    };
+
+    return (
+        <Dialog open={open} onOpenChange={onClose}>
+            <DialogPortal>
+                <DialogOverlayComponent />
+                <DialogContentComponent style={{ minWidth: 400 }}>
+                    <DialogTitle>{globalize.translate(person ? 'HeaderEditPerson' : 'HeaderAddPerson')}</DialogTitle>
+                    <form
+                        onSubmit={e => {
+                            e.preventDefault();
+                            form.handleSubmit();
+                        }}
+                    >
+                        <Flex direction="column" style={{ gap: '16px', marginTop: '8px' }}>
+                            <form.Field name="Name">
+                                {field => (
+                                    <Input
+                                        label={globalize.translate('LabelName')}
+                                        value={field.state.value}
+                                        onChange={e => field.handleChange(e.target.value)}
+                                        required
+                                        autoFocus
+                                    />
+                                )}
+                            </form.Field>
+
+                            <FormControl>
+                                <FormLabel>{globalize.translate('LabelType')}</FormLabel>
+                                <Select value={form.state.values.Type} onValueChange={handleTypeChange}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {typeOptions.map(opt => (
+                                            <SelectItem key={opt.value} value={opt.value}>
+                                                {opt.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+
+                            {showRole && (
+                                <form.Field name="Role">
+                                    {field => (
+                                        <Input
+                                            label={globalize.translate('LabelRole')}
+                                            value={field.state.value || ''}
+                                            onChange={e => field.handleChange(e.target.value || null)}
+                                        />
+                                    )}
+                                </form.Field>
+                            )}
+                        </Flex>
+
+                        <Flex gap="8px" style={{ marginTop: '16px' }}>
+                            <Button type="submit" variant="primary">
+                                {globalize.translate('Save')}
+                            </Button>
+                            <Button variant="ghost" onClick={onClose}>
+                                {globalize.translate('ButtonCancel')}
+                            </Button>
+                        </Flex>
+                    </form>
+                </DialogContentComponent>
+            </DialogPortal>
+        </Dialog>
+    );
+}
+
+export { PersonEditorDialog };

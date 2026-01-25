@@ -2,6 +2,7 @@ import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import './emby-button.scss';
+import { deprecate } from '../../utils/deprecation';
 
 interface IconButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
@@ -19,6 +20,8 @@ const IconButton: React.FC<IconButtonProps> = ({
     onClick,
     ...rest
 }) => {
+    deprecate('emby-button/IconButton', 'ui-primitives/IconButton', 'src/elements/emby-button/IconButton.tsx');
+
     const btnClass = classNames(
         'paper-icon-button-light',
         className,

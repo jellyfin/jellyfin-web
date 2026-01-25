@@ -1,5 +1,5 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import Screenfull from 'screenfull';
+import fullscreen from '../../utils/fullscreen';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
@@ -16,16 +16,15 @@ import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { useBookStore } from '../../store/bookStore';
 
-import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 
-import html from './template.html';
+import html from './template.html?raw';
 import './style.scss';
 
 const THEMES: Record<string, any> = {
-    'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
-    'sepia': { 'body': { 'color': '#d8a262', 'background': '#000', 'font-size': 'medium' } },
-    'light': { 'body': { 'color': '#000', 'background': '#fff', 'font-size': 'medium' } }
+    dark: { body: { color: '#d8dadc', background: '#000', 'font-size': 'medium' } },
+    sepia: { body: { color: '#d8a262', background: '#000', 'font-size': 'medium' } },
+    light: { body: { color: '#000', background: '#fff', 'font-size': 'medium' } }
 };
 const THEME_ORDER = ['dark', 'sepia', 'light'];
 const FONT_SIZES = ['x-small', 'small', 'medium', 'large', 'x-large'];
@@ -36,7 +35,7 @@ export class BookPlayer {
     id: string = 'bookplayer';
     isLocalPlayer: boolean = true;
     priority: number = 1;
-    
+
     theme: 'dark' | 'sepia' | 'light' = 'dark';
     fontSize: string = 'medium';
     item: any;
@@ -56,7 +55,7 @@ export class BookPlayer {
         } else {
             this.theme = 'light';
         }
-        
+
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
         this.rotateTheme = this.rotateTheme.bind(this);
@@ -210,19 +209,22 @@ export class BookPlayer {
     }
 
     toggleFullscreen() {
-        if (Screenfull.isEnabled) {
+        if (fullscreen.isEnabled) {
             const icon = document.querySelector('#btnBookplayerFullscreen .material-icons');
             if (icon) {
-                icon.classList.remove(Screenfull.isFullscreen ? 'fullscreen_exit' : 'fullscreen');
-                icon.classList.add(Screenfull.isFullscreen ? 'fullscreen' : 'fullscreen_exit');
+                icon.classList.remove(fullscreen.isFullscreen ? 'fullscreen_exit' : 'fullscreen');
+                icon.classList.add(fullscreen.isFullscreen ? 'fullscreen' : 'fullscreen_exit');
             }
-            Screenfull.toggle();
+            fullscreen.toggle();
         }
     }
 
     rotateTheme() {
         if (this.loaded) {
-            const newTheme = THEME_ORDER[(THEME_ORDER.indexOf(this.theme) + 1) % THEME_ORDER.length] as 'dark' | 'sepia' | 'light';
+            const newTheme = THEME_ORDER[(THEME_ORDER.indexOf(this.theme) + 1) % THEME_ORDER.length] as
+                | 'dark'
+                | 'sepia'
+                | 'light';
             this.rendition.themes.register('default', THEMES[newTheme]);
             this.rendition.themes.update('default');
             this.theme = newTheme;
@@ -232,7 +234,7 @@ export class BookPlayer {
 
     increaseFontSize() {
         if (this.loaded && this.fontSize !== FONT_SIZES[FONT_SIZES.length - 1]) {
-            const newFontSize = FONT_SIZES[(FONT_SIZES.indexOf(this.fontSize) + 1)];
+            const newFontSize = FONT_SIZES[FONT_SIZES.indexOf(this.fontSize) + 1];
             this.rendition.themes.fontSize(newFontSize);
             this.fontSize = newFontSize;
             useBookStore.getState().setFontSize(newFontSize);
@@ -241,7 +243,7 @@ export class BookPlayer {
 
     decreaseFontSize() {
         if (this.loaded && this.fontSize !== FONT_SIZES[0]) {
-            const newFontSize = FONT_SIZES[(FONT_SIZES.indexOf(this.fontSize) - 1)];
+            const newFontSize = FONT_SIZES[FONT_SIZES.indexOf(this.fontSize) - 1];
             this.rendition.themes.fontSize(newFontSize);
             this.fontSize = newFontSize;
             useBookStore.getState().setFontSize(newFontSize);
@@ -289,7 +291,7 @@ export class BookPlayer {
     setCurrentSrc(elem: HTMLElement, options: any) {
         const item = options.items[0];
         this.item = item;
-        
+
         useBookStore.getState().setCurrentBook(item.Id, 0);
 
         return new Promise<void>((resolve, reject) => {
@@ -299,7 +301,7 @@ export class BookPlayer {
                 const book = epubjs(downloadHref, { openAs: 'epub' });
 
                 const clientHeight = document.body.clientHeight;
-                const renderHeight = clientHeight - (clientHeight * 0.0425);
+                const renderHeight = clientHeight - clientHeight * 0.0425;
 
                 const rendition = book.renderTo('bookPlayerContainer', {
                     width: '100%',
@@ -313,36 +315,39 @@ export class BookPlayer {
                 rendition.themes.register('default', THEMES[this.theme]);
                 rendition.themes.select('default');
 
-                return rendition.display().then(() => {
-                    const epubElem = document.querySelector('.epub-container') as HTMLElement;
-                    if (epubElem) epubElem.style.opacity = '0';
+                return rendition.display().then(
+                    () => {
+                        const epubElem = document.querySelector('.epub-container') as HTMLElement;
+                        if (epubElem) epubElem.style.opacity = '0';
 
-                    this.bindEvents();
+                        this.bindEvents();
 
-                    return (this.rendition.book.locations as any).generate(1024).then(async () => {
-                        if (this.cancellationToken) reject();
+                        return (this.rendition.book.locations as any).generate(1024).then(async () => {
+                            if (this.cancellationToken) reject();
 
-                        const percentageTicks = options.startPositionTicks / 10000000;
-                        if (percentageTicks !== 0.0) {
-                            const resumeLocation = (book.locations as any).cfiFromPercentage(percentageTicks);
-                            await rendition.display(resumeLocation);
-                        }
+                            const percentageTicks = options.startPositionTicks / 10000000;
+                            if (percentageTicks !== 0.0) {
+                                const resumeLocation = (book.locations as any).cfiFromPercentage(percentageTicks);
+                                await rendition.display(resumeLocation);
+                            }
 
-                        this.loaded = true;
-                        if (epubElem) epubElem.style.opacity = '';
-                        rendition.on('relocated', (locations: any) => {
-                            this.progress = (book.locations as any).percentageFromCfi(locations.start.cfi);
-                            useBookStore.getState().setPage(Math.round(this.progress * 100));
+                            this.loaded = true;
+                            if (epubElem) epubElem.style.opacity = '';
+                            rendition.on('relocated', (locations: any) => {
+                                this.progress = (book.locations as any).percentageFromCfi(locations.start.cfi);
+                                useBookStore.getState().setPage(Math.round(this.progress * 100));
+                            });
+
+                            loading.hide();
+                            useBookStore.getState().setLoaded(true);
+                            return resolve();
                         });
-
-                        loading.hide();
-                        useBookStore.getState().setLoaded(true);
-                        return resolve();
-                    });
-                }, () => {
-                    console.error('failed to display epub');
-                    return reject();
-                });
+                    },
+                    () => {
+                        console.error('failed to display epub');
+                        return reject();
+                    }
+                );
             });
         });
     }

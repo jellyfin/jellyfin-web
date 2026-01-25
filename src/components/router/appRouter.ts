@@ -12,8 +12,14 @@ import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
-import { getAppHistory } from './appHistory';
+import { simpleHistory } from '../../utils/history';
 import { logger } from '../../utils/logger';
+
+// TanStack Router for navigation (if available)
+let _router: any = null;
+export const setRouter = (router: any) => {
+    _router = router;
+};
 
 /** Pages of "no return" (when "Go back" should behave differently, probably quitting the application). */
 const START_PAGE_PATHS = ['/home', '/login', '/selectserver'];
@@ -81,15 +87,10 @@ class AppRouter {
             return this._history;
         }
 
-        const history = getAppHistory();
-        if (!history) {
-            return null;
-        }
-
-        this._history = history;
-        this.lastPath = (history.location?.pathname || '') + (history.location?.search || '');
+        this._history = simpleHistory;
+        this.lastPath = (simpleHistory.location.pathname || '') + (simpleHistory.location.search || '');
         this.listen();
-        return history;
+        return simpleHistory;
     }
 
     ready() {
@@ -105,7 +106,7 @@ class AppRouter {
             return Promise.resolve();
         }
 
-        this.promiseShow = new Promise((resolve) => {
+        this.promiseShow = new Promise(resolve => {
             const unlisten = history.listen(() => {
                 unlisten();
                 this.promiseShow = null;
@@ -119,6 +120,27 @@ class AppRouter {
 
     async show(path: string, options?: any) {
         if (this.promiseShow) await this.promiseShow;
+
+        // Use TanStack Router if available
+        if (_router) {
+            // ensure the path does not start with '#' since the router adds this
+            if (path.startsWith('#')) {
+                path = path.substring(1);
+            }
+            // Support legacy '#!' routes since people may have old bookmarks, etc.
+            if (path.startsWith('!')) {
+                path = path.substring(1);
+            }
+
+            if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
+                path = '/' + path;
+            }
+
+            path = path.replace(this.baseUrl(), '');
+
+            await _router.navigate({ to: path });
+            return Promise.resolve();
+        }
 
         const history = this._getHistory();
         if (!history) {
@@ -148,7 +170,7 @@ class AppRouter {
             return Promise.resolve();
         }
 
-        this.promiseShow = new Promise((resolve) => {
+        this.promiseShow = new Promise(resolve => {
             this.resolveOnNextShow = resolve;
             // Schedule a call to return the promise
             setTimeout(() => history.push(path, options), 0);
@@ -186,10 +208,7 @@ class AppRouter {
             path = history ? history.location.pathname : window.location.pathname;
         }
 
-        if (
-            !document.querySelector('.dialogContainer')
-            && path && START_PAGE_PATHS.includes(path)
-        ) {
+        if (!document.querySelector('.dialogContainer') && path && START_PAGE_PATHS.includes(path)) {
             return false;
         }
 
@@ -199,7 +218,9 @@ class AppRouter {
     showItem(item: any, serverId?: string, options?: RouteOptions) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof item === 'string') {
-            const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
+            const apiClient = serverId
+                ? ServerConnections.getApiClient(serverId)
+                : ServerConnections.currentApiClient();
             const api = toApi(apiClient);
             const userId = apiClient.getCurrentUserId();
 
@@ -511,7 +532,17 @@ class AppRouter {
             }
         }
 
-        const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
+        const itemTypes = [
+            'Playlist',
+            'TvChannel',
+            'Program',
+            'BoxSet',
+            'MusicAlbum',
+            'MusicGenre',
+            'Person',
+            'Recording',
+            'MusicArtist'
+        ];
 
         if (itemTypes.indexOf(itemType) >= 0) {
             return '#/details?id=' + id + '&serverId=' + serverId;

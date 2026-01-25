@@ -1,10 +1,10 @@
-import browser from '../../../../scripts/browser';
-import htmlMediaHelper from '../../../../components/htmlMediaHelper';
-import { playbackManager } from '../../../../components/playback/playbackmanager';
-import itemHelper from '../../../../components/itemHelper';
+import browser from '../../../scripts/browser';
+import { enableHlsJsPlayer } from '../../../components/htmlMediaHelper';
+import { playbackManager } from '../../../components/playback/playbackmanager';
+import itemHelper from '../../../components/itemHelper';
 
 export function isHls(mediaSource: any): boolean {
-    return (htmlMediaHelper as any).enableHlsPlayer(mediaSource.TranscodingUrl);
+    return mediaSource?.TranscodingUrl?.includes('.m3u8') && enableHlsJsPlayer(mediaSource.RunTimeTicks, 'Video');
 }
 
 export function enableNativeTrackSupport(mediaSource: any, track: any): boolean {

@@ -1,588 +1,369 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
-import { defineConfig, loadEnv, Plugin } from "vite";
-import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { viteStaticCopy } from "vite-plugin-static-copy";
-import { ViteMcp } from "vite-plugin-mcp";
-import path from "path";
-import fs from "fs";
-import { globSync } from "fast-glob";
-import { execSync } from "child_process";
-import packageJson from "./package.json";
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
-// Get commit SHA
-let COMMIT_SHA = "";
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import react from '@vitejs/plugin-react';
+import { defineConfig, loadEnv } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+import tsconfigPaths from 'vite-tsconfig-paths';
+
+import packageJson from './package.json';
+
+let COMMIT_SHA = '';
+
+type ErrorEntry = {
+    id: number;
+    message: string;
+    stack?: string;
+    timestamp: string;
+    type: string;
+};
 try {
-    COMMIT_SHA = execSync("git describe --always --dirty").toString().trim();
-} catch (err) {
+    // eslint-disable-next-line sonarjs/no-os-command-from-path
+    COMMIT_SHA = execSync('git describe --always --dirty').toString().trim();
+} catch {
     // Ignore
 }
 
-// Plugin to handle HTML template imports as raw text (Webpack html-loader compatibility)
-const htmlAsStringPlugin: Plugin = {
-    name: 'html-as-string',
-    enforce: 'pre',
-    async resolveId(id, importer) {
-        // Only transform .html files that are not the main entry point (src/index.html)
-        if (id.endsWith('.html')) {
-            const res = await this.resolve(id, importer, { skipSelf: true });
-            if (res) {
-                // Skip the main index.html entry point
-                const isMainEntry = res.id.endsWith('src/index.html') || res.id.endsWith('src\\index.html');
-                if (!isMainEntry) {
-                    return res.id + '?html-string';
-                }
-            }
-        }
-    },
-    load(id: string) {
-        if (id.endsWith('?html-string')) {
-            const file = id.replace('?html-string', '');
-            const code = fs.readFileSync(file, 'utf-8');
-            return `export default ${JSON.stringify(code)};`;
-        }
-    },
-};
-
-// Plugin to fix escape-html CommonJS to ESM conversion
-const escapeHtmlPlugin: Plugin = {
-    name: 'escape-html-fix',
-    enforce: 'pre' as const,
-    load(id) {
-        if (id.includes('escape-html') && !id.includes('.ts')) {
-            return fs.readFileSync(path.resolve(process.cwd(), 'src/utils/escape-html-shim.js'), 'utf-8');
-        }
+const serviceWorkerManifestPlugin = {
+    name: 'service-worker-manifest',
+    enforce: 'post' as const,
+    buildEnd() {
+        const manifest = {
+            version: COMMIT_SHA || Date.now().toString(36),
+            timestamp: Date.now(),
+            buildId: process.env.JELLYFIN_VERSION || 'dev'
+        };
+        const manifestPath = path.resolve(__dirname, 'dist/web/sw-manifest.json');
+        fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+        // eslint-disable-next-line no-console
+        console.log(`[ServiceWorker] Generated manifest at ${manifestPath}`);
     }
 };
 
-// Plugin to handle Webpack-style '~' prefix in CSS imports
-const scssTildePlugin: Plugin = {
-    name: "scss-tilde-import",
-    enforce: "pre",
-    resolveId(source) {
-        if (source.startsWith("~@fontsource")) {
-            return source.replace("~", "");
-        }
-    },
-};
-
-// Plugin to serve compiled theme CSS in development mode
-const themeDevPlugin: Plugin = {
-    name: "theme-dev-server",
+const serviceWorkerManifestDevPlugin = {
+    name: 'service-worker-manifest-dev',
     configureServer(server) {
-        server.middlewares.use(async (req, res, next) => {
-            // Match requests like /themes/dark/theme.css
-            const match = req.url?.match(/^\/themes\/([^/]+)\/theme\.css/);
-            if (match) {
-                const themeId = match[1];
-                const scssPath = path.resolve(__dirname, `src/themes/${themeId}/theme.scss`);
-
-                if (fs.existsSync(scssPath)) {
-                    try {
-                        // Use Vite's internal SCSS processing
-                        const result = await server.transformRequest(`/themes/${themeId}/theme.scss`);
-                        if (result && typeof result.code === 'string') {
-                            // Extract CSS from the transformed result
-                            // Vite wraps CSS in JS for HMR, we need to extract the raw CSS
-                            res.setHeader('Content-Type', 'text/css');
-
-                            // The CSS is embedded in a JS module, extract it
-                            const cssMatch = result.code.match(/__vite__css\s*=\s*"([^"]*)"/s);
-                            if (cssMatch) {
-                                // Unescape the CSS string
-                                const css = cssMatch[1]
-                                    .replace(/\\n/g, '\n')
-                                    .replace(/\\"/g, '"')
-                                    .replace(/\\\\/g, '\\');
-                                res.end(css);
-                                return;
-                            }
-                        }
-                        // Fallback: compile SCSS directly
-                        const sass = await import('sass');
-                        const compiled = sass.compile(scssPath, {
-                            loadPaths: [
-                                path.resolve(__dirname, 'src'),
-                                path.resolve(__dirname, 'node_modules')
-                            ]
-                        });
-                        res.setHeader('Content-Type', 'text/css');
-                        res.end(compiled.css);
-                        return;
-                    } catch (e) {
-                        console.error(`Failed to compile theme ${themeId}:`, e);
-                    }
-                }
-            }
-            next();
+        server.middlewares.use('/sw-manifest.json', (req, res) => {
+            const manifest = {
+                version: 'dev-' + Date.now().toString(36),
+                timestamp: Date.now(),
+                buildId: 'development'
+            };
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(manifest));
         });
     }
 };
 
 const Assets = [
-    "libarchive.js/dist/worker-bundle.js",
-    "libarchive.js/dist/libarchive.wasm",
-    "@jellyfin/libass-wasm/dist/js/default.woff2",
-    "@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js",
-    "@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm",
-    "@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js",
-    "pdfjs-dist/build/pdf.worker.mjs",
-    "libpgs/dist/libpgs.worker.js",
+    'libarchive.js/dist/worker-bundle.js',
+    'libarchive.js/dist/libarchive.wasm',
+    '@jellyfin/libass-wasm/dist/js/default.woff2',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
+    '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
+    'pdfjs-dist/build/pdf.worker.mjs',
+    'libpgs/dist/libpgs.worker.js'
 ];
 
-// Find themes
-const themeEntries = globSync("src/themes/**/*.scss").reduce(
-    (acc, file) => {
-        // src/themes/dark/theme.scss -> themes/dark/theme
-        const relativePath = path.relative("src", file);
-        const entryName = relativePath.replace(/\.scss$/, "");
-        acc[entryName] = path.resolve(__dirname, file);
-        return acc;
-    },
-    {} as Record<string, string>,
-);
+const DEV_PROXY_BASE_PATH = '/__proxy__/jellyfin';
+const DEV_CONFIG_PATH = path.resolve(__dirname, 'dev/dev-config.json');
+const DEFAULT_DEV_CONFIG = {
+    serverBaseUrl: '',
+    useProxy: false,
+    proxyBasePath: DEV_PROXY_BASE_PATH
+};
 
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, process.cwd(), "");
+function readDevConfigFile() {
+    try {
+        if (!fs.existsSync(DEV_CONFIG_PATH)) {
+            fs.mkdirSync(path.dirname(DEV_CONFIG_PATH), { recursive: true });
+            fs.writeFileSync(DEV_CONFIG_PATH, JSON.stringify(DEFAULT_DEV_CONFIG, null, 2));
+        }
+        const raw = fs.readFileSync(DEV_CONFIG_PATH, 'utf-8');
+        const parsed = JSON.parse(raw);
+        return { ...DEFAULT_DEV_CONFIG, ...parsed };
+    } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('[DevConfig] Failed to read dev-config.json', error);
+        return { ...DEFAULT_DEV_CONFIG };
+    }
+}
+
+function writeDevConfigFile(nextConfig) {
+    const sanitized = {
+        serverBaseUrl: typeof nextConfig.serverBaseUrl === 'string' ? nextConfig.serverBaseUrl : undefined,
+        useProxy: typeof nextConfig.useProxy === 'boolean' ? nextConfig.useProxy : undefined,
+        proxyBasePath: typeof nextConfig.proxyBasePath === 'string' ? nextConfig.proxyBasePath : undefined
+    };
+    const merged = { ...readDevConfigFile(), ...sanitized };
+    fs.mkdirSync(path.dirname(DEV_CONFIG_PATH), { recursive: true });
+    fs.writeFileSync(DEV_CONFIG_PATH, JSON.stringify(merged, null, 2));
+    return merged;
+}
+
+function createProxyConfig(env, devMode) {
+    let target = devMode ? env.VITE_DEV_JELLYFIN_TARGET : undefined;
+
+    if (devMode && !target) {
+        const devConfig = readDevConfigFile();
+        if (devConfig.useProxy && devConfig.serverBaseUrl) {
+            target = devConfig.serverBaseUrl;
+        }
+    }
+
+    if (!devMode || !target) {
+        return undefined;
+    }
 
     return {
-        base: './', // Use relative paths for flexibility
-        root: "src", // Webpack context was 'src'
-        publicDir: false, // We handle static assets manually to match Webpack structure
+        [DEV_PROXY_BASE_PATH]: {
+            target,
+            changeOrigin: true,
+            secure: false,
+            ws: true,
+            rewrite: proxyPath => proxyPath.replace(DEV_PROXY_BASE_PATH, '')
+        }
+    };
+}
+
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, process.cwd(), '');
+    const devMode = mode === 'development';
+    return {
+        base: './',
+        root: 'src',
+        publicDir: '../public',
         server: {
-            // Handle /web/ path - serve the index.html for SPA routing
-            configureServer(server) {
-                server.middlewares.use((req, res, next) => {
-                    const url = req.url || '';
-                    // For /web or /web/ paths, serve from src/index.html
-                    if (url === '/web' || url === '/web/' || url.startsWith('/web?')) {
-                        req.url = '/index.html';
-                    }
-                    next();
-                });
-            },
-            // Proxy API requests to the Jellyfin server to avoid CORS issues
-            proxy: {
-                // Proxy all API endpoints
-                '/Users': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/System': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Audio': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Videos': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Items': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Sessions': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Library': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Persons': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Artists': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Genres': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/MusicGenres': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Studios': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Years': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Trailers': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Localization': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/DisplayPreferences': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/socket': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false,
-                    ws: true
-                },
-                '/QuickConnect': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Branding': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '/Playback': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '^/users/.*': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false
-                },
-                '^/socket$': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false,
-                    ws: true
-                },
-                // Catch-all for any unhandled Jellyfin API paths
-                '/web': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false,
-                    configure: (proxy) => {
-                        proxy.on('error', (err, req) => {
-                            console.log('[Vite Proxy Error]', err.message, req.url);
-                        });
-                    }
-                },
-                '/': {
-                    target: env.JELLYFIN_SERVER || 'https://2activedesign.com',
-                    changeOrigin: true,
-                    secure: false,
-                    configure: (proxy) => {
-                        proxy.on('error', (err, req) => {
-                            console.log('[Vite Proxy Error]', err.message, req.url);
-                        });
-                        proxy.on('econnreset', (err, req) => {
-                            console.log('[Vite Proxy] Connection reset for', req.url);
-                        });
+            proxy: createProxyConfig(env, devMode)
+        },
+        optimizeDeps: { include: ['react', 'react-dom', 'react-dom/client'] },
+        build: {
+            target: 'es2022',
+            outDir: '../dist',
+            emptyOutDir: true,
+            sourcemap: 'hidden',
+            commonjsOptions: { transformMixedEsModules: true, include: [/node_modules/] },
+            rollupOptions: {
+                input: { main: path.resolve(__dirname, 'src/index.html') },
+                output: {
+                    assetFileNames: 'assets/[name]-[hash][extname]',
+                    chunkFileNames: 'assets/[name]-[hash].js',
+                    entryFileNames: 'assets/[name]-[hash].js',
+                    manualChunks(id) {
+                        if (!id.includes('node_modules')) {
+                            return undefined;
+                        }
+
+                        if (id.includes('three') || id.includes('@react-three')) {
+                            return 'vendor-graphics';
+                        }
+
+                        if (id.includes('butterchurn')) {
+                            return 'vendor-visualizers';
+                        }
+
+                        if (id.includes('hls.js') || id.includes('flv.js') || id.includes('wavesurfer.js')) {
+                            return 'vendor-media';
+                        }
+
+                        if (id.includes('epubjs') || id.includes('pdfjs-dist') || id.includes('libarchive.js')) {
+                            return 'vendor-docs';
+                        }
+
+                        if (id.includes('@jellyfin/libass-wasm') || id.includes('libpgs')) {
+                            return 'vendor-subtitles';
+                        }
+
+                        if (
+                            id.includes('lodash-es')
+                            || id.includes('date-fns')
+                            || id.includes('dompurify')
+                            || id.includes('markdown-it')
+                        ) {
+                            return 'vendor-utils';
+                        }
+
+                        if (
+                            id.includes('react')
+                            || id.includes('react-dom')
+                            || id.includes('react-router-dom')
+                            || id.includes('@tanstack/react-query')
+                            || id.includes('zustand')
+                            || id.includes('motion')
+                        ) {
+                            return 'vendor-framework';
+                        }
+
+                        if (id.includes('core-js')) {
+                            return 'vendor-corejs';
+                        }
+
+                        if (id.includes('@jellyfin/sdk') || id.includes('jellyfin-apiclient')) {
+                            return 'vendor-jellyfin';
+                        }
+
+                        if (id.includes('swiper') || id.includes('jstree') || id.includes('sortablejs')) {
+                            return 'vendor-ui-libs';
+                        }
+
+                        return 'vendor';
                     }
                 }
             }
         },
-        optimizeDeps: {
-            include: ['react', 'react-dom', 'react-dom/client'],
-            exclude: ['escape-html'], // Don't pre-bundle escape-html - we transform it at load time
-            esbuildOptions: {
-                // Handle HTML imports during dependency scanning
-                plugins: [
-                    {
-                        name: 'html-loader',
-                        setup(build) {
-                            // Intercept .html imports (except the main src/index.html entry point)
-                            build.onResolve({ filter: /\.html$/ }, (args) => {
-                                // Skip only the main entry point, not all index.html files
-                                const fullPath = path.isAbsolute(args.path)
-                                    ? args.path
-                                    : path.resolve(args.resolveDir, args.path);
-                                const isMainEntry = fullPath.endsWith('src/index.html') || fullPath.endsWith('src\\index.html');
-                                if (isMainEntry) return null;
-                                return {
-                                    path: args.path,
-                                    namespace: 'html-template',
-                                    pluginData: { resolveDir: args.resolveDir }
-                                };
-                            });
-                            build.onLoad({ filter: /.*/, namespace: 'html-template' }, async (args) => {
-                                const fullPath = path.isAbsolute(args.path)
-                                    ? args.path
-                                    : path.resolve(args.pluginData.resolveDir, args.path);
-                                const contents = fs.readFileSync(fullPath, 'utf-8');
-                                return {
-                                    contents: `export default ${JSON.stringify(contents)};`,
-                                    loader: 'js'
-                                };
-                            });
-                        }
-                    }
-                ]
-            }
-        },
-        build: {
-            target: "es2022",
-            outDir: "../dist", // Since root is src
-            emptyOutDir: true,
-            commonjsOptions: {
-                transformMixedEsModules: true,
-                include: [/node_modules/],
-            },
-            rollupOptions: {
-                input: {
-                    main: path.resolve(__dirname, "src/index.html"),
-                    ...themeEntries,
-                },
-                output: {
-                    assetFileNames: (assetInfo) => {
-                        if (
-                            assetInfo.name?.endsWith(".css") &&
-                            assetInfo.name.includes("themes/")
-                        ) {
-                            // Output themes as themes/id/theme.css
-                            // assetInfo.name might be "themes/dark/theme.css" based on input key
-                            return "[name][extname]";
-                        }
-                        return "assets/[name]-[hash][extname]";
-                    },
-                    chunkFileNames: "assets/[name]-[hash].js",
-                    entryFileNames: (chunkInfo) => {
-                        // Themes might generate empty JS files, but we mainly care about CSS
-                        if (chunkInfo.name.includes("themes/")) {
-                            return "[name].js";
-                        }
-                        return "assets/[name]-[hash].js";
-                    },
-                    manualChunks(id) {
-                        if (id.includes("node_modules")) {
-                            if (id.includes("@mui")) return "vendor-mui";
-                            if (
-                                id.includes("three") ||
-                                id.includes("@react-three")
-                            )
-                                return "vendor-graphics";
-                            if (id.includes("butterchurn"))
-                                return "vendor-visualizers";
-                            if (
-                                id.includes("hls.js") ||
-                                id.includes("flv.js") ||
-                                id.includes("wavesurfer.js")
-                            )
-                                return "vendor-media";
-                            if (
-                                id.includes("epubjs") ||
-                                id.includes("pdfjs-dist") ||
-                                id.includes("libarchive.js")
-                            )
-                                return "vendor-docs";
-                            if (
-                                id.includes("@jellyfin/libass-wasm") ||
-                                id.includes("libpgs")
-                            )
-                                return "vendor-subtitles";
-                            if (
-                                id.includes("lodash-es") ||
-                                id.includes("date-fns") ||
-                                id.includes("dompurify") ||
-                                id.includes("markdown-it")
-                            )
-                                return "vendor-utils";
-                            if (
-                                id.includes("react") ||
-                                id.includes("react-dom") ||
-                                id.includes("react-router-dom") ||
-                                id.includes("@tanstack/react-query") ||
-                                id.includes("zustand") ||
-                                id.includes("framer-motion")
-                            )
-                                return "vendor-framework";
-                            if (id.includes("core-js")) return "vendor-corejs";
-                            if (
-                                id.includes("@jellyfin/sdk") ||
-                                id.includes("jellyfin-apiclient")
-                            )
-                                return "vendor-jellyfin";
-                            if (
-                                id.includes("swiper") ||
-                                id.includes("jstree") ||
-                                id.includes("sortablejs") ||
-                                id.includes("headroom.js")
-                            )
-                                return "vendor-ui-libs";
-                            return "vendor";
-                        }
-                    },
-                },
-            },
-        },
-        resolve: {
-            // Remove escape-html alias since we're now using transform approach
-            alias: {},
-        },
+        resolve: { alias: {} },
         define: {
             __COMMIT_SHA__: JSON.stringify(COMMIT_SHA),
-            __JF_BUILD_VERSION__: JSON.stringify(
-                process.env.JELLYFIN_VERSION || "Release",
-            ),
+            __JF_BUILD_VERSION__: JSON.stringify(process.env.JELLYFIN_VERSION || 'Release'),
             __PACKAGE_JSON_NAME__: JSON.stringify(packageJson.name),
             __PACKAGE_JSON_VERSION__: JSON.stringify(packageJson.version),
-            __USE_SYSTEM_FONTS__: JSON.stringify(false), // Default
-            __WEBPACK_SERVE__: JSON.stringify(mode === "development"),
-            __DEV_SERVER_PROXY_TARGET__: JSON.stringify(""),
-            "process.env.NODE_ENV": JSON.stringify(mode),
+            __USE_SYSTEM_FONTS__: JSON.stringify(false),
+            __DEV_SERVER_PROXY_TARGET__: JSON.stringify(env.VITE_DEV_JELLYFIN_TARGET || ''),
+            'process.env.NODE_ENV': JSON.stringify(mode)
         },
         plugins: [
+            vanillaExtractPlugin(),
             react(),
-            tsconfigPaths({
-                root: "..", // Since vite root is src, tsconfig is in parent
-            }),
-            htmlAsStringPlugin,
-            escapeHtmlPlugin,
-            scssTildePlugin,
-            themeDevPlugin,
-            ...(mode === "development" ? [
-                ViteMcp({
-                    mcpRouteRoot: '/__mcp',
-                    updateConfig: 'claude-code',
-                }),
-                {
-                name: 'error-monitor',
-                configureServer(server) {
-                    let errorLog: Array<{id: number; message: string; stack?: string; timestamp: string; type: string}> = [];
-                    let errorCount = 0;
+            tsconfigPaths({ root: '..' }),
+            serviceWorkerManifestPlugin,
+            ...(devMode ?
+                [
+                    {
+                        name: 'dev-config',
+                        configureServer(server) {
+                            server.middlewares.use('/__dev-config', (req, res) => {
+                                res.setHeader('Content-Type', 'application/json');
+                                res.setHeader('Cache-Control', 'no-store');
+                                res.setHeader('Access-Control-Allow-Origin', '*');
+                                res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,OPTIONS');
+                                res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-                    server.middlewares.use('/__error-monitor/api/errors', (req, res) => {
-                        res.setHeader('Content-Type', 'application/json');
-                        res.setHeader('Access-Control-Allow-Origin', '*');
-                        res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-                        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+                                if (req.method === 'OPTIONS') {
+                                    res.writeHead(204);
+                                    res.end();
+                                    return;
+                                }
 
-                        if (req.method === 'OPTIONS') {
-                            res.writeHead(204);
-                            res.end();
-                            return;
+                                if (req.method === 'GET') {
+                                    res.end(JSON.stringify(readDevConfigFile()));
+                                    return;
+                                }
+
+                                if (req.method === 'PUT') {
+                                    let body = '';
+                                    req.on('data', chunk => {
+                                        body += chunk;
+                                    });
+                                    req.on('end', () => {
+                                        try {
+                                            const parsed = body ? JSON.parse(body) : {};
+                                            const updated = writeDevConfigFile(parsed);
+                                            res.end(JSON.stringify(updated));
+                                        } catch {
+                                            res.statusCode = 400;
+                                            res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+                                        }
+                                    });
+                                    return;
+                                }
+
+                                res.statusCode = 405;
+                                res.end(JSON.stringify({ error: 'Method not allowed' }));
+                            });
                         }
-
-                        const url = new URL(req.url || '', `http://${req.headers.host}`);
-                        const action = url.searchParams.get('action');
-
-                        if (action === 'clear') {
-                            errorLog = [];
-                            errorCount = 0;
-                            res.writeHead(200);
-                            res.end(JSON.stringify({ success: true }));
-                            return;
+                    },
+                    serviceWorkerManifestDevPlugin,
+                    {
+                        name: 'error-monitor',
+                        configureServer(server) {
+                            let errorLog: ErrorEntry[] = [];
+                            let errorCount = 0;
+                            server.middlewares.use('/__error-monitor/api/errors', (req, res) => {
+                                res.setHeader('Content-Type', 'application/json');
+                                res.setHeader('Access-Control-Allow-Origin', '*');
+                                if (req.method === 'OPTIONS') {
+                                    res.writeHead(204);
+                                    res.end();
+                                    return;
+                                }
+                                const url = new URL(req.url || '', `http://${req.headers.host}`);
+                                const action = url.searchParams.get('action');
+                                if (action === 'clear') {
+                                    errorLog = [] as ErrorEntry[];
+                                    errorCount = 0;
+                                    res.writeHead(200);
+                                    res.end(JSON.stringify({ success: true }));
+                                    return;
+                                }
+                                const since = url.searchParams.get('since');
+                                let errors = errorLog;
+                                if (since) {
+                                    const sinceTime = parseInt(since, 10);
+                                    errors = errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime);
+                                }
+                                res.writeHead(200);
+                                res.end(JSON.stringify({ count: errorCount, errors }));
+                            });
+                            server.middlewares.use('/__error-monitor/event', (req, res) => {
+                                res.setHeader('Content-Type', 'text/event-stream');
+                                res.setHeader('Cache-Control', 'no-cache');
+                                res.setHeader('Connection', 'keep-alive');
+                                res.setHeader('Access-Control-Allow-Origin', '*');
+                                res.write('retry: 1000\n\n');
+                                const sendEvent = (data: ErrorEntry) =>
+                                    res.write(`event: error\ndata: ${JSON.stringify(data)}\n\n`);
+                                const since = new URL(req.url || '', `http://${req.headers.host}`).searchParams.get(
+                                    'since'
+                                );
+                                const sinceTime = since ? parseInt(since, 10) : 0;
+                                errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime).forEach(sendEvent);
+                                const captureError = (error: unknown, type: string) => {
+                                    const entry: ErrorEntry = {
+                                        id: ++errorCount,
+                                        message: String(error instanceof Error ? error.message : error),
+                                        stack: error instanceof Error ? error.stack : undefined,
+                                        timestamp: new Date().toISOString(),
+                                        type
+                                    };
+                                    errorLog.push(entry);
+                                    if (errorLog.length > 1000) errorLog.shift();
+                                    sendEvent(entry);
+                                };
+                                global.__errorMonitorListeners = global.__errorMonitorListeners || new Set();
+                                const listener = event =>
+                                    captureError(
+                                        event.detail?.error || event.detail?.message,
+                                        event.detail?.type || 'ERROR'
+                                    );
+                                global.__errorMonitorListeners.add(listener);
+                                req.on('close', () => global.__errorMonitorListeners?.delete(listener));
+                            });
                         }
-
-                        const since = url.searchParams.get('since');
-                        let errors = errorLog;
-                        if (since) {
-                            const sinceTime = parseInt(since);
-                            errors = errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime);
-                        }
-
-                        res.writeHead(200);
-                        res.end(JSON.stringify({ count: errorCount, errors }));
-                    });
-
-                    server.middlewares.use('/__error-monitor/event', (req, res) => {
-                        res.setHeader('Content-Type', 'text/event-stream');
-                        res.setHeader('Cache-Control', 'no-cache');
-                        res.setHeader('Connection', 'keep-alive');
-                        res.setHeader('Access-Control-Allow-Origin', '*');
-
-                        res.write('retry: 1000\n\n');
-
-                        const sendEvent = (data) => {
-                            res.write(`event: error\ndata: ${JSON.stringify(data)}\n\n`);
-                        };
-
-                        const originalUrl = req.url;
-                        const since = new URL(originalUrl || '', `http://${req.headers.host}`).searchParams.get('since');
-                        const sinceTime = since ? parseInt(since) : 0;
-
-                        const recentErrors = errorLog.filter(e => new Date(e.timestamp).getTime() > sinceTime);
-                        recentErrors.forEach(sendEvent);
-
-                        const captureError = (error, type) => {
-                            const entry = {
-                                id: ++errorCount,
-                                message: error instanceof Error ? error.message : String(error),
-                                stack: error instanceof Error ? error.stack : undefined,
-                                timestamp: new Date().toISOString(),
-                                type
-                            };
-                            errorLog.push(entry);
-                            if (errorLog.length > 1000) errorLog.shift();
-                            sendEvent(entry);
-                        };
-
-                        global.__errorMonitorListeners = global.__errorMonitorListeners || new Set();
-                        const listener = (event) => captureError(event.detail?.error || event.detail?.message, event.detail?.type || 'ERROR');
-                        global.__errorMonitorListeners.add(listener);
-
-                        req.on('close', () => {
-                            global.__errorMonitorListeners?.delete(listener);
-                        });
-                    });
-                }
-            }] : []),
+                    }
+                ] :
+                []),
             viteStaticCopy({
                 targets: [
-                    { src: "assets", dest: "." },
-                    { src: "config.json", dest: "." },
-                    { src: "robots.txt", dest: "." },
-                    { src: "offline.html", dest: "." },
-                    ...(mode === "development"
-                        ? []
-                        : [
-                              {
-                                  src: "serviceworker.backup.js",
-                                  dest: ".",
-                                  rename: "serviceworker.js",
-                              },
-                          ]),
+                    { src: 'assets', dest: '.' },
+                    { src: 'config.json', dest: '.' },
+                    { src: 'robots.txt', dest: '.' },
+                    { src: 'offline.html', dest: '.' },
+                    ...(!devMode ? [{ src: 'serviceworker.backup.js', dest: '.', rename: 'serviceworker.js' }] : []),
+                    { src: '../node_modules/@jellyfin/ux-web/favicons/touchicon*.png', dest: 'favicons' },
                     {
-                        src: "../node_modules/@jellyfin/ux-web/favicons/touchicon*.png",
-                        dest: "favicons",
+                        src: '../node_modules/@jellyfin/ux-web/banner-light.png',
+                        dest: 'favicons',
+                        rename: 'banner.png'
                     },
-                    {
-                        src: "../node_modules/@jellyfin/ux-web/banner-light.png",
-                        dest: "favicons",
-                    },
-                    ...Assets.map((asset) => ({
-                        src: `../node_modules/${asset}`,
-                        dest: "libraries",
-                    })),
-                ],
-            }),
+                    ...Assets.map(asset => ({ src: `../node_modules/${asset}`, dest: 'libraries' }))
+                ]
+            })
         ],
-        test: {
-            globals: true,
-            environment: "jsdom",
-            restoreMocks: true,
-            setupFiles: ["./src/vitest.setup.ts"],
-        },
+        test: { globals: true, environment: 'jsdom', restoreMocks: true, setupFiles: ['./src/vitest.setup.ts'] }
     };
 });

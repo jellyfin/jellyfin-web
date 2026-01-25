@@ -58,7 +58,6 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
 
         for (const action of actions) {
             try {
-                /* eslint-disable-next-line compat/compat */
                 navigator.mediaSession.setActionHandler(action, this.onMediaSessionAction.bind(this));
             } catch (err) {
                 // NOTE: Some legacy (TV) browsers lack support for the stop and seekto actions
@@ -80,7 +79,10 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
             case 'seekforward':
                 return this.playbackManager.fastForward(this.player as unknown as Player);
             case 'seekto':
-                return this.playbackManager.seekMs((details.seekTime || 0) * MILLISECONDS_PER_SECOND, this.player as unknown as Player);
+                return this.playbackManager.seekMs(
+                    (details.seekTime || 0) * MILLISECONDS_PER_SECOND,
+                    this.player as unknown as Player
+                );
             case 'previoustrack':
                 return this.playbackManager.previousTrack(this.player as unknown as Player);
             case 'nexttrack':
@@ -90,10 +92,7 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
         }
     }
 
-    private onMediaSessionUpdate(
-        { type: action }: Event,
-        state?: PlayerState
-    ) {
+    private onMediaSessionUpdate({ type: action }: Event, state?: PlayerState) {
         if (!this.player) {
             resetMediaSession();
             return;
@@ -120,7 +119,7 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
         }
 
         const album = item.Album || undefined;
-        const [ line1, line2 ] = getItemTextLines(item, false) || [];
+        const [line1, line2] = getItemTextLines(item, false) || [];
         // The artist will be the second line if present or the first line otherwise
         const artist = line2 || line1;
         // The title will be the first line if there are two lines
@@ -128,10 +127,10 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
 
         if (hasNavigatorSession) {
             if (
-                !navigator.mediaSession.metadata
-                || navigator.mediaSession.metadata.album !== album
-                || navigator.mediaSession.metadata.artist !== artist
-                || navigator.mediaSession.metadata.title !== title
+                !navigator.mediaSession.metadata ||
+                navigator.mediaSession.metadata.album !== album ||
+                navigator.mediaSession.metadata.artist !== artist ||
+                navigator.mediaSession.metadata.title !== title
             ) {
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title,
@@ -149,8 +148,10 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
                 artist,
                 album,
                 duration: item.RunTimeTicks ? Math.round(item.RunTimeTicks / TICKS_PER_MILLISECOND) : 0,
-                position: state.PlayState.PositionTicks ? Math.round(state.PlayState.PositionTicks / TICKS_PER_MILLISECOND) : 0,
-                imageUrl: getImageUrl(item, { maxHeight: 3_000 }),
+                position: state.PlayState.PositionTicks
+                    ? Math.round(state.PlayState.PositionTicks / TICKS_PER_MILLISECOND)
+                    : 0,
+                imageUrl: getImageUrl(item, { maxHeight: 3_000 }) || undefined,
                 canSeek: !!state.PlayState.CanSeek,
                 isPaused: !!state.PlayState.IsPaused
             });

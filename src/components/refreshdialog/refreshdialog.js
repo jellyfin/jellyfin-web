@@ -10,7 +10,6 @@ import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
-import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import toast from '../toast/toast';
 
@@ -22,7 +21,10 @@ function getEditorHtml() {
     html += '<form style="margin:auto;">';
 
     html += '<div class="fldSelectPlaylist selectContainer">';
-    html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
+    html +=
+        '<select is="emby-select" id="selectMetadataRefreshMode" label="' +
+        globalize.translate('LabelRefreshMode') +
+        '">';
     html += '<option value="scan" selected>' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
     html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
     html += '<option value="all">' + globalize.translate('ReplaceAllMetadata') + '</option>';
@@ -47,7 +49,10 @@ function getEditorHtml() {
 
     html += '<br />';
     html += '<div class="formDialogFooter">';
-    html += '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' + globalize.translate('Refresh') + '</button>';
+    html +=
+        '<button is="emby-button" type="submit" class="raised btnSubmit block formDialogFooterItem button-submit">' +
+        globalize.translate('Refresh') +
+        '</button>';
     html += '</div>';
 
     html += '</form>';
@@ -58,7 +63,7 @@ function getEditorHtml() {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then((scrollHelper) => {
+    import('../../scripts/scrollHelper').then(scrollHelper => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -79,7 +84,7 @@ function onSubmit(e) {
     const replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
     const replaceTrickplayImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceTrickplayImages').checked;
 
-    options.itemIds.forEach((itemId) => {
+    options.itemIds.forEach(itemId => {
         apiClient.refreshItem(itemId, {
             Recursive: true,
             ImageRefreshMode: mode,
@@ -162,7 +167,7 @@ class RefreshDialog {
             centerFocus(dlg.querySelector('.formDialogContent'), false, true);
         }
 
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }

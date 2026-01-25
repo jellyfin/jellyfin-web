@@ -10,7 +10,6 @@ import itemHelper from '../itemHelper';
 
 import './upnextdialog.scss';
 import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
 
 const transitionEndEventName = dom.whichTransitionEvent();
 

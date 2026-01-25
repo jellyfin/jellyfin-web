@@ -51,11 +51,14 @@ function getBaseProfileOptions(item: any) {
 }
 
 function getDeviceProfile(item: any): Promise<any> {
-    return new Promise((resolve) => {
-        let profile;
+    return new Promise(resolve => {
+        let profile: any;
 
         if (window.NativeShell?.AppHost?.getDeviceProfile) {
-            profile = window.NativeShell.AppHost.getDeviceProfile(profileBuilder, window.__PACKAGE_JSON_VERSION__ || '');
+            profile = window.NativeShell.AppHost.getDeviceProfile(
+                profileBuilder,
+                window.__PACKAGE_JSON_VERSION__ || ''
+            );
         } else {
             const builderOpts = getBaseProfileOptions(item);
             profile = profileBuilder(builderOpts);
@@ -183,7 +186,13 @@ function supportsFullscreen() {
     }
 
     const element = document.documentElement as any;
-    return !!(element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen || document.createElement('video').webkitEnterFullscreen);
+    return !!(
+        element.requestFullscreen ||
+        element.mozRequestFullScreen ||
+        element.webkitRequestFullscreen ||
+        element.msRequestFullscreen ||
+        document.createElement('video').webkitEnterFullscreen
+    );
 }
 
 function getDefaultLayout() {
@@ -191,7 +200,15 @@ function getDefaultLayout() {
 }
 
 function supportsHtmlMediaAutoplay() {
-    if ((browser as any).edgeUwp || browser.tizen || browser.web0s || (browser as any).orsay || (browser as any).operaTv || (browser as any).ps4 || (browser as any).xboxOne) {
+    if (
+        (browser as any).edgeUwp ||
+        browser.tizen ||
+        browser.web0s ||
+        (browser as any).orsay ||
+        (browser as any).operaTv ||
+        (browser as any).ps4 ||
+        (browser as any).xboxOne
+    ) {
         return true;
     }
 
@@ -224,7 +241,7 @@ function supportsCue() {
 function onAppVisible() {
     if (isHidden) {
         isHidden = false;
-        Events.trigger(appHost, 'resume');
+        Events.trigger(appHost as any, 'resume');
     }
 }
 
@@ -234,7 +251,7 @@ function onAppHidden() {
     }
 }
 
-const supportedFeatures = function () {
+const supportedFeatures = (function () {
     const features: string[] = [];
 
     if (typeof navigator.share === 'function') {
@@ -249,7 +266,13 @@ const supportedFeatures = function () {
         features.push(AppFeature.Exit);
     }
 
-    if (!(browser as any).operaTv && !browser.tizen && !(browser as any).orsay && !browser.web0s && !(browser as any).ps4) {
+    if (
+        !(browser as any).operaTv &&
+        !browser.tizen &&
+        !(browser as any).orsay &&
+        !browser.web0s &&
+        !(browser as any).ps4
+    ) {
         features.push(AppFeature.ExternalLinks);
     }
 
@@ -270,7 +293,13 @@ const supportedFeatures = function () {
         features.push(AppFeature.RemoteControl);
     }
 
-    if (!(browser as any).operaTv && !browser.tizen && !(browser as any).orsay && !browser.web0s && !(browser as any).edgeUwp) {
+    if (
+        !(browser as any).operaTv &&
+        !browser.tizen &&
+        !(browser as any).orsay &&
+        !browser.web0s &&
+        !(browser as any).edgeUwp
+    ) {
         features.push(AppFeature.RemoteVideo);
     }
 
@@ -300,11 +329,11 @@ const supportedFeatures = function () {
     }
 
     return features;
-}();
+})();
 
 /**
-     * Do exit according to platform
-     */
+ * Do exit according to platform
+ */
 function doExit() {
     try {
         if (window.NativeShell?.AppHost?.exit) {
@@ -324,27 +353,30 @@ function doExit() {
 let exitPromise: Promise<void> | null = null;
 
 /**
-     * Ask user for exit
-     */
+ * Ask user for exit
+ */
 function askForExit() {
     if (exitPromise) {
         return;
     }
 
-    import('../components/actionSheet/actionSheet').then((actionsheet) => {
-        exitPromise = (actionsheet.default as any).show({
-            title: globalize.translate('MessageConfirmAppExit'),
-            items: [
-                { id: 'yes', name: globalize.translate('Yes') },
-                { id: 'no', name: globalize.translate('No') }
-            ]
-        }).then((value: string) => {
-            if (value === 'yes') {
-                doExit();
-            }
-        }).finally(() => {
-            exitPromise = null;
-        });
+    import('../components/actionSheet/actionSheet').then(actionsheet => {
+        exitPromise = (actionsheet.default as any)
+            .show({
+                title: globalize.translate('MessageConfirmAppExit'),
+                items: [
+                    { id: 'yes', name: globalize.translate('Yes') },
+                    { id: 'no', name: globalize.translate('No') }
+                ]
+            })
+            .then((value: string) => {
+                if (value === 'yes') {
+                    doExit();
+                }
+            })
+            .finally(() => {
+                exitPromise = null;
+            });
     });
 }
 
@@ -392,27 +424,27 @@ export const appHost = {
         };
     },
     deviceName: function () {
-        return window.NativeShell?.AppHost?.deviceName ?
-            window.NativeShell.AppHost.deviceName() : getDeviceName();
+        return window.NativeShell?.AppHost?.deviceName ? window.NativeShell.AppHost.deviceName() : getDeviceName();
     },
     deviceId: function () {
-        return window.NativeShell?.AppHost?.deviceId ?
-            window.NativeShell.AppHost.deviceId() : getDeviceId();
+        return window.NativeShell?.AppHost?.deviceId ? window.NativeShell.AppHost.deviceId() : getDeviceId();
     },
     appName: function () {
-        return window.NativeShell?.AppHost?.appName ?
-            window.NativeShell.AppHost.appName() : appName;
+        return window.NativeShell?.AppHost?.appName ? window.NativeShell.AppHost.appName() : appName;
     },
     appVersion: function () {
-        return window.NativeShell?.AppHost?.appVersion ?
-            window.NativeShell.AppHost.appVersion() : window.__PACKAGE_JSON_VERSION__;
+        return window.NativeShell?.AppHost?.appVersion
+            ? window.NativeShell.AppHost.appVersion()
+            : window.__PACKAGE_JSON_VERSION__;
     },
     getPushTokenInfo: function () {
         return {};
     },
     setUserScalable: function (scalable: boolean) {
         if (!browser.tv) {
-            const att = scalable ? 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes' : 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no';
+            const att = scalable
+                ? 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes'
+                : 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no';
             document.querySelector('meta[name=viewport]')?.setAttribute('content', att);
         }
     },
@@ -520,13 +552,17 @@ if (typeof document.hidden !== 'undefined') {
 }
 
 if (typeof document !== 'undefined' && visibilityChange) {
-    document.addEventListener(visibilityChange, () => {
-        if (hidden && (document as any)[hidden]) {
-            onAppHidden();
-        } else {
-            onAppVisible();
-        }
-    }, false);
+    document.addEventListener(
+        visibilityChange,
+        () => {
+            if (hidden && (document as any)[hidden]) {
+                onAppHidden();
+            } else {
+                onAppVisible();
+            }
+        },
+        false
+    );
 }
 
 if (typeof window !== 'undefined' && window.addEventListener) {

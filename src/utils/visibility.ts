@@ -4,7 +4,6 @@
  * @returns {boolean} True if the document is visible, false otherwise.
  */
 export function isVisible(): boolean {
-    // eslint-disable-next-line compat/compat
     return document.visibilityState === 'visible';
 }
 

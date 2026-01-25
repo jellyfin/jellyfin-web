@@ -1,20 +1,18 @@
-import ArrowBack from '@mui/icons-material/ArrowBack';
-import MenuIcon from '@mui/icons-material/Menu';
-import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
-import Tooltip from '@mui/joy/Tooltip';
-import Stack from '@mui/joy/Stack';
+import { ArrowLeftIcon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 import React, { type FC, type PropsWithChildren, ReactNode } from 'react';
 
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-
 import UserMenuButton from './UserMenuButton';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { Box, Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
 interface AppToolbarProps {
     buttons?: ReactNode
-    isDrawerAvailable: boolean
+    isDrawerAvailable?: boolean
     isDrawerOpen: boolean
     onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void
     isBackButtonAvailable?: boolean
@@ -31,7 +29,7 @@ const onBackButtonClick = () => {
 const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     buttons,
     children,
-    isDrawerAvailable,
+    isDrawerAvailable = true,
     isDrawerOpen,
     onDrawerButtonClick = () => { /* no-op */ },
     isBackButtonAvailable = false,
@@ -41,20 +39,15 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     const isUserLoggedIn = Boolean(user);
 
     return (
-        <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            sx={{
+        <Flex
+            style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: vars.spacing.sm,
                 minHeight: '64px',
-                px: {
-                    xs: 'max(16px, env(safe-area-inset-left))',
-                    sm: 'max(24px, env(safe-area-inset-left))'
-                },
-                flexWrap: {
-                    xs: 'wrap',
-                    lg: 'nowrap'
-                }
+                paddingLeft: 'max(16px, env(safe-area-inset-left))',
+                paddingRight: 'max(16px, env(safe-area-inset-right))',
+                flexWrap: 'wrap'
             }}
         >
             {isUserLoggedIn && isDrawerAvailable && (
@@ -65,7 +58,7 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                         aria-label={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}
                         onClick={onDrawerButtonClick}
                     >
-                        <MenuIcon />
+                        <HamburgerMenuIcon />
                     </IconButton>
                 </Tooltip>
             )}
@@ -78,24 +71,24 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                         aria-label={globalize.translate('ButtonBack')}
                         onClick={onBackButtonClick}
                     >
-                        <ArrowBack />
+                        <ArrowLeftIcon />
                     </IconButton>
                 </Tooltip>
             )}
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.sm }}>
                 {children}
             </Box>
 
-            <Box sx={{ flexGrow: 1 }} />
+            <Box style={{ flexGrow: 1 }} />
 
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Flex style={{ flexDirection: 'row', gap: vars.spacing.sm, alignItems: 'center' }}>
                 {buttons}
                 {isUserLoggedIn && isUserMenuAvailable && (
                     <UserMenuButton />
                 )}
-            </Stack>
-        </Stack>
+            </Flex>
+        </Flex>
     );
 };
 

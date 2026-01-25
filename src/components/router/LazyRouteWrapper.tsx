@@ -1,7 +1,8 @@
 import React, { Component, ReactNode, Suspense } from 'react';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/material/Typography/Typography';
-import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
+import { Box } from 'ui-primitives/Box';
+import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 import { logger } from 'utils/logger';
 
@@ -10,17 +11,19 @@ import { logger } from 'utils/logger';
  */
 const LoadingFallback: React.FC = () => (
     <Box
-        display='flex'
-        flexDirection='column'
-        alignItems='center'
-        justifyContent='center'
-        minHeight='300px'
-        p={3}
+        style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '300px',
+            padding: vars.spacing.lg
+        }}
     >
-        <CircularProgress size={48} sx={{ mb: 2 }} />
-        <Typography variant='h6' color='text.secondary'>
+        <CircularProgress size='lg' />
+        <Text size='lg' color='secondary' style={{ marginTop: vars.spacing.md }}>
             Loading...
-        </Typography>
+        </Text>
     </Box>
 );
 

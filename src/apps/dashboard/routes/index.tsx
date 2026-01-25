@@ -1,22 +1,29 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { lazy, Suspense } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import Box from '@mui/joy/Box';
-import Grid from '@mui/joy/Grid';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Grid, gridContainer, gridGap, gridXs, gridMd, gridLg, gridXl } from 'ui-primitives/Grid';
 import ServerPathWidget from '../components/widgets/ServerPathWidget';
-import ServerInfoWidget from '../components/widgets/ServerInfoWidget';
-import ActivityLogWidget from '../components/widgets/ActivityLogWidget';
-import AlertsLogWidget from '../components/widgets/AlertsLogWidget';
-import Stack from '@mui/joy/Stack';
+
+// Lazy load widgets for code splitting
+const ServerInfoWidget = lazy(() => import('../components/widgets/ServerInfoWidget'));
+const ActivityLogWidget = lazy(() => import('../components/widgets/ActivityLogWidget'));
+const AlertsLogWidget = lazy(() => import('../components/widgets/AlertsLogWidget'));
+const RunningTasksWidget = lazy(() => import('../components/widgets/RunningTasksWidget'));
+const DevicesWidget = lazy(() => import('../components/widgets/DevicesWidget'));
+const ItemCountsWidget = lazy(() => import('../components/widgets/ItemCountsWidget'));
+
 import useShutdownServer from '../features/system/api/useShutdownServer';
 import useRestartServer from '../features/system/api/useRestartServer';
 import ConfirmDialog from 'components/ConfirmDialog';
 import useLiveTasks from '../features/tasks/hooks/useLiveTasks';
-import RunningTasksWidget from '../components/widgets/RunningTasksWidget';
-import DevicesWidget from '../components/widgets/DevicesWidget';
 import { useStartTask } from '../features/tasks/api/useStartTask';
-import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
+
+const WidgetLoader = () => (
+    <Box style={{ height: 200, backgroundColor: 'var(--joy-palette-background-surface)', borderRadius: 8 }} />
+);
 
 export const Component = () => {
     const [ isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen ] = useState(false);
@@ -91,29 +98,43 @@ export const Component = () => {
                 confirmButtonText={globalize.translate('ButtonShutdown')}
                 confirmButtonColor='danger'
             />
-            <Box sx={{ maxWidth: 1400, mx: 'auto', p: 3 }}>
-                <Grid container spacing={3}>
-                    <Grid xs={12} md={7} lg={7} xl={6}>
-                        <Stack spacing={3}>
-                            <ServerInfoWidget
-                                onScanLibrariesClick={onScanLibraries}
-                                onRestartClick={promptRestart}
-                                onShutdownClick={promptShutdown}
-                                isScanning={librariesTask?.State !== TaskState.Idle}
-                            />
-                            <ItemCountsWidget />
-                            <RunningTasksWidget tasks={tasks} />
-                            <DevicesWidget />
-                        </Stack>
+            <Box style={{ maxWidth: 1400, margin: '0 auto', padding: 24 }}>
+                <Grid
+                    className={`${gridContainer} ${gridGap.lg}`}
+                >
+                    <Grid className={`${gridXs[12]} ${gridMd[7]} ${gridLg[7]} ${gridXl[6]}`}>
+                        <Box className={`${Flex} ${Flex.col}`} style={{ gap: 24 }}>
+                            <Suspense fallback={<WidgetLoader />}>
+                                <ServerInfoWidget
+                                    onScanLibrariesClick={onScanLibraries}
+                                    onRestartClick={promptRestart}
+                                    onShutdownClick={promptShutdown}
+                                    isScanning={librariesTask?.State !== TaskState.Idle}
+                                />
+                            </Suspense>
+                            <Suspense fallback={<WidgetLoader />}>
+                                <ItemCountsWidget />
+                            </Suspense>
+                            <Suspense fallback={<WidgetLoader />}>
+                                <RunningTasksWidget tasks={tasks} />
+                            </Suspense>
+                            <Suspense fallback={<WidgetLoader />}>
+                                <DevicesWidget />
+                            </Suspense>
+                        </Box>
                     </Grid>
-                    <Grid xs={12} md={5} lg={5} xl={3}>
-                        <ActivityLogWidget />
+                    <Grid className={`${gridXs[12]} ${gridMd[5]} ${gridLg[5]} ${gridXl[3]}`}>
+                        <Suspense fallback={<WidgetLoader />}>
+                            <ActivityLogWidget />
+                        </Suspense>
                     </Grid>
-                    <Grid xs={12} md={6} lg={12} xl={3}>
-                        <Stack spacing={3}>
-                            <AlertsLogWidget />
+                    <Grid className={`${gridXs[12]} ${gridMd[6]} ${gridLg[12]} ${gridXl[3]}`}>
+                        <Box className={`${Flex} ${Flex.col}`} style={{ gap: 24 }}>
+                            <Suspense fallback={<WidgetLoader />}>
+                                <AlertsLogWidget />
+                            </Suspense>
                             <ServerPathWidget />
-                        </Stack>
+                        </Box>
                     </Grid>
                 </Grid>
             </Box>

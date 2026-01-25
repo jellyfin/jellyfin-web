@@ -1,8 +1,4 @@
-import Album from '@mui/icons-material/Album';
-import Lan from '@mui/icons-material/Lan';
-import Memory from '@mui/icons-material/Memory';
-import Storage from '@mui/icons-material/Storage';
-import Usb from '@mui/icons-material/Usb';
+import { Component2Icon, CubeIcon, DiscIcon, GlobeIcon, StackIcon } from '@radix-ui/react-icons';
 import React, { type FC } from 'react';
 
 import { StorageType } from '../constants/StorageType';
@@ -16,15 +12,15 @@ const StorageTypeIcon: FC<StorageTypeIconProps> = ({
 }) => {
     switch (type) {
         case StorageType.CDRom:
-            return <Album />;
+            return <DiscIcon />;
         case StorageType.Network:
-            return <Lan />;
+            return <GlobeIcon />;
         case StorageType.Ram:
-            return <Memory />;
+            return <CubeIcon />;
         case StorageType.Removable:
-            return <Usb />;
+            return <Component2Icon />;
         default:
-            return <Storage />;
+            return <StackIcon />;
     }
 };
 

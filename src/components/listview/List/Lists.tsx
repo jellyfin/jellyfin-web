@@ -1,13 +1,13 @@
 import React, { type FC } from 'react';
 import { groupBy } from '../../../utils/lodashUtils';
-import Box from '@mui/material/Box/Box';
+import { Box } from 'ui-primitives/Box';
 import { getIndex } from './listHelper';
 import ListGroupHeaderWrapper from './ListGroupHeaderWrapper';
 import List from './List';
 
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
-import '../listview.scss';
+import '../listview.css.ts';
 
 interface ListsProps {
     items: ItemDto[];
@@ -15,7 +15,7 @@ interface ListsProps {
 }
 
 const Lists: FC<ListsProps> = ({ items = [], listOptions = {} }) => {
-    const groupedData = groupBy(items, (item) => {
+    const groupedData = groupBy(items, item => {
         if (listOptions.showIndex) {
             return getIndex(item, listOptions);
         }
@@ -24,25 +24,21 @@ const Lists: FC<ListsProps> = ({ items = [], listOptions = {} }) => {
 
     return (
         <>
-            {Object.entries(groupedData).map(
-                ([itemGroupTitle, groupItems], groupIndex) => (
-                    <Box key={itemGroupTitle || `group-${groupIndex}`}>
-                        {itemGroupTitle && (
-                            <ListGroupHeaderWrapper index={groupIndex}>
-                                {itemGroupTitle}
-                            </ListGroupHeaderWrapper>
-                        )}
-                        {groupItems.map((item, itemIndex) => (
-                            <List
-                                key={item.Id ?? `item-${groupIndex}-${itemIndex}`}
-                                index={itemIndex}
-                                item={item}
-                                listOptions={listOptions}
-                            />
-                        ))}
-                    </Box>
-                )
-            )}
+            {Object.entries(groupedData).map(([itemGroupTitle, groupItems], groupIndex) => (
+                <Box key={itemGroupTitle || `group-${groupIndex}`}>
+                    {itemGroupTitle && (
+                        <ListGroupHeaderWrapper index={groupIndex}>{itemGroupTitle}</ListGroupHeaderWrapper>
+                    )}
+                    {groupItems.map((item, itemIndex) => (
+                        <List
+                            key={item.Id ?? `item-${groupIndex}-${itemIndex}`}
+                            index={itemIndex}
+                            item={item}
+                            listOptions={listOptions}
+                        />
+                    ))}
+                </Box>
+            ))}
         </>
     );
 };

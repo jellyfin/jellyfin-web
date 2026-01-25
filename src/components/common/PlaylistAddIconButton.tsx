@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import { IconButton } from 'ui-primitives/IconButton';
+import { PlusIcon } from '@radix-ui/react-icons';
 
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
@@ -16,7 +16,7 @@ const PlaylistAddIconButton: FC<PlaylistAddIconButtonProps> = ({ className }) =>
             data-action={ItemAction.AddToPlaylist}
             title={globalize.translate('AddToPlaylist')}
         >
-            <PlaylistAddIcon />
+            <PlusIcon />
         </IconButton>
     );
 };

@@ -15,19 +15,19 @@ export const styledProgramCell = style({
     cursor: 'pointer',
     transition: `background-color ${vars.transitions.fast}`,
     ':hover': {
-        backgroundColor: vars.colors.background,
-    },
+        backgroundColor: vars.colors.background
+    }
 });
 
 export const styledProgramCellActive = style({
-    borderLeft: `4px solid ${vars.colors.primary}`,
+    borderLeft: `4px solid ${vars.colors.primary}`
 });
 
 export const programHeader = style({
     display: 'flex',
     alignItems: 'center',
     gap: vars.spacing.xs,
-    overflow: 'hidden',
+    overflow: 'hidden'
 });
 
 export const programName = style({
@@ -35,29 +35,29 @@ export const programName = style({
     fontSize: vars.typography.fontSizeMd,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'nowrap'
 });
 
 export const liveChip = style({
     backgroundColor: vars.colors.error,
     color: 'white',
-    padding: `2px 4px`,
+    padding: '2px 4px',
     borderRadius: vars.borderRadius.sm,
     fontSize: vars.typography.fontSizeSm,
     fontWeight: 'bold',
     whiteSpace: 'nowrap',
-    flexShrink: 0,
+    flexShrink: 0
 });
 
 export const newChip = style({
     backgroundColor: vars.colors.success,
     color: 'white',
-    padding: `2px 4px`,
+    padding: '2px 4px',
     borderRadius: vars.borderRadius.sm,
     fontSize: vars.typography.fontSizeSm,
     fontWeight: 'bold',
     whiteSpace: 'nowrap',
-    flexShrink: 0,
+    flexShrink: 0
 });
 
 export const programTitle = style({
@@ -66,5 +66,5 @@ export const programTitle = style({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    marginTop: vars.spacing.xs,
+    marginTop: vars.spacing.xs
 });

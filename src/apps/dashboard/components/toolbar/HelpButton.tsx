@@ -1,36 +1,34 @@
-import HelpOutline from '@mui/icons-material/HelpOutline';
-import IconButton from '@mui/material/IconButton/IconButton';
-import Tooltip from '@mui/material/Tooltip/Tooltip';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { useLocation } from '@tanstack/react-router';
 
 import { HelpLinks } from 'apps/dashboard/constants/helpLinks';
 import globalize from 'lib/globalize';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { QuestionMarkCircledIcon } from '@radix-ui/react-icons';
 
-const HelpButton = () => (
-    <Routes>
-        {
-            HelpLinks.map(({ paths, url }) => paths.map(path => (
-                <Route
-                    key={[url, path].join('-')}
-                    path={path}
-                    element={
-                        <Tooltip title={globalize.translate('Help')}>
-                            <IconButton
-                                href={url}
-                                rel='noopener noreferrer'
-                                target='_blank'
-                                size='large'
-                                color='inherit'
-                            >
-                                <HelpOutline />
-                            </IconButton>
-                        </Tooltip>
-                    }
-                />
-            ))).flat()
-        }
-    </Routes>
-);
+const HelpButton = (): React.ReactElement | null => {
+    const location = useLocation();
+    const matchedLink = HelpLinks.find(({ paths }) => paths.some(path => location.pathname.startsWith(path)));
+
+    if (!matchedLink) {
+        return null;
+    }
+
+    return (
+        <Tooltip title={globalize.translate('Help')}>
+            <a
+                href={matchedLink.url}
+                rel='noopener noreferrer'
+                target='_blank'
+                style={{ textDecoration: 'none', color: 'inherit', display: 'inline-flex' }}
+            >
+                <IconButton variant='plain' size='lg' title={globalize.translate('Help')}>
+                    <QuestionMarkCircledIcon />
+                </IconButton>
+            </a>
+        </Tooltip>
+    );
+};
 
 export default HelpButton;

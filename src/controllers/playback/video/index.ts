@@ -19,11 +19,6 @@ import { safeAppHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import keyboardnavigation from '../../../scripts/keyboardNavigation';
-import '../../../styles/scrollstyles.scss';
-import '../../../elements/emby-slider/emby-slider';
-import '../../../elements/emby-button/paper-icon-button-light';
-import '../../../elements/emby-ratingbutton/emby-ratingbutton';
-import '../../../styles/videoosd.scss';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
 import { appRouter } from '../../../components/router/appRouter';
@@ -57,12 +52,14 @@ export default function (view: ViewElement): void {
     function getDisplayItem(item: any): Promise<DisplayItemResult> {
         if (item.Type === 'TvChannel') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then((refreshedItem: any): DisplayItemResult => {
-                return {
-                    originalItem: refreshedItem,
-                    displayItem: refreshedItem.CurrentProgram
-                };
-            });
+            return apiClient
+                .getItem(apiClient.getCurrentUserId(), item.Id)
+                .then((refreshedItem: any): DisplayItemResult => {
+                    return {
+                        originalItem: refreshedItem,
+                        displayItem: refreshedItem.CurrentProgram
+                    };
+                });
         }
 
         return Promise.resolve({
@@ -81,22 +78,26 @@ export default function (view: ViewElement): void {
             return;
         }
 
-        ServerConnections.getApiClient(item.ServerId).getCurrentUser().then((user: any) => {
-            if (user.Policy.EnableLiveTvManagement) {
-                import('../../../components/recordingcreator/recordingbutton').then(({ default: RecordingButton }) => {
-                    if (recordingButtonManager) {
-                        recordingButtonManager.refreshItem(item);
-                        return;
-                    }
+        ServerConnections.getApiClient(item.ServerId)
+            .getCurrentUser()
+            .then((user: any) => {
+                if (user.Policy.EnableLiveTvManagement) {
+                    import('../../../components/recordingcreator/recordingbutton').then(
+                        ({ default: RecordingButton }) => {
+                            if (recordingButtonManager) {
+                                recordingButtonManager.refreshItem(item);
+                                return;
+                            }
 
-                    recordingButtonManager = new RecordingButton({
-                        item: item,
-                        button: view.querySelector('.btnRecord') as HTMLElement
-                    });
-                    view.querySelector('.btnRecord')?.classList.remove('hide');
-                });
-            }
-        });
+                            recordingButtonManager = new RecordingButton({
+                                item: item,
+                                button: view.querySelector('.btnRecord') as HTMLElement
+                            });
+                            view.querySelector('.btnRecord')?.classList.remove('hide');
+                        }
+                    );
+                }
+            });
     }
 
     // Additional functions would be converted with proper types...

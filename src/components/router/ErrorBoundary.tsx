@@ -1,22 +1,26 @@
 import { useEffect } from 'react';
-import { useRouteError } from 'react-router-dom';
+import type { ErrorComponentProps } from '@tanstack/react-router';
 
 import { logger } from 'utils/logger';
 import loading from 'components/loading/loading';
 
-const ErrorBoundary = () => {
-    const error = useRouteError() as Error;
+const ErrorBoundary = ({ error }: ErrorComponentProps) => {
+    const normalizedError = error instanceof Error ? error : new Error('Unknown route error');
 
     useEffect(() => {
         loading.hide();
     }, []);
 
     useEffect(() => {
-        logger.errorFromCatch(error, {
+        if (!error) {
+            return;
+        }
+
+        logger.errorFromCatch(normalizedError, {
             component: 'ErrorBoundary',
             type: 'route-error'
         });
-    }, [error]);
+    }, [error, normalizedError]);
 
     return null;
 };

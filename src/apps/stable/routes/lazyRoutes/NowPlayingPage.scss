@@ -25,7 +25,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
             z-index: 1;
         }
     }
@@ -39,7 +39,7 @@
         .headerInfo {
             flex: 1;
             text-align: center;
-            
+
             .albumName {
                 font-size: 0.9rem;
                 text-transform: uppercase;
@@ -73,7 +73,7 @@
         .artworkSection {
             flex: 1;
             max-width: 500px;
-            
+
             .largeArtwork {
                 width: 100%;
                 aspect-ratio: 1/1;
@@ -141,7 +141,7 @@
                     width: 16px;
                     border-radius: 50%;
                     background: #fff;
-                    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                 }
             }
 
@@ -164,7 +164,7 @@
             .mainPlayButton {
                 background: rgba(255, 255, 255, 0.1);
                 color: white;
-                
+
                 &:hover {
                     background: rgba(255, 255, 255, 0.2);
                 }
@@ -201,7 +201,7 @@
 
                 .nextText {
                     overflow: hidden;
-                    
+
                     .nextTitle {
                         font-weight: 600;
                         white-space: nowrap;

@@ -7,9 +7,8 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { isVisible } from './visibility';
 
 describe('visibility - Document Visibility', () => {
-    // eslint-disable-next-line compat/compat
     const originalVisibilityState = document.visibilityState;
-    // eslint-disable-next-line compat/compat
+
     const originalHidden = document.hidden;
 
     beforeEach(() => {

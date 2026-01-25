@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import globalize from '../../../../lib/globalize';
 import loading from '../../../../components/loading/loading';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import Page from '../../../../components/Page';
 import Toast from 'apps/dashboard/components/Toast';
 
@@ -11,25 +10,23 @@ import { useLibraryMediaFolders } from 'apps/dashboard/features/users/api/useLib
 import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useCreateUser } from 'apps/dashboard/features/users/api/useCreateUser';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 import { logger } from 'utils/logger';
 
-import TextField from '@mui/material/TextField/TextField';
-import Button from '@mui/material/Button/Button';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Switch from '@mui/material/Switch/Switch';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/material/Typography/Typography';
-import Divider from '@mui/material/Divider/Divider';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import FormControl from '@mui/material/FormControl/FormControl';
-import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
+import { Button } from 'ui-primitives/Button';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { Flex } from 'ui-primitives/Box';
+import { FormControl, FormControlLabel } from 'ui-primitives/FormControl';
+import { Input } from 'ui-primitives/Input';
+import { Text } from 'ui-primitives/Text';
+import { Divider } from 'ui-primitives/Divider';
+import { Switch } from 'ui-primitives/FormControl';
 import { z } from 'zod';
 
-type ItemsArr = {
+interface ItemsArr {
     Name?: string | null;
     Id?: string;
-};
+}
 
 const userSchema = z.object({
     username: z.string().min(1, 'Username is required'),
@@ -37,12 +34,12 @@ const userSchema = z.object({
     enableAllFolders: z.boolean(),
     enableAllChannels: z.boolean(),
     enabledFolders: z.array(z.string()),
-    enabledChannels: z.array(z.string()),
+    enabledChannels: z.array(z.string())
 });
 
 type UserFormData = z.infer<typeof userSchema>;
 
-const UserNew = () => {
+const UserNew = (): React.ReactElement => {
     const navigate = useNavigate();
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
@@ -55,7 +52,7 @@ const UserNew = () => {
         enableAllFolders: false,
         enableAllChannels: false,
         enabledFolders: [],
-        enabledChannels: [],
+        enabledChannels: []
     });
 
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -72,19 +69,23 @@ const UserNew = () => {
 
     useEffect(() => {
         if (isMediaFoldersSuccess && mediaFolders?.Items) {
-            setMediaFoldersItems(mediaFolders.Items.map(item => ({
-                Id: item.Id,
-                Name: item.Name
-            })));
+            setMediaFoldersItems(
+                mediaFolders.Items.map(item => ({
+                    Id: item.Id,
+                    Name: item.Name
+                }))
+            );
         }
     }, [isMediaFoldersSuccess, mediaFolders]);
 
     useEffect(() => {
         if (isChannelsSuccess && channels?.Items) {
-            setChannelsItems(channels.Items.map(item => ({
-                Id: item.Id,
-                Name: item.Name
-            })));
+            setChannelsItems(
+                channels.Items.map(item => ({
+                    Id: item.Id,
+                    Name: item.Name
+                }))
+            );
         }
     }, [isChannelsSuccess, channels]);
 
@@ -128,7 +129,7 @@ const UserNew = () => {
                 EnableAllFolders: formData.enableAllFolders,
                 EnabledFolders: formData.enableAllFolders ? [] : formData.enabledFolders,
                 EnableAllChannels: formData.enableAllChannels,
-                EnabledChannels: formData.enableAllChannels ? [] : formData.enabledChannels,
+                EnabledChannels: formData.enableAllChannels ? [] : formData.enabledChannels
             };
 
             await updateUserPolicy.mutateAsync({
@@ -136,7 +137,7 @@ const UserNew = () => {
                 userPolicy: updatedPolicy
             });
 
-            navigate(`/dashboard/users/profile?userId=${user.Id}`);
+            navigate({ to: `/dashboard/users/profile?userId=${user.Id}` });
         } catch (error) {
             logger.error('[usernew] failed to create user', { component: 'UserNew' }, error as Error);
             setIsErrorToastOpen(true);
@@ -153,44 +154,39 @@ const UserNew = () => {
     const handleFolderToggle = (folderId: string) => {
         setFormData(prev => ({
             ...prev,
-            enabledFolders: prev.enabledFolders.includes(folderId)
-                ? prev.enabledFolders.filter(id => id !== folderId)
-                : [...prev.enabledFolders, folderId]
+            enabledFolders: prev.enabledFolders.includes(folderId) ?
+                prev.enabledFolders.filter(id => id !== folderId) :
+                [...prev.enabledFolders, folderId]
         }));
     };
 
     const handleChannelToggle = (channelId: string) => {
         setFormData(prev => ({
             ...prev,
-            enabledChannels: prev.enabledChannels.includes(channelId)
-                ? prev.enabledChannels.filter(id => id !== channelId)
-                : [...prev.enabledChannels, channelId]
+            enabledChannels: prev.enabledChannels.includes(channelId) ?
+                prev.enabledChannels.filter(id => id !== channelId) :
+                [...prev.enabledChannels, channelId]
         }));
     };
 
     return (
-        <Page
-            id='newUserPage'
-            className='mainAnimatedPage type-interior'
-        >
-            <Toast
-                open={isErrorToastOpen}
-                onClose={handleToastClose}
-                message={globalize.translate('ErrorDefault')}
-            />
-            <Box className='content-primary' sx={{ p: 3 }}>
-                <Box className='verticalSection' sx={{ mb: 3 }}>
-                    <Typography variant='h4' component='h1'>
+        <Page id='newUserPage' className='mainAnimatedPage type-interior'>
+            <Toast open={isErrorToastOpen} onClose={handleToastClose} message={globalize.translate('ErrorDefault')} />
+            <Flex className='content-primary' style={{ padding: '24px' }}>
+                <Flex className='verticalSection' style={{ marginBottom: '24px' }}>
+                    <Text as='h1' size='xl' weight='bold'>
                         {globalize.translate('HeaderAddUser')}
-                    </Typography>
-                </Box>
+                    </Text>
+                </Flex>
 
-                <Box component='form' onSubmit={handleSubmit} sx={{ maxWidth: 600 }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                        <TextField
+                <form onSubmit={handleSubmit} style={{ maxWidth: '600px', width: '100%' }}>
+                    <Flex style={{ flexDirection: 'column', gap: '24px' }}>
+                        <Input
                             label={globalize.translate('LabelName')}
                             value={formData.username}
-                            onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setFormData(prev => ({ ...prev, username: e.target.value }))
+                            }
                             onBlur={() => {
                                 if (!formData.username.trim()) {
                                     setErrors(prev => ({ ...prev, username: 'Username is required' }));
@@ -198,48 +194,49 @@ const UserNew = () => {
                                     setErrors(prev => ({ ...prev, username: '' }));
                                 }
                             }}
-                            error={!!errors.username}
                             helperText={errors.username}
                             required
-                            fullWidth
                             disabled={isSubmitting}
                         />
 
-                        <TextField
+                        <Input
                             type='password'
                             label={globalize.translate('LabelPassword')}
                             value={formData.password}
-                            onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                            fullWidth
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setFormData(prev => ({ ...prev, password: e.target.value }))
+                            }
                             disabled={isSubmitting}
                         />
 
-                        <Divider sx={{ my: 1 }} />
+                        <Divider />
 
-                        <Typography variant='h6'>
+                        <Text as='h2' size='lg' weight='bold'>
                             {globalize.translate('HeaderLibraryAccess')}
-                        </Typography>
+                        </Text>
 
                         <FormControlLabel
                             control={
                                 <Switch
                                     checked={formData.enableAllFolders}
-                                    onChange={(e) => setFormData(prev => ({
-                                        ...prev,
-                                        enableAllFolders: e.target.checked,
-                                        enabledFolders: e.target.checked ? [] : prev.enabledFolders
-                                    }))}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData(prev => ({
+                                            ...prev,
+                                            enableAllFolders: e.target.checked,
+                                            enabledFolders: e.target.checked ? [] : prev.enabledFolders
+                                        }))
+                                    }
                                 />
                             }
                             label={globalize.translate('OptionEnableAccessToAllLibraries')}
                         />
 
                         {!formData.enableAllFolders && (
-                            <Box sx={{ ml: 2 }}>
-                                <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
+                            <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: '8px' }}>
+                                <Text as='span' size='sm' color='secondary'>
                                     {globalize.translate('HeaderLibraries')}
-                                </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                </Text>
+                                <Flex style={{ flexDirection: 'column', gap: '8px' }}>
                                     {mediaFoldersItems.map(Item => (
                                         <FormControlLabel
                                             key={Item.Id}
@@ -252,36 +249,38 @@ const UserNew = () => {
                                             label={Item.Name}
                                         />
                                     ))}
-                                </Box>
-                            </Box>
+                                </Flex>
+                            </Flex>
                         )}
 
-                        <Divider sx={{ my: 1 }} />
+                        <Divider />
 
-                        <Typography variant='h6'>
+                        <Text as='h2' size='lg' weight='bold'>
                             {globalize.translate('HeaderChannelAccess')}
-                        </Typography>
+                        </Text>
 
                         <FormControlLabel
                             control={
                                 <Switch
                                     checked={formData.enableAllChannels}
-                                    onChange={(e) => setFormData(prev => ({
-                                        ...prev,
-                                        enableAllChannels: e.target.checked,
-                                        enabledChannels: e.target.checked ? [] : prev.enabledChannels
-                                    }))}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                        setFormData(prev => ({
+                                            ...prev,
+                                            enableAllChannels: e.target.checked,
+                                            enabledChannels: e.target.checked ? [] : prev.enabledChannels
+                                        }))
+                                    }
                                 />
                             }
                             label={globalize.translate('OptionEnableAccessToAllChannels')}
                         />
 
                         {!formData.enableAllChannels && (
-                            <Box sx={{ ml: 2 }}>
-                                <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
+                            <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: '8px' }}>
+                                <Text as='span' size='sm' color='secondary'>
                                     {globalize.translate('Channels')}
-                                </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                </Text>
+                                <Flex style={{ flexDirection: 'column', gap: '8px' }}>
                                     {channelsItems.map(Item => (
                                         <FormControlLabel
                                             key={Item.Id}
@@ -294,30 +293,21 @@ const UserNew = () => {
                                             label={Item.Name}
                                         />
                                     ))}
-                                </Box>
-                            </Box>
+                                </Flex>
+                            </Flex>
                         )}
 
-                        <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
-                            <Button
-                                type='submit'
-                                variant='contained'
-                                disabled={isSubmitting}
-                            >
+                        <Flex style={{ marginTop: '16px', gap: '16px' }}>
+                            <Button type='submit' disabled={isSubmitting}>
                                 {isSubmitting ? globalize.translate('Loading') + '...' : globalize.translate('Save')}
                             </Button>
-                            <Button
-                                type='button'
-                                variant='outlined'
-                                onClick={handleCancel}
-                                disabled={isSubmitting}
-                            >
+                            <Button type='button' variant='outlined' onClick={handleCancel} disabled={isSubmitting}>
                                 {globalize.translate('ButtonCancel')}
                             </Button>
-                        </Box>
-                    </Box>
-                </Box>
-            </Box>
+                        </Flex>
+                    </Flex>
+                </form>
+            </Flex>
         </Page>
     );
 };

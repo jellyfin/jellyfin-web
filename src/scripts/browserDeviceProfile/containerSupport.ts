@@ -1,4 +1,4 @@
-import browser from '../../browser';
+import browser from 'scripts/browser';
 import { canPlayHevc } from './videoCodecs';
 
 export interface DirectPlayProfile {

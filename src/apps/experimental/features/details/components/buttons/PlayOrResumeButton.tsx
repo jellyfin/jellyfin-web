@@ -1,7 +1,6 @@
-import React, { FC, useCallback, useMemo } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import ReplayIcon from '@mui/icons-material/Replay';
+import React, { type FC, useCallback, useMemo } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { PlayIcon, ResetIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { ItemAction } from 'constants/itemAction';
@@ -32,24 +31,18 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
     const queryClient = useQueryClient();
 
     const playOptions = useMemo(() => {
-        if (itemHelper.supportsMediaSourceSelection(item)) {
-            return {
-                startPositionTicks:
-                    item.UserData && isResumable ?
-                        item.UserData.PlaybackPositionTicks :
-                        0,
-                mediaSourceId: selectedMediaSourceId,
-                audioStreamIndex: selectedAudioTrack || null,
-                subtitleStreamIndex: selectedSubtitleTrack
-            };
+        if (item && item.Id) {
+            return itemHelper.supportsMediaSourceSelection(item as any)
+                ? {
+                      startPositionTicks: item.UserData && isResumable ? item.UserData.PlaybackPositionTicks : 0,
+                      mediaSourceId: selectedMediaSourceId,
+                      audioStreamIndex: selectedAudioTrack || null,
+                      subtitleStreamIndex: selectedSubtitleTrack
+                  }
+                : {};
         }
-    }, [
-        item,
-        isResumable,
-        selectedMediaSourceId,
-        selectedAudioTrack,
-        selectedSubtitleTrack
-    ]);
+        return {};
+    }, [item, isResumable, selectedMediaSourceId, selectedAudioTrack, selectedSubtitleTrack]);
 
     const onPlayClick = useCallback(async () => {
         if (item.Type === ItemKind.Program && item.ChannelId) {
@@ -58,34 +51,34 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
                     channelId: item.ChannelId
                 })
             );
-            playbackManager.play({
-                items: [channel]
-            }).catch((err: unknown) => {
-                console.error('[PlayOrResumeButton] failed to play', err);
-            });
+            playbackManager
+                .play({
+                    items: [channel]
+                })
+                .catch((err: unknown) => {
+                    console.error('[PlayOrResumeButton] failed to play', err);
+                });
             return;
         }
 
-        playbackManager.play({
-            items: [item],
-            ...playOptions
-        }).catch((err: unknown) => {
-            console.error('[PlayOrResumeButton] failed to play', err);
-        });
+        playbackManager
+            .play({
+                items: [item],
+                ...playOptions
+            })
+            .catch((err: unknown) => {
+                console.error('[PlayOrResumeButton] failed to play', err);
+            });
     }, [apiContext, item, playOptions, queryClient]);
 
     return (
         <IconButton
-            className='button-flat btnPlayOrResume'
+            className="button-flat btnPlayOrResume"
             data-action={isResumable ? ItemAction.Resume : ItemAction.Play}
-            title={
-                isResumable ?
-                    globalize.translate('ButtonResume') :
-                    globalize.translate('Play')
-            }
+            title={isResumable ? globalize.translate('ButtonResume') : globalize.translate('Play')}
             onClick={onPlayClick}
         >
-            {isResumable ? <ReplayIcon /> : <PlayArrowIcon />}
+            {isResumable ? <ResetIcon /> : <PlayIcon />}
         </IconButton>
     );
 };

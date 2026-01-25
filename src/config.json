@@ -20,7 +20,19 @@
     }
   ],
   "menuLinks": [],
-  "servers": [],
+  "Servers": [
+    {
+      "Id": "2activedesign",
+      "Name": "Jellyfin Server",
+      "ManualAddress": "https://2activedesign.com",
+      "LocalAddress": "https://2activedesign.com",
+      "RemoteAddress": "",
+      "LastConnectionMode": 1,
+      "DateLastAccessed": 1737500000000,
+      "UserId": null,
+      "AccessToken": null
+    }
+  ],
   "plugins": [
     "playAccessValidation/plugin",
     "experimentalWarnings/plugin",

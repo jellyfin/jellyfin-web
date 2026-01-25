@@ -17,7 +17,7 @@ import '../../elements/emby-select/emby-select';
 import '../formdialog.scss';
 import './style.scss';
 import toast from '../toast/toast';
-import template from './imageUploader.template.html';
+import template from './imageUploader.template.html?raw';
 
 let currentItemId;
 let currentServerId;

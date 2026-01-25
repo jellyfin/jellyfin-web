@@ -6,12 +6,12 @@ export enum PluginType {
 }
 
 export interface Plugin {
-    name: string
-    id: string
-    type: PluginType | string
-    priority?: number
+    name?: string;
+    id: string;
+    type: PluginType | string;
+    priority?: number;
 }
 
 export interface PlayerPlugin extends Plugin {
-    isLocalPlayer?: boolean
+    isLocalPlayer?: boolean;
 }

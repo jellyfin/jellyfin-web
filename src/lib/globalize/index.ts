@@ -72,7 +72,7 @@ function setDocumentDirection(direction: 'rtl' | 'ltr') {
     document.getElementsByTagName('body')[0].setAttribute('dir', direction);
     document.getElementsByTagName('html')[0].setAttribute('dir', direction);
     if (direction === Direction.rtl) {
-        import('../../styles/rtl.scss');
+        import('../../styles/rtl.css.ts');
     }
 }
 
@@ -130,7 +130,7 @@ function ensureTranslation(translationInfo: TranslationInfo, culture: string): P
         return Promise.resolve();
     }
 
-    return loadTranslation(translationInfo.translations, culture).then((dictionary) => {
+    return loadTranslation(translationInfo.translations, culture).then(dictionary => {
         translationInfo.dictionaries[culture] = dictionary || {};
     });
 }
@@ -171,31 +171,34 @@ export function loadStrings(options: string | { name: string; strings?: any[]; t
         optionsName = options.name;
         register(options);
     }
-    
+
     if (allTranslations[optionsName]) {
         promises.push(ensureTranslation(allTranslations[optionsName], locale));
         promises.push(ensureTranslation(allTranslations[optionsName], FALLBACK_CULTURE));
     }
-    
+
     return Promise.all(promises);
 }
 
-function loadTranslation(translations: { lang: string; path: string }[], lang: string): Promise<Record<string, string> | undefined> {
+function loadTranslation(
+    translations: { lang: string; path: string }[],
+    lang: string
+): Promise<Record<string, string> | undefined> {
     lang = normalizeLocaleName(lang);
 
-    let filtered = translations.filter((t) => {
+    let filtered = translations.filter(t => {
         return normalizeLocaleName(t.lang) === lang;
     });
 
     if (!filtered.length) {
         lang = lang.replace(/-.*/, '');
 
-        filtered = translations.filter((t) => {
+        filtered = translations.filter(t => {
             return normalizeLocaleName(t.lang) === lang;
         });
 
         if (!filtered.length) {
-            filtered = translations.filter((t) => {
+            filtered = translations.filter(t => {
                 return normalizeLocaleName(t.lang) === FALLBACK_CULTURE;
             });
         }
@@ -207,16 +210,18 @@ function loadTranslation(translations: { lang: string; path: string }[], lang: s
 
     const url = filtered[0].path;
     const moduleLoader = stringModules[`../../strings/${url}`];
-    
+
     if (!moduleLoader) {
         return Promise.resolve({});
     }
 
-    return moduleLoader().then((fileContent: any) => {
-        return fileContent.default || fileContent;
-    }).catch(() => {
-        return {};
-    });
+    return moduleLoader()
+        .then((fileContent: any) => {
+            return fileContent.default || fileContent;
+        })
+        .catch(() => {
+            return {};
+        });
 }
 
 function translateKey(key: string): string {

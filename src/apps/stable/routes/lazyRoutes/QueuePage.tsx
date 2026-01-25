@@ -1,32 +1,29 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 
 // Joy UI Components
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
-import CircularProgress from '@mui/joy/CircularProgress';
-import Tabs from '@mui/joy/Tabs';
-import TabList from '@mui/joy/TabList';
-import Tab from '@mui/joy/Tab';
-import TabPanel from '@mui/joy/TabPanel';
-import IconButton from '@mui/joy/IconButton';
-import Stack from '@mui/joy/Stack';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Slider from '@mui/joy/Slider';
-import Sheet from '@mui/joy/Sheet';
-import Chip from '@mui/joy/Chip';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Chip } from 'ui-primitives/Chip';
+import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Paper } from 'ui-primitives/Paper';
+import { Slider } from 'ui-primitives/Slider';
+import { Tab, TabList, TabPanel, Tabs } from 'ui-primitives/Tabs';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
-// Material Icons
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import AlbumIcon from '@mui/icons-material/Album';
-import InfoIcon from '@mui/icons-material/Info';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
+// Radix Icons
+import {
+    ArrowLeftIcon,
+    DiscIcon,
+    InfoCircledIcon,
+    PauseIcon,
+    PlayIcon,
+    StackIcon,
+    TrackNextIcon,
+    TrackPreviousIcon
+} from '@radix-ui/react-icons';
 
 // Store hooks
 import {
@@ -41,7 +38,7 @@ import {
 
 import globalize from 'lib/globalize';
 import { playbackManager } from 'components/playback/playbackmanager';
-import Events from 'utils/events';
+import Events, { type EventObject } from 'utils/events';
 import { QueueTable } from './QueueTable';
 import { visualizerSettings } from '../../../../components/visualizer/visualizers.logic';
 import { logger } from '../../../../utils/logger';
@@ -63,6 +60,7 @@ interface QueueItem {
  * Combines full-screen player view with queue management in a tabbed interface
  */
 const QueuePage: React.FC = () => {
+    const router = useRouter();
     const navigate = useNavigate();
 
     // Store hooks for playback state
@@ -87,16 +85,16 @@ const QueuePage: React.FC = () => {
     const trackName = currentItem?.name || currentItem?.title || 'Unknown Track';
     const artistName = currentItem?.artist || currentItem?.albumArtist || '';
     const albumName = currentItem?.album || '';
-    const imageUrl = currentItem?.imageUrl
-        || currentItem?.artwork?.find(img => img.type === 'Primary')?.url
-        || currentItem?.artwork?.[0]?.url;
+    const imageUrl =
+        currentItem?.imageUrl ||
+        currentItem?.artwork?.find(img => img.type === 'Primary')?.url ||
+        currentItem?.artwork?.[0]?.url;
 
     // Next track info
     const nextItem = currentItem?.nextItem;
     const nextTrackName = nextItem?.name || nextItem?.title || '';
     const nextArtistName = nextItem?.artist || nextItem?.albumArtist || '';
-    const nextImageUrl = nextItem?.imageUrl
-        || nextItem?.artwork?.find(img => img.type === 'Primary')?.url;
+    const nextImageUrl = nextItem?.imageUrl || nextItem?.artwork?.find(img => img.type === 'Primary')?.url;
 
     const loadQueue = useCallback(() => {
         try {
@@ -140,18 +138,18 @@ const QueuePage: React.FC = () => {
         const handlePlaybackStart = () => loadQueue();
         const handlePlaybackStop = () => loadQueue();
 
-        Events.on(playbackManager, 'playlistitemremove', handlePlaylistChange);
-        Events.on(playbackManager, 'playlistitemadd', handlePlaylistChange);
-        Events.on(playbackManager, 'playlistitemchange', handlePlaylistChange);
-        Events.on(playbackManager, 'playbackstart', handlePlaybackStart);
-        Events.on(playbackManager, 'playbackstop', handlePlaybackStop);
+        Events.on(playbackManager as unknown as EventObject, 'playlistitemremove', handlePlaylistChange);
+        Events.on(playbackManager as unknown as EventObject, 'playlistitemadd', handlePlaylistChange);
+        Events.on(playbackManager as unknown as EventObject, 'playlistitemchange', handlePlaylistChange);
+        Events.on(playbackManager as unknown as EventObject, 'playbackstart', handlePlaybackStart);
+        Events.on(playbackManager as unknown as EventObject, 'playbackstop', handlePlaybackStop);
 
         return () => {
-            Events.off(playbackManager, 'playlistitemremove', handlePlaylistChange);
-            Events.off(playbackManager, 'playlistitemadd', handlePlaylistChange);
-            Events.off(playbackManager, 'playlistitemchange', handlePlaylistChange);
-            Events.off(playbackManager, 'playbackstart', handlePlaybackStart);
-            Events.off(playbackManager, 'playbackstop', handlePlaybackStop);
+            Events.off(playbackManager as unknown as EventObject, 'playlistitemremove', handlePlaylistChange);
+            Events.off(playbackManager as unknown as EventObject, 'playlistitemadd', handlePlaylistChange);
+            Events.off(playbackManager as unknown as EventObject, 'playlistitemchange', handlePlaylistChange);
+            Events.off(playbackManager as unknown as EventObject, 'playbackstart', handlePlaybackStart);
+            Events.off(playbackManager as unknown as EventObject, 'playbackstop', handlePlaybackStop);
         };
     }, [loadQueue]);
 
@@ -162,9 +160,8 @@ const QueuePage: React.FC = () => {
         }
     }, [currentTime, isDragging]);
 
-    const handleSeekChange = (_event: React.SyntheticEvent | Event, newValue: number | number[]) => {
-        const value = Array.isArray(newValue) ? newValue[0] : newValue;
-        setLocalSeekValue(value);
+    const handleSeekChange = (newValue: number[]) => {
+        setLocalSeekValue(newValue[0] ?? 0);
     };
 
     const handleSeekStart = () => setIsDragging(true);
@@ -195,42 +192,48 @@ const QueuePage: React.FC = () => {
         }
     }, []);
 
-    const handleRemoveItem = useCallback((item: QueueItem) => {
-        const queueManager = (playbackManager as any)._playQueueManager;
-        const playlistItemId = (item as any).PlaylistItemId;
-        if (queueManager && playlistItemId) {
-            queueManager.removeFromPlaylist([playlistItemId]);
-            loadQueue();
-        }
-    }, [loadQueue]);
+    const handleRemoveItem = useCallback(
+        (item: QueueItem) => {
+            const queueManager = (playbackManager as any)._playQueueManager;
+            const playlistItemId = (item as any).PlaylistItemId;
+            if (queueManager && playlistItemId) {
+                queueManager.removeFromPlaylist([playlistItemId]);
+                loadQueue();
+            }
+        },
+        [loadQueue]
+    );
 
-    const handleReorder = useCallback((fromIndex: number, toIndex: number) => {
-        const queueManager = (playbackManager as any)._playQueueManager;
-        if (queueManager && queueManager._playlist) {
-            const playlist = queueManager._playlist;
-            const [removed] = playlist.splice(fromIndex, 1);
-            playlist.splice(toIndex, 0, removed);
-            loadQueue();
-        }
-    }, [loadQueue]);
+    const handleReorder = useCallback(
+        (fromIndex: number, toIndex: number) => {
+            const queueManager = (playbackManager as any)._playQueueManager;
+            if (queueManager?._playlist) {
+                const playlist = queueManager._playlist;
+                const [removed] = playlist.splice(fromIndex, 1);
+                playlist.splice(toIndex, 0, removed);
+                loadQueue();
+            }
+        },
+        [loadQueue]
+    );
 
     // Loading state
     if (isLoading) {
         return (
             <Box
-                sx={{
+                style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     minHeight: '100vh',
-                    bgcolor: 'background.body'
+                    backgroundColor: vars.colors.background
                 }}
             >
                 <CircularProgress size="lg" />
-                <Typography level="body-lg" sx={{ mt: 2, color: 'neutral.400' }}>
+                <Text size="lg" color="secondary" style={{ marginTop: vars.spacing.md }}>
                     {globalize.translate('Loading')}...
-                </Typography>
+                </Text>
             </Box>
         );
     }
@@ -239,39 +242,42 @@ const QueuePage: React.FC = () => {
     if (!currentItem && queueData.length === 0) {
         return (
             <Box
-                sx={{
+                style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     minHeight: '100vh',
-                    bgcolor: 'background.body',
+                    backgroundColor: vars.colors.background,
                     position: 'relative'
                 }}
             >
                 <IconButton
-                    onClick={() => navigate(-1)}
+                    onClick={() => router.history.back()}
                     variant="plain"
-                    sx={{ position: 'absolute', top: 20, left: 20, color: 'neutral.50' }}
+                    color="neutral"
+                    style={{ position: 'absolute', top: 20, left: 20 }}
                 >
-                    <ArrowBackIcon />
+                    <ArrowLeftIcon />
                 </IconButton>
-                <MusicNoteIcon sx={{ fontSize: 80, color: 'neutral.600', mb: 2 }} />
-                <Typography level="h4" sx={{ color: 'neutral.400' }}>
+                <DiscIcon
+                    style={{ width: 80, height: 80, color: vars.colors.textMuted, marginBottom: vars.spacing.md }}
+                />
+                <Text size="xl" weight="bold" color="secondary">
                     {globalize.translate('MessageNoItemsAvailable')}
-                </Typography>
-                <Typography level="body-md" sx={{ color: 'neutral.500', mt: 1 }}>
+                </Text>
+                <Text size="md" color="muted" style={{ marginTop: vars.spacing.xs }}>
                     Start playing something to see the queue
-                </Typography>
+                </Text>
             </Box>
         );
     }
 
     return (
-        <Box sx={{ minHeight: '100vh', bgcolor: 'background.body', position: 'relative' }}>
+        <Box style={{ minHeight: '100vh', backgroundColor: vars.colors.background, position: 'relative' }}>
             {/* Background gradient */}
             <Box
-                sx={{
+                style={{
                     position: 'absolute',
                     inset: 0,
                     zIndex: 0,
@@ -281,94 +287,97 @@ const QueuePage: React.FC = () => {
             />
 
             {/* Header */}
-            <Stack
+            <Flex
                 direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{ position: 'relative', zIndex: 1, p: 2 }}
+                justify="space-between"
+                align="center"
+                style={{ position: 'relative', zIndex: 1, padding: vars.spacing.md }}
             >
-                <IconButton onClick={() => navigate(-1)} variant="plain" sx={{ color: 'neutral.50' }}>
-                    <ArrowBackIcon />
+                <IconButton onClick={() => router.history.back()} variant="plain" color="neutral">
+                    <ArrowLeftIcon />
                 </IconButton>
-                <Typography level="body-sm" sx={{ color: 'neutral.300' }}>
+                <Text size="sm" color="secondary">
                     {albumName}
-                </Typography>
+                </Text>
                 <IconButton
                     onClick={() => setShowTechnicalInfo(!showTechnicalInfo)}
                     variant="plain"
-                    sx={{ color: showTechnicalInfo ? 'primary.500' : 'neutral.50' }}
+                    color={showTechnicalInfo ? 'primary' : 'neutral'}
                 >
-                    <InfoIcon />
+                    <InfoCircledIcon />
                 </IconButton>
-            </Stack>
+            </Flex>
 
             {/* Tabs */}
             <Tabs
-                value={activeTab}
-                onChange={(_e, val) => setActiveTab(val as number)}
-                sx={{ position: 'relative', zIndex: 1 }}
+                value={String(activeTab)}
+                onValueChange={val => setActiveTab(Number(val))}
+                style={{ position: 'relative', zIndex: 1 }}
             >
-                <TabList
-                    sx={{
-                        justifyContent: 'center',
-                        gap: 2,
-                        bgcolor: 'transparent',
-                        '& .MuiTab-root': { color: 'neutral.400' },
-                        '& .Mui-selected': { color: 'primary.500' }
-                    }}
-                >
-                    <Tab>
-                        <AlbumIcon sx={{ mr: 1 }} />
+                <TabList style={{ justifyContent: 'center', gap: vars.spacing.md, backgroundColor: 'transparent' }}>
+                    <Tab value="0">
+                        <DiscIcon style={{ marginRight: vars.spacing.xs }} />
                         Now Playing
                     </Tab>
-                    <Tab>
-                        <QueueMusicIcon sx={{ mr: 1 }} />
+                    <Tab value="1">
+                        <StackIcon style={{ marginRight: vars.spacing.xs }} />
                         Queue ({queueData.length})
                     </Tab>
                 </TabList>
 
                 {/* Now Playing Tab */}
-                <TabPanel value={0} sx={{ p: 0 }}>
-                    <Stack
-                        direction={{ xs: 'column', md: 'row' }}
-                        spacing={4}
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{ p: 4, minHeight: 'calc(100vh - 180px)' }}
+                <TabPanel value="0" style={{ padding: 0 }}>
+                    <Flex
+                        direction={window.innerWidth < 600 ? 'column' : 'row'}
+                        gap={vars.spacing.xl}
+                        align="center"
+                        justify="center"
+                        style={{ padding: vars.spacing.xl, minHeight: 'calc(100vh - 180px)' }}
                     >
                         {/* Artwork */}
-                        <Box sx={{ flex: '0 0 auto' }}>
+                        <Box style={{ flex: '0 0 auto' }}>
                             <motion.div layoutId="now-playing-art">
-                                <AspectRatio
-                                    ratio="1"
-                                    sx={{
-                                        width: { xs: 280, sm: 320, md: 400 },
-                                        borderRadius: 'lg',
+                                <Box
+                                    style={{
+                                        width: window.innerWidth < 600 ? 280 : 400,
+                                        aspectRatio: '1 / 1',
+                                        borderRadius: vars.borderRadius.lg,
                                         overflow: 'hidden',
                                         boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
-                                        bgcolor: 'neutral.800',
+                                        backgroundColor: vars.colors.surface
                                     }}
                                 >
                                     {imageUrl ? (
                                         <img src={imageUrl} alt={trackName} style={{ objectFit: 'cover' }} />
                                     ) : (
-                                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'neutral.700' }}>
-                                            <MusicNoteIcon sx={{ fontSize: 80, color: 'neutral.400' }} />
+                                        <Box
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                backgroundColor: vars.colors.surfaceHover
+                                            }}
+                                        >
+                                            <DiscIcon style={{ width: 80, height: 80, color: vars.colors.textMuted }} />
                                         </Box>
                                     )}
-                                </AspectRatio>
+                                </Box>
                             </motion.div>
                         </Box>
 
                         {/* Info and Controls */}
-                        <Stack spacing={3} sx={{ flex: '1 1 auto', maxWidth: 500, width: '100%' }}>
+                        <Flex
+                            direction="column"
+                            gap={vars.spacing.lg}
+                            style={{ flex: '1 1 auto', maxWidth: 500, width: '100%' }}
+                        >
                             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                                <Typography level="h2" sx={{ color: 'neutral.50', fontWeight: 'bold' }}>
+                                <Text as="h2" size="xl" weight="bold" style={{ color: vars.colors.text }}>
                                     {trackName}
-                                </Typography>
-                                <Typography level="title-md" sx={{ color: 'neutral.300' }}>
+                                </Text>
+                                <Text size="lg" color="secondary">
                                     {artistName}
-                                </Typography>
+                                </Text>
                             </motion.div>
 
                             {/* Progress Slider */}
@@ -377,95 +386,135 @@ const QueuePage: React.FC = () => {
                                     min={0}
                                     max={duration || 100}
                                     step={0.1}
-                                    value={localSeekValue}
+                                    value={[localSeekValue]}
                                     onMouseDown={handleSeekStart}
                                     onTouchStart={handleSeekStart}
-                                    onChange={handleSeekChange}
-                                    onChangeCommitted={handleSeekEnd}
-                                    size="lg"
-                                    sx={{
-                                        '--Slider-trackSize': '6px',
-                                        '--Slider-thumbSize': '16px',
-                                        color: 'primary.500',
-                                    }}
+                                    onValueChange={handleSeekChange}
+                                    onValueCommit={handleSeekEnd}
                                 />
-                                <Stack direction="row" justifyContent="space-between" sx={{ mt: 1 }}>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>
+                                <Flex direction="row" justify="space-between" style={{ marginTop: vars.spacing.xs }}>
+                                    <Text size="xs" color="muted">
                                         {currentTimeFormatted}
-                                    </Typography>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>
+                                    </Text>
+                                    <Text size="xs" color="muted">
                                         {durationFormatted}
-                                    </Typography>
-                                </Stack>
+                                    </Text>
+                                </Flex>
                             </Box>
 
                             {/* Playback Buttons */}
-                            <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                                <IconButton onClick={handlePrevious} variant="plain" size="lg" sx={{ color: 'neutral.50' }}>
-                                    <SkipPreviousIcon sx={{ fontSize: 40 }} />
+                            <Flex direction="row" gap={vars.spacing.md} justify="center" align="center">
+                                <IconButton onClick={handlePrevious} variant="plain" size="lg" color="neutral">
+                                    <TrackPreviousIcon style={{ width: 40, height: 40 }} />
                                 </IconButton>
                                 <IconButton
                                     onClick={togglePlayPause}
                                     variant="solid"
-                                    color="primary"
                                     size="lg"
-                                    sx={{ width: 72, height: 72, borderRadius: '50%' }}
+                                    style={{ width: 72, height: 72, borderRadius: '50%' }}
                                 >
-                                    {isPlaying ? <PauseIcon sx={{ fontSize: 40 }} /> : <PlayArrowIcon sx={{ fontSize: 40 }} />}
+                                    {isPlaying ? (
+                                        <PauseIcon style={{ width: 40, height: 40 }} />
+                                    ) : (
+                                        <PlayIcon style={{ width: 40, height: 40 }} />
+                                    )}
                                 </IconButton>
-                                <IconButton onClick={next} variant="plain" size="lg" sx={{ color: 'neutral.50' }}>
-                                    <SkipNextIcon sx={{ fontSize: 40 }} />
+                                <IconButton onClick={next} variant="plain" size="lg" color="neutral">
+                                    <TrackNextIcon style={{ width: 40, height: 40 }} />
                                 </IconButton>
-                            </Stack>
+                            </Flex>
 
                             {/* Next Up Preview */}
                             {nextItem && (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                    <Sheet
-                                        variant="soft"
-                                        sx={{
-                                            p: 2,
-                                            borderRadius: 'md',
-                                            bgcolor: 'rgba(255,255,255,0.1)',
-                                            backdropFilter: 'blur(10px)',
+                                    <Paper
+                                        variant="outlined"
+                                        style={{
+                                            padding: vars.spacing.md,
+                                            borderRadius: vars.borderRadius.md,
+                                            backgroundColor: 'rgba(255,255,255,0.1)',
+                                            backdropFilter: 'blur(10px)'
                                         }}
                                     >
-                                        <Chip size="sm" variant="soft" color="neutral" sx={{ mb: 1 }}>NEXT UP</Chip>
-                                        <Stack direction="row" spacing={2} alignItems="center">
-                                            <AspectRatio ratio="1" sx={{ width: 48, borderRadius: 'sm', overflow: 'hidden' }}>
+                                        <Chip size="sm" variant="soft" style={{ marginBottom: vars.spacing.xs }}>
+                                            NEXT UP
+                                        </Chip>
+                                        <Flex direction="row" gap={vars.spacing.md} align="center">
+                                            <Box
+                                                style={{
+                                                    width: 48,
+                                                    aspectRatio: '1 / 1',
+                                                    borderRadius: vars.borderRadius.sm,
+                                                    overflow: 'hidden'
+                                                }}
+                                            >
                                                 {nextImageUrl ? (
-                                                    <img src={nextImageUrl} alt={nextTrackName} style={{ objectFit: 'cover' }} />
+                                                    <img
+                                                        src={nextImageUrl}
+                                                        alt={nextTrackName}
+                                                        style={{ objectFit: 'cover' }}
+                                                    />
                                                 ) : (
-                                                    <Box sx={{ bgcolor: 'neutral.700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                        <MusicNoteIcon sx={{ fontSize: 20, color: 'neutral.400' }} />
+                                                    <Box
+                                                        style={{
+                                                            backgroundColor: vars.colors.surfaceHover,
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center'
+                                                        }}
+                                                    >
+                                                        <DiscIcon
+                                                            style={{
+                                                                width: 20,
+                                                                height: 20,
+                                                                color: vars.colors.textMuted
+                                                            }}
+                                                        />
                                                     </Box>
                                                 )}
-                                            </AspectRatio>
-                                            <Box sx={{ minWidth: 0 }}>
-                                                <Typography level="body-sm" sx={{ color: 'neutral.50', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                    {nextTrackName}
-                                                </Typography>
-                                                <Typography level="body-xs" sx={{ color: 'neutral.400', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                    {nextArtistName}
-                                                </Typography>
                                             </Box>
-                                        </Stack>
-                                    </Sheet>
+                                            <Box style={{ minWidth: 0 }}>
+                                                <Text
+                                                    size="sm"
+                                                    weight="bold"
+                                                    style={{
+                                                        color: vars.colors.text,
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis'
+                                                    }}
+                                                >
+                                                    {nextTrackName}
+                                                </Text>
+                                                <Text
+                                                    size="xs"
+                                                    color="muted"
+                                                    style={{
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis'
+                                                    }}
+                                                >
+                                                    {nextArtistName}
+                                                </Text>
+                                            </Box>
+                                        </Flex>
+                                    </Paper>
                                 </motion.div>
                             )}
-                        </Stack>
-                    </Stack>
+                        </Flex>
+                    </Flex>
                 </TabPanel>
 
                 {/* Queue Tab */}
-                <TabPanel value={1} sx={{ p: 0 }}>
-                    <Box sx={{ p: 3, pb: 2 }}>
-                        <Typography level="h4">
+                <TabPanel value="1" style={{ padding: 0 }}>
+                    <Box style={{ padding: vars.spacing.lg, paddingBottom: vars.spacing.md }}>
+                        <Text size="xl" weight="bold">
                             {globalize.translate('HeaderPlaybackQueue') || 'Playback Queue'}
-                        </Typography>
-                        <Typography level="body-sm" sx={{ color: 'neutral.400', mt: 1 }}>
+                        </Text>
+                        <Text size="sm" color="muted" style={{ marginTop: vars.spacing.xs }}>
                             {queueData.length} {globalize.translate('Items').toLowerCase()}
-                        </Typography>
+                        </Text>
                     </Box>
                     <QueueTable
                         queueData={queueData}
@@ -474,7 +523,7 @@ const QueuePage: React.FC = () => {
                         onRemove={handleRemoveItem}
                         onPlay={handlePlayItem}
                     />
-                    <Box sx={{ height: 100 }} />
+                    <Box style={{ height: 100 }} />
                 </TabPanel>
             </Tabs>
 
@@ -487,37 +536,51 @@ const QueuePage: React.FC = () => {
                         exit={{ opacity: 0, y: 50 }}
                         style={{ position: 'fixed', bottom: 100, left: 20, right: 20, zIndex: 10 }}
                     >
-                        <Sheet
-                            variant="soft"
-                            sx={{
-                                p: 3,
-                                borderRadius: 'lg',
-                                bgcolor: 'rgba(0,0,0,0.9)',
-                                backdropFilter: 'blur(20px)',
+                        <Paper
+                            variant="outlined"
+                            style={{
+                                padding: vars.spacing.lg,
+                                borderRadius: vars.borderRadius.lg,
+                                backgroundColor: 'rgba(0,0,0,0.9)',
+                                backdropFilter: 'blur(20px)'
                             }}
                         >
-                            <Typography level="title-sm" sx={{ color: 'neutral.50', mb: 2 }}>
+                            <Text
+                                size="sm"
+                                weight="medium"
+                                style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}
+                            >
                                 Technical Stream Info
-                            </Typography>
-                            <Stack direction="row" spacing={4}>
+                            </Text>
+                            <Flex direction="row" gap={vars.spacing.lg}>
                                 <Box>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>Codec</Typography>
-                                    <Typography level="body-sm" sx={{ color: 'neutral.50' }}>
+                                    <Text size="xs" color="muted">
+                                        Codec
+                                    </Text>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
                                         {currentItem.streamInfo?.codec?.toUpperCase() || 'Unknown'}
-                                    </Typography>
+                                    </Text>
                                 </Box>
                                 <Box>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>Bitrate</Typography>
-                                    <Typography level="body-sm" sx={{ color: 'neutral.50' }}>
-                                        {currentItem.streamInfo?.bitrate ? `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps` : 'Unknown'}
-                                    </Typography>
+                                    <Text size="xs" color="muted">
+                                        Bitrate
+                                    </Text>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
+                                        {currentItem.streamInfo?.bitrate
+                                            ? `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps`
+                                            : 'Unknown'}
+                                    </Text>
                                 </Box>
                                 <Box>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>Engine</Typography>
-                                    <Typography level="body-sm" sx={{ color: 'neutral.50' }}>Wasm (Next-Gen)</Typography>
+                                    <Text size="xs" color="muted">
+                                        Engine
+                                    </Text>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
+                                        Wasm (Next-Gen)
+                                    </Text>
                                 </Box>
-                            </Stack>
-                        </Sheet>
+                            </Flex>
+                        </Paper>
                     </motion.div>
                 )}
             </AnimatePresence>

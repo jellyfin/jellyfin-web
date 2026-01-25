@@ -2,12 +2,19 @@ import WaveSurfer from 'wavesurfer.js';
 import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline';
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom';
 import MiniMapPlugin from 'wavesurfer.js/dist/plugins/minimap';
-import { createWaveSurferChannelStyle, DEFAULT_WAVESURFER_COLORS, surferOptions, waveSurferPluginOptions, WaveSurferColorScheme } from './WaveSurferOptions';
+import {
+    createWaveSurferChannelStyle,
+    DEFAULT_WAVESURFER_COLORS,
+    surferOptions,
+    waveSurferPluginOptions,
+    WaveSurferColorScheme
+} from './WaveSurferOptions';
 import { usePlaybackActions, useQueueActions } from '../../store/hooks';
 import { useMediaStore, useQueueStore } from '../../store';
 import { triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
 import { visualizerSettings } from './visualizers.logic';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
+import { useAudioStore } from '../../store/audioStore';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { ApiClient } from 'jellyfin-apiclient';
 import { isVisible } from '../../utils/visibility';
@@ -67,11 +74,11 @@ export function clearPeakCache(): void {
 }
 
 type WaveSurferLegacy = {
-    peaks: number[][] | undefined
-    duration: number
-    isPlaying: boolean
-    currentTime: number
-    scrollPosition: number
+    peaks: number[][] | undefined;
+    duration: number;
+    isPlaying: boolean;
+    currentTime: number;
+    scrollPosition: number;
 };
 
 let waveSurferInstance: WaveSurfer | null = null;
@@ -258,7 +265,7 @@ function isNewSong(newSongDuration: number, itemId: string | null, streamUrl: st
     if (itemId && itemId !== lastLoadedItemId) return true;
     if (streamUrl && streamUrl !== lastLoadedStreamUrl) return true;
 
-    return (newSongDuration !== Math.floor(savedDuration * 10000000));
+    return newSongDuration !== Math.floor(savedDuration * 10000000);
 }
 
 function syncWaveSurferTime() {
@@ -327,15 +334,9 @@ function applyWaveSurferPlugins(container: string) {
     if (lastPluginContainer === container && lastPluginColorKey === colorKey) return;
 
     clearWaveSurferPlugins();
-    timelinePlugin = waveSurferInstance.registerPlugin(
-        TimelinePlugin.create(waveSurferPluginOptions.timelineOptions)
-    );
-    zoomPlugin = waveSurferInstance.registerPlugin(
-        ZoomPlugin.create(waveSurferPluginOptions.zoomOptions)
-    );
-    minimapPlugin = waveSurferInstance.registerPlugin(
-        MiniMapPlugin.create(waveSurferChannelStyle.map)
-    );
+    timelinePlugin = waveSurferInstance.registerPlugin(TimelinePlugin.create(waveSurferPluginOptions.timelineOptions));
+    zoomPlugin = waveSurferInstance.registerPlugin(ZoomPlugin.create(waveSurferPluginOptions.zoomOptions));
+    minimapPlugin = waveSurferInstance.registerPlugin(MiniMapPlugin.create(waveSurferChannelStyle.map));
     lastPluginContainer = container;
     lastPluginColorKey = colorKey;
 }
@@ -461,7 +462,7 @@ function ensureWaveSurferInstance(container: string) {
         waveSurferInstance = WaveSurfer.create({ ...surferOptions, container });
         waveSurferContainer = container;
 
-        waveSurferInstance.on('zoom', (minPxPerSec) => {
+        waveSurferInstance.on('zoom', minPxPerSec => {
             if (mobileTouch) return;
             applyWaveSurferStyle(minPxPerSec);
             currentZoom = minPxPerSec;
@@ -471,16 +472,16 @@ function ensureWaveSurferInstance(container: string) {
             isDragging = true;
         });
 
-        waveSurferInstance.on('dragend', (relativeX) => {
+        waveSurferInstance.on('dragend', relativeX => {
             isDragging = false;
             seekFromWaveSurfer(relativeX);
         });
 
-        waveSurferInstance.on('click', (relativeX) => {
+        waveSurferInstance.on('click', relativeX => {
             seekFromWaveSurfer(relativeX);
         });
 
-        waveSurferInstance.on('ready', (duration) => {
+        waveSurferInstance.on('ready', duration => {
             waveSurferReady = true;
             savedDuration = duration;
             savedPeaks = waveSurferInstance?.exportPeaks();
@@ -569,16 +570,14 @@ async function waveSurferInitialization(container: string, _legacy: WaveSurferLe
         bindMediaSync(null);
         return;
     }
-    if (!masterAudioOutput.audioContext) {
+    if (!useAudioStore.getState().audioContext) {
         return;
     }
-    if (container !== ('#' + barSurfer?.id) && container !== ('#' + inputSurfer?.id)) {
+    if (container !== '#' + barSurfer?.id && container !== '#' + inputSurfer?.id) {
         return;
     }
     // Don't update if the tab is not in focus or the screen is off
-    if (!isVisible()
-        || (!inputSurfer && !barSurfer)
-        || !mediaElement) {
+    if (!isVisible() || (!inputSurfer && !barSurfer) || !mediaElement) {
         return;
     }
 

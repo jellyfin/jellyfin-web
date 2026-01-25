@@ -22,8 +22,8 @@ export {
 } from './utils/actionButton';
 
 export {
-    getItemCountsHtml
-} from './utils/itemCounts';
+    getItemCounts
+} from './Card/cardHelper';
 
 export {
     ensureIndicators

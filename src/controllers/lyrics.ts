@@ -1,12 +1,12 @@
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
-import escapeHtml from 'escape-html';
+import { escapeHtml } from 'utils/html';
 
 import { AutoScroll } from 'apps/stable/features/lyrics/constants/autoScroll';
 import autoFocuser from 'components/autoFocuser';
 import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import { playbackManager } from 'components/playback/playbackmanager';
-import scrollManager from 'components/scrollManager';
+import { scrollIntoView } from 'utils/scroll';
 import focusManager from 'components/focusManager';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -71,7 +71,7 @@ export default function (view: HTMLElement) {
             lyric.classList.remove('pastLyric');
             lyric.classList.remove('futureLyric');
             if (autoScroll !== AutoScroll.NoScroll) {
-                scrollManager.scrollToElement(lyric, autoScroll === AutoScroll.Smooth);
+                scrollIntoView(lyric, { behavior: autoScroll === AutoScroll.Smooth ? 'smooth' : 'auto' });
                 focusManager.focus(lyric);
                 autoScroll = AutoScroll.Smooth;
             }
@@ -126,11 +126,10 @@ export default function (view: HTMLElement) {
         const apiClient = ServerConnections.getApiClient(serverId);
         const lyricsApi = getLyricsApi(toApi(apiClient));
 
-        return lyricsApi.getLyrics({ itemId })
-            .then(({ data }) => {
-                if (!data.Lyrics?.length) throw new Error('No lyrics returned');
-                return data.Lyrics;
-            });
+        return lyricsApi.getLyrics({ itemId }).then(({ data }) => {
+            if (!data.Lyrics?.length) throw new Error('No lyrics returned');
+            return data.Lyrics;
+        });
     }
 
     function bindToPlayer(player: any) {
@@ -196,7 +195,9 @@ export default function (view: HTMLElement) {
         }
     }
 
-    function onWheelOrTouchMove() { autoScroll = AutoScroll.NoScroll; }
+    function onWheelOrTouchMove() {
+        autoScroll = AutoScroll.NoScroll;
+    }
 
     function onKeyDown(e: KeyboardEvent) {
         const key = (keyboardNavigation as any).getKeyName(e);

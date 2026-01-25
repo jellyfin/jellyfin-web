@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'hooks/useSearchParams';
 
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import UserPasswordForm from '../../../../components/dashboard/users/UserPasswordForm';

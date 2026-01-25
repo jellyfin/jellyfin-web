@@ -13,12 +13,10 @@ import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
-import 'material-design-icons-iconfont';
 import './lyricseditor.scss';
 import '../../elements/emby-button/emby-button';
-import '../../styles/flexstyles.scss';
 import toast from '../toast/toast';
-import template from './lyricseditor.template.html';
+import template from './lyricseditor.template.html?raw';
 import templatePreview from './lyricspreview.template.html';
 import { deleteLyrics } from '../../scripts/deleteHelper';
 
@@ -28,16 +26,18 @@ let hasChanges;
 function downloadRemoteLyrics(context, id) {
     const api = toApi(ServerConnections.getApiClient(currentItem.ServerId));
     const lyricsApi = getLyricsApi(api);
-    lyricsApi.downloadRemoteLyrics({
-        itemId: currentItem.Id,
-        lyricId: id
-    }).then(() => {
-        hasChanges = true;
+    lyricsApi
+        .downloadRemoteLyrics({
+            itemId: currentItem.Id,
+            lyricId: id
+        })
+        .then(() => {
+            hasChanges = true;
 
-        toast(globalize.translate('MessageDownloadQueued'));
+            toast(globalize.translate('MessageDownloadQueued'));
 
-        focusManager.autoFocus(context);
-    });
+            focusManager.autoFocus(context);
+        });
 }
 
 function getLyricsText(lyricsObject) {
@@ -46,7 +46,14 @@ function getLyricsText(lyricsObject) {
             const minutes = Math.floor(lyric.Start / 600000000);
             const seconds = Math.floor((lyric.Start % 600000000) / 10000000);
             const hundredths = Math.floor((lyric.Start % 10000000) / 100000);
-            htmlAccumulator += '[' + String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0') + '.' + String(hundredths).padStart(2, '0') + '] ';
+            htmlAccumulator +=
+                '[' +
+                String(minutes).padStart(2, '0') +
+                ':' +
+                String(seconds).padStart(2, '0') +
+                '.' +
+                String(hundredths).padStart(2, '0') +
+                '] ';
         }
         htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
         return htmlAccumulator;
@@ -98,15 +105,33 @@ function renderSearchResults(context, results) {
         const minutes = Math.floor(metadata.Length / 600000000);
         const seconds = Math.floor((metadata.Length % 600000000) / 10000000);
 
-        html += '<div class="secondary listItemBodyText" style="white-space:pre-line;">' + globalize.translate('LabelDuration') + ': ' + minutes + ':' + String(seconds).padStart(2, '0') + '</div>';
+        html +=
+            '<div class="secondary listItemBodyText" style="white-space:pre-line;">' +
+            globalize.translate('LabelDuration') +
+            ': ' +
+            minutes +
+            ':' +
+            String(seconds).padStart(2, '0') +
+            '</div>';
 
-        html += '<div class="secondary listItemBodyText" style="white-space:pre-line;">' + globalize.translate('LabelIsSynced') + ': ' + escapeHtml(metadata.IsSynced ? 'True' : 'False') + '</div>';
+        html +=
+            '<div class="secondary listItemBodyText" style="white-space:pre-line;">' +
+            globalize.translate('LabelIsSynced') +
+            ': ' +
+            escapeHtml(metadata.IsSynced ? 'True' : 'False') +
+            '</div>';
 
         html += '</div>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" data-lyricsid="' + result.Id + '" class="btnPreview listItemButton"><span class="material-icons preview" aria-hidden="true"></span></button>';
-            html += '<button type="button" is="paper-icon-button-light" data-lyricsid="' + result.Id + '" class="btnDownload listItemButton"><span class="material-icons file_download" aria-hidden="true"></span></button>';
+            html +=
+                '<button type="button" is="paper-icon-button-light" data-lyricsid="' +
+                result.Id +
+                '" class="btnPreview listItemButton"><span class="material-icons preview" aria-hidden="true"></span></button>';
+            html +=
+                '<button type="button" is="paper-icon-button-light" data-lyricsid="' +
+                result.Id +
+                '" class="btnDownload listItemButton"><span class="material-icons file_download" aria-hidden="true"></span></button>';
         }
         html += '<div class="hide hiddenLyrics">';
         html += '<h2>' + globalize.translate('Lyrics') + '</h2>';
@@ -130,11 +155,13 @@ function searchForLyrics(context) {
 
     const api = toApi(ServerConnections.getApiClient(currentItem.ServerId));
     const lyricsApi = getLyricsApi(api);
-    lyricsApi.searchRemoteLyrics({
-        itemId: currentItem.Id
-    }).then((results) => {
-        renderSearchResults(context, results.data);
-    });
+    lyricsApi
+        .searchRemoteLyrics({
+            itemId: currentItem.Id
+        })
+        .then(results => {
+            renderSearchResults(context, results.data);
+        });
 }
 
 function reload(context, apiClient, itemId) {
@@ -235,28 +262,31 @@ function showLyricsPreview(lyrics) {
 function showOptions(button, context, lyricsId, lyrics) {
     const items = [];
 
-    items.push({
-        name: globalize.translate('PreviewLyrics'),
-        id: 'preview'
-    }
-    , {
-        name: globalize.translate('Download'),
-        id: 'download'
-    });
+    items.push(
+        {
+            name: globalize.translate('PreviewLyrics'),
+            id: 'preview'
+        },
+        {
+            name: globalize.translate('Download'),
+            id: 'download'
+        }
+    );
 
-    import('../actionSheet/actionSheet').then((actionsheet) => {
-        actionsheet.show({
-            items: items,
-            positionTo: button
-
-        }).then((id) => {
-            if (id === 'download') {
-                downloadRemoteLyrics(context, lyricsId);
-            }
-            if (id === 'preview') {
-                showLyricsPreview(lyrics);
-            }
-        });
+    import('../actionSheet/actionSheet').then(actionsheet => {
+        actionsheet
+            .show({
+                items: items,
+                positionTo: button
+            })
+            .then(id => {
+                if (id === 'download') {
+                    downloadRemoteLyrics(context, lyricsId);
+                }
+                if (id === 'preview') {
+                    showLyricsPreview(lyrics);
+                }
+            });
     });
 }
 
@@ -272,54 +302,61 @@ function onOpenUploadMenu(e) {
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
     import('../lyricsuploader/lyricsuploader').then(({ default: lyricsUploader }) => {
-        lyricsUploader.show({
-            itemId: currentItem.Id,
-            serverId: currentItem.ServerId
-        }).then((hasChanged) => {
-            if (hasChanged) {
-                hasChanges = true;
-                reload(dialog, apiClient, currentItem.Id);
-            }
-        });
+        lyricsUploader
+            .show({
+                itemId: currentItem.Id,
+                serverId: currentItem.ServerId
+            })
+            .then(hasChanged => {
+                if (hasChanged) {
+                    hasChanges = true;
+                    reload(dialog, apiClient, currentItem.Id);
+                }
+            });
     });
 }
 
 function onDeleteLyrics(e) {
-    deleteLyrics(currentItem).then(() => {
-        hasChanges = true;
-        const context = dom.parentWithClass(e.target, 'formDialogContent');
-        const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-        reload(context, apiClient, currentItem.Id);
-    }).catch(() => {
-        // delete dialog closed
-    });
+    deleteLyrics(currentItem)
+        .then(() => {
+            hasChanges = true;
+            const context = dom.parentWithClass(e.target, 'formDialogContent');
+            const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+            reload(context, apiClient, currentItem.Id);
+        })
+        .catch(() => {
+            // delete dialog closed
+        });
 }
 
 function fillCurrentLyrics(context, apiClient, item) {
     const api = toApi(apiClient);
     const lyricsApi = getLyricsApi(api);
-    lyricsApi.getLyrics({
-        itemId: item.Id
-    }).then((response) => {
-        if (!response.data.Lyrics) {
+    lyricsApi
+        .getLyrics({
+            itemId: item.Id
+        })
+        .then(response => {
+            if (!response.data.Lyrics) {
+                context.querySelector('.currentLyrics').innerHTML = '';
+            } else {
+                let html = '';
+                html += '<h2>' + globalize.translate('Lyrics') + '</h2>';
+                html += '<div>';
+                html += getLyricsText(response.data.Lyrics);
+                html += '</div>';
+                context.querySelector('.currentLyrics').innerHTML = html;
+            }
+        })
+        .catch(() => {
             context.querySelector('.currentLyrics').innerHTML = '';
-        } else {
-            let html = '';
-            html += '<h2>' + globalize.translate('Lyrics') + '</h2>';
-            html += '<div>';
-            html += getLyricsText(response.data.Lyrics);
-            html += '</div>';
-            context.querySelector('.currentLyrics').innerHTML = html;
-        }
-    }).catch(() =>{
-        context.querySelector('.currentLyrics').innerHTML = '';
-    });
+        });
 }
 
 function showEditorInternal(itemId, serverId) {
     hasChanges = false;
     const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
+    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false

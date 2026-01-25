@@ -1,8 +1,8 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { CardShape } from 'utils/card';
-import { Section } from '../types';
-import { CardOptions } from 'types/cardOptions';
+import { type Section } from '../types';
+import { type CardOptions } from 'types/cardOptions';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 import { SEARCH_SECTIONS_SORT_ORDER } from '../constants/sectionSortOrder';

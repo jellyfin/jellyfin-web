@@ -1,109 +1,96 @@
+/**
+ * @deprecated This route is mostly migrated but uses legacy table patterns.
+ *
+ * Migration:
+ * - Uses TanStack Table (already migrated)
+ * - Replace TablePage wrapper with DataTable component
+ * - Replace InputDialog with TanStack Forms
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import IconButton from '@mui/material/IconButton/IconButton';
-import { useTheme } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import parseISO from 'date-fns/parseISO';
-import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
+import { parseISO } from 'date-fns';
 import React, { useCallback, useMemo, useState } from 'react';
+import type { ColumnDef } from '@tanstack/react-table';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
-import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
+import TablePage from 'apps/dashboard/components/table/TablePage';
 import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
 import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
 import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
 import globalize from 'lib/globalize';
 import InputDialog from 'components/InputDialog';
 import ConfirmDialog from 'components/ConfirmDialog';
+import { Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
+
+const AddIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+    </svg>
+);
+
+const DeleteIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+    </svg>
+);
 
 export const Component = () => {
-    const [ isCreateApiKeyPromptOpen, setIsCreateApiKeyPromptOpen ] = useState(false);
-    const [ isConfirmDeleteOpen, setIsConfirmDeleteOpen ] = useState(false);
-    const [ apiKeyToDelete, setApiKeyToDelete ] = useState('');
+    const [isCreateApiKeyPromptOpen, setIsCreateApiKeyPromptOpen] = useState(false);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+    const [apiKeyToDelete, setApiKeyToDelete] = useState<string>('');
     const { data, isLoading } = useApiKeys();
-    const keys = useMemo(() => (
-        data?.Items || []
-    ), [ data ]);
+    const keys = useMemo(() => data?.Items || [], [data]);
     const revokeKey = useRevokeKey();
     const createKey = useCreateKey();
-    const theme = useTheme();
 
-    const columns = useMemo<MRT_ColumnDef<AuthenticationInfo>[]>(() => [
-        {
-            id: 'ApiKey',
-            accessorKey: 'AccessToken',
-            header: globalize.translate('HeaderApiKey'),
-            size: 300
-        },
-        {
-            id: 'AppName',
-            accessorKey: 'AppName',
-            header: globalize.translate('HeaderApp')
-        },
-        {
-            id: 'DateIssued',
-            accessorFn: item => item.DateCreated ? parseISO(item.DateCreated) : undefined,
-            Cell: DateTimeCell,
-            header: globalize.translate('HeaderDateIssued'),
-            filterVariant: 'datetime-range'
-        }
-    ], []);
-
-    // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
-    // https://github.com/KevinVandy/material-react-table/issues/1429
-    const mrtTheme = useMemo<Partial<MRT_Theme>>(() => ({
-        baseBackgroundColor: theme.palette.background.paper
-    }), [ theme ]);
-
-    const table = useMaterialReactTable({
-        ...DEFAULT_TABLE_OPTIONS,
-        mrtTheme,
-
-        columns,
-        data: keys,
-
-        state: {
-            isLoading
-        },
-
-        // Enable (delete) row actions
-        enableRowActions: true,
-        positionActionsColumn: 'last',
-        displayColumnDefOptions: {
-            'mrt-row-actions': {
-                header: '',
-                size: 25
+    const columns = useMemo<ColumnDef<AuthenticationInfo>[]>(
+        () => [
+            {
+                id: 'ApiKey',
+                accessorKey: 'AccessToken',
+                header: globalize.translate('HeaderApiKey'),
+                size: 300
+            },
+            {
+                id: 'AppName',
+                accessorKey: 'AppName',
+                header: globalize.translate('HeaderApp')
+            },
+            {
+                id: 'DateIssued',
+                accessorFn: item => (item.DateCreated ? parseISO(item.DateCreated) : undefined),
+                cell: DateTimeCell,
+                header: globalize.translate('HeaderDateIssued')
             }
-        },
+        ],
+        []
+    );
 
-        renderTopToolbarCustomActions: () => (
-            <Button
-                startIcon={<AddIcon />}
-                onClick={showNewKeyPopup}
-            >
+    const renderRowActions = useCallback((row: AuthenticationInfo) => {
+        return (
+            <Flex style={{ display: 'flex' }}>
+                <Tooltip title={globalize.translate('ButtonRevoke')}>
+                    <IconButton color="danger" onClick={() => row.AccessToken && onRevokeKey(row.AccessToken)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip>
+            </Flex>
+        );
+    }, []);
+
+    const renderToolbar = useCallback(
+        () => (
+            <Button startDecorator={<AddIcon />} onClick={showNewKeyPopup}>
                 {globalize.translate('HeaderNewApiKey')}
             </Button>
         ),
-
-        renderRowActions: ({ row }) => {
-            return (
-                <Box sx={{ display: 'flex' }}>
-                    <Tooltip title={globalize.translate('ButtonRevoke')}>
-                        <IconButton
-                            color='error'
-                            // eslint-disable-next-line react/jsx-no-bind
-                            onClick={() => row.original?.AccessToken && onRevokeKey(row.original.AccessToken)}
-                        >
-                            <DeleteIcon />
-                        </IconButton>
-                    </Tooltip>
-                </Box>
-            );
-        }
-    });
+        []
+    );
 
     const onRevokeKey = useCallback((accessToken: string) => {
         setApiKeyToDelete(accessToken);
@@ -119,39 +106,48 @@ export const Component = () => {
     }, []);
 
     const onConfirmDelete = useCallback(() => {
-        revokeKey.mutate({
-            key: apiKeyToDelete
-        }, {
-            onSettled: () => {
-                setApiKeyToDelete('');
-                setIsConfirmDeleteOpen(false);
+        revokeKey.mutate(
+            {
+                key: apiKeyToDelete
+            },
+            {
+                onSettled: () => {
+                    setApiKeyToDelete('');
+                    setIsConfirmDeleteOpen(false);
+                }
             }
-        });
-    }, [ revokeKey, apiKeyToDelete ]);
+        );
+    }, [revokeKey, apiKeyToDelete]);
 
     const onConfirmDeleteCancel = useCallback(() => {
         setApiKeyToDelete('');
         setIsConfirmDeleteOpen(false);
     }, []);
 
-    const onConfirmCreate = useCallback((name: string) => {
-        createKey.mutate({
-            app: name
-        }, {
-            onSettled: () => {
-                setIsCreateApiKeyPromptOpen(false);
-            }
-        });
-    }, [ createKey ]);
+    const onConfirmCreate = useCallback(
+        (name: string) => {
+            createKey.mutate(
+                {
+                    app: name
+                },
+                {
+                    onSettled: () => {
+                        setIsCreateApiKeyPromptOpen(false);
+                    }
+                }
+            );
+        },
+        [createKey]
+    );
 
     return (
         <>
             <ConfirmDialog
                 open={isConfirmDeleteOpen}
                 title={globalize.translate('HeaderConfirmRevokeApiKey')}
-                text={globalize.translate('MessageConfirmRevokeApiKey')}
-                confirmButtonColor='error'
-                confirmButtonText={globalize.translate('Delete')}
+                message={globalize.translate('MessageConfirmRevokeApiKey')}
+                isDestructive={true}
+                confirmText={globalize.translate('Delete')}
                 onConfirm={onConfirmDelete}
                 onCancel={onConfirmDeleteCancel}
             />
@@ -165,11 +161,16 @@ export const Component = () => {
                 onClose={onCreateApiKeyPromptClose}
             />
             <TablePage
-                id='apiKeysPage'
+                id="apiKeysPage"
                 title={globalize.translate('HeaderApiKeys')}
                 subtitle={globalize.translate('HeaderApiKeysHelp')}
-                className='mainAnimatedPage type-interior'
-                table={table}
+                className="mainAnimatedPage type-interior"
+                data={keys}
+                columns={columns}
+                isLoading={isLoading}
+                enableRowActions={true}
+                renderRowActions={renderRowActions}
+                renderToolbar={renderToolbar}
             />
         </>
     );

@@ -5,41 +5,57 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 // Mock AudioContext and related APIs
 const mockAudioContext = {
     state: 'running',
-    createGain: vi.fn(() => ({
-        gain: { value: 1, setValueAtTime: vi.fn(), setTargetAtTime: vi.fn() },
-        connect: vi.fn(),
-        disconnect: vi.fn()
-    })),
-    createDynamicsCompressor: vi.fn(() => ({
-        threshold: { setValueAtTime: vi.fn() },
-        knee: { setValueAtTime: vi.fn() },
-        ratio: { setValueAtTime: vi.fn() },
-        attack: { setValueAtTime: vi.fn() },
-        release: { setValueAtTime: vi.fn() },
-        connect: vi.fn(),
-        disconnect: vi.fn()
-    })),
+    createGain: vi.fn(function () {
+        return {
+            gain: { value: 1, setValueAtTime: vi.fn(), setTargetAtTime: vi.fn() },
+            connect: vi.fn(),
+            disconnect: vi.fn()
+        };
+    }),
+    createDynamicsCompressor: vi.fn(function () {
+        return {
+            threshold: { setValueAtTime: vi.fn() },
+            knee: { setValueAtTime: vi.fn() },
+            ratio: { setValueAtTime: vi.fn() },
+            attack: { setValueAtTime: vi.fn() },
+            release: { setValueAtTime: vi.fn() },
+            connect: vi.fn(),
+            disconnect: vi.fn()
+        };
+    }),
     audioWorklet: {
-        addModule: vi.fn().mockResolvedValue(undefined)
+        addModule: vi.fn(function () {
+            return Promise.resolve();
+        })
     },
     currentTime: 0,
     destination: {},
-    resume: vi.fn().mockResolvedValue(undefined),
-    suspend: vi.fn().mockResolvedValue(undefined),
-    close: vi.fn().mockResolvedValue(undefined)
+    resume: vi.fn(function () {
+        return Promise.resolve();
+    }),
+    suspend: vi.fn(function () {
+        return Promise.resolve();
+    }),
+    close: vi.fn(function () {
+        return Promise.resolve();
+    })
 };
 
 // Mock window.AudioContext
+const MockAudioContext = function (this: any) {
+    Object.assign(this, mockAudioContext);
+};
+
 Object.defineProperty(window, 'AudioContext', {
     writable: true,
     configurable: true,
-    value: vi.fn(() => mockAudioContext)
+    value: MockAudioContext
 });
 
 Object.defineProperty(window, 'webkitAudioContext', {
     writable: true,
     configurable: true,
-    value: vi.fn(() => mockAudioContext)
+    value: MockAudioContext
 });
 
 // Import after mocks are set up

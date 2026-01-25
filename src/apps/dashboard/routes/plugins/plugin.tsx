@@ -1,21 +1,22 @@
 import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-status';
 import type { VersionInfo } from '@jellyfin/sdk/lib/generated-client/models/version-info';
-import Alert from '@mui/material/Alert/Alert';
-import Button from '@mui/material/Button/Button';
-import Container from '@mui/material/Container';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import Grid from '@mui/material/Grid/Grid';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack/Stack';
-import Switch from '@mui/material/Switch';
-import Typography from '@mui/material/Typography/Typography';
-import Delete from '@mui/icons-material/Delete';
-import Download from '@mui/icons-material/Download';
-import Extension from '@mui/icons-material/Extension';
-import Settings from '@mui/icons-material/Settings';
+import {
+    Component2Icon,
+    DownloadIcon,
+    GearIcon,
+    TrashIcon
+} from '@radix-ui/react-icons';
 import React, { type FC, useState, useCallback, useMemo } from 'react';
-import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams } from '@tanstack/react-router';
+import { useSearchParams } from 'hooks/useSearchParams';
+import { Alert } from 'ui-primitives/Alert';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Container } from 'ui-primitives/Container';
+import { FormControlLabel, Switch } from 'ui-primitives/FormControl';
+import { Heading, Text } from 'ui-primitives/Text';
+import { Skeleton } from 'ui-primitives/Skeleton';
+import { vars } from 'styles/tokens.css';
 
 import { findBestConfigurationPage } from 'apps/dashboard/features/plugins/api/configurationPage';
 import { findBestPluginInfo } from 'apps/dashboard/features/plugins/api/pluginInfo';
@@ -47,7 +48,7 @@ const TRUSTED_REPO_URL = 'https://repo.jellyfin.org/';
 
 const PluginPage: FC = () => {
     const { api } = useApi();
-    const { pluginId } = useParams();
+    const { pluginId } = useParams({ strict: false }) as { pluginId?: string };
     const [ searchParams ] = useSearchParams();
     const disablePlugin = useDisablePlugin();
     const enablePlugin = useEnablePlugin();
@@ -314,60 +315,57 @@ const PluginPage: FC = () => {
             className='mainAnimatedPage type-interior'
         >
             <Container className='content-primary'>
-
                 {alertMessages.map(({ severity = 'error', messageKey }) => (
                     <Alert
                         key={messageKey}
                         severity={severity}
-                        sx={{ marginBottom: 2 }}
+                        style={{ marginBottom: vars.spacing.md }}
                     >
                         {globalize.translate(messageKey)}
                     </Alert>
                 ))}
 
-                <Grid container spacing={2} sx={{ marginTop: 0 }}>
-                    <Grid item xs={12} lg={8}>
-                        <Stack spacing={2}>
-                            <Typography variant='h1'>
+                <Flex direction='column' gap={vars.spacing.lg}>
+                    <Flex direction='row' wrap='wrap' gap={vars.spacing.lg} align='flex-start'>
+                        <Box style={{ flex: '1 1 480px', minWidth: 0 }}>
+                            <Heading.H1>
                                 {pluginDetails?.name || pluginName}
-                            </Typography>
+                            </Heading.H1>
 
-                            <Typography sx={{ maxWidth: '80ch' }}>
+                            <Box style={{ marginTop: vars.spacing.md, maxWidth: '80ch' }}>
                                 {isLoading && !pluginDetails?.description ? (
-                                    <Skeleton />
+                                    <Skeleton width='100%' height={20} />
                                 ) : (
-                                    pluginDetails?.description
+                                    <Text>{pluginDetails?.description}</Text>
                                 )}
-                            </Typography>
-                        </Stack>
-                    </Grid>
+                            </Box>
+                        </Box>
 
-                    <Grid item lg={4} sx={{ display: { xs: 'none', lg: 'initial' } }}>
-                        <Image
-                            isLoading={isLoading}
-                            alt={pluginDetails?.name}
-                            url={pluginDetails?.imageUrl}
-                            FallbackIcon={Extension}
-                        />
-                    </Grid>
+                        <Box style={{ flex: '0 0 280px' }}>
+                            <Image
+                                isLoading={isLoading}
+                                alt={pluginDetails?.name}
+                                url={pluginDetails?.imageUrl}
+                                FallbackIcon={Component2Icon}
+                            />
+                        </Box>
+                    </Flex>
 
-                    <Grid item xs={12} lg={8} sx={{ order: { xs: 1, lg: 'initial' } }}>
-                        {!!pluginDetails?.versions.length && (
-                            <>
-                                <Typography variant='h3' sx={{ marginBottom: 2 }}>
-                                    {globalize.translate('HeaderRevisionHistory')}
-                                </Typography>
-                                <PluginRevisions
-                                    pluginDetails={pluginDetails}
-                                    onInstall={onInstall}
-                                />
-                            </>
-                        )}
-                    </Grid>
+                    {!!pluginDetails?.versions.length && (
+                        <Box>
+                            <Heading.H3 style={{ marginBottom: vars.spacing.md }}>
+                                {globalize.translate('HeaderRevisionHistory')}
+                            </Heading.H3>
+                            <PluginRevisions
+                                pluginDetails={pluginDetails}
+                                onInstall={onInstall}
+                            />
+                        </Box>
+                    )}
 
-                    <Grid item xs={12} lg={4}>
-                        <Stack spacing={2} direction={{ xs: 'column', sm: 'row-reverse', lg: 'column' }}>
-                            <Stack spacing={1} sx={{ flexBasis: '50%' }}>
+                    <Flex direction='row' wrap='wrap' gap={vars.spacing.lg}>
+                        <Box style={{ flex: '1 1 280px' }}>
+                            <Flex direction='column' gap={vars.spacing.sm}>
                                 {!isLoading && !pluginDetails?.status && (
                                     <>
                                         <Alert severity='info'>
@@ -375,7 +373,7 @@ const PluginPage: FC = () => {
                                         </Alert>
 
                                         <Button
-                                            startIcon={<Download />}
+                                            startDecorator={<DownloadIcon />}
                                             onClick={onInstall()}
                                             loading={isInstalling}
                                         >
@@ -385,7 +383,7 @@ const PluginPage: FC = () => {
                                 )}
 
                                 {!isLoading && pluginDetails?.canUninstall && (
-                                    <FormGroup>
+                                    <Box>
                                         <FormControlLabel
                                             control={
                                                 <Switch
@@ -396,14 +394,14 @@ const PluginPage: FC = () => {
                                             }
                                             label={globalize.translate('LabelEnablePlugin')}
                                         />
-                                    </FormGroup>
+                                    </Box>
                                 )}
 
                                 {!isLoading && pluginDetails?.configurationPage?.Name && (
                                     <Button
                                         component={RouterLink}
                                         to={`/${getPluginUrl(pluginDetails.configurationPage.Name)}`}
-                                        startIcon={<Settings />}
+                                        startDecorator={<GearIcon />}
                                     >
                                         {globalize.translate('Settings')}
                                     </Button>
@@ -411,24 +409,25 @@ const PluginPage: FC = () => {
 
                                 {!isLoading && pluginDetails?.canUninstall && (
                                     <Button
-                                        color='error'
-                                        startIcon={<Delete />}
+                                        variant='danger'
+                                        startDecorator={<TrashIcon />}
                                         onClick={onConfirmUninstall}
                                     >
                                         {globalize.translate('ButtonUninstall')}
                                     </Button>
                                 )}
-                            </Stack>
+                            </Flex>
+                        </Box>
 
+                        <Box style={{ flex: '1 1 280px' }}>
                             <PluginDetailsTable
                                 isPluginLoading={isPluginsLoading}
                                 isRepositoryLoading={isPackageInfoLoading}
                                 pluginDetails={pluginDetails}
-                                sx={{ flexBasis: '50%' }}
                             />
-                        </Stack>
-                    </Grid>
-                </Grid>
+                        </Box>
+                    </Flex>
+                </Flex>
             </Container>
 
             <ConfirmDialog

@@ -4,7 +4,7 @@ import { logger } from '../../utils/logger';
 
 /**
  * PlaybackSync Bridge
- * 
+ *
  * Handles secondary playback behaviors like transferring playback between players
  * and managing device orientation.
  */
@@ -29,8 +29,8 @@ export class PlaybackSync {
     private setupPlayerTransfer() {
         // Migration of remotecontrolautoplay.js logic
         usePlayerStore.subscribe(
-            (state) => state.playerChanged,
-            (change) => {
+            state => state.playerChanged,
+            change => {
                 if (!change) return;
                 const { from: oldPlayer, to: newPlayer } = change;
 
@@ -46,7 +46,7 @@ export class PlaybackSync {
 
     private async transferPlayback(oldPlayer: any, newPlayer: any) {
         logger.info('Transferring playback to remote player', { component: 'PlaybackSync' });
-        
+
         // Use playbackManager's existing methods for now as they are already typed
         const state = playbackManager.getPlayerState(oldPlayer);
         const item = state.NowPlayingItem;
@@ -65,8 +65,10 @@ export class PlaybackSync {
                 ids: playlistIds,
                 serverId: item.ServerId,
                 startPositionTicks: resumePositionTicks,
-                startIndex: playlistIndex
-            }, newPlayer);
+                startIndex: playlistIndex,
+                fullScreen: state?.PlayState?.fullScreen,
+                mediaSourceId: state?.PlayState?.mediaSourceId
+            });
         } catch (err) {
             logger.error('Failed to transfer playback', { component: 'PlaybackSync' }, err as Error);
         }
@@ -75,11 +77,11 @@ export class PlaybackSync {
     private setupOrientationManagement() {
         // Migration of playbackorientation.js logic
         useMediaStore.subscribe(
-            (state) => state.status,
-            (status) => {
+            state => state.status,
+            status => {
                 const { effectiveLayout } = useUiStore.getState();
                 const { currentPlayer } = usePlayerStore.getState();
-                
+
                 if (status === 'playing' && effectiveLayout === 'mobile' && currentPlayer?.isLocalPlayer) {
                     this.lockOrientation();
                 } else if (status === 'idle') {
@@ -91,20 +93,23 @@ export class PlaybackSync {
 
     private lockOrientation() {
         const screenAny = window.screen as any;
-        const lockOrientation = screenAny.lockOrientation || 
-                               screenAny.mozLockOrientation || 
-                               screenAny.msLockOrientation || 
-                               (screenAny.orientation?.lock?.bind(screenAny.orientation));
+        const lockOrientation =
+            screenAny.lockOrientation ||
+            screenAny.mozLockOrientation ||
+            screenAny.msLockOrientation ||
+            screenAny.orientation?.lock?.bind(screenAny.orientation);
 
         if (lockOrientation) {
             try {
                 const promise = lockOrientation('landscape');
                 if (promise instanceof Promise) {
-                    promise.then(() => {
-                        this.orientationLocked = true;
-                    }).catch(err => {
-                        logger.error('Error locking orientation', { component: 'PlaybackSync' }, err);
-                    });
+                    promise
+                        .then(() => {
+                            this.orientationLocked = true;
+                        })
+                        .catch(err => {
+                            logger.error('Error locking orientation', { component: 'PlaybackSync' }, err);
+                        });
                 } else {
                     this.orientationLocked = !!promise;
                 }
@@ -118,10 +123,11 @@ export class PlaybackSync {
         if (!this.orientationLocked) return;
 
         const screenAny = window.screen as any;
-        const unlockOrientation = screenAny.unlockOrientation || 
-                                 screenAny.mozUnlockOrientation || 
-                                 screenAny.msUnlockOrientation || 
-                                 (screenAny.orientation?.unlock?.bind(screenAny.orientation));
+        const unlockOrientation =
+            screenAny.unlockOrientation ||
+            screenAny.mozUnlockOrientation ||
+            screenAny.msUnlockOrientation ||
+            screenAny.orientation?.unlock?.bind(screenAny.orientation);
 
         if (unlockOrientation) {
             try {

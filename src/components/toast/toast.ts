@@ -1,7 +1,7 @@
-import './toast.scss';
+import './toast.css.ts';
 
 interface Toast {
-    text: string
+    text: string;
 }
 
 let toastContainer: HTMLDivElement;

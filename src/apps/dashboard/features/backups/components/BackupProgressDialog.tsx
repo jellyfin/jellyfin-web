@@ -1,25 +1,25 @@
-import React, { FunctionComponent } from 'react';
-import Dialog from '@mui/material/Dialog/Dialog';
-import DialogContent from '@mui/material/DialogContent/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
-import LinearProgress from '@mui/material/LinearProgress';
+import React, { type FunctionComponent } from 'react';
+import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
+import { Progress } from 'ui-primitives/Progress';
+import { Flex } from 'ui-primitives/Box';
 import globalize from 'lib/globalize';
 
-type IProps = {
-    open: boolean
-};
+interface IProps {
+    open: boolean;
+    onClose?: () => void;
+}
 
 const BackupProgressDialog: FunctionComponent<IProps> = ({ open }) => {
     return (
-        <Dialog
-            open={open}
-            maxWidth={'xs'}
-            fullWidth
-        >
-            <DialogTitle>{globalize.translate('MessageBackupInProgress')}</DialogTitle>
-            <DialogContent>
-                <LinearProgress />
-            </DialogContent>
+        <Dialog open={open}>
+            <DialogOverlayComponent />
+            <DialogContentComponent
+                title={globalize.translate('MessageBackupInProgress')}
+            >
+                <Flex style={{ gap: '16px' }}>
+                    <Progress />
+                </Flex>
+            </DialogContentComponent>
         </Dialog>
     );
 };

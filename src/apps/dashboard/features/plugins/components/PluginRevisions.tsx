@@ -1,67 +1,73 @@
 import type { VersionInfo } from '@jellyfin/sdk/lib/generated-client';
-import Download from '@mui/icons-material/Download';
-import DownloadDone from '@mui/icons-material/DownloadDone';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import Accordion from '@mui/material/Accordion/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary/AccordionSummary';
-import Button from '@mui/material/Button/Button';
-import Stack from '@mui/material/Stack/Stack';
 import React, { type FC } from 'react';
 
 import MarkdownBox from 'components/MarkdownBox';
 import { getDisplayDateTime } from 'scripts/datetime';
 import globalize from 'lib/globalize';
+import { vars } from 'styles/tokens.css';
+import { Button } from 'ui-primitives/Button';
+import { Flex } from 'ui-primitives/Box';
+import { Accordion, AccordionSummary, AccordionDetails } from 'ui-primitives/Accordion';
 
 import type { PluginDetails } from '../types/PluginDetails';
 
 interface PluginRevisionsProps {
-    pluginDetails?: PluginDetails,
-    onInstall: (version?: VersionInfo) => () => void
+    pluginDetails?: PluginDetails;
+    onInstall: (version?: VersionInfo) => () => void;
 }
 
-const PluginRevisions: FC<PluginRevisionsProps> = ({
-    pluginDetails,
-    onInstall
-}) => (
+const DownloadIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+    </svg>
+);
+
+const DownloadDoneIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+    </svg>
+);
+
+const ExpandMoreIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+    </svg>
+);
+
+const PluginRevisions: FC<PluginRevisionsProps> = ({ pluginDetails, onInstall }) =>
     pluginDetails?.versions?.map(version => (
         <Accordion key={version.checksum}>
-            <AccordionSummary
-                expandIcon={<ExpandMore />}
-            >
-                {version.version}
-                {version.timestamp && (<>
-                    &nbsp;&mdash;&nbsp;
-                    {getDisplayDateTime(version.timestamp)}
-                </>)}
+            <AccordionSummary>
+                <Flex style={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                    <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontWeight: vars.typography.fontWeightMedium }}>{version.version}</span>
+                        {version.timestamp && (
+                            <>
+                                <span>&mdash;</span>
+                                <span style={{ color: 'var(--colors-textSecondary)' }}>
+                                    {getDisplayDateTime(version.timestamp)}
+                                </span>
+                            </>
+                        )}
+                    </Flex>
+                    <ExpandMoreIcon />
+                </Flex>
             </AccordionSummary>
             <AccordionDetails>
-                <Stack spacing={2}>
-                    <MarkdownBox
-                        fallback={globalize.translate('LabelNoChangelog')}
-                        markdown={version.changelog}
-                    />
+                <Flex style={{ flexDirection: 'column', gap: '16px' }}>
+                    <MarkdownBox fallback={globalize.translate('LabelNoChangelog')} markdown={version.changelog} />
                     {pluginDetails.status && version.version === pluginDetails.version?.version ? (
-                        <Button
-                            disabled
-                            startIcon={<DownloadDone />}
-                            variant='outlined'
-                        >
+                        <Button variant="outlined" disabled startDecorator={<DownloadDoneIcon />}>
                             {globalize.translate('LabelInstalled')}
                         </Button>
                     ) : (
-                        <Button
-                            startIcon={<Download />}
-                            variant='outlined'
-                            onClick={onInstall(version)}
-                        >
+                        <Button variant="outlined" startDecorator={<DownloadIcon />} onClick={onInstall(version)}>
                             {globalize.translate('HeaderInstall')}
                         </Button>
                     )}
-                </Stack>
+                </Flex>
             </AccordionDetails>
         </Accordion>
-    ))
-);
+    ));
 
 export default PluginRevisions;

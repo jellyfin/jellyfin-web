@@ -1,3 +1,15 @@
+/**
+ * @deprecated This module provides legacy dashboard utilities.
+ *
+ * Migration:
+ * - Replace Dashboard.alert() with Toast component or confirm dialog
+ * - Replace Dashboard.navigate() with React Router useNavigate()
+ * - Replace Dashboard.confirm() with TanStack Query confirm dialog
+ * - Replace pageClassOn/pageIdOn with React event handlers
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import { appHost, safeAppHost } from 'components/apphost';
 import viewContainer from 'components/viewContainer';
 import { AppFeature } from 'constants/appFeature';
@@ -40,11 +52,18 @@ export async function serverAddress(): Promise<string | undefined> {
     }
 
     // Use servers specified in config.json
-    const urls = await webSettings.getServers();
+    const servers = await webSettings.getServers();
+
+    // Extract URLs from server objects (config.json uses Server objects with ManualAddress/LocalAddress)
+    const urls: string[] = servers
+        .map((server: { ManualAddress?: string; LocalAddress?: string; RemoteAddress?: string }) => {
+            return server.ManualAddress || server.LocalAddress || server.RemoteAddress || '';
+        })
+        .filter(Boolean);
 
     if (urls.length === 0) {
         // Otherwise use computed base URL
-        let url;
+        let url: string;
         const index = window.location.href.toLowerCase().lastIndexOf('/web');
         if (index !== -1) {
             url = window.location.href.substring(0, index);
@@ -68,14 +87,14 @@ export async function serverAddress(): Promise<string | undefined> {
 
     logger.debug('URL candidates:', { component: 'Dashboard', urls });
 
-    const promises = urls.map(url => {
+    const promises = urls.map((url: string) => {
         return fetch(`${url}/System/Info/Public`, { cache: 'no-cache' })
             .then(async resp => {
                 if (!resp.ok) {
                     return;
                 }
 
-                let config;
+                let config: unknown;
                 try {
                     config = await resp.json();
                 } catch {
@@ -86,20 +105,42 @@ export async function serverAddress(): Promise<string | undefined> {
                     url,
                     config
                 };
-            }).catch(error => {
+            })
+            .catch(error => {
                 logger.error('Error fetching server info', { component: 'Dashboard', url }, error);
             });
     });
 
-    return Promise.all(promises).then(responses => {
-        return (responses as any[]).filter(obj => obj?.config);
-    }).then(configs => {
-        const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
-        return selection?.url;
-    }).catch(error => {
-        logger.error('Error selecting server address', { component: 'Dashboard' }, error);
-        return undefined;
-    });
+    return Promise.all(promises)
+        .then(responses => {
+            return (responses as any[]).filter(obj => obj?.config);
+        })
+        .then(configs => {
+            const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
+            const selectedUrl = selection?.url;
+
+            // In development mode, skip localhost URLs as they're the dev server, not the Jellyfin server
+            if (import.meta.env.DEV && selectedUrl) {
+                try {
+                    const urlObj = new URL(selectedUrl);
+                    if (urlObj.hostname === 'localhost' || urlObj.hostname === '127.0.0.1') {
+                        logger.warn('Skipping localhost URL in development mode', {
+                            component: 'Dashboard',
+                            url: selectedUrl
+                        });
+                        return undefined;
+                    }
+                } catch {
+                    return undefined;
+                }
+            }
+
+            return selectedUrl;
+        })
+        .catch(error => {
+            logger.error('Error selecting server address', { component: 'Dashboard' }, error);
+            return undefined;
+        });
 }
 
 export function getCurrentUserId() {
@@ -122,8 +163,7 @@ export function logout() {
         queryClient.clear();
         // Reset cached views
         viewContainer.reset();
-        safeAppHost.supports(AppFeature.MultiServer) ?
-            navigate('selectserver') : navigate('login');
+        safeAppHost.supports(AppFeature.MultiServer) ? navigate('selectserver') : navigate('login');
     });
 }
 
@@ -173,15 +213,12 @@ export function processErrorResponse(response: Response) {
         status = response.statusText;
     }
 
-    logger.error(
-        `Server error: ${status}`,
-        {
-            component: 'Dashboard',
-            statusCode: response.status,
-            errorCode: response.headers ? response.headers.get('X-Application-Error-Code') : null,
-            url: response.url
-        }
-    );
+    logger.error(`Server error: ${status}`, {
+        component: 'Dashboard',
+        statusCode: response.status,
+        errorCode: response.headers ? response.headers.get('X-Application-Error-Code') : null,
+        url: response.url
+    });
 }
 
 export function alert(options: string | { title?: string; message?: string; callback?: () => void }) {
@@ -191,23 +228,57 @@ export function alert(options: string | { title?: string; message?: string; call
         if (options.callback) {
             options.callback();
         }
-        logger.warn(
-            options.message || options.title || globalize.translate('HeaderAlert'),
-            {
-                component: 'Dashboard',
-                title: options.title || globalize.translate('HeaderAlert')
-            }
-        );
+        logger.warn(options.message || options.title || globalize.translate('HeaderAlert'), {
+            component: 'Dashboard',
+            title: options.title || globalize.translate('HeaderAlert')
+        });
     }
 }
 
 export function capabilities(host: any) {
-    return Object.assign({
-        PlayableMediaTypes: ['Audio', 'Video'],
-        SupportedCommands: ['MoveUp', 'MoveDown', 'MoveLeft', 'MoveRight', 'PageUp', 'PageDown', 'PreviousLetter', 'NextLetter', 'ToggleOsd', 'ToggleContextMenu', 'Select', 'Back', 'SendKey', 'SendString', 'GoHome', 'GoToSettings', 'VolumeUp', 'VolumeDown', 'Mute', 'Unmute', 'ToggleMute', 'SetVolume', 'SetAudioStreamIndex', 'SetSubtitleStreamIndex', 'DisplayContent', 'GoToSearch', 'DisplayMessage', 'SetRepeatMode', 'SetShuffleQueue', 'ChannelUp', 'ChannelDown', 'PlayMediaSource', 'PlayTrailers'],
-        SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
-        SupportsMediaControl: true
-    }, host?.getPushTokenInfo ? host.getPushTokenInfo() : safeAppHost.getPushTokenInfo());
+    return Object.assign(
+        {
+            PlayableMediaTypes: ['Audio', 'Video'],
+            SupportedCommands: [
+                'MoveUp',
+                'MoveDown',
+                'MoveLeft',
+                'MoveRight',
+                'PageUp',
+                'PageDown',
+                'PreviousLetter',
+                'NextLetter',
+                'ToggleOsd',
+                'ToggleContextMenu',
+                'Select',
+                'Back',
+                'SendKey',
+                'SendString',
+                'GoHome',
+                'GoToSettings',
+                'VolumeUp',
+                'VolumeDown',
+                'Mute',
+                'Unmute',
+                'ToggleMute',
+                'SetVolume',
+                'SetAudioStreamIndex',
+                'SetSubtitleStreamIndex',
+                'DisplayContent',
+                'GoToSearch',
+                'DisplayMessage',
+                'SetRepeatMode',
+                'SetShuffleQueue',
+                'ChannelUp',
+                'ChannelDown',
+                'PlayMediaSource',
+                'PlayTrailers'
+            ],
+            SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
+            SupportsMediaControl: true
+        },
+        host?.getPushTokenInfo ? host.getPushTokenInfo() : safeAppHost?.getPushTokenInfo?.() || {}
+    );
 }
 
 export function selectServer() {
@@ -227,15 +298,21 @@ export function showLoadingMsg() {
 }
 
 export function confirm(message: string, title: string, callback: (result: boolean) => void) {
-    baseConfirm(message, title).then(() => {
-        callback(true);
-    }).catch(() => {
-        callback(false);
-    });
+    baseConfirm(message, title)
+        .then(() => {
+            callback(true);
+        })
+        .catch(() => {
+            callback(false);
+        });
 }
 
-export const pageClassOn = function(eventName: string, className: string, fn: (this: HTMLElement, event: Event) => void) {
-    document.addEventListener(eventName, (event) => {
+export const pageClassOn = function (
+    eventName: string,
+    className: string,
+    fn: (this: HTMLElement, event: Event) => void
+) {
+    document.addEventListener(eventName, event => {
         const target = event.target as HTMLElement;
 
         if (target.classList.contains(className)) {
@@ -244,8 +321,8 @@ export const pageClassOn = function(eventName: string, className: string, fn: (t
     });
 };
 
-export const pageIdOn = function(eventName: string, id: string, fn: (this: HTMLElement, event: Event) => void) {
-    document.addEventListener(eventName, (event) => {
+export const pageIdOn = function (eventName: string, id: string, fn: (this: HTMLElement, event: Event) => void) {
+    document.addEventListener(eventName, event => {
         const target = event.target as HTMLElement;
 
         if (target.id === id) {

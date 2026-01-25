@@ -1,7 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC } from 'react';
-import DragHandleIcon from '@mui/icons-material/DragHandle';
-import Box from '@mui/material/Box/Box';
+import { DragHandleDots2Icon } from '@radix-ui/react-icons';
+import { Box } from 'ui-primitives/Box';
 
 import useIndicator from 'components/indicators/useIndicator';
 import { ItemAction } from 'constants/itemAction';
@@ -47,7 +47,7 @@ const ListContent: FC<ListContentProps> = ({
         >
 
             {!clickEntireItem && listOptions.dragHandle && (
-                <DragHandleIcon className='listViewDragHandle listItemIcon listItemIcon-transparent' />
+                <DragHandleDots2Icon className='listViewDragHandle listItemIcon listItemIcon-transparent' />
             )}
 
             {listOptions.image !== false && (

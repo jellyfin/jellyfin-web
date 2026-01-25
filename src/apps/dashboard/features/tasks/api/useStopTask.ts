@@ -1,4 +1,4 @@
-import { ScheduledTasksApiStartTaskRequest } from '@jellyfin/sdk/lib/generated-client/api/scheduled-tasks-api';
+import { type ScheduledTasksApiStartTaskRequest } from '@jellyfin/sdk/lib/generated-client/api/scheduled-tasks-api';
 import { getScheduledTasksApi } from '@jellyfin/sdk/lib/utils/api/scheduled-tasks-api';
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';

@@ -23,30 +23,16 @@
 
         <meta id="themeColor" name="theme-color" content="#202020" />
 
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="../node_modules/@jellyfin/ux-web/favicons/touchicon.png"
-        />
-        <link
-            rel="shortcut icon"
-            href="../node_modules/@jellyfin/ux-web/favicons/favicon.ico"
-        />
-        <meta
-            name="msapplication-TileImage"
-            content="../node_modules/@jellyfin/ux-web/favicons/touchicon144.png"
-        />
+        <link rel="apple-touch-icon" sizes="180x180" href="../node_modules/@jellyfin/ux-web/favicons/touchicon.png" />
+        <link rel="shortcut icon" href="../node_modules/@jellyfin/ux-web/favicons/favicon.ico" />
+        <meta name="msapplication-TileImage" content="../node_modules/@jellyfin/ux-web/favicons/touchicon144.png" />
         <meta name="msapplication-TileColor" content="#333333" />
 
         <title>Jellyfin Web Next</title>
 
         <!-- Resource hints for better performance -->
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link
-            rel="preconnect"
-            href="https://fonts.googleapis.com"
-            crossorigin
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
         <style>
@@ -85,7 +71,7 @@
                 animation: fadein 0.5s;
                 width: 30%;
                 height: 30%;
-                background-image: url("../node_modules/@jellyfin/ux-web/favicons/touchicon.png");
+                background-image: url('../node_modules/@jellyfin/ux-web/favicons/touchicon.png');
                 background-position: center center;
                 background-repeat: no-repeat;
                 background-size: contain;
@@ -97,9 +83,9 @@
 
             /* Preload critical images */
             .splashLogo::before {
-                content: "";
+                content: '';
                 display: block;
-                background-image: url("../node_modules/@jellyfin/ux-web/favicons/touchicon.png");
+                background-image: url('../node_modules/@jellyfin/ux-web/favicons/touchicon.png');
             }
 
             /* Critical layout styles */
@@ -115,7 +101,7 @@
             /* Basic responsive design */
             @media screen and (min-device-width: 992px) {
                 .splashLogo {
-                    background-image: url("favicons/banner-light.png");
+                    background-image: url('favicons/banner-light.png');
                 }
             }
 
@@ -189,11 +175,11 @@
                 caret-color: transparent;
             }
 
-            [dir="ltr"] .mainDrawerHandle {
+            [dir='ltr'] .mainDrawerHandle {
                 left: 0;
             }
 
-            [dir="rtl"] .mainDrawerHandle {
+            [dir='rtl'] .mainDrawerHandle {
                 left: 0;
             }
         </style>
@@ -207,19 +193,19 @@
         <script>
             // Load non-critical CSS asynchronously
             function loadCSS(href) {
-                var link = document.createElement("link");
-                link.rel = "stylesheet";
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
                 link.href = href;
-                link.media = "print";
+                link.media = 'print';
                 link.onload = function () {
-                    this.media = "all";
+                    this.media = 'all';
                 };
                 document.head.appendChild(link);
             }
 
             // Load main CSS if preload didn't work
             if (!document.querySelector('link[href*="main.jellyfin.css"]')) {
-                loadCSS("main.jellyfin.css");
+                loadCSS('main.jellyfin.css');
             }
         </script>
         <!-- Register service worker -->
@@ -227,7 +213,7 @@
             // Unregister stale service workers in development mode
             if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
                 if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    navigator.serviceWorker.getRegistrations().then(function (registrations) {
                         for (let registration of registrations) {
                             registration.unregister();
                             console.log('[PWA] Unregistered stale service worker');
@@ -236,6 +222,6 @@
                 }
             }
         </script>
-        <script type="module" src="/index.jsx"></script>
+        <script type="module" src="/index.tsx"></script>
     </body>
 </html>

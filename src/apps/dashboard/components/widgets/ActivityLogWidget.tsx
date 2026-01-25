@@ -1,18 +1,17 @@
 import React, { useMemo } from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
-import List from '@mui/joy/List';
-import Sheet from '@mui/joy/Sheet';
 import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
-import subSeconds from 'date-fns/subSeconds';
-import Skeleton from '@mui/joy/Skeleton';
-import Stack from '@mui/joy/Stack';
+import { subSeconds } from 'date-fns';
+import { List } from 'ui-primitives/List';
+import { Paper } from 'ui-primitives/Paper';
+import { Skeleton } from 'ui-primitives/Skeleton';
+import { Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
-const ActivityLogWidget = () => {
-    const dayBefore = useMemo(() => (
-        subSeconds(new Date(), 24 * 60 * 60).toISOString()
-    ), []);
+const ActivityLogWidget = (): React.ReactElement => {
+    const dayBefore = useMemo(() => subSeconds(new Date(), 24 * 60 * 60).toISOString(), []);
 
     const { data: logs, isPending } = useLogEntries({
         startIndex: 0,
@@ -22,34 +21,31 @@ const ActivityLogWidget = () => {
     });
 
     return (
-        <Widget
-            title={globalize.translate('HeaderActivity')}
-            href='/dashboard/activity?useractivity=true'
-        >
+        <Widget title={globalize.translate('HeaderActivity')} href="/dashboard/activity?useractivity=true">
             {isPending ? (
-                <Stack spacing={2}>
-                    <Skeleton variant='rectangular' height={60} sx={{ borderRadius: 'md' }} />
-                    <Skeleton variant='rectangular' height={60} sx={{ borderRadius: 'md' }} />
-                    <Skeleton variant='rectangular' height={60} sx={{ borderRadius: 'md' }} />
-                    <Skeleton variant='rectangular' height={60} sx={{ borderRadius: 'md' }} />
-                </Stack>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                    <Skeleton variant="rectangular" height={60} style={{ borderRadius: vars.borderRadius.md }} />
+                    <Skeleton variant="rectangular" height={60} style={{ borderRadius: vars.borderRadius.md }} />
+                    <Skeleton variant="rectangular" height={60} style={{ borderRadius: vars.borderRadius.md }} />
+                    <Skeleton variant="rectangular" height={60} style={{ borderRadius: vars.borderRadius.md }} />
+                </Flex>
             ) : (
-                <Sheet variant="outlined" sx={{ borderRadius: 'md', overflow: 'hidden' }}>
-                    <List sx={{ '--ListItem-paddingY': '8px', '--ListItem-paddingX': '12px' }}>
+                <Paper variant="outlined" style={{ borderRadius: vars.borderRadius.md, overflow: 'hidden' }}>
+                    <List style={{ '--list-item-padding-y': '8px', '--list-item-padding-x': '12px' }}>
                         {logs?.Items?.map((entry, index) => (
                             <React.Fragment key={entry.Id}>
                                 <ActivityListItem
                                     item={entry}
                                     displayShortOverview={true}
-                                    to='/dashboard/activity?useractivity=true'
+                                    to="/dashboard/activity?useractivity=true"
                                 />
-                                {index < (logs.Items?.length || 0) - 1 && (
-                                    <div style={{ height: 1, backgroundColor: 'var(--joy-palette-divider)' }} />
+                                {index < (logs.Items?.length ?? 0) - 1 && (
+                                    <div style={{ height: 1, backgroundColor: vars.colors.divider }} />
                                 )}
                             </React.Fragment>
                         ))}
                     </List>
-                </Sheet>
+                </Paper>
             )}
         </Widget>
     );

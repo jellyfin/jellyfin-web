@@ -1,4 +1,4 @@
-import { LibraryTab } from 'types/libraryTab';
+import { type LibraryTab } from 'types/libraryTab';
 
 interface LibraryViewDefinition {
     index: number

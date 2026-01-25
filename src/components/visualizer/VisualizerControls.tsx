@@ -1,7 +1,7 @@
-import Button from '@mui/joy/Button';
-import Sheet from '@mui/joy/Sheet';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+import { Button } from 'ui-primitives/Button';
+import { Paper } from 'ui-primitives/Paper';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text, Heading } from 'ui-primitives/Text';
 import React from 'react';
 
 interface VisualizerControlsProps {
@@ -19,84 +19,84 @@ function VisualizerControls(props: VisualizerControlsProps) {
   const { currentType, isEnabled, sensitivity, onTypeChange, onSensitivityChange, onToggleEnabled, className } = props;
 
   return (
-    <Sheet
-      variant="outlined"
+    <Paper
+      variant='outlined'
       className={className}
-      sx={[
+      style={[
         {
-          backgroundColor: 'background.surface',
-          borderRadius: 'md',
-          p: 2,
-          boxShadow: 'sm',
-          borderColor: 'divider',
+          backgroundColor: 'var(--joy-palette-background-surface)',
+          borderRadius: '8px',
+          padding: 16,
+          boxShadow: 'var(--joy-palette-shadow-sm)',
+          borderColor: 'var(--joy-palette-divider)',
         },
         !isEnabled && { opacity: 0.6 },
       ]}
     >
-      <Stack spacing={2}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography level="title-md">Visualizer</Typography>
+      <Box className={`${Flex} ${Flex.col}`} style={{ gap: 16 }}>
+        <Box className={`${Flex} ${Flex.row}`} style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+          <Heading.H4 style={{ margin: 0 }}>Visualizer</Heading.H4>
           <Button
-            variant={isEnabled ? 'solid' : 'outlined'}
+            variant={isEnabled ? 'primary' : 'outlined'}
             color={isEnabled ? 'primary' : 'neutral'}
-            size="sm"
+            size='sm'
             onClick={onToggleEnabled}
           >
             {isEnabled ? 'Enabled' : 'Disabled'}
           </Button>
-        </Stack>
+        </Box>
 
-        <Typography level="body-sm" sx={{ color: 'text.secondary' }}>
+        <Text size='sm' color='secondary'>
           Choose visualization style
-        </Typography>
+        </Text>
 
-        <Stack spacing={1} direction="row" useFlexGap>
+        <Box className={`${Flex} ${Flex.row}`} style={{ gap: 8 }}>
           <Button
-            variant={currentType === 'waveform' ? 'solid' : 'outlined'}
+            variant={currentType === 'waveform' ? 'primary' : 'outlined'}
             color={currentType === 'waveform' ? 'primary' : 'neutral'}
             onClick={() => onTypeChange('waveform')}
-            sx={{ flex: 1 }}
+            style={{ flex: 1 }}
           >
             Waveform
           </Button>
           <Button
-            variant={currentType === 'frequency' ? 'solid' : 'outlined'}
+            variant={currentType === 'frequency' ? 'primary' : 'outlined'}
             color={currentType === 'frequency' ? 'primary' : 'neutral'}
             onClick={() => onTypeChange('frequency')}
-            sx={{ flex: 1 }}
+            style={{ flex: 1 }}
           >
             Frequency
           </Button>
           <Button
-            variant={currentType === 'butterchurn' ? 'solid' : 'outlined'}
+            variant={currentType === 'butterchurn' ? 'primary' : 'outlined'}
             color={currentType === 'butterchurn' ? 'primary' : 'neutral'}
             onClick={() => onTypeChange('butterchurn')}
-            sx={{ flex: 1 }}
+            style={{ flex: 1 }}
           >
             Butterchurn
           </Button>
-        </Stack>
+        </Box>
 
-        <Stack spacing={1} direction="row">
+        <Box className={`${Flex} ${Flex.row}`} style={{ gap: 8 }}>
           <Button
-            variant="outlined"
-            size="sm"
+            variant='outlined'
+            size='sm'
             onClick={() => onSensitivityChange(Math.max(0, sensitivity - 0.1))}
             disabled={!isEnabled || sensitivity <= 0}
           >
             -
           </Button>
           <Button
-            variant="outlined"
-            size="sm"
+            variant='outlined'
+            size='sm'
             onClick={() => onSensitivityChange(Math.min(1, sensitivity + 0.1))}
             disabled={!isEnabled || sensitivity >= 1}
           >
             +
           </Button>
-        </Stack>
-      </Stack>
-    </Sheet>
+        </Box>
+      </Box>
+    </Paper>
   );
 }
 

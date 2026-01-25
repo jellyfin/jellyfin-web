@@ -1,28 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Box from '@mui/material/Box/Box';
-import Slider from '@mui/joy/Slider';
-import IconButton from '@mui/joy/IconButton';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography/Typography';
-import Tooltip from '@mui/joy/Tooltip';
-import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
+import React, { useEffect, useState } from 'react';
+import { Box, Flex } from 'ui-primitives/Box';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Text } from 'ui-primitives/Text';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { vars } from 'styles/tokens.css';
 
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import StopIcon from '@mui/icons-material/Stop';
-import FastRewindIcon from '@mui/icons-material/FastRewind';
-import FastForwardIcon from '@mui/icons-material/FastForward';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
-import RepeatIcon from '@mui/icons-material/Repeat';
-import RepeatOneIcon from '@mui/icons-material/RepeatOne';
-import Replay10Icon from '@mui/icons-material/Replay10';
-import Forward30Icon from '@mui/icons-material/Forward30';
+import {
+    DoubleArrowLeftIcon,
+    DoubleArrowRightIcon,
+    LoopIcon,
+    PauseIcon,
+    PlayIcon,
+    ShuffleIcon,
+    StopIcon,
+    TrackNextIcon,
+    TrackPreviousIcon
+} from '@radix-ui/react-icons';
 
-import { PlaybackIconButton } from '../playback/PlaybackIconButton';
-import { PlaybackSlider } from '../playback/PlaybackSlider';
-import { VolumeSlider } from '../playback/VolumeSlider';
+import { VolumeSlider } from 'ui-primitives/VolumeSlider';
+import { SeekSlider } from 'ui-primitives/SeekSlider';
 
 import type { RepeatMode, ShuffleMode } from 'store/types';
 
@@ -66,11 +62,11 @@ const formatTime = (seconds: number): string => {
 const getRepeatIcon = (mode: RepeatMode): React.ReactNode => {
     switch (mode) {
         case 'RepeatOne':
-            return <RepeatOneIcon />;
+            return <LoopIcon />;
         case 'RepeatAll':
-            return <RepeatIcon />;
+            return <LoopIcon />;
         default:
-            return <RepeatIcon />;
+            return <LoopIcon />;
     }
 };
 
@@ -92,7 +88,6 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
     volume,
     isMuted,
     repeatMode,
-    shuffleMode,
     isShuffled,
     bufferedRanges = [],
     onPlayPause,
@@ -106,9 +101,7 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
     onPreviousTrack,
     onNextTrack,
     onShuffleToggle,
-    onRepeatToggle,
-    onVolumeUp,
-    onVolumeDown
+    onRepeatToggle
 }) => {
     const [localSeekValue, setLocalSeekValue] = useState(0);
     const [isSeeking, setIsSeeking] = useState(false);
@@ -119,188 +112,178 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
         }
     }, [currentTime, duration, isSeeking]);
 
-    const handleSeekChange = useCallback((_event: Event, value: number | number[]) => {
-        setIsSeeking(true);
-        setLocalSeekValue(value as number);
-    }, []);
-
-    const handleSeekEnd = useCallback((_event: Event | React.SyntheticEvent, value: number | number[]) => {
-        setIsSeeking(false);
-        const seekTime = ((value as number) / 100) * duration;
-        onSeekEnd(seekTime);
-        onSeek(seekTime);
-    }, [duration, onSeek, onSeekEnd]);
-
     const progress = duration > 0 ? (localSeekValue / 100) * duration : 0;
 
     return (
-        <Box className='nowPlayingButtonsContainer' data-testid='queue-controls' sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                <Box className='positionTime' sx={{ minWidth: 45, textAlign: 'right' }}>
-                    <Typography level='body-xs' sx={{ color: 'text.secondary' }}>
+        <Box
+            className="nowPlayingButtonsContainer"
+            data-testid="queue-controls"
+            style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}
+        >
+            <Flex style={{ alignItems: 'center', gap: vars.spacing.sm, marginBottom: vars.spacing.sm }}>
+                <Box className="positionTime" style={{ minWidth: 45, textAlign: 'right' }}>
+                    <Text size="xs" color="secondary">
                         {formatTime(progress)}
-                    </Typography>
+                    </Text>
                 </Box>
-                <Box className='nowPlayingPositionSliderContainer' sx={{ flex: 1, mx: 1, position: 'relative' }}>
+                <Box
+                    className="nowPlayingPositionSliderContainer"
+                    style={{ flex: 1, margin: `0 ${vars.spacing.sm}`, position: 'relative' }}
+                >
                     <Box
-                        className='sliderBufferOverlay'
-                        sx={{
+                        className="sliderBufferOverlay"
+                        style={{
                             position: 'absolute',
                             top: '50%',
-                            left: (bufferedRanges.length > 0) ? `${(bufferedRanges[0].start / duration) * 100}%` : '0%',
-                            right: (bufferedRanges.length > 0) ? `${100 - (bufferedRanges[0].end / duration) * 100}%` : '100%',
+                            left: bufferedRanges.length > 0 ? `${(bufferedRanges[0].start / duration) * 100}%` : '0%',
+                            right:
+                                bufferedRanges.length > 0
+                                    ? `${100 - (bufferedRanges[0].end / duration) * 100}%`
+                                    : '100%',
                             height: 4,
-                            background: 'rgba(255,255,255,0.3)',
+                            background: 'rgba(255, 255, 255, 0.3)',
                             transform: 'translateY(-50%)',
                             pointerEvents: 'none',
                             zIndex: 1,
                             borderRadius: 1
                         }}
                     />
-                    <PlaybackSlider
-                        value={localSeekValue}
-                        onChange={handleSeekChange}
-                        onChangeCommitted={handleSeekEnd}
-                        min={0}
-                        max={100}
-                        size='sm'
-                        sx={{ width: '100%' }}
+                    <SeekSlider
+                        currentTime={progress}
+                        duration={duration}
+                        onSeek={onSeek}
+                        onSeekStart={() => setIsSeeking(true)}
+                        onSeekEnd={time => {
+                            setIsSeeking(false);
+                            onSeekEnd?.(time);
+                        }}
+                        bufferedRanges={bufferedRanges}
+                        height={4}
+                        showTime={false}
+                        style={{ width: '100%' }}
                     />
                 </Box>
-                <Box className='runtime' sx={{ minWidth: 45 }}>
-                    <Typography level='body-xs' sx={{ color: 'text.secondary' }}>
+                <Box className="runtime" style={{ minWidth: 45 }}>
+                    <Text size="xs" color="secondary">
                         {formatTime(duration)}
-                    </Typography>
+                    </Text>
                 </Box>
-            </Box>
+            </Flex>
 
-            <Stack
-                direction='row'
-                spacing={1}
-                alignItems='center'
-                justifyContent='space-between'
-                sx={{ flexWrap: 'wrap', gap: 1 }}
+            <Flex
+                style={{
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: vars.spacing.sm
+                }}
             >
-                <Stack direction='row' spacing={0.5} alignItems='center'>
-                    <Tooltip title={getRepeatAriaLabel(repeatMode)} arrow>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                    <Tooltip title={getRepeatAriaLabel(repeatMode)}>
                         <IconButton
-                            className='btnRepeat repeatToggleButton'
-                            size='md'
-                            variant='plain'
+                            className="btnRepeat repeatToggleButton"
+                            size="md"
                             onClick={onRepeatToggle}
-                            sx={{
-                                color: repeatMode !== 'RepeatNone' ? 'primary.main' : 'text.secondary',
-                                '&:hover': { color: 'primary.light' }
-                            }}
+                            variant="plain"
+                            color={repeatMode !== 'RepeatNone' ? 'primary' : 'neutral'}
                         >
                             {getRepeatIcon(repeatMode)}
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title='Rewind (J)' arrow>
+                    <Tooltip title="Rewind (J)">
                         <IconButton
-                            className='btnRewind btnNowPlayingRewind'
-                            size='md'
-                            variant='plain'
+                            className="btnRewind btnNowPlayingRewind"
+                            size="md"
+                            variant="plain"
                             onClick={onRewind}
-                            sx={{ color: 'text.secondary' }}
+                            color="neutral"
                         >
-                            <Replay10Icon />
+                            <DoubleArrowLeftIcon />
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title='Previous Track' arrow>
+                    <Tooltip title="Previous Track">
                         <IconButton
-                            className='btnPreviousTrack'
-                            size='md'
-                            variant='plain'
+                            className="btnPreviousTrack"
+                            size="md"
+                            variant="plain"
                             onClick={onPreviousTrack}
-                            sx={{ color: 'text.secondary' }}
+                            color="neutral"
                         >
-                            <SkipPreviousIcon />
+                            <TrackPreviousIcon />
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title={isPlaying ? 'Pause' : 'Play'} arrow>
+                    <Tooltip title={isPlaying ? 'Pause' : 'Play'}>
                         <IconButton
-                            className='btnPlayPause'
-                            size='lg'
-                            variant='solid'
-                            color='primary'
+                            className="btnPlayPause"
+                            size="lg"
+                            variant="solid"
                             onClick={onPlayPause}
-                            sx={{
-                                mx: 1,
-                                backgroundColor: 'rgba(255,255,255,0.2)',
-                                '&:hover': { backgroundColor: 'rgba(255,255,255,0.3)' }
+                            style={{
+                                margin: `0 ${vars.spacing.sm}`,
+                                backgroundColor: 'rgba(255, 255, 255, 0.2)'
                             }}
                         >
-                            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                            {isPlaying ? <PauseIcon /> : <PlayIcon />}
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title='Stop' arrow>
-                        <IconButton
-                            className='btnStop'
-                            size='md'
-                            variant='plain'
-                            onClick={onStop}
-                            sx={{ color: 'text.secondary' }}
-                        >
+                    <Tooltip title="Stop">
+                        <IconButton className="btnStop" size="md" variant="plain" onClick={onStop} color="neutral">
                             <StopIcon />
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title='Next Track' arrow>
+                    <Tooltip title="Next Track">
                         <IconButton
-                            className='btnNextTrack'
-                            size='md'
-                            variant='plain'
+                            className="btnNextTrack"
+                            size="md"
+                            variant="plain"
                             onClick={onNextTrack}
-                            sx={{ color: 'text.secondary' }}
+                            color="neutral"
                         >
-                            <SkipNextIcon />
+                            <TrackNextIcon />
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title='Fast Forward (L)' arrow>
+                    <Tooltip title="Fast Forward (L)">
                         <IconButton
-                            className='btnFastForward btnNowPlayingFastForward'
-                            size='md'
-                            variant='plain'
+                            className="btnFastForward btnNowPlayingFastForward"
+                            size="md"
+                            variant="plain"
                             onClick={onFastForward}
-                            sx={{ color: 'text.secondary' }}
+                            color="neutral"
                         >
-                            <Forward30Icon />
+                            <DoubleArrowRightIcon />
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title={isShuffled ? 'Shuffle On' : 'Shuffle'} arrow>
+                    <Tooltip title={isShuffled ? 'Shuffle On' : 'Shuffle'}>
                         <IconButton
-                            className='btnShuffleQueue'
-                            size='md'
-                            variant='plain'
+                            className="btnShuffleQueue"
+                            size="md"
+                            variant="plain"
                             onClick={onShuffleToggle}
-                            sx={{
-                                color: isShuffled ? 'primary.main' : 'text.secondary',
-                                '&:hover': { color: 'primary.light' }
-                            }}
+                            color={isShuffled ? 'primary' : 'neutral'}
                         >
                             <ShuffleIcon />
                         </IconButton>
                     </Tooltip>
-                </Stack>
+                </Flex>
 
-                <Stack direction='row' spacing={0.5} alignItems='center'>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
                     <VolumeSlider
                         volume={isMuted ? 0 : volume}
                         muted={isMuted}
                         onVolumeChange={onVolumeChange}
                         onMuteToggle={onMuteToggle}
-                        size='sm'
-                        sx={{ width: 100 }}
+                        size="sm"
+                        style={{ width: 100 }}
                     />
-                </Stack>
-            </Stack>
+                </Flex>
+            </Flex>
         </Box>
     );
 };

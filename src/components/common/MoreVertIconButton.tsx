@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { IconButton } from 'ui-primitives/IconButton';
+import { DotsVerticalIcon } from '@radix-ui/react-icons';
 
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
@@ -17,7 +17,7 @@ const MoreVertIconButton: FC<MoreVertIconButtonProps> = ({ className, iconClassN
             data-action={ItemAction.Menu}
             title={globalize.translate('ButtonMore')}
         >
-            <MoreVertIcon className={iconClassName} />
+            <DotsVerticalIcon className={iconClassName} />
         </IconButton>
     );
 };

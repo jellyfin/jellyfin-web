@@ -1,12 +1,16 @@
-import { ImageResolution } from '@jellyfin/sdk/lib/generated-client/models/image-resolution';
+/**
+ * @deprecated This route uses legacy patterns (direct API calls, querySelector-style state).
+ *
+ * Migration:
+ * - Use TanStack Query for data fetching
+ * - Replace form state with TanStack Forms + Zod
+ * - Use controlled components instead of direct DOM manipulation
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
+import { type ImageResolution } from '@jellyfin/sdk/lib/generated-client/models/image-resolution';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import Alert from '@mui/material/Alert/Alert';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Stack from '@mui/material/Stack/Stack';
-import TextField from '@mui/material/TextField/TextField';
-import Typography from '@mui/material/Typography/Typography';
 import { useCountries } from 'apps/dashboard/features/libraries/api/useCountries';
 import { useCultures } from 'apps/dashboard/features/libraries/api/useCultures';
 import { getImageResolutionOptions } from 'apps/dashboard/features/libraries/utils/metadataOptions';
@@ -15,57 +19,56 @@ import Page from 'components/Page';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import React from 'react';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { ActionData } from 'types/actionData';
+import React, { useCallback, useState } from 'react';
+import { type ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
+import { Alert } from 'ui-primitives/Alert';
+import { Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Input } from 'ui-primitives/Input';
+import { Text } from 'ui-primitives/Text';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
-    if (!api) throw new Error('No Api instance available');
+export const Component = (): React.ReactElement => {
+    const { data: config, isPending: isConfigPending, isError: isConfigError } = useConfiguration();
+    const { data: cultures, isPending: isCulturesPending, isError: isCulturesError } = useCultures();
+    const { data: countries, isPending: isCountriesPending, isError: isCountriesError } = useCountries();
 
-    const formData = await request.formData();
-    const data = Object.fromEntries(formData);
+    const [actionData, setActionData] = useState<ActionData | undefined>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
+    const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const api = ServerConnections.getCurrentApi();
+            if (!api) {
+                throw new Error('No Api instance available');
+            }
 
-    config.PreferredMetadataLanguage = data.Language.toString();
-    config.MetadataCountryCode = data.Country.toString();
-    config.DummyChapterDuration = parseInt(data.DummyChapterDuration.toString(), 10);
-    config.ChapterImageResolution = data.ChapterImageResolution.toString() as ImageResolution;
+            const formData = new FormData(event.currentTarget);
+            const data = Object.fromEntries(formData);
 
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
+            const { data: config } = await getConfigurationApi(api).getConfiguration();
 
-    void queryClient.invalidateQueries({
-        queryKey: [ QUERY_KEY ]
-    });
+            config.PreferredMetadataLanguage = data.Language.toString();
+            config.MetadataCountryCode = data.Country.toString();
+            config.DummyChapterDuration = parseInt(data.DummyChapterDuration.toString(), 10);
+            config.ChapterImageResolution = data.ChapterImageResolution.toString() as ImageResolution;
 
-    return {
-        isSaved: true
-    };
-};
+            await getConfigurationApi(api).updateConfiguration({ serverConfiguration: config });
 
-export const Component = () => {
-    const {
-        data: config,
-        isPending: isConfigPending,
-        isError: isConfigError
-    } = useConfiguration();
-    const {
-        data: cultures,
-        isPending: isCulturesPending,
-        isError: isCulturesError
-    } = useCultures();
-    const {
-        data: countries,
-        isPending: isCountriesPending,
-        isError: isCountriesError
-    } = useCountries();
+            void queryClient.invalidateQueries({
+                queryKey: [QUERY_KEY]
+            });
 
-    const navigation = useNavigation();
-    const actionData = useActionData() as ActionData | undefined;
-    const isSubmitting = navigation.state === 'submitting';
+            setActionData({ isSaved: true });
+        } catch (error) {
+            setActionData({ isSaved: false });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, []);
 
     const imageResolutions = getImageResolutionOptions();
 
@@ -75,90 +78,87 @@ export const Component = () => {
 
     return (
         <Page
-            id='metadataImagesConfigurationPage'
+            id="metadataImagesConfigurationPage"
             title={globalize.translate('LabelMetadata')}
-            className='type-interior mainAnimatedPage'
+            className="type-interior mainAnimatedPage"
         >
-            <Box className='content-primary'>
+            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 {isConfigError || isCulturesError || isCountriesError ? (
-                    <Alert severity='error'>{globalize.translate('MetadataImagesLoadError')}</Alert>
+                    <Alert variant="error">{globalize.translate('MetadataImagesLoadError')}</Alert>
                 ) : (
-                    <Form method='POST'>
-                        <Stack spacing={3}>
+                    <form onSubmit={handleSubmit}>
+                        <Flex style={{ flexDirection: 'column', gap: '24px' }}>
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert severity='success'>
-                                    {globalize.translate('SettingsSaved')}
-                                </Alert>
+                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
                             )}
-                            <Typography variant='h2'>{globalize.translate('HeaderPreferredMetadataLanguage')}</Typography>
-                            <Typography>{globalize.translate('DefaultMetadataLangaugeDescription')}</Typography>
+                            <Text as="h2" size="lg" weight="bold">
+                                {globalize.translate('HeaderPreferredMetadataLanguage')}
+                            </Text>
+                            <Text as="p">{globalize.translate('DefaultMetadataLangaugeDescription')}</Text>
 
-                            <TextField
-                                name={'Language'}
-                                label={globalize.translate('LabelLanguage')}
-                                defaultValue={config.PreferredMetadataLanguage}
-                                select
-                            >
-                                {cultures.map(culture => {
-                                    return <MenuItem
-                                        key={culture.TwoLetterISOLanguageName}
-                                        value={culture.TwoLetterISOLanguageName}
-                                    >{culture.DisplayName}</MenuItem>;
-                                })}
-                            </TextField>
+                            <Select name="Language" defaultValue={config.PreferredMetadataLanguage}>
+                                <SelectTrigger style={{ width: '100%' }}>
+                                    <SelectValue placeholder={globalize.translate('LabelLanguage')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {cultures.map(culture => (
+                                        <SelectItem
+                                            key={culture.TwoLetterISOLanguageName ?? ''}
+                                            value={culture.TwoLetterISOLanguageName ?? ''}
+                                        >
+                                            {culture.DisplayName}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
 
-                            <TextField
-                                name={'Country'}
-                                label={globalize.translate('LabelCountry')}
-                                defaultValue={config.MetadataCountryCode}
-                                select
-                            >
-                                {countries.map(country => {
-                                    return <MenuItem
-                                        key={country.DisplayName}
-                                        value={country.TwoLetterISORegionName || ''}
-                                    >{country.DisplayName}</MenuItem>;
-                                })}
-                            </TextField>
+                            <Select name="Country" defaultValue={config.MetadataCountryCode}>
+                                <SelectTrigger style={{ width: '100%' }}>
+                                    <SelectValue placeholder={globalize.translate('LabelCountry')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {countries.map(country => (
+                                        <SelectItem
+                                            key={country.DisplayName}
+                                            value={country.TwoLetterISORegionName || ''}
+                                        >
+                                            {country.DisplayName}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
 
-                            <Typography variant='h2'>{globalize.translate('HeaderDummyChapter')}</Typography>
+                            <Text as="h2" size="lg" weight="bold">
+                                {globalize.translate('HeaderDummyChapter')}
+                            </Text>
 
-                            <TextField
-                                name={'DummyChapterDuration'}
+                            <Input
+                                name="DummyChapterDuration"
+                                type="number"
                                 defaultValue={config.DummyChapterDuration}
-                                type='number'
                                 label={globalize.translate('LabelDummyChapterDuration')}
-                                helperText={globalize.translate('LabelDummyChapterDurationHelp')}
-                                slotProps={{
-                                    htmlInput: {
-                                        min: 0,
-                                        required: true
-                                    }
-                                }}
+                                min={0}
+                                required
                             />
 
-                            <TextField
-                                name={'ChapterImageResolution'}
-                                select
-                                defaultValue={config.ChapterImageResolution}
-                                label={globalize.translate('LabelChapterImageResolution')}
-                                helperText={globalize.translate('LabelChapterImageResolutionHelp')}
-                            >
-                                {imageResolutions.map(resolution => {
-                                    return <MenuItem key={resolution.name} value={resolution.value}>{resolution.name}</MenuItem>;
-                                })}
-                            </TextField>
+                            <Select name="ChapterImageResolution" defaultValue={config.ChapterImageResolution}>
+                                <SelectTrigger style={{ width: '100%' }}>
+                                    <SelectValue placeholder={globalize.translate('LabelChapterImageResolution')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {imageResolutions.map(resolution => (
+                                        <SelectItem key={resolution.name} value={resolution.value}>
+                                            {resolution.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
 
-                            <Button
-                                type='submit'
-                                size='large'
-                            >
-                                {globalize.translate('Save')}
-                            </Button>
-                        </Stack>
-                    </Form>
+                            <Button type="submit">{globalize.translate('Save')}</Button>
+                        </Flex>
+                    </form>
                 )}
-            </Box>
+            </Flex>
         </Page>
     );
 };

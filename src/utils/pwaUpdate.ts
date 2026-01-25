@@ -18,6 +18,21 @@ class PWAUpdateManager {
             return;
         }
 
+        const isEnabled = localStorage.getItem('enable-service-worker') === 'true';
+        if (!isEnabled) {
+            logger.info('[PWA] Service worker registration disabled by default. Enable via Developer Settings.', { component: 'pwaUpdate' });
+            // Unregister if exists
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    for (const registration of registrations) {
+                        registration.unregister();
+                        logger.info('[PWA] Unregistered existing service worker', { component: 'pwaUpdate' });
+                    }
+                });
+            }
+            return;
+        }
+
         if ('serviceWorker' in navigator && (window as any).appMode !== 'cordova' && (window as any).appMode !== 'android') {
             navigator.serviceWorker.register('/serviceworker.js')
                 .then((registration) => {

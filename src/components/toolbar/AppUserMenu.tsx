@@ -1,19 +1,19 @@
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import AppSettingsAlt from '@mui/icons-material/AppSettingsAlt';
-import Close from '@mui/icons-material/Close';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import Download from '@mui/icons-material/Download';
-import Edit from '@mui/icons-material/Edit';
-import Logout from '@mui/icons-material/Logout';
-import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
-import Settings from '@mui/icons-material/Settings';
-import Storage from '@mui/icons-material/Storage';
-import Divider from '@mui/joy/Divider';
-import Menu from '@mui/joy/Menu';
-import MenuItem from '@mui/joy/MenuItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
+import {
+    Cross1Icon,
+    DashboardIcon,
+    DownloadIcon,
+    ExitIcon,
+    GearIcon,
+    LockClosedIcon,
+    Pencil1Icon,
+    PersonIcon,
+    ResetIcon,
+    StackIcon
+} from '@radix-ui/react-icons';
+import { Divider } from 'ui-primitives/Divider';
+import { Menu, MenuTrigger, MenuPortal, MenuContent, MenuItem, ListItemDecorator } from 'ui-primitives/Menu';
 import React, { FC, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 import { safeAppHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
@@ -65,135 +65,135 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
     }, [ onMenuClose ]);
 
     return (
-        <Menu
-            anchorEl={anchorEl}
-            id={ID}
-            open={open}
-            onClose={onMenuClose}
-            placement="bottom-end"
-            sx={{ minWidth: 200, zIndex: 1300 }}
-        >
-            <MenuItem
-                component={Link}
-                to={`/userprofile?userId=${user?.Id}`}
-                onClick={onMenuClose}
-            >
-                <ListItemDecorator>
-                    <AccountCircle />
-                </ListItemDecorator>
-                {globalize.translate('Profile')}
-            </MenuItem>
-            <MenuItem
-                component={Link}
-                to='/mypreferencesmenu'
-                onClick={onMenuClose}
-            >
-                <ListItemDecorator>
-                    <Settings />
-                </ListItemDecorator>
-                {globalize.translate('Settings')}
-            </MenuItem>
-
-            {(safeAppHost.supports(AppFeature.DownloadManagement) || safeAppHost.supports(AppFeature.ClientSettings)) && (
-                <Divider />
-            )}
-
-            {safeAppHost.supports(AppFeature.DownloadManagement) && (
-                <MenuItem
-                    onClick={onDownloadManagerClick}
-                >
-                    <ListItemDecorator>
-                        <Download />
-                    </ListItemDecorator>
-                    {globalize.translate('DownloadManager')}
-                </MenuItem>
-            )}
-
-            {safeAppHost.supports(AppFeature.ClientSettings) && (
-                <MenuItem
-                    onClick={onClientSettingsClick}
-                >
-                    <ListItemDecorator>
-                        <AppSettingsAlt />
-                    </ListItemDecorator>
-                    {globalize.translate('ClientSettings')}
-                </MenuItem>
-            )}
-
-            {/* ADMIN LINKS */}
-            {user?.Policy?.IsAdministrator && (
-                <>
-                    <Divider />
+        <Menu open={open} onOpenChange={(open) => !open && onMenuClose()}>
+            <MenuTrigger>
+                <div />
+            </MenuTrigger>
+            <MenuPortal>
+                <MenuContent style={{ minWidth: 200, zIndex: 1300 }}>
                     <MenuItem
                         component={Link}
-                        to='/dashboard'
+                        to={`/userprofile?userId=${user?.Id}`}
                         onClick={onMenuClose}
                     >
                         <ListItemDecorator>
-                            <DashboardIcon />
+                            <PersonIcon />
                         </ListItemDecorator>
-                        {globalize.translate('TabDashboard')}
+                        {globalize.translate('Profile')}
                     </MenuItem>
                     <MenuItem
                         component={Link}
-                        to='/metadata'
+                        to='/mypreferencesmenu'
                         onClick={onMenuClose}
                     >
                         <ListItemDecorator>
-                            <Edit />
+                            <GearIcon />
                         </ListItemDecorator>
-                        {globalize.translate('MetadataManager')}
+                        {globalize.translate('Settings')}
                     </MenuItem>
-                </>
-            )}
 
-            <Divider />
-            {isQuickConnectEnabled && (
-                <MenuItem
-                    component={Link}
-                    to='/quickconnect'
-                    onClick={onMenuClose}
-                >
-                    <ListItemDecorator>
-                        <PhonelinkLock />
-                    </ListItemDecorator>
-                    {globalize.translate('QuickConnect')}
-                </MenuItem>
-            )}
+                    {(safeAppHost.supports(AppFeature.DownloadManagement) || safeAppHost.supports(AppFeature.ClientSettings)) && (
+                        <Divider />
+                    )}
 
-            {safeAppHost.supports(AppFeature.MultiServer) && (
-                <MenuItem
-                    onClick={onSelectServerClick}
-                >
-                    <ListItemDecorator>
-                        <Storage />
-                    </ListItemDecorator>
-                    {globalize.translate('SelectServer')}
-                </MenuItem>
-            )}
+                    {safeAppHost.supports(AppFeature.DownloadManagement) && (
+                        <MenuItem
+                            onClick={onDownloadManagerClick}
+                        >
+                            <ListItemDecorator>
+                                <DownloadIcon />
+                            </ListItemDecorator>
+                            {globalize.translate('DownloadManager')}
+                        </MenuItem>
+                    )}
 
-            <MenuItem
-                onClick={onLogoutClick}
-            >
-                <ListItemDecorator>
-                    <Logout />
-                </ListItemDecorator>
-                {globalize.translate('ButtonSignOut')}
-            </MenuItem>
+                    {safeAppHost.supports(AppFeature.ClientSettings) && (
+                        <MenuItem
+                            onClick={onClientSettingsClick}
+                        >
+                            <ListItemDecorator>
+                                <ResetIcon />
+                            </ListItemDecorator>
+                            {globalize.translate('ClientSettings')}
+                        </MenuItem>
+                    )}
 
-            {safeAppHost.supports(AppFeature.ExitMenu) && (
-                <>
+                    {/* ADMIN LINKS */}
+                    {user?.Policy?.IsAdministrator && (
+                        <>
+                            <Divider />
+                            <MenuItem
+                                component={Link}
+                                to='/dashboard'
+                                onClick={onMenuClose}
+                            >
+                                <ListItemDecorator>
+                                    <DashboardIcon />
+                                </ListItemDecorator>
+                                {globalize.translate('TabDashboard')}
+                            </MenuItem>
+                            <MenuItem
+                                component={Link}
+                                to='/metadata'
+                                onClick={onMenuClose}
+                            >
+                                <ListItemDecorator>
+                                    <Pencil1Icon />
+                                </ListItemDecorator>
+                                {globalize.translate('MetadataManager')}
+                            </MenuItem>
+                        </>
+                    )}
+
                     <Divider />
+                    {isQuickConnectEnabled && (
+                        <MenuItem
+                            component={Link}
+                            to='/quickconnect'
+                            onClick={onMenuClose}
+                        >
+                            <ListItemDecorator>
+                                <LockClosedIcon />
+                            </ListItemDecorator>
+                            {globalize.translate('QuickConnect')}
+                        </MenuItem>
+                    )}
+
+                    {safeAppHost.supports(AppFeature.MultiServer) && (
+                        <MenuItem
+                            onClick={onSelectServerClick}
+                        >
+                            <ListItemDecorator>
+                                <StackIcon />
+                            </ListItemDecorator>
+                            {globalize.translate('SelectServer')}
+                        </MenuItem>
+                    )}
+
                     <MenuItem
-                        onClick={onExitAppClick}
+                        onClick={onLogoutClick}
                     >
                         <ListItemDecorator>
-                            <Close />
+                            <ExitIcon />
                         </ListItemDecorator>
-                        {globalize.translate('ButtonExitApp')}
+                        {globalize.translate('ButtonSignOut')}
                     </MenuItem>
-                </>
-            )}
+
+                    {safeAppHost.supports(AppFeature.ExitMenu) && (
+                        <>
+                            <Divider />
+                            <MenuItem
+                                onClick={onExitAppClick}
+                            >
+                                <ListItemDecorator>
+                                    <Cross1Icon />
+                                </ListItemDecorator>
+                                {globalize.translate('ButtonExitApp')}
+                            </MenuItem>
+                        </>
+                    )}
+                </MenuContent>
+            </MenuPortal>
         </Menu>
     );
 };

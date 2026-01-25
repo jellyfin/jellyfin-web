@@ -1,56 +1,24 @@
-import * as userSettings from '../../scripts/settings/userSettings';
 import { logger } from '../../utils/logger';
-
-/**
- * Crossfade state management.
- * This object tracks the current crossfade state and configuration.
- */
-export const xDuration = {
-    enabled: true,
-    sustain: 0.45,
-    fadeOut: 1,
-    busy: false,
-    triggered: false,
-    manualTrigger: false
-};
+import {
+    usePreferencesStore,
+    getCrossfadeFadeOut,
+    getEffectiveLatency,
+    isCrossfadeEnabled,
+    isCrossfadeActive
+} from '../../store/preferencesStore';
 
 /**
  * Gets the crossfade duration from user settings.
  */
 export function getCrossfadeDuration(): number {
-    return userSettings.crossfadeDuration(undefined);
-}
-
-/**
- * Sets the crossfade duration and related properties.
- */
-export function setXDuration(crossfadeDuration: number): void {
-    if (crossfadeDuration < 0.01) {
-        xDuration.enabled = false;
-        xDuration.fadeOut = 0;
-        xDuration.sustain = 0;
-        return;
-    }
-
-    if (crossfadeDuration < 0.51) {
-        xDuration.enabled = true;
-        xDuration.fadeOut = crossfadeDuration;
-        xDuration.sustain = crossfadeDuration / 2;
-        return;
-    }
-
-    xDuration.enabled = true;
-    xDuration.fadeOut = crossfadeDuration * 2;
-    xDuration.sustain = crossfadeDuration / 12;
+    return usePreferencesStore.getState().crossfade.crossfadeDuration;
 }
 
 /**
  * Cancels all active crossfade timeouts and resets state.
  */
 export function cancelCrossfadeTimeouts(): void {
-    xDuration.busy = false;
-    xDuration.triggered = false;
-    xDuration.manualTrigger = false;
+    usePreferencesStore.getState().cancelCrossfade();
     syncManager.stopSync();
 }
 
@@ -61,19 +29,20 @@ export function cancelCrossfadeTimeouts(): void {
 export function timeRunningOut(player: { currentTime(): number; duration(): number }): boolean {
     const currentTimeMs = player.currentTime() * 1000;
     const durationMs = player.duration() * 1000;
-    const fadeOutMs = xDuration.fadeOut * 1000;
+    const crossfadeDuration = usePreferencesStore.getState().crossfade.crossfadeDuration;
+    const fadeOutMs = getCrossfadeFadeOut(crossfadeDuration) * 1000;
 
     if (!isFinite(durationMs) || durationMs <= 0) {
         return false;
     }
 
-    if (!xDuration.enabled || xDuration.busy || currentTimeMs < fadeOutMs) {
+    if (!isCrossfadeEnabled() || isCrossfadeActive() || currentTimeMs < fadeOutMs) {
         return false;
     }
 
     const shouldTrigger = durationMs - currentTimeMs <= fadeOutMs * 1.5;
     if (shouldTrigger) {
-        xDuration.triggered = true;
+        usePreferencesStore.getState().setCrossfadeTriggered(true);
     }
     return shouldTrigger;
 }
@@ -130,7 +99,7 @@ export class SyncManager {
             }
 
             try {
-                const observer = new MutationObserver((mutations) => {
+                const observer = new MutationObserver(mutations => {
                     try {
                         // Check each mutation for removed nodes
                         for (const mutation of mutations) {
@@ -144,13 +113,15 @@ export class SyncManager {
                                     return;
                                 }
                                 // Also check if a parent of our element was removed
-                                if (removedNodes.some(node => {
-                                    try {
-                                        return node.contains?.(element);
-                                    } catch {
-                                        return false;
-                                    }
-                                })) {
+                                if (
+                                    removedNodes.some(node => {
+                                        try {
+                                            return node.contains?.(element);
+                                        } catch {
+                                            return false;
+                                        }
+                                    })
+                                ) {
                                     observer.disconnect();
                                     this.observers.delete(element);
                                     cleanup();
@@ -159,7 +130,9 @@ export class SyncManager {
                             }
                         }
                     } catch (innerError) {
-                        logger.debug(`[SyncManager] Error in mutation callback: ${innerError}`, { component: 'SyncManager' });
+                        logger.debug(`[SyncManager] Error in mutation callback: ${innerError}`, {
+                            component: 'SyncManager'
+                        });
                     }
                 });
 
@@ -282,9 +255,14 @@ export class SyncManager {
                         const targetTime = this.masterTime + startTime;
                         const bufferedAhead = this.getBufferedAhead(element);
 
-                        if (Math.abs(drift) > 0.5 && this.isPositionBuffered(element, targetTime) && !xDuration.busy && bufferedAhead > 2.0) {
+                        if (
+                            Math.abs(drift) > 0.5 &&
+                            this.isPositionBuffered(element, targetTime) &&
+                            !isCrossfadeActive() &&
+                            bufferedAhead > 2.0
+                        ) {
                             element.currentTime = targetTime;
-                        } else if (Math.abs(drift) <= 0.5 && !xDuration.busy) {
+                        } else if (Math.abs(drift) <= 0.5 && !isCrossfadeActive()) {
                             if (element.playbackRate === 1.0) {
                                 element.playbackRate = drift > 0 ? 0.99 : 1.01;
                                 setTimeout(() => {

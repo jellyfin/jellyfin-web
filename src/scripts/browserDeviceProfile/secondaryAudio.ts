@@ -1,4 +1,4 @@
-import browser from '../../browser';
+import browser from 'scripts/browser';
 
 export function canPlaySecondaryAudio(videoTestElement: HTMLMediaElement): boolean {
     return !!(videoTestElement as any).audioTracks

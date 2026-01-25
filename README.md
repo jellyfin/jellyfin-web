@@ -91,6 +91,26 @@ npm run lint              # ESLint + Stylelint
 npm test                  # Vitest
 ```
 
+### Dev Settings (local browser)
+
+- Open `/dev` while running the Vite dev server to configure the Jellyfin server URL and proxy usage.
+- If using the dev proxy, set `VITE_DEV_JELLYFIN_TARGET` in `.env.local` and restart `npm start`.
+- If you see stale assets or proxy issues, use the **Reset Service Worker & Caches** action on `/dev`.
+
+### MCP Dev Config
+
+- Dev config is stored in `dev/dev-config.json` and exposed via `/__dev-config` in dev.
+- MCP tools: `get_dev_config` and `set_dev_config` read/write the same config (no secrets).
+
+### Dev Smoke Test Checklist
+
+- Start dev server: `npm start`.
+- (Proxy) Set `VITE_DEV_JELLYFIN_TARGET` in `.env.local` and restart.
+- Open `/dev`, click **Reset Service Worker & Caches**.
+- Enter server URL, enable proxy (if needed), click **Test Connection**.
+- Go to `/login`, authenticate, confirm landing on `/home`.
+- Navigate to a library view and verify items load.
+
 ## How development happens here
 
 Development moves quickly and is often done with AI coding agents, with developers reviewing and steering the work.

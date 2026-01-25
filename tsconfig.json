@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "src",
     "target": "ES2022",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -16,13 +16,12 @@
     "checkJs": false,
     "strictNullChecks": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "react",
     "useDefineForClassFields": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
     "types": []
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "src/components/playback/playbackmanager.js"
-  ]
+  "include": ["src"],
+  "exclude": ["src/components/playback/playbackmanager.js"]
 }

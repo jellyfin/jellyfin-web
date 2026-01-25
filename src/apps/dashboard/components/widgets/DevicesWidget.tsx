@@ -2,10 +2,11 @@ import React from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
 import DeviceCard from 'apps/dashboard/features/devices/components/DeviceCard';
-import Stack from '@mui/joy/Stack';
 import useLiveSessions from 'apps/dashboard/features/sessions/hooks/useLiveSessions';
+import { Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
-const DevicesWidget = () => {
+const DevicesWidget = (): React.ReactElement => {
     const { data: devices } = useLiveSessions();
 
     return (
@@ -13,14 +14,14 @@ const DevicesWidget = () => {
             title={globalize.translate('HeaderDevices')}
             href='/dashboard/devices'
         >
-            <Stack direction='row' flexWrap='wrap' spacing={2}>
+            <Flex style={{ flexDirection: 'row', flexWrap: 'wrap', gap: vars.spacing.md }}>
                 {devices?.map(device => (
                     <DeviceCard
                         key={device.Id}
                         device={device}
                     />
                 ))}
-            </Stack>
+            </Flex>
         </Widget>
     );
 };

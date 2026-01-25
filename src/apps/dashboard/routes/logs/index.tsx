@@ -1,56 +1,30 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { type ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Alert from '@mui/material/Alert/Alert';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Stack from '@mui/material/Stack/Stack';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import TextField from '@mui/material/TextField/TextField';
-import Typography from '@mui/material/Typography/Typography';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
+import { Alert } from 'ui-primitives/Alert';
+import { Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { FormControlLabel } from 'ui-primitives/FormControl';
+import { Input } from 'ui-primitives/Input';
+import { Text } from 'ui-primitives/Text';
 import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
 import { useConfiguration } from 'hooks/useConfiguration';
 import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
-import { ActionData } from 'types/actionData';
+import { type ActionData } from 'types/actionData';
 import LogItemList from 'apps/dashboard/features/logs/components/LogItemList';
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
-    if (!api) throw new Error('No Api instance available');
-
-    const formData = await request.formData();
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
-
-    const enableWarningMessage = formData.get('EnableWarningMessage');
-    config.EnableSlowResponseWarning = enableWarningMessage === 'on';
-
-    const responseTime = formData.get('SlowResponseTime');
-    if (responseTime) {
-        config.SlowResponseThresholdMs = parseInt(responseTime.toString(), 10);
-    }
-
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
-
-    return {
-        isSaved: true
-    };
-};
-
-export const Component = () => {
-    const navigation = useNavigation();
-    const actionData = useActionData() as ActionData | undefined;
-    const isSubmitting = navigation.state === 'submitting';
+export const Component = (): React.ReactElement => {
+    const [actionData, setActionData] = useState<ActionData | undefined>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { isPending: isLogEntriesPending, data: logs } = useServerLogs();
     const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
-    const [ loading, setLoading ] = useState(true);
-    const [ configuration, setConfiguration ] = useState<ServerConfiguration>( {} );
+    const [loading, setLoading] = useState(true);
+    const [configuration, setConfiguration] = useState<ServerConfiguration>({});
 
     useEffect(() => {
         if (!isConfigurationPending && defaultConfiguration) {
@@ -59,41 +33,71 @@ export const Component = () => {
         }
     }, [isConfigurationPending, defaultConfiguration]);
 
-    const setLogWarningMessage = useCallback((_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-        setConfiguration({
-            ...configuration,
-            EnableSlowResponseWarning: checked
-        });
-    }, [configuration]);
+    const setLogWarningMessage = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setConfiguration({
+                ...configuration,
+                EnableSlowResponseWarning: event.target.checked
+            });
+        },
+        [configuration]
+    );
 
-    const onResponseTimeChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-        setConfiguration({
-            ...configuration,
-            SlowResponseThresholdMs: parseInt(event.target.value, 10)
-        });
-    }, [configuration]);
+    const onResponseTimeChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            setConfiguration({
+                ...configuration,
+                SlowResponseThresholdMs: parseInt(event.target.value, 10)
+            });
+        },
+        [configuration]
+    );
+
+    const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const api = ServerConnections.getCurrentApi();
+            if (!api) {
+                throw new Error('No Api instance available');
+            }
+
+            const formData = new FormData(event.currentTarget);
+            const { data: config } = await getConfigurationApi(api).getConfiguration();
+
+            const enableWarningMessage = formData.get('EnableWarningMessage');
+            config.EnableSlowResponseWarning = enableWarningMessage === 'on';
+
+            const responseTime = formData.get('SlowResponseTime');
+            if (responseTime) {
+                config.SlowResponseThresholdMs = parseInt(responseTime.toString(), 10);
+            }
+
+            await getConfigurationApi(api).updateConfiguration({ serverConfiguration: config });
+
+            setActionData({ isSaved: true });
+        } catch (error) {
+            setActionData({ isSaved: false });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, []);
 
     if (isLogEntriesPending || isConfigurationPending || loading || !logs) {
         return <Loading />;
     }
 
     return (
-        <Page
-            id='logPage'
-            title={globalize.translate('TabLogs')}
-            className='mainAnimatedPage type-interior'
-        >
-            <Box className='content-primary'>
-                <Form method='POST'>
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
+        <Page id='logPage' title={globalize.translate('TabLogs')} className='mainAnimatedPage type-interior'>
+            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+                <form onSubmit={handleSubmit}>
+                    <Flex style={{ flexDirection: 'column', gap: '24px' }}>
+                        <Text as='h1' size='xl' weight='bold'>
                             {globalize.translate('TabLogs')}
-                        </Typography>
+                        </Text>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert severity='success'>
-                                {globalize.translate('SettingsSaved')}
-                            </Alert>
+                            <Alert variant='success'>{globalize.translate('SettingsSaved')}</Alert>
                         )}
 
                         <FormControlLabel
@@ -107,8 +111,7 @@ export const Component = () => {
                             label={globalize.translate('LabelSlowResponseEnabled')}
                         />
 
-                        <TextField
-                            fullWidth
+                        <Input
                             type='number'
                             name='SlowResponseTime'
                             label={globalize.translate('LabelSlowResponseTime')}
@@ -117,18 +120,13 @@ export const Component = () => {
                             onChange={onResponseTimeChange}
                         />
 
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
-                            {globalize.translate('Save')}
-                        </Button>
-                    </Stack>
-                </Form>
-                <Box className='serverLogs readOnlyContent' sx={{ mt: 3 }}>
+                        <Button type='submit'>{globalize.translate('Save')}</Button>
+                    </Flex>
+                </form>
+                <div className='serverLogs readOnlyContent' style={{ marginTop: '24px' }}>
                     <LogItemList logs={logs} />
-                </Box>
-            </Box>
+                </div>
+            </Flex>
         </Page>
     );
 };

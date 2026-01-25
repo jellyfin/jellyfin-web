@@ -1,7 +1,7 @@
 import type { DeviceInfoDto } from '@jellyfin/sdk/lib/generated-client/models/device-info-dto';
-import type { MRT_Row } from 'material-react-table';
+import type { Row } from '@tanstack/react-table';
 
 export interface DeviceInfoCell {
-    renderedCellValue: React.ReactNode
-    row: MRT_Row<DeviceInfoDto>
+    renderedCellValue: React.ReactNode;
+    row: Row<DeviceInfoDto>;
 }

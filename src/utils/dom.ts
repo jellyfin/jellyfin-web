@@ -7,10 +7,10 @@
  */
 export function parentWithAttribute(elem: HTMLElement, name: string, value?: string): HTMLElement | null {
     let current: HTMLElement | null = elem;
-    while (current && (value ? current.getAttribute(name) !== value : !current.getAttribute(name))) {
+    while (current !== null && (value === undefined ? current.getAttribute(name) === null : current.getAttribute(name) !== value)) {
         const parent = current.parentNode as HTMLElement;
 
-        if (!parent?.getAttribute) {
+        if (parent?.getAttribute === undefined) {
             return null;
         }
         current = parent;
@@ -27,10 +27,10 @@ export function parentWithTag(elem: HTMLElement, tagNames: string | string[]): H
     const normalizedTags = tags.map(t => t.toUpperCase());
 
     let current: HTMLElement | null = elem;
-    while (current && !normalizedTags.includes(current.tagName || '')) {
+    while (current !== null && !normalizedTags.includes(current.tagName ?? '')) {
         current = current.parentNode as HTMLElement;
 
-        if (!current || !current.tagName) {
+        if (current?.tagName === undefined) {
             return null;
         }
     }
@@ -57,10 +57,10 @@ export function parentWithClass(elem: HTMLElement, classNames: string | string[]
     const classes = Array.isArray(classNames) ? classNames : [classNames];
 
     let current: HTMLElement | null = elem;
-    while (current && (!current.classList || !containsAnyClass(current.classList, classes))) {
+    while (current !== null && (current.classList === undefined || !containsAnyClass(current.classList, classes))) {
         current = current.parentNode as HTMLElement;
 
-        if (!current || !current.classList) {
+        if (current?.classList === undefined) {
             return null;
         }
     }
@@ -76,18 +76,25 @@ try {
             return null;
         }
     });
-    window.addEventListener('test', (() => {}) as any, opts);
+    window.addEventListener('test', (() => { return; }) as unknown as EventListener, opts);
 } catch {
     // no capture support
+}
+
+interface AddEventListenerOptionsType {
+    capture?: boolean;
+    once?: boolean;
+    passive?: boolean;
+    signal?: AbortSignal;
 }
 
 /**
  * Adds event listener to specified target.
  */
-export function addEventListener(target: EventTarget, type: string, handler: EventListenerOrEventListenerObject, options?: AddEventListenerOptions): void {
-    let optionsOrCapture: any = options || {};
+export function addEventListener(target: EventTarget, type: string, handler: EventListenerOrEventListenerObject, options?: AddEventListenerOptionsType): void {
+    const optionsOrCapture = options ?? {};
     if (!supportsCaptureOption) {
-        optionsOrCapture = optionsOrCapture.capture;
+        optionsOrCapture.capture = optionsOrCapture.capture;
     }
     target.addEventListener(type, handler, optionsOrCapture);
 }
@@ -96,9 +103,9 @@ export function addEventListener(target: EventTarget, type: string, handler: Eve
  * Removes event listener from specified target.
  */
 export function removeEventListener(target: EventTarget, type: string, handler: EventListenerOrEventListenerObject, options?: EventListenerOptions): void {
-    let optionsOrCapture: any = options || {};
+    const optionsOrCapture = options ?? {};
     if (!supportsCaptureOption) {
-        optionsOrCapture = optionsOrCapture.capture;
+        optionsOrCapture.capture = optionsOrCapture.capture;
     }
     target.removeEventListener(type, handler, optionsOrCapture);
 }
@@ -116,7 +123,7 @@ let windowSizeEventsBound = false;
 /**
  * Resets cached window size.
  */
-function clearWindowSize() {
+function clearWindowSize(): void {
     windowSize = null;
 }
 
@@ -124,7 +131,7 @@ function clearWindowSize() {
  * Returns window size.
  */
 export function getWindowSize(): { innerHeight: number; innerWidth: number } {
-    if (!windowSize) {
+    if (windowSize === null) {
         const innerWidth = window.innerWidth;
         const innerHeight = window.innerHeight;
 
@@ -180,7 +187,7 @@ let _animationEvent: string | undefined;
  * Returns name of animation end event.
  */
 export function whichAnimationEvent(): string {
-    if (_animationEvent) {
+    if (_animationEvent !== undefined) {
         return _animationEvent;
     }
 
@@ -192,7 +199,7 @@ export function whichAnimationEvent(): string {
         'WebkitAnimation': 'webkitAnimationEnd'
     };
     for (const t in animations) {
-        if ((el.style as any)[t] !== undefined) {
+        if ((el.style as unknown as Record<string, unknown>)[t] !== undefined) {
             _animationEvent = animations[t];
             return animations[t];
         }
@@ -218,7 +225,7 @@ let _transitionEvent: string | undefined;
  * Returns name of transition end event.
  */
 export function whichTransitionEvent(): string {
-    if (_transitionEvent) {
+    if (_transitionEvent !== undefined) {
         return _transitionEvent;
     }
 
@@ -230,7 +237,7 @@ export function whichTransitionEvent(): string {
         'WebkitTransition': 'webkitTransitionEnd'
     };
     for (const t in transitions) {
-        if ((el.style as any)[t] !== undefined) {
+        if ((el.style as unknown as Record<string, unknown>)[t] !== undefined) {
             _transitionEvent = transitions[t];
             return transitions[t];
         }
@@ -245,7 +252,7 @@ export function whichTransitionEvent(): string {
  */
 export function setElementTitle(elem: HTMLElement, title: string, ariaLabel?: string): void {
     elem.setAttribute('title', title);
-    if (ariaLabel) {
+    if (ariaLabel !== undefined) {
         elem.setAttribute('aria-label', ariaLabel);
     } else {
         elem.setAttribute('aria-label', title);

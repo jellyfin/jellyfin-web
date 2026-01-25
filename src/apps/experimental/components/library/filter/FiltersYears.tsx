@@ -1,8 +1,8 @@
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import { LibraryViewSettings } from 'types/library';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
+import { type LibraryViewSettings } from 'types/library';
 
 interface FiltersYearsProps {
     yearsOptions: number[];
@@ -38,25 +38,22 @@ const FiltersYears: FC<FiltersYearsProps> = ({
     );
 
     return (
-        <FormGroup>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {yearsOptions.map((filter) => (
-                <FormControlLabel
+                <Checkbox
                     key={filter}
-                    control={
-                        <Checkbox
-                            checked={
-                                !!libraryViewSettings?.Filters?.Years?.includes(
-                                    Number(filter)
-                                )
-                            }
-                            onChange={onFiltersYearsChange}
-                            value={String(filter)}
-                        />
+                    checked={
+                        !!libraryViewSettings?.Filters?.Years?.includes(
+                            Number(filter)
+                        )
                     }
-                    label={filter}
-                />
+                    onChange={onFiltersYearsChange}
+                    value={String(filter)}
+                >
+                    {filter}
+                </Checkbox>
             ))}
-        </FormGroup>
+        </Box>
     );
 };
 

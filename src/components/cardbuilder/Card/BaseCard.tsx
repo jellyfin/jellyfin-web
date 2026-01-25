@@ -22,7 +22,7 @@ interface BaseCardProps {
     onActionClick?: () => void;
     height?: number | string;
     width?: number | string;
-};
+}
 
 const BaseCard = ({
     title,
@@ -41,11 +41,7 @@ const BaseCard = ({
         <>
             <AspectRatio ratio="16/9" style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
                 {image ? (
-                    <img
-                        src={image}
-                        loading="lazy"
-                        alt={title}
-                    />
+                    <img src={image} loading="lazy" alt={title} />
                 ) : (
                     <Box
                         className={getDefaultBackgroundClass(title)}
@@ -61,7 +57,14 @@ const BaseCard = ({
                 )}
             </AspectRatio>
             <Flex style={{ paddingTop: vars.spacing.sm, flexDirection: 'column', gap: vars.spacing.sm }}>
-                <Flex style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: vars.spacing.sm }}>
+                <Flex
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        gap: vars.spacing.sm
+                    }}
+                >
                     <Box style={{ flexGrow: 1, minWidth: 0 }}>
                         <Heading.H5
                             style={{
@@ -90,7 +93,7 @@ const BaseCard = ({
                             color="neutral"
                             size="sm"
                             ref={actionRef}
-                            onClick={(e) => {
+                            onClick={e => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 onActionClick?.();
@@ -111,14 +114,14 @@ const BaseCard = ({
         border: `1px solid ${vars.colors.divider}`,
         borderRadius: vars.borderRadius.md,
         textDecoration: 'none',
-        cursor: 'pointer',
+        cursor: 'pointer'
     };
 
     const hoverStyle = {
         transform: 'translateY(-4px)',
         boxShadow: vars.shadows.md,
         borderColor: vars.colors.primary,
-        backgroundColor: vars.colors.surface,
+        backgroundColor: vars.colors.surface
     };
 
     if (to) {
@@ -127,13 +130,14 @@ const BaseCard = ({
                 <Card
                     style={cardStyle}
                     onMouseEnter={(e: React.MouseEvent) => {
-                        Object.assign(e.currentTarget.style, hoverStyle);
+                        Object.assign((e.currentTarget as HTMLElement).style, hoverStyle);
                     }}
                     onMouseLeave={(e: React.MouseEvent) => {
-                        e.currentTarget.style.transform = '';
-                        e.currentTarget.style.boxShadow = '';
-                        e.currentTarget.style.borderColor = vars.colors.divider;
-                        e.currentTarget.style.backgroundColor = '';
+                        const elem = e.currentTarget as HTMLElement;
+                        elem.style.transform = '';
+                        elem.style.boxShadow = '';
+                        elem.style.borderColor = vars.colors.divider;
+                        elem.style.backgroundColor = '';
                     }}
                 >
                     {cardContent}
@@ -147,13 +151,14 @@ const BaseCard = ({
             style={cardStyle}
             onClick={onClick}
             onMouseEnter={(e: React.MouseEvent) => {
-                Object.assign(e.currentTarget.style, hoverStyle);
+                Object.assign((e.currentTarget as HTMLElement).style, hoverStyle);
             }}
             onMouseLeave={(e: React.MouseEvent) => {
-                e.currentTarget.style.transform = '';
-                e.currentTarget.style.boxShadow = '';
-                e.currentTarget.style.borderColor = vars.colors.divider;
-                e.currentTarget.style.backgroundColor = '';
+                const elem = e.currentTarget as HTMLElement;
+                elem.style.transform = '';
+                elem.style.boxShadow = '';
+                elem.style.borderColor = vars.colors.divider;
+                elem.style.backgroundColor = '';
             }}
         >
             {cardContent}

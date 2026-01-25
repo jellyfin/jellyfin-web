@@ -1,3 +1,15 @@
+/**
+ * @deprecated This module is deprecated in favor of React + ui-primitives/Tabs.
+ *
+ * Migration:
+    - Tabbed views → React with ui-primitives/Tabs (Radix UI)
+    - Tab controllers → React components
+    - View destruction → useEffect cleanup
+ *
+ * @see src/ui-primitives/Tabs.tsx
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import { clearBackdrop } from '../backdrop/backdrop';
 import * as mainTabsManager from '../maintabsmanager';
 import layoutManager from '../layoutManager';

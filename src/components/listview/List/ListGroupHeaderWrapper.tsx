@@ -1,5 +1,5 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import Typography from '@mui/material/Typography/Typography';
+import { Text } from 'ui-primitives/Text';
 
 interface ListGroupHeaderWrapperProps {
     index?: number;
@@ -11,18 +11,20 @@ const ListGroupHeaderWrapper: FC<PropsWithChildren<ListGroupHeaderWrapperProps>>
 }) => {
     if (index === 0) {
         return (
-            <Typography
+            <Text
+                as='h2'
+                size='xxl'
+                weight='bold'
                 className='listGroupHeader listGroupHeader-first'
-                variant='h2'
             >
                 {children}
-            </Typography>
+            </Text>
         );
     } else {
         return (
-            <Typography className='listGroupHeader' variant='h2'>
+            <Text as='h2' size='xxl' weight='bold' className='listGroupHeader'>
                 {children}
-            </Typography>
+            </Text>
         );
     }
 };

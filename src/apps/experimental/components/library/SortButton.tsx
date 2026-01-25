@@ -1,24 +1,23 @@
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import React, { FC, useCallback } from 'react';
-import Button from '@mui/material/Button/Button';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Popover from '@mui/material/Popover/Popover';
-import Typography from '@mui/material/Typography/Typography';
-import Divider from '@mui/material/Divider/Divider';
-import InputLabel from '@mui/material/InputLabel/InputLabel';
-import FormControl from '@mui/material/FormControl/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select/Select';
-import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+import React, { type FC, useCallback } from 'react';
+import { CaretSortIcon } from '@radix-ui/react-icons';
+import { Box } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Divider } from 'ui-primitives/Divider';
+import { Menu } from 'ui-primitives/Menu';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 import globalize from 'lib/globalize';
-import { LibraryViewSettings } from 'types/library';
+import { type LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
-type SortOption = {
+interface SortOption {
     label: string;
     value: ItemSortBy;
-};
+}
 
 type SortOptionsMapping = Record<string, SortOption[]>;
 
@@ -129,113 +128,88 @@ const SortButton: FC<SortButtonProps> = ({
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const id = open ? 'sort-popover' : undefined;
+    const [ isMenuOpen, setIsMenuOpen ] = React.useState(false);
 
-    const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    }, []);
+    const onSortByChange = useCallback((value: string) => {
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: 0,
+            SortBy: value as ItemSortBy
+        }));
+    }, [ setLibraryViewSettings ]);
 
-    const handleClose = useCallback(() => {
-        setAnchorEl(null);
-    }, []);
-
-    const onSelectChange = useCallback(
-        (event: SelectChangeEvent) => {
-            const name = event.target.name;
-
-            setLibraryViewSettings((prevState) => ({
-                ...prevState,
-                StartIndex: 0,
-                [name]: event.target.value
-            }));
-        },
-        [setLibraryViewSettings]
-    );
+    const onSortOrderChange = useCallback((value: string) => {
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: 0,
+            SortOrder: value as SortOrder
+        }));
+    }, [ setLibraryViewSettings ]);
 
     const sortMenuOptions = getSortMenuOptions(viewType);
 
     return (
-        <>
-            <Button
-                title={globalize.translate('Sort')}
-                aria-describedby={id}
-                onClick={handleClick}
-            >
-                <SortByAlphaIcon />
-            </Button>
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center'
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center'
-                }}
-                sx={{
-                    '& .MuiFormControl-root': { m: 1, width: 200 }
-                }}
-            >
-                <FormControl fullWidth>
-                    <InputLabel id='select-sort-label'>
-                        <Typography component='span'>
-                            {globalize.translate('LabelSortBy')}
-                        </Typography>
-                    </InputLabel>
-                    <Select
-                        labelId='select-sort-label'
-                        id='selectSortBy'
-                        value={libraryViewSettings.SortBy}
-                        label={globalize.translate('LabelSortBy')}
-                        name='SortBy'
-                        onChange={onSelectChange}
-                    >
-                        {sortMenuOptions
-                            .map((option) => (
-                                <MenuItem
-                                    key={option.value}
-                                    value={option.value}
-                                >
-                                    <Typography component='span'>
-                                        {globalize.translate(option.label)}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
-                    </Select>
-                </FormControl>
-
-                <Divider />
-                <FormControl fullWidth>
-                    <InputLabel id='select-sortorder-label'>
-                        <Typography component='span'>
-                            {globalize.translate('LabelSortOrder')}
-                        </Typography>
-                    </InputLabel>
-                    <Select
-                        labelId='select-sortorder-label'
-                        id='selectSortOrder'
-                        value={libraryViewSettings.SortOrder}
-                        label={globalize.translate('LabelSortOrder')}
-                        name='SortOrder'
-                        onChange={onSelectChange}
-                    >
-                        {sortOrderMenuOptions.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                <Typography component='span'>
-                                    {option.label}
-                                </Typography>
-                            </MenuItem>
+        <Menu
+            id='sort-popover'
+            open={isMenuOpen}
+            onOpenChange={setIsMenuOpen}
+            align='center'
+            trigger={(
+                <Button
+                    title={globalize.translate('Sort')}
+                    variant='plain'
+                >
+                    <CaretSortIcon />
+                </Button>
+            )}
+        >
+            <Box style={{ padding: vars.spacing.sm, width: 220 }}>
+                <Text size='sm' weight='medium' color='secondary'>
+                    {globalize.translate('LabelSortBy')}
+                </Text>
+                <Select
+                    value={libraryViewSettings.SortBy}
+                    onValueChange={onSortByChange}
+                >
+                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
+                        <SelectValue placeholder={globalize.translate('LabelSortBy')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {sortMenuOptions.map((option) => (
+                            <SelectItem
+                                key={option.value}
+                                value={option.value}
+                            >
+                                {globalize.translate(option.label)}
+                            </SelectItem>
                         ))}
-                    </Select>
-                </FormControl>
-            </Popover>
-        </>
+                    </SelectContent>
+                </Select>
+            </Box>
+
+            <Divider />
+
+            <Box style={{ padding: vars.spacing.sm, width: 220 }}>
+                <Text size='sm' weight='medium' color='secondary'>
+                    {globalize.translate('LabelSortOrder')}
+                </Text>
+                <Select
+                    value={libraryViewSettings.SortOrder}
+                    onValueChange={onSortOrderChange}
+                >
+                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
+                        <SelectValue placeholder={globalize.translate('LabelSortOrder')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {sortOrderMenuOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </Box>
+        </Menu>
     );
 };
 

@@ -13,17 +13,17 @@ export const styledChannelHeader = style({
     borderRight: `1px solid ${vars.colors.divider}`,
     backgroundColor: vars.colors.surface,
     padding: vars.spacing.sm,
-    textAlign: 'center',
+    textAlign: 'center'
 });
 
 export const channelImage = style({
     maxHeight: '100%',
     maxWidth: '100%',
-    objectFit: 'contain',
+    objectFit: 'contain'
 });
 
 export const channelNumber = style({
     marginTop: vars.spacing.xs,
     fontSize: vars.typography.fontSizeSm,
-    color: vars.colors.textSecondary,
+    color: vars.colors.textSecondary
 });

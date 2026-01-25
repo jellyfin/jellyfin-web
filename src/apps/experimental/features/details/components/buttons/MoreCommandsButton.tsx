@@ -1,6 +1,6 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
@@ -27,7 +27,7 @@ function playAllFromHere(opts: PlayAllFromHereOptions) {
     const ids = [];
 
     let foundCard = false;
-    let startIndex;
+    let startIndex: number | undefined;
 
     for (let i = 0, length = items?.length; i < length; i++) {
         if (items[i] === item) {
@@ -113,8 +113,11 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
         itemType,
         itemId: selectedItemId || itemId || ''
     });
-    const parentId = item?.SeasonId || item?.SeriesId || item?.ParentId;
-    const [ hasCommands, setHasCommands ] = useState(false);
+    const parentId = [item?.SeasonId, item?.SeriesId, item?.ParentId].find(
+        (id): id is string => typeof id === 'string'
+    ) as string | undefined;
+    const parentIdString = parentId;
+    const [hasCommands, setHasCommands] = useState(false);
 
     const playlistItem = useMemo(() => {
         let PlaylistItemId: string | null = null;
@@ -134,7 +137,6 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
 
     const defaultMenuOptions = useMemo(() => {
         return {
-
             item: {
                 ...item,
                 ...playlistItem
@@ -145,8 +147,8 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
             playAllFromHere: item?.Type === ItemKind.Season || !item?.IsFolder,
             queueAllFromHere: !item?.IsFolder,
             canEditPlaylist: canEditPlaylist,
-            playlistId: playlistId,
-            collectionId: collectionId,
+            playlistId: playlistId ?? undefined,
+            collectionId: collectionId ?? undefined,
             ...contextMenuOpts
         };
     }, [canEditPlaylist, collectionId, contextMenuOpts, item, playlistId, playlistItem, user]);
@@ -158,7 +160,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                     ...defaultMenuOptions,
                     positionTo: e.currentTarget
                 })
-                .then(async (result) => {
+                .then(async result => {
                     if (result.command === 'playallfromhere') {
                         console.log('handleItemClick', {
                             item,
@@ -186,8 +188,8 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             await queryClient.invalidateQueries({
                                 queryKey
                             });
-                        } else if (parentId) {
-                            appRouter.showItem(parentId, item?.ServerId);
+                        } else if (parentIdString) {
+                            appRouter.showItem(parentIdString, item?.ServerId ?? undefined);
                         } else {
                             await appRouter.goHome();
                         }
@@ -201,7 +203,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                     /* no-op */
                 });
         },
-        [defaultMenuOptions, item, itemId, items, parentId, queryClient, queryKey]
+        [defaultMenuOptions, item, itemId, items, parentIdString, queryClient, queryKey]
     );
 
     useEffect(() => {
@@ -210,16 +212,16 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
             setHasCommands(commands.length > 0);
         };
         void getCommands();
-    }, [ defaultMenuOptions ]);
+    }, [defaultMenuOptions]);
 
     if (item && hasCommands) {
         return (
             <IconButton
-                className='button-flat btnMoreCommands'
+                className="button-flat btnMoreCommands"
                 title={globalize.translate('ButtonMore')}
                 onClick={onMoreCommandsClick}
             >
-                <MoreVertIcon />
+                <DotsVerticalIcon />
             </IconButton>
         );
     }

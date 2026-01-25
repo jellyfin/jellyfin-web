@@ -16,7 +16,7 @@ const ProgramCell: React.FC<ProgramCellProps> = ({ program, startPercent, widthP
 
     return (
         <button
-            type="button"
+            type='button'
             className={`${styles.styledProgramCell} ${program.active ? styles.styledProgramCellActive : ''}`}
             style={{ left: `${startPercent}%`, width: `${widthPercent}%` }}
             onClick={() => onClick?.(program)}

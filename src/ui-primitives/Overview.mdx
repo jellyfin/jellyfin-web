@@ -1,0 +1,272 @@
+import { Meta, ColorPalette, ColorItem, Typeset } from '@storybook/blocks';
+import { vars } from '../styles/tokens.css.ts';
+
+<Meta title="UI Primitives/Overview" />
+
+# UI Primitives
+
+A comprehensive component library built with React, Radix UI primitives, and vanilla-extract for type-safe styling.
+
+## Design Tokens
+
+<ColorPalette>
+    <ColorItem
+        title="Colors - Background"
+        subtitle="Background colors"
+        colors={{
+            background: vars.colors.background,
+            surface: vars.colors.surface,
+            surfaceHover: vars.colors.surfaceHover
+        }}
+    />
+    <ColorItem
+        title="Colors - Primary"
+        subtitle="Primary brand colors"
+        colors={{
+            primary: vars.colors.primary,
+            primaryHover: vars.colors.primaryHover,
+            primaryActive: vars.colors.primaryActive
+        }}
+    />
+    <ColorItem
+        title="Colors - Text"
+        subtitle="Text colors"
+        colors={{
+            text: vars.colors.text,
+            textSecondary: vars.colors.textSecondary,
+            textMuted: vars.colors.textMuted
+        }}
+    />
+    <ColorItem
+        title="Colors - Status"
+        subtitle="Status indicator colors"
+        colors={{
+            success: vars.colors.success,
+            warning: vars.colors.warning,
+            error: vars.colors.error,
+            info: vars.colors.info
+        }}
+    />
+    <ColorItem
+        title="Colors - Buttons"
+        subtitle="Button variant colors"
+        colors={{
+            danger: vars.colors.danger,
+            dangerHover: vars.colors.dangerHover,
+            dangerActive: vars.colors.dangerActive
+        }}
+    />
+</ColorPalette>
+
+## Typography
+
+<Typeset
+    fontSizes={[
+        Number(vars.typography.fontSizeXs.replace('px', '')),
+        Number(vars.typography.fontSizeSm.replace('px', '')),
+        Number(vars.typography.fontSizeMd.replace('px', '')),
+        Number(vars.typography.fontSizeLg.replace('px', '')),
+        Number(vars.typography.fontSizeXl.replace('px', '')),
+        Number(vars.typography.fontSizeXxl.replace('px', ''))
+    ]}
+    fontWeight={vars.typography.fontWeightRegular}
+    sampleText="The quick brown fox jumps over the lazy dog"
+    fontFamily={vars.typography.fontFamily}
+/>
+
+## Spacing
+
+| Token | Value                |
+| ----- | -------------------- |
+| `xs`  | `{vars.spacing.xs}`  |
+| `sm`  | `{vars.spacing.sm}`  |
+| `md`  | `{vars.spacing.md}`  |
+| `lg`  | `{vars.spacing.lg}`  |
+| `xl`  | `{vars.spacing.xl}`  |
+| `xxl` | `{vars.spacing.xxl}` |
+
+## Border Radius
+
+| Token  | Value                      |
+| ------ | -------------------------- |
+| `sm`   | `{vars.borderRadius.sm}`   |
+| `md`   | `{vars.borderRadius.md}`   |
+| `lg`   | `{vars.borderRadius.lg}`   |
+| `xl`   | `{vars.borderRadius.xl}`   |
+| `full` | `{vars.borderRadius.full}` |
+
+## Shadows
+
+| Token | Value              |
+| ----- | ------------------ |
+| `sm`  | Small shadow       |
+| `md`  | Medium shadow      |
+| `lg`  | Large shadow       |
+| `xl`  | Extra large shadow |
+
+## Atomic Design Organization
+
+This component library follows **Atomic Design** principles, organizing components into five distinct categories:
+
+### 1. Atoms
+
+Basic building blocks that can't be broken down further. These are simple HTML elements or low-level components with a single purpose.
+
+**Buttons:**
+
+- **Button** - Multi-variant button (primary, secondary, ghost, danger)
+- **IconButton** - Icon-only button for actions
+- **Toggle** - Toggle button with on/off states
+
+**Form Inputs:**
+
+- **Input** - Text input with label and helper text
+- **Checkbox** - Checkbox with label
+- **Switch** - Toggle switch for boolean values
+- **Slider** - Range slider for numeric values
+- **RadioGroup** - Group of radio buttons
+
+**Display:**
+
+- **Text** - Typography component with size/weight variants
+- **Avatar** - User avatar with image fallback
+- **Chip** - Tag/chip component for categorization
+- **Alert** - Alert message with severity levels
+- **Progress** - Linear progress bar
+- **CircularProgress** - Spinner/loader indicator
+- **Skeleton** - Loading placeholder
+
+**Layout:**
+
+- **Box** - Core layout wrapper with style props
+- **Container** - Width-constrained container
+- **Paper** - Surface container with elevation
+- **Grid** - CSS Grid layout system
+- **AspectRatio** - Enforce aspect ratio for media
+- **Spacer** - Flexible spacing utility
+
+**Dividers:**
+
+- **Divider** - Horizontal divider line
+- **Separator** - Semantic separator for lists/groups
+
+**Feedback:**
+
+- **Tooltip** - Hover tooltip (Radix UI)
+- **Progress** - Progress indicator
+- **CircularProgress** - Loading spinner
+- **Skeleton** - Loading placeholder
+
+### 2. Molecules
+
+Groups of atoms functioning together as a unit. These components combine one or more atoms to create a more complex UI element.
+
+**Form Components:**
+
+- **FormControl** - Wrapper for form inputs with label and helper text
+- **Select** - Dropdown select component
+
+**Lists & Navigation:**
+
+- **List** - Styled unordered list
+- **ListItemButton** - Interactive list item
+- **Menu** - Dropdown menu (Radix UI)
+- **Tabs** - Tab navigation (Radix UI)
+
+**Data Display:**
+
+- **Table** - Styled HTML table
+- **DataTable** - TanStack Table wrapper with sorting/pagination
+
+**Layout & Scrolling:**
+
+- **ScrollArea** - Custom scrollable container (Radix UI)
+- **Accordion** - Collapsible content sections (Radix UI)
+
+**Interactive Controls:**
+
+- **Dialog** - Modal dialog (Radix UI)
+- **Popover** - Popover overlay (Radix UI)
+- **Seeker** - Audio/video seek control
+- **VolumeSlider** - Volume control slider
+
+### 3. Organisms
+
+Distinct sections of an interface composed of multiple molecules. These are complex components that form discrete sections of the UI.
+
+**Compound Components:**
+
+- **Card** - Card container with header, body, and footer sections
+- **Calendar** - Calendar date picker with date selection
+- **Toast** - Toast notification with ToastProvider
+- **SettingsForm** - Form for managing application settings
+
+## Component Categories (Legacy)
+
+For reference, here are components organized by functional category:
+
+### Layout
+
+- **Box** - Core layout wrapper with style props
+- **Flex** - Flexbox helper components
+- **Container** - Width-constrained container
+- **Paper** - Surface container with elevation
+- **Grid** - Grid layout system
+
+### Typography
+
+- **Text** - Typography with size/weight/color variants
+- **Heading** - H1-H4 heading shortcuts
+
+### Buttons & Inputs
+
+- **Button** - Button with variants (primary, secondary, ghost, danger)
+- **IconButton** - Icon-only button
+- **Input** - Text input with label and helper
+- **Select** - Select dropdown
+- **Checkbox** - Checkbox input
+- **Switch** - Toggle switch
+- **Slider** - Range slider
+
+### Feedback
+
+- **Alert** - Alert with variants
+- **Progress** - Linear progress bar
+- **CircularProgress** - Spinner loading indicator
+- **Skeleton** - Loading skeleton
+
+### Navigation
+
+- **Tabs** - Tab navigation (Radix UI)
+- **Menu** - Dropdown menu (Radix UI)
+- **List** - Unordered list
+
+### Data Display
+
+- **Card** - Card with header/body/footer
+- **Avatar** - User avatar with image fallback
+- **Table** - HTML table with styling
+- **DataTable** - TanStack Table wrapper
+- **Chip** - Tag chip
+
+### Overlays
+
+- **Dialog** - Accessible modal dialog (Radix UI)
+- **Tooltip** - Accessible tooltip (Radix UI)
+
+### Utilities
+
+- **Divider** - Visual separator
+- **Spacer** - Spacing utility
+- **ScrollArea** - Scrollable container (Radix UI)
+- **FormControl** - Form wrapper with label and helper
+
+## Migration from MUI
+
+See [Migration Guide](/storybook/ui-primitives-migration--docs) for detailed patterns.
+
+## Related Documentation
+
+- [Architecture](/docs/architecture)
+- [Design Tokens](/storybook/ui-primitives-overview--docs)
+- [TanStack Table Integration](/storybook/ui-primitives-datatable--docs)

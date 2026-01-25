@@ -5,16 +5,11 @@
 
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
 import { WaveformCell } from './WaveformCell';
 
 const renderWithTheme = (component: React.ReactElement) => {
     return render(
-        <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
-            <CssBaseline />
-            {component}
-        </ThemeProvider>
+        component
     );
 };
 
@@ -137,7 +132,7 @@ describe('WaveformCell', () => {
         });
 
         it('shows empty box for zero duration with no peaks', () => {
-            renderWithTheme(
+            const { container } = renderWithTheme(
                 <WaveformCell
                     itemId='test-id'
                     duration={0}
@@ -146,12 +141,11 @@ describe('WaveformCell', () => {
                 />
             );
 
-            const container = document.querySelector('[data-testid]') || document.querySelector('.MuiBox-root');
-            expect(container).toBeEmptyDOMElement();
+            expect(container.firstChild).toBeEmptyDOMElement();
         });
 
         it('shows empty box for undefined duration with no peaks', () => {
-            renderWithTheme(
+            const { container } = renderWithTheme(
                 <WaveformCell
                     itemId='test-id'
                     duration={undefined}
@@ -160,8 +154,7 @@ describe('WaveformCell', () => {
                 />
             );
 
-            const container = document.querySelector('.MuiBox-root');
-            expect(container).toBeEmptyDOMElement();
+            expect(container.firstChild).toBeEmptyDOMElement();
         });
     });
 

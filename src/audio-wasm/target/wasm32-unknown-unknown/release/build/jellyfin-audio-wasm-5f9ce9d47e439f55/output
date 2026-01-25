@@ -1,0 +1,2 @@
+cargo:rerun-if-changed=Cargo.toml
+cargo:rerun-if-changed=src/

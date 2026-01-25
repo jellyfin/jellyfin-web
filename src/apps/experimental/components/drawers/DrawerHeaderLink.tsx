@@ -1,7 +1,7 @@
-import Box from '@mui/material/Box/Box';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
 import React from 'react';
+import { Box } from 'ui-primitives/Box';
+import { ListItemContent, ListItemDecorator } from 'ui-primitives/List';
+import { Text } from 'ui-primitives/Text';
 
 import { useSystemInfo } from 'hooks/useSystemInfo';
 import ListItemLink from 'components/ListItemLink';
@@ -13,20 +13,17 @@ const DrawerHeaderLink = () => {
 
     return (
         <ListItemLink to='/'>
-            <ListItemIcon sx={{ minWidth: 56 }}>
+            <ListItemDecorator>
                 <Box
-                    component='img'
+                    as='img'
                     src={appIcon}
-                    sx={{ height: '2.5rem' }}
+                    style={{ height: '2.5rem' }}
                 />
-            </ListItemIcon>
-            <ListItemText
-                primary={systemInfo?.ServerName || 'Jellyfin'}
-                secondary={systemInfo?.Version}
-                slotProps={{
-                    primary: { variant: 'h6' }
-                }}
-            />
+            </ListItemDecorator>
+            <ListItemContent>
+                <Text weight='bold'>{systemInfo?.ServerName || 'Jellyfin'}</Text>
+                <Text size='sm' color='secondary'>{systemInfo?.Version}</Text>
+            </ListItemContent>
         </ListItemLink>);
 };
 

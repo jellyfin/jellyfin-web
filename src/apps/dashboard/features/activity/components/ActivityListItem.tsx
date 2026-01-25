@@ -1,23 +1,21 @@
 import React, { useMemo } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
-import Notifications from '@mui/icons-material/Notifications';
-import Avatar from '@mui/joy/Avatar';
-import ListItem from '@mui/joy/ListItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import ListItemContent from '@mui/joy/ListItemContent';
-import Typography from '@mui/joy/Typography';
-import formatRelative from 'date-fns/formatRelative';
+import { BellIcon } from '@radix-ui/react-icons';
+import { formatRelative } from 'date-fns';
 import { getLocale } from 'utils/dateFnsLocale';
-import Stack from '@mui/joy/Stack';
-import getLogLevelColor from '../utils/getLogLevelColor';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import ListItemLink from 'components/ListItemLink';
+import { List, ListItem, ListItemDecorator, ListItemContent } from 'ui-primitives/List';
+import { Avatar } from 'ui-primitives/Avatar';
+import { Text } from 'ui-primitives/Text';
+import { Box, Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
-type ActivityListItemProps = {
+interface ActivityListItemProps {
     item: ActivityLogEntry;
     displayShortOverview: boolean;
     to: string;
-};
+}
 
 const ActivityListItem = ({ item, displayShortOverview, to }: ActivityListItemProps) => {
     const relativeDate = useMemo(() => {
@@ -30,35 +28,54 @@ const ActivityListItem = ({ item, displayShortOverview, to }: ActivityListItemPr
         } else {
             return 'N/A';
         }
-    }, [ item.Date ]);
+    }, [item.Date]);
 
     const severity = item.Severity || LogLevel.Information;
-    const color = severity === LogLevel.Error || severity === LogLevel.Fatal ? 'danger' :
-                  severity === LogLevel.Warning ? 'warning' : 'primary';
+    const color = severity === LogLevel.Error ? 'danger' : severity === LogLevel.Warning ? 'warning' : 'primary';
 
     return (
-        <ListItem sx={{ p: 0 }}>
-            <ListItemLink to={to} sx={{ width: '100%', py: 1.5, px: 2 }}>
+        <ListItem style={{ padding: 0 }}>
+            <ListItemLink
+                to={to}
+                style={{
+                    width: '100%',
+                    paddingTop: vars.spacing.sm,
+                    paddingBottom: vars.spacing.sm,
+                    paddingLeft: vars.spacing.md,
+                    paddingRight: vars.spacing.md
+                }}
+            >
                 <ListItemDecorator>
                     <Avatar variant="soft" color={color}>
-                        <Notifications />
+                        <BellIcon />
                     </Avatar>
                 </ListItemDecorator>
 
                 <ListItemContent>
-                    <Typography level="body-sm" sx={{ whiteSpace: 'pre-wrap', fontWeight: 'bold' }}>
+                    <Text
+                        size="sm"
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            fontWeight: vars.typography.fontWeightBold,
+                            color: vars.colors.text
+                        }}
+                    >
                         {item.Name}
-                    </Typography>
-                    <Stack spacing={0.5}>
-                        <Typography level="body-xs" color="neutral">
+                    </Text>
+                    <Flex style={{ gap: vars.spacing.xs }}>
+                        <Text size="xs" color="secondary">
                             {relativeDate}
-                        </Typography>
+                        </Text>
                         {displayShortOverview && item.ShortOverview && (
-                            <Typography level="body-xs" color="neutral" noWrap>
+                            <Text
+                                size="xs"
+                                color="secondary"
+                                style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                            >
                                 {item.ShortOverview}
-                            </Typography>
+                            </Text>
                         )}
-                    </Stack>
+                    </Flex>
                 </ListItemContent>
             </ListItemLink>
         </ListItem>

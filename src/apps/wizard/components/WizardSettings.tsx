@@ -5,8 +5,9 @@ import { Text, Heading } from 'ui-primitives/Text';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { EmbySelect } from '../../../elements';
-import { useNavigate } from 'react-router-dom';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { FormControl, FormLabel } from 'ui-primitives/FormControl';
+import { useNavigate } from '@tanstack/react-router';
 import Loading from '../../../components/loading/LoadingComponent';
 import * as styles from './WizardSettings.css';
 
@@ -56,7 +57,7 @@ const WizardSettings = () => {
             url: client.getUrl('Startup/Configuration'),
             contentType: 'application/json'
         });
-        navigate('/wizard/remoteaccess');
+        navigate({ to: '/wizard/remoteaccess' });
     };
 
     if (isLoading) return <Loading />;
@@ -65,22 +66,40 @@ const WizardSettings = () => {
         <div className={styles.container}>
             <Heading.H2 className={styles.title}>{globalize.translate('HeaderMetadataSettings')}</Heading.H2>
             <Text className={styles.helpText}>{globalize.translate('HeaderMetadataSettingsHelp')}</Text>
-            
+
             <form onSubmit={handleSubmit}>
                 <div className={styles.formStack}>
-                    <EmbySelect
-                        label={globalize.translate('LabelPreferredMetadataLanguage')}
-                        value={language}
-                        onChange={(_: any, val: any) => setLanguage(val)}
-                        options={languages.map(l => ({ label: l.DisplayName, value: l.TwoLetterISOLanguageName }))}
-                    />
-                    <EmbySelect
-                        label={globalize.translate('LabelCountry')}
-                        value={country}
-                        onChange={(_: any, val: any) => setCountry(val)}
-                        options={countries.map(c => ({ label: c.DisplayName, value: c.TwoLetterISORegionName }))}
-                    />
-                    <Button type="submit" size="lg" className={styles.submitButton}>
+                    <FormControl>
+                        <FormLabel>{globalize.translate('LabelPreferredMetadataLanguage')}</FormLabel>
+                        <Select value={language} onValueChange={setLanguage}>
+                            <SelectTrigger>
+                                <SelectValue placeholder={globalize.translate('LabelPreferredMetadataLanguage')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {languages.map(l => (
+                                    <SelectItem key={l.TwoLetterISOLanguageName} value={l.TwoLetterISOLanguageName}>
+                                        {l.DisplayName}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>{globalize.translate('LabelCountry')}</FormLabel>
+                        <Select value={country} onValueChange={setCountry}>
+                            <SelectTrigger>
+                                <SelectValue placeholder={globalize.translate('LabelCountry')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {countries.map(c => (
+                                    <SelectItem key={c.TwoLetterISORegionName} value={c.TwoLetterISORegionName}>
+                                        {c.DisplayName}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
+                    <Button type='submit' size='lg' className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
                 </div>

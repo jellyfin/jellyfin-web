@@ -13,11 +13,13 @@ const NextUpSection: React.FC = () => {
     const [items, setItems] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const apiClient = ServerConnections.currentApiClient();
+    const useEpisodeImages = !(userSettings as any).useEpisodeImagesInNextUpAndResume();
 
     useEffect(() => {
+        if (!apiClient) return;
         const oldestDateForNextUp = new Date();
         oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - (userSettings as any).maxDaysForNextUp());
-        
+
         const options = {
             Limit: 24,
             Fields: 'PrimaryImageAspectRatio,DateCreated,Path,MediaSourceCount',
@@ -45,7 +47,7 @@ const NextUpSection: React.FC = () => {
         showParentTitle: true,
         overlayPlayButton: true,
         preferThumb: true,
-        inheritThumb: !(userSettings as any).useEpisodeImagesInNextUpAndResume()
+        inheritThumb: useEpisodeImages
     };
 
     return (

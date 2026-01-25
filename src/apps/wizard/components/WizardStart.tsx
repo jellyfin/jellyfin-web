@@ -5,8 +5,10 @@ import { Text, Heading } from 'ui-primitives/Text';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { EmbyInput, EmbySelect } from '../../../elements';
-import { useNavigate } from 'react-router-dom';
+import { Input } from 'ui-primitives/Input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { FormControl, FormLabel } from 'ui-primitives/FormControl';
+import { useNavigate } from '@tanstack/react-router';
 import Loading from '../../../components/loading/LoadingComponent';
 import * as styles from './WizardStart.css';
 
@@ -54,7 +56,7 @@ const WizardStart = () => {
             url: client.getUrl('Startup/Configuration'),
             contentType: 'application/json'
         });
-        navigate('/wizard/user');
+        navigate({ to: '/wizard/user' });
     };
 
     if (isLoading) return <Loading />;
@@ -63,22 +65,31 @@ const WizardStart = () => {
         <div className={styles.container}>
             <Heading.H2 className={styles.title}>{globalize.translate('HeaderWelcome')}</Heading.H2>
             <Text className={styles.helpText}>{globalize.translate('HeaderWelcomeHelp')}</Text>
-            
+
             <form onSubmit={handleSubmit}>
                 <div className={styles.formStack}>
-                    <EmbyInput
+                    <Input
                         label={globalize.translate('LabelServerName')}
                         value={serverName}
                         onChange={(e: any) => setServerName(e.target.value)}
                         required
                     />
-                    <EmbySelect
-                        label={globalize.translate('LabelPreferredDisplayLanguage')}
-                        value={uiCulture}
-                        onChange={(_: any, val: any) => setUiCulture(val)}
-                        options={languages.map(l => ({ label: l.Name, value: l.Value }))}
-                    />
-                    <Button type="submit" size="lg" className={styles.submitButton}>
+                    <FormControl>
+                        <FormLabel>{globalize.translate('LabelPreferredDisplayLanguage')}</FormLabel>
+                        <Select value={uiCulture} onValueChange={setUiCulture}>
+                            <SelectTrigger>
+                                <SelectValue placeholder={globalize.translate('LabelPreferredDisplayLanguage')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {languages.map(l => (
+                                    <SelectItem key={l.Value} value={l.Value}>
+                                        {l.Name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
+                    <Button type='submit' size='lg' className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
                 </div>

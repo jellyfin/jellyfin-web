@@ -1,13 +1,13 @@
-import Button from '@mui/material/Button/Button';
-import Dialog, { type DialogProps } from '@mui/material/Dialog/Dialog';
-import DialogActions from '@mui/material/DialogActions/DialogActions';
-import DialogContent from '@mui/material/DialogContent/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
 import globalize from 'lib/globalize';
 import React from 'react';
+import { Button } from 'ui-primitives/Button';
+import { Box } from 'ui-primitives/Box';
+import { Dialog, DialogContentComponent, DialogOverlayComponent, DialogPortal, DialogTitle } from 'ui-primitives/Dialog';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
-interface SimpleAlertDialog extends DialogProps {
+interface SimpleAlertDialog {
+    open: boolean;
     title?: string;
     text: string;
     onClose: () => void
@@ -15,22 +15,25 @@ interface SimpleAlertDialog extends DialogProps {
 
 const SimpleAlert = ({ open, title, text, onClose }: SimpleAlertDialog) => {
     return (
-        <Dialog open={open} onClose={onClose}>
-            {title && (
-                <DialogTitle>
-                    {title}
-                </DialogTitle>
-            )}
-            <DialogContent>
-                <DialogContentText sx={{ whiteSpace: 'pre-wrap' }}>
-                    {text}
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose}>
-                    {globalize.translate('ButtonGotIt')}
-                </Button>
-            </DialogActions>
+        <Dialog open={open} onOpenChange={(nextOpen) => { if (!nextOpen) { onClose(); } }}>
+            <DialogPortal>
+                <DialogOverlayComponent />
+                <DialogContentComponent>
+                    {title && (
+                        <DialogTitle style={{ marginBottom: vars.spacing.sm }}>
+                            {title}
+                        </DialogTitle>
+                    )}
+                    <Text style={{ whiteSpace: 'pre-wrap' }}>
+                        {text}
+                    </Text>
+                    <Box style={{ display: 'flex', justifyContent: 'flex-end', marginTop: vars.spacing.lg }}>
+                        <Button onClick={onClose}>
+                            {globalize.translate('ButtonGotIt')}
+                        </Button>
+                    </Box>
+                </DialogContentComponent>
+            </DialogPortal>
         </Dialog>
     );
 };

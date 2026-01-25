@@ -1,12 +1,12 @@
-import { Api } from '@jellyfin/sdk';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { type Api } from '@jellyfin/sdk';
+import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import { addSection, isLivetv } from '../utils/search';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 import { CardShape } from 'utils/card';
-import { Section } from '../types';
+import { type Section } from '../types';
 import { fetchItemsByType } from './fetchItemsByType';
 
 const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | undefined, signal: AbortSignal) => {

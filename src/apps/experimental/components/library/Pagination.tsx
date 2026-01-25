@@ -1,17 +1,14 @@
-import React, { FC, useCallback } from 'react';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
-import Stack from '@mui/material/Stack/Stack';
-import type { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import React, { type FC, useCallback } from 'react';
+import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Text } from 'ui-primitives/Text';
+import useMediaQuery from 'hooks/useMediaQuery';
+import { vars } from 'styles/tokens.css';
 
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
-import { LibraryViewSettings } from 'types/library';
+import { type LibraryViewSettings } from 'types/library';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
 
 interface PaginationProps {
@@ -27,7 +24,7 @@ const Pagination: FC<PaginationProps> = ({
     totalRecordCount,
     isPlaceholderData
 }) => {
-    const isSmallScreen = useMediaQuery((t: Theme) => t.breakpoints.up('sm'));
+    const isSmallScreen = useMediaQuery('(min-width: 600px)');
 
     const limit = userSettings.libraryPageSize(undefined);
     const startIndex = libraryViewSettings.StartIndex ?? 0;
@@ -56,88 +53,78 @@ const Pagination: FC<PaginationProps> = ({
     }, [limit, setLibraryViewSettings, startIndex]);
 
     return (
-        <Stack
-            direction='row'
-            spacing={0.5}
-            sx={{
-                alignItems: 'center',
-                flexGrow: {
-                    xs: 1,
-                    sm: 0
-                },
-                marginLeft: {
-                    xs: 0,
-                    sm: 0.5
-                }
+        <Flex
+            align='center'
+            gap={vars.spacing.xs}
+            style={{
+                flexGrow: isSmallScreen ? 0 : 1,
+                marginLeft: isSmallScreen ? vars.spacing.xs : 0
             }}
         >
             {!isSmallScreen && (
                 <Button
-                    color='inherit'
-                    variant='text'
+                    variant='plain'
                     title={globalize.translate('Previous')}
                     disabled={!showControls || startIndex == 0 || isPlaceholderData}
                     onClick={onPreviousPageClick}
                 >
-                    <ArrowBackIcon />
+                    <ArrowLeftIcon />
                 </Button>
             )}
 
             <Box
-                sx={{
+                style={{
                     display: 'flex',
                     flexGrow: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginLeft: 1,
-                    marginRight: 1
+                    marginLeft: vars.spacing.sm,
+                    marginRight: vars.spacing.sm
                 }}
             >
-                <Typography variant='body2'>
+                <Text size='sm' color='secondary'>
                     {globalize.translate(
                         'ListPaging',
                         recordsStart,
                         recordsEnd,
                         totalRecordCount
                     )}
-                </Typography>
+                </Text>
             </Box>
 
             {isSmallScreen && (
-                <ButtonGroup
-                    color='inherit'
-                    variant='text'
-                >
+                <Flex align='center' gap={vars.spacing.xs}>
                     <Button
+                        variant='plain'
                         title={globalize.translate('Previous')}
                         disabled={!showControls || startIndex == 0 || isPlaceholderData}
                         onClick={onPreviousPageClick}
                     >
-                        <ArrowBackIcon />
+                        <ArrowLeftIcon />
                     </Button>
 
                     <Button
+                        variant='plain'
                         title={globalize.translate('Next')}
                         disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
                         onClick={onNextPageClick}
                     >
-                        <ArrowForwardIcon />
+                        <ArrowRightIcon />
                     </Button>
-                </ButtonGroup>
+                </Flex>
             )}
 
             {!isSmallScreen && (
                 <Button
-                    color='inherit'
-                    variant='text'
+                    variant='plain'
                     title={globalize.translate('Next')}
                     disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
                     onClick={onNextPageClick}
                 >
-                    <ArrowForwardIcon />
+                    <ArrowRightIcon />
                 </Button>
             )}
-        </Stack>
+        </Flex>
     );
 };
 

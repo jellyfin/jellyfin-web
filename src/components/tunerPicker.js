@@ -6,7 +6,6 @@ import loading from './loading/loading';
 import browser from '../scripts/browser';
 import focusManager from './focusManager';
 import scrollHelper from '../scripts/scrollHelper';
-import 'material-design-icons-iconfont';
 import './formdialog.scss';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
@@ -22,7 +21,10 @@ function getEditorHtml() {
     html += '<h1>' + globalize.translate('DetectingDevices') + '...</h1>';
     html += '<p>' + globalize.translate('MessagePleaseWait') + '</p>';
     html += '</div>';
-    html += '<h1 style="margin-bottom:.25em;" class="devicesHeader hide">' + globalize.translate('HeaderNewDevices') + '</h1>';
+    html +=
+        '<h1 style="margin-bottom:.25em;" class="devicesHeader hide">' +
+        globalize.translate('HeaderNewDevices') +
+        '</h1>';
     html += '<div is="emby-itemscontainer" class="results vertical-wrap">';
     html += '</div>';
     html += '</div>';
@@ -46,12 +48,14 @@ function getDeviceHtml(device) {
         }
     }
 
-    html += '<button type="button" class="' + cssClass + '" data-id="' + device.DeviceId + '" style="min-width:33.3333%;">';
+    html +=
+        '<button type="button" class="' + cssClass + '" data-id="' + device.DeviceId + '" style="min-width:33.3333%;">';
     html += '<div class="' + cardBoxCssClass + '">';
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="' + padderClass + '"></div>';
     html += '<div class="cardContent searchImage">';
-    html += '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr" aria-hidden="true"></span></div>';
+    html +=
+        '<div class="cardImageContainer coveredImage"><span class="cardImageIcon material-icons dvr" aria-hidden="true"></span></div>';
     html += '</div>';
     html += '</div>';
     html += '<div class="cardFooter visualCardBox-cardFooter">';
@@ -110,9 +114,11 @@ function renderDevices(view, devices) {
 function discoverDevices(view) {
     loading.show();
     view.querySelector('.loadingContent').classList.remove('hide');
-    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discover', {
-        NewDevicesOnly: true
-    })).then((devices) => {
+    return ApiClient.getJSON(
+        ApiClient.getUrl('LiveTv/Tuners/Discover', {
+            NewDevicesOnly: true
+        })
+    ).then(devices => {
         currentDevices = devices;
         renderDevices(view, devices);
         view.querySelector('.loadingContent').classList.add('hide');
@@ -148,12 +154,12 @@ function TunerPicker() {
             dialogHelper.close(dlg);
         });
         let deviceResult;
-        dlg.querySelector('.results').addEventListener('click', (e) => {
+        dlg.querySelector('.results').addEventListener('click', e => {
             const tunerCard = dom.parentWithClass(e.target, 'card');
 
             if (tunerCard) {
                 const deviceId = tunerCard.getAttribute('data-id');
-                deviceResult = currentDevices.filter((d) => {
+                deviceResult = currentDevices.filter(d => {
                     return d.DeviceId === deviceId;
                 })[0];
                 dialogHelper.close(dlg);

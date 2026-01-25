@@ -1,16 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import eventsUtils from './events';
+import eventsUtils, { EventObject } from './events';
 
 describe('Utils: events', () => {
     describe('Method: on', () => {
         it('should throw error if object is null', () => {
-            const call = () => eventsUtils.on(null, 'testEvent', vi.fn());
+            const obj: EventObject = null as unknown as EventObject;
+            const call = () => eventsUtils.on(obj, 'testEvent', vi.fn());
 
-            expect(call).toThrowError(new Error('obj cannot be null!'));
+            expect(call).toThrowError(new Error('EventBus: obj cannot be null!'));
         });
 
         it('should init object callbacks with testEvent type if it does not exist', () => {
-            const obj = {};
+            const obj: EventObject = {};
             const callback = vi.fn();
 
             eventsUtils.on(obj, 'testEvent', callback);
@@ -22,7 +23,7 @@ describe('Utils: events', () => {
 
         it('should add callback to existing object callbacks', () => {
             const initialCallback = vi.fn();
-            const obj = {
+            const obj: EventObject = {
                 _callbacks: { testEvent: [initialCallback] }
             };
             const otherCallback = vi.fn();
@@ -36,7 +37,7 @@ describe('Utils: events', () => {
     });
 
     describe('Method: off', () => {
-        let obj: object;
+        let obj: EventObject;
         let initialCallback: ReturnType<typeof vi.fn>;
         beforeEach(() => {
             initialCallback = vi.fn();
@@ -73,7 +74,7 @@ describe('Utils: events', () => {
 
     describe('Method: trigger', () => {
         it('should trigger registered callback with given parameters', () => {
-            const obj = {};
+            const obj: EventObject = {};
             const callback = vi.fn();
             eventsUtils.on(obj, 'testEvent', callback);
 

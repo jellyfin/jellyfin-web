@@ -1,10 +1,8 @@
-import Box from '@mui/joy/Box';
-import Drawer from '@mui/joy/Drawer';
-import ModalClose from '@mui/joy/ModalClose';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { type FC, type PropsWithChildren } from 'react';
-
 import browser from 'scripts/browser';
+import { Drawer } from 'ui-primitives/Drawer';
+import { Box } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
 export const DRAWER_WIDTH = 240;
 
@@ -19,55 +17,48 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
     open = false,
     onClose
 }) => {
-    const isMediumScreen = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
-
-    if (isMediumScreen) {
+    if (browser.mobile) {
         return (
-            <Box
-                component="nav"
-                sx={{
-                    width: DRAWER_WIDTH,
-                    flexShrink: 0,
-                    height: '100vh',
-                    position: 'fixed',
-                    left: 0,
-                    top: 0,
-                    borderRight: '1px solid',
-                    borderColor: 'divider',
-                    bgcolor: 'background.surface',
-                    overflowY: 'auto',
-                    pb: '12rem', // Padding for now playing bar
-                    zIndex: 1200
+            <Drawer
+                anchor='left'
+                open={open}
+                onClose={onClose}
+                style={{
+                    zIndex: 1300,
                 }}
             >
-                {children}
-            </Box>
+                <Box
+                    role='presentation'
+                    onClick={onClose}
+                    onKeyDown={onClose}
+                    style={{ height: '100%', overflowY: 'auto' }}
+                >
+                    {children}
+                </Box>
+            </Drawer>
         );
     }
 
     return (
-        <Drawer
-            anchor='left'
-            open={open}
-            onClose={onClose}
-            sx={{
-                zIndex: 1300,
-                '& .MuiDrawer-content': {
-                    width: DRAWER_WIDTH,
-                    p: 0
-                }
+        <Box
+            component="nav"
+            style={{
+                width: DRAWER_WIDTH,
+                flexShrink: 0,
+                height: '100vh',
+                position: 'fixed',
+                left: 0,
+                top: 0,
+                borderRight: '1px solid',
+                borderColor: vars.colors.border,
+                backgroundColor: vars.colors.surface,
+                overflowY: 'auto',
+                paddingBottom: '12rem',
+                zIndex: 1200
             }}
         >
-            <ModalClose />
-            <Box
-                role='presentation'
-                onClick={onClose}
-                onKeyDown={onClose}
-                sx={{ height: '100%', overflowY: 'auto' }}
-            >
-                {children}
-            </Box>
-        </Drawer>
+            {children}
+        </Box>
     );
 };
 

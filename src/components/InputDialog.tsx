@@ -1,16 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
-import Input from '@mui/joy/Input';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import FormHelperText from '@mui/joy/FormHelperText';
-import Stack from '@mui/joy/Stack';
 import globalize from 'lib/globalize';
+import { Dialog, DialogContent, DialogTitle } from 'ui-primitives/Dialog';
+import { Button } from 'ui-primitives/Button';
+import { Input } from 'ui-primitives/Input';
+import { FormControl, FormLabel, FormHelperText } from 'ui-primitives/FormControl';
+import { Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
 interface InputDialogProps {
     open: boolean;
@@ -21,7 +16,7 @@ interface InputDialogProps {
     confirmButtonText?: string;
     onClose: () => void;
     onConfirm: (text: string) => void;
-};
+}
 
 const InputDialog = ({
     open,
@@ -33,7 +28,7 @@ const InputDialog = ({
     confirmButtonText,
     onConfirm
 }: InputDialogProps) => {
-    const [ text, setText ] = useState(initialText || '');
+    const [text, setText] = useState(initialText || '');
 
     const onTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value);
@@ -42,39 +37,29 @@ const InputDialog = ({
     const onConfirmClick = useCallback(() => {
         onConfirm(text);
         setText('');
-    }, [ text, onConfirm ]);
+    }, [text, onConfirm]);
 
     return (
-        <Modal open={open} onClose={onClose}>
-            <ModalDialog sx={{ minWidth: 320 }}>
-                {title && (
-                    <DialogTitle>
-                        {title}
-                    </DialogTitle>
-                )}
-                <DialogContent>
-                    <Stack spacing={2}>
-                        <FormControl>
-                            <FormLabel>{label}</FormLabel>
-                            <Input
-                                autoFocus
-                                value={text}
-                                onChange={onTextChange}
-                            />
-                            {helperText && <FormHelperText>{helperText}</FormHelperText>}
-                        </FormControl>
-                    </Stack>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="solid" color="primary" onClick={onConfirmClick}>
-                        {confirmButtonText || globalize.translate('ButtonOk')}
-                    </Button>
-                    <Button variant="plain" color="neutral" onClick={onClose}>
-                        {globalize.translate('ButtonCancel')}
-                    </Button>
-                </DialogActions>
-            </ModalDialog>
-        </Modal>
+        <Dialog open={open} onOpenChange={onClose}>
+            <DialogContent style={{ minWidth: 320 }}>
+                {title && <DialogTitle>{title}</DialogTitle>}
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                    <FormControl>
+                        <FormLabel>{label}</FormLabel>
+                        <Input autoFocus value={text} onChange={onTextChange} />
+                        {helperText && <FormHelperText>{helperText}</FormHelperText>}
+                    </FormControl>
+                    <Flex style={{ gap: vars.spacing.sm, marginTop: vars.spacing.sm }}>
+                        <Button variant="primary" color="primary" onClick={onConfirmClick}>
+                            {confirmButtonText || globalize.translate('ButtonOk')}
+                        </Button>
+                        <Button variant="plain" color="neutral" onClick={onClose}>
+                            {globalize.translate('ButtonCancel')}
+                        </Button>
+                    </Flex>
+                </Flex>
+            </DialogContent>
+        </Dialog>
     );
 };
 

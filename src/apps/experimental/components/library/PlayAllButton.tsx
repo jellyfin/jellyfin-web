@@ -1,12 +1,12 @@
-import React, { FC, useCallback } from 'react';
-import Button from '@mui/material/Button/Button';
-import PlayArrow from '@mui/icons-material/PlayArrow';
+import React, { type FC, useCallback } from 'react';
+import { PlayIcon } from '@radix-ui/react-icons';
+import { Button } from 'ui-primitives/Button';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
-import { LibraryViewSettings } from 'types/library';
-import { LibraryTab } from 'types/libraryTab';
+import { type LibraryViewSettings } from 'types/library';
+import { type LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface PlayAllButtonProps {
@@ -57,13 +57,14 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
     return (
         <Button
             title={globalize.translate('HeaderPlayAll')}
-            startIcon={isTextVisible ? <PlayArrow /> : undefined}
+            startIcon={isTextVisible ? <PlayIcon /> : undefined}
+            variant='plain'
             onClick={play}
         >
             {isTextVisible ? (
                 globalize.translate('HeaderPlayAll')
             ) : (
-                <PlayArrow />
+                <PlayIcon />
             )}
         </Button>
     );

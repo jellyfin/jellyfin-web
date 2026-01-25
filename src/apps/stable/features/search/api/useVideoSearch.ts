@@ -1,13 +1,13 @@
-import { Api } from '@jellyfin/sdk';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { type Api } from '@jellyfin/sdk';
+import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { useQuery } from '@tanstack/react-query';
-import { AxiosRequestConfig } from 'axios';
+import { type AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
 import { QUERY_OPTIONS } from '../constants/queryOptions';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
+import { type ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
 
 const fetchVideos = async (
     api: Api,

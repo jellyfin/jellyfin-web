@@ -1,7 +1,7 @@
-import React, { FC, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import IconButton from '@mui/material/IconButton/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React, { type FC, useCallback } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { IconButton } from 'ui-primitives/IconButton';
+import { TrashIcon } from '@radix-ui/react-icons';
 
 import { useCancelSeriesTimer } from 'hooks/api/liveTvHooks';
 import globalize from 'lib/globalize';
@@ -36,7 +36,7 @@ const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({
                         onSuccess: async () => {
                             toast(globalize.translate('SeriesCancelled'));
                             loading.hide();
-                            navigate('/livetv');
+                            navigate({ to: '/livetv' });
                         },
                         onError: (err: unknown) => {
                             loading.hide();
@@ -60,7 +60,7 @@ const CancelSeriesTimerButton: FC<CancelSeriesTimerButtonProps> = ({
             title={globalize.translate('CancelSeries')}
             onClick={onCancelSeriesTimerClick}
         >
-            <DeleteIcon />
+            <TrashIcon />
         </IconButton>
     );
 };

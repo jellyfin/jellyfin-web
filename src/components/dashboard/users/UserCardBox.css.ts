@@ -8,21 +8,21 @@ export const card = style({
     borderRadius: vars.borderRadius.md,
     ':hover': {
         transform: 'translateY(-4px)',
-        boxShadow: vars.shadows.md,
-    },
+        boxShadow: vars.shadows.md
+    }
 });
 
 export const cardDisabled = style({
     filter: 'grayscale(1)',
-    opacity: 0.7,
+    opacity: 0.7
 });
 
 export const imageContainer = style({
-    position: 'relative',
+    position: 'relative'
 });
 
 export const aspectRatio = style({
-    aspectRatio: '1',
+    aspectRatio: '1'
 });
 
 export const disabledOverlay = style({
@@ -35,33 +35,33 @@ export const disabledOverlay = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    pointerEvents: 'none',
+    pointerEvents: 'none'
 });
 
 export const disabledText = style({
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: 'bold'
 });
 
 export const cardContent = style({
-    paddingTop: vars.spacing.sm,
+    paddingTop: vars.spacing.sm
 });
 
 export const headerRow = style({
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'flex-start'
 });
 
 export const titleContainer = style({
     flexGrow: 1,
-    minWidth: 0,
+    minWidth: 0
 });
 
 export const userImage = style({
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
+    objectFit: 'cover'
 });
 
 export const avatarPlaceholder = style({
@@ -72,17 +72,17 @@ export const avatarPlaceholder = style({
     justifyContent: 'center',
     backgroundColor: vars.colors.primary,
     color: 'white',
-    fontSize: '64px',
+    fontSize: vars.typography.fontSizeXxl
 });
 
 export const userName = style({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'nowrap'
 });
 
 export const lastSeen = style({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'nowrap'
 });

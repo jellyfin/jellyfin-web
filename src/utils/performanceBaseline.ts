@@ -1,6 +1,6 @@
 /**
  * Performance Baseline Measurement Utility
- * 
+ *
  * Establishes performance baselines for store operations before migration.
  * Enables comparison after migration to detect regressions.
  */
@@ -38,9 +38,9 @@ const SAMPLE_SIZE = 50;
 const COLLECTION_DURATION_MS = 10000; // 10 seconds
 
 class PerformanceCollector {
-    private samples: Map<string, PerformanceSample[]> = new Map();
+    private readonly samples: Map<string, PerformanceSample[]> = new Map();
     private collectionInterval: NodeJS.Timeout | null = null;
-    private isCollecting: boolean = false;
+    private isCollecting = false;
 
     /**
      * Start collecting performance samples
@@ -52,7 +52,7 @@ class PerformanceCollector {
         }
 
         this.isCollecting = true;
-        
+
         // Initialize sample collections
         for (const operation of operations) {
             this.samples.set(operation, []);
@@ -279,11 +279,11 @@ export function createStoreMonitor(storeName: string) {
                 }
             };
         },
-        
+
         measure: async <T>(operation: string, fn: () => Promise<T>): Promise<T> => {
             return performanceCollector.measure(`${storeName}.${operation}`, fn);
         },
-        
+
         measureSync: <T>(operation: string, fn: () => T): T => {
             return performanceCollector.measureSync(`${storeName}.${operation}`, fn);
         }

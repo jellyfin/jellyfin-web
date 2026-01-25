@@ -1,10 +1,17 @@
 import Events from '../../utils/events';
 import { toBoolean } from '../../utils/string';
-import { setXDuration } from 'components/audioEngine/crossfader.logic';
+import { usePreferencesStore } from '../../store/preferencesStore';
 import browser from '../browser';
 import appSettings from './appSettings';
-import { getDefaultVisualizerSettings, getVisualizerSettings, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
+import {
+    getDefaultVisualizerSettings,
+    getVisualizerSettings,
+    setVisualizerSettings,
+    visualizerSettings
+} from 'components/visualizer/visualizers.logic';
 import { logger } from 'utils/logger';
+import { useDevConfigStore } from 'store/devConfigStore';
+import { resolveApiBaseUrl } from 'utils/devConfig';
 
 interface SubtitleAppearanceSettings {
     verticalPosition: number;
@@ -40,17 +47,12 @@ interface UserSettingsInstance {
 let displayPrefsBeaconWarningShown = false;
 
 function getDevServerAddress(): string | null {
-    if (typeof __WEBPACK_SERVE__ === 'undefined' || typeof __DEV_SERVER_PROXY_TARGET__ === 'undefined') {
+    if (!import.meta.env.DEV) {
         return null;
     }
-    if (!__WEBPACK_SERVE__ || !__DEV_SERVER_PROXY_TARGET__) {
-        return null;
-    }
-    return typeof window !== 'undefined' && window.location ? window.location.origin : null;
+    const devConfig = useDevConfigStore.getState();
+    return resolveApiBaseUrl(devConfig, true) || null;
 }
-
-declare const __WEBPACK_SERVE__: boolean | undefined;
-declare const __DEV_SERVER_PROXY_TARGET__: string | undefined;
 
 function applyDevServerAddress(apiClient: ApiClient): void {
     const devAddress = getDevServerAddress();
@@ -82,7 +84,9 @@ function onSaveTimeout(this: UserSettings): void {
 
         if (!sent) {
             // Fallback to fetch for cross-origin requests
-            logger.debug('[UserSettings] sendBeacon not available, using fetch fallback', { component: 'UserSettings' });
+            logger.debug('[UserSettings] sendBeacon not available, using fetch fallback', {
+                component: 'UserSettings'
+            });
             fetch(prefsUrl, {
                 method: 'POST',
                 headers: {
@@ -93,7 +97,11 @@ function onSaveTimeout(this: UserSettings): void {
             }).catch(error => {
                 if (!displayPrefsBeaconWarningShown) {
                     displayPrefsBeaconWarningShown = true;
-                    logger.warn('[UserSettings] Failed to save cross-origin preferences', { component: 'UserSettings' }, error);
+                    logger.warn(
+                        '[UserSettings] Failed to save cross-origin preferences',
+                        { component: 'UserSettings' },
+                        error
+                    );
                 }
             });
         }
@@ -114,11 +122,26 @@ const allowedSortSettings = ['SortBy', 'SortOrder'];
 
 const filterSettingsPostfix = '-filter';
 const allowedFilterSettings = [
-    'Filters', 'HasSubtitles', 'HasTrailer', 'HasSpecialFeature',
-    'HasThemeSong', 'HasThemeVideo', 'Genres', 'OfficialRatings',
-    'Tags', 'VideoTypes', 'IsSD', 'IsHD', 'Is4K', 'Is3D',
-    'IsFavorite', 'IsMissing', 'IsUnaired', 'ParentIndexNumber',
-    'SeriesStatus', 'Years'
+    'Filters',
+    'HasSubtitles',
+    'HasTrailer',
+    'HasSpecialFeature',
+    'HasThemeSong',
+    'HasThemeVideo',
+    'Genres',
+    'OfficialRatings',
+    'Tags',
+    'VideoTypes',
+    'IsSD',
+    'IsHD',
+    'Is4K',
+    'Is3D',
+    'IsFavorite',
+    'IsMissing',
+    'IsUnaired',
+    'ParentIndexNumber',
+    'SeriesStatus',
+    'Years'
 ];
 
 function filterQuerySettings(query: Record<string, any>, allowedItems: string[]): Record<string, any> {
@@ -199,13 +222,16 @@ export class UserSettings implements UserSettingsInstance {
         }
 
         applyDevServerAddress(apiClient);
-        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then((result: any) => {
-            result.CustomPrefs = result.CustomPrefs || {};
-            self.displayPrefs = result;
-        }).catch((error: any) => {
-            logger.warn('[UserSettings] Failed to load server preferences', { component: 'UserSettings' }, error);
-            self.displayPrefs = { CustomPrefs: {} };
-        });
+        return apiClient
+            .getDisplayPreferences('usersettings', userId, 'emby')
+            .then((result: any) => {
+                result.CustomPrefs = result.CustomPrefs || {};
+                self.displayPrefs = result;
+            })
+            .catch((error: any) => {
+                logger.warn('[UserSettings] Failed to load server preferences', { component: 'UserSettings' }, error);
+                self.displayPrefs = { CustomPrefs: {} };
+            });
     }
 
     getData(): any {
@@ -235,7 +261,11 @@ export class UserSettings implements UserSettingsInstance {
         try {
             result = appSettings.set(name, value || undefined, userId || undefined);
         } catch (error) {
-            logger.error('[UserSettings] Failed to save to local storage', { component: 'UserSettings' }, error as Error);
+            logger.error(
+                '[UserSettings] Failed to save to local storage',
+                { component: 'UserSettings' },
+                error as Error
+            );
             throw error;
         }
 
@@ -289,7 +319,10 @@ export class UserSettings implements UserSettingsInstance {
             return val;
         }
 
-        return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || (browser as any).chrome || browser.edgeChromium);
+        return toBoolean(
+            this.get('preferFmp4HlsContainer', false),
+            browser.safari || browser.firefox || (browser as any).chrome || browser.edgeChromium
+        );
     }
 
     limitSegmentLength(val?: boolean): boolean {
@@ -321,7 +354,7 @@ export class UserSettings implements UserSettingsInstance {
 
     crossfadeDuration(val?: number): number {
         if (val !== undefined) {
-            setXDuration(val);
+            usePreferencesStore.getState().setCrossfadeDuration(val);
             this.set('crossfadeDuration', val.toString(), true);
             return val;
         }
@@ -608,7 +641,11 @@ export class UserSettings implements UserSettingsInstance {
                 const parsed = JSON.parse(values);
                 Object.assign(query, parsed);
             } catch (error) {
-                logger.warn('[UserSettings] Failed to parse query settings', { component: 'UserSettings' }, error as Error);
+                logger.warn(
+                    '[UserSettings] Failed to parse query settings',
+                    { component: 'UserSettings' },
+                    error as Error
+                );
             }
         }
     }
@@ -624,7 +661,11 @@ export class UserSettings implements UserSettingsInstance {
             try {
                 return { ...defaultSubtitleAppearanceSettings, ...JSON.parse(stored) };
             } catch (error) {
-                logger.warn('[UserSettings] Failed to parse subtitle settings', { component: 'UserSettings' }, error as Error);
+                logger.warn(
+                    '[UserSettings] Failed to parse subtitle settings',
+                    { component: 'UserSettings' },
+                    error as Error
+                );
             }
         }
         return { ...defaultSubtitleAppearanceSettings };
@@ -640,7 +681,11 @@ export class UserSettings implements UserSettingsInstance {
             try {
                 return { ...defaultComicsPlayerSettings, ...JSON.parse(stored) };
             } catch (error) {
-                logger.warn('[UserSettings] Failed to parse comics settings', { component: 'UserSettings' }, error as Error);
+                logger.warn(
+                    '[UserSettings] Failed to parse comics settings',
+                    { component: 'UserSettings' },
+                    error as Error
+                );
             }
         }
         return { ...defaultComicsPlayerSettings };
@@ -685,7 +730,7 @@ export class UserSettings implements UserSettingsInstance {
     }
 }
 
-export const currentSettings = new UserSettings;
+export const currentSettings = new UserSettings();
 
 // Wrappers for non-ES6 modules and backward compatibility
 export const setUserInfo = currentSettings.setUserInfo.bind(currentSettings);
@@ -709,7 +754,8 @@ export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSet
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
-export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
+export const useEpisodeImagesInNextUpAndResume =
+    currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);

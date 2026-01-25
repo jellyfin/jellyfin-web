@@ -1,25 +1,18 @@
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { FC, useCallback } from 'react';
+import React, { type FC, useCallback } from 'react';
 
-import Check from '@mui/icons-material/Check';
-import MoreVert from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button/Button';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import Divider from '@mui/material/Divider/Divider';
-import FormControl from '@mui/material/FormControl/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import InputLabel from '@mui/material/InputLabel/InputLabel';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Popover from '@mui/material/Popover/Popover';
-import Select, { SelectChangeEvent } from '@mui/material/Select/Select';
-import Typography from '@mui/material/Typography/Typography';
+import { CheckIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { Divider } from 'ui-primitives/Divider';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Menu, MenuItem, MenuSeparator } from 'ui-primitives/Menu';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 import globalize from 'lib/globalize';
-import { LibraryViewSettings, ViewMode } from 'types/library';
+import { type LibraryViewSettings, ViewMode } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
 const IMAGE_TYPE_EXCLUDED_VIEWS = [
@@ -50,17 +43,7 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const id = open ? 'selectview-popover' : undefined;
-
-    const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    }, []);
-
-    const handleClose = useCallback(() => {
-        setAnchorEl(null);
-    }, []);
+    const [ isMenuOpen, setIsMenuOpen ] = React.useState(false);
 
     const handleChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,140 +71,108 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
         }));
     }, [ setLibraryViewSettings ]);
 
-    const onSelectChange = useCallback(
-        (event: SelectChangeEvent) => {
-            setLibraryViewSettings((prevState) => ({
-                ...prevState,
-                ImageType: event.target.value as ImageType
-            }));
-        },
-        [setLibraryViewSettings]
-    );
+    const onSelectChange = useCallback((value: string) => {
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            ImageType: value as ImageType
+        }));
+    }, [ setLibraryViewSettings ]);
 
     const isGridView = libraryViewSettings.ViewMode === ViewMode.GridView;
     const isImageTypeVisible = !IMAGE_TYPE_EXCLUDED_VIEWS.includes(viewType);
 
     return (
-        <>
-            <Button
-                title={globalize.translate('ViewSettings')}
-                aria-describedby={id}
-                onClick={handleClick}
-            >
-                <MoreVert />
-            </Button>
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center'
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center'
-                }}
-                sx={{
-                    '& .MuiFormControl-root': { m: 1, width: 220 }
-                }}
-            >
-                <MenuList>
+        <Menu
+            id='selectview-popover'
+            open={isMenuOpen}
+            onOpenChange={setIsMenuOpen}
+            align='center'
+            trigger={(
+                <IconButton
+                    title={globalize.translate('ViewSettings')}
+                    aria-haspopup='true'
+                    size='lg'
+                >
+                    <DotsVerticalIcon />
+                </IconButton>
+            )}
+        >
+            <MenuItem onClick={onGridViewClick}>
+                <Flex align='center' gap={vars.spacing.sm}>
+                    <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                        {isGridView ? <CheckIcon /> : null}
+                    </Box>
+                    <Text size='md'>{globalize.translate('GridView')}</Text>
+                </Flex>
+            </MenuItem>
+            <MenuItem onClick={onListViewClick}>
+                <Flex align='center' gap={vars.spacing.sm}>
+                    <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                        {!isGridView ? <CheckIcon /> : null}
+                    </Box>
+                    <Text size='md'>{globalize.translate('ListView')}</Text>
+                </Flex>
+            </MenuItem>
 
-                    <MenuItem
-                        onClick={onGridViewClick}
-                    >
-                        {isGridView && (
-                            <ListItemIcon><Check /></ListItemIcon>
-                        )}
-                        <ListItemText inset={!isGridView}>
-                            {globalize.translate('GridView')}
-                        </ListItemText>
-                    </MenuItem>
-                    <MenuItem
-                        onClick={onListViewClick}
-                    >
-                        {!isGridView && (
-                            <ListItemIcon><Check /></ListItemIcon>
-                        )}
-                        <ListItemText inset={isGridView}>
-                            {globalize.translate('ListView')}
-                        </ListItemText>
-                    </MenuItem>
-
-                    {isGridView && (
+            {isGridView && (
+                <>
+                    <MenuSeparator />
+                    {isImageTypeVisible && (
                         <>
+                            <Box style={{ padding: vars.spacing.sm, width: 220 }}>
+                                <Text size='sm' weight='medium' color='secondary'>
+                                    {globalize.translate('LabelImageType')}
+                                </Text>
+                                <Select
+                                    value={libraryViewSettings.ImageType}
+                                    onValueChange={onSelectChange}
+                                >
+                                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
+                                        <SelectValue placeholder={globalize.translate('LabelImageType')} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {imageTypesOptions.map((imageType) => (
+                                            <SelectItem
+                                                key={imageType.value}
+                                                value={imageType.value}
+                                            >
+                                                {globalize.translate(imageType.label)}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </Box>
                             <Divider />
-                            {isImageTypeVisible && (
-                                <>
-                                    <FormControl>
-                                        <InputLabel>
-                                            <Typography component='span'>
-                                                {globalize.translate('LabelImageType')}
-                                            </Typography>
-                                        </InputLabel>
-                                        <Select
-                                            value={libraryViewSettings.ImageType}
-                                            label={globalize.translate('LabelImageType')}
-                                            onChange={onSelectChange}
-                                        >
-                                            {imageTypesOptions.map((imageType) => (
-                                                <MenuItem
-                                                    key={imageType.value}
-                                                    value={imageType.value}
-                                                >
-                                                    <Typography component='span'>
-                                                        {globalize.translate(imageType.label)}
-                                                    </Typography>
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <Divider />
-                                </>
-                            )}
-                            <FormControl>
-                                <FormGroup>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={libraryViewSettings.ShowTitle}
-                                                onChange={handleChange}
-                                                name='ShowTitle'
-                                            />
-                                        }
-                                        label={globalize.translate('ShowTitle')}
-                                    />
-                                    {isImageTypeVisible && (
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    checked={libraryViewSettings.ShowYear}
-                                                    onChange={handleChange}
-                                                    name='ShowYear'
-                                                />
-                                            }
-                                            label={globalize.translate('ShowYear')}
-                                        />
-                                    )}
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={libraryViewSettings.CardLayout}
-                                                onChange={handleChange}
-                                                name='CardLayout'
-                                            />
-                                        }
-                                        label={globalize.translate('EnableCardLayout')}
-                                    />
-                                </FormGroup>
-                            </FormControl>
                         </>
                     )}
-                </MenuList>
-            </Popover>
-        </>
+                    <Box style={{ padding: vars.spacing.sm }}>
+                        <Checkbox
+                            checked={libraryViewSettings.ShowTitle}
+                            onChange={handleChange}
+                            name='ShowTitle'
+                        >
+                            {globalize.translate('ShowTitle')}
+                        </Checkbox>
+                        {isImageTypeVisible && (
+                            <Checkbox
+                                checked={libraryViewSettings.ShowYear}
+                                onChange={handleChange}
+                                name='ShowYear'
+                            >
+                                {globalize.translate('ShowYear')}
+                            </Checkbox>
+                        )}
+                        <Checkbox
+                            checked={libraryViewSettings.CardLayout}
+                            onChange={handleChange}
+                            name='CardLayout'
+                        >
+                            {globalize.translate('EnableCardLayout')}
+                        </Checkbox>
+                    </Box>
+                </>
+            )}
+        </Menu>
     );
 };
 

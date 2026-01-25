@@ -1,3 +1,14 @@
+/**
+ * @deprecated This component uses legacy patterns (FunctionComponent, datetime helper).
+ *
+ * Migration:
+ * - Convert to typed FC with proper React.ReactNode
+ * - Use date-fns directly instead of datetime wrapper
+ * - Replace IconButtonElement with ui-primitives/IconButton
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import React, { FunctionComponent, useCallback } from 'react';
 import datetime from '../../../scripts/datetime';
 import globalize from '../../../lib/globalize';
@@ -6,7 +17,7 @@ import IconButtonElement from '../../../elements/IconButtonElement';
 type AccessScheduleListProps = {
     index?: number;
     DayOfWeek?: string;
-    StartHour?: number ;
+    StartHour?: number;
     EndHour?: number;
     removeScheduleCallback?: (index: number) => void;
 };
@@ -22,30 +33,29 @@ function getDisplayTime(hours = 0) {
     return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));
 }
 
-const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index, DayOfWeek, StartHour, EndHour, removeScheduleCallback }: AccessScheduleListProps) => {
+const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({
+    index,
+    DayOfWeek,
+    StartHour,
+    EndHour,
+    removeScheduleCallback
+}: AccessScheduleListProps) => {
     const onClick = useCallback(() => {
         index !== undefined && removeScheduleCallback !== undefined && removeScheduleCallback(index);
     }, [index, removeScheduleCallback]);
     return (
-        <div
-            className='liSchedule listItem'
-            data-day={ DayOfWeek}
-            data-start={ StartHour}
-            data-end={ EndHour}
-        >
-            <div className='listItemBody two-line'>
-                <h3 className='listItemBodyText'>
-                    {globalize.translate(DayOfWeek)}
-                </h3>
-                <div className='listItemBodyText secondary'>
+        <div className="liSchedule listItem" data-day={DayOfWeek} data-start={StartHour} data-end={EndHour}>
+            <div className="listItemBody two-line">
+                <h3 className="listItemBodyText">{DayOfWeek ? globalize.translate(DayOfWeek) : ''}</h3>
+                <div className="listItemBodyText secondary">
                     {getDisplayTime(StartHour) + ' - ' + getDisplayTime(EndHour)}
                 </div>
             </div>
             <IconButtonElement
-                is='paper-icon-button-light'
-                className='btnDelete listItemButton'
-                title='Delete'
-                icon='delete'
+                is="paper-icon-button-light"
+                className="btnDelete listItemButton"
+                title="Delete"
+                icon="delete"
                 dataIndex={index}
                 onClick={onClick}
             />

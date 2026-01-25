@@ -1,5 +1,4 @@
-import DOMPurify from 'dompurify';
-import escapeHtml from 'escape-html';
+import { escapeHtml } from 'utils/html';
 import dialogHelper, { DialogOptions } from '../dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
@@ -45,13 +44,13 @@ async function showDialog(options: ShowDialogOptions): Promise<string> {
 
     dlg.innerHTML = html;
     const textElem = dlg.querySelector('.text') as HTMLElement;
-    textElem.innerHTML = DOMPurify.sanitize(options.html || options.text || '');
+    textElem.innerHTML = escapeHtml(options.html || options.text || '').replace(/\n/g, '<br>');
 
     const footer = dlg.querySelector('.formDialogFooter') as HTMLElement;
     let buttonsHtml = '';
     options.buttons.forEach((btn, i) => {
         const autoFocus = i === 0 ? ' autofocus' : '';
-        buttonsHtml += `<button is="emby-button" type="button" class="btnOption raised" data-id="${btn.id}"${autoFocus}>${escapeHtml(btn.name)}</button>`;
+        buttonsHtml += `<button type="button" class="btnOption raised" data-id="${btn.id}"${autoFocus}>${escapeHtml(btn.name)}</button>`;
     });
     footer.innerHTML = buttonsHtml;
 

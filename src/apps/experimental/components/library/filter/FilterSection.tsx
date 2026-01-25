@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import * as Collapsible from '@radix-ui/react-collapsible';
+import { Box, Flex, FlexCol } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { IconButton } from 'ui-primitives/IconButton';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
+
+interface FilterSectionProps {
+    title: string;
+    icon?: React.ReactNode;
+    children: React.ReactNode;
+    defaultExpanded?: boolean;
+    collapsible?: boolean;
+    onClear?: () => void;
+    hasActiveFilters?: boolean;
+}
+
+export function FilterSection({
+    title,
+    icon,
+    children,
+    defaultExpanded = true,
+    collapsible = true,
+    onClear,
+    hasActiveFilters = false
+}: FilterSectionProps) {
+    const [isOpen, setIsOpen] = useState(defaultExpanded);
+
+    return (
+        <Collapsible.Root open={isOpen} onOpenChange={setIsOpen}>
+            <Flex
+                style={{
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 0',
+                    borderBottom: '1px solid var(--colors-divider)',
+                    cursor: collapsible ? 'pointer' : 'default'
+                }}
+            >
+                <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                    {icon && <span>{icon}</span>}
+                    <Text weight="medium" size="sm" color="secondary">
+                        {title}
+                    </Text>
+                </Flex>
+                <Flex style={{ alignItems: 'center', gap: '4px' }}>
+                    {onClear && hasActiveFilters && (
+                        <Box
+                            style={{ cursor: 'pointer' }}
+                            onClick={e => {
+                                e.stopPropagation();
+                                onClear();
+                            }}
+                        >
+                            <Text size="xs" color="primary">
+                                Clear
+                            </Text>
+                        </Box>
+                    )}
+                    {collapsible && (
+                        <IconButton
+                            variant="ghost"
+                            size="sm"
+                            onClick={e => {
+                                e.stopPropagation();
+                                setIsOpen(!isOpen);
+                            }}
+                            style={{
+                                transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
+                                transition: 'transform 0.15s ease'
+                            }}
+                        >
+                            <ChevronDownIcon />
+                        </IconButton>
+                    )}
+                </Flex>
+            </Flex>
+            <Collapsible.Content>
+                <Box style={{ padding: '12px 0' }}>{children}</Box>
+            </Collapsible.Content>
+        </Collapsible.Root>
+    );
+}
+
+export default FilterSection;

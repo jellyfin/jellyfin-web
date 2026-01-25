@@ -9,7 +9,6 @@ import dom from '../../utils/dom';
 import globalize from '../../lib/globalize';
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
-import 'material-design-icons-iconfont';
 
 const selectedButtonClass = 'alphaPickerButton-selected';
 
@@ -80,7 +79,34 @@ function render(element, options) {
         html += mapLetters(letters, vertical).join('');
     }
 
-    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    letters = [
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F',
+        'G',
+        'H',
+        'I',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'O',
+        'P',
+        'Q',
+        'R',
+        'S',
+        'T',
+        'U',
+        'V',
+        'W',
+        'X',
+        'Y',
+        'Z'
+    ];
     html += mapLetters(letters, vertical).join('');
 
     if (options.mode === 'keyboard') {
@@ -138,12 +164,14 @@ export class AlphaPicker {
             if (alphaPickerButton) {
                 const value = alphaPickerButton.getAttribute('data-value');
 
-                element.dispatchEvent(new CustomEvent('alphavalueclicked', {
-                    cancelable: false,
-                    detail: {
-                        value
-                    }
-                }));
+                element.dispatchEvent(
+                    new CustomEvent('alphavalueclicked', {
+                        cancelable: false,
+                        detail: {
+                            value
+                        }
+                    })
+                );
             }
         }
 
@@ -258,12 +286,14 @@ export class AlphaPicker {
         }
 
         if (applyValue) {
-            element.dispatchEvent(new CustomEvent('alphavaluechanged', {
-                cancelable: false,
-                detail: {
-                    value
-                }
-            }));
+            element.dispatchEvent(
+                new CustomEvent('alphavaluechanged', {
+                    cancelable: false,
+                    detail: {
+                        value
+                    }
+                })
+            );
         }
 
         return this._currentValue;

@@ -8,8 +8,6 @@ import { getBackdropShape } from 'utils/card';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
-import 'styles/scrollstyles.scss';
-
 function getUpcomingPromise(context, params) {
     loading.show();
     const query = {
@@ -25,7 +23,7 @@ function getUpcomingPromise(context, params) {
 }
 
 function loadUpcoming(context, params, promise) {
-    promise.then((result) => {
+    promise.then(result => {
         const items = result.Items;
 
         if (items.length) {
@@ -55,11 +53,13 @@ function renderUpcoming(elem, items) {
         if (item.PremiereDate) {
             try {
                 const premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
-                dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
-                    weekday: 'long',
-                    month: 'short',
-                    day: 'numeric'
-                });
+                dateText = datetime.isRelativeDay(premiereDate, -1)
+                    ? globalize.translate('Yesterday')
+                    : datetime.toLocaleDateString(premiereDate, {
+                          weekday: 'long',
+                          month: 'short',
+                          day: 'numeric'
+                      });
             } catch (err) {
                 console.error('error parsing timestamp for upcoming tv shows', err);
             }
@@ -94,7 +94,8 @@ function renderUpcoming(elem, items) {
                 scrollXClass += ' smoothScrollX';
             }
 
-            html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
         } else {
             html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
         }
@@ -135,4 +136,3 @@ export default function (view, params, tabContent) {
         loadUpcoming(tabContent, params, upcomingPromise);
     };
 }
-

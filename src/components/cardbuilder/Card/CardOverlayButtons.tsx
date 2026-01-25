@@ -1,7 +1,7 @@
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import React, { type FC } from 'react';
-import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
 import classNames from 'classnames';
+import { Box } from 'ui-primitives/Box';
 
 import { appRouter } from 'components/router/appRouter';
 import { ItemAction } from 'constants/itemAction';
@@ -13,17 +13,12 @@ import type { CardOptions } from 'types/cardOptions';
 import PlayArrowIconButton from '../../common/PlayArrowIconButton';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
 
-const sholudShowOverlayPlayButton = (
-    overlayPlayButton: boolean | undefined,
-    item: ItemDto
-) => {
+const sholudShowOverlayPlayButton = (overlayPlayButton: boolean | undefined, item: ItemDto) => {
     return (
-        overlayPlayButton
-        && !item.IsPlaceHolder
-        && (item.LocationType !== LocationType.Virtual
-            || !item.MediaType
-            || item.Type === ItemKind.Program)
-        && item.Type !== ItemKind.Person
+        overlayPlayButton &&
+        !item.IsPlaceHolder &&
+        (item.LocationType !== LocationType.Virtual || !item.MediaType || item.Type === ItemKind.Program) &&
+        item.Type !== ItemKind.Person
     );
 };
 
@@ -32,35 +27,25 @@ interface CardOverlayButtonsProps {
     cardOptions: CardOptions;
 }
 
-const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
-    item,
-    cardOptions
-}) => {
+const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({ item, cardOptions }) => {
     let overlayPlayButton = cardOptions.overlayPlayButton;
 
     if (
-        overlayPlayButton == null
-        && !cardOptions.overlayMoreButton
-        && !cardOptions.overlayInfoButton
-        && !cardOptions.cardLayout
+        overlayPlayButton == null &&
+        !cardOptions.overlayMoreButton &&
+        !cardOptions.overlayInfoButton &&
+        !cardOptions.cardLayout
     ) {
         overlayPlayButton = item.MediaType === ItemMediaKind.Video;
     }
 
     const url = appRouter.getRouteUrl(item, {
-        parentId: cardOptions.parentId
+        parentId: cardOptions.parentId ?? undefined
     });
 
-    const btnCssClass = classNames(
-        'paper-icon-button-light',
-        'cardOverlayButton',
-        'itemAction'
-    );
+    const btnCssClass = classNames('paper-icon-button-light', 'cardOverlayButton', 'itemAction');
 
-    const centerPlayButtonClass = classNames(
-        btnCssClass,
-        'cardOverlayButton-centered'
-    );
+    const centerPlayButtonClass = classNames(btnCssClass, 'cardOverlayButton-centered');
 
     return (
         <a
@@ -76,30 +61,17 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({
                 borderRadius: '0.2em'
             }}
         >
-
             {cardOptions.centerPlayButton && (
-                <PlayArrowIconButton
-                    className={centerPlayButtonClass}
-                    action={ItemAction.Play}
-                    title='Play'
-                />
+                <PlayArrowIconButton className={centerPlayButtonClass} action={ItemAction.Play} title="Play" />
             )}
 
-            <ButtonGroup className='cardOverlayButton-br'>
+            <Box className="cardOverlayButton-br">
                 {sholudShowOverlayPlayButton(overlayPlayButton, item) && (
-                    <PlayArrowIconButton
-                        className={btnCssClass}
-                        action={ItemAction.Play}
-                        title='Play'
-                    />
+                    <PlayArrowIconButton className={btnCssClass} action={ItemAction.Play} title="Play" />
                 )}
 
-                {cardOptions.overlayMoreButton && (
-                    <MoreVertIconButton
-                        className={btnCssClass}
-                    />
-                )}
-            </ButtonGroup>
+                {cardOptions.overlayMoreButton && <MoreVertIconButton className={btnCssClass} />}
+            </Box>
         </a>
     );
 };

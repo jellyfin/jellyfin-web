@@ -1,7 +1,7 @@
-import { Api } from '@jellyfin/sdk';
+import { type Api } from '@jellyfin/sdk';
 import { getApiKeyApi } from '@jellyfin/sdk/lib/utils/api/api-key-api';
 import { useQuery } from '@tanstack/react-query';
-import { AxiosRequestConfig } from 'axios';
+import { type AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
 
 export const QUERY_KEY = 'ApiKeys';

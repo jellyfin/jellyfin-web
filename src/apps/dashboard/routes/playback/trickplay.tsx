@@ -1,70 +1,72 @@
-import React from 'react';
-
+import React, { useCallback, useState } from 'react';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Page from 'components/Page';
-import Box from '@mui/material/Box/Box';
-import Stack from '@mui/material/Stack/Stack';
-import Typography from '@mui/material/Typography/Typography';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import FormControl from '@mui/material/FormControl/FormControl';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
 import Loading from 'components/loading/LoadingComponent';
-import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import TextField from '@mui/material/TextField/TextField';
-import Button from '@mui/material/Button/Button';
-import Alert from '@mui/material/Alert/Alert';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
-import { ActionData } from 'types/actionData';
+import { type ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
+import { Alert } from 'ui-primitives/Alert';
+import { Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives/FormControl';
+import { Input } from 'ui-primitives/Input';
+import { Text } from 'ui-primitives/Text';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
-    if (!api) throw new Error('No Api instance available');
-
-    const formData = await request.formData();
-    const data = Object.fromEntries(formData);
-
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
-
-    const options = config.TrickplayOptions;
-    if (!options) throw new Error('Unexpected null TrickplayOptions');
-
-    options.EnableHwAcceleration = data.HwAcceleration?.toString() === 'on';
-    options.EnableHwEncoding = data.HwEncoding?.toString() === 'on';
-    options.EnableKeyFrameOnlyExtraction = data.KeyFrameOnlyExtraction?.toString() === 'on';
-    options.ScanBehavior = data.ScanBehavior.toString() as TrickplayScanBehavior;
-    options.ProcessPriority = data.ProcessPriority.toString() as ProcessPriorityClass;
-    options.Interval = parseInt(data.ImageInterval.toString() || '10000', 10);
-    options.WidthResolutions = data.WidthResolutions.toString().replace(' ', '').split(',').map(Number);
-    options.TileWidth = parseInt(data.TileWidth.toString() || '10', 10);
-    options.TileHeight = parseInt(data.TileHeight.toString() || '10', 10);
-    options.Qscale = parseInt(data.Qscale.toString() || '4', 10);
-    options.JpegQuality = parseInt(data.JpegQuality.toString() || '90', 10);
-    options.ProcessThreads = parseInt(data.TrickplayThreads.toString() || '1', 10);
-
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
-
-    void queryClient.invalidateQueries({
-        queryKey: [ QUERY_KEY ]
-    });
-
-    return {
-        isSaved: true
-    };
-};
-
-export const Component = () => {
-    const navigation = useNavigation();
-    const actionData = useActionData() as ActionData | undefined;
+export const Component = (): React.ReactElement => {
     const { data: defaultConfig, isPending } = useConfiguration();
-    const isSubmitting = navigation.state === 'submitting';
+    const [ actionData, setActionData ] = useState<ActionData | undefined>();
+    const [ isSubmitting, setIsSubmitting ] = useState(false);
+
+    const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const api = ServerConnections.getCurrentApi();
+            if (!api) {
+                throw new Error('No Api instance available');
+            }
+
+            const formData = new FormData(event.currentTarget);
+            const data = Object.fromEntries(formData);
+
+            const { data: config } = await getConfigurationApi(api).getConfiguration();
+
+            const options = config.TrickplayOptions;
+            if (!options) throw new Error('Unexpected null TrickplayOptions');
+
+            options.EnableHwAcceleration = data.HwAcceleration?.toString() === 'on';
+            options.EnableHwEncoding = data.HwEncoding?.toString() === 'on';
+            options.EnableKeyFrameOnlyExtraction = data.KeyFrameOnlyExtraction?.toString() === 'on';
+            options.ScanBehavior = data.ScanBehavior.toString() as TrickplayScanBehavior;
+            options.ProcessPriority = data.ProcessPriority.toString() as ProcessPriorityClass;
+            options.Interval = parseInt(data.ImageInterval.toString() || '10000', 10);
+            options.WidthResolutions = data.WidthResolutions.toString().replace(' ', '').split(',').map(Number);
+            options.TileWidth = parseInt(data.TileWidth.toString() || '10', 10);
+            options.TileHeight = parseInt(data.TileHeight.toString() || '10', 10);
+            options.Qscale = parseInt(data.Qscale.toString() || '4', 10);
+            options.JpegQuality = parseInt(data.JpegQuality.toString() || '90', 10);
+            options.ProcessThreads = parseInt(data.TrickplayThreads.toString() || '1', 10);
+
+            await getConfigurationApi(api)
+                .updateConfiguration({ serverConfiguration: config });
+
+            void queryClient.invalidateQueries({
+                queryKey: [ QUERY_KEY ]
+            });
+
+            setActionData({ isSaved: true });
+        } catch (error) {
+            setActionData({ isSaved: false });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }, []);
 
     if (!defaultConfig || isPending) {
         return <Loading />;
@@ -76,15 +78,15 @@ export const Component = () => {
             className='mainAnimatedPage type-interior'
             title={globalize.translate('Trickplay')}
         >
-            <Box className='content-primary'>
-                <Form method='POST'>
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
+            <Flex className='content-primary' style={{ flexDirection: 'column', gap: '24px' }}>
+                <form onSubmit={handleSubmit}>
+                    <Flex style={{ flexDirection: 'column', gap: '24px' }}>
+                        <Text as='h1' size='xl' weight='bold'>
                             {globalize.translate('Trickplay')}
-                        </Typography>
+                        </Text>
 
                         {!isSubmitting && actionData?.isSaved && (
-                            <Alert severity='success'>
+                            <Alert variant='success'>
                                 {globalize.translate('SettingsSaved')}
                             </Alert>
                         )}
@@ -127,145 +129,110 @@ export const Component = () => {
                             <FormHelperText>{globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}</FormHelperText>
                         </FormControl>
 
-                        <TextField
+                        <Select
                             name='ScanBehavior'
-                            select
                             defaultValue={defaultConfig.TrickplayOptions?.ScanBehavior}
-                            label={globalize.translate('LabelScanBehavior')}
-                            helperText={globalize.translate('LabelScanBehaviorHelp')}
                         >
-                            <MenuItem value={TrickplayScanBehavior.NonBlocking}>{globalize.translate('NonBlockingScan')}</MenuItem>
-                            <MenuItem value={TrickplayScanBehavior.Blocking}>{globalize.translate('BlockingScan')}</MenuItem>
-                        </TextField>
+                            <SelectTrigger style={{ width: '100%' }}>
+                                <SelectValue placeholder={globalize.translate('LabelScanBehavior')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value={TrickplayScanBehavior.NonBlocking}>{globalize.translate('NonBlockingScan')}</SelectItem>
+                                <SelectItem value={TrickplayScanBehavior.Blocking}>{globalize.translate('BlockingScan')}</SelectItem>
+                            </SelectContent>
+                        </Select>
 
-                        <TextField
+                        <Select
                             name='ProcessPriority'
-                            select
                             defaultValue={defaultConfig.TrickplayOptions?.ProcessPriority}
-                            label={globalize.translate('LabelProcessPriority')}
-                            helperText={globalize.translate('LabelProcessPriorityHelp')}
                         >
-                            <MenuItem value={ProcessPriorityClass.High}>{globalize.translate('PriorityHigh')}</MenuItem>
-                            <MenuItem value={ProcessPriorityClass.AboveNormal}>{globalize.translate('PriorityAboveNormal')}</MenuItem>
-                            <MenuItem value={ProcessPriorityClass.Normal}>{globalize.translate('PriorityNormal')}</MenuItem>
-                            <MenuItem value={ProcessPriorityClass.BelowNormal}>{globalize.translate('PriorityBelowNormal')}</MenuItem>
-                            <MenuItem value={ProcessPriorityClass.Idle}>{globalize.translate('PriorityIdle')}</MenuItem>
-                        </TextField>
+                            <SelectTrigger style={{ width: '100%' }}>
+                                <SelectValue placeholder={globalize.translate('LabelProcessPriority')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value={ProcessPriorityClass.High}>{globalize.translate('PriorityHigh')}</SelectItem>
+                                <SelectItem value={ProcessPriorityClass.AboveNormal}>{globalize.translate('PriorityAboveNormal')}</SelectItem>
+                                <SelectItem value={ProcessPriorityClass.Normal}>{globalize.translate('PriorityNormal')}</SelectItem>
+                                <SelectItem value={ProcessPriorityClass.BelowNormal}>{globalize.translate('PriorityBelowNormal')}</SelectItem>
+                                <SelectItem value={ProcessPriorityClass.Idle}>{globalize.translate('PriorityIdle')}</SelectItem>
+                            </SelectContent>
+                        </Select>
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelImageInterval')}
                             name='ImageInterval'
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.Interval}
-                            helperText={globalize.translate('LabelImageIntervalHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 1,
-                                    required: true
-                                }
-                            }}
+                            min={1}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelWidthResolutions')}
                             name='WidthResolutions'
-                            defaultValue={defaultConfig.TrickplayOptions?.WidthResolutions}
-                            helperText={globalize.translate('LabelWidthResolutionsHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    required: true,
-                                    pattern: '[0-9,]*'
-                                }
-                            }}
+                            defaultValue={defaultConfig.TrickplayOptions?.WidthResolutions?.join(',')}
+                            pattern='[0-9,]*'
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelTileWidth')}
                             name='TileWidth'
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.TileWidth}
-                            helperText={globalize.translate('LabelTileWidthHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 1,
-                                    required: true
-                                }
-                            }}
+                            min={1}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelTileHeight')}
                             name='TileHeight'
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.TileHeight}
-                            helperText={globalize.translate('LabelTileHeightHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 1,
-                                    required: true
-                                }
-                            }}
+                            min={1}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelJpegQuality')}
                             name='JpegQuality'
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.JpegQuality}
-                            helperText={globalize.translate('LabelJpegQualityHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 1,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
+                            min={1}
+                            max={100}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelQscale')}
                             name='Qscale'
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.Qscale}
-                            helperText={globalize.translate('LabelQscaleHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 2,
-                                    max: 31,
-                                    required: true
-                                }
-                            }}
+                            min={2}
+                            max={31}
+                            required
                         />
 
-                        <TextField
+                        <Input
                             label={globalize.translate('LabelTrickplayThreads')}
                             name='TrickplayThreads'
                             type='number'
                             inputMode='numeric'
                             defaultValue={defaultConfig.TrickplayOptions?.ProcessThreads}
-                            helperText={globalize.translate('LabelTrickplayThreadsHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    required: true
-                                }
-                            }}
+                            min={0}
+                            required
                         />
 
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
+                        <Button type='submit'>
                             {globalize.translate('Save')}
                         </Button>
-                    </Stack>
-                </Form>
-            </Box>
+                    </Flex>
+                </form>
+            </Flex>
         </Page>
     );
 };

@@ -218,6 +218,6 @@ describe('QueueControls', () => {
     it('progress slider has correct value based on time', () => {
         render(<QueueControls {...defaultProps} currentTime={150} duration={300} />);
         const progressSlider = screen.getAllByRole('slider')[0];
-        expect(progressSlider).toHaveAttribute('aria-valuenow', '50');
+        expect(progressSlider).toHaveAttribute('aria-valuenow', '150');
     });
 });

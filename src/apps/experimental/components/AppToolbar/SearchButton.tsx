@@ -1,55 +1,56 @@
 import React, { type FC } from 'react';
-import {
-    Link,
-    URLSearchParamsInit,
-    createSearchParams,
-    useLocation,
-    useSearchParams
-} from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+import { useLocation, useNavigate } from '@tanstack/react-router';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import globalize from 'lib/globalize';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { useSearchParams } from 'hooks/useSearchParams';
 
 const getUrlParams = (searchParams: URLSearchParams) => {
     const parentId =
         searchParams.get('parentId') || searchParams.get('topParentId');
     const collectionType = searchParams.get('collectionType');
-    const params: URLSearchParamsInit = {};
+    const params = new URLSearchParams();
 
     if (parentId) {
-        params.parentId = parentId;
+        params.set('parentId', parentId);
     }
 
     if (collectionType) {
-        params.collectionType = collectionType;
+        params.set('collectionType', collectionType);
     }
+
     return params;
 };
 
 const SearchButton: FC = () => {
     const location = useLocation();
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     const isSearchPath = location.pathname === '/search';
-    const search = createSearchParams(getUrlParams(searchParams));
+    const search = getUrlParams(searchParams);
     const createSearchLink =
         {
             pathname: '/search',
-            search: search ? `?${search}` : undefined
+            search: search.toString() ? `?${search}` : undefined
         };
+
+    const onSearchClick = () => {
+        if (!isSearchPath) {
+            navigate({ to: `${createSearchLink.pathname}${createSearchLink.search ?? ''}` });
+        }
+    };
 
     return (
         <Tooltip title={globalize.translate('Search')}>
             <IconButton
-                size='large'
+                size='lg'
                 aria-label={globalize.translate('Search')}
-                color='inherit'
-                component={Link}
                 disabled={isSearchPath}
-                to={createSearchLink}
+                onClick={onSearchClick}
             >
-                <SearchIcon />
+                <MagnifyingGlassIcon />
             </IconButton>
         </Tooltip>
     );

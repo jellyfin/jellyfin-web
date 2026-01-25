@@ -10,7 +10,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
-import template from './imageOptionsEditor.template.html';
+import template from './imageOptionsEditor.template.html?raw';
 
 function getDefaultImageConfig(itemType, type) {
     return {

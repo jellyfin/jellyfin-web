@@ -1,9 +1,9 @@
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
 import globalize from 'lib/globalize';
-import { FeatureFilters, LibraryViewSettings } from 'types/library';
+import { FeatureFilters, type LibraryViewSettings } from 'types/library';
 
 const featuresOptions = [
     { label: 'Subtitles', value: FeatureFilters.HasSubtitles },
@@ -47,26 +47,23 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({
     );
 
     return (
-        <FormGroup>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {featuresOptions
                 .map((filter) => (
-                    <FormControlLabel
+                    <Checkbox
                         key={filter.value}
-                        control={
-                            <Checkbox
-                                checked={
-                                    !!libraryViewSettings?.Filters?.Features?.includes(
-                                        filter.value
-                                    )
-                                }
-                                onChange={onFiltersFeaturesChange}
-                                value={filter.value}
-                            />
+                        checked={
+                            !!libraryViewSettings?.Filters?.Features?.includes(
+                                filter.value
+                            )
                         }
-                        label={globalize.translate(filter.label)}
-                    />
+                        onChange={onFiltersFeaturesChange}
+                        value={filter.value}
+                    >
+                        {globalize.translate(filter.label)}
+                    </Checkbox>
                 ))}
-        </FormGroup>
+        </Box>
     );
 };
 

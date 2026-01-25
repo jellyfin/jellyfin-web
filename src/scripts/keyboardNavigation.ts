@@ -28,106 +28,36 @@ const KeyNames: Record<number, string> = {
     213: 'GamepadLeftThumbRight',
     412: 'MediaRewind',
     413: 'MediaStop',
-    415: 'MediaPlay',
-    417: 'MediaFastForward',
-    461: 'Back',
-    10009: 'Back',
-    10232: 'MediaTrackPrevious',
-    10233: 'MediaTrackNext',
-    10252: 'MediaPlayPause'
+    414: 'MediaPlayPause',
+    415: 'MediaTrackNext',
+    416: 'MediaTrackPrevious',
+    417: 'MediaFastForward'
 };
 
-const KeyAliases: Record<string, string> = {
-    GamepadB: 'Escape',
-    NavigationUp: 'ArrowUp',
-    NavigationDown: 'ArrowDown',
-    NavigationLeft: 'ArrowLeft',
-    NavigationRight: 'ArrowRight',
-    GamepadDPadUp: 'ArrowUp',
-    GamepadDPadDown: 'ArrowDown',
-    GamepadDPadLeft: 'ArrowLeft',
-    GamepadDPadRight: 'ArrowRight',
-    GamepadLeftThumbUp: 'ArrowUp',
-    GamepadLeftThumbDown: 'ArrowDown',
-    GamepadLeftThumbLeft: 'ArrowLeft',
-    GamepadLeftThumbRight: 'ArrowRight'
-};
-
-const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'BrowserHome', 'Find'];
-const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause'];
-const InteractiveElements = ['INPUT', 'TEXTAREA'];
-const NonInteractiveInputElements = ['button', 'checkbox', 'color', 'file', 'hidden', 'image', 'radio', 'reset', 'submit'];
-
-export function getKeyName(event: KeyboardEvent): string {
-    const key = KeyNames[event.keyCode] || event.key;
-    return KeyAliases[key] || key;
-}
-
-export function isNavigationKey(key: string): boolean {
-    return NavigationKeys.includes(key);
-}
-
-export function isMediaKey(key: string): boolean {
-    return MediaKeys.includes(key);
-}
-
-export function isInteractiveElement(element: Element | null): boolean {
-    if (element && InteractiveElements.includes(element.tagName)) {
-        if (element.tagName === 'INPUT') {
-            return !NonInteractiveInputElements.includes((element as HTMLInputElement).type);
-        }
-        return true;
-    }
-    return false;
-}
-
-export function enable(): void {
-    const hasMediaSession = 'mediaSession' in navigator;
-    window.addEventListener('keydown', (e) => {
-        if (e.defaultPrevented) return;
-        if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
-
-        const key = getKeyName(e);
-        if (!layoutManager.tv && isNavigationKey(key)) return;
-        if (!browser.tv && isMediaKey(key) && hasMediaSession) return;
-
+function enable() {
+    const keyDownHandler = function (e: KeyboardEvent) {
         let capture = true;
-        switch (key) {
-            case 'ArrowLeft':
-                if (!isInteractiveElement(document.activeElement)) inputManager.handleCommand('left');
-                else capture = false;
+
+        const keyName = KeyNames[e.keyCode];
+
+        switch (keyName) {
+            case 'BrowserHome':
+                inputManager.handleCommand('home');
                 break;
-            case 'ArrowUp': inputManager.handleCommand('up'); break;
-            case 'ArrowRight':
-                if (!isInteractiveElement(document.activeElement)) inputManager.handleCommand('right');
-                else capture = false;
+            case 'BrowserBack':
+                inputManager.handleCommand('back');
                 break;
-            case 'ArrowDown': inputManager.handleCommand('down'); break;
-            case 'GamepadA': inputManager.handleCommand('select'); break;
-            case 'Back': inputManager.handleCommand('back'); break;
-            case 'Backspace':
-                if (browser.tv && (browser as any).hisense && (browser as any).vidaa) inputManager.handleCommand('back');
-                else capture = false;
+            case 'Find':
+                inputManager.handleCommand('search');
                 break;
-            case 'Escape':
-                if (layoutManager.tv) inputManager.handleCommand('back');
-                else capture = false;
-                break;
-            case 'Find': inputManager.handleCommand('search'); break;
-            case 'BrowserHome': inputManager.handleCommand('home'); break;
-            case 'MediaPlay': inputManager.handleCommand('play'); break;
-            case 'Pause': inputManager.handleCommand('pause'); break;
-            case 'MediaPlayPause': inputManager.handleCommand('playpause'); break;
-            case 'MediaRewind': inputManager.handleCommand('rewind'); break;
-            case 'MediaFastForward': inputManager.handleCommand('fastforward'); break;
-            case 'MediaStop': inputManager.handleCommand('stop'); break;
-            case 'MediaTrackPrevious': inputManager.handleCommand('previoustrack'); break;
-            case 'MediaTrackNext': inputManager.handleCommand('nexttrack'); break;
-            default: capture = false;
+            default:
+                capture = Object.values(KeyNames).includes(keyName || '');
         }
 
         if (capture) e.preventDefault();
-    });
+    };
+
+    document.addEventListener('keydown', keyDownHandler);
 }
 
 function attachGamepadScript() {
@@ -135,9 +65,24 @@ function attachGamepadScript() {
     import('./gamepadtokey');
 }
 
-if (typeof navigator !== 'undefined' && navigator.getGamepads && (appSettings as any).enableGamepad() && !browser.edgeUwp) {
+if (
+    typeof navigator !== 'undefined' &&
+    navigator.getGamepads &&
+    (appSettings as any).enableGamepad() &&
+    typeof (appSettings as any).enableGamepad === 'function'
+) {
     window.addEventListener('gamepadconnected', attachGamepadScript);
 }
 
-const keyboardNavigation = { enable, getKeyName, isNavigationKey };
+const keyboardNavigation = {
+    enable,
+    getKeyName: (keyCode: number) => KeyNames[keyCode] || '',
+    isNavigationKey: (key: string) => Object.values(KeyNames).includes(key || ''),
+    canEnableGamepad: () =>
+        typeof navigator !== 'undefined' &&
+        navigator.getGamepads &&
+        (appSettings as any).enableGamepad() &&
+        typeof (appSettings as any).enableGamepad === 'function'
+};
+
 export default keyboardNavigation;

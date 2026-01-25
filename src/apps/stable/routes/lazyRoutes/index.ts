@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 
 // Lazy load critical routes - MAXIMUM IMPACT
 export const HomePage = lazy(() => import('./HomePage'));
+export const HomeVideosPage = lazy(() => import('./HomeVideosPage'));
 
 // 🔥 CRITICAL: Convert remaining legacy routes to lazy loading
 export const VideoPlayerPage = lazy(() => import('./VideoPlayerPage'));
@@ -17,7 +18,6 @@ export const MusicGenresPage = lazy(() => import('./MusicGenresPage'));
 export const MusicPlaylistsPage = lazy(() => import('./MusicPlaylistsPage'));
 
 // Lazy load movie routes
-export const MoviesPage = lazy(() => import('./MoviesPage'));
 export const MovieCollectionsPage = lazy(() => import('./MovieCollectionsPage'));
 export const MovieGenresPage = lazy(() => import('./MovieGenresPage'));
 

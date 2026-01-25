@@ -1,59 +1,55 @@
-import Button from '@mui/joy/Button';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
 import React, { type FC } from 'react';
-
 import globalize from 'lib/globalize';
+import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogCloseButton } from 'ui-primitives/Dialog';
+import { Button } from 'ui-primitives/Button';
+import { Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css';
 
-interface ConfirmDialogProps {
+export interface ConfirmDialogProps {
     open: boolean;
-    confirmButtonColor?: 'primary' | 'danger' | 'neutral' | 'success' | 'warning';
+    confirmButtonColor?: 'primary' | 'danger' | 'neutral' | 'success' | 'warning' | 'error';
     confirmButtonText?: string;
+    confirmText?: string;
     title: string;
-    text: string;
+    text?: string;
+    message?: string;
     onCancel: () => void;
     onConfirm: () => void;
+    isDestructive?: boolean;
 }
 
-/** Convenience wrapper for a simple Joy UI Dialog component for displaying a prompt that needs confirmation. */
 const ConfirmDialog: FC<ConfirmDialogProps> = ({
     open,
     confirmButtonColor = 'primary',
     confirmButtonText,
+    confirmText,
     title,
     text,
+    message,
     onCancel,
-    onConfirm
-}) => (
-    <Modal open={open} onClose={onCancel}>
-        <ModalDialog variant="outlined" role="alertdialog">
-            <DialogTitle>
-                {title}
-            </DialogTitle>
-            <DialogContent sx={{ whiteSpace: 'pre-wrap' }}>
-                {text}
+    onConfirm,
+    isDestructive
+}) => {
+    const effectiveText = text || message || '';
+    const effectiveConfirmText = confirmButtonText || confirmText || globalize.translate('ButtonOk');
+    const effectiveColor = isDestructive ? 'danger' : confirmButtonColor === 'error' ? 'danger' : confirmButtonColor;
+
+    return (
+        <Dialog open={open} onOpenChange={onCancel}>
+            <DialogContent style={{ minWidth: 320, whiteSpace: 'pre-wrap' }}>
+                <DialogTitle>{title}</DialogTitle>
+                <DialogDescription>{effectiveText}</DialogDescription>
+                <Flex style={{ gap: vars.spacing.sm, marginTop: vars.spacing.md }}>
+                    <Button variant="primary" color={effectiveColor as 'primary' | 'danger'} onClick={onConfirm}>
+                        {effectiveConfirmText}
+                    </Button>
+                    <Button variant="plain" color="neutral" onClick={onCancel}>
+                        {globalize.translate('ButtonCancel')}
+                    </Button>
+                </Flex>
             </DialogContent>
-            <DialogActions>
-                <Button
-                    variant="solid"
-                    color={confirmButtonColor}
-                    onClick={onConfirm}
-                >
-                    {confirmButtonText || globalize.translate('ButtonOk')}
-                </Button>
-                <Button
-                    variant="plain"
-                    color="neutral"
-                    onClick={onCancel}
-                >
-                    {globalize.translate('ButtonCancel')}
-                </Button>
-            </DialogActions>
-        </ModalDialog>
-    </Modal>
-);
+        </Dialog>
+    );
+};
 
 export default ConfirmDialog;

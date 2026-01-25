@@ -12,7 +12,7 @@ interface PreloadMetrics {
 export class PreloadPerformanceMonitor {
     private static instance: PreloadPerformanceMonitor;
     private metrics: PreloadMetrics[] = [];
-    private routeAccessTimes: Map<string, number> = new Map();
+    private readonly routeAccessTimes: Map<string, number> = new Map();
 
     private constructor() {
         this.setupPerformanceObserver();

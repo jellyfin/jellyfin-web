@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { IconButton } from 'ui-primitives/IconButton';
+import { PlayIcon } from '@radix-ui/react-icons';
 
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
@@ -19,7 +19,7 @@ const PlayArrowIconButton: FC<PlayArrowIconButtonProps> = ({ className, action, 
             data-action={action}
             title={globalize.translate(title)}
         >
-            <PlayArrowIcon className={iconClassName} />
+            <PlayIcon className={iconClassName} />
         </IconButton>
     );
 };

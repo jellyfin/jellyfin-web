@@ -1,59 +1,55 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useRouter } from '@tanstack/react-router';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import IconButton from '@mui/joy/IconButton';
-import Typography from '@mui/joy/Typography';
-import Box from '@mui/joy/Box';
-import Stack from '@mui/joy/Stack';
-import Slider from '@mui/joy/Slider';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Sheet from '@mui/joy/Sheet';
-import Chip from '@mui/joy/Chip';
-import Input from '@mui/joy/Input';
-import Button from '@mui/joy/Button';
-import Divider from '@mui/joy/Divider';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemButton from '@mui/joy/ListItemButton';
-import ListItemContent from '@mui/joy/ListItemContent';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Divider } from 'ui-primitives/Divider';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Input } from 'ui-primitives/Input';
+import { List, ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
+import { ListItemButton } from 'ui-primitives/ListItemButton';
+import { Paper } from 'ui-primitives/Paper';
+import { Slider } from 'ui-primitives/Slider';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
+import { lyricsRoute } from 'routes/lyrics';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import StopIcon from '@mui/icons-material/Stop';
-import Replay10Icon from '@mui/icons-material/Replay10';
-import Forward30Icon from '@mui/icons-material/Forward30';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import InfoIcon from '@mui/icons-material/Info';
-import RepeatIcon from '@mui/icons-material/Repeat';
-import RepeatOneIcon from '@mui/icons-material/RepeatOne';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import AudiotrackIcon from '@mui/icons-material/Audiotrack';
-import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import LyricsIcon from '@mui/icons-material/Lyrics';
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import SaveIcon from '@mui/icons-material/Save';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import HomeIcon from '@mui/icons-material/Home';
-import SearchIcon from '@mui/icons-material/Search';
-import SettingsIcon from '@mui/icons-material/Settings';
-import MenuIcon from '@mui/icons-material/Menu';
-import SendIcon from '@mui/icons-material/Send';
+import {
+    ArrowLeftIcon,
+    BookmarkIcon,
+    ChatBubbleIcon,
+    ChevronDownIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    ChevronUpIcon,
+    DiscIcon,
+    DotsVerticalIcon,
+    DoubleArrowLeftIcon,
+    DoubleArrowRightIcon,
+    DragHandleDots2Icon,
+    EnterFullScreenIcon,
+    EnterIcon,
+    GearIcon,
+    HamburgerMenuIcon,
+    HomeIcon,
+    InfoCircledIcon,
+    LoopIcon,
+    MagnifyingGlassIcon,
+    PaperPlaneIcon,
+    PauseIcon,
+    PlayIcon,
+    ReaderIcon,
+    SpeakerLoudIcon,
+    SpeakerOffIcon,
+    StackIcon,
+    StopIcon,
+    ShuffleIcon,
+    TrackNextIcon,
+    TrackPreviousIcon
+} from '@radix-ui/react-icons';
 
 import {
     useIsPlaying,
@@ -86,19 +82,14 @@ interface QueueListItemProps {
 }
 
 function QueueListItem({ item, index, isCurrent, onPlay, onRemove }: QueueListItemProps) {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging
-    } = useSortable({ id: `queue-${item.id}` });
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id: `queue-${item.id}`
+    });
 
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
-        opacity: isDragging ? 0.5 : 1,
+        opacity: isDragging ? 0.5 : 1
     };
 
     const trackName = item.name || item.title || 'Unknown Track';
@@ -115,43 +106,57 @@ function QueueListItem({ item, index, isCurrent, onPlay, onRemove }: QueueListIt
     return (
         <ListItem
             ref={setNodeRef}
-            style={style}
             {...attributes}
             className={`queueListItem ${isCurrent ? 'currentItem' : ''}`}
-            sx={{
-                bgcolor: isCurrent ? 'rgba(var(--joy-palette-primary-main-rgb), 0.1)' : 'transparent',
-                borderRadius: 'sm',
-                mb: 0.5,
+            style={{
+                ...style,
+                backgroundColor: isCurrent ? `${vars.colors.primary}1a` : 'transparent',
+                borderRadius: vars.borderRadius.sm,
+                marginBottom: vars.spacing.xs
             }}
         >
             <ListItemButton onClick={() => onPlay(index)}>
-                <ListItemDecorator sx={{ width: 24, color: 'text.secondary' }}>
+                <ListItemDecorator style={{ width: 24, color: vars.colors.textSecondary }}>
                     {index + 1}
                 </ListItemDecorator>
                 <ListItemDecorator>
-                    <AspectRatio ratio="1" sx={{ width: 40, borderRadius: 'xs', overflow: 'hidden' }}>
+                    <Box
+                        style={{
+                            width: 40,
+                            aspectRatio: '1 / 1',
+                            borderRadius: vars.borderRadius.sm,
+                            overflow: 'hidden'
+                        }}
+                    >
                         {imageUrl ? (
                             <img src={imageUrl} alt={trackName} style={{ objectFit: 'cover' }} />
                         ) : (
-                            <Box sx={{ bgcolor: 'neutral.700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <MusicNoteIcon sx={{ fontSize: 16, color: 'neutral.400' }} />
+                            <Box
+                                style={{
+                                    backgroundColor: vars.colors.surfaceHover,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <DiscIcon style={{ width: 16, height: 16, color: vars.colors.textMuted }} />
                             </Box>
                         )}
-                    </AspectRatio>
+                    </Box>
                 </ListItemDecorator>
                 <ListItemContent>
-                    <Typography level="body-sm" sx={{ fontWeight: isCurrent ? 'bold' : 'normal' }}>
+                    <Text size="sm" weight={isCurrent ? 'bold' : 'normal'}>
                         {trackName}
-                    </Typography>
-                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>
+                    </Text>
+                    <Text size="xs" color="muted">
                         {artistName}
-                    </Typography>
+                    </Text>
                 </ListItemContent>
-                <Typography level="body-xs" sx={{ color: 'neutral.400', mr: 1 }}>
+                <Text size="xs" color="muted" style={{ marginRight: vars.spacing.xs }}>
                     {formatTime(duration)}
-                </Typography>
-                <Box {...listeners} sx={{ cursor: 'grab', color: 'neutral.400', '&:hover': { color: 'text.primary' } }}>
-                    <DragIndicatorIcon fontSize="small" />
+                </Text>
+                <Box {...listeners} style={{ cursor: 'grab', color: vars.colors.textMuted }}>
+                    <DragHandleDots2Icon style={{ width: 16, height: 16 }} />
                 </Box>
             </ListItemButton>
         </ListItem>
@@ -168,21 +173,23 @@ function CollapseSection({ title, children, defaultExpanded = true }: CollapseSe
     const [expanded, setExpanded] = useState(defaultExpanded);
 
     return (
-        <Sheet variant="outlined" sx={{ borderRadius: 'md', mb: 2 }}>
+        <Paper variant="outlined" style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.md }}>
             <Box
                 onClick={() => setExpanded(!expanded)}
-                sx={{
+                style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    p: 1,
+                    padding: vars.spacing.sm,
                     cursor: 'pointer',
-                    '&:hover': { bgcolor: 'action.hover' },
+                    backgroundColor: 'transparent'
                 }}
             >
-                <Typography level="title-sm">{title}</Typography>
+                <Text size="sm" weight="medium">
+                    {title}
+                </Text>
                 <IconButton size="sm" variant="plain">
-                    {expanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    {expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 </IconButton>
             </Box>
             <AnimatePresence>
@@ -194,13 +201,11 @@ function CollapseSection({ title, children, defaultExpanded = true }: CollapseSe
                         transition={{ duration: 0.2 }}
                         style={{ overflow: 'hidden' }}
                     >
-                        <Box sx={{ p: 2, pt: 0 }}>
-                            {children}
-                        </Box>
+                        <Box style={{ padding: vars.spacing.md, paddingTop: 0 }}>{children}</Box>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </Sheet>
+        </Paper>
     );
 }
 
@@ -216,51 +221,50 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps) {
     const navButtonSx = {
         width: 48,
         height: 48,
-        bgcolor: 'rgba(255,255,255,0.1)',
-        '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' },
+        backgroundColor: 'rgba(255,255,255,0.1)'
     };
 
     return (
         <CollapseSection title="Navigation" defaultExpanded={false}>
-            <Stack spacing={1} alignItems="center">
-                <IconButton sx={navButtonSx} onClick={handleNavClick('MoveUp')}>
-                    <KeyboardArrowUpIcon />
+            <Flex direction="column" align="center" gap={vars.spacing.sm}>
+                <IconButton style={navButtonSx} onClick={handleNavClick('MoveUp')}>
+                    <ChevronUpIcon />
                 </IconButton>
-                <Stack direction="row" spacing={1}>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('MoveLeft')}>
-                        <KeyboardArrowLeftIcon />
+                <Flex direction="row" gap={vars.spacing.sm}>
+                    <IconButton style={navButtonSx} onClick={handleNavClick('MoveLeft')}>
+                        <ChevronLeftIcon />
                     </IconButton>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('Select')}>
-                        <KeyboardReturnIcon />
+                    <IconButton style={navButtonSx} onClick={handleNavClick('Select')}>
+                        <EnterIcon />
                     </IconButton>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('MoveRight')}>
-                        <KeyboardArrowRightIcon />
+                    <IconButton style={navButtonSx} onClick={handleNavClick('MoveRight')}>
+                        <ChevronRightIcon />
                     </IconButton>
-                </Stack>
-                <Stack direction="row" spacing={1}>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('Back')}>
-                        <ArrowBackIcon />
+                </Flex>
+                <Flex direction="row" gap={vars.spacing.sm}>
+                    <IconButton style={navButtonSx} onClick={handleNavClick('Back')}>
+                        <ArrowLeftIcon />
                     </IconButton>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('MoveDown')}>
-                        <KeyboardArrowDownIcon />
+                    <IconButton style={navButtonSx} onClick={handleNavClick('MoveDown')}>
+                        <ChevronDownIcon />
                     </IconButton>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('ToggleContextMenu')}>
-                        <MenuIcon />
+                    <IconButton style={navButtonSx} onClick={handleNavClick('ToggleContextMenu')}>
+                        <HamburgerMenuIcon />
                     </IconButton>
-                </Stack>
-                <Divider sx={{ my: 1, width: '100%' }} />
-                <Stack direction="row" spacing={1}>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('GoHome')}>
+                </Flex>
+                <Divider style={{ margin: `${vars.spacing.sm} 0`, width: '100%' }} />
+                <Flex direction="row" gap={vars.spacing.sm}>
+                    <IconButton style={navButtonSx} onClick={handleNavClick('GoHome')}>
                         <HomeIcon />
                     </IconButton>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('GoToSearch')}>
-                        <SearchIcon />
+                    <IconButton style={navButtonSx} onClick={handleNavClick('GoToSearch')}>
+                        <MagnifyingGlassIcon />
                     </IconButton>
-                    <IconButton sx={navButtonSx} onClick={handleNavClick('GoToSettings')}>
-                        <SettingsIcon />
+                    <IconButton style={navButtonSx} onClick={handleNavClick('GoToSettings')}>
+                        <GearIcon />
                     </IconButton>
-                </Stack>
-            </Stack>
+                </Flex>
+            </Flex>
         </CollapseSection>
     );
 }
@@ -291,41 +295,39 @@ function MessageSection({ onSendMessage, onSendText }: MessageSectionProps) {
     };
 
     return (
-        <Stack spacing={2}>
-                    <CollapseSection title="Send Message" defaultExpanded={false}>
-                        <Stack spacing={2}>
-                            <Input
-                                placeholder="Message title"
-                                value={messageTitle}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessageTitle(e.target.value)}
-                                size="sm"
-                            />
-                            <Input
-                                placeholder="Message text"
-                                value={messageText}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessageText(e.target.value)}
-                                size="sm"
-                            />
-                            <Button onClick={handleSendMessage} startDecorator={<SendIcon />} size="sm">
-                                Send
-                            </Button>
-                        </Stack>
-                    </CollapseSection>
+        <Flex direction="column" gap={vars.spacing.md}>
+            <CollapseSection title="Send Message" defaultExpanded={false}>
+                <Flex direction="column" gap={vars.spacing.md}>
+                    <Input
+                        placeholder="Message title"
+                        value={messageTitle}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessageTitle(e.target.value)}
+                    />
+                    <Input
+                        placeholder="Message text"
+                        value={messageText}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessageText(e.target.value)}
+                    />
+                    <Button onClick={handleSendMessage} startDecorator={<PaperPlaneIcon />} size="sm">
+                        Send
+                    </Button>
+                </Flex>
+            </CollapseSection>
 
-                    <CollapseSection title="Enter Text" defaultExpanded={false}>
-                        <Stack spacing={2}>
-                            <Input
-                                placeholder="Enter text"
-                                value={typeText}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTypeText(e.target.value)}
-                                onKeyPress={(e: React.KeyboardEvent) => e.key === 'Enter' && handleSendText()}
-                            />
-                            <Button onClick={handleSendText} startDecorator={<SendIcon />} size="sm">
-                                Send
-                            </Button>
-                        </Stack>
-                    </CollapseSection>
-        </Stack>
+            <CollapseSection title="Enter Text" defaultExpanded={false}>
+                <Flex direction="column" gap={vars.spacing.md}>
+                    <Input
+                        placeholder="Enter text"
+                        value={typeText}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTypeText(e.target.value)}
+                        onKeyPress={(e: React.KeyboardEvent) => e.key === 'Enter' && handleSendText()}
+                    />
+                    <Button onClick={handleSendText} startDecorator={<PaperPlaneIcon />} size="sm">
+                        Send
+                    </Button>
+                </Flex>
+            </CollapseSection>
+        </Flex>
     );
 }
 
@@ -363,17 +365,17 @@ function PlaylistSection({
 
     return (
         <Box className="playlistSection">
-            <Stack direction="row" spacing={1} justifyContent="center" className="playlistSectionButton">
+            <Flex direction="row" justify="center" gap={vars.spacing.sm} className="playlistSectionButton">
                 <IconButton onClick={handleTogglePlaylist} title="Playlist">
-                    <QueueMusicIcon />
+                    <StackIcon />
                 </IconButton>
                 <IconButton onClick={onSavePlaylist} title="Save" className="btnSavePlaylist">
-                    <SaveIcon />
+                    <BookmarkIcon />
                 </IconButton>
                 <IconButton title="More">
-                    <MoreVertIcon />
+                    <DotsVerticalIcon />
                 </IconButton>
-            </Stack>
+            </Flex>
             <AnimatePresence>
                 {showPlaylist && (
                     <motion.div
@@ -408,8 +410,8 @@ interface PlaybackControlsProps {
     onPrevious: () => void;
     onRewind: () => void;
     onFastForward: () => void;
-    onSeekChange: (_: React.SyntheticEvent | Event, value: number | number[]) => void;
-    onSeek: (_: React.SyntheticEvent | Event, value: number | number[]) => void;
+    onSeekChange: (value: number[]) => void;
+    onSeek: (value: number[]) => void;
     onSeekStart: () => void;
     onSetVolume: (volume: number) => void;
     onToggleMute: () => void;
@@ -479,142 +481,109 @@ function PlaybackControls({
                         min={0}
                         max={duration || 100}
                         step={0.1}
-                        value={localSeekValue}
+                        value={[localSeekValue]}
                         onMouseDown={onSeekStart}
                         onTouchStart={onSeekStart}
-                        onChange={onSeekChange}
-                        onChangeCommitted={onSeek}
-                        size="lg"
-                        sx={{
-                            '--Slider-trackSize': '6px',
-                            '--Slider-thumbSize': '16px',
-                            color: 'primary.500',
-                        }}
+                        onValueChange={onSeekChange}
+                        onValueCommit={onSeek}
                     />
                 </Box>
                 <Box className="runtime">{durationFormatted}</Box>
             </Box>
 
-            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between" className="nowPlayingButtonsContainer focuscontainer-x">
-                <Stack direction="row" spacing={0.5} alignItems="center" className="nowPlayingInfoButtons">
+            <Flex
+                direction="row"
+                align="center"
+                justify="space-between"
+                className="nowPlayingButtonsContainer focuscontainer-x"
+                gap={vars.spacing.sm}
+            >
+                <Flex direction="row" align="center" className="nowPlayingInfoButtons" gap={vars.spacing.xs}>
                     <IconButton
                         onClick={onToggleRepeat}
                         variant="plain"
                         size="sm"
-                        sx={{ color: isRepeatActive ? 'primary.500' : 'neutral.50' }}
+                        color={isRepeatActive ? 'primary' : 'neutral'}
                         title="Repeat"
                     >
-                        {repeatMode === 'RepeatOne' ? <RepeatOneIcon /> : <RepeatIcon />}
+                        <LoopIcon />
                     </IconButton>
 
-                    <IconButton
-                        onClick={onRewind}
-                        variant="plain"
-                        size="sm"
-                        sx={{ color: 'neutral.50' }}
-                        title="Rewind 10 seconds"
-                    >
-                        <Replay10Icon />
+                    <IconButton onClick={onRewind} variant="plain" size="sm" color="neutral" title="Rewind 10 seconds">
+                        <DoubleArrowLeftIcon />
                     </IconButton>
 
-                    <IconButton
-                        onClick={onPrevious}
-                        variant="plain"
-                        size="sm"
-                        sx={{ color: 'neutral.50' }}
-                        title="Previous track"
-                    >
-                        <SkipPreviousIcon />
+                    <IconButton onClick={onPrevious} variant="plain" size="sm" color="neutral" title="Previous track">
+                        <TrackPreviousIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onPlayPause}
                         variant="solid"
-                        color="primary"
                         size="lg"
-                        sx={{ width: 56, height: 56, borderRadius: '50%' }}
+                        style={{ width: 56, height: 56, borderRadius: '50%' }}
                         title={isPlaying ? 'Pause' : 'Play'}
                     >
-                        {isPlaying ? <PauseIcon sx={{ fontSize: 28 }} /> : <PlayArrowIcon sx={{ fontSize: 28 }} />}
+                        {isPlaying ? (
+                            <PauseIcon style={{ width: 28, height: 28 }} />
+                        ) : (
+                            <PlayIcon style={{ width: 28, height: 28 }} />
+                        )}
                     </IconButton>
 
-                    <IconButton
-                        onClick={onStop}
-                        variant="plain"
-                        size="sm"
-                        sx={{ color: 'neutral.50' }}
-                        title="Stop"
-                    >
+                    <IconButton onClick={onStop} variant="plain" size="sm" color="neutral" title="Stop">
                         <StopIcon />
                     </IconButton>
 
-                    <IconButton
-                        onClick={onNext}
-                        variant="plain"
-                        size="sm"
-                        sx={{ color: 'neutral.50' }}
-                        title="Next track"
-                    >
-                        <SkipNextIcon />
+                    <IconButton onClick={onNext} variant="plain" size="sm" color="neutral" title="Next track">
+                        <TrackNextIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onFastForward}
                         variant="plain"
                         size="sm"
-                        sx={{ color: 'neutral.50' }}
+                        color="neutral"
                         title="Fast-forward 30 seconds"
                     >
-                        <Forward30Icon />
+                        <DoubleArrowRightIcon />
                     </IconButton>
 
                     <IconButton
                         onClick={onToggleShuffle}
                         variant="plain"
                         size="sm"
-                        sx={{ color: isShuffleActive ? 'primary.500' : 'neutral.50' }}
+                        color={isShuffleActive ? 'primary' : 'neutral'}
                         title="Shuffle"
                     >
                         <ShuffleIcon />
                     </IconButton>
-                </Stack>
+                </Flex>
 
-                <Stack direction="row" spacing={0.5} alignItems="center" className="nowPlayingSecondaryButtons">
+                <Flex direction="row" align="center" className="nowPlayingSecondaryButtons" gap={vars.spacing.xs}>
                     {hasAudioTracks && (
                         <IconButton
                             onClick={onAudioTracks}
                             variant="plain"
                             size="sm"
-                            sx={{ color: 'neutral.50' }}
+                            color="neutral"
                             title="Audio Tracks"
                         >
-                            <AudiotrackIcon />
+                            <DiscIcon />
                         </IconButton>
                     )}
 
                     {hasSubtitles && (
-                        <IconButton
-                            onClick={onSubtitles}
-                            variant="plain"
-                            size="sm"
-                            sx={{ color: 'neutral.50' }}
-                            title="Subtitles"
-                        >
-                            <ClosedCaptionIcon />
+                        <IconButton onClick={onSubtitles} variant="plain" size="sm" color="neutral" title="Subtitles">
+                            <ReaderIcon />
                         </IconButton>
                     )}
 
                     <Box className="nowPlayingPageUserDataButtons" />
 
                     {onFullscreen && (
-                        <IconButton
-                            onClick={onFullscreen}
-                            variant="plain"
-                            size="sm"
-                            sx={{ color: 'neutral.50' }}
-                            title="Fullscreen"
-                        >
-                            <FullscreenIcon />
+                        <IconButton onClick={onFullscreen} variant="plain" size="sm" color="neutral" title="Fullscreen">
+                            <EnterFullScreenIcon />
                         </IconButton>
                     )}
 
@@ -623,44 +592,34 @@ function PlaybackControls({
                             onClick={onLyrics}
                             variant="plain"
                             size="sm"
-                            sx={{ color: 'neutral.50' }}
+                            color="neutral"
                             className="btnLyrics"
                             title="Lyrics"
                         >
-                            <LyricsIcon />
+                            <ChatBubbleIcon />
                         </IconButton>
                     )}
-                </Stack>
-            </Stack>
+                </Flex>
+            </Flex>
 
-            <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mt: 1 }}>
-                <IconButton
-                    onClick={onToggleMute}
-                    variant="plain"
-                    size="sm"
-                    sx={{ color: 'neutral.50' }}
-                >
-                    {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+            <Flex direction="row" align="center" gap={vars.spacing.xs} style={{ marginTop: vars.spacing.xs }}>
+                <IconButton onClick={onToggleMute} variant="plain" size="sm" color="neutral">
+                    {muted ? <SpeakerOffIcon /> : <SpeakerLoudIcon />}
                 </IconButton>
                 <Slider
                     min={0}
                     max={100}
-                    value={muted ? 0 : volume}
-                    onChange={(_, value) => onSetVolume(Array.isArray(value) ? value[0] : value)}
-                    size="sm"
-                    sx={{
-                        width: 80,
-                        '--Slider-trackSize': '3px',
-                        '--Slider-thumbSize': '10px',
-                        color: 'primary.500',
-                    }}
+                    value={[muted ? 0 : volume]}
+                    onValueChange={value => onSetVolume(value[0] ?? 0)}
+                    style={{ width: 80 }}
                 />
-            </Stack>
+            </Flex>
         </>
     );
 }
 
 const NowPlayingPage: React.FC = () => {
+    const router = useRouter();
     const navigate = useNavigate();
     const [showTechnicalInfo, setShowTechnicalInfo] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
@@ -683,31 +642,18 @@ const NowPlayingPage: React.FC = () => {
     const { currentTimeFormatted, durationFormatted } = useFormattedTime();
     const currentPlayer = useCurrentPlayer();
 
-    const {
-        togglePlayPause,
-        stop,
-        seek,
-        seekPercent,
-        setVolume,
-        toggleMute,
-        setPlaybackRate
-    } = usePlaybackActions();
+    const { togglePlayPause, stop, seek, seekPercent, setVolume, toggleMute, setPlaybackRate } = usePlaybackActions();
 
-    const {
-        next,
-        previous,
-        toggleRepeatMode,
-        toggleShuffleMode,
-        setQueue,
-        removeFromQueue,
-        moveItem
-    } = useQueueActions();
+    const { next, previous, toggleRepeatMode, toggleShuffleMode, setQueue, removeFromQueue, moveItem } =
+        useQueueActions();
 
     const supportedCommands = currentPlayer?.supportedCommands || [];
     const hasAudioTracks = supportedCommands.includes('SetAudioStreamIndex');
     const hasSubtitles = supportedCommands.includes('SetSubtitleStreamIndex');
     const hasFullscreen = supportedCommands.includes('ToggleFullscreen');
-    const hasLyrics = (currentItem as PlayableItem & { hasLyrics?: boolean }).hasLyrics || (currentItem as PlayableItem & { Type?: string }).Type === 'Audio';
+    const hasLyrics =
+        (currentItem as PlayableItem & { hasLyrics?: boolean }).hasLyrics ||
+        (currentItem as PlayableItem & { Type?: string }).Type === 'Audio';
 
     const isMobile = window.innerWidth < 600;
 
@@ -731,16 +677,18 @@ const NowPlayingPage: React.FC = () => {
     const trackName = currentItem?.name || currentItem?.title || 'Unknown Track';
     const artistName = currentItem?.artist || currentItem?.albumArtist || '';
     const albumName = currentItem?.album || '';
-    const imageUrl = currentItem?.imageUrl || currentItem?.artwork?.find(img => img.type === 'Primary')?.url || currentItem?.artwork?.[0]?.url;
+    const imageUrl =
+        currentItem?.imageUrl ||
+        currentItem?.artwork?.find(img => img.type === 'Primary')?.url ||
+        currentItem?.artwork?.[0]?.url;
     const discImageUrl = currentItem?.artwork?.find(img => img.type === 'Disc')?.url;
 
-    const handleSeekChange = (_: React.SyntheticEvent | Event, value: number | number[]) => {
-        const seekValue = Array.isArray(value) ? value[0] : value;
-        setLocalSeekValue(seekValue);
+    const handleSeekChange = (value: number[]) => {
+        setLocalSeekValue(value[0] ?? 0);
     };
 
-    const handleSeekEnd = (_: React.SyntheticEvent | Event, value: number | number[]) => {
-        const seekValue = Array.isArray(value) ? value[0] : value;
+    const handleSeekEnd = (value: number[]) => {
+        const seekValue = value[0] ?? 0;
         setIsDragging(false);
         if (duration > 0) {
             const percent = (seekValue / duration) * 100;
@@ -808,83 +756,117 @@ const NowPlayingPage: React.FC = () => {
     };
 
     const handleLyrics = () => {
-        navigate('/lyrics');
+        navigate({ to: '/lyrics' });
     };
 
     if (!currentItem) {
         return (
-            <Box className="nowPlayingPageEmpty" sx={{ position: 'relative', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Box
+                className="nowPlayingPageEmpty"
+                style={{
+                    position: 'relative',
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
                 <IconButton
-                    onClick={() => navigate(-1)}
+                    onClick={() => router.history.back()}
                     variant="plain"
-                    sx={{ color: 'neutral.50', position: 'absolute', top: 20, left: 20 }}
+                    color="neutral"
+                    style={{ position: 'absolute', top: 20, left: 20 }}
                 >
-                    <ArrowBackIcon />
+                    <ArrowLeftIcon />
                 </IconButton>
-                <Typography level="body-lg" sx={{ color: 'neutral.400' }}>No track playing</Typography>
+                <Text size="lg" color="secondary">
+                    No track playing
+                </Text>
             </Box>
         );
     }
 
     return (
-        <Box className="nowPlayingPage" sx={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
-            <Box className="fullscreenBackground" sx={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-                <Box className="gradientOverlay" sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8))' }} />
+        <Box className="nowPlayingPage" style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+            <Box className="fullscreenBackground" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                <Box
+                    className="gradientOverlay"
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8))'
+                    }}
+                />
             </Box>
 
-            <Stack
-                component="header"
+            <Flex
+                as="header"
                 direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{ position: 'relative', zIndex: 1, p: 2 }}
+                justify="space-between"
+                align="center"
+                style={{ position: 'relative', zIndex: 1, padding: vars.spacing.md }}
             >
-                <IconButton onClick={() => navigate(-1)} variant="plain" sx={{ color: 'neutral.50' }}>
-                    <ArrowBackIcon />
+                <IconButton onClick={() => router.history.back()} variant="plain" color="neutral">
+                    <ArrowLeftIcon />
                 </IconButton>
-                <Typography level="body-sm" sx={{ color: 'neutral.300' }}>
+                <Text size="sm" color="secondary">
                     {albumName}
-                </Typography>
+                </Text>
                 <IconButton
                     onClick={() => setShowTechnicalInfo(!showTechnicalInfo)}
                     variant="plain"
-                    sx={{ color: showTechnicalInfo ? 'primary.500' : 'neutral.50' }}
+                    color={showTechnicalInfo ? 'primary' : 'neutral'}
                 >
-                    <InfoIcon />
+                    <InfoCircledIcon />
                 </IconButton>
-            </Stack>
+            </Flex>
 
-            <Stack
-                component="main"
-                direction={{ xs: 'column', md: 'row' }}
-                spacing={4}
-                alignItems="center"
-                justifyContent="center"
-                sx={{ position: 'relative', zIndex: 1, flex: 1, p: 4, height: 'calc(100vh - 80px)' }}
+            <Flex
+                as="main"
+                direction={isMobile ? 'column' : 'row'}
+                gap={vars.spacing.xl}
+                align="center"
+                justify="center"
+                style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    flex: 1,
+                    padding: vars.spacing.xl,
+                    height: 'calc(100vh - 80px)'
+                }}
             >
-                <Box className="nowPlayingInfoContainer" sx={{ flex: '1 1 auto', maxWidth: 600 }}>
-                    <Stack spacing={3}>
-                        <Stack direction="row" spacing={3} alignItems="flex-start">
-                            <Box sx={{ position: 'relative' }}>
+                <Box className="nowPlayingInfoContainer" style={{ flex: '1 1 auto', maxWidth: 600 }}>
+                    <Flex direction="column" gap={vars.spacing.lg}>
+                        <Flex direction="row" gap={vars.spacing.lg} align="flex-start">
+                            <Box style={{ position: 'relative' }}>
                                 <motion.div layoutId="now-playing-art">
-                                    <AspectRatio
-                                        ratio="1"
-                                        sx={{
-                                            width: { xs: 280, sm: 320, md: 360 },
-                                            borderRadius: 'lg',
+                                    <Box
+                                        style={{
+                                            width: isMobile ? 280 : 360,
+                                            aspectRatio: '1 / 1',
+                                            borderRadius: vars.borderRadius.lg,
                                             overflow: 'hidden',
                                             boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
-                                            bgcolor: 'neutral.800',
+                                            backgroundColor: vars.colors.surface
                                         }}
                                     >
                                         {imageUrl ? (
                                             <img src={imageUrl} alt={trackName} style={{ objectFit: 'cover' }} />
                                         ) : (
-                                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'neutral.700' }}>
-                                                <MusicNoteIcon sx={{ fontSize: 80, color: 'neutral.400' }} />
+                                            <Box
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    backgroundColor: vars.colors.surfaceHover
+                                                }}
+                                            >
+                                                <DiscIcon
+                                                    style={{ width: 80, height: 80, color: vars.colors.textMuted }}
+                                                />
                                             </Box>
                                         )}
-                                    </AspectRatio>
+                                    </Box>
                                 </motion.div>
                                 {discImageUrl && (
                                     <motion.div
@@ -897,29 +879,47 @@ const NowPlayingPage: React.FC = () => {
                                             height: 120,
                                             borderRadius: '50%',
                                             backgroundImage: `url(${discImageUrl})`,
-                                            backgroundSize: 'cover',
+                                            backgroundSize: 'cover'
                                         }}
                                         animate={{ rotate: isPlaying ? 360 : 0 }}
-                                        transition={{ duration: isPlaying ? 20 : 0, repeat: isPlaying ? Infinity : 0, ease: 'linear' }}
+                                        transition={{
+                                            duration: isPlaying ? 20 : 0,
+                                            repeat: isPlaying ? Infinity : 0,
+                                            ease: 'linear'
+                                        }}
                                     />
                                 )}
                             </Box>
 
-                            <Box className="infoContainer flex" sx={{ flex: 1, minWidth: 0 }}>
+                            <Box className="infoContainer flex" style={{ flex: 1, minWidth: 0 }}>
                                 <Box className="nowPlayingInfoContainerMedia">
-                                    <Typography level="h2" sx={{ color: 'neutral.50', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                    <Text
+                                        as="h2"
+                                        size="xl"
+                                        weight="bold"
+                                        style={{
+                                            color: vars.colors.text,
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}
+                                    >
                                         {trackName}
-                                    </Typography>
-                                    <Typography level="title-md" sx={{ color: 'neutral.300', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                    </Text>
+                                    <Text
+                                        size="lg"
+                                        color="secondary"
+                                        style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                    >
                                         {artistName}
-                                    </Typography>
-                                    <Typography level="body-sm" sx={{ color: 'neutral.400' }}>
+                                    </Text>
+                                    <Text size="sm" color="muted">
                                         {albumName}
-                                    </Typography>
+                                    </Text>
                                 </Box>
                                 <Box className="nowPlayingPageUserDataButtonsTitle" />
                             </Box>
-                        </Stack>
+                        </Flex>
 
                         <PlaybackControls
                             isPlaying={isPlaying}
@@ -954,11 +954,14 @@ const NowPlayingPage: React.FC = () => {
                             hasLyrics={hasLyrics}
                             onLyrics={handleLyrics}
                         />
-                    </Stack>
+                    </Flex>
                 </Box>
 
-                <Box className="remoteControlSection" sx={{ flex: '0 0 280px', ml: 3, display: { xs: 'none', lg: 'block' } }}>
-                    <Stack spacing={2}>
+                <Box
+                    className="remoteControlSection"
+                    style={{ flex: '0 0 280px', marginLeft: vars.spacing.lg, display: isMobile ? 'none' : 'block' }}
+                >
+                    <Flex direction="column" gap={vars.spacing.md}>
                         <RemoteControlSection onCommand={handleRemoteCommand} />
                         <MessageSection onSendMessage={handleSendMessage} onSendText={handleSendText} />
                         <PlaylistSection
@@ -970,9 +973,9 @@ const NowPlayingPage: React.FC = () => {
                             onSavePlaylist={handleSavePlaylist}
                             onTogglePlaylist={() => setShowPlaylist(!showPlaylist)}
                         />
-                    </Stack>
+                    </Flex>
                 </Box>
-            </Stack>
+            </Flex>
 
             <AnimatePresence>
                 {showTechnicalInfo && (
@@ -982,43 +985,59 @@ const NowPlayingPage: React.FC = () => {
                         exit={{ opacity: 0, y: 50 }}
                         style={{ position: 'absolute', bottom: 20, left: 20, right: 20, zIndex: 10 }}
                     >
-                        <Sheet
-                            variant="soft"
-                            sx={{
-                                p: 3,
-                                borderRadius: 'lg',
-                                bgcolor: 'rgba(0,0,0,0.8)',
-                                backdropFilter: 'blur(20px)',
+                        <Paper
+                            variant="outlined"
+                            style={{
+                                padding: vars.spacing.lg,
+                                borderRadius: vars.borderRadius.lg,
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                backdropFilter: 'blur(20px)'
                             }}
                         >
-                            <Typography level="title-sm" sx={{ color: 'neutral.50', mb: 2 }}>
+                            <Text
+                                size="sm"
+                                weight="medium"
+                                style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}
+                            >
                                 Technical Stream Info
-                            </Typography>
-                            <Stack direction="row" spacing={4} flexWrap="wrap">
+                            </Text>
+                            <Flex direction="row" gap={vars.spacing.lg} wrap="wrap">
                                 <Box>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>Codec</Typography>
-                                    <Typography level="body-sm" sx={{ color: 'neutral.50' }}>
+                                    <Text size="xs" color="muted">
+                                        Codec
+                                    </Text>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
                                         {currentItem.streamInfo?.codec?.toUpperCase() || 'Unknown'}
-                                    </Typography>
+                                    </Text>
                                 </Box>
                                 <Box>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>Bitrate</Typography>
-                                    <Typography level="body-sm" sx={{ color: 'neutral.50' }}>
-                                        {currentItem.streamInfo?.bitrate ? `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps` : 'Unknown'}
-                                    </Typography>
+                                    <Text size="xs" color="muted">
+                                        Bitrate
+                                    </Text>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
+                                        {currentItem.streamInfo?.bitrate
+                                            ? `${Math.round(currentItem.streamInfo.bitrate / 1000)} kbps`
+                                            : 'Unknown'}
+                                    </Text>
                                 </Box>
                                 <Box>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>Play Method</Typography>
-                                    <Typography level="body-sm" sx={{ color: 'neutral.50' }}>
+                                    <Text size="xs" color="muted">
+                                        Play Method
+                                    </Text>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
                                         {currentItem.streamInfo?.playMethod || 'Unknown'}
-                                    </Typography>
+                                    </Text>
                                 </Box>
                                 <Box>
-                                    <Typography level="body-xs" sx={{ color: 'neutral.400' }}>Engine</Typography>
-                                    <Typography level="body-sm" sx={{ color: 'neutral.50' }}>Web Audio</Typography>
+                                    <Text size="xs" color="muted">
+                                        Engine
+                                    </Text>
+                                    <Text size="sm" style={{ color: vars.colors.text }}>
+                                        Web Audio
+                                    </Text>
                                 </Box>
-                            </Stack>
-                        </Sheet>
+                            </Flex>
+                        </Paper>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -1026,25 +1045,27 @@ const NowPlayingPage: React.FC = () => {
             {showPlaylist && (
                 <Box
                     className="playlistOverlay"
-                    sx={{
+                    style={{
                         position: 'fixed',
                         top: 0,
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        bgcolor: 'rgba(0,0,0,0.9)',
+                        backgroundColor: 'rgba(0,0,0,0.9)',
                         zIndex: 100,
-                        p: 3,
-                        overflow: 'auto',
+                        padding: vars.spacing.lg,
+                        overflow: 'auto'
                     }}
                 >
-                    <Stack spacing={2}>
-                        <Stack direction="row" justifyContent="space-between" alignItems="center">
-                            <Typography level="title-lg">Playlist</Typography>
+                    <Flex direction="column" gap={vars.spacing.md}>
+                        <Flex direction="row" justify="space-between" align="center">
+                            <Text size="lg" weight="bold">
+                                Playlist
+                            </Text>
                             <IconButton onClick={() => setShowPlaylist(false)}>
-                                <ArrowBackIcon />
+                                <ArrowLeftIcon />
                             </IconButton>
-                        </Stack>
+                        </Flex>
                         <List>
                             {queueItems.map((item, index) => (
                                 <QueueListItem
@@ -1057,7 +1078,7 @@ const NowPlayingPage: React.FC = () => {
                                 />
                             ))}
                         </List>
-                    </Stack>
+                    </Flex>
                 </Box>
             )}
         </Box>

@@ -1,6 +1,6 @@
-import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import StopIcon from '@mui/icons-material/Stop';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { StopIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useCancelTimer } from 'hooks/api/liveTvHooks';

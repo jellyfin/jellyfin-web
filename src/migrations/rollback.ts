@@ -1,13 +1,13 @@
 /**
  * Rollback System for Safe Migration
- * 
+ *
  * Creates git-based rollback points before each phase.
  * Enables safe recovery from migration issues.
  */
 
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
 import { logger } from 'utils/logger';
 
@@ -74,7 +74,7 @@ export async function createRollbackPoint(
     description: string
 ): Promise<RollbackPoint> {
     const startTime = Date.now();
-    
+
     logger.info('Creating rollback point', {
         phaseName,
         phaseNumber,
@@ -84,21 +84,21 @@ export async function createRollbackPoint(
     try {
         // Get current commit
         const commitHash = await getCurrentCommitHash();
-        
+
         // Get changed files
         const filesChanged = await getChangedFiles();
-        
+
         // Create tag name
         const timestamp = Date.now();
         const tagName = `rollback-${phaseNumber}-${phaseName.toLowerCase().replace(/\s+/g, '-')}-${timestamp}`;
-        
+
         // Create annotated tag
         const tagMessage = `Rollback point for ${phaseName}\n\n${description}\n\nPhase: ${phaseNumber}\nCommit: ${commitHash}\nFiles: ${filesChanged.length}`;
-        
+
         await execAsync(`git tag -a "${tagName}" -m "${tagMessage}"`, {
             cwd: process.cwd()
         });
-        
+
         const rollbackPoint: RollbackPoint = {
             phaseName,
             phaseNumber,
@@ -108,10 +108,10 @@ export async function createRollbackPoint(
             timestamp,
             filesChanged
         };
-        
+
         // Save rollback point to file
         saveRollbackPoint(rollbackPoint);
-        
+
         logger.info('Rollback point created successfully', {
             phaseName,
             tagName,
@@ -119,7 +119,7 @@ export async function createRollbackPoint(
             filesChanged: filesChanged.length,
             durationMs: Date.now() - startTime
         });
-        
+
         return rollbackPoint;
     } catch (error) {
         logger.error('Failed to create rollback point', {
@@ -133,12 +133,9 @@ export async function createRollbackPoint(
 /**
  * Rollback to a specific rollback point
  */
-export async function rollbackToPoint(
-    tagName: string,
-    options: RollbackOptions = {}
-): Promise<RollbackResult> {
+export async function rollbackToPoint(tagName: string, options: RollbackOptions = {}): Promise<RollbackResult> {
     const startTime = Date.now();
-    
+
     logger.warn('Initiating rollback', {
         tagName,
         force: options.force,
@@ -147,11 +144,8 @@ export async function rollbackToPoint(
 
     try {
         // Verify tag exists
-        const { stdout: tagExists } = await execAsync(
-            `git tag -l "${tagName}"`,
-            { cwd: process.cwd() }
-        );
-        
+        const { stdout: tagExists } = await execAsync(`git tag -l "${tagName}"`, { cwd: process.cwd() });
+
         if (!tagExists.trim()) {
             throw new Error(`Rollback point "${tagName}" not found`);
         }
@@ -165,7 +159,7 @@ export async function rollbackToPoint(
         // Create backup of current state
         const currentCommit = await getCurrentCommitHash();
         const backupTag = `backup-before-rollback-${Date.now()}`;
-        
+
         if (!options.keepChanges) {
             await execAsync(`git tag "${backupTag}" HEAD`, {
                 cwd: process.cwd()
@@ -213,7 +207,7 @@ export async function rollbackToPoint(
  */
 export async function rollbackToLast(options: RollbackOptions = {}): Promise<RollbackResult> {
     const lastPoint = getLastRollbackPoint();
-    
+
     if (!lastPoint) {
         return {
             success: false,
@@ -229,33 +223,30 @@ export async function rollbackToLast(options: RollbackOptions = {}): Promise<Rol
  */
 export async function listRollbackPoints(): Promise<RollbackPoint[]> {
     const points: RollbackPoint[] = [];
-    
+
     try {
         const { stdout } = await execAsync(
             'git tag -l "rollback-*" --format="%(refname:short)|%(creatordate:iso)|%(contents:subject)"',
             { cwd: process.cwd() }
         );
-        
+
         const lines = stdout.trim().split('\n').filter(Boolean);
-        
+
         for (const line of lines) {
             const [tagName, timestamp, ...messageParts] = line.split('|');
             const message = messageParts.join('|');
-            
+
             // Parse phase number from tag
             const phaseMatch = tagName.match(/rollback-(\d+)-/);
             const phaseNumber = phaseMatch ? parseInt(phaseMatch[1], 10) : 0;
-            
+
             // Extract phase name from message
             const phaseNameMatch = message.match(/Rollback point for (.+?)\n/);
             const phaseName = phaseNameMatch ? phaseNameMatch[1] : tagName;
-            
+
             // Get commit hash
-            const { stdout: hashOutput } = await execAsync(
-                `git rev-parse ${tagName}^{commit}`,
-                { cwd: process.cwd() }
-            );
-            
+            const { stdout: hashOutput } = await execAsync(`git rev-parse ${tagName}^{commit}`, { cwd: process.cwd() });
+
             points.push({
                 phaseName,
                 phaseNumber,
@@ -266,14 +257,13 @@ export async function listRollbackPoints(): Promise<RollbackPoint[]> {
                 filesChanged: []
             });
         }
-        
+
         // Sort by timestamp (newest first)
         points.sort((a, b) => b.timestamp - a.timestamp);
-        
     } catch (error) {
         logger.error('Failed to list rollback points', { error });
     }
-    
+
     return points;
 }
 
@@ -282,26 +272,26 @@ export async function listRollbackPoints(): Promise<RollbackPoint[]> {
  */
 export async function cleanupOldRollbackPoints(keepCount: number = 5): Promise<void> {
     const points = await listRollbackPoints();
-    
+
     if (points.length <= keepCount) {
         logger.info('No rollback points to cleanup', { count: points.length });
         return;
     }
-    
+
     const toDelete = points.slice(keepCount);
-    
+
     for (const point of toDelete) {
         try {
             await execAsync(`git tag -d "${point.tagName}"`, {
                 cwd: process.cwd()
             });
-            
+
             // Also delete from file storage
             const filePath = getRollbackPointFilePath(point.tagName);
             if (existsSync(filePath)) {
                 // File deletion would be handled by cleanup function
             }
-            
+
             logger.debug('Deleted old rollback point', { tagName: point.tagName });
         } catch (error) {
             logger.warn('Failed to delete rollback point', {
@@ -310,7 +300,7 @@ export async function cleanupOldRollbackPoints(keepCount: number = 5): Promise<v
             });
         }
     }
-    
+
     logger.info('Rollback point cleanup complete', {
         deleted: toDelete.length,
         remaining: keepCount
@@ -341,7 +331,7 @@ function getRollbackPointByTag(tagName: string): RollbackPoint | null {
     if (!existsSync(filePath)) {
         return null;
     }
-    
+
     try {
         const content = readFileSync(filePath, 'utf-8');
         return JSON.parse(content);
@@ -352,23 +342,23 @@ function getRollbackPointByTag(tagName: string): RollbackPoint | null {
 
 function getLastRollbackPoint(): RollbackPoint | null {
     const dir = getRollbackPointsDir();
-    
+
     if (!existsSync(dir)) {
         return null;
     }
-    
-    const files = require('fs').readdirSync(dir)
-        .filter((f: string) => f.endsWith('.json'))
-        .map((f: string) => ({
+
+    const files = readdirSync(dir)
+        .filter(f => f.endsWith('.json'))
+        .map(f => ({
             path: join(dir, f),
-            timestamp: require('fs').statSync(join(dir, f)).mtimeMs
+            timestamp: statSync(join(dir, f)).mtimeMs
         }))
         .sort((a: { timestamp: number }, b: { timestamp: number }) => b.timestamp - a.timestamp);
-    
+
     if (files.length === 0) {
         return null;
     }
-    
+
     try {
         const content = readFileSync(files[0].path, 'utf-8');
         return JSON.parse(content);
@@ -388,7 +378,11 @@ export class MigrationManager {
     /**
      * Start a migration phase
      */
-    async startPhase(phaseName: string, phaseNumber: number, description: string): Promise<{
+    async startPhase(
+        phaseName: string,
+        phaseNumber: number,
+        description: string
+    ): Promise<{
         success: boolean;
         rollbackPoint?: RollbackPoint;
         error?: string;
@@ -403,7 +397,7 @@ export class MigrationManager {
 
         try {
             const rollbackPoint = await createRollbackPoint(phaseName, phaseNumber, description);
-            
+
             return {
                 success: true,
                 rollbackPoint
@@ -411,7 +405,7 @@ export class MigrationManager {
         } catch (error) {
             this.currentPhase = null;
             this.phaseStartTime = null;
-            
+
             return {
                 success: false,
                 error: String(error)
@@ -436,7 +430,7 @@ export class MigrationManager {
         }
 
         const duration = Date.now() - (this.phaseStartTime || Date.now());
-        
+
         logger.info(`Migration phase ${this.currentPhase} completed`, {
             duration
         });
@@ -473,7 +467,7 @@ export class MigrationManager {
 
         // Attempt rollback
         const rollbackResult = await rollbackToLast({ force: true });
-        
+
         this.currentPhase = null;
         this.phaseStartTime = null;
 
@@ -490,9 +484,7 @@ export class MigrationManager {
     getCurrentPhase(): { phase: number | null; duration: number } {
         return {
             phase: this.currentPhase,
-            duration: this.phaseStartTime 
-                ? Date.now() - this.phaseStartTime 
-                : 0
+            duration: this.phaseStartTime ? Date.now() - this.phaseStartTime : 0
         };
     }
 }
@@ -537,21 +529,18 @@ export async function verifyRollbackSystem(): Promise<{
         await execAsync(`git tag -d "${testTag}"`, { cwd: process.cwd() });
 
         // Check checkout (on current branch)
-        const { stdout: currentBranch } = await execAsync(
-            'git rev-parse --abbrev-ref HEAD',
-            { cwd: process.cwd() }
-        );
+        const { stdout: currentBranch } = await execAsync('git rev-parse --abbrev-ref HEAD', { cwd: process.cwd() });
         details.canCheckout = !!currentBranch.trim();
 
         logger.info('Rollback system verification complete', details);
-        
+
         return {
             working: Object.values(details).every(v => v),
             details
         };
     } catch (error) {
         logger.error('Rollback system verification failed', { error });
-        
+
         return {
             working: false,
             details

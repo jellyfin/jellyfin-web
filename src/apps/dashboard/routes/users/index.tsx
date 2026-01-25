@@ -1,35 +1,34 @@
 import React, { useCallback, useState } from 'react';
 import globalize from '../../../../lib/globalize';
-import Box from '@mui/joy/Box';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import Button from '@mui/joy/Button';
-import Grid from '@mui/joy/Grid';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text, Heading } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives/Button';
+import { Grid, gridContainer, gridGap, gridXs, gridSm, gridMd, gridLg } from 'ui-primitives/Grid';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useUsers } from 'hooks/useUsers';
 import Loading from 'components/loading/LoadingComponent';
 import { useDeleteUser } from 'apps/dashboard/features/users/api/useDeleteUser';
 import Page from 'components/Page';
 import UserCardBox from 'components/dashboard/users/UserCardBox';
 import ConfirmDialog from 'components/ConfirmDialog';
-import ActionMenu, { ActionMenuItem } from 'components/joy-ui/action/ActionMenu';
+import ActionMenu, { type ActionMenuItem } from 'components/joy-ui/action/ActionMenu';
 
-const UserProfiles = () => {
+const UserProfiles = (): React.ReactElement => {
     const location = useLocation();
     const navigate = useNavigate();
     const { data: users, isPending } = useUsers();
     const deleteUser = useDeleteUser();
 
-    const [ deleteConfirmOpen, setDeleteConfirmOpen ] = useState(false);
-    const [ selectedUser, setSelectedUser ] = useState<{ id: string; name?: string | null } | null>(null);
-    
-    const [ menuOpen, setMenuOpen ] = useState(false);
-    const [ menuAnchor, setMenuAnchor ] = useState<HTMLElement | null>(null);
-    const [ activeUser, setActiveUser ] = useState<string | null>(null);
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<{ id: string; name?: string | null } | null>(null);
+
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
+    const [activeUser, setActiveUser] = useState<string | null>(null);
 
     const onAddUserClick = useCallback(() => {
-        navigate('/dashboard/users/add');
+        navigate({ to: '/dashboard/users/add' } as any);
     }, [navigate]);
 
     const handleMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>, userId: string) => {
@@ -43,26 +42,30 @@ const UserProfiles = () => {
         setMenuAnchor(null);
     }, []);
 
-    const handleMenuSelect = useCallback((id: string) => {
-        if (!activeUser) return;
+    const handleMenuSelect = useCallback(
+        (id: string) => {
+            if (!activeUser) return;
 
-        switch (id) {
-            case 'open':
-                navigate(`/dashboard/users/profile?userId=${activeUser}`);
-                break;
-            case 'access':
-                navigate(`/dashboard/users/access?userId=${activeUser}`);
-                break;
-            case 'parentalcontrol':
-                navigate(`/dashboard/users/parentalcontrol?userId=${activeUser}`);
-                break;
-            case 'delete':
-                const user = users?.find(u => u.Id === activeUser);
-                setSelectedUser({ id: activeUser, name: user?.Name });
-                setDeleteConfirmOpen(true);
-                break;
-        }
-    }, [activeUser, navigate, users]);
+            switch (id) {
+                case 'open':
+                    navigate({ to: `/dashboard/users/profile?userId=${activeUser}` });
+                    break;
+                case 'access':
+                    navigate({ to: `/dashboard/users/access?userId=${activeUser}` });
+                    break;
+                case 'parentalcontrol':
+                    navigate({ to: `/dashboard/users/parentalcontrol?userId=${activeUser}` });
+                    break;
+                case 'delete': {
+                    const user = users?.find(u => u.Id === activeUser);
+                    setSelectedUser({ id: activeUser, name: user?.Name });
+                    setDeleteConfirmOpen(true);
+                    break;
+                }
+            }
+        },
+        [activeUser, navigate, users]
+    );
 
     const handleConfirmDelete = useCallback(() => {
         if (selectedUser) {
@@ -92,10 +95,14 @@ const UserProfiles = () => {
         >
             <ConfirmDialog
                 open={deleteConfirmOpen}
-                title={selectedUser?.name ? globalize.translate('DeleteName', selectedUser.name) : globalize.translate('DeleteUser')}
+                title={
+                    selectedUser?.name ?
+                        globalize.translate('DeleteName', selectedUser.name) :
+                        globalize.translate('DeleteUser')
+                }
                 text={globalize.translate('DeleteUserConfirmation')}
                 confirmButtonText={globalize.translate('Delete')}
-                confirmButtonColor="danger"
+                confirmButtonColor='danger'
                 onConfirm={handleConfirmDelete}
                 onCancel={() => setDeleteConfirmOpen(false)}
             />
@@ -108,29 +115,26 @@ const UserProfiles = () => {
                 onSelect={handleMenuSelect}
             />
 
-            <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
-                <Stack spacing={4}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center">
-                        <Typography level='h2'>{globalize.translate('HeaderUsers')}</Typography>
-                        <Button
-                            startDecorator={<AddIcon />}
-                            onClick={onAddUserClick}
-                        >
+            <Box style={{ maxWidth: 1200, margin: '0 auto', padding: 24 }}>
+                <Box className={`${Flex} ${Flex.col}`} style={{ gap: 32 }}>
+                    <Box
+                        className={`${Flex} ${Flex.row}`}
+                        style={{ justifyContent: 'space-between', alignItems: 'center' }}
+                    >
+                        <Heading.H2 style={{ margin: 0 }}>{globalize.translate('HeaderUsers')}</Heading.H2>
+                        <Button startDecorator={<PlusIcon />} onClick={onAddUserClick}>
                             {globalize.translate('ButtonAddUser')}
                         </Button>
-                    </Stack>
+                    </Box>
 
-                    <Grid container spacing={3}>
+                    <Grid className={`${gridContainer} ${gridGap.lg}`}>
                         {users?.map(user => (
-                            <Grid key={user.Id} xs={12} sm={6} md={4} lg={3}>
-                                <UserCardBox
-                                    user={user}
-                                    onMenuClick={(e) => handleMenuOpen(e, user.Id!)}
-                                />
+                            <Grid key={user.Id} className={`${gridXs[12]} ${gridSm[6]} ${gridMd[4]} ${gridLg[3]}`}>
+                                <UserCardBox user={user} onMenuClick={e => handleMenuOpen(e, user.Id!)} />
                             </Grid>
                         ))}
                     </Grid>
-                </Stack>
+                </Box>
             </Box>
         </Page>
     );

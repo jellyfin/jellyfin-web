@@ -23,7 +23,6 @@ export async function fetchLocal(url: string, options?: FetchOptions) {
                 status = 200;
             }
 
-            /* eslint-disable-next-line compat/compat */
             resolve(new Response(xhr.responseText, { status }));
         };
 

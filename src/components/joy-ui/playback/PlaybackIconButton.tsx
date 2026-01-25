@@ -1,20 +1,22 @@
 import React from 'react';
 import { IconButton } from 'ui-primitives/IconButton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import StopIcon from '@mui/icons-material/Stop';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import RepeatIcon from '@mui/icons-material/Repeat';
-import RepeatOneIcon from '@mui/icons-material/RepeatOne';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import LyricsIcon from '@mui/icons-material/Lyrics';
-import AirplayIcon from '@mui/icons-material/Airplay';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import {
+    ChatBubbleIcon,
+    DesktopIcon,
+    DotsVerticalIcon,
+    HeartFilledIcon,
+    HeartIcon,
+    LoopIcon,
+    MixerHorizontalIcon,
+    PlayIcon,
+    PauseIcon,
+    SpeakerLoudIcon,
+    SpeakerOffIcon,
+    StopIcon,
+    ShuffleIcon,
+    TrackNextIcon,
+    TrackPreviousIcon
+} from '@radix-ui/react-icons';
 import { vars } from 'styles/tokens.css';
 
 export type PlaybackIconType =
@@ -32,7 +34,8 @@ export type PlaybackIconType =
     | 'favorite-border'
     | 'lyrics'
     | 'airplay'
-    | 'more-vert';
+    | 'more-vert'
+    | 'crossfade';
 
 interface PlaybackIconButtonProps {
     icon?: PlaybackIconType;
@@ -46,21 +49,22 @@ interface PlaybackIconButtonProps {
 }
 
 const iconMap: Record<PlaybackIconType, React.ReactNode> = {
-    'play': <PlayArrowIcon />,
+    'play': <PlayIcon />,
     'pause': <PauseIcon />,
-    'previous': <SkipPreviousIcon />,
-    'next': <SkipNextIcon />,
+    'previous': <TrackPreviousIcon />,
+    'next': <TrackNextIcon />,
     'stop': <StopIcon />,
-    'volume-up': <VolumeUpIcon />,
-    'volume-off': <VolumeOffIcon />,
-    'repeat': <RepeatIcon />,
-    'repeat-one': <RepeatOneIcon />,
+    'volume-up': <SpeakerLoudIcon />,
+    'volume-off': <SpeakerOffIcon />,
+    'repeat': <LoopIcon />,
+    'repeat-one': <LoopIcon />,
     'shuffle': <ShuffleIcon />,
-    'favorite': <FavoriteIcon />,
-    'favorite-border': <FavoriteBorderIcon />,
-    'lyrics': <LyricsIcon />,
-    'airplay': <AirplayIcon />,
-    'more-vert': <MoreVertIcon />,
+    'favorite': <HeartFilledIcon />,
+    'favorite-border': <HeartIcon />,
+    'lyrics': <ChatBubbleIcon />,
+    'airplay': <DesktopIcon />,
+    'more-vert': <DotsVerticalIcon />,
+    'crossfade': <MixerHorizontalIcon />,
 };
 
 export const PlaybackIconButton: React.FC<PlaybackIconButtonProps> = ({

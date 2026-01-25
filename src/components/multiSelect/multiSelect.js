@@ -1,3 +1,14 @@
+/**
+ * @deprecated This module is deprecated in favor of React + Zustand.
+ *
+ * Migration:
+    - Multi-select state → Zustand store
+    - Selection UI → React components with ui-primitives
+    - DOM manipulation → React state + refs
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
 import { safeAppHost } from '../apphost';

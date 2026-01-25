@@ -1,4 +1,4 @@
-import browser from '../../browser';
+import browser from 'scripts/browser';
 
 export function canPlayH264(videoTestElement: HTMLMediaElement): boolean {
     return !!(videoTestElement.canPlayType?.('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));

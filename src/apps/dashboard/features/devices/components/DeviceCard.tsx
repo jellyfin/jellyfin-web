@@ -1,36 +1,33 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
-import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import Typography from '@mui/joy/Typography';
-import AspectRatio from '@mui/joy/AspectRatio';
-import { getDeviceIcon } from 'utils/image';
-import Stack from '@mui/joy/Stack';
-import getNowPlayingName from '../../sessions/utils/getNowPlayingName';
-import getSessionNowPlayingTime from '../../sessions/utils/getSessionNowPlayingTime';
-import getNowPlayingImageUrl from '../../sessions/utils/getNowPlayingImageUrl';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-import Comment from '@mui/icons-material/Comment';
-import PlayArrow from '@mui/icons-material/PlayArrow';
-import Pause from '@mui/icons-material/Pause';
-import Stop from '@mui/icons-material/Stop';
-import Info from '@mui/icons-material/Info';
-import LinearProgress from '@mui/joy/LinearProgress';
-import IconButton from '@mui/joy/IconButton';
-import SimpleAlert from 'components/SimpleAlert';
+import { ChatBubbleIcon, InfoCircledIcon, PauseIcon, PlayIcon, StopIcon } from '@radix-ui/react-icons';
+import InputDialog from 'components/InputDialog';
 import playmethodhelper from 'components/playback/playmethodhelper';
 import globalize from 'lib/globalize';
 import getSessionNowPlayingStreamInfo from '../../sessions/utils/getSessionNowPlayingStreamInfo';
 import { useSendPlayStateCommand } from '../../sessions/api/usePlayPauseSession';
 import { PlaystateCommand } from '@jellyfin/sdk/lib/generated-client/models/playstate-command';
-import InputDialog from 'components/InputDialog';
 import { useSendMessage } from '../../sessions/api/useSendMessage';
+import { Card } from 'ui-primitives/Card';
+import { AspectRatio } from 'ui-primitives/AspectRatio';
+import { Avatar } from 'ui-primitives/Avatar';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Progress } from 'ui-primitives/Progress';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Heading, Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
+import { getDeviceIcon } from 'utils/image';
+import getNowPlayingName from '../../sessions/utils/getNowPlayingName';
+import getSessionNowPlayingTime from '../../sessions/utils/getSessionNowPlayingTime';
+import getNowPlayingImageUrl from '../../sessions/utils/getNowPlayingImageUrl';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import SimpleAlert from 'components/SimpleAlert';
 
-type DeviceCardProps = {
+interface DeviceCardProps {
     device: SessionInfo;
-};
+}
 
-const DeviceCard = ({ device }: DeviceCardProps) => {
+const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
     const [ playbackInfoTitle, setPlaybackInfoTitle ] = useState('');
     const [ playbackInfoDesc, setPlaybackInfoDesc ] = useState('');
     const [ isPlaybackInfoOpen, setIsPlaybackInfoOpen ] = useState(false);
@@ -137,7 +134,7 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
         (device.PlayState.PositionTicks / device.NowPlayingItem.RunTimeTicks) * 100 : 0;
 
     return (
-        <Card variant="outlined" sx={{ width: { xs: '100%', sm: '360px' }, overflow: 'hidden', p: 0 }}>
+        <Card style={{ width: '100%', maxWidth: '360px', overflow: 'hidden', padding: 0 }}>
             <InputDialog
                 open={isMessageDialogOpen}
                 onClose={onMessageDialogClose}
@@ -152,34 +149,38 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                 text={playbackInfoDesc}
                 onClose={closePlaybackInfo}
             />
-            <AspectRatio ratio="16/9" sx={{ borderRadius: 0 }}>
+            <AspectRatio ratio='16/9' style={{ borderRadius: 0 }}>
                 {nowPlayingImage ? (
                     <img src={nowPlayingImage} alt={nowPlayingName.topText} />
                 ) : (
                     <Box className={getDefaultBackgroundClass(device.Id)} />
                 )}
                 <Box
-                    sx={{
+                    style={{
                         position: 'absolute',
                         top: 0,
                         left: 0,
                         right: 0,
                         bottom: 0,
                         background: 'linear-gradient(rgba(0,0,0,0.8), transparent, rgba(0,0,0,0.8))',
-                        p: 2,
+                        padding: vars.spacing.md,
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                    <Stack direction='row' alignItems='center' spacing={1.5}>
-                        <Avatar src={deviceIcon} variant="plain" sx={{ '--Avatar-size': '2.5rem' }} />
-                        <Stack>
-                            <Typography level="title-md" textColor="white">{device.DeviceName}</Typography>
-                            <Typography level="body-xs" textColor="neutral.300">{device.Client + ' ' + device.ApplicationVersion}</Typography>
-                        </Stack>
-                    </Stack>
-                    <Stack direction='row' alignItems='flex-end' justifyContent="space-between">
-                        <Stack spacing={0.5}>
+                    <Flex style={{ gap: vars.spacing.md, alignItems: 'center' }}>
+                        <Avatar src={deviceIcon} variant='plain' style={{ width: '2.5rem', height: '2.5rem' }} />
+                        <Flex style={{ gap: vars.spacing.xs }}>
+                            <Heading.H5 style={{ color: vars.colors.text }}>
+                                {device.DeviceName}
+                            </Heading.H5>
+                            <Text size='xs' style={{ color: vars.colors.textSecondary }}>
+                                {device.Client + ' ' + device.ApplicationVersion}
+                            </Text>
+                        </Flex>
+                    </Flex>
+                    <Flex style={{ gap: vars.spacing.xs, alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                        <Flex style={{ gap: vars.spacing.xs }}>
                             {nowPlayingName.image ? (
                                 <img
                                     src={nowPlayingName.image}
@@ -187,52 +188,56 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
                                     alt='Media Icon'
                                 />
                             ) : (
-                                <Typography level="title-sm" textColor="white" noWrap>{nowPlayingName.topText}</Typography>
+                                <Text size='sm' weight='medium' style={{ color: vars.colors.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                    {nowPlayingName.topText}
+                                </Text>
                             )}
-                            <Typography level="body-xs" textColor="neutral.300" noWrap>{nowPlayingName.bottomText}</Typography>
-                        </Stack>
+                            <Text size='xs' style={{ color: vars.colors.textSecondary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {nowPlayingName.bottomText}
+                            </Text>
+                        </Flex>
                         {device.NowPlayingItem && (
-                            <Typography level="body-xs" textColor="white">{runningTime.start} / {runningTime.end}</Typography>
+                            <Text size='xs' style={{ color: vars.colors.text }}>
+                                {runningTime.start} / {runningTime.end}
+                            </Text>
                         )}
-                    </Stack>
+                    </Flex>
                 </Box>
             </AspectRatio>
 
             {isPlayingMedia && (
-                <LinearProgress
-                    determinate
+                <Progress
                     value={progressValue}
-                    color="primary"
-                    sx={{ '--LinearProgress-thickness': '4px', borderRadius: 0 }}
+                    style={{ height: '4px', borderRadius: 0 }}
                 />
             )}
 
-            <Stack direction="row" spacing={1} justifyContent="center" sx={{ py: 1 }}>
+            <Flex style={{ gap: vars.spacing.sm, justifyContent: 'center', paddingTop: vars.spacing.sm, paddingBottom: vars.spacing.sm }}>
                 {canControl && isPlayingMedia && (
                     <>
-                        <IconButton variant="plain" color="neutral" onClick={onPlayPauseSession}>
-                            {device.PlayState?.IsPaused ? <PlayArrow /> : <Pause />}
+                        <IconButton variant='plain' color='neutral' onClick={onPlayPauseSession}>
+                            {device.PlayState?.IsPaused ? <PlayIcon /> : <PauseIcon />}
                         </IconButton>
-                        <IconButton variant="plain" color="danger" onClick={onStopSession}>
-                            <Stop />
+                        <IconButton variant='plain' color='danger' onClick={onStopSession}>
+                            <StopIcon />
                         </IconButton>
                     </>
                 )}
                 {isPlayingMedia && (
-                    <IconButton variant="plain" color="neutral" onClick={showPlaybackInfo}>
-                        <Info />
+                    <IconButton variant='plain' color='neutral' onClick={showPlaybackInfo}>
+                        <InfoCircledIcon />
                     </IconButton>
                 )}
                 {canControl && (
-                    <IconButton variant="plain" color="neutral" onClick={showMessageDialog}>
-                        <Comment />
+                    <IconButton variant='plain' color='neutral' onClick={showMessageDialog}>
+                        <ChatBubbleIcon />
                     </IconButton>
                 )}
-            </Stack>
+            </Flex>
 
             {device.UserName && (
-                <Box sx={{ borderTop: '1px solid', borderColor: 'divider', py: 1, textAlign: 'center' }}>
-                    <Typography level="body-xs" color="neutral">{device.UserName}</Typography>
+                <Box style={{ borderTop: '1px solid', borderColor: vars.colors.divider, paddingTop: vars.spacing.sm, paddingBottom: vars.spacing.sm, textAlign: 'center' }}>
+                    <Text size='xs' color='secondary'>{device.UserName}</Text>
                 </Box>
             )}
         </Card>

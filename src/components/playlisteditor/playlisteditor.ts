@@ -3,7 +3,7 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
-import escapeHtml from 'escape-html';
+import { escapeHtml } from 'utils/html';
 
 import toast from 'components/toast/toast';
 import dom from 'utils/dom';
@@ -26,21 +26,20 @@ import 'elements/emby-input/emby-input';
 import 'elements/emby-button/paper-icon-button-light';
 import 'elements/emby-select/emby-select';
 
-import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import { logger } from '../../utils/logger';
 
 interface DialogElement extends HTMLDivElement {
-    playlistId?: string
-    submitted?: boolean
+    playlistId?: string;
+    submitted?: boolean;
 }
 
 interface PlaylistEditorOptions {
-    items: string[],
-    id?: string,
-    serverId: string,
-    enableAddToPlayQueue?: boolean,
-    defaultValue?: string
+    items: string[];
+    id?: string;
+    serverId: string;
+    enableAddToPlayQueue?: boolean;
+    defaultValue?: string;
 }
 
 let currentServerId: string;
@@ -57,14 +56,22 @@ function onSubmit(this: HTMLElement, e: Event) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
             addToPlaylist(panel, playlistId)
                 .catch(err => {
-                    logger.error(`Failed to add to playlist ${playlistId}`, { component: 'PlaylistEditor' }, err as Error);
+                    logger.error(
+                        `Failed to add to playlist ${playlistId}`,
+                        { component: 'PlaylistEditor' },
+                        err as Error
+                    );
                     toast(globalize.translate('PlaylistError.AddFailed'));
                 })
                 .finally(loading.hide);
         } else if (panel.playlistId) {
             updatePlaylist(panel)
                 .catch(err => {
-                    logger.error(`Failed to update to playlist ${panel.playlistId}`, { component: 'PlaylistEditor' }, err as Error);
+                    logger.error(
+                        `Failed to update to playlist ${panel.playlistId}`,
+                        { component: 'PlaylistEditor' },
+                        err as Error
+                    );
                     toast(globalize.translate('PlaylistError.UpdateFailed'));
                 })
                 .finally(loading.hide);
@@ -143,12 +150,14 @@ function addToPlaylist(dlg: DialogElement, id: string) {
     const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
 
     if (id === 'queue') {
-        playbackManager.queue({
-            serverId: currentServerId,
-            ids: itemIds.split(',')
-        }).catch((err: unknown) => {
-            logger.error('Failed to add to queue', { component: 'PlaylistEditor' }, err as Error);
-        });
+        playbackManager
+            .queue({
+                serverId: currentServerId,
+                ids: itemIds.split(',')
+            })
+            .catch((err: unknown) => {
+                logger.error('Failed to add to queue', { component: 'PlaylistEditor' }, err as Error);
+            });
         dlg.submitted = true;
         dialogHelper.close(dlg);
         return Promise.resolve();
@@ -188,40 +197,45 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
     return getItemsApi(api)
         .getItems({
             userId: apiClient.getCurrentUserId(),
-            includeItemTypes: [ BaseItemKind.Playlist ],
-            sortBy: [ ItemSortBy.SortName ],
+            includeItemTypes: [BaseItemKind.Playlist],
+            sortBy: [ItemSortBy.SortName],
             recursive: true
         })
         .then(({ data }) => {
-            return Promise.all((data.Items || []).map(item => {
-                const playlist = {
-                    item,
-                    permissions: undefined
-                };
+            return Promise.all(
+                (data.Items || []).map(item => {
+                    const playlist = {
+                        item,
+                        permissions: undefined
+                    };
 
-                if (!item.Id) return playlist;
+                    if (!item.Id) return playlist;
 
-                return getPlaylistsApi(api)
-                    .getPlaylistUser({
-                        playlistId: item.Id,
-                        userId: apiClient.getCurrentUserId()
-                    })
-                    .then(({ data: permissions }) => ({
-                        ...playlist,
-                        permissions
-                    }))
-                    .catch(err => {
-                        // If a user doesn't have access, then the request will 404 and throw
-                        console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
+                    return getPlaylistsApi(api)
+                        .getPlaylistUser({
+                            playlistId: item.Id,
+                            userId: apiClient.getCurrentUserId()
+                        })
+                        .then(({ data: permissions }) => ({
+                            ...playlist,
+                            permissions
+                        }))
+                        .catch(err => {
+                            // If a user doesn't have access, then the request will 404 and throw
+                            console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
 
-                        return playlist;
-                    });
-            }));
+                            return playlist;
+                        });
+                })
+            );
         })
         .then(playlists => {
             let html = '';
 
-            if ((editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) || SyncPlay?.Manager.isSyncPlayEnabled()) {
+            if (
+                (editorOptions.enableAddToPlayQueue !== false && playbackManager.isPlaying()) ||
+                SyncPlay?.Manager.isSyncPlayEnabled()
+            ) {
                 html += `<option value="queue">${globalize.translate('AddToPlayQueue')}</option>`;
             }
 
@@ -297,7 +311,7 @@ function getEditorHtml(items: string[], options: PlaylistEditorOptions) {
 }
 
 function initEditor(content: DialogElement, options: PlaylistEditorOptions, items: string[]) {
-    content.querySelector('#selectPlaylistToAddTo')?.addEventListener('change', function(this: HTMLSelectElement) {
+    content.querySelector('#selectPlaylistToAddTo')?.addEventListener('change', function (this: HTMLSelectElement) {
         if (this.value) {
             content.querySelector('.newPlaylistInfo')?.classList.add('hide');
             content.querySelector('#txtNewPlaylistName')?.removeAttribute('required');
@@ -332,12 +346,10 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
         const apiClient = ServerConnections.getApiClient(currentServerId);
         const api = toApi(apiClient);
         Promise.all([
-            getUserLibraryApi(api)
-                .getItem({ itemId: options.id }),
-            getPlaylistsApi(api)
-                .getPlaylist({ playlistId: options.id })
+            getUserLibraryApi(api).getItem({ itemId: options.id }),
+            getPlaylistsApi(api).getPlaylist({ playlistId: options.id })
         ])
-            .then(([ { data: playlistItem }, { data: playlist } ]) => {
+            .then(([{ data: playlistItem }, { data: playlist }]) => {
                 panel.playlistId = options.id;
 
                 const nameField = panel.querySelector<HTMLInputElement>('#txtNewPlaylistName');
@@ -368,7 +380,7 @@ function centerFocus(elem: HTMLDivElement | null, horiz: boolean, on: boolean) {
     }
 
     import('../../scripts/scrollHelper')
-        .then((scrollHelper) => {
+        .then(scrollHelper => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         })

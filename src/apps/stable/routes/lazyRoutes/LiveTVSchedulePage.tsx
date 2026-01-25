@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
-import CircularProgress from '@mui/joy/CircularProgress';
-import Grid from '@mui/joy/Grid';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import AspectRatio from '@mui/joy/AspectRatio';
+import { Box } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { Heading } from 'ui-primitives/Text';
+import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { Grid } from 'ui-primitives/Grid';
+import { Card } from 'ui-primitives/Card';
+import { vars } from 'styles/tokens.css';
 import globalize from 'lib/globalize';
 
 const LiveTVSchedulePage: React.FC = () => {
@@ -33,30 +33,38 @@ const LiveTVSchedulePage: React.FC = () => {
 
     if (isLoading) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
-                <CircularProgress />
+            <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+                <CircularProgress size="lg" />
             </Box>
         );
     }
 
     return (
-        <Box sx={{ p: 3 }}>
-            <Typography level="h2" sx={{ mb: 3 }}>
-                {globalize.translate('Schedule')}
-            </Typography>
-            <Grid container spacing={3}>
-                {data.map((item) => (
+        <Box style={{ padding: vars.spacing.md }}>
+            <Heading.H2 style={{ marginBottom: vars.spacing.lg }}>{globalize.translate('Schedule')}</Heading.H2>
+            <Grid container spacing="md">
+                {data.map(item => (
                     <Grid key={item.id} xs={12} sm={6} md={4} lg={3}>
-                        <Card variant="outlined">
-                            <AspectRatio ratio="16/9">
-                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'neutral.softBg' }}>
-                                    <Typography level="h1">📅</Typography>
-                                </Box>
-                            </AspectRatio>
-                            <CardContent>
-                                <Typography level="title-lg">{item.name}</Typography>
-                                <Typography level="body-sm">{item.count} items</Typography>
-                            </CardContent>
+                        <Card style={{ border: `1px solid ${vars.colors.divider}` }}>
+                            <Box
+                                style={{
+                                    aspectRatio: '16/9',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: vars.colors.surfaceHover
+                                }}
+                            >
+                                <Text style={{ fontSize: vars.typography.fontSizeXxl }}>📅</Text>
+                            </Box>
+                            <Box style={{ padding: vars.spacing.md }}>
+                                <Text size="lg" weight="bold">
+                                    {item.name}
+                                </Text>
+                                <Text size="sm" color="secondary">
+                                    {item.count} items
+                                </Text>
+                            </Box>
                         </Card>
                     </Grid>
                 ))}

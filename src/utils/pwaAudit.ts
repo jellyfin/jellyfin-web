@@ -78,7 +78,7 @@ class PWAAudit {
             }
 
             if (manifest.icons && manifest.icons.length > 0) {
-                const hasMaskable = manifest.icons.some((icon: any) => icon.purpose && icon.purpose.includes('maskable'));
+                const hasMaskable = manifest.icons.some((icon: any) => icon.purpose?.includes('maskable'));
                 const hasLargeIcon = manifest.icons.some((icon: any) => parseInt(icon.sizes) >= 512);
 
                 if (hasMaskable) result.score += 10;

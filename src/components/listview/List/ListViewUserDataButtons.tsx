@@ -1,9 +1,9 @@
 import React, { type FC } from 'react';
-import Box from '@mui/material/Box/Box';
+import { Box } from 'ui-primitives/Box';
 
 import itemHelper from '../../itemHelper';
-import PlayedButton from 'elements/emby-playstatebutton/PlayedButton';
-import FavoriteButton from 'elements/emby-ratingbutton/FavoriteButton';
+import PlayedButton from '../../itemActions/PlayedButton';
+import FavoriteButton from '../../itemActions/FavoriteButton';
 import PlaylistAddIconButton from '../../common/PlaylistAddIconButton';
 import InfoIconButton from '../../common/InfoIconButton';
 import RightIconButtons from '../../common/RightIconButtons';
@@ -17,10 +17,7 @@ interface ListViewUserDataButtonsProps {
     listOptions: ListOptions;
 }
 
-const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
-    item = {},
-    listOptions
-}) => {
+const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({ item = {}, listOptions }) => {
     const { IsFavorite, Played } = item.UserData ?? {};
 
     const renderRightButtons = () => {
@@ -28,7 +25,7 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
             <RightIconButtons
                 // eslint-disable-next-line react/no-array-index-key
                 key={index}
-                className='listItemButton itemAction'
+                className="listItemButton itemAction"
                 id={button.id}
                 title={button.title}
                 icon={button.icon}
@@ -37,49 +34,33 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
     };
 
     return (
-        <Box className='listViewUserDataButtons'>
+        <Box className="listViewUserDataButtons">
             {listOptions.addToListButton && (
-                <PlaylistAddIconButton
-                    className='paper-icon-button-light listItemButton itemAction'
-                />
-
+                <PlaylistAddIconButton className="paper-icon-button-light listItemButton itemAction" />
             )}
-            {listOptions.infoButton && (
-                <InfoIconButton
-                    className='paper-icon-button-light listItemButton itemAction'
-                />
-
-            ) }
+            {listOptions.infoButton && <InfoIconButton className="paper-icon-button-light listItemButton itemAction" />}
 
             {listOptions.rightButtons && renderRightButtons()}
 
             {listOptions.enableUserDataButtons !== false && (
                 <>
-                    {itemHelper.canMarkPlayed(item)
-                        && listOptions.enablePlayedButton !== false && (
+                    {itemHelper.canMarkPlayed(item) && listOptions.enablePlayedButton !== false && (
                         <PlayedButton
-                            className='listItemButton'
+                            className="listItemButton"
                             isPlayed={Played}
                             itemId={item.Id}
                             itemType={item.Type}
                         />
                     )}
 
-                    {itemHelper.canRate(item)
-                        && listOptions.enableRatingButton !== false && (
-                        <FavoriteButton
-                            className='listItemButton'
-                            isFavorite={IsFavorite}
-                            itemId={item.Id}
-                        />
+                    {itemHelper.canRate(item) && listOptions.enableRatingButton !== false && (
+                        <FavoriteButton className="listItemButton" isFavorite={IsFavorite} itemId={item.Id} />
                     )}
                 </>
             )}
 
             {listOptions.moreButton !== false && (
-                <MoreVertIconButton
-                    className='paper-icon-button-light listItemButton itemAction'
-                />
+                <MoreVertIconButton className="paper-icon-button-light listItemButton itemAction" />
             )}
         </Box>
     );

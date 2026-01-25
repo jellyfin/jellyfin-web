@@ -1,11 +1,9 @@
 import type { FolderStorageDto } from '@jellyfin/sdk/lib/generated-client';
-import LinearProgress from '@mui/material/LinearProgress';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import Skeleton from '@mui/material/Skeleton';
-import Typography from '@mui/material/Typography/Typography';
 import React, { type FC } from 'react';
+import { Progress } from 'ui-primitives/Progress';
+import { Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { Skeleton } from 'ui-primitives/Skeleton';
 
 import globalize from 'lib/globalize';
 import { getReadableSize } from 'utils/file';
@@ -16,8 +14,8 @@ import { calculateTotal, calculateUsedPercentage } from '../utils/space';
 import StorageTypeIcon from './StorageTypeIcon';
 
 interface StorageListItemProps {
-    label: string
-    folder?: FolderStorageDto
+    label: string;
+    folder?: FolderStorageDto;
 }
 
 const getStatusColor = (percent: number) => {
@@ -48,53 +46,35 @@ const StorageListItem: FC<StorageListItemProps> = ({
     const statusColor = folder ? getStatusColor(usedPercentage) : 'primary';
 
     return (
-        <ListItem>
-            <ListItemIcon title={getStorageTypeText(folder?.StorageType)}>
+        <Flex style={{ alignItems: 'center', gap: '16px', padding: '12px 0' }}>
+            <div title={getStorageTypeText(folder?.StorageType)}>
                 <StorageTypeIcon type={folder?.StorageType} />
-            </ListItemIcon>
-            <ListItemText
-                primary={
-                    <Typography
-                        component='span'
-                        variant='body2'
-                    >
-                        {label}
-                    </Typography>
-                }
-                secondary={
-                    <>
-                        <Typography
-                            color='textPrimary'
-                            sx={{
-                                paddingBottom: 0.5,
-                                lineBreak: 'anywhere'
-                            }}
-                        >
-                            {folder ? folder.Path : (
-                                <Skeleton />
-                            )}
-                        </Typography>
-                        <LinearProgress
-                            variant={folder ? 'determinate' : 'indeterminate'}
-                            color={statusColor}
-                            value={usedPercentage}
-                        />
-                        <Typography
-                            variant='body2'
-                            color='textSecondary'
-                            sx={{
-                                textAlign: 'end'
-                            }}
-                        >
-                            {`${readableUsedSpace} / ${readableTotalSpace}`}
-                        </Typography>
-                    </>
-                }
-                slots={{
-                    secondary: 'div'
-                }}
-            />
-        </ListItem>
+            </div>
+            <Flex style={{ flex: 1, flexDirection: 'column', gap: '4px' }}>
+                <Text as='span' size='sm' style={{ wordBreak: 'break-all' }}>
+                    {label}
+                </Text>
+                <Flex style={{ flexDirection: 'column', gap: '4px' }}>
+                    {folder ? (
+                        <Text as='span' size='sm' color='secondary' style={{ lineBreak: 'anywhere' }}>
+                            {folder.Path}
+                        </Text>
+                    ) : (
+                        <Skeleton width='100%' height={20} />
+                    )}
+                    <Progress
+                        value={usedPercentage}
+                        style={{
+                            backgroundColor: statusColor === 'error' ? 'var(--colors-error)' :
+                                statusColor === 'warning' ? 'var(--colors-warning)' : undefined
+                        }}
+                    />
+                    <Text as='span' size='sm' color='secondary' style={{ textAlign: 'end' }}>
+                        {`${readableUsedSpace} / ${readableTotalSpace}`}
+                    </Text>
+                </Flex>
+            </Flex>
+        </Flex>
     );
 };
 

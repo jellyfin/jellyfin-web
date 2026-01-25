@@ -1,8 +1,6 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import StarIcon from '@mui/icons-material/Star';
-import Box from '@mui/material/Box/Box';
-import type {} from '@mui/material/themeCssVarsAugmentation';
+import { Box } from 'ui-primitives/Box';
 
 interface StarIconsProps {
     className?: string;
@@ -18,13 +16,7 @@ const StarIcons: FC<StarIconsProps> = ({ className, communityRating }) => {
 
     return (
         <Box className={cssClass}>
-            <StarIcon
-                fontSize={'small'}
-                // eslint-disable-next-line react/jsx-no-bind
-                sx={(theme) => ({
-                    color: theme.vars.palette.starIcon.main
-                })}
-            />
+            <span className='material-icons starIcon' aria-hidden='true'>star</span>
             {communityRating.toFixed(1)}
         </Box>
     );

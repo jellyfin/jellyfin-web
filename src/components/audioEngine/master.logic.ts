@@ -1,16 +1,20 @@
-import { getSavedVisualizerSettings, setVisualizerSettings, visualizerSettings } from 'components/visualizer/visualizers.logic';
+import {
+    getSavedVisualizerSettings,
+    setVisualizerSettings,
+    visualizerSettings
+} from 'components/visualizer/visualizers.logic';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { setXDuration, xDuration } from './crossfader.logic';
 import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from './audioErrorHandler';
 import { safeConnect, dBToLinear } from './audioUtils';
 
 import { useAudioStore } from '../../store/audioStore';
+import { usePreferencesStore, getCrossfadeFadeOut } from '../../store/preferencesStore';
 import { logger } from '../../utils/logger';
 
 type MasterAudioTypes = {
     mixerNode?: GainNode;
     biquadNode?: AudioNode;
-    buffered?: DelayNode
+    buffered?: DelayNode;
     makeupGain: number;
     muted: boolean;
     audioContext?: AudioContext;
@@ -49,7 +53,7 @@ const _masterAudioState = {
     mixerNode: undefined as GainNode | undefined,
     biquadNode: undefined as AudioNode | undefined,
     audioContext: undefined as AudioContext | undefined,
-    buffered: undefined as DelayNode | undefined,
+    buffered: undefined as DelayNode | undefined
 };
 
 /**
@@ -58,47 +62,73 @@ const _masterAudioState = {
  * @type {Object}
  */
 export const masterAudioOutput = {
-    get mixerNode() { return _masterAudioState.mixerNode; },
-    set mixerNode(v: GainNode | undefined) { _masterAudioState.mixerNode = v; },
+    get mixerNode() {
+        return _masterAudioState.mixerNode;
+    },
+    set mixerNode(v: GainNode | undefined) {
+        _masterAudioState.mixerNode = v;
+    },
 
-    get biquadNode() { return _masterAudioState.biquadNode; },
-    set biquadNode(v: AudioNode | undefined) { _masterAudioState.biquadNode = v; },
+    get biquadNode() {
+        return _masterAudioState.biquadNode;
+    },
+    set biquadNode(v: AudioNode | undefined) {
+        _masterAudioState.biquadNode = v;
+    },
 
-    get audioContext() { return _masterAudioState.audioContext; },
+    get audioContext() {
+        return _masterAudioState.audioContext;
+    },
     set audioContext(v: AudioContext | undefined) {
         _masterAudioState.audioContext = v;
         useAudioStore.getState().setIsReady(!!v);
     },
 
-    get buffered() { return _masterAudioState.buffered; },
-    set buffered(v: DelayNode | undefined) { _masterAudioState.buffered = v; },
+    get buffered() {
+        return _masterAudioState.buffered;
+    },
+    set buffered(v: DelayNode | undefined) {
+        _masterAudioState.buffered = v;
+    },
 
-    get volume() { return useAudioStore.getState().volume; },
-    set volume(v: number) { useAudioStore.getState().setVolume(v); },
+    get volume() {
+        return useAudioStore.getState().volume;
+    },
+    set volume(v: number) {
+        useAudioStore.getState().setVolume(v);
+    },
 
-    get muted() { return useAudioStore.getState().muted; },
-    set muted(v: boolean) { useAudioStore.getState().setMuted(v); },
+    get muted() {
+        return useAudioStore.getState().muted;
+    },
+    set muted(v: boolean) {
+        useAudioStore.getState().setMuted(v);
+    },
 
-    get makeupGain() { return useAudioStore.getState().makeupGain; },
-    set makeupGain(v: number) { useAudioStore.getState().setMakeupGain(v); }
+    get makeupGain() {
+        return useAudioStore.getState().makeupGain;
+    },
+    set makeupGain(v: number) {
+        useAudioStore.getState().setMakeupGain(v);
+    }
 } as MasterAudioTypes;
 
 // Load AudioWorklets for audio processing
 async function loadAudioWorklets(audioContext: AudioContext) {
     // Skip AudioWorklet loading in environments where it might fail
-    const isDevelopment = typeof import.meta.url === 'string' && (
-        import.meta.url.startsWith('file://')
-        || import.meta.url.includes('localhost')
-        || import.meta.url.includes('127.0.0.1')
-        || window.location.protocol === 'file:'
-    );
+    const isDevelopment =
+        typeof import.meta.url === 'string' &&
+        (import.meta.url.startsWith('file://') ||
+            import.meta.url.includes('localhost') ||
+            import.meta.url.includes('127.0.0.1') ||
+            window.location.protocol === 'file:');
 
     // Also skip if AudioWorklet is not supported
     if (isDevelopment || !audioContext.audioWorklet) {
-        const reason = isDevelopment ?
-            'development/local environment' :
-            'AudioWorklet not supported in this browser';
-        logger.info(`AudioWorklet: Skipping loading (${reason}). Using Web Audio API fallbacks.`, { component: 'masterAudio' });
+        const reason = isDevelopment ? 'development/local environment' : 'AudioWorklet not supported in this browser';
+        logger.info(`AudioWorklet: Skipping loading (${reason}). Using Web Audio API fallbacks.`, {
+            component: 'masterAudio'
+        });
         return;
     }
 
@@ -106,7 +136,8 @@ async function loadAudioWorklets(audioContext: AudioContext) {
         './limiterWorklet.js',
         './gainWorklet.js',
         './delayWorklet.js',
-        './biquadWorklet.js'
+        './biquadWorklet.js',
+        './backspinProcessor.ts'
     ];
 
     let loadedCount = 0;
@@ -133,7 +164,9 @@ async function loadAudioWorklets(audioContext: AudioContext) {
     }
 
     if (loadedCount > 0) {
-        logger.info(`AudioWorklet: Successfully loaded ${loadedCount}/${worklets.length} worklets`, { component: 'masterAudio' });
+        logger.info(`AudioWorklet: Successfully loaded ${loadedCount}/${worklets.length} worklets`, {
+            component: 'masterAudio'
+        });
     } else {
         logger.info('AudioWorklet: No worklets loaded, using Web Audio API fallbacks', { component: 'masterAudio' });
     }
@@ -160,32 +193,31 @@ function getCrossfadeDuration(): number {
  * @param {Function} unbind - The unbind callback function.
  */
 export function initializeMasterAudio(unbind: () => void) {
-    const savedDuration = getCrossfadeDuration();
-    setXDuration(savedDuration);
+    getCrossfadeDuration(); // Ensure store is initialized from settings
     setVisualizerSettings(getSavedVisualizerSettings());
 
     unbindCallback = unbind;
 
     // Subscribe to store changes to update audio engine
     useAudioStore.subscribe(
-        (state) => ({ volume: state.volume, muted: state.muted, makeupGain: state.makeupGain }),
+        state => ({ volume: state.volume, muted: state.muted, makeupGain: state.makeupGain }),
         ({ volume, muted, makeupGain }) => {
             if (!masterAudioOutput.mixerNode || !masterAudioOutput.audioContext) return;
-            
+
             const targetVolume = muted ? 0 : volume;
             const linearVolume = (targetVolume / 100) * makeupGain;
-            
+
             // Smooth transition to prevent clicks
             masterAudioOutput.mixerNode.gain.cancelScheduledValues(masterAudioOutput.audioContext.currentTime);
             masterAudioOutput.mixerNode.gain.setTargetAtTime(
-                linearVolume, 
-                masterAudioOutput.audioContext.currentTime, 
+                linearVolume,
+                masterAudioOutput.audioContext.currentTime,
                 0.05 // 50ms time constant
             );
         }
     );
 
-    const webAudioSupported = ('AudioContext' in window || 'webkitAudioContext' in window);
+    const webAudioSupported = 'AudioContext' in window || 'webkitAudioContext' in window;
 
     if (!webAudioSupported) {
         logger.info('WebAudio not supported', { component: 'MasterAudio' });
@@ -195,11 +227,17 @@ export function initializeMasterAudio(unbind: () => void) {
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
     const audioCtx = masterAudioOutput.audioContext || new AudioContext();
 
-    if (!masterAudioOutput.audioContext) masterAudioOutput.audioContext = audioCtx;
+    if (!masterAudioOutput.audioContext) {
+        masterAudioOutput.audioContext = audioCtx;
+        useAudioStore.getState().setAudioContext(audioCtx);
+    }
 
     if (!masterAudioOutput.mixerNode) {
         masterAudioOutput.mixerNode = audioCtx.createGain();
-        masterAudioOutput.mixerNode.gain.setValueAtTime((masterAudioOutput.volume / 100) * masterAudioOutput.makeupGain, audioCtx.currentTime);
+        masterAudioOutput.mixerNode.gain.setValueAtTime(
+            (masterAudioOutput.volume / 100) * masterAudioOutput.makeupGain,
+            audioCtx.currentTime
+        );
 
         // Attempt to load and use worklet limiter for multithreading
         loadAudioWorklets(audioCtx).catch(() => {}); // Load asynchronously
@@ -259,7 +297,10 @@ function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initial
     const existing = elementNodeMap.get(elem);
     if (existing) {
         if (initialNormalizationGain !== undefined) {
-            existing.normalizationGainNode.gain.setValueAtTime(initialNormalizationGain, masterAudioOutput.audioContext.currentTime);
+            existing.normalizationGainNode.gain.setValueAtTime(
+                initialNormalizationGain,
+                masterAudioOutput.audioContext.currentTime
+            );
         }
         if (registerInBus && !existing.busRegistered) {
             audioNodeBus.unshift(existing.crossfadeGainNode);
@@ -318,7 +359,10 @@ function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initial
     return bundle;
 }
 
-export function ensureAudioNodeBundle(elem: HTMLMediaElement, options?: { initialNormalizationGain?: number; registerInBus?: boolean }) {
+export function ensureAudioNodeBundle(
+    elem: HTMLMediaElement,
+    options?: { initialNormalizationGain?: number; registerInBus?: boolean }
+) {
     return createNodeBundle(elem, options?.registerInBus ?? false, options?.initialNormalizationGain);
 }
 
@@ -378,13 +422,13 @@ export function rampPlaybackGain(normalizationGain?: number) {
     }
 
     const audioCtx = masterAudioOutput.audioContext;
-    const gainValue = (normalizationGain !== undefined) ? dBToLinear(normalizationGain) : 1;
+    const gainValue = normalizationGain !== undefined ? dBToLinear(normalizationGain) : 1;
+
+    const crossfadeDuration = usePreferencesStore.getState().crossfade.crossfadeDuration;
+    const sustain = getCrossfadeFadeOut(crossfadeDuration) / 24;
 
     targetNormalizationNode.gain.cancelScheduledValues(audioCtx.currentTime);
 
     targetNormalizationNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime);
-    targetNormalizationNode.gain.exponentialRampToValueAtTime(
-        gainValue,
-        audioCtx.currentTime + (xDuration.sustain / FADE_IN_RAMP_DIVISOR)
-    );
+    targetNormalizationNode.gain.exponentialRampToValueAtTime(gainValue, audioCtx.currentTime + sustain);
 }

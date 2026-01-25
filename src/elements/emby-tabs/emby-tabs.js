@@ -1,3 +1,14 @@
+/**
+ * @deprecated This file is deprecated in favor of React + ui-primitives.
+ *
+ * Migration:
+ * - Web Component `emby-tabs` → ui-primitives/Tabs
+ * - Custom tab logic → Radix UI Tabs
+ *
+ * @see src/ui-primitives/Tabs.tsx
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import 'webcomponents.js/webcomponents-lite';
 import dom from '../../utils/dom';
 import ScrollerFactory from 'lib/scroller';
@@ -5,7 +16,6 @@ import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
 import layoutManager from '../../components/layoutManager';
 import './emby-tabs.scss';
-import '../../styles/scrollstyles.scss';
 
 const EmbyTabs = Object.create(HTMLDivElement.prototype);
 const buttonClass = 'emby-tab-button';
@@ -31,7 +41,8 @@ function fadeInRight(elem) {
 
     const keyframes = [
         { opacity: '0', transform: 'translate3d(' + pct + ', 0, 0)', offset: 0 },
-        { opacity: '1', transform: 'none', offset: 1 }];
+        { opacity: '1', transform: 'none', offset: 1 }
+    ];
 
     elem.animate(keyframes, {
         duration: 160,
@@ -41,12 +52,14 @@ function fadeInRight(elem) {
 }
 
 function triggerBeforeTabChange(tabs, index, previousIndex) {
-    tabs.dispatchEvent(new CustomEvent('beforetabchange', {
-        detail: {
-            selectedTabIndex: index,
-            previousIndex: previousIndex
-        }
-    }));
+    tabs.dispatchEvent(
+        new CustomEvent('beforetabchange', {
+            detail: {
+                selectedTabIndex: index,
+                previousIndex: previousIndex
+            }
+        })
+    );
     if (previousIndex != null && previousIndex !== index) {
         removeActivePanelClass();
     }
@@ -86,12 +99,14 @@ function onClick(e) {
         setTimeout(() => {
             tabs.selectedTabIndex = index;
 
-            tabs.dispatchEvent(new CustomEvent('tabchange', {
-                detail: {
-                    selectedTabIndex: index,
-                    previousIndex: previousIndex
-                }
-            }));
+            tabs.dispatchEvent(
+                new CustomEvent('tabchange', {
+                    detail: {
+                        selectedTabIndex: index,
+                        previousIndex: previousIndex
+                    }
+                })
+            );
         }, 120);
 
         if (tabs.scroller) {
@@ -193,7 +208,9 @@ EmbyTabs.attachedCallback = function () {
     initScroller(this);
 
     const current = this.querySelector('.' + activeButtonClass);
-    const currentIndex = current ? parseInt(current.getAttribute('data-index'), 10) : parseInt(this.getAttribute('data-index') || '0', 10);
+    const currentIndex = current
+        ? parseInt(current.getAttribute('data-index'), 10)
+        : parseInt(this.getAttribute('data-index') || '0', 10);
 
     if (currentIndex !== -1) {
         this.selectedTabIndex = currentIndex;
@@ -248,11 +265,13 @@ EmbyTabs.selectedIndex = function (selected, triggerEvent) {
     if (current === selected || triggerEvent === false) {
         triggerBeforeTabChange(tabs, selected, current);
 
-        tabs.dispatchEvent(new CustomEvent('tabchange', {
-            detail: {
-                selectedTabIndex: selected
-            }
-        }));
+        tabs.dispatchEvent(
+            new CustomEvent('tabchange', {
+                detail: {
+                    selectedTabIndex: selected
+                }
+            })
+        );
 
         const currentTabButton = tabButtons[current];
         setActiveTabButton(tabButtons[selected]);
@@ -314,11 +333,13 @@ EmbyTabs.triggerBeforeTabChange = function () {
 EmbyTabs.triggerTabChange = function () {
     const tabs = this;
 
-    tabs.dispatchEvent(new CustomEvent('tabchange', {
-        detail: {
-            selectedTabIndex: tabs.selectedIndex()
-        }
-    }));
+    tabs.dispatchEvent(
+        new CustomEvent('tabchange', {
+            detail: {
+                selectedTabIndex: tabs.selectedIndex()
+            }
+        })
+    );
 };
 
 EmbyTabs.setTabEnabled = function (index, enabled) {
@@ -335,4 +356,3 @@ document.registerElement('emby-tabs', {
     prototype: EmbyTabs,
     extends: 'div'
 });
-

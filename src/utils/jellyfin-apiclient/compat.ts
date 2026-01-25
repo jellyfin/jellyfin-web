@@ -1,5 +1,5 @@
-import { Api, Jellyfin } from '@jellyfin/sdk';
-import { ApiClient } from 'jellyfin-apiclient';
+import { type Api, Jellyfin } from '@jellyfin/sdk';
+import { type ApiClient } from 'jellyfin-apiclient';
 
 /**
  * Returns an SDK Api instance using the same parameters as the provided ApiClient.

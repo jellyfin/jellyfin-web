@@ -1,9 +1,9 @@
-import { Api } from '@jellyfin/sdk';
-import { ArtistsApiGetArtistsRequest } from '@jellyfin/sdk/lib/generated-client/api/artists-api';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { type Api } from '@jellyfin/sdk';
+import { type ArtistsApiGetArtistsRequest } from '@jellyfin/sdk/lib/generated-client/api/artists-api';
+import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
 import { useQuery } from '@tanstack/react-query';
-import { AxiosRequestConfig } from 'axios';
+import { type AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
 import { QUERY_OPTIONS } from '../constants/queryOptions';
 import { isMusic } from '../utils/search';

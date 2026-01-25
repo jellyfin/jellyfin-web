@@ -1,14 +1,13 @@
-import format from 'date-fns/format';
-import type { MRT_Cell, MRT_RowData } from 'material-react-table';
-import { FC } from 'react';
+import { format } from 'date-fns';
+import type { Cell } from '@tanstack/react-table';
 
 import { useLocale } from 'hooks/useLocale';
 
-interface CellProps {
-    cell: MRT_Cell<MRT_RowData>
+interface CellProps<T = unknown> {
+    cell: Cell<T, unknown>;
 }
 
-const DateTimeCell: FC<CellProps> = ({ cell }) => {
+const DateTimeCell = <T,>({ cell }: CellProps<T>) => {
     const { dateFnsLocale } = useLocale();
 
     return format(cell.getValue<Date>(), 'Pp', { locale: dateFnsLocale });

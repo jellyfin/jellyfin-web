@@ -13,6 +13,7 @@ import datetime from 'scripts/datetime';
 import { isUsingLiveTvNaming } from '../cardBuilderUtils';
 import { getDataAttributes } from 'utils/items';
 import { ItemKind } from 'types/base/models/item-kind';
+import type { BaseItem as HelperBaseItem } from 'components/itemHelper';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import { ensureArray } from 'utils/array';
 
@@ -21,28 +22,38 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 import type { DataAttributes } from 'types/dataAttributes';
 
-export function getCardLogoUrl(
-    item: ItemDto,
-    api: Api | undefined,
-    cardOptions: CardOptions
-) {
-    let imgType;
-    let imgTag;
-    let itemId;
+export function getCardLogoUrl(item: ItemDto, api: Api | undefined, cardOptions: CardOptions) {
+    let imgType: ImageType | undefined;
+    let imgTag: string = '';
+    let itemId: string = '';
     const logoHeight = 40;
 
     if (cardOptions.showChannelLogo && item.ChannelPrimaryImageTag) {
         imgType = ImageType.Primary;
-        imgTag = item.ChannelPrimaryImageTag;
-        itemId = item.ChannelId;
+        imgTag = item.ChannelPrimaryImageTag || '';
+        itemId = item.ChannelId || '';
     } else if (cardOptions.showLogo && item.ParentLogoImageTag) {
         imgType = ImageType.Logo;
-        imgTag = item.ParentLogoImageTag;
-        itemId = item.ParentLogoItemId;
+        imgTag = item.ParentLogoImageTag || '';
+        itemId = item.ParentLogoItemId || '';
     }
 
     if (!itemId) {
-        itemId = item.Id;
+        itemId = item.Id || '';
+    }
+
+    if (api && imgTag && imgType && itemId) {
+        return (
+            getImageApi(api).getItemImageUrlById(itemId, imgType, {
+                maxWidth: logoHeight,
+                tag: imgTag,
+                quality: 100
+            }) || ''
+        );
+    }
+
+    if (!itemId) {
+        itemId = item.Id || '';
     }
 
     if (api && imgTag && imgType && itemId) {
@@ -52,7 +63,7 @@ export function getCardLogoUrl(
         });
 
         return {
-            logoUrl: response
+            logoUrl: response || ''
         };
     }
 
@@ -64,7 +75,7 @@ export function getCardLogoUrl(
 interface TextAction {
     url: string;
     title: string;
-    dataAttributes: DataAttributes
+    dataAttributes: DataAttributes;
 }
 
 export interface TextLine {
@@ -72,12 +83,8 @@ export interface TextLine {
     titleAction?: TextAction | TextAction[];
 }
 
-export function getTextActionButton(
-    item: ItemDto,
-    text?: NullableString,
-    serverId?: NullableString
-): TextLine {
-    const title = text || itemHelper.getDisplayName(item);
+export function getTextActionButton(item: ItemDto, text?: NullableString, serverId?: NullableString): TextLine {
+    const title = text || itemHelper.getDisplayName(item as HelperBaseItem);
 
     if (layoutManager.tv) {
         return {
@@ -85,20 +92,18 @@ export function getTextActionButton(
         };
     }
 
-    const url = appRouter.getRouteUrl(item, { serverId });
+    const url = appRouter.getRouteUrl(item, { serverId: serverId || undefined });
 
-    const dataAttributes = getDataAttributes(
-        {
-            action: ItemAction.Link,
-            itemServerId: serverId ?? item.ServerId,
-            itemId: item.Id,
-            itemChannelId: item.ChannelId,
-            itemType: item.Type,
-            itemMediaType: item.MediaType,
-            itemCollectionType: item.CollectionType,
-            itemIsFolder: item.IsFolder
-        }
-    );
+    const dataAttributes = getDataAttributes({
+        action: ItemAction.Link,
+        itemServerId: serverId ?? item.ServerId,
+        itemId: item.Id,
+        itemChannelId: item.ChannelId,
+        itemType: item.Type,
+        itemMediaType: item.MediaType,
+        itemCollectionType: item.CollectionType,
+        itemIsFolder: item.IsFolder
+    });
 
     return {
         titleAction: {
@@ -121,8 +126,8 @@ export function getAirTimeText(
             let date = datetime.parseISO8601Date(item.StartDate);
 
             if (showAirDateTime) {
-                airTimeText
-                    += datetime.toLocaleDateString(date, {
+                airTimeText +=
+                    datetime.toLocaleDateString(date, {
                         weekday: 'short',
                         month: 'short',
                         day: 'numeric'
@@ -146,101 +151,85 @@ function isGenreOrStudio(itemType: ItemKind) {
     return itemType === ItemKind.Genre || itemType === ItemKind.Studio;
 }
 
-function isMusicGenreOrMusicArtist(
-    itemType: ItemKind,
-    context: NullableString
-) {
+function isMusicGenreOrMusicArtist(itemType: ItemKind, context: NullableString) {
     return itemType === ItemKind.MusicGenre || context === 'MusicArtist';
 }
 
 function getMovieCount(itemMovieCount: NullableNumber) {
     if (itemMovieCount) {
-        return itemMovieCount === 1 ?
-            globalize.translate('ValueOneMovie') :
-            globalize.translate('ValueMovieCount', itemMovieCount);
+        return itemMovieCount === 1
+            ? globalize.translate('ValueOneMovie')
+            : globalize.translate('ValueMovieCount', itemMovieCount);
     }
 }
 
 function getSeriesCount(itemSeriesCount: NullableNumber) {
     if (itemSeriesCount) {
-        return itemSeriesCount === 1 ?
-            globalize.translate('ValueOneSeries') :
-            globalize.translate('ValueSeriesCount', itemSeriesCount);
+        return itemSeriesCount === 1
+            ? globalize.translate('ValueOneSeries')
+            : globalize.translate('ValueSeriesCount', itemSeriesCount);
     }
 }
 
 function getEpisodeCount(itemEpisodeCount: NullableNumber) {
     if (itemEpisodeCount) {
-        return itemEpisodeCount === 1 ?
-            globalize.translate('ValueOneEpisode') :
-            globalize.translate('ValueEpisodeCount', itemEpisodeCount);
+        return itemEpisodeCount === 1
+            ? globalize.translate('ValueOneEpisode')
+            : globalize.translate('ValueEpisodeCount', itemEpisodeCount);
     }
 }
 
 function getAlbumCount(itemAlbumCount: NullableNumber) {
     if (itemAlbumCount) {
-        return itemAlbumCount === 1 ?
-            globalize.translate('ValueOneAlbum') :
-            globalize.translate('ValueAlbumCount', itemAlbumCount);
+        return itemAlbumCount === 1
+            ? globalize.translate('ValueOneAlbum')
+            : globalize.translate('ValueAlbumCount', itemAlbumCount);
     }
 }
 
 function getSongCount(itemSongCount: NullableNumber) {
     if (itemSongCount) {
-        return itemSongCount === 1 ?
-            globalize.translate('ValueOneSong') :
-            globalize.translate('ValueSongCount', itemSongCount);
+        return itemSongCount === 1
+            ? globalize.translate('ValueOneSong')
+            : globalize.translate('ValueSongCount', itemSongCount);
     }
 }
 
 function getMusicVideoCount(itemMusicVideoCount: NullableNumber) {
     if (itemMusicVideoCount) {
-        return itemMusicVideoCount === 1 ?
-            globalize.translate('ValueOneMusicVideo') :
-            globalize.translate('ValueMusicVideoCount', itemMusicVideoCount);
+        return itemMusicVideoCount === 1
+            ? globalize.translate('ValueOneMusicVideo')
+            : globalize.translate('ValueMusicVideoCount', itemMusicVideoCount);
     }
 }
 
 function getRecursiveItemCount(itemRecursiveItemCount: NullableNumber) {
-    return itemRecursiveItemCount === 1 ?
-        globalize.translate('ValueOneEpisode') :
-        globalize.translate('ValueEpisodeCount', itemRecursiveItemCount);
+    return itemRecursiveItemCount === 1
+        ? globalize.translate('ValueOneEpisode')
+        : globalize.translate('ValueEpisodeCount', itemRecursiveItemCount);
 }
 
-function getParentTitle(
-    isOuterFooter: boolean,
-    serverId: NullableString,
-    item: ItemDto
-) {
+function getParentTitle(isOuterFooter: boolean, serverId: NullableString, item: ItemDto) {
     if (isOuterFooter && item.AlbumArtists?.length) {
-        return item.AlbumArtists
-            .map(artist => {
-                const artistItem: ItemDto = {
-                    ...artist,
-                    Type: BaseItemKind.MusicArtist,
-                    IsFolder: true
-                };
-                return getTextActionButton(artistItem, null, serverId);
-            })
-            .reduce((acc, line) => ({
-                title: [
-                    ...ensureArray(acc.title),
-                    ...ensureArray(line.title)
-                ],
-                titleAction: [
-                    ...ensureArray(acc.titleAction),
-                    ...ensureArray(line.titleAction)
-                ]
-            }), {});
+        return item.AlbumArtists.map(artist => {
+            const artistItem: ItemDto = {
+                ...artist,
+                Type: BaseItemKind.MusicArtist,
+                IsFolder: true
+            };
+            return getTextActionButton(artistItem, null, serverId);
+        }).reduce(
+            (acc, line) => ({
+                title: [...ensureArray(acc.title), ...ensureArray(line.title)],
+                titleAction: [...ensureArray(acc.titleAction), ...ensureArray(line.titleAction)]
+            }),
+            {}
+        );
     } else {
         return {
-            title: isUsingLiveTvNaming(item.Type) ?
-                item.Name :
-                item.SeriesName
-                  || item.Series
-                  || item.Album
-                  || item.AlbumArtist
-                  || ''
+            title: isUsingLiveTvNaming(item.Type)
+                ? item.Name
+                : item.SeriesName || item.Series || item.Album || item.AlbumArtist || ''
         };
     }
 }
@@ -288,41 +277,23 @@ export function getItemCounts(cardOptions: CardOptions, item: ItemDto) {
         const musicVideoCountText = getMusicVideoCount(item.MusicVideoCount);
         addCount(musicVideoCountText);
     } else if (item.Type === ItemKind.Series) {
-        const recursiveItemCountText = getRecursiveItemCount(
-            item.RecursiveItemCount
-        );
+        const recursiveItemCountText = getRecursiveItemCount(item.RecursiveItemCount);
         addCount(recursiveItemCountText);
     }
 
     return counts.join(', ');
 }
 
-export function shouldShowTitle(
-    showTitle: boolean | string | undefined,
-    itemType: ItemKind
-) {
-    return (
-        Boolean(showTitle)
-        || itemType === ItemKind.PhotoAlbum
-        || itemType === ItemKind.Folder
-    );
+export function shouldShowTitle(showTitle: boolean | string | undefined, itemType: ItemKind) {
+    return Boolean(showTitle) || itemType === ItemKind.PhotoAlbum || itemType === ItemKind.Folder;
 }
 
-export function shouldShowOtherText(
-    isOuterFooter: boolean,
-    overlayText: boolean | undefined
-) {
+export function shouldShowOtherText(isOuterFooter: boolean, overlayText: boolean | undefined) {
     return isOuterFooter ? !overlayText : overlayText;
 }
 
-export function shouldShowParentTitleUnderneath(
-    itemType: ItemKind
-) {
-    return (
-        itemType === ItemKind.MusicAlbum
-        || itemType === ItemKind.Audio
-        || itemType === ItemKind.MusicVideo
-    );
+export function shouldShowParentTitleUnderneath(itemType: ItemKind) {
+    return itemType === ItemKind.MusicAlbum || itemType === ItemKind.Audio || itemType === ItemKind.MusicVideo;
 }
 
 function shouldShowMediaTitle(
@@ -332,9 +303,7 @@ function shouldShowMediaTitle(
     cardOptions: CardOptions,
     textLines: TextLine[]
 ) {
-    let showMediaTitle =
-        (showTitle && !titleAdded)
-        || (cardOptions.showParentTitleOrTitle && !textLines.length);
+    let showMediaTitle = (showTitle && !titleAdded) || (cardOptions.showParentTitleOrTitle && !textLines.length);
     if (!showMediaTitle && !titleAdded && (showTitle || forceName)) {
         showMediaTitle = true;
     }
@@ -345,38 +314,23 @@ function shouldShowExtraType(itemExtraType: NullableString) {
     return !!(itemExtraType && itemExtraType !== 'Unknown');
 }
 
-function shouldShowSeriesYearOrYear(
-    showYear: string | boolean | undefined,
-    showSeriesYear: boolean | undefined
-) {
+function shouldShowSeriesYearOrYear(showYear: string | boolean | undefined, showSeriesYear: boolean | undefined) {
     return Boolean(showYear) || showSeriesYear;
 }
 
-function shouldShowCurrentProgram(
-    showCurrentProgram: boolean | undefined,
-    itemType: ItemKind
-) {
+function shouldShowCurrentProgram(showCurrentProgram: boolean | undefined, itemType: ItemKind) {
     return showCurrentProgram && itemType === ItemKind.TvChannel;
 }
 
-function shouldShowCurrentProgramTime(
-    showCurrentProgramTime: boolean | undefined,
-    itemType: ItemKind
-) {
+function shouldShowCurrentProgramTime(showCurrentProgramTime: boolean | undefined, itemType: ItemKind) {
     return showCurrentProgramTime && itemType === ItemKind.TvChannel;
 }
 
-function shouldShowPersonRoleOrType(
-    showPersonRoleOrType: boolean | undefined,
-    item: ItemDto
-) {
+function shouldShowPersonRoleOrType(showPersonRoleOrType: boolean | undefined, item: ItemDto) {
     return !!(showPersonRoleOrType && (item as BaseItemPerson).Role);
 }
 
-function shouldShowParentTitle(
-    showParentTitle: boolean | undefined,
-    parentTitleUnderneath: boolean
-) {
+function shouldShowParentTitle(showParentTitle: boolean | undefined, parentTitleUnderneath: boolean) {
     return showParentTitle && parentTitleUnderneath;
 }
 
@@ -388,17 +342,12 @@ function addOtherText(
     addTextLine: (val: TextLine) => void,
     serverId: NullableString
 ) {
-    if (
-        shouldShowParentTitle(
-            cardOptions.showParentTitle,
-            parentTitleUnderneath
-        )
-    ) {
+    if (shouldShowParentTitle(cardOptions.showParentTitle, parentTitleUnderneath)) {
         addTextLine(getParentTitle(isOuterFooter, serverId, item));
     }
 
     if (shouldShowExtraType(item.ExtraType)) {
-        addTextLine({ title: globalize.translate(item.ExtraType) });
+        addTextLine({ title: globalize.translate(item.ExtraType || '') });
     }
 
     if (cardOptions.showItemCounts) {
@@ -417,12 +366,7 @@ function addOtherText(
         addTextLine({ title: getPremiereDate(item.PremiereDate) });
     }
 
-    if (
-        shouldShowSeriesYearOrYear(
-            cardOptions.showYear,
-            cardOptions.showSeriesYear
-        )
-    ) {
+    if (shouldShowSeriesYearOrYear(cardOptions.showYear, cardOptions.showSeriesYear)) {
         addTextLine({ title: getProductionYear(item) });
     }
 
@@ -432,11 +376,7 @@ function addOtherText(
 
     if (cardOptions.showAirTime) {
         addTextLine({
-            title: getAirTimeText(
-                item,
-                cardOptions.showAirDateTime,
-                cardOptions.showAirEndTime
-            )
+            title: getAirTimeText(item, cardOptions.showAirDateTime, cardOptions.showAirEndTime)
         });
     }
 
@@ -448,12 +388,7 @@ function addOtherText(
         addTextLine({ title: getCurrentProgramName(item.CurrentProgram) });
     }
 
-    if (
-        shouldShowCurrentProgramTime(
-            cardOptions.showCurrentProgramTime,
-            item.Type
-        )
-    ) {
+    if (shouldShowCurrentProgramTime(cardOptions.showCurrentProgramTime, item.Type)) {
         addTextLine({ title: getCurrentProgramTime(item.CurrentProgram) });
     }
 
@@ -467,10 +402,7 @@ function addOtherText(
 
     if (shouldShowPersonRoleOrType(cardOptions.showCurrentProgramTime, item)) {
         addTextLine({
-            title: globalize.translate(
-                'PersonRole',
-                (item as BaseItemPerson).Role
-            )
+            title: globalize.translate('PersonRole', (item as BaseItemPerson).Role)
         });
     }
 }
@@ -487,7 +419,7 @@ function getSeriesTimerTime(item: ItemDto) {
     if (item.RecordAnyTime) {
         return globalize.translate('Anytime');
     } else {
-        return datetime.getDisplayTime(item.StartDate);
+        return datetime.getDisplayTime(item.StartDate || new Date());
     }
 }
 
@@ -536,10 +468,11 @@ function getRunTime(itemRunTimeTicks: NullableNumber) {
 function getPremiereDate(PremiereDate: string | null | undefined) {
     if (PremiereDate) {
         try {
-            return datetime.toLocaleDateString(
-                datetime.parseISO8601Date(PremiereDate),
-                { weekday: 'long', month: 'long', day: 'numeric' }
-            );
+            return datetime.toLocaleDateString(datetime.parseISO8601Date(PremiereDate), {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric'
+            });
         } catch {
             return '';
         }
@@ -548,10 +481,7 @@ function getPremiereDate(PremiereDate: string | null | undefined) {
     }
 }
 
-function getAdditionalLines(
-    textLines: (item: ItemDto) => (string | undefined)[],
-    item: ItemDto
-) {
+function getAdditionalLines(textLines: (item: ItemDto) => (string | undefined)[], item: ItemDto) {
     const additionalLines = textLines(item);
     for (const additionalLine of additionalLines) {
         return additionalLine;
@@ -559,26 +489,14 @@ function getAdditionalLines(
 }
 
 function getProductionYear(item: ItemDto) {
-    const productionYear =
-        item.ProductionYear
-        && datetime.toLocaleString(item.ProductionYear, {
-            useGrouping: false
-        });
+    const productionYear = item.ProductionYear?.toString();
     if (item.Type === ItemKind.Series) {
         if (item.Status === 'Continuing') {
-            return globalize.translate(
-                'SeriesYearToPresent',
-                productionYear || ''
-            );
+            return globalize.translate('SeriesYearToPresent', productionYear || '');
         } else if (item.EndDate && item.ProductionYear) {
-            const endYear = datetime.toLocaleString(
-                datetime.parseISO8601Date(item.EndDate).getFullYear(),
-                { useGrouping: false }
-            );
-            return (
-                productionYear
-                + (endYear === productionYear ? '' : ' - ' + endYear)
-            );
+            const endDate = datetime.parseISO8601Date(item.EndDate);
+            const endYear = endDate.getFullYear().toString();
+            return productionYear + (endYear === productionYear ? '' : ' - ' + endYear);
         } else {
             return productionYear || '';
         }
@@ -589,13 +507,9 @@ function getProductionYear(item: ItemDto) {
 
 function getMediaTitle(cardOptions: CardOptions, item: ItemDto): TextLine {
     const name =
-        cardOptions.showTitle === 'auto'
-        && !item.IsFolder
-        && item.MediaType === ItemMediaKind.Photo ?
-            '' :
-            itemHelper.getDisplayName(item, {
-                includeParentInfo: cardOptions.includeParentInfoInTitle
-            });
+        cardOptions.showTitle === 'auto' && !item.IsFolder && item.MediaType === ItemMediaKind.Photo
+            ? ''
+            : itemHelper.getDisplayName(item as HelperBaseItem);
 
     return getTextActionButton({
         Id: item.Id,
@@ -613,11 +527,7 @@ function getParentTitleOrTitle(
     setTitleAdded: (val: boolean) => void,
     showTitle: boolean
 ): TextLine {
-    if (
-        isOuterFooter
-        && item.Type === ItemKind.Episode
-        && item.SeriesName
-    ) {
+    if (isOuterFooter && item.Type === ItemKind.Episode && item.SeriesName) {
         if (item.SeriesId) {
             return getTextActionButton({
                 Id: item.SeriesId,
@@ -635,12 +545,7 @@ function getParentTitleOrTitle(
         }
         return { title: item.Name };
     } else {
-        const parentTitle =
-            item.SeriesName
-            || item.Series
-            || item.Album
-            || item.AlbumArtist
-            || '';
+        const parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || '';
 
         if (parentTitle || showTitle) {
             return { title: parentTitle };
@@ -659,14 +564,7 @@ interface TextLinesOpts {
     imgUrl: string | undefined;
 }
 
-export function getCardTextLines({
-    isOuterFooter,
-    overlayText,
-    forceName,
-    item,
-    cardOptions,
-    imgUrl
-}: TextLinesOpts) {
+export function getCardTextLines({ isOuterFooter, overlayText, forceName, item, cardOptions, imgUrl }: TextLinesOpts) {
     const showTitle = shouldShowTitle(cardOptions.showTitle, item.Type);
     const showOtherText = shouldShowOtherText(isOuterFooter, overlayText);
     const serverId = item.ServerId || cardOptions.serverId;
@@ -683,44 +581,24 @@ export function getCardTextLines({
     };
 
     if (
-        showOtherText
-        && (cardOptions.showParentTitle || cardOptions.showParentTitleOrTitle)
-        && !parentTitleUnderneath
+        showOtherText &&
+        (cardOptions.showParentTitle || cardOptions.showParentTitleOrTitle) &&
+        !parentTitleUnderneath
     ) {
-        addTextLine(
-            getParentTitleOrTitle(isOuterFooter, item, setTitleAdded, showTitle)
-        );
+        addTextLine(getParentTitleOrTitle(isOuterFooter, item, setTitleAdded, showTitle));
     }
 
-    const showMediaTitle = shouldShowMediaTitle(
-        titleAdded,
-        showTitle,
-        forceName,
-        cardOptions,
-        textLines
-    );
+    const showMediaTitle = shouldShowMediaTitle(titleAdded, showTitle, forceName, cardOptions, textLines);
 
     if (showMediaTitle) {
         addTextLine(getMediaTitle(cardOptions, item));
     }
 
     if (showOtherText) {
-        addOtherText(
-            cardOptions,
-            parentTitleUnderneath,
-            isOuterFooter,
-            item,
-            addTextLine,
-            serverId
-        );
+        addOtherText(cardOptions, parentTitleUnderneath, isOuterFooter, item, addTextLine, serverId);
     }
 
-    if (
-        (showTitle || !imgUrl)
-        && forceName
-        && overlayText
-        && textLines.length === 1
-    ) {
+    if ((showTitle || !imgUrl) && forceName && overlayText && textLines.length === 1) {
         textLines = [];
     }
 

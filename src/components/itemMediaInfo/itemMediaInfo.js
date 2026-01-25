@@ -1,4 +1,3 @@
-
 /**
  * Module for display media info.
  * @module components/itemMediaInfo/itemMediaInfo
@@ -22,15 +21,14 @@ import 'components/listview/listview.scss';
 import 'elements/emby-button/emby-button';
 import 'elements/emby-button/paper-icon-button-light';
 import 'elements/emby-select/emby-select';
-import 'material-design-icons-iconfont';
 
-import 'styles/flexstyles.scss';
 
-import template from './itemMediaInfo.template.html';
+import template from './itemMediaInfo.template.html?raw';
 
 // Do not add extra spaces between tags - they will be copied into the result
-const copyButtonHtml = layoutManager.tv ? '' :
-    `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('Copy')}" aria-label="${globalize.translate('Copy')}"
+const copyButtonHtml = layoutManager.tv
+    ? ''
+    : `<button is="paper-icon-button-light" class="btnCopy" title="${globalize.translate('Copy')}" aria-label="${globalize.translate('Copy')}"
         ><span class="material-icons content_copy" aria-hidden="true"></span></button>`;
 const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </span>';
 
@@ -46,14 +44,19 @@ function setMediaInfo(user, page, item) {
 
     for (const btn of mediaInfoContent.querySelectorAll('.btnCopy')) {
         btn.addEventListener('click', () => {
-            const infoBlock = dom.parentWithClass(btn, 'mediaInfoStream') || dom.parentWithClass(btn, 'mediaInfoSource') || mediaInfoContent;
+            const infoBlock =
+                dom.parentWithClass(btn, 'mediaInfoStream') ||
+                dom.parentWithClass(btn, 'mediaInfoSource') ||
+                mediaInfoContent;
 
-            copy(infoBlock.textContent).then(() => {
-                toast(globalize.translate('Copied'));
-            }).catch(() => {
-                console.error('Could not copy text');
-                toast(globalize.translate('CopyFailed'));
-            });
+            copy(infoBlock.textContent)
+                .then(() => {
+                    toast(globalize.translate('Copied'));
+                })
+                .catch(() => {
+                    console.error('Could not copy text');
+                    toast(globalize.translate('CopyFailed'));
+                });
         });
     }
 }
@@ -113,7 +116,7 @@ function getMediaSourceHtml(user, item, version) {
             attributes.push(createAttribute(globalize.translate('MediaInfoCodecTag'), stream.CodecTag));
         }
         if (stream.IsAVC != null) {
-            attributes.push(createAttribute('AVC', (stream.IsAVC ? 'Yes' : 'No')));
+            attributes.push(createAttribute('AVC', stream.IsAVC ? 'Yes' : 'No'));
         }
         if (stream.Profile) {
             attributes.push(createAttribute(globalize.translate('MediaInfoProfile'), stream.Profile));
@@ -122,16 +125,22 @@ function getMediaSourceHtml(user, item, version) {
             attributes.push(createAttribute(globalize.translate('MediaInfoLevel'), stream.Level));
         }
         if (stream.Width || stream.Height) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoResolution'), `${stream.Width}x${stream.Height}`));
+            attributes.push(
+                createAttribute(globalize.translate('MediaInfoResolution'), `${stream.Width}x${stream.Height}`)
+            );
         }
         if (stream.AspectRatio && stream.Codec !== 'mjpeg') {
             attributes.push(createAttribute(globalize.translate('MediaInfoAspectRatio'), stream.AspectRatio));
         }
         if (stream.Type === 'Video') {
             if (stream.IsAnamorphic != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoAnamorphic'), (stream.IsAnamorphic ? 'Yes' : 'No')));
+                attributes.push(
+                    createAttribute(globalize.translate('MediaInfoAnamorphic'), stream.IsAnamorphic ? 'Yes' : 'No')
+                );
             }
-            attributes.push(createAttribute(globalize.translate('MediaInfoInterlaced'), (stream.IsInterlaced ? 'Yes' : 'No')));
+            attributes.push(
+                createAttribute(globalize.translate('MediaInfoInterlaced'), stream.IsInterlaced ? 'Yes' : 'No')
+            );
         }
         if (stream.ReferenceFrameRate && stream.Type === 'Video') {
             attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), stream.ReferenceFrameRate));
@@ -143,7 +152,9 @@ function getMediaSourceHtml(user, item, version) {
             attributes.push(createAttribute(globalize.translate('MediaInfoChannels'), `${stream.Channels} ch`));
         }
         if (stream.BitRate) {
-            attributes.push(createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000, 10)} kbps`));
+            attributes.push(
+                createAttribute(globalize.translate('MediaInfoBitrate'), `${parseInt(stream.BitRate / 1000, 10)} kbps`)
+            );
         }
         if (stream.SampleRate) {
             attributes.push(createAttribute(globalize.translate('MediaInfoSampleRate'), `${stream.SampleRate} Hz`));
@@ -181,7 +192,12 @@ function getMediaSourceHtml(user, item, version) {
                 attributes.push(createAttribute(globalize.translate('MediaInfoBlPresentFlag'), stream.BlPresentFlag));
             }
             if (stream.DvBlSignalCompatibilityId != null) {
-                attributes.push(createAttribute(globalize.translate('MediaInfoDvBlSignalCompatibilityId'), stream.DvBlSignalCompatibilityId));
+                attributes.push(
+                    createAttribute(
+                        globalize.translate('MediaInfoDvBlSignalCompatibilityId'),
+                        stream.DvBlSignalCompatibilityId
+                    )
+                );
             }
         }
         if (stream.ColorSpace) {
@@ -206,9 +222,11 @@ function getMediaSourceHtml(user, item, version) {
             attributes.push(createAttribute('NAL', stream.NalLengthSize));
         }
         if (stream.Type === 'Subtitle' || stream.Type === 'Audio') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoDefault'), (stream.IsDefault ? 'Yes' : 'No')));
-            attributes.push(createAttribute(globalize.translate('MediaInfoForced'), (stream.IsForced ? 'Yes' : 'No')));
-            attributes.push(createAttribute(globalize.translate('MediaInfoExternal'), (stream.IsExternal ? 'Yes' : 'No')));
+            attributes.push(createAttribute(globalize.translate('MediaInfoDefault'), stream.IsDefault ? 'Yes' : 'No'));
+            attributes.push(createAttribute(globalize.translate('MediaInfoForced'), stream.IsForced ? 'Yes' : 'No'));
+            attributes.push(
+                createAttribute(globalize.translate('MediaInfoExternal'), stream.IsExternal ? 'Yes' : 'No')
+            );
         }
         if (stream.Type === 'Video' && version.Timestamp) {
             attributes.push(createAttribute(globalize.translate('MediaInfoTimestamp'), version.Timestamp));

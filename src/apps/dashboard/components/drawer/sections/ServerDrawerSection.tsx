@@ -1,22 +1,20 @@
-import Dashboard from '@mui/icons-material/Dashboard';
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
-import LibraryAdd from '@mui/icons-material/LibraryAdd';
-import Palette from '@mui/icons-material/Palette';
-import People from '@mui/icons-material/People';
-import PlayCircle from '@mui/icons-material/PlayCircle';
-import Settings from '@mui/icons-material/Settings';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemButton from '@mui/joy/ListItemButton';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import ListItemContent from '@mui/joy/ListItemContent';
-import ListSubheader from '@mui/joy/ListSubheader';
+import {
+    ChevronDownIcon,
+    ChevronUpIcon,
+    ColorWheelIcon,
+    DashboardIcon,
+    GearIcon,
+    PersonIcon,
+    PlayIcon,
+    PlusIcon
+} from '@radix-ui/react-icons';
 import React, { type MouseEvent, useCallback, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@tanstack/react-router';
 
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
+import { List, ListItem, ListItemButton, ListItemDecorator, ListItemContent, ListSubheader } from 'ui-primitives/List';
+import { vars } from 'styles/tokens.css';
 
 const LIBRARY_PATHS = [
     '/dashboard/libraries',
@@ -32,11 +30,11 @@ const PLAYBACK_PATHS = [
     '/dashboard/playback/trickplay'
 ];
 
-const ServerDrawerSection = () => {
+const ServerDrawerSection = (): React.ReactElement => {
     const location = useLocation();
 
-    const [ isLibrarySectionOpen, setIsLibrarySectionOpen ] = useState(LIBRARY_PATHS.includes(location.pathname));
-    const [ isPlaybackSectionOpen, setIsPlaybackSectionOpen ] = useState(PLAYBACK_PATHS.includes(location.pathname));
+    const [isLibrarySectionOpen, setIsLibrarySectionOpen] = useState(LIBRARY_PATHS.includes(location.pathname));
+    const [isPlaybackSectionOpen, setIsPlaybackSectionOpen] = useState(PLAYBACK_PATHS.includes(location.pathname));
 
     const onLibrarySectionClick = useCallback((e: MouseEvent) => {
         e.preventDefault();
@@ -51,111 +49,106 @@ const ServerDrawerSection = () => {
     }, []);
 
     return (
-        <List
-            size="sm"
-            sx={{ '--ListItem-radius': '8px', '--List-gap': '4px', '--List-padding': '8px' }}
-        >
-            <ListSubheader sticky>
-                {globalize.translate('TabServer')}
-            </ListSubheader>
-            
+        <List size="sm" style={{ '--list-item-radius': '8px', '--list-gap': '4px', '--list-padding': '8px' }}>
+            <ListSubheader sticky>{globalize.translate('TabServer')}</ListSubheader>
+
             <ListItem>
-                <ListItemLink to='/dashboard'>
+                <ListItemLink to="/dashboard">
                     <ListItemDecorator>
-                        <Dashboard />
+                        <DashboardIcon />
                     </ListItemDecorator>
                     <ListItemContent>{globalize.translate('TabDashboard')}</ListItemContent>
                 </ListItemLink>
             </ListItem>
-            
+
             <ListItem>
-                <ListItemLink to='/dashboard/settings'>
+                <ListItemLink to="/dashboard/settings">
                     <ListItemDecorator>
-                        <Settings />
+                        <GearIcon />
                     </ListItemDecorator>
                     <ListItemContent>{globalize.translate('General')}</ListItemContent>
                 </ListItemLink>
             </ListItem>
-            
+
             <ListItem>
-                <ListItemLink to='/dashboard/branding'>
+                <ListItemLink to="/dashboard/branding">
                     <ListItemDecorator>
-                        <Palette />
+                        <ColorWheelIcon />
                     </ListItemDecorator>
                     <ListItemContent>{globalize.translate('HeaderBranding')}</ListItemContent>
                 </ListItemLink>
             </ListItem>
-            
+
             <ListItem>
-                <ListItemLink to='/dashboard/users'>
+                <ListItemLink to="/dashboard/users">
                     <ListItemDecorator>
-                        <People />
+                        <PersonIcon />
                     </ListItemDecorator>
                     <ListItemContent>{globalize.translate('HeaderUsers')}</ListItemContent>
                 </ListItemLink>
             </ListItem>
-            
+
             <ListItem nested>
                 <ListItemButton onClick={onLibrarySectionClick}>
                     <ListItemDecorator>
-                        <LibraryAdd />
+                        <PlusIcon />
                     </ListItemDecorator>
                     <ListItemContent>{globalize.translate('HeaderLibraries')}</ListItemContent>
-                    {isLibrarySectionOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                    {isLibrarySectionOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 </ListItemButton>
                 {isLibrarySectionOpen && (
-                    <List sx={{ '--List-gap': '0px' }}>
+                    <List style={{ '--list-gap': '0px' }}>
                         <ListItem>
-                            <ListItemLink to='/dashboard/libraries' sx={{ pl: 4 }}>
+                            <ListItemLink to="/dashboard/libraries" style={{ paddingLeft: vars.spacing.lg }}>
                                 <ListItemContent>{globalize.translate('HeaderLibraries')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to='/dashboard/libraries/display' sx={{ pl: 4 }}>
+                            <ListItemLink to="/dashboard/libraries/display" style={{ paddingLeft: vars.spacing.lg }}>
                                 <ListItemContent>{globalize.translate('Display')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
+                            <ListItemLink to="/dashboard/libraries/metadata" style={{ paddingLeft: vars.spacing.lg }}>
                                 <ListItemContent>{globalize.translate('LabelMetadata')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
+                            <ListItemLink to="/dashboard/libraries/nfo" style={{ paddingLeft: vars.spacing.lg }}>
                                 <ListItemContent>{globalize.translate('TabNfoSettings')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>
                     </List>
                 )}
             </ListItem>
-            
+
             <ListItem nested>
                 <ListItemButton onClick={onPlaybackSectionClick}>
                     <ListItemDecorator>
-                        <PlayCircle />
+                        <PlayIcon />
                     </ListItemDecorator>
                     <ListItemContent>{globalize.translate('TitlePlayback')}</ListItemContent>
-                    {isPlaybackSectionOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                    {isPlaybackSectionOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 </ListItemButton>
                 {isPlaybackSectionOpen && (
-                    <List sx={{ '--List-gap': '0px' }}>
+                    <List style={{ '--list-gap': '0px' }}>
                         <ListItem>
-                            <ListItemLink to='/dashboard/playback/transcoding' sx={{ pl: 4 }}>
+                            <ListItemLink to="/dashboard/playback/transcoding" style={{ paddingLeft: vars.spacing.lg }}>
                                 <ListItemContent>{globalize.translate('Transcoding')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to='/dashboard/playback/resume' sx={{ pl: 4 }}>
+                            <ListItemLink to="/dashboard/playback/resume" style={{ paddingLeft: vars.spacing.lg }}>
                                 <ListItemContent>{globalize.translate('ButtonResume')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to='/dashboard/playback/streaming' sx={{ pl: 4 }}>
+                            <ListItemLink to="/dashboard/playback/streaming" style={{ paddingLeft: vars.spacing.lg }}>
                                 <ListItemContent>{globalize.translate('TabStreaming')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to='/dashboard/playback/trickplay' sx={{ pl: 4 }}>
+                            <ListItemLink to="/dashboard/playback/trickplay" style={{ paddingLeft: vars.spacing.lg }}>
                                 <ListItemContent>{globalize.translate('Trickplay')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>

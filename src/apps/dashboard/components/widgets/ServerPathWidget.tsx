@@ -1,11 +1,11 @@
-import List from '@mui/material/List';
 import React from 'react';
 import StorageListItem from 'apps/dashboard/features/storage/components/StorageListItem';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
 import { useSystemStorage } from 'apps/dashboard/features/storage/api/useSystemStorage';
+import { List, ListItem } from 'ui-primitives/List';
 
-const ServerPathWidget = () => {
+const ServerPathWidget = (): React.ReactElement => {
     const { data: systemStorage } = useSystemStorage();
 
     return (
@@ -13,35 +13,49 @@ const ServerPathWidget = () => {
             title={globalize.translate('HeaderPaths')}
             href='/dashboard/settings'
         >
-            <List sx={{ bgcolor: 'background.paper' }}>
-                <StorageListItem
-                    label={globalize.translate('LabelCache')}
-                    folder={systemStorage?.CacheFolder}
-                />
-                <StorageListItem
-                    label={globalize.translate('LabelImageCache')}
-                    folder={systemStorage?.ImageCacheFolder}
-                />
-                <StorageListItem
-                    label={globalize.translate('LabelProgramData')}
-                    folder={systemStorage?.ProgramDataFolder}
-                />
-                <StorageListItem
-                    label={globalize.translate('LabelLogs')}
-                    folder={systemStorage?.LogFolder}
-                />
-                <StorageListItem
-                    label={globalize.translate('LabelMetadata')}
-                    folder={systemStorage?.InternalMetadataFolder}
-                />
-                <StorageListItem
-                    label={globalize.translate('LabelTranscodes')}
-                    folder={systemStorage?.TranscodingTempFolder}
-                />
-                <StorageListItem
-                    label={globalize.translate('LabelWeb')}
-                    folder={systemStorage?.WebFolder}
-                />
+            <List>
+                <ListItem disablePadding>
+                    <StorageListItem
+                        label={globalize.translate('LabelCache')}
+                        folder={systemStorage?.CacheFolder}
+                    />
+                </ListItem>
+                <ListItem disablePadding>
+                    <StorageListItem
+                        label={globalize.translate('LabelImageCache')}
+                        folder={systemStorage?.ImageCacheFolder}
+                    />
+                </ListItem>
+                <ListItem disablePadding>
+                    <StorageListItem
+                        label={globalize.translate('LabelProgramData')}
+                        folder={systemStorage?.ProgramDataFolder}
+                    />
+                </ListItem>
+                <ListItem disablePadding>
+                    <StorageListItem
+                        label={globalize.translate('LabelLogs')}
+                        folder={systemStorage?.LogFolder}
+                    />
+                </ListItem>
+                <ListItem disablePadding>
+                    <StorageListItem
+                        label={globalize.translate('LabelMetadata')}
+                        folder={systemStorage?.InternalMetadataFolder}
+                    />
+                </ListItem>
+                <ListItem disablePadding>
+                    <StorageListItem
+                        label={globalize.translate('LabelTranscodes')}
+                        folder={systemStorage?.TranscodingTempFolder}
+                    />
+                </ListItem>
+                <ListItem disablePadding>
+                    <StorageListItem
+                        label={globalize.translate('LabelWeb')}
+                        folder={systemStorage?.WebFolder}
+                    />
+                </ListItem>
             </List>
         </Widget>
     );

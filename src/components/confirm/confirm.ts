@@ -1,20 +1,14 @@
-import dialog from 'components/dialog/dialog';
+import dialog, { DialogButton } from 'components/dialog/dialog';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 
-interface OptionItem {
-    id: string,
-    name: string,
-    type: 'cancel' | 'delete' | 'submit'
-}
-
 interface ConfirmOptions {
-    title?: string,
-    text: string
-    cancelText?: string,
-    confirmText?: string,
-    primary?: string
-    buttons?: OptionItem[]
+    title?: string;
+    text: string;
+    cancelText?: string;
+    confirmText?: string;
+    primary?: string;
+    buttons?: DialogButton[];
 }
 
 async function confirm(options: string | ConfirmOptions, title: string = '') {
@@ -25,7 +19,7 @@ async function confirm(options: string | ConfirmOptions, title: string = '') {
         };
     }
 
-    const items: OptionItem[] = [];
+    const items: DialogButton[] = [];
 
     items.push({
         name: options.cancelText || globalize.translate('ButtonCancel'),
@@ -43,7 +37,7 @@ async function confirm(options: string | ConfirmOptions, title: string = '') {
 
     await appRouter.ready();
 
-    return dialog.show(options).then(result => {
+    return dialog.show(options as any).then(result => {
         if (result === 'ok') {
             return Promise.resolve();
         }

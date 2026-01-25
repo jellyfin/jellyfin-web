@@ -1,8 +1,17 @@
-import * as userSettings from '../../scripts/settings/userSettings';
-import { xDuration, timeRunningOut, setXDuration } from './crossfader.logic';
-import { preloadNextTrack, resetPreloadedTrack } from './crossfadeController';
+/**
+ * Crossfade Preload Manager
+ *
+ * Manages track preloading for crossfade and peak analysis.
+ * Triggers preload based on playback progress and wavesurfer state.
+ * Supports streaming (metadata-only) and full preload modes based on queue membership.
+ */
+
+import { preloadNextTrack, resetPreloadedTrack, PreloadPurpose, PreloadStrategy } from './crossfadeController';
 import { imagePreloader } from '../../utils/imagePreloader';
+import { usePreferencesStore, isCrossfadeEnabled, isVisualizerEnabled } from '../../store/preferencesStore';
+import { useQueueStore } from '../../store/queueStore';
 import { logger } from '../../utils/logger';
+import { extractPeaksForAnalysis } from '../../utils/peakAnalyzer';
 
 type PreloadTriggerType = 'immediate' | 'fallback' | 'manual';
 
@@ -13,7 +22,7 @@ interface PreloadState {
     preloadTriggerType: PreloadTriggerType | null;
 }
 
-type TrackInfo = {
+export interface TrackInfo {
     itemId: string;
     url: string;
     imageUrl?: string;
@@ -24,32 +33,6 @@ type TrackInfo = {
     volume: number;
     muted: boolean;
     normalizationGainDb?: number;
-};
-
-interface PreloadOptions {
-    itemId: string;
-    url: string;
-    imageUrl?: string;
-    backdropUrl?: string;
-    artistLogoUrl?: string;
-    discImageUrl?: string;
-    crossOrigin?: string | null;
-    volume: number;
-    muted: boolean;
-    normalizationGainDb?: number;
-    timeoutMs?: number;
-};
-
-interface PreloadOptions {
-    itemId: string;
-    url: string;
-    imageUrl?: string;
-    backdropUrl?: string;
-    crossOrigin?: string | null;
-    volume: number;
-    muted: boolean;
-    normalizationGainDb?: number;
-    timeoutMs?: number;
 }
 
 let preloadState: PreloadState = {
@@ -58,6 +41,16 @@ let preloadState: PreloadState = {
     currentItemId: null,
     preloadTriggerType: null
 };
+
+function isInQueue(itemId: string): boolean {
+    const queueStore = useQueueStore.getState();
+    return queueStore.items.some(item => item.item.id === itemId);
+}
+
+function getPreloadStrategy(itemId: string | null): PreloadStrategy {
+    if (!itemId) return 'streaming';
+    return isInQueue(itemId) ? 'full' : 'streaming';
+}
 
 export function resetPreloadState(): void {
     preloadState = {
@@ -72,14 +65,14 @@ export function getCurrentPreloadState(): PreloadState {
     return { ...preloadState };
 }
 
-function shouldPreloadFallback(
-    player: { currentTime(): number; duration(): number }
-): boolean {
-    if (!xDuration.enabled || preloadState.hasFallbackTriggered) {
+function shouldPreloadFallback(player: { currentTime(): number; duration(): number }): boolean {
+    const crossfadeEnabled = isCrossfadeEnabled();
+    if (!crossfadeEnabled || preloadState.hasFallbackTriggered) {
         return false;
     }
 
-    const fadeOutMs = xDuration.fadeOut * 1000;
+    const crossfadeDuration = usePreferencesStore.getState().crossfade.crossfadeDuration;
+    const fadeOutMs = crossfadeDuration * 1000;
     const currentTimeMs = player.currentTime() * 1000;
     const durationMs = player.duration() * 1000;
 
@@ -96,13 +89,16 @@ function shouldPreloadFallback(
 
 async function executePreload(
     trackInfo: TrackInfo,
-    triggerType: PreloadTriggerType
+    triggerType: PreloadTriggerType,
+    purpose: PreloadPurpose
 ): Promise<boolean> {
     const {
         itemId,
         url,
         imageUrl,
         backdropUrl,
+        artistLogoUrl,
+        discImageUrl,
         crossOrigin,
         volume,
         muted,
@@ -114,6 +110,7 @@ async function executePreload(
     }
 
     const timeoutMs = triggerType === 'fallback' ? 10000 : 15000;
+    const strategy = getPreloadStrategy(itemId);
 
     const result = await preloadNextTrack({
         itemId,
@@ -122,7 +119,9 @@ async function executePreload(
         volume,
         muted,
         normalizationGainDb,
-        timeoutMs
+        timeoutMs,
+        purpose,
+        strategy
     });
 
     if (result) {
@@ -133,6 +132,14 @@ async function executePreload(
             preloadState.hasImmediateTriggered = true;
         } else if (triggerType === 'fallback') {
             preloadState.hasFallbackTriggered = true;
+        }
+
+        const shouldPreloadImages = strategy === 'full';
+        if (shouldPreloadImages && (imageUrl || backdropUrl || artistLogoUrl || discImageUrl)) {
+            const imageUrls = [imageUrl, backdropUrl, artistLogoUrl, discImageUrl].filter(Boolean) as string[];
+            for (const imgUrl of imageUrls) {
+                imagePreloader.preloadImage(imgUrl);
+            }
         }
 
         return true;
@@ -152,35 +159,62 @@ export function handlePlaybackTimeUpdate(
 
     if (shouldPreloadFallback(player)) {
         logger.debug('[CrossfadePreload] Fallback trigger near crossfade', { component: 'CrossfadePreload' });
-        executePreload(nextTrack, 'fallback');
+        executePreload(nextTrack, 'fallback', 'crossfade');
         return;
     }
 }
 
-export async function handleManualSkip(
-    trackInfo: TrackInfo
-): Promise<boolean> {
+export async function handleManualSkip(trackInfo: TrackInfo): Promise<boolean> {
     logger.debug('[CrossfadePreload] Manual trigger on user skip', { component: 'CrossfadePreload' });
     resetPreloadState();
-    return await executePreload(trackInfo, 'manual');
+    return await executePreload(trackInfo, 'manual', 'crossfade');
 }
 
-export function handleTrackStart(currentTrack: TrackInfo, getNextTrack: () => TrackInfo | null): void {
+export async function handleTrackStart(currentTrack: TrackInfo, getNextTrack: () => TrackInfo | null): Promise<void> {
     resetPreloadState();
-    logger.debug(`[CrossfadePreload] State reset for new track: ${currentTrack.itemId}`, { component: 'CrossfadePreload' });
+    logger.debug(`[CrossfadePreload] State reset for new track: ${currentTrack.itemId}`, {
+        component: 'CrossfadePreload'
+    });
 
     const nextTrack = getNextTrack();
-    if (nextTrack && xDuration.enabled) {
-        logger.debug(`[CrossfadePreload] Immediate preload of next track: ${nextTrack.itemId}`, { component: 'CrossfadePreload' });
-        executePreload(nextTrack, 'immediate');
+    const crossfadeEnabled = isCrossfadeEnabled();
+    const visualizerEnabled = isVisualizerEnabled();
+
+    if (nextTrack && crossfadeEnabled) {
+        logger.debug(`[CrossfadePreload] Immediate preload of next track: ${nextTrack.itemId}`, {
+            component: 'CrossfadePreload'
+        });
+        await executePreload(nextTrack, 'immediate', 'crossfade');
+    }
+
+    if (nextTrack && visualizerEnabled) {
+        const isNextInQueue = isInQueue(nextTrack.itemId);
+
+        if (isNextInQueue) {
+            logger.debug(`[CrossfadePreload] Peak analysis preload of next track: ${nextTrack.itemId}`, {
+                component: 'CrossfadePreload'
+            });
+
+            extractPeaksForAnalysis(nextTrack.itemId, nextTrack.url).catch((err: Error) => {
+                logger.debug(
+                    '[CrossfadePreload] Peak analysis preload failed',
+                    { component: 'CrossfadePreload', itemId: nextTrack.itemId },
+                    err
+                );
+            });
+        } else {
+            logger.debug(`[CrossfadePreload] Skipping peak analysis for non-queue track: ${nextTrack.itemId}`, {
+                component: 'CrossfadePreload'
+            });
+        }
     }
 }
 
-export function setCrossfadeDuration(crossfadeDuration: number): void {
-    setXDuration(crossfadeDuration);
+export function setCrossfadeDuration(duration: number): void {
+    usePreferencesStore.getState().setCrossfadeDuration(duration);
     resetPreloadState();
 }
 
 export function getCrossfadeDuration(): number {
-    return userSettings.crossfadeDuration(undefined);
+    return usePreferencesStore.getState().crossfade.crossfadeDuration;
 }

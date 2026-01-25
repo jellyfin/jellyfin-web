@@ -1,8 +1,0 @@
-html {
-    font-size: 82% !important;
-}
-
-// Fix touch events being swallowed by the epubjs iframe
-#bookPlayer iframe {
-    pointer-events: none;
-}

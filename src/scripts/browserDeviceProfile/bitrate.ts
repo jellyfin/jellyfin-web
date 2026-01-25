@@ -1,5 +1,5 @@
-import browser from '../../browser';
-import * as userSettings from '../../settings/userSettings';
+import browser from 'scripts/browser';
+import * as userSettings from 'scripts/settings/userSettings';
 
 declare const webapis: any;
 

@@ -8,29 +8,29 @@ export const guideContainer = style({
     border: `1px solid ${vars.colors.divider}`,
     borderRadius: vars.borderRadius.md,
     overflow: 'hidden',
-    backgroundColor: vars.colors.surface,
+    backgroundColor: vars.colors.surface
 });
 
 export const headerRow = style({
     display: 'flex',
-    width: '100%',
+    width: '100%'
 });
 
 export const headerCorner = style({
     width: 120,
     borderRight: `1px solid ${vars.colors.divider}`,
-    backgroundColor: vars.colors.background,
+    backgroundColor: vars.colors.background
 });
 
 export const headerScroller = style({
     flex: 1,
-    overflow: 'hidden',
+    overflow: 'hidden'
 });
 
 export const gridBody = style({
     display: 'flex',
     flex: 1,
-    overflow: 'hidden',
+    overflow: 'hidden'
 });
 
 export const channelColumn = style({
@@ -38,29 +38,29 @@ export const channelColumn = style({
     flexShrink: 0,
     overflowY: 'auto',
     scrollbarWidth: 'none',
-    msOverflowStyle: 'none',
+    msOverflowStyle: 'none'
 });
 
 export const programGrid = style({
     flex: 1,
     overflow: 'auto',
-    position: 'relative',
+    position: 'relative'
 });
 
 export const gridContent = style({
     width: '100%',
-    position: 'relative',
+    position: 'relative'
 });
 
 export const channelRow = style({
     display: 'flex',
     height: 80,
     width: '100%',
-    position: 'relative',
+    position: 'relative'
 });
 
 export const loadingContainer = style({
     display: 'flex',
     justifyContent: 'center',
-    padding: vars.spacing.lg,
+    padding: vars.spacing.lg
 });

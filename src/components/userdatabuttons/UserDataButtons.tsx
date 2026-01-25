@@ -1,11 +1,8 @@
 import React from 'react';
-import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
-import Tooltip from '@mui/joy/Tooltip';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { Box } from 'ui-primitives/Box';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { CheckCircledIcon, CheckIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from '../../lib/globalize';
 import itemHelper from '../itemHelper';
@@ -42,27 +39,27 @@ const UserDataButtons: React.FC<UserDataButtonsProps> = ({ item, includePlayed =
     const canMarkPlayed = (itemHelper as any).canMarkPlayed(item);
 
     return (
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box style={{ display: 'flex', gap: 8 }}>
             {includePlayed && canMarkPlayed && (
-                <Tooltip title={globalize.translate('MarkPlayed')} variant="soft">
+                <Tooltip title={globalize.translate('MarkPlayed')}>
                     <IconButton
-                        size="sm"
-                        variant="plain"
+                        size='sm'
+                        variant='plain'
                         color={userData.Played ? 'success' : 'neutral'}
                         onClick={handlePlayedClick}
                     >
-                        {userData.Played ? <CheckCircleIcon /> : <CheckCircleOutlineIcon />}
+                        {userData.Played ? <CheckCircledIcon /> : <CheckIcon />}
                     </IconButton>
                 </Tooltip>
             )}
-            <Tooltip title={globalize.translate('Favorite')} variant="soft">
+            <Tooltip title={globalize.translate('Favorite')}>
                 <IconButton
-                    size="sm"
-                    variant="plain"
+                    size='sm'
+                    variant='plain'
                     color={userData.IsFavorite ? 'danger' : 'neutral'}
                     onClick={handleFavoriteClick}
                 >
-                    {userData.IsFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    {userData.IsFavorite ? <HeartFilledIcon /> : <HeartIcon />}
                 </IconButton>
             </Tooltip>
         </Box>

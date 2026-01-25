@@ -1,0 +1,21 @@
+rules:
+  - id: javascript.security.detect-non-literal-require
+    pattern: require($X)
+    message: "Avoid dynamic require calls"
+    severity: warning
+  - id: javascript.lang.security.detect-eval-with-non-literal
+    pattern: eval($X)
+    message: "Avoid eval()"
+    severity: error
+  - id: typescript.react.security.auditdangerouslysetinnerhtml
+    pattern: dangerouslySetInnerHTML
+    message: "Review dangerouslySetInnerHTML usage"
+    severity: warning
+  - id: javascript.best practices.avoid-setter
+    pattern: set $X($Y) { ... }
+    message: "Consider using methods instead of setters for state management"
+    severity: warning
+  - id: typescript.zustand.immutable-state
+    pattern: "state = { ... }"
+    message: "Zustand state should be mutable - this is intentional"
+    severity: info

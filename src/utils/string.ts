@@ -4,15 +4,16 @@
  * @param str2 The second string.
  * @returns True if the strings are equal ignoring case.
  */
-export const equalsIgnoreCase = (str1 = '', str2 = '') => str1.toLowerCase() === str2.toLowerCase();
+export const equalsIgnoreCase = (str1 = '', str2 = ''): boolean => str1.toLowerCase() === str2.toLowerCase();
 
 /**
  * Checks if a string is empty or contains only whitespace.
  * @param {string} value The string to test.
  * @returns {boolean} True if the string is blank.
  */
-export function isBlank(value: string | undefined | null) {
-    return !value?.trim().length;
+export function isBlank(value: string | undefined | null): boolean {
+    const trimmed = value?.trim() ?? '';
+    return trimmed.length === 0;
 }
 
 /**
@@ -21,7 +22,7 @@ export function isBlank(value: string | undefined | null) {
  * @param {boolean} defaultValue The default value if the string is invalid.
  * @returns {boolean} The value.
  */
-export function toBoolean(value: string | undefined | null, defaultValue = false) {
+export function toBoolean(value: string | undefined | null, defaultValue = false): boolean {
     if (value !== 'true' && value !== 'false') {
         return defaultValue;
     } else {
@@ -35,11 +36,11 @@ export function toBoolean(value: string | undefined | null, defaultValue = false
  * @param {number} defaultValue The default value if the string is invalid.
  * @returns {number} The value.
  */
-export function toFloat(value: string | null | undefined, defaultValue = 0) {
-    if (!value) return defaultValue;
+export function toFloat(value: string | null | undefined, defaultValue = 0): number {
+    if (value == null || value === '') return defaultValue;
 
     const number = parseFloat(value);
-    if (isNaN(number)) return defaultValue;
+    if (Number.isNaN(number)) return defaultValue;
 
     return number;
 }

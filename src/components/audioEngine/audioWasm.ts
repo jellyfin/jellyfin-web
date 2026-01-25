@@ -33,10 +33,10 @@ interface WasmModule {
     version(): string;
     info(): string;
     TimeStretcher: {
-        new(sampleRate: number, channels: number, chunkSize: number): WasmTimeStretcher;
+        new (sampleRate: number, channels: number, chunkSize: number): WasmTimeStretcher;
     };
     PitchShifter: {
-        new(sampleRate: number, channels: number, fftSize: number): WasmPitchShifter;
+        new (sampleRate: number, channels: number, fftSize: number): WasmPitchShifter;
     };
 }
 
@@ -48,14 +48,21 @@ async function loadWasmModule(): Promise<WasmModule> {
     if (wasmModule) return wasmModule;
 
     try {
-        const wasm: { default: WasmModule } = await import('./pkg/jellyfin_audio_wasm');
-        wasmModule = wasm.default;
-        logger.info('Audio WASM loaded', { component: 'audioWasm', version: wasmModule.version() });
-        return wasmModule;
+        // Use a require-based approach to avoid TypeScript module resolution issues
+        // @ts-ignore - Dynamic module that may not exist at build time
+        const wasmModuleImport = await import('./pkg/jellyfin_audio_wasm').catch(() => null);
+
+        if (wasmModuleImport?.default) {
+            wasmModule = wasmModuleImport.default;
+            logger.info('Audio WASM loaded', { component: 'audioWasm', version: wasmModule!.version() });
+            return wasmModule!;
+        } else {
+            throw new Error('WASM module not available');
+        }
     } catch {
         logger.warn('Audio WASM not available, using JS fallback', { component: 'audioWasm' });
         wasmModule = createJSFallback();
-        return wasmModule;
+        return wasmModule!;
     }
 }
 
@@ -76,10 +83,18 @@ function createJSFallback(): WasmModule {
             this.tempo = Math.max(0.5, Math.min(2.0, tempo));
         }
 
-        public getTempo(): number { return this.tempo; }
-        public getLatency(): number { return 0; }
-        public getChannels(): number { return this.channels; }
-        public getSampleRate(): number { return this.sampleRate; }
+        public getTempo(): number {
+            return this.tempo;
+        }
+        public getLatency(): number {
+            return 0;
+        }
+        public getChannels(): number {
+            return this.channels;
+        }
+        public getSampleRate(): number {
+            return this.sampleRate;
+        }
 
         public process(input: Float32Array, numFrames: number): Float32Array {
             const ratio = 1.0 / this.tempo;
@@ -105,8 +120,12 @@ function createJSFallback(): WasmModule {
             return output;
         }
 
-        public flush(): Float32Array { return new Float32Array(0); }
-        public reset(): void { this.tempo = 1.0; }
+        public flush(): Float32Array {
+            return new Float32Array(0);
+        }
+        public reset(): void {
+            this.tempo = 1.0;
+        }
     }
 
     class JSPitchShifter implements WasmPitchShifter {
@@ -146,8 +165,8 @@ function createJSFallback(): WasmModule {
     return {
         version: () => 'jellyfin-audio-wasm v0.1.0-js-fallback',
         info: () => '{"version":"0.1.0-js","features":["time_stretch_js_fallback"]}',
-        TimeStretcher: JSTimeStretcher as unknown as { new(): WasmTimeStretcher },
-        PitchShifter: JSPitchShifter as unknown as { new(): WasmPitchShifter }
+        TimeStretcher: JSTimeStretcher as unknown as { new (): WasmTimeStretcher },
+        PitchShifter: JSPitchShifter as unknown as { new (): WasmPitchShifter }
     };
 }
 

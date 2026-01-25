@@ -1,8 +1,8 @@
-import Alert from '@mui/joy/Alert';
-import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+import { Alert } from 'ui-primitives/Alert';
+import { Box, Flex } from 'ui-primitives/Box';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Heading } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 import { useLocalizationOptions } from 'apps/dashboard/features/settings/api/useLocalizationOptions';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
@@ -10,68 +10,88 @@ import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
-import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
-import Button from '@mui/joy/Button';
-import Link from '@mui/joy/Link';
+import { z } from 'zod';
+import { useForm } from '@tanstack/react-form';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { Button } from 'ui-primitives/Button';
 import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
-import { ActionData } from 'types/actionData';
-import { EmbyInput, EmbySelect, EmbyCheckbox } from '../../../../elements';
+import { type ActionData } from 'types/actionData';
+import { Input } from 'ui-primitives/Input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { FormControl, FormLabel, FormHelperText } from 'ui-primitives/FormControl';
+import { Checkbox } from 'ui-primitives/Checkbox';
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
-    if (!api) throw new Error('No Api instance available');
+const settingsSchema = z.object({
+    serverName: z.string().optional(),
+    uiCulture: z.string().optional(),
+    cachePath: z.string().optional(),
+    metadataPath: z.string().optional(),
+    quickConnectAvailable: z.boolean().optional(),
+    libraryScanFanoutConcurrency: z.preprocess(
+        value => (value === '' || value == null ? undefined : Number(value)),
+        z.number().int().min(0).optional()
+    ),
+    parallelImageEncodingLimit: z.preprocess(
+        value => (value === '' || value == null ? undefined : Number(value)),
+        z.number().int().min(0).optional()
+    )
+});
 
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
-    const formData = await request.formData();
-
-    config.ServerName = formData.get('ServerName')?.toString();
-    config.UICulture = formData.get('UICulture')?.toString();
-    config.CachePath = formData.get('CachePath')?.toString();
-    config.MetadataPath = formData.get('MetadataPath')?.toString();
-    config.QuickConnectAvailable = formData.get('QuickConnectAvailable')?.toString() === 'on';
-    config.LibraryScanFanoutConcurrency = parseInt(formData.get('LibraryScanFanoutConcurrency')?.toString() || '0', 10);
-    config.ParallelImageEncodingLimit = parseInt(formData.get('ParallelImageEncodingLimit')?.toString() || '0', 10);
-
-    await getConfigurationApi(api)
-        .updateConfiguration({ serverConfiguration: config });
-
-    void queryClient.invalidateQueries({
-        queryKey: [ QUERY_KEY ]
-    });
-
-    return {
-        isSaved: true
-    };
-};
-
-export const Component = () => {
-    const {
-        data: config,
-        isPending: isConfigPending,
-        isError: isConfigError
-    } = useConfiguration();
+export const Component = (): React.ReactElement => {
+    const { data: config, isPending: isConfigPending, isError: isConfigError } = useConfiguration();
     const {
         data: languageOptions,
         isPending: isLocalizationOptionsPending,
         isError: isLocalizationOptionsError
     } = useLocalizationOptions();
 
-    const navigation = useNavigation();
-    const actionData = useActionData() as ActionData | undefined;
-    const isSubmitting = navigation.state === 'submitting';
-    const [ cachePath, setCachePath ] = useState<string | null | undefined>('');
-    const [ metadataPath, setMetadataPath ] = useState<string | null | undefined>('');
+    const [actionData, setActionData] = useState<ActionData | undefined>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const onCachePathChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        setCachePath(event.target.value);
-    }, []);
+    const form = useForm({
+        defaultValues: {
+            serverName: '',
+            uiCulture: '',
+            cachePath: '',
+            metadataPath: '',
+            quickConnectAvailable: false,
+            libraryScanFanoutConcurrency: 0,
+            parallelImageEncodingLimit: 0
+        },
+        onSubmit: async ({ value: values }) => {
+            setIsSubmitting(true);
+            try {
+                const api = ServerConnections.getCurrentApi();
+                if (!api) {
+                    throw new Error('No Api instance available');
+                }
 
-    const onMetadataPathChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        setMetadataPath(event.target.value);
-    }, []);
+                const { data: currentConfig } = await getConfigurationApi(api).getConfiguration();
+
+                currentConfig.ServerName = values.serverName?.toString() ?? null;
+                currentConfig.UICulture = values.uiCulture?.toString() ?? null;
+                currentConfig.CachePath = values.cachePath?.toString() ?? null;
+                currentConfig.MetadataPath = values.metadataPath?.toString() ?? null;
+                currentConfig.QuickConnectAvailable = Boolean(values.quickConnectAvailable);
+                currentConfig.LibraryScanFanoutConcurrency = Number(values.libraryScanFanoutConcurrency ?? 0);
+                currentConfig.ParallelImageEncodingLimit = Number(values.parallelImageEncodingLimit ?? 0);
+
+                await getConfigurationApi(api).updateConfiguration({ serverConfiguration: currentConfig });
+
+                void queryClient.invalidateQueries({
+                    queryKey: [QUERY_KEY]
+                });
+
+                setActionData({ isSaved: true });
+            } catch (error) {
+                setActionData({ isSaved: false });
+            } finally {
+                setIsSubmitting(false);
+            }
+        }
+    });
 
     const showCachePathPicker = useCallback(() => {
         const picker = new DirectoryBrowser();
@@ -79,7 +99,7 @@ export const Component = () => {
         picker.show({
             callback: function (path: string) {
                 if (path) {
-                    setCachePath(path);
+                    form.setFieldValue('cachePath', path);
                 }
 
                 picker.close();
@@ -88,16 +108,16 @@ export const Component = () => {
             header: globalize.translate('HeaderSelectServerCachePath'),
             instruction: globalize.translate('HeaderSelectServerCachePathHelp')
         });
-    }, []);
+    }, [form]);
 
     const showMetadataPathPicker = useCallback(() => {
         const picker = new DirectoryBrowser();
 
         picker.show({
-            path: metadataPath,
+            path: form.state.values.metadataPath,
             callback: function (path: string) {
                 if (path) {
-                    setMetadataPath(path);
+                    form.setFieldValue('metadataPath', path);
                 }
 
                 picker.close();
@@ -106,14 +126,21 @@ export const Component = () => {
             header: globalize.translate('HeaderSelectMetadataPath'),
             instruction: globalize.translate('HeaderSelectMetadataPathHelp')
         });
-    }, [metadataPath]);
+    }, [form]);
 
     useEffect(() => {
-        if (!isConfigPending && !isConfigError) {
-            setCachePath(config.CachePath);
-            setMetadataPath(config.MetadataPath);
+        if (!isConfigPending && !isConfigError && config) {
+            form.reset({
+                serverName: config.ServerName || '',
+                uiCulture: config.UICulture || '',
+                cachePath: config.CachePath || '',
+                metadataPath: config.MetadataPath || '',
+                quickConnectAvailable: Boolean(config.QuickConnectAvailable),
+                libraryScanFanoutConcurrency: config.LibraryScanFanoutConcurrency ?? 0,
+                parallelImageEncodingLimit: config.ParallelImageEncodingLimit ?? 0
+            });
         }
-    }, [config, isConfigPending, isConfigError]);
+    }, [config, form, isConfigPending, isConfigError]);
 
     if (isConfigPending || isLocalizationOptionsPending) {
         return <Loading />;
@@ -125,98 +152,143 @@ export const Component = () => {
             title={globalize.translate('General')}
             className='type-interior mainAnimatedPage'
         >
-            <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
+            <Box style={{ maxWidth: 800, margin: '0 auto', padding: vars.spacing.lg }}>
                 {isConfigError || isLocalizationOptionsError ? (
-                    <Alert color='danger'>{globalize.translate('SettingsPageLoadError')}</Alert>
+                    <Alert variant='error'>{globalize.translate('SettingsPageLoadError')}</Alert>
                 ) : (
-                    <Form method='POST'>
-                        <Stack spacing={4}>
-                            <Typography level='h2'>{globalize.translate('Settings')}</Typography>
+                    <form
+                        onSubmit={e => {
+                            e.preventDefault();
+                            form.handleSubmit();
+                        }}
+                    >
+                        <Flex style={{ flexDirection: 'column', gap: vars.spacing.xl }}>
+                            <Heading.H2 style={{ margin: 0 }}>{globalize.translate('Settings')}</Heading.H2>
 
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert color='success'>
-                                    {globalize.translate('SettingsSaved')}
-                                </Alert>
+                                <Alert variant='success'>{globalize.translate('SettingsSaved')}</Alert>
                             )}
 
-                            <EmbyInput
-                                name='ServerName'
-                                label={globalize.translate('LabelServerName')}
-                                helperText={globalize.translate('LabelServerNameHelp')}
-                                defaultValue={config.ServerName}
-                            />
+                            <form.Field name='serverName'>
+                                {field => (
+                                    <Input
+                                        label={globalize.translate('LabelServerName')}
+                                        helperText={globalize.translate('LabelServerNameHelp')}
+                                        value={field.state.value ?? ''}
+                                        onChange={event => field.handleChange(event.target.value)}
+                                    />
+                                )}
+                            </form.Field>
 
-                            <EmbySelect
-                                name='UICulture'
-                                label={globalize.translate('LabelPreferredDisplayLanguage')}
-                                helperText={globalize.translate('LabelDisplayLanguageHelp')}
-                                defaultValue={config.UICulture}
-                                options={languageOptions.map(l => ({ label: l.Name, value: l.Value || '' }))}
-                            />
+                            <form.Field name='uiCulture'>
+                                {field => (
+                                    <FormControl>
+                                        <FormLabel>{globalize.translate('LabelPreferredDisplayLanguage')}</FormLabel>
+                                        <Select value={field.state.value ?? ''} onValueChange={field.handleChange}>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder={globalize.translate('LabelPreferredDisplayLanguage')} />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {languageOptions?.map(l => (
+                                                    <SelectItem key={l.Value} value={l.Value || ''}>
+                                                        {l.Name}
+                                                    </SelectItem>
+                                                )) ?? []}
+                                            </SelectContent>
+                                        </Select>
+                                        <FormHelperText>{globalize.translate('LabelDisplayLanguageHelp')}</FormHelperText>
+                                    </FormControl>
+                                )}
+                            </form.Field>
 
-                            <Typography level='title-lg' sx={{ mt: 2 }}>{globalize.translate('HeaderPaths')}</Typography>
+                            <Heading.H4 style={{ marginTop: vars.spacing.md, marginBottom: 0 }}>
+                                {globalize.translate('HeaderPaths')}
+                            </Heading.H4>
 
-                            <EmbyInput
-                                name='CachePath'
-                                label={globalize.translate('LabelCachePath')}
-                                helperText={globalize.translate('LabelCachePathHelp')}
-                                value={cachePath || ''}
-                                onChange={onCachePathChange}
-                                endDecorator={
-                                    <IconButton onClick={showCachePathPicker}>
-                                        <SearchIcon />
-                                    </IconButton>
-                                }
-                            />
+                            <form.Field name='cachePath'>
+                                {field => (
+                                    <Input
+                                        label={globalize.translate('LabelCachePath')}
+                                        helperText={globalize.translate('LabelCachePathHelp')}
+                                        value={field.state.value ?? ''}
+                                        onChange={event => field.handleChange(event.target.value)}
+                                        style={{ position: 'relative' }}
+                                        endDecorator={
+                                            <IconButton onClick={showCachePathPicker} size='sm' variant='plain'>
+                                                <MagnifyingGlassIcon />
+                                            </IconButton>
+                                        }
+                                    />
+                                )}
+                            </form.Field>
 
-                            <EmbyInput
-                                name='MetadataPath'
-                                label={globalize.translate('LabelMetadataPath')}
-                                helperText={globalize.translate('LabelMetadataPathHelp')}
-                                value={metadataPath || ''}
-                                onChange={onMetadataPathChange}
-                                endDecorator={
-                                    <IconButton onClick={showMetadataPathPicker}>
-                                        <SearchIcon />
-                                    </IconButton>
-                                }
-                            />
+                            <form.Field name='metadataPath'>
+                                {field => (
+                                    <Input
+                                        label={globalize.translate('LabelMetadataPath')}
+                                        helperText={globalize.translate('LabelMetadataPathHelp')}
+                                        value={field.state.value ?? ''}
+                                        onChange={event => field.handleChange(event.target.value)}
+                                        style={{ position: 'relative' }}
+                                        endDecorator={
+                                            <IconButton onClick={showMetadataPathPicker} size='sm' variant='plain'>
+                                                <MagnifyingGlassIcon />
+                                            </IconButton>
+                                        }
+                                    />
+                                )}
+                            </form.Field>
 
-                            <Typography level='title-lg' sx={{ mt: 2 }}>{globalize.translate('QuickConnect')}</Typography>
+                            <Heading.H4 style={{ marginTop: vars.spacing.md, marginBottom: 0 }}>
+                                {globalize.translate('QuickConnect')}
+                            </Heading.H4>
 
-                            <EmbyCheckbox
-                                name='QuickConnectAvailable'
-                                label={globalize.translate('EnableQuickConnect')}
-                                defaultChecked={config.QuickConnectAvailable}
-                            />
+                            <form.Field name='quickConnectAvailable'>
+                                {field => (
+                                    <Checkbox
+                                        checked={Boolean(field.state.value)}
+                                        onChange={event => field.handleChange(event.target.checked)}
+                                    >
+                                        {globalize.translate('EnableQuickConnect')}
+                                    </Checkbox>
+                                )}
+                            </form.Field>
 
-                            <Typography level='title-lg' sx={{ mt: 2 }}>{globalize.translate('HeaderPerformance')}</Typography>
+                            <Heading.H4 style={{ marginTop: vars.spacing.md, marginBottom: 0 }}>
+                                {globalize.translate('HeaderPerformance')}
+                            </Heading.H4>
 
-                            <EmbyInput
-                                name='LibraryScanFanoutConcurrency'
-                                type='number'
-                                label={globalize.translate('LibraryScanFanoutConcurrency')}
-                                helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
-                                defaultValue={config.LibraryScanFanoutConcurrency || ''}
-                                slotProps={{ input: { min: 0, step: 1 } }}
-                            />
+                            <form.Field name='libraryScanFanoutConcurrency'>
+                                {field => (
+                                    <Input
+                                        type='number'
+                                        label={globalize.translate('LibraryScanFanoutConcurrency')}
+                                        helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
+                                        value={field.state.value?.toString() ?? ''}
+                                        onChange={event => field.handleChange(Number(event.target.value))}
+                                    />
+                                )}
+                            </form.Field>
 
-                            <EmbyInput
-                                name='ParallelImageEncodingLimit'
-                                type='number'
-                                label={globalize.translate('LabelParallelImageEncodingLimit')}
-                                helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
-                                defaultValue={config.ParallelImageEncodingLimit || ''}
-                                slotProps={{ input: { min: 0, step: 1 } }}
-                            />
+                            <form.Field name='parallelImageEncodingLimit'>
+                                {field => (
+                                    <Input
+                                        type='number'
+                                        label={globalize.translate('LabelParallelImageEncodingLimit')}
+                                        helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
+                                        value={field.state.value?.toString() ?? ''}
+                                        onChange={event => field.handleChange(Number(event.target.value))}
+                                    />
+                                )}
+                            </form.Field>
 
-                            <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                            <Box style={{ marginTop: vars.spacing.md, display: 'flex', justifyContent: 'flex-end' }}>
                                 <Button type='submit' size='lg' loading={isSubmitting}>
                                     {globalize.translate('Save')}
                                 </Button>
                             </Box>
-                        </Stack>
-                    </Form>
+                        </Flex>
+                    </form>
                 )}
             </Box>
         </Page>

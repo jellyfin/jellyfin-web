@@ -1,107 +1,95 @@
-import Tabs from '@mui/joy/Tabs';
-import TabList from '@mui/joy/TabList';
-import Tab from '@mui/joy/Tab';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { debounce, isEqual } from '../../../utils/lodashUtils';
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from '@tanstack/react-router';
 
 import { EventType } from 'constants/eventType';
+import { Tabs, TabList, Tab } from 'ui-primitives/Tabs';
+import { vars } from 'styles/tokens.css';
 import Events from 'utils/events';
+import { debounce, isEqual } from '../../../utils/lodashUtils';
 
 interface AppTabsParams {
-    isDrawerOpen: boolean
+    isDrawerOpen: boolean;
 }
 
 interface TabDefinition {
-    href: string
-    name: string
+    href: string;
+    name: string;
 }
 
 const handleResize = debounce(() => window.dispatchEvent(new Event('resize')), 100);
 
-const AppTabs: FC<AppTabsParams> = ({
-    isDrawerOpen
-}) => {
+const AppTabs: FC<AppTabsParams> = ({ isDrawerOpen }) => {
     const documentRef = useRef<Document>(document);
-    const [ activeIndex, setActiveIndex ] = useState(0);
-    const [ tabs, setTabs ] = useState<TabDefinition[]>();
+    const [activeIndex, setActiveIndex] = useState('0');
+    const [tabs, setTabs] = useState<TabDefinition[]>();
 
-    const isBigScreen = useMediaQuery((theme: any) => theme.breakpoints.up('sm'));
+    const onTabsUpdate = useCallback(
+        (_e: unknown, _newView?: string, newIndex = 0, newTabs?: TabDefinition[]) => {
+            setActiveIndex(String(newIndex));
 
-    const onTabsUpdate = useCallback((
-        _e: any,
-        _newView?: string,
-        newIndex: number | undefined = 0,
-        newTabs?: TabDefinition[]
-    ) => {
-        setActiveIndex(newIndex);
-
-        if (!isEqual(tabs, newTabs)) {
-            setTabs(newTabs);
-        }
-    }, [ tabs ]);
+            if (!isEqual(tabs, newTabs)) {
+                setTabs(newTabs);
+            }
+        },
+        [tabs]
+    );
 
     useEffect(() => {
         const doc = documentRef.current;
 
-        if (doc !== null) Events.on(doc, EventType.SET_TABS, onTabsUpdate);
+        if (doc != null) Events.on(doc, EventType.SET_TABS, onTabsUpdate as Parameters<typeof Events.on>[2]);
 
         return () => {
-            if (doc !== null) Events.off(doc, EventType.SET_TABS, onTabsUpdate);
+            if (doc != null) Events.off(doc, EventType.SET_TABS, onTabsUpdate as Parameters<typeof Events.off>[2]);
         };
-    }, [ onTabsUpdate ]);
+    }, [onTabsUpdate]);
 
-    // HACK: Force resizing to workaround upstream bug with tab resizing
+    const handleTabChange = (value: string): void => setActiveIndex(value);
+
     useEffect(() => {
         handleResize();
-    }, [ isDrawerOpen ]);
+    }, [isDrawerOpen]);
 
-    if (!tabs?.length) return null;
+    if (!tabs || tabs.length === 0) return null;
 
     return (
         <Tabs
             value={activeIndex}
-            onChange={(_, value) => setActiveIndex(value as number)}
-            sx={{
+            onValueChange={handleTabChange}
+            style={{
                 flexGrow: 1,
-                bgcolor: 'transparent',
-                '--Tabs-gap': '0px',
-                '--Tab-indicatorThickness': '2px',
-                '--Tab-indicatorRadius': '0px',
-                '--TabList-padding': '0px',
-                '--Tab-paddingX': '16px',
-                '--Tab-minHeight': '48px',
+                backgroundColor: 'transparent'
             }}
         >
             <TabList
-                variant="plain"
-                sx={{
-                    justifyContent: isBigScreen ? 'center' : 'flex-start',
-                    overflowAuto: 'auto',
-                    border: 'none',
-                    bgcolor: 'transparent'
+                style={{
+                    justifyContent: 'center',
+                    overflow: 'auto',
+                    borderBottom: 'none',
+                    backgroundColor: 'transparent'
                 }}
             >
-                {tabs.map(({ href, name }, index) => (
-                    <Tab
-                        key={`tab-${name}`}
-                        value={index}
-                        component={Link}
-                        to={href}
-                        variant="plain"
-                        sx={{
-                            fontWeight: activeIndex === index ? 'bold' : 'normal',
-                            color: activeIndex === index ? 'primary.plainColor' : 'neutral.plainColor',
-                            '&:hover': {
-                                bgcolor: 'transparent',
-                                color: 'primary.plainColor',
-                            },
-                        }}
-                    >
-                        {name}
-                    </Tab>
-                ))}
+                {tabs.map(({ href, name }, index) => {
+                    const value = String(index);
+                    const isActive = activeIndex === value;
+
+                    return (
+                        <Tab
+                            key={`tab-${name}`}
+                            value={value}
+                            asChild
+                            style={{
+                                fontWeight: isActive ? 'bold' : 'normal',
+                                color: isActive ? vars.colors.primary : vars.colors.textSecondary,
+                                backgroundColor: 'transparent'
+                            }}
+                        >
+                            <Link to={href} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                {name}
+                            </Link>
+                        </Tab>
+                    );
+                })}
             </TabList>
         </Tabs>
     );

@@ -1,15 +1,15 @@
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
 import itemHelper from 'components/itemHelper';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { formatDistanceToNow } from 'date-fns';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getLocaleWithSuffix } from 'utils/dateFnsLocale';
 
-type NowPlayingInfo = {
+interface NowPlayingInfo {
     topText?: string;
     bottomText: string;
     image?: string;
-};
+}
 
 const getNowPlayingName = (session: SessionInfo): NowPlayingInfo => {
     let imgUrl = '';
@@ -18,11 +18,17 @@ const getNowPlayingName = (session: SessionInfo): NowPlayingInfo => {
     // how dates are returned by the server when the session is active and show something like 'Active now', instead of past/future sentences
     if (!nowPlayingItem) {
         return {
-            bottomText: globalize.translate('LastSeen', formatDistanceToNow(Date.parse(session.LastActivityDate!), getLocaleWithSuffix()))
+            bottomText: globalize.translate(
+                'LastSeen',
+                formatDistanceToNow(Date.parse(session.LastActivityDate!), getLocaleWithSuffix())
+            )
         };
     }
 
-    let topText = itemHelper.getDisplayName(nowPlayingItem);
+    let topText = itemHelper.getDisplayName({
+        ...nowPlayingItem,
+        Id: nowPlayingItem.Id ?? ''
+    } as import('components/itemHelper').BaseItem);
     let bottomText = '';
 
     if (nowPlayingItem.Artists?.length) {
@@ -30,7 +36,7 @@ const getNowPlayingName = (session: SessionInfo): NowPlayingInfo => {
         topText = nowPlayingItem.Artists[0];
     } else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
         bottomText = topText;
-        topText = nowPlayingItem.SeriesName || nowPlayingItem.Album;
+        topText = (nowPlayingItem.SeriesName || nowPlayingItem.Album) ?? '';
     } else if (nowPlayingItem.ProductionYear) {
         bottomText = nowPlayingItem.ProductionYear.toString();
     }

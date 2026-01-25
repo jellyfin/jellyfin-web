@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import { z } from 'zod';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Typography from '@mui/joy/Typography';
-import Divider from '@mui/joy/Divider';
-import Stack from '@mui/joy/Stack';
 import { JoyInput, JoyTextarea, JoySwitch, JoySelect } from '../joy-ui/forms';
+import { Button } from 'ui-primitives/Button';
+import { Divider } from 'ui-primitives/Divider';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Heading, Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 const settingsSchema = z.object({
     appTitle: z.string().min(1, 'App title is required').max(100, 'Title too long'),
@@ -16,7 +16,7 @@ const settingsSchema = z.object({
     enableDts: z.boolean(),
     enableTrueHd: z.boolean(),
     defaultAudioLanguage: z.string().optional(),
-    subtitleMode: z.enum(['none', 'all', 'foreign', 'default']),
+    subtitleMode: z.enum(['none', 'all', 'foreign', 'default'])
 });
 
 type SettingsData = z.infer<typeof settingsSchema>;
@@ -32,10 +32,7 @@ interface SettingsFormProps {
     onSubmit: (values: SettingsData) => Promise<void>;
 }
 
-export const SettingsForm: React.FC<SettingsFormProps> = ({
-    initialValues,
-    onSubmit
-}) => {
+export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSubmit }) => {
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [formData, setFormData] = React.useState<Record<string, FieldState>>({
         appTitle: { value: 'Jellyfin', touched: false },
@@ -46,7 +43,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
         enableDts: { value: true, touched: false },
         enableTrueHd: { value: true, touched: false },
         defaultAudioLanguage: { value: '', touched: false },
-        subtitleMode: { value: 'default', touched: false },
+        subtitleMode: { value: 'default', touched: false }
     });
 
     React.useEffect(() => {
@@ -132,7 +129,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                 enableDts: formData.enableDts.value as boolean,
                 enableTrueHd: formData.enableTrueHd.value as boolean,
                 defaultAudioLanguage: formData.defaultAudioLanguage.value as string,
-                subtitleMode: formData.subtitleMode.value as 'none' | 'all' | 'foreign' | 'default',
+                subtitleMode: formData.subtitleMode.value as 'none' | 'all' | 'foreign' | 'default'
             };
             await onSubmit(values);
         } finally {
@@ -150,119 +147,120 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             enableDts: { value: true, touched: false },
             enableTrueHd: { value: true, touched: false },
             defaultAudioLanguage: { value: '', touched: false },
-            subtitleMode: { value: 'default', touched: false },
+            subtitleMode: { value: 'default', touched: false }
         });
     };
 
     return (
-        <Box component='form' onSubmit={handleSubmit} sx={{ p: 2 }}>
-            <Typography level='h4' sx={{ mb: 3 }}>
-                General Settings
-            </Typography>
+        <Box component="form" onSubmit={handleSubmit} style={{ padding: vars.spacing.md }}>
+            <Heading.H4 style={{ marginBottom: vars.spacing.lg }}>General Settings</Heading.H4>
 
-            <Stack spacing={3}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg }}>
                 <JoyInput
-                    label='Application Title'
-                    value={formData.appTitle.value}
-                    onChange={(e: any) => handleChange('appTitle', e.target.value)}
+                    label="Application Title"
+                    value={String(formData.appTitle.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('appTitle', e.target.value)}
                     onBlur={() => handleBlur('appTitle')}
                     error={formData.appTitle.touched ? formData.appTitle.error : undefined}
                 />
 
                 <JoyTextarea
-                    label='Login Disclaimer'
-                    placeholder='Optional message shown on login screen'
-                    value={formData.loginDisclaimer.value}
-                    onChange={(e: any) => handleChange('loginDisclaimer', e.target.value)}
+                    label="Login Disclaimer"
+                    placeholder="Optional message shown on login screen"
+                    value={String(formData.loginDisclaimer.value)}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        handleChange('loginDisclaimer', e.target.value)
+                    }
                     onBlur={() => handleBlur('loginDisclaimer')}
                     error={formData.loginDisclaimer.touched ? formData.loginDisclaimer.error : undefined}
                 />
 
                 <Divider />
 
-                <Typography level='title-lg'>Playback Settings</Typography>
+                <Heading.H3>Playback Settings</Heading.H3>
 
                 <JoySwitch
-                    label='Enable Automatic Updates'
+                    label="Enable Automatic Updates"
                     checked={formData.enableAutomaticUpdates.value as boolean}
-                    onChange={(e: any) => handleChange('enableAutomaticUpdates', e.target.checked)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('enableAutomaticUpdates', e.target.checked)
+                    }
                 />
 
                 <JoyInput
-                    label='Maximum Concurrent Streams'
-                    type='number'
-                    value={formData.maxConcurrentStreams.value}
-                    onChange={(e: any) => handleChange('maxConcurrentStreams', parseInt(e.target.value, 10) || 1)}
+                    label="Maximum Concurrent Streams"
+                    type="number"
+                    value={String(formData.maxConcurrentStreams.value)}
+                    min={1}
+                    max={20}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('maxConcurrentStreams', parseInt(e.target.value, 10) || 1)
+                    }
                     onBlur={() => handleBlur('maxConcurrentStreams')}
                     error={formData.maxConcurrentStreams.touched ? formData.maxConcurrentStreams.error : undefined}
-                    slotProps={{ input: { min: 1, max: 20 } }}
                 />
 
                 <Divider />
 
-                <Typography level='title-lg'>Transcoding Settings</Typography>
+                <Heading.H3>Transcoding Settings</Heading.H3>
 
                 <JoySwitch
-                    label='Enable H.265 Transcoding'
+                    label="Enable H.265 Transcoding"
                     checked={formData.transcodeH265.value as boolean}
-                    onChange={(e: any) => handleChange('transcodeH265', e.target.checked)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('transcodeH265', e.target.checked)
+                    }
                 />
 
                 <JoySwitch
-                    label='Enable DTS Pass-through'
+                    label="Enable DTS Pass-through"
                     checked={formData.enableDts.value as boolean}
-                    onChange={(e: any) => handleChange('enableDts', e.target.checked)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('enableDts', e.target.checked)}
                 />
 
                 <JoySwitch
-                    label='Enable TrueHD Pass-through'
+                    label="Enable TrueHD Pass-through"
                     checked={formData.enableTrueHd.value as boolean}
-                    onChange={(e: any) => handleChange('enableTrueHd', e.target.checked)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('enableTrueHd', e.target.checked)
+                    }
                 />
 
                 <Divider />
 
-                <Typography level='title-lg'>Language Settings</Typography>
+                <Heading.H3>Language Settings</Heading.H3>
 
                 <JoyInput
-                    label='Default Audio Language'
-                    value={formData.defaultAudioLanguage.value}
-                    onChange={(e: any) => handleChange('defaultAudioLanguage', e.target.value)}
-                    placeholder='e.g., eng, spa, fra'
-                    helperText='Leave empty for no preference'
+                    label="Default Audio Language"
+                    value={String(formData.defaultAudioLanguage.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('defaultAudioLanguage', e.target.value)
+                    }
+                    placeholder="e.g., eng, spa, fra"
+                    helperText="Leave empty for no preference"
                 />
 
                 <JoySelect
-                    label='Subtitle Mode'
-                    value={formData.subtitleMode.value}
-                    onChange={(_: any, newValue: any) => handleChange('subtitleMode', newValue)}
+                    label="Subtitle Mode"
+                    value={formData.subtitleMode.value as string}
+                    onChange={(_, newValue) => handleChange('subtitleMode', newValue)}
                     options={[
                         { label: 'None', value: 'none' },
                         { label: 'All', value: 'all' },
                         { label: 'Foreign (non-native)', value: 'foreign' },
-                        { label: 'Default', value: 'default' },
+                        { label: 'Default', value: 'default' }
                     ]}
                 />
-            </Stack>
+            </Flex>
 
-            <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
-                <Button
-                    variant='outlined'
-                    color="neutral"
-                    onClick={handleReset}
-                    disabled={isSubmitting}
-                >
+            <Flex style={{ marginTop: vars.spacing.xl, gap: vars.spacing.md, justifyContent: 'flex-end' }}>
+                <Button variant="outlined" color="neutral" onClick={handleReset} disabled={isSubmitting}>
                     Reset
                 </Button>
-                <Button
-                    type='submit'
-                    variant='solid'
-                    color="primary"
-                    loading={isSubmitting}
-                >
+                <Button type="submit" variant="primary" color="primary" loading={isSubmitting}>
                     Save Settings
                 </Button>
-            </Box>
+            </Flex>
         </Box>
     );
 };

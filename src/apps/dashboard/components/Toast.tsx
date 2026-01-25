@@ -1,29 +1,52 @@
-import React, { useCallback } from 'react';
-import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useCallback, useEffect } from 'react';
+import { Cross1Icon } from '@radix-ui/react-icons';
 
-const Toast = (props: SnackbarProps) => {
-    const onCloseClick = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        props.onClose?.(e, 'clickaway');
-    }, [ props ]);
+import { Alert } from 'ui-primitives/Alert';
+import { IconButton } from 'ui-primitives/IconButton';
+import { vars } from 'styles/tokens.css';
 
-    const action = (
-        <IconButton
-            size='small'
-            color='inherit'
-            onClick={onCloseClick}
-        >
-            <CloseIcon fontSize='small' />
-        </IconButton>
-    );
+interface ToastProps {
+    open: boolean;
+    message?: React.ReactNode;
+    onClose?: () => void;
+    autoHideDuration?: number;
+}
+
+const Toast = ({ open, message, onClose, autoHideDuration = 3300 }: ToastProps): React.ReactElement | null => {
+    const onCloseClick = useCallback(() => {
+        onClose?.();
+    }, [onClose]);
+
+    useEffect(() => {
+        if (!open) return;
+        const timeout = setTimeout(() => {
+            onClose?.();
+        }, autoHideDuration);
+        return () => clearTimeout(timeout);
+    }, [open, autoHideDuration, onClose]);
+
+    if (!open) {
+        return null;
+    }
 
     return (
-        <Snackbar
-            autoHideDuration={3300}
-            action={action}
-            { ...props }
-        />
+        <Alert
+            variant="info"
+            action={
+                <IconButton variant="plain" size="sm" color="neutral" onClick={onCloseClick}>
+                    <Cross1Icon />
+                </IconButton>
+            }
+            style={{
+                position: 'fixed',
+                bottom: vars.spacing.lg,
+                left: vars.spacing.lg,
+                zIndex: Number(vars.zIndex.toast),
+                minWidth: 240
+            }}
+        >
+            {message}
+        </Alert>
     );
 };
 

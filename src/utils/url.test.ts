@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { getLocationSearch } from './url';
 
 const mockLocation = (urlString: string) => {
-    // eslint-disable-next-line compat/compat
     const url = new URL(urlString);
     vi.spyOn(window, 'location', 'get')
         .mockReturnValue({

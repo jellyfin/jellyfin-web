@@ -1,6 +1,5 @@
 import React, { type FC, useCallback, useState } from 'react';
 import { BlurhashCanvas } from 'react-blurhash';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const imageStyle: React.CSSProperties = {
     position: 'absolute',
@@ -19,11 +18,7 @@ interface ImageProps {
     containImage: boolean;
 }
 
-const Image: FC<ImageProps> = ({
-    imgUrl,
-    blurhash,
-    containImage
-}) => {
+const Image: FC<ImageProps> = ({ imgUrl, blurhash, containImage }) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isLoadStarted, setIsLoadStarted] = useState(false);
     const handleLoad = useCallback(() => {
@@ -39,7 +34,7 @@ const Image: FC<ImageProps> = ({
             {!isLoaded && isLoadStarted && blurhash && (
                 <BlurhashCanvas
                     hash={blurhash}
-                    width= {20}
+                    width={20}
                     height={20}
                     punch={1}
                     style={{
@@ -49,17 +44,18 @@ const Image: FC<ImageProps> = ({
                     }}
                 />
             )}
-            <LazyLoadImage
+            <img
                 key={imgUrl}
                 src={imgUrl}
+                alt=""
                 style={{
                     ...imageStyle,
                     objectFit: containImage ? 'contain' : 'cover'
                 }}
                 onLoad={handleLoad}
-                beforeLoad={handleLoadStarted}
+                onError={handleLoadStarted}
+                decoding="async"
             />
-
         </div>
     );
 };

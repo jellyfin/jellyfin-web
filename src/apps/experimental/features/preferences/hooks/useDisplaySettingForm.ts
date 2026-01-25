@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'hooks/useSearchParams';
 
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
@@ -7,10 +7,10 @@ import globalize from 'lib/globalize';
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 import { useDisplaySettings } from './useDisplaySettings';
 
-type UpdateField = {
+interface UpdateField {
     name: keyof DisplaySettingsValues;
     value: string | boolean;
-};
+}
 
 export function useDisplaySettingForm() {
     const [urlParams] = useSearchParams();

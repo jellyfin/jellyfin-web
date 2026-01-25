@@ -1,6 +1,4 @@
-import DOMPurify from 'dompurify';
-import escapeHtml from 'escape-html';
-import markdownIt from 'markdown-it';
+import { escapeHtml } from 'utils/html';
 import { ItemAction } from '../../constants/itemAction';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 import itemHelper from '../itemHelper';
@@ -53,14 +51,15 @@ export interface ListViewOptions {
 }
 
 function getIndex(item: any, options: ListViewOptions): string {
-    if (options.index === 'disc') return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
+    if (options.index === 'disc')
+        return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
     const sortBy = (options.sortBy || '').toLowerCase();
     let name: string = '';
     if (sortBy.startsWith('sortname')) {
         if (item.Type === 'Episode') return '';
         name = (item.SortName || item.Name || '?')[0].toUpperCase();
         const code = name.charCodeAt(0);
-        return (code < 65 || code > 90) ? '#' : name;
+        return code < 65 || code > 90 ? '#' : name;
     }
     if (sortBy.startsWith('officialrating')) return item.OfficialRating || globalize.translate('Unrated');
     return '';
@@ -70,8 +69,13 @@ function getImageUrl(item: any, size: number): string | null {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     let itemId = item.Id;
     let tag = item.ImageTags?.Primary;
-    if (!tag && item.AlbumId) { tag = item.AlbumPrimaryImageTag; itemId = item.AlbumId; }
-    return tag ? apiClient.getScaledImageUrl(itemId, { fillWidth: size, fillHeight: size, type: 'Primary', tag }) : null;
+    if (!tag && item.AlbumId) {
+        tag = item.AlbumPrimaryImageTag;
+        itemId = item.AlbumId;
+    }
+    return tag
+        ? apiClient.getScaledImageUrl(itemId, { fillWidth: size, fillHeight: size, type: 'Primary', tag })
+        : null;
 }
 
 export function getListViewHtml(options: ListViewOptions): string {
@@ -98,12 +102,13 @@ export function getListViewHtml(options: ListViewOptions): string {
         const dataAttrs = `data-action="${action}" data-isfolder="${item.IsFolder}" data-id="${item.Id}" data-serverid="${item.ServerId}" data-type="${item.Type}"`;
 
         html += `<${outerTagName} class="${cssClass}" ${dataAttrs}>`;
-        
+
         if (options.image !== false) {
             const imgUrl = getImageUrl(item, isLarge ? 500 : 80);
             const imageClass = `listItemImage ${isLarge ? 'listItemImage-large' : ''}`;
             if (imgUrl) html += `<div class="${imageClass} lazy" data-src="${imgUrl}"></div>`;
-            else html += `<div class="${imageClass} cardImageContainer ${getDefaultBackgroundClass(item.Name)}">${(cardBuilder as any).getDefaultText(item, options)}</div>`;
+            else
+                html += `<div class="${imageClass} cardImageContainer ${getDefaultBackgroundClass(item.Name)}">${(cardBuilder as any).getDefaultText(item, options)}</div>`;
         }
 
         html += `<div class="listItemBody"><div class="listItemBodyText">${escapeHtml((itemHelper as any).getDisplayName(item))}</div></div>`;

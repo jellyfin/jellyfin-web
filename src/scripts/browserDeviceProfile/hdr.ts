@@ -1,4 +1,4 @@
-import browser from '../../browser';
+import browser from 'scripts/browser';
 
 export interface HdrOptions {
     supportsHdr10?: boolean;

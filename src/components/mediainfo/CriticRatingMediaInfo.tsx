@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import Box from '@mui/material/Box/Box';
+import { Box } from 'ui-primitives/Box';
 
 interface CriticRatingMediaInfoProps {
     className?: string;

@@ -6,6 +6,7 @@ import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
 import shell from 'scripts/shell';
+import { deprecate } from '../../utils/deprecation';
 
 import './emby-button.scss';
 
@@ -27,6 +28,8 @@ const LinkButton: React.FC<LinkButtonProps> = ({
     children,
     ...rest
 }) => {
+    deprecate('emby-button/LinkButton', 'ui-primitives/Button with component="a"', 'src/elements/emby-button/LinkButton.tsx');
+
     const onAnchorClick = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
         const url = href || '';
         if (url !== '#') {

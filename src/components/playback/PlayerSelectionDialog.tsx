@@ -1,32 +1,26 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import Modal from '@mui/joy/Modal';
-import ModalClose from '@mui/joy/ModalClose';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import Button from '@mui/joy/Button';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemButton from '@mui/joy/ListItemButton';
-import ListItemContent from '@mui/joy/ListItemContent';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import Typography from '@mui/joy/Typography';
-import Checkbox from '@mui/joy/Checkbox';
-import Divider from '@mui/joy/Divider';
-import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
-import ComputerIcon from '@mui/icons-material/Computer';
-import SmartphoneIcon from '@mui/icons-material/Smartphone';
-import TabletIcon from '@mui/icons-material/Tablet';
-import TvIcon from '@mui/icons-material/Tv';
-import CastIcon from '@mui/icons-material/Cast';
-import CloseIcon from '@mui/icons-material/Close';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import LinkOffIcon from '@mui/icons-material/LinkOff';
-
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+    Cross1Icon,
+    DesktopIcon,
+    ExternalLinkIcon,
+    LinkNone2Icon,
+    MobileIcon,
+    Share1Icon,
+    TabletIcon,
+    VideoIcon
+} from '@radix-ui/react-icons';
 import { playbackManager } from '../playback/playbackmanager';
 import { usePlayerStore } from '../../store';
 import { logger } from '../../utils/logger';
+import { Dialog, DialogContent, DialogTitle } from 'ui-primitives/Dialog';
+import { Button } from 'ui-primitives/Button';
+import { List, ListItem, ListItemButton, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Divider } from 'ui-primitives/Divider';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 interface PlaybackTarget {
     id: string;
@@ -118,13 +112,13 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
 
     const getDeviceIcon = (deviceType?: string, isLocalPlayer?: boolean) => {
         if (isLocalPlayer) {
-            if (deviceType === 'tv') return <TvIcon />;
-            if (deviceType === 'smartphone') return <SmartphoneIcon />;
+            if (deviceType === 'tv') return <VideoIcon />;
+            if (deviceType === 'smartphone') return <MobileIcon />;
             if (deviceType === 'tablet') return <TabletIcon />;
-            if (deviceType === 'desktop') return <ComputerIcon />;
-            return <ComputerIcon />;
+            if (deviceType === 'desktop') return <DesktopIcon />;
+            return <DesktopIcon />;
         }
-        return <CastIcon />;
+        return <Share1Icon />;
     };
 
     const handleTargetSelect = async (target: PlaybackTarget) => {
@@ -178,132 +172,128 @@ export const PlayerSelectionDialog: React.FC<PlayerSelectionDialogProps> = ({
 
     if (showActivePlayerMenu && activePlayerInfo) {
         return (
-            <Dialog
-                open={open}
-                onClose={onClose}
-                sx={{
+            <Dialog open={open} onOpenChange={onClose}>
+                <DialogContent style={{
                     '--Dialog-width': '400px',
                     '--Dialog-padding': '24px'
-                }}
-            >
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Typography level="h4">
-                        {activePlayerInfo.deviceName || activePlayerInfo.name}
-                    </Typography>
-                    <IconButton variant="plain" onClick={onClose} aria-label="Close">
-                        <CloseIcon />
-                    </IconButton>
-                </Box>
+                }}>
+                    <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
+                        <Heading level="h4">
+                            {activePlayerInfo.deviceName || activePlayerInfo.name}
+                        </Heading>
+                        <IconButton variant="plain" onClick={onClose} aria-label="Close">
+                            <Cross1Icon />
+                        </IconButton>
+                    </Flex>
 
-                <Divider sx={{ my: 2 }} />
+                    <Divider />
 
-                <DialogContent>
-                    {activePlayerInfo.supportedCommands?.includes('DisplayContent') && (
-                        <Box sx={{ mb: 2 }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                        {activePlayerInfo.supportedCommands?.includes('DisplayContent') && (
+                            <Box style={{ marginBottom: vars.spacing.md }}>
+                                <Checkbox
+                                    checked={enableMirror}
+                                    onChange={handleMirrorChange}
+                                    label="Enable display mirroring"
+                                />
+                            </Box>
+                        )}
+
+                        <Box style={{ marginBottom: vars.spacing.md }}>
                             <Checkbox
-                                checked={enableMirror}
-                                onChange={handleMirrorChange}
-                                label="Enable display mirroring"
+                                checked={enableAutoCast}
+                                onChange={handleAutoCastChange}
+                                label="Enable auto-cast"
                             />
                         </Box>
-                    )}
+                    </Flex>
 
-                    <Box sx={{ mb: 2 }}>
-                        <Checkbox
-                            checked={enableAutoCast}
-                            onChange={handleAutoCastChange}
-                            label="Enable auto-cast"
-                        />
-                    </Box>
+                    <Divider />
+
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
+                        <Button
+                            variant="plain"
+                            startDecorator={<ExternalLinkIcon />}
+                            onClick={handleRemoteControl}
+                            style={{ justifyContent: 'flex-start', width: '100%' }}
+                        >
+                            Remote Control
+                        </Button>
+                        <Button
+                            variant="plain"
+                            color="danger"
+                            startDecorator={<LinkNone2Icon />}
+                            onClick={handleDisconnect}
+                            style={{ justifyContent: 'flex-start', width: '100%' }}
+                        >
+                            Disconnect
+                        </Button>
+                        <Button
+                            variant="plain"
+                            onClick={onClose}
+                            style={{ justifyContent: 'flex-start', width: '100%' }}
+                        >
+                            Cancel
+                        </Button>
+                    </Flex>
                 </DialogContent>
-
-                <Divider sx={{ my: 2 }} />
-
-                <DialogActions sx={{ flexDirection: 'column', gap: 1 }}>
-                    <Button
-                        variant="plain"
-                        startDecorator={<OpenInNewIcon />}
-                        onClick={handleRemoteControl}
-                        sx={{ justifyContent: 'flex-start', width: '100%' }}
-                    >
-                        Remote Control
-                    </Button>
-                    <Button
-                        variant="plain"
-                        color="danger"
-                        startDecorator={<LinkOffIcon />}
-                        onClick={handleDisconnect}
-                        sx={{ justifyContent: 'flex-start', width: '100%' }}
-                    >
-                        Disconnect
-                    </Button>
-                    <Button
-                        variant="plain"
-                        onClick={onClose}
-                        sx={{ justifyContent: 'flex-start', width: '100%' }}
-                    >
-                        Cancel
-                    </Button>
-                </DialogActions>
             </Dialog>
         );
     }
 
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            sx={{
+        <Dialog open={open} onOpenChange={onClose}>
+            <DialogContent style={{
                 '--Dialog-width': '400px',
                 '--Dialog-padding': '24px'
-            }}
-        >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <DialogTitle>Play On</DialogTitle>
-                <IconButton variant="plain" onClick={onClose} aria-label="Close">
-                    <CloseIcon />
-                </IconButton>
-            </Box>
+            }}>
+                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
+                    <DialogTitle>Play On</DialogTitle>
+                    <IconButton variant="plain" onClick={onClose} aria-label="Close">
+                        <Cross1Icon />
+                    </IconButton>
+                </Flex>
 
-            <DialogContent>
-                {loading ? (
-                    <Typography sx={{ py: 4, textAlign: 'center' }}>
-                        Loading playback devices...
-                    </Typography>
-                ) : targets.length === 0 ? (
-                    <Typography sx={{ py: 4, textAlign: 'center' }}>
-                        No playback devices found
-                    </Typography>
-                ) : (
-                    <List>
-                        {targets.map((target) => (
-                            <ListItem key={target.id}>
-                                <ListItemButton
-                                    onClick={() => handleTargetSelect(target)}
-                                    selected={target.selected || false}
-                                    sx={{ borderRadius: '8px', mb: 1 }}
-                                >
-                                    <ListItemDecorator>
-                                        {getDeviceIcon(target.deviceType, target.isLocalPlayer)}
-                                    </ListItemDecorator>
-                                    <ListItemContent>
-                                        <Typography>{target.name}</Typography>
-                                        {target.secondaryText && (
-                                            <Typography level="body-xs" color="neutral">
-                                                {target.secondaryText}
-                                            </Typography>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
+                    {loading ? (
+                        <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>
+                            Loading playback devices...
+                        </Text>
+                    ) : targets.length === 0 ? (
+                        <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>
+                            No playback devices found
+                        </Text>
+                    ) : (
+                        <List>
+                            {targets.map((target) => (
+                                <ListItem key={target.id}>
+                                    <ListItemButton
+                                        onClick={() => handleTargetSelect(target)}
+                                        selected={target.selected || false}
+                                        style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.xs }}
+                                    >
+                                        <ListItemDecorator>
+                                            {getDeviceIcon(target.deviceType, target.isLocalPlayer)}
+                                        </ListItemDecorator>
+                                        <ListItemContent>
+                                            <Text>{target.name}</Text>
+                                            {target.secondaryText && (
+                                                <Text size="xs" color="secondary">
+                                                    {target.secondaryText}
+                                                </Text>
+                                            )}
+                                        </ListItemContent>
+                                        {target.selected && (
+                                            <Text size="sm" color="primary">
+                                                Playing
+                                            </Text>
                                         )}
-                                    </ListItemContent>
-                                    {target.selected && (
-                                        <Typography level="body-sm" color="primary">
-                                            Playing
-                                        </Typography>
-                                    )}
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                )}
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
+                </Flex>
             </DialogContent>
         </Dialog>
     );

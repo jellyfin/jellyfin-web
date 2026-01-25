@@ -1,15 +1,25 @@
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import Stack from '@mui/material/Stack/Stack';
-import Typography from '@mui/material/Typography/Typography';
-import AddIcon from '@mui/icons-material/Add';
+/**
+ * @deprecated This route uses legacy form patterns.
+ *
+ * Migration:
+ * - Replace CreateBackupForm with TanStack Forms + Zod
+ * - Use ui-primitives Alert instead of custom alert handling
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
+import { Box, Flex, FlexCol } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Text, Heading } from 'ui-primitives/Text';
+import { Alert } from 'ui-primitives/Alert';
+import { List, ListItem } from 'ui-primitives/List';
+import { Spacer } from 'ui-primitives/Spacer';
+import { Paper } from 'ui-primitives/Paper';
 import { useBackups } from 'apps/dashboard/features/backups/api/useBackups';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import React, { useCallback, useEffect, useState } from 'react';
 import Loading from 'components/loading/LoadingComponent';
-import Alert from '@mui/material/Alert/Alert';
-import List from '@mui/material/List';
 import CreateBackupForm from 'apps/dashboard/features/backups/components/CreateBackupForm';
 import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
 import type { BackupManifestDto } from '@jellyfin/sdk/lib/generated-client/models/backup-manifest-dto';
@@ -23,16 +33,23 @@ import RestoreProgressDialog from 'apps/dashboard/features/backups/components/Re
 import { useApi } from 'hooks/useApi';
 import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 
+const AddIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+);
+
 export const Component = () => {
     const { api } = useApi();
     const { data: backups, isPending, isError } = useBackups();
-    const [ isCreateFormOpen, setIsCreateFormOpen ] = useState(false);
-    const [ backupInProgress, setBackupInProgress ] = useState(false);
-    const [ restoreInProgress, setRestoreInProgress ] = useState(false);
-    const [ isRestoreSuccess, setIsRestoreSuccess ] = useState(false);
-    const [ isErrorOccurred, setIsErrorOccurred ] = useState(false);
-    const [ isRestoreDialogOpen, setIsRestoreDialogOpen ] = useState(false);
-    const [ backupToRestore, setBackupToRestore ] = useState<BackupManifestDto | null>(null);
+    const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
+    const [backupInProgress, setBackupInProgress] = useState(false);
+    const [restoreInProgress, setRestoreInProgress] = useState(false);
+    const [isRestoreSuccess, setIsRestoreSuccess] = useState(false);
+    const [isErrorOccurred, setIsErrorOccurred] = useState(false);
+    const [isRestoreDialogOpen, setIsRestoreDialogOpen] = useState(false);
+    const [backupToRestore, setBackupToRestore] = useState<BackupManifestDto | null>(null);
     const createBackup = useCreateBackup();
     const restoreBackup = useRestoreBackup();
 
@@ -56,18 +73,21 @@ export const Component = () => {
         setIsRestoreSuccess(false);
     }, []);
 
-    const onBackupCreate = useCallback((backupOptions: BackupOptionsDto) => {
-        setBackupInProgress(true);
-        setIsCreateFormOpen(false);
-        createBackup.mutate(backupOptions, {
-            onError: () => {
-                setIsErrorOccurred(true);
-            },
-            onSettled: () => {
-                setBackupInProgress(false);
-            }
-        });
-    }, [ createBackup ]);
+    const onBackupCreate = useCallback(
+        (backupOptions: BackupOptionsDto) => {
+            setBackupInProgress(true);
+            setIsCreateFormOpen(false);
+            createBackup.mutate(backupOptions, {
+                onError: () => {
+                    setIsErrorOccurred(true);
+                },
+                onSettled: () => {
+                    setBackupInProgress(false);
+                }
+            });
+        },
+        [createBackup]
+    );
 
     const promptRestore = useCallback((backup: BackupManifestDto) => {
         setIsRestoreDialogOpen(true);
@@ -99,7 +119,8 @@ export const Component = () => {
                         setRestoreInProgress(false);
                         setIsRestoreSuccess(true);
                         clearInterval(serverCheckInterval);
-                    }).catch(() => {
+                    })
+                    .catch(() => {
                         // Server is still down
                     });
             }, 45000);
@@ -115,18 +136,10 @@ export const Component = () => {
     }
 
     return (
-        <Page
-            id='backupsPage'
-            title={globalize.translate('HeaderBackups')}
-            className='mainAnimatedPage type-interior'
-        >
+        <Page id="backupsPage" title={globalize.translate('HeaderBackups')} className="mainAnimatedPage type-interior">
             <BackupProgressDialog open={backupInProgress} />
             <RestoreProgressDialog open={restoreInProgress} />
-            <CreateBackupForm
-                open={isCreateFormOpen}
-                onClose={onCreateFormClose}
-                onCreate={onBackupCreate}
-            />
+            <CreateBackupForm open={isCreateFormOpen} onClose={onCreateFormClose} onCreate={onBackupCreate} />
             <SimpleAlert
                 open={isErrorOccurred}
                 text={globalize.translate('UnknownError')}
@@ -143,40 +156,36 @@ export const Component = () => {
                 onClose={onRestoreDialogClose}
                 onConfirm={onRestoreConfirm}
             />
-            <Box className='content-primary'>
+            <Box className="content-primary">
                 {isError ? (
-                    <Alert severity='error'>{globalize.translate('BackupsPageLoadError')}</Alert>
+                    <Alert variant="error">{globalize.translate('BackupsPageLoadError')}</Alert>
                 ) : (
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
-                            {globalize.translate('HeaderBackups')}
-                        </Typography>
-                        <Typography>
-                            {globalize.translate('HeaderBackupsHelp')}
-                        </Typography>
+                    <FlexCol gap="lg">
+                        <Heading.H1>{globalize.translate('HeaderBackups')}</Heading.H1>
+                        <Text color="secondary">{globalize.translate('HeaderBackupsHelp')}</Text>
 
-                        <Button
-                            sx={{ alignSelf: 'flex-start' }}
-                            startIcon={<AddIcon />}
-                            onClick={onCreateClick}
-                        >
-                            {globalize.translate('ButtonCreateBackup')}
-                        </Button>
+                        <Box style={{ alignSelf: 'flex-start' }}>
+                            <Button startIcon={<AddIcon />} onClick={onCreateClick}>
+                                {globalize.translate('ButtonCreateBackup')}
+                            </Button>
+                        </Box>
 
-                        <Box className='readOnlyContent'>
+                        <Box className="readOnlyContent">
                             {backups.length > 0 && (
-                                <List sx={{ bgcolor: 'background.paper' }}>
-                                    {backups.map(backup => {
-                                        return <Backup
-                                            key={backup.Path}
-                                            backup={backup}
-                                            onRestore={promptRestore}
-                                        />;
-                                    })}
-                                </List>
+                                <Paper>
+                                    <List>
+                                        {backups.map(backup => {
+                                            return (
+                                                <ListItem key={backup.Path}>
+                                                    <Backup backup={backup} onRestore={promptRestore} />
+                                                </ListItem>
+                                            );
+                                        })}
+                                    </List>
+                                </Paper>
                             )}
                         </Box>
-                    </Stack>
+                    </FlexCol>
                 )}
             </Box>
         </Page>

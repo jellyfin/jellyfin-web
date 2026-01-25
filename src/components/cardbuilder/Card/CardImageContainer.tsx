@@ -1,8 +1,8 @@
 import React, { type FC } from 'react';
-import Box from '@mui/material/Box/Box';
+import { Box } from 'ui-primitives/Box';
 import classNames from 'classnames';
 import useIndicator from 'components/indicators/useIndicator';
-import RefreshIndicator from 'elements/emby-itemrefreshindicator/RefreshIndicator';
+import RefreshIndicator from '../../library/RefreshIndicator';
 import Media from '../../common/Media';
 import CardInnerFooter from './CardInnerFooter';
 
@@ -39,22 +39,20 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
     return (
         <div className={cardImageClass}>
             {cardOptions.disableIndicators !== true && (
-                <Box className='indicators'>
+                <Box className="indicators">
                     {indicator.getMediaSourceIndicator()}
 
-                    <Box className='cardIndicators'>
-                        {cardOptions.missingIndicator !== false
-                            && indicator.getMissingIndicator()}
+                    <Box className="cardIndicators">
+                        {cardOptions.missingIndicator !== false && indicator.getMissingIndicator()}
 
                         {indicator.getTimerIndicator()}
                         {indicator.getTypeIndicator()}
 
-                        {cardOptions.showGroupCount ?
-                            indicator.getChildCountIndicator() :
-                            indicator.getPlayedIndicator()}
+                        {cardOptions.showGroupCount
+                            ? indicator.getChildCountIndicator()
+                            : indicator.getPlayedIndicator()}
 
-                        {(item.Type === ItemKind.CollectionFolder
-                            || item.CollectionType) && (
+                        {(item.Type === ItemKind.CollectionFolder || item.CollectionType) && (
                             <RefreshIndicator item={item} />
                         )}
                     </Box>

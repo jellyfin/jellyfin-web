@@ -1,6 +1,6 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import { useGetGenres } from 'hooks/useFetchItems';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import Loading from 'components/loading/LoadingComponent';

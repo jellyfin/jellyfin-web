@@ -7,10 +7,10 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import { isVisible } from '../../utils/visibility';
 import { imagePreloader } from '../../utils/imagePreloader';
 
-import './backdrop.scss';
+import './backdrop.css.ts';
 
 function enableAnimation(): boolean {
-    return !browser.slow;
+    return !browser.mobile;
 }
 
 function enableRotation(): boolean {
@@ -39,12 +39,12 @@ class Backdrop {
             }
 
             const onAnimationComplete = () => {
-                dom.removeEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, { once: true });
+                dom.removeEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete);
                 if (backdropImage === this.currentAnimatingElement) this.currentAnimatingElement = null;
                 existingBackdropImage?.parentNode?.removeChild(existingBackdropImage);
             };
 
-            dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, { once: true });
+            dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete);
             internalBackdrop(true);
         };
         img.src = url;
@@ -127,14 +127,26 @@ function setBackdropImage(url: string): void {
 function getItemImageUrls(item: any, imageOptions: any = {}): string[] {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     if (item.BackdropImageTags?.length) {
-        return item.BackdropImageTags.map((tag: string, index: number) => apiClient.getScaledImageUrl(item.BackdropItemId || item.Id, {
-            ...imageOptions, type: 'Backdrop', tag, maxWidth: dom.getScreenWidth(), index
-        }));
+        return item.BackdropImageTags.map((tag: string, index: number) =>
+            apiClient.getScaledImageUrl(item.BackdropItemId || item.Id, {
+                ...imageOptions,
+                type: 'Backdrop',
+                tag,
+                maxWidth: dom.getScreenWidth(),
+                index
+            })
+        );
     }
     if (item.ParentBackdropItemId && item.ParentBackdropImageTags?.length) {
-        return item.ParentBackdropImageTags.map((tag: string, index: number) => apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
-            ...imageOptions, type: 'Backdrop', tag, maxWidth: dom.getScreenWidth(), index
-        }));
+        return item.ParentBackdropImageTags.map((tag: string, index: number) =>
+            apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
+                ...imageOptions,
+                type: 'Backdrop',
+                tag,
+                maxWidth: dom.getScreenWidth(),
+                index
+            })
+        );
     }
     return [];
 }
@@ -196,7 +208,7 @@ export const TRANSPARENCY_LEVEL = {
     None: 'none'
 } as const;
 
-export type TransparencyLevel = typeof TRANSPARENCY_LEVEL[keyof typeof TRANSPARENCY_LEVEL];
+export type TransparencyLevel = (typeof TRANSPARENCY_LEVEL)[keyof typeof TRANSPARENCY_LEVEL];
 
 export function setBackdropTransparency(level: TransparencyLevel | number): void {
     const backdropElem = getBackdropContainer();

@@ -1,28 +1,29 @@
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
-import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import IconButton from '@mui/joy/IconButton';
-import Typography from '@mui/joy/Typography';
-import AspectRatio from '@mui/joy/AspectRatio';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { DotsVerticalIcon } from '@radix-ui/react-icons';
+import { Link, type LinkProps } from '@tanstack/react-router';
+
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-import Stack from '@mui/joy/Stack';
-import { Link, To } from 'react-router-dom';
+import { AspectRatio } from 'ui-primitives/AspectRatio';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Card } from 'ui-primitives/Card';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Heading, Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 interface BaseCardProps {
     title?: string;
     text?: string;
     image?: string | null;
     icon?: React.ReactNode;
-    to?: To;
+    to?: LinkProps['to'];
     onClick?: () => void;
     action?: boolean;
-    actionRef?: React.MutableRefObject<HTMLButtonElement | null>;
+    actionRef?: React.RefObject<HTMLButtonElement | null>;
     onActionClick?: () => void;
     height?: number | string;
     width?: number | string;
-};
+}
 
 const BaseCard = ({
     title,
@@ -36,53 +37,55 @@ const BaseCard = ({
     onActionClick,
     height,
     width
-}: BaseCardProps) => {
+}: BaseCardProps): React.ReactElement => {
     const cardContent = (
         <>
-            <AspectRatio ratio="16/9" sx={{ borderRadius: 'sm', overflow: 'hidden' }}>
-                {image ? (
-                    <img
-                        src={image}
-                        loading="lazy"
-                        alt={title}
-                    />
+            <AspectRatio ratio="16/9" style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
+                {image != null ? (
+                    <img src={image} loading="lazy" alt={title ?? ''} />
                 ) : (
                     <Box
-                        className={getDefaultBackgroundClass(title)}
-                        sx={{
+                        className={getDefaultBackgroundClass(title ?? '')}
+                        style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            bgcolor: 'neutral.softBg'
+                            backgroundColor: vars.colors.surfaceLight
                         }}
                     >
                         {icon}
                     </Box>
                 )}
             </AspectRatio>
-            <CardContent sx={{ pt: 1.5 }}>
-                <Stack direction='row' justifyContent="space-between" alignItems="flex-start" spacing={1}>
-                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                        <Typography
-                            level="title-md"
-                            sx={{
+            <Flex style={{ paddingTop: vars.spacing.sm, flexDirection: 'column', gap: vars.spacing.sm }}>
+                <Flex
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        gap: vars.spacing.sm
+                    }}
+                >
+                    <Box style={{ flexGrow: 1, minWidth: 0 }}>
+                        <Heading.H5
+                            style={{
                                 overflow: 'hidden',
                                 whiteSpace: 'nowrap',
                                 textOverflow: 'ellipsis'
                             }}
                         >
                             {title}
-                        </Typography>
-                        {text && (
-                            <Typography
-                                level="body-xs"
-                                sx={{
-                                    lineBreak: 'anywhere',
-                                    mt: 0.5
+                        </Heading.H5>
+                        {text != null && text !== '' && (
+                            <Text
+                                size="xs"
+                                style={{
+                                    wordBreak: 'break-all',
+                                    marginTop: vars.spacing.xs
                                 }}
                             >
                                 {text}
-                            </Typography>
+                            </Text>
                         )}
                     </Box>
                     {action && (
@@ -91,50 +94,67 @@ const BaseCard = ({
                             color="neutral"
                             size="sm"
                             ref={actionRef}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                onActionClick?.();
-                            }}
+                            onClick={handleActionClick}
                         >
-                            <MoreVertIcon />
+                            <DotsVerticalIcon />
                         </IconButton>
                     )}
-                </Stack>
-            </CardContent>
+                </Flex>
+            </Flex>
         </>
     );
 
-    const cardProps = {
-        variant: "outlined",
-        onClick,
-        sx: {
-            height: height || 'auto',
-            width: width,
-            transition: 'transform 0.2s, box-shadow 0.2s',
-            '&:hover': {
-                transform: 'translateY(-4px)',
-                boxShadow: 'md',
-                borderColor: 'primary.outlinedBorder',
-                bgcolor: 'background.surface'
-            },
-            textDecoration: 'none'
-        }
+    const cardStyle = {
+        height: height ?? 'auto',
+        width: width,
+        transition: vars.transitions.fast,
+        border: `1px solid ${vars.colors.divider}`,
+        borderRadius: vars.borderRadius.md,
+        textDecoration: 'none',
+        cursor: 'pointer'
     };
 
-    if (to) {
+    const hoverStyle = {
+        transform: 'translateY(-4px)',
+        boxShadow: vars.shadows.md,
+        borderColor: vars.colors.primary,
+        backgroundColor: vars.colors.surface
+    };
+
+    function handleMouseEnter(e: React.MouseEvent): void {
+        Object.assign((e.currentTarget as HTMLElement).style, hoverStyle);
+    }
+
+    function handleMouseLeave(e: React.MouseEvent): void {
+        (e.currentTarget as HTMLElement).style.transform = '';
+        (e.currentTarget as HTMLElement).style.boxShadow = '';
+        (e.currentTarget as HTMLElement).style.borderColor = vars.colors.divider;
+        (e.currentTarget as HTMLElement).style.backgroundColor = '';
+    }
+
+    function handleActionClick(e: React.MouseEvent): void {
+        e.preventDefault();
+        e.stopPropagation();
+        onActionClick?.();
+    }
+
+    if (to != null) {
         return (
-            <Card component={Link} to={to} {...(cardProps as any)}>
-                {cardContent}
-            </Card>
+            <Link to={to} style={{ textDecoration: 'none' }} onClick={onClick}>
+                <Card style={cardStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    {cardContent}
+                </Card>
+            </Link>
         );
     }
 
     return (
-        <Card {...(cardProps as any)}>
+        <Card style={cardStyle} onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             {cardContent}
         </Card>
     );
 };
 
 export default BaseCard;
+
+/* eslint-enable react/jsx-no-bind */

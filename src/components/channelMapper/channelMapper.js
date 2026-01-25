@@ -9,7 +9,6 @@ import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.scss';
-import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 
 export default class ChannelMapper {
@@ -17,22 +16,27 @@ export default class ChannelMapper {
         function mapChannel(button, channelId, providerChannelId) {
             loading.show();
             const providerId = options.providerId;
-            ServerConnections.getApiClient(options.serverId).ajax({
-                type: 'POST',
-                url: ApiClient.getUrl('LiveTv/ChannelMappings'),
-                data: JSON.stringify({
-                    providerId: providerId,
-                    tunerChannelId: channelId,
-                    providerChannelId: providerChannelId
-                }),
-                contentType: 'application/json',
-                dataType: 'json'
-            }).then(mapping => {
-                const listItem = dom.parentWithClass(button, 'listItem');
-                button.setAttribute('data-providerid', mapping.ProviderChannelId);
-                listItem.querySelector('.secondary').innerText = getMappingSecondaryName(mapping, currentMappingOptions.ProviderName);
-                loading.hide();
-            });
+            ServerConnections.getApiClient(options.serverId)
+                .ajax({
+                    type: 'POST',
+                    url: ApiClient.getUrl('LiveTv/ChannelMappings'),
+                    data: JSON.stringify({
+                        providerId: providerId,
+                        tunerChannelId: channelId,
+                        providerChannelId: providerChannelId
+                    }),
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })
+                .then(mapping => {
+                    const listItem = dom.parentWithClass(button, 'listItem');
+                    button.setAttribute('data-providerid', mapping.ProviderChannelId);
+                    listItem.querySelector('.secondary').innerText = getMappingSecondaryName(
+                        mapping,
+                        currentMappingOptions.ProviderName
+                    );
+                    loading.hide();
+                });
         }
 
         function onChannelsElementClick(e) {
@@ -50,20 +54,24 @@ export default class ChannelMapper {
                 }).sort((a, b) => {
                     return a.name.localeCompare(b.name);
                 });
-                actionsheet.show({
-                    positionTo: btnMap,
-                    items: menuItems
-                }).then(newChannelId => {
-                    mapChannel(btnMap, channelId, newChannelId);
-                });
+                actionsheet
+                    .show({
+                        positionTo: btnMap,
+                        items: menuItems
+                    })
+                    .then(newChannelId => {
+                        mapChannel(btnMap, channelId, newChannelId);
+                    });
             }
         }
 
         function getChannelMappingOptions(serverId, providerId) {
             const apiClient = ServerConnections.getApiClient(serverId);
-            return apiClient.getJSON(apiClient.getUrl('LiveTv/ChannelMappingOptions', {
-                providerId: providerId
-            }));
+            return apiClient.getJSON(
+                apiClient.getUrl('LiveTv/ChannelMappingOptions', {
+                    providerId: providerId
+                })
+            );
         }
 
         function getMappingSecondaryName(mapping, providerName) {

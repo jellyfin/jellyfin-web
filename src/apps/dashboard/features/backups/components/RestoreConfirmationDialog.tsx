@@ -1,44 +1,35 @@
-import Button from '@mui/material/Button/Button';
-import Dialog from '@mui/material/Dialog/Dialog';
-import DialogActions from '@mui/material/DialogActions/DialogActions';
-import DialogContent from '@mui/material/DialogContent/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
+import { Button } from 'ui-primitives/Button';
+import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
+import { Flex } from 'ui-primitives/Box';
 import globalize from 'lib/globalize';
-import React, { FunctionComponent } from 'react';
+import React, { type FunctionComponent } from 'react';
 
-type IProps = {
+interface IProps {
     open: boolean;
     onClose: () => void;
     onConfirm: () => void;
-};
+}
 
 const RestoreConfirmationDialog: FunctionComponent<IProps> = ({ open, onClose, onConfirm }: IProps) => {
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            maxWidth={'xs'}
-            fullWidth
-        >
-            <DialogTitle>
-                {globalize.translate('LabelRestore')}
-            </DialogTitle>
-
-            <DialogContent>
-                <DialogContentText>
-                    {globalize.translate('MessageRestoreDisclaimer')}
-                </DialogContentText>
-            </DialogContent>
-
-            <DialogActions>
-                <Button onClick={onClose} variant='text'>
-                    {globalize.translate('ButtonCancel')}
-                </Button>
-                <Button onClick={onConfirm}>
-                    {globalize.translate('LabelRestore')}
-                </Button>
-            </DialogActions>
+        <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
+            <DialogOverlayComponent />
+            <DialogContentComponent
+                title={globalize.translate('LabelRestore')}
+                description={globalize.translate('MessageRestoreDisclaimer')}
+            >
+                <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '16px' }}>
+                    <Button
+                        variant='ghost'
+                        onClick={onClose}
+                    >
+                        {globalize.translate('ButtonCancel')}
+                    </Button>
+                    <Button onClick={onConfirm}>
+                        {globalize.translate('LabelRestore')}
+                    </Button>
+                </Flex>
+            </DialogContentComponent>
         </Dialog>
     );
 };

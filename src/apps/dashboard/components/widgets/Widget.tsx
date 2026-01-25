@@ -1,35 +1,34 @@
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Typography from '@mui/joy/Typography';
-import ChevronRight from '@mui/icons-material/ChevronRight';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { ChevronRightIcon } from '@radix-ui/react-icons';
 
-type WidgetProps = {
+import { Box } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Heading } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
+
+interface WidgetProps {
     title: string;
     href: string;
     children: React.ReactNode;
-};
+}
 
-const Widget = ({ title, href, children }: WidgetProps) => {
+const Widget = ({ title, href, children }: WidgetProps): React.ReactElement => {
     return (
-        <Box sx={{ mb: 2 }}>
+        <Box style={{ marginBottom: vars.spacing.md }}>
             <Button
-                component={RouterLink}
                 to={href}
-                variant='plain'
-                color='neutral'
-                endDecorator={<ChevronRight />}
-                sx={{
-                    px: 0,
-                    mb: 1,
-                    '&:hover': { bgcolor: 'transparent', color: 'primary.plainColor' },
+                variant="plain"
+                color="neutral"
+                endDecorator={<ChevronRightIcon />}
+                style={{
+                    padding: 0,
+                    marginBottom: vars.spacing.sm,
+                    backgroundColor: 'transparent',
+                    color: vars.colors.primary,
                     justifyContent: 'flex-start'
                 }}
             >
-                <Typography level='h3' component='span'>
-                    {title}
-                </Typography>
+                <Heading.H3>{title}</Heading.H3>
             </Button>
 
             {children}

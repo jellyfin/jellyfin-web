@@ -1,6 +1,5 @@
 import React, { type FC } from 'react';
-import Box from '@mui/material/Box/Box';
-import Link from '@mui/material/Link/Link';
+import { Box } from 'ui-primitives/Box';
 import classNames from 'classnames';
 import type { MiscInfo } from 'types/mediaInfoItem';
 
@@ -17,18 +16,17 @@ const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
     const renderText = () => {
         if (textAction) {
             return (
-                <Link
+                <a
                     className={classNames(textAction.cssClass, className)}
                     href={textAction.url}
                     title={textAction.title}
-                    color='inherit'
                 >
                     {textAction.title}
-                </Link>
+                </a>
             );
-        } else {
-            return text;
         }
+
+        return text;
     };
 
     return (

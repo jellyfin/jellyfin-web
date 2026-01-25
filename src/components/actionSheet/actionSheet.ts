@@ -112,14 +112,14 @@ function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
     const overflowY = pos.top + height - windowHeight;
 
     if (overflowX > 0) {
-        pos.left -= (overflowX + 20);
+        pos.left -= overflowX + 20;
     }
     if (overflowY > 0) {
-        pos.top -= (overflowY + 20);
+        pos.top -= overflowY + 20;
     }
 
-    pos.top += (options.offsetTop || 0);
-    pos.left += (options.offsetLeft || 0);
+    pos.top += options.offsetTop || 0;
+    pos.left += options.offsetLeft || 0;
 
     // Do some boundary checking
     pos.top = Math.max(pos.top, 10);
@@ -129,12 +129,14 @@ function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
 }
 
 function centerFocus(elem: Element, horiz: boolean, on: boolean) {
-    import('../../scripts/scrollHelper').then((scrollHelper) => {
-        const fn = on ? 'on' : 'off';
-        scrollHelper.centerFocus[fn](elem, horiz);
-    }).catch(e => {
-        logger.warn('Error in centerFocus', { component: 'ActionSheet' }, e as Error);
-    });
+    import('../../scripts/scrollHelper')
+        .then(scrollHelper => {
+            const fn = on ? 'on' : 'off';
+            scrollHelper.centerFocus[fn](elem as HTMLElement, horiz);
+        })
+        .catch(e => {
+            logger.warn('Error in centerFocus', { component: 'ActionSheet' }, e as Error);
+        });
 }
 
 /* eslint-disable-next-line sonarjs/cognitive-complexity */
@@ -149,7 +151,7 @@ export function show(options: Options) {
         scrollY: false
     };
 
-    let isFullscreen;
+    let isFullscreen: boolean = false;
 
     if (layoutManager.tv) {
         dialogOptions.size = 'fullscreen';
@@ -191,7 +193,7 @@ export function show(options: Options) {
 
     let renderIcon = false;
     const icons = [];
-    let itemIcon;
+    let itemIcon: any;
     for (const item of options.items) {
         itemIcon = item.icon || (item.selected ? 'check' : null);
 
@@ -208,7 +210,7 @@ export function show(options: Options) {
     }
 
     // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
-    const center = options.title && (!renderIcon /*|| itemsWithIcons.length != options.items.length*/);
+    const center = options.title && !renderIcon; /*|| itemsWithIcons.length != options.items.length*/
 
     if (center || layoutManager.tv) {
         html += '<div class="actionSheetContent actionSheetContent-centered">';
@@ -260,20 +262,28 @@ export function show(options: Options) {
 
         // Check for null in case int 0 was passed in
         const optionId = item.id == null || item.id === '' ? item.value : item.id;
-        html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
+        html +=
+            '<button' +
+            autoFocus +
+            ' is="emby-button" type="button" class="' +
+            menuItemClass +
+            '" data-id="' +
+            optionId +
+            '">';
 
         itemIcon = icons[i];
 
         if (itemIcon) {
             html += `<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons ${itemIcon}" aria-hidden="true"></span>`;
         } else if (renderIcon && !center) {
-            html += '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" aria-hidden="true" style="visibility:hidden;"></span>';
+            html +=
+                '<span class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent material-icons check" aria-hidden="true" style="visibility:hidden;"></span>';
         }
 
         html += '<div class="listItemBody actionsheetListItemBody">';
 
         html += '<div class="listItemBodyText actionSheetItemText">';
-        html += escapeHtml(item.name || item.textContent || item.innerText);
+        html += escapeHtml(item.name || item.textContent || item.innerText || '');
         html += '</div>';
 
         if (item.secondaryText) {
@@ -324,7 +334,7 @@ export function show(options: Options) {
     return new Promise((resolve, reject) => {
         let isResolved = false;
 
-        dlg.addEventListener('click', (e) => {
+        dlg.addEventListener('click', e => {
             const actionSheetMenuItem = dom.parentWithClass(e.target as HTMLElement, 'actionSheetMenuItem');
 
             if (actionSheetMenuItem) {
@@ -376,7 +386,10 @@ export function show(options: Options) {
             logger.warn('DialogHelper.open error', { component: 'ActionSheet' }, e as Error);
         });
 
-        const pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options.positionTo, options, dlg) : null;
+        const pos =
+            options.positionTo && dialogOptions.size !== 'fullscreen'
+                ? getPosition(options.positionTo, options, dlg)
+                : null;
 
         if (pos) {
             dlg.style.position = 'fixed';

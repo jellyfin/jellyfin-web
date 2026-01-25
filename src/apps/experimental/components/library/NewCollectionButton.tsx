@@ -1,6 +1,6 @@
-import React, { FC, useCallback } from 'react';
-import Add from '@mui/icons-material/Add';
-import Button from '@mui/material/Button/Button';
+import React, { type FC, useCallback } from 'react';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { Button } from 'ui-primitives/Button';
 
 import globalize from 'lib/globalize';
 
@@ -29,14 +29,14 @@ const NewCollectionButton: FC<NewCollectionButtonProps> = ({
 
     return (
         <Button
-            variant='contained'
-            startIcon={isTextVisible ? <Add /> : undefined}
+            variant='primary'
+            startIcon={isTextVisible ? <PlusIcon /> : undefined}
             onClick={showCollectionEditor}
         >
             {isTextVisible ? (
                 globalize.translate('NewCollection')
             ) : (
-                <Add />
+                <PlusIcon />
             )}
         </Button>
     );

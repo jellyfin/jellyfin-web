@@ -1,5 +1,4 @@
-import DOMPurify from 'dompurify';
-import markdownIt from 'markdown-it';
+import { escapeHtml } from '../../../utils/html';
 
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -26,90 +25,106 @@ const enableFocusTransform = !browser.slow && !browser.edge;
 
 function authenticateUserByName(page, apiClient, url, username, password) {
     loading.show();
-    apiClient.authenticateUserByName(username, password).then((result) => {
-        const user = result.User;
-        loading.hide();
+    apiClient.authenticateUserByName(username, password).then(
+        result => {
+            const user = result.User;
+            loading.hide();
 
-        onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
-    }, (response) => {
-        page.querySelector('#txtManualPassword').value = '';
-        loading.hide();
+            onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
+        },
+        response => {
+            page.querySelector('#txtManualPassword').value = '';
+            loading.hide();
 
-        const UnauthorizedOrForbidden = [401, 403];
-        if (UnauthorizedOrForbidden.includes(response.status)) {
-            const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
-            toast(globalize.translate(messageKey));
-        } else {
-            Dashboard.alert({
-                message: globalize.translate('MessageUnableToConnectToServer'),
-                title: globalize.translate('HeaderConnectionFailure')
-            });
+            const UnauthorizedOrForbidden = [401, 403];
+            if (UnauthorizedOrForbidden.includes(response.status)) {
+                const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
+                toast(globalize.translate(messageKey));
+            } else {
+                Dashboard.alert({
+                    message: globalize.translate('MessageUnableToConnectToServer'),
+                    title: globalize.translate('HeaderConnectionFailure')
+                });
+            }
         }
-    });
+    );
 }
 
 function authenticateQuickConnect(apiClient, targetUrl) {
     const url = apiClient.getUrl('/QuickConnect/Initiate');
-    apiClient.ajax({ type: 'POST', url }, true).then(res => res.json()).then((json) => {
-        if (!json.Secret || !json.Code) {
-            console.error('Malformed quick connect response', json);
-            return false;
-        }
+    apiClient
+        .ajax({ type: 'POST', url }, true)
+        .then(res => res.json())
+        .then(
+            json => {
+                if (!json.Secret || !json.Code) {
+                    console.error('Malformed quick connect response', json);
+                    return false;
+                }
 
-        baseAlert({
-            dialogOptions: {
-                id: 'quickConnectAlert'
+                baseAlert({
+                    dialogOptions: {
+                        id: 'quickConnectAlert'
+                    },
+                    title: globalize.translate('QuickConnect'),
+                    text: globalize.translate('QuickConnectAuthorizeCode', json.Code)
+                });
+
+                const connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
+
+                const interval = setInterval(
+                    () => {
+                        apiClient.getJSON(connectUrl).then(
+                            async data => {
+                                if (!data.Authenticated) {
+                                    return;
+                                }
+
+                                clearInterval(interval);
+
+                                // Close the QuickConnect dialog
+                                const dlg = document.getElementById('quickConnectAlert');
+                                if (dlg) {
+                                    dialogHelper.close(dlg);
+                                }
+
+                                const result = await apiClient.quickConnect(data.Secret);
+                                onLoginSuccessful(result.User.Id, result.AccessToken, apiClient, targetUrl);
+                            },
+                            e => {
+                                clearInterval(interval);
+
+                                // Close the QuickConnect dialog
+                                const dlg = document.getElementById('quickConnectAlert');
+                                if (dlg) {
+                                    dialogHelper.close(dlg);
+                                }
+
+                                Dashboard.alert({
+                                    message: globalize.translate('QuickConnectDeactivated'),
+                                    title: globalize.translate('HeaderError')
+                                });
+
+                                console.error('Unable to login with quick connect', e);
+                            }
+                        );
+                    },
+                    5000,
+                    connectUrl
+                );
+
+                return true;
             },
-            title: globalize.translate('QuickConnect'),
-            text: globalize.translate('QuickConnectAuthorizeCode', json.Code)
-        });
-
-        const connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
-
-        const interval = setInterval(() => {
-            apiClient.getJSON(connectUrl).then(async (data) => {
-                if (!data.Authenticated) {
-                    return;
-                }
-
-                clearInterval(interval);
-
-                // Close the QuickConnect dialog
-                const dlg = document.getElementById('quickConnectAlert');
-                if (dlg) {
-                    dialogHelper.close(dlg);
-                }
-
-                const result = await apiClient.quickConnect(data.Secret);
-                onLoginSuccessful(result.User.Id, result.AccessToken, apiClient, targetUrl);
-            }, (e) => {
-                clearInterval(interval);
-
-                // Close the QuickConnect dialog
-                const dlg = document.getElementById('quickConnectAlert');
-                if (dlg) {
-                    dialogHelper.close(dlg);
-                }
-
+            e => {
                 Dashboard.alert({
-                    message: globalize.translate('QuickConnectDeactivated'),
+                    message: globalize.translate('QuickConnectNotActive'),
                     title: globalize.translate('HeaderError')
                 });
 
-                console.error('Unable to login with quick connect', e);
-            });
-        }, 5000, connectUrl);
-
-        return true;
-    }, (e) => {
-        Dashboard.alert({
-            message: globalize.translate('QuickConnectNotActive'),
-            title: globalize.translate('HeaderError')
-        });
-
-        console.error('Quick connect error: ', e);
-        return false;
-    });
+                console.error('Quick connect error: ', e);
+                return false;
+            }
+        );
 }
 
 function onLoginSuccessful(id, accessToken, apiClient, url) {
@@ -166,7 +181,8 @@ function loadUserList(context, apiClient, users) {
                 type: 'Primary'
             });
 
-            html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
+            html +=
+                '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + '\');"></div>';
         } else {
             html += `<div class="cardImage flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
             html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
@@ -218,7 +234,7 @@ export default function (view, params) {
         });
     }
 
-    view.querySelector('#divUsers').addEventListener('click', (e) => {
+    view.querySelector('#divUsers').addEventListener('click', e => {
         const card = dom.parentWithClass(e.target, 'card');
         const cardContent = card ? card.querySelector('.cardContent') : null;
 
@@ -240,9 +256,15 @@ export default function (view, params) {
             }
         }
     });
-    view.querySelector('.manualLoginForm').addEventListener('submit', (e) => {
+    view.querySelector('.manualLoginForm').addEventListener('submit', e => {
         appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
-        authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
+        authenticateUserByName(
+            view,
+            getApiClient(),
+            getTargetUrl(),
+            view.querySelector('#txtManualName').value,
+            view.querySelector('#txtManualPassword').value
+        );
         e.preventDefault();
         return false;
     });
@@ -272,7 +294,8 @@ export default function (view, params) {
 
         const apiClient = getApiClient();
 
-        apiClient.getQuickConnect('Enabled')
+        apiClient
+            .getQuickConnect('Enabled')
             .then(enabled => {
                 if (enabled === true) {
                     view.querySelector('.btnQuick').classList.remove('hide');
@@ -282,22 +305,28 @@ export default function (view, params) {
                 console.debug('Failed to get QuickConnect status');
             });
 
-        apiClient.getPublicUsers().then((users) => {
-            if (users.length) {
-                showVisualForm();
-                loadUserList(view, apiClient, users);
-            } else {
-                view.querySelector('#txtManualName').value = '';
-                showManualForm(view, false, false);
-            }
-        }).catch().then(() => {
-            loading.hide();
-        });
-        apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then((options) => {
+        apiClient
+            .getPublicUsers()
+            .then(users => {
+                if (users.length) {
+                    showVisualForm();
+                    loadUserList(view, apiClient, users);
+                } else {
+                    view.querySelector('#txtManualName').value = '';
+                    showManualForm(view, false, false);
+                }
+            })
+            .catch()
+            .then(() => {
+                loading.hide();
+            });
+        apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(options => {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
+            const disclaimerText = options.LoginDisclaimer || '';
 
-            // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
+            // For now, use escaped HTML until we convert this to React
+            // TODO: Convert to React component using ReactMarkdownBox
+            loginDisclaimer.innerHTML = disclaimerText.replace(/\n/g, '<br>');
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
                 elem.rel = 'noopener noreferrer';

@@ -1,13 +1,12 @@
-import Alert from '@mui/joy/Alert';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Chip from '@mui/joy/Chip';
-import Divider from '@mui/joy/Divider';
-import Grid from '@mui/joy/Grid';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+import { Alert } from 'ui-primitives/Alert';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Chip } from 'ui-primitives/Chip';
+import { Divider } from 'ui-primitives/Divider';
+import { Grid, gridContainer, gridGap, gridXs, gridSm, gridMd, gridLg, gridXl } from 'ui-primitives/Grid';
+import { Text, Heading } from 'ui-primitives/Text';
 import React, { useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 
 import SearchInput from 'apps/dashboard/components/SearchInput';
 import { usePluginDetails } from 'apps/dashboard/features/plugins/api/usePluginDetails';
@@ -21,10 +20,6 @@ import Page from 'components/Page';
 import useSearchParam from 'hooks/useSearchParam';
 import globalize from 'lib/globalize';
 
-/**
- * The list of primary/main categories.
- * Any category not in this list will be added to the "other" category.
- */
 const MAIN_CATEGORIES = [
     PluginCategory.Administration.toLowerCase(),
     PluginCategory.General.toLowerCase(),
@@ -40,24 +35,23 @@ const CATEGORY_PARAM = 'category';
 const QUERY_PARAM = 'query';
 const STATUS_PARAM = 'status';
 
-export const Component = () => {
-    const {
-        data: pluginDetails,
-        isError,
-        isPending
-    } = usePluginDetails();
-    const [ category, setCategory ] = useSearchParam(CATEGORY_PARAM);
-    const [ searchQuery, setSearchQuery ] = useSearchParam(QUERY_PARAM);
-    const [ status, setStatus ] = useSearchParam(STATUS_PARAM, PluginStatusOption.Installed);
+export const Component = (): React.ReactElement => {
+    const { data: pluginDetails, isError, isPending } = usePluginDetails();
+    const [category, setCategory] = useSearchParam(CATEGORY_PARAM);
+    const [searchQuery, setSearchQuery] = useSearchParam(QUERY_PARAM);
+    const [status, setStatus] = useSearchParam(STATUS_PARAM, PluginStatusOption.Installed);
 
-    const onSearchChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
-    }, [setSearchQuery]);
+    const onSearchChange = useCallback(
+        (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+            setSearchQuery(event.target.value);
+        },
+        [setSearchQuery]
+    );
 
     const onViewAll = useCallback(() => {
         if (category) setCategory('');
         else setStatus(PluginStatusOption.All);
-    }, [ category, setCategory, setStatus ]);
+    }, [category, setCategory, setStatus]);
 
     const filteredPlugins = useMemo(() => {
         if (pluginDetails) {
@@ -71,47 +65,41 @@ export const Component = () => {
 
             if (category) {
                 if (category === PluginCategory.Other.toLowerCase()) {
-                    filtered = filtered.filter(p => (
-                        p.category && !MAIN_CATEGORIES.includes(p.category.toLowerCase())
-                    ));
+                    filtered = filtered.filter(p => p.category && !MAIN_CATEGORIES.includes(p.category.toLowerCase()));
                 } else {
                     filtered = filtered.filter(p => p.category?.toLowerCase() === category);
                 }
             }
-            return filtered
-                .filter(i => i.name?.toLowerCase().includes(searchQuery.toLowerCase()));
+            return filtered.filter(i => i.name?.toLowerCase().includes(searchQuery.toLowerCase()));
         } else {
             return [];
         }
-    }, [ category, pluginDetails, searchQuery, status ]);
+    }, [category, pluginDetails, searchQuery, status]);
 
     if (isPending) {
         return <Loading />;
     }
 
     return (
-        <Page
-            id='pluginsPage'
-            title={globalize.translate('TabPlugins')}
-            className='type-interior mainAnimatedPage'
-        >
-            <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
-                <Stack spacing={3}>
-                    <Stack
-                        direction={{ xs: 'column', sm: 'row' }}
-                        spacing={2}
-                        alignItems={{ xs: 'flex-start', sm: 'center' }}
+        <Page id='pluginsPage' title={globalize.translate('TabPlugins')} className='type-interior mainAnimatedPage'>
+            <Box style={{ maxWidth: 1200, margin: '0 auto', padding: 24 }}>
+                <Box className={`${Flex} ${Flex.col}`} style={{ gap: 24 }}>
+                    <Box
+                        className={`${Flex} ${Flex.row}`}
+                        style={{
+                            gap: 16,
+                            alignItems: 'flex-start',
+                            flexDirection: 'column'
+                        }}
                     >
-                        <Typography level='h2' sx={{ flexGrow: 1 }}>
-                            {globalize.translate('TabPlugins')}
-                        </Typography>
+                        <Heading.H2 style={{ flexGrow: 1, margin: 0 }}>{globalize.translate('TabPlugins')}</Heading.H2>
 
-                        <Stack direction="row" spacing={2} sx={{ width: { xs: '100%', sm: 'auto' } }}>
+                        <Box className={`${Flex} ${Flex.row}`} style={{ gap: 16, width: '100%' }}>
                             <Button
                                 component={Link}
                                 to='/dashboard/plugins/repositories'
                                 variant='outlined'
-                                color="neutral"
+                                color='neutral'
                             >
                                 {globalize.translate('ManageRepositories')}
                             </Button>
@@ -121,75 +109,69 @@ export const Component = () => {
                                 value={searchQuery}
                                 onChange={onSearchChange}
                             />
-                        </Stack>
-                    </Stack>
+                        </Box>
+                    </Box>
 
                     {isError ? (
-                        <Alert color='danger'>
-                            {globalize.translate('PluginsLoadError')}
-                        </Alert>
+                        <Alert variant='error'>{globalize.translate('PluginsLoadError')}</Alert>
                     ) : (
                         <>
-                            <Box sx={{ overflowX: 'auto', mx: -3, px: 3, pb: 1 }}>
-                                <Stack direction='row' spacing={1}>
+                            <Box
+                                style={{
+                                    overflowX: 'auto',
+                                    marginLeft: -24,
+                                    marginRight: -24,
+                                    paddingLeft: 24,
+                                    paddingBottom: 8
+                                }}
+                            >
+                                <Box className={`${Flex} ${Flex.row}`} style={{ gap: 8 }}>
                                     <Chip
-                                        variant={status === PluginStatusOption.All ? 'solid' : 'soft'}
-                                        color={status === PluginStatusOption.All ? 'primary' : 'neutral'}
+                                        variant={status === PluginStatusOption.All ? 'primary' : 'soft'}
                                         onClick={() => setStatus(PluginStatusOption.All)}
                                     >
                                         {globalize.translate('All')}
                                     </Chip>
 
                                     <Chip
-                                        variant={status === PluginStatusOption.Available ? 'solid' : 'soft'}
-                                        color={status === PluginStatusOption.Available ? 'primary' : 'neutral'}
+                                        variant={status === PluginStatusOption.Available ? 'primary' : 'soft'}
                                         onClick={() => setStatus(PluginStatusOption.Available)}
                                     >
                                         {globalize.translate('LabelAvailable')}
                                     </Chip>
 
                                     <Chip
-                                        variant={status === PluginStatusOption.Installed ? 'solid' : 'soft'}
-                                        color={status === PluginStatusOption.Installed ? 'primary' : 'neutral'}
+                                        variant={status === PluginStatusOption.Installed ? 'primary' : 'soft'}
                                         onClick={() => setStatus(PluginStatusOption.Installed)}
                                     >
                                         {globalize.translate('LabelInstalled')}
                                     </Chip>
 
-                                    <Divider orientation='vertical' />
+                                    <Divider />
 
-                                    <Chip
-                                        variant={!category ? 'solid' : 'soft'}
-                                        color={!category ? 'primary' : 'neutral'}
-                                        onClick={() => setCategory('')}
-                                    >
+                                    <Chip variant={!category ? 'primary' : 'soft'} onClick={() => setCategory('')}>
                                         {globalize.translate('All')}
                                     </Chip>
 
                                     {Object.values(PluginCategory).map(c => (
                                         <Chip
                                             key={c}
-                                            variant={category === c.toLowerCase() ? 'solid' : 'soft'}
-                                            color={category === c.toLowerCase() ? 'primary' : 'neutral'}
+                                            variant={category === c.toLowerCase() ? 'primary' : 'soft'}
                                             onClick={() => setCategory(c.toLowerCase())}
                                         >
                                             {globalize.translate(CATEGORY_LABELS[c as PluginCategory])}
                                         </Chip>
                                     ))}
-                                </Stack>
+                                </Box>
                             </Box>
 
                             <Box>
                                 {filteredPlugins.length > 0 ? (
-                                    <Grid container spacing={3}>
+                                    <Grid className={`${gridContainer} ${gridGap.lg}`}>
                                         {filteredPlugins.map(plugin => (
                                             <Grid
                                                 key={plugin.id}
-                                                xs={12}
-                                                sm={6}
-                                                md={4}
-                                                lg={3}
-                                                xl={2}
+                                                className={`${gridXs[12]} ${gridSm[6]} ${gridMd[4]} ${gridLg[3]} ${gridXl[2]}`}
                                             >
                                                 <PluginCard plugin={plugin} />
                                             </Grid>
@@ -205,7 +187,7 @@ export const Component = () => {
                             </Box>
                         </>
                     )}
-                </Stack>
+                </Box>
             </Box>
         </Page>
     );

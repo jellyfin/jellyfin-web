@@ -1,33 +1,32 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Page from 'components/Page';
-import { useParams } from 'react-router-dom';
-import Box from '@mui/material/Box/Box';
-import Button from '@mui/material/Button/Button';
-import Stack from '@mui/material/Stack/Stack';
-import Typography from '@mui/material/Typography/Typography';
-import AddIcon from '@mui/icons-material/Add';
-import IconButton from '@mui/material/IconButton/IconButton';
-import { useTheme } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { useParams } from '@tanstack/react-router';
+import { MinusCircledIcon, PlusIcon } from '@radix-ui/react-icons';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Heading, Text } from 'ui-primitives/Text';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
 import Loading from 'components/loading/LoadingComponent';
-import { type MRT_ColumnDef, MRT_Table, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
+import type { ColumnDef } from '@tanstack/react-table';
+import type { CellContext } from '@tanstack/react-table';
+import { vars } from 'styles/tokens.css';
 import globalize from '../../../../lib/globalize';
 import { useTask } from 'apps/dashboard/features/tasks/api/useTask';
 import { useUpdateTask } from 'apps/dashboard/features/tasks/api/useUpdateTask';
 import ConfirmDialog from 'components/ConfirmDialog';
 import TaskTriggerCell from 'apps/dashboard/features/tasks/components/TaskTriggerCell';
 import NewTriggerForm from 'apps/dashboard/features/tasks/components/NewTriggerForm';
+import { DataTable } from 'ui-primitives/DataTable';
 
-export const Component = () => {
-    const { id: taskId } = useParams();
+export const Component = (): React.ReactElement => {
+    const { id: taskId } = useParams({ strict: false }) as { id?: string };
     const updateTask = useUpdateTask();
     const { data: task, isLoading } = useTask({ taskId: taskId || '' });
-    const [ isAddTriggerDialogOpen, setIsAddTriggerDialogOpen ] = useState(false);
-    const [ isRemoveConfirmOpen, setIsRemoveConfirmOpen ] = useState(false);
-    const [ pendingDeleteTrigger, setPendingDeleteTrigger ] = useState<TaskTriggerInfo | null>(null);
-    const theme = useTheme();
+    const [isAddTriggerDialogOpen, setIsAddTriggerDialogOpen] = useState(false);
+    const [isRemoveConfirmOpen, setIsRemoveConfirmOpen] = useState(false);
+    const [pendingDeleteTrigger, setPendingDeleteTrigger] = useState<TaskTriggerInfo | null>(null);
 
     const onCloseRemoveConfirmDialog = useCallback(() => {
         setPendingDeleteTrigger(null);
@@ -61,99 +60,67 @@ export const Component = () => {
         setIsAddTriggerDialogOpen(false);
     }, []);
 
-    const onNewTriggerAdd = useCallback((trigger: TaskTriggerInfo) => {
-        if (task?.Triggers && task?.Id) {
-            const triggers = [...task.Triggers, trigger];
+    const onNewTriggerAdd = useCallback(
+        (trigger: TaskTriggerInfo) => {
+            if (task?.Triggers && task?.Id) {
+                const triggers = [...task.Triggers, trigger];
 
-            updateTask.mutate({
-                taskId: task.Id,
-                taskTriggerInfo: triggers
-            });
-            setIsAddTriggerDialogOpen(false);
-        }
-    }, [task, updateTask]);
-
-    const columns = useMemo<MRT_ColumnDef<TaskTriggerInfo>[]>(() => [
-        {
-            id: 'TriggerTime',
-            accessorFn: row => row,
-            Cell: TaskTriggerCell,
-            header: globalize.translate('LabelTime')
-        }
-    ], []);
-
-    // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
-    // https://github.com/KevinVandy/material-react-table/issues/1429
-    const mrtTheme = useMemo<Partial<MRT_Theme>>(() => ({
-        baseBackgroundColor: theme.palette.background.paper
-    }), [ theme ]);
-
-    const table = useMaterialReactTable({
-        mrtTheme,
-
-        columns,
-        data: task?.Triggers || [],
-
-        enableSorting: false,
-        enableFilters: false,
-        enableColumnActions: false,
-        enablePagination: false,
-
-        state: {
-            isLoading
-        },
-
-        muiTableContainerProps: {
-            sx: {
-                maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
+                updateTask.mutate({
+                    taskId: task.Id,
+                    taskTriggerInfo: triggers
+                });
+                setIsAddTriggerDialogOpen(false);
             }
         },
+        [task, updateTask]
+    );
 
-        // Custom actions
-        enableRowActions: true,
-        positionActionsColumn: 'last',
-        displayColumnDefOptions: {
-            'mrt-row-actions': {
-                header: ''
+    const columns = useMemo<ColumnDef<TaskTriggerInfo, any>[]>(
+        () => [
+            {
+                id: 'TriggerTime',
+                accessorFn: row => row,
+                cell: (info: any) => <TaskTriggerCell {...info} />,
+                header: globalize.translate('LabelTime')
             }
-        },
-        renderRowActions: ({ row }) => {
+        ],
+        []
+    );
+
+    const renderRowActions = useCallback(
+        (row: TaskTriggerInfo) => {
             return (
-                <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end'
-                }}>
-                    <Tooltip disableInteractive title={globalize.translate('ButtonRemove')}>
-                        <IconButton
-                            color='error'
-                            // eslint-disable-next-line react/jsx-no-bind
-                            onClick={() => onDeleteTrigger(row.original)}
-                        >
-                            <RemoveCircleIcon />
+                <Box
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'flex-end'
+                    }}
+                >
+                    <Tooltip title={globalize.translate('ButtonRemove')}>
+                        <IconButton variant='danger' onClick={() => onDeleteTrigger(row)}>
+                            <MinusCircledIcon />
                         </IconButton>
                     </Tooltip>
                 </Box>
             );
-        }
-    });
+        },
+        [onDeleteTrigger]
+    );
 
     if (isLoading || !task) {
         return <Loading />;
     }
 
     return (
-        <Page
-            id='scheduledTaskPage'
-            className='mainAnimatedPage type-interior'
-        >
+        <Page id='scheduledTaskPage' className='mainAnimatedPage type-interior'>
             <ConfirmDialog
                 open={isRemoveConfirmOpen}
                 title={globalize.translate('HeaderDeleteTaskTrigger')}
-                text={globalize.translate('MessageDeleteTaskTrigger')}
+                message={globalize.translate('MessageDeleteTaskTrigger')}
                 onCancel={onCloseRemoveConfirmDialog}
                 onConfirm={onConfirmDelete}
-                confirmButtonColor='error'
-                confirmButtonText={globalize.translate('ButtonRemove')}
+                isDestructive={true}
+                confirmText={globalize.translate('ButtonRemove')}
             />
             <NewTriggerForm
                 open={isAddTriggerDialogOpen}
@@ -163,16 +130,26 @@ export const Component = () => {
             />
             <Box className='content-primary'>
                 <Box className='readOnlyContent'>
-                    <Stack spacing={2}>
-                        <Typography variant='h2'>{task.Name}</Typography>
-                        <Typography variant='body1'>{task.Description}</Typography>
+                    <Flex direction='column' gap={vars.spacing.md}>
+                        <Heading.H2>{task.Name}</Heading.H2>
+                        <Text>{task.Description}</Text>
                         <Button
-                            sx={{ alignSelf: 'flex-start' }}
-                            startIcon={<AddIcon />}
+                            style={{ alignSelf: 'flex-start' }}
+                            startDecorator={<PlusIcon />}
                             onClick={showAddTriggerDialog}
-                        >{globalize.translate('ButtonAddScheduledTaskTrigger')}</Button>
-                        <MRT_Table table={table} />
-                    </Stack>
+                        >
+                            {globalize.translate('ButtonAddScheduledTaskTrigger')}
+                        </Button>
+                        <Box style={{ maxHeight: 'calc(100% - 7rem)', overflow: 'auto' }}>
+                            <DataTable
+                                data={task.Triggers || []}
+                                columns={columns as any}
+                                enableRowActions={true}
+                                renderRowActions={renderRowActions}
+                                sortable={false}
+                            />
+                        </Box>
+                    </Flex>
                 </Box>
             </Box>
         </Page>

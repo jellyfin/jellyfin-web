@@ -1,7 +1,7 @@
 import React, { type FC } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import Avatar from '@mui/material/Avatar/Avatar';
-import type {} from '@mui/material/themeCssVarsAugmentation';
+import { vars } from 'styles/tokens.css';
+import { Avatar } from 'ui-primitives/Avatar';
 
 import { useApi } from 'hooks/useApi';
 
@@ -20,13 +20,12 @@ const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
                     `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}` :
                     undefined
             }
-            // eslint-disable-next-line react/jsx-no-bind
-            sx={(theme) => ({
-                bgcolor: api && user.Id && user.PrimaryImageTag ?
-                    theme.vars.palette.background.paper :
-                    theme.vars.palette.primary.dark,
+            style={{
+                backgroundColor: api && user.Id && user.PrimaryImageTag ?
+                    vars.colors.surface :
+                    vars.colors.primaryHover,
                 color: 'inherit'
-            })}
+            }}
         />
     ) : null;
 };

@@ -1,6 +1,5 @@
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import React, { type FC } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useDebounceValue } from 'usehooks-ts';
 
 import SearchFields from 'apps/stable/features/search/components/SearchFields';
@@ -8,6 +7,7 @@ import SearchResults from 'apps/stable/features/search/components/SearchResults'
 import SearchSuggestions from 'apps/stable/features/search/components/SearchSuggestions';
 import Page from 'components/Page';
 import useSearchParam from 'hooks/useSearchParam';
+import { useSearchParams } from 'hooks/useSearchParams';
 import globalize from 'lib/globalize';
 
 const COLLECTION_TYPE_PARAM = 'collectionType';

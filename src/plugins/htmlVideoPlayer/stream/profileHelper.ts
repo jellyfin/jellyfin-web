@@ -1,5 +1,5 @@
-import { appHost } from '../../../../components/apphost';
-import profileBuilder from '../../../../scripts/browserDeviceProfile';
+import { appHost } from '../../../components/apphost';
+import profileBuilder from '../../../scripts/browserDeviceProfile';
 
 export function getDefaultProfile(): any {
     if (appHost.getDeviceProfile) {

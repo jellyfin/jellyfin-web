@@ -1,48 +1,53 @@
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Typography from '@mui/joy/Typography';
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Text, Heading } from 'ui-primitives/Text';
+import { PlusIcon } from '@radix-ui/react-icons';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import React, { useCallback, useState } from 'react';
-import Stack from '@mui/joy/Stack';
-import { useRepositories } from 'apps/dashboard/features/plugins/api/useRepositories';
-import Loading from 'components/loading/LoadingComponent';
-import Alert from '@mui/joy/Alert';
-import List from '@mui/joy/List';
-import Sheet from '@mui/joy/Sheet';
+import { Alert } from 'ui-primitives/Alert';
+import { List } from 'ui-primitives/List';
+import { Paper } from 'ui-primitives/Paper';
 import RepositoryListItem from 'apps/dashboard/features/plugins/components/RepositoryListItem';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
+import { useRepositories } from 'apps/dashboard/features/plugins/api/useRepositories';
+import Loading from 'components/loading/LoadingComponent';
 import { useSetRepositories } from 'apps/dashboard/features/plugins/api/useSetRepositories';
 import NewRepositoryForm from 'apps/dashboard/features/plugins/components/NewRepositoryForm';
 
-export const Component = () => {
+export const Component = (): React.ReactElement => {
     const { data: repositories, isPending, isError } = useRepositories();
-    const [ isRepositoryFormOpen, setIsRepositoryFormOpen ] = useState(false);
+    const [isRepositoryFormOpen, setIsRepositoryFormOpen] = useState(false);
     const setRepositories = useSetRepositories();
 
-    const onDelete = useCallback((repository: RepositoryInfo) => {
-        if (repositories) {
-            setRepositories.mutate({
-                repositoryInfo: repositories.filter(currentRepo => currentRepo.Url !== repository.Url)
-            });
-        }
-    }, [ repositories, setRepositories ]);
+    const onDelete = useCallback(
+        (repository: RepositoryInfo) => {
+            if (repositories) {
+                setRepositories.mutate({
+                    repositoryInfo: repositories.filter(currentRepo => currentRepo.Url !== repository.Url)
+                });
+            }
+        },
+        [repositories, setRepositories]
+    );
 
-    const onRepositoryAdd = useCallback((repository: RepositoryInfo) => {
-        if (repositories) {
-            setRepositories.mutate({
-                repositoryInfo: [
-                    ...repositories,
-                    repository
-                ]
-            }, {
-                onSettled: () => {
-                    setIsRepositoryFormOpen(false);
-                }
-            });
-        }
-    }, [ repositories, setRepositories ]);
+    const onRepositoryAdd = useCallback(
+        (repository: RepositoryInfo) => {
+            if (repositories) {
+                setRepositories.mutate(
+                    {
+                        repositoryInfo: [...repositories, repository]
+                    },
+                    {
+                        onSettled: () => {
+                            setIsRepositoryFormOpen(false);
+                        }
+                    }
+                );
+            }
+        },
+        [repositories, setRepositories]
+    );
 
     const openRepositoryForm = useCallback(() => {
         setIsRepositoryFormOpen(true);
@@ -62,47 +67,64 @@ export const Component = () => {
             title={globalize.translate('TabRepositories')}
             className='type-interior mainAnimatedPage'
         >
-            <NewRepositoryForm
-                open={isRepositoryFormOpen}
-                onClose={onRepositoryFormClose}
-                onAdd={onRepositoryAdd}
-            />
-            <Box sx={{ maxWidth: 800, mx: 'auto', p: 3 }}>
+            <NewRepositoryForm open={isRepositoryFormOpen} onClose={onRepositoryFormClose} onAdd={onRepositoryAdd} />
+            <Box style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
                 {isError ? (
-                    <Alert color='danger'>{globalize.translate('RepositoriesPageLoadError')}</Alert>
+                    <Alert variant='error'>{globalize.translate('RepositoriesPageLoadError')}</Alert>
                 ) : (
-                    <Stack spacing={4}>
-                        <Stack direction="row" justifyContent="space-between" alignItems="center">
-                            <Typography level='h2'>{globalize.translate('TabRepositories')}</Typography>
-                            <Button
-                                startDecorator={<AddIcon />}
-                                onClick={openRepositoryForm}
-                            >
+                    <Box className={`${Flex} ${Flex.col}`} style={{ gap: 32 }}>
+                        <Box
+                            className={`${Flex} ${Flex.row}`}
+                            style={{ justifyContent: 'space-between', alignItems: 'center' }}
+                        >
+                            <Heading.H2 style={{ margin: 0 }}>{globalize.translate('TabRepositories')}</Heading.H2>
+                            <Button startDecorator={<PlusIcon />} onClick={openRepositoryForm}>
                                 {globalize.translate('HeaderNewRepository')}
                             </Button>
-                        </Stack>
+                        </Box>
 
                         {repositories && repositories.length > 0 ? (
-                            <Sheet variant="outlined" sx={{ borderRadius: 'md', overflow: 'hidden' }}>
-                                <List sx={{ '--ListItem-paddingY': '12px', '--ListItem-paddingX': '16px' }}>
+                            <Paper variant='outlined' style={{ borderRadius: '8px', overflow: 'hidden' }}>
+                                <List
+                                    style={
+                                        {
+                                            '--ListItem-paddingY': '12px',
+                                            '--ListItem-paddingX': '16px'
+                                        } as React.CSSProperties
+                                    }
+                                >
                                     {repositories.map((repository, index) => (
                                         <React.Fragment key={repository.Url}>
-                                            <RepositoryListItem
-                                                repository={repository}
-                                                onDelete={onDelete}
-                                            />
-                                            {index < repositories.length - 1 && <div style={{ height: 1, backgroundColor: 'var(--joy-palette-divider)' }} />}
+                                            <RepositoryListItem repository={repository} onDelete={onDelete} />
+                                            {index < repositories.length - 1 && (
+                                                <div
+                                                    style={{ height: 1, backgroundColor: 'var(--joy-palette-divider)' }}
+                                                />
+                                            )}
                                         </React.Fragment>
                                     ))}
                                 </List>
-                            </Sheet>
+                            </Paper>
                         ) : (
-                            <Box sx={{ textAlign: 'center', py: 8, bgcolor: 'background.surface', borderRadius: 'md', border: '1px dashed', borderColor: 'divider' }}>
-                                <Typography level='h4' sx={{ mb: 1 }}>{globalize.translate('MessageNoRepositories')}</Typography>
-                                <Typography level='body-md' color='neutral'>{globalize.translate('MessageAddRepository')}</Typography>
+                            <Box
+                                style={{
+                                    textAlign: 'center',
+                                    paddingTop: 64,
+                                    paddingBottom: 64,
+                                    backgroundColor: 'var(--joy-palette-background-surface)',
+                                    borderRadius: '8px',
+                                    border: '1px dashed var(--joy-palette-divider)'
+                                }}
+                            >
+                                <Heading.H4 style={{ marginBottom: 8 }}>
+                                    {globalize.translate('MessageNoRepositories')}
+                                </Heading.H4>
+                                <Text size='md' color='secondary'>
+                                    {globalize.translate('MessageAddRepository')}
+                                </Text>
                             </Box>
                         )}
-                    </Stack>
+                    </Box>
                 )}
             </Box>
         </Page>

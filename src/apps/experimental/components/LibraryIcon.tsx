@@ -1,19 +1,18 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import Favorite from '@mui/icons-material/Favorite';
-import Movie from '@mui/icons-material/Movie';
-import MusicNote from '@mui/icons-material/MusicNote';
-import Photo from '@mui/icons-material/Photo';
-import LiveTv from '@mui/icons-material/LiveTv';
-import Tv from '@mui/icons-material/Tv';
-import Theaters from '@mui/icons-material/Theaters';
-import MusicVideo from '@mui/icons-material/MusicVideo';
-import Book from '@mui/icons-material/Book';
-import Queue from '@mui/icons-material/Queue';
-import Quiz from '@mui/icons-material/Quiz';
-import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import Folder from '@mui/icons-material/Folder';
-import React, { FC } from 'react';
+import {
+    ArchiveIcon,
+    DesktopIcon,
+    DiscIcon,
+    FileIcon,
+    HeartFilledIcon,
+    ImageIcon,
+    QuestionMarkCircledIcon,
+    ReaderIcon,
+    StackIcon,
+    VideoIcon
+} from '@radix-ui/react-icons';
+import React, { type FC } from 'react';
 
 import { MetaView } from '../constants/metaView';
 
@@ -25,35 +24,35 @@ const LibraryIcon: FC<LibraryIconProps> = ({
     item
 }) => {
     if (item.Id === MetaView.Favorites.Id) {
-        return <Favorite />;
+        return <HeartFilledIcon />;
     }
 
     switch (item.CollectionType) {
         case CollectionType.Movies:
-            return <Movie />;
+            return <VideoIcon />;
         case CollectionType.Music:
-            return <MusicNote />;
+            return <DiscIcon />;
         case CollectionType.Homevideos:
         case CollectionType.Photos:
-            return <Photo />;
+            return <ImageIcon />;
         case CollectionType.Livetv:
-            return <LiveTv />;
+            return <DesktopIcon />;
         case CollectionType.Tvshows:
-            return <Tv />;
+            return <DesktopIcon />;
         case CollectionType.Trailers:
-            return <Theaters />;
+            return <VideoIcon />;
         case CollectionType.Musicvideos:
-            return <MusicVideo />;
+            return <VideoIcon />;
         case CollectionType.Books:
-            return <Book />;
+            return <ReaderIcon />;
         case CollectionType.Boxsets:
-            return <VideoLibrary />;
+            return <ArchiveIcon />;
         case CollectionType.Playlists:
-            return <Queue />;
+            return <StackIcon />;
         case undefined:
-            return <Quiz />;
+            return <QuestionMarkCircledIcon />;
         default:
-            return <Folder />;
+            return <FileIcon />;
     }
 };
 

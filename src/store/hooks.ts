@@ -6,7 +6,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, useSettingsStore } from './index';
+import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, usePreferencesStore } from './index';
 import type { PlayableItem, PlaybackProgress, RepeatMode, ShuffleMode, PlayerInfo } from './types';
 import type { ControlSource } from './controlsStore';
 import type { PlaybackStatus } from './types';
@@ -59,12 +59,12 @@ export function useDuration(): number {
 
 // Volume and audio hooks
 export function useVolume(): number {
-    const volume = useSettingsStore(state => state.audio.volume);
+    const volume = usePreferencesStore(state => state.audio.volume);
     return volume;
 }
 
 export function useIsMuted(): boolean {
-    const muted = useSettingsStore(state => state.audio.muted);
+    const muted = usePreferencesStore(state => state.audio.muted);
     return muted;
 }
 
@@ -157,18 +157,18 @@ export function useTransferCountdown(): number | null {
 }
 
 // Settings hooks
-export function useTheme(): ReturnType<typeof useSettingsStore.getState>['ui']['theme'] {
-    const theme = useSettingsStore(state => state.ui.theme);
+export function useTheme(): ReturnType<typeof usePreferencesStore.getState>['ui']['theme'] {
+    const theme = usePreferencesStore(state => state.ui.theme);
     return theme;
 }
 
 export function useVisualizerEnabled(): boolean {
-    const enabled = useSettingsStore(state => state.visualizer.enabled && state.ui.showVisualizer);
+    const enabled = usePreferencesStore(state => state.visualizer.enabled && state.ui.showVisualizer);
     return enabled;
 }
 
-export function useVisualizerType(): ReturnType<typeof useSettingsStore.getState>['visualizer']['type'] {
-    const type = useSettingsStore(state => state.visualizer.type);
+export function useVisualizerType(): ReturnType<typeof usePreferencesStore.getState>['visualizer']['type'] {
+    const type = usePreferencesStore(state => state.visualizer.type);
     return type;
 }
 
@@ -177,17 +177,20 @@ export function usePlaybackActions() {
     const mediaStore = useMediaStore.getState();
     const queueStore = useQueueStore.getState();
     const controlsStore = useControlsStore.getState();
-    const settingsStore = useSettingsStore.getState();
+    const preferencesStore = usePreferencesStore.getState();
 
-    const play = useCallback((item?: PlayableItem) => {
-        if (item) {
-            mediaStore.play(item);
-            queueStore.setQueue([item], 0);
-        } else {
-            mediaStore.play();
-        }
-        controlsStore.play(item);
-    }, [mediaStore, queueStore, controlsStore]);
+    const play = useCallback(
+        (item?: PlayableItem) => {
+            if (item) {
+                mediaStore.play(item);
+                queueStore.setQueue([item], 0);
+            } else {
+                mediaStore.play();
+            }
+            controlsStore.play(item);
+        },
+        [mediaStore, queueStore, controlsStore]
+    );
 
     const pause = useCallback(() => {
         mediaStore.pause();
@@ -207,33 +210,45 @@ export function usePlaybackActions() {
         }
     }, [mediaStore]);
 
-    const seek = useCallback((time: number) => {
-        mediaStore.seek(time);
-        controlsStore.seek(time);
-    }, [mediaStore, controlsStore]);
+    const seek = useCallback(
+        (time: number) => {
+            mediaStore.seek(time);
+            controlsStore.seek(time);
+        },
+        [mediaStore, controlsStore]
+    );
 
-    const seekPercent = useCallback((percent: number) => {
-        const duration = mediaStore.progress.duration;
-        const seekTime = (percent / 100) * duration;
-        mediaStore.seek(seekTime);
-        controlsStore.seek(seekTime);
-    }, [mediaStore, controlsStore]);
+    const seekPercent = useCallback(
+        (percent: number) => {
+            const duration = mediaStore.progress.duration;
+            const seekTime = (percent / 100) * duration;
+            mediaStore.seek(seekTime);
+            controlsStore.seek(seekTime);
+        },
+        [mediaStore, controlsStore]
+    );
 
-    const setVolume = useCallback((volume: number) => {
-        const clamped = Math.max(0, Math.min(100, volume));
-        mediaStore.setVolume(clamped);
-        settingsStore.setVolume(clamped);
-    }, [mediaStore, settingsStore]);
+    const setVolume = useCallback(
+        (volume: number) => {
+            const clamped = Math.max(0, Math.min(100, volume));
+            mediaStore.setVolume(clamped);
+            preferencesStore.setVolume(clamped);
+        },
+        [mediaStore, preferencesStore]
+    );
 
     const toggleMute = useCallback(() => {
-        const newMuted = !settingsStore.audio.muted;
-        settingsStore.setMuted(newMuted);
+        const newMuted = !preferencesStore.audio.muted;
+        preferencesStore.setMuted(newMuted);
         mediaStore.setMuted(newMuted);
-    }, [mediaStore, settingsStore]);
+    }, [mediaStore, preferencesStore]);
 
-    const setPlaybackRate = useCallback((rate: number) => {
-        mediaStore.setPlaybackRate(rate);
-    }, [mediaStore]);
+    const setPlaybackRate = useCallback(
+        (rate: number) => {
+            mediaStore.setPlaybackRate(rate);
+        },
+        [mediaStore]
+    );
 
     return { play, pause, stop, togglePlayPause, seek, seekPercent, setVolume, toggleMute, setPlaybackRate };
 }
@@ -257,10 +272,13 @@ export function useQueueActions() {
         controlsStore.prevTrack();
     }, [mediaStore, queueStore, controlsStore]);
 
-    const setRepeatMode = useCallback((mode: RepeatMode) => {
-        queueStore.setRepeatMode(mode);
-        mediaStore.setRepeatMode(mode);
-    }, [mediaStore, queueStore]);
+    const setRepeatMode = useCallback(
+        (mode: RepeatMode) => {
+            queueStore.setRepeatMode(mode);
+            mediaStore.setRepeatMode(mode);
+        },
+        [mediaStore, queueStore]
+    );
 
     const toggleRepeatMode = useCallback(() => {
         const modes: RepeatMode[] = ['RepeatNone', 'RepeatAll', 'RepeatOne'];
@@ -271,14 +289,17 @@ export function useQueueActions() {
         mediaStore.setRepeatMode(nextMode);
     }, [mediaStore, queueStore]);
 
-    const setShuffleMode = useCallback((mode: ShuffleMode) => {
-        if (mode === 'Shuffle' && !queueStore.isShuffled) {
-            queueStore.shuffle();
-        } else if (mode === 'Sorted' && queueStore.isShuffled) {
-            queueStore.unshuffle();
-        }
-        mediaStore.setShuffleMode(mode);
-    }, [mediaStore, queueStore]);
+    const setShuffleMode = useCallback(
+        (mode: ShuffleMode) => {
+            if (mode === 'Shuffle' && !queueStore.isShuffled) {
+                queueStore.shuffle();
+            } else if (mode === 'Sorted' && queueStore.isShuffled) {
+                queueStore.unshuffle();
+            }
+            mediaStore.setShuffleMode(mode);
+        },
+        [mediaStore, queueStore]
+    );
 
     const toggleShuffleMode = useCallback(() => {
         if (queueStore.shuffleMode === 'Sorted') {
@@ -290,39 +311,66 @@ export function useQueueActions() {
         }
     }, [mediaStore, queueStore]);
 
-    const setQueue = useCallback((items: PlayableItem[], startIndex = 0) => {
-        queueStore.setQueue(items, startIndex);
-        if (items[startIndex]) {
-            mediaStore.play(items[startIndex]);
-        }
-    }, [mediaStore, queueStore]);
+    const setQueue = useCallback(
+        (items: PlayableItem[], startIndex = 0) => {
+            queueStore.setQueue(items, startIndex);
+            if (items[startIndex]) {
+                mediaStore.play(items[startIndex]);
+            }
+        },
+        [mediaStore, queueStore]
+    );
 
-    const addToQueue = useCallback((items: PlayableItem[]) => {
-        queueStore.addToQueue(items);
-    }, [queueStore]);
+    const addToQueue = useCallback(
+        (items: PlayableItem[]) => {
+            queueStore.addToQueue(items);
+        },
+        [queueStore]
+    );
 
     const clearQueue = useCallback(() => {
         queueStore.clearQueue();
         mediaStore.stop();
     }, [mediaStore, queueStore]);
 
-    const removeFromQueue = useCallback((itemIds: string[]) => {
-        queueStore.removeFromQueue(itemIds);
-    }, [queueStore]);
+    const removeFromQueue = useCallback(
+        (itemIds: string[]) => {
+            queueStore.removeFromQueue(itemIds);
+        },
+        [queueStore]
+    );
 
-    const moveItem = useCallback((fromIndex: number, toIndex: number) => {
-        queueStore.moveItem(fromIndex, toIndex);
-    }, [queueStore]);
+    const moveItem = useCallback(
+        (fromIndex: number, toIndex: number) => {
+            queueStore.moveItem(fromIndex, toIndex);
+        },
+        [queueStore]
+    );
 
-    return { next, previous, setRepeatMode, toggleRepeatMode, setShuffleMode, toggleShuffleMode, setQueue, addToQueue, clearQueue, removeFromQueue, moveItem };
+    return {
+        next,
+        previous,
+        setRepeatMode,
+        toggleRepeatMode,
+        setShuffleMode,
+        toggleShuffleMode,
+        setQueue,
+        addToQueue,
+        clearQueue,
+        removeFromQueue,
+        moveItem
+    };
 }
 
 export function useTransferActions() {
     const controlsStore = useControlsStore.getState();
 
-    const initiateTransfer = useCallback((fromSource: ControlSource, toSource: ControlSource) => {
-        controlsStore.initiateTransfer(fromSource, toSource);
-    }, [controlsStore]);
+    const initiateTransfer = useCallback(
+        (fromSource: ControlSource, toSource: ControlSource) => {
+            controlsStore.initiateTransfer(fromSource, toSource);
+        },
+        [controlsStore]
+    );
 
     const confirmTransfer = useCallback(() => {
         controlsStore.confirmTransfer();
@@ -348,7 +396,7 @@ export function useLegacyPlaybackManager() {
     const mediaStore = useMediaStore.getState();
     const queueStore = useQueueStore.getState();
     const playerStore = usePlayerStore.getState();
-    const settingsStore = useSettingsStore.getState();
+    const preferencesStore = usePreferencesStore.getState();
 
     return useRef({
         currentTime: () => mediaStore.progress.currentTime,
@@ -356,8 +404,8 @@ export function useLegacyPlaybackManager() {
         currentItem: () => mediaStore.currentItem,
         isPlaying: () => mediaStore.status === 'playing',
         isPaused: () => mediaStore.status === 'paused',
-        getVolume: () => settingsStore.audio.volume,
-        isMuted: () => settingsStore.audio.muted,
+        getVolume: () => preferencesStore.audio.volume,
+        isMuted: () => preferencesStore.audio.muted,
         getRepeatMode: () => mediaStore.repeatMode,
         getShuffleMode: () => queueStore.shuffleMode,
         getCurrentPlayer: () => playerStore.currentPlayer,
@@ -381,8 +429,8 @@ export function useLegacyPlaybackManager() {
             }
         },
         seek: (time: number) => mediaStore.seek(time),
-        setVolume: (volume: number) => settingsStore.setVolume(volume),
-        toggleMute: () => settingsStore.setMuted(!settingsStore.audio.muted),
+        setVolume: (volume: number) => preferencesStore.setVolume(volume),
+        toggleMute: () => preferencesStore.setMuted(!preferencesStore.audio.muted),
         setRepeatMode: (mode: RepeatMode) => {
             queueStore.setRepeatMode(mode);
             mediaStore.setRepeatMode(mode);
@@ -436,7 +484,7 @@ export function useFormattedTime() {
 export function useDebouncedVolume(delay = 100) {
     const [debouncedVolume, setDebouncedVolume] = useState(useVolume());
     const timeoutRef = useRef<number | null>(null);
-    const settingsStore = useSettingsStore.getState();
+    const preferencesStore = usePreferencesStore.getState();
 
     useEffect(() => {
         const updateVolume = (volume: number) => {
@@ -444,7 +492,7 @@ export function useDebouncedVolume(delay = 100) {
                 clearTimeout(timeoutRef.current);
             }
             timeoutRef.current = window.setTimeout(() => {
-                settingsStore.setVolume(volume);
+                preferencesStore.setVolume(volume);
                 setDebouncedVolume(volume);
             }, delay);
         };
@@ -454,7 +502,7 @@ export function useDebouncedVolume(delay = 100) {
                 clearTimeout(timeoutRef.current);
             }
         };
-    }, [delay, settingsStore]);
+    }, [delay, preferencesStore]);
 
     return { debouncedVolume, setDebouncedVolume };
 }

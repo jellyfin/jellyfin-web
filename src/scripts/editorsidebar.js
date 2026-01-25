@@ -1,6 +1,5 @@
 import escapeHtml from 'escape-html';
 import $ from 'jquery';
-import 'material-design-icons-iconfont';
 
 import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
@@ -23,10 +22,12 @@ function getNode(item, folderState, selected) {
         }
     };
     if (item.IsFolder) {
-        node.children = [{
-            text: 'Loading...',
-            icon: false
-        }];
+        node.children = [
+            {
+                text: 'Loading...',
+                icon: false
+            }
+        ];
         node.icon = false;
     } else {
         node.icon = false;
@@ -73,7 +74,7 @@ function getNodeInnerHtml(item) {
 function loadChildrenOfRootNode(page, scope, callback) {
     ApiClient.getLiveTvChannels({
         limit: 0
-    }).then((result) => {
+    }).then(result => {
         const nodes = [];
         nodes.push({
             id: 'MediaFolders',
@@ -97,10 +98,12 @@ function loadChildrenOfRootNode(page, scope, callback) {
                 li_attr: {
                     itemtype: 'livetv'
                 },
-                children: [{
-                    text: 'Loading...',
-                    icon: false
-                }],
+                children: [
+                    {
+                        text: 'Loading...',
+                        icon: false
+                    }
+                ],
                 icon: false
             });
         }
@@ -113,8 +116,8 @@ function loadLiveTvChannels(service, openItems, callback) {
     ApiClient.getLiveTvChannels({
         ServiceName: service,
         AddCurrentProgram: false
-    }).then((result) => {
-        const nodes = result.Items.map((i) => {
+    }).then(result => {
+        const nodes = result.Items.map(i => {
             const state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
             return getNode(i, state, false);
         });
@@ -123,8 +126,8 @@ function loadLiveTvChannels(service, openItems, callback) {
 }
 
 function loadMediaFolders(page, scope, openItems, callback) {
-    ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then((result) => {
-        const nodes = result.Items.map((n) => {
+    ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then(result => {
+        const nodes = result.Items.map(n => {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, false);
         });
@@ -164,8 +167,8 @@ function loadNode(page, scope, node, openItems, selectedId, currentUser, callbac
     if (itemtype != 'Season' && itemtype != 'Series') {
         query.SortBy = 'SortName';
     }
-    ApiClient.getItems(Dashboard.getCurrentUserId(), query).then((result) => {
-        const nodes = result.Items.map((n) => {
+    ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(result => {
+        const nodes = result.Items.map(n => {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, n.Id == selectedId);
         });
@@ -186,10 +189,7 @@ function scrollToNode(id) {
 }
 
 function initializeTree(page, currentUser, openItems, selectedId) {
-    Promise.all([
-        import('jstree'),
-        import('jstree/dist/themes/default/style.css')
-    ]).then(() => {
+    Promise.all([import('jstree'), import('jstree/dist/themes/default/style.css')]).then(() => {
         initializeTreeInternal(page, currentUser, openItems, selectedId);
     });
 }
@@ -204,11 +204,13 @@ function onNodeSelect(event, data) {
     };
     if (eventData.itemType != 'livetv' && eventData.itemType != 'mediafolders') {
         {
-            this.dispatchEvent(new CustomEvent('itemclicked', {
-                detail: eventData,
-                bubbles: true,
-                cancelable: false
-            }));
+            this.dispatchEvent(
+                new CustomEvent('itemclicked', {
+                    detail: eventData,
+                    bubbles: true,
+                    cancelable: false
+                })
+            );
         }
         document.querySelector('.editPageSidebar').classList.add('editPageSidebar-withcontent');
     } else {
@@ -232,18 +234,19 @@ function initializeTreeInternal(page, currentUser, openItems, selectedId) {
     nodesToLoad = [];
     selectedNodeId = null;
     $.jstree.destroy();
-    $('.libraryTree', page).jstree({
-        'plugins': ['wholerow'],
-        core: {
-            check_callback: true,
-            data: function (node, callback) {
-                loadNode(page, this, node, openItems, selectedId, currentUser, callback);
-            },
-            themes: {
-                variant: 'large'
+    $('.libraryTree', page)
+        .jstree({
+            plugins: ['wholerow'],
+            core: {
+                check_callback: true,
+                data: function (node, callback) {
+                    loadNode(page, this, node, openItems, selectedId, currentUser, callback);
+                },
+                themes: {
+                    variant: 'large'
+                }
             }
-        }
-    })
+        })
         .off('select_node.jstree', onNodeSelect)
         .on('select_node.jstree', onNodeSelect)
         .off('open_node.jstree', onNodeOpen)
@@ -257,7 +260,7 @@ function loadNodesToLoad(page, node) {
     for (let i = 0, length = children.length; i < length; i++) {
         const child = children[i];
         if (nodesToLoad.indexOf(child) != -1) {
-            nodesToLoad = nodesToLoad.filter((n) => {
+            nodesToLoad = nodesToLoad.filter(n => {
                 return n != child;
             });
             $.jstree.reference('.libraryTree', page).load_node(child, loadNodeCallback);
@@ -301,34 +304,38 @@ export function getCurrentItemId() {
 
 let nodesToLoad = [];
 let selectedNodeId;
-$(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
-    updateEditorNode(this, item);
-}).on('pagebeforeshow', '.metadataEditorPage', () => {
-    import('../styles/metadataeditor.scss');
-}).on('pagebeforeshow', '.metadataEditorPage', function () {
-    const page = this;
-    Dashboard.getCurrentUser().then((user) => {
-        if (!user) {
-            return;
-        }
+$(document)
+    .on('itemsaved', '.metadataEditorPage', function (e, item) {
+        updateEditorNode(this, item);
+    })
+    .on('pagebeforeshow', '.metadataEditorPage', () => {
+        import('../styles/metadataeditor.scss');
+    })
+    .on('pagebeforeshow', '.metadataEditorPage', function () {
+        const page = this;
+        Dashboard.getCurrentUser().then(user => {
+            if (!user) {
+                return;
+            }
 
-        const id = getCurrentItemId();
-        if (id) {
-            ApiClient.getAncestorItems(id, user.Id).then((ancestors) => {
-                const ids = ancestors.map((i) => {
-                    return i.Id;
+            const id = getCurrentItemId();
+            if (id) {
+                ApiClient.getAncestorItems(id, user.Id).then(ancestors => {
+                    const ids = ancestors.map(i => {
+                        return i.Id;
+                    });
+                    initializeTree(page, user, ids, id);
                 });
-                initializeTree(page, user, ids, id);
-            });
-        } else {
-            initializeTree(page, user, []);
-        }
+            } else {
+                initializeTree(page, user, []);
+            }
+        });
+    })
+    .on('pagebeforehide', '.metadataEditorPage', function () {
+        const page = this;
+        $('.libraryTree', page)
+            .off('select_node.jstree', onNodeSelect)
+            .off('open_node.jstree', onNodeOpen)
+            .off('load_node.jstree', onNodeOpen);
     });
-}).on('pagebeforehide', '.metadataEditorPage', function () {
-    const page = this;
-    $('.libraryTree', page)
-        .off('select_node.jstree', onNodeSelect)
-        .off('open_node.jstree', onNodeOpen)
-        .off('load_node.jstree', onNodeOpen);
-});
 /* eslint-enable @typescript-eslint/naming-convention */

@@ -1,9 +1,9 @@
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
 import globalize from 'lib/globalize';
-import { EpisodeFilter, LibraryViewSettings } from 'types/library';
+import { EpisodeFilter, type LibraryViewSettings } from 'types/library';
 
 const episodeFilterOptions = [
     { label: 'OptionSpecialEpisode', value: EpisodeFilter.ParentIndexNumber },
@@ -16,21 +16,16 @@ interface FiltersEpisodesStatusProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersEpisodesStatus: FC<FiltersEpisodesStatusProps> = ({
-    libraryViewSettings,
-    setLibraryViewSettings
-}) => {
+const FiltersEpisodesStatus: FC<FiltersEpisodesStatusProps> = ({ libraryViewSettings, setLibraryViewSettings }) => {
     const onFiltersEpisodesStatusChange = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            event.preventDefault();
-            const value = event.target.value as EpisodeFilter;
+        (filterValue: EpisodeFilter) => {
             const existingEpisodeFilter = libraryViewSettings?.Filters?.EpisodeFilter ?? [];
 
-            const updatedEpisodeFilter = existingEpisodeFilter.includes(value) ?
-                existingEpisodeFilter.filter((filter) => filter !== value) :
-                [...existingEpisodeFilter, value];
+            const updatedEpisodeFilter = existingEpisodeFilter.includes(filterValue)
+                ? existingEpisodeFilter.filter(filter => filter !== filterValue)
+                : [...existingEpisodeFilter, filterValue];
 
-            setLibraryViewSettings((prevState) => ({
+            setLibraryViewSettings(prevState => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -43,25 +38,23 @@ const FiltersEpisodesStatus: FC<FiltersEpisodesStatusProps> = ({
     );
 
     return (
-        <FormGroup>
-            {episodeFilterOptions.map((filter) => (
-                <FormControlLabel
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
+            {episodeFilterOptions.map(filter => (
+                <Checkbox
                     key={filter.value}
-                    control={
-                        <Checkbox
-                            checked={
-                                !!libraryViewSettings?.Filters?.EpisodeFilter?.includes(
-                                    filter.value
-                                )
-                            }
-                            onChange={onFiltersEpisodesStatusChange}
-                            value={filter.value}
-                        />
-                    }
-                    label={globalize.translate(filter.label)}
-                />
+                    checked={!!libraryViewSettings?.Filters?.EpisodeFilter?.includes(filter.value)}
+                    onChangeChecked={checked => {
+                        if (!checked) {
+                            onFiltersEpisodesStatusChange(filter.value);
+                        } else {
+                            onFiltersEpisodesStatusChange(filter.value);
+                        }
+                    }}
+                >
+                    {globalize.translate(filter.label)}
+                </Checkbox>
             ))}
-        </FormGroup>
+        </Box>
     );
 };
 

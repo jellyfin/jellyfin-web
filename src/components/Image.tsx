@@ -1,8 +1,7 @@
-import type { SvgIconComponent } from '@mui/icons-material';
-import ImageNotSupported from '@mui/icons-material/ImageNotSupported';
-import Box from '@mui/material/Box/Box';
-import Paper from '@mui/material/Paper/Paper';
 import React, { type FC } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Paper } from 'ui-primitives/Paper';
+import { ImageIcon } from '@radix-ui/react-icons';
 
 import { LoadingSkeleton } from './LoadingSkeleton';
 
@@ -11,7 +10,7 @@ interface ImageProps {
     alt?: string
     url?: string
     aspectRatio?: number
-    FallbackIcon?: SvgIconComponent
+    FallbackIcon?: React.ComponentType<{ style?: React.CSSProperties }>
 }
 
 const Image: FC<ImageProps> = ({
@@ -19,10 +18,10 @@ const Image: FC<ImageProps> = ({
     alt,
     url,
     aspectRatio = 16 / 9,
-    FallbackIcon = ImageNotSupported
+    FallbackIcon = ImageIcon
 }) => (
     <Paper
-        sx={{
+        style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -45,7 +44,7 @@ const Image: FC<ImageProps> = ({
                 />
             ) : (
                 <Box
-                    sx={{
+                    style={{
                         height: '100%',
                         display: 'flex',
                         alignItems: 'center',
@@ -53,7 +52,7 @@ const Image: FC<ImageProps> = ({
                     }}
                 >
                     <FallbackIcon
-                        sx={{
+                        style={{
                             height: '25%',
                             width: 'auto'
                         }}

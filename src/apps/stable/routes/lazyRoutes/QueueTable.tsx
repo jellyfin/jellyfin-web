@@ -1,22 +1,13 @@
 import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react';
 
-// Joy UI Components
-import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
-import Typography from '@mui/joy/Typography';
-import Sheet from '@mui/joy/Sheet';
-import Avatar from '@mui/joy/Avatar';
-import Menu from '@mui/joy/Menu';
-import MenuItem from '@mui/joy/MenuItem';
-import MenuButton from '@mui/joy/MenuButton';
-import Dropdown from '@mui/joy/Dropdown';
+import { Box } from 'ui-primitives/Box';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Text } from 'ui-primitives/Text';
+import { Avatar } from 'ui-primitives/Avatar';
+import { Menu, MenuItem } from 'ui-primitives/Menu';
 
 // Material Icons
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import { DiscIcon, DotsVerticalIcon, DragHandleDots2Icon, PlayIcon, TrashIcon } from '@radix-ui/react-icons';
 
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
@@ -26,7 +17,7 @@ import {
     PointerSensor,
     useSensor,
     useSensors,
-    DragEndEvent
+    type DragEndEvent
 } from '@dnd-kit/core';
 import {
     SortableContext,
@@ -39,7 +30,19 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { WaveformCell } from 'components/visualizer/WaveformCell';
 import { getCachedPeaks } from 'components/visualizer/WaveSurfer';
-import Events from 'utils/events';
+import Events, { type EventObject } from 'utils/events';
+import { vars } from 'styles/tokens.css';
+import {
+    dragHandle,
+    headerRow,
+    hideOnSmall,
+    rowDragging,
+    scrollContainer,
+    tableContainer,
+    tableRow,
+    virtualItem,
+    virtualList
+} from './QueueTable.css';
 
 const SCROLL_POSITION_KEY = 'jellyfin-queue-scroll-position';
 
@@ -65,7 +68,6 @@ interface QueueTableProps {
 
 interface SortableRowProps {
     item: QueueItem;
-    index: number;
     isCurrent: boolean;
     isNext: boolean;
     imageUrl: string | undefined;
@@ -78,7 +80,6 @@ interface SortableRowProps {
 
 const SortableRow: React.FC<SortableRowProps> = ({
     item,
-    index,
     isCurrent,
     isNext,
     imageUrl,
@@ -88,14 +89,8 @@ const SortableRow: React.FC<SortableRowProps> = ({
     onPlay,
     onRemove
 }) => {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging
-    } = useSortable({ id: item.Id });
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.Id });
 
     const style: React.CSSProperties = {
         transform: CSS.Transform.toString(transform),
@@ -107,82 +102,65 @@ const SortableRow: React.FC<SortableRowProps> = ({
     const peaks = getWaveformPeaks(item);
 
     return (
-        <Sheet
-            ref={setNodeRef}
-            style={style}
-            sx={{
-                display: 'flex',
-                alignItems: 'center',
-                px: 2,
-                py: 1,
-                bgcolor: isDragging ? 'rgba(0, 164, 220, 0.15)' : 'transparent',
-                borderBottom: '1px solid',
-                borderColor: 'neutral.800',
-                cursor: 'pointer',
-                '&:hover': {
-                    bgcolor: 'rgba(255, 255, 255, 0.05)'
-                }
-            }}
-        >
+        <div ref={setNodeRef} className={`${tableRow} ${isDragging ? rowDragging : ''}`} style={style}>
             {/* Drag Handle */}
-            <Box sx={{ width: 40, flexShrink: 0 }} {...attributes} {...listeners}>
-                <IconButton
-                    variant="plain"
-                    size="sm"
-                    sx={{ color: 'neutral.500', cursor: 'grab' }}
-                >
-                    <DragIndicatorIcon fontSize="small" />
+            <Box style={{ width: 40, flexShrink: 0 }} {...attributes} {...listeners}>
+                <IconButton variant="plain" size="sm" color="neutral" className={dragHandle}>
+                    <DragHandleDots2Icon style={{ width: 16, height: 16 }} />
                 </IconButton>
             </Box>
 
             {/* Index/Avatar */}
-            <Box sx={{ width: 50, flexShrink: 0 }}>
+            <Box style={{ width: 50, flexShrink: 0 }}>
                 <Avatar
                     src={imageUrl}
-                    size="sm"
-                    sx={{
-                        bgcolor: isCurrent ? 'primary.500' : 'neutral.700',
+                    style={{
                         width: 36,
-                        height: 36
+                        height: 36,
+                        backgroundColor: isCurrent ? vars.colors.primary : vars.colors.surfaceHover,
+                        color: vars.colors.text
                     }}
                 >
                     {isCurrent ? (
-                        <PlayArrowIcon sx={{ color: 'white', fontSize: 16 }} />
+                        <PlayIcon style={{ color: vars.colors.text, width: 16, height: 16 }} />
                     ) : imageUrl ? null : (
-                        <MusicNoteIcon sx={{ fontSize: 14 }} />
+                        <DiscIcon style={{ width: 14, height: 14 }} />
                     )}
                 </Avatar>
             </Box>
 
             {/* Title & Artist */}
-            <Box sx={{ flex: '1 1 auto', minWidth: 0, px: 2 }}>
-                <Typography
-                    level="body-sm"
-                    sx={{
-                        color: isCurrent ? 'primary.400' : 'neutral.50',
-                        fontWeight: isCurrent ? 600 : 400,
+            <Box style={{ flex: '1 1 auto', minWidth: 0, padding: `0 ${vars.spacing.md}` }}>
+                <Text
+                    as="div"
+                    size="sm"
+                    weight={isCurrent ? 'medium' : 'normal'}
+                    style={{
+                        color: isCurrent ? vars.colors.primary : vars.colors.text,
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap'
                     }}
                 >
                     {item.Name}
-                </Typography>
-                <Typography
-                    level="body-xs"
-                    sx={{
-                        color: 'neutral.400',
+                </Text>
+                <Text
+                    as="div"
+                    size="xs"
+                    color="muted"
+                    style={{
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap'
                     }}
                 >
-                    {artist}{item.Album ? ` • ${item.Album}` : ''}
-                </Typography>
+                    {artist}
+                    {item.Album ? ` • ${item.Album}` : ''}
+                </Text>
             </Box>
 
             {/* Waveform */}
-            <Box sx={{ width: 150, flexShrink: 0, display: { xs: 'none', md: 'block' } }}>
+            <Box style={{ width: 150, flexShrink: 0 }} className={hideOnSmall}>
                 <WaveformCell
                     itemId={item.Id}
                     peaks={peaks}
@@ -195,52 +173,39 @@ const SortableRow: React.FC<SortableRowProps> = ({
             </Box>
 
             {/* Duration */}
-            <Box sx={{ width: 60, flexShrink: 0, textAlign: 'right', pr: 1 }}>
-                <Typography level="body-xs" sx={{ color: 'neutral.500' }}>
+            <Box style={{ width: 60, flexShrink: 0, textAlign: 'right', paddingRight: vars.spacing.xs }}>
+                <Text as="span" size="xs" color="muted">
                     {formatDuration(item.RunTimeTicks)}
-                </Typography>
+                </Text>
             </Box>
 
             {/* Actions Menu */}
-            <Box sx={{ width: 40, flexShrink: 0 }}>
-                <Dropdown>
-                    <MenuButton
-                        slots={{ root: IconButton }}
-                        slotProps={{
-                            root: {
-                                variant: 'plain',
-                                size: 'sm',
-                                sx: { color: 'neutral.500' }
-                            }
-                        }}
-                    >
-                        <MoreVertIcon fontSize="small" />
-                    </MenuButton>
-                    {/* @ts-expect-error Joy UI Menu type complexity */}
-                    <Menu>
-                        {/* @ts-expect-error Joy UI MenuItem type complexity */}
-                        <MenuItem onClick={() => onPlay(item)}>
-                            <PlayArrowIcon sx={{ mr: 1 }} />
-                            Play
-                        </MenuItem>
-                        <MenuItem onClick={() => onRemove(item)}>
-                            <DeleteIcon sx={{ mr: 1, color: 'danger.500' }} />
-                            Remove
-                        </MenuItem>
-                    </Menu>
-                </Dropdown>
+            <Box style={{ width: 40, flexShrink: 0 }}>
+                <Menu
+                    open={isMenuOpen}
+                    onOpenChange={setIsMenuOpen}
+                    align="end"
+                    trigger={
+                        <IconButton variant="plain" size="sm" color="neutral">
+                            <DotsVerticalIcon style={{ width: 16, height: 16 }} />
+                        </IconButton>
+                    }
+                >
+                    <MenuItem onClick={() => onPlay(item)}>
+                        <PlayIcon style={{ width: 16, height: 16 }} />
+                        Play
+                    </MenuItem>
+                    <MenuItem variant="danger" onClick={() => onRemove(item)}>
+                        <TrashIcon style={{ width: 16, height: 16 }} />
+                        Remove
+                    </MenuItem>
+                </Menu>
             </Box>
-        </Sheet>
+        </div>
     );
 };
 
-export const QueueTable: React.FC<QueueTableProps> = ({
-    queueData,
-    currentIndex,
-    onReorder,
-    onRemove,
-    onPlay
-}) => {
+export const QueueTable: React.FC<QueueTableProps> = ({ queueData, currentIndex, onReorder, onRemove, onPlay }) => {
     const [playbackTime, setPlaybackTime] = useState(0);
     const parentRef = useRef<HTMLDivElement>(null);
     const previousIndexRef = useRef(currentIndex);
@@ -252,17 +217,20 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         })
     );
 
-    const handleDragEnd = useCallback((event: DragEndEvent) => {
-        const { active, over } = event;
+    const handleDragEnd = useCallback(
+        (event: DragEndEvent) => {
+            const { active, over } = event;
 
-        if (over && active.id !== over.id) {
-            const oldIndex = queueData.findIndex(item => item.Id === active.id);
-            const newIndex = queueData.findIndex(item => item.Id === over.id);
-            if (oldIndex !== -1 && newIndex !== -1) {
-                onReorder(oldIndex, newIndex);
+            if (over && active.id !== over.id) {
+                const oldIndex = queueData.findIndex(item => item.Id === active.id);
+                const newIndex = queueData.findIndex(item => item.Id === over.id);
+                if (oldIndex !== -1 && newIndex !== -1) {
+                    onReorder(oldIndex, newIndex);
+                }
             }
-        }
-    }, [onReorder, queueData]);
+        },
+        [onReorder, queueData]
+    );
 
     const formatDuration = useCallback((ticks?: number): string => {
         if (!ticks) return '--:--';
@@ -306,9 +274,9 @@ export const QueueTable: React.FC<QueueTableProps> = ({
             }
         };
 
-        Events.on(playbackManager, 'timeupdate', handleTimeUpdate);
+        Events.on(playbackManager as unknown as EventObject, 'timeupdate', handleTimeUpdate);
         return () => {
-            Events.off(playbackManager, 'timeupdate', handleTimeUpdate);
+            Events.off(playbackManager as unknown as EventObject, 'timeupdate', handleTimeUpdate);
         };
     }, []);
 
@@ -345,101 +313,47 @@ export const QueueTable: React.FC<QueueTableProps> = ({
     const sortableIds = useMemo(() => queueData.map(item => item.Id), [queueData]);
 
     return (
-        <Sheet
-            sx={{
-                width: '100%',
-                height: 'calc(100vh - 280px)',
-                overflow: 'hidden',
-                bgcolor: 'transparent'
-            }}
-        >
+        <div className={tableContainer}>
             {/* Header */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    px: 2,
-                    py: 1.5,
-                    borderBottom: '1px solid',
-                    borderColor: 'neutral.800',
-                    bgcolor: 'rgba(0,0,0,0.4)'
-                }}
-            >
-                <Box sx={{ width: 40 }} />
-                <Box sx={{ width: 50 }}>
-                    <Typography level="body-xs" sx={{ color: 'neutral.500', textTransform: 'uppercase', letterSpacing: 1 }}>
+            <div className={headerRow}>
+                <Box style={{ width: 40 }} />
+                <Box style={{ width: 50 }}>
+                    <Text as="span" size="xs" color="muted" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
                         #
-                    </Typography>
+                    </Text>
                 </Box>
-                <Box sx={{ flex: '1 1 auto', px: 2 }}>
-                    <Typography level="body-xs" sx={{ color: 'neutral.500', textTransform: 'uppercase', letterSpacing: 1 }}>
+                <Box style={{ flex: '1 1 auto', padding: `0 ${vars.spacing.md}` }}>
+                    <Text as="span" size="xs" color="muted" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
                         Title
-                    </Typography>
+                    </Text>
                 </Box>
-                <Box sx={{ width: 150, display: { xs: 'none', md: 'block' } }} />
-                <Box sx={{ width: 60, textAlign: 'right', pr: 1 }}>
-                    <Typography level="body-xs" sx={{ color: 'neutral.500', textTransform: 'uppercase', letterSpacing: 1 }}>
+                <Box style={{ width: 150 }} className={hideOnSmall} />
+                <Box style={{ width: 60, textAlign: 'right', paddingRight: vars.spacing.xs }}>
+                    <Text as="span" size="xs" color="muted" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
                         Time
-                    </Typography>
+                    </Text>
                 </Box>
-                <Box sx={{ width: 40 }} />
-            </Box>
+                <Box style={{ width: 40 }} />
+            </div>
 
             {/* Virtualized List */}
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-            >
-                <SortableContext
-                    items={sortableIds}
-                    strategy={verticalListSortingStrategy}
-                >
-                    <Box
-                        ref={parentRef}
-                        sx={{
-                            height: 'calc(100% - 48px)',
-                            overflow: 'auto',
-                            '&::-webkit-scrollbar': {
-                                width: 8
-                            },
-                            '&::-webkit-scrollbar-track': {
-                                bgcolor: 'transparent'
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                bgcolor: 'neutral.700',
-                                borderRadius: 4,
-                                '&:hover': {
-                                    bgcolor: 'neutral.600'
-                                }
-                            }
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                height: rowVirtualizer.getTotalSize(),
-                                position: 'relative'
-                            }}
-                        >
-                            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
+                    <div ref={parentRef} className={scrollContainer}>
+                        <div className={virtualList} style={{ height: rowVirtualizer.getTotalSize() }}>
+                            {rowVirtualizer.getVirtualItems().map(virtualRow => {
                                 const item = queueData[virtualRow.index];
                                 const isCurrent = virtualRow.index === currentIndex;
                                 const isNext = virtualRow.index === currentIndex + 1;
 
                                 return (
-                                    <Box
+                                    <div
                                         key={item.Id}
-                                        sx={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            width: '100%',
-                                            transform: `translateY(${virtualRow.start}px)`
-                                        }}
+                                        className={virtualItem}
+                                        style={{ transform: `translateY(${virtualRow.start}px)` }}
                                     >
                                         <SortableRow
                                             item={item}
-                                            index={virtualRow.index}
                                             isCurrent={isCurrent}
                                             isNext={isNext}
                                             imageUrl={getImageUrl(item)}
@@ -449,14 +363,14 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                                             onPlay={onPlay}
                                             onRemove={onRemove}
                                         />
-                                    </Box>
+                                    </div>
                                 );
                             })}
-                        </Box>
-                    </Box>
+                        </div>
+                    </div>
                 </SortableContext>
             </DndContext>
-        </Sheet>
+        </div>
     );
 };
 

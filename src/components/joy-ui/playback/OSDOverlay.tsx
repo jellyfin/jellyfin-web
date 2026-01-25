@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import Sheet from '@mui/joy/Sheet';
-import Stack from '@mui/joy/Stack';
-import LinearProgress from '@mui/joy/LinearProgress';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
-import BrightnessMediumIcon from '@mui/icons-material/BrightnessMedium';
-import BrightnessLowIcon from '@mui/icons-material/BrightnessLow';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Progress } from 'ui-primitives/Progress';
+import { vars } from 'styles/tokens.css';
+import { SpeakerLoudIcon, SpeakerOffIcon, SunIcon } from '@radix-ui/react-icons';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useMediaStore, useSettingsStore } from '../../../store';
+import { usePreferencesStore } from '../../../store';
+import * as styles from './OSDOverlay.css';
 
 type OSDType = 'volume' | 'brightness' | null;
 
 export const OSDOverlay: React.FC = () => {
-    const volume = useSettingsStore(state => state.audio.volume);
-    const muted = useSettingsStore(state => state.audio.muted);
+    const volume = usePreferencesStore(state => state.audio.volume);
+    const muted = usePreferencesStore(state => state.audio.muted);
     const [brightness, setBrightness] = useState(100); // Managed locally for now or move to store
-    
+
     const [activeOSD, setActiveOSD] = useState<OSDType>(null);
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         // Show volume OSD on volume change
-        const unsubVolume = useSettingsStore.subscribe(
+        const unsubVolume = usePreferencesStore.subscribe(
             state => state.audio.volume,
             () => {
                 setActiveOSD('volume');
@@ -30,7 +27,7 @@ export const OSDOverlay: React.FC = () => {
             }
         );
 
-        const unsubMuted = useSettingsStore.subscribe(
+        const unsubMuted = usePreferencesStore.subscribe(
             state => state.audio.muted,
             () => {
                 setActiveOSD('volume');
@@ -52,49 +49,45 @@ export const OSDOverlay: React.FC = () => {
     };
 
     const getVolumeIcon = () => {
-        if (muted || volume === 0) return <VolumeOffIcon sx={{ fontSize: 40 }} />;
-        return <VolumeUpIcon sx={{ fontSize: 40 }} />;
+        if (muted || volume === 0) return <SpeakerOffIcon style={{ fontSize: 40 }} />;
+        return <SpeakerLoudIcon style={{ fontSize: 40 }} />;
     };
 
     const getBrightnessIcon = () => {
-        if (brightness >= 80) return <BrightnessHighIcon sx={{ fontSize: 40 }} />;
-        if (brightness >= 30) return <BrightnessMediumIcon sx={{ fontSize: 40 }} />;
-        return <BrightnessLowIcon sx={{ fontSize: 40 }} />;
+        const opacity = brightness >= 80 ? 1 : brightness >= 30 ? 0.75 : 0.5;
+        return <SunIcon style={{ fontSize: 40, opacity }} />;
     };
 
     return (
         <AnimatePresence>
             {isVisible && activeOSD && (
-                <Sheet
-                    component={motion.div}
+                <Box
+                    as={motion.div}
                     initial={{ opacity: 0, scale: 0.9, y: -20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: -20 }}
-                    variant="soft"
-                    color="neutral"
-                    sx={{
+                    style={{
                         position: 'fixed',
                         top: '10%',
                         right: '5%',
                         zIndex: 10000,
-                        p: 2,
-                        borderRadius: 'md',
+                        padding: vars.spacing.md,
+                        borderRadius: vars.borderRadius.md,
                         minWidth: 120,
-                        boxShadow: 'lg',
+                        boxShadow: vars.shadows.lg,
                         backdropFilter: 'blur(10px)',
-                        bgcolor: 'rgba(0, 0, 0, 0.6)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)'
                     }}
                 >
-                    <Stack spacing={2} alignItems="center">
+                    <Flex direction="column" align="center" gap={vars.spacing.md}>
                         {activeOSD === 'volume' ? getVolumeIcon() : getBrightnessIcon()}
-                        <LinearProgress
-                            determinate
+                        <Progress
                             value={activeOSD === 'volume' ? volume : brightness}
-                            color={activeOSD === 'volume' ? 'primary' : 'warning'}
-                            sx={{ width: '100%' }}
+                            className={activeOSD === 'brightness' ? styles.warningProgress : undefined}
+                            style={{ width: '100%' }}
                         />
-                    </Stack>
-                </Sheet>
+                    </Flex>
+                </Box>
             )}
         </AnimatePresence>
     );

@@ -1,34 +1,30 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import Box from '@mui/material/Box/Box';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import IconButton from '@mui/joy/IconButton';
-import Slider from '@mui/joy/Slider';
-import Avatar from '@mui/material/Avatar/Avatar';
-import Tooltip from '@mui/joy/Tooltip';
-import Divider from '@mui/material/Divider/Divider';
-import Fade from '@mui/material/Fade/Fade';
-import Paper from '@mui/material/Paper/Paper';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Slider } from 'ui-primitives/Slider';
+import { Avatar } from 'ui-primitives/Avatar';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { Paper } from 'ui-primitives/Paper';
+import { vars } from 'styles/tokens.css';
 
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
-import RepeatIcon from '@mui/icons-material/Repeat';
-import RepeatOneIcon from '@mui/icons-material/RepeatOne';
-import AudiotrackIcon from '@mui/icons-material/Audiotrack';
-import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import AirplayIcon from '@mui/icons-material/Airplay';
-import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
+import {
+    DesktopIcon,
+    DiscIcon,
+    EnterFullScreenIcon,
+    HeartFilledIcon,
+    HeartIcon,
+    LoopIcon,
+    PauseIcon,
+    PlayIcon,
+    ReaderIcon,
+    ShuffleIcon,
+    TrackNextIcon,
+    TrackPreviousIcon,
+    ViewGridIcon
+} from '@radix-ui/react-icons';
 
-import { PlaybackIconButton } from '../playback/PlaybackIconButton';
-import { VolumeSlider } from '../playback/VolumeSlider';
+import { VolumeSlider } from 'ui-primitives/VolumeSlider';
 import { ActionMenu, type ActionMenuItem } from '../action/ActionMenu';
 
 import type { PlayableItem } from 'store/types';
@@ -89,7 +85,6 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
     volume,
     isMuted,
     repeatMode,
-    shuffleMode,
     isShuffled,
     isFavorite = false,
     audioTracks = [],
@@ -102,7 +97,6 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
     canPiP = false,
     canFullscreen = false,
     onPlayPause,
-    onStop,
     onSeek,
     onVolumeChange,
     onMuteToggle,
@@ -127,14 +121,17 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
         }
     }, [currentTime, duration]);
 
-    const handleSeekChange = useCallback((_event: Event, value: number | number[]) => {
-        setLocalSeekValue(value as number);
+    const handleSeekChange = useCallback((value: number[]) => {
+        setLocalSeekValue(value[0] ?? 0);
     }, []);
 
-    const handleSeekEnd = useCallback((_event: Event | React.SyntheticEvent, value: number | number[]) => {
-        const seekTime = ((value as number) / 100) * duration;
-        onSeek(seekTime);
-    }, [duration, onSeek]);
+    const handleSeekEnd = useCallback(
+        (value: number[]) => {
+            const seekTime = ((value[0] ?? 0) / 100) * duration;
+            onSeek(seekTime);
+        },
+        [duration, onSeek]
+    );
 
     const handleAudioMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAudioMenuAnchor(event.currentTarget);
@@ -144,11 +141,14 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
         setAudioMenuAnchor(null);
     }, []);
 
-    const handleAudioTrackSelect = useCallback((id: string) => {
-        const index = parseInt(id, 10);
-        onAudioTrackSelect(index);
-        handleAudioMenuClose();
-    }, [onAudioTrackSelect, handleAudioMenuClose]);
+    const handleAudioTrackSelect = useCallback(
+        (id: string) => {
+            const index = parseInt(id, 10);
+            onAudioTrackSelect(index);
+            handleAudioMenuClose();
+        },
+        [onAudioTrackSelect, handleAudioMenuClose]
+    );
 
     const handleSubtitleMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setSubtitleMenuAnchor(event.currentTarget);
@@ -158,11 +158,14 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
         setSubtitleMenuAnchor(null);
     }, []);
 
-    const handleSubtitleTrackSelect = useCallback((id: string) => {
-        const index = parseInt(id, 10);
-        onSubtitleTrackSelect(index);
-        handleSubtitleMenuClose();
-    }, [onSubtitleTrackSelect, handleSubtitleMenuClose]);
+    const handleSubtitleTrackSelect = useCallback(
+        (id: string) => {
+            const index = parseInt(id, 10);
+            onSubtitleTrackSelect(index);
+            handleSubtitleMenuClose();
+        },
+        [onSubtitleTrackSelect, handleSubtitleMenuClose]
+    );
 
     const audioMenuItems: ActionMenuItem[] = audioTracks.map(track => ({
         id: track.Index.toString(),
@@ -185,195 +188,221 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
 
     return (
         <Box
-            className='remoteControlContent'
-            sx={{
+            className="remoteControlContent"
+            style={{
                 position: 'relative',
                 width: '100%',
                 maxWidth: 400,
-                mx: 'auto',
-                p: 3
+                margin: '0 auto',
+                padding: vars.spacing.lg
             }}
         >
-            <Fade in={true} timeout={300}>
-                <Paper
-                    elevation={8}
-                    sx={{
-                        borderRadius: 3,
-                        overflow: 'hidden',
-                        bgcolor: 'rgba(18, 18, 18, 0.95)',
-                        backdropFilter: 'blur(20px)'
-                    }}
-                >
-                    <Box sx={{ p: 3 }}>
-                        <Stack spacing={3} alignItems='center'>
-                            <Box className='nowPlayingPageImageContainer'>
-                                <Avatar
-                                    variant='rounded'
-                                    src={imageUrl || undefined}
-                                    sx={{
-                                        width: 200,
-                                        height: 200,
-                                        borderRadius: 2,
-                                        boxShadow: 3,
-                                        bgcolor: imageUrl ? 'transparent' : 'action.hover'
+            <Paper
+                elevation="lg"
+                style={{
+                    borderRadius: vars.borderRadius.lg,
+                    overflow: 'hidden',
+                    backgroundColor: 'rgba(18, 18, 18, 0.95)',
+                    backdropFilter: 'blur(20px)'
+                }}
+            >
+                <Box style={{ padding: vars.spacing.lg }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg, alignItems: 'center' }}>
+                        <Box className="nowPlayingPageImageContainer">
+                            <Avatar
+                                src={imageUrl || undefined}
+                                style={{
+                                    width: 200,
+                                    height: 200,
+                                    borderRadius: vars.borderRadius.md,
+                                    boxShadow: vars.shadows.md,
+                                    backgroundColor: imageUrl ? 'transparent' : vars.colors.surfaceHover
+                                }}
+                            >
+                                {!imageUrl && <DiscIcon style={{ fontSize: 64, color: vars.colors.textSecondary }} />}
+                            </Avatar>
+                        </Box>
+
+                        <Box className="nowPlayingInfoContainer" style={{ width: '100%', textAlign: 'center' }}>
+                            <Text as="h4" size="lg" weight="bold" style={{ color: vars.colors.text }}>
+                                {currentItem?.name || 'No track playing'}
+                            </Text>
+                            <Text size="md" color="secondary">
+                                {currentItem?.artist || ''}
+                            </Text>
+                        </Box>
+
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing.sm, width: '100%' }}>
+                            <Text size="xs" color="secondary" style={{ minWidth: 45 }}>
+                                {formatTime(progress * 10000000)}
+                            </Text>
+                            <Slider
+                                className="remotePositionSlider"
+                                value={[localSeekValue]}
+                                onValueChange={handleSeekChange}
+                                onValueCommit={handleSeekEnd}
+                                min={0}
+                                max={100}
+                                style={{ flex: 1 }}
+                            />
+                            <Text size="xs" color="secondary" style={{ minWidth: 45 }}>
+                                {formatTime(duration * 10000000)}
+                            </Text>
+                        </Flex>
+
+                        <Flex style={{ alignItems: 'center', justifyContent: 'center', gap: vars.spacing.md }}>
+                            <IconButton
+                                size="md"
+                                variant="plain"
+                                onClick={onShuffleToggle}
+                                color={isShuffled ? 'primary' : 'neutral'}
+                                aria-label="Shuffle"
+                            >
+                                <ShuffleIcon />
+                            </IconButton>
+
+                            <Tooltip title="Previous">
+                                <IconButton size="md" variant="plain" onClick={onPreviousTrack} color="neutral">
+                                    <TrackPreviousIcon />
+                                </IconButton>
+                            </Tooltip>
+
+                            <Tooltip title={isPlaying ? 'Pause' : 'Play'}>
+                                <IconButton
+                                    size="lg"
+                                    variant="solid"
+                                    onClick={onPlayPause}
+                                    style={{
+                                        width: 56,
+                                        height: 56,
+                                        borderRadius: '50%',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.15)'
                                     }}
+                                    aria-label={isPlaying ? 'Pause' : 'Play'}
                                 >
-                                    {!imageUrl && <AudiotrackIcon sx={{ fontSize: 64, color: 'text.secondary' }} />}
-                                </Avatar>
-                            </Box>
+                                    {isPlaying ? (
+                                        <PauseIcon style={{ fontSize: 28 }} />
+                                    ) : (
+                                        <PlayIcon style={{ fontSize: 28 }} />
+                                    )}
+                                </IconButton>
+                            </Tooltip>
 
-                            <Box className='nowPlayingInfoContainer' sx={{ width: '100%', textAlign: 'center' }}>
-                                <Typography level='h4' sx={{ color: 'white', fontWeight: 'bold' }}>
-                                    {currentItem?.name || 'No track playing'}
-                                </Typography>
-                                <Typography level='body-md' sx={{ color: 'text.secondary' }}>
-                                    {currentItem?.artist || ''}
-                                </Typography>
-                            </Box>
+                            <Tooltip title="Next">
+                                <IconButton size="md" variant="plain" onClick={onNextTrack} color="neutral">
+                                    <TrackNextIcon />
+                                </IconButton>
+                            </Tooltip>
 
-                            <Stack direction='row' spacing={1} alignItems='center' sx={{ width: '100%' }}>
-                                <Typography level='body-xs' sx={{ color: 'text.secondary', minWidth: 45 }}>
-                                    {formatTime(progress * 10000000)}
-                                </Typography>
-                                <Slider
-                                    className='remotePositionSlider'
-                                    value={localSeekValue}
-                                    onChange={handleSeekChange}
-                                    onChangeCommitted={handleSeekEnd}
-                                    min={0}
-                                    max={100}
-                                    size='sm'
-                                    sx={{
-                                        flex: 1,
-                                        '--Slider-thumb-size': '14px',
-                                        '--Slider-track-height': '4px',
-                                        color: 'primary.main'
-                                    }}
-                                />
-                                <Typography level='body-xs' sx={{ color: 'text.secondary', minWidth: 45 }}>
-                                    {formatTime(duration * 10000000)}
-                                </Typography>
-                            </Stack>
+                            <Tooltip
+                                title={
+                                    repeatMode === 'RepeatOne'
+                                        ? 'Repeat One'
+                                        : repeatMode === 'RepeatAll'
+                                          ? 'Repeat All'
+                                          : 'Repeat'
+                                }
+                            >
+                                <IconButton
+                                    size="md"
+                                    variant="plain"
+                                    onClick={onRepeatToggle}
+                                    color={repeatMode !== 'RepeatNone' ? 'primary' : 'neutral'}
+                                    aria-label="Repeat"
+                                >
+                                    <LoopIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Flex>
 
-                            <Stack direction='row' spacing={2} alignItems='center' justifyContent='center'>
-                                <PlaybackIconButton
-                                    icon={shuffleMode === 'Shuffle' ? 'shuffle' : undefined}
-                                    active={isShuffled}
-                                    size='md'
-                                    variant='plain'
-                                    onClick={onShuffleToggle}
-                                    sx={{ color: isShuffled ? 'primary.main' : 'text.secondary' }}
-                                />
-
-                                <Tooltip title='Previous' arrow>
-                                    <IconButton size='md' variant='plain' onClick={onPreviousTrack} sx={{ color: 'text.secondary' }}>
-                                        <SkipPreviousIcon />
-                                    </IconButton>
-                                </Tooltip>
-
-                                <Tooltip title={isPlaying ? 'Pause' : 'Play'} arrow>
+                        <Flex
+                            style={{
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                gap: vars.spacing.sm,
+                                width: '100%'
+                            }}
+                        >
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                                <Tooltip title="Favorite">
                                     <IconButton
-                                        size='lg'
-                                        variant='solid'
-                                        color='primary'
-                                        onClick={onPlayPause}
-                                        sx={{
-                                            width: 56,
-                                            height: 56,
-                                            borderRadius: '50%',
-                                            backgroundColor: 'rgba(255,255,255,0.15)',
-                                            '&:hover': { backgroundColor: 'rgba(255,255,255,0.25)' }
-                                        }}
+                                        size="sm"
+                                        variant="plain"
+                                        onClick={onFavoriteToggle}
+                                        color={isFavorite ? 'danger' : 'neutral'}
                                     >
-                                        {isPlaying ? <PauseIcon sx={{ fontSize: 28 }} /> : <PlayArrowIcon sx={{ fontSize: 28 }} />}
+                                        {isFavorite ? <HeartFilledIcon /> : <HeartIcon />}
                                     </IconButton>
                                 </Tooltip>
 
-                                <Tooltip title='Next' arrow>
-                                    <IconButton size='md' variant='plain' onClick={onNextTrack} sx={{ color: 'text.secondary' }}>
-                                        <SkipNextIcon />
-                                    </IconButton>
-                                </Tooltip>
-
-                                <Tooltip title={repeatMode === 'RepeatOne' ? 'Repeat One' : repeatMode === 'RepeatAll' ? 'Repeat All' : 'Repeat'} arrow>
-                                    <IconButton
-                                        size='md'
-                                        variant='plain'
-                                        onClick={onRepeatToggle}
-                                        sx={{ color: repeatMode !== 'RepeatNone' ? 'primary.main' : 'text.secondary' }}
-                                    >
-                                        {repeatMode === 'RepeatOne' ? <RepeatOneIcon /> : <RepeatIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                            </Stack>
-
-                            <Stack direction='row' spacing={1} alignItems='center' justifyContent='space-between' sx={{ width: '100%' }}>
-                                <Stack direction='row' spacing={0.5} alignItems='center'>
-                                    <Tooltip title='Favorite' arrow>
-                                        <IconButton size='sm' variant='plain' onClick={onFavoriteToggle} sx={{ color: isFavorite ? 'error.main' : 'text.secondary' }}>
-                                            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                {hasMultipleAudioTracks && (
+                                    <Tooltip title="Audio Tracks">
+                                        <IconButton
+                                            size="sm"
+                                            variant="plain"
+                                            onClick={handleAudioMenuOpen}
+                                            color="neutral"
+                                        >
+                                            <DiscIcon />
                                         </IconButton>
                                     </Tooltip>
+                                )}
 
-                                    {hasMultipleAudioTracks && (
-                                        <Tooltip title='Audio Tracks' arrow>
-                                            <IconButton size='sm' variant='plain' onClick={handleAudioMenuOpen} sx={{ color: 'text.secondary' }}>
-                                                <AudiotrackIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    )}
+                                {hasSubtitles && (
+                                    <Tooltip title="Subtitles">
+                                        <IconButton
+                                            size="sm"
+                                            variant="plain"
+                                            onClick={handleSubtitleMenuOpen}
+                                            color="neutral"
+                                        >
+                                            <ReaderIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                            </Flex>
 
-                                    {hasSubtitles && (
-                                        <Tooltip title='Subtitles' arrow>
-                                            <IconButton size='sm' variant='plain' onClick={handleSubtitleMenuOpen} sx={{ color: 'text.secondary' }}>
-                                                <ClosedCaptionIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    )}
-                                </Stack>
+                            <Flex style={{ alignItems: 'center' }}>
+                                <VolumeSlider
+                                    volume={isMuted ? 0 : volume}
+                                    muted={isMuted}
+                                    onVolumeChange={onVolumeChange}
+                                    onMuteToggle={onMuteToggle}
+                                    size="sm"
+                                    showSlider
+                                    style={{ width: 80 }}
+                                />
+                            </Flex>
 
-                                <Stack direction='row' spacing={0.5} alignItems='center'>
-                                    <VolumeSlider
-                                        volume={isMuted ? 0 : volume}
-                                        muted={isMuted}
-                                        onVolumeChange={onVolumeChange}
-                                        onMuteToggle={onMuteToggle}
-                                        size='sm'
-                                        showSlider
-                                        sx={{ width: 80 }}
-                                    />
-                                </Stack>
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                                {canAirPlay && (
+                                    <Tooltip title="AirPlay">
+                                        <IconButton size="sm" variant="plain" onClick={onAirPlay} color="neutral">
+                                            <DesktopIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
 
-                                <Stack direction='row' spacing={0.5} alignItems='center'>
-                                    {canAirPlay && (
-                                        <Tooltip title='AirPlay' arrow>
-                                            <IconButton size='sm' variant='plain' onClick={onAirPlay} sx={{ color: 'text.secondary' }}>
-                                                <AirplayIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    )}
+                                {canPiP && (
+                                    <Tooltip title="Picture in Picture">
+                                        <IconButton size="sm" variant="plain" onClick={onPiP} color="neutral">
+                                            <ViewGridIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
 
-                                    {canPiP && (
-                                        <Tooltip title='Picture in Picture' arrow>
-                                            <IconButton size='sm' variant='plain' onClick={onPiP} sx={{ color: 'text.secondary' }}>
-                                                <PictureInPictureAltIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    )}
-
-                                    {canFullscreen && (
-                                        <Tooltip title='Fullscreen' arrow>
-                                            <IconButton size='sm' variant='plain' onClick={onFullscreen} sx={{ color: 'text.secondary' }}>
-                                                <FullscreenIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    )}
-                                </Stack>
-                            </Stack>
-                        </Stack>
-                    </Box>
-                </Paper>
-            </Fade>
+                                {canFullscreen && (
+                                    <Tooltip title="Fullscreen">
+                                        <IconButton size="sm" variant="plain" onClick={onFullscreen} color="neutral">
+                                            <EnterFullScreenIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                </Box>
+            </Paper>
 
             <ActionMenu
                 items={audioMenuItems}
@@ -381,7 +410,7 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                 open={Boolean(audioMenuAnchor)}
                 onClose={handleAudioMenuClose}
                 onSelect={handleAudioTrackSelect}
-                title='Audio Tracks'
+                title="Audio Tracks"
             />
 
             <ActionMenu
@@ -390,7 +419,7 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                 open={Boolean(subtitleMenuAnchor)}
                 onClose={handleSubtitleMenuClose}
                 onSelect={handleSubtitleTrackSelect}
-                title='Subtitles'
+                title="Subtitles"
             />
         </Box>
     );

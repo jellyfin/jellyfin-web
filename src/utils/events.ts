@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { logger } from './logger';
 
 /**
@@ -12,58 +11,74 @@ export interface Event {
  * Known Event Types (Internal Migration Map)
  * This helps track which events should be replaced by store subscriptions.
  */
-export type KnownEventName = 
-    | 'playbackstart' 
-    | 'playbackstop' 
-    | 'pause' 
-    | 'unpause' 
-    | 'timeupdate' 
-    | 'volumechange' 
-    | 'playerchange' 
-    | 'modechange' 
+export type KnownEventName =
+    | 'playbackstart'
+    | 'playbackstop'
+    | 'pause'
+    | 'unpause'
+    | 'timeupdate'
+    | 'volumechange'
+    | 'playerchange'
+    | 'modechange'
     | 'fullscreenchange'
     | 'reportplayback'
     | 'registered';
 
-type Callback = (e: Event, ...args: any[]) => void;
+export type Callback = (e: Event, ...args: unknown[]) => void;
+
+interface EventCallbacks {
+    [key: string]: Callback[];
+}
+
+export type EventObject =
+    | (EventTarget & {
+          _callbacks?: EventCallbacks;
+          name?: string;
+      })
+    | {
+          _callbacks?: EventCallbacks;
+          name?: string;
+      };
 
 /**
  * Legacy Event Bus
- * 
- * @deprecated Use Zustand store subscriptions (useMediaStore.subscribe, etc.) 
+ *
+ * @deprecated Use Zustand store subscriptions (useMediaStore.subscribe, etc.)
  * for new features. This is kept for backward compatibility with legacy plugins.
  */
 class EventBus {
-    private static instance: EventBus;
-    
+    private static instance: EventBus | null = null;
+
     private constructor() {}
 
-    static getInstance(): EventBus {
-        if (!EventBus.instance) {
+    public static getInstance(): EventBus {
+        if (EventBus.instance == null) {
             EventBus.instance = new EventBus();
         }
         return EventBus.instance;
     }
 
-    private getCallbacks(obj: any, type: string): Callback[] {
-        if (!obj) {
+    private getCallbacks(obj: EventObject, type: string): Callback[] {
+        if (obj == null) {
             throw new Error('EventBus: obj cannot be null!');
         }
 
-        obj._callbacks = obj._callbacks || {};
-        if (!obj._callbacks[type]) {
+        if (obj._callbacks == null) {
+            obj._callbacks = {};
+        }
+        if (obj._callbacks[type] == null) {
             obj._callbacks[type] = [];
         }
 
         return obj._callbacks[type];
     }
 
-    on(obj: any, type: KnownEventName | string, fn: Callback): void {
+    public on(obj: EventObject, type: KnownEventName | string, fn: Callback): void {
         const callbacks = this.getCallbacks(obj, type);
         callbacks.push(fn);
     }
 
-    off(obj: any, type: KnownEventName | string, fn: Callback): void {
+    public off(obj: EventObject, type: KnownEventName | string, fn: Callback): void {
         const callbacks = this.getCallbacks(obj, type);
         const i = callbacks.indexOf(fn);
         if (i !== -1) {
@@ -71,13 +86,13 @@ class EventBus {
         }
     }
 
-    trigger(obj: any, type: KnownEventName | string, args: any[] = []): void {
-        const eventArgs: [Event, ...any] = [{ type }, ...args];
+    public trigger(obj: EventObject, type: KnownEventName | string, args: unknown[] = []): void {
+        const eventArgs: [Event, ...unknown[]] = [{ type }, ...args];
         const callbacks = this.getCallbacks(obj, type);
 
         // Debug log for important events to help migration
         if (['playbackstart', 'playbackstop', 'playerchange'].includes(type)) {
-            logger.debug(`[Events] Triggered: ${type}`, { component: 'EventBus', origin: obj?.name || 'unknown' });
+            logger.debug(`[Events] Triggered: ${type}`, { component: 'EventBus', origin: obj.name ?? 'unknown' });
         }
 
         callbacks.slice(0).forEach(callback => {

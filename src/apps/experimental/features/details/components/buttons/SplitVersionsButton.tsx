@@ -1,6 +1,6 @@
-import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import CallSplitIcon from '@mui/icons-material/CallSplit';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { ColumnsIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useDeleteAlternateSources } from 'hooks/api/videosHooks';
@@ -61,7 +61,7 @@ const SplitVersionsButton: FC<SplitVersionsButtonProps> = ({
             title={globalize.translate('ButtonSplit')}
             onClick={splitVersions}
         >
-            <CallSplitIcon />
+            <ColumnsIcon />
         </IconButton>
     );
 };

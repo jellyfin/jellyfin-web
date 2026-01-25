@@ -1,20 +1,17 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC } from 'react';
-import Icon from '@mui/material/Icon';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 import DefaultName from './DefaultName';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { vars } from 'styles/tokens.css';
 
 interface DefaultIconTextProps {
     item: ItemDto;
     defaultCardImageIcon?: string;
 }
 
-const DefaultIconText: FC<DefaultIconTextProps> = ({
-    item,
-    defaultCardImageIcon
-}) => {
-    let icon;
+const DefaultIconText: FC<DefaultIconTextProps> = ({ item, defaultCardImageIcon }) => {
+    let icon: string | undefined;
 
     if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
         icon = getLibraryIcon(item.CollectionType);
@@ -26,13 +23,13 @@ const DefaultIconText: FC<DefaultIconTextProps> = ({
 
     if (icon) {
         return (
-            <Icon
-                className='cardImageIcon'
-                sx={{ color: 'inherit', fontSize: '5em' }}
-                aria-hidden='true'
+            <span
+                className={`cardImageIcon material-icons ${icon}`}
+                aria-hidden="true"
+                style={{ color: 'inherit', fontSize: vars.typography.fontSizeDisplay }}
             >
                 {icon}
-            </Icon>
+            </span>
         );
     }
 

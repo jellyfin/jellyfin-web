@@ -1,18 +1,10 @@
-import Skeleton, { type SkeletonProps } from '@mui/material/Skeleton/Skeleton';
 import React, { FC } from 'react';
+import { Skeleton, type SkeletonProps } from 'ui-primitives/Skeleton';
 
 interface LoadingSkeletonProps extends SkeletonProps {
-    isLoading: boolean
+    isLoading: boolean;
+    children?: React.ReactNode;
 }
 
-export const LoadingSkeleton: FC<LoadingSkeletonProps> = ({
-    children,
-    isLoading,
-    ...props
-}) => (
-    isLoading ? (
-        <Skeleton {...props} />
-    ) : (
-        children
-    )
-);
+export const LoadingSkeleton: FC<LoadingSkeletonProps> = ({ children, isLoading, ...props }) =>
+    isLoading ? <Skeleton {...props} /> : children;

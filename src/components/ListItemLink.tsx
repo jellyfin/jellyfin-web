@@ -1,13 +1,16 @@
-import ListItemButton from '@mui/joy/ListItemButton';
 import React, { FC } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useLocation } from '@tanstack/react-router';
+import { ListItemButton } from 'ui-primitives/ListItemButton';
+import { vars } from 'styles/tokens.css';
+import { useSearchParams } from 'hooks/useSearchParams';
 
 interface ListItemLinkProps {
     to: string;
     includePaths?: string[];
     excludePaths?: string[];
     children: React.ReactNode;
-    sx?: any;
+    style?: React.CSSProperties;
+    selected?: boolean;
 }
 
 const isMatchingParams = (routeParams: URLSearchParams, currentParams: URLSearchParams) => {
@@ -25,36 +28,36 @@ const ListItemLink: FC<ListItemLinkProps> = ({
     to,
     includePaths = [],
     excludePaths = [],
-    sx,
+    style,
+    selected: selectedOverride,
     ...params
 }) => {
     const location = useLocation();
     const [ searchParams ] = useSearchParams();
 
     const [ toPath, toParams ] = to.split('?');
-    // eslint-disable-next-line compat/compat
     const toSearchParams = new URLSearchParams(`?${toParams}`);
     const selectedPaths = [ toPath, ...includePaths ];
 
-    const selected = selectedPaths.includes(location.pathname)
+    const isSelected = selectedOverride ?? (selectedPaths.includes(location.pathname)
         && !excludePaths.includes(location.pathname + location.search)
-        && (!toParams || isMatchingParams(toSearchParams, searchParams));
+        && (!toParams || isMatchingParams(toSearchParams, searchParams)));
 
     return (
         <ListItemButton
             component={Link}
             to={to}
-            selected={selected}
-            sx={{
-                borderRadius: 'sm',
-                ...(selected && {
-                    bgcolor: 'primary.softBg',
-                    color: 'primary.plainColor',
+            active={isSelected}
+            style={{
+                borderRadius: vars.borderRadius.sm,
+                ...(isSelected && {
+                    backgroundColor: vars.colors.primarySoftBg,
+                    color: vars.colors.primary,
                     '&:hover': {
-                        bgcolor: 'primary.softHoverBg',
+                        backgroundColor: vars.colors.primarySoftHoverBg,
                     },
                 }),
-                ...sx
+                ...style
             }}
             {...params}
         >

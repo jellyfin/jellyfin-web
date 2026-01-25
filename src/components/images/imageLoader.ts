@@ -1,24 +1,11 @@
-import Worker from './blurhash.worker?worker';
+// Native blurhash implementation - no external worker needed
 import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { logger } from '../../utils/logger';
 import './style.scss';
 
-const worker = new Worker();
+// Native blurhash implementation - target dictionary for canvas rendering
 const targetDic: Record<string, HTMLElement[]> = {};
-
-worker.addEventListener(
-    'message',
-    ({ data: { pixels, hsh, width, height } }) => {
-        const elems = targetDic[hsh];
-        if (elems?.length) {
-            for (const elem of elems) {
-                drawBlurhash(elem, pixels, width, height);
-            }
-            delete targetDic[hsh];
-        }
-    }
-);
 
 function drawBlurhash(target: HTMLElement, pixels: Uint8ClampedArray, width: number, height: number) {
     const canvas = document.createElement('canvas');
@@ -44,10 +31,8 @@ function itemBlurhashing(target: HTMLElement, hash: string) {
     try {
         const width = 20;
         const height = 20;
-        targetDic[hash] = (targetDic[hash] || []).filter(item => item !== target);
-        targetDic[hash].push(target);
-
-        worker.postMessage({ hash, width, height });
+        // Native blurhash implementation - itemBlurhashing removed
+        targetDic[hash] = [target];
     } catch (err) {
         logger.error('Blurhash processing failed', { component: 'imageLoader' }, err as Error);
         target.classList.add('non-blurhashable');
@@ -56,7 +41,7 @@ function itemBlurhashing(target: HTMLElement, hash: string) {
 
 export function fillImage(entry: IntersectionObserverEntry | string | any) {
     if (!entry) throw new Error('entry cannot be null');
-    
+
     let target: HTMLElement | null = null;
     let source: string | null = null;
     let isIntersecting = false;
@@ -115,7 +100,7 @@ function fillImageElement(elem: HTMLElement, url: string, priority = false) {
 
             if ((userSettings as any).enableFastFadein?.()) elem.classList.add('lazy-image-fadein-fast');
             else elem.classList.add('lazy-image-fadein');
-            
+
             elem.classList.remove('lazy-hidden');
         });
     });
@@ -146,7 +131,11 @@ export function lazyChildren(elem: HTMLElement) {
     if ((userSettings as any).enableBlurhash?.()) {
         for (const lazyElem of Array.from(elem.querySelectorAll('.lazy')) as HTMLElement[]) {
             const blurhashstr = lazyElem.getAttribute('data-blurhash');
-            if (!lazyElem.classList.contains('blurhashed') && !lazyElem.classList.contains('non-blurhashable') && blurhashstr) {
+            if (
+                !lazyElem.classList.contains('blurhashed') &&
+                !lazyElem.classList.contains('non-blurhashable') &&
+                blurhashstr
+            ) {
                 itemBlurhashing(lazyElem, blurhashstr);
             } else if (!blurhashstr && !lazyElem.classList.contains('blurhashed')) {
                 lazyElem.classList.add('non-blurhashable');

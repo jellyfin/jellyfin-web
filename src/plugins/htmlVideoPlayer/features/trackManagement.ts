@@ -1,4 +1,4 @@
-import { includesAny } from '../../../../utils/container';
+import { includesAny } from '../../../utils/container';
 import { getMediaStreamAudioTracks } from './trackSupport';
 
 export function isAudioStreamSupported(stream: any, deviceProfile: any, container: string): boolean {

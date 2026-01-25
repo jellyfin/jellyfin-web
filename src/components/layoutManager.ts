@@ -4,9 +4,9 @@ import Events from '../utils/events';
 
 /**
  * LayoutManager
- * 
- * Legacy wrapper around useUiStore. Maintains compatibility with 
- * existing code while delegating state to the reactive store.
+ *
+ * Legacy wrapper around useUiStore. Maintains compatibility with
+ * existing code while delegating state to reactive store.
  */
 class LayoutManager {
     get tv(): boolean {
@@ -27,13 +27,17 @@ class LayoutManager {
 
     setLayout(layout?: LayoutMode, _save = true): void {
         useUiStore.getState().setLayout(layout || LayoutMode.Auto);
-        
+
         // Trigger legacy event for non-reactive components
         Events.trigger(this, 'modechange');
     }
 
     init(): void {
-        // Initialized by the store's autoDetectLayout on rehydration
+        // Initialized by store's autoDetectLayout on rehydration
+    }
+
+    getSavedLayout(): LayoutMode {
+        return useUiStore.getState().layout;
     }
 }
 

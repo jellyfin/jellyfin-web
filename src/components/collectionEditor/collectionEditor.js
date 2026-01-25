@@ -11,9 +11,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
-import 'material-design-icons-iconfont';
 import '../formdialog.scss';
-import '../../styles/flexstyles.scss';
 import toast from '../toast/toast';
 
 let currentServerId;
@@ -39,26 +37,26 @@ function onSubmit(e) {
 
 function createCollection(apiClient, dlg) {
     const url = apiClient.getUrl('Collections', {
-
         Name: dlg.querySelector('#txtNewCollectionName').value,
         IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
         Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
     });
 
-    apiClient.ajax({
-        type: 'POST',
-        url: url,
-        dataType: 'json'
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json'
+        })
+        .then(result => {
+            loading.hide();
 
-    }).then(result => {
-        loading.hide();
+            const id = result.Id;
 
-        const id = result.Id;
-
-        dlg.submitted = true;
-        dialogHelper.close(dlg);
-        redirectToCollection(apiClient, id);
-    });
+            dlg.submitted = true;
+            dialogHelper.close(dlg);
+            redirectToCollection(apiClient, id);
+        });
 }
 
 function redirectToCollection(apiClient, id) {
@@ -67,22 +65,22 @@ function redirectToCollection(apiClient, id) {
 
 function addToCollection(apiClient, dlg, id) {
     const url = apiClient.getUrl(`Collections/${id}/Items`, {
-
         Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
     });
 
-    apiClient.ajax({
-        type: 'POST',
-        url: url
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: url
+        })
+        .then(() => {
+            loading.hide();
 
-    }).then(() => {
-        loading.hide();
+            dlg.submitted = true;
+            dialogHelper.close(dlg);
 
-        dlg.submitted = true;
-        dialogHelper.close(dlg);
-
-        toast(globalize.translate('MessageItemsAdded'));
-    });
+            toast(globalize.translate('MessageItemsAdded'));
+        });
 }
 
 function triggerChange(select) {
@@ -97,7 +95,6 @@ function populateCollections(panel) {
     panel.querySelector('.newCollectionInfo').classList.add('hide');
 
     const options = {
-
         Recursive: true,
         IncludeItemTypes: 'BoxSet',
         SortBy: 'SortName',
@@ -198,7 +195,7 @@ function initEditor(content, items) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then((scrollHelper) => {
+    import('../../scripts/scrollHelper').then(scrollHelper => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -225,7 +222,9 @@ class CollectionEditor {
         dlg.classList.add('formDialog');
 
         let html = '';
-        const title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('NewCollection');
+        const title = items.length
+            ? globalize.translate('HeaderAddToCollection')
+            : globalize.translate('NewCollection');
 
         html += '<div class="formDialogHeader">';
         html += `<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${globalize.translate('ButtonBack')}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;

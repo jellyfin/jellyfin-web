@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Checkbox from '@mui/joy/Checkbox';
-import Divider from '@mui/joy/Divider';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
-import Option from '@mui/joy/Option';
-import Select from '@mui/joy/Select';
-import Slider from '@mui/joy/Slider';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
-import CircularProgress from '@mui/joy/CircularProgress';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives/Button';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { Divider } from 'ui-primitives/Divider';
+import { FormControl, FormLabel } from 'ui-primitives/FormControl';
+import { Input } from 'ui-primitives/Input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
+import { Slider } from 'ui-primitives/Slider';
+import { Text } from 'ui-primitives/Text';
+import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { vars } from 'styles/tokens.css';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import type { UserConfiguration } from '@jellyfin/sdk/lib/generated-client';
 import globalize from 'lib/globalize';
 import { logger } from 'utils/logger';
 
@@ -40,11 +39,13 @@ interface SubtitleSettingsProps {
     onSave?: () => void;
 }
 
+import type { SubtitlePlaybackMode } from '@jellyfin/sdk/lib/generated-client';
+
 interface User {
     Id: string;
     Configuration: {
         SubtitleLanguagePreference: string;
-        SubtitleMode: string;
+        SubtitleMode: SubtitlePlaybackMode;
     };
     Policy: {
         EnableVideoPlaybackTranscoding: boolean;
@@ -172,13 +173,16 @@ function getPreviewStyles(settings: Partial<SubtitleSettingsState>): React.CSSPr
 
     switch (settings.dropShadow) {
         case 'raised':
-            styles.textShadow = '-0.04em -0.04em #fff, 0px -0.04em #fff, -0.04em 0px #fff, 0.04em 0.04em #000, 0px 0.04em #000, 0.04em 0px #000';
+            styles.textShadow =
+                '-0.04em -0.04em #fff, 0px -0.04em #fff, -0.04em 0px #fff, 0.04em 0.04em #000, 0px 0.04em #000, 0.04em 0px #000';
             break;
         case 'depressed':
-            styles.textShadow = '0.04em 0.04em #fff, 0px 0.04em #fff, 0.04em 0px #fff, -0.04em -0.04em #000, 0px -0.04em #000, -0.04em 0px #000';
+            styles.textShadow =
+                '0.04em 0.04em #fff, 0px 0.04em #fff, 0.04em 0px #fff, -0.04em -0.04em #000, 0px -0.04em #000, -0.04em 0px #000';
             break;
         case 'uniform':
-            styles.textShadow = '#000 0px 0.03em, #000 0px -0.03em, #000 0px 0.05em, #000 0px -0.05em, #000 0.03em 0px, #000 -0.03em 0px, #000 0.03em 0.03em, #000 -0.03em 0.03em, #000 0.03em -0.03em, #000 -0.03em -0.03em';
+            styles.textShadow =
+                '#000 0px 0.03em, #000 0px -0.03em, #000 0px 0.05em, #000 0px -0.05em, #000 0.03em 0px, #000 -0.03em 0px, #000 0.03em 0.03em, #000 -0.03em 0.03em, #000 0.03em -0.03em, #000 -0.03em -0.03em';
             break;
         case 'none':
             styles.textShadow = 'none';
@@ -251,9 +255,9 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
             const apiClient = ServerConnections.getApiClient(serverId);
             await userSettings.setUserInfo(userId, apiClient);
 
-            const user = await apiClient.getUser(userId) as User;
+            const user = (await apiClient.getUser(userId)) as User;
             const appearanceSettings = userSettings.getSubtitleAppearanceSettings(appearanceKey);
-            const cultures = await apiClient.getCultures() as Culture[];
+            const cultures = (await apiClient.getCultures()) as Culture[];
 
             setState(prev => ({
                 ...prev,
@@ -302,9 +306,9 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
 
             if (state.user) {
                 state.user.Configuration.SubtitleLanguagePreference = state.subtitleLanguage;
-                state.user.Configuration.SubtitleMode = state.subtitleMode;
+                state.user.Configuration.SubtitleMode = state.subtitleMode as SubtitlePlaybackMode;
 
-                await apiClient.updateUserConfiguration(state.user.Id, state.user.Configuration);
+                await apiClient.updateUserConfiguration(state.user.Id, state.user.Configuration as UserConfiguration);
             }
 
             logger.info('Subtitle settings saved', { component: 'SubtitleSettings' });
@@ -329,30 +333,6 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
 
     const showBurnInOptions = state.user?.Policy.EnableVideoPlaybackTranscoding;
 
-    const handleSubtitleModeChange = (_event: unknown, value: string | null) => {
-        setState(prev => ({ ...prev, subtitleMode: value || 'Default' }));
-    };
-
-    const handleSubtitleStylingChange = (_event: unknown, value: string | null) => {
-        setState(prev => ({ ...prev, subtitleStyling: value || 'Auto' }));
-    };
-
-    const handleTextSizeChange = (_event: unknown, value: string | null) => {
-        setState(prev => ({ ...prev, textSize: value || '' }));
-    };
-
-    const handleTextWeightChange = (_event: unknown, value: string | null) => {
-        setState(prev => ({ ...prev, textWeight: value || 'normal' }));
-    };
-
-    const handleDropShadowChange = (_event: unknown, value: string | null) => {
-        setState(prev => ({ ...prev, dropShadow: value || '' }));
-    };
-
-    const handleFontChange = (_event: unknown, value: string | null) => {
-        setState(prev => ({ ...prev, font: value || '' }));
-    };
-
     const handleTextColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState(prev => ({ ...prev, textColor: event.target.value }));
     };
@@ -361,45 +341,45 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
         setState(prev => ({ ...prev, textBackground: event.target.value }));
     };
 
-    const handleVerticalPositionChange = (_event: Event, value: number | number[]) => {
-        setState(prev => ({ ...prev, verticalPosition: value as number }));
-    };
-
-    const handleCheckboxChange = (checked: boolean) => {
-        setState(prev => ({ ...prev, alwaysBurnInWhenTranscoding: checked }));
-    };
-
-    const handlePreviewCheckboxChange = (checked: boolean) => {
-        setState(prev => ({ ...prev, previewEnabled: checked }));
+    const handleVerticalPositionChange = (value: number[]) => {
+        setState(prev => ({ ...prev, verticalPosition: value[0] ?? 0 }));
     };
 
     if (state.loading && !state.user) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+            <Box style={{ display: 'flex', justifyContent: 'center', padding: vars.spacing.lg }}>
                 <CircularProgress />
             </Box>
         );
     }
 
     return (
-        <Box sx={{ maxWidth: 600, mx: 'auto', p: 2 }}>
-            <Typography level='h2' sx={{ mb: 3 }}>
+        <Box style={{ maxWidth: 600, margin: '0 auto', padding: vars.spacing.md }}>
+            <Text as="h2" size="xl" weight="bold" style={{ marginBottom: vars.spacing.lg }}>
                 {globalize.translate('Subtitles')}
-            </Typography>
+            </Text>
 
-            <Stack spacing={3}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg }}>
                 <FormControl>
                     <FormLabel>{globalize.translate('LabelPreferredSubtitleLanguage')}</FormLabel>
                     <Select
                         value={state.subtitleLanguage}
-                        onChange={(_event, value) => setState(prev => ({ ...prev, subtitleLanguage: value || '' }))}
+                        onValueChange={value => setState(prev => ({ ...prev, subtitleLanguage: value }))}
                     >
-                        <Option value=''>{globalize.translate('Default')}</Option>
-                        {state.cultures.map(culture => (
-                            <Option key={culture.ThreeLetterISOLanguageName} value={culture.ThreeLetterISOLanguageName}>
-                                {culture.DisplayName}
-                            </Option>
-                        ))}
+                        <SelectTrigger>
+                            <SelectValue placeholder={globalize.translate('Default')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="">{globalize.translate('Default')}</SelectItem>
+                            {state.cultures.map(culture => (
+                                <SelectItem
+                                    key={culture.ThreeLetterISOLanguageName}
+                                    value={culture.ThreeLetterISOLanguageName}
+                                >
+                                    {culture.DisplayName}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
                     </Select>
                 </FormControl>
 
@@ -407,11 +387,18 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                     <FormLabel>{globalize.translate('LabelSubtitlePlaybackMode')}</FormLabel>
                     <Select
                         value={state.subtitleMode}
-                        onChange={handleSubtitleModeChange}
+                        onValueChange={value => setState(prev => ({ ...prev, subtitleMode: value || 'Default' }))}
                     >
-                        {SUBTITLE_MODE_OPTIONS.map(option => (
-                            <Option key={option.value} value={option.value}>{globalize.translate(option.label)}</Option>
-                        ))}
+                        <SelectTrigger>
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {SUBTITLE_MODE_OPTIONS.map(option => (
+                                <SelectItem key={option.value} value={option.value}>
+                                    {globalize.translate(option.label)}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
                     </Select>
                 </FormControl>
 
@@ -420,64 +407,83 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelBurnSubtitles')}</FormLabel>
                         <Select
                             value={state.subtitleBurnIn}
-                            onChange={(_event, value) => setState(prev => ({ ...prev, subtitleBurnIn: value || '' }))}
+                            onValueChange={value => setState(prev => ({ ...prev, subtitleBurnIn: value }))}
                         >
-                            {SUBTITLE_BURN_IN_OPTIONS.map(option => (
-                                <Option key={option.value} value={option.value}>{globalize.translate(option.label)}</Option>
-                            ))}
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {SUBTITLE_BURN_IN_OPTIONS.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {globalize.translate(option.label)}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
                         </Select>
-                        <Typography level='body-xs' sx={{ mt: 1 }}>
+                        <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>
                             {globalize.translate('BurnSubtitlesHelp')}
-                        </Typography>
+                        </Text>
                     </FormControl>
                 )}
 
                 <FormControl>
                     <Checkbox
-                        label={globalize.translate('AlwaysBurnInSubtitleWhenTranscoding')}
                         checked={state.alwaysBurnInWhenTranscoding}
-                        onChange={() => handleCheckboxChange(state.alwaysBurnInWhenTranscoding ? false : true)}
-                    />
+                        onChangeChecked={checked =>
+                            setState(prev => ({ ...prev, alwaysBurnInWhenTranscoding: checked }))
+                        }
+                    >
+                        {globalize.translate('AlwaysBurnInSubtitleWhenTranscoding')}
+                    </Checkbox>
                 </FormControl>
 
                 <>
-                    <Divider sx={{ my: 2 }} />
+                    <Divider />
 
-                    <Typography level='h3'>
+                    <Text as="h3" size="lg" weight="bold">
                         {globalize.translate('HeaderSubtitleAppearance')}
-                    </Typography>
+                    </Text>
 
-                    <Box sx={{
-                        p: 3,
-                        background: 'linear-gradient(140deg, #aa5cc3, #00a4dc)',
-                        borderRadius: 'md',
-                        textAlign: 'center'
-                    }}>
-                        <Box sx={{
-                            width: '90%',
-                            mx: 'auto',
-                            p: 1,
-                            backgroundColor: state.textBackground || 'transparent',
-                            color: state.textColor || '#ffffff',
-                            ...previewStyles
-                        }}>
+                    <Box
+                        style={{
+                            padding: vars.spacing.lg,
+                            background: 'linear-gradient(140deg, #aa5cc3, #00a4dc)',
+                            borderRadius: vars.borderRadius.md,
+                            textAlign: 'center'
+                        }}
+                    >
+                        <Box
+                            style={{
+                                width: '90%',
+                                margin: '0 auto',
+                                padding: vars.spacing.sm,
+                                backgroundColor: state.textBackground || 'transparent',
+                                color: state.textColor || '#ffffff',
+                                ...previewStyles
+                            }}
+                        >
                             {globalize.translate('TheseSettingsAffectSubtitlesOnThisDevice')}
                         </Box>
                     </Box>
 
-                    <Typography level='body-sm'>
+                    <Text size="sm" color="secondary">
                         {globalize.translate('SubtitleAppearanceSettingsDisclaimer')}
-                    </Typography>
+                    </Text>
 
                     <FormControl>
                         <FormLabel>{globalize.translate('LabelSubtitleStyling')}</FormLabel>
                         <Select
                             value={state.subtitleStyling}
-                            onChange={handleSubtitleStylingChange}
+                            onValueChange={value => setState(prev => ({ ...prev, subtitleStyling: value || 'Auto' }))}
                         >
-                            <Option value='Auto'>{globalize.translate('Auto')}</Option>
-                            <Option value='Custom'>{globalize.translate('Custom')}</Option>
-                            <Option value='Native'>{globalize.translate('Native')}</Option>
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="Auto">{globalize.translate('Auto')}</SelectItem>
+                                <SelectItem value="Custom">{globalize.translate('Custom')}</SelectItem>
+                                <SelectItem value="Native">{globalize.translate('Native')}</SelectItem>
+                            </SelectContent>
                         </Select>
                     </FormControl>
 
@@ -485,11 +491,18 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelTextSize')}</FormLabel>
                         <Select
                             value={state.textSize}
-                            onChange={handleTextSizeChange}
+                            onValueChange={value => setState(prev => ({ ...prev, textSize: value || '' }))}
                         >
-                            {TEXT_SIZE_OPTIONS.map(option => (
-                                <Option key={option.value} value={option.value}>{globalize.translate(option.label)}</Option>
-                            ))}
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {TEXT_SIZE_OPTIONS.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {globalize.translate(option.label)}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
                         </Select>
                     </FormControl>
 
@@ -497,11 +510,18 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelTextWeight')}</FormLabel>
                         <Select
                             value={state.textWeight}
-                            onChange={handleTextWeightChange}
+                            onValueChange={value => setState(prev => ({ ...prev, textWeight: value || 'normal' }))}
                         >
-                            {TEXT_WEIGHT_OPTIONS.map(option => (
-                                <Option key={option.value} value={option.value}>{globalize.translate(option.label)}</Option>
-                            ))}
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {TEXT_WEIGHT_OPTIONS.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {globalize.translate(option.label)}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
                         </Select>
                     </FormControl>
 
@@ -509,49 +529,59 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelFont')}</FormLabel>
                         <Select
                             value={state.font}
-                            onChange={handleFontChange}
+                            onValueChange={value => setState(prev => ({ ...prev, font: value || '' }))}
                         >
-                            {FONT_OPTIONS.map(option => (
-                                <Option key={option.value} value={option.value}>{globalize.translate(option.label)}</Option>
-                            ))}
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {FONT_OPTIONS.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {globalize.translate(option.label)}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
                         </Select>
                     </FormControl>
 
                     <FormControl>
                         <FormLabel>{globalize.translate('LabelTextColor')}</FormLabel>
-                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                        <Flex style={{ gap: vars.spacing.sm, flexWrap: 'wrap' }}>
                             {TEXT_COLOR_OPTIONS.map(option => (
                                 <Box
                                     key={option.value}
                                     onClick={() => setState(prev => ({ ...prev, textColor: option.value }))}
-                                    sx={{
+                                    style={{
                                         width: 32,
                                         height: 32,
                                         borderRadius: '50%',
                                         backgroundColor: option.value,
-                                        border: state.textColor === option.value ? '2px solid #fff' : '2px solid transparent',
+                                        border:
+                                            state.textColor === option.value
+                                                ? '2px solid #fff'
+                                                : '2px solid transparent',
                                         cursor: 'pointer',
                                         boxShadow: state.textColor === option.value ? '0 0 0 2px #000' : 'none'
                                     }}
                                 />
                             ))}
-                        </Box>
+                        </Flex>
                         <Input
-                            type='text'
+                            type="text"
                             value={state.textColor}
                             onChange={handleTextColorChange}
-                            sx={{ mt: 1 }}
-                            placeholder='#ffffff'
+                            style={{ marginTop: vars.spacing.sm }}
+                            placeholder="#ffffff"
                         />
                     </FormControl>
 
                     <FormControl>
                         <FormLabel>{globalize.translate('LabelTextBackgroundColor')}</FormLabel>
                         <Input
-                            type='text'
+                            type="text"
                             value={state.textBackground}
                             onChange={handleTextBackgroundChange}
-                            placeholder='transparent'
+                            placeholder="transparent"
                         />
                     </FormControl>
 
@@ -559,48 +589,54 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelDropShadow')}</FormLabel>
                         <Select
                             value={state.dropShadow}
-                            onChange={handleDropShadowChange}
+                            onValueChange={value => setState(prev => ({ ...prev, dropShadow: value || '' }))}
                         >
-                            {DROP_SHADOW_OPTIONS.map(option => (
-                                <Option key={option.value} value={option.value}>{globalize.translate(option.label)}</Option>
-                            ))}
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {DROP_SHADOW_OPTIONS.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {globalize.translate(option.label)}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
                         </Select>
                     </FormControl>
 
                     <FormControl>
                         <FormLabel>{globalize.translate('LabelSubtitleVerticalPosition')}</FormLabel>
                         <Slider
-                            value={state.verticalPosition}
-                            onChange={handleVerticalPositionChange}
+                            value={[state.verticalPosition]}
+                            onValueChange={handleVerticalPositionChange}
                             min={-16}
                             max={16}
                             step={1}
-                            valueLabelDisplay='auto'
                         />
-                        <Typography level='body-xs' sx={{ mt: 1 }}>
+                        <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>
                             {globalize.translate('SubtitleVerticalPositionHelp')}
-                        </Typography>
+                        </Text>
                     </FormControl>
 
                     <FormControl>
                         <Checkbox
-                            label={globalize.translate('Preview')}
                             checked={state.previewEnabled}
-                            onChange={() => handlePreviewCheckboxChange(state.previewEnabled ? false : true)}
-                        />
+                            onChangeChecked={checked => setState(prev => ({ ...prev, previewEnabled: checked }))}
+                        >
+                            {globalize.translate('Preview')}
+                        </Checkbox>
                     </FormControl>
                 </>
 
                 <Button
-                    variant='solid'
-                    color='primary'
+                    variant="primary"
                     onClick={handleSave}
                     loading={state.loading}
-                    sx={{ mt: 2 }}
+                    style={{ marginTop: vars.spacing.md }}
                 >
                     {globalize.translate('Save')}
                 </Button>
-            </Stack>
+            </Flex>
         </Box>
     );
 };

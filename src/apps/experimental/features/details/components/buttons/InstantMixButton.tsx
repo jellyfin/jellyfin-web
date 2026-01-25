@@ -1,6 +1,6 @@
-import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import ExploreIcon from '@mui/icons-material/Explore';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { ShuffleIcon } from '@radix-ui/react-icons';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
@@ -21,7 +21,7 @@ const InstantMixButton: FC<InstantMixButtonProps> = ({ item }) => {
             title={globalize.translate('HeaderInstantMix')}
             onClick={onInstantMixClick}
         >
-            <ExploreIcon />
+            <ShuffleIcon />
         </IconButton>
     );
 };

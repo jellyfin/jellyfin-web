@@ -1,8 +1,8 @@
 import { SyncPlayUserAccessType } from '@jellyfin/sdk/lib/generated-client/models/sync-play-user-access-type';
-import Groups from '@mui/icons-material/Groups';
-import IconButton from '@mui/joy/IconButton';
-import Tooltip from '@mui/joy/Tooltip';
+import { GroupIcon } from '@radix-ui/react-icons';
 import React, { useCallback, useState } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
 
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';
@@ -25,7 +25,7 @@ const SyncPlayButton = () => {
     }, []);
 
     if (
-        (user?.Policy && user.Policy.SyncPlayAccess === SyncPlayUserAccessType.None)
+        (user?.Policy?.SyncPlayAccess === SyncPlayUserAccessType.None)
         || pluginManager.ofType(PluginType.SyncPlay).length === 0
     ) {
         return null;
@@ -33,14 +33,14 @@ const SyncPlayButton = () => {
 
     return (
         <>
-            <Tooltip title={globalize.translate('ButtonSyncPlay')} variant="soft">
+            <Tooltip title={globalize.translate('ButtonSyncPlay')}>
                 <IconButton
-                    variant="plain"
-                    color="neutral"
+                    variant='plain'
+                    color='neutral'
                     aria-label={globalize.translate('ButtonSyncPlay')}
                     onClick={onButtonClick}
                 >
-                    <Groups />
+                    <GroupIcon />
                 </IconButton>
             </Tooltip>
 

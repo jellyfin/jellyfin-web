@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton } from 'ui-primitives/IconButton';
 import { Tooltip } from 'ui-primitives/Tooltip';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { MagicWandIcon } from '@radix-ui/react-icons';
 import { useAutoDJStore } from 'store/autoDJStore';
 import { vars } from 'styles/tokens.css';
 
@@ -27,7 +27,7 @@ export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({
                     color: enabled ? vars.colors.primary : 'inherit',
                 }}
             >
-                <AutoAwesomeIcon />
+                <MagicWandIcon />
             </IconButton>
         </Tooltip>
     );

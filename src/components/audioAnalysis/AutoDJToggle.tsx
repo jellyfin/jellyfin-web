@@ -3,7 +3,7 @@ import React from 'react';
 import { Text } from 'ui-primitives/Text';
 import { vars } from 'styles/tokens.css';
 
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { MagicWandIcon } from '@radix-ui/react-icons';
 import * as styles from './AutoDJToggle.css';
 
 interface AutoDJToggleProps {
@@ -33,8 +33,7 @@ export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({
             }
         >
             <div className={styles.labelContainer}>
-                <AutoAwesomeIcon
-                    fontSize='small'
+                <MagicWandIcon
                     style={{ color: enabled ? vars.colors.primary : vars.colors.textSecondary }}
                 />
                 <span className={styles.label} style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>

@@ -1,57 +1,48 @@
-import React, { useMemo } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import LinkButton from 'elements/emby-button/LinkButton';
+import { Button } from 'ui-primitives/Button';
 
 const FallbackRoute = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     // Check if the requested path should be redirected
-    const to = useMemo(() => {
-        const _to = {
-            search: location.search,
-            hash: location.hash
-        };
+    const to = RegExp(/^\/wizard[a-z]+\.html/i).test(location.pathname)
+        ? `/wizard/${location.pathname.slice(7, -5)}${location.search}${location.hash}`
+        : location.pathname.endsWith('.html')
+          ? `${location.pathname.slice(0, -5)}${location.search}${location.hash}`
+          : undefined;
 
-        // Redirect old wizard paths
-        if (RegExp(/^\/wizard[a-z]+\.html/i).test(location.pathname)) {
-            return { ..._to, pathname: `/wizard/${location.pathname.slice(7, -5)}` };
+    useEffect(() => {
+        if (!to) {
+            return;
         }
 
-        // If a path ends in ".html", redirect to the path with it removed
-        if (location.pathname.endsWith('.html')) {
-            return { ..._to, pathname: location.pathname.slice(0, -5) };
-        }
-    }, [ location ]);
+        console.warn(
+            '[FallbackRoute] You are using a deprecated URL format. This will stop working in a future Jellyfin update.'
+        );
+        navigate({ to, replace: true });
+    }, [navigate, to]);
 
     if (to) {
-        console.warn('[FallbackRoute] You are using a deprecated URL format. This will stop working in a future Jellyfin update.');
-
-        return (
-            <Navigate
-                replace
-                to={to}
-            />
-        );
+        return null;
     }
 
     return (
         <Page
-            id='fallbackPage'
+            id="fallbackPage"
             title={globalize.translate('HeaderPageNotFound')}
-            className='mainAnimatedPage libraryPage'
+            className="mainAnimatedPage libraryPage"
         >
-            <div className='padded-left padded-right'>
+            <div className="padded-left padded-right">
                 <h1>{globalize.translate('HeaderPageNotFound')}</h1>
                 <p>{globalize.translate('PageNotFound')}</p>
-                <LinkButton
-                    className='button-link'
-                    href='#/home'
-                >
+                <Button component="a" className="button-link" href="#/home" variant="ghost">
                     {globalize.translate('GoHome')}
-                </LinkButton>
+                </Button>
             </div>
         </Page>
     );

@@ -5,20 +5,19 @@
  * IMPACT: 20-40% improvement in navigation speed through intelligent prefetching
  */
 
-import { matchPath } from 'react-router-dom';
 import { preloadPerformanceMonitor } from './preloadPerformanceMonitor';
 import { logger } from './logger';
 
 // Preloading strategies based on current location and user behavior
 export class PredictivePreloader {
     private static instance: PredictivePreloader;
-    private preloadQueue: Set<string> = new Set();
-    private preloadHistory: string[] = [];
-    private userBehaviorPatterns: Map<string, string[]> = new Map();
-    private contentRelationships: Map<string, string[]> = new Map();
+    private readonly preloadQueue: Set<string> = new Set();
+    private readonly preloadHistory: string[] = [];
+    private readonly userBehaviorPatterns: Map<string, string[]> = new Map();
+    private readonly contentRelationships: Map<string, string[]> = new Map();
     private readonly MAX_CONCURRENT = 3;
     private readonly activePreloads = new Set<string>();
-    private readonly preloadRequestQueue: Array<{resource: string; promise: Promise<void>}> = [];
+    private readonly preloadRequestQueue: Array<{ resource: string; promise: Promise<void> }> = [];
     private readonly MIN_PRELOAD_INTERVAL = 2000;
     private lastPreloadTime = 0;
 
@@ -89,9 +88,9 @@ export class PredictivePreloader {
 
     private processQueue(): void {
         while (
-            this.preloadRequestQueue.length > 0 &&
-            this.activePreloads.size < this.MAX_CONCURRENT &&
-            this.canPreload()
+            this.preloadRequestQueue.length > 0
+            && this.activePreloads.size < this.MAX_CONCURRENT
+            && this.canPreload()
         ) {
             const next = this.preloadRequestQueue.shift();
             if (next) {
@@ -209,9 +208,9 @@ export class PredictivePreloader {
                     await this.queuePreload(resourceId, importFunction);
                     this.preloadQueue.add(resourceId);
                 }
-                } catch (error) {
-                    logger.warn(`Failed to preload route ${path}`, { component: 'PredictivePreloader' }, error as Error);
-                }
+            } catch (error) {
+                logger.warn(`Failed to preload route ${path}`, { component: 'PredictivePreloader' }, error as Error);
+            }
         });
 
         await Promise.allSettled(preloadPromises);
@@ -234,9 +233,9 @@ export class PredictivePreloader {
                     await this.queuePreload(resourceId, importFunction);
                     this.preloadQueue.add(resourceId);
                 }
-                } catch (error) {
-                    logger.warn(`Failed to preload component ${component}`, { component: 'PredictivePreloader' }, error as Error);
-                }
+            } catch (error) {
+                logger.warn(`Failed to preload component ${component}`, { component: 'PredictivePreloader' }, error as Error);
+            }
         });
 
         await Promise.allSettled(preloadPromises);

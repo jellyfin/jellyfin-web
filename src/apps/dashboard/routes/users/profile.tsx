@@ -1,7 +1,21 @@
+/**
+ * @deprecated This file uses legacy DOM manipulation patterns.
+ *
+ * Migration:
+ * - Replace querySelector with React state + controlled components
+ * - Replace form event listeners with onSubmit/onChange handlers
+ * - Replace escapeHTML with React's built-in escaping
+ * - Use TanStack Forms + Zod for form validation
+ *
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
+
 import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { logger } from 'utils/logger';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { useSearchParams } from 'hooks/useSearchParams';
 import escapeHTML from 'escape-html';
-import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../../lib/globalize';
 import Button from '../../../../elements/emby-button/Button';
@@ -23,23 +37,21 @@ import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdate
 import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
 
 type ResetProvider = BaseItemDto & {
-    checkedAttribute: string
+    checkedAttribute: string;
 };
 
-const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
-    Array.prototype.filter.call(elements, e => e.checked)
-        .map(e => e.getAttribute('data-id'))
-);
+const getCheckedElementDataIds = (elements: NodeListOf<Element>) =>
+    Array.prototype.filter.call(elements, e => e.checked).map(e => e.getAttribute('data-id'));
 
-const UserEdit = () => {
+const UserEdit = (): React.ReactElement => {
     const navigate = useNavigate();
-    const [ searchParams ] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const userId = searchParams.get('userId');
-    const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
-    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
+    const [deleteFoldersAccess, setDeleteFoldersAccess] = useState<ResetProvider[]>([]);
+    const libraryMenuPromise = useRef(import('../../../../scripts/libraryMenu'));
 
-    const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
-    const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
+    const [authenticationProviderId, setAuthenticationProviderId] = useState('');
+    const [passwordResetProviderId, setPasswordResetProviderId] = useState('');
 
     const { data: userDto, isSuccess: isUserSuccess } = useUser(userId ? { userId: userId } : undefined);
     const { data: authProviders, isSuccess: isAuthProvidersSuccess } = useAuthProviders();
@@ -59,7 +71,7 @@ const UserEdit = () => {
     };
 
     const loadAuthProviders = useCallback((page: HTMLDivElement, user: UserDto, providers: NameIdPair[]) => {
-        const fldSelectLoginProvider = page.querySelector('.fldSelectLoginProvider') as HTMLDivElement;
+        const fldSelectLoginProvider = page.querySelector('.fldSelectLoginProvider')!;
         fldSelectLoginProvider.classList.toggle('hide', providers.length <= 1);
 
         const currentProviderId = user.Policy?.AuthenticationProviderId || '';
@@ -67,50 +79,61 @@ const UserEdit = () => {
     }, []);
 
     const loadPasswordResetProviders = useCallback((page: HTMLDivElement, user: UserDto, providers: NameIdPair[]) => {
-        const fldSelectPasswordResetProvider = page.querySelector('.fldSelectPasswordResetProvider') as HTMLDivElement;
+        const fldSelectPasswordResetProvider = page.querySelector('.fldSelectPasswordResetProvider')!;
         fldSelectPasswordResetProvider.classList.toggle('hide', providers.length <= 1);
 
         const currentProviderId = user.Policy?.PasswordResetProviderId || '';
         setPasswordResetProviderId(currentProviderId);
     }, []);
 
-    const loadDeleteFolders = useCallback((page: HTMLDivElement, user: UserDto, folders: BaseItemDto[]) => {
-        let isChecked;
-        let checkedAttribute;
-        const itemsArr: ResetProvider[] = [];
+    const loadDeleteFolders = useCallback(
+        (page: HTMLDivElement, user: UserDto, folders: BaseItemDto[]) => {
+            let isChecked;
+            let checkedAttribute;
+            const itemsArr: ResetProvider[] = [];
 
-        for (const mediaFolder of folders) {
-            isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(mediaFolder.Id || '') != -1;
-            checkedAttribute = isChecked ? ' checked="checked"' : '';
-            itemsArr.push({
-                ...mediaFolder,
-                checkedAttribute: checkedAttribute
-            });
-        }
-
-        if (channels?.Items) {
-            for (const channel of channels.Items) {
-                isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(channel.Id || '') != -1;
+            for (const mediaFolder of folders) {
+                isChecked =
+                    user.Policy?.EnableContentDeletion ||
+                    user.Policy?.EnableContentDeletionFromFolders?.indexOf(mediaFolder.Id || '') != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 itemsArr.push({
-                    ...channel,
+                    ...mediaFolder,
                     checkedAttribute: checkedAttribute
                 });
             }
-        }
 
-        setDeleteFoldersAccess(itemsArr);
+            if (channels?.Items) {
+                for (const channel of channels.Items) {
+                    isChecked =
+                        user.Policy?.EnableContentDeletion ||
+                        user.Policy?.EnableContentDeletionFromFolders?.indexOf(channel.Id || '') != -1;
+                    checkedAttribute = isChecked ? ' checked="checked"' : '';
+                    itemsArr.push({
+                        ...channel,
+                        checkedAttribute: checkedAttribute
+                    });
+                }
+            }
 
-        const chkEnableDeleteAllFolders = page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement;
-        chkEnableDeleteAllFolders.checked = user.Policy?.EnableContentDeletion || false;
-        triggerChange(chkEnableDeleteAllFolders);
-    }, [channels]);
+            setDeleteFoldersAccess(itemsArr);
+
+            const chkEnableDeleteAllFolders = page.querySelector(
+                '.chkEnableDeleteAllFolders'
+            ) as HTMLInputElement | null;
+            if (chkEnableDeleteAllFolders) {
+                chkEnableDeleteAllFolders.checked = user.Policy?.EnableContentDeletion || false;
+                triggerChange(chkEnableDeleteAllFolders);
+            }
+        },
+        [channels]
+    );
 
     useEffect(() => {
         const page = element.current;
 
         if (!page) {
-            console.error('[useredit] Unexpected null page reference');
+            logger.error('[useredit] Unexpected null page reference');
             return;
         }
 
@@ -154,7 +177,7 @@ const UserEdit = () => {
         }
 
         if (netConfig && isNetConfigSuccess) {
-            (page.querySelector('.fldRemoteAccess') as HTMLDivElement).classList.toggle('hide', !netConfig.EnableRemoteAccess);
+            page.querySelector('.fldRemoteAccess')!.classList.toggle('hide', !netConfig.EnableRemoteAccess);
         }
     }, [netConfig, isNetConfigSuccess]);
 
@@ -166,14 +189,14 @@ const UserEdit = () => {
             return;
         }
 
-        const disabledUserBanner = page.querySelector('.disabledUserBanner') as HTMLDivElement;
+        const disabledUserBanner = page.querySelector('.disabledUserBanner')!;
         disabledUserBanner.classList.toggle('hide', !user.Policy?.IsDisabled);
 
-        const txtUserName = page.querySelector('#txtUserName') as HTMLInputElement;
-        txtUserName.disabled = false;
+        const txtUserName = page.querySelector('#txtUserName')!;
+        (txtUserName as HTMLInputElement).disabled = false;
         txtUserName.removeAttribute('disabled');
 
-        void libraryMenu.then(menu => menu.setTitle(user.Name));
+        void libraryMenuPromise.current.then((menu: any) => menu.default.setTitle(user.Name));
 
         (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name || '';
         (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = !!user.Policy?.IsAdministrator;
@@ -182,23 +205,30 @@ const UserEdit = () => {
         (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked = !!user.Policy?.EnableCollectionManagement;
         (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked = !!user.Policy?.EnableSubtitleManagement;
         (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked = !!user.Policy?.EnableSharedDeviceControl;
-        (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked = !!user.Policy?.EnableRemoteControlOfOtherUsers;
+        (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked =
+            !!user.Policy?.EnableRemoteControlOfOtherUsers;
         (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked = !!user.Policy?.EnableContentDownloading;
         (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked = !!user.Policy?.EnableLiveTvManagement;
         (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked = !!user.Policy?.EnableLiveTvAccess;
         (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked = !!user.Policy?.EnableMediaPlayback;
-        (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked = !!user.Policy?.EnableAudioPlaybackTranscoding;
-        (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked = !!user.Policy?.EnableVideoPlaybackTranscoding;
+        (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked =
+            !!user.Policy?.EnableAudioPlaybackTranscoding;
+        (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked =
+            !!user.Policy?.EnableVideoPlaybackTranscoding;
         (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked = !!user.Policy?.EnablePlaybackRemuxing;
         (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = !!user.Policy?.ForceRemoteSourceTranscoding;
-        (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = user.Policy?.EnableRemoteAccess == null || user.Policy?.EnableRemoteAccess;
-        (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = user.Policy?.RemoteClientBitrateLimit && user.Policy?.RemoteClientBitrateLimit > 0 ?
-            (user.Policy?.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 }) : '';
-        (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = String(user.Policy?.LoginAttemptsBeforeLockout) || '-1';
+        (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked =
+            user.Policy?.EnableRemoteAccess == null || user.Policy?.EnableRemoteAccess;
+        (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value =
+            user.Policy?.RemoteClientBitrateLimit && user.Policy?.RemoteClientBitrateLimit > 0
+                ? (user.Policy?.RemoteClientBitrateLimit / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 })
+                : '';
+        (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value =
+            String(user.Policy?.LoginAttemptsBeforeLockout) || '-1';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(user.Policy?.MaxActiveSessions) || '0';
-        (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = String(user.Policy?.SyncPlayAccess);
+        (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value = String(user.Policy?.SyncPlayAccess);
         loading.hide();
-    }, [ libraryMenu ]);
+    }, []);
 
     const loadData = useCallback(() => {
         if (!userDto) {
@@ -232,45 +262,68 @@ const UserEdit = () => {
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
             user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
-            user.Policy.EnableRemoteControlOfOtherUsers = (page.querySelector('.chkEnableRemoteControlOtherUsers') as HTMLInputElement).checked;
+            user.Policy.EnableRemoteControlOfOtherUsers = (page.querySelector(
+                '.chkEnableRemoteControlOtherUsers'
+            ) as HTMLInputElement).checked;
             user.Policy.EnableLiveTvManagement = (page.querySelector('.chkManageLiveTv') as HTMLInputElement).checked;
             user.Policy.EnableLiveTvAccess = (page.querySelector('.chkEnableLiveTvAccess') as HTMLInputElement).checked;
             user.Policy.EnableSharedDeviceControl = (page.querySelector('.chkRemoteControlSharedDevices') as HTMLInputElement).checked;
             user.Policy.EnableMediaPlayback = (page.querySelector('.chkEnableMediaPlayback') as HTMLInputElement).checked;
-            user.Policy.EnableAudioPlaybackTranscoding = (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked;
-            user.Policy.EnableVideoPlaybackTranscoding = (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked;
+            user.Policy.EnableAudioPlaybackTranscoding = (page.querySelector(
+                '.chkEnableAudioPlaybackTranscoding'
+            ) as HTMLInputElement).checked;
+            user.Policy.EnableVideoPlaybackTranscoding = (page.querySelector(
+                '.chkEnableVideoPlaybackTranscoding'
+            ) as HTMLInputElement).checked;
             user.Policy.EnablePlaybackRemuxing = (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked;
             user.Policy.EnableCollectionManagement = (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked;
             user.Policy.EnableSubtitleManagement = (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked;
             user.Policy.ForceRemoteSourceTranscoding = (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked;
             user.Policy.EnableContentDownloading = (page.querySelector('.chkEnableDownloading') as HTMLInputElement).checked;
             user.Policy.EnableRemoteAccess = (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked;
-            user.Policy.RemoteClientBitrateLimit = Math.floor(1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0'));
-            user.Policy.LoginAttemptsBeforeLockout = parseInt((page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0', 10);
+            user.Policy.RemoteClientBitrateLimit = Math.floor(
+                1e6 * parseFloat((page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value || '0')
+            );
+            user.Policy.LoginAttemptsBeforeLockout = parseInt(
+                (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value || '0',
+                10
+            );
             user.Policy.MaxActiveSessions = parseInt((page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value || '0', 10);
-            user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLSelectElement).value;
-            user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLSelectElement).value;
+            user.Policy.AuthenticationProviderId = (page.querySelector('#selectLoginProvider') as HTMLInputElement).value;
+            user.Policy.PasswordResetProviderId = (page.querySelector('#selectPasswordResetProvider') as HTMLInputElement).value;
             user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
-            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
-            user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
+            user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion
+                ? []
+                : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
+            user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLInputElement).value as SyncPlayUserAccessType;
 
-            updateUser.mutate({ userId: user.Id, userDto: user }, {
-                onSuccess: () => {
-                    if (user.Id) {
-                        updateUserPolicy.mutate({
-                            userId: user.Id,
-                            userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
-                        }, {
-                            onSuccess: () => {
-                                loading.hide();
-                                navigate('/dashboard/users', {
-                                    state: { openSavedToast: true }
-                                });
-                            }
-                        });
+            updateUser.mutate(
+                { userId: user.Id, userDto: user },
+                {
+                    onSuccess: () => {
+                        if (user.Id) {
+                            updateUserPolicy.mutate(
+                                {
+                                    userId: user.Id,
+                                    userPolicy: user.Policy || {
+                                        PasswordResetProviderId: '',
+                                        AuthenticationProviderId: ''
+                                    }
+                                },
+                                {
+                                    onSuccess: () => {
+                                        loading.hide();
+                                        navigate({
+                                            to: '/dashboard/users',
+                                            state: { openSavedToast: true } as any
+                                        } as any);
+                                    }
+                                }
+                            );
+                        }
                     }
                 }
-            });
+            );
         };
 
         const onSubmit = (e: Event) => {
@@ -287,27 +340,28 @@ const UserEdit = () => {
             window.history.back();
         };
 
-        (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
-            (page.querySelector('.deleteAccess') as HTMLDivElement).classList.toggle('hide', this.checked);
+        page.querySelector('.chkEnableDeleteAllFolders')!.addEventListener('change', function (this: HTMLInputElement) {
+            page.querySelector('.deleteAccess')!.classList.toggle('hide', this.checked);
         });
 
-        (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', onBtnCancelClick);
+        page.querySelector('.editUserProfileForm')!.addEventListener('submit', onSubmit);
+        page.querySelector('#btnCancel')!.addEventListener('click', onBtnCancelClick);
 
         return () => {
-            (page.querySelector('.editUserProfileForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
-            (page.querySelector('#btnCancel') as HTMLButtonElement).removeEventListener('click', onBtnCancelClick);
+            page.querySelector('.editUserProfileForm')!.removeEventListener('submit', onSubmit);
+            page.querySelector('#btnCancel')!.removeEventListener('click', onBtnCancelClick);
         };
     }, [loadData, updateUser, userDto, updateUserPolicy, navigate]);
 
-    const optionLoginProvider = authProviders?.map((provider) => {
+    const optionLoginProvider = authProviders?.map(provider => {
         const selected = provider.Id === authenticationProviderId || authProviders.length < 2 ? ' selected' : '';
-        return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name)}</option>`;
+        return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name || '')}</option>`;
     });
 
-    const optionPasswordResetProvider = passwordResetProviders?.map((provider) => {
-        const selected = provider.Id === passwordResetProviderId || passwordResetProviders.length < 2 ? ' selected' : '';
-        return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name)}</option>`;
+    const optionPasswordResetProvider = passwordResetProviders?.map(provider => {
+        const selected =
+            provider.Id === passwordResetProviderId || passwordResetProviders.length < 2 ? ' selected' : '';
+        return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name || '')}</option>`;
     });
 
     const optionSyncPlayAccess = () => {
@@ -319,185 +373,140 @@ const UserEdit = () => {
     };
 
     return (
-        <Page
-            id='editUserPage'
-            className='mainAnimatedPage type-interior'
-        >
-            <div ref={element} className='content-primary'>
-                <div className='verticalSection'>
-                    <SectionTitleContainer
-                        title={userDto?.Name || ''}
-                    />
+        <Page id="editUserPage" className="mainAnimatedPage type-interior">
+            <div ref={element} className="content-primary">
+                <div className="verticalSection">
+                    <SectionTitleContainer title={userDto?.Name || ''} />
                 </div>
 
-                <SectionTabs activeTab='useredit'/>
-                <div
-                    className='lnkEditUserPreferencesContainer'
-                    style={{ paddingBottom: '1em' }}
-                >
-                    <LinkButton className='lnkEditUserPreferences button-link' href={userDto?.Id ? `mypreferencesmenu?userId=${userDto.Id}` : undefined}>
+                <SectionTabs activeTab="useredit" />
+                <div className="lnkEditUserPreferencesContainer" style={{ paddingBottom: '1em' }}>
+                    <LinkButton
+                        className="lnkEditUserPreferences button-link"
+                        href={userDto?.Id ? `mypreferencesmenu?userId=${userDto.Id}` : undefined}
+                    >
                         {globalize.translate('ButtonEditOtherUserPreferences')}
                     </LinkButton>
                 </div>
-                <form className='editUserProfileForm'>
-                    <div className='disabledUserBanner hide'>
-                        <div className='btn btnDarkAccent btnStatic'>
-                            <div>
-                                {globalize.translate('HeaderThisUserIsCurrentlyDisabled')}
-                            </div>
-                            <div style={{ marginTop: 5 }}>
-                                {globalize.translate('MessageReenableUser')}
-                            </div>
+                <form className="editUserProfileForm">
+                    <div className="disabledUserBanner hide">
+                        <div className="btn btnDarkAccent btnStatic">
+                            <div>{globalize.translate('HeaderThisUserIsCurrentlyDisabled')}</div>
+                            <div style={{ marginTop: 5 }}>{globalize.translate('MessageReenableUser')}</div>
                         </div>
                     </div>
-                    <div id='fldUserName' className='inputContainer'>
-                        <Input
-                            type='text'
-                            id='txtUserName'
-                            label={globalize.translate('LabelName')}
-                            required
-                        />
+                    <div id="fldUserName" className="inputContainer">
+                        <Input type="text" id="txtUserName" label={globalize.translate('LabelName')} required />
                     </div>
-                    <div className='selectContainer fldSelectLoginProvider hide'>
-                        <SelectElement
-                            id='selectLoginProvider'
-                            label='LabelAuthProvider'
-                        >
+                    <div className="selectContainer fldSelectLoginProvider hide">
+                        <SelectElement id="selectLoginProvider" label="LabelAuthProvider">
                             {optionLoginProvider}
                         </SelectElement>
 
-                        <div className='fieldDescription'>
-                            {globalize.translate('AuthProviderHelp')}
-                        </div>
+                        <div className="fieldDescription">{globalize.translate('AuthProviderHelp')}</div>
                     </div>
-                    <div className='selectContainer fldSelectPasswordResetProvider hide'>
-                        <SelectElement
-                            id='selectPasswordResetProvider'
-                            label='LabelPasswordResetProvider'
-                        >
+                    <div className="selectContainer fldSelectPasswordResetProvider hide">
+                        <SelectElement id="selectPasswordResetProvider" label="LabelPasswordResetProvider">
                             {optionPasswordResetProvider}
                         </SelectElement>
-                        <div className='fieldDescription'>
-                            {globalize.translate('PasswordResetProviderHelp')}
-                        </div>
+                        <div className="fieldDescription">{globalize.translate('PasswordResetProviderHelp')}</div>
                     </div>
-                    <div className='checkboxContainer checkboxContainer-withDescription fldRemoteAccess hide'>
-                        <CheckBoxElement
-                            className='chkRemoteAccess'
-                            title='AllowRemoteAccess'
-                        />
-                        <div className='fieldDescription checkboxFieldDescription'>
+                    <div className="checkboxContainer checkboxContainer-withDescription fldRemoteAccess hide">
+                        <CheckBoxElement className="chkRemoteAccess" title="AllowRemoteAccess" />
+                        <div className="fieldDescription checkboxFieldDescription">
                             {globalize.translate('AllowRemoteAccessHelp')}
                         </div>
                     </div>
                     <CheckBoxElement
-                        labelClassName='checkboxContainer'
-                        className='chkIsAdmin'
-                        title='OptionAllowUserToManageServer'
+                        labelClassName="checkboxContainer"
+                        className="chkIsAdmin"
+                        title="OptionAllowUserToManageServer"
                     />
                     <CheckBoxElement
-                        labelClassName='checkboxContainer'
-                        className='chkEnableCollectionManagement'
-                        title='AllowCollectionManagement'
+                        labelClassName="checkboxContainer"
+                        className="chkEnableCollectionManagement"
+                        title="AllowCollectionManagement"
                     />
                     <CheckBoxElement
-                        labelClassName='checkboxContainer'
-                        className='chkEnableSubtitleManagement'
-                        title='AllowSubtitleManagement'
+                        labelClassName="checkboxContainer"
+                        className="chkEnableSubtitleManagement"
+                        title="AllowSubtitleManagement"
                     />
-                    <div id='featureAccessFields' className='verticalSection'>
-                        <h2 className='paperListLabel'>
-                            {globalize.translate('HeaderFeatureAccess')}
-                        </h2>
-                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
-                            <CheckBoxElement
-                                className='chkEnableLiveTvAccess'
-                                title='OptionAllowBrowsingLiveTv'
-                            />
-                            <CheckBoxElement
-                                className='chkManageLiveTv'
-                                title='OptionAllowManageLiveTv'
-                            />
+                    <div id="featureAccessFields" className="verticalSection">
+                        <h2 className="paperListLabel">{globalize.translate('HeaderFeatureAccess')}</h2>
+                        <div className="checkboxList paperList" style={{ padding: '.5em 1em' }}>
+                            <CheckBoxElement className="chkEnableLiveTvAccess" title="OptionAllowBrowsingLiveTv" />
+                            <CheckBoxElement className="chkManageLiveTv" title="OptionAllowManageLiveTv" />
                         </div>
                     </div>
-                    <div className='verticalSection'>
-                        <h2 className='paperListLabel'>
-                            {globalize.translate('HeaderPlayback')}
-                        </h2>
-                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
+                    <div className="verticalSection">
+                        <h2 className="paperListLabel">{globalize.translate('HeaderPlayback')}</h2>
+                        <div className="checkboxList paperList" style={{ padding: '.5em 1em' }}>
+                            <CheckBoxElement className="chkEnableMediaPlayback" title="OptionAllowMediaPlayback" />
                             <CheckBoxElement
-                                className='chkEnableMediaPlayback'
-                                title='OptionAllowMediaPlayback'
+                                className="chkEnableAudioPlaybackTranscoding"
+                                title="OptionAllowAudioPlaybackTranscoding"
                             />
                             <CheckBoxElement
-                                className='chkEnableAudioPlaybackTranscoding'
-                                title='OptionAllowAudioPlaybackTranscoding'
+                                className="chkEnableVideoPlaybackTranscoding"
+                                title="OptionAllowVideoPlaybackTranscoding"
                             />
                             <CheckBoxElement
-                                className='chkEnableVideoPlaybackTranscoding'
-                                title='OptionAllowVideoPlaybackTranscoding'
+                                className="chkEnableVideoPlaybackRemuxing"
+                                title="OptionAllowVideoPlaybackRemuxing"
                             />
                             <CheckBoxElement
-                                className='chkEnableVideoPlaybackRemuxing'
-                                title='OptionAllowVideoPlaybackRemuxing'
-                            />
-                            <CheckBoxElement
-                                className='chkForceRemoteSourceTranscoding'
-                                title='OptionForceRemoteSourceTranscoding'
+                                className="chkForceRemoteSourceTranscoding"
+                                title="OptionForceRemoteSourceTranscoding"
                             />
                         </div>
-                        <div className='fieldDescription'>
+                        <div className="fieldDescription">
                             {globalize.translate('OptionAllowMediaPlaybackTranscodingHelp')}
                         </div>
                     </div>
                     <br />
-                    <div className='verticalSection'>
-                        <div className='inputContainer'>
+                    <div className="verticalSection">
+                        <div className="inputContainer">
                             <Input
-                                type='number'
-                                id='txtRemoteClientBitrateLimit'
+                                type="number"
+                                id="txtRemoteClientBitrateLimit"
                                 label={globalize.translate('LabelRemoteClientBitrateLimit')}
-                                inputMode='decimal'
-                                pattern='[0-9]*(.[0-9]+)?'
-                                min='0'
-                                step='.25'
+                                inputMode="decimal"
+                                pattern="[0-9]*(.[0-9]+)?"
+                                min="0"
+                                step=".25"
                             />
-                            <div className='fieldDescription'>
+                            <div className="fieldDescription">
                                 {globalize.translate('LabelRemoteClientBitrateLimitHelp')}
                             </div>
-                            <div className='fieldDescription'>
+                            <div className="fieldDescription">
                                 {globalize.translate('LabelUserRemoteClientBitrateLimitHelp')}
                             </div>
                         </div>
                     </div>
-                    <div className='verticalSection'>
-                        <div className='selectContainer fldSelectSyncPlayAccess'>
-                            <SelectElement
-                                id='selectSyncPlayAccess'
-                                label='LabelSyncPlayAccess'
-                            >
+                    <div className="verticalSection">
+                        <div className="selectContainer fldSelectSyncPlayAccess">
+                            <SelectElement id="selectSyncPlayAccess" label="LabelSyncPlayAccess">
                                 {optionSyncPlayAccess()}
                             </SelectElement>
-                            <div className='fieldDescription'>
-                                {globalize.translate('SyncPlayAccessHelp')}
-                            </div>
+                            <div className="fieldDescription">{globalize.translate('SyncPlayAccessHelp')}</div>
                         </div>
                     </div>
-                    <div className='verticalSection'>
-                        <h2 className='checkboxListLabel' style={{ marginBottom: '1em' }}>
+                    <div className="verticalSection">
+                        <h2 className="checkboxListLabel" style={{ marginBottom: '1em' }}>
                             {globalize.translate('HeaderAllowMediaDeletionFrom')}
                         </h2>
-                        <div className='checkboxList paperList checkboxList-paperList'>
+                        <div className="checkboxList paperList checkboxList-paperList">
                             <CheckBoxElement
-                                labelClassName='checkboxContainer'
-                                className='chkEnableDeleteAllFolders'
-                                title='AllLibraries'
+                                labelClassName="checkboxContainer"
+                                className="chkEnableDeleteAllFolders"
+                                title="AllLibraries"
                             />
-                            <div className='deleteAccess'>
+                            <div className="deleteAccess">
                                 {deleteFoldersAccess.map(Item => (
                                     <CheckBoxElement
                                         key={Item.Id}
-                                        className='chkFolder'
+                                        className="chkFolder"
                                         itemId={Item.Id}
                                         itemName={Item.Name}
                                         itemCheckedAttribute={Item.checkedAttribute}
@@ -506,106 +515,90 @@ const UserEdit = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='verticalSection'>
-                        <h2 className='checkboxListLabel'>
-                            {globalize.translate('HeaderRemoteControl')}
-                        </h2>
-                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
+                    <div className="verticalSection">
+                        <h2 className="checkboxListLabel">{globalize.translate('HeaderRemoteControl')}</h2>
+                        <div className="checkboxList paperList" style={{ padding: '.5em 1em' }}>
                             <CheckBoxElement
-                                className='chkEnableRemoteControlOtherUsers'
-                                title='OptionAllowRemoteControlOthers'
+                                className="chkEnableRemoteControlOtherUsers"
+                                title="OptionAllowRemoteControlOthers"
                             />
                             <CheckBoxElement
-                                className='chkRemoteControlSharedDevices'
-                                title='OptionAllowRemoteSharedDevices'
+                                className="chkRemoteControlSharedDevices"
+                                title="OptionAllowRemoteSharedDevices"
                             />
                         </div>
-                        <div className='fieldDescription'>
+                        <div className="fieldDescription">
                             {globalize.translate('OptionAllowRemoteSharedDevicesHelp')}
                         </div>
                     </div>
-                    <h2 className='checkboxListLabel'>
-                        {globalize.translate('Other')}
-                    </h2>
-                    <div className='checkboxContainer checkboxContainer-withDescription'>
-                        <CheckBoxElement
-                            className='chkEnableDownloading'
-                            title='OptionAllowContentDownload'
-                        />
-                        <div className='fieldDescription checkboxFieldDescription'>
+                    <h2 className="checkboxListLabel">{globalize.translate('Other')}</h2>
+                    <div className="checkboxContainer checkboxContainer-withDescription">
+                        <CheckBoxElement className="chkEnableDownloading" title="OptionAllowContentDownload" />
+                        <div className="fieldDescription checkboxFieldDescription">
                             {globalize.translate('OptionAllowContentDownloadHelp')}
                         </div>
                     </div>
-                    <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsEnabled'>
-                        <CheckBoxElement
-                            className='chkDisabled'
-                            title='OptionDisableUser'
-                        />
-                        <div className='fieldDescription checkboxFieldDescription'>
+                    <div className="checkboxContainer checkboxContainer-withDescription" id="fldIsEnabled">
+                        <CheckBoxElement className="chkDisabled" title="OptionDisableUser" />
+                        <div className="fieldDescription checkboxFieldDescription">
                             {globalize.translate('OptionDisableUserHelp')}
                         </div>
                     </div>
-                    <div className='checkboxContainer checkboxContainer-withDescription' id='fldIsHidden'>
-                        <CheckBoxElement
-                            className='chkIsHidden'
-                            title='OptionHideUser'
-                        />
-                        <div className='fieldDescription checkboxFieldDescription'>
+                    <div className="checkboxContainer checkboxContainer-withDescription" id="fldIsHidden">
+                        <CheckBoxElement className="chkIsHidden" title="OptionHideUser" />
+                        <div className="fieldDescription checkboxFieldDescription">
                             {globalize.translate('OptionHideUserFromLoginHelp')}
                         </div>
                     </div>
                     <br />
-                    <div className='verticalSection'>
-                        <div className='inputContainer' id='fldLoginAttemptsBeforeLockout'>
+                    <div className="verticalSection">
+                        <div className="inputContainer" id="fldLoginAttemptsBeforeLockout">
                             <Input
-                                type='number'
-                                id='txtLoginAttemptsBeforeLockout'
+                                type="number"
+                                id="txtLoginAttemptsBeforeLockout"
                                 label={globalize.translate('LabelUserLoginAttemptsBeforeLockout')}
-                                min={-1} step={1}
+                                min={-1}
+                                step={1}
                             />
-                            <div className='fieldDescription'>
+                            <div className="fieldDescription">
                                 {globalize.translate('OptionLoginAttemptsBeforeLockout')}
                             </div>
-                            <div className='fieldDescription'>
+                            <div className="fieldDescription">
                                 {globalize.translate('OptionLoginAttemptsBeforeLockoutHelp')}
                             </div>
                         </div>
                     </div>
                     <br />
-                    <div className='verticalSection'>
-                        <div className='inputContainer' id='fldMaxActiveSessions'>
+                    <div className="verticalSection">
+                        <div className="inputContainer" id="fldMaxActiveSessions">
                             <Input
-                                type='number'
-                                id='txtMaxActiveSessions'
+                                type="number"
+                                id="txtMaxActiveSessions"
                                 label={globalize.translate('LabelUserMaxActiveSessions')}
-                                min={0} step={1}
+                                min={0}
+                                step={1}
                             />
-                            <div className='fieldDescription'>
-                                {globalize.translate('OptionMaxActiveSessions')}
-                            </div>
-                            <div className='fieldDescription'>
-                                {globalize.translate('OptionMaxActiveSessionsHelp')}
-                            </div>
+                            <div className="fieldDescription">{globalize.translate('OptionMaxActiveSessions')}</div>
+                            <div className="fieldDescription">{globalize.translate('OptionMaxActiveSessionsHelp')}</div>
                         </div>
                     </div>
                     <br />
                     <div>
                         <Button
-                            type='submit'
-                            className='raised button-submit block'
+                            type="submit"
+                            className="raised button-submit block"
                             title={globalize.translate('Save')}
                         />
                         <Button
-                            type='button'
-                            id='btnCancel'
-                            className='raised button-cancel block'
+                            type="button"
+                            id="btnCancel"
+                            className="raised button-cancel block"
                             title={globalize.translate('ButtonCancel')}
                         />
                     </div>
                 </form>
             </div>
         </Page>
-
     );
 };
 

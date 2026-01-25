@@ -65,8 +65,10 @@ export function getCrossOriginValue(mediaSource?: MediaSource): string | null {
 function canPlayNativeHls(): boolean {
     const media = document.createElement('video');
 
-    return !!(media.canPlayType('application/x-mpegURL').replace(/no/, '')
-            || media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, ''));
+    return !!(
+        media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
+        media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')
+    );
 }
 
 export function enableHlsJsPlayerForCodecs(mediaSource: MediaSource, mediaType: string): boolean {
@@ -95,7 +97,7 @@ export function enableHlsJsPlayer(runTimeTicks: number | undefined, mediaType: s
     }
 
     if (canPlayNativeHls()) {
-        if (browser.android && (mediaType === 'Audio' || mediaType === 'Video')) {
+        if ((browser as any).android && (mediaType === 'Audio' || mediaType === 'Video')) {
             return true;
         }
 
@@ -127,11 +129,11 @@ export function handleHlsJsMediaError(instance: PlayerInstance, reject?: (error?
         now = performance.now();
     }
 
-    if (!recoverDecodingErrorDate || (now - recoverDecodingErrorDate) > 3000) {
+    if (!recoverDecodingErrorDate || now - recoverDecodingErrorDate > 3000) {
         recoverDecodingErrorDate = now;
         logger.debug('Trying to recover media error', { component: 'HtmlMediaHelper' });
         hlsPlayer.recoverMediaError();
-    } else if (!recoverSwapAudioCodecDate || (now - recoverSwapAudioCodecDate) > 3000) {
+    } else if (!recoverSwapAudioCodecDate || now - recoverSwapAudioCodecDate > 3000) {
         recoverSwapAudioCodecDate = now;
         logger.debug('Trying to swap audio codec and recover media error', { component: 'HtmlMediaHelper' });
         hlsPlayer.swapAudioCodec();
@@ -152,14 +154,16 @@ export function onErrorInternal(instance: PlayerInstance, type: string): void {
         instance.destroyCustomTrack(instance._mediaElement);
     }
 
-    Events.trigger(instance, 'error', [{ type }]);
+    Events.trigger(instance as any, 'error', [{ type }]);
 }
 
 export function isValidDuration(duration: number): boolean {
-    return !!(duration
-            && !isNaN(duration)
-            && duration !== Number.POSITIVE_INFINITY
-            && duration !== Number.NEGATIVE_INFINITY);
+    return !!(
+        duration &&
+        !isNaN(duration) &&
+        duration !== Number.POSITIVE_INFINITY &&
+        duration !== Number.NEGATIVE_INFINITY
+    );
 }
 
 function setCurrentTimeIfNeeded(element: HTMLMediaElement, seconds: number): void {
@@ -168,7 +172,12 @@ function setCurrentTimeIfNeeded(element: HTMLMediaElement, seconds: number): voi
     }
 }
 
-export function seekOnPlaybackStart(instance: PlayerInstance, element: HTMLMediaElement, ticks?: number, onMediaReady?: () => void): void {
+export function seekOnPlaybackStart(
+    instance: PlayerInstance,
+    element: HTMLMediaElement,
+    ticks?: number,
+    onMediaReady?: () => void
+): void {
     const seconds = (ticks || 0) / 10000000;
 
     if (seconds) {
@@ -177,7 +186,7 @@ export function seekOnPlaybackStart(instance: PlayerInstance, element: HTMLMedia
             if (onMediaReady) onMediaReady();
         } else {
             const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
-            const onMediaChange = function(e: Event) {
+            const onMediaChange = function (e: Event) {
                 if (element.currentTime === 0 && element.duration >= seconds) {
                     logger.debug(`Seeking to ${seconds} on ${e.type} event`, { component: 'HtmlMediaHelper' });
                     setCurrentTimeIfNeeded(element, seconds);
@@ -233,14 +242,21 @@ export async function playWithPromise(elem: HTMLMediaElement, onErrorFn: (e: Eve
                 await safeResumeAudioContext(masterAudioOutput.audioContext);
             }
         } catch (audioErr) {
-            logger.warn('Failed to prepare AudioContext before playback', { component: 'HtmlMediaHelper' }, audioErr as Error);
+            logger.warn(
+                'Failed to prepare AudioContext before playback',
+                { component: 'HtmlMediaHelper' },
+                audioErr as Error
+            );
         }
 
-        return elem.play()
-            .catch((e) => {
+        return elem
+            .play()
+            .catch(e => {
                 const errorName = (e.name || '').toLowerCase();
                 if (errorName === 'notallowederror' || errorName === 'aborterror') {
-                    logger.debug(`Playback interrupted (likely autoplay policy): ${errorName}`, { component: 'HtmlMediaHelper' });
+                    logger.debug(`Playback interrupted (likely autoplay policy): ${errorName}`, {
+                        component: 'HtmlMediaHelper'
+                    });
                     return Promise.resolve();
                 }
                 logger.error('Media playback failed', { component: 'HtmlMediaHelper' }, e);
@@ -297,7 +313,14 @@ export function destroyFlvPlayer(instance: PlayerInstance): void {
     }
 }
 
-export function bindEventsToHlsPlayer(instance: PlayerInstance, hls: any, elem: HTMLMediaElement, onErrorFn: (e: Event) => void, resolve: () => void, reject: (err?: any) => void): void {
+export function bindEventsToHlsPlayer(
+    instance: PlayerInstance,
+    hls: any,
+    elem: HTMLMediaElement,
+    onErrorFn: (e: Event) => void,
+    resolve: () => void,
+    reject: (err?: any) => void
+): void {
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
         playWithPromise(elem, onErrorFn).then(resolve, () => {
             if (reject) {
@@ -307,7 +330,9 @@ export function bindEventsToHlsPlayer(instance: PlayerInstance, hls: any, elem: 
     });
 
     hls.on(Hls.Events.ERROR, (event: any, data: any) => {
-        logger.error(`HLS Error: Type: ${data.type} Details: ${data.details || ''} Fatal: ${data.fatal || false}`, { component: 'HtmlMediaHelper' });
+        logger.error(`HLS Error: Type: ${data.type} Details: ${data.details || ''} Fatal: ${data.fatal || false}`, {
+            component: 'HtmlMediaHelper'
+        });
         const isLoadFailure = [
             'manifestLoadError',
             'levelLoadError',
@@ -315,8 +340,8 @@ export function bindEventsToHlsPlayer(instance: PlayerInstance, hls: any, elem: 
             'fragLoadError',
             'keyLoadError'
         ].includes(data.details);
-        const isNetworkDown = data.type === Hls.ErrorTypes.NETWORK_ERROR
-            && (!data.response || data.response.code === 0);
+        const isNetworkDown =
+            data.type === Hls.ErrorTypes.NETWORK_ERROR && (!data.response || data.response.code === 0);
 
         if (data.fatal && isNetworkDown && isLoadFailure) {
             hls.destroy();
@@ -328,9 +353,7 @@ export function bindEventsToHlsPlayer(instance: PlayerInstance, hls: any, elem: 
             return;
         }
 
-        if (data.type === Hls.ErrorTypes.NETWORK_ERROR
-                && data.response?.code && data.response.code >= 400
-        ) {
+        if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.response?.code && data.response.code >= 400) {
             hls.destroy();
 
             if (reject) {
@@ -386,7 +409,7 @@ export function onEndedInternal(instance: PlayerInstance, elem: HTMLMediaElement
         src: instance._currentSrc
     };
 
-    Events.trigger(instance, 'stopped', [stopInfo]);
+    Events.trigger(instance as any, 'stopped', [stopInfo]);
 
     instance._currentTime = null;
     instance._currentSrc = null;
@@ -417,8 +440,8 @@ export function getBufferedRanges(instance: PlayerInstance, elem: HTMLMediaEleme
         }
 
         ranges.push({
-            start: (start * 10000000) + offset,
-            end: (end * 10000000) + offset
+            start: start * 10000000 + offset,
+            end: end * 10000000 + offset
         });
     }
 

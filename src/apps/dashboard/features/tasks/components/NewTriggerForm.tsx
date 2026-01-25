@@ -1,12 +1,10 @@
-import React, { FunctionComponent, useCallback, useMemo, useState } from 'react';
-import Dialog from '@mui/material/Dialog/Dialog';
-import Button from '@mui/material/Button/Button';
-import DialogActions from '@mui/material/DialogActions/DialogActions';
-import DialogContent from '@mui/material/DialogContent/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle/DialogTitle';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Stack from '@mui/material/Stack/Stack';
-import TextField from '@mui/material/TextField/TextField';
+import React, { type FunctionComponent, useCallback, useMemo, useState } from 'react';
+import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
+import { Button } from 'ui-primitives/Button';
+import { Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { Input } from 'ui-primitives/Input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import { TaskTriggerInfoType } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info-type';
 import { DayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/day-of-week';
@@ -14,12 +12,12 @@ import globalize from 'lib/globalize';
 import { getIntervalOptions, getTimeOfDayOptions } from '../utils/edit';
 import { useLocale } from 'hooks/useLocale';
 
-type IProps = {
-    open: boolean,
-    title: string,
-    onClose?: () => void,
-    onAdd?: (trigger: TaskTriggerInfo) => void
-};
+interface IProps {
+    open: boolean;
+    title: string;
+    onClose?: () => void;
+    onAdd?: (trigger: TaskTriggerInfo) => void;
+}
 
 const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd }: IProps) => {
     const { dateFnsLocale } = useLocale();
@@ -28,146 +26,152 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
     const timeOfDayOptions = useMemo(() => getTimeOfDayOptions(dateFnsLocale), [dateFnsLocale]);
     const intervalOptions = useMemo(() => getIntervalOptions(dateFnsLocale), [dateFnsLocale]);
 
-    const onTriggerTypeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setTriggerType(e.target.value as TaskTriggerInfoType);
+    const onTriggerTypeChange = useCallback((value: string) => {
+        setTriggerType(value as TaskTriggerInfoType);
     }, []);
 
-    const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const onSubmit = useCallback(
+        (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
-        const trigger: TaskTriggerInfo = {
-            Type: data.TriggerType.toString() as TaskTriggerInfoType
-        };
+            const formData = new FormData(e.currentTarget);
+            const data = Object.fromEntries(formData.entries());
+            const trigger: TaskTriggerInfo = {
+                Type: data.TriggerType.toString() as TaskTriggerInfoType
+            };
 
-        if (trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
-            trigger.DayOfWeek = data.DayOfWeek.toString() as DayOfWeek;
-        }
+            if (trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
+                trigger.DayOfWeek = data.DayOfWeek.toString() as DayOfWeek;
+            }
 
-        if (trigger.Type == TaskTriggerInfoType.DailyTrigger || trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
-            trigger.TimeOfDayTicks = parseInt(data.TimeOfDay.toString(), 10);
-        }
+            if (trigger.Type == TaskTriggerInfoType.DailyTrigger || trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
+                trigger.TimeOfDayTicks = parseInt(data.TimeOfDay.toString(), 10);
+            }
 
-        if (trigger.Type == TaskTriggerInfoType.IntervalTrigger) {
-            trigger.IntervalTicks = parseInt(data.Interval.toString(), 10);
-        }
+            if (trigger.Type == TaskTriggerInfoType.IntervalTrigger) {
+                trigger.IntervalTicks = parseInt(data.Interval.toString(), 10);
+            }
 
-        if (data.TimeLimit.toString()) {
-            trigger.MaxRuntimeTicks = parseFloat(data.TimeLimit.toString()) * 36e9;
-        }
+            if (data.TimeLimit.toString()) {
+                trigger.MaxRuntimeTicks = parseFloat(data.TimeLimit.toString()) * 36e9;
+            }
 
-        if (onAdd) {
-            onAdd(trigger);
-        }
-    }, [ onAdd ]);
+            if (onAdd) {
+                onAdd(trigger);
+            }
+        },
+        [onAdd]
+    );
 
     return (
-        <Dialog
-            open={open}
-            maxWidth={'xs'}
-            fullWidth
-            onClose={onClose}
-            slotProps={{
-                paper: {
-                    component: 'form',
-                    onSubmit
-                }
-            }}
-        >
-            <DialogTitle>{title}</DialogTitle>
+        <Dialog open={open} onOpenChange={open => !open && onClose?.()}>
+            <DialogOverlayComponent />
+            <DialogContentComponent title={title}>
+                <form onSubmit={onSubmit}>
+                    <Flex style={{ flexDirection: 'column', gap: '24px' }}>
+                        <Select value={triggerType} onValueChange={onTriggerTypeChange}>
+                            <SelectTrigger
+                                style={{ width: '100%' }}
+                                aria-label={globalize.translate('LabelTriggerType')}
+                            >
+                                <SelectValue placeholder={globalize.translate('LabelTriggerType')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value={TaskTriggerInfoType.DailyTrigger.toString()}>
+                                    {globalize.translate('OptionDaily')}
+                                </SelectItem>
+                                <SelectItem value={TaskTriggerInfoType.WeeklyTrigger.toString()}>
+                                    {globalize.translate('OptionWeekly')}
+                                </SelectItem>
+                                <SelectItem value={TaskTriggerInfoType.IntervalTrigger.toString()}>
+                                    {globalize.translate('OptionOnInterval')}
+                                </SelectItem>
+                                <SelectItem value={TaskTriggerInfoType.StartupTrigger.toString()}>
+                                    {globalize.translate('OnApplicationStartup')}
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
 
-            <DialogContent>
-                <Stack spacing={3}>
-                    <TextField
-                        name='TriggerType'
-                        select
-                        fullWidth
-                        value={triggerType}
-                        onChange={onTriggerTypeChange}
-                        label={globalize.translate('LabelTriggerType')}
-                    >
-                        <MenuItem value={TaskTriggerInfoType.DailyTrigger}>{globalize.translate('OptionDaily')}</MenuItem>
-                        <MenuItem value={TaskTriggerInfoType.WeeklyTrigger}>{globalize.translate('OptionWeekly')}</MenuItem>
-                        <MenuItem value={TaskTriggerInfoType.IntervalTrigger}>{globalize.translate('OptionOnInterval')}</MenuItem>
-                        <MenuItem value={TaskTriggerInfoType.StartupTrigger}>{globalize.translate('OnApplicationStartup')}</MenuItem>
-                    </TextField>
+                        {triggerType == TaskTriggerInfoType.WeeklyTrigger && (
+                            <Select name='DayOfWeek' defaultValue={DayOfWeek.Sunday.toString()}>
+                                <SelectTrigger style={{ width: '100%' }}>
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value={DayOfWeek.Sunday.toString()}>
+                                        {globalize.translate('Sunday')}
+                                    </SelectItem>
+                                    <SelectItem value={DayOfWeek.Monday.toString()}>
+                                        {globalize.translate('Monday')}
+                                    </SelectItem>
+                                    <SelectItem value={DayOfWeek.Tuesday.toString()}>
+                                        {globalize.translate('Tuesday')}
+                                    </SelectItem>
+                                    <SelectItem value={DayOfWeek.Wednesday.toString()}>
+                                        {globalize.translate('Wednesday')}
+                                    </SelectItem>
+                                    <SelectItem value={DayOfWeek.Thursday.toString()}>
+                                        {globalize.translate('Thursday')}
+                                    </SelectItem>
+                                    <SelectItem value={DayOfWeek.Friday.toString()}>
+                                        {globalize.translate('Friday')}
+                                    </SelectItem>
+                                    <SelectItem value={DayOfWeek.Saturday.toString()}>
+                                        {globalize.translate('Saturday')}
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        )}
 
-                    {triggerType == TaskTriggerInfoType.WeeklyTrigger && (
-                        <TextField
-                            name='DayOfWeek'
-                            select
-                            fullWidth
-                            defaultValue={DayOfWeek.Sunday}
-                            label={globalize.translate('LabelDay')}
-                        >
-                            <MenuItem value={DayOfWeek.Sunday}>{globalize.translate('Sunday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Monday}>{globalize.translate('Monday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Tuesday}>{globalize.translate('Tuesday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Wednesday}>{globalize.translate('Wednesday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Thursday}>{globalize.translate('Thursday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Friday}>{globalize.translate('Friday')}</MenuItem>
-                            <MenuItem value={DayOfWeek.Saturday}>{globalize.translate('Saturday')}</MenuItem>
-                        </TextField>
-                    )}
+                        {(triggerType == TaskTriggerInfoType.DailyTrigger
+                            || triggerType == TaskTriggerInfoType.WeeklyTrigger) && (
+                            <Select name='TimeOfDay' defaultValue='0'>
+                                <SelectTrigger style={{ width: '100%' }}>
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {timeOfDayOptions.map(option => (
+                                        <SelectItem key={String(option.value)} value={String(option.value)}>
+                                            {option.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        )}
 
-                    {(triggerType == TaskTriggerInfoType.DailyTrigger || triggerType == TaskTriggerInfoType.WeeklyTrigger) && (
-                        <TextField
-                            name='TimeOfDay'
-                            select
-                            fullWidth
-                            defaultValue={'0'}
-                            label={globalize.translate('LabelTime')}
-                        >
-                            {timeOfDayOptions.map((option) => {
-                                return <MenuItem
-                                    key={option.value}
-                                    value={option.value}
-                                >{option.name}</MenuItem>;
-                            })}
-                        </TextField>
-                    )}
+                        {triggerType == TaskTriggerInfoType.IntervalTrigger && (
+                            <Select name='Interval' defaultValue={String(intervalOptions[0]?.value ?? '')}>
+                                <SelectTrigger style={{ width: '100%' }}>
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {intervalOptions.map(option => (
+                                        <SelectItem key={String(option.value)} value={String(option.value)}>
+                                            {option.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        )}
 
-                    {triggerType == TaskTriggerInfoType.IntervalTrigger && (
-                        <TextField
-                            name='Interval'
-                            select
-                            fullWidth
-                            defaultValue={intervalOptions[0].value}
-                            label={globalize.translate('LabelEveryXMinutes')}
-                        >
-                            {intervalOptions.map((option) => {
-                                return <MenuItem
-                                    key={option.value}
-                                    value={option.value}
-                                >{option.name}</MenuItem>;
-                            })}
-                        </TextField>
-                    )}
+                        <Input
+                            name='TimeLimit'
+                            type='number'
+                            label={globalize.translate('LabelTimeLimitHours')}
+                            min={1}
+                            step={0.5}
+                            defaultValue=''
+                        />
+                    </Flex>
 
-                    <TextField
-                        name='TimeLimit'
-                        fullWidth
-                        defaultValue={''}
-                        type='number'
-                        label={globalize.translate('LabelTimeLimitHours')}
-                        slotProps={{
-                            htmlInput: {
-                                min: 1,
-                                step: 0.5
-                            }
-                        }}
-                    />
-                </Stack>
-            </DialogContent>
-
-            <DialogActions>
-                <Button
-                    onClick={onClose}
-                    variant='text'
-                >{globalize.translate('ButtonCancel')}</Button>
-                <Button type='submit'>{globalize.translate('Add')}</Button>
-            </DialogActions>
+                    <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
+                        <Button variant='ghost' onClick={onClose}>
+                            {globalize.translate('ButtonCancel')}
+                        </Button>
+                        <Button type='submit'>{globalize.translate('Add')}</Button>
+                    </Flex>
+                </form>
+            </DialogContentComponent>
         </Dialog>
     );
 };

@@ -1,4 +1,4 @@
-import { Api } from '@jellyfin/sdk';
+import { type Api } from '@jellyfin/sdk';
 import { BackupApi } from '@jellyfin/sdk/lib/generated-client/api/backup-api';
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';

@@ -1,11 +1,11 @@
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
 
 import globalize from 'lib/globalize';
-import { LibraryViewSettings } from 'types/library';
+import { type LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
 const statusFiltersOptions = [
@@ -69,25 +69,22 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
     };
 
     return (
-        <FormGroup>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {statusFiltersOptions
                 .filter((filter) => getVisibleFiltersStatus().includes(filter.value))
                 .map((filter) => (
-                    <FormControlLabel
+                    <Checkbox
                         key={filter.value}
-                        control={
-                            <Checkbox
-                                checked={
-                                    !!libraryViewSettings?.Filters?.Status?.includes(filter.value)
-                                }
-                                onChange={onFiltersStatusChange}
-                                value={filter.value}
-                            />
+                        checked={
+                            !!libraryViewSettings?.Filters?.Status?.includes(filter.value)
                         }
-                        label={globalize.translate(filter.label)}
-                    />
+                        onChange={onFiltersStatusChange}
+                        value={filter.value}
+                    >
+                        {globalize.translate(filter.label)}
+                    </Checkbox>
                 ))}
-        </FormGroup>
+        </Box>
     );
 };
 

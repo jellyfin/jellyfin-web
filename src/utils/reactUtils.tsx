@@ -1,12 +1,15 @@
+/**
+ * @deprecated Theme wiring is handled via vanilla-extract tokens and data-theme.
+ */
+
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { ApiProvider } from 'hooks/useApi';
 import { UserSettingsProvider } from 'hooks/useUserSettings';
 import { WebConfigProvider } from 'hooks/useWebConfig';
-import appTheme from 'themes';
+import { ThemeProvider } from 'components/themeProvider/ThemeProvider';
 import { queryClient } from 'utils/query/queryClient';
 import { logger } from 'utils/logger';
 
@@ -21,11 +24,7 @@ const getOrCreateRoot = (element: HTMLElement) => {
     return sharedRoot.current;
 };
 
-export const renderComponent = <P extends object> (
-    Component: React.FC<P>,
-    props: P,
-    element: HTMLElement
-) => {
+export const renderComponent = <P extends object>(Component: React.FC<P>, props: P, element: HTMLElement) => {
     const root = getOrCreateRoot(element);
     if (!root) {
         logger.error('[reactUtils] Failed to create React root', { component: 'reactUtils' });
@@ -51,9 +50,7 @@ const RootContext: React.FC<React.PropsWithChildren> = ({ children }) => {
             <ApiProvider>
                 <UserSettingsProvider>
                     <WebConfigProvider>
-                        <ThemeProvider theme={appTheme} defaultMode='dark'>
-                            {children}
-                        </ThemeProvider>
+                        <ThemeProvider>{children}</ThemeProvider>
                     </WebConfigProvider>
                 </UserSettingsProvider>
             </ApiProvider>

@@ -16,3 +16,28 @@ dist/
 # AI tooling notes
 CLAUDE.md
 PLAYBACKMANAGER_CONVERSION.md
+
+# Editor/IDE
+.vscode/
+.tsbuildinfo
+
+# Testing & Storybook
+.storybook/
+storybook-static/
+playwright-report/
+test-results/
+debug-storybook.log
+
+# Build artifacts
+dist.bak/
+tsc_errors.txt
+
+# AI agent data
+.gemini/
+
+# Local configs
+opencode.jsonc
+
+# Backup files
+*.bak
+*.bak2

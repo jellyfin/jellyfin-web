@@ -3,23 +3,41 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { NowPlayingBar } from '../ReactNowPlayingBar';
 
-// Mock all store dependencies
-const mockUseIsPlaying = vi.fn();
-const mockUseCurrentItem = vi.fn();
-const mockUseCurrentTime = vi.fn();
-const mockUseDuration = vi.fn();
-const mockUseVolume = vi.fn();
-const mockUseIsMuted = vi.fn();
-const mockUseRepeatMode = vi.fn();
-const mockUseShuffleMode = vi.fn();
-const mockUsePlaybackActions = vi.fn();
-const mockUseQueueActions = vi.fn();
-const mockUseFormattedTime = vi.fn();
-const mockUseCurrentQueueIndex = vi.fn();
-const mockUseCurrentPlayer = vi.fn();
-const mockUseProgress = vi.fn();
-const mockOn = vi.fn();
-const mockOff = vi.fn();
+const {
+    mockUseIsPlaying,
+    mockUseCurrentItem,
+    mockUseCurrentTime,
+    mockUseDuration,
+    mockUseVolume,
+    mockUseIsMuted,
+    mockUseRepeatMode,
+    mockUseShuffleMode,
+    mockUsePlaybackActions,
+    mockUseQueueActions,
+    mockUseFormattedTime,
+    mockUseCurrentQueueIndex,
+    mockUseCurrentPlayer,
+    mockUseCrossfadeStore,
+    mockOn,
+    mockOff
+} = vi.hoisted(() => ({
+    mockUseIsPlaying: vi.fn(),
+    mockUseCurrentItem: vi.fn(),
+    mockUseCurrentTime: vi.fn(),
+    mockUseDuration: vi.fn(),
+    mockUseVolume: vi.fn(),
+    mockUseIsMuted: vi.fn(),
+    mockUseRepeatMode: vi.fn(),
+    mockUseShuffleMode: vi.fn(),
+    mockUsePlaybackActions: vi.fn(),
+    mockUseQueueActions: vi.fn(),
+    mockUseFormattedTime: vi.fn(),
+    mockUseCurrentQueueIndex: vi.fn(),
+    mockUseCurrentPlayer: vi.fn(),
+    mockUseCrossfadeStore: vi.fn(),
+    mockOn: vi.fn(),
+    mockOff: vi.fn()
+}));
 
 vi.mock('../../../store', async () => {
     const actual = await vi.importActual('../../../store');
@@ -38,7 +56,7 @@ vi.mock('../../../store', async () => {
         useFormattedTime: (...args: unknown[]) => mockUseFormattedTime(...args),
         useCurrentQueueIndex: (...args: unknown[]) => mockUseCurrentQueueIndex(...args),
         useCurrentPlayer: (...args: unknown[]) => mockUseCurrentPlayer(...args),
-        useProgress: (...args: unknown[]) => mockUseProgress(...args),
+        useCrossfadeStore: (...args: unknown[]) => mockUseCrossfadeStore(...args),
     };
 });
 
@@ -98,6 +116,13 @@ describe('NowPlayingBar', () => {
         toggleRepeatMode: vi.fn(),
         toggleShuffleMode: vi.fn()
     };
+    const mockCrossfadeState = {
+        enabled: true,
+        duration: 5,
+        busy: false,
+        setEnabled: vi.fn(),
+        syncFromEngine: vi.fn()
+    };
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -116,11 +141,9 @@ describe('NowPlayingBar', () => {
             currentTimeFormatted: '0:30',
             durationFormatted: '3:00'
         });
-        mockUseProgress.mockReturnValue({
-            currentTime: 30,
-            duration: 180,
-            buffered: 60
-        });
+        mockUseCrossfadeStore.mockImplementation((selector: (state: typeof mockCrossfadeState) => unknown) => (
+            selector(mockCrossfadeState)
+        ));
 
         mockUsePlaybackActions.mockReturnValue(mockPlaybackActions);
         mockUseQueueActions.mockReturnValue(mockQueueActions);
@@ -202,8 +225,7 @@ describe('NowPlayingBar', () => {
             imageUrl: null
         });
         render(<NowPlayingBar />);
-        // Should show MusicNoteIcon placeholder
-        expect(screen.getByTestId('MusicNoteIcon')).toBeInTheDocument();
+        expect(screen.getByTestId('nowPlayingBarPlaceholderIcon')).toBeInTheDocument();
     });
 
     it('registers layout change event listener on mount', () => {

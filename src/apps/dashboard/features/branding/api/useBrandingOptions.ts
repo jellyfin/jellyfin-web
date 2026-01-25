@@ -1,4 +1,4 @@
-import { Api } from '@jellyfin/sdk';
+import { type Api } from '@jellyfin/sdk';
 import { getBrandingApi } from '@jellyfin/sdk/lib/utils/api/branding-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';

@@ -1,13 +1,12 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import Favorite from '@mui/icons-material/Favorite';
-import Button from '@mui/material/Button/Button';
-import Icon from '@mui/material/Icon';
-import { Theme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useCallback, useMemo, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { ChevronDownIcon, HeartFilledIcon } from '@radix-ui/react-icons';
+import React, { useMemo, useState } from 'react';
+import { Link, useLocation } from '@tanstack/react-router';
+import { useSearchParams } from 'hooks/useSearchParams';
+import { Button } from 'ui-primitives/Button';
+import useMediaQuery from 'hooks/useMediaQuery';
+import { vars } from 'styles/tokens.css';
 
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { MetaView } from 'apps/experimental/constants/metaView';
@@ -60,8 +59,8 @@ const UserViewNav = () => {
     const { activeTab } = useCurrentTab();
     const webConfig = useWebConfig();
 
-    const isExtraLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('xl'));
-    const isLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('lg'));
+    const isExtraLargeScreen = useMediaQuery('(min-width: 1920px)');
+    const isLargeScreen = useMediaQuery('(min-width: 1280px)');
     const maxViews = useMemo(() => {
         let _maxViews = MAX_USER_VIEWS_MD;
         if (isExtraLargeScreen) _maxViews = MAX_USER_VIEWS_XL;
@@ -86,16 +85,7 @@ const UserViewNav = () => {
         userViews?.Items?.slice(maxViews)
     ), [ maxViews, userViews ]);
 
-    const [ overflowAnchorEl, setOverflowAnchorEl ] = useState<null | HTMLElement>(null);
-    const isOverflowMenuOpen = Boolean(overflowAnchorEl);
-
-    const onOverflowButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setOverflowAnchorEl(event.currentTarget);
-    }, []);
-
-    const onOverflowMenuClose = useCallback(() => {
-        setOverflowAnchorEl(null);
-    }, []);
+    const [ isOverflowMenuOpen, setIsOverflowMenuOpen ] = useState(false);
 
     const currentUserView = useMemo(() => (
         getCurrentUserView(userViews?.Items, location.pathname, libraryId, collectionType, activeTab)
@@ -106,21 +96,24 @@ const UserViewNav = () => {
     return (
         <>
             <Button
-                variant='text'
-                color={(currentUserView?.Id === MetaView.Favorites.Id) ? 'primary' : 'inherit'}
-                startIcon={<Favorite />}
+                variant='plain'
+                startIcon={<HeartFilledIcon />}
                 component={Link}
                 to='/home?tab=1'
+                style={{
+                    color: (currentUserView?.Id === MetaView.Favorites.Id) ?
+                        vars.colors.primary :
+                        'inherit'
+                }}
             >
-                {globalize.translate(MetaView.Favorites.Name)}
+                {globalize.translate(MetaView.Favorites.Name || '')}
             </Button>
 
             {webConfig.menuLinks?.map(link => (
                 <Button
                     key={link.name}
-                    variant='text'
-                    color='inherit'
-                    startIcon={<Icon>{link.icon || 'link'}</Icon>}
+                    variant='plain'
+                    startIcon={<span className='material-icons' aria-hidden='true'>{link.icon || 'link'}</span>}
                     component='a'
                     href={link.url}
                     target='_blank'
@@ -133,37 +126,36 @@ const UserViewNav = () => {
             {primaryViews?.map(view => (
                 <Button
                     key={view.Id}
-                    variant='text'
-                    color={(view.Id === currentUserView?.Id) ? 'primary' : 'inherit'}
+                    variant='plain'
                     startIcon={<LibraryIcon item={view} />}
                     component={Link}
                     to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
+                    style={{
+                        color: (view.Id === currentUserView?.Id) ?
+                            vars.colors.primary :
+                            'inherit'
+                    }}
                 >
                     {view.Name}
                 </Button>
             ))}
             {overflowViews && overflowViews.length > 0 && (
-                <>
-                    <Button
-                        variant='text'
-                        color='inherit'
-                        endIcon={<ArrowDropDown />}
-                        aria-controls={OVERFLOW_MENU_ID}
-                        aria-haspopup='true'
-                        onClick={onOverflowButtonClick}
-                    >
-                        {globalize.translate('ButtonMore')}
-                    </Button>
-
-                    <UserViewsMenu
-                        anchorEl={overflowAnchorEl}
-                        id={OVERFLOW_MENU_ID}
-                        open={isOverflowMenuOpen}
-                        onMenuClose={onOverflowMenuClose}
-                        userViews={overflowViews}
-                        selectedId={currentUserView?.Id}
-                    />
-                </>
+                <UserViewsMenu
+                    open={isOverflowMenuOpen}
+                    onOpenChange={setIsOverflowMenuOpen}
+                    trigger={(
+                        <Button
+                            variant='plain'
+                            endIcon={<ChevronDownIcon />}
+                            aria-controls={OVERFLOW_MENU_ID}
+                            aria-haspopup='true'
+                        >
+                            {globalize.translate('ButtonMore')}
+                        </Button>
+                    )}
+                    userViews={overflowViews}
+                    selectedId={currentUserView?.Id}
+                />
             )}
         </>
     );

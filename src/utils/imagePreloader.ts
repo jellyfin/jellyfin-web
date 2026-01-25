@@ -10,24 +10,34 @@ type CacheStatus = 'unknown' | 'cached' | 'loading' | 'error';
 
 class ImagePreloader {
     private swRegistration: ServiceWorkerRegistration | null = null;
-    private imageCache = new Map<string, Promise<CacheStatus>>();
-    private cacheStatus = new Map<string, CacheStatus>();
-    private readonly IMAGE_CACHE_NAME = 'jellyfin-images-v1';
-    private readonly MAX_CONCURRENT = 6;
-    private readonly activeRequests = new Set<string>();
-    private readonly requestQueue: Array<{url: string; resolve: (status: CacheStatus) => void}> = [];
 
-    async init(): Promise<void> {
-      if ('serviceWorker' in navigator) {
-        this.swRegistration = await navigator.serviceWorker.ready;
-      }
+    private readonly imageCache = new Map<string, Promise<CacheStatus>>();
+
+    private readonly cacheStatus = new Map<string, CacheStatus>();
+
+    private readonly imageCacheName = 'jellyfin-images-v1';
+
+    private readonly maxConcurrent = 6;
+
+    private readonly activeRequests = new Set<string>();
+
+    private readonly requestQueue: Array<{ url: string; resolve: (status: CacheStatus) => void }> = [];
+
+    public async init(): Promise<void> {
+        if ('serviceWorker' in navigator) {
+            try {
+                this.swRegistration = await navigator.serviceWorker.ready;
+            } catch {
+                // Service worker not available
+            }
+        }
     }
 
     private tryProcessQueue(): void {
-        while (this.requestQueue.length > 0 && this.activeRequests.size < this.MAX_CONCURRENT) {
+        while (this.requestQueue.length > 0 && this.activeRequests.size < this.maxConcurrent) {
             const next = this.requestQueue.shift();
             if (next) {
-                this.processImage(next.url).then(next.resolve);
+                void this.processImage(next.url).then(next.resolve);
             }
         }
     }
@@ -55,97 +65,103 @@ class ImagePreloader {
         });
     }
 
-    async preloadQueueImages(queueItems: QueueItem[]): Promise<void> {
-      if (!queueItems.length) return;
+    public async preloadQueueImages(queueItems: QueueItem[]): Promise<void> {
+        if (queueItems.length === 0) return;
 
-      const upcomingItems = queueItems.slice(0, 5);
+        const upcomingItems = queueItems.slice(0, 5);
 
-      const imageUrls: string[] = [];
+        const imageUrls: string[] = [];
 
-      for (const item of upcomingItems) {
-        if (item.imageUrl) imageUrls.push(item.imageUrl);
-        if (item.backdropUrl) imageUrls.push(item.backdropUrl);
-        if (item.artistLogoUrl) imageUrls.push(item.artistLogoUrl);
-        if (item.discImageUrl) imageUrls.push(item.discImageUrl);
-      }
-
-      await Promise.all(
-        imageUrls.map(url => this.preloadImage(url))
-      );
-    }
-
-    async preloadBackdropImages(imageUrls: string[]): Promise<void> {
-      if (!imageUrls.length) return;
-
-      await Promise.all(
-        imageUrls.map(url => this.preloadImage(url))
-      );
-    }
-
-    async preloadImage(url?: string, priority: 'high' | 'low' = 'low'): Promise<CacheStatus> {
-      if (!url) return 'error';
-
-      if (this.cacheStatus.has(url)) {
-        const status = this.cacheStatus.get(url)!;
-        if (status === 'loading' && this.imageCache.has(url)) {
-          return this.imageCache.get(url)!;
+        for (const item of upcomingItems) {
+            if (item.imageUrl) imageUrls.push(item.imageUrl);
+            if (item.backdropUrl) imageUrls.push(item.backdropUrl);
+            if (item.artistLogoUrl) imageUrls.push(item.artistLogoUrl);
+            if (item.discImageUrl) imageUrls.push(item.discImageUrl);
         }
-        return status;
-      }
 
-      if (this.imageCache.has(url)) {
-        return this.imageCache.get(url)!;
-      }
+        await Promise.all(
+            imageUrls.map(url => this.preloadImage(url))
+        );
+    }
 
-      this.cacheStatus.set(url, 'loading');
+    public async preloadBackdropImages(imageUrls: string[]): Promise<void> {
+        if (imageUrls.length === 0) return;
 
-      let result: CacheStatus;
-      if (priority === 'high' && this.activeRequests.size >= this.MAX_CONCURRENT) {
-        result = await this.queueImage(url);
-      } else {
-        result = await this.processImage(url);
-      }
+        const urls = imageUrls.filter((url): url is string => url != null && url.length > 0);
+        if (urls.length === 0) return;
 
-      this.cacheStatus.set(url, result);
-      return result;
+        await Promise.all(
+            urls.map(url => this.preloadImage(url))
+        );
+    }
+
+    public async preloadImage(url?: string, priority: 'high' | 'low' = 'low'): Promise<CacheStatus> {
+        if (url == null || url === '') return 'error';
+
+        const cachedStatus = this.cacheStatus.get(url);
+        if (cachedStatus !== undefined) {
+            if (cachedStatus === 'loading') {
+                const cachedPromise = this.imageCache.get(url);
+                if (cachedPromise) return cachedPromise;
+            }
+            return cachedStatus;
+        }
+
+        const cachedPromise = this.imageCache.get(url);
+        if (cachedPromise) return cachedPromise;
+
+        this.cacheStatus.set(url, 'loading');
+
+        let result: CacheStatus;
+        if (priority === 'high' && this.activeRequests.size >= this.maxConcurrent) {
+            result = await this.queueImage(url);
+        } else {
+            const processPromise = this.processImage(url);
+            this.imageCache.set(url, processPromise);
+            result = await processPromise;
+        }
+
+        this.cacheStatus.set(url, result);
+        return result;
     }
 
     private async triggerCacheRequest(url: string): Promise<CacheStatus> {
-      try {
-        const response = await fetch(url, { mode: 'no-cors' });
-        if (response.type === 'opaque' || response.ok) {
-          return 'cached';
+        try {
+            const response = await fetch(url, { mode: 'no-cors' });
+            if (response.type === 'opaque' || response.ok) {
+                return 'cached';
+            }
+            return 'error';
+        } catch {
+            return 'error';
         }
-        return 'error';
-      } catch {
-        return 'error';
-      }
     }
 
-    getCacheStatus(url: string): CacheStatus {
-      return this.cacheStatus.get(url) || 'unknown';
+    public getCacheStatus(url: string): CacheStatus {
+        const status = this.cacheStatus.get(url);
+        return status ?? 'unknown';
     }
 
-    async checkCacheStatus(url: string): Promise<boolean> {
-      if (!this.swRegistration) return false;
+    public async checkCacheStatus(url: string): Promise<boolean> {
+        if (!this.swRegistration) return false;
 
-      try {
-        const cache = await caches.open(this.IMAGE_CACHE_NAME);
-        const cached = await cache.match(url);
-        return !!cached;
-      } catch {
-        return false;
-      }
+        try {
+            const cache = await caches.open(this.imageCacheName);
+            const cached = await cache.match(url);
+            return cached !== undefined;
+        } catch {
+            return false;
+        }
     }
 
-    clearCacheStatus(): void {
-      this.cacheStatus.clear();
+    public clearCacheStatus(): void {
+        this.cacheStatus.clear();
     }
 
-    clearStatusForUrls(urls: string[]): void {
-      urls.forEach(url => {
-        this.cacheStatus.delete(url);
-      });
+    public clearStatusForUrls(urls: string[]): void {
+        for (const url of urls) {
+            this.cacheStatus.delete(url);
+        }
     }
 }
 

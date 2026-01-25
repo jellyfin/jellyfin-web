@@ -1,76 +1,65 @@
-import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import Skeleton from '@mui/joy/Skeleton';
-import Stack from '@mui/joy/Stack';
-import SvgIcon from '@mui/joy/SvgIcon';
-import Typography from '@mui/joy/Typography';
 import React, { type FC } from 'react';
 
 import { useLocale } from 'hooks/useLocale';
 import { toDecimalString } from 'utils/number';
+import { Card } from 'ui-primitives/Card';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { Skeleton } from 'ui-primitives/Skeleton';
+import { vars } from 'styles/tokens.css';
 
 interface Metric {
-    label: string
-    value?: number
+    label: string;
+    value?: number;
 }
 
 export interface MetricCardProps {
-    metrics: Metric[]
-    Icon: typeof SvgIcon
+    metrics: Metric[];
+    Icon: React.ComponentType<{ style?: React.CSSProperties }>;
 }
 
-const MetricCard: FC<MetricCardProps> = ({
-    metrics,
-    Icon
-}) => {
+const MetricCard: FC<MetricCardProps> = ({ metrics, Icon }) => {
     const { dateTimeLocale } = useLocale();
 
     return (
         <Card
-            variant="outlined"
-            sx={{
+            style={{
                 display: 'flex',
                 alignItems: 'center',
                 height: '100%',
-                p: 2,
-                transition: 'transform 0.2s',
-                '&:hover': { transform: 'translateY(-2px)', boxShadow: 'sm' }
+                padding: vars.spacing.md,
+                transition: 'transform 0.2s'
             }}
         >
-            <Stack
-                direction='row'
-                sx={{
+            <Flex
+                style={{
+                    flexDirection: 'row',
                     width: '100%',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    gap: vars.spacing.md
                 }}
             >
-                <Stack spacing={1}>
+                <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.sm }}>
                     {metrics.map(({ label, value }) => (
                         <Box key={label}>
-                            <Typography
-                                level='body-xs'
-                                color='neutral'
-                            >
+                            <Text size="xs" color="secondary">
                                 {label}
-                            </Typography>
-                            <Typography
-                                level='h4'
-                                component='div'
-                            >
+                            </Text>
+                            <Text as="div" size="xl" weight="bold">
                                 {typeof value !== 'undefined' ? (
                                     toDecimalString(value, dateTimeLocale)
                                 ) : (
                                     <Skeleton variant="text" width={40} />
                                 )}
-                            </Typography>
+                            </Text>
                         </Box>
                     ))}
-                </Stack>
-                <Box sx={{ color: 'primary.plainColor', opacity: 0.8 }}>
-                    <Icon sx={{ fontSize: '2.5rem' }} />
                 </Box>
-            </Stack>
+                <Box style={{ color: vars.colors.primary, opacity: 0.8 }}>
+                    <Icon style={{ fontSize: vars.typography.fontSizeXl }} />
+                </Box>
+            </Flex>
         </Card>
     );
 };

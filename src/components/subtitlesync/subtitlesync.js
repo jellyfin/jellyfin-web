@@ -1,7 +1,18 @@
+/**
+ * @deprecated This file is deprecated in favor of React + ui-primitives.
+ *
+ * Migration:
+ * - Web Component-based UI → React OSD components
+ * - Template rendering → React rendering
+ * - Global state via playbackManager → Zustand or React state
+ *
+ * @see src/ui-primitives/Slider
+ * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
+ */
 
 import { playbackManager } from '../playback/playbackmanager';
 import layoutManager from '../layoutManager';
-import template from './subtitlesync.template.html';
+import template from './subtitlesync.template.html?raw';
 import './subtitlesync.scss';
 
 let player;
@@ -90,9 +101,7 @@ function init(instance) {
     subtitleSyncSlider.addEventListener('change', () => updateSubtitleOffset());
 
     subtitleSyncSlider.getBubbleHtml = function (_, value) {
-        return '<h1 class="sliderBubbleText">'
-            + (value > 0 ? '+' : '') + parseFloat(value) + 's'
-            + '</h1>';
+        return '<h1 class="sliderBubbleText">' + (value > 0 ? '+' : '') + parseFloat(value) + 's' + '</h1>';
     };
 
     subtitleSyncCloseButton.addEventListener('click', () => {
@@ -131,7 +140,10 @@ class SubtitleSync {
         if (player && playbackManager.supportSubtitleOffset(player)) {
             if (!action) {
                 // if showing subtitle sync is enabled and if there is an external subtitle stream enabled
-                if (playbackManager.isShowingSubtitleOffsetEnabled(player) && playbackManager.canHandleOffsetOnCurrentSubtitle(player)) {
+                if (
+                    playbackManager.isShowingSubtitleOffsetEnabled(player) &&
+                    playbackManager.canHandleOffsetOnCurrentSubtitle(player)
+                ) {
                     // if no subtitle offset is defined or element has focus (offset being defined)
                     if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
                         // set default offset to '0' = 0ms

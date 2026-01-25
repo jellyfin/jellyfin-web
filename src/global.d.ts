@@ -20,10 +20,10 @@ declare module './pkg/jellyfin_audio_wasm' {
         version(): string;
         info(): string;
         TimeStretcher: {
-            new(sample_rate: number, channels: number, chunk_size: number): WasmTimeStretcher;
+            new (sample_rate: number, channels: number, chunk_size: number): WasmTimeStretcher;
         };
         PitchShifter: {
-            new(sample_rate: number, channels: number, fft_size: number): WasmPitchShifter;
+            new (sample_rate: number, channels: number, fft_size: number): WasmPitchShifter;
         };
     }
 
@@ -41,7 +41,7 @@ export declare global {
         Loading: {
             show();
             hide();
-        }
+        };
         appMode?: string;
         tizen?: any;
         webOS?: any;
@@ -90,7 +90,7 @@ export declare global {
     }
 
     interface DocumentEventMap {
-        'viewshow': CustomEvent;
+        viewshow: CustomEvent;
     }
 
     const __COMMIT_SHA__: string;
@@ -98,7 +98,25 @@ export declare global {
     const __PACKAGE_JSON_NAME__: string;
     const __PACKAGE_JSON_VERSION__: string;
     const __USE_SYSTEM_FONTS__: boolean;
-    const __WEBPACK_SERVE__: boolean;
+    const __DEV_SERVER_PROXY_TARGET__: string;
     const tizen: any;
     const webOS: any;
+}
+
+import 'react';
+
+declare module 'react' {
+    interface CSSProperties {
+        [key: `--${string}`]: string | number | undefined;
+    }
+}
+
+declare module '*.css' {
+    const vars: Record<string, unknown>;
+    export default vars;
+}
+
+declare module '*.css.ts' {
+    const vars: Record<string, unknown>;
+    export default vars;
 }

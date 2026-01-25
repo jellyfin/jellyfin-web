@@ -1,6 +1,6 @@
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
 import { merge } from '../../utils/lodashUtils';
-import Screenfull from 'screenfull';
+import fullscreen from '../../utils/fullscreen';
 import Events from '../../utils/events';
 import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
@@ -22,7 +22,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
-import { timeRunningOut, xDuration, getCrossfadeDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
+import { timeRunningOut, getCrossfadeDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
@@ -50,19 +50,29 @@ function enableLocalPlaylistManagement(player: Player): boolean {
 }
 
 function bindToFullscreenChange(player: Player): void {
-    if (Screenfull.isEnabled) {
-        Screenfull.on('change', () => {
+    if (fullscreen.isEnabled) {
+        fullscreen.on('change', () => {
             Events.trigger(player, 'fullscreenchange');
         });
     } else {
         // iOS Safari
-        document.addEventListener('webkitfullscreenchange', () => {
-            Events.trigger(player, 'fullscreenchange');
-        }, false);
+        document.addEventListener(
+            'webkitfullscreenchange',
+            () => {
+                Events.trigger(player, 'fullscreenchange');
+            },
+            false
+        );
     }
 }
 
-function triggerPlayerChange(_playbackManagerInstance: PlaybackManager, newPlayer: Player | null | undefined, _newTarget: any, previousPlayer: Player | null | undefined, _previousTargetInfo: any): void {
+function triggerPlayerChange(
+    _playbackManagerInstance: PlaybackManager,
+    newPlayer: Player | null | undefined,
+    _newTarget: any,
+    previousPlayer: Player | null | undefined,
+    _previousTargetInfo: any
+): void {
     if (!newPlayer && !previousPlayer) {
         return;
     }
@@ -83,7 +93,15 @@ function triggerPlayerChange(_playbackManagerInstance: PlaybackManager, newPlaye
     Events.trigger(_playbackManagerInstance, 'playerchange', [newPlayer, _newTarget, previousPlayer]);
 }
 
-function reportPlayback(playbackManagerInstance: PlaybackManager, state: any, player: Player, reportPlaylist: boolean, serverId: string, method: string, progressEventName: string): void {
+function reportPlayback(
+    playbackManagerInstance: PlaybackManager,
+    state: any,
+    player: Player,
+    reportPlaylist: boolean,
+    serverId: string,
+    method: string,
+    progressEventName: string
+): void {
     if (!serverId) {
         // Not a server item
         // We can expand on this later and possibly report them
@@ -103,15 +121,20 @@ function reportPlayback(playbackManagerInstance: PlaybackManager, state: any, pl
     }
 
     const apiClient = ServerConnections.getApiClient(serverId);
-    const endpoint = method === 'reportPlaybackProgress' ?
-        'Sessions/Playing/Progress' :
-        (method === 'reportPlaybackStopped' ? 'Sessions/Playing/Stopped' : 'Sessions/Playing');
+    const endpoint =
+        method === 'reportPlaybackProgress'
+            ? 'Sessions/Playing/Progress'
+            : method === 'reportPlaybackStopped'
+              ? 'Sessions/Playing/Stopped'
+              : 'Sessions/Playing';
     const reportPlaybackPromise = (apiClient as any)[method](info);
-    reportPlaybackPromise.then(() => {
-        Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
-    }).catch(() => {
-        Events.trigger(playbackManagerInstance, 'reportplayback', [false]);
-    });
+    reportPlaybackPromise
+        .then(() => {
+            Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
+        })
+        .catch(() => {
+            Events.trigger(playbackManagerInstance, 'reportplayback', [false]);
+        });
 }
 
 function normalizeName(t: string) {
@@ -243,19 +266,28 @@ function enableIntros(item: any) {
 }
 
 function getIntros(firstItem: any, apiClient: ApiClient, options: any) {
-    if (options.startPositionTicks || options.startIndex || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
+    if (
+        options.startPositionTicks ||
+        options.startIndex ||
+        options.fullscreen === false ||
+        !enableIntros(firstItem) ||
+        !userSettings.enableCinemaMode()
+    ) {
         return Promise.resolve({
             Items: []
         });
     }
 
-    return apiClient.getIntros(firstItem.Id).then((result: any) => {
-        return result;
-    }, () => {
-        return Promise.resolve({
-            Items: []
-        });
-    });
+    return apiClient.getIntros(firstItem.Id).then(
+        (result: any) => {
+            return result;
+        },
+        () => {
+            return Promise.resolve({
+                Items: []
+            });
+        }
+    );
 }
 
 function getAudioMaxValues(deviceProfile: any) {
@@ -294,7 +326,14 @@ const isLocalhostDev = () => {
     return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 };
 
-function getAudioStreamUrl(item: any, transcodingProfile: any, directPlayContainers: string, apiClient: ApiClient, startPosition: number, maxValues: any) {
+function getAudioStreamUrl(
+    item: any,
+    transcodingProfile: any,
+    directPlayContainers: string,
+    apiClient: ApiClient,
+    startPosition: number,
+    maxValues: any
+) {
     const url = 'Audio/' + item.Id + '/universal';
     startingPlaySession++;
     const streamUrl = apiClient.getUrl(url, {
@@ -347,7 +386,13 @@ function isCrossOriginRequestUrl(url: string) {
     }
 }
 
-function getAudioStreamUrlFromDeviceProfile(item: any, deviceProfile: any, maxBitrate: number, apiClient: ApiClient, startPosition: number) {
+function getAudioStreamUrlFromDeviceProfile(
+    item: any,
+    deviceProfile: any,
+    maxBitrate: number,
+    apiClient: ApiClient,
+    startPosition: number
+) {
     const audioProfiles = deviceProfile.TranscodingProfiles.filter((p: any) => {
         return p.Type === 'Audio' && p.Context === 'Streaming';
     });
@@ -377,10 +422,19 @@ function getAudioStreamUrlFromDeviceProfile(item: any, deviceProfile: any, maxBi
 
     const maxValues = getAudioMaxValues(deviceProfile);
 
-    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
+    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, {
+        maxBitrate,
+        ...maxValues
+    });
 }
 
-function getStreamUrls(items: any[], deviceProfile: any, maxBitrate: number, apiClient: ApiClient, startPosition: number) {
+function getStreamUrls(
+    items: any[],
+    deviceProfile: any,
+    maxBitrate: number,
+    apiClient: ApiClient,
+    startPosition: number
+) {
     const audioTranscodingProfile = deviceProfile.TranscodingProfiles.filter((p: any) => {
         return p.Type === 'Audio' && p.Context === 'Streaming';
     })[0];
@@ -410,7 +464,14 @@ function getStreamUrls(items: any[], deviceProfile: any, maxBitrate: number, api
         let streamUrl: string | undefined;
 
         if (item.MediaType === 'Audio' && !itemHelper.isLocalItem(item)) {
-            streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
+            streamUrl = getAudioStreamUrl(
+                item,
+                audioTranscodingProfile,
+                audioDirectPlayContainers,
+                apiClient,
+                startPosition,
+                { maxBitrate, ...maxValues }
+            );
         }
 
         streamUrls.push(streamUrl || '');
@@ -423,8 +484,14 @@ function getStreamUrls(items: any[], deviceProfile: any, maxBitrate: number, api
     return Promise.resolve(streamUrls);
 }
 
-function setStreamUrls(items: any[], deviceProfile: any, maxBitrate: number, apiClient: ApiClient, startPosition: number) {
-    return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then((streamUrls) => {
+function setStreamUrls(
+    items: any[],
+    deviceProfile: any,
+    maxBitrate: number,
+    apiClient: ApiClient,
+    startPosition: number
+) {
+    return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(streamUrls => {
         for (let i = 0, length = items.length; i < length; i++) {
             const item = items[i];
             const streamUrl = streamUrls[i];
@@ -441,16 +508,31 @@ function setStreamUrls(items: any[], deviceProfile: any, maxBitrate: number, api
     });
 }
 
-function getPlaybackInfo(player: Player, apiClient: ApiClient, item: any, deviceProfile: any, mediaSourceId: string, liveStreamId: string, options: any) {
+function getPlaybackInfo(
+    player: Player,
+    apiClient: ApiClient,
+    item: any,
+    deviceProfile: any,
+    mediaSourceId: string,
+    liveStreamId: string,
+    options: any
+) {
     if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
         return Promise.resolve({
             MediaSources: [
                 {
-                    StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, options.maxBitrate, apiClient, options.startPosition),
+                    StreamUrl: getAudioStreamUrlFromDeviceProfile(
+                        item,
+                        deviceProfile,
+                        options.maxBitrate,
+                        apiClient,
+                        options.startPosition
+                    ),
                     Id: item.Id,
                     MediaStreams: [],
                     RunTimeTicks: item.RunTimeTicks
-                }]
+                }
+            ]
         });
     }
 
@@ -510,8 +592,10 @@ function getPlaybackInfo(player: Player, apiClient: ApiClient, item: any, device
     }
 
     // lastly, enforce player overrides for special situations
-    if (query.EnableDirectStream !== false
-        && player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)
+    if (
+        query.EnableDirectStream !== false &&
+        player.supportsPlayMethod &&
+        !player.supportsPlayMethod('DirectStream', item)
     ) {
         query.EnableDirectStream = false;
     }
@@ -546,15 +630,25 @@ function getOptimalMediaSource(apiClient: ApiClient, item: any, versions: any[])
             })[0];
         }
 
-        optimalVersion = optimalVersion || versions.filter((s: any) => {
-            return s.SupportsTranscoding;
-        })[0];
+        optimalVersion =
+            optimalVersion ||
+            versions.filter((s: any) => {
+                return s.SupportsTranscoding;
+            })[0];
 
         return optimalVersion || versions[0];
     });
 }
 
-function getLiveStream(player: Player, apiClient: ApiClient, item: any, playSessionId: string, deviceProfile: any, mediaSource: any, options: any) {
+function getLiveStream(
+    player: Player,
+    apiClient: ApiClient,
+    item: any,
+    playSessionId: string,
+    deviceProfile: any,
+    mediaSource: any,
+    options: any
+) {
     const postData = {
         DeviceProfile: deviceProfile,
         OpenToken: mediaSource.OpenToken
@@ -578,8 +672,10 @@ function getLiveStream(player: Player, apiClient: ApiClient, item: any, playSess
     }
 
     // lastly, enforce player overrides for special situations
-    if (query.EnableDirectStream !== false
-        && player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)
+    if (
+        query.EnableDirectStream !== false &&
+        player.supportsPlayMethod &&
+        !player.supportsPlayMethod('DirectStream', item)
     ) {
         query.EnableDirectStream = false;
     }
@@ -590,7 +686,6 @@ function getLiveStream(player: Player, apiClient: ApiClient, item: any, playSess
         data: JSON.stringify(postData),
         contentType: 'application/json',
         dataType: 'json'
-
     });
 }
 
@@ -619,7 +714,8 @@ function isHostReachable(mediaSource: any, apiClient: ApiClient) {
 
 function supportsDirectPlay(apiClient: ApiClient, item: any, mediaSource: any) {
     // folder rip hacks due to not yet being supported by the stream building engine
-    const isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
+    const isFolderRip =
+        mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
         if (mediaSource.IsRemote && !supportsAppFeature('remotevideo')) {
@@ -648,8 +744,10 @@ function validatePlaybackInfoResult(instance: PlaybackManager, result: any) {
     if (result.ErrorCode) {
         // NOTE: To avoid needing to retranslate the "NoCompatibleStream" message,
         // we need to keep the key in the same format.
-        const errMessage = result.ErrorCode === PlaybackErrorCode.NoCompatibleStream ?
-            'PlaybackErrorNoCompatibleStream' : `PlaybackError.${result.ErrorCode}`;
+        const errMessage =
+            result.ErrorCode === PlaybackErrorCode.NoCompatibleStream
+                ? 'PlaybackErrorNoCompatibleStream'
+                : `PlaybackError.${result.ErrorCode}`;
         showPlaybackInfoErrorMessage(instance, errMessage);
         return false;
     }
@@ -811,7 +909,7 @@ export class PlaybackManager {
             // The status update will happen via StoreSync -> AudioDriver -> HTML5Player events
             // But for legacy players (video), we might need to set it manually
             if (player.name !== 'Html Audio Player') {
-                 useMediaStore.getState().play();
+                useMediaStore.getState().play();
             }
         });
 
@@ -832,19 +930,19 @@ export class PlaybackManager {
         });
 
         Events.on(this, 'timeupdate', (e: any, player: Player) => {
-             // For audio player, the driver handles this.
-             // For video player, we need to sync manually.
-             if (player && player.name !== 'Html Audio Player') {
-                 const time = (player.currentTime() as number) / 1000;
-                 const duration = (player.duration() as number) / 1000;
-                 useMediaStore.getState().updateProgress(time, duration);
-             }
+            // For audio player, the driver handles this.
+            // For video player, we need to sync manually.
+            if (player && player.name !== 'Html Audio Player') {
+                const time = (player.currentTime() as number) / 1000;
+                const duration = (player.duration() as number) / 1000;
+                useMediaStore.getState().updateProgress(time, duration);
+            }
         });
-        
+
         Events.on(this, 'playerchange', (e: any, newPlayer: Player) => {
-             if (newPlayer) {
-                 updateCurrentTrack(newPlayer);
-             }
+            if (newPlayer) {
+                updateCurrentTrack(newPlayer);
+            }
         });
     }
 
@@ -855,15 +953,17 @@ export class PlaybackManager {
 
     getTargets(): Promise<any[]> {
         // Return available playback targets
-        return Promise.resolve(this.players.map(player => ({
-            name: player.name,
-            playerName: player.name,
-            id: player.id,
-            deviceName: (player as any).deviceName,
-            playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'].map(player.canPlayMediaType),
-            isLocalPlayer: player.isLocalPlayer,
-            supportedCommands: this.getSupportedCommands(player)
-        })));
+        return Promise.resolve(
+            this.players.map(player => ({
+                name: player.name,
+                playerName: player.name,
+                id: player.id,
+                deviceName: (player as any).deviceName,
+                playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'].map(player.canPlayMediaType),
+                isLocalPlayer: player.isLocalPlayer,
+                supportedCommands: this.getSupportedCommands(player)
+            }))
+        );
     }
 
     getPlaylistSync(player?: Player) {
@@ -1107,7 +1207,10 @@ export class PlaybackManager {
         // Get player
         const player = this.getPlayer(item, options);
         if (!player) {
-            logger.error('No player found for the requested media', { component: 'PlaybackManager', item: item.Url || item.Name });
+            logger.error('No player found for the requested media', {
+                component: 'PlaybackManager',
+                item: item.Url || item.Name
+            });
             throw new Error('No player found for the requested media');
         }
 
@@ -1170,7 +1273,14 @@ export class PlaybackManager {
         }
 
         // Create stream info using the comprehensive function
-        const streamInfo = this.createStreamInfoInternal(apiClient, item.MediaType, item, mediaSource, startPosition, player);
+        const streamInfo = this.createStreamInfoInternal(
+            apiClient,
+            item.MediaType,
+            item,
+            mediaSource,
+            startPosition,
+            player
+        );
         streamInfo.fullscreen = options.fullscreen;
 
         // Store player data
@@ -1179,14 +1289,17 @@ export class PlaybackManager {
         playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
         playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
 
-        return player.play(streamInfo).then(() => {
-            loading.hide();
-            this.onPlaybackStarted(player, options, streamInfo, mediaSource);
-        }).catch((err: any) => {
-            loading.hide();
-            logger.error('Playback failed', { component: 'PlaybackManager', error: err });
-            throw err;
-        });
+        return player
+            .play(streamInfo)
+            .then(() => {
+                loading.hide();
+                this.onPlaybackStarted(player, options, streamInfo, mediaSource);
+            })
+            .catch((err: any) => {
+                loading.hide();
+                logger.error('Playback failed', { component: 'PlaybackManager', error: err });
+                throw err;
+            });
     }
 
     private onPlaybackStarted(player: Player, playOptions: any, streamInfo: any, mediaSource?: any): void {
@@ -1250,7 +1363,14 @@ export class PlaybackManager {
         return (typeof bitrate === 'number' ? bitrate : parseInt(String(bitrate), 10)) || 40000000;
     }
 
-    private createStreamInfoInternal(apiClient: any, type: string, item: any, mediaSource: any, startPosition: number, player: Player): any {
+    private createStreamInfoInternal(
+        apiClient: any,
+        type: string,
+        item: any,
+        mediaSource: any,
+        startPosition: number,
+        player: Player
+    ): any {
         let mediaUrl: string | undefined;
         let contentType: string | null = null;
         let transcodingOffsetTicks = 0;
@@ -1383,12 +1503,14 @@ export class PlaybackManager {
             if (itemHelper.isLocalItem(item)) {
                 textStreamUrl = textStream.Path;
             } else {
-                textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
+                textStreamUrl = !textStream.IsExternalUrl
+                    ? apiClient.getUrl(textStream.DeliveryUrl)
+                    : textStream.DeliveryUrl;
             }
 
             tracks.push({
                 url: textStreamUrl,
-                language: (textStream.Language || 'und'),
+                language: textStream.Language || 'und',
                 isDefault: textStream.Index === mediaSource.DefaultSubtitleStreamIndex,
                 index: textStream.Index,
                 format: textStream.Codec
@@ -1455,7 +1577,10 @@ export class PlaybackManager {
                     targetPlayer.pause();
                 }
             } catch (error) {
-                logger.warn('Fade failed, pausing without crossfade', { component: 'PlaybackManager', error: error as Error });
+                logger.warn('Fade failed, pausing without crossfade', {
+                    component: 'PlaybackManager',
+                    error: error as Error
+                });
                 targetPlayer.pause();
             }
         }
@@ -1470,7 +1595,10 @@ export class PlaybackManager {
                 await fadeMixerVolume(0, 0.15);
                 targetPlayer.stop();
             } catch (error) {
-                logger.warn('Fade failed, stopping without crossfade', { component: 'PlaybackManager', error: error as Error });
+                logger.warn('Fade failed, stopping without crossfade', {
+                    component: 'PlaybackManager',
+                    error: error as Error
+                });
                 targetPlayer.stop();
             }
         }
@@ -1486,7 +1614,10 @@ export class PlaybackManager {
                 targetPlayer.nextTrack();
                 // New track will fade in automatically via crossfade system
             } catch (error) {
-                logger.warn('Fade failed, switching without crossfade', { component: 'PlaybackManager', error: error as Error });
+                logger.warn('Fade failed, switching without crossfade', {
+                    component: 'PlaybackManager',
+                    error: error as Error
+                });
                 targetPlayer.nextTrack();
             }
         }
@@ -1502,7 +1633,10 @@ export class PlaybackManager {
                 targetPlayer.previousTrack();
                 // New track will fade in automatically via crossfade system
             } catch (error) {
-                logger.warn('Fade failed, switching without crossfade', { component: 'PlaybackManager', error: error as Error });
+                logger.warn('Fade failed, switching without crossfade', {
+                    component: 'PlaybackManager',
+                    error: error as Error
+                });
                 targetPlayer.previousTrack();
             }
         }
@@ -1693,7 +1827,10 @@ export class PlaybackManager {
                     targetPlayer.setPositionTicks(ticks);
                 }
             } catch (error) {
-                logger.warn('Fade failed, seeking without crossfade', { component: 'PlaybackManager', error: error as Error });
+                logger.warn('Fade failed, seeking without crossfade', {
+                    component: 'PlaybackManager',
+                    error: error as Error
+                });
                 targetPlayer.setPositionTicks(ticks);
             }
         }
@@ -1756,7 +1893,7 @@ export class PlaybackManager {
             return retVal;
         };
 
-        return Promise.all(items.flatMap((item) => getOneAdditionalPart(item)));
+        return Promise.all(items.flatMap(item => getOneAdditionalPart(item)));
     }
 
     private sortItemsIfNeeded(items: any[], options: any): void {
@@ -1767,7 +1904,13 @@ export class PlaybackManager {
         }
     }
 
-    private getPlaybackPromise(firstItem: any, serverId: string, options: any, queryOptions: any, items: any[]): Promise<any> | null {
+    private getPlaybackPromise(
+        firstItem: any,
+        serverId: string,
+        options: any,
+        queryOptions: any,
+        items: any[]
+    ): Promise<any> | null {
         switch (firstItem.Type) {
             case 'Program':
             case 'Playlist':
@@ -1812,7 +1955,6 @@ export class PlaybackManager {
         }
     }
 
-
     displayContent(options: any): void {
         // Placeholder
     }
@@ -1826,7 +1968,10 @@ export const playbackManager = new PlaybackManager();
 const registerMediaPlayerPlugin = (plugin: any) => {
     if (plugin.type === PluginType.MediaPlayer && !playbackManager['players'].includes(plugin)) {
         playbackManager['players'].push(plugin);
-        logger.info(`Registered media player: ${plugin.name} (${plugin.id})`, { component: 'PlaybackManager', count: playbackManager['players'].length });
+        logger.info(`Registered media player: ${plugin.name} (${plugin.id})`, {
+            component: 'PlaybackManager',
+            count: playbackManager['players'].length
+        });
     }
 };
 

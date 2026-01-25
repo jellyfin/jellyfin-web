@@ -20,7 +20,7 @@ const ChannelHeader: React.FC<ChannelHeaderProps> = ({ channel }) => {
             {imageUrl ? (
                 <img src={imageUrl} alt={channel.Name} className={styles.channelImage} />
             ) : (
-                <Text size="xs">{channel.Name}</Text>
+                <Text size='xs'>{channel.Name}</Text>
             )}
             {channel.ChannelNumber && (
                 <div className={styles.channelNumber}>{channel.ChannelNumber}</div>

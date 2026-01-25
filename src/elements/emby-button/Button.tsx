@@ -2,6 +2,7 @@ import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import classNames from 'classnames';
 import layoutManager from '../../components/layoutManager';
 import './emby-button.scss';
+import { deprecate } from '../../utils/deprecation';
 
 enum IconPosition {
     RIGHT = 'RIGHT',
@@ -25,6 +26,8 @@ const Button: React.FC<ButtonProps> = ({
     onClick,
     ...rest
 }) => {
+    deprecate('emby-button/Button', 'ui-primitives/Button', 'src/elements/emby-button/Button.tsx');
+
     const btnClass = classNames(
         'emby-button',
         className,

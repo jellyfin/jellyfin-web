@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/material/Typography/Typography';
-import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
-import Grid from '@mui/material/Grid/Grid';
-import Card from '@mui/material/Card/Card';
-import CardContent from '@mui/material/CardContent/CardContent';
-import CardMedia from '@mui/material/CardMedia/CardMedia';
+import { Box } from 'ui-primitives/Box';
+import { Card, CardBody } from 'ui-primitives/Card';
+import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 import globalize from 'lib/globalize';
 
 /**
@@ -38,52 +36,53 @@ const MusicAlbumsPage: React.FC = () => {
     if (isLoading) {
         return (
             <Box
-                display='flex'
-                justifyContent='center'
-                alignItems='center'
-                minHeight='200px'
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '200px'
+                }}
             >
-                <CircularProgress />
+                <CircularProgress size='md' />
             </Box>
         );
     }
 
     return (
-        <Box sx={{ p: 3 }}>
-            <Typography variant='h4' component='h1' gutterBottom>
+        <Box style={{ padding: vars.spacing.lg }}>
+            <Text as='h1' size='xl' weight='bold' style={{ marginBottom: vars.spacing.md }}>
                 {globalize.translate('Albums')}
-            </Typography>
+            </Text>
 
-            <Grid container spacing={3}>
+            <Box
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                    gap: vars.spacing.lg
+                }}
+            >
                 {albumsData.map((item) => (
-                    <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-                        <Card sx={{ height: '100%' }}>
-                            <CardMedia
-                                component='div'
-                                sx={{
-                                    height: 140,
-                                    backgroundColor: 'grey.300',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <Typography variant='h6' color='text.secondary'>
-                                    💿
-                                </Typography>
-                            </CardMedia>
-                            <CardContent>
-                                <Typography variant='h6' component='div'>
-                                    {item.name}
-                                </Typography>
-                                <Typography variant='body2' color='text.secondary'>
-                                    {item.count} albums
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
+                    <Card key={item.id} style={{ height: '100%' }}>
+                        <Box
+                            style={{
+                                height: 140,
+                                backgroundColor: vars.colors.surfaceHover,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Text size='lg' color='secondary'>
+                                💿
+                            </Text>
+                        </Box>
+                        <CardBody>
+                            <Text weight='medium'>{item.name}</Text>
+                            <Text size='sm' color='secondary'>{item.count} albums</Text>
+                        </CardBody>
+                    </Card>
                 ))}
-            </Grid>
+            </Box>
         </Box>
     );
 };

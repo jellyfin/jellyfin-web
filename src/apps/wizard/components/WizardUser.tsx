@@ -5,8 +5,8 @@ import { Text, Heading } from 'ui-primitives/Text';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { EmbyInput } from '../../../elements';
-import { useNavigate } from 'react-router-dom';
+import { Input } from 'ui-primitives/Input';
+import { useNavigate } from '@tanstack/react-router';
 import Loading from '../../../components/loading/LoadingComponent';
 import toast from '../../../components/toast/toast';
 import * as styles from './WizardUser.css';
@@ -53,7 +53,7 @@ const WizardUser = () => {
                 url: client.getUrl('Startup/User'),
                 contentType: 'application/json'
             });
-            navigate('/wizard/library');
+            navigate({ to: '/wizard/library' });
         } catch (err) {
             toast(globalize.translate('ErrorDefault'));
             setIsLoading(false);
@@ -66,29 +66,29 @@ const WizardUser = () => {
         <div className={styles.container}>
             <Heading.H2 className={styles.title}>{globalize.translate('HeaderCreateUser')}</Heading.H2>
             <Text className={styles.helpText}>{globalize.translate('HeaderCreateUserHelp')}</Text>
-            
+
             <form onSubmit={handleSubmit}>
                 <div className={styles.formStack}>
-                    <EmbyInput
+                    <Input
                         label={globalize.translate('LabelUsername')}
                         value={username}
                         onChange={(e: any) => setUsername(e.target.value)}
                         required
                         autoFocus
                     />
-                    <EmbyInput
-                        type="password"
+                    <Input
+                        type='password'
                         label={globalize.translate('LabelPassword')}
                         value={password}
                         onChange={(e: any) => setPassword(e.target.value)}
                     />
-                    <EmbyInput
-                        type="password"
+                    <Input
+                        type='password'
                         label={globalize.translate('LabelPasswordConfirm')}
                         value={confirmPassword}
                         onChange={(e: any) => setConfirmPassword(e.target.value)}
                     />
-                    <Button type="submit" size="lg" className={styles.submitButton}>
+                    <Button type='submit' size='lg' className={styles.submitButton}>
                         {globalize.translate('ButtonNext')}
                     </Button>
                 </div>

@@ -6,7 +6,7 @@
  * of commonly used PlaybackManager methods.
  */
 
-import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, useSettingsStore } from './index';
+import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, usePreferencesStore } from './index';
 import type { PlayableItem, PlaybackProgress, PlaybackStatus, RepeatMode, ShuffleMode, PlayerInfo } from './types';
 import type { ControlSource } from './controlsStore';
 import { playbackManager } from 'components/playback/playbackmanager';
@@ -74,13 +74,13 @@ class PlaybackManagerBridge {
 
     // Volume and audio methods
     getVolume(): number {
-        const settingsStore = useSettingsStore.getState();
-        return settingsStore.audio.volume;
+        const preferencesStore = usePreferencesStore.getState();
+        return preferencesStore.audio.volume;
     }
 
     isMuted(): boolean {
-        const settingsStore = useSettingsStore.getState();
-        return settingsStore.audio.muted;
+        const preferencesStore = usePreferencesStore.getState();
+        return preferencesStore.audio.muted;
     }
 
     getPlaybackRate(): number {
@@ -151,7 +151,11 @@ class PlaybackManagerBridge {
     }
 
     // Playback actions
-    async play(options?: { startPosition?: number; audioStreamIndex?: number; subtitleStreamIndex?: number }): Promise<void> {
+    async play(options?: {
+        startPosition?: number;
+        audioStreamIndex?: number;
+        subtitleStreamIndex?: number;
+    }): Promise<void> {
         const mediaStore = useMediaStore.getState();
         const queueStore = useQueueStore.getState();
         const controlsStore = useControlsStore.getState();
@@ -211,21 +215,21 @@ class PlaybackManagerBridge {
 
     async setVolume(volume: number): Promise<void> {
         const mediaStore = useMediaStore.getState();
-        const settingsStore = useSettingsStore.getState();
+        const preferencesStore = usePreferencesStore.getState();
         const controlsStore = useControlsStore.getState();
 
         const clampedVolume = Math.max(0, Math.min(100, volume));
         mediaStore.setVolume(clampedVolume);
-        settingsStore.setVolume(clampedVolume);
+        preferencesStore.setVolume(clampedVolume);
         controlsStore.setVolume(clampedVolume);
     }
 
     async toggleMute(): Promise<void> {
-        const settingsStore = useSettingsStore.getState();
+        const preferencesStore = usePreferencesStore.getState();
         const mediaStore = useMediaStore.getState();
 
-        const newMuted = !settingsStore.audio.muted;
-        settingsStore.setMuted(newMuted);
+        const newMuted = !preferencesStore.audio.muted;
+        preferencesStore.setMuted(newMuted);
         mediaStore.setMuted(newMuted);
     }
 

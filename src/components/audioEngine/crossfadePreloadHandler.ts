@@ -1,12 +1,11 @@
 import { handleTrackStart, handlePlaybackTimeUpdate } from './crossfadePreloadManager';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { logger } from '../../utils/logger';
-import { useMediaStore, usePlayerStore } from '../../store';
+import { useMediaStore, usePlayerStore, useQueueStore } from '../../store';
 
 let currentTimeCheckInterval: ReturnType<typeof setInterval> | null = null;
 const TIME_UPDATE_INTERVAL = 500;
 
-type TrackInfo = {
+interface TrackInfo {
     itemId: string;
     url: string;
     imageUrl?: string;
@@ -17,15 +16,34 @@ type TrackInfo = {
     volume: number;
     muted: boolean;
     normalizationGainDb?: number;
-};
+}
 
 // Subscriptions
 let unsubs: (() => void)[] = [];
 
-function getNextTrackInfo(): TrackInfo | null {
-    // Note: In a fully reactive store, the store should know about the next item.
-    // For now we get current but the crossfade logic will handle the "next" mapping.
-    return getCurrentTrackInfo();
+export function getNextTrackInfo(): TrackInfo | null {
+    const queueStore = useQueueStore.getState();
+    const mediaStore = useMediaStore.getState();
+    const currentItem = mediaStore.currentItem;
+
+    if (!currentItem) {
+        return null;
+    }
+
+    const currentIndex = queueStore.currentIndex;
+    const items = queueStore.items;
+
+    if (items.length === 0 || currentIndex >= items.length - 1) {
+        return null;
+    }
+
+    const nextQueueItem = items[currentIndex + 1];
+
+    if (!nextQueueItem) {
+        return null;
+    }
+
+    return buildTrackInfo(nextQueueItem.item);
 }
 
 function getCurrentTrackInfo(): TrackInfo | null {
@@ -60,15 +78,34 @@ function getTrackBackdropUrl(item: any): string | undefined {
     return undefined;
 }
 
+export function buildTrackInfo(item: any): TrackInfo | null {
+    if (!item) return null;
+
+    if (!item.streamInfo) return null;
+
+    return {
+        itemId: item.id,
+        url: item.streamInfo.url || '',
+        imageUrl: getTrackImageUrl(item),
+        backdropUrl: getTrackBackdropUrl(item),
+        artistLogoUrl: undefined,
+        discImageUrl: undefined,
+        crossOrigin: 'anonymous',
+        volume: 100,
+        muted: false,
+        normalizationGainDb: item.streamInfo.normalizationGainDb
+    };
+}
+
 function startProgressTracking() {
     if (currentTimeCheckInterval) {
         clearInterval(currentTimeCheckInterval);
     }
-    
+
     currentTimeCheckInterval = setInterval(() => {
         const { progress } = useMediaStore.getState();
         const { currentTime, duration } = progress;
-        
+
         if (currentTime && duration) {
             handlePlaybackTimeUpdate(
                 { currentTime: () => currentTime * 1000, duration: () => duration * 1000 },
@@ -89,7 +126,7 @@ export function initializeCrossfadePreloadHandler(): void {
     // 1. Listen for status changes (Start/Stop)
     const unsubStatus = useMediaStore.subscribe(
         state => state.status,
-        (status) => {
+        status => {
             if (status === 'playing') {
                 const trackInfo = getCurrentTrackInfo();
                 if (trackInfo) {
@@ -111,15 +148,17 @@ export function initializeCrossfadePreloadHandler(): void {
     );
 
     unsubs.push(unsubStatus, unsubPlayer);
-    
+
     logger.debug('[CrossfadePreloadHandler] Initialized via Store', { component: 'CrossfadePreloadHandler' });
 }
 
 export function destroyCrossfadePreloadHandler(): void {
-    unsubs.forEach(unsub => unsub());
+    for (const unsub of unsubs) {
+        unsub();
+    }
     unsubs = [];
-    
+
     stopProgressTracking();
-    
+
     logger.debug('[CrossfadePreloadHandler] Destroyed', { component: 'CrossfadePreloadHandler' });
 }

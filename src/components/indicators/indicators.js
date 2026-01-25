@@ -2,12 +2,13 @@ import datetime from '../../scripts/datetime';
 import itemHelper from '../itemHelper';
 import '../../elements/emby-progressbar/emby-progressbar';
 import './indicators.scss';
-import 'material-design-icons-iconfont';
 
 export function enableProgressIndicator(item) {
-    return (item.MediaType === 'Video' && item.Type !== 'TvChannel')
-        || item.Type === 'AudioBook'
-        || item.Type === 'AudioPodcast';
+    return (
+        (item.MediaType === 'Video' && item.Type !== 'TvChannel') ||
+        item.Type === 'AudioBook' ||
+        item.Type === 'AudioPodcast'
+    );
 }
 
 export function getProgressHtml(pct, options) {
@@ -16,7 +17,13 @@ export function getProgressHtml(pct, options) {
         containerClass += ' ' + options.containerClass;
     }
 
-    return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
+    return (
+        '<div class="' +
+        containerClass +
+        '"><div class="itemProgressBarForeground" style="width:' +
+        pct +
+        '%;"></div></div>'
+    );
 }
 
 function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
@@ -30,7 +37,19 @@ function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
         foregroundClass += ' itemProgressBarForeground-recording';
     }
 
-    return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="' + foregroundClass + '" style="width:' + pct + '%;"></div></div>';
+    return (
+        '<div is="emby-progressbar" data-automode="time" data-starttime="' +
+        start +
+        '" data-endtime="' +
+        end +
+        '" class="' +
+        containerClass +
+        '"><div class="' +
+        foregroundClass +
+        '" style="width:' +
+        pct +
+        '%;"></div></div>'
+    );
 }
 
 export function getProgressBarHtml(item, options) {
@@ -46,7 +65,11 @@ export function getProgressBarHtml(item, options) {
         }
     }
 
-    if ((item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording') && item.StartDate && item.EndDate) {
+    if (
+        (item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording') &&
+        item.StartDate &&
+        item.EndDate
+    ) {
         let startDate = 0;
         let endDate = 1;
 
@@ -78,10 +101,12 @@ export function getPlayedIndicatorHtml(item) {
     if (enablePlayedIndicator(item)) {
         const userData = item.UserData || {};
         if (userData.UnplayedItemCount) {
-            return '<div class="countIndicator indicator">' + formatCountIndicator(userData.UnplayedItemCount) + '</div>';
+            return (
+                '<div class="countIndicator indicator">' + formatCountIndicator(userData.UnplayedItemCount) + '</div>'
+            );
         }
 
-        if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
+        if ((userData.PlayedPercentage && userData.PlayedPercentage >= 100) || userData.Played) {
             return '<div class="playedIndicator indicator"><span class="material-icons indicatorIcon check" aria-hidden="true"></span></div>';
         }
     }
@@ -139,14 +164,18 @@ export function getSyncIndicator(item) {
 
 export function getTypeIndicator(item) {
     const iconT = {
-        'Video' : 'videocam',
-        'Folder' : 'folder',
-        'PhotoAlbum' : 'photo_album',
-        'Photo' : 'photo'
+        Video: 'videocam',
+        Folder: 'folder',
+        PhotoAlbum: 'photo_album',
+        Photo: 'photo'
     };
 
     const icon = iconT[item.Type];
-    return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ' + icon + '" aria-hidden="true"></span></div>' : '';
+    return icon
+        ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ' +
+              icon +
+              '" aria-hidden="true"></span></div>'
+        : '';
 }
 
 export function getMissingIndicator(item) {

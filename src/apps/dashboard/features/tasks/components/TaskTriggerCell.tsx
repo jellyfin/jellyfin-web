@@ -1,33 +1,29 @@
-import React, { FC } from 'react';
-import type { MRT_Cell, MRT_RowData } from 'material-react-table';
+import React from 'react';
 import { useLocale } from 'hooks/useLocale';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/material/Typography/Typography';
+import { Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
 import { getTriggerFriendlyName } from '../utils/edit';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import globalize from 'lib/globalize';
+import type { CellContext } from '@tanstack/react-table';
 
-interface CellProps {
-    cell: MRT_Cell<MRT_RowData>
-}
-
-const TaskTriggerCell: FC<CellProps> = ({ cell }) => {
+const TaskTriggerCell = ({ cell }: CellContext<TaskTriggerInfo, TaskTriggerInfo>) => {
     const { dateFnsLocale } = useLocale();
-    const trigger = cell.getValue<TaskTriggerInfo>();
+    const trigger = cell.getValue();
 
     const timeLimitHours = trigger.MaxRuntimeTicks ? trigger.MaxRuntimeTicks / 36e9 : false;
 
     return (
-        <Box>
-            <Typography variant='body1'>{getTriggerFriendlyName(trigger, dateFnsLocale)}</Typography>
-            {timeLimitHours && (
-                <Typography variant='body2' color={'text.secondary'}>
-                    {timeLimitHours == 1 ?
+        <Flex style={{ flexDirection: 'column', gap: '4px' }}>
+            <Text as='span'>{getTriggerFriendlyName(trigger, dateFnsLocale)}</Text>
+            {timeLimitHours !== false && (
+                <Text as='span' size='sm' color='secondary'>
+                    {timeLimitHours === 1 ?
                         globalize.translate('ValueTimeLimitSingleHour') :
                         globalize.translate('ValueTimeLimitMultiHour', timeLimitHours)}
-                </Typography>
+                </Text>
             )}
-        </Box>
+        </Flex>
     );
 };
 

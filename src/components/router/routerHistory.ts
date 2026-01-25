@@ -1,24 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Router, RouterState } from '@remix-run/router';
-import type { History, Listener, To } from 'history';
-
 import Events, { type Event } from 'utils/events';
 
 const HISTORY_UPDATE_EVENT = 'HISTORY_UPDATE';
 
-export class RouterHistory implements History {
-    _router: Router;
+type Listener = (location: { action: string; location: any }) => void;
+type To = string | { pathname: string; search?: string; hash?: string };
+
+export class RouterHistory {
+    _router: any;
     createHref: (arg: any) => string;
 
-    constructor(router: Router) {
+    constructor(router: any) {
         this._router = router;
 
-        this._router.subscribe(state => {
+        this._router.subscribe((state: any) => {
             console.debug('[RouterHistory] history update', state);
-            Events.trigger(document, HISTORY_UPDATE_EVENT, [ state ]);
+            Events.trigger(document, HISTORY_UPDATE_EVENT, [state]);
         });
 
-        this.createHref = router.createHref;
+        const historyCreateHref = router.history?.createHref;
+        this.createHref = historyCreateHref ? historyCreateHref.bind(router.history) : () => '';
     }
 
     get action() {
@@ -50,13 +51,11 @@ export class RouterHistory implements History {
     }
 
     block() {
-        // NOTE: We don't seem to use this functionality, so leaving it unimplemented.
         throw new Error('`history.block()` is not implemented');
-        return () => undefined;
     }
 
     listen(listener: Listener) {
-        const compatListener = (_e: Event, state: RouterState) => {
+        const compatListener = (_e: Event, state: any) => {
             return listener({ action: state.historyAction, location: state.location });
         };
 
@@ -66,7 +65,7 @@ export class RouterHistory implements History {
     }
 }
 
-export const createRouterHistory = (router: Router): History => {
+export const createRouterHistory = (router: any) => {
     return new RouterHistory(router);
 };
 

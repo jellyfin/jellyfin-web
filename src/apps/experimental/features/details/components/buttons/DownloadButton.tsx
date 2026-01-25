@@ -1,8 +1,8 @@
-import React, { FC, useCallback } from 'react';
-import IconButton from '@mui/material/IconButton/IconButton';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives/IconButton';
+import { DownloadIcon } from '@radix-ui/react-icons';
 
-import { useGetDownload } from 'hooks/api/libraryHooks';
+import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { download } from 'scripts/fileDownloader';
 import type { NullableString } from 'types/base/common/shared/types';
@@ -15,7 +15,8 @@ interface DownloadButtonProps {
 }
 
 const DownloadButton: FC<DownloadButtonProps> = ({ itemId, itemServerId, itemName, itemPath }) => {
-    const { data: downloadHref } = useGetDownload({ itemId });
+    const { __legacyApiClient__ } = useApi();
+    const downloadHref = __legacyApiClient__?.getUrl(`Items/${itemId}/Download`) || '';
 
     const onDownloadClick = useCallback(async () => {
         download([
@@ -35,7 +36,7 @@ const DownloadButton: FC<DownloadButtonProps> = ({ itemId, itemServerId, itemNam
             title={globalize.translate('Download')}
             onClick={onDownloadClick}
         >
-            <FileDownloadIcon />
+            <DownloadIcon />
         </IconButton>
     );
 };

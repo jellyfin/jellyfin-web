@@ -2,9 +2,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { intervalToDuration } from 'date-fns';
-import DOMPurify from 'dompurify';
-import escapeHtml from 'escape-html';
-import markdownIt from 'markdown-it';
+import { escapeHtml } from 'utils/html';
 import { isEqual } from '../../utils/lodashUtils';
 
 import { safeAppHost } from 'components/apphost';
@@ -47,8 +45,6 @@ import 'elements/emby-playstatebutton/emby-playstatebutton';
 import 'elements/emby-ratingbutton/emby-ratingbutton';
 import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-select/emby-select';
-
-import 'styles/scrollstyles.scss';
 
 /** Item types that use a list view for their children. */
 const LIST_VIEW_TYPES: string[] = [
@@ -140,28 +136,35 @@ function getSelectedMediaSource(page, mediaSources) {
 }
 
 function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
-    apiClient.getLiveTvTimers({
-        UserId: apiClient.getCurrentUserId(),
-        ImageTypeLimit: 1,
-        SortBy: 'StartDate',
-        EnableTotalRecordCount: false,
-        EnableUserData: false,
-        SeriesTimerId: seriesTimerId,
-        Fields: 'ChannelInfo,ChannelImage'
-    }).then((result) => {
-        if (result.Items.length && result.Items[0].SeriesTimerId != seriesTimerId) {
-            result.Items = [];
-        }
+    apiClient
+        .getLiveTvTimers({
+            UserId: apiClient.getCurrentUserId(),
+            ImageTypeLimit: 1,
+            SortBy: 'StartDate',
+            EnableTotalRecordCount: false,
+            EnableUserData: false,
+            SeriesTimerId: seriesTimerId,
+            Fields: 'ChannelInfo,ChannelImage'
+        })
+        .then(result => {
+            if (result.Items.length && result.Items[0].SeriesTimerId != seriesTimerId) {
+                result.Items = [];
+            }
 
-        const html = getProgramScheduleHtml(result.Items);
-        const scheduleTab = page.querySelector('#seriesTimerSchedule');
-        scheduleTab.innerHTML = html;
-        imageLoader.lazyChildren(scheduleTab);
-    });
+            const html = getProgramScheduleHtml(result.Items);
+            const scheduleTab = page.querySelector('#seriesTimerSchedule');
+            scheduleTab.innerHTML = html;
+            imageLoader.lazyChildren(scheduleTab);
+        });
 }
 
 function renderTimerEditor(page, item, apiClient, user) {
-    if (item.Type !== 'Recording' || !user.Policy.EnableLiveTvManagement || !item.TimerId || item.Status !== 'InProgress') {
+    if (
+        item.Type !== 'Recording' ||
+        !user.Policy.EnableLiveTvManagement ||
+        !item.TimerId ||
+        item.Status !== 'InProgress'
+    ) {
         hideAll(page, 'btnCancelTimer');
         return;
     }
@@ -195,7 +198,12 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
 function renderTrackSelections(page, instance, item, forceReload) {
     const select = page.querySelector('.selectSource');
 
-    if (!item.MediaSources || !itemHelper.supportsMediaSourceSelection(item) || playbackManager.getSupportedCommands().indexOf('PlayMediaSource') === -1 || !playbackManager.canPlay(item)) {
+    if (
+        !item.MediaSources ||
+        !itemHelper.supportsMediaSourceSelection(item) ||
+        playbackManager.getSupportedCommands().indexOf('PlayMediaSource') === -1 ||
+        !playbackManager.canPlay(item)
+    ) {
         page.querySelector('.trackSelections').classList.add('hide');
         select.innerHTML = '';
         page.querySelector('.selectVideo').innerHTML = '';
@@ -213,10 +221,12 @@ function renderTrackSelections(page, instance, item, forceReload) {
     const currentValue = select.value;
 
     const selectedId = mediaSources[0].Id;
-    select.innerHTML = mediaSources.map((v) => {
-        const selected = v.Id === selectedId ? ' selected' : '';
-        return '<option value="' + v.Id + '"' + selected + '>' + escapeHtml(v.Name) + '</option>';
-    }).join('');
+    select.innerHTML = mediaSources
+        .map(v => {
+            const selected = v.Id === selectedId ? ' selected' : '';
+            return '<option value="' + v.Id + '"' + selected + '>' + escapeHtml(v.Name) + '</option>';
+        })
+        .join('');
 
     if (mediaSources.length > 1) {
         page.querySelector('.selectSourceContainer').classList.remove('hide');
@@ -234,28 +244,38 @@ function renderTrackSelections(page, instance, item, forceReload) {
 function renderVideoSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter((m) => {
+    const tracks = mediaSource.MediaStreams.filter(m => {
         return m.Type === 'Video';
     });
 
     const select = page.querySelector('.selectVideo');
     select.setLabel(globalize.translate('Video'));
     const selectedId = tracks.length ? tracks[0].Index : -1;
-    select.innerHTML = tracks.map((v) => {
-        const selected = v.Index === selectedId ? ' selected' : '';
-        const titleParts = [];
-        const resolutionText = mediaInfo.getResolutionText(v);
+    select.innerHTML = tracks
+        .map(v => {
+            const selected = v.Index === selectedId ? ' selected' : '';
+            const titleParts = [];
+            const resolutionText = mediaInfo.getResolutionText(v);
 
-        if (resolutionText) {
-            titleParts.push(resolutionText);
-        }
+            if (resolutionText) {
+                titleParts.push(resolutionText);
+            }
 
-        if (v.Codec) {
-            titleParts.push(v.Codec.toUpperCase());
-        }
+            if (v.Codec) {
+                titleParts.push(v.Codec.toUpperCase());
+            }
 
-        return '<option value="' + v.Index + '" ' + selected + '>' + (v.DisplayTitle || titleParts.join(' ')) + '</option>';
-    }).join('');
+            return (
+                '<option value="' +
+                v.Index +
+                '" ' +
+                selected +
+                '>' +
+                (v.DisplayTitle || titleParts.join(' ')) +
+                '</option>'
+            );
+        })
+        .join('');
     select.setAttribute('disabled', 'disabled');
 
     if (tracks.length) {
@@ -268,17 +288,19 @@ function renderVideoSelections(page, mediaSources) {
 function renderAudioSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter((m) => {
+    const tracks = mediaSource.MediaStreams.filter(m => {
         return m.Type === 'Audio';
     });
     tracks.sort(itemHelper.sortTracks);
     const select = page.querySelector('.selectAudio');
     select.setLabel(globalize.translate('Audio'));
     const selectedId = mediaSource.DefaultAudioStreamIndex;
-    select.innerHTML = tracks.map((v) => {
-        const selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
-    }).join('');
+    select.innerHTML = tracks
+        .map(v => {
+            const selected = v.Index === selectedId ? ' selected' : '';
+            return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+        })
+        .join('');
 
     if (tracks.length > 1) {
         select.removeAttribute('disabled');
@@ -296,7 +318,7 @@ function renderAudioSelections(page, mediaSources) {
 function renderSubtitleSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter((m) => {
+    const tracks = mediaSource.MediaStreams.filter(m => {
         return m.Type === 'Subtitle';
     });
     tracks.sort(itemHelper.sortTracks);
@@ -305,10 +327,16 @@ function renderSubtitleSelections(page, mediaSources) {
     const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
 
     let selected = selectedId === -1 ? ' selected' : '';
-    select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map((v) => {
-        selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
-    }).join('');
+    select.innerHTML =
+        '<option value="-1">' +
+        globalize.translate('Off') +
+        '</option>' +
+        tracks
+            .map(v => {
+                selected = v.Index === selectedId ? ' selected' : '';
+                return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+            })
+            .join('');
 
     if (tracks.length > 0) {
         select.removeAttribute('disabled');
@@ -329,7 +357,10 @@ function reloadPlayButtons(page, item) {
     if (item.Type == 'Program') {
         const now = new Date();
 
-        if (now >= datetime.parseISO8601Date(item.StartDate, true) && now < datetime.parseISO8601Date(item.EndDate, true)) {
+        if (
+            now >= datetime.parseISO8601Date(item.StartDate, true) &&
+            now < datetime.parseISO8601Date(item.EndDate, true)
+        ) {
             hideAll(page, 'btnPlay', true);
             canPlay = true;
         } else {
@@ -410,7 +441,13 @@ function getArtistLinksHtml(artists, serverId, context) {
             itemType: 'MusicArtist',
             serverId
         });
-        html.push('<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + href + '">' + escapeHtml(artist.Name) + '</a>');
+        html.push(
+            '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
+                href +
+                '">' +
+                escapeHtml(artist.Name) +
+                '</a>'
+        );
     }
 
     let fullHtml = html.join(' / ');
@@ -439,19 +476,27 @@ function renderName(item, container, context) {
         parentNameHtml.push(getArtistLinksHtml(item.ArtistItems, item.ServerId, context));
         parentNameLast = true;
     } else if (item.SeriesName && item.Type === 'Episode') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
+        parentNameHtml.push(
+            `<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`
+        );
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(escapeHtml(item.Name));
     }
 
     if (item.SeriesName && item.Type === 'Season') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
+        parentNameHtml.push(
+            `<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`
+        );
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeasonId}" data-serverid="${item.ServerId}" data-type="Season" data-isfolder="true">${escapeHtml(item.SeasonName)}</a>`);
+        parentNameHtml.push(
+            `<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeasonId}" data-serverid="${item.ServerId}" data-type="Season" data-isfolder="true">${escapeHtml(item.SeasonName)}</a>`
+        );
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(escapeHtml(item.SeasonName || 'S' + item.ParentIndexNumber));
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${escapeHtml(item.Album)}</a>`);
+        parentNameHtml.push(
+            `<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${escapeHtml(item.Album)}</a>`
+        );
     } else if (item.Album) {
         parentNameHtml.push(escapeHtml(item.Album));
     }
@@ -467,20 +512,28 @@ function renderName(item, container, context) {
             if (layoutManager.mobile) {
                 html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
             } else {
-                html = '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
+                html =
+                    '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
             }
         } else {
             html = '<h1 class="parentName focuscontainer-x"><bdi>' + tvShowHtml + '</bdi></h1>';
         }
     }
 
-    const name = escapeHtml(itemHelper.getDisplayName(item, {
-        includeParentInfo: false
-    }));
+    const name = escapeHtml(
+        itemHelper.getDisplayName(item, {
+            includeParentInfo: false
+        })
+    );
 
     if (html && !parentNameLast) {
         if (tvSeasonHtml) {
-            html += '<h3 class="itemName infoText subtitle focuscontainer-x"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h3>';
+            html +=
+                '<h3 class="itemName infoText subtitle focuscontainer-x"><bdi>' +
+                tvSeasonHtml +
+                ' - ' +
+                name +
+                '</bdi></h3>';
         } else {
             html += '<h3 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h3>';
         }
@@ -504,7 +557,10 @@ function renderName(item, container, context) {
 }
 
 function setTrailerButtonVisibility(page, item) {
-    if ((item.LocalTrailerCount || item.RemoteTrailers?.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
+    if (
+        (item.LocalTrailerCount || item.RemoteTrailers?.length) &&
+        playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1
+    ) {
         hideAll(page, 'btnPlayTrailer', true);
     } else {
         hideAll(page, 'btnPlayTrailer');
@@ -585,7 +641,7 @@ function reloadFromItem(instance, page, params, item, user) {
     }
 
     showRecordingFields(instance, page, item, user);
-    const groupedVersions = (item.MediaSources || []).filter((g) => {
+    const groupedVersions = (item.MediaSources || []).filter(g => {
         return g.Type == 'Grouping';
     });
 
@@ -615,10 +671,10 @@ function reloadFromItem(instance, page, params, item, user) {
             } else {
                 itemBirthday.innerHTML = `${globalize.translate('BirthDateValue', birthday.toLocaleDateString())} ${globalize.translate('AgeValue', durationSinceBorn.years)}`;
             }
-            } catch (err) {
-                logger.error('Failed to parse birthday', { component: 'itemDetails' }, err as Error);
-                itemBirthday.classList.add('hide');
-            }
+        } catch (err) {
+            logger.error('Failed to parse birthday', { component: 'itemDetails' }, err as Error);
+            itemBirthday.classList.add('hide');
+        }
     } else {
         itemBirthday.classList.add('hide');
     }
@@ -637,10 +693,10 @@ function reloadFromItem(instance, page, params, item, user) {
             } else {
                 itemDeathDate.innerHTML = globalize.translate('DeathDateValue', deathday.toLocaleDateString());
             }
-            } catch (err) {
-                logger.error('Failed to parse death date', { component: 'itemDetails' }, err as Error);
-                itemDeathDate.classList.add('hide');
-            }
+        } catch (err) {
+            logger.error('Failed to parse death date', { component: 'itemDetails' }, err as Error);
+            itemDeathDate.classList.add('hide');
+        }
     } else {
         itemDeathDate.classList.add('hide');
     }
@@ -763,19 +819,22 @@ export function renderDiscImage(page, item, apiClient) {
     }
 
     const userId = apiClient.getCurrentUserId();
-    apiClient.getItem(userId, item.AlbumId).then((albumItem) => {
-        const discTag = albumItem?.ImageTags?.Disc;
-        if (!discTag) {
-            discImageElement.classList.add('hide');
-            return;
-        }
+    apiClient
+        .getItem(userId, item.AlbumId)
+        .then(albumItem => {
+            const discTag = albumItem?.ImageTags?.Disc;
+            if (!discTag) {
+                discImageElement.classList.add('hide');
+                return;
+            }
 
-        const url = discImageUrl(albumItem, apiClient, { tag: discTag, itemId: albumItem.Id });
-        discImageElement.classList.remove('hide');
-        imageLoader.setLazyImage(discImageElement, url);
-    }).catch(() => {
-        discImageElement.classList.add('hide');
-    });
+            const url = discImageUrl(albumItem, apiClient, { tag: discTag, itemId: albumItem.Id });
+            discImageElement.classList.remove('hide');
+            imageLoader.setLazyImage(discImageElement, url);
+        })
+        .catch(() => {
+            discImageElement.classList.add('hide');
+        });
 }
 
 function showRecordingFields(instance, page, item, user) {
@@ -804,12 +863,16 @@ function renderLinks(page, item) {
     const links = [];
 
     if (!layoutManager.tv && item.HomePageUrl) {
-        links.push(`<a is="emby-linkbutton" class="button-link" href="${item.HomePageUrl}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
+        links.push(
+            `<a is="emby-linkbutton" class="button-link" href="${item.HomePageUrl}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`
+        );
     }
 
     if (item.ExternalUrls) {
         for (const url of item.ExternalUrls) {
-            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${escapeHtml(url.Name)}</a>`);
+            links.push(
+                `<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${escapeHtml(url.Name)}</a>`
+            );
         }
     }
 
@@ -828,30 +891,25 @@ function renderLinks(page, item) {
 }
 
 function renderDetailImage(apiClient, elem, item, loader) {
-    const html = buildCardImage(
-        apiClient,
-        item,
-        { width: dom.getWindowSize().innerWidth * 0.25 }
-    );
+    const html = buildCardImage(apiClient, item, { width: dom.getWindowSize().innerWidth * 0.25 });
 
     elem.innerHTML = html;
     loader.lazyChildren(elem);
 }
 
 function renderImage(page, item, apiClient) {
-    page.querySelectorAll('.detailImageContainer')
-        .forEach(elem => {
-            renderDetailImage(
-                apiClient,
-                elem,
-                item,
-                imageLoader
-            );
-        });
+    page.querySelectorAll('.detailImageContainer').forEach(elem => {
+        renderDetailImage(apiClient, elem, item, imageLoader);
+    });
 }
 
 function setPeopleHeader(page, item) {
-    if (item.MediaType == 'Audio' || item.Type == 'MusicAlbum' || item.MediaType == 'Book' || item.MediaType == 'Photo') {
+    if (
+        item.MediaType == 'Audio' ||
+        item.Type == 'MusicAlbum' ||
+        item.MediaType == 'Book' ||
+        item.MediaType == 'Photo'
+    ) {
         page.querySelector('#peopleHeader').innerHTML = globalize.translate('People');
     } else {
         page.querySelector('#peopleHeader').innerHTML = globalize.translate('HeaderCastAndCrew');
@@ -866,30 +924,32 @@ function renderNextUp(page, item, user) {
         return;
     }
 
-    ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
-        SeriesId: item.Id,
-        UserId: user.Id,
-        Fields: 'MediaSourceCount'
-    }).then((result) => {
-        if (result.Items.length) {
-            section.classList.remove('hide');
-        } else {
-            section.classList.add('hide');
-        }
+    ServerConnections.getApiClient(item.ServerId)
+        .getNextUpEpisodes({
+            SeriesId: item.Id,
+            UserId: user.Id,
+            Fields: 'MediaSourceCount'
+        })
+        .then(result => {
+            if (result.Items.length) {
+                section.classList.remove('hide');
+            } else {
+                section.classList.add('hide');
+            }
 
-        const html = cardBuilder.getCardsHtml({
-            items: result.Items,
-            shape: 'overflowBackdrop',
-            showTitle: true,
-            displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
-            overlayText: false,
-            centerText: true,
-            overlayPlayButton: true
+            const html = cardBuilder.getCardsHtml({
+                items: result.Items,
+                shape: 'overflowBackdrop',
+                showTitle: true,
+                displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
+                overlayText: false,
+                centerText: true,
+                overlayPlayButton: true
+            });
+            const itemsContainer = section.querySelector('.nextUpItems');
+            itemsContainer.innerHTML = html;
+            imageLoader.lazyChildren(itemsContainer);
         });
-        const itemsContainer = section.querySelector('.nextUpItems');
-        itemsContainer.innerHTML = html;
-        imageLoader.lazyChildren(itemsContainer);
-    });
 }
 
 function setInitialCollapsibleState(page, item, apiClient, context, user) {
@@ -899,7 +959,13 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#listChildrenCollapsible').classList.remove('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
         renderPlaylistItems(page, item);
-    } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
+    } else if (
+        item.Type == 'Studio' ||
+        item.Type == 'Person' ||
+        item.Type == 'Genre' ||
+        item.Type == 'MusicGenre' ||
+        item.Type == 'MusicArtist'
+    ) {
         page.querySelector('#listChildrenCollapsible').classList.remove('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
         renderItemsByName(page, item);
@@ -975,8 +1041,9 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        // eslint-disable-next-line sonarjs/disabled-auto-escaping
-        const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
+        // For now, use escaped HTML until we convert this to React
+        // TODO: Convert to React component using ReactMarkdownBox
+        const overview = escapeHtml(item.Overview || '').replace(/\n/g, '<br>');
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
@@ -1014,16 +1081,27 @@ function renderGenres(page, item, context = inferContext(item)) {
     const genres = item.GenreItems || [];
     const type = context === 'music' ? 'MusicGenre' : 'Genre';
 
-    const html = genres.map((p) => {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: p.Name,
-            Type: type,
-            ServerId: item.ServerId,
-            Id: p.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(p.Name) + '</a>';
-    }).join(', ');
+    const html = genres
+        .map(p => {
+            return (
+                '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
+                appRouter.getRouteUrl(
+                    {
+                        Name: p.Name,
+                        Type: type,
+                        ServerId: item.ServerId,
+                        Id: p.Id
+                    },
+                    {
+                        context: context
+                    }
+                ) +
+                '">' +
+                escapeHtml(p.Name) +
+                '</a>'
+            );
+        })
+        .join(', ');
 
     const genresLabel = page.querySelector('.genresLabel');
     genresLabel.innerHTML = globalize.translate(genres.length > 1 ? 'Genres' : 'Genre');
@@ -1039,20 +1117,31 @@ function renderGenres(page, item, context = inferContext(item)) {
 }
 
 function renderWriter(page, item, context) {
-    const writers = (item.People || []).filter((person) => {
+    const writers = (item.People || []).filter(person => {
         return person.Type === 'Writer';
     });
 
-    const html = writers.map((person) => {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: person.Name,
-            Type: 'Person',
-            ServerId: item.ServerId,
-            Id: person.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(person.Name) + '</a>';
-    }).join(', ');
+    const html = writers
+        .map(person => {
+            return (
+                '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
+                appRouter.getRouteUrl(
+                    {
+                        Name: person.Name,
+                        Type: 'Person',
+                        ServerId: item.ServerId,
+                        Id: person.Id
+                    },
+                    {
+                        context: context
+                    }
+                ) +
+                '">' +
+                escapeHtml(person.Name) +
+                '</a>'
+            );
+        })
+        .join(', ');
 
     const writersLabel = page.querySelector('.writersLabel');
     writersLabel.innerHTML = globalize.translate(writers.length > 1 ? 'Writers' : 'Writer');
@@ -1068,20 +1157,31 @@ function renderWriter(page, item, context) {
 }
 
 function renderDirector(page, item, context) {
-    const directors = (item.People || []).filter((person) => {
+    const directors = (item.People || []).filter(person => {
         return person.Type === 'Director';
     });
 
-    const html = directors.map((person) => {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: person.Name,
-            Type: 'Person',
-            ServerId: item.ServerId,
-            Id: person.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(person.Name) + '</a>';
-    }).join(', ');
+    const html = directors
+        .map(person => {
+            return (
+                '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
+                appRouter.getRouteUrl(
+                    {
+                        Name: person.Name,
+                        Type: 'Person',
+                        ServerId: item.ServerId,
+                        Id: person.Id
+                    },
+                    {
+                        context: context
+                    }
+                ) +
+                '">' +
+                escapeHtml(person.Name) +
+                '</a>'
+            );
+        })
+        .join(', ');
 
     const directorsLabel = page.querySelector('.directorsLabel');
     directorsLabel.innerHTML = globalize.translate(directors.length > 1 ? 'Directors' : 'Director');
@@ -1102,16 +1202,27 @@ function renderStudio(page, item, context) {
 
     const studios = item.Studios || [];
 
-    const html = studios.map((studio) => {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: studio.Name,
-            Type: 'Studio',
-            ServerId: item.ServerId,
-            Id: studio.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(studio.Name) + '</a>';
-    }).join(', ');
+    const html = studios
+        .map(studio => {
+            return (
+                '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
+                appRouter.getRouteUrl(
+                    {
+                        Name: studio.Name,
+                        Type: 'Studio',
+                        ServerId: item.ServerId,
+                        Id: studio.Id
+                    },
+                    {
+                        context: context
+                    }
+                ) +
+                '">' +
+                escapeHtml(studio.Name) +
+                '</a>'
+            );
+        })
+        .join(', ');
 
     const studiosLabel = page.querySelector('.studiosLabel');
     studiosLabel.innerText = globalize.translate(studios.length > 1 ? 'Studios' : 'Studio');
@@ -1201,27 +1312,30 @@ function renderLyricsContainer(view, item, apiClient) {
             return;
         }
         //get lyrics
-        apiClient.ajax({
-            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
-            type: 'GET',
-            dataType: 'json'
-        }).then((response) => {
-            if (!response.Lyrics) {
+        apiClient
+            .ajax({
+                url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
+                type: 'GET',
+                dataType: 'json'
+            })
+            .then(response => {
+                if (!response.Lyrics) {
+                    lyricContainer.classList.add('hide');
+                    return;
+                }
+                lyricContainer.classList.remove('hide');
+                const itemsContainer = lyricContainer.querySelector('.itemsContainer');
+                if (itemsContainer) {
+                    const html = response.Lyrics.reduce((htmlAccumulator, lyric) => {
+                        htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
+                        return htmlAccumulator;
+                    }, '');
+                    itemsContainer.innerHTML = html;
+                }
+            })
+            .catch(() => {
                 lyricContainer.classList.add('hide');
-                return;
-            }
-            lyricContainer.classList.remove('hide');
-            const itemsContainer = lyricContainer.querySelector('.itemsContainer');
-            if (itemsContainer) {
-                const html = response.Lyrics.reduce((htmlAccumulator, lyric) => {
-                    htmlAccumulator += escapeHtml(lyric.Text) + '<br/>';
-                    return htmlAccumulator;
-                }, '');
-                itemsContainer.innerHTML = html;
-            }
-        }).catch(() => {
-            lyricContainer.classList.add('hide');
-        });
+            });
     }
 }
 
@@ -1235,39 +1349,41 @@ function renderMoreFromSeason(view, item, apiClient) {
         }
 
         const userId = apiClient.getCurrentUserId();
-        apiClient.getEpisodes(item.SeriesId, {
-            SeasonId: item.SeasonId,
-            UserId: userId,
-            Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
-        }).then((result) => {
-            if (result.Items.length < 2) {
-                section.classList.add('hide');
-                return;
-            }
+        apiClient
+            .getEpisodes(item.SeriesId, {
+                SeasonId: item.SeasonId,
+                UserId: userId,
+                Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
+            })
+            .then(result => {
+                if (result.Items.length < 2) {
+                    section.classList.add('hide');
+                    return;
+                }
 
-            section.classList.remove('hide');
-            section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.SeasonName);
-            const itemsContainer = section.querySelector('.itemsContainer');
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: itemsContainer,
-                shape: 'autooverflow',
-                sectionTitleTagName: 'h2',
-                scalable: true,
-                showTitle: true,
-                overlayText: false,
-                centerText: true,
-                includeParentInfoInTitle: false,
-                allowBottomPadding: false
+                section.classList.remove('hide');
+                section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.SeasonName);
+                const itemsContainer = section.querySelector('.itemsContainer');
+                cardBuilder.buildCards(result.Items, {
+                    parentContainer: section,
+                    itemsContainer: itemsContainer,
+                    shape: 'autooverflow',
+                    sectionTitleTagName: 'h2',
+                    scalable: true,
+                    showTitle: true,
+                    overlayText: false,
+                    centerText: true,
+                    includeParentInfoInTitle: false,
+                    allowBottomPadding: false
+                });
+                const card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
+
+                if (card) {
+                    setTimeout(() => {
+                        section.querySelector('.emby-scroller').toStart(card.previousSibling || card, true);
+                    }, 100);
+                }
             });
-            const card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
-
-            if (card) {
-                setTimeout(() => {
-                    section.querySelector('.emby-scroller').toStart(card.previousSibling || card, true);
-                }, 100);
-            }
-        });
     }
 }
 
@@ -1275,7 +1391,11 @@ function renderMoreFromArtist(view, item, apiClient) {
     const section = view.querySelector('.moreFromArtistSection');
 
     if (section) {
-        if (item.Type !== 'MusicArtist' && item.Type !== 'Audio' && (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)) {
+        if (
+            item.Type !== 'MusicArtist' &&
+            item.Type !== 'Audio' &&
+            (item.Type !== 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length)
+        ) {
             section.classList.add('hide');
             return;
         }
@@ -1294,7 +1414,7 @@ function renderMoreFromArtist(view, item, apiClient) {
             query.AlbumArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
         }
 
-        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then(result => {
             if (!result.Items.length) {
                 section.classList.add('hide');
                 return;
@@ -1330,7 +1450,17 @@ function renderSimilarItems(page, item, context) {
     const similarCollapsible = page.querySelector('#similarCollapsible');
 
     if (similarCollapsible) {
-        if (item.Type != 'Movie' && item.Type != 'Trailer' && item.Type != 'Series' && item.Type != 'Program' && item.Type != 'Recording' && item.Type != 'MusicAlbum' && item.Type != 'MusicArtist' && item.Type != 'Playlist' && item.Type != 'Audio') {
+        if (
+            item.Type != 'Movie' &&
+            item.Type != 'Trailer' &&
+            item.Type != 'Series' &&
+            item.Type != 'Program' &&
+            item.Type != 'Recording' &&
+            item.Type != 'MusicAlbum' &&
+            item.Type != 'MusicArtist' &&
+            item.Type != 'Playlist' &&
+            item.Type != 'Audio'
+        ) {
             similarCollapsible.classList.add('hide');
             return;
         }
@@ -1347,7 +1477,7 @@ function renderSimilarItems(page, item, context) {
             options.ExcludeArtistIds = item.AlbumArtists[0].Id;
         }
 
-        apiClient.getSimilarItems(item.Id, options).then((result) => {
+        apiClient.getSimilarItems(item.Id, options).then(result => {
             if (!result.Items.length) {
                 similarCollapsible.classList.add('hide');
                 return;
@@ -1387,7 +1517,7 @@ function renderSeriesAirTime(page, item) {
         if (item.AirDays.length == 7) {
             html += 'daily';
         } else {
-            html += item.AirDays.map((a) => {
+            html += item.AirDays.map(a => {
                 return a + 's';
             }).join(',');
         }
@@ -1418,11 +1548,7 @@ function renderTags(page, item) {
             tag,
             serverId: item.ServerId
         });
-        tagElements.push(
-            `<a href="${href}" class="button-link" is="emby-linkbutton">`
-            + escapeHtml(tag)
-            + '</a>'
-        );
+        tagElements.push(`<a href="${href}" class="button-link" is="emby-linkbutton">` + escapeHtml(tag) + '</a>');
     });
 
     if (tagElements.length) {
@@ -1435,7 +1561,9 @@ function renderTags(page, item) {
 }
 
 function renderChildren(page, item) {
-    const childrenCollapsible = page.querySelector(LIST_VIEW_TYPES.includes(item.Type) ? '#listChildrenCollapsible' : '#childrenCollapsible');
+    const childrenCollapsible = page.querySelector(
+        LIST_VIEW_TYPES.includes(item.Type) ? '#listChildrenCollapsible' : '#childrenCollapsible'
+    );
     const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
 
     let fields = 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount';
@@ -1471,7 +1599,7 @@ function renderChildren(page, item) {
     }
 
     promise = promise || apiClient.getItems(apiClient.getCurrentUserId(), query);
-    promise.then((result) => {
+    promise.then(result => {
         let html = '';
         let scrollX = false;
         let isList = false;
@@ -1575,28 +1703,36 @@ function renderChildren(page, item) {
         childrenItemsContainer.innerHTML = html;
         imageLoader.lazyChildren(childrenItemsContainer);
         if (item.Type == 'BoxSet') {
-            const collectionItemTypes = [{
-                name: globalize.translate('Movies'),
-                type: 'Movie'
-            }, {
-                name: globalize.translate('Series'),
-                type: 'Series'
-            }, {
-                name: globalize.translate('Episodes'),
-                type: 'Episode'
-            }, {
-                name: globalize.translate('HeaderVideos'),
-                mediaType: 'Video'
-            }, {
-                name: globalize.translate('Albums'),
-                type: 'MusicAlbum'
-            }, {
-                name: globalize.translate('Books'),
-                type: 'Book'
-            }, {
-                name: globalize.translate('Collections'),
-                type: 'BoxSet'
-            }];
+            const collectionItemTypes = [
+                {
+                    name: globalize.translate('Movies'),
+                    type: 'Movie'
+                },
+                {
+                    name: globalize.translate('Series'),
+                    type: 'Series'
+                },
+                {
+                    name: globalize.translate('Episodes'),
+                    type: 'Episode'
+                },
+                {
+                    name: globalize.translate('HeaderVideos'),
+                    mediaType: 'Video'
+                },
+                {
+                    name: globalize.translate('Albums'),
+                    type: 'MusicAlbum'
+                },
+                {
+                    name: globalize.translate('Books'),
+                    type: 'Book'
+                },
+                {
+                    name: globalize.translate('Collections'),
+                    type: 'BoxSet'
+                }
+            ];
             renderCollectionItems(page, item, collectionItemTypes, result.Items);
         }
     });
@@ -1645,20 +1781,26 @@ function renderProgramsForChannel(page, result) {
         if (!(currentStartDate && currentStartDate.toDateString() === itemStartDate.toDateString())) {
             if (currentItems.length) {
                 html += '<div class="verticalSection verticalDetailSection">';
-                html += '<h2 class="sectionTitle padded-left">' + datetime.toLocaleDateString(currentStartDate, {
-                    weekday: 'long',
-                    month: 'long',
-                    day: 'numeric'
-                }) + '</h2>';
-                html += '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
-                    items: currentItems,
-                    enableUserDataButtons: false,
-                    showParentTitle: true,
-                    image: false,
-                    showProgramTime: true,
-                    mediaInfo: false,
-                    parentTitleWithTitle: true
-                }) + '</div></div>';
+                html +=
+                    '<h2 class="sectionTitle padded-left">' +
+                    datetime.toLocaleDateString(currentStartDate, {
+                        weekday: 'long',
+                        month: 'long',
+                        day: 'numeric'
+                    }) +
+                    '</h2>';
+                html +=
+                    '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' +
+                    listView.getListViewHtml({
+                        items: currentItems,
+                        enableUserDataButtons: false,
+                        showParentTitle: true,
+                        image: false,
+                        showProgramTime: true,
+                        mediaInfo: false,
+                        parentTitleWithTitle: true
+                    }) +
+                    '</div></div>';
             }
 
             currentStartDate = itemStartDate;
@@ -1670,20 +1812,26 @@ function renderProgramsForChannel(page, result) {
 
     if (currentItems.length) {
         html += '<div class="verticalSection verticalDetailSection">';
-        html += '<h2 class="sectionTitle padded-left">' + datetime.toLocaleDateString(currentStartDate, {
-            weekday: 'long',
-            month: 'long',
-            day: 'numeric'
-        }) + '</h2>';
-        html += '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' + listView.getListViewHtml({
-            items: currentItems,
-            enableUserDataButtons: false,
-            showParentTitle: true,
-            image: false,
-            showProgramTime: true,
-            mediaInfo: false,
-            parentTitleWithTitle: true
-        }) + '</div></div>';
+        html +=
+            '<h2 class="sectionTitle padded-left">' +
+            datetime.toLocaleDateString(currentStartDate, {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric'
+            }) +
+            '</h2>';
+        html +=
+            '<div is="emby-itemscontainer" class="vertical-list padded-left padded-right">' +
+            listView.getListViewHtml({
+                items: currentItems,
+                enableUserDataButtons: false,
+                showParentTitle: true,
+                image: false,
+                showProgramTime: true,
+                mediaInfo: false,
+                parentTitleWithTitle: true
+            }) +
+            '</div></div>';
     }
 
     page.querySelector('.programGuide').innerHTML = html;
@@ -1692,47 +1840,51 @@ function renderProgramsForChannel(page, result) {
 function renderChannelGuide(page, apiClient, item) {
     if (item.Type === 'TvChannel') {
         page.querySelector('.programGuideSection').classList.remove('hide');
-        apiClient.getLiveTvPrograms({
-            ChannelIds: item.Id,
-            UserId: apiClient.getCurrentUserId(),
-            HasAired: false,
-            SortBy: 'StartDate',
-            EnableTotalRecordCount: false,
-            EnableImages: false,
-            ImageTypeLimit: 0,
-            EnableUserData: false
-        }).then((result) => {
-            renderProgramsForChannel(page, result);
-        });
+        apiClient
+            .getLiveTvPrograms({
+                ChannelIds: item.Id,
+                UserId: apiClient.getCurrentUserId(),
+                HasAired: false,
+                SortBy: 'StartDate',
+                EnableTotalRecordCount: false,
+                EnableImages: false,
+                ImageTypeLimit: 0,
+                EnableUserData: false
+            })
+            .then(result => {
+                renderProgramsForChannel(page, result);
+            });
     }
 }
 
 function renderSeriesSchedule(page, item) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
-    apiClient.getLiveTvPrograms({
-        UserId: apiClient.getCurrentUserId(),
-        ImageTypeLimit: 1,
-        HasAired: false,
-        SortBy: 'StartDate',
-        EnableTotalRecordCount: false,
-        Limit: 50,
-        EnableUserData: false,
-        Fields: 'ChannelInfo,ChannelImage',
-        LibrarySeriesId: item.Id
-    }).then((result) => {
-        if (result.Items.length) {
-            page.querySelector('#seriesScheduleSection').classList.remove('hide');
-        } else {
-            page.querySelector('#seriesScheduleSection').classList.add('hide');
-        }
+    apiClient
+        .getLiveTvPrograms({
+            UserId: apiClient.getCurrentUserId(),
+            ImageTypeLimit: 1,
+            HasAired: false,
+            SortBy: 'StartDate',
+            EnableTotalRecordCount: false,
+            Limit: 50,
+            EnableUserData: false,
+            Fields: 'ChannelInfo,ChannelImage',
+            LibrarySeriesId: item.Id
+        })
+        .then(result => {
+            if (result.Items.length) {
+                page.querySelector('#seriesScheduleSection').classList.remove('hide');
+            } else {
+                page.querySelector('#seriesScheduleSection').classList.add('hide');
+            }
 
-        const html = getProgramScheduleHtml(result.Items, 'programdialog');
-        const scheduleTab = page.querySelector('#seriesScheduleList');
-        scheduleTab.innerHTML = html;
-        imageLoader.lazyChildren(scheduleTab);
+            const html = getProgramScheduleHtml(result.Items, 'programdialog');
+            const scheduleTab = page.querySelector('#seriesScheduleList');
+            scheduleTab.innerHTML = html;
+            imageLoader.lazyChildren(scheduleTab);
 
-        loading.hide();
-    });
+            loading.hide();
+        });
 }
 
 function inferContext(item) {
@@ -1744,7 +1896,12 @@ function inferContext(item) {
         return 'tvshows';
     }
 
-    if (item.Type === 'MusicArtist' || item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'AudioBook') {
+    if (
+        item.Type === 'MusicArtist' ||
+        item.Type === 'MusicAlbum' ||
+        item.Type === 'Audio' ||
+        item.Type === 'AudioBook'
+    ) {
         return 'music';
     }
 
@@ -1758,8 +1915,8 @@ function inferContext(item) {
 function filterItemsByCollectionItemType(items, typeInfo) {
     const filteredItems = [];
     const leftoverItems = [];
-    items.forEach((item) => {
-        if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || (item.Type == typeInfo.type)) {
+    items.forEach(item => {
+        if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || item.Type == typeInfo.type) {
             filteredItems.push(item);
         } else {
             leftoverItems.push(item);
@@ -1785,9 +1942,14 @@ function renderCollectionItems(page, parentItem, types, items) {
     page.querySelector('.collectionItems').innerHTML = '';
 
     if (!items.length) {
-        renderCollectionItemType(page, parentItem, {
-            name: globalize.translate('Items')
-        }, items);
+        renderCollectionItemType(
+            page,
+            parentItem,
+            {
+                name: globalize.translate('Items')
+            },
+            items
+        );
     } else {
         let typeItems = [];
         let otherTypeItems = items;
@@ -1837,7 +1999,8 @@ function renderCollectionItemType(page, parentItem, type, items) {
     html += '<span>' + type.name + '</span>';
     html += '</h2>';
     html += '</div>';
-    html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
+    html +=
+        '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
     const shape = type.type == 'MusicAlbum' ? getSquareShape(false) : getPortraitShape(false);
     html += cardBuilder.getCardsHtml({
         items: items,
@@ -1869,29 +2032,33 @@ function renderMusicVideos(page, item, user) {
         AlbumIds: item.Id
     };
 
-    ServerConnections.getApiClient(item.ServerId).getItems(user.Id, request).then((result) => {
-        if (result.Items.length) {
-            page.querySelector('#musicVideosCollapsible').classList.remove('hide');
-            const musicVideosContent = page.querySelector('#musicVideosContent');
-            musicVideosContent.innerHTML = getVideosHtml(result.Items);
-            imageLoader.lazyChildren(musicVideosContent);
-        } else {
-            page.querySelector('#musicVideosCollapsible').classList.add('hide');
-        }
-    });
+    ServerConnections.getApiClient(item.ServerId)
+        .getItems(user.Id, request)
+        .then(result => {
+            if (result.Items.length) {
+                page.querySelector('#musicVideosCollapsible').classList.remove('hide');
+                const musicVideosContent = page.querySelector('#musicVideosContent');
+                musicVideosContent.innerHTML = getVideosHtml(result.Items);
+                imageLoader.lazyChildren(musicVideosContent);
+            } else {
+                page.querySelector('#musicVideosCollapsible').classList.add('hide');
+            }
+        });
 }
 
 function renderAdditionalParts(page, item, user) {
-    ServerConnections.getApiClient(item.ServerId).getAdditionalVideoParts(user.Id, item.Id).then((result) => {
-        if (result.Items.length) {
-            page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
-            const additionalPartsContent = page.querySelector('#additionalPartsContent');
-            additionalPartsContent.innerHTML = getVideosHtml(result.Items);
-            imageLoader.lazyChildren(additionalPartsContent);
-        } else {
-            page.querySelector('#additionalPartsCollapsible').classList.add('hide');
-        }
-    });
+    ServerConnections.getApiClient(item.ServerId)
+        .getAdditionalVideoParts(user.Id, item.Id)
+        .then(result => {
+            if (result.Items.length) {
+                page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
+                const additionalPartsContent = page.querySelector('#additionalPartsContent');
+                additionalPartsContent.innerHTML = getVideosHtml(result.Items);
+                imageLoader.lazyChildren(additionalPartsContent);
+            } else {
+                page.querySelector('#additionalPartsCollapsible').classList.add('hide');
+            }
+        });
 }
 
 function renderScenes(page, item) {
@@ -1931,11 +2098,13 @@ function getVideosHtml(items) {
 }
 
 function renderSpecials(page, item, user) {
-    ServerConnections.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then((specials) => {
-        const specialsContent = page.querySelector('#specialsContent');
-        specialsContent.innerHTML = getVideosHtml(specials);
-        imageLoader.lazyChildren(specialsContent);
-    });
+    ServerConnections.getApiClient(item.ServerId)
+        .getSpecialFeatures(user.Id, item.Id)
+        .then(specials => {
+            const specialsContent = page.querySelector('#specialsContent');
+            specialsContent.innerHTML = getVideosHtml(specials);
+            imageLoader.lazyChildren(specialsContent);
+        });
 }
 
 function renderCast(page, item, people) {
@@ -2011,25 +2180,31 @@ export default function (view, params) {
 
         const apiClient = getApiClient();
 
-        Promise.all([getPromise(apiClient, pageParams), apiClient.getCurrentUser()]).then(([item, user]) => {
-            currentItem = item;
-            reloadFromItem(instance, page, pageParams, item, user);
-        }).catch((error) => {
-            logger.error('Failed to get item or current user', { component: 'itemDetails' }, error as Error);
-        });
+        Promise.all([getPromise(apiClient, pageParams), apiClient.getCurrentUser()])
+            .then(([item, user]) => {
+                currentItem = item;
+                reloadFromItem(instance, page, pageParams, item, user);
+            })
+            .catch(error => {
+                logger.error('Failed to get item or current user', { component: 'itemDetails' }, error as Error);
+            });
     }
 
     function splitVersions(instance, page, apiClient, pageParams) {
-        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(() => {
-            loading.show();
-            apiClient.ajax({
-                type: 'DELETE',
-                url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
-            }).then(() => {
-                loading.hide();
-                reload(instance, page, pageParams);
-            });
-        });
+        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(
+            () => {
+                loading.show();
+                apiClient
+                    .ajax({
+                        type: 'DELETE',
+                        url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
+                    })
+                    .then(() => {
+                        loading.hide();
+                        reload(instance, page, pageParams);
+                    });
+            }
+        );
     }
 
     function getPlayOptions(startPosition) {
@@ -2057,7 +2232,7 @@ export default function (view, params) {
 
         if (item.Type === 'Program') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then((channel) => {
+            apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(channel => {
                 playbackManager.play({
                     items: [channel]
                 });
@@ -2098,9 +2273,11 @@ export default function (view, params) {
 
     function onCancelTimerClick() {
         import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelTimer(ServerConnections.getApiClient(currentItem.ServerId), currentItem.TimerId).then(() => {
-                reload(self, view, params);
-            });
+            recordingHelper
+                .cancelTimer(ServerConnections.getApiClient(currentItem.ServerId), currentItem.TimerId)
+                .then(() => {
+                    reload(self, view, params);
+                });
         });
     }
 
@@ -2111,14 +2288,16 @@ export default function (view, params) {
     function onDownloadClick() {
         const api = toApi(getApiClient());
         const url = getLibraryApi(api).getDownloadUrl({ itemId: currentItem.Id });
-        download([{
-            url,
-            item: currentItem,
-            itemId: currentItem.Id,
-            serverId: currentItem.ServerId,
-            title: currentItem.Name,
-            filename: currentItem.Path.replace(/^.*[\\/]/, '')
-        }]);
+        download([
+            {
+                url,
+                item: currentItem,
+                itemId: currentItem.Id,
+                serverId: currentItem.ServerId,
+                title: currentItem.Name,
+                filename: currentItem.Path.replace(/^.*[\\/]/, '')
+            }
+        ]);
     }
 
     function onMoreCommandsClick() {
@@ -2127,12 +2306,13 @@ export default function (view, params) {
 
         const apiClient = getApiClient();
 
-        apiClient.getItem(apiClient.getCurrentUserId(), selectedItem).then((item) => {
+        apiClient.getItem(apiClient.getCurrentUserId(), selectedItem).then(item => {
             selectedItem = item;
 
-            apiClient.getCurrentUser().then((user) => {
-                itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
-                    .then((result) => {
+            apiClient.getCurrentUser().then(user => {
+                itemContextMenu
+                    .show(getContextMenuOptions(selectedItem, user, button))
+                    .then(result => {
                         if (result.deleted) {
                             const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
 
@@ -2145,7 +2325,9 @@ export default function (view, params) {
                             reload(self, view, params);
                         }
                     })
-                    .catch(() => { /* no-op */ });
+                    .catch(() => {
+                        /* no-op */
+                    });
             });
         });
     }
@@ -2161,7 +2343,7 @@ export default function (view, params) {
 
         if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
             const key = currentItem.UserData.Key;
-            const userData = msg.Data.UserDataList.filter((u) => {
+            const userData = msg.Data.UserDataList.filter(u => {
                 return u.Key == key;
             })[0];
 

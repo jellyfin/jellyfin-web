@@ -1,53 +1,40 @@
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Typography from '@mui/joy/Typography';
+import { Button } from 'ui-primitives/Button';
+import { Heading } from 'ui-primitives/Text';
 import React, { type FC } from 'react';
 
 import globalize from 'lib/globalize';
+import { Box } from 'ui-primitives/Box';
 
 interface NoPluginResultsProps {
-    isFiltered: boolean
-    onViewAll: () => void
-    query: string
+    isFiltered: boolean;
+    onViewAll: () => void;
+    query: string;
 }
 
-const NoPluginResults: FC<NoPluginResultsProps> = ({
-    isFiltered,
-    onViewAll,
-    query
-}) => {
+const NoPluginResults: FC<NoPluginResultsProps> = ({ isFiltered, onViewAll, query }): React.ReactElement => {
+    const hasQuery = query != null && query !== '';
+
     return (
         <Box
-            sx={{
+            style={{
                 textAlign: 'center',
-                py: 8,
-                px: 2,
-                bgcolor: 'background.surface',
-                borderRadius: 'md',
-                border: '1px dashed',
-                borderColor: 'divider'
+                paddingTop: 64,
+                paddingBottom: 64,
+                paddingLeft: 16,
+                paddingRight: 16,
+                backgroundColor: 'var(--joy-palette-background-surface)',
+                borderRadius: '8px',
+                border: '1px dashed var(--joy-palette-divider)'
             }}
         >
-            <Typography
-                level="title-lg"
-                sx={{
-                    mb: 1
-                }}
-            >
-                {
-                    query ?
-                        globalize.translate('SearchResultsEmpty', query) :
-                        globalize.translate('NoSubtitleSearchResultsFound')
-                }
-            </Typography>
+            <Heading.H4 style={{ marginBottom: 8 }}>
+                {hasQuery
+                    ? globalize.translate('SearchResultsEmpty', query)
+                    : globalize.translate('NoSubtitleSearchResultsFound')}
+            </Heading.H4>
 
             {isFiltered && (
-                <Button
-                    variant='plain'
-                    color="primary"
-                    onClick={onViewAll}
-                    sx={{ mt: 1 }}
-                >
+                <Button variant="plain" color="primary" onClick={onViewAll} style={{ marginTop: 8 }}>
                     {globalize.translate('ViewAllPlugins')}
                 </Button>
             )}

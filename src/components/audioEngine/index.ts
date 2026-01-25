@@ -16,7 +16,7 @@ export {
     audioNodeBus,
     delayNodeBus
 } from './master.logic';
-export { xDuration, getCrossfadeDuration, cancelCrossfadeTimeouts, timeRunningOut, syncManager } from './crossfader.logic';
+export { getCrossfadeDuration, cancelCrossfadeTimeouts, timeRunningOut, syncManager } from './crossfader.logic';
 export { synchronizeVolumeUI } from './audioUtils';
 
 // Image preloading (ALWAYS loaded - critical for UX)

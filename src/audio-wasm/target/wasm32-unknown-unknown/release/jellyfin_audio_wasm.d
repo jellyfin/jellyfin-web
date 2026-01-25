@@ -1,0 +1,1 @@
+/Users/carlos/Documents/jellyfin-web/src/audio-wasm/target/wasm32-unknown-unknown/release/jellyfin_audio_wasm.wasm: /Users/carlos/Documents/jellyfin-web/src/audio-wasm/Cargo.toml /Users/carlos/Documents/jellyfin-web/src/audio-wasm/build.rs /Users/carlos/Documents/jellyfin-web/src/audio-wasm/src/ /Users/carlos/Documents/jellyfin-web/src/audio-wasm/src/lib.rs

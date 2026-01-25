@@ -1,4 +1,5 @@
 // PWA Offline Manager
+import { logger } from './logger';
 class PWAOfflineManager {
     private static online = true;
 
@@ -25,7 +26,10 @@ class PWAOfflineManager {
 
     private static handleOnline() {
         this.online = true;
-        console.log('[PWA] Connection restored');
+        logger.network('Connection restored', {
+            component: 'PWAOfflineManager',
+            trigger: 'browser-event'
+        });
         this.updateOnlineStatus();
         this.hideOfflineBanner();
 
@@ -39,26 +43,44 @@ class PWAOfflineManager {
 
     private static handleOffline() {
         this.online = false;
-        console.log('[PWA] Connection lost');
+        logger.warn('Connection lost', {
+            component: 'PWAOfflineManager',
+            trigger: 'browser-event'
+        });
         this.updateOnlineStatus();
         this.showOfflineBanner();
     }
 
     private static checkConnectivity() {
         // Simple connectivity check
+        logger.time('Connectivity Check');
         fetch('/offline.html', {
             method: 'HEAD',
             cache: 'no-cache'
         })
             .then(() => {
+                logger.performance('Connectivity check passed', {
+                    component: 'PWAOfflineManager',
+                    url: '/offline.html'
+                });
                 if (!this.online) {
                     this.handleOnline();
                 }
+                logger.timeEnd('Connectivity Check');
             })
-            .catch(() => {
+            .catch(error => {
+                logger.warn(
+                    'Connectivity check failed',
+                    {
+                        component: 'PWAOfflineManager',
+                        url: '/offline.html'
+                    },
+                    error
+                );
                 if (this.online) {
                     this.handleOffline();
                 }
+                logger.timeEnd('Connectivity Check');
             });
     }
 
@@ -67,7 +89,7 @@ class PWAOfflineManager {
         document.documentElement.classList.toggle('online', this.online);
 
         // Update meta theme color based on connection status
-        const themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
+        const themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
         if (themeMeta) {
             themeMeta.content = this.online ? '#101010' : '#ff6b35';
         }
@@ -112,12 +134,14 @@ class PWAOfflineManager {
         const nav: any = navigator;
         return {
             online: this.online,
-            connection: nav.connection ? {
-                effectiveType: nav.connection.effectiveType,
-                downlink: nav.connection.downlink,
-                rtt: nav.connection.rtt,
-                saveData: nav.connection.saveData
-            } : null
+            connection: nav.connection
+                ? {
+                      effectiveType: nav.connection.effectiveType,
+                      downlink: nav.connection.downlink,
+                      rtt: nav.connection.rtt,
+                      saveData: nav.connection.saveData
+                  }
+                : null
         };
     }
 }

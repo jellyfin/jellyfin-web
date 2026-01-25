@@ -49,7 +49,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
         return appRouter.getRouteUrl('list', {
             serverId: window.ApiClient.serverId(),
             itemTypes: section.itemTypes,
-            parentId: parentId
+            parentId: parentId ?? undefined
         });
     };
 

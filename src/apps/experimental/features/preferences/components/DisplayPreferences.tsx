@@ -1,16 +1,15 @@
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import FormControl from '@mui/material/FormControl/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText/FormHelperText';
-import InputLabel from '@mui/material/InputLabel/InputLabel';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Select from '@mui/material/Select/Select';
-import { type SelectChangeEvent } from '@mui/material/Select';
-import Stack from '@mui/material/Stack/Stack';
-import TextField from '@mui/material/TextField/TextField';
-import Typography from '@mui/material/Typography/Typography';
-import React, { Fragment } from 'react';
-
+import React, { useState } from 'react';
+import { z } from 'zod';
+import { useForm } from '@tanstack/react-form';
+import { Box, Flex, FlexCol } from 'ui-primitives/Box';
+import { Text, Heading } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives/Button';
+import { Divider } from 'ui-primitives/Divider';
+import { Alert } from 'ui-primitives/Alert';
+import { Input } from 'ui-primitives/Input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { FormLabel, FormHelperText } from 'ui-primitives/FormControl';
 import { safeAppHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 import { LayoutMode } from 'constants/layoutMode';
@@ -22,211 +21,277 @@ import { useScreensavers } from '../hooks/useScreensavers';
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface DisplayPreferencesProps {
-    onChange: (event: SelectChangeEvent | React.SyntheticEvent) => void;
-    values: DisplaySettingsValues;
+    onSave: (values: DisplaySettingsValues) => Promise<void>;
+    initialValues: DisplaySettingsValues;
 }
 
-export function DisplayPreferences({ onChange, values }: Readonly<DisplayPreferencesProps>) {
+export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPreferencesProps>) {
     const { user } = useApi();
     const { screensavers } = useScreensavers();
     const { themes } = useThemes();
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState(false);
+    const [saveError, setSaveError] = useState<string | null>(null);
+
+    const form = useForm({
+        defaultValues: initialValues,
+        onSubmit: async ({ value: values }) => {
+            setIsSaving(true);
+            setSaveError(null);
+            try {
+                await onSave(values as DisplaySettingsValues);
+                setSaveSuccess(true);
+                setTimeout(() => setSaveSuccess(false), 3000);
+            } catch (error) {
+                setSaveError(error instanceof Error ? error.message : 'Failed to save');
+            } finally {
+                setIsSaving(false);
+            }
+        }
+    });
+
+    const layoutOptions = [
+        { value: LayoutMode.Auto, label: globalize.translate('Auto') },
+        { value: LayoutMode.Desktop, label: globalize.translate('Desktop') },
+        { value: LayoutMode.Mobile, label: globalize.translate('Mobile') },
+        { value: LayoutMode.Tv, label: globalize.translate('TV') }
+    ];
+
+    const handleReset = () => {
+        form.reset();
+        setSaveSuccess(false);
+        setSaveError(null);
+    };
 
     return (
-        <Stack spacing={3}>
-            <Typography variant='h2'>{globalize.translate('Display')}</Typography>
+        <Box style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
+            {saveSuccess && (
+                <Alert variant="success" style={{ marginBottom: 24 }}>
+                    {globalize.translate('SettingsSaved')}
+                </Alert>
+            )}
 
-            { safeAppHost.supports(AppFeature.DisplayMode) && (
-                <FormControl fullWidth>
-                    <InputLabel id='display-settings-layout-label'>{globalize.translate('LabelDisplayMode')}</InputLabel>
-                    <Select
-                        aria-describedby='display-settings-layout-description'
-                        inputProps={{
-                            name: 'layout'
-                        }}
-                        labelId='display-settings-layout-label'
-                        onChange={onChange}
-                        value={values.layout}
-                    >
-                        <MenuItem value={LayoutMode.Auto}>{globalize.translate('Auto')}</MenuItem>
-                        <MenuItem value={LayoutMode.Desktop}>{globalize.translate('Desktop')}</MenuItem>
-                        <MenuItem value={LayoutMode.Mobile}>{globalize.translate('Mobile')}</MenuItem>
-                        <MenuItem value={LayoutMode.Tv}>{globalize.translate('TV')}</MenuItem>
-                    </Select>
-                    <FormHelperText component={Stack} id='display-settings-layout-description'>
-                        <span>{globalize.translate('DisplayModeHelp')}</span>
-                        <span>{globalize.translate('LabelPleaseRestart')}</span>
-                    </FormHelperText>
-                </FormControl>
-            ) }
+            {saveError && (
+                <Alert variant="error" style={{ marginBottom: 24 }}>
+                    {saveError}
+                </Alert>
+            )}
 
-            { themes.length > 0 && (
-                <FormControl fullWidth>
-                    <InputLabel id='display-settings-theme-label'>{globalize.translate('LabelTheme')}</InputLabel>
-                    <Select
-                        inputProps={{
-                            name: 'theme'
-                        }}
-                        labelId='display-settings-theme-label'
-                        onChange={onChange}
-                        value={values.theme}
-                    >
-                        {themes.map(({ id, name }) => (
-                            <MenuItem key={id} value={id}>{name}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            ) }
+            <form
+                onSubmit={e => {
+                    e.preventDefault();
+                    form.handleSubmit();
+                }}
+            >
+                <FlexCol style={{ gap: 24 }}>
+                    <Heading.H3>{globalize.translate('Display')}</Heading.H3>
 
-            <FormControl fullWidth>
-                <FormControlLabel
-                    aria-describedby='display-settings-disable-css-description'
-                    control={
-                        <Checkbox
-                            checked={values.disableCustomCss}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('DisableCustomCss')}
-                    name='disableCustomCss'
-                />
-                <FormHelperText id='display-settings-disable-css-description'>
-                    {globalize.translate('LabelDisableCustomCss')}
-                </FormHelperText>
-            </FormControl>
+                    {safeAppHost.supports(AppFeature.DisplayMode) && (
+                        <form.Field name="layout">
+                            {field => (
+                                <Box>
+                                    <FormLabel>{globalize.translate('LabelDisplayMode')}</FormLabel>
+                                    <Select value={field.state.value || ''} onValueChange={field.handleChange}>
+                                        <SelectTrigger style={{ width: '100%' }}>
+                                            <SelectValue placeholder={globalize.translate('Auto')} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {layoutOptions.map(option => (
+                                                <SelectItem key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormHelperText>{globalize.translate('DisplayModeHelp')}</FormHelperText>
+                                </Box>
+                            )}
+                        </form.Field>
+                    )}
 
-            <FormControl fullWidth>
-                <TextField
-                    aria-describedby='display-settings-custom-css-description'
-                    value={values.customCss}
-                    label={globalize.translate('LabelCustomCss')}
-                    multiline
-                    name='customCss'
-                    onChange={onChange}
-                />
-                <FormHelperText id='display-settings-custom-css-description'>
-                    {globalize.translate('LabelLocalCustomCss')}
-                </FormHelperText>
-            </FormControl>
+                    {themes.length > 0 && (
+                        <form.Field name="theme">
+                            {field => (
+                                <Box>
+                                    <FormLabel>{globalize.translate('LabelTheme')}</FormLabel>
+                                    <Select value={field.state.value || ''} onValueChange={field.handleChange}>
+                                        <SelectTrigger style={{ width: '100%' }}>
+                                            <SelectValue placeholder="" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {themes.map(({ id, name }) => (
+                                                <SelectItem key={id} value={id}>
+                                                    {name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </Box>
+                            )}
+                        </form.Field>
+                    )}
 
-            { themes.length > 0 && user?.Policy?.IsAdministrator && (
-                <FormControl fullWidth>
-                    <InputLabel id='display-settings-dashboard-theme-label'>{globalize.translate('LabelDashboardTheme')}</InputLabel>
-                    <Select
-                        inputProps={{
-                            name: 'dashboardTheme'
-                        }}
-                        labelId='display-settings-dashboard-theme-label'
-                        onChange={ onChange }
-                        value={ values.dashboardTheme }
-                    >
-                        { themes.map(({ id, name }) => (
-                            <MenuItem key={ id } value={ id }>{ name }</MenuItem>
-                        )) }
-                    </Select>
-                </FormControl>
-            ) }
+                    <form.Field name="disableCustomCss">
+                        {field => (
+                            <Box>
+                                <Checkbox
+                                    checked={field.state.value ?? false}
+                                    onChange={e => field.handleChange(e.target.checked)}
+                                >
+                                    {globalize.translate('DisableCustomCss')}
+                                </Checkbox>
+                                <Text size="sm" color="secondary" style={{ marginTop: 4 }}>
+                                    {globalize.translate('LabelDisableCustomCss')}
+                                </Text>
+                            </Box>
+                        )}
+                    </form.Field>
 
-            { screensavers.length > 0 && safeAppHost.supports(AppFeature.Screensaver) && (
-                <Fragment>
-                    <FormControl fullWidth>
-                        <InputLabel id='display-settings-screensaver-label'>{globalize.translate('LabelScreensaver')}</InputLabel>
-                        <Select
-                            inputProps={{
-                                name: 'screensaver'
-                            }}
-                            labelId='display-settings-screensaver-label'
-                            onChange={onChange}
-                            value={values.screensaver}
-                        >
-                            { screensavers.map(({ id, name }) => (
-                                <MenuItem key={id} value={id}>{name}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <form.Field name="customCss">
+                        {field => (
+                            <Box>
+                                <FormLabel>{globalize.translate('LabelCustomCss')}</FormLabel>
+                                <Input
+                                    as="textarea"
+                                    value={field.state.value ?? ''}
+                                    onChange={e => field.handleChange(e.target.value)}
+                                    style={{ minHeight: '144px', fontFamily: 'monospace' }}
+                                />
+                                <Text size="sm" color="secondary" style={{ marginTop: 4 }}>
+                                    {globalize.translate('LabelLocalCustomCss')}
+                                </Text>
+                            </Box>
+                        )}
+                    </form.Field>
 
-                    <FormControl fullWidth>
-                        <TextField
-                            aria-describedby='display-settings-screensaver-interval-description'
-                            value={values.screensaverInterval}
-                            label={globalize.translate('LabelBackdropScreensaverInterval')}
-                            name='screensaverInterval'
-                            onChange={onChange}
-                            slotProps={{
-                                htmlInput: {
-                                    inputMode: 'numeric',
-                                    max: '3600',
-                                    min: '1',
-                                    pattern: '[0-9]',
-                                    required: true,
-                                    step: '1',
-                                    type: 'number'
-                                }
-                            }}
-                        />
-                        <FormHelperText id='display-settings-screensaver-interval-description'>
-                            {globalize.translate('LabelBackdropScreensaverIntervalHelp')}
-                        </FormHelperText>
-                    </FormControl>
-                </Fragment>
-            ) }
+                    {themes.length > 0 && user?.Policy?.IsAdministrator && (
+                        <form.Field name="dashboardTheme">
+                            {field => (
+                                <Box>
+                                    <FormLabel>{globalize.translate('LabelDashboardTheme')}</FormLabel>
+                                    <Select value={field.state.value || ''} onValueChange={field.handleChange}>
+                                        <SelectTrigger style={{ width: '100%' }}>
+                                            <SelectValue placeholder="" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {themes.map(({ id, name }) => (
+                                                <SelectItem key={id} value={id}>
+                                                    {name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </Box>
+                            )}
+                        </form.Field>
+                    )}
 
-            <FormControl fullWidth>
-                <TextField
-                    aria-describedby='display-settings-slideshow-interval-description'
-                    value={values.slideshowInterval}
-                    label={globalize.translate('LabelSlideshowInterval')}
-                    name='slideshowInterval'
-                    onChange={onChange}
-                    slotProps={{
-                        htmlInput: {
-                            inputMode: 'numeric',
-                            max: '3600',
-                            min: '1',
-                            pattern: '[0-9]',
-                            required: true,
-                            step: '1',
-                            type: 'number'
-                        }
-                    }}
-                />
-                <FormHelperText id='display-settings-slideshow-interval-description'>
-                    {globalize.translate('LabelSlideshowIntervalHelp')}
-                </FormHelperText>
-            </FormControl>
+                    {screensavers.length > 0 && safeAppHost.supports(AppFeature.Screensaver) && (
+                        <>
+                            <Divider style={{ margin: '16px 0' }} />
 
-            <FormControl fullWidth>
-                <FormControlLabel
-                    aria-describedby='display-settings-faster-animations-description'
-                    control={
-                        <Checkbox
-                            checked={values.enableFasterAnimation}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('EnableFasterAnimations')}
-                    name='enableFasterAnimation'
-                />
-                <FormHelperText id='display-settings-faster-animations-description'>
-                    {globalize.translate('EnableFasterAnimationsHelp')}
-                </FormHelperText>
-            </FormControl>
+                            <form.Field name="screensaver">
+                                {field => (
+                                    <Box>
+                                        <FormLabel>{globalize.translate('LabelScreensaver')}</FormLabel>
+                                        <Select value={field.state.value || ''} onValueChange={field.handleChange}>
+                                            <SelectTrigger style={{ width: '100%' }}>
+                                                <SelectValue placeholder="" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {screensavers.map(({ id, name }) => (
+                                                    <SelectItem key={id} value={id}>
+                                                        {name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </Box>
+                                )}
+                            </form.Field>
 
-            <FormControl fullWidth>
-                <FormControlLabel
-                    aria-describedby='display-settings-blurhash-description'
-                    control={
-                        <Checkbox
-                            checked={values.enableBlurHash}
-                            onChange={onChange}
-                        />
-                    }
-                    label={globalize.translate('EnableBlurHash')}
-                    name='enableBlurHash'
-                />
-                <FormHelperText id='display-settings-blurhash-description'>
-                    {globalize.translate('EnableBlurHashHelp')}
-                </FormHelperText>
-            </FormControl>
-        </Stack>
+                            <form.Field name="screensaverInterval">
+                                {field => (
+                                    <Box>
+                                        <FormLabel>{globalize.translate('LabelBackdropScreensaverInterval')}</FormLabel>
+                                        <Input
+                                            type="number"
+                                            value={field.state.value?.toString() || ''}
+                                            onChange={e => field.handleChange(parseFloat(e.target.value) || 0)}
+                                            min={1}
+                                            max={3600}
+                                        />
+                                        <Text size="sm" color="secondary" style={{ marginTop: 4 }}>
+                                            {globalize.translate('LabelBackdropScreensaverIntervalHelp')}
+                                        </Text>
+                                    </Box>
+                                )}
+                            </form.Field>
+                        </>
+                    )}
+
+                    <form.Field name="slideshowInterval">
+                        {field => (
+                            <Box>
+                                <FormLabel>{globalize.translate('LabelSlideshowInterval')}</FormLabel>
+                                <Input
+                                    type="number"
+                                    value={field.state.value?.toString() || ''}
+                                    onChange={e => field.handleChange(parseFloat(e.target.value) || 0)}
+                                    min={1}
+                                    max={3600}
+                                />
+                                <Text size="sm" color="secondary" style={{ marginTop: 4 }}>
+                                    {globalize.translate('LabelSlideshowIntervalHelp')}
+                                </Text>
+                            </Box>
+                        )}
+                    </form.Field>
+
+                    <form.Field name="enableFasterAnimation">
+                        {field => (
+                            <Box>
+                                <Checkbox
+                                    checked={field.state.value ?? false}
+                                    onChange={e => field.handleChange(e.target.checked)}
+                                >
+                                    {globalize.translate('EnableFasterAnimations')}
+                                </Checkbox>
+                                <Text size="sm" color="secondary" style={{ marginTop: 4 }}>
+                                    {globalize.translate('EnableFasterAnimationsHelp')}
+                                </Text>
+                            </Box>
+                        )}
+                    </form.Field>
+
+                    <form.Field name="enableBlurHash">
+                        {field => (
+                            <Box>
+                                <Checkbox
+                                    checked={field.state.value ?? false}
+                                    onChange={e => field.handleChange(e.target.checked)}
+                                >
+                                    {globalize.translate('EnableBlurHash')}
+                                </Checkbox>
+                                <Text size="sm" color="secondary" style={{ marginTop: 4 }}>
+                                    {globalize.translate('EnableBlurHashHelp')}
+                                </Text>
+                            </Box>
+                        )}
+                    </form.Field>
+
+                    <Flex style={{ gap: 12, marginTop: 16 }}>
+                        <Button type="submit" variant="primary" loading={isSaving}>
+                            {globalize.translate('Save')}
+                        </Button>
+                        <Button type="button" variant="ghost" onClick={handleReset}>
+                            {globalize.translate('Reset')}
+                        </Button>
+                    </Flex>
+                </FlexCol>
+            </form>
+        </Box>
     );
 }
+
+export default DisplayPreferences;

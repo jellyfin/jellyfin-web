@@ -1,18 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import Box from '@mui/material/Box/Box';
-import ListItem from '@mui/material/ListItem/ListItem';
-import ListItemButton from '@mui/material/ListItemButton/ListItemButton';
-import ListItemAvatar from '@mui/material/ListItemAvatar/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import Avatar from '@mui/material/Avatar/Avatar';
-import Typography from '@mui/joy/Typography/Typography';
-import IconButton from '@mui/joy/IconButton';
-import Tooltip from '@mui/joy/Tooltip';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import { DiscIcon, DragHandleDots2Icon, PlayIcon, TrashIcon } from '@radix-ui/react-icons';
 
 import {
     DndContext,
@@ -36,6 +23,12 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 import type { QueueItem } from 'store/types';
+import { List, ListItem, ListItemButton, ListItemAvatar, ListItemText } from 'ui-primitives/List';
+import { Avatar } from 'ui-primitives/Avatar';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 export interface QueueTableProps {
     items: QueueItem[];
@@ -98,22 +91,16 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
         <ListItem
             ref={setNodeRef}
             style={style}
-            sx={{
-                backgroundColor: isCurrent ? 'rgba(33, 150, 243, 0.1)' : 'transparent',
-                borderRadius: 1,
-                mb: 0.5,
-                padding: 0
-            }}
             secondaryAction={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
                     <IconButton
                         size='sm'
                         variant='plain'
                         color='neutral'
                         onClick={onRemove}
-                        sx={{ opacity: 0.7, '&:hover': { opacity: 1 } }}
+                        style={{ opacity: 0.7 }}
                     >
-                        <DeleteOutlineIcon />
+                        <TrashIcon />
                     </IconButton>
                     <IconButton
                         {...attributes}
@@ -121,45 +108,48 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
                         size='sm'
                         variant='plain'
                         color='neutral'
-                        sx={{ cursor: 'grab', opacity: 0.7, '&:hover': { opacity: 1 } }}
+                        style={{ cursor: 'grab', opacity: 0.7 }}
                     >
-                        <DragIndicatorIcon />
+                        <DragHandleDots2Icon />
                     </IconButton>
-                </Box>
+                </Flex>
             }
-            disablePadding
+            style={{
+                backgroundColor: isCurrent ? 'rgba(33, 150, 243, 0.1)' : 'transparent',
+                borderRadius: vars.borderRadius.sm,
+                marginBottom: vars.spacing.xs,
+                padding: 0,
+                ...style
+            }}
         >
             <ListItemButton
                 onClick={onSelect}
-                sx={{
-                    py: 1,
-                    pr: 8,
-                    '&:hover': {
-                        backgroundColor: 'action.hover'
-                    }
+                style={{
+                    paddingTop: vars.spacing.sm,
+                    paddingRight: `calc(${vars.spacing.xl} * 3)`,
                 }}
             >
-                <ListItemAvatar sx={{ minWidth: 56 }}>
+                <ListItemAvatar style={{ minWidth: 56 }}>
                     <Avatar
                         variant='rounded'
                         src={imageUrl || undefined}
-                        sx={{
+                        style={{
                             width: 48,
                             height: 48,
-                            backgroundColor: imageUrl ? 'transparent' : 'action.hover'
+                            backgroundColor: imageUrl ? 'transparent' : vars.colors.actionHover
                         }}
                     >
-                        {!imageUrl && <MusicNoteIcon sx={{ color: 'text.secondary' }} />}
+                        {!imageUrl && <DiscIcon style={{ color: vars.colors.textSecondary }} />}
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText
                     primary={
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <Typography
-                                level='body-sm'
-                                sx={{
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                            <Text
+                                size="sm"
+                                style={{
                                     fontWeight: isCurrent ? 'bold' : 'normal',
-                                    color: isCurrent ? 'primary.main' : 'text.primary',
+                                    color: isCurrent ? vars.colors.primary : vars.colors.text,
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
@@ -167,22 +157,22 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
                                 }}
                             >
                                 {item.item.name}
-                            </Typography>
+                            </Text>
                             {isPlaying && (
-                                <PlayArrowIcon sx={{ fontSize: 14, color: 'primary.main' }} />
+                                <PlayIcon style={{ fontSize: 14, color: vars.colors.primary }} />
                             )}
-                        </Box>
+                        </Flex>
                     }
                     secondary={
-                        <Typography level='body-xs' sx={{ color: 'text.secondary' }}>
+                        <Text size="xs" color="secondary">
                             {item.item.artist || item.item.album || formatDuration(item.item.runtimeTicks)}
-                        </Typography>
+                        </Text>
                     }
                 />
-                <Box sx={{ ml: 'auto', pr: 2 }}>
-                    <Typography level='body-xs' sx={{ color: 'text.secondary' }}>
+                <Box style={{ marginLeft: 'auto', paddingRight: vars.spacing.md }}>
+                    <Text size="xs" color="secondary">
                         {formatDuration(item.item.runtimeTicks)}
-                    </Typography>
+                    </Text>
                 </Box>
             </ListItemButton>
         </ListItem>
@@ -243,7 +233,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
     };
 
     return (
-        <Box className='playlist itemsContainer vertical-list nowPlayingPlaylist' sx={{ width: '100%' }}>
+        <Box className='playlist itemsContainer vertical-list nowPlayingPlaylist' style={{ width: '100%' }}>
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
@@ -270,26 +260,26 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                 <DragOverlay dropAnimation={dropAnimation}>
                     {activeItem ? (
                         <Box
-                            sx={{
-                                backgroundColor: 'background.paper',
-                                borderRadius: 1,
-                                boxShadow: 3,
-                                p: 1,
+                            style={{
+                                backgroundColor: vars.colors.surface,
+                                borderRadius: vars.borderRadius.sm,
+                                boxShadow: vars.shadows.lg,
+                                padding: vars.spacing.sm,
                                 opacity: 0.9
                             }}
                         >
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
                                 <Avatar
                                     variant='rounded'
                                     src={activeItem.item.imageUrl || undefined}
-                                    sx={{ width: 40, height: 40 }}
+                                    style={{ width: 40, height: 40 }}
                                 >
-                                    <MusicNoteIcon />
+                                    <DiscIcon />
                                 </Avatar>
-                                <Typography level='body-sm'>
+                                <Text size="sm">
                                     {activeItem.item.name}
-                                </Typography>
-                            </Box>
+                                </Text>
+                            </Flex>
                         </Box>
                     ) : null}
                 </DragOverlay>

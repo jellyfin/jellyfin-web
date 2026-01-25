@@ -1,10 +1,12 @@
 import React from 'react';
-import Cast from '@mui/icons-material/Cast';
-import Computer from '@mui/icons-material/Computer';
-import Devices from '@mui/icons-material/Devices';
-import Smartphone from '@mui/icons-material/Smartphone';
-import Tablet from '@mui/icons-material/Tablet';
-import Tv from '@mui/icons-material/Tv';
+import {
+    CubeIcon,
+    DesktopIcon,
+    Link2Icon,
+    MobileIcon,
+    LaptopIcon,
+    VideoIcon
+} from '@radix-ui/react-icons';
 
 import browser from 'scripts/browser';
 import type { PlayTarget } from 'types/playTarget';
@@ -12,26 +14,26 @@ import type { PlayTarget } from 'types/playTarget';
 const PlayTargetIcon = ({ target }: { target: PlayTarget }) => {
     if (!target.deviceType && target.isLocalPlayer) {
         if (browser.tv) {
-            return <Tv />;
+            return <VideoIcon />;
         } else if (browser.mobile) {
-            return <Smartphone />;
+            return <MobileIcon />;
         }
-        return <Computer />;
+        return <DesktopIcon />;
     }
 
     switch (target.deviceType) {
         case 'smartphone':
-            return <Smartphone />;
+            return <MobileIcon />;
         case 'tablet':
-            return <Tablet />;
+            return <LaptopIcon />;
         case 'desktop':
-            return <Computer />;
+            return <DesktopIcon />;
         case 'cast':
-            return <Cast />;
+            return <Link2Icon />;
         case 'tv':
-            return <Tv />;
+            return <VideoIcon />;
         default:
-            return <Devices />;
+            return <CubeIcon />;
     }
 };
 

@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@tanstack/react-router';
 
 import viewManager from './viewManager/viewManager';
 import globalize from 'lib/globalize';

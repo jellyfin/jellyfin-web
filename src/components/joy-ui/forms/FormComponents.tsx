@@ -1,15 +1,9 @@
 import React from 'react';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import FormHelperText from '@mui/joy/FormHelperText';
-import Input from '@mui/joy/Input';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
-import Checkbox from '@mui/joy/Checkbox';
-import Switch from '@mui/joy/Switch';
-import Textarea from '@mui/joy/Textarea';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography';
+import { Flex } from 'ui-primitives/Box';
+import { FormControl, FormHelperText, FormLabel, Switch } from 'ui-primitives/FormControl';
+import { Input, type InputProps } from 'ui-primitives/Input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
+import { vars } from 'styles/tokens.css';
 
 export interface FormFieldProps {
     label?: string;
@@ -20,58 +14,108 @@ export interface FormFieldProps {
 }
 
 export const FormField: React.FC<FormFieldProps> = ({ label, helperText, error, children, required }) => (
-    <FormControl error={!!error} required={required}>
-        {label && <FormLabel>{label}</FormLabel>}
+    <FormControl>
+        {label && (
+            <FormLabel>
+                {label}
+                {required && (
+                    <span style={{ color: vars.colors.error, marginLeft: '4px' }} aria-hidden='true'>*</span>
+                )}
+            </FormLabel>
+        )}
         {children}
         {(error || helperText) && (
-            <FormHelperText sx={{ fontSize: 'xs' }}>
+            <FormHelperText style={error ? { color: vars.colors.error } : undefined}>
                 {error || helperText}
             </FormHelperText>
         )}
     </FormControl>
 );
 
-export const JoyInput = React.forwardRef<HTMLInputElement, any>((props, ref) => {
+export interface JoyInputProps extends InputProps {
+    label?: string;
+    helperText?: string;
+    error?: string;
+}
+
+export const JoyInput = React.forwardRef<HTMLInputElement, JoyInputProps>((props, ref) => {
     const { label, helperText, error, ...rest } = props;
     return (
-        <FormField label={label} helperText={helperText} error={error}>
+        <FormField label={label} helperText={helperText} error={error} required={rest.required}>
             <Input ref={ref} {...rest} />
         </FormField>
     );
 });
 
-export const JoyTextarea = React.forwardRef<HTMLTextAreaElement, any>((props, ref) => {
+export interface JoyTextareaProps extends Omit<InputProps, 'as' | 'type'> {
+    label?: string;
+    helperText?: string;
+    error?: string;
+}
+
+export const JoyTextarea = React.forwardRef<HTMLTextAreaElement, JoyTextareaProps>((props, ref) => {
     const { label, helperText, error, ...rest } = props;
     return (
-        <FormField label={label} helperText={helperText} error={error}>
-            <Textarea ref={ref} minRows={3} {...rest} />
+        <FormField label={label} helperText={helperText} error={error} required={rest.required}>
+            <Input ref={ref} as='textarea' rows={3} {...rest} />
         </FormField>
     );
 });
 
-export const JoySwitch = (props: any) => {
+export interface JoySwitchProps {
+    label?: string;
+    helperText?: string;
+    error?: string;
+    checked?: boolean;
+    disabled?: boolean;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const JoySwitch = (props: JoySwitchProps) => {
     const { label, helperText, error, ...rest } = props;
     return (
-        <FormControl orientation="horizontal" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <Stack>
+        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', gap: vars.spacing.sm }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing.xs }}>
                 {label && <FormLabel>{label}</FormLabel>}
-                {helperText && <FormHelperText sx={{ fontSize: 'xs' }}>{helperText}</FormHelperText>}
-            </Stack>
+                {helperText && <FormHelperText>{helperText}</FormHelperText>}
+                {error && <FormHelperText style={{ color: vars.colors.error }}>{error}</FormHelperText>}
+            </Flex>
             <Switch {...rest} />
-        </FormControl>
+        </Flex>
     );
 };
 
-export const JoySelect = (props: any) => {
-    const { label, helperText, error, options, ...rest } = props;
+export interface JoySelectProps {
+    label?: string;
+    helperText?: string;
+    error?: string;
+    options: { label: string; value: string }[];
+    value?: string;
+    onChange?: (event: unknown, value: string) => void;
+    placeholder?: string;
+    disabled?: boolean;
+    required?: boolean;
+}
+
+export const JoySelect = (props: JoySelectProps) => {
+    const { label, helperText, error, options, onChange, placeholder, value, disabled, required } = props;
     return (
-        <FormField label={label} helperText={helperText} error={error}>
-            <Select {...rest}>
-                {options.map((opt: any) => (
-                    <Option key={opt.value} value={opt.value}>
-                        {opt.label}
-                    </Option>
-                ))}
+        <FormField label={label} helperText={helperText} error={error} required={required}>
+            <Select
+                value={value}
+                onValueChange={(newValue) => onChange?.(null, newValue)}
+                disabled={disabled}
+            >
+                <SelectTrigger>
+                    <SelectValue placeholder={placeholder} />
+                </SelectTrigger>
+                <SelectContent>
+                    {options.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
             </Select>
         </FormField>
     );

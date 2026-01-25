@@ -6,15 +6,12 @@ import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
 
 import { getCardImageUrl, getDefaultText } from './cardBuilder';
+import type { CardOptions as BuilderCardOptions } from './cardBuilder';
 
 /**
  * Builds an html string for a basic image only card.
  */
-export function buildCardImage(
-    apiClient: ApiClient,
-    item: BaseItemDto,
-    options: CardOptions
-): string {
+export function buildCardImage(apiClient: ApiClient, item: BaseItemDto, options: CardOptions): string {
     let shape: CardShape = CardShape.Square;
     if (item.PrimaryImageAspectRatio) {
         if (item.PrimaryImageAspectRatio >= 3) {
@@ -28,24 +25,19 @@ export function buildCardImage(
         }
     }
 
-    const image = getCardImageUrl(
-        item,
-        apiClient,
-        options,
-        shape
-    );
+    const image = getCardImageUrl(item, apiClient, options as BuilderCardOptions, shape);
 
     if (!image) return '';
 
     const { blurhash, imgUrl } = image;
 
     let cardPadderIcon = '';
-    // TV Channel logos are transparent so skip the placeholder to avoid overlapping
+    // TV Channel logos are transparent so skip placeholder to avoid overlapping
     if (imgUrl && item.Type !== BaseItemKind.TvChannel) {
         cardPadderIcon = getDefaultText(item, {
             // Always use an icon
             defaultCardImageIcon: 'folder',
-            ...options
+            ...(options as BuilderCardOptions)
         });
     }
 
@@ -54,8 +46,7 @@ export function buildCardImage(
         blurhashAttrib = `data-blurhash="${blurhash}"`;
     }
 
-    return (
-        `<div class="card ${shape}Card">
+    return `<div class="card ${shape}Card">
     <div class="cardBox">
         <div class="cardScalable">
             <div class="cardPadder cardPadder-${shape}">
@@ -69,6 +60,5 @@ export function buildCardImage(
             ></div>
         </div>
     </div>
-</div>`
-    );
+</div>`;
 }

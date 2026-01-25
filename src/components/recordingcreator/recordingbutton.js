@@ -56,7 +56,7 @@ class RecordingButton {
     refresh(serverId, itemId) {
         const apiClient = ServerConnections.getApiClient(serverId);
         const self = this;
-        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
+        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
             self.refreshItem(item);
         });
     }

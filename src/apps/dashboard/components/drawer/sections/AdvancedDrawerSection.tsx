@@ -1,66 +1,58 @@
-import Article from '@mui/icons-material/Article';
-import Backup from '@mui/icons-material/Backup';
-import Lan from '@mui/icons-material/Lan';
-import Schedule from '@mui/icons-material/Schedule';
-import VpnKey from '@mui/icons-material/VpnKey';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
+import { ArchiveIcon, CalendarIcon, FileTextIcon, GlobeIcon, LockClosedIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
 import ListItemLink from 'components/ListItemLink';
+import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
 import globalize from 'lib/globalize';
 
-const AdvancedDrawerSection = () => {
+const AdvancedDrawerSection = (): React.ReactElement => {
     return (
         <List
             aria-labelledby='advanced-subheader'
             subheader={
-                <ListSubheader component='div' id='advanced-subheader'>
+                <ListSubheader id='advanced-subheader'>
                     {globalize.translate('TabAdvanced')}
                 </ListSubheader>
             }
         >
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/networking'>
-                    <ListItemIcon>
-                        <Lan />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabNetworking')} />
+                    <ListItemDecorator>
+                        <GlobeIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('TabNetworking')}
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/keys'>
-                    <ListItemIcon>
-                        <VpnKey />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderApiKeys')} />
+                    <ListItemDecorator>
+                        <LockClosedIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('HeaderApiKeys')}
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/backups'>
-                    <ListItemIcon>
-                        <Backup />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('HeaderBackups')} />
+                    <ListItemDecorator>
+                        <ArchiveIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('HeaderBackups')}
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/logs'>
-                    <ListItemIcon>
-                        <Article />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabLogs')} />
+                    <ListItemDecorator>
+                        <FileTextIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('TabLogs')}
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
                 <ListItemLink to='/dashboard/tasks'>
-                    <ListItemIcon>
-                        <Schedule />
-                    </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabScheduledTasks')} />
+                    <ListItemDecorator>
+                        <CalendarIcon />
+                    </ListItemDecorator>
+                    {globalize.translate('TabScheduledTasks')}
                 </ListItemLink>
             </ListItem>
         </List>

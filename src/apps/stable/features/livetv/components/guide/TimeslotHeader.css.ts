@@ -6,7 +6,7 @@ export const styledTimeslotHeader = style({
     width: '100%',
     display: 'flex',
     borderBottom: `1px solid ${vars.colors.divider}`,
-    backgroundColor: vars.colors.background,
+    backgroundColor: vars.colors.background
 });
 
 export const timeslotCell = style({
@@ -16,5 +16,5 @@ export const timeslotCell = style({
     alignItems: 'center',
     paddingLeft: vars.spacing.sm,
     borderRight: `1px solid ${vars.colors.divider}`,
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography.fontSizeSm
 });

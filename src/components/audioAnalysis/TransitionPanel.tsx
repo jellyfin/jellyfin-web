@@ -1,27 +1,18 @@
 import React, { useState } from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
-import Button from '@mui/joy/Button';
-import Chip from '@mui/joy/Chip';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import IconButton from '@mui/joy/IconButton';
-import Divider from '@mui/joy/Divider';
-import Tooltip from '@mui/joy/Tooltip';
-import Slider from '@mui/joy/Slider';
-import Switch from '@mui/joy/Switch';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Accordion from '@mui/joy/Accordion';
-import AccordionSummary from '@mui/joy/AccordionSummary';
-import AccordionDetails from '@mui/joy/AccordionDetails';
-import LinearProgress from '@mui/joy/LinearProgress';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import SettingsIcon from '@mui/icons-material/Settings';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-
+import { GearIcon, MagicWandIcon } from '@radix-ui/react-icons';
 import { type TransitionSuggestion, type FullTrackAnalysis } from './autoDJ';
 import { useAutoDJ } from 'hooks/useAutoDJ';
+import { Button } from 'ui-primitives/Button';
+import { Chip } from 'ui-primitives/Chip';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Divider } from 'ui-primitives/Divider';
+import { Slider } from 'ui-primitives/Slider';
+import { Switch } from 'ui-primitives/Switch';
+import { Progress } from 'ui-primitives/Progress';
+import { Card } from 'ui-primitives/Card';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 interface TransitionPanelProps {
     currentTrackId: string | null;
@@ -36,16 +27,9 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
     nextTrackId,
     nextAudioBuffer,
     onApplyTransition,
-    disabled = false,
+    disabled = false
 }) => {
-    const {
-        getTransition,
-        recordTransition,
-        config,
-        updateConfig,
-        isAnalyzing,
-        lastError,
-    } = useAutoDJ();
+    const { getTransition, recordTransition, config, updateConfig, isAnalyzing, lastError } = useAutoDJ();
 
     const [suggestion, setSuggestion] = useState<TransitionSuggestion | null>(null);
     const [loading, setLoading] = useState(false);
@@ -56,11 +40,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
 
         setLoading(true);
         try {
-            const result = await getTransition(
-                currentTrackId || '',
-                nextTrackId || '',
-                nextAudioBuffer
-            );
+            const result = await getTransition(currentTrackId || '', nextTrackId || '', nextAudioBuffer);
             setSuggestion(result);
         } catch (error) {
             console.error('Failed to analyze transition:', error);
@@ -76,228 +56,185 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
         }
     };
 
-    const compatibilityPercent = suggestion
-        ? Math.round(suggestion.compatibilityScore * 100)
-        : 0;
+    const compatibilityPercent = suggestion ? Math.round(suggestion.compatibilityScore * 100) : 0;
 
-    const energyMatchPercent = suggestion
-        ? Math.round(suggestion.energyMatch * 100)
-        : 0;
+    const energyMatchPercent = suggestion ? Math.round(suggestion.energyMatch * 100) : 0;
 
     return (
-        <Card variant='outlined' sx={{ minWidth: 300 }}>
-            <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                    <Typography level='title-sm' sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <AutoAwesomeIcon fontSize='small' />
+        <Card style={{ minWidth: 300 }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text size="sm" style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.xs }}>
+                        <MagicWandIcon />
                         Smart Transition
-                    </Typography>
+                    </Text>
                     <IconButton
-                        size='sm'
-                        variant='plain'
+                        size="sm"
+                        variant="plain"
                         onClick={() => setExpanded(expanded ? false : 'auto-dj-settings')}
                     >
-                        <SettingsIcon />
+                        <GearIcon />
                     </IconButton>
-                </Box>
+                </Flex>
 
                 {!suggestion && !loading && (
-                    <Box sx={{ textAlign: 'center', py: 2 }}>
-                        <Typography level='body-sm' color='neutral' sx={{ mb: 2 }}>
+                    <Flex style={{ flexDirection: 'column', alignItems: 'center', padding: vars.spacing.md }}>
+                        <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
                             Analyze next track for optimal transition
-                        </Typography>
-                        <Button
-                            onClick={handleAnalyze}
-                            disabled={!nextAudioBuffer || disabled || isAnalyzing}
-                        >
+                        </Text>
+                        <Button onClick={handleAnalyze} disabled={!nextAudioBuffer || disabled || isAnalyzing}>
                             {isAnalyzing ? 'Analyzing...' : 'Analyze Transition'}
                         </Button>
                         {lastError && (
-                            <Typography level='body-xs' color='danger' sx={{ mt: 1 }}>
+                            <Text size="xs" color="error" style={{ marginTop: vars.spacing.xs }}>
                                 {lastError.message}
-                            </Typography>
+                            </Text>
                         )}
-                    </Box>
+                    </Flex>
                 )}
 
                 {loading && (
-                    <Box sx={{ py: 2 }}>
-                        <Typography level='body-sm' color='neutral' sx={{ mb: 1 }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm, padding: vars.spacing.sm }}>
+                        <Text size="sm" color="secondary">
                             Analyzing tracks...
-                        </Typography>
-                        <LinearProgress variant='soft' />
-                    </Box>
+                        </Text>
+                        <Progress />
+                    </Flex>
                 )}
 
                 {suggestion && (
                     <Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                            <Chip
-                                size='lg'
-                                variant='soft'
-                                color={getTransitionColor(suggestion.transitionType)}
-                            >
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing.sm, marginBottom: vars.spacing.md }}>
+                            <Chip size="lg" variant={getTransitionVariant(suggestion.transitionType)}>
                                 {suggestion.transitionType}
                             </Chip>
-                        </Box>
+                        </Flex>
 
-                        <Box sx={{ display: 'grid', gap: 1.5, mb: 2 }}>
+                        <Box style={{ display: 'grid', gap: vars.spacing.md, marginBottom: vars.spacing.md }}>
                             <Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                                    <Typography level='body-xs'>Compatibility</Typography>
-                                    <Typography level='body-xs' fontWeight='bold'>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                    <Text size="xs" color="secondary">
+                                        Compatibility
+                                    </Text>
+                                    <Text size="xs" style={{ fontWeight: 'bold' }}>
                                         {compatibilityPercent}%
-                                    </Typography>
-                                </Box>
-                                <LinearProgress
-                                    value={compatibilityPercent}
-                                    variant='soft'
-                                    color={compatibilityPercent > 70 ? 'success' : compatibilityPercent > 40 ? 'warning' : 'danger'}
-                                    size='sm'
-                                />
+                                    </Text>
+                                </Flex>
+                                <Progress value={compatibilityPercent} />
                             </Box>
 
                             <Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                                    <Typography level='body-xs'>Energy Match</Typography>
-                                    <Typography level='body-xs' fontWeight='bold'>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                    <Text size="xs" color="secondary">
+                                        Energy Match
+                                    </Text>
+                                    <Text size="xs" style={{ fontWeight: 'bold' }}>
                                         {energyMatchPercent}%
-                                    </Typography>
-                                </Box>
-                                <LinearProgress
-                                    value={energyMatchPercent}
-                                    variant='soft'
-                                    color={energyMatchPercent > 70 ? 'success' : energyMatchPercent > 40 ? 'warning' : 'danger'}
-                                    size='sm'
-                                />
+                                    </Text>
+                                </Flex>
+                                <Progress value={energyMatchPercent} />
                             </Box>
                         </Box>
 
                         {suggestion.fxRecommendation && suggestion.fxRecommendation !== 'No FX' && (
-                            <Box sx={{ mb: 2 }}>
-                                <Typography level='body-xs' color='neutral' sx={{ mb: 0.5 }}>
+                            <Box style={{ marginBottom: vars.spacing.md }}>
+                                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing.xs }}>
                                     Recommended FX
-                                </Typography>
-                                <Chip variant='outlined' size='sm'>
+                                </Text>
+                                <Chip variant="neutral" size="sm">
                                     {suggestion.fxRecommendation}
                                 </Chip>
                             </Box>
                         )}
 
                         {suggestion.crossfadeDuration > 0 && (
-                            <Box sx={{ mb: 2 }}>
-                                <Typography level='body-xs' color='neutral'>
+                            <Box style={{ marginBottom: vars.spacing.md }}>
+                                <Text size="xs" color="secondary">
                                     Crossfade: {suggestion.crossfadeDuration.toFixed(1)}s
-                                </Typography>
+                                </Text>
                             </Box>
                         )}
 
-                        <Divider sx={{ my: 2 }} />
+                        <Divider />
 
-                        <Box sx={{ display: 'flex', gap: 1 }}>
-                            <Button
-                                variant='outlined'
-                                size='sm'
-                                onClick={handleAnalyze}
-                                disabled={disabled}
-                            >
+                        <Flex style={{ gap: vars.spacing.sm }}>
+                            <Button variant="outlined" size="sm" onClick={handleAnalyze} disabled={disabled}>
                                 Re-analyze
                             </Button>
-                            <Button
-                                size='sm'
-                                onClick={handleApply}
-                                disabled={disabled}
-                                sx={{ flex: 1 }}
-                            >
+                            <Button size="sm" onClick={handleApply} disabled={disabled} style={{ flex: 1 }}>
                                 Apply
                             </Button>
-                        </Box>
+                        </Flex>
                     </Box>
                 )}
 
-                <Accordion
-                    expanded={expanded === 'auto-dj-settings'}
-                    onChange={(_, v) => setExpanded(v ? 'auto-dj-settings' : false)}
-                    sx={{ mt: 2 }}
-                >
-                    <AccordionSummary>
-                        <Typography level='body-sm'>Auto-DJ Settings</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Box sx={{ display: 'grid', gap: 2 }}>
-                            <FormControl orientation='horizontal' sx={{ justifyContent: 'space-between' }}>
-                                <FormLabel>
-                                    <Typography level='body-xs'>Prefer Harmonic</Typography>
-                                </FormLabel>
-                                <Switch
-                                    checked={config.preferHarmonic}
-                                    onChange={(e) => updateConfig({ preferHarmonic: e.target.checked })}
-                                />
-                            </FormControl>
+                <Card style={{ marginTop: vars.spacing.md }}>
+                    <Text size="sm">Auto-DJ Settings</Text>
+                    <Box style={{ display: 'grid', gap: vars.spacing.md }}>
+                        <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Text size="xs">Prefer Harmonic</Text>
+                            <Switch
+                                checked={config.preferHarmonic}
+                                onChange={e => updateConfig({ preferHarmonic: e.target.checked })}
+                            />
+                        </Flex>
 
-                            <FormControl orientation='horizontal' sx={{ justifyContent: 'space-between' }}>
-                                <FormLabel>
-                                    <Typography level='body-xs'>Prefer Energy Match</Typography>
-                                </FormLabel>
-                                <Switch
-                                    checked={config.preferEnergyMatch}
-                                    onChange={(e) => updateConfig({ preferEnergyMatch: e.target.checked })}
-                                />
-                            </FormControl>
+                        <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Text size="xs">Prefer Energy Match</Text>
+                            <Switch
+                                checked={config.preferEnergyMatch}
+                                onChange={e => updateConfig({ preferEnergyMatch: e.target.checked })}
+                            />
+                        </Flex>
 
-                            <FormControl orientation='horizontal' sx={{ justifyContent: 'space-between' }}>
-                                <FormLabel>
-                                    <Typography level='body-xs'>Notch Filter</Typography>
-                                </FormLabel>
-                                <Switch
-                                    checked={config.useNotchFilter}
-                                    onChange={(e) => updateConfig({ useNotchFilter: e.target.checked })}
-                                />
-                            </FormControl>
+                        <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Text size="xs">Notch Filter</Text>
+                            <Switch
+                                checked={config.useNotchFilter}
+                                onChange={e => updateConfig({ useNotchFilter: e.target.checked })}
+                            />
+                        </Flex>
 
-                            <Box>
-                                <Typography level='body-xs' sx={{ mb: 1 }}>
-                                    Min Crossfade: {config.minCrossfadeDuration}s
-                                </Typography>
-                                <Slider
-                                    value={config.minCrossfadeDuration}
-                                    onChange={(_, v) => updateConfig({ minCrossfadeDuration: v as number })}
-                                    min={4}
-                                    max={30}
-                                    step={2}
-                                    size='sm'
-                                />
-                            </Box>
-
-                            <Box>
-                                <Typography level='body-xs' sx={{ mb: 1 }}>
-                                    Max Crossfade: {config.maxCrossfadeDuration}s
-                                </Typography>
-                                <Slider
-                                    value={config.maxCrossfadeDuration}
-                                    onChange={(_, v) => updateConfig({ maxCrossfadeDuration: v as number })}
-                                    min={10}
-                                    max={60}
-                                    step={2}
-                                    size='sm'
-                                />
-                            </Box>
+                        <Box>
+                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                Min Crossfade: {config.minCrossfadeDuration}s
+                            </Text>
+                            <Slider
+                                value={[config.minCrossfadeDuration]}
+                                onValueChange={v => updateConfig({ minCrossfadeDuration: v[0] })}
+                                min={4}
+                                max={30}
+                                step={2}
+                            />
                         </Box>
-                    </AccordionDetails>
-                </Accordion>
-            </CardContent>
+
+                        <Box>
+                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                Max Crossfade: {config.maxCrossfadeDuration}s
+                            </Text>
+                            <Slider
+                                value={[config.maxCrossfadeDuration]}
+                                onValueChange={v => updateConfig({ maxCrossfadeDuration: v[0] })}
+                                min={10}
+                                max={60}
+                                step={2}
+                            />
+                        </Box>
+                    </Box>
+                </Card>
+            </Flex>
         </Card>
     );
 };
 
-function getTransitionColor(type: string): 'success' | 'warning' | 'danger' | 'primary' | 'neutral' {
+function getTransitionVariant(type: string): 'success' | 'warning' | 'error' | 'primary' | 'neutral' {
     switch (type) {
         case 'Harmonic Mix':
             return 'success';
         case 'Energy Mix':
             return 'warning';
         case 'Tempo Change':
-            return 'danger';
+            return 'error';
         case 'Beat Matched':
             return 'primary';
         default:

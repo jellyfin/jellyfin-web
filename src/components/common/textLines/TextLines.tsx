@@ -1,7 +1,7 @@
 import React, { type FC, type PropsWithChildren } from 'react';
 import classNames from 'classnames';
-import Typography from '@mui/material/Typography/Typography';
-import Box from '@mui/material/Box/Box';
+import { Box } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
 import useTextLines from './useTextLines';
 
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -21,9 +21,14 @@ const TextWrapper: FC<PropsWithChildren<TextWrapperProps>> = ({
 }) => {
     if (isHeading) {
         return (
-            <Typography className={classNames('primary', className)} variant={isLargeStyle ? 'h1' : 'h3'}>
+            <Text
+                as={isLargeStyle ? 'h1' : 'h3'}
+                size={isLargeStyle ? 'display' : 'xl'}
+                weight='bold'
+                className={classNames('primary', className)}
+            >
                 {children}
-            </Typography>
+            </Text>
         );
     } else {
         return (

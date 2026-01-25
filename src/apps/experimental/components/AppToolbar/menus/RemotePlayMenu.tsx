@@ -1,10 +1,9 @@
-import Warning from '@mui/icons-material/Warning';
-import Divider from '@mui/material/Divider/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText/ListItemText';
-import Menu, { type MenuProps } from '@mui/material/Menu/Menu';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import React, { FC, useEffect, useState } from 'react';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import React, { type FC, useEffect, useState } from 'react';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Menu, MenuItem, MenuSeparator } from 'ui-primitives/Menu';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 import globalize from 'lib/globalize';
 import { playbackManager } from 'components/playback/playbackmanager';
@@ -13,16 +12,18 @@ import type { PlayTarget } from 'types/playTarget';
 
 import PlayTargetIcon from '../../PlayTargetIcon';
 
-interface RemotePlayMenuProps extends MenuProps {
-    onMenuClose: () => void
+interface RemotePlayMenuProps {
+    open: boolean
+    onOpenChange: (open: boolean) => void
+    trigger: React.ReactNode
 }
 
 export const ID = 'app-remote-play-menu';
 
 const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
-    anchorEl,
     open,
-    onMenuClose
+    onOpenChange,
+    trigger
 }) => {
     // TODO: Add other checks for support (Android app, secure context, etc)
     const isChromecastPluginLoaded = !!pluginManager.plugins.find(plugin => plugin.id === 'chromecast');
@@ -31,7 +32,7 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
 
     const onPlayTargetClick = (target: PlayTarget) => {
         playbackManager.trySetActivePlayer(target.playerName, target);
-        onMenuClose();
+        onOpenChange(false);
     };
 
     useEffect(() => {
@@ -51,33 +52,27 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
 
     return (
         <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-            }}
-            id={ID}
-            keepMounted
             open={open}
-            onClose={onMenuClose}
+            onOpenChange={onOpenChange}
+            trigger={trigger}
+            align='end'
+            id={ID}
         >
             {!isChromecastPluginLoaded && (
                 <MenuItem disabled>
-                    <ListItemIcon>
-                        <Warning />
-                    </ListItemIcon>
-                    <ListItemText>
-                        {globalize.translate('GoogleCastUnsupported')}
-                    </ListItemText>
+                    <Flex align='center' gap={vars.spacing.sm}>
+                        <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                            <ExclamationTriangleIcon />
+                        </Box>
+                        <Text size='md'>
+                            {globalize.translate('GoogleCastUnsupported')}
+                        </Text>
+                    </Flex>
                 </MenuItem>
             )}
 
             {!isChromecastPluginLoaded && playbackTargets.length > 0 && (
-                <Divider />
+                <MenuSeparator />
             )}
 
             {playbackTargets.map(target => (
@@ -87,13 +82,21 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
                     // eslint-disable-next-line react/jsx-no-bind
                     onClick={() => onPlayTargetClick(target)}
                 >
-                    <ListItemIcon>
-                        <PlayTargetIcon target={target} />
-                    </ListItemIcon>
-                    <ListItemText
-                        primary={ target.appName ? `${target.name} - ${target.appName}` : target.name }
-                        secondary={ target.user?.Name }
-                    />
+                    <Flex align='center' gap={vars.spacing.sm}>
+                        <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                            <PlayTargetIcon target={target} />
+                        </Box>
+                        <Box style={{ display: 'flex', flexDirection: 'column' }}>
+                            <Text size='md'>
+                                {target.appName ? `${target.name} - ${target.appName}` : target.name}
+                            </Text>
+                            {target.user?.Name && (
+                                <Text size='sm' color='secondary'>
+                                    {target.user.Name}
+                                </Text>
+                            )}
+                        </Box>
+                    </Flex>
                 </MenuItem>
             ))}
         </Menu>

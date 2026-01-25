@@ -15,12 +15,11 @@ import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../../elements/emby-toggle/emby-toggle';
-import '../../styles/flexstyles.scss';
 import './style.scss';
 import alert from '../alert';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
-import template from './mediaLibraryEditor.template.html';
+import template from './mediaLibraryEditor.template.html?raw';
 
 // eslint-disable-next-line sonarjs/no-invariant-returns
 function onEditLibrary() {

@@ -5,15 +5,15 @@ export const controlContainer = style({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: vars.spacing.xs,
+    gap: vars.spacing.xs
 });
 
 export const labelContainer = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.xs / 2,
+    gap: `calc(${vars.spacing.xs} / 2)`
 });
 
 export const label = style({
-    cursor: 'pointer',
+    cursor: 'pointer'
 });

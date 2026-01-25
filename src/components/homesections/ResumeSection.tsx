@@ -19,6 +19,7 @@ const ResumeSection: React.FC<ResumeSectionProps> = ({ mediaType, titleLabel }) 
     const apiClient = ServerConnections.currentApiClient();
 
     useEffect(() => {
+        if (!apiClient) return;
         const options = {
             Limit: 12,
             Recursive: true,

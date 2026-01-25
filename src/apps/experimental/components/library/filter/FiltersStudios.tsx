@@ -1,9 +1,9 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import { LibraryViewSettings } from 'types/library';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
+import { type LibraryViewSettings } from 'types/library';
 
 interface FiltersStudiosProps {
     studiosOptions: BaseItemDto[];
@@ -39,25 +39,22 @@ const FiltersStudios: FC<FiltersStudiosProps> = ({
     );
 
     return (
-        <FormGroup>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {studiosOptions?.map((filter) => (
-                <FormControlLabel
+                <Checkbox
                     key={filter.Id}
-                    control={
-                        <Checkbox
-                            checked={
-                                !!libraryViewSettings?.Filters?.StudioIds?.includes(
-                                    String(filter.Id)
-                                )
-                            }
-                            onChange={onFiltersStudiosChange}
-                            value={String(filter.Id)}
-                        />
+                    checked={
+                        !!libraryViewSettings?.Filters?.StudioIds?.includes(
+                            String(filter.Id)
+                        )
                     }
-                    label={filter.Name}
-                />
+                    onChange={onFiltersStudiosChange}
+                    value={String(filter.Id)}
+                >
+                    {filter.Name}
+                </Checkbox>
             ))}
-        </FormGroup>
+        </Box>
     );
 };
 

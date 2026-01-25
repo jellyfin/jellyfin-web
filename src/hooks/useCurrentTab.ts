@@ -1,4 +1,5 @@
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation } from '@tanstack/react-router';
+import { useSearchParams } from './useSearchParams';
 
 import { getDefaultViewIndex } from 'apps/experimental/features/libraries/utils/path';
 

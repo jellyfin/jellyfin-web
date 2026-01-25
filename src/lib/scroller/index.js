@@ -7,17 +7,15 @@ import browser from '../../scripts/browser';
 import layoutManager from '../../components/layoutManager';
 import dom from '../../utils/dom';
 import focusManager from '../../components/focusManager';
-import ResizeObserver from 'resize-observer-polyfill';
-import '../../styles/scrollstyles.scss';
 import globalize from '../globalize';
 
 /**
-* Return type of the value.
-*
-* @param  {Mixed} value
-*
-* @return {String}
-*/
+ * Return type of the value.
+ *
+ * @param  {Mixed} value
+ *
+ * @return {String}
+ */
 function type(value) {
     if (value == null) {
         return String(value);
@@ -25,7 +23,12 @@ function type(value) {
 
     if (typeof value === 'object' || typeof value === 'function') {
         // eslint-disable-next-line sonarjs/prefer-regexp-exec
-        return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase() || 'object';
+        return (
+            Object.prototype.toString
+                .call(value)
+                .match(/\s([a-z]+)/i)[1]
+                .toLowerCase() || 'object'
+        );
     }
 
     return typeof value;
@@ -73,30 +76,33 @@ function within(number, num1, num2) {
 // Other global values
 const dragMouseEvents = ['mousemove', 'mouseup'];
 const dragTouchEvents = ['touchmove', 'touchend'];
-const wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
+const wheelEvent = document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel';
 const interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
 
 const scrollerFactory = function (frame, options) {
     // Extend options
-    const o = Object.assign({}, {
-        slidee: null, // Selector, DOM element, or jQuery object with DOM element representing SLIDEE.
-        horizontal: false, // Switch to horizontal mode.
+    const o = Object.assign(
+        {},
+        {
+            slidee: null, // Selector, DOM element, or jQuery object with DOM element representing SLIDEE.
+            horizontal: false, // Switch to horizontal mode.
 
-        // Scrolling
-        mouseWheel: true,
-        scrollBy: 0, // Pixels or items to move per one mouse scroll. 0 to disable scrolling
+            // Scrolling
+            mouseWheel: true,
+            scrollBy: 0, // Pixels or items to move per one mouse scroll. 0 to disable scrolling
 
-        // Dragging
-        dragSource: null, // Selector or DOM element for catching dragging events. Default is FRAME.
-        mouseDragging: 1, // Enable navigation by dragging the SLIDEE with mouse cursor.
-        touchDragging: 1, // Enable navigation by dragging the SLIDEE with touch events.
-        dragThreshold: 3, // Distance in pixels before Sly recognizes dragging.
-        intervactive: null, // Selector for special interactive elements.
+            // Dragging
+            dragSource: null, // Selector or DOM element for catching dragging events. Default is FRAME.
+            mouseDragging: 1, // Enable navigation by dragging the SLIDEE with mouse cursor.
+            touchDragging: 1, // Enable navigation by dragging the SLIDEE with touch events.
+            dragThreshold: 3, // Distance in pixels before Sly recognizes dragging.
+            intervactive: null, // Selector for special interactive elements.
 
-        // Mixed options
-        speed: 0 // Animations speed in milliseconds. 0 to disable animations.
-
-    }, options);
+            // Mixed options
+            speed: 0 // Animations speed in milliseconds. 0 to disable animations.
+        },
+        options
+    );
 
     const isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
 
@@ -177,7 +183,12 @@ const scrollerFactory = function (frame, options) {
 
             // Reset global variables
             frameSize = slideeElement[o.horizontal ? 'clientWidth' : 'clientHeight'];
-            slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
+            slideeSize =
+                o.scrollWidth ||
+                Math.max(
+                    slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'],
+                    slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']
+                );
 
             // Set position limits & relatives
             self._pos.end = Math.max(slideeSize - frameSize, 0);
@@ -260,13 +271,13 @@ const scrollerFactory = function (frame, options) {
     let lastAnimate;
 
     /**
-         * Animate to a position.
-         *
-         * @param {Int}  newPos    New position.
-         * @param {Bool} immediate Reposition immediately without an animation.
-         *
-         * @return {Void}
-         */
+     * Animate to a position.
+     *
+     * @param {Int}  newPos    New position.
+     * @param {Bool} immediate Reposition immediately without an animation.
+     *
+     * @return {Void}
+     */
     self.slideTo = function (newPos, immediate, fullItemPos) {
         ensureSizeInfo();
         const pos = self._pos;
@@ -290,7 +301,7 @@ const scrollerFactory = function (frame, options) {
 
         const now = new Date().getTime();
 
-        if (o.autoImmediate && !immediate && (now - (lastAnimate || 0)) <= 50) {
+        if (o.autoImmediate && !immediate && now - (lastAnimate || 0) <= 50) {
             immediate = true;
         }
 
@@ -319,10 +330,12 @@ const scrollerFactory = function (frame, options) {
 
     function dispatchScrollEventIfNeeded() {
         if (o.dispatchScrollEvent) {
-            frame.dispatchEvent(new CustomEvent(self.getScrollEventName(), {
-                bubbles: true,
-                cancelable: false
-            }));
+            frame.dispatchEvent(
+                new CustomEvent(self.getScrollEventName(), {
+                    bubbles: true,
+                    cancelable: false
+                })
+            );
         }
     }
 
@@ -334,9 +347,9 @@ const scrollerFactory = function (frame, options) {
         }
 
         if (o.horizontal) {
-            setStyleProperty(slideeElement, 'transform', 'translateX(' + (-Math.round(toPosition)) + 'px)', speed);
+            setStyleProperty(slideeElement, 'transform', 'translateX(' + -Math.round(toPosition) + 'px)', speed);
         } else {
-            setStyleProperty(slideeElement, 'transform', 'translateY(' + (-Math.round(toPosition)) + 'px)', speed);
+            setStyleProperty(slideeElement, 'transform', 'translateY(' + -Math.round(toPosition) + 'px)', speed);
         }
         self._pos.cur = toPosition;
 
@@ -397,12 +410,13 @@ const scrollerFactory = function (frame, options) {
         }
 
         console.debug('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
-        const isVisible = offset >= Math.min(currentStart, currentEnd)
-            && (globalize.getIsRTL() ? (offset - size) : (offset + size)) <= Math.max(currentStart, currentEnd);
+        const isVisible =
+            offset >= Math.min(currentStart, currentEnd) &&
+            (globalize.getIsRTL() ? offset - size : offset + size) <= Math.max(currentStart, currentEnd);
 
         return {
             start: offset,
-            center: offset + centerOffset - (frameSize / 2) + (size / 2),
+            center: offset + centerOffset - frameSize / 2 + size / 2,
             end: offset - frameSize + size,
             size,
             isVisible
@@ -420,7 +434,7 @@ const scrollerFactory = function (frame, options) {
         const isTouch = event.type === 'touchstart';
 
         // Ignore when already in progress, or interactive element in non-touch navivagion
-        if (dragging.init || !isTouch && isInteractive(event.target)) {
+        if (dragging.init || (!isTouch && isInteractive(event.target))) {
             return;
         }
 
@@ -455,13 +469,13 @@ const scrollerFactory = function (frame, options) {
         // Bind dragging events
         if (transform) {
             if (isTouch) {
-                dragTouchEvents.forEach((eventName) => {
+                dragTouchEvents.forEach(eventName => {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
                     });
                 });
             } else {
-                dragMouseEvents.forEach((eventName) => {
+                dragMouseEvents.forEach(eventName => {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
                     });
@@ -497,7 +511,11 @@ const scrollerFactory = function (frame, options) {
                 // If the pointer was released, the path will not become longer and it's
                 // definitely not a drag. If not released yet, decide on next iteration
                 return dragging.released ? dragEnd() : undefined;
-            } else if (o.horizontal ? Math.abs(dragging.pathX) > Math.abs(dragging.pathY) : Math.abs(dragging.pathX) < Math.abs(dragging.pathY)) {
+            } else if (
+                o.horizontal
+                    ? Math.abs(dragging.pathX) > Math.abs(dragging.pathY)
+                    : Math.abs(dragging.pathX) < Math.abs(dragging.pathY)
+            ) {
                 // If dragging path is sufficiently long we can confidently start a drag
                 // if drag is in different direction than scroll, ignore it
                 dragging.init = 1;
@@ -528,13 +546,13 @@ const scrollerFactory = function (frame, options) {
     function dragEnd() {
         dragging.released = true;
 
-        dragTouchEvents.forEach((eventName) => {
+        dragTouchEvents.forEach(eventName => {
             dom.removeEventListener(document, eventName, dragHandler, {
                 passive: true
             });
         });
 
-        dragMouseEvents.forEach((eventName) => {
+        dragMouseEvents.forEach(eventName => {
             dom.removeEventListener(document, eventName, dragHandler, {
                 passive: true
             });
@@ -599,10 +617,13 @@ const scrollerFactory = function (frame, options) {
         let delta = normalizeWheelDelta(event);
 
         if (transform) {
-            if (o.horizontal && event.deltaX !== 0
-                && (event.deltaY >= -5 && event.deltaY <= 5)
-                && (pos.dest + o.scrollBy * delta > 0)
-                && (pos.dest + o.scrollBy * delta < pos.end)
+            if (
+                o.horizontal &&
+                event.deltaX !== 0 &&
+                event.deltaY >= -5 &&
+                event.deltaY <= 5 &&
+                pos.dest + o.scrollBy * delta > 0 &&
+                pos.dest + o.scrollBy * delta < pos.end
             ) {
                 event.preventDefault();
             }

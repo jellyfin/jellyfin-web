@@ -1,14 +1,11 @@
 import React, { useCallback } from 'react';
-import Box from '@mui/material/Box/Box';
-import Typography from '@mui/joy/Typography/Typography';
-import IconButton from '@mui/joy/IconButton';
-import Tooltip from '@mui/joy/Tooltip';
-import Collapse from '@mui/material/Collapse/Collapse';
+import { Box } from 'ui-primitives/Box';
+import { Text } from 'ui-primitives/Text';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { vars } from 'styles/tokens.css';
 
-import QueueIcon from '@mui/icons-material/QueueMusic';
-import SaveIcon from '@mui/icons-material/Save';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { BookmarkIcon, DotsVerticalIcon, StackIcon } from '@radix-ui/react-icons';
 
 import { useQueue } from './useQueue';
 import { QueueNowPlaying } from './QueueNowPlaying';
@@ -100,14 +97,14 @@ export const QueueView: React.FC<QueueViewProps> = ({
         <Box
             id='nowPlayingPage'
             className='page libraryPage nowPlayingPage noSecondaryNavPage selfBackdropPage'
-            sx={{
+            style={{
                 height: '100%',
                 overflow: 'auto',
-                p: 3,
-                backgroundColor: 'background.default'
+                padding: vars.spacing.lg,
+                backgroundColor: vars.colors.background
             }}
         >
-            <Box className='remoteControlContent' sx={{ maxWidth: 1200, mx: 'auto' }}>
+            <Box className='remoteControlContent' style={{ maxWidth: 1200, margin: '0 auto' }}>
                 <QueueNowPlaying
                     currentItem={currentItem?.item || null}
                     isFavorite={currentItem?.item.isFavorite || false}
@@ -138,45 +135,45 @@ export const QueueView: React.FC<QueueViewProps> = ({
                     onVolumeDown={() => {}}
                 />
 
-                <Box className='playlistSection' sx={{ mt: 4 }}>
+                <Box className='playlistSection' style={{ marginTop: vars.spacing.xl }}>
                     <Box
                         className='playlistSectionButton flex align-items-center justify-content-center'
-                        sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mb: 2 }}
+                        style={{ display: 'flex', justifyContent: 'flex-end', gap: vars.spacing.sm, marginBottom: vars.spacing.md }}
                     >
-                        <Tooltip title='Toggle Playlist' arrow>
+                        <Tooltip title='Toggle Playlist'>
                             <IconButton
                                 id='togglePlaylist'
                                 className='btnTogglePlaylist'
                                 size='md'
                                 variant='plain'
-                                sx={{ color: 'text.secondary' }}
+                                color='neutral'
                             >
-                                <QueueIcon />
+                                <StackIcon />
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title='Save Playlist' arrow>
+                        <Tooltip title='Save Playlist'>
                             <IconButton
                                 className='btnSavePlaylist'
                                 size='md'
                                 variant='plain'
                                 onClick={onSavePlaylist}
-                                sx={{ color: 'text.secondary' }}
+                                color='neutral'
                             >
-                                <SaveIcon />
+                                <BookmarkIcon />
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title='More Options' arrow>
+                        <Tooltip title='More Options'>
                             <IconButton
                                 id='toggleContextMenu'
                                 className='btnToggleContextMenu'
                                 size='md'
                                 variant='plain'
                                 onClick={onShowPlaylistMenu}
-                                sx={{ color: 'text.secondary' }}
+                                color='neutral'
                             >
-                                <MoreVertIcon />
+                                <DotsVerticalIcon />
                             </IconButton>
                         </Tooltip>
                     </Box>
@@ -184,16 +181,16 @@ export const QueueView: React.FC<QueueViewProps> = ({
                     <Box
                         id='playlist'
                         className='playlist itemsContainer vertical-list nowPlayingPlaylist'
-                        sx={{
-                            backgroundColor: 'background.paper',
-                            borderRadius: 2,
-                            p: 2,
+                        style={{
+                            backgroundColor: vars.colors.surface,
+                            borderRadius: vars.borderRadius.md,
+                            padding: vars.spacing.md,
                             minHeight: 200
                         }}
                     >
-                        <Typography level='title-md' sx={{ mb: 2 }}>
+                        <Text weight='medium' style={{ marginBottom: vars.spacing.md }}>
                             Playlist ({items.length} tracks)
-                        </Typography>
+                        </Text>
                         {items.length > 0 ? (
                             <QueueTable
                                 items={items}
@@ -205,13 +202,13 @@ export const QueueView: React.FC<QueueViewProps> = ({
                                 onSelectItem={handleSelectItem}
                             />
                         ) : (
-                            <Box sx={{ textAlign: 'center', py: 4 }}>
-                                <Typography sx={{ color: 'text.secondary' }}>
+                            <Box style={{ textAlign: 'center', padding: vars.spacing.xl }}>
+                                <Text color='secondary'>
                                     No tracks in queue
-                                </Typography>
-                                <Typography level='body-sm' sx={{ color: 'text.secondary', mt: 1 }}>
+                                </Text>
+                                <Text size='sm' color='secondary' style={{ marginTop: vars.spacing.xs }}>
                                     Add some music to get started
-                                </Typography>
+                                </Text>
                             </Box>
                         )}
                     </Box>

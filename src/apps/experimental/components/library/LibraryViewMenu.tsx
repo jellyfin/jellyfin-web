@@ -1,10 +1,12 @@
 
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import Button from '@mui/material/Button/Button';
-import Menu from '@mui/material/Menu/Menu';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import React, { FC, useCallback, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
+import React, { type FC, useState } from 'react';
+import { useLocation } from '@tanstack/react-router';
+import { useSearchParams } from 'hooks/useSearchParams';
+import { Button } from 'ui-primitives/Button';
+import { Menu, MenuItem } from 'ui-primitives/Menu';
+import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css';
 
 import { LibraryRoutes } from 'apps/experimental/features/libraries/constants/libraryRoutes';
 import useCurrentTab from 'hooks/useCurrentTab';
@@ -17,16 +19,7 @@ const LibraryViewMenu: FC = () => {
     const [ searchParams, setSearchParams ] = useSearchParams();
     const { activeTab } = useCurrentTab();
 
-    const [ menuAnchorEl, setMenuAnchorEl ] = useState<null | HTMLElement>(null);
-    const isMenuOpen = Boolean(menuAnchorEl);
-
-    const onMenuButtonClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setMenuAnchorEl(event.currentTarget);
-    }, []);
-
-    const onMenuClose = useCallback(() => {
-        setMenuAnchorEl(null);
-    }, []);
+    const [ isMenuOpen, setIsMenuOpen ] = useState(false);
 
     const currentRoute = LibraryRoutes.find(({ path }) => path === location.pathname);
     const currentTab = currentRoute?.views.find(({ index }) => index === activeTab);
@@ -34,42 +27,45 @@ const LibraryViewMenu: FC = () => {
     if (!currentTab) return null;
 
     return (
-        <>
-            <Button
-                variant='text'
-                size='large'
-                color='inherit'
-                endIcon={<ArrowDropDown />}
-                aria-controls={LIBRARY_VIEW_MENU_ID}
-                aria-haspopup='true'
-                onClick={onMenuButtonClick}
-            >
-                {globalize.translate(currentTab.label)}
-            </Button>
-
-            <Menu
-                anchorEl={menuAnchorEl}
-                id={LIBRARY_VIEW_MENU_ID}
-                keepMounted
-                open={isMenuOpen}
-                onClose={onMenuClose}
-            >
-                {currentRoute?.views.map(tab => (
-                    <MenuItem
-                        key={tab.view}
-                        // eslint-disable-next-line react/jsx-no-bind
-                        onClick={() => {
-                            searchParams.set('tab', `${tab.index}`);
-                            setSearchParams(searchParams);
-                            onMenuClose();
+        <Menu
+            id={LIBRARY_VIEW_MENU_ID}
+            open={isMenuOpen}
+            onOpenChange={setIsMenuOpen}
+            align='end'
+            trigger={(
+                <Button
+                    variant='plain'
+                    size='lg'
+                    endIcon={<ChevronDownIcon />}
+                    aria-controls={LIBRARY_VIEW_MENU_ID}
+                    aria-haspopup='true'
+                >
+                    {globalize.translate(currentTab.label)}
+                </Button>
+            )}
+        >
+            {currentRoute?.views.map(tab => (
+                <MenuItem
+                    key={tab.view}
+                    // eslint-disable-next-line react/jsx-no-bind
+                    onClick={() => {
+                        searchParams.set('tab', `${tab.index}`);
+                        setSearchParams(searchParams);
+                        setIsMenuOpen(false);
+                    }}
+                >
+                    <Text
+                        size='md'
+                        weight={tab.index === currentTab.index ? 'medium' : 'normal'}
+                        style={{
+                            color: tab.index === currentTab.index ? vars.colors.primary : undefined
                         }}
-                        selected={tab.index === currentTab.index}
                     >
                         {globalize.translate(tab.label)}
-                    </MenuItem>
-                ))}
-            </Menu>
-        </>
+                    </Text>
+                </MenuItem>
+            ))}
+        </Menu>
     );
 };
 

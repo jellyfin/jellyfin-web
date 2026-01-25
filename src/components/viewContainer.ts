@@ -1,4 +1,3 @@
-import { importModule } from '@uupaa/dynamic-import-polyfill';
 import './viewManager/viewContainer.scss';
 import Dashboard from '../utils/dashboard';
 import { logger } from '../utils/logger';
@@ -15,9 +14,6 @@ export interface ViewOptions {
 interface NewViewInfo {
     elem: HTMLElement;
     hasScript: boolean;
-    hasjQuerySelect: boolean;
-    hasjQueryChecked: boolean;
-    hasjQuery: boolean;
 }
 
 let onBeforeChange: ((view: HTMLElement, isRestored: boolean, options: ViewOptions) => void) | undefined;
@@ -40,9 +36,20 @@ function setControllerClass(view: HTMLElement, options: ViewOptions): Promise<vo
         }
         controllerUrl = Dashboard.getPluginUrl(controllerUrl);
         const apiUrl = (window as any).ApiClient.getUrl('/web/' + controllerUrl);
-        return importModule(apiUrl).then((ControllerFactory) => {
-            options.controllerFactory = ControllerFactory;
-        });
+        return fetch(apiUrl)
+            .then(response => response.text())
+            .then(scriptText => {
+                const blob = new Blob([scriptText], { type: 'application/javascript' });
+                const blobUrl = URL.createObjectURL(blob);
+                return import(/* @vite-ignore */ blobUrl).then(ControllerFactory => {
+                    options.controllerFactory = ControllerFactory;
+                    URL.revokeObjectURL(blobUrl);
+                });
+            })
+            .catch(err => {
+                logger.warn('[viewContainer] Failed to load controller', { component: 'ViewContainer' }, err);
+                return Promise.resolve();
+            });
     }
     return Promise.resolve();
 }
@@ -50,9 +57,7 @@ function setControllerClass(view: HTMLElement, options: ViewOptions): Promise<vo
 function parseHtml(html: string, hasScript: boolean): HTMLElement | null {
     let processedHtml = html;
     if (hasScript) {
-        processedHtml = html
-            .replaceAll('\x3c!--<script', '<script')
-            .replaceAll('</script>--\x3e', '</script>');
+        processedHtml = html.replaceAll('\x3c!--<script', '<script').replaceAll('</script>--\x3e', '</script>');
     }
     const wrapper = document.createElement('div');
     wrapper.innerHTML = processedHtml;
@@ -64,29 +69,16 @@ function normalizeNewView(options: ViewOptions, isPluginpage: boolean): NewViewI
     if (viewHtml.indexOf('data-role="page"') === -1) {
         const elem = document.createElement('div');
         elem.innerHTML = viewHtml;
-        return { elem, hasScript: false, hasjQuerySelect: false, hasjQueryChecked: false, hasjQuery: false };
+        return { elem, hasScript: false };
     }
 
     let hasScript = viewHtml.indexOf('<script') !== -1;
     const elem = parseHtml(viewHtml, hasScript);
     if (hasScript && elem) hasScript = elem.querySelector('script') != null;
 
-    let hasjQuery = false;
-    let hasjQuerySelect = false;
-    let hasjQueryChecked = false;
-
-    if (isPluginpage) {
-        hasjQuery = viewHtml.indexOf('jQuery') !== -1 || viewHtml.indexOf('$(') !== -1 || viewHtml.indexOf('$.') !== -1;
-        hasjQueryChecked = viewHtml.indexOf('.checked(') !== -1;
-        hasjQuerySelect = viewHtml.indexOf('.selectmenu(') !== -1;
-    }
-
     return {
         elem: elem as HTMLElement,
-        hasScript,
-        hasjQuerySelect,
-        hasjQueryChecked,
-        hasjQuery
+        hasScript
     };
 }
 
@@ -135,7 +127,7 @@ export function loadView(options: ViewOptions): Promise<HTMLElement | void> | vo
     allPages[pageIndex] = view;
 
     return setControllerClass(view, options)
-        .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
+        .then(() => new Promise(resolve => setTimeout(resolve, 0)))
         .then(() => {
             onBeforeChange?.(view, false, options);
             for (let i = 0; i < allPages.length; i++) {

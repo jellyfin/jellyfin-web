@@ -1,8 +1,8 @@
-import React, { FC, useCallback } from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox/Checkbox';
-import { LibraryViewSettings } from 'types/library';
+import React, { type FC, useCallback } from 'react';
+import { Box } from 'ui-primitives/Box';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { vars } from 'styles/tokens.css';
+import { type LibraryViewSettings } from 'types/library';
 
 interface FiltersOfficialRatingsProps {
     OfficialRatingsOptions: string[];
@@ -38,25 +38,22 @@ const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
     );
 
     return (
-        <FormGroup>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
             {OfficialRatingsOptions.map((filter) => (
-                <FormControlLabel
+                <Checkbox
                     key={filter}
-                    control={
-                        <Checkbox
-                            checked={
-                                !!libraryViewSettings?.Filters?.OfficialRatings?.includes(
-                                    String(filter)
-                                )
-                            }
-                            onChange={onFiltersOfficialRatingsChange}
-                            value={String(filter)}
-                        />
+                    checked={
+                        !!libraryViewSettings?.Filters?.OfficialRatings?.includes(
+                            String(filter)
+                        )
                     }
-                    label={filter}
-                />
+                    onChange={onFiltersOfficialRatingsChange}
+                    value={String(filter)}
+                >
+                    {filter}
+                </Checkbox>
             ))}
-        </FormGroup>
+        </Box>
     );
 };
 

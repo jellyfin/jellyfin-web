@@ -1,33 +1,34 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import Box from '@mui/material/Box/Box';
-import Slider from '@mui/joy/Slider';
-import IconButton from '@mui/joy/IconButton';
-import Stack from '@mui/joy/Stack';
-import Typography from '@mui/joy/Typography/Typography';
-import Tooltip from '@mui/joy/Tooltip';
-import Fade from '@mui/material/Fade/Fade';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Slider } from 'ui-primitives/Slider';
+import { IconButton } from 'ui-primitives/IconButton';
+import { Text } from 'ui-primitives/Text';
+import { Tooltip } from 'ui-primitives/Tooltip';
+import { vars } from 'styles/tokens.css';
 
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import FastRewindIcon from '@mui/icons-material/FastRewind';
-import FastForwardIcon from '@mui/icons-material/FastForward';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import UndoIcon from '@mui/icons-material/Undo';
-import RedoIcon from '@mui/icons-material/Redo';
-import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
-import AudiotrackIcon from '@mui/icons-material/Audiotrack';
-import SettingsIcon from '@mui/icons-material/Settings';
-import AirplayIcon from '@mui/icons-material/Airplay';
-import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import {
+    DiscIcon,
+    DotFilledIcon,
+    DoubleArrowLeftIcon,
+    DoubleArrowRightIcon,
+    EnterFullScreenIcon,
+    GearIcon,
+    HeartFilledIcon,
+    HeartIcon,
+    PauseIcon,
+    PlayIcon,
+    ReaderIcon,
+    ReloadIcon,
+    RotateCounterClockwiseIcon,
+    SpeakerLoudIcon,
+    SpeakerOffIcon,
+    TrackNextIcon,
+    TrackPreviousIcon,
+    DesktopIcon,
+    ViewGridIcon
+} from '@radix-ui/react-icons';
 
-import { VolumeSlider } from './VolumeSlider';
+import { VolumeSlider } from 'ui-primitives/VolumeSlider';
 
 export interface VideoControlsProps {
     isPlaying: boolean;
@@ -144,17 +145,20 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
         }
     }, [currentTime, duration, isSeeking]);
 
-    const handleSeekChange = useCallback((_event: Event, value: number | number[]) => {
+    const handleSeekChange = useCallback((value: number[]) => {
         setIsSeeking(true);
-        setLocalSeekValue(value as number);
+        setLocalSeekValue(value[0] ?? 0);
     }, []);
 
-    const handleSeekEnd = useCallback((_event: Event | React.SyntheticEvent, value: number | number[]) => {
-        setIsSeeking(false);
-        const seekTime = ((value as number) / 100) * duration;
-        onSeekEnd(seekTime);
-        onSeek(seekTime);
-    }, [duration, onSeek, onSeekEnd]);
+    const handleSeekEnd = useCallback(
+        (value: number[]) => {
+            setIsSeeking(false);
+            const seekTime = ((value[0] ?? 0) / 100) * duration;
+            onSeekEnd(seekTime);
+            onSeek(seekTime);
+        },
+        [duration, onSeek, onSeekEnd]
+    );
 
     const handleMouseMove = useCallback(() => {
         setShowControls(true);
@@ -170,12 +174,16 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
 
     const progress = duration > 0 ? (localSeekValue / 100) * duration : 0;
 
+    if (!showOsd) {
+        return null;
+    }
+
     return (
         <Box
-            className='videoOsdBottom'
+            className="videoOsdBottom"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            sx={{
+            style={{
                 position: 'absolute',
                 bottom: 0,
                 left: 0,
@@ -183,324 +191,322 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
                 background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
                 padding: '1rem',
                 transition: 'opacity 0.3s ease-in-out',
-                opacity: (showOsd && showControls) ? 1 : 0,
-                pointerEvents: (showOsd && showControls) ? 'auto' : 'none',
+                opacity: showOsd && showControls ? 1 : 0,
+                pointerEvents: showOsd && showControls ? 'auto' : 'none',
                 visibility: isVisible ? 'visible' : 'hidden'
             }}
         >
-            <Fade in={showOsd && showControls} timeout={300}>
-                <Box className='osdControls' sx={{ maxWidth: 1200, margin: '0 auto' }}>
-                    {title != null && title !== '' && (
-                        <Box className='osdTextContainer osdMainTextContainer' sx={{ mb: 1 }}>
-                            <Typography sx={{ color: 'white', fontWeight: 'bold', fontSize: '1.25rem' }}>
-                                {title}
-                            </Typography>
-                        </Box>
-                    )}
-
-                    <Box
-                        className='sliderContainer'
-                        sx={{ position: 'relative', mb: 2 }}
-                    >
-                        <Box
-                            className='sliderBufferOverlay'
-                            sx={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: (bufferedRanges.length > 0) ? `${(bufferedRanges[0].start / duration) * 100}%` : '0%',
-                                right: (bufferedRanges.length > 0) ? `${100 - (bufferedRanges[0].end / duration) * 100}%` : '100%',
-                                height: 4,
-                                background: 'rgba(255,255,255,0.3)',
-                                transform: 'translateY(-50%)',
-                                pointerEvents: 'none',
-                                zIndex: 1,
-                                borderRadius: 1
-                            }}
-                        />
-                        <Slider
-                            className='osdPositionSlider'
-                            value={localSeekValue}
-                            onChange={handleSeekChange}
-                            onChangeCommitted={handleSeekEnd}
-                            min={0}
-                            max={100}
-                            size='sm'
-                            sx={{
-                                '--Slider-thumb-size': '14px',
-                                '--Slider-track-height': '4px',
-                                color: 'white',
-                                '&:hover': {
-                                    color: 'white'
-                                }
-                            }}
-                        />
+            <Box className="osdControls" style={{ maxWidth: 1200, margin: '0 auto' }}>
+                {title != null && title !== '' && (
+                    <Box className="osdTextContainer osdMainTextContainer" style={{ marginBottom: vars.spacing.sm }}>
+                        <Text weight="bold" style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeMd }}>
+                            {title}
+                        </Text>
                     </Box>
+                )}
 
-                    <Stack
-                        direction='row'
-                        spacing={1}
-                        alignItems='center'
-                        justifyContent='space-between'
-                        sx={{ flexWrap: 'wrap', gap: 1 }}
-                    >
-                        <Stack direction='row' spacing={0.5} alignItems='center'>
-                            <Box className='osdTextContainer startTimeText' sx={{ color: 'white', fontSize: '0.875rem', minWidth: 50 }}>
-                                {formatTime(progress)}
-                            </Box>
+                <Box className="sliderContainer" style={{ position: 'relative', marginBottom: vars.spacing.md }}>
+                    <Box
+                        className="sliderBufferOverlay"
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: bufferedRanges.length > 0 ? `${(bufferedRanges[0].start / duration) * 100}%` : '0%',
+                            right:
+                                bufferedRanges.length > 0
+                                    ? `${100 - (bufferedRanges[0].end / duration) * 100}%`
+                                    : '100%',
+                            height: 4,
+                            background: 'rgba(255, 255, 255, 0.3)',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none',
+                            zIndex: 1,
+                            borderRadius: 1
+                        }}
+                    />
+                    <Slider
+                        className="osdPositionSlider"
+                        value={[localSeekValue]}
+                        onValueChange={handleSeekChange}
+                        onValueCommit={handleSeekEnd}
+                        min={0}
+                        max={100}
+                    />
+                </Box>
 
-                            {onRecordClick && (
-                                <Tooltip title='Record' arrow>
-                                    <IconButton
-                                        className='btnRecord'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onRecordClick}
-                                        sx={{
-                                            color: isRecording ? 'error.main' : 'white',
-                                            visibility: isRecording ? 'visible' : 'hidden'
-                                        }}
-                                    >
-                                        <FiberManualRecordIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
+                <Flex
+                    style={{
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        flexWrap: 'wrap',
+                        gap: vars.spacing.sm
+                    }}
+                >
+                    <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                        <Box
+                            className="osdTextContainer startTimeText"
+                            style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeSm, minWidth: 50 }}
+                        >
+                            {formatTime(progress)}
+                        </Box>
 
-                            {onPreviousTrack && (
-                                <Tooltip title='Previous Track (Shift+P)' arrow>
-                                    <IconButton
-                                        className='btnPreviousTrack'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onPreviousTrack}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <SkipPreviousIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-
-                            {onPreviousChapter && (
-                                <Tooltip title='Previous Chapter (PageDown)' arrow>
-                                    <IconButton
-                                        className='btnPreviousChapter'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onPreviousChapter}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <UndoIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-
-                            <Tooltip title='Rewind (J)' arrow>
+                        {onRecordClick && (
+                            <Tooltip title="Record">
                                 <IconButton
-                                    className='btnRewind'
-                                    size='md'
-                                    variant='plain'
-                                    onClick={onRewind}
-                                    sx={{ color: 'white' }}
-                                >
-                                    <FastRewindIcon />
-                                </IconButton>
-                            </Tooltip>
-
-                            <Tooltip title={isPlaying ? 'Pause' : 'Play'} arrow>
-                                <IconButton
-                                    className='btnPause'
-                                    size='lg'
-                                    variant='solid'
-                                    color='primary'
-                                    onClick={onPlayPause}
-                                    sx={{
-                                        backgroundColor: 'rgba(255,255,255,0.2)',
-                                        '&:hover': {
-                                            backgroundColor: 'rgba(255,255,255,0.3)'
-                                        }
+                                    className="btnRecord"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onRecordClick}
+                                    style={{
+                                        color: isRecording ? vars.colors.error : vars.colors.text,
+                                        visibility: isRecording ? 'visible' : 'hidden'
                                     }}
                                 >
-                                    {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                                    <DotFilledIcon />
                                 </IconButton>
                             </Tooltip>
+                        )}
 
-                            <Tooltip title='Fast Forward (L)' arrow>
+                        {onPreviousTrack && (
+                            <Tooltip title="Previous Track (Shift+P)">
                                 <IconButton
-                                    className='btnFastForward'
-                                    size='md'
-                                    variant='plain'
-                                    onClick={onFastForward}
-                                    sx={{ color: 'white' }}
+                                    className="btnPreviousTrack"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onPreviousTrack}
+                                    style={{ color: vars.colors.text }}
                                 >
-                                    <FastForwardIcon />
+                                    <TrackPreviousIcon />
                                 </IconButton>
                             </Tooltip>
+                        )}
 
-                            {onNextChapter && (
-                                <Tooltip title='Next Chapter (PageUp)' arrow>
-                                    <IconButton
-                                        className='btnNextChapter'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onNextChapter}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <RedoIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
+                        {onPreviousChapter && (
+                            <Tooltip title="Previous Chapter (PageDown)">
+                                <IconButton
+                                    className="btnPreviousChapter"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onPreviousChapter}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    <RotateCounterClockwiseIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
 
-                            {onNextTrack && (
-                                <Tooltip title='Next Track (Shift+N)' arrow>
-                                    <IconButton
-                                        className='btnNextTrack'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onNextTrack}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <SkipNextIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
+                        <Tooltip title="Rewind (J)">
+                            <IconButton
+                                className="btnRewind"
+                                size="md"
+                                variant="plain"
+                                onClick={onRewind}
+                                style={{ color: vars.colors.text }}
+                            >
+                                <DoubleArrowLeftIcon />
+                            </IconButton>
+                        </Tooltip>
 
-                            <Box className='osdTextContainer endTimeText' sx={{ color: 'white', fontSize: '0.875rem', minWidth: 50 }}>
-                                {formatTime(duration)}
+                        <Tooltip title={isPlaying ? 'Pause' : 'Play'}>
+                            <IconButton
+                                className="btnPause"
+                                size="lg"
+                                variant="solid"
+                                onClick={onPlayPause}
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.2)'
+                                }}
+                                aria-label={isPlaying ? 'Pause' : 'Play'}
+                            >
+                                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+                            </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title="Fast Forward (L)">
+                            <IconButton
+                                className="btnFastForward"
+                                size="md"
+                                variant="plain"
+                                onClick={onFastForward}
+                                style={{ color: vars.colors.text }}
+                            >
+                                <DoubleArrowRightIcon />
+                            </IconButton>
+                        </Tooltip>
+
+                        {onNextChapter && (
+                            <Tooltip title="Next Chapter (PageUp)">
+                                <IconButton
+                                    className="btnNextChapter"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onNextChapter}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    <ReloadIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+
+                        {onNextTrack && (
+                            <Tooltip title="Next Track (Shift+N)">
+                                <IconButton
+                                    className="btnNextTrack"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onNextTrack}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    <TrackNextIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+
+                        <Box
+                            className="osdTextContainer endTimeText"
+                            style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeSm, minWidth: 50 }}
+                        >
+                            {formatTime(duration)}
+                        </Box>
+                    </Flex>
+
+                    <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                        {onFavoriteClick && (
+                            <Tooltip title="Rate">
+                                <IconButton
+                                    className="btnUserRating"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onFavoriteClick}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    {isFavorite ? <HeartFilledIcon /> : <HeartIcon />}
+                                </IconButton>
+                            </Tooltip>
+                        )}
+
+                        {onSubtitlesClick && (
+                            <Tooltip title="Subtitles">
+                                <IconButton
+                                    className="btnSubtitles"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onSubtitlesClick}
+                                    style={{
+                                        color: vars.colors.text,
+                                        visibility: hasSubtitles ? 'visible' : 'hidden'
+                                    }}
+                                >
+                                    <ReaderIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+
+                        {onAudioClick && (
+                            <Tooltip title="Audio">
+                                <IconButton
+                                    className="btnAudio"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onAudioClick}
+                                    style={{
+                                        color: vars.colors.text,
+                                        visibility: hasMultipleAudioTracks ? 'visible' : 'hidden'
+                                    }}
+                                >
+                                    <DiscIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+
+                        <Box
+                            className="volumeButtons"
+                            style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.xs }}
+                        >
+                            <Tooltip title="Mute (M)">
+                                <IconButton
+                                    className="buttonMute"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onMuteToggle}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    {isMuted ? <SpeakerOffIcon /> : <SpeakerLoudIcon />}
+                                </IconButton>
+                            </Tooltip>
+                            <Box
+                                className="sliderContainer osdVolumeSliderContainer"
+                                style={{ width: 80, display: 'none' }}
+                            >
+                                <VolumeSlider
+                                    volume={volume}
+                                    muted={isMuted}
+                                    onVolumeChange={onVolumeChange}
+                                    onMuteToggle={onMuteToggle}
+                                    size="sm"
+                                    showSlider
+                                />
                             </Box>
-                        </Stack>
+                        </Box>
 
-                        <Stack direction='row' spacing={0.5} alignItems='center'>
-                            {onFavoriteClick && (
-                                <Tooltip title='Rate' arrow>
-                                    <IconButton
-                                        className='btnUserRating'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onFavoriteClick}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                            )}
+                        {onSettingsClick && (
+                            <Tooltip title="Settings">
+                                <IconButton
+                                    className="btnVideoOsdSettings"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onSettingsClick}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    <GearIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
 
-                            {onSubtitlesClick && (
-                                <Tooltip title='Subtitles' arrow>
-                                    <IconButton
-                                        className='btnSubtitles'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onSubtitlesClick}
-                                        sx={{
-                                            color: 'white',
-                                            visibility: hasSubtitles ? 'visible' : 'hidden'
-                                        }}
-                                    >
-                                        <ClosedCaptionIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
+                        {canAirPlay && onAirPlay && (
+                            <Tooltip title="AirPlay">
+                                <IconButton
+                                    className="btnAirPlay"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onAirPlay}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    <DesktopIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
 
-                            {onAudioClick && (
-                                <Tooltip title='Audio' arrow>
-                                    <IconButton
-                                        className='btnAudio'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onAudioClick}
-                                        sx={{
-                                            color: 'white',
-                                            visibility: hasMultipleAudioTracks ? 'visible' : 'hidden'
-                                        }}
-                                    >
-                                        <AudiotrackIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
+                        {canPiP && onPiPClick && (
+                            <Tooltip title="Picture in Picture">
+                                <IconButton
+                                    className="btnPip"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onPiPClick}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    <ViewGridIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
 
-                            <Box className='volumeButtons' sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <Tooltip title='Mute (M)' arrow>
-                                    <IconButton
-                                        className='buttonMute'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onMuteToggle}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        {isMuted ? <VolumeOffIcon /> : <VolumeUpIcon />}
-                                    </IconButton>
-                                </Tooltip>
-                                <Box className='sliderContainer osdVolumeSliderContainer' sx={{ width: 80, display: 'none' }}>
-                                    <VolumeSlider
-                                        volume={volume}
-                                        muted={isMuted}
-                                        onVolumeChange={onVolumeChange}
-                                        onMuteToggle={onMuteToggle}
-                                        size='sm'
-                                        showSlider
-                                        sx={{ color: 'white' }}
-                                    />
-                                </Box>
-                            </Box>
-
-                            {onSettingsClick && (
-                                <Tooltip title='Settings' arrow>
-                                    <IconButton
-                                        className='btnVideoOsdSettings'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onSettingsClick}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <SettingsIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-
-                            {canAirPlay && onAirPlay && (
-                                <Tooltip title='AirPlay' arrow>
-                                    <IconButton
-                                        className='btnAirPlay'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onAirPlay}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <AirplayIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-
-                            {canPiP && onPiPClick && (
-                                <Tooltip title='Picture in Picture' arrow>
-                                    <IconButton
-                                        className='btnPip'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onPiPClick}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <PictureInPictureAltIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-
-                            {canFullscreen && onFullscreenClick && (
-                                <Tooltip title='Fullscreen (F)' arrow>
-                                    <IconButton
-                                        className='btnFullscreen'
-                                        size='sm'
-                                        variant='plain'
-                                        onClick={onFullscreenClick}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <FullscreenIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            )}
-                        </Stack>
-                    </Stack>
-                </Box>
-            </Fade>
+                        {canFullscreen && onFullscreenClick && (
+                            <Tooltip title="Fullscreen (F)">
+                                <IconButton
+                                    className="btnFullscreen"
+                                    size="sm"
+                                    variant="plain"
+                                    onClick={onFullscreenClick}
+                                    style={{ color: vars.colors.text }}
+                                >
+                                    <EnterFullScreenIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+                    </Flex>
+                </Flex>
+            </Box>
         </Box>
     );
 };

@@ -1,16 +1,15 @@
 import React, { useMemo } from 'react';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
-import List from '@mui/joy/List';
-import Sheet from '@mui/joy/Sheet';
 import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
-import subSeconds from 'date-fns/subSeconds';
+import { subSeconds } from 'date-fns';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
+import { List } from 'ui-primitives/List';
+import { Paper } from 'ui-primitives/Paper';
+import { vars } from 'styles/tokens.css';
 
-const AlertsLogWidget = () => {
-    const weekBefore = useMemo(() => (
-        subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString()
-    ), []);
+const AlertsLogWidget = (): React.ReactElement | null => {
+    const weekBefore = useMemo(() => subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString(), []);
 
     const { data: alerts, isPending } = useLogEntries({
         startIndex: 0,
@@ -22,26 +21,23 @@ const AlertsLogWidget = () => {
     if (isPending || !alerts?.Items || alerts.Items.length === 0) return null;
 
     return (
-        <Widget
-            title={globalize.translate('Alerts')}
-            href='/dashboard/activity?useractivity=false'
-        >
-            <Sheet variant="outlined" sx={{ borderRadius: 'md', overflow: 'hidden' }}>
-                <List sx={{ '--ListItem-paddingY': '8px', '--ListItem-paddingX': '12px' }}>
+        <Widget title={globalize.translate('Alerts')} href="/dashboard/activity?useractivity=false">
+            <Paper variant="outlined" style={{ borderRadius: vars.borderRadius.md, overflow: 'hidden' }}>
+                <List style={{ '--list-item-padding-y': '8px', '--list-item-padding-x': '12px' }}>
                     {alerts.Items.map((entry, index) => (
                         <React.Fragment key={entry.Id}>
                             <ActivityListItem
                                 item={entry}
                                 displayShortOverview={false}
-                                to='/dashboard/activity?useractivity=false'
+                                to="/dashboard/activity?useractivity=false"
                             />
-                            {index < alerts.Items!.length - 1 && (
-                                <div style={{ height: 1, backgroundColor: 'var(--joy-palette-divider)' }} />
+                            {index < (alerts.Items?.length ?? 0) - 1 && (
+                                <div style={{ height: 1, backgroundColor: vars.colors.divider }} />
                             )}
                         </React.Fragment>
                     ))}
                 </List>
-            </Sheet>
+            </Paper>
         </Widget>
     );
 };

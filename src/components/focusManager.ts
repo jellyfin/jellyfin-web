@@ -1,5 +1,5 @@
 import dom from '../utils/dom';
-import scrollManager from './scrollManager';
+import layoutManager from './layoutManager';
 
 const scopes: HTMLElement[] = [];
 
@@ -17,7 +17,7 @@ export function focus(element: HTMLElement | null): void {
     if (!element) return;
     try {
         element.focus({
-            preventScroll: (scrollManager as any).isEnabled()
+            preventScroll: layoutManager.tv
         });
     } catch (err) {
         console.error('Error in focusManager.focus: ' + err);
@@ -26,16 +26,18 @@ export function focus(element: HTMLElement | null): void {
 
 const focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
 const focusableContainerTagNames = ['BODY', 'DIALOG'];
-const focusableQuery = focusableTagNames.map((t) => {
-    if (t === 'INPUT') {
-        t += ':not([type="range"]):not([type="file"])';
-    }
-    return t + ':not([tabindex="-1"]):not(:disabled)';
-}).join(',') + ',.focusable';
+const focusableQuery =
+    focusableTagNames
+        .map(t => {
+            if (t === 'INPUT') {
+                t += ':not([type="range"]):not([type="file"])';
+            }
+            return t + ':not([tabindex="-1"]):not(:disabled)';
+        })
+        .join(',') + ',.focusable';
 
 export function isFocusable(elem: HTMLElement): boolean {
-    return focusableTagNames.includes(elem.tagName)
-            || (elem.classList?.contains('focusable'));
+    return focusableTagNames.includes(elem.tagName) || elem.classList?.contains('focusable');
 }
 
 function normalizeFocusable(elem: HTMLElement, originalElement: HTMLElement): HTMLElement {
@@ -97,7 +99,11 @@ export function getFocusableElements(parent: HTMLElement | null, limit?: number,
     return focusableElements;
 }
 
-export function autoFocus(view: HTMLElement, defaultToFirst: boolean = true, findAutoFocusElement: boolean = true): HTMLElement | null {
+export function autoFocus(
+    view: HTMLElement,
+    defaultToFirst: boolean = true,
+    findAutoFocusElement: boolean = true
+): HTMLElement | null {
     if (findAutoFocusElement) {
         const element = view.querySelector('*[autofocus]') as HTMLElement | null;
         if (element) {
@@ -122,11 +128,13 @@ function isFocusContainer(elem: HTMLElement, direction: number): boolean {
     const classList = elem.classList;
     if (classList.contains('focuscontainer')) return true;
 
-    if (direction === 0 || direction === 1) { // Left/Right
+    if (direction === 0 || direction === 1) {
+        // Left/Right
         if (classList.contains('focuscontainer-x')) return true;
         if (direction === 0 && classList.contains('focuscontainer-left')) return true;
         if (direction === 1 && classList.contains('focuscontainer-right')) return true;
-    } else if (direction === 2 || direction === 3) { // Up/Down
+    } else if (direction === 2 || direction === 3) {
+        // Up/Down
         if (classList.contains('focuscontainer-y')) return true;
         if (direction === 3 && classList.contains('focuscontainer-down')) return true;
     }
@@ -159,10 +167,16 @@ function intersects(a1: number, a2: number, b1: number, b2: number): boolean {
     return i(a1, a2, b1, b2) || i(b1, b2, a1, a2);
 }
 
-function nav(activeElement: HTMLElement | null, direction: number, container?: HTMLElement, focusableElements?: HTMLElement[]): void {
+function nav(
+    activeElement: HTMLElement | null,
+    direction: number,
+    container?: HTMLElement,
+    focusableElements?: HTMLElement[]
+): void {
     const currentActive = activeElement || (document.activeElement as HTMLElement | null);
     const resolvedActive = focusableParent(currentActive);
-    const resolvedContainer = container || (resolvedActive ? getFocusContainer(resolvedActive, direction) : getDefaultScope());
+    const resolvedContainer =
+        container || (resolvedActive ? getFocusContainer(resolvedActive, direction) : getDefaultScope());
 
     if (!resolvedActive || resolvedActive === document.body) {
         autoFocus(resolvedContainer, true, false);
@@ -171,10 +185,11 @@ function nav(activeElement: HTMLElement | null, direction: number, container?: H
 
     const focusableContainer = dom.parentWithClass(resolvedActive, 'focusable');
     const rect = getOffset(resolvedActive);
-    const sourceMidX = rect.left + (rect.width / 2);
-    const sourceMidY = rect.top + (rect.height / 2);
+    const sourceMidX = rect.left + rect.width / 2;
+    const sourceMidY = rect.top + rect.height / 2;
 
-    const focusable = focusableElements || Array.from(resolvedContainer.querySelectorAll(focusableQuery)) as HTMLElement[];
+    const focusable =
+        focusableElements || (Array.from(resolvedContainer.querySelectorAll(focusableQuery)) as HTMLElement[]);
     let minDistance = Infinity;
     let nearestElement: HTMLElement | null = null;
 
@@ -190,17 +205,30 @@ function nav(activeElement: HTMLElement | null, direction: number, container?: H
 
         const intersectX = intersects(rect.left, rect.right, eRect.left, eRect.right);
         const intersectY = intersects(rect.top, rect.bottom, eRect.top, eRect.bottom);
-        const midX = eRect.left + (eRect.width / 2);
-        const midY = eRect.top + (eRect.height / 2);
+        const midX = eRect.left + eRect.width / 2;
+        const midY = eRect.top + eRect.height / 2;
 
-        let distX = 0, distY = 0;
-        if (direction === 0) { distX = Math.abs(rect.left - Math.min(rect.left, eRect.right)); distY = intersectY ? 0 : Math.abs(sourceMidY - midY); }
-        else if (direction === 1) { distX = Math.abs(rect.right - Math.max(rect.right, eRect.left)); distY = intersectY ? 0 : Math.abs(sourceMidY - midY); }
-        else if (direction === 2) { distY = Math.abs(rect.top - Math.min(rect.top, eRect.bottom)); distX = intersectX ? 0 : Math.abs(sourceMidX - midX); }
-        else if (direction === 3) { distY = Math.abs(rect.bottom - Math.max(rect.bottom, eRect.top)); distX = intersectX ? 0 : Math.abs(sourceMidX - midX); }
+        let distX = 0,
+            distY = 0;
+        if (direction === 0) {
+            distX = Math.abs(rect.left - Math.min(rect.left, eRect.right));
+            distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
+        } else if (direction === 1) {
+            distX = Math.abs(rect.right - Math.max(rect.right, eRect.left));
+            distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
+        } else if (direction === 2) {
+            distY = Math.abs(rect.top - Math.min(rect.top, eRect.bottom));
+            distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
+        } else if (direction === 3) {
+            distY = Math.abs(rect.bottom - Math.max(rect.bottom, eRect.top));
+            distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
+        }
 
         const dist = Math.sqrt(distX * distX + distY * distY);
-        if (dist < minDistance) { nearestElement = curr; minDistance = dist; }
+        if (dist < minDistance) {
+            nearestElement = curr;
+            minDistance = dist;
+        }
     }
 
     if (nearestElement) {
@@ -221,7 +249,9 @@ const focusManager = {
     moveRight: (s: HTMLElement, o?: any) => nav(s, 1, o?.container, o?.focusableElements),
     moveUp: (s: HTMLElement, o?: any) => nav(s, 2, o?.container, o?.focusableElements),
     moveDown: (s: HTMLElement, o?: any) => nav(s, 3, o?.container, o?.focusableElements),
-    sendText: (text: string) => { (document.activeElement as HTMLInputElement).value = text; },
+    sendText: (text: string) => {
+        (document.activeElement as HTMLInputElement).value = text;
+    },
     isCurrentlyFocusable,
     pushScope,
     popScope,
@@ -230,11 +260,15 @@ const focusManager = {
         if (el) focus(el as HTMLElement);
     },
     focusLast: (c: HTMLElement, s: string) => {
-        const el = Array.from(c.querySelectorAll(s)).reverse().find(e => isCurrentlyFocusableInternal(e as HTMLElement));
+        const el = Array.from(c.querySelectorAll(s))
+            .reverse()
+            .find(e => isCurrentlyFocusableInternal(e as HTMLElement));
         if (el) focus(el as HTMLElement);
     },
     moveFocus: (s: HTMLElement, c: HTMLElement, sel: string, offset: number) => {
-        const list = Array.from(c.querySelectorAll(sel)).filter(e => isCurrentlyFocusableInternal(e as HTMLElement)) as HTMLElement[];
+        const list = Array.from(c.querySelectorAll(sel)).filter(e =>
+            isCurrentlyFocusableInternal(e as HTMLElement)
+        ) as HTMLElement[];
         const idx = list.findIndex(e => s === e || e.contains(s));
         if (idx !== -1) {
             const next = list[Math.min(Math.max(idx + offset, 0), list.length - 1)];

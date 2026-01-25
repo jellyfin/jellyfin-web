@@ -1,6 +1,5 @@
-import { Action } from 'history';
 import { FunctionComponent, useEffect } from 'react';
-import { useLocation, useNavigationType } from 'react-router-dom';
+import { useRouterState } from '@tanstack/react-router';
 
 import globalize from 'lib/globalize';
 import type { RestoreViewFailResponse } from 'types/viewManager';
@@ -105,8 +104,8 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
     isThemeMediaSupported = false,
     transition
 }) => {
-    const location = useLocation();
-    const navigationType = useNavigationType();
+    const location = useRouterState({ select: (state) => state.location });
+    const historyAction = useRouterState({ select: (state) => state.historyAction });
 
     useEffect(() => {
         const loadPage = () => {
@@ -123,7 +122,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
                 }
             };
 
-            if (navigationType !== Action.Pop) {
+            if (historyAction !== 'POP') {
                 logger.debug('[ViewManagerPage] loading view', { component: 'ViewManagerPage', view });
                 return loadView(appType, controller, view, viewOptions);
             }

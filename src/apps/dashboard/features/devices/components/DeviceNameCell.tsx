@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
-
-import { DeviceInfoCell } from 'apps/dashboard/features/devices/types/deviceInfoCell';
+import React from 'react';
+import type { CellContext } from '@tanstack/react-table';
+import type { DeviceInfoDto } from '@jellyfin/sdk/lib/generated-client/models/device-info-dto';
 import { getDeviceIcon } from 'utils/image';
 
-const DeviceNameCell: FC<DeviceInfoCell> = ({ row, renderedCellValue }) => (
+const DeviceNameCell = ({ row }: CellContext<DeviceInfoDto, unknown>) => (
     <>
         <img
             alt={row.original.AppName || undefined}
@@ -15,7 +15,7 @@ const DeviceNameCell: FC<DeviceInfoCell> = ({ row, renderedCellValue }) => (
                 marginRight: '1rem'
             }}
         />
-        {renderedCellValue}
+        {row.original.CustomName || row.original.Name}
     </>
 );
 

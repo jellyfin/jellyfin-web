@@ -1,69 +1,53 @@
-import Search from '@mui/icons-material/Search';
-import InputBase, { type InputBaseProps } from '@mui/material/InputBase';
-import { alpha, styled } from '@mui/material/styles';
 import React, { type FC } from 'react';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
-const SearchContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25)
-    },
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        width: 'auto'
-    }
-}));
+import { Box } from 'ui-primitives/Box';
+import { inputStyles } from 'ui-primitives/Input';
+import { vars } from 'styles/tokens.css';
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    flexGrow: 1,
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch'
-        }
-    }
-}));
-
-interface SearchInputProps extends InputBaseProps {
-    label?: string
+interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label?: string;
 }
 
-const SearchInput: FC<SearchInputProps> = ({
-    label,
-    ...props
-}) => {
+const SearchInput: FC<SearchInputProps> = ({ label, ...props }) => {
     return (
-        <SearchContainer>
-            <SearchIconWrapper>
-                <Search />
-            </SearchIconWrapper>
-            <StyledInputBase
+        <Box
+            style={{
+                display: 'flex',
+                position: 'relative',
+                borderRadius: vars.borderRadius.md,
+                backgroundColor: `color-mix(in srgb, ${vars.colors.text} 15%, transparent)`,
+                width: '100%'
+            }}
+        >
+            <Box
+                style={{
+                    padding: `0 ${vars.spacing.md}`,
+                    height: '100%',
+                    position: 'absolute',
+                    pointerEvents: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
+                <MagnifyingGlassIcon />
+            </Box>
+            <input
+                className={inputStyles}
                 placeholder={label}
-                inputProps={{
-                    'aria-label': label,
-                    ...props.inputProps
+                aria-label={label}
+                style={{
+                    padding: `${vars.spacing.sm} ${vars.spacing.sm} ${vars.spacing.sm} 0`,
+                    paddingLeft: `calc(1em + ${vars.spacing.xl})`,
+                    transition: `width ${vars.transitions.fast}`,
+                    width: '100%',
+                    backgroundColor: 'transparent',
+                    border: 'none'
                 }}
                 {...props}
             />
-        </SearchContainer>
+        </Box>
     );
 };
 

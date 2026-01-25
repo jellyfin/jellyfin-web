@@ -1,101 +1,87 @@
 import type { ItemCounts } from '@jellyfin/sdk/lib/generated-client/models/item-counts';
-import Book from '@mui/icons-material/Book';
-import Movie from '@mui/icons-material/Movie';
-import MusicNote from '@mui/icons-material/MusicNote';
-import MusicVideo from '@mui/icons-material/MusicVideo';
-import Tv from '@mui/icons-material/Tv';
-import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import Grid from '@mui/joy/Grid';
-import SvgIcon from '@mui/joy/SvgIcon';
+import { DesktopIcon, DiscIcon, ReaderIcon, StackIcon, VideoIcon } from '@radix-ui/react-icons';
 import React, { useMemo } from 'react';
 
 import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
 import MetricCard, { type MetricCardProps } from 'apps/dashboard/features/metrics/components/MetricCard';
 import globalize from 'lib/globalize';
-import Box from '@mui/joy/Box';
+import { Grid } from 'ui-primitives/Grid';
+import { Flex } from 'ui-primitives/Box';
 
 interface MetricDefinition {
-    key: keyof ItemCounts
-    i18n: string
+    key: keyof ItemCounts;
+    i18n: string;
 }
 
 interface CardDefinition {
-    Icon: typeof SvgIcon
-    metrics: MetricDefinition[]
+    Icon: React.ComponentType<{ style?: React.CSSProperties }>;
+    metrics: MetricDefinition[];
 }
 
 const CARD_DEFINITIONS: CardDefinition[] = [
     {
-        Icon: Movie,
+        Icon: VideoIcon,
         metrics: [{ key: 'MovieCount', i18n: 'Movies' }]
-    }, {
-        Icon: Tv,
+    },
+    {
+        Icon: DesktopIcon,
         metrics: [
             { key: 'SeriesCount', i18n: 'Series' },
             { key: 'EpisodeCount', i18n: 'Episodes' }
         ]
-    }, {
-        Icon: MusicNote,
+    },
+    {
+        Icon: DiscIcon,
         metrics: [
             { key: 'AlbumCount', i18n: 'Albums' },
             { key: 'SongCount', i18n: 'Songs' }
         ]
-    }, {
-        Icon: MusicVideo,
+    },
+    {
+        Icon: VideoIcon,
         metrics: [{ key: 'MusicVideoCount', i18n: 'MusicVideos' }]
-    }, {
-        Icon: Book,
+    },
+    {
+        Icon: ReaderIcon,
         metrics: [{ key: 'BookCount', i18n: 'Books' }]
-    }, {
-        Icon: VideoLibrary,
+    },
+    {
+        Icon: StackIcon,
         metrics: [{ key: 'BoxSetCount', i18n: 'Collections' }]
     }
 ];
 
-const ItemCountsWidget = () => {
-    const {
-        data: counts,
-        isPending
-    } = useItemCounts();
+const ItemCountsWidget = (): React.ReactElement => {
+    const { data: counts, isPending } = useItemCounts();
 
     const cards: MetricCardProps[] = useMemo(() => {
-        return CARD_DEFINITIONS
-            .filter(def => (
-                // Include all cards while the request is pending
-                isPending
-                // Check if the metrics are present in counts
-                || def.metrics.some(({ key }) => counts?.[key])
-            ))
-            .map(({ Icon, metrics }) => ({
+        return CARD_DEFINITIONS.filter(def => isPending || def.metrics.some(({ key }) => counts?.[key] != null)).map(
+            ({ Icon, metrics }) => ({
                 Icon,
                 metrics: metrics.map(({ i18n, key }) => ({
                     label: globalize.translate(i18n),
                     value: counts?.[key]
                 }))
-            }));
-    }, [ counts, isPending ]);
+            })
+        );
+    }, [counts, isPending]);
 
     return (
-        <Box>
+        <Flex>
             <Grid
                 container
-                spacing={2}
-                sx={{
+                spacing='md'
+                style={{
                     alignItems: 'stretch'
                 }}
             >
                 {cards.map(card => (
-                    <Grid
-                        key={card.metrics.map(metric => metric.label).join('-')}
-                        xs={12}
-                        sm={6}
-                        lg={4}
-                    >
+                    <Grid key={card.metrics.map(metric => metric.label).join('-')} xs={12} sm={6} lg={4}>
                         <MetricCard {...card} />
                     </Grid>
                 ))}
             </Grid>
-        </Box>
+        </Flex>
     );
 };
 
