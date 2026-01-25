@@ -1,13 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "🔍 Running lint-staged..."
+echo "🚀 Running pre-commit checks..."
 npx lint-staged
-
-# Get staged files for related tests
-STAGED_FILES=$(git diff --name-only --cached --diff-filter=d | grep -E '\.(js|jsx|ts|tsx)$')
-
-if [ -n "$STAGED_FILES" ]; then
-  echo "🧪 Running related tests..."
-  npm run test:related -- $STAGED_FILES
-fi

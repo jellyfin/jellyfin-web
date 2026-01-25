@@ -1,10 +1,30 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "🛡️ Running pre-push checks..."
+echo "🛡️ Running pre-push checks in parallel..."
 
-echo "⌨️ Type checking..."
-npm run type-check
+# Run type-check and tests in parallel
+npm run type-check > /dev/null 2>&1 &
+TYPE_PID=$!
 
-echo "🧪 Running all tests..."
-npm run test
+npm run test > /dev/null 2>&1 &
+TEST_PID=$!
+
+# Wait for both to finish
+wait $TYPE_PID
+TYPE_EXIT=$?
+
+wait $TEST_PID
+TEST_EXIT=$?
+
+if [ $TYPE_EXIT -ne 0 ]; then
+  echo "❌ Type check failed. Run 'npm run type-check' for details."
+  exit 1
+fi
+
+if [ $TEST_EXIT -ne 0 ]; then
+  echo "❌ Tests failed. Run 'npm run test' for details."
+  exit 1
+fi
+
+echo "✅ Pre-push checks passed!"
