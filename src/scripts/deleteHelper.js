@@ -22,6 +22,15 @@ function getDeletionConfirmContent(item) {
         };
     }
 
+    if (item.Type === BaseItemKind.BoxSet) {
+        return {
+            title: globalize.translate('HeaderDeleteCollection'),
+            text: globalize.translate('ConfirmDeleteCollection'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        };
+    }
+
     return {
         title: globalize.translate('HeaderDeleteItem'),
         text: globalize.translate('ConfirmDeleteItem'),
