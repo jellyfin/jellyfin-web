@@ -49,7 +49,9 @@ export const useServerStore = create<ServerState>(set => ({
 
     addServer: server =>
         set(state => ({
-            servers: [...state.servers, server]
+            servers: state.servers.some(s => s.id === server.id)
+                ? state.servers
+                : [...state.servers, server]
         })),
 
     removeServer: id =>

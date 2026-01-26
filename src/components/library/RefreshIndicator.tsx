@@ -1,4 +1,3 @@
-import { ApiClient } from 'jellyfin-apiclient';
 import React, { type FC, useCallback, useEffect, useState } from 'react';
 import Events, { Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
@@ -57,7 +56,7 @@ function CircularProgressWithLabel(props: { value: number }) {
                 }}
             >
                 <Text size="xs" color="secondary">
-                    {toPercentString(props.value / 100, getCurrentDateTimeLocale()) || ''}
+                    {toPercentString(props.value / 100, getCurrentDateTimeLocale()) ?? ''}
                 </Text>
             </Box>
         </Box>
@@ -65,8 +64,8 @@ function CircularProgressWithLabel(props: { value: number }) {
 }
 
 interface RefreshIndicatorProps {
-    item: ItemDto;
-    className?: string;
+    readonly item: ItemDto;
+    readonly className?: string;
 }
 
 const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
@@ -76,15 +75,15 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
         'src/elements/emby-itemrefreshindicator/RefreshIndicator.tsx'
     );
 
-    const [showProgressBar, setShowProgressBar] = useState(!!item.RefreshProgress);
-    const [progress, setProgress] = useState(item.RefreshProgress || 0);
+    const [showProgressBar, setShowProgressBar] = useState(item.RefreshProgress !== undefined && item.RefreshProgress !== null);
+    const [progress, setProgress] = useState(item.RefreshProgress ?? 0);
 
     const onRefreshProgress = useCallback(
-        (_e: Event, _apiClient: any, info: { ItemId: string | null | undefined; Progress: string }) => {
+        (_e: Event, _apiClient: unknown, info: { ItemId: string | null | undefined; Progress: string }) => {
             if (info.ItemId === item?.Id) {
                 const pct = parseFloat(info.Progress);
 
-                if (pct && pct < 100) {
+                if (pct > 0 && pct < 100) {
                     setShowProgressBar(true);
                 } else {
                     setShowProgressBar(false);
@@ -97,17 +96,18 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
     );
 
     const unbindEvents = useCallback(() => {
-        Events.off(serverNotifications, 'RefreshProgress', onRefreshProgress);
-    }, [item?.Id]);
+        if (item?.Id !== undefined && item?.Id !== null && item?.Id !== '') {
+            Events.off(serverNotifications, 'RefreshProgress', onRefreshProgress);
+        }
+    }, [item?.Id, onRefreshProgress]);
 
     const bindEvents = useCallback(() => {
         unbindEvents();
 
-        if (item?.Id) {
-            // TODO: Fix serverNotifications.on RefreshProgress callback signature
-            // Events.on(serverNotifications, 'RefreshProgress', onRefreshProgress);
+        if (item?.Id !== undefined && item?.Id !== null && item?.Id !== '') {
+            Events.on(serverNotifications, 'RefreshProgress', onRefreshProgress);
         }
-    }, [item?.Id, unbindEvents]);
+    }, [item?.Id, unbindEvents, onRefreshProgress]);
 
     useEffect(() => {
         bindEvents();

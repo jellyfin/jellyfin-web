@@ -1,5 +1,8 @@
-export { Box, Flex, FlexRow, FlexCol, boxStyles } from './Box';
-export { Button, buttonStyles, buttonVariants, buttonSizes, type ButtonVariant, type ButtonSize } from './Button';
+// ============================================================================
+// ATOMS - Fundamental, reusable UI components
+// ============================================================================
+export { Box, Flex, FlexRow, FlexCol, boxStyles } from './atoms/Box';
+export { Button, buttonStyles, buttonVariants, buttonSizes, type ButtonVariant, type ButtonSize } from './atoms/Button';
 export {
     Text,
     Heading,
@@ -12,9 +15,59 @@ export {
     type TextWeight,
     type TextColor,
     type TextAlignment
-} from './Text';
+} from './atoms/Text';
+export { Spacer, spacerSizes, type SpacerSize } from './atoms/Spacer';
+export { Input, inputStyles, inputLabel, inputContainer, inputHelperText, formGroup } from './atoms/Input';
+export { Alert, alertStyles, alertVariants, type AlertVariant } from './atoms/Alert';
+export { Divider, dividerStyles, dividerVertical } from './atoms/Divider';
+export { Chip, chipStyles, chipVariants, chipSizes, type ChipVariant, type ChipSize } from './atoms/Chip';
+export { Checkbox, checkboxContainer, checkboxInput, checkboxLabel } from './atoms/Checkbox';
+export { Tooltip, tooltipContent } from './atoms/Tooltip';
+export { Avatar, avatarStyles, avatarImage } from './atoms/Avatar';
+export {
+    IconButton,
+    iconButtonStyles,
+    iconButtonVariants,
+    iconButtonSizes,
+    type IconButtonVariant,
+    type IconButtonSize
+} from './atoms/IconButton';
+export { Slider, sliderRoot, sliderTrack, sliderRange, sliderThumb } from './atoms/Slider';
+export {
+    RadioGroup,
+    RadioGroupItem,
+    RadioGroupLabel,
+    RadioGroupItemIndicator,
+    Radio,
+    radioGroupRoot,
+    radioGroupItem,
+    radioGroupIndicator,
+    radioGroupLabel,
+    radioGroupItemIndicator
+} from './atoms/RadioGroup';
+export { Separator, separatorRoot, separatorHorizontal, separatorVertical, separatorStyles } from './atoms/Separator';
+export {
+    Toggle,
+    ToggleGroup,
+    ToggleGroupItem,
+    toggleRoot,
+    toggleVariant,
+    toggleSizes,
+    toggleGroupRoot,
+    toggleGroupItem
+} from './atoms/Toggle';
+export { Grid, gridContainer, gridGap, gridColumns, gridXs, gridSm, gridMd, gridLg, gridXl } from './atoms/Grid';
+export { Skeleton, skeletonRoot, skeletonWave } from './atoms/Skeleton';
+export { Progress, progressRoot, progressIndicator, progressStyles } from './atoms/Progress';
+export { CircularProgress, circularProgressRoot, circularProgressSizes } from './atoms/CircularProgress';
+export { Paper, paperStyles, paperElevation, type PaperElevation } from './atoms/Paper';
+export { Container, containerStyles, containerMaxWidth } from './atoms/Container';
+export { AspectRatio } from './atoms/AspectRatio';
+
+// ============================================================================
+// MOLECULES - Compound components combining atoms
+// ============================================================================
 export { Card, CardHeader, CardBody, CardFooter, cardStyles, cardPadding, cardInteractive } from './Card';
-export { Spacer, spacerSizes, type SpacerSize } from './Spacer';
 export {
     Dialog,
     DialogTrigger,
@@ -32,10 +85,6 @@ export {
     DialogOverlayClass,
     DialogDescriptionClass
 } from './Dialog';
-export { Input, inputStyles, inputLabel, inputContainer, inputHelperText, formGroup } from './Input';
-export { Alert, alertStyles, alertVariants, type AlertVariant } from './Alert';
-export { Divider, dividerStyles, dividerVertical } from './Divider';
-export { Chip, chipStyles, chipVariants, chipSizes, type ChipVariant, type ChipSize } from './Chip';
 export {
     Select,
     SelectTrigger,
@@ -53,9 +102,6 @@ export {
     selectLabel,
     selectSeparator
 } from './Select';
-export { Checkbox, checkboxContainer, checkboxInput, checkboxLabel } from './Checkbox';
-export { Tooltip, tooltipContent } from './Tooltip';
-export { Avatar, avatarStyles, avatarImage } from './Avatar';
 export {
     Table,
     TableHeader,
@@ -69,14 +115,6 @@ export {
     tableCell,
     tableRow
 } from './Table';
-export {
-    IconButton,
-    iconButtonStyles,
-    iconButtonVariants,
-    iconButtonSizes,
-    type IconButtonVariant,
-    type IconButtonSize
-} from './IconButton';
 export {
     List,
     ListItem,
@@ -101,7 +139,6 @@ export {
     formLabel,
     formHelperText
 } from './FormControl';
-export { Slider, sliderRoot, sliderTrack, sliderRange, sliderThumb } from './Slider';
 export {
     Menu,
     MenuTrigger,
@@ -117,19 +154,6 @@ export {
     menuSeparator
 } from './Menu';
 export {
-    RadioGroup,
-    RadioGroupItem,
-    RadioGroupLabel,
-    RadioGroupItemIndicator,
-    Radio,
-    radioGroupRoot,
-    radioGroupItem,
-    radioGroupIndicator,
-    radioGroupLabel,
-    radioGroupItemIndicator
-} from './RadioGroup';
-export { Separator, separatorRoot, separatorHorizontal, separatorVertical, separatorStyles } from './Separator';
-export {
     ScrollArea,
     scrollAreaRoot,
     scrollAreaViewport,
@@ -137,22 +161,6 @@ export {
     scrollAreaThumb,
     scrollAreaCorner
 } from './ScrollArea';
-export {
-    Toggle,
-    ToggleGroup,
-    ToggleGroupItem,
-    toggleRoot,
-    toggleVariant,
-    toggleSizes,
-    toggleGroupRoot,
-    toggleGroupItem
-} from './Toggle';
-export { Grid, gridContainer, gridGap, gridColumns, gridXs, gridSm, gridMd, gridLg, gridXl } from './Grid';
-export { Skeleton, skeletonRoot, skeletonWave } from './Skeleton';
-export { Progress, progressRoot, progressIndicator, progressStyles } from './Progress';
-export { CircularProgress, circularProgressRoot, circularProgressSizes } from './CircularProgress';
-export { Paper, paperStyles, paperElevation, type PaperElevation } from './Paper';
-export { Container, containerStyles, containerMaxWidth } from './Container';
 export {
     DataTable,
     dataTableContainerStyles,
@@ -165,7 +173,6 @@ export {
     dataTableEmptyStyles,
     dataTableLoadingStyles
 } from './DataTable';
-export { AspectRatio } from './AspectRatio';
 export { Drawer, drawerOverlay, drawerContent, drawerAnchor, type DrawerProps, type DrawerAnchor } from './Drawer';
 export {
     Popover,

@@ -1,5 +1,6 @@
 import dom from '../utils/dom';
 import layoutManager from './layoutManager';
+import { logger } from '../utils/logger';
 
 const scopes: HTMLElement[] = [];
 
@@ -20,7 +21,7 @@ export function focus(element: HTMLElement | null): void {
             preventScroll: layoutManager.tv
         });
     } catch (err) {
-        console.error('Error in focusManager.focus: ' + err);
+        logger.error('Error in focusManager.focus', { err, component: 'focusManager' });
     }
 }
 

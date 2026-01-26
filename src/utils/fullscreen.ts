@@ -3,6 +3,8 @@
  * Replaces screenfull with native browser APIs
  */
 
+import { logger } from './logger';
+
 export interface FullscreenEvent {
     readonly isFullscreen: boolean;
     readonly target: Element | null;
@@ -88,7 +90,7 @@ class FullscreenManager {
                 throw new Error('Fullscreen API is not supported');
             }
         } catch (error) {
-            console.warn('Fullscreen request failed:', error);
+            logger.warn('Fullscreen request failed', { error, component: 'FullscreenManager' });
             throw error;
         }
     }
@@ -105,7 +107,7 @@ class FullscreenManager {
                 await exitFn.call(document);
             }
         } catch (error) {
-            console.warn('Fullscreen exit failed:', error);
+            logger.warn('Fullscreen exit failed', { error, component: 'FullscreenManager' });
             throw error;
         }
     }

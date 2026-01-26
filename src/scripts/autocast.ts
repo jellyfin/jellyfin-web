@@ -1,10 +1,14 @@
 import { playbackManager } from 'components/playback/playbackmanager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
+import { logger } from 'utils/logger';
 import type { ApiClient } from 'jellyfin-apiclient';
 
 export function enable(enabled: boolean): void {
-    console.debug('[autocast] %s cast player', enabled ? 'enabling' : 'disabling');
+    logger.debug('cast player', {
+        action: enabled ? 'enabling' : 'disabling',
+        component: 'autocast'
+    });
     if (enabled) {
         const currentPlayerInfo = playbackManager.getPlayerInfo();
 
@@ -26,27 +30,27 @@ export function isEnabled(): boolean {
 function onOpen(): void {
     const playerId = localStorage.getItem('autocastPlayerId');
     if (!playerId) {
-        console.debug('[autocast] no active cast player');
+        logger.debug('no active cast player', { component: 'autocast' });
         return;
     }
 
-    console.debug('[autocast] initializing cast player', playerId);
+    logger.debug('initializing cast player', { playerId, component: 'autocast' });
 
     playbackManager.getTargets().then(targets => {
-        console.debug('[autocast] playback targets', targets);
+        logger.debug('playback targets', { targets, component: 'autocast' });
 
         const player = targets.find(target => target.id === playerId);
         if (player) {
-            console.debug('[autocast] found target player', player);
+            logger.debug('found target player', { player, component: 'autocast' });
             playbackManager.trySetActivePlayer(player.playerName, player);
         } else {
-            console.debug('[autocast] selected cast player not found');
+            logger.debug('selected cast player not found', { playerId, component: 'autocast' });
         }
     });
 }
 
 export function initialize(): void {
-    console.debug('[autoCast] initializing connection listener');
+    logger.debug('initializing connection listener', { component: 'autocast' });
     ServerConnections.getApiClients().forEach(apiClient => {
         Events.off(apiClient, 'websocketopen', onOpen);
         Events.on(apiClient, 'websocketopen', onOpen);

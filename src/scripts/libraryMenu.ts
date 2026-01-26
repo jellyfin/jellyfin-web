@@ -18,6 +18,7 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { EventType } from 'constants/eventType';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { logger } from 'utils/logger';
 import { queryClient } from 'utils/query/queryClient';
 
 import dom from '../utils/dom';
@@ -775,7 +776,7 @@ const fetchServerName = (_apiClient?: ApiClient): void => {
             document.title = documentTitle;
         })
         .catch(err => {
-            console.error('[LibraryMenu] failed to fetch system info', err);
+            logger.error('failed to fetch system info', { err, component: 'LibraryMenu' });
         });
 };
 

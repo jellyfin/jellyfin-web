@@ -1,6 +1,21 @@
 {
   "servers": {
-    "vite": {
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "."
+      ]
+    },
+    "vite-dev": {
       "type": "sse",
       "url": "http://localhost:5173/__mcp/sse"
     }

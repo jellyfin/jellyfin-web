@@ -9,12 +9,21 @@ import { setUserInfo } from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { logger } from 'utils/logger';
 
 import ConnectionManager from './connectionManager';
 import { ConnectionMode } from './connectionMode';
 
 const normalizeImageOptions = options => {
-    if (!options.quality && (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight)) {
+    if (
+        !options.quality &&
+        (options.maxWidth ||
+            options.width ||
+            options.maxHeight ||
+            options.height ||
+            options.fillWidth ||
+            options.fillHeight)
+    ) {
         options.quality = 90;
     }
 };
@@ -76,7 +85,7 @@ class ServerConnections extends ConnectionManager {
     }
 
     initApiClient(server) {
-        console.debug('creating ApiClient singleton');
+        logger.debug('creating ApiClient singleton', { component: 'ServerConnections' });
 
         const apiClient = new ApiClient(
             server,
@@ -93,7 +102,7 @@ class ServerConnections extends ConnectionManager {
 
         this.setLocalApiClient(apiClient);
 
-        console.debug('loaded ApiClient singleton');
+        logger.debug('loaded ApiClient singleton', { component: 'ServerConnections' });
     }
 
     connect(options) {
@@ -215,4 +224,5 @@ export default new ServerConnections(
     safeAppHost.appVersion(),
     safeAppHost.deviceName(),
     safeAppHost.deviceId(),
-    capabilities);
+    capabilities
+);

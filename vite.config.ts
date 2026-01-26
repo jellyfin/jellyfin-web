@@ -9,6 +9,7 @@ import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { ViteMcp as viteMcp } from 'vite-plugin-mcp';
 
 import packageJson from './package.json';
 
@@ -228,6 +229,10 @@ export default defineConfig(({ mode }) => {
             'process.env.NODE_ENV': JSON.stringify(mode)
         },
         plugins: [
+            viteMcp({
+                updateConfig: ['claude-code', 'vscode'],
+                updateConfigServerName: 'vite-dev'
+            }),
             vanillaExtractPlugin(),
             react(),
             tsconfigPaths({ root: '..' }),
@@ -425,6 +430,46 @@ export default defineConfig(({ mode }) => {
                         functions: 23,
                         branches: 24,
                         statements: 28
+                    },
+                    // Strict requirements for core utility functions
+                    'utils/*.ts': {
+                        lines: 40,
+                        functions: 35,
+                        branches: 30,
+                        statements: 40
+                    },
+                    // Requirements for state management
+                    'store/*.ts': {
+                        lines: 14,
+                        functions: 10,
+                        branches: 12,
+                        statements: 14
+                    },
+                    // Requirements for business logic hooks
+                    'hooks/*.ts': {
+                        lines: 35,
+                        functions: 35,
+                        branches: 15,
+                        statements: 35
+                    },
+                    // Individual high-value files with strict 100% requirements
+                    'utils/card.ts': {
+                        lines: 100,
+                        functions: 100,
+                        branches: 100,
+                        statements: 100
+                    },
+                    'utils/colorUtils.ts': {
+                        lines: 100,
+                        functions: 100,
+                        branches: 100,
+                        statements: 100
+                    },
+                    'components/cardbuilder/cardBuilderUtils.ts': {
+                        lines: 100,
+                        functions: 100,
+                        branches: 100,
+                        statements: 100
                     }
                 }
             }

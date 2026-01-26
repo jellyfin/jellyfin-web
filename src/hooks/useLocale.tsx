@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { getDefaultLanguage, normalizeLocaleName } from 'lib/globalize';
 import { fetchLocale, normalizeLocale } from 'utils/dateFnsLocale';
+import { logger } from 'utils/logger';
 
 import { useUserSettings } from './useUserSettings';
 
@@ -24,7 +25,7 @@ export function useLocale() {
                 const dfLocale = await fetchLocale(normalizeLocale(dateTimeLocale));
                 setDateFnsLocale(dfLocale);
             } catch (err) {
-                console.warn('[useLocale] failed to fetch dateFns locale', err);
+                logger.warn('failed to fetch dateFns locale', { err, component: 'useLocale' });
             }
         };
 

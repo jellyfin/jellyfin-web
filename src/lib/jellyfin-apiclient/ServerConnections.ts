@@ -74,14 +74,47 @@ export interface IServerConnections {
  * For backward compatibility, the legacy ServerConnections.legacy.js file
  * is loaded dynamically and returned as a typed singleton.
  */
-function getServerConnections(): IServerConnections {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const legacyModule = require('./ServerConnections.legacy.js');
-    return legacyModule.default as IServerConnections;
+let cachedServerConnections: IServerConnections | undefined;
+
+export function getServerConnections(): IServerConnections {
+    if (!cachedServerConnections) {
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const legacyModule = require('./ServerConnections.legacy.js');
+            cachedServerConnections = legacyModule.default as IServerConnections;
+        } catch (error) {
+            console.error('Failed to load ServerConnections.legacy.js:', error);
+            throw error;
+        }
+    }
+    return cachedServerConnections;
 }
 
-// Export the singleton
-export const ServerConnections: IServerConnections = getServerConnections();
+// Create a simple wrapper object that loads the actual ServerConnections on first access
+class LazyServerConnections {
+    private _instance: IServerConnections | null = null;
+
+    private getInstance(): IServerConnections {
+        if (!this._instance) {
+            this._instance = getServerConnections();
+        }
+        return this._instance;
+    }
+
+    // Implement all IServerConnections methods by delegating to the actual instance
+    [key: string]: unknown;
+}
+
+// Create a proxy-like object using getter/setter
+const handler = {
+    get(_target: unknown, prop: string | symbol): unknown {
+        if (typeof prop === 'symbol') return undefined;
+        const instance = getServerConnections();
+        return (instance as unknown as { [key: string]: unknown })[prop as string];
+    }
+};
+
+export const ServerConnections = new Proxy(new LazyServerConnections(), handler) as unknown as IServerConnections;
 
 // Also export as default for backward compatibility
 export default ServerConnections;

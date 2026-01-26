@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.73% </span>
+                <span class="strong">62.22% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>58/91</span>
+                <span class='fraction'>56/90</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.33% </span>
+                <span class="strong">58.62% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>35/60</span>
+                <span class='fraction'>34/58</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>10/18</span>
+                <span class='fraction'>9/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.51% </span>
+                <span class="strong">63.95% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>57/87</span>
+                <span class='fraction'>55/86</span>
             </div>
         
             
@@ -409,7 +409,10 @@
 <a name='L344'></a><a href='#L344'>344</a>
 <a name='L345'></a><a href='#L345'>345</a>
 <a name='L346'></a><a href='#L346'>346</a>
-<a name='L347'></a><a href='#L347'>347</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -477,6 +480,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -523,7 +530,6 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -563,9 +569,12 @@
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -585,11 +594,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -710,14 +722,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -819,30 +825,34 @@ interface TargetListItemProps {
 const TargetListItem = React.memo(({ target, onClick, getDeviceIcon }: TargetListItemProps) =&gt; {
     const handleClick = useCallback(<span class="fstat-no" title="function not covered" >(): void =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        onClick(target).catch(<span class="fstat-no" title="function not covered" >(e</span>rror: unknown) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            logger.error('[PlayerSelectionDialog] Target click failed', { component: 'PlayerSelectionDialog' }, error as Error);</span>
+<span class="cstat-no" title="statement not covered" >            logger.error(</span>
+                '[PlayerSelectionDialog] Target click failed',
+                { component: 'PlayerSelectionDialog' },
+                error as Error
+            );
         });
     }, [target, onClick]);
 &nbsp;
     return (
-        &lt;ListItem key={target.id} data-testid='player-item'&gt;
+        &lt;ListItem key={target.id} data-testid="player-item"&gt;
             &lt;ListItemButton
                 onClick={handleClick}
                 selected={target.selected ?? <span class="branch-1 cbranch-no" title="branch not covered" >false}</span>
                 style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.xs }}
             &gt;
-                &lt;ListItemDecorator&gt;
-                    {getDeviceIcon(target.deviceType, target.isLocalPlayer)}
-                &lt;/ListItemDecorator&gt;
+                &lt;ListItemDecorator&gt;{getDeviceIcon(target.deviceType, target.isLocalPlayer)}&lt;/ListItemDecorator&gt;
                 &lt;ListItemContent&gt;
                     &lt;Text&gt;{target.name}&lt;/Text&gt;
-                    {target.secondaryText !== null &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >target.secondaryText !== undefined &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >t</span>arget.secondaryText !== '' &amp;&amp; (</span>
-<span class="branch-3 cbranch-no" title="branch not covered" >                        &lt;Text size='xs' color='secondary'&gt;</span>
-                            {target.secondaryText}
-                        &lt;/Text&gt;
-                    )}
+                    {target.secondaryText !== null &amp;&amp;
+<span class="branch-1 cbranch-no" title="branch not covered" >                        target.secondaryText !== undefined &amp;&amp;</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >                        target.secondaryText !== '' &amp;&amp; (</span>
+<span class="branch-3 cbranch-no" title="branch not covered" >                            &lt;Text size="xs" color="secondary"&gt;</span>
+                                {target.secondaryText}
+                            &lt;/Text&gt;
+                        )}
                 &lt;/ListItemContent&gt;
                 {target.selected === true &amp;&amp; (
-                    &lt;Text size='sm' color='primary'&gt;
+                    &lt;Text size="sm" color="primary"&gt;
                         Playing
                     &lt;/Text&gt;
                 )}
@@ -870,7 +880,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
         try {
             const playerInfo = playbackManager.getPlayerInfo() as ActivePlayerInfo | null;
 &nbsp;
-            if (playerInfo &amp;&amp; playerInfo.isLocalPlayer === false) {
+            if (playerInfo &amp;&amp; !playerInfo.isLocalPlayer) {
                 setActivePlayerInfo(playerInfo);
                 setShowActivePlayerMenu(true);
                 return;
@@ -882,8 +892,8 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
             const mappedTargets: PlaybackTarget[] = (playbackTargets as PlaybackTarget[]).map((t: PlaybackTarget) =&gt; {
                 let name = t.name;
                 const appName = t.appName as string | undefined;
-                if (appName !== undefined &amp;&amp; appName !== null &amp;&amp; appName !== '' &amp;&amp; appName !== t.name) {
-                <span class="missing-if-branch" title="else path not taken" >E</span>    name += ' - ' + appName;
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (appName !== undefined &amp;&amp; appName !== '' &amp;&amp; appName !== t.name) {
+                    name += ' - ' + appName;
                 }
                 return {
                     ...t,
@@ -895,8 +905,8 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 &nbsp;
             setTargets(mappedTargets);
         } catch (error) {
-            logger.error(
-<span class="cstat-no" title="statement not covered" >                '[PlayerSelectionDialog] Failed to load targets',</span>
+<span class="cstat-no" title="statement not covered" >            logger.error(</span>
+                '[PlayerSelectionDialog] Failed to load targets',
                 { component: 'PlayerSelectionDialog' },
                 error as Error
             );
@@ -907,8 +917,12 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 &nbsp;
     useEffect(() =&gt; {
         if (open === true &amp;&amp; showActivePlayerMenu === false) {
-            loadTargets().catch((error: unknown) =&gt; {
-                logger.error('[PlayerSelectionDialog] useEffect loadTargets failed', { component: 'PlayerSelectionDialog' }, error as Error);
+            loadTargets().catch(<span class="fstat-no" title="function not covered" >(e</span>rror: unknown) =&gt; {
+<span class="cstat-no" title="statement not covered" >                logger.error(</span>
+                    '[PlayerSelectionDialog] useEffect loadTargets failed',
+                    { component: 'PlayerSelectionDialog' },
+                    error as Error
+                );
             });
         }
     }, [open, showActivePlayerMenu, loadTargets]);
@@ -919,70 +933,73 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 &nbsp;
     const getDeviceIcon = useCallback((deviceType?: string, isLocalPlayer?: boolean): React.JSX.Element =&gt; {
         if (isLocalPlayer === true) {
-            if (deviceType === 'tv') return &lt;VideoIcon /&gt;;
-            if (deviceType === 'smartphone') return &lt;MobileIcon /&gt;;
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (deviceType === 'tablet') return &lt;LaptopIcon /&gt;;
-<span class="cstat-no" title="statement not covered" >            if (deviceType === 'desktop') ret<span class="cstat-no" title="statement not covered" >urn &lt;DesktopIcon /&gt;;</span></span>
-<span class="cstat-no" title="statement not covered" >            return &lt;DesktopIcon /&gt;;<span class="cstat-no" title="statement not covered" ></span></span>
-        }<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span>
-        retu<span class="cstat-no" title="statement not covered" >rn &lt;Share1Icon /&gt;;</span>
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (deviceType === 'tv') return &lt;VideoIcon /&gt;;
+<span class="cstat-no" title="statement not covered" >            if (deviceType === 'smartphone') <span class="cstat-no" title="statement not covered" >return &lt;MobileIcon /&gt;;</span></span>
+<span class="cstat-no" title="statement not covered" >            if (deviceType === 'tablet') <span class="cstat-no" title="statement not covered" >return &lt;LaptopIcon /&gt;;</span></span>
+<span class="cstat-no" title="statement not covered" >            if (deviceType === 'desktop') <span class="cstat-no" title="statement not covered" >return &lt;DesktopIcon /&gt;;</span></span>
+<span class="cstat-no" title="statement not covered" >            return &lt;DesktopIcon /&gt;;</span>
+        }
+        return &lt;Share1Icon /&gt;;
     }, []);
 &nbsp;
-    const handleTargetSelect = useCallback(async (target: PlaybackTarget): Promise&lt;void&gt; =&gt; {
-        try {
-            await playbackManager.trySetAct<span class="fstat-no" title="function not covered" >ivePlaye</span>r(target.playerName ?? '', target);
-<span class="cstat-no" title="statement not covered" >            handleClose();</span>
-        } ca<span class="cstat-no" title="statement not covered" >tch (error) {</span>
-<span class="cstat-no" title="statement not covered" >            logger.error(</span>
-                '[PlayerSelectionDialog] Failed to select target',
-<span class="cstat-no" title="statement not covered" >                { component: 'PlayerSelectionDialog' },</span>
-                error as Error
-            );
-        }
+    const handleTargetSelect = useCallback(
+<span class="fstat-no" title="function not covered" >        async (t</span>arget: PlaybackTarget): Promise&lt;void&gt; =&gt; {
+<span class="cstat-no" title="statement not covered" >            try {</span>
+<span class="cstat-no" title="statement not covered" >                await playbackManager.trySetActivePlayer(target.playerName ?? '', target);</span>
+<span class="cstat-no" title="statement not covered" >                handleClose();</span>
+            } catch (error) {
+<span class="cstat-no" title="statement not covered" >                logger.error(</span>
+                    '[PlayerSelectionDialog] Failed to select target',
+                    { component: 'PlayerSelectionDialog' },
+                    error as Error
+                );
+            }
+        },
+        [handleClose]
+    );
+&nbsp;
+    const handleRemoteControl = useCallback(<span class="fstat-no" title="function not covered" >(): void =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        void import('../router/appRouter').then(({ <span class="fstat-no" title="function not covered" >appRouter }</span>) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            void appRouter.showNowPlaying();</span>
+        });
+<span class="cstat-no" title="statement not covered" >        handleClose();</span>
     }, [handleClose]);
 &nbsp;
-    const handleRemoteControl = useCallback((): void =&gt; {
-        void import('../router/appRouter').then(({ appRouter }) =&gt; {
-            appRouter.showNowPlaying();<span class="fstat-no" title="function not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        });<span class="fstat-no" title="function not covered" ></span></span>
-        hand<span class="cstat-no" title="statement not covered" >leClose();</span>
-    }, [handleClose]);
-<span class="cstat-no" title="statement not covered" ></span>
-    const handleDisconnect = useCallback((): void =&gt; {
-        if (activePlayerInfo?.supportedCommands?.includes('EndSession') === true) {
-            const currentDeviceName = act<span class="fstat-no" title="function not covered" >ivePlayerInfo</span>.deviceName ?? activePlayerInfo.name;
-<span class="cstat-no" title="statement not covered" >            if (currentDeviceName !== undefined &amp;&amp; currentDeviceName !== null &amp;&amp; currentDeviceName !== '') {</span>
-                interface PlayerWithEn<span class="cstat-no" title="statement not covered" >dSession {</span>
-<span class="cstat-no" title="statement not covered" >                    endSession: () =&gt; void;</span>
+    const handleDisconnect = useCallback(<span class="fstat-no" title="function not covered" >(): void =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (activePlayerInfo?.supportedCommands?.includes('EndSession') === true) {</span>
+            const currentDeviceName = <span class="cstat-no" title="statement not covered" >activePlayerInfo.deviceName ?? activePlayerInfo.name;</span>
+<span class="cstat-no" title="statement not covered" >            if (currentDeviceName !== undefined &amp;&amp; currentDeviceName !== '') {</span>
+                interface PlayerWithEndSession {
+                    endSession: () =&gt; void;
                 }
-                const currentPlayer = playbackManager.getCurrentPlayer() as PlayerWithEndSession | null;
-                currentPlayer?.endSession();
-                (playbackManager as { <span class="cstat-no" title="statement not covered" >setDefaultPlayerActive: () =&gt; void }).setDefaultPlayerActive();</span>
-            }<span class="cstat-no" title="statement not covered" ></span>
-        } else {<span class="cstat-no" title="statement not covered" ></span>
-            (playbackManager as { setDefaultPlayerActive: () =&gt; void }).setDefaultPlayerActive();
+                const currentPlayer = <span class="cstat-no" title="statement not covered" >playbackManager.getCurrentPlayer() as PlayerWithEndSession | null;</span>
+<span class="cstat-no" title="statement not covered" >                currentPlayer?.endSession();</span>
+                (<span class="cstat-no" title="statement not covered" >playbackManager as { setDefaultPlayerActive: () =&gt; void }).setDefaultPlayerActive();</span>
+            }
+        } else {
+            (<span class="cstat-no" title="statement not covered" >playbackManager as { setDefaultPlayerActive: () =&gt; void }).setDefaultPlayerActive();</span>
         }
-        setSh<span class="cstat-no" title="statement not covered" >owActivePlayerMenu(false);</span>
-        setActivePlayerInfo(null);
+<span class="cstat-no" title="statement not covered" >        setShowActivePlayerMenu(false);</span>
+<span class="cstat-no" title="statement not covered" >        setActivePlayerInfo(null);</span>
 <span class="cstat-no" title="statement not covered" >        handleClose();</span>
-    }, [<span class="cstat-no" title="statement not covered" >activePlayerInfo, handleClose]);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-    const handleMirrorChange = useCallback((event: React.ChangeEvent&lt;HTMLInputElement&gt;): void =&gt; {
-        const checked = event.target.checked;
-        setEnableMirror(checked);<span class="fstat-no" title="function not covered" ></span>
-        (playbackManager<span class="cstat-no" title="statement not covered" > as { enableDisplayMirroring: (enabled: boolean) =&gt; void }).enableDisplayMirroring(checked);</span>
-    }, [<span class="cstat-no" title="statement not covered" >]);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-    const handleAutoCastChange = useCallback((event: React.ChangeEvent&lt;HTMLInputElement&gt;): void =&gt; {
-        const checked = event.target.checked;
-        setEnableAutoCast(checked);<span class="fstat-no" title="function not covered" ></span>
-        enable(checked);<span class="cstat-no" title="statement not covered" ></span>
-    }, [<span class="cstat-no" title="statement not covered" >]);</span>
-<span class="cstat-no" title="statement not covered" ></span>
+    }, [activePlayerInfo, handleClose]);
+&nbsp;
+    const handleMirrorChange = useCallback(<span class="fstat-no" title="function not covered" >(e</span>vent: React.ChangeEvent&lt;HTMLInputElement&gt;): void =&gt; {
+        const checked = <span class="cstat-no" title="statement not covered" >event.target.checked;</span>
+<span class="cstat-no" title="statement not covered" >        setEnableMirror(checked);</span>
+        (<span class="cstat-no" title="statement not covered" >playbackManager as { enableDisplayMirroring: (enabled: boolean) =&gt; void }).enableDisplayMirroring(checked);</span>
+    }, []);
+&nbsp;
+    const handleAutoCastChange = useCallback(<span class="fstat-no" title="function not covered" >(e</span>vent: React.ChangeEvent&lt;HTMLInputElement&gt;): void =&gt; {
+        const checked = <span class="cstat-no" title="statement not covered" >event.target.checked;</span>
+<span class="cstat-no" title="statement not covered" >        setEnableAutoCast(checked);</span>
+<span class="cstat-no" title="statement not covered" >        enable(checked);</span>
+    }, []);
+&nbsp;
     if (showActivePlayerMenu === true &amp;&amp; activePlayerInfo !== null) {
-        const activeDeviceName = activePlayerInfo.deviceName ?? activePlayerInfo.name ?? 'Unknown Device';
+        const activeDeviceName = activePlayerInfo.deviceName ?? <span class="branch-1 cbranch-no" title="branch not covered" >activePlayerInfo.name ?? <span class="branch-2 cbranch-no" title="branch not covered" >'</span>Unknown Device';</span>
         const supportsMirroring = activePlayerInfo.supportedCommands?.includes('DisplayContent') === true;
-<span class="branch-2 cbranch-no" title="branch not covered" ><span class="branch-1 cbranch-no" title="branch not covered" ></span></span>
+&nbsp;
         return (
             &lt;Dialog open={open} onOpenChange={handleClose}&gt;
                 &lt;DialogContent
@@ -995,7 +1012,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                         style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}
                     &gt;
                         &lt;DialogTitle&gt;{activeDeviceName}&lt;/DialogTitle&gt;
-                        &lt;IconButton variant='plain' onClick={handleClose} aria-label='Close'&gt;
+                        &lt;IconButton variant="plain" onClick={handleClose} aria-label="Close"&gt;
                             &lt;Cross2Icon /&gt;
                         &lt;/IconButton&gt;
                     &lt;/Flex&gt;
@@ -1022,7 +1039,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 &nbsp;
                     &lt;Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}&gt;
                         &lt;Button
-                            variant='plain'
+                            variant="plain"
                             startDecorator={&lt;ExternalLinkIcon /&gt;}
                             onClick={handleRemoteControl}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
@@ -1030,8 +1047,8 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                             Remote Control
                         &lt;/Button&gt;
                         &lt;Button
-                            variant='plain'
-                            color='danger'
+                            variant="plain"
+                            color="danger"
                             startDecorator={&lt;LinkNone2Icon /&gt;}
                             onClick={handleDisconnect}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
@@ -1039,7 +1056,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                             Disconnect
                         &lt;/Button&gt;
                         &lt;Button
-                            variant='plain'
+                            variant="plain"
                             onClick={handleClose}
                             style={{ justifyContent: 'flex-start', width: '100%' }}
                         &gt;
@@ -1053,15 +1070,9 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 &nbsp;
     let content;
     if (loading === true) {
-        content = (
-            &lt;Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}&gt;
-                Loading playback devices...
-            &lt;/Text&gt;
-        );
+        content = &lt;Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}&gt;Loading playback devices...&lt;/Text&gt;;
     } else if (targets.length === 0) {
-        content = (
-            &lt;Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}&gt;No playback devices found&lt;/Text&gt;
-        );
+        content = &lt;Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}&gt;No playback devices found&lt;/Text&gt;;
     } else {
         content = (
             &lt;List&gt;
@@ -1087,18 +1098,16 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
             &gt;
                 &lt;Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}&gt;
                     &lt;DialogTitle&gt;Play On&lt;/DialogTitle&gt;
-                    &lt;IconButton variant='plain' onClick={handleClose} aria-label='Close'&gt;
+                    &lt;IconButton variant="plain" onClick={handleClose} aria-label="Close"&gt;
                         &lt;Cross2Icon /&gt;
                     &lt;/IconButton&gt;
                 &lt;/Flex&gt;
 &nbsp;
-                &lt;Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}&gt;
-                    {content}
-                &lt;/Flex&gt;
+                &lt;Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}&gt;{content}&lt;/Flex&gt;
             &lt;/DialogContent&gt;
         &lt;/Dialog&gt;
     );
-};
+}
 &nbsp;
 export default PlayerSelectionDialog;
 &nbsp;</pre></td></tr></table></pre>
@@ -1108,7 +1117,7 @@ export default PlayerSelectionDialog;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-25T19:55:00.903Z
+                at 2026-01-26T18:22:09.900Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -4,6 +4,7 @@ import { useApiStore, useApi } from '../store/apiStore';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { logger } from 'utils/logger';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 
 // Re-export for compatibility
@@ -18,7 +19,7 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
             ?.getCurrentUser()
             .then(newUser => updateApiUser(undefined, newUser))
             .catch(err => {
-                console.info('[ApiProvider] Could not get current user', err);
+                logger.info('[ApiProvider] Could not get current user', { err, component: 'ApiProvider' });
             });
 
         const updateApiUser = (_e: any, newUser: UserDto) => {

@@ -34,7 +34,7 @@ type ConnectionRequiredProps = {
 };
 
 const ERROR_STATES = [ConnectionState.ServerMismatch, ConnectionState.ServerUpdateNeeded, ConnectionState.Unavailable];
-console.log('ConnectionRequired ERROR_STATES:', ERROR_STATES);
+logger.debug('ConnectionRequired ERROR_STATES', { ERROR_STATES, component: 'ConnectionRequired' });
 
 const mapServerInfo = (server: any) => ({
     id: server.Id,
@@ -238,14 +238,15 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
     }, [navigate]);
 
     useEffect(() => {
-        console.log(
-            'ConnectionRequired useEffect START, errorState:',
+        logger.debug('ConnectionRequired useEffect START', {
             errorState,
-            'hasConnectionError:',
-            hasConnectionError
-        );
+            hasConnectionError,
+            component: 'ConnectionRequired'
+        });
         if (errorState || hasConnectionError) {
-            console.log('ConnectionRequired useEffect SKIPPED - already have error');
+            logger.debug('ConnectionRequired useEffect SKIPPED - already have error', {
+                component: 'ConnectionRequired'
+            });
             return;
         }
 
@@ -256,12 +257,14 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
 
         const handleConnectionResult = (firstConnection: ConnectResponse | null) => {
             if (!isMounted.current) {
-                console.debug('ConnectionRequired handleConnectionResult skipped - not mounted');
+                logger.debug('ConnectionRequired handleConnectionResult skipped - not mounted', {
+                    component: 'ConnectionRequired'
+                });
                 return;
             }
 
             connectionAttempts.current++;
-            console.log('ConnectionRequired handleConnectionResult START', {
+            logger.debug('ConnectionRequired handleConnectionResult START', {
                 state: firstConnection?.State,
                 stateType: typeof firstConnection?.State,
                 firstConnectionExists: !!firstConnection,
@@ -269,93 +272,112 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                 ERROR_STATES,
                 isInErrorStates:
                     firstConnection?.State !== undefined &&
-                    ERROR_STATES.includes(firstConnection.State as ConnectionState)
+                    ERROR_STATES.includes(firstConnection.State as ConnectionState),
+                component: 'ConnectionRequired'
             });
 
             if (connectionAttempts.current >= MAX_CONNECTION_ATTEMPTS) {
-                console.warn('ConnectionRequired max attempts reached, showing error');
+                logger.warn('ConnectionRequired max attempts reached, showing error', {
+                    component: 'ConnectionRequired'
+                });
                 setHasConnectionError(true);
                 setIsLoading(false);
                 return;
             }
 
             const state = firstConnection?.State;
-            console.log('ConnectionRequired state check:', {
+            logger.debug('ConnectionRequired state check', {
                 state,
                 isUndefined: state === undefined,
                 ERROR_STATES,
-                includes: ERROR_STATES.includes(state as ConnectionState)
+                includes: ERROR_STATES.includes(state as ConnectionState),
+                component: 'ConnectionRequired'
             });
             if (state !== undefined && ERROR_STATES.includes(state as ConnectionState)) {
                 // UX Improvement: If we are on the root path and fail to connect,
                 // redirect to server selection instead of showing a scary error page.
                 if (location.pathname === '/') {
-                    console.log('ConnectionRequired root path failure, redirecting to selectserver');
+                    logger.debug('ConnectionRequired root path failure, redirecting to selectserver', {
+                        component: 'ConnectionRequired'
+                    });
                     navigate({ to: '/selectserver' });
                     return;
                 }
 
-                console.log('ConnectionRequired MATCHED error state, setting errorState');
+                logger.debug('ConnectionRequired MATCHED error state, setting errorState', {
+                    component: 'ConnectionRequired'
+                });
                 setErrorState(state);
                 setIsLoading(false);
             } else if (level === AccessLevel.Wizard) {
-                console.log('ConnectionRequired calling handleWizard');
+                logger.debug('ConnectionRequired calling handleWizard', { component: 'ConnectionRequired' });
                 handleWizard(firstConnection).catch(() => {});
             } else if (
                 firstConnection &&
                 firstConnection.State !== ConnectionState.SignedIn &&
                 !ServerConnections.currentApiClient()?.isLoggedIn()
             ) {
-                console.log('ConnectionRequired calling handleIncompleteWizard');
+                logger.debug('ConnectionRequired calling handleIncompleteWizard', { component: 'ConnectionRequired' });
                 handleIncompleteWizard(firstConnection).catch(() => {});
             } else {
-                console.log('ConnectionRequired calling validateUserAccess');
+                logger.debug('ConnectionRequired calling validateUserAccess', { component: 'ConnectionRequired' });
                 validateUserAccess().catch(() => {});
             }
         };
 
         const checkConnection = async () => {
-            console.log('ConnectionRequired checkConnection called, attempts:', connectionAttempts.current);
+            logger.debug('ConnectionRequired checkConnection called', {
+                attempts: connectionAttempts.current,
+                component: 'ConnectionRequired'
+            });
             const hasFirstConnection = ServerConnections.firstConnection !== null;
 
             if (!hasFirstConnection) {
-                console.log('ConnectionRequired calling ServerConnections.connect()');
+                logger.debug('ConnectionRequired calling ServerConnections.connect', {
+                    component: 'ConnectionRequired'
+                });
                 const connectionPromise = ServerConnections.connect();
 
                 timeoutId = setTimeout(() => {
                     if (!isMounted.current) return;
-                    console.log('ConnectionRequired TIMEOUT REACHED, setting error');
+                    logger.debug('ConnectionRequired TIMEOUT REACHED, setting error', {
+                        component: 'ConnectionRequired'
+                    });
                     setHasConnectionError(true);
                     setIsLoading(false);
                 }, CONNECTION_TIMEOUT_MS);
 
                 try {
-                    console.log('ConnectionRequired awaiting connectionPromise...');
+                    logger.debug('ConnectionRequired awaiting connectionPromise', { component: 'ConnectionRequired' });
                     const firstConnection = await connectionPromise;
                     clearTimeout(timeoutId);
-                    console.log('ConnectionRequired connectionPromise RESOLVED', {
+                    logger.debug('ConnectionRequired connectionPromise RESOLVED', {
                         state: firstConnection?.State,
-                        hasApiClient: !!firstConnection?.ApiClient
+                        hasApiClient: !!firstConnection?.ApiClient,
+                        component: 'ConnectionRequired'
                     });
                     handleConnectionResult(firstConnection);
                 } catch (err) {
                     clearTimeout(timeoutId);
-                    console.log('ConnectionRequired connectionPromise REJECTED', { err });
+                    logger.debug('ConnectionRequired connectionPromise REJECTED', {
+                        err,
+                        component: 'ConnectionRequired'
+                    });
                     if (!isMounted.current) return;
                     setHasConnectionError(true);
                     setIsLoading(false);
                 }
             } else {
-                console.log('ConnectionRequired using cached firstConnection');
+                logger.debug('ConnectionRequired using cached firstConnection', { component: 'ConnectionRequired' });
                 handleConnectionResult(null);
             }
         };
 
-        console.log('ConnectionRequired useEffect scheduling checkConnection');
+        logger.debug('ConnectionRequired useEffect scheduling checkConnection', { component: 'ConnectionRequired' });
         const timerId = setTimeout(checkConnection, 0);
 
         return () => {
-            console.log('ConnectionRequired useEffect cleanup');
+            logger.debug('ConnectionRequired useEffect cleanup', { component: 'ConnectionRequired' });
             isMounted.current = false;
             clearTimeout(timeoutId);
             clearTimeout(timerId);
@@ -363,17 +385,20 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
     }, [handleIncompleteWizard, handleWizard, level, validateUserAccess, errorState, hasConnectionError]);
 
     if (errorState) {
-        console.log('ConnectionRequired RENDERING ConnectionErrorPage with state:', errorState);
+        logger.debug('ConnectionRequired RENDERING ConnectionErrorPage', {
+            state: errorState,
+            component: 'ConnectionRequired'
+        });
         return <ConnectionErrorPage state={errorState} />;
     }
 
     if (hasConnectionError) {
-        console.log('ConnectionRequired RENDERING NoServerFoundFallback');
+        logger.debug('ConnectionRequired RENDERING NoServerFoundFallback', { component: 'ConnectionRequired' });
         return <NoServerFoundFallback onAddServer={handleAddServer} />;
     }
 
     if (isLoading) {
-        console.log('ConnectionRequired RENDERING Loading');
+        logger.debug('ConnectionRequired RENDERING Loading', { component: 'ConnectionRequired' });
         return <Loading />;
     }
 

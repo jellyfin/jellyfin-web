@@ -1,7 +1,6 @@
 // This file has been automatically migrated to valid ESM format by Storybook.
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'path';
-import path from 'path';
+import path, { dirname } from 'path';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -9,8 +8,7 @@ const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
     stories: [
-        '../src/ui-primitives/**/*.mdx',
-        '../src/ui-primitives/**/__stories__/*.stories.@(js|jsx|mjs|ts|tsx)',
+        '../src/ui-primitives/__stories__/**/*.stories.@(js|jsx|mjs|ts|tsx)',
         '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'
     ],
     addons: [
@@ -19,6 +17,7 @@ const config: StorybookConfig = {
         '@storybook/addon-vitest'
     ],
     framework: '@storybook/react-vite',
+    docs: {},
     viteFinal: async (viteConfig) => {
         // Storybook needs a minimal vite config that doesn't include app-specific plugins
         // Remove the viteStaticCopy plugin which requires files that don't exist in Storybook context
@@ -31,8 +30,10 @@ const config: StorybookConfig = {
             );
         });
 
-        // Disable publicDir for Storybook to avoid file checking issues
-        viteConfig.publicDir = false;
+        // Enable publicDir for Storybook to access locale files
+        viteConfig.publicDir = path.resolve(__dirname, '../public');
+
+
 
         // Update build settings for Storybook
         if (viteConfig.build) {

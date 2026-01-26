@@ -35,6 +35,7 @@ let LegacyConnectionManager: any;
  * For backward compatibility, external code should listen to events on
  * the ServerConnections.connectionManager instance, not directly on this class.
  */
+// Export the class so it can be imported as both named and default export
 export class ConnectionManager {
     private readonly legacyManager: unknown;
     private connectionStartTime: number;

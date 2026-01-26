@@ -3,6 +3,7 @@ import { useTranslation as useReactTranslation, type UseTranslationOptions } fro
 import i18n from '../i18n';
 import { supportedLocales, type LocaleCode, defaultLocale } from '../lib/locale-config';
 import { preloadLocale, getLocale } from '../lib/locale-loader';
+import { logger } from '../utils/logger';
 
 export { supportedLocales, LocaleCode } from '../lib/locale-config';
 
@@ -41,7 +42,7 @@ export function useTranslation(options: UseJellyfinTranslationOptions = {}): Tra
             await getLocale(code);
             await i18n.changeLanguage(code);
         } catch (error) {
-            console.error(`Failed to set language to ${code}:`, error);
+            logger.error(`Failed to set language to ${code}`, { error, component: 'useTranslation' });
         } finally {
             setIsLoading(false);
         }

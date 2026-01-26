@@ -3,13 +3,27 @@ import { Box, Text, Button, Input, Alert, Checkbox } from 'ui-primitives';
 import { LoadingView } from 'components/feedback/LoadingView';
 import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
-import { useServerStore } from 'store/serverStore';
+import { useServerStore, type ServerInfo } from 'store/serverStore';
 import { useDevConfigStore } from 'store/devConfigStore';
 import { saveDevConfig, normalizeServerBaseUrl } from 'utils/devConfig';
 import { useNavigate } from '@tanstack/react-router';
+import { logger } from 'utils/logger';
 
 interface SelectServerProps {
-    showUser?: boolean;
+    readonly showUser?: boolean;
+}
+
+interface LegacyServerInfo {
+    readonly Id: string;
+    readonly Name: string;
+    readonly Address?: string;
+    readonly ManualAddress?: string;
+    readonly LocalAddress?: string;
+    readonly RemoteAddress?: string;
+    readonly LastConnectionMode?: number;
+    readonly DateLastAccessed?: number | string;
+    readonly UserId?: string;
+    readonly AccessToken?: string;
 }
 
 export function SelectServer({ showUser = false }: SelectServerProps) {
@@ -24,51 +38,36 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
     const [error, setError] = useState<string | null>(null);
     const [serverConnecting, setServerConnecting] = useState<string | null>(null);
 
-    const mapServerInfo = useCallback((server: any) => {
+    const mapServerInfo = useCallback((server: LegacyServerInfo): ServerInfo => {
+        const lastAccessed = typeof server.DateLastAccessed === 'string' 
+            ? new Date(server.DateLastAccessed).getTime() 
+            : (server.DateLastAccessed ?? Date.now());
+
         return {
             id: server.Id,
             name: server.Name,
-            address: server.Address || server.ManualAddress || server.LocalAddress || server.RemoteAddress || '',
-            localAddress: server.LocalAddress || '',
-            remoteAddress: server.RemoteAddress || '',
-            manualAddress: server.ManualAddress || '',
-            lastConnectionMode: server.LastConnectionMode || 0,
-            dateLastAccessed: server.DateLastAccessed || Date.now(),
-            userId: server.UserId || null,
-            accessToken: server.AccessToken || null
+            address: server.Address ?? server.ManualAddress ?? server.LocalAddress ?? server.RemoteAddress ?? '',
+            localAddress: server.LocalAddress ?? '',
+            remoteAddress: server.RemoteAddress ?? '',
+            manualAddress: server.ManualAddress ?? '',
+            lastConnectionMode: server.LastConnectionMode ?? 0,
+            dateLastAccessed: lastAccessed,
+            userId: server.UserId ?? null,
+            accessToken: server.AccessToken ?? null
         };
     }, []);
 
-    const loadServers = useCallback(async () => {
+    const loadServers = useCallback(() => {
         setIsLoading(true);
         try {
-            // Race the server discovery against a timeout to ensure UI loads quickly
-            const discoveryPromise = new Promise<any[]>(resolve => {
-                const servers = ServerConnections.getAvailableServers();
-                resolve(servers);
-            });
-            const timeoutPromise = new Promise<any[]>(resolve => setTimeout(() => resolve([]), 1000));
-
-            const availableServers = await Promise.race([discoveryPromise, timeoutPromise]);
-
+            const availableServers = ServerConnections.getAvailableServers();
             if (Array.isArray(availableServers)) {
-                availableServers.forEach((server: any) => {
+                for (const server of availableServers) {
                     addServer(mapServerInfo(server));
-                });
+                }
             }
-
-            // If discovery finishes later, we can still add them (optional, but for now just ensure UI loads)
-            discoveryPromise
-                .then((servers: any) => {
-                    if (Array.isArray(servers) && servers.length > 0) {
-                        servers.forEach((server: any) => {
-                            addServer(mapServerInfo(server));
-                        });
-                    }
-                })
-                .catch(() => {});
         } catch (err) {
-            console.error('Error loading servers:', err);
+            logger.error('Error loading servers', { component: 'SelectServer', error: err });
         } finally {
             setIsLoading(false);
         }
@@ -78,140 +77,66 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
         loadServers();
     }, [loadServers]);
 
-    const connectToServer = async (server: any) => {
-        setServerConnecting(server.id);
-        setError(null);
-
-        try {
-            const result = await ServerConnections.connectToServer(
-                {
-                    Id: server.id,
-                    Name: server.name,
-                    Address: server.address,
-                    LocalAddress: server.localAddress,
-                    RemoteAddress: server.remoteAddress,
-                    ManualAddress: server.manualAddress,
-                    LastConnectionMode: server.lastConnectionMode,
-                    DateLastAccessed: server.dateLastAccessed,
-                    UserId: server.userId,
-                    AccessToken: server.accessToken
-                },
-                {
-                    enableAutoLogin: true
-                }
-            );
-
-            switch (result.State) {
-                case ConnectionState.SignedIn: {
-                    const updatedServer = {
-                        ...mapServerInfo(result.Servers[0]),
-                        userId: result.ApiClient.getCurrentUserId(),
-                        accessToken: result.ApiClient.accessToken()
-                    };
-                    setCurrentServer(updatedServer);
-                    navigate({ to: '/home' });
-                    break;
-                }
-                case ConnectionState.ServerSignIn:
-                    setCurrentServer(mapServerInfo(result.Servers[0]));
-                    navigate({ to: `/login?serverid=${result.Servers[0].Id}` } as any);
-                    break;
-                case ConnectionState.ServerUpdateNeeded:
-                    setError('Server update needed. Please update your Jellyfin server.');
-                    break;
-                default:
-                    setError('Unable to connect to server');
-            }
-        } catch (err: any) {
-            setError(err.message || 'Connection failed');
-        } finally {
-            setServerConnecting(null);
-        }
-    };
-
-    const handleAddServer = async () => {
-        if (!manualUrl.trim()) {
-            setError('Please enter a server URL');
-            return;
-        }
-
-        const normalizedUrl = normalizeServerBaseUrl(manualUrl);
-        const resolvedAddress =
-            import.meta.env.DEV && devConfig.useProxy
-                ? `${window.location.origin}${devConfig.proxyBasePath}`
-                : normalizedUrl;
-
-        setIsLoading(true);
-        setError(null);
-
-        if (import.meta.env.DEV && devConfig.useProxy) {
-            devConfig.setServerBaseUrl(normalizedUrl);
-            try {
-                await saveDevConfig({ serverBaseUrl: normalizedUrl });
-            } catch {
-                // Ignore dev-config persistence failures
-            }
-        }
-
-        try {
-            const result = await ServerConnections.connectToAddress(resolvedAddress, { enableAutoLogin: true });
-
-            switch (result.State) {
-                case ConnectionState.SignedIn: {
-                    const updatedServer = {
-                        ...mapServerInfo(result.Servers[0]),
-                        userId: result.ApiClient.getCurrentUserId(),
-                        accessToken: result.ApiClient.accessToken()
-                    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleConnectionResult = useCallback((result: any, isNewServer: boolean = false) => {
+        switch (result.State) {
+            case ConnectionState.SignedIn: {
+                const updatedServer = {
+                    ...mapServerInfo(result.Servers[0]),
+                    userId: result.ApiClient.getCurrentUserId(),
+                    accessToken: result.ApiClient.accessToken()
+                };
+                if (isNewServer) {
                     addServer(updatedServer);
-                    setCurrentServer(updatedServer);
-                    setShowAddDialog(false);
-                    setManualUrl('');
-                    navigate({ to: '/home' });
-                    break;
                 }
-                case ConnectionState.ServerSignIn: {
-                    const newServer = mapServerInfo(result.Servers[0]);
-                    addServer(newServer);
-                    setCurrentServer(newServer);
-                    setShowAddDialog(false);
-                    setManualUrl('');
-                    navigate({ to: `/login?serverid=${result.Servers[0].Id}` } as any);
-                    break;
-                }
-                case ConnectionState.ServerSelection: {
-                    const newServer = mapServerInfo(result.Servers[0]);
-                    addServer(newServer);
-                    setShowAddDialog(false);
-                    setManualUrl('');
-                    break;
-                }
-                case ConnectionState.ServerUpdateNeeded:
-                    setError('Server update needed. Please update your Jellyfin server.');
-                    break;
-                case ConnectionState.Unavailable:
-                default:
-                    setError('No server found at this address');
+                setCurrentServer(updatedServer);
+                setShowAddDialog(false);
+                setManualUrl('');
+                void navigate({ to: '/home' });
+                break;
             }
-        } catch (err: any) {
-            setError(err.message || 'Failed to connect to server');
-        } finally {
-            setIsLoading(false);
+            case ConnectionState.ServerSignIn: {
+                const server = mapServerInfo(result.Servers[0]);
+                if (isNewServer) {
+                    addServer(server);
+                }
+                setCurrentServer(server);
+                setShowAddDialog(false);
+                setManualUrl('');
+                void navigate({ to: '/login', search: { serverid: result.Servers[0].Id } });
+                break;
+            }
+            case ConnectionState.ServerSelection: {
+                if (isNewServer) {
+                    const server = mapServerInfo(result.Servers[0]);
+                    addServer(server);
+                    setShowAddDialog(false);
+                    setManualUrl('');
+                }
+                break;
+            }
+            case ConnectionState.ServerUpdateNeeded:
+                setError('Server update needed. Please update your Jellyfin server.');
+                break;
+            case ConnectionState.Unavailable:
+                setError('No server found at this address');
+                break;
+            default:
+                setError('Unable to connect to server');
         }
-    };
+    }, [mapServerInfo, setCurrentServer, addServer, navigate]);
 
-    const handleSaveDevConfig = async () => {
-        try {
-            await saveDevConfig({
-                useProxy: devConfig.useProxy,
-                serverBaseUrl: devConfig.serverBaseUrl,
-                proxyBasePath: devConfig.proxyBasePath
-            });
-            setShowDevSettings(false);
-        } catch (err) {
-            setError('Failed to save dev config');
-        }
-    };
+    const onConnectClick = useCallback((server: ServerInfo) => {
+        void connectToServer(server);
+    }, [connectToServer]);
+
+    const onAddServerSubmit = useCallback(() => {
+        void handleAddServer();
+    }, [handleAddServer]);
+
+    const onSaveDevSettingsSubmit = useCallback(() => {
+        void handleSaveDevConfig();
+    }, [handleSaveDevConfig]);
 
     if (isLoading && servers.length === 0) {
         return <LoadingView message={globalize.translate('Loading')} />;
@@ -226,14 +151,14 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                     {globalize.translate('SelectServer')}
                 </Text>
 
-                {error && (
+                {error !== null && (
                     <Box style={{ marginBottom: '16px' }}>
                         <Alert variant="error">
                             <Text color="error">{error}</Text>
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => setError(null)}
+                                onClick={onDismissError}
                                 style={{ marginLeft: '8px' }}
                             >
                                 Dismiss
@@ -244,7 +169,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
 
                 {import.meta.env.DEV && (
                     <Box style={{ textAlign: 'right', marginBottom: 16 }}>
-                        <Button variant="ghost" size="sm" onClick={() => setShowDevSettings(true)}>
+                        <Button variant="ghost" size="sm" onClick={onShowDevSettings}>
                             Developer Settings
                         </Button>
                     </Box>
@@ -255,7 +180,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                         <Text size="md" color="secondary" style={{ marginBottom: '24px' }}>
                             {globalize.translate('MessageNoServersAvailable')}
                         </Text>
-                        <Button variant="primary" onClick={() => setShowAddDialog(true)}>
+                        <Button variant="primary" onClick={onShowAddDialog}>
                             {globalize.translate('AddServer')}
                         </Button>
                     </Box>
@@ -275,7 +200,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 <button
                                     key={server.id}
                                     type="button"
-                                    onClick={() => connectToServer(server)}
+                                    onClick={() => onConnectClick(server)}
                                     disabled={serverConnecting === server.id}
                                     style={{
                                         width: 160,
@@ -351,7 +276,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                         </Box>
 
                         <Box style={{ textAlign: 'center' }}>
-                            <Button variant="secondary" onClick={() => setShowAddDialog(true)}>
+                            <Button variant="secondary" onClick={onShowAddDialog}>
                                 {globalize.translate('AddServer')}
                             </Button>
                         </Box>
@@ -389,7 +314,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => setShowAddDialog(false)}
+                                onClick={onDismissAddDialog}
                                 style={{ padding: '4px' }}
                             >
                                 ×
@@ -403,20 +328,20 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 id="server-url"
                                 label={globalize.translate('ServerURL')}
                                 value={manualUrl}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setManualUrl(e.target.value)}
+                                onChange={onUrlChange}
                                 placeholder="http://localhost:8096"
                             />
                         </Box>
-                        {error && (
+                        {error !== null && (
                             <Alert variant="error" style={{ marginTop: '16px' }}>
                                 <Text color="error">{error}</Text>
                             </Alert>
                         )}
                         <Box style={{ marginTop: '24px', display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                            <Button variant="secondary" onClick={() => setShowAddDialog(false)}>
+                            <Button variant="secondary" onClick={onDismissAddDialog}>
                                 {globalize.translate('Cancel')}
                             </Button>
-                            <Button variant="primary" onClick={handleAddServer} disabled={isLoading}>
+                            <Button variant="primary" onClick={onAddServerSubmit} disabled={isLoading}>
                                 {isLoading ? 'Connecting...' : globalize.translate('Connect')}
                             </Button>
                         </Box>
@@ -454,7 +379,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => setShowDevSettings(false)}
+                                onClick={onDismissDevSettings}
                                 style={{ padding: '4px' }}
                             >
                                 ×
@@ -469,9 +394,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 <Checkbox
                                     id="use-proxy"
                                     checked={devConfig.useProxy}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                        devConfig.setUseProxy(e.target.checked)
-                                    }
+                                    onChange={devConfig.toggleUseProxy}
                                 />
                                 <label htmlFor="use-proxy">
                                     <Text>Use Dev Proxy</Text>
@@ -482,13 +405,9 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 <Checkbox
                                     id="enable-sw"
                                     checked={localStorage.getItem('enable-service-worker') === 'true'}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                        localStorage.setItem('enable-service-worker', String(e.target.checked));
-                                        // Force update to reflect change (cheap way)
-                                        setShowDevSettings(prev => prev);
-                                        window.location.reload(); // Reload to apply SW changes
-                                    }}
+                                    onChange={onSWToggle}
                                 />
+                                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                                 <label htmlFor="enable-sw">
                                     <Text>Enable Service Worker (Requires Reload)</Text>
                                 </label>
@@ -499,17 +418,13 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                     <Input
                                         label="Server Base URL (Target)"
                                         value={devConfig.serverBaseUrl}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                            devConfig.setServerBaseUrl(e.target.value)
-                                        }
+                                        onChange={devConfig.onServerBaseUrlChange}
                                         placeholder="https://demo.jellyfin.org"
                                     />
                                     <Input
                                         label="Proxy Base Path"
                                         value={devConfig.proxyBasePath}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                            devConfig.setProxyBasePath(e.target.value)
-                                        }
+                                        onChange={devConfig.onProxyBasePathChange}
                                         placeholder="/__proxy__/jellyfin"
                                     />
                                 </>
@@ -517,10 +432,10 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                         </Box>
 
                         <Box style={{ marginTop: '24px', display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                            <Button variant="secondary" onClick={() => setShowDevSettings(false)}>
+                            <Button variant="secondary" onClick={onDismissDevSettings}>
                                 Cancel
                             </Button>
-                            <Button variant="primary" onClick={handleSaveDevConfig}>
+                            <Button variant="primary" onClick={onSaveDevSettingsSubmit}>
                                 Save & Apply
                             </Button>
                         </Box>
