@@ -121,27 +121,24 @@ export function getEnvironmentContext(): EnvironmentContext {
 
 /**
  * Get user ID from auth store
+ * Returns undefined as fallback - userId should be provided via RequestContext.updateContext()
+ * to avoid circular dependency issues at module load time
  */
 export function getCurrentUserId(): string | undefined {
-    try {
-        // Import dynamically to avoid circular dependencies
-        const { useAuthStore } = require('../../store/authStore');
-        return useAuthStore.getState().userId;
-    } catch {
-        return undefined;
-    }
+    // Intentionally returns undefined to avoid circular dependency
+    // Client code should set userId via RequestContext.updateContext({ userId })
+    return undefined;
 }
 
 /**
  * Get server ID from server store
+ * Returns undefined as fallback - serverId should be provided via RequestContext.updateContext()
+ * to avoid circular dependency issues at module load time
  */
 export function getCurrentServerId(): string | undefined {
-    try {
-        const { useServerStore } = require('../../store/serverStore');
-        return useServerStore.getState().currentServer?.id;
-    } catch {
-        return undefined;
-    }
+    // Intentionally returns undefined to avoid circular dependency
+    // Client code should set serverId via RequestContext.updateContext({ serverId })
+    return undefined;
 }
 
 /**

@@ -7,6 +7,7 @@
  */
 
 import { logger } from './logger';
+import { usePreferencesStore } from '../store/preferencesStore';
 
 export interface LatencySample {
     timestamp: number;
@@ -143,8 +144,7 @@ export class NetworkLatencyMonitor {
     }
 
     getLatencyMs(): number {
-        const state =
-            typeof window !== 'undefined' ? require('../store/preferencesStore').usePreferencesStore.getState() : null;
+        const state = typeof window !== 'undefined' ? usePreferencesStore.getState() : null;
 
         if (state?.crossfade.networkLatencyMode === 'manual') {
             return state.crossfade.manualLatencyOffset * 1000;
