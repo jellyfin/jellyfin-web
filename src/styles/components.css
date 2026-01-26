@@ -1,0 +1,272 @@
+/* Canonical UI Component Patterns */
+/* Following Radix UI + vanilla CSS guidelines */
+
+/* SVG Base Rule (Critical) */
+svg {
+  display: block;
+}
+
+/* Icon Sizing Utilities */
+.icon-xs {
+  width: 12px;
+  height: 12px;
+}
+
+.icon-sm {
+  width: 12px;
+  height: 12px;
+}
+
+.icon-md {
+  width: 15px;
+  height: 15px;
+}
+
+.icon-lg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-xl {
+  width: 24px;
+  height: 24px;
+}
+
+/* Icon Button - Primary Pattern */
+.iconButton {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-md);
+  color: var(--text-1);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.iconButton:hover {
+  background: var(--surface-2);
+}
+
+.iconButton:active {
+  background: var(--surface-3);
+}
+
+.iconButton:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Icon Button Variants */
+.iconButton.ghost {
+  background: transparent;
+}
+
+.iconButton.ghost:hover {
+  background: var(--surface-1);
+}
+
+.iconButton.primary {
+  color: var(--primary);
+}
+
+.iconButton.primary:hover {
+  background: var(--gray-3);
+  color: var(--primary-hover);
+}
+
+/* Button with Icon + Label */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.button:hover {
+  background: var(--surface-3);
+}
+
+.button:active {
+  background: var(--surface-3);
+}
+
+.button:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button Variants */
+.button.primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.button.primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.button.outline {
+  background: transparent;
+  border-color: var(--border-1);
+}
+
+.button.outline:hover {
+  background: var(--surface-1);
+  border-color: var(--border-2);
+}
+
+/* Dropdown Trigger Pattern */
+.dropdownTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.dropdownTrigger svg {
+  transition: transform 150ms ease;
+}
+
+.dropdownTrigger[data-state="open"] svg {
+  transform: rotate(180deg);
+  transition: transform 150ms ease;
+}
+
+/* Checkbox Custom Styling */
+.checkboxCustom {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-1);
+  border-radius: var(--r-sm);
+  background: var(--surface-1);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.checkboxCustom:hover {
+  border-color: var(--primary);
+}
+
+.checkboxCustom[aria-checked="true"] {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.checkboxCustom:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Input Base */
+.input {
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r-md);
+  background: var(--surface-1);
+  color: var(--text-1);
+  font-size: var(--font-size-md);
+  transition: all 150ms ease;
+}
+
+.input::placeholder {
+  color: var(--text-3);
+}
+
+.input:focus {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-color: var(--primary);
+}
+
+/* Badge/Tag */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--r-full);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-size: var(--font-size-sm);
+}
+
+.badge.primary {
+  background: var(--primary);
+  color: white;
+}
+
+.badge.success {
+  background: var(--success);
+  color: white;
+}
+
+.badge.error {
+  background: var(--error);
+  color: white;
+}
+
+/* Flex Utilities */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-gap {
+  gap: var(--s-2);
+}
+
+/* Stacked List */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.stack.compact {
+  gap: var(--s-2);
+}
+
+/* Separator */
+.separator {
+  height: 1px;
+  background: var(--border-1);
+}
+
+.separator.vertical {
+  width: 1px;
+  height: 100%;
+}

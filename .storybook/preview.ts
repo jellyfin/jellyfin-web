@@ -1,11 +1,15 @@
 import type { Preview } from '@storybook/react';
 import React from 'react';
+import { Theme } from '@radix-ui/themes';
 
 import { vars } from '../src/styles/tokens.css';
 import MockProviders from './providers';
 
+import '@radix-ui/themes/styles.css';
 import '../src/styles/fonts.css.ts';
 import '../src/styles/site.css.ts';
+import '../src/styles/tokens.semantic.css';
+import '../src/styles/components.css';
 
 const preview: Preview = {
     parameters: {
@@ -42,22 +46,83 @@ const preview: Preview = {
         }
     },
 
+    globalTypes: {
+        locale: {
+            name: 'Locale',
+            description: 'Internationalization locale',
+            defaultValue: 'ltr',
+            toolbar: {
+                icon: 'globe',
+                items: [
+                    { value: 'ltr', title: 'LTR' },
+                    { value: 'rtl', title: 'RTL' }
+                ]
+            }
+        },
+        appearance: {
+            name: 'Appearance',
+            description: 'Radix UI theme appearance',
+            defaultValue: 'dark',
+            toolbar: {
+                icon: 'contrast',
+                items: [
+                    { value: 'light', title: 'Light' },
+                    { value: 'dark', title: 'Dark' }
+                ]
+            }
+        },
+        accentColor: {
+            name: 'Accent Color',
+            description: 'Radix UI accent color',
+            defaultValue: 'jade',
+            toolbar: {
+                items: [
+                    { value: 'blue', title: 'Blue' },
+                    { value: 'cyan', title: 'Cyan' },
+                    { value: 'gold', title: 'Gold' },
+                    { value: 'green', title: 'Green' },
+                    { value: 'jade', title: 'Jade' },
+                    { value: 'orange', title: 'Orange' },
+                    { value: 'pink', title: 'Pink' },
+                    { value: 'plum', title: 'Plum' },
+                    { value: 'purple', title: 'Purple' },
+                    { value: 'red', title: 'Red' },
+                    { value: 'tomato', title: 'Tomato' },
+                    { value: 'violet', title: 'Violet' }
+                ]
+            }
+        }
+    },
+
     decorators: [
         (Story, context) => {
+            const appearance = context.globals?.appearance ?? 'dark';
+            const accentColor = context.globals?.accentColor ?? 'jade';
             const isRtl = context.globals?.locale === 'rtl';
+
             return React.createElement(
-                'div',
+                Theme,
                 {
-                    style: {
-                        fontFamily: 'system-ui, -apple-system, sans-serif',
-                        color: vars.colors.text,
-                        backgroundColor: vars.colors.background,
-                        padding: '1rem',
-                        minHeight: '100vh',
-                        direction: isRtl ? 'rtl' : 'ltr'
-                    }
+                    appearance,
+                    accentColor,
+                    grayColor: 'sage',
+                    radius: 'medium',
+                    scaling: '100%'
                 },
-                React.createElement(Story)
+                React.createElement(
+                    'div',
+                    {
+                        style: {
+                            fontFamily: 'system-ui, -apple-system, sans-serif',
+                            color: 'var(--text-1)',
+                            backgroundColor: 'var(--bg)',
+                            padding: '1rem',
+                            minHeight: '100vh',
+                            direction: isRtl ? 'rtl' : 'ltr'
+                        }
+                    },
+                    React.createElement(Story)
+                )
             );
         },
         Story =>
@@ -86,25 +151,12 @@ const preview: Preview = {
         }
     ],
 
-    globalTypes: {
-        locale: {
-            name: 'Locale',
-            description: 'Internationalization locale',
-            defaultValue: 'ltr',
-            toolbar: {
-                icon: 'globe',
-                items: [
-                    { value: 'ltr', title: 'LTR' },
-                    { value: 'rtl', title: 'RTL' }
-                ]
-            }
-        }
-    },
-
     initialGlobals: {
         backgrounds: {
             value: 'dark'
-        }
+        },
+        appearance: 'dark',
+        accentColor: 'jade'
     }
 };
 

@@ -143,6 +143,9 @@ window.addEventListener('beforeunload', () => {
         .catch(() => {});
 });
 
+// Import Radix UI themes styles
+import '@radix-ui/themes/styles.css';
+
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
 import './elements/emby-button/emby-button';
@@ -172,6 +175,10 @@ import './styles/livetv.css.ts';
 import './styles/dashboard.css.ts';
 import './styles/detailtable.css.ts';
 import './styles/librarybrowser.css.ts';
+
+// Import Radix UI semantic tokens and components
+import './styles/tokens.semantic.css';
+import './styles/components.css';
 
 async function init() {
     // Log current version to console to help out with issue triage and debugging

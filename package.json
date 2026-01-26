@@ -127,6 +127,7 @@
     "@radix-ui/react-toggle": "1.1.10",
     "@radix-ui/react-toggle-group": "1.1.11",
     "@radix-ui/react-tooltip": "1.2.8",
+    "@radix-ui/themes": "3.2.1",
     "@react-hook/resize-observer": "2.0.2",
     "@react-three/drei": "10.7.7",
     "@react-three/fiber": "9.5.0",

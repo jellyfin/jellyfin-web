@@ -1,0 +1,83 @@
+/* Radix UI Semantic Tokens */
+/* These map Radix UI's design system to application variables */
+
+:root {
+  /* Background & Surfaces */
+  --bg: var(--gray-1);
+  --surface-1: var(--gray-2);
+  --surface-2: var(--gray-3);
+  --surface-3: var(--gray-4);
+
+  /* Text Colors */
+  --text-1: var(--gray-12);
+  --text-2: var(--gray-11);
+  --text-3: var(--gray-10);
+
+  /* Borders */
+  --border-1: var(--gray-6);
+  --border-2: var(--gray-7);
+
+  /* Interactive States */
+  --primary: var(--accent-9);
+  --primary-hover: var(--accent-10);
+  --primary-active: var(--accent-11);
+
+  /* Focus & Attention */
+  --focus-ring: var(--accent-8);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Semantic Feedback */
+  --success: var(--green-9);
+  --warning: var(--yellow-9);
+  --error: var(--red-9);
+  --info: var(--blue-9);
+
+  /* Radius Scale */
+  --r-xs: var(--radius-1);
+  --r-sm: var(--radius-2);
+  --r-md: var(--radius-3);
+  --r-lg: var(--radius-4);
+  --r-full: 9999px;
+
+  /* Spacing Scale */
+  --s-1: var(--space-1);
+  --s-2: var(--space-2);
+  --s-3: var(--space-3);
+  --s-4: var(--space-4);
+  --s-5: var(--space-5);
+  --s-6: var(--space-6);
+
+  /* Typography */
+  --font-family-sans: var(--font-family);
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+
+  /* Z-index Scale */
+  --z-hide: -1;
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 100;
+  --z-modal: 1000;
+  --z-tooltip: 1100;
+}
+
+/* Dark theme adjustments (applied by Radix Theme) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5), 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+}
