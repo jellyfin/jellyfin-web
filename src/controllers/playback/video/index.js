@@ -556,6 +556,7 @@ export default function (view) {
     function onPlaybackStopped(e, state) {
         currentRuntimeTicks = null;
         resetUpNextDialog();
+        cancelSleepTimer();
         console.debug('nowplaying event: ' + e.type);
 
         if (state.NextMediaType !== 'Video') {
@@ -612,6 +613,7 @@ export default function (view) {
         destroyStats();
         destroySubtitleSync();
         resetUpNextDialog();
+        cancelSleepTimer();
         const player = currentPlayer;
 
         if (player) {
@@ -1198,6 +1200,119 @@ export default function (view) {
         }
     }
 
+    function showSleepTimerMenu() {
+        const menuItems = [
+            {
+                name: '1 minute (test)',
+                id: '1'
+            }
+        ];
+        const durations = [10, 20, 30, 40, 50, 60];
+        menuItems.push(...durations.map(minutes => ({
+            name: globalize.translate('ValueMinutes', minutes),
+            id: minutes.toString()
+        })));
+        const positionTo = view.querySelector('.btnSleepTimer');
+
+        import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+            actionsheet.show({
+                items: menuItems,
+                title: globalize.translate('SleepTimer'),
+                positionTo: positionTo
+            }).then(function (id) {
+                if (id) {
+                    const minutes = parseFloat(id);
+                    setSleepTimer(minutes);
+                }
+            }).catch(() => {
+                // Action sheet closed without selection
+            }).finally(() => {
+                resetIdle();
+            });
+
+            setTimeout(resetIdle, 0);
+        });
+    }
+
+    function showSleepTimerCancelMenu() {
+        const remaining = Math.ceil((sleepTimerEndTime - Date.now()) / 60000);
+        const menuItems = [{
+            name: globalize.translate('CancelSleepTimer'),
+            id: 'cancel'
+        }];
+        const positionTo = view.querySelector('.btnSleepTimer');
+
+        import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+            actionsheet.show({
+                items: menuItems,
+                title: globalize.translate('SleepTimerRemaining', remaining),
+                positionTo: positionTo
+            }).then(function (id) {
+                if (id === 'cancel') {
+                    cancelSleepTimer();
+                }
+            }).catch(() => {
+                // Action sheet closed without selection
+            }).finally(() => {
+                resetIdle();
+            });
+
+            setTimeout(resetIdle, 0);
+        });
+    }
+
+    function setSleepTimer(minutes) {
+        cancelSleepTimer();
+
+        const btnSleepTimer = view.querySelector('.btnSleepTimer');
+        sleepTimerEndTime = Date.now() + (minutes * 60000);
+
+        sleepTimerTimeout = setTimeout(onSleepTimerExpired, minutes * 60000);
+
+        btnSleepTimer.classList.add('sleep-timer-active');
+        btnSleepTimer.setAttribute('title', globalize.translate('SleepTimerSet', minutes));
+
+        sleepTimerUpdateInterval = setInterval(updateSleepTimerDisplay, 60000);
+        updateSleepTimerDisplay();
+    }
+
+    function cancelSleepTimer() {
+        if (sleepTimerTimeout) {
+            clearTimeout(sleepTimerTimeout);
+            sleepTimerTimeout = null;
+        }
+
+        if (sleepTimerUpdateInterval) {
+            clearInterval(sleepTimerUpdateInterval);
+            sleepTimerUpdateInterval = null;
+        }
+
+        sleepTimerEndTime = null;
+
+        const btnSleepTimer = view.querySelector('.btnSleepTimer');
+        btnSleepTimer.classList.remove('sleep-timer-active');
+        btnSleepTimer.setAttribute('title', globalize.translate('SleepTimer'));
+    }
+
+    function updateSleepTimerDisplay() {
+        if (!sleepTimerEndTime) return;
+
+        const remaining = Math.max(0, Math.ceil((sleepTimerEndTime - Date.now()) / 60000));
+        const btnSleepTimer = view.querySelector('.btnSleepTimer');
+
+        if (remaining > 0) {
+            btnSleepTimer.setAttribute('title', globalize.translate('SleepTimerRemaining', remaining));
+        }
+    }
+
+    function onSleepTimerExpired() {
+        const player = currentPlayer;
+        if (player && !playbackManager.paused(player)) {
+            playbackManager.pause(player);
+        }
+        cancelSleepTimer();
+    }
+
     /**
          * Clicked element.
          * To skip 'click' handling on Firefox/Edge.
@@ -1633,6 +1748,9 @@ export default function (view) {
     let statsOverlay;
     let osdHideTimeout;
     let lastPointerMoveData;
+    let sleepTimerTimeout;
+    let sleepTimerEndTime;
+    let sleepTimerUpdateInterval;
     const self = this;
     let currentPlayerSupportedCommands = [];
     let currentRuntimeTicks = 0;
@@ -1960,6 +2078,15 @@ export default function (view) {
     });
     view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
     view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
+    view.querySelector('.btnSleepTimer').addEventListener('click', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (sleepTimerTimeout) {
+            showSleepTimerCancelMenu();
+        } else {
+            showSleepTimerMenu();
+        }
+    });
 
     // HACK: Remove `emby-button` from the rating button to make it look like the other buttons
     view.querySelector('.btnUserRating').classList.remove('emby-button');

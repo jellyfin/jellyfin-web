@@ -209,9 +209,26 @@
 
 @media all and (max-width: 50em) {
     .videoOsdBottom .btnFastForward,
-    .videoOsdBottom .btnRewind {
+    .videoOsdBottom .btnRewind,
+    .videoOsdBottom .btnSleepTimer {
         display: none !important;
     }
+}
+
+.btnSleepTimer.sleep-timer-active .material-icons {
+    color: #00a4dc;
+    position: relative;
+}
+
+.btnSleepTimer.sleep-timer-active .material-icons::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 6px;
+    height: 6px;
+    background-color: #00a4dc;
+    border-radius: 50%;
 }
 
 @media all and (max-width: 75em) {
