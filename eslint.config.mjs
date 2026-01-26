@@ -579,6 +579,14 @@ export default tseslint.config(
     {
         files: ['src/**/*.{ts,tsx}'],
         rules: {
+            // Require ES module imports instead of require() (CommonJS)
+            // This ensures compatibility with Vite and modern bundlers
+            '@typescript-eslint/no-require-imports': [
+                'error',
+                {
+                    allow: []
+                }
+            ],
             // Require explicit return types for better AI code generation
             '@typescript-eslint/explicit-function-return-type': [
                 'warn',
@@ -699,9 +707,18 @@ export default tseslint.config(
     {
         files: ['src/**/*.{ts,tsx}'],
         rules: {
-            // State, Forms, Queries, API patterns
+            // Prevent CommonJS require() - must use ES module imports for Vite compatibility
             'no-restricted-syntax': [
                 'error',
+                {
+                    selector: 'CallExpression[callee.name="require"]',
+                    message: 'Use ES module import syntax instead of require(). Example: import module from "./file.js"'
+                },
+                {
+                    selector: 'CallExpression[callee.object.name="require"]',
+                    message: 'Use ES module import syntax instead of require(). Example: import module from "./file.js"'
+                },
+                // State, Forms, Queries, API patterns
                 {
                     selector: 'CallExpression[callee.name=/^useStore$/]',
                     message: 'Use typed selectors from store hooks (e.g., useAudioStore.getState) or custom hooks'
