@@ -172,7 +172,7 @@
     "ClearQueue": "Clear queue",
     "SelectAudioNormalizationHelp": "Track gain - Adjusts the volume of each track so they playback at the same loudness.\nAlbum gain: Adjusts the volume of all tracks in an album as a group, preserving the album’s original dynamic range. Switching between “Off” and other options requires restarting the current playback.",
     "ClearQueue": "Clear queue",
-    "ClientSettings": "Client side settings",
+    "ClientSettings": "Client Settings",
     "Collections": "Collections",
     "Colorist": "Colorist",
     "ColorPrimaries": "Primary colors",
