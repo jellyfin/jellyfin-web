@@ -18,7 +18,6 @@ import storybook from 'eslint-plugin-storybook';
 export default tseslint.config(
     eslint.configs.recommended,
     tseslint.configs.recommended,
-    // @ts-expect-error Harmless type mismatch in dependency
     comments.recommended,
     compat.configs['flat/recommended'],
     importPlugin.flatConfigs.errors,
@@ -193,7 +192,7 @@ export default tseslint.config(
                 'single',
                 {
                     avoidEscape: true,
-                    allowTemplateLiterals: false
+                    allowTemplateLiterals: 'never'
                 }
             ],
             '@stylistic/semi': 'error',
@@ -237,7 +236,8 @@ export default tseslint.config(
                         },
                         {
                             name: 'components',
-                            message: 'Barrel exports hurt tree-shaking. Import from specific component path: components/dialogs, components/playback, etc.'
+                            message:
+                                'Barrel exports hurt tree-shaking. Import from specific component path: components/dialogs, components/playback, etc.'
                         },
                         {
                             name: 'components/dialogs',
@@ -632,12 +632,15 @@ export default tseslint.config(
             'no-restricted-syntax': [
                 'error',
                 {
-                    selector: 'ImportNamespaceSpecifier[parent.source.value=/^(components|apps|store|hooks|lib|utils|styles)/]',
-                    message: 'Wildcard imports from internal modules hurt tree-shaking. Use explicit named imports instead: import { ComponentName } from "components/dialogs"'
+                    selector:
+                        'ImportNamespaceSpecifier[parent.source.value=/^(components|apps|store|hooks|lib|utils|styles)/]',
+                    message:
+                        'Wildcard imports from internal modules hurt tree-shaking. Use explicit named imports instead: import { ComponentName } from "components/dialogs"'
                 },
                 {
-                    selector: 'ImportNamespaceSpecifier[parent.source.value=/^\.\/.*\/(index|)$/]',
-                    message: 'Wildcard imports from barrel exports hurt tree-shaking. Use explicit named imports instead.'
+                    selector: 'ImportNamespaceSpecifier[parent.source.value=/^./.*/(index|)$/]',
+                    message:
+                        'Wildcard imports from barrel exports hurt tree-shaking. Use explicit named imports instead.'
                 }
             ]
         }
@@ -683,11 +686,11 @@ export default tseslint.config(
                     message: 'Use named imports from CSS files instead of namespace imports (import * as styles).'
                 },
                 {
-                    selector: 'Literal[value=/transition.*(2s|3s|4s|5s)/]',
+                    selector: 'Literal[value=/transition.*[2345]s/]',
                     message: 'Avoid long CSS transitions. Use Motion animations instead for better performance.'
                 },
                 {
-                    selector: 'Literal[value=/<[a-z]+[^>]*>.*<\/[a-z]+>/]',
+                    selector: 'Literal[value=/<[a-z]+[^>]*>[^<]*</[a-z]+>/]',
                     message: 'Avoid HTML template strings. Use React TSX components instead.'
                 }
             ]
@@ -742,7 +745,12 @@ export default tseslint.config(
     },
     // Strict tree-shaking rules for component files
     {
-        files: ['src/components/**/*.tsx', 'src/components/**/*.ts', '!src/components/**/*.test.ts', '!src/components/**/*.test.tsx'],
+        files: [
+            'src/components/**/*.tsx',
+            'src/components/**/*.ts',
+            '!src/components/**/*.test.ts',
+            '!src/components/**/*.test.tsx'
+        ],
         rules: {
             // Each component file should have a single export
             'no-restricted-exports': [
