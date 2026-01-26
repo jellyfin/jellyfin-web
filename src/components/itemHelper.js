@@ -267,8 +267,7 @@ export function canMarkPlayed (item) {
     return item.Type === 'Series'
         || item.Type === 'Season'
         || item.Type === 'BoxSet'
-        || item.MediaType === 'Book'
-        || item.MediaType === 'Recording';
+        || item.MediaType === 'Book';
 }
 
 export function canRate (item) {
