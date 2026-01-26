@@ -256,9 +256,6 @@ export function canMarkPlayed (item) {
             return true;
         }
     } else if (item.MediaType === 'Audio') {
-        if (item.Type === 'AudioPodcast') {
-            return true;
-        }
         if (item.Type === 'AudioBook') {
             return true;
         }

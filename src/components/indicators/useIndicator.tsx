@@ -43,7 +43,6 @@ const enableProgressIndicator = (
     return (
         (itemMediaType === ItemMediaKind.Video && itemType !== ItemKind.TvChannel)
         || itemType === ItemKind.AudioBook
-        || itemType === ItemKind.AudioPodcast
     );
 };
 
