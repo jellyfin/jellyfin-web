@@ -31,6 +31,15 @@ function getDeletionConfirmContent(item) {
         };
     }
 
+    if (item.Type === BaseItemKind.Playlist) {
+        return {
+            title: globalize.translate('HeaderDeletePlaylist'),
+            text: globalize.translate('ConfirmDeletePlaylist'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        };
+    }
+
     return {
         title: globalize.translate('HeaderDeleteItem'),
         text: globalize.translate('ConfirmDeleteItem'),
