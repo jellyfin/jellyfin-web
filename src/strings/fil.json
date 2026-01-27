@@ -1154,7 +1154,6 @@
     "DirectStreaming": "Direktang streaming",
     "DirectStreamHelp2": "Ang power na na-consume sa pamamagitan ng direktang streaming ay karaniwang nakadepende sa audio profile. Tanging ang video stream ay lossless.",
     "DirectStreamHelp1": "Ang video stream ay tugma sa device, ngunit may hindi tugmang format ng audio (DTS, Dolby TrueHD, atbp.) o bilang ng mga audio channel. Ang video stream ay ire-repack nang walang pagkawala sa mabilisang bago ipadala sa device. Tanging ang audio stream lang ang ita-transcode.",
-    "DirectPlayHelp": "",
     "DirectPlaying": "Direktang pag-play",
     "Directors": "Mga direktor",
     "Director": "Direktor",
