@@ -108,6 +108,7 @@ class SessionPlayer {
     private subscribeToPlayerUpdates() {
         this.isUpdating = true;
         const apiClient = getCurrentApiClient(this);
+        if (!apiClient) return;
         apiClient.sendMessage('SessionsStart', '100,800');
         if (this.pollInterval) clearInterval(this.pollInterval);
         this.pollInterval = setInterval(() => this.onPollIntervalFired(), 5000);
@@ -115,6 +116,7 @@ class SessionPlayer {
 
     private onPollIntervalFired() {
         const apiClient = getCurrentApiClient(this);
+        if (!apiClient) return;
         if (!apiClient.isMessageChannelOpen()) {
             apiClient.getSessions().then((sessions: any) => {
                 this.processUpdatedSessions(sessions, apiClient);

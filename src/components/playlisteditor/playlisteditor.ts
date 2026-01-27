@@ -438,7 +438,7 @@ export class PlaylistEditor {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }
 
-            if (dlg.submitted) {
+            if ((dlg as any).submitted) {
                 return Promise.resolve();
             }
 
