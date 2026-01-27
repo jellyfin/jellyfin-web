@@ -372,6 +372,15 @@ export async function getCommands(options) {
         });
     }
 
+    // Add "View Details" option for all items
+    if (options.openItemDetails !== false) {
+        commands.push({
+            name: globalize.translate('ViewItemDetails'),
+            id: 'itemdetails',
+            icon: 'info'
+        });
+    }
+
     return commands;
 }
 
@@ -596,6 +605,10 @@ function executeCommand(item, id, options) {
                 break;
             case 'artist':
                 appRouter.showItem(item.AlbumArtists[0].Id, item.ServerId);
+                getResolveFunction(resolve, id)();
+                break;
+            case 'itemdetails':
+                appRouter.showItem(item.Id, item.ServerId);
                 getResolveFunction(resolve, id)();
                 break;
             case 'lyrics': {
