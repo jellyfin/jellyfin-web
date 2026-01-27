@@ -10,7 +10,8 @@
 import type { Api } from '@jellyfin/sdk';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import type { ConnectOptions, ConnectResponse, ServerInfo } from './types/connectionManager.types';
+import { logger } from '../../utils/logger';
+import type { ConnectOptions, ConnectResponse, ServerInfo, CredentialProvider } from './types/connectionManager.types';
 
 /**
  * ServerConnections Wrapper
@@ -30,8 +31,7 @@ export interface IServerConnections {
     deviceName(): string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     capabilities(): any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    credentialProvider(): any;
+    credentialProvider(): CredentialProvider;
     getServerInfo(id: string): ServerInfo | undefined;
     getLastUsedServer(): ServerInfo | null;
     addApiClient(apiClient: ApiClient): void;
@@ -83,7 +83,7 @@ export function getServerConnections(): IServerConnections {
             const legacyModule = require('./ServerConnections.legacy.js');
             cachedServerConnections = legacyModule.default as IServerConnections;
         } catch (error) {
-            console.error('Failed to load ServerConnections.legacy.js:', error);
+            logger.error('Failed to load ServerConnections.legacy.js', { component: 'ServerConnections' }, error as Error);
             throw error;
         }
     }

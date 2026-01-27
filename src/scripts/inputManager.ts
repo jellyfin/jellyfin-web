@@ -4,6 +4,7 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
 import dom from 'utils/dom';
+import { logger } from 'utils/logger';
 
 export interface CommandOptions {
     sourceElement?: HTMLElement;
@@ -153,7 +154,7 @@ export function handleCommand(commandName: string, options?: CommandOptions): vo
     if (action !== undefined) {
         action();
     } else {
-        console.debug(`inputManager: tried to process command with no action assigned: ${commandName}`);
+        logger.debug(`Tried to process command with no action assigned: ${commandName}`, { component: 'inputManager' });
     }
 }
 

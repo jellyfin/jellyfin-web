@@ -1,5 +1,6 @@
 import { useBackspinStore } from '../../store/backspinStore';
 import { HAPTIC_PATTERNS, type TransportState } from '../../types/transport';
+import { logger } from '../../utils/logger';
 
 export interface BackspinHandlerOptions {
     mediaElement: HTMLMediaElement | null;
@@ -34,7 +35,7 @@ export class BackspinHandler {
         this.audioContext = audioContext;
 
         if (!audioContext) {
-            console.warn('[BackspinHandler] No AudioContext available');
+            logger.warn('No AudioContext available', { component: 'BackspinHandler' });
             return;
         }
 
@@ -60,9 +61,9 @@ export class BackspinHandler {
             useBackspinStore.getState().setMediaElement(mediaElement);
             useBackspinStore.getState().setAudioContext(audioContext);
 
-            console.log('[BackspinHandler] Initialized successfully');
+            logger.info('Initialized successfully', { component: 'BackspinHandler' });
         } catch (error) {
-            console.error('[BackspinHandler] Failed to initialize:', error);
+            logger.error('Failed to initialize', { component: 'BackspinHandler' }, error as Error);
         }
     }
 
