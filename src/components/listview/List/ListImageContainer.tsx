@@ -28,7 +28,7 @@ interface ListImageContainerProps {
 }
 
 const ListImageContainer: FC<ListImageContainerProps> = ({
-    item = {},
+    item,
     listOptions,
     action,
     isLargeStyle,
@@ -73,7 +73,7 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
             className={imageClass}
         >
 
-            <Media item={item} imgUrl={imgUrl} blurhash={blurhash} defaultCardImageIcon={defaultCardImageIcon} />
+            <Media item={item} imgUrl={imgUrl} blurhash={blurhash ?? undefined} defaultCardImageIcon={defaultCardImageIcon} />
 
             {disableIndicators !== true && mediaSourceIndicator}
 

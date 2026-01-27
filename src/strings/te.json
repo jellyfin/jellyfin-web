@@ -2052,5 +2052,6 @@
     "HeaderBackups": "బ్యాకప్‌లు",
     "TranscodingLoadError": "ట్రాన్స్‌కోడింగ్ సెట్టింగ్‌లను లోడ్ చేయడంలో విఫలమైంది",
     "ViewAllPlugins": "అన్ని ప్లగిన్‌లను వీక్షించండి",
-    "ViewSettings": "సెట్టింగ్‌లను వీక్షించండి"
+    "ViewSettings": "సెట్టింగ్‌లను వీక్షించండి",
+    "StorageType.Ram": "ర్యామ్"
 }

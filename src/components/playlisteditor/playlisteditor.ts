@@ -95,7 +95,7 @@ function createPlaylist(dlg: DialogElement) {
     return getPlaylistsApi(api)
         .createPlaylist({
             createPlaylistDto: {
-                Name: name,
+                Name: name ?? '',
                 IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked,
                 Ids: itemIds?.split(','),
                 UserId: apiClient.getCurrentUserId()
