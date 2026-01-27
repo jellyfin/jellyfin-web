@@ -323,7 +323,7 @@ export default function (view, params) {
     function onInputCommand(evt) {
         if (evt.detail.command === 'search') {
             evt.preventDefault();
-            Dashboard.navigate('search.html?collectionType=livetv');
+            Dashboard.navigate('search?collectionType=livetv');
         }
     }
 

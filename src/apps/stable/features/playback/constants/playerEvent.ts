@@ -17,6 +17,7 @@ export enum PlayerEvent {
     PromptSkip = 'promptskip',
     RepeatModeChange = 'repeatmodechange',
     ShuffleModeChange = 'shufflequeuemodechange',
+    StateChange = 'statechange',
     Stopped = 'stopped',
     TimeUpdate = 'timeupdate',
     Unpause = 'unpause',

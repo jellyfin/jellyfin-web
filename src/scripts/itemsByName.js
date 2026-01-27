@@ -1,10 +1,13 @@
-import listView from '../components/listview/listview';
-import cardBuilder from '../components/cardbuilder/cardBuilder';
-import imageLoader from '../components/images/imageLoader';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
+import listView from 'components/listview/listview';
+import cardBuilder from 'components/cardbuilder/cardBuilder';
+import imageLoader from 'components/images/imageLoader';
 import globalize from 'lib/globalize';
-import '../elements/emby-itemscontainer/emby-itemscontainer';
-import '../elements/emby-button/emby-button';
-import ServerConnections from '../components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
+import 'elements/emby-itemscontainer/emby-itemscontainer';
+import 'elements/emby-button/emby-button';
 
 function renderItems(page, item) {
     const sections = [];
@@ -302,39 +305,48 @@ function loadItems(element, item, type, query, listOptions) {
 
 function getMoreItemsHref(item, type) {
     if (item.Type === 'Genre') {
-        return '#/list.html?type=' + type + '&genreId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#/list?type=' + type + '&genreId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'MusicGenre') {
-        return '#/list.html?type=' + type + '&musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#/list?type=' + type + '&musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'Studio') {
-        return '#/list.html?type=' + type + '&studioId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#/list?type=' + type + '&studioId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'MusicArtist') {
-        return '#/list.html?type=' + type + '&artistId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#/list?type=' + type + '&artistId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'Person') {
-        return '#/list.html?type=' + type + '&personId=' + item.Id + '&serverId=' + item.ServerId;
+        return '#/list?type=' + type + '&personId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
-    return '#/list.html?type=' + type + '&parentId=' + item.Id + '&serverId=' + item.ServerId;
+    return '#/list?type=' + type + '&parentId=' + item.Id + '&serverId=' + item.ServerId;
 }
 
 function addCurrentItemToQuery(query, item) {
-    if (item.Type === 'Person') {
-        query.PersonIds = item.Id;
-    } else if (item.Type === 'Genre') {
-        query.Genres = item.Name;
-    } else if (item.Type === 'MusicGenre') {
-        query.Genres = item.Name;
-    } else if (item.Type === 'Studio') {
-        query.StudioIds = item.Id;
-    } else if (item.Type === 'MusicArtist') {
-        query.AlbumArtistIds = item.Id;
+    switch (item.Type) {
+        case BaseItemKind.Person:
+            query.PersonIds = item.Id;
+            break;
+        case BaseItemKind.Genre:
+            query.Genres = item.Name;
+            break;
+        case BaseItemKind.MusicGenre:
+            query.Genres = item.Name;
+            break;
+        case BaseItemKind.Studio:
+            query.StudioIds = item.Id;
+            break;
+        case BaseItemKind.MusicArtist:
+            if (query.IncludeItemTypes === BaseItemKind.MusicVideo) {
+                query.ArtistIds = item.Id;
+            } else {
+                query.AlbumArtistIds = item.Id;
+            }
     }
 }
 

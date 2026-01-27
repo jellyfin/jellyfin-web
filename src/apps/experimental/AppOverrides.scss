@@ -5,17 +5,8 @@ $mui-bp-md: 900px;
 $mui-bp-lg: 1200px;
 $mui-bp-xl: 1536px;
 
-$drawer-width: 240px;
-
 #reactRoot {
     height: 100%;
-}
-
-// Fix main pages layout to work with drawer
-.mainAnimatedPage {
-    @media all and (min-width: $mui-bp-md) {
-        left: $drawer-width;
-    }
 }
 
 // Hide some items from the user "settings" page that are in the drawer
@@ -31,21 +22,23 @@ $drawer-width: 240px;
 .homePage.libraryPage.withTabs, // Home page
 // Library pages excluding the item details page and tabbed pages
 .libraryPage:not(
-    .itemDetailPage,
-    .withTabs
+    .itemDetailPage
 ) {
     padding-top: 3.25rem !important;
 }
-// Tabbed library pages
-.libraryPage.withTabs {
-    padding-top: 6.5rem !important;
 
-    @media all and (min-width: $mui-bp-lg) {
-        padding-top: 3.25rem !important;
+.layout-mobile {
+    .itemBackdrop {
+        // Fix backdrop position on mobile item details page
+        margin-top: 0 !important;
+
+        // Add a subtle gradient over the backdrop to ensure the app bar buttons are visible
+        &::before {
+            display: block;
+            content: "";
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(180deg, rgba(32, 32, 32, 0.6) 0%, rgba(32, 32, 32, 0.2) 4rem, rgba(0, 0, 0, 0) 50%);
+        }
     }
-}
-
-// Fix backdrop position on mobile item details page
-.layout-mobile .itemBackdrop {
-    margin-top: 0 !important;
 }

@@ -4,8 +4,8 @@ import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/bas
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getGenresApi } from '@jellyfin/sdk/lib/utils/api/genres-api';
@@ -374,7 +374,6 @@ export const useGetItemsViewByType = (
                 LibraryTab.Movies,
                 LibraryTab.Favorites,
                 LibraryTab.Collections,
-                LibraryTab.Trailers,
                 LibraryTab.Series,
                 LibraryTab.Episodes,
                 LibraryTab.Networks,
@@ -440,7 +439,7 @@ function groupsUpcomingEpisodes(items: ItemDto[]) {
                         month: 'short',
                         day: 'numeric'
                     });
-            } catch (err) {
+            } catch {
                 console.error('error parsing timestamp for upcoming tv shows');
             }
         }

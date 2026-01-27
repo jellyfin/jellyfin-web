@@ -1,7 +1,9 @@
+@use "../font";
+
 $tcFamily: "Noto Sans TC";
 
 /* noto-sans-tc-[0]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-0-700-normal.woff2",
@@ -9,7 +11,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[6]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-6-700-normal.woff2",
@@ -17,7 +19,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[7]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-7-700-normal.woff2",
@@ -25,7 +27,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[8]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-8-700-normal.woff2",
@@ -33,7 +35,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[19]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-19-700-normal.woff2",
@@ -41,7 +43,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[20]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-20-700-normal.woff2",
@@ -49,7 +51,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[21]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-21-700-normal.woff2",
@@ -57,7 +59,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[22]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-22-700-normal.woff2",
@@ -65,7 +67,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[23]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-23-700-normal.woff2",
@@ -73,7 +75,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[24]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-24-700-normal.woff2",
@@ -81,7 +83,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[25]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-25-700-normal.woff2",
@@ -89,7 +91,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[26]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-26-700-normal.woff2",
@@ -97,7 +99,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[27]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-27-700-normal.woff2",
@@ -105,7 +107,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[28]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-28-700-normal.woff2",
@@ -113,7 +115,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[29]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-29-700-normal.woff2",
@@ -121,7 +123,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[30]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-30-700-normal.woff2",
@@ -129,7 +131,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[31]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-31-700-normal.woff2",
@@ -137,7 +139,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[32]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-32-700-normal.woff2",
@@ -145,7 +147,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[33]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-33-700-normal.woff2",
@@ -153,7 +155,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[34]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-34-700-normal.woff2",
@@ -161,7 +163,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[35]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-35-700-normal.woff2",
@@ -169,7 +171,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[36]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-36-700-normal.woff2",
@@ -177,7 +179,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[37]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-37-700-normal.woff2",
@@ -185,7 +187,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[38]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-38-700-normal.woff2",
@@ -193,7 +195,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[39]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-39-700-normal.woff2",
@@ -201,7 +203,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[40]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-40-700-normal.woff2",
@@ -209,7 +211,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[41]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-41-700-normal.woff2",
@@ -217,7 +219,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[42]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-42-700-normal.woff2",
@@ -225,7 +227,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[43]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-43-700-normal.woff2",
@@ -233,7 +235,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[44]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-44-700-normal.woff2",
@@ -241,7 +243,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[45]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-45-700-normal.woff2",
@@ -249,7 +251,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[46]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-46-700-normal.woff2",
@@ -257,7 +259,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[47]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-47-700-normal.woff2",
@@ -265,7 +267,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[48]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-48-700-normal.woff2",
@@ -273,7 +275,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[49]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-49-700-normal.woff2",
@@ -281,7 +283,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[50]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-50-700-normal.woff2",
@@ -289,7 +291,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[51]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-51-700-normal.woff2",
@@ -297,7 +299,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[52]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-52-700-normal.woff2",
@@ -305,7 +307,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[53]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-53-700-normal.woff2",
@@ -313,7 +315,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[54]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-54-700-normal.woff2",
@@ -321,7 +323,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[55]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-55-700-normal.woff2",
@@ -329,7 +331,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[56]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-56-700-normal.woff2",
@@ -337,7 +339,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[57]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-57-700-normal.woff2",
@@ -345,7 +347,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[58]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-58-700-normal.woff2",
@@ -353,7 +355,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[59]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-59-700-normal.woff2",
@@ -361,7 +363,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[60]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-60-700-normal.woff2",
@@ -369,7 +371,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[61]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-61-700-normal.woff2",
@@ -377,7 +379,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[62]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-62-700-normal.woff2",
@@ -385,7 +387,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[63]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-63-700-normal.woff2",
@@ -393,7 +395,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[64]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-64-700-normal.woff2",
@@ -401,7 +403,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[65]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-65-700-normal.woff2",
@@ -409,7 +411,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[66]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-66-700-normal.woff2",
@@ -417,7 +419,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[67]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-67-700-normal.woff2",
@@ -425,7 +427,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[68]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-68-700-normal.woff2",
@@ -433,7 +435,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[69]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-69-700-normal.woff2",
@@ -441,7 +443,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[70]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-70-700-normal.woff2",
@@ -449,7 +451,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[71]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-71-700-normal.woff2",
@@ -457,7 +459,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[72]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-72-700-normal.woff2",
@@ -465,7 +467,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[73]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-73-700-normal.woff2",
@@ -473,7 +475,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[74]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-74-700-normal.woff2",
@@ -481,7 +483,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[75]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-75-700-normal.woff2",
@@ -489,7 +491,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[76]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-76-700-normal.woff2",
@@ -497,7 +499,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[77]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-77-700-normal.woff2",
@@ -505,7 +507,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[78]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-78-700-normal.woff2",
@@ -513,7 +515,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[79]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-79-700-normal.woff2",
@@ -521,7 +523,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[80]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-80-700-normal.woff2",
@@ -529,7 +531,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[81]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-81-700-normal.woff2",
@@ -537,7 +539,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[82]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-82-700-normal.woff2",
@@ -545,7 +547,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[83]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-83-700-normal.woff2",
@@ -553,7 +555,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[84]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-84-700-normal.woff2",
@@ -561,7 +563,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[85]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-85-700-normal.woff2",
@@ -569,7 +571,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[86]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-86-700-normal.woff2",
@@ -577,7 +579,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[87]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-87-700-normal.woff2",
@@ -585,7 +587,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[88]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-88-700-normal.woff2",
@@ -593,7 +595,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[89]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-89-700-normal.woff2",
@@ -601,7 +603,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[90]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-90-700-normal.woff2",
@@ -609,7 +611,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[91]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-91-700-normal.woff2",
@@ -617,7 +619,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[92]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-92-700-normal.woff2",
@@ -625,7 +627,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[97]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-97-700-normal.woff2",
@@ -633,7 +635,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[98]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-98-700-normal.woff2",
@@ -641,7 +643,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[99]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-99-700-normal.woff2",
@@ -649,7 +651,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[100]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-100-700-normal.woff2",
@@ -657,7 +659,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[101]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-101-700-normal.woff2",
@@ -665,7 +667,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[102]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-102-700-normal.woff2",
@@ -673,7 +675,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[103]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-103-700-normal.woff2",
@@ -681,7 +683,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[104]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-104-700-normal.woff2",
@@ -689,7 +691,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[105]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-105-700-normal.woff2",
@@ -697,7 +699,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[106]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-106-700-normal.woff2",
@@ -705,7 +707,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[107]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-107-700-normal.woff2",
@@ -713,7 +715,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[108]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-108-700-normal.woff2",
@@ -721,7 +723,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[109]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-109-700-normal.woff2",
@@ -729,7 +731,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[110]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-110-700-normal.woff2",
@@ -737,7 +739,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[111]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-111-700-normal.woff2",
@@ -745,7 +747,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[112]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-112-700-normal.woff2",
@@ -753,7 +755,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[113]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-113-700-normal.woff2",
@@ -761,7 +763,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[114]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-114-700-normal.woff2",
@@ -769,7 +771,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[115]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-115-700-normal.woff2",
@@ -777,7 +779,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[116]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-116-700-normal.woff2",
@@ -785,7 +787,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[117]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-117-700-normal.woff2",
@@ -793,7 +795,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[118]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-118-700-normal.woff2",
@@ -801,7 +803,7 @@ $tcFamily: "Noto Sans TC";
 );
 
 /* noto-sans-tc-[119]-700-normal */
-@include fontFace(
+@include font.face(
     $family: $tcFamily,
     $weight: 700,
     $url: "~@fontsource/noto-sans-tc/files/noto-sans-tc-119-700-normal.woff2",

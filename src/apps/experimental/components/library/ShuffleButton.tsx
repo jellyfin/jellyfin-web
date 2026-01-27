@@ -1,7 +1,7 @@
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
-import ShuffleIcon from '@mui/icons-material/Shuffle';
+import Shuffle from '@mui/icons-material/Shuffle';
+import Button from '@mui/material/Button';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
@@ -11,14 +11,22 @@ import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface ShuffleButtonProps {
-    item: ItemDto | undefined;
-    items: ItemDto[];
+    item: ItemDto | undefined
+    items: ItemDto[]
     viewType: LibraryTab
-    hasFilters: boolean;
+    hasFilters: boolean
+    isTextVisible: boolean
     libraryViewSettings: LibraryViewSettings
 }
 
-const ShuffleButton: FC<ShuffleButtonProps> = ({ item, items, viewType, hasFilters, libraryViewSettings }) => {
+const ShuffleButton: FC<ShuffleButtonProps> = ({
+    item,
+    items,
+    viewType,
+    hasFilters,
+    isTextVisible,
+    libraryViewSettings
+}) => {
     const shuffle = useCallback(() => {
         if (item && !hasFilters) {
             playbackManager.shuffle(item);
@@ -38,13 +46,17 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({ item, items, viewType, hasFilte
     }, [hasFilters, item, items, libraryViewSettings, viewType]);
 
     return (
-        <IconButton
+        <Button
             title={globalize.translate('Shuffle')}
-            className='paper-icon-button-light btnShuffle autoSize'
+            startIcon={isTextVisible ? <Shuffle /> : undefined}
             onClick={shuffle}
         >
-            <ShuffleIcon />
-        </IconButton>
+            {isTextVisible ? (
+                globalize.translate('Shuffle')
+            ) : (
+                <Shuffle />
+            )}
+        </Button>
     );
 };
 

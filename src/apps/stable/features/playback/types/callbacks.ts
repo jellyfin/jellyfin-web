@@ -17,6 +17,7 @@ export interface MovedItem {
     playlistItemId: string
 }
 
+// eslint-disable-next-line sonarjs/redundant-type-aliases
 export type PlayerErrorCode = string;
 
 export interface PlayerStopInfo {

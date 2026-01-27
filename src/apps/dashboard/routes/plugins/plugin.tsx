@@ -1,17 +1,18 @@
 import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-status';
 import type { VersionInfo } from '@jellyfin/sdk/lib/generated-client/models/version-info';
-import Alert from '@mui/material/Alert/Alert';
-import Button from '@mui/material/Button/Button';
-import Container from '@mui/material/Container/Container';
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup/FormGroup';
-import Grid from '@mui/material/Grid/Grid';
-import Skeleton from '@mui/material/Skeleton/Skeleton';
-import Stack from '@mui/material/Stack/Stack';
-import Switch from '@mui/material/Switch/Switch';
-import Typography from '@mui/material/Typography/Typography';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Grid from '@mui/material/Grid';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+import Switch from '@mui/material/Switch';
+import Typography from '@mui/material/Typography';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
+import Extension from '@mui/icons-material/Extension';
 import Settings from '@mui/icons-material/Settings';
 import React, { type FC, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, Link as RouterLink, useParams } from 'react-router-dom';
@@ -25,17 +26,16 @@ import { useInstallPackage } from 'apps/dashboard/features/plugins/api/useInstal
 import { usePackageInfo } from 'apps/dashboard/features/plugins/api/usePackageInfo';
 import { usePlugins } from 'apps/dashboard/features/plugins/api/usePlugins';
 import { useUninstallPlugin } from 'apps/dashboard/features/plugins/api/useUninstallPlugin';
-import PluginImage from 'apps/dashboard/features/plugins/components/PluginImage';
 import PluginDetailsTable from 'apps/dashboard/features/plugins/components/PluginDetailsTable';
 import PluginRevisions from 'apps/dashboard/features/plugins/components/PluginRevisions';
 import type { PluginDetails } from 'apps/dashboard/features/plugins/types/PluginDetails';
 
 import ConfirmDialog from 'components/ConfirmDialog';
+import Image from 'components/Image';
 import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { getPluginUrl } from 'utils/dashboard';
-import { getUri } from 'utils/api';
 
 interface AlertMessage {
     severity?: 'success' | 'info' | 'warning' | 'error'
@@ -56,6 +56,7 @@ const PluginPage: FC = () => {
 
     const [ isEnabledOverride, setIsEnabledOverride ] = useState<boolean>();
     const [ isInstallConfirmOpen, setIsInstallConfirmOpen ] = useState(false);
+    const [ isInstalling, setIsInstalling ] = useState(false);
     const [ isUninstallConfirmOpen, setIsUninstallConfirmOpen ] = useState(false);
     const [ pendingInstallVersion, setPendingInstallVersion ] = useState<VersionInfo>();
 
@@ -64,13 +65,13 @@ const PluginPage: FC = () => {
     const {
         data: configurationPages,
         isError: isConfigurationPagesError,
-        isLoading: isConfigurationPagesLoading
+        isPending: isConfigurationPagesLoading
     } = useConfigurationPages();
 
     const {
         data: packageInfo,
         isError: isPackageInfoError,
-        isLoading: isPackageInfoLoading
+        isPending: isPackageInfoLoading
     } = usePackageInfo(pluginName ? {
         name: pluginName,
         assemblyGuid: pluginId
@@ -78,8 +79,8 @@ const PluginPage: FC = () => {
 
     const {
         data: plugins,
-        isLoading: isPluginsLoading,
-        isError: isPluginsError
+        isError: isPluginsError,
+        isPending: isPluginsLoading
     } = usePlugins();
 
     const isLoading =
@@ -104,7 +105,7 @@ const PluginPage: FC = () => {
 
             let imageUrl;
             if (pluginInfo?.HasImage) {
-                imageUrl = getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`, api);
+                imageUrl = api?.getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`);
             }
 
             return {
@@ -115,7 +116,7 @@ const PluginPage: FC = () => {
                 isEnabled: (isEnabledOverride && pluginInfo?.Status === PluginStatus.Restart)
                     ?? pluginInfo?.Status !== PluginStatus.Disabled,
                 name: pluginName || pluginInfo?.Name || packageInfo?.name,
-                owner: packageInfo?.owner,
+                owner: pluginInfo?.CanUninstall === false ? 'jellyfin' : packageInfo?.owner,
                 status: pluginInfo?.Status,
                 configurationPage: findBestConfigurationPage(configurationPages || [], pluginId),
                 version,
@@ -168,7 +169,8 @@ const PluginPage: FC = () => {
             alerts.push({ messageKey: 'PluginLoadConfigError' });
         }
 
-        if (isPackageInfoError) {
+        // Don't show package load error for built-in plugins
+        if (!isPluginsLoading && pluginDetails?.canUninstall && isPackageInfoError) {
             alerts.push({
                 severity: 'warning',
                 messageKey: 'PluginLoadRepoError'
@@ -188,6 +190,8 @@ const PluginPage: FC = () => {
         isConfigurationPagesError,
         isPackageInfoError,
         isPluginsError,
+        isPluginsLoading,
+        pluginDetails?.canUninstall,
         uninstallPlugin.isError
     ]);
 
@@ -243,6 +247,7 @@ const PluginPage: FC = () => {
 
         console.debug('[PluginPage] installing plugin', installVersion);
 
+        setIsInstalling(true);
         installPlugin.mutate({
             name: pluginDetails.name,
             assemblyGuid: pluginDetails.id,
@@ -250,6 +255,7 @@ const PluginPage: FC = () => {
             repositoryUrl: installVersion.repositoryUrl
         }, {
             onSettled: () => {
+                setIsInstalling(false);
                 setPendingInstallVersion(undefined);
                 disablePlugin.reset();
                 enablePlugin.reset();
@@ -304,12 +310,17 @@ const PluginPage: FC = () => {
     return (
         <Page
             id='addPluginPage'
+            title={pluginDetails?.name || pluginName}
             className='mainAnimatedPage type-interior'
         >
             <Container className='content-primary'>
 
                 {alertMessages.map(({ severity = 'error', messageKey }) => (
-                    <Alert key={messageKey} severity={severity}>
+                    <Alert
+                        key={messageKey}
+                        severity={severity}
+                        sx={{ marginBottom: 2 }}
+                    >
                         {globalize.translate(messageKey)}
                     </Alert>
                 ))}
@@ -332,10 +343,11 @@ const PluginPage: FC = () => {
                     </Grid>
 
                     <Grid item lg={4} sx={{ display: { xs: 'none', lg: 'initial' } }}>
-                        <PluginImage
+                        <Image
                             isLoading={isLoading}
                             alt={pluginDetails?.name}
                             url={pluginDetails?.imageUrl}
+                            FallbackIcon={Extension}
                         />
                     </Grid>
 
@@ -365,6 +377,7 @@ const PluginPage: FC = () => {
                                         <Button
                                             startIcon={<Download />}
                                             onClick={onInstall()}
+                                            loading={isInstalling}
                                         >
                                             {globalize.translate('HeaderInstall')}
                                         </Button>

@@ -76,7 +76,7 @@ progress[aria-valuenow]::before {
 }
 
 a[data-role=button] {
-    background: #292929 !important;
+    background: #292929;
     background-clip: padding-box;
     -webkit-font-smoothing: antialiased;
     user-select: none;
@@ -214,9 +214,15 @@ div[data-role=controlgroup] a.ui-btn-active {
     width: 50%;
 }
 
-.localUsers .cardText-secondary {
-    white-space: pre-wrap;
-    height: 3em;
+.localUsers {
+    .cardText-secondary {
+        white-space: pre-wrap;
+        min-height: 3em;
+    }
+
+    .cardBox {
+        height: 100%;
+    }
 }
 
 .customCssContainer textarea {
@@ -262,7 +268,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .activeSession {
-    min-width: 20rem;
+    min-width: 10rem;
     width: 100% !important;
 }
 

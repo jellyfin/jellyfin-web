@@ -101,5 +101,13 @@
     "AllComplexFormats": "All Fancy Codecs (ARR, SSA, BootySub, Pirate GoldS, Swabby, Charts, …)",
     "AllowFfmpegThrottling": "Rein in Code Scurvy",
     "Channels": "Channels",
-    "AllowCollectionManagement": "Permit this scallywag to handle treasures"
+    "AllowCollectionManagement": "Permit this scallywag to handle treasures",
+    "Absolute": "Abs'lute",
+    "AgeValue": "({0} summers gone by)",
+    "AirPlay": "Spyglass",
+    "MusicVideos": "Shanty films",
+    "Movies": "Moving pictures",
+    "Shows": "Sagas",
+    "Playlists": "Lists o’ plunder",
+    "ValueSpecialEpisodeName": "Special Tale – {0}"
 }

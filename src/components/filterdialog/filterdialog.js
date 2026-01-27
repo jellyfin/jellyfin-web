@@ -1,12 +1,12 @@
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import union from 'lodash-es/union';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
-import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
 import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
 
@@ -14,6 +14,7 @@ function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
         return resultItems;
     }
+    // eslint-disable-next-line sonarjs/no-alphabetical-sort
     return union(resultItems, queryItems.split(delimiter)).sort();
 }
 
@@ -52,7 +53,7 @@ function renderFilters(context, result, query) {
         const delimeter = '|';
         return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years, query.Years, ','), function (i) {
+    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years.map(String), query.Years, ','), function (i) {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });
@@ -350,7 +351,10 @@ class FilterDialog {
                 const filterName = chkGenreFilter.getAttribute('data-filter');
                 let filters = query.Genres || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkGenreFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -364,7 +368,10 @@ class FilterDialog {
                 const filterName = chkTagFilter.getAttribute('data-filter');
                 let filters = query.Tags || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkTagFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -378,7 +385,10 @@ class FilterDialog {
                 const filterName = chkYearFilter.getAttribute('data-filter');
                 let filters = query.Years || '';
                 const delimiter = ',';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkYearFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -392,7 +402,10 @@ class FilterDialog {
                 const filterName = chkOfficialRatingFilter.getAttribute('data-filter');
                 let filters = query.OfficialRatings || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);
                 if (chkOfficialRatingFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }

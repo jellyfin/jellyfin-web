@@ -1,11 +1,11 @@
 import type { Api } from '@jellyfin/sdk/lib/api';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
-import { MediaSegmentsApi } from '@jellyfin/sdk/lib/generated-client/api/media-segments-api';
+import { getMediaSegmentsApi } from '@jellyfin/sdk/lib/utils/api/media-segments-api';
 
 import type { PlaybackManager } from 'components/playback/playbackmanager';
-import ServerConnections from 'components/ServerConnections';
 import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import type { PlayerState } from 'types/playbackStopInfo';
 import type { Event } from 'utils/events';
@@ -25,11 +25,9 @@ class MediaSegmentManager extends PlaybackSubscriber {
     private mediaSegments: MediaSegmentDto[] = [];
 
     private async fetchMediaSegments(api: Api, itemId: string, includeSegmentTypes: MediaSegmentType[]) {
-        // FIXME: Replace with SDK getMediaSegmentsApi function when available in stable
-        const mediaSegmentsApi = new MediaSegmentsApi(api.configuration, undefined, api.axiosInstance);
-
         try {
-            const { data: mediaSegments } = await mediaSegmentsApi.getItemSegments({ itemId, includeSegmentTypes });
+            const { data: mediaSegments } = await getMediaSegmentsApi(api)
+                .getItemSegments({ itemId, includeSegmentTypes });
             this.mediaSegments = mediaSegments.Items || [];
         } catch (err) {
             console.error('[MediaSegmentManager] failed to fetch segments', err);

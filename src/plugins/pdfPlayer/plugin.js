@@ -1,9 +1,13 @@
-import ServerConnections from '../../components/ServerConnections';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
@@ -205,11 +209,9 @@ export class PdfPlayer {
             }
         };
 
-        const serverId = item.ServerId;
-        const apiClient = ServerConnections.getApiClient(serverId);
-
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
-            const downloadHref = apiClient.getItemDownloadUrl(item.Id);
+            const api = toApi(ServerConnections.getApiClient(item));
+            const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
 
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
@@ -293,11 +295,19 @@ export class PdfPlayer {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
             const original = page.getViewport({ scale: 1 });
-            const scale = Math.max((window.screen.height / original.height), (window.screen.width / original.width)) * devicePixelRatio;
+            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
             const viewport = page.getViewport({ scale });
 
             canvas.width = viewport.width;
             canvas.height = viewport.height;
+
+            if (window.innerWidth < window.innerHeight) {
+                canvas.style.width = '100%';
+                canvas.style.height = 'auto';
+            } else {
+                canvas.style.height = '100%';
+                canvas.style.width = 'auto';
+            }
 
             const context = canvas.getContext('2d');
 
@@ -318,7 +328,7 @@ export class PdfPlayer {
     }
 
     canPlayItem(item) {
-        return item.Path?.endsWith('pdf');
+        return item.Path ? item.Path.toLowerCase().endsWith('pdf') : false;
     }
 }
 

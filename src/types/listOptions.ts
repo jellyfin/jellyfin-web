@@ -1,13 +1,16 @@
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import type { ItemDto } from './base/models/item-dto';
+import type { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+
 import type { TextLineOpts } from 'components/common/textLines/types';
+import { ItemAction } from 'constants/itemAction';
+
+import type { ItemDto } from './base/models/item-dto';
 
 export interface ListOptions extends TextLineOpts {
     items?: ItemDto[] | null;
     index?: string;
     showIndex?: boolean;
-    action?: string | null;
+    action?: ItemAction | null;
     imageSize?: string;
     enableOverview?: boolean;
     enableSideMediaInfo?: boolean;

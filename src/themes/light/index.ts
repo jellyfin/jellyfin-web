@@ -1,30 +1,40 @@
-import createTheme, { type ThemeOptions } from '@mui/material/styles/createTheme';
+import type { ColorSystemOptions } from '@mui/material/styles';
 import merge from 'lodash-es/merge';
 
-import { DEFAULT_THEME_OPTIONS } from 'themes/defaults';
+import { DEFAULT_COLOR_SCHEME } from '../_base/theme';
 
-const options: ThemeOptions = {
-    palette: {
-        mode: 'light',
-        background: {
-            default: '#f2f2f2',
-            // NOTE: The original theme uses #303030 for the drawer and app bar but we would need the drawer to use
-            // dark mode for a color that dark to work properly which would require a separate ThemeProvider just for
-            // the drawer... which is not worth the trouble in my opinion
-            paper: '#e8e8e8'
-        }
-    },
-    components: {
-        MuiAppBar: {
-            styleOverrides: {
-                colorPrimary: {
-                    backgroundColor: '#e8e8e8'
-                }
+/** The "Light" color scheme. */
+const theme = merge<ColorSystemOptions, ColorSystemOptions, ColorSystemOptions>(
+    {},
+    DEFAULT_COLOR_SCHEME,
+    {
+        palette: {
+            mode: 'light',
+            background: {
+                default: '#f2f2f2',
+                paper: '#e8e8e8'
+            },
+            text: {
+                primary: '#000',
+                secondary: 'rgba(0, 0, 0, 0.87)'
+            },
+            action: {
+                focus: '#bbb',
+                hover: '#ddd'
+            },
+            Alert: {
+                infoFilledBg: '#fff3a5',
+                infoFilledColor: '#000'
+            },
+            AppBar: {
+                defaultBg: '#e8e8e8'
+            },
+            Button: {
+                inheritContainedBg: '#d8d8d8',
+                inheritContainedHoverBg: '#ccc'
             }
         }
     }
-};
-
-const theme = createTheme(merge({}, DEFAULT_THEME_OPTIONS, options));
+);
 
 export default theme;

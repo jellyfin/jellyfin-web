@@ -1,8 +1,8 @@
 import serverNotifications from '../../scripts/serverNotifications';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
 import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
-import ServerConnections from '../../components/ServerConnections';
 
 function addNotificationEvent(instance, name, handler) {
     const localHandler = handler.bind(instance);
@@ -69,7 +69,7 @@ function setState(button, played, updateAttribute) {
 }
 
 function setTitle(button, itemType, played) {
-    if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
+    if (itemType !== 'AudioBook') {
         button.title = played ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
     } else {
         button.title = played ? globalize.translate('Played') : globalize.translate('MarkPlayed');

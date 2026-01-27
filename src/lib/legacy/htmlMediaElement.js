@@ -7,12 +7,13 @@
 (function (HTMLMediaElement) {
     'use strict';
 
-    const HTMLMediaElement_proto = HTMLMediaElement.prototype;
-    const real_play = HTMLMediaElement_proto.play;
+    const HTMLMediaElementPrototype = HTMLMediaElement.prototype;
+    const realPlay = HTMLMediaElementPrototype.play;
 
-    HTMLMediaElement_proto.play = function () {
+    HTMLMediaElementPrototype.play = function () {
+        // eslint-disable-next-line sonarjs/no-try-promise
         try {
-            const promise = real_play.apply(this, arguments);
+            const promise = realPlay.apply(this, arguments);
 
             if (typeof promise?.then === 'function') {
                 return promise;

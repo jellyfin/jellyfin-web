@@ -8,7 +8,7 @@ function enableScrollX() {
     return !layoutManager.desktop;
 }
 
-function getTimersHtml(timers, options) {
+export function getTimersHtml(timers, options) {
     options = options || {};
 
     const items = timers.map(function (t) {
@@ -102,7 +102,3 @@ function getTimersHtml(timers, options) {
     }
     return Promise.resolve(html);
 }
-
-window.LiveTvHelpers = {
-    getTimersHtml: getTimersHtml
-};

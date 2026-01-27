@@ -1,10 +1,11 @@
-import { playbackManager } from '../components/playback/playbackmanager';
-import { pluginManager } from '../components/pluginManager';
+import { playbackManager } from 'components/playback/playbackmanager';
+import { pluginManager } from 'components/pluginManager';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { PluginType } from 'types/plugin.ts';
+import Events from 'utils/events.ts';
+
 import inputManager from './inputManager';
 import * as userSettings from './settings/userSettings';
-import ServerConnections from '../components/ServerConnections';
-import { PluginType } from '../types/plugin.ts';
-import Events from '../utils/events.ts';
 
 import './screensavermanager.scss';
 
@@ -31,7 +32,7 @@ function getScreensaverPlugin(isLoggedIn) {
     let option;
     try {
         option = userSettings.get('screensaver', false);
-    } catch (err) {
+    } catch {
         option = isLoggedIn ? 'backdropscreensaver' : 'logoscreensaver';
     }
 
@@ -122,7 +123,7 @@ function ScreenSaverManager() {
             return;
         }
 
-        if (playbackManager.isPlayingVideo()) {
+        if (playbackManager.isPlayingVideo() && !playbackManager.paused()) {
             return;
         }
 

@@ -12,8 +12,8 @@
 (function (DOMParser) {
     'use strict';
 
-    const DOMParser_proto = DOMParser.prototype;
-    const real_parseFromString = DOMParser_proto.parseFromString;
+    const DOMParserPrototype = DOMParser.prototype;
+    const realParseFromString = DOMParserPrototype.parseFromString;
 
     // Firefox/Opera/IE throw errors on unsupported types
     try {
@@ -22,15 +22,15 @@
             // text/html parsing is natively supported
             return;
         }
-    } catch (ex) { /* noop */ }
+    } catch { /* noop */ }
 
-    DOMParser_proto.parseFromString = function (markup, type) {
+    DOMParserPrototype.parseFromString = function (markup, type) {
         if (/^\s*text\/html\s*(?:;|$)/i.test(type)) {
             const doc = document.implementation.createHTMLDocument('');
             doc.documentElement.innerHTML = markup;
             return doc;
         } else {
-            return real_parseFromString.apply(this, arguments);
+            return realParseFromString.apply(this, arguments);
         }
     };
 }(DOMParser));

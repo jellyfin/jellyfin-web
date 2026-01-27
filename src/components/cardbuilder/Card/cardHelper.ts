@@ -1,4 +1,5 @@
 import { Api } from '@jellyfin/sdk';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { BaseItemPerson } from '@jellyfin/sdk/lib/generated-client/models/base-item-person';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
@@ -6,12 +7,14 @@ import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';
 import itemHelper from 'components/itemHelper';
+import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import datetime from 'scripts/datetime';
 import { isUsingLiveTvNaming } from '../cardBuilderUtils';
 import { getDataAttributes } from 'utils/items';
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
+import { ensureArray } from 'utils/array';
 
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -65,8 +68,8 @@ interface TextAction {
 }
 
 export interface TextLine {
-    title?: NullableString;
-    titleAction?: TextAction;
+    title?: NullableString | string[];
+    titleAction?: TextAction | TextAction[];
 }
 
 export function getTextActionButton(
@@ -82,11 +85,11 @@ export function getTextActionButton(
         };
     }
 
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, { serverId });
 
     const dataAttributes = getDataAttributes(
         {
-            action: 'link',
+            action: ItemAction.Link,
             itemServerId: serverId ?? item.ServerId,
             itemId: item.Id,
             itemChannelId: item.ChannelId,
@@ -132,7 +135,7 @@ export function getAirTimeText(
                 date = datetime.parseISO8601Date(item.EndDate);
                 airTimeText += ' - ' + datetime.getDisplayTime(date);
             }
-        } catch (e) {
+        } catch {
             console.error('error parsing date: ' + item.StartDate);
         }
     }
@@ -210,9 +213,26 @@ function getParentTitle(
     item: ItemDto
 ) {
     if (isOuterFooter && item.AlbumArtists?.length) {
-        (item.AlbumArtists[0] as ItemDto).Type = ItemKind.MusicArtist;
-        (item.AlbumArtists[0] as ItemDto).IsFolder = true;
-        return getTextActionButton(item.AlbumArtists[0], null, serverId);
+        return item.AlbumArtists
+            .map(artist => {
+                const artistItem: ItemDto = {
+                    ...artist,
+                    Key: artist.Id ?? '',
+                    Type: BaseItemKind.MusicArtist,
+                    IsFolder: true
+                };
+                return getTextActionButton(artistItem, null, serverId);
+            })
+            .reduce((acc, line) => ({
+                title: [
+                    ...ensureArray(acc.title),
+                    ...ensureArray(line.title)
+                ],
+                titleAction: [
+                    ...ensureArray(acc.titleAction),
+                    ...ensureArray(line.titleAction)
+                ]
+            }), {});
     } else {
         return {
             title: isUsingLiveTvNaming(item.Type) ?
@@ -323,7 +343,7 @@ function shouldShowMediaTitle(
 }
 
 function shouldShowExtraType(itemExtraType: NullableString) {
-    return itemExtraType && itemExtraType !== 'Unknown';
+    return !!(itemExtraType && itemExtraType !== 'Unknown');
 }
 
 function shouldShowSeriesYearOrYear(
@@ -351,7 +371,7 @@ function shouldShowPersonRoleOrType(
     showPersonRoleOrType: boolean | undefined,
     item: ItemDto
 ) {
-    return showPersonRoleOrType && (item as BaseItemPerson).Role;
+    return !!(showPersonRoleOrType && (item as BaseItemPerson).Role);
 }
 
 function shouldShowParentTitle(
@@ -492,6 +512,7 @@ function getChannelName(item: ItemDto) {
     if (item.ChannelId) {
         return getTextActionButton(
             {
+                Key: item.ChannelId,
                 Id: item.ChannelId,
                 ServerId: item.ServerId,
                 Name: item.ChannelName,
@@ -521,7 +542,7 @@ function getPremiereDate(PremiereDate: string | null | undefined) {
                 datetime.parseISO8601Date(PremiereDate),
                 { weekday: 'long', month: 'long', day: 'numeric' }
             );
-        } catch (err) {
+        } catch {
             return '';
         }
     } else {
@@ -579,6 +600,7 @@ function getMediaTitle(cardOptions: CardOptions, item: ItemDto): TextLine {
             });
 
     return getTextActionButton({
+        Key: item.Id ?? '',
         Id: item.Id,
         ServerId: item.ServerId,
         Name: name,
@@ -601,6 +623,7 @@ function getParentTitleOrTitle(
     ) {
         if (item.SeriesId) {
             return getTextActionButton({
+                Key: item.SeriesId,
                 Id: item.SeriesId,
                 ServerId: item.ServerId,
                 Name: item.SeriesName,

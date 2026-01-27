@@ -11,7 +11,7 @@ function processForgotPasswordResult(result) {
             message: msg,
             title: globalize.translate('HeaderPasswordReset'),
             callback: function () {
-                window.location.href = 'index.html';
+                window.location.href = '';
             }
         });
         return;
@@ -39,5 +39,7 @@ export default function (view) {
     }
 
     view.querySelector('form').addEventListener('submit', onSubmit);
+
+    view.querySelector('#txtPin').focus();
 }
 

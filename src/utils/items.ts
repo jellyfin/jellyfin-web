@@ -1,6 +1,6 @@
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import * as userSettings from 'scripts/settings/userSettings';
 import layoutManager from 'components/layoutManager';
@@ -157,7 +157,7 @@ export const getDefaultSortBy = (viewType: LibraryTab) => {
 export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
     return {
         ShowTitle: true,
-        ShowYear: false,
+        ShowYear: true,
         ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
         ImageType: viewType === LibraryTab.Networks ? ImageType.Thumb : ImageType.Primary,
         CardLayout: false,

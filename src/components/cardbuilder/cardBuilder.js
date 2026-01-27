@@ -8,10 +8,12 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import escapeHtml from 'escape-html';
 
+import { ItemAction } from 'constants/itemAction';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 
@@ -22,7 +24,6 @@ import itemHelper from '../itemHelper';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import { appRouter } from '../router/appRouter';
-import ServerConnections from '../ServerConnections';
 import itemShortcuts from '../shortcuts';
 
 import 'elements/emby-button/paper-icon-button-light';
@@ -195,6 +196,7 @@ function buildCardsHtmlInternal(items, options) {
                     if (isVertical) {
                         html += '</div>';
                     }
+                    // eslint-disable-next-line sonarjs/no-dead-store
                     hasOpenSection = false;
                 }
 
@@ -215,6 +217,7 @@ function buildCardsHtmlInternal(items, options) {
         if (options.rows && itemsInRow === 0) {
             if (hasOpenRow) {
                 html += '</div>';
+                // eslint-disable-next-line sonarjs/no-dead-store
                 hasOpenRow = false;
             }
 
@@ -482,7 +485,7 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
                 airTimeText += ' - ' + datetime.getDisplayTime(date);
             }
         } catch (e) {
-            console.error('error parsing date: ' + item.StartDate);
+            console.error('error parsing date: ' + item.StartDate, e);
         }
     }
 
@@ -512,7 +515,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
     const showOtherText = flags.isOuterFooter ? !flags.overlayText : flags.overlayText;
 
     if (flags.isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== 'none') {
-        html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
+        html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="${ItemAction.Menu}" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
     }
 
     const cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
@@ -573,9 +576,15 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
     if (showOtherText) {
         if (options.showParentTitle && parentTitleUnderneath) {
             if (flags.isOuterFooter && item.AlbumArtists?.length) {
-                item.AlbumArtists[0].Type = 'MusicArtist';
-                item.AlbumArtists[0].IsFolder = true;
-                lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
+                const artistText = item.AlbumArtists
+                    .map(artist => {
+                        artist.ServerId = serverId;
+                        artist.Type = BaseItemKind.MusicArtist;
+                        artist.IsFolder = true;
+                        return getTextActionButton(artist);
+                    })
+                    .join(' / ');
+                lines.push(artistText);
             } else {
                 lines.push(escapeHtml(isUsingLiveTvNaming(item.Type) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || '')));
             }
@@ -615,7 +624,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
                         datetime.parseISO8601Date(item.PremiereDate),
                         { weekday: 'long', month: 'long', day: 'numeric' }
                     ));
-                } catch (err) {
+                } catch {
                     lines.push('');
                 }
             } else {
@@ -704,7 +713,8 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (item.Role) {
                 if ([ PersonKind.Actor, PersonKind.GuestStar ].includes(item.Type)) {
                     // List actor roles formatted like "as Character Name"
-                    lines.push(globalize.translate('PersonRole', escapeHtml(item.Role)));
+                    const roleText = globalize.translate('PersonRole', escapeHtml(item.Role));
+                    lines.push(`<span title="${roleText}">${roleText}</span>`);
                 } else if (item.Role.toLowerCase() === item.Type.toLowerCase()) {
                     // Role and Type are the same so use the localized Type
                     lines.push(escapeHtml(globalize.translate(item.Type)));
@@ -768,7 +778,7 @@ function getTextActionButton(item, text, serverId) {
     }
 
     const url = appRouter.getRouteUrl(item);
-    let html = '<a href="' + url + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' class="itemAction textActionButton" title="' + text + '" data-action="link">';
+    let html = '<a href="' + url + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' class="itemAction textActionButton" title="' + text + `" data-action="${ItemAction.Link}">`;
     html += text;
     html += '</a>';
 
@@ -877,7 +887,7 @@ function importRefreshIndicator() {
  */
 function buildCard(index, item, apiClient, options) {
     const action = resolveAction({
-        defaultAction: options.action || 'link',
+        defaultAction: options.action || ItemAction.Link,
         isFolder: item.IsFolder,
         isPhoto: item.MediaType === 'Photo'
     });
@@ -977,15 +987,15 @@ function buildCard(index, item, apiClient, options) {
         const btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
         if (options.centerPlayButton) {
-            overlayButtons += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayButton-centered" data-action="play" title="${globalize.translate('Play')}"><span class="material-icons cardOverlayButtonIcon play_arrow" aria-hidden="true"></span></button>`;
+            overlayButtons += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayButton-centered" data-action="${ItemAction.Play}" title="${globalize.translate('Play')}"><span class="material-icons cardOverlayButtonIcon play_arrow" aria-hidden="true"></span></button>`;
         }
 
         if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-            overlayButtons += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="play" title="${globalize.translate('Play')}"><span class="material-icons cardOverlayButtonIcon play_arrow" aria-hidden="true"></span></button>`;
+            overlayButtons += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="${ItemAction.Play}" title="${globalize.translate('Play')}"><span class="material-icons cardOverlayButtonIcon play_arrow" aria-hidden="true"></span></button>`;
         }
 
         if (options.overlayMoreButton) {
-            overlayButtons += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons cardOverlayButtonIcon more_vert" aria-hidden="true"></span></button>`;
+            overlayButtons += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="${ItemAction.Menu}" title="${globalize.translate('ButtonMore')}"><span class="material-icons cardOverlayButtonIcon more_vert" aria-hidden="true"></span></button>`;
         }
     }
 
@@ -1148,7 +1158,7 @@ function getHoverMenuHtml(item, action) {
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
     if (playbackManager.canPlay(item)) {
-        html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>';
+        html += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayFab-primary" data-action="${ItemAction.Resume}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
     }
 
     html += '<div class="cardOverlayButton-br flex">';
@@ -1157,17 +1167,17 @@ function getHoverMenuHtml(item, action) {
 
     if (itemHelper.canMarkPlayed(item)) {
         import('../../elements/emby-playstatebutton/emby-playstatebutton');
-        html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check" aria-hidden="true"></span></button>';
+        html += `<button is="emby-playstatebutton" type="button" data-action="${ItemAction.None}" class="${btnCssClass}" data-id="${item.Id}" data-serverid="${item.ServerId}" data-itemtype="${item.Type}" data-played="${userData.Played}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover check" aria-hidden="true"></span></button>`;
     }
 
     if (itemHelper.canRate(item)) {
         const likes = userData.Likes == null ? '' : userData.Likes;
 
         import('../../elements/emby-ratingbutton/emby-ratingbutton');
-        html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite" aria-hidden="true"></span></button>';
+        html += `<button is="emby-ratingbutton" type="button" data-action="${ItemAction.None}" class="${btnCssClass}" data-id="${item.Id}" data-serverid="${item.ServerId}" data-itemtype="${item.Type}" data-likes="${likes}" data-isfavorite="${userData.IsFavorite}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover favorite" aria-hidden="true"></span></button>`;
     }
 
-    html += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert" aria-hidden="true"></span></button>`;
+    html += `<button is="paper-icon-button-light" class="${btnCssClass}" data-action="${ItemAction.Menu}" title="${globalize.translate('ButtonMore')}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover more_vert" aria-hidden="true"></span></button>`;
     html += '</div>';
     html += '</div>';
 
@@ -1224,12 +1234,7 @@ export function buildCards(items, options) {
     if (html) {
         if (options.itemsContainer.cardBuilderHtml !== html) {
             options.itemsContainer.innerHTML = html;
-
-            if (items.length < 50) {
-                options.itemsContainer.cardBuilderHtml = html;
-            } else {
-                options.itemsContainer.cardBuilderHtml = null;
-            }
+            options.itemsContainer.cardBuilderHtml = html;
         }
 
         imageLoader.lazyChildren(options.itemsContainer);
@@ -1335,6 +1340,7 @@ function updateUserData(card, userData) {
             innerCardFooter.appendChild(itemProgressBar);
         }
 
+        card.setAttribute('data-positionticks', userData.PlaybackPositionTicks);
         itemProgressBar.innerHTML = progressHtml;
     } else {
         itemProgressBar = card.querySelector('.itemProgressBar');

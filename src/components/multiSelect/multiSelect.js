@@ -1,10 +1,11 @@
+import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
-import dom from '../../scripts/dom';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import dom from '../../utils/dom';
 import './multiSelect.scss';
-import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
@@ -198,7 +199,7 @@ function showMenuForSelectedItems(e) {
                 });
             }
 
-            if (user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
+            if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
                 // Disabled because there is no callback for this item
             }
 
@@ -222,7 +223,7 @@ function showMenuForSelectedItems(e) {
                 icon: 'check_box_outline_blank'
             });
 
-            // this assues that if the user can refresh metadata for the first item
+            // this assures that if the user can refresh metadata for the first item
             // they can refresh metadata for all items
             if (itemHelper.canRefreshMetadata(firstItem, user)) {
                 menuItems.push({

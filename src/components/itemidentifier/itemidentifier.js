@@ -8,6 +8,7 @@ import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
@@ -18,7 +19,6 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import 'material-design-icons-iconfont';
 import '../cardbuilder/card.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './itemidentifier.template.html';
 import datetime from '../../scripts/datetime';
@@ -401,73 +401,6 @@ function onDialogClosed() {
     }
 }
 
-// TODO investigate where this was used
-function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
-    currentItem = null;
-    currentItemType = itemType;
-
-    const dialogOptions = {
-        size: 'small',
-        removeOnClose: true,
-        scrollY: false
-    };
-
-    if (layoutManager.tv) {
-        dialogOptions.size = 'fullscreen';
-    }
-
-    const dlg = dialogHelper.createDialog(dialogOptions);
-
-    dlg.classList.add('formDialog');
-    dlg.classList.add('recordingDialog');
-
-    let html = '';
-    html += globalize.translateHtml(template, 'core');
-
-    dlg.innerHTML = html;
-
-    if (layoutManager.tv) {
-        scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-    }
-
-    dialogHelper.open(dlg);
-
-    dlg.querySelector('.btnCancel').addEventListener('click', () => {
-        dialogHelper.close(dlg);
-    });
-
-    dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
-        e.preventDefault();
-        searchForIdentificationResults(dlg);
-        return false;
-    });
-
-    dlg.addEventListener('close', () => {
-        loading.hide();
-        const foundItem = hasChanges ? currentSearchResult : null;
-
-        resolveFunc(foundItem);
-    });
-
-    dlg.classList.add('identifyDialog');
-
-    showIdentificationFormFindNew(dlg, itemName, itemYear, itemType);
-}
-
-function showIdentificationFormFindNew(dlg, itemName, itemYear, itemType) {
-    dlg.querySelector('#txtLookupName').value = itemName;
-
-    if (itemType === 'Person' || itemType === 'BoxSet') {
-        dlg.querySelector('.fldLookupYear').classList.add('hide');
-        dlg.querySelector('#txtLookupYear').value = '';
-    } else {
-        dlg.querySelector('.fldLookupYear').classList.remove('hide');
-        dlg.querySelector('#txtLookupYear').value = itemYear;
-    }
-
-    dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Search');
-}
-
 export function show(itemId, serverId) {
     return new Promise((resolve, reject) => {
         currentResolve = resolve;
@@ -479,16 +412,6 @@ export function show(itemId, serverId) {
     });
 }
 
-export function showFindNew(itemName, itemYear, itemType, serverId) {
-    return new Promise((resolve) => {
-        currentServerId = serverId;
-
-        hasChanges = false;
-        showEditorFindNew(itemName, itemYear, itemType, resolve);
-    });
-}
-
 export default {
-    show: show,
-    showFindNew: showFindNew
+    show: show
 };

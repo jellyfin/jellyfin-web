@@ -1,4 +1,6 @@
 import escapeHtml from 'escape-html';
+
+import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import { pluginManager } from '../pluginManager';
@@ -6,6 +8,7 @@ import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import datetime from '../../scripts/datetime';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
 import { PluginType } from '../../types/plugin.ts';
@@ -14,7 +17,6 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-textarea/emby-textarea';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import template from './displaySettings.template.html';
 
@@ -68,27 +70,28 @@ function showOrHideMissingEpisodesField(context) {
 }
 
 function loadForm(context, user, userSettings) {
-    if (appHost.supports('displaylanguage')) {
+    if (appHost.supports(AppFeature.DisplayLanguage)) {
         context.querySelector('.languageSection').classList.remove('hide');
     } else {
         context.querySelector('.languageSection').classList.add('hide');
     }
 
-    if (appHost.supports('displaymode')) {
+    if (appHost.supports(AppFeature.DisplayMode)) {
         context.querySelector('.fldDisplayMode').classList.remove('hide');
     } else {
         context.querySelector('.fldDisplayMode').classList.add('hide');
     }
 
-    if (appHost.supports('externallinks')) {
+    if (appHost.supports(AppFeature.ExternalLinks)) {
         context.querySelector('.learnHowToContributeContainer').classList.remove('hide');
     } else {
         context.querySelector('.learnHowToContributeContainer').classList.add('hide');
     }
 
     context.querySelector('.selectDashboardThemeContainer').classList.toggle('hide', !user.Policy.IsAdministrator);
+    context.querySelector('.txtSlideshowIntervalContainer').classList.remove('hide');
 
-    if (appHost.supports('screensaver')) {
+    if (appHost.supports(AppFeature.Screensaver)) {
         context.querySelector('.selectScreensaverContainer').classList.remove('hide');
         context.querySelector('.txtBackdropScreensaverIntervalContainer').classList.remove('hide');
         context.querySelector('.txtScreensaverTimeContainer').classList.remove('hide');
@@ -110,6 +113,7 @@ function loadForm(context, user, userSettings) {
     loadScreensavers(context, userSettings);
 
     context.querySelector('#txtBackdropScreensaverInterval').value = userSettings.backdropScreensaverInterval();
+    context.querySelector('#txtSlideshowInterval').value = userSettings.slideshowInterval();
     context.querySelector('#txtScreensaverTime').value = userSettings.screensaverTime();
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
@@ -143,7 +147,7 @@ function loadForm(context, user, userSettings) {
 function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;
 
-    if (appHost.supports('displaylanguage')) {
+    if (appHost.supports(AppFeature.DisplayLanguage)) {
         userSettingsInstance.language(context.querySelector('#selectLanguage').value);
     }
 
@@ -155,6 +159,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
     userSettingsInstance.backdropScreensaverInterval(context.querySelector('#txtBackdropScreensaverInterval').value);
+    userSettingsInstance.slideshowInterval(context.querySelector('#txtSlideshowInterval').value);
     userSettingsInstance.screensaverTime(context.querySelector('#txtScreensaverTime').value);
 
     userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);

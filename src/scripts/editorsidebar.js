@@ -6,6 +6,8 @@ import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
 import { getParameterByName } from 'utils/url';
 
+// Disable the naming rules since jstree requires snake_case variables
+/* eslint-disable @typescript-eslint/naming-convention */
 function getNode(item, folderState, selected) {
     const htmlName = getNodeInnerHtml(item);
     const node = {
@@ -285,11 +287,12 @@ function updateEditorNode(page, item) {
     }
 }
 
-function setCurrentItemId(id) {
+let itemId;
+export function setCurrentItemId(id) {
     itemId = id;
 }
 
-function getCurrentItemId() {
+export function getCurrentItemId() {
     if (itemId) {
         return itemId;
     }
@@ -324,16 +327,4 @@ $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
         .off('open_node.jstree', onNodeOpen)
         .off('load_node.jstree', onNodeOpen);
 });
-let itemId;
-window.MetadataEditor = {
-    getItemPromise: function () {
-        const currentItemId = getCurrentItemId();
-        if (currentItemId) {
-            return ApiClient.getItem(Dashboard.getCurrentUserId(), currentItemId);
-        }
-        return ApiClient.getRootFolder(Dashboard.getCurrentUserId());
-    },
-    getCurrentItemId: getCurrentItemId,
-    setCurrentItemId: setCurrentItemId
-};
-
+/* eslint-enable @typescript-eslint/naming-convention */

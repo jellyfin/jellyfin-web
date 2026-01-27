@@ -1,19 +1,20 @@
 /**
- * Module shortcuts.
- * @module components/shortcuts
+ * "Shortcut" action handlers for BaseItems.
  */
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
+
+import { ItemAction } from 'constants/itemAction';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
 import { appRouter } from './router/appRouter';
 import globalize from '../lib/globalize';
-import dom from '../scripts/dom';
+import dom from '../utils/dom';
 import recordingHelper from './recordingcreator/recordinghelper';
-import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 function playAllFromHere(card, serverId, queue) {
     const parent = card.parentNode;
@@ -231,95 +232,114 @@ function executeAction(card, target, action) {
 
     const playableItemId = type === 'Program' ? item.ChannelId : item.Id;
 
-    if (item.MediaType === 'Photo' && action === 'link') {
-        action = 'play';
+    if (item.MediaType === 'Photo' && action === ItemAction.Link) {
+        action = ItemAction.Play;
     }
 
-    if (action === 'link') {
-        appRouter.showItem(item, {
-            context: card.getAttribute('data-context'),
-            parentId: card.getAttribute('data-parentid')
-        });
-    } else if (action === 'programdialog') {
-        showProgramDialog(item);
-    } else if (action === 'instantmix') {
-        playbackManager.instantMix({
-            Id: playableItemId,
-            ServerId: serverId
-        });
-    } else if (action === 'play' || action === 'resume') {
-        const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
-        const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
-
-        if (playbackManager.canPlay(item)) {
-            playbackManager.play({
-                ids: [playableItemId],
-                startPositionTicks: startPositionTicks,
-                serverId: serverId,
-                queryOptions: {
-                    SortBy: sortValues.sortBy,
-                    SortOrder: sortValues.sortOrder
-                }
+    switch (action) {
+        case ItemAction.Link:
+            appRouter.showItem(item, {
+                context: card.getAttribute('data-context'),
+                parentId: card.getAttribute('data-parentid')
             });
-        } else {
-            console.warn('Unable to play item', item);
+            break;
+        case ItemAction.ProgramDialog:
+            showProgramDialog(item);
+            break;
+        case ItemAction.InstantMix:
+            playbackManager.instantMix({
+                Id: playableItemId,
+                ServerId: serverId
+            });
+            break;
+        case ItemAction.Play:
+        case ItemAction.Resume: {
+            const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
+            const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
+
+            if (playbackManager.canPlay(item)) {
+                playbackManager.play({
+                    ids: [playableItemId],
+                    startPositionTicks: startPositionTicks,
+                    serverId: serverId,
+                    queryOptions: {
+                        SortBy: sortValues.sortBy,
+                        SortOrder: sortValues.sortOrder
+                    }
+                });
+            } else {
+                console.warn('Unable to play item', item);
+            }
+            break;
         }
-    } else if (action === 'queue') {
-        if (playbackManager.isPlaying()) {
-            playbackManager.queue({
-                ids: [playableItemId],
-                serverId: serverId
-            });
-            toast(globalize.translate('MediaQueued'));
-        } else {
-            playbackManager.queue({
-                ids: [playableItemId],
-                serverId: serverId
-            });
+        case ItemAction.Queue:
+            if (playbackManager.isPlaying()) {
+                playbackManager.queue({
+                    ids: [playableItemId],
+                    serverId: serverId
+                });
+                toast(globalize.translate('MediaQueued'));
+            } else {
+                playbackManager.queue({
+                    ids: [playableItemId],
+                    serverId: serverId
+                });
+            }
+            break;
+        case ItemAction.PlayAllFromHere:
+            playAllFromHere(card, serverId);
+            break;
+        case ItemAction.QueueAllFromHere:
+            playAllFromHere(card, serverId, true);
+            break;
+        case ItemAction.SetPlaylistIndex:
+            playbackManager.setCurrentPlaylistItem(card.getAttribute('data-playlistitemid'));
+            break;
+        case ItemAction.Record:
+            onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
+            break;
+        case ItemAction.Menu: {
+            const options = target.getAttribute('data-playoptions') === 'false' ?
+                {
+                    shuffle: false,
+                    instantMix: false,
+                    play: false,
+                    playAllFromHere: false,
+                    queue: false,
+                    queueAllFromHere: false
+                } :
+                {};
+
+            options.positionTo = target;
+
+            showContextMenu(card, options);
+            break;
         }
-    } else if (action === 'playallfromhere') {
-        playAllFromHere(card, serverId);
-    } else if (action === 'queueallfromhere') {
-        playAllFromHere(card, serverId, true);
-    } else if (action === 'setplaylistindex') {
-        playbackManager.setCurrentPlaylistItem(card.getAttribute('data-playlistitemid'));
-    } else if (action === 'record') {
-        onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
-    } else if (action === 'menu') {
-        const options = target.getAttribute('data-playoptions') === 'false' ?
-            {
-                shuffle: false,
-                instantMix: false,
-                play: false,
-                playAllFromHere: false,
-                queue: false,
-                queueAllFromHere: false
-            } :
-            {};
+        case ItemAction.PlayMenu:
+            showPlayMenu(card, target);
+            break;
+        case ItemAction.Edit:
+            getItem(target).then(itemToEdit => {
+                editItem(itemToEdit, serverId);
+            });
+            break;
+        case ItemAction.PlayTrailer:
+            getItem(target).then(playTrailer);
+            break;
+        case ItemAction.AddToPlaylist:
+            getItem(target).then(addToPlaylist);
+            break;
+        case ItemAction.Custom: {
+            const customAction = target.getAttribute('data-customaction');
 
-        options.positionTo = target;
-
-        showContextMenu(card, options);
-    } else if (action === 'playmenu') {
-        showPlayMenu(card, target);
-    } else if (action === 'edit') {
-        getItem(target).then(itemToEdit => {
-            editItem(itemToEdit, serverId);
-        });
-    } else if (action === 'playtrailer') {
-        getItem(target).then(playTrailer);
-    } else if (action === 'addtoplaylist') {
-        getItem(target).then(addToPlaylist);
-    } else if (action === 'custom') {
-        const customAction = target.getAttribute('data-customaction');
-
-        card.dispatchEvent(new CustomEvent(`action-${customAction}`, {
-            detail: {
-                playlistItemId: card.getAttribute('data-playlistitemid')
-            },
-            cancelable: false,
-            bubbles: true
-        }));
+            card.dispatchEvent(new CustomEvent(`action-${customAction}`, {
+                detail: {
+                    playlistItemId: card.getAttribute('data-playlistitemid')
+                },
+                cancelable: false,
+                bubbles: true
+            }));
+        }
     }
 }
 
@@ -390,7 +410,7 @@ export function onClick(e) {
             }
         }
 
-        if (action) {
+        if (action && action !== ItemAction.None) {
             executeAction(card, actionElement, action);
 
             e.preventDefault();

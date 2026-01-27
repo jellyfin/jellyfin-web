@@ -7,8 +7,7 @@
 import escapeHtml from 'escape-html';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
-import 'jquery';
+import dom from '../../utils/dom';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';
@@ -43,8 +42,20 @@ function onAddLibrary(e) {
     isCreating = true;
     loading.show();
     const dlg = dom.parentWithClass(this, 'dlg-librarycreator');
-    const name = $('#txtValue', dlg).val();
-    let type = $('#selectCollectionType', dlg).val();
+    const name = dlg.querySelector('#txtValue').value.trim();
+    let type = dlg.querySelector('#selectCollectionType').value;
+
+    if (name.length === 0) {
+        alert({
+            text: globalize.translate('LibraryNameInvalid'),
+            type: 'error'
+        });
+
+        isCreating = false;
+        loading.hide();
+
+        return false;
+    }
 
     if (type == 'mixed') {
         type = null;
@@ -72,9 +83,12 @@ function getCollectionTypeOptionsHtml(collectionTypeOptions) {
 }
 
 function initEditor(page, collectionTypeOptions) {
-    $('#selectCollectionType', page).html(getCollectionTypeOptionsHtml(collectionTypeOptions)).val('').on('change', function () {
+    const selectCollectionType = page.querySelector('#selectCollectionType');
+    selectCollectionType.innerHTML = getCollectionTypeOptionsHtml(collectionTypeOptions);
+    selectCollectionType.value = '';
+    selectCollectionType.addEventListener('change', function () {
         const value = this.value;
-        const dlg = $(this).parents('.dialog')[0];
+        const dlg = dom.parentWithClass(this, 'dialog');
         libraryoptionseditor.setContentType(dlg.querySelector('.libraryOptions'), value);
 
         if (value) {
@@ -90,12 +104,12 @@ function initEditor(page, collectionTypeOptions) {
                 const name = this.options[index].innerHTML
                     .replaceAll('*', '')
                     .replaceAll('&amp;', '&');
-                $('#txtValue', dlg).val(name);
+                dlg.querySelector('#txtValue').value = name;
             }
         }
 
         const folderOption = collectionTypeOptions.find(i => i.value === value);
-        $('.collectionTypeFieldDescription', dlg).html(folderOption?.message || '');
+        dlg.querySelector('.collectionTypeFieldDescription').innerHTML = folderOption?.message || '';
     });
     page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
     page.querySelector('.addLibraryForm').addEventListener('submit', onAddLibrary);
@@ -108,9 +122,9 @@ function onAddButtonClick() {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
-            callback: function (path, networkSharePath) {
+            callback: function (path) {
                 if (path) {
-                    addMediaLocation(page, path, networkSharePath);
+                    addMediaLocation(page, path);
                 }
 
                 picker.close();
@@ -147,7 +161,7 @@ function renderPaths(page) {
     }
 }
 
-function addMediaLocation(page, path, networkSharePath) {
+function addMediaLocation(page, path) {
     const pathLower = path.toLowerCase();
     const pathFilter = pathInfos.filter(p => {
         return p.Path.toLowerCase() == pathLower;
@@ -157,10 +171,6 @@ function addMediaLocation(page, path, networkSharePath) {
         const pathInfo = {
             Path: path
         };
-
-        if (networkSharePath) {
-            pathInfo.NetworkPath = networkSharePath;
-        }
 
         pathInfos.push(pathInfo);
         renderPaths(page);
@@ -184,7 +194,7 @@ function onDialogClosed() {
 
 function initLibraryOptions(dlg) {
     libraryoptionseditor.embed(dlg.querySelector('.libraryOptions')).then(() => {
-        $('#selectCollectionType', dlg).trigger('change');
+        dlg.querySelector('#selectCollectionType').dispatchEvent(new Event('change'));
     });
 }
 

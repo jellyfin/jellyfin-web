@@ -8,7 +8,7 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import escapeHtml from 'escape-html';
 
 import globalize from '../../lib/globalize';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
@@ -249,6 +249,40 @@ function renderLyricFetchers(page, availableOptions, libraryOptions) {
     elem.innerHTML = html;
 }
 
+function renderMediaSegmentProviders(page, availableOptions, libraryOptions) {
+    let html = '';
+    const elem = page.querySelector('.mediaSegmentProviders');
+
+    let plugins = availableOptions.MediaSegmentProviders;
+    plugins = getOrderedPlugins(plugins, libraryOptions.MediaSegmentProviderOrder);
+    elem.classList.toggle('hide', !plugins.length);
+    if (!plugins.length) return html;
+
+    html += `<h3 class="checkboxListLabel">${globalize.translate('LabelMediaSegmentProviders')}</h3>`;
+    html += '<div class="checkboxList paperList checkboxList-paperList">';
+    for (let i = 0; i < plugins.length; i++) {
+        const plugin = plugins[i];
+        html += `<div class="listItem mediaSegmentProviderItem sortableOption" data-pluginname="${escapeHtml(plugin.Name)}">`;
+        const isChecked = libraryOptions.DisabledMediaSegmentProviders ? !libraryOptions.DisabledMediaSegmentProviders.includes(plugin.Name) : plugin.DefaultEnabled;
+        const checkedHtml = isChecked ? ' checked="checked"' : '';
+        html += `<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkMediaSegmentProvider" data-pluginname="${escapeHtml(plugin.Name)}" ${checkedHtml}><span></span></label>`;
+        html += '<div class="listItemBody">';
+        html += '<h3 class="listItemBodyText">';
+        html += escapeHtml(plugin.Name);
+        html += '</h3>';
+        html += '</div>';
+        if (i > 0) {
+            html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Up')}" class="btnSortableMoveUp btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>`;
+        } else if (plugins.length > 1) {
+            html += `<button type="button" is="paper-icon-button-light" title="${globalize.translate('Down')}" class="btnSortableMoveDown btnSortable" data-pluginindex="${i}"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>`;
+        }
+        html += '</div>';
+    }
+    html += '</div>';
+    html += `<div class="fieldDescription">${globalize.translate('MediaSegmentProvidersHelp')}</div>`;
+    elem.innerHTML = html;
+}
+
 function getImageFetchersForTypeHtml(availableTypeOptions, libraryOptionsForType) {
     let html = '';
     let plugins = availableTypeOptions.ImageFetchers;
@@ -319,6 +353,7 @@ function populateMetadataSettings(parent, contentType) {
         renderMetadataFetchers(parent, availableOptions, {});
         renderSubtitleFetchers(parent, availableOptions, {});
         renderLyricFetchers(parent, availableOptions, {});
+        renderMediaSegmentProviders(parent, availableOptions, {});
         renderImageFetchers(parent, availableOptions, {});
         availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleDownloadSettings').classList.remove('hide') : parent.querySelector('.subtitleDownloadSettings').classList.add('hide');
     }).catch(() => {
@@ -394,6 +429,8 @@ function bindEvents(parent) {
     parent.querySelector('.metadataReaders').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.subtitleFetchers').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.metadataFetchers').addEventListener('click', onSortableContainerClick);
+    parent.querySelector('.lyricFetchers').addEventListener('click', onSortableContainerClick);
+    parent.querySelector('.mediaSegmentProviders').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
 
     parent.querySelector('#chkEnableEmbeddedTitles').addEventListener('change', (e) => {
@@ -505,6 +542,18 @@ function setLyricFetchersIntoOptions(parent, options) {
     });
 
     options.LyricFetcherOrder = Array.prototype.map.call(parent.querySelectorAll('.lyricFetcherItem'), elem => {
+        return elem.getAttribute('data-pluginname');
+    });
+}
+
+function setMediaSegmentProvidersIntoOptions(parent, options) {
+    options.DisabledMediaSegmentProviders = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMediaSegmentProvider'), elem => {
+        return !elem.checked;
+    }), elem => {
+        return elem.getAttribute('data-pluginname');
+    });
+
+    options.MediaSegmentProviderOrder = Array.prototype.map.call(parent.querySelectorAll('.mediaSegmentProviderItem'), elem => {
         return elem.getAttribute('data-pluginname');
     });
 }
@@ -622,6 +671,7 @@ export function getLibraryOptions(parent) {
     options.DelimiterWhitelist = parent.querySelector('#tagDelimiterWhitelist').value.split('\n').filter(item => item.trim());
     setSubtitleFetchersIntoOptions(parent, options);
     setLyricFetchersIntoOptions(parent, options);
+    setMediaSegmentProvidersIntoOptions(parent, options);
     setMetadataFetchersIntoOptions(parent, options);
     setImageFetchersIntoOptions(parent, options);
     setImageOptionsIntoOptions(options);
@@ -660,7 +710,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
     parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !options.EnableEmbeddedTitles);
     parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked = options.EnableEmbeddedExtrasTitles;
-    parent.querySelector('#chkEnableEmbeddedEpisodeInfos').value = options.EnableEmbeddedEpisodeInfos;
+    parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked = options.EnableEmbeddedEpisodeInfos;
     parent.querySelector('#selectAllowEmbeddedSubtitles').value = options.AllowEmbeddedSubtitles;
     parent.querySelector('#chkSkipIfGraphicalSubsPresent').checked = options.SkipSubtitlesIfEmbeddedSubtitlesPresent;
     parent.querySelector('#chkSaveSubtitlesLocally').checked = options.SaveSubtitlesWithMedia;
@@ -683,6 +733,7 @@ export function setLibraryOptions(parent, options) {
     renderImageFetchers(parent, parent.availableOptions, options);
     renderSubtitleFetchers(parent, parent.availableOptions, options);
     renderLyricFetchers(parent, parent.availableOptions, options);
+    renderMediaSegmentProviders(parent, parent.availableOptions, options);
 }
 
 let currentLibraryOptions;

@@ -7,6 +7,7 @@ import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events.ts';
+import dom from 'utils/dom';
 
 function getTunerName(providerId) {
     switch (providerId.toLowerCase()) {
@@ -46,7 +47,7 @@ function refreshTunerDevices(page, providerInfo, devices) {
 }
 
 function onSelectPathClick(e) {
-    const page = $(e.target).parents('.xmltvForm')[0];
+    const page = dom.parentWithClass(e.target, 'xmltvForm');
 
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();

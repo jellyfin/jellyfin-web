@@ -1,13 +1,16 @@
 import React, { type FC } from 'react';
-import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
-import { appRouter } from 'components/router/appRouter';
-import globalize from 'lib/globalize';
-import Loading from 'components/loading/LoadingComponent';
+
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
-import { CardShape } from 'utils/card';
+import Loading from 'components/loading/LoadingComponent';
+import { appRouter } from 'components/router/appRouter';
+import { ItemAction } from 'constants/itemAction';
+import { useApi } from 'hooks/useApi';
+import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
+import globalize from 'lib/globalize';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
+import { CardShape } from 'utils/card';
 
 interface ProgramsSectionViewProps {
     parentId: ParentId;
@@ -20,6 +23,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     sectionType,
     isUpcomingRecordingsEnabled = false
 }) => {
+    const { __legacyApiClient__ } = useApi();
     const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
     const {
         isLoading: isUpcomingRecordingsLoading,
@@ -63,7 +67,8 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     items={items}
                     cardOptions={{
                         ...section.cardOptions,
-                        queryKey: ['ProgramSectionWithItems']
+                        queryKey: ['ProgramSectionWithItems'],
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}
@@ -89,13 +94,14 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                         showChannelName: false,
                         cardLayout: true,
                         centerText: false,
-                        action: 'edit',
+                        action: ItemAction.Edit,
                         cardFooterAside: 'none',
                         preferThumb: true,
                         coverImage: true,
                         allowBottomPadding: false,
                         overlayText: false,
-                        showChannelLogo: true
+                        showChannelLogo: true,
+                        serverId: __legacyApiClient__?.serverId()
                     }}
                 />
             ))}

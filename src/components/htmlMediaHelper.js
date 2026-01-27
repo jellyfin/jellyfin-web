@@ -59,6 +59,12 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
             return true;
         }
 
+        // Chromium 141+ brings native HLS support that does not support switching HDR/SDR playlists.
+        // Always use hls.js to avoid falling back to transcoding from remuxing and client side tone-mapping.
+        if (browser.chrome || browser.edgeChromium || browser.opera) {
+            return true;
+        }
+
         // simple playback should use the native support
         if (runTimeTicks) {
             return false;
@@ -80,7 +86,7 @@ export function handleHlsJsMediaError(instance, reject) {
     let now = Date.now();
 
     if (window.performance?.now) {
-        now = performance.now(); // eslint-disable-line compat/compat
+        now = performance.now();
     }
 
     if (!recoverDecodingErrorDate || (now - recoverDecodingErrorDate) > 3000) {
@@ -373,6 +379,7 @@ export function getBufferedRanges(instance, elem) {
             start = 0;
         }
         if (!isValidDuration(end)) {
+            // eslint-disable-next-line sonarjs/no-dead-store
             end = 0;
             continue;
         }

@@ -287,7 +287,9 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
             keepMounted
             open={open}
             onClose={onMenuClose}
-            MenuListProps={MenuListProps}
+            slotProps={{
+                list: MenuListProps
+            }}
         >
             {menuItems}
         </Menu>

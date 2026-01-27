@@ -1,16 +1,26 @@
 import escapeHtml from 'escape-html';
+
+import { getImageUrl } from 'apps/stable/features/playback/utils/image';
+import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
+import { AppFeature } from 'constants/appFeature';
+import { ItemAction } from 'constants/itemAction';
+
 import datetime from '../../scripts/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
-import nowPlayingHelper from '../playback/nowplayinghelper';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import itemContextMenu from '../itemContextMenu';
+import toast from '../toast/toast';
+import { appRouter } from '../router/appRouter';
+import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+
 import '../cardbuilder/card.scss';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -18,10 +28,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-slider/emby-slider';
-import ServerConnections from '../ServerConnections';
-import toast from '../toast/toast';
-import { appRouter } from '../router/appRouter';
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -85,59 +91,11 @@ function showSubtitleMenu(context, player, button) {
     });
 }
 
-function getNowPlayingNameHtml(nowPlayingItem, includeNonNameInfo) {
-    return nowPlayingHelper.getNowPlayingNames(nowPlayingItem, includeNonNameInfo).map(function (i) {
-        return escapeHtml(i.text);
-    }).join('<br/>');
-}
-
-function seriesImageUrl(item, options) {
-    if (item.Type !== 'Episode') {
-        return null;
-    }
-
-    options = options || {};
-    options.type = options.type || 'Primary';
-    if (options.type === 'Primary' && item.SeriesPrimaryImageTag) {
-        options.tag = item.SeriesPrimaryImageTag;
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-    }
-
-    if (options.type === 'Thumb') {
-        if (item.SeriesThumbImageTag) {
-            options.tag = item.SeriesThumbImageTag;
-            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-        }
-
-        if (item.ParentThumbImageTag) {
-            options.tag = item.ParentThumbImageTag;
-            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
-        }
-    }
-
-    return null;
-}
-
-function imageUrl(item, options) {
-    options = options || {};
-    options.type = options.type || 'Primary';
-
-    if (item.ImageTags?.[options.type]) {
-        options.tag = item.ImageTags[options.type];
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
-    }
-
-    if (item.AlbumId && item.AlbumPrimaryImageTag) {
-        options.tag = item.AlbumPrimaryImageTag;
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
-    }
-
-    return null;
-}
-
 function updateNowPlayingInfo(context, state, serverId) {
     const item = state.NowPlayingItem;
-    const displayName = item ? getNowPlayingNameHtml(item).replace('<br/>', ' - ') : '';
+    const displayName = item ?
+        getItemTextLines(item).map(escapeHtml).join(' - ') :
+        '';
     if (item) {
         const nowPlayingServerId = (item.ServerId || serverId);
         if (item.Type == 'AudioBook' || item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
@@ -193,9 +151,7 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingPageTitle').classList.add('hide');
         }
 
-        const url = seriesImageUrl(item, {
-            maxHeight: 300
-        }) || imageUrl(item, {
+        const url = getImageUrl(item, {
             maxHeight: 300
         });
 
@@ -253,7 +209,7 @@ function setImageUrl(context, state, url) {
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImageAudio', item.Type === 'Audio');
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImagePoster', item.Type !== 'Audio');
     } else {
-        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>';
+        imgContainer.innerHTML = `<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="${ItemAction.Link}" class="cardImageContainer coveredImage ${getDefaultBackgroundClass(item.Name)} cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>`;
     }
 }
 
@@ -417,7 +373,7 @@ export default function () {
             showVolumeSlider = false;
         }
 
-        if (currentPlayer.isLocalPlayer && appHost.supports('physicalvolumecontrol')) {
+        if (currentPlayer.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl)) {
             showMuteButton = false;
             showVolumeSlider = false;
         }

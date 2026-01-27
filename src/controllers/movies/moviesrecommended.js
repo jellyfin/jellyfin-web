@@ -5,7 +5,7 @@ import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import * as mainTabsManager from 'components/maintabsmanager';
 import { playbackManager } from 'components/playback/playbackmanager';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
@@ -232,8 +232,6 @@ function getTabs() {
     }, {
         name: globalize.translate('Suggestions')
     }, {
-        name: globalize.translate('Trailers')
-    }, {
         name: globalize.translate('Favorites')
     }, {
         name: globalize.translate('Collections')
@@ -248,13 +246,13 @@ function getDefaultTabIndex(folderId) {
             return 1;
 
         case LibraryTab.Favorites:
-            return 3;
+            return 2;
 
         case LibraryTab.Collections:
-            return 4;
+            return 3;
 
         case LibraryTab.Genres:
-            return 5;
+            return 4;
 
         default:
             return 0;
@@ -280,30 +278,18 @@ export default function (view, params) {
     }
 
     const getTabController = (page, index, callback) => {
-        let depends = '';
+        let depends = 'movies';
 
         switch (index) {
-            case 0:
-                depends = 'movies';
-                break;
-
             case 1:
                 depends = 'moviesrecommended.js';
                 break;
 
-            case 2:
-                depends = 'movietrailers';
-                break;
-
             case 3:
-                depends = 'movies';
-                break;
-
-            case 4:
                 depends = 'moviecollections';
                 break;
 
-            case 5:
+            case 4:
                 depends = 'moviegenres';
                 break;
         }
@@ -323,7 +309,7 @@ export default function (view, params) {
 
                 if (index === suggestionsTabIndex) {
                     controller = this;
-                } else if (index == 0 || index == 3) {
+                } else if (index == 0 || index == 2) {
                     controller = new ControllerFactory(view, params, tabContent, {
                         mode: index ? 'favorites' : 'movies'
                     });
@@ -370,7 +356,7 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate('search.html?collectionType=movies&parentId=' + params.topParentId);
+            Dashboard.navigate('search?collectionType=movies&parentId=' + params.topParentId);
         }
     }
 

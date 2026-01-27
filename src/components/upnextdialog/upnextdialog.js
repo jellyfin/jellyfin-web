@@ -1,12 +1,13 @@
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import mediaInfo from '../mediainfo/mediainfo';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import itemHelper from '../itemHelper';
-import ServerConnections from '../ServerConnections';
+
 import './upnextdialog.scss';
 import '../../elements/emby-button/emby-button';
 import '../../styles/flexstyles.scss';
@@ -55,9 +56,16 @@ function setNextVideoText() {
 
     const timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('HeaderSecondsValue', secondsRemaining) + '</span>';
 
-    const nextVideoText = instance.showStaticNextText ?
-        globalize.translate('HeaderNextItem', globalize.translate(instance.itemType)) :
-        globalize.translate('HeaderNextItemPlayingInValue', globalize.translate(instance.itemType), timeText);
+    let nextVideoText;
+    if (instance.itemType === 'Episode') {
+        nextVideoText = instance.showStaticNextText ?
+            globalize.translate('HeaderNextEpisode') :
+            globalize.translate('HeaderNextEpisodePlayingInValue', timeText);
+    } else {
+        nextVideoText = instance.showStaticNextText ?
+            globalize.translate('HeaderNextVideo') :
+            globalize.translate('HeaderNextVideoPlayingInValue', timeText);
+    }
 
     elem.querySelector('.upNextDialog-nextVideoText').innerHTML = nextVideoText;
 }

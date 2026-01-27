@@ -22,6 +22,24 @@ h3 {
     @include font(400, 1.17em);
 }
 
+.textarea-mono {
+    font-family:
+        ui-monospace,
+        Menlo,
+        Monaco,
+        "Cascadia Mono",
+        "Segoe UI Mono",
+        "Roboto Mono",
+        "Oxygen Mono",
+        "Ubuntu Mono",
+        "Source Code Pro",
+        "Fira Mono",
+        "Droid Sans Mono",
+        "Consolas",
+        "Courier New",
+        monospace !important;
+}
+
 .layout-tv {
     /* Per WebOS and Tizen guidelines, fonts must be 20px minimum.
        This takes the 16px baseline and multiplies it by 1.25 to get 20px. */

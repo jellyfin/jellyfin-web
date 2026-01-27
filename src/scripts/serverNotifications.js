@@ -1,13 +1,13 @@
-import { playbackManager } from '../components/playback/playbackmanager';
-import { pluginManager } from '../components/pluginManager';
-import inputManager from '../scripts/inputManager';
-import focusManager from '../components/focusManager';
-import { appRouter } from '../components/router/appRouter';
-import ServerConnections from '../components/ServerConnections';
-import toast from '../components/toast/toast';
-import alert from '../components/alert';
-import Events from '../utils/events.ts';
-import { PluginType } from '../types/plugin.ts';
+import alert from 'components/alert';
+import focusManager from 'components/focusManager';
+import { playbackManager } from 'components/playback/playbackmanager';
+import { pluginManager } from 'components/pluginManager';
+import { appRouter } from 'components/router/appRouter';
+import toast from 'components/toast/toast';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import inputManager from 'scripts/inputManager';
+import Events from 'utils/events.ts';
+import { PluginType } from 'types/plugin.ts';
 
 const serverNotifications = {};
 
@@ -176,6 +176,10 @@ function onMessageReceived(e, msg) {
             inputManager.handleCommand('next');
         } else if (msg.Data.Command === 'PreviousTrack') {
             inputManager.handleCommand('previous');
+        } else if (msg.Data.Command === 'Rewind') {
+            inputManager.handleCommand('rewind');
+        } else if (msg.Data.Command === 'FastForward') {
+            inputManager.handleCommand('fastforward');
         } else {
             notifyApp();
         }

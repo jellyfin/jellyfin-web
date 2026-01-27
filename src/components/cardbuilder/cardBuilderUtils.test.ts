@@ -11,6 +11,7 @@ import {
     resolveCardImageContainerCssClasses,
     resolveMixedShapeByAspectRatio
 } from './cardBuilderUtils';
+import { ItemAction } from 'constants/itemAction';
 
 describe('getDesiredAspect', () => {
     test('"portrait" (case insensitive)', () => {
@@ -441,11 +442,11 @@ describe('isResizable', () => {
 });
 
 describe('resolveAction', () => {
-    test('default action', () => expect(resolveAction({ defaultAction: 'link', isFolder: false, isPhoto: false })).toEqual('link'));
+    test('default action', () => expect(resolveAction({ defaultAction: ItemAction.Link, isFolder: false, isPhoto: false })).toEqual(ItemAction.Link));
 
-    test('photo', () => expect(resolveAction({ defaultAction: 'link', isFolder: false, isPhoto: true })).toEqual('play'));
+    test('photo', () => expect(resolveAction({ defaultAction: ItemAction.Link, isFolder: false, isPhoto: true })).toEqual(ItemAction.Play));
 
-    test('default action is "play" and is folder', () => expect(resolveAction({ defaultAction: 'play', isFolder: true, isPhoto: true })).toEqual('link'));
+    test('default action is "play" and is folder', () => expect(resolveAction({ defaultAction: ItemAction.Play, isFolder: true, isPhoto: true })).toEqual(ItemAction.Link));
 });
 
 describe('resolveMixedShapeByAspectRatio', () => {
@@ -678,6 +679,7 @@ describe('getDefaultBackgroundClass', () => {
     });
 
     test('randomization string provided', () => {
+        // eslint-disable-next-line sonarjs/pseudo-random
         const generateRandomString = (stringLength: number): string => (Math.random() + 1).toString(36).substring(stringLength);
 
         for (let i = 0; i < 100; i++) {

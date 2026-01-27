@@ -1,11 +1,13 @@
 import escapeHtml from 'escape-html';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';
 import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
@@ -17,7 +19,6 @@ import '../formdialog.scss';
 import '../../styles/clearbutton.scss';
 import '../../styles/flexstyles.scss';
 import './style.scss';
-import ServerConnections from '../ServerConnections';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
@@ -169,7 +170,7 @@ function onSubmit(e) {
         })
     };
 
-    item.ProviderIds = Object.assign({}, currentItem.ProviderIds);
+    item.ProviderIds = { ...currentItem.ProviderIds };
 
     const idElements = form.querySelectorAll('.txtExternalId');
     Array.prototype.map.call(idElements, function (idElem) {
@@ -588,17 +589,17 @@ function setFieldVisibilities(context, item) {
         hideElement('#fld3dFormat', context);
     }
 
-    if (item.Type === 'Audio') {
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo) {
+        showElement('#fldArtist', context);
         showElement('#fldAlbumArtist', context);
     } else {
+        hideElement('#fldArtist', context);
         hideElement('#fldAlbumArtist', context);
     }
 
-    if (item.Type === 'Audio' || item.Type === 'MusicVideo') {
-        showElement('#fldArtist', context);
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicVideo) {
         showElement('#fldAlbum', context);
     } else {
-        hideElement('#fldArtist', context);
         hideElement('#fldAlbum', context);
     }
 
@@ -821,7 +822,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.DateCreated, true);
 
             context.querySelector('#txtDateAdded').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtDateAdded').value = '';
         }
     } else {
@@ -833,7 +834,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.PremiereDate, true);
 
             context.querySelector('#txtPremiereDate').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtPremiereDate').value = '';
         }
     } else {
@@ -845,7 +846,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
             date = datetime.parseISO8601Date(item.EndDate, true);
 
             context.querySelector('#txtEndDate').value = date.toISOString().slice(0, 10);
-        } catch (e) {
+        } catch {
             context.querySelector('#txtEndDate').value = '';
         }
     } else {
@@ -969,7 +970,7 @@ function populatePeople(context, people) {
         html += '</div>';
 
         if (person.Role && person.Role !== lastType) {
-            html += '<div class="secondary">' + person.Role + '</div>';
+            html += '<div class="secondary">' + escapeHtml(person.Role) + '</div>';
         } else {
             html += '<div class="secondary">' + globalize.translate(person.Type) + '</div>';
         }
@@ -1099,10 +1100,7 @@ function show(itemId, serverId, resolve) {
         centerFocus(dlg.querySelector('.formDialogContent'), false, true);
     }
 
-    dialogHelper.open(dlg, {
-        preventCloseOnClick : true,
-        preventCloseOnRightClick : true
-    });
+    dialogHelper.open(dlg);
 
     dlg.addEventListener('close', function () {
         if (layoutManager.tv) {

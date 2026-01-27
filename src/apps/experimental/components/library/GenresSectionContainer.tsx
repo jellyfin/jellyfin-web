@@ -2,9 +2,11 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC } from 'react';
+
+import { useApi } from 'hooks/useApi';
 import { useGetItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
@@ -26,6 +28,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
     itemType,
     genre
 }) => {
+    const { __legacyApiClient__ } = useApi();
     const getParametersOptions = () => {
         return {
             sortBy: [ItemSortBy.Random],
@@ -73,7 +76,8 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             cardLayout: false,
             shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
             showParentTitle: collectionType === CollectionType.Music,
-            showYear: collectionType !== CollectionType.Music
+            showYear: collectionType !== CollectionType.Music,
+            serverId: __legacyApiClient__?.serverId()
         }}
     />;
 };
