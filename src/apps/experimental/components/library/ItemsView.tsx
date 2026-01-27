@@ -30,6 +30,7 @@ import { useItem } from 'hooks/useItem';
 import AlphabetPicker from './AlphabetPicker';
 import FilterButton from './filter/FilterButton';
 import NewCollectionButton from './NewCollectionButton';
+import NewPlaylistButton from './NewPlaylistButton';
 import Pagination from './Pagination';
 import PlayAllButton from './PlayAllButton';
 import QueueButton from './QueueButton';
@@ -50,6 +51,7 @@ interface ItemsViewProps {
     isBtnSortEnabled?: boolean;
     isBtnFilterEnabled?: boolean;
     isBtnNewCollectionEnabled?: boolean;
+    isBtnNewPlaylistEnabled?: boolean;
     isBtnGridListEnabled?: boolean;
     isAlphabetPickerEnabled?: boolean;
     noItemsMessage: string;
@@ -66,6 +68,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     isBtnSortEnabled = true,
     isBtnFilterEnabled = true,
     isBtnNewCollectionEnabled = false,
+    isBtnNewPlaylistEnabled = false,
     isBtnGridListEnabled = true,
     isAlphabetPickerEnabled = true,
     itemType,
@@ -340,6 +343,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                             </ButtonGroup>
 
                             {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
+                            {isBtnNewPlaylistEnabled && <NewPlaylistButton isTextVisible={isSmallScreen} />}
                         </>
                     )}
                 </Box>
