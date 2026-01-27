@@ -1671,8 +1671,127 @@ export class PlaybackManager {
         }
     }
 
+    getQueueShuffleMode(player?: Player): string {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.getShuffleQueueMode) {
+            return targetPlayer.getShuffleQueueMode();
+        }
+        return 'Sorted';
+    }
+
     getCurrentPlaylistIndex(): number {
         return 0;
+    }
+
+    nextChapter(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.nextChapter) {
+            targetPlayer.nextChapter();
+        }
+    }
+
+    previousChapter(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.previousChapter) {
+            targetPlayer.previousChapter();
+        }
+    }
+
+    setMute(isMuted: boolean, player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.setMute) {
+            targetPlayer.setMute(isMuted);
+        }
+    }
+
+    channelUp(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.channelUp) {
+            targetPlayer.channelUp();
+        }
+    }
+
+    channelDown(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.channelDown) {
+            targetPlayer.channelDown();
+        }
+    }
+
+    volumeUp(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.volumeUp) {
+            targetPlayer.volumeUp();
+        }
+    }
+
+    volumeDown(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.volumeDown) {
+            targetPlayer.volumeDown();
+        }
+    }
+
+    toggleAspectRatio(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.toggleAspectRatio) {
+            targetPlayer.toggleAspectRatio();
+        }
+    }
+
+    increasePlaybackRate(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.increasePlaybackRate) {
+            targetPlayer.increasePlaybackRate();
+        }
+    }
+
+    decreasePlaybackRate(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.decreasePlaybackRate) {
+            targetPlayer.decreasePlaybackRate();
+        }
+    }
+
+    toggleFullscreen(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.toggleFullscreen) {
+            targetPlayer.toggleFullscreen();
+        }
+    }
+
+    toggleDisplayMirroring(player?: Player): void {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.toggleDisplayMirroring) {
+            targetPlayer.toggleDisplayMirroring();
+        } else if (targetPlayer?.enableDisplayMirroring) {
+            // Fallback: toggle based on current state
+            const isEnabled = targetPlayer.isDisplayMirroringEnabled?.() ?? false;
+            targetPlayer.enableDisplayMirroring(!isEnabled);
+        }
+    }
+
+    getSubtitleUrl(options: any): string | null {
+        const targetPlayer = this._currentPlayer;
+        if (targetPlayer?.getSubtitleUrl) {
+            return targetPlayer.getSubtitleUrl(options);
+        }
+        return null;
+    }
+
+    paused(player?: Player): boolean {
+        const targetPlayer = player || this._currentPlayer;
+        if (targetPlayer?.isPaused) {
+            return targetPlayer.isPaused();
+        }
+        return false;
+    }
+
+    queueNext(options: any): Promise<void> {
+        if (this._playQueueManager) {
+            return this._playQueueManager.queueNext(options);
+        }
+        return Promise.resolve();
     }
 
     getPlayerState(player?: Player): any {
