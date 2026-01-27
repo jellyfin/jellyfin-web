@@ -375,7 +375,7 @@ class ArchiveSource {
         if (!res.ok) return;
 
         const blob = await res.blob();
-        this.archive = await Archive.open(blob);
+        this.archive = await Archive.open(blob as any);
         this.raw = await this.archive.getFilesArray();
         await this.archive.extractFiles();
 

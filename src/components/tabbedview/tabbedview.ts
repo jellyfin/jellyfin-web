@@ -144,7 +144,7 @@ class TabbedView {
                 currentTabIndex,
                 () => (self.getTabs ? (self.getTabs() as any[]) : []),
                 getTabContainers,
-                null,
+                undefined,
                 onTabChange,
                 false
             );

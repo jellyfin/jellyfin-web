@@ -101,7 +101,7 @@ class SkipSegment extends PlaybackSubscriber {
             // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
-            const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement);
+            const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement as HTMLElement);
             if (options.focus && !hasFocus) {
                 focusManager.focus(elem);
             }

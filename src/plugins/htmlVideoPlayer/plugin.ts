@@ -199,7 +199,7 @@ export class HtmlVideoPlayer {
                 });
                 hls.loadSource(url);
                 hls.attachMedia(elem);
-                bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
+                bindEventsToHlsPlayer(this as any, hls, elem, this.onError, resolve, reject);
                 this._hlsPlayer = hls;
                 this.currentSrcString = url;
             });
@@ -212,9 +212,9 @@ export class HtmlVideoPlayer {
         const seconds = (options.playerStartPositionTicks || 0) / 10000000;
         if (seconds) val += `#t=${seconds}`;
 
-        destroyHlsPlayer(this);
-        destroyFlvPlayer(this);
-        destroyCastPlayer(this);
+        destroyHlsPlayer(this as any);
+        destroyFlvPlayer(this as any);
+        destroyCastPlayer(this as any);
 
         let secondaryTrackValid = true;
         this.subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex ?? -1;
@@ -407,7 +407,7 @@ export class HtmlVideoPlayer {
     stop(destroyPlayer: boolean): Promise<void> {
         if (this.mediaElement) {
             if (this.currentSrcString) this.mediaElement.pause();
-            onEndedInternal(this, this.mediaElement, this.onError);
+            onEndedInternal(this as any, this.mediaElement, this.onError);
         }
         this.destroyCustomTrack(this.mediaElement);
         if (destroyPlayer) this.destroy();
@@ -416,8 +416,8 @@ export class HtmlVideoPlayer {
 
     destroy() {
         (this.setSubtitleOffset as any).cancel();
-        destroyHlsPlayer(this);
-        destroyFlvPlayer(this);
+        destroyHlsPlayer(this as any);
+        destroyFlvPlayer(this as any);
         setBackdropTransparency(TRANSPARENCY_LEVEL.None);
         document.body.classList.remove('hide-scroll');
         if (this.mediaElement) {
@@ -446,7 +446,7 @@ export class HtmlVideoPlayer {
 
     onEnded = (e: any) => {
         this.destroyCustomTrack(e.target);
-        onEndedInternal(this, e.target, this.onError);
+        onEndedInternal(this as any, e.target, this.onError);
     };
 
     onTimeUpdate = (e: any) => {
@@ -484,7 +484,7 @@ export class HtmlVideoPlayer {
             this.started = true;
             e.target.removeAttribute('controls');
             loading.hide();
-            seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
+            seekOnPlaybackStart(this as any, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                 if (this.currentAssRenderer) {
                     this.currentAssRenderer.timeOffset =
                         (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.currentTrackOffset;
@@ -520,18 +520,18 @@ export class HtmlVideoPlayer {
         if (code === 2) type = MediaError.NETWORK_ERROR;
         else if (code === 3) {
             if (this._hlsPlayer) {
-                handleHlsJsMediaError(this);
+                handleHlsJsMediaError(this as any);
                 return;
             }
             type = MediaError.MEDIA_DECODE_ERROR;
         }
-        onErrorInternal(this, type);
+        onErrorInternal(this as any, type);
     };
 
     private ensureValidVideo(elem: HTMLVideoElement) {
         if (elem === this.mediaElement && elem.videoWidth === 0 && elem.videoHeight === 0) {
             if (!this._currentPlayOptions?.mediaSource || this._currentPlayOptions.mediaSource.RunTimeTicks) {
-                onErrorInternal(this, MediaError.NO_MEDIA_ERROR);
+                onErrorInternal(this as any, MediaError.NO_MEDIA_ERROR);
             }
         }
     }
@@ -723,7 +723,7 @@ export class HtmlVideoPlayer {
                 onError: () => {
                     this.currentAssRenderer = null;
                     setTimeout(() => {
-                        onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
+                        onErrorInternal(this as any, MediaError.ASS_RENDER_ERROR);
                     }, 0);
                 },
                 timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
