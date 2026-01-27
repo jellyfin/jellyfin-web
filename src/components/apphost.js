@@ -456,5 +456,3 @@ if (window.addEventListener) {
     window.addEventListener('blur', onAppHidden);
 }
 
-// load app host on module load
-appHost.init();
