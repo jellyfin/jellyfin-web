@@ -20,7 +20,7 @@
     "useDefineForClassFields": true,
     "incremental": true,
     "tsBuildInfoFile": "./.tsbuildinfo",
-    "types": []
+    "types": ["vitest/globals"]
   },
   "include": ["src"],
   "exclude": ["src/components/playback/playbackmanager.js"]

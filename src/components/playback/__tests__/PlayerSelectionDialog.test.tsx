@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { PlayerSelectionDialog } from '../PlayerSelectionDialog';
 
 // Mock apphost
@@ -96,7 +96,7 @@ describe('PlayerSelectionDialog', () => {
         mockGetPlayerInfo.mockReturnValue(null);
         mockGetTargets.mockResolvedValue(mockTargets);
         mockTrySetActivePlayer.mockResolvedValue(undefined);
-        mockIsEnabled.mockReturnValue(false);
+        (mockIsEnabled as any).mockReturnValue(false);
         mockGetCurrentPlayer.mockReturnValue(null);
     });
 
