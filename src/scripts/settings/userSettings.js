@@ -73,16 +73,6 @@ export class UserSettings {
         });
     }
 
-    // FIXME: Seems unused
-    getData() {
-        return this.displayPrefs;
-    }
-
-    // FIXME: Seems unused
-    importFrom(instance) {
-        this.displayPrefs = instance.getData();
-    }
-
     // FIXME: 'appSettings.set' doesn't return any value
     /**
      * Set value of setting.
@@ -716,8 +706,6 @@ export const currentSettings = new UserSettings;
 
 // Wrappers for non-ES6 modules and backward compatibility
 export const setUserInfo = currentSettings.setUserInfo.bind(currentSettings);
-export const getData = currentSettings.getData.bind(currentSettings);
-export const importFrom = currentSettings.importFrom.bind(currentSettings);
 export const set = currentSettings.set.bind(currentSettings);
 export const get = currentSettings.get.bind(currentSettings);
 export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
