@@ -1501,3 +1501,8 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 .listItemBodyText-blurred:hover {
     filter: blur(0);
 }
+
+.lyricsLineContainer {
+    margin: 0;
+    width: fit-content;
+}
