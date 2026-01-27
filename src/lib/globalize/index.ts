@@ -86,7 +86,7 @@ export function getIsElementRTL(element: HTMLElement): boolean {
 export function updateCurrentCulture() {
     let culture: string | undefined;
     try {
-        culture = userSettings.language();
+        culture = userSettings.language() || undefined;
     } catch {
         logger.error('No language set in user settings', { component: 'globalize' });
     }
@@ -99,7 +99,8 @@ export function updateCurrentCulture() {
 
     let dateTimeCulture: string | undefined;
     try {
-        dateTimeCulture = userSettings.dateTimeLocale();
+        const locale = userSettings.dateTimeLocale();
+        dateTimeCulture = locale || undefined;
     } catch {
         logger.error('No date format set in user settings', { component: 'globalize' });
     }
