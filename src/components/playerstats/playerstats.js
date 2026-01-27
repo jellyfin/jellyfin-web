@@ -352,7 +352,6 @@ function getSyncPlayStats() {
     });
 
     syncStats.push({
-        // TODO: clean old string 'LabelSyncPlayTimeOffset' from translations.
         label: globalize.translate('LabelSyncPlayTimeSyncOffset'),
         value: stats.TimeSyncOffset + ' ' + globalize.translate('MillisecondsUnit')
     });
