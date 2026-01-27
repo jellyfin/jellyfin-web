@@ -168,6 +168,22 @@ class AppSettings {
         return toBoolean(this.get('alwaysRemuxMp3'), false);
     }
 
+    aspectRatio(value?: string): string | null {
+        if (value !== undefined) {
+            this.set('aspectRatio', value);
+            return value;
+        }
+        return this.get('aspectRatio');
+    }
+
+    alwaysBurnInSubtitleWhenTranscoding(value?: boolean): boolean {
+        if (value !== undefined) {
+            this.set('alwaysBurnInSubtitleWhenTranscoding', value.toString());
+            return value;
+        }
+        return toBoolean(this.get('alwaysBurnInSubtitleWhenTranscoding'), false);
+    }
+
     // Additional methods can be added as needed
 }
 
