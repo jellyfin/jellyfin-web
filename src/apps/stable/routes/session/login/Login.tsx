@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
@@ -9,6 +9,7 @@ import { useServerStore } from 'store/serverStore';
 import { useAuthStore } from 'store/authStore';
 import type { ServerInfo } from 'store/serverStore';
 import { RequestContext } from 'utils/observability';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 interface User {
     Id: string;
@@ -25,16 +26,19 @@ export function Login() {
     const [manualMode, setManualMode] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isAuthenticating, setIsAuthenticating] = useState(false);
+    const usernameInputRef = useRef<HTMLInputElement>(null);
 
     const { data: users = [] } = useQuery({
         queryKey: ['publicUsers', currentServer?.id],
         enabled: Boolean(currentServer?.id),
         queryFn: async () => {
-            const apiClient = (window as any).ApiClient;
-            if (!apiClient || !currentServer?.id) {
+            if (!currentServer?.id) {
                 return [];
             }
-            const client = apiClient.getApiClient(currentServer.id);
+            const client = ServerConnections.getApiClient(currentServer.id);
+            if (!client) {
+                return [];
+            }
             return client.getPublicUsers();
         },
         retry: 1
@@ -73,21 +77,21 @@ export function Login() {
 
     const loginWithUserIdMutation = useMutation({
         mutationFn: async (userId: string) => {
-            if (!currentServer) {
+            if (!currentServer?.id) {
                 throw new Error('No server selected');
             }
-            const apiClient = (window as any).ApiClient;
-            if (!apiClient) {
+            const client = ServerConnections.getApiClient(currentServer.id);
+            if (!client) {
                 throw new Error('ApiClient not initialized');
             }
-            const client = apiClient.getApiClient(currentServer.id);
-            return client.authenticateUserById(userId);
+            return (client as any).authenticateUserById(userId);
         },
         onMutate: () => {
             setIsAuthenticating(true);
             setError(null);
         },
         onSuccess: result => {
+            if (!result?.User) return;
             updateServerFromAuth(result);
             RequestContext.emit({
                 operation: 'userLogin',
@@ -127,14 +131,13 @@ export function Login() {
 
     const loginWithCredentialsMutation = useMutation({
         mutationFn: async ({ user, pass }: { user: string; pass: string }) => {
-            if (!currentServer) {
+            if (!currentServer?.id) {
                 throw new Error('No server selected');
             }
-            const apiClient = (window as any).ApiClient;
-            if (!apiClient) {
+            const client = ServerConnections.getApiClient(currentServer.id);
+            if (!client) {
                 throw new Error('ApiClient not initialized');
             }
-            const client = apiClient.getApiClient(currentServer.id);
             return client.authenticateUserByName(user, pass);
         },
         onMutate: () => {
@@ -142,6 +145,7 @@ export function Login() {
             setError(null);
         },
         onSuccess: result => {
+            if (!result?.User) return;
             updateServerFromAuth(result);
             RequestContext.emit({
                 operation: 'userLogin',
@@ -202,9 +206,8 @@ export function Login() {
 
     const getUserImageUrl = (userId: string, imageTag?: string): string => {
         if (!currentServer?.id || !imageTag) return '';
-        const apiClient = (window as any).ApiClient;
-        if (apiClient) {
-            const client = apiClient.getApiClient(currentServer.id);
+        const client = ServerConnections.getApiClient(currentServer.id);
+        if (client) {
             return client.getUserImageUrl(userId, { width: 200, tag: imageTag, type: 'Primary' });
         }
         return '';
@@ -213,6 +216,20 @@ export function Login() {
     const handleManualLogin = () => {
         void form.handleSubmit();
     };
+
+    /**
+     * Ensure proper focus and keyboard input handling when entering manual login mode.
+     * This fixes an issue where keyboard input wasn't working on first render.
+     */
+    useEffect(() => {
+        if (manualMode && usernameInputRef.current) {
+            // Use requestAnimationFrame to ensure the DOM is fully rendered
+            const frameId = requestAnimationFrame(() => {
+                usernameInputRef.current?.focus();
+            });
+            return () => cancelAnimationFrame(frameId);
+        }
+    }, [manualMode]);
 
     if (!currentServer) {
         return <LoadingView message="No server selected" />;
@@ -325,6 +342,7 @@ export function Login() {
 
                         <Box style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                             <Input
+                                ref={usernameInputRef}
                                 id="username"
                                 label="Username"
                                 value={form.state.values.username}
@@ -332,7 +350,6 @@ export function Login() {
                                     form.setFieldValue('username', e.target.value)
                                 }
                                 autoComplete="username"
-                                autoFocus
                             />
 
                             <Input

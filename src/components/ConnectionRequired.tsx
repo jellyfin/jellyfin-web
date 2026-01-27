@@ -10,7 +10,12 @@ import Loading from './loading/LoadingComponent';
 import { logger } from '../utils/logger';
 import { Box, Text, Button } from 'ui-primitives';
 
-const CONNECTION_TIMEOUT_MS = 1000;
+/**
+ * Connection timeout in milliseconds
+ * Set to 5 seconds to allow for network latency, server discovery, and auto-login
+ * If no server is found by this time, redirect to server selection
+ */
+const CONNECTION_TIMEOUT_MS = 5000;
 
 enum AccessLevel {
     Admin = 'admin',
@@ -138,13 +143,28 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
     );
 
     const bounce = useCallback(
-        async (connectionResponse: ConnectResponse) => {
+        async (connectionResponse: ConnectResponse | null) => {
+            // Handle null connection response
+            if (!connectionResponse) {
+                logger.debug('ConnectionRequired bounce received null connectionResponse, redirecting to selectserver', {
+                    component: 'ConnectionRequired'
+                });
+                navigateIfNotThere(BounceRoutes.SelectServer);
+                return;
+            }
+
             switch (connectionResponse.State) {
                 case ConnectionState.SignedIn:
+                    logger.debug('ConnectionRequired bounce: SignedIn state, navigating to /home', {
+                        component: 'ConnectionRequired'
+                    });
                     navigate({ to: '/home' });
                     return;
                 case ConnectionState.ServerSignIn:
                     if (location.pathname === '/login') {
+                        logger.debug('ConnectionRequired bounce: ServerSignIn state, already on /login, setting loading false', {
+                            component: 'ConnectionRequired'
+                        });
                         setIsLoading(false);
                     } else {
                         if (connectionResponse.Servers?.[0]) {
@@ -152,13 +172,25 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                         }
                         const search = typeof location.search === 'string' ? location.search : '';
                         const url = encodeURIComponent(location.pathname + search);
+                        logger.debug('ConnectionRequired bounce: ServerSignIn state, redirecting to /login', {
+                            component: 'ConnectionRequired'
+                        });
                         navigate({ to: `/login?serverid=${connectionResponse.ApiClient.serverId()}&url=${url}` });
                     }
                     return;
                 case ConnectionState.ServerSelection:
                     // When no servers are configured, show server selection
+                    logger.debug('ConnectionRequired bounce: ServerSelection state, redirecting to /selectserver', {
+                        component: 'ConnectionRequired'
+                    });
                     navigateIfNotThere(BounceRoutes.SelectServer);
                     return;
+                default:
+                    logger.warn('ConnectionRequired bounce: unknown state, redirecting to /selectserver', {
+                        state: connectionResponse.State,
+                        component: 'ConnectionRequired'
+                    });
+                    navigateIfNotThere(BounceRoutes.SelectServer);
             }
         },
         [navigateIfNotThere, location, navigate, setCurrentServer]
@@ -211,7 +243,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
     const validateUserAccess = useCallback(async () => {
         const client = ServerConnections.currentApiClient();
 
-        if ((level === AccessLevel.Admin || level === AccessLevel.User) && !client?.isLoggedIn()) {
+        if ((level === AccessLevel.Admin || level === AccessLevel.User) && (!client || !client.isLoggedIn())) {
             try {
                 bounce(await ServerConnections.connect()).catch(() => {});
             } catch (ex) {}
@@ -320,6 +352,15 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                 logger.debug('ConnectionRequired calling handleIncompleteWizard', { component: 'ConnectionRequired' });
                 handleIncompleteWizard(firstConnection).catch(() => {});
             } else {
+                const client = ServerConnections.currentApiClient();
+                // If no client and no first connection, redirect to server selection
+                if (!client && !firstConnection) {
+                    logger.warn('ConnectionRequired: no client and no connection result, calling bounce with null', {
+                        component: 'ConnectionRequired'
+                    });
+                    bounce(null).catch(() => {});
+                    return;
+                }
                 logger.debug('ConnectionRequired calling validateUserAccess', { component: 'ConnectionRequired' });
                 validateUserAccess().catch(() => {});
             }
@@ -338,13 +379,17 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                 });
                 const connectionPromise = ServerConnections.connect();
 
+                /**
+                 * Use a longer timeout (5 seconds) for initial connection attempt
+                 * to allow for network latency and server discovery
+                 */
                 timeoutId = setTimeout(() => {
                     if (!isMounted.current) return;
-                    logger.debug('ConnectionRequired TIMEOUT REACHED, setting error', {
+                    logger.debug('ConnectionRequired CONNECTION TIMEOUT REACHED, calling bounce with null', {
                         component: 'ConnectionRequired'
                     });
-                    setHasConnectionError(true);
-                    setIsLoading(false);
+                    // Instead of just showing error, try to bounce to server selection
+                    handleConnectionResult(null);
                 }, CONNECTION_TIMEOUT_MS);
 
                 try {
