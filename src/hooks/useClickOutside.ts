@@ -8,7 +8,7 @@ import { useEffect, useRef, useCallback, RefObject } from 'react';
 
 export function useClickOutside<T extends HTMLElement>(
     callback: (event: MouseEvent | TouchEvent) => void
-): RefObject<T> {
+): RefObject<T | null> {
     const ref = useRef<T>(null);
     const callbackRef = useRef(callback);
 

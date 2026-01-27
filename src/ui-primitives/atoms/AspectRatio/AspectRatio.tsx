@@ -1,8 +1,9 @@
 import React, { type ReactElement } from 'react';
-import { Box, type BoxProps } from './Box';
+import { Box, type BoxProps } from '../Box';
 
 interface AspectRatioProps extends BoxProps {
     readonly ratio?: number | string;
+    readonly children?: React.ReactNode;
 }
 
 export function AspectRatio({ ratio = 1, children, style, className, ...props }: AspectRatioProps): ReactElement {

@@ -1,0 +1,35 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "tasks": {
+        "typecheck": {
+            "outputs": [],
+            "cache": true,
+            "dependsOn": []
+        },
+        "lint": {
+            "outputs": [],
+            "cache": true,
+            "dependsOn": []
+        },
+        "test": {
+            "outputs": ["coverage/**"],
+            "cache": true,
+            "dependsOn": []
+        },
+        "build": {
+            "outputs": ["dist/**"],
+            "cache": true,
+            "dependsOn": ["typecheck"]
+        },
+        "storybook": {
+            "cache": false,
+            "persistent": true
+        },
+        "dev": {
+            "cache": false,
+            "persistent": true
+        }
+    },
+    "cacheDir": ".turbo/cache",
+    "globalDependencies": ["biome.json", ".biomeignore"]
+}

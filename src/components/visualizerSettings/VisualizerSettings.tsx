@@ -80,10 +80,10 @@ export const VisualizerSettings: React.FC = () => {
                                         onClick={() => setVisualizerType(t.value)}
                                         style={{
                                             padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-                                            borderRadius: vars.radius.sm,
+                                            borderRadius: vars.borderRadius.sm,
                                             background:
-                                                type === t.value ? vars.colors.primary : vars.colors.surfaceSecondary,
-                                            color: type === t.value ? 'white' : vars.colors.textPrimary,
+                                                type === t.value ? vars.colors.primary : vars.colors.surfaceVariant,
+                                            color: type === t.value ? 'white' : vars.colors.text,
                                             cursor: 'pointer',
                                             fontSize: vars.typography.fontSizeXs
                                         }}
@@ -118,12 +118,12 @@ export const VisualizerSettings: React.FC = () => {
                                         onClick={() => setFftSize(size)}
                                         style={{
                                             padding: `4px 8px`,
-                                            borderRadius: vars.radius.xs,
+                                            borderRadius: vars.borderRadius.none,
                                             background:
                                                 advanced.fftSize === size
                                                     ? vars.colors.primary
-                                                    : vars.colors.surfaceSecondary,
-                                            color: advanced.fftSize === size ? 'white' : vars.colors.textPrimary,
+                                                    : vars.colors.surfaceVariant,
+                                            color: advanced.fftSize === size ? 'white' : vars.colors.text,
                                             cursor: 'pointer',
                                             fontSize: '10px'
                                         }}

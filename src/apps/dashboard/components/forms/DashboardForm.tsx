@@ -1,15 +1,16 @@
 import React from 'react';
+
+import globalize from 'lib/globalize';
+import { Alert } from 'ui-primitives/Alert';
 import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
 import { Button } from 'ui-primitives/Button';
+import { Card, CardBody } from 'ui-primitives/Card';
+import { Checkbox } from 'ui-primitives/Checkbox';
+import { Divider } from 'ui-primitives/Divider';
+import { FormControl, FormHelperText, FormLabel, Switch } from 'ui-primitives/FormControl';
 import { Input } from 'ui-primitives/Input';
 import { SelectInput } from 'ui-primitives/Select';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Switch, FormControl, FormLabel, FormHelperText } from 'ui-primitives/FormControl';
-import { Divider } from 'ui-primitives/Divider';
-import { Alert } from 'ui-primitives/Alert';
-import { Card, CardBody } from 'ui-primitives/Card';
-import globalize from 'lib/globalize';
+import { Heading, Text } from 'ui-primitives/Text';
 
 interface DashboardFormProps {
     onSubmit: (e: React.FormEvent) => Promise<void> | void;
@@ -28,9 +29,11 @@ export function DashboardForm({
 }: Readonly<DashboardFormProps>): React.ReactElement {
     return (
         <Box style={{ maxWidth: 800, margin: '0 auto', padding: '24px' }}>
-            <Heading.H3 style={{ marginBottom: description != null ? '8px' : '24px' }}>{title}</Heading.H3>
+            <Heading.H3 style={{ marginBottom: description != null ? '8px' : '24px' }}>
+                {title}
+            </Heading.H3>
             {description != null && (
-                <Text color="secondary" size="sm" style={{ marginBottom: '24px' }}>
+                <Text color='secondary' size='sm' style={{ marginBottom: '24px' }}>
                     {description}
                 </Text>
             )}
@@ -42,11 +45,11 @@ export function DashboardForm({
 
                 <Flex style={{ gap: '16px', justifyContent: 'flex-end' }}>
                     {onCancel && (
-                        <Button variant="ghost" onClick={onCancel}>
+                        <Button variant='ghost' onClick={onCancel}>
                             {globalize.translate('ButtonCancel')}
                         </Button>
                     )}
-                    <Button variant="primary" type="submit">
+                    <Button variant='primary' type='submit'>
                         {globalize.translate('Save')}
                     </Button>
                 </Flex>
@@ -63,7 +66,7 @@ interface FormTextFieldProps {
     helperText?: string;
     fullWidth?: boolean;
     value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (value: string) => void;
     onBlur?: React.FocusEventHandler<HTMLInputElement>;
     error?: string;
 }
@@ -71,7 +74,7 @@ interface FormTextFieldProps {
 export function FormTextField({
     label,
     type = 'text',
-    placeholder,
+    placeholder: _placeholder,
     required,
     helperText,
     fullWidth = true,
@@ -90,12 +93,14 @@ export function FormTextField({
                 <Input
                     type={type}
                     value={value ?? ''}
-                    onChange={onChange}
+                    onChange={(e) => onChange?.(e.target.value)}
                     onBlur={onBlur}
-                    placeholder={placeholder}
+                    placeholder={_placeholder}
                     style={{ width: '100%' }}
                 />
-                {(helperText != null || error != null) && <FormHelperText>{error ?? helperText}</FormHelperText>}
+                {(helperText != null || error != null) && (
+                    <FormHelperText>{error ?? helperText}</FormHelperText>
+                )}
             </FormControl>
         </Box>
     );
@@ -108,7 +113,7 @@ interface FormSelectFieldProps {
     required?: boolean;
     helperText?: string;
     value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onChange?: (value: string) => void;
     error?: string;
 }
 
@@ -129,14 +134,16 @@ export function FormSelectField({
                     {label}
                     {required && <span style={{ color: 'var(--error)' }}> *</span>}
                 </FormLabel>
-                <SelectInput value={value ?? ''} onChange={onChange} style={{ width: '100%' }}>
-                    {options.map(opt => (
+                <SelectInput value={value ?? ''} onChange={(e) => onChange?.(e.target.value)} style={{ width: '100%' }}>
+                    {options.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                             {opt.label}
                         </option>
                     ))}
                 </SelectInput>
-                {(helperText != null || error != null) && <FormHelperText>{error ?? helperText}</FormHelperText>}
+                {(helperText != null || error != null) && (
+                    <FormHelperText>{error ?? helperText}</FormHelperText>
+                )}
             </FormControl>
         </Box>
     );
@@ -146,7 +153,7 @@ interface FormCheckboxFieldProps {
     label: string;
     description?: string;
     checked?: boolean;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (checked: boolean) => void;
 }
 
 export function FormCheckboxField({
@@ -159,10 +166,12 @@ export function FormCheckboxField({
         <Box style={{ marginBottom: '16px' }}>
             <FormControl>
                 <Flex style={{ alignItems: 'center', gap: '12px' }}>
-                    <Checkbox checked={checked ?? false} onChange={onChange} />
+                    <Checkbox checked={checked ?? false} onChangeChecked={onChange} />
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
                 </Flex>
-                {description != null && <FormHelperText style={{ marginLeft: '36px' }}>{description}</FormHelperText>}
+                {description != null && (
+                    <FormHelperText style={{ marginLeft: '36px' }}>{description}</FormHelperText>
+                )}
             </FormControl>
         </Box>
     );
@@ -172,7 +181,7 @@ interface FormSwitchFieldProps {
     label: string;
     description?: string;
     checked?: boolean;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (checked: boolean) => void;
 }
 
 export function FormSwitchField({
@@ -186,7 +195,7 @@ export function FormSwitchField({
             <FormControl>
                 <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
-                    <Switch checked={checked ?? false} onChange={onChange} />
+                    <Switch checked={checked ?? false} onChange={(e) => onChange?.(e.target.checked)} />
                 </Flex>
                 {description != null && <FormHelperText>{description}</FormHelperText>}
             </FormControl>
@@ -200,12 +209,18 @@ interface FormSectionProps {
     children: React.ReactNode;
 }
 
-export function FormSection({ title, description, children }: Readonly<FormSectionProps>): React.ReactElement {
+export function FormSection({
+    title,
+    description,
+    children
+}: Readonly<FormSectionProps>): React.ReactElement {
     return (
         <Box style={{ marginBottom: '32px' }}>
-            <Heading.H4 style={{ marginBottom: description != null ? '8px' : '16px' }}>{title}</Heading.H4>
+            <Heading.H4 style={{ marginBottom: description != null ? '8px' : '16px' }}>
+                {title}
+            </Heading.H4>
             {description != null && (
-                <Text color="secondary" size="sm" style={{ marginBottom: '16px' }}>
+                <Text color='secondary' size='sm' style={{ marginBottom: '16px' }}>
                     {description}
                 </Text>
             )}
@@ -224,8 +239,14 @@ export function FormCard({ title, children, action }: Readonly<FormCardProps>): 
     return (
         <Card style={{ marginBottom: '24px' }}>
             <CardBody>
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                    <Text weight="bold">{title}</Text>
+                <Flex
+                    style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '16px'
+                    }}
+                >
+                    <Text weight='bold'>{title}</Text>
                     {action}
                 </Flex>
                 {children}
@@ -262,6 +283,10 @@ interface FormColumnProps {
     style?: React.CSSProperties;
 }
 
-export function FormColumn({ children, flex = 1, style }: Readonly<FormColumnProps>): React.ReactElement {
+export function FormColumn({
+    children,
+    flex = 1,
+    style
+}: Readonly<FormColumnProps>): React.ReactElement {
     return <Box style={{ flex, ...style }}>{children}</Box>;
 }

@@ -1,14 +1,14 @@
 import { Component2Icon, FileIcon } from '@radix-ui/react-icons';
 import React, { useEffect } from 'react';
 
+import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
-import Dashboard from 'utils/dashboard';
 import { List, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
-import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
+import Dashboard from 'utils/dashboard';
 import { logger } from 'utils/logger';
 
-const PluginDrawerSection = (): React.ReactElement => {
+function PluginDrawerSection(): React.ReactElement {
     const { data: pagesInfo, error } = useConfigurationPages({ enableInMainMenu: true });
 
     useEffect(() => {
@@ -17,11 +17,11 @@ const PluginDrawerSection = (): React.ReactElement => {
 
     return (
         <List
-            aria-labelledby="plugins-subheader"
-            subheader={<ListSubheader id="plugins-subheader">{globalize.translate('TabPlugins')}</ListSubheader>}
+            aria-labelledby='plugins-subheader'
+            subheader={<ListSubheader id='plugins-subheader'>{globalize.translate('TabPlugins')}</ListSubheader>}
         >
             <ListItemLink
-                to="/dashboard/plugins"
+                to='/dashboard/plugins'
                 includePaths={['/configurationpage', '/dashboard/plugins/repositories']}
                 excludePaths={
                     Array.isArray(pagesInfo) ? pagesInfo.map(p => `/${Dashboard.getPluginUrl(p.Name ?? '')}`) : []
@@ -33,8 +33,8 @@ const PluginDrawerSection = (): React.ReactElement => {
                 {globalize.translate('TabPlugins')}
             </ListItemLink>
 
-            {Array.isArray(pagesInfo) &&
-                pagesInfo.map(pageInfo => (
+            {Array.isArray(pagesInfo)
+                && pagesInfo.map(pageInfo => (
                     <ListItemLink key={pageInfo.PluginId} to={`/${Dashboard.getPluginUrl(pageInfo.Name ?? '')}`}>
                         <ListItemDecorator>
                             <FileIcon />
@@ -44,6 +44,6 @@ const PluginDrawerSection = (): React.ReactElement => {
                 ))}
         </List>
     );
-};
+}
 
 export default PluginDrawerSection;

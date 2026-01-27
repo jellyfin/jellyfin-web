@@ -14,7 +14,7 @@ interface IntersectionOptions {
 }
 
 interface IntersectionResult {
-    ref: React.RefObject<HTMLElement>;
+    ref: React.RefObject<HTMLElement | null>;
     isIntersecting: boolean;
     intersectionRatio: number;
     observe: () => void;

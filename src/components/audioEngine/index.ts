@@ -43,6 +43,9 @@ export const loadCrossfadeImageIntegration = () => import('./crossfadeImageInteg
 export const loadFXModule = () => import('./fx');
 export { NotchFilterNode, CrossfadeWithFXSends, FXBus } from './fx';
 
+// Audio WASM (LAZY loaded)
+export { loadAudioWasm, createTimeStretcher } from './audioWasm';
+
 // Bundle all worklets together for efficient loading
 export const audioWorklets = {
     delayWorklet: () => import('./delayWorklet'),

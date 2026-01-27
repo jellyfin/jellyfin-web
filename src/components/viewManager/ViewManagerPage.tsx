@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect } from 'react';
-import { useRouterState } from '@tanstack/react-router';
+import { useRouterState, useRouter } from '@tanstack/react-router';
 
 import globalize from 'lib/globalize';
 import type { RestoreViewFailResponse } from 'types/viewManager';
@@ -27,6 +27,7 @@ interface ViewOptions {
     autoFocus: boolean;
     fullscreen?: boolean;
     transition?: string;
+    view?: string;
     options: {
         supportsThemeMedia?: boolean;
         enableMediaControl?: boolean;
@@ -95,8 +96,13 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
     isThemeMediaSupported = false,
     transition
 }) => {
-    const location = useRouterState({ select: state => state.location });
-    const historyAction = useRouterState({ select: state => state.historyAction });
+    const router = useRouter();
+    const { location, historyAction } = useRouterState({
+        select: state => ({
+            location: state.location,
+            historyAction: (state as any).historyAction
+        })
+    });
 
     useEffect(
         () => {

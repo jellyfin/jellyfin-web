@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState, type ReactElement, type CSSProperties } from 'react';
 import { Root, Track, Range, Thumb } from '@radix-ui/react-slider';
 import { SpeakerLoudIcon, SpeakerOffIcon } from '@radix-ui/react-icons';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 import {
     volumeSliderContainer,
     volumeSliderTrack,

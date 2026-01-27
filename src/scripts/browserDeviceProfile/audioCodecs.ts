@@ -1,7 +1,7 @@
 import browser from 'scripts/browser';
 
 export function supportsAc3(videoTestElement: HTMLMediaElement): string | boolean {
-    if (browser.edgeUwp || (browser as any).tizen || browser.web0s) {
+    if ((browser as any).edgeUwp || (browser as any).tizen || browser.web0s) {
         return true;
     }
 
@@ -74,12 +74,12 @@ export function canPlayAudioFormat(format: string): boolean {
     let typeString: string | undefined;
 
     if (format === 'flac' || format === 'asf') {
-        if ((browser as any).tizen || browser.web0s || browser.edgeUwp) {
+        if ((browser as any).tizen || browser.web0s || (browser as any).edgeUwp) {
             return true;
         }
         typeString = 'audio/flac';
     } else if (format === 'wma') {
-        if ((browser as any).tizen || browser.edgeUwp) {
+        if ((browser as any).tizen || (browser as any).edgeUwp) {
             return true;
         }
     } else if (format === 'opus') {

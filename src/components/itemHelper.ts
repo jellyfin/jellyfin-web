@@ -1,9 +1,9 @@
 export interface BaseItem {
-    Id?: string;
-    Type: string;
-    MediaType?: string;
-    IsFolder?: boolean;
-    RunTimeTicks?: number;
+    Id?: string | null;
+    Type?: string | null;
+    MediaType?: string | null;
+    IsFolder?: boolean | null;
+    RunTimeTicks?: number | null;
     [key: string]: any;
 }
 
@@ -11,7 +11,9 @@ export const itemHelper = {
     isLocalItem: (item: BaseItem): boolean => {
         return !!(
             item.Path &&
-            (item.Path.indexOf('file://') === 0 || item.Path.indexOf('/') === 0 || item.Path.indexOf('\\') === 0)
+            (item.Path.indexOf('file://') === 0 ||
+                item.Path.indexOf('/') === 0 ||
+                item.Path.indexOf('\\') === 0)
         );
     },
 
@@ -19,9 +21,15 @@ export const itemHelper = {
         return !item.IsFolder || item.Type === 'MusicArtist' || item.Type === 'MusicGenre';
     },
 
-    getDisplayName: (item: BaseItem): string => {
+    getDisplayName: (item: BaseItem, options: { includeIndexNumber?: boolean } = {}): string => {
         if (item.Type === 'Episode') {
-            return `${item.SeriesName || ''} - S${item.ParentIndexNumber?.toString().padStart(2, '0') || '00'}E${item.IndexNumber?.toString().padStart(2, '0') || '00'}${item.Name ? ` - ${item.Name}` : ''}`;
+            const seriesName = item.SeriesName || '';
+            const episodeName = item.Name || '';
+            
+            if (options.includeIndexNumber) {
+                return `${seriesName} - S${item.ParentIndexNumber?.toString().padStart(2, '0') || '00'}E${item.IndexNumber?.toString().padStart(2, '0') || '00'}${episodeName ? ` - ${episodeName}` : ''}`;
+            }
+            return episodeName || seriesName;
         } else if (item.Type === 'Series' || item.Type === 'Season') {
             return item.Name || '';
         } else if (item.Album || item.Type === 'Audio' || item.Type === 'MusicAlbum') {
@@ -49,11 +57,21 @@ export const itemHelper = {
     },
 
     supportsAddingToCollection: (item: BaseItem): boolean => {
-        return !item.IsFolder && ['Movie', 'Series', 'MusicAlbum', 'MusicArtist', 'MusicGenre'].includes(item.Type);
+        return (
+            !item.IsFolder &&
+            ['Movie', 'Series', 'MusicAlbum', 'MusicArtist', 'MusicGenre'].includes(item.Type || '')
+        );
     },
 
     supportsAddingToPlaylist: (item: BaseItem): boolean => {
-        return !item.IsFolder && ['Audio', 'MusicAlbum', 'MusicArtist', 'MusicGenre'].includes(item.Type);
+        return (
+            !item.IsFolder &&
+            ['Audio', 'MusicAlbum', 'MusicArtist', 'MusicGenre'].includes(item.Type || '')
+        );
+    },
+
+    enableDateAddedDisplay: (item: BaseItem): boolean => {
+        return item.Type !== 'MusicArtist' && item.Type !== 'MusicGenre';
     },
 
     sortTracks: (a: any, b: any): number => {

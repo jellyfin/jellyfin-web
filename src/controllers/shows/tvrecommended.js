@@ -14,6 +14,7 @@ import { getBackdropShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { logger } from 'utils/logger';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-button/emby-button';
@@ -92,7 +93,7 @@ function initSuggestedTab(page, tabContent) {
 function loadSuggestionsTab(view, params, tabContent) {
     const parentId = params.topParentId;
     const userId = ApiClient.getCurrentUserId();
-    console.debug('loadSuggestionsTab');
+    logger.debug('Loading suggestions tab', { component: 'TVRecommended' });
     loadResume(tabContent, userId, parentId);
     loadLatest(tabContent, userId, parentId);
     loadNextUp(tabContent, userId, parentId);

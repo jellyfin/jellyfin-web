@@ -1,5 +1,5 @@
 import { keyframes, style } from '@vanilla-extract/css';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 export const checkAnimation = keyframes({
     '0%': { transform: 'scale(0)', opacity: 0 },

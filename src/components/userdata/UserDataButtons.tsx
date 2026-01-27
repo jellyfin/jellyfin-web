@@ -8,7 +8,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { logger } from 'utils/logger';
 
-interface UserDataButtonsProps {
+export interface UserDataButtonsProps {
     item: {
         Id: string;
         ServerId: string;

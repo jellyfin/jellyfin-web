@@ -23,7 +23,7 @@ const SyncPlayGroupMenu: React.FC<SyncPlayGroupMenuProps> = ({ open, anchorEl, o
     const apiClient = ServerConnections.currentApiClient();
 
     useEffect(() => {
-        if (open && !isEnabled) {
+        if (open && !isEnabled && apiClient) {
             apiClient.getSyncPlayGroups().then((response: any) => {
                 response.json().then((data: any[]) => {
                     setGroups(data);
@@ -34,6 +34,8 @@ const SyncPlayGroupMenu: React.FC<SyncPlayGroupMenuProps> = ({ open, anchorEl, o
 
     const handleSelect = useCallback(
         (id: string) => {
+            if (!apiClient) return;
+
             if (!isEnabled) {
                 if (id === 'new-group') {
                     ServerConnections.user(apiClient).then((user: any) => {

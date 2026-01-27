@@ -1,5 +1,5 @@
 import React, { type ReactElement, type CSSProperties } from 'react';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 import { circularProgressRoot, circularProgressSizes } from './CircularProgress.css';
 
 interface CircularProgressProps {

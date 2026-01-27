@@ -12,6 +12,7 @@ import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
 import { getSquareShape } from 'utils/card';
+import { logger } from 'utils/logger';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-tabs/emby-tabs';
@@ -162,7 +163,7 @@ function loadFrequentlyPlayed(page, parentId) {
 }
 
 function loadSuggestionsTab(page, tabContent, parentId) {
-    console.debug('loadSuggestionsTab');
+    logger.debug('Loading suggestions tab', { component: 'MusicRecommended' });
     loadLatest(tabContent, parentId);
     loadRecentlyPlayed(tabContent, parentId);
     loadFrequentlyPlayed(tabContent, parentId);

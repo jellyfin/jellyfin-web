@@ -1,5 +1,5 @@
 import { style, styleVariants } from '@vanilla-extract/css';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 export const alertStyles = style({
     padding: '12px 16px',

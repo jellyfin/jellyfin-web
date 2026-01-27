@@ -36,7 +36,7 @@ interface MenuProps {
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
     readonly children: ReactNode;
-    readonly trigger: ReactNode;
+    readonly trigger?: ReactNode;
     readonly align?: 'start' | 'center' | 'end';
     readonly sideOffset?: number;
     readonly id?: string;
@@ -51,6 +51,10 @@ export function Menu({
     sideOffset = 4,
     id
 }: MenuProps): ReactElement {
+    if (!trigger) {
+        return <Root open={open} onOpenChange={onOpenChange}>{children}</Root>;
+    }
+
     return (
         <Root open={open} onOpenChange={onOpenChange}>
             <Trigger asChild>{trigger}</Trigger>
@@ -154,16 +158,18 @@ export function MenuPortal({ children }: { readonly children: ReactNode }): Reac
 export function MenuContent({
     children,
     className,
+    style,
     align = 'start',
     sideOffset = 4
 }: {
     readonly children: ReactNode;
     readonly className?: string;
+    readonly style?: React.CSSProperties;
     readonly align?: 'start' | 'center' | 'end';
     readonly sideOffset?: number;
 }): ReactElement {
     return (
-        <Content className={className ?? menuContent} align={align} sideOffset={sideOffset}>
+        <Content className={className ?? menuContent} style={style} align={align} sideOffset={sideOffset}>
             {children}
         </Content>
     );

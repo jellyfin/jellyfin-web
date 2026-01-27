@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import * as React from 'react';
 import { vars } from '../../../styles/tokens.css';
 import { Box, Flex } from '../../../ui-primitives/Box';
 import { Text, Heading } from '../../../ui-primitives/Text';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button } from '../../../ui-primitives/Button';
 import { IconButton } from '../../../ui-primitives/IconButton';
 import { Toggle } from '../../../ui-primitives/Toggle';
@@ -20,7 +22,7 @@ const meta: Meta = {
         }
     },
     tags: ['autodocs']
-};
+} as any;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -136,7 +138,7 @@ export const PlaybackWithVisualizer: Story = {
                         />
                     </Box>
 
-                    <Flex alignItems="center" gap={vars.spacing.md} style={{ marginBottom: vars.spacing.md }}>
+                    <Flex align="center" gap={vars.spacing.md} style={{ marginBottom: vars.spacing.md }}>
                         <IconButton
                             variant="ghost"
                             size="lg"
@@ -144,7 +146,7 @@ export const PlaybackWithVisualizer: Story = {
                         >
                             ↺10
                         </IconButton>
-                        <IconButton variant="primary" size="lg" onClick={() => setIsPlaying(!isPlaying)}>
+                        <IconButton variant="soft" size="lg" onClick={() => setIsPlaying(!isPlaying)}>
                             {isPlaying ? '⏸' : '▶'}
                         </IconButton>
                         <IconButton
@@ -162,20 +164,20 @@ export const PlaybackWithVisualizer: Story = {
                             <Slider
                                 min={0}
                                 max={100}
-                                value={volume}
-                                onChange={(_e, value) => setVolume(value as number)}
+                                value={[volume]}
+                                onValueChange={(value) => setVolume(value[0])}
                             />
                         </Box>
                     </Flex>
 
-                    <Flex justifyContent="space-between" alignItems="center">
+                    <Flex justify="space-between" align="center">
                         <Box>
-                            <Text weight="600">Track Title</Text>
+                            <Text weight="bold">Track Title</Text>
                             <Text size="sm" color="secondary">
                                 Artist Name
                             </Text>
                         </Box>
-                        <Flex alignItems="center" gap={vars.spacing.sm}>
+                        <Flex align="center" gap={vars.spacing.sm}>
                             <Box
                                 style={{
                                     width: '8px',
@@ -193,7 +195,7 @@ export const PlaybackWithVisualizer: Story = {
             </Box>
         );
     }
-};
+} as any;
 
 export const VisualizerControlsDemo: Story = {
     render: () => {
@@ -227,17 +229,19 @@ export const VisualizerControlsDemo: Story = {
                         }}
                     >
                         <Flex
-                            justifyContent="space-between"
-                            alignItems="center"
+                            justify="space-between"
+                            align="center"
                             style={{ marginBottom: vars.spacing.sm }}
                         >
-                            <Text size="sm" weight="600">
+                            <Text size="sm" weight="bold">
                                 Butterchurn
                             </Text>
                             <Toggle
-                                checked={settings.butterchurn}
-                                onCheckedChange={checked => setSettings(s => ({ ...s, butterchurn: checked }))}
-                            />
+                                pressed={settings.butterchurn}
+                                onPressedChange={pressed => setSettings(s => ({ ...s, butterchurn: pressed }))}
+                            >
+                                {settings.butterchurn ? 'ON' : 'OFF'}
+                            </Toggle>
                         </Flex>
                         <Text size="xs" color="secondary">
                             MilkDrop-compatible audio reactive visualizer with presets and customization.
@@ -252,17 +256,19 @@ export const VisualizerControlsDemo: Story = {
                         }}
                     >
                         <Flex
-                            justifyContent="space-between"
-                            alignItems="center"
+                            justify="space-between"
+                            align="center"
                             style={{ marginBottom: vars.spacing.sm }}
                         >
-                            <Text size="sm" weight="600">
+                            <Text size="sm" weight="bold">
                                 3D Visualizer
                             </Text>
                             <Toggle
-                                checked={settings.threeJs}
-                                onCheckedChange={checked => setSettings(s => ({ ...s, threeJs: checked }))}
-                            />
+                                pressed={settings.threeJs}
+                                onPressedChange={pressed => setSettings(s => ({ ...s, threeJs: pressed }))}
+                            >
+                                {settings.threeJs ? 'ON' : 'OFF'}
+                            </Toggle>
                         </Flex>
                         <Text size="xs" color="secondary">
                             Three.js based 3D visualizer with geometric shapes and camera effects.
@@ -277,17 +283,19 @@ export const VisualizerControlsDemo: Story = {
                         }}
                     >
                         <Flex
-                            justifyContent="space-between"
-                            alignItems="center"
+                            justify="space-between"
+                            align="center"
                             style={{ marginBottom: vars.spacing.sm }}
                         >
-                            <Text size="sm" weight="600">
+                            <Text size="sm" weight="bold">
                                 Frequency Analyzer
                             </Text>
                             <Toggle
-                                checked={settings.frequencyAnalyzer}
-                                onCheckedChange={checked => setSettings(s => ({ ...s, frequencyAnalyzer: checked }))}
-                            />
+                                pressed={settings.frequencyAnalyzer}
+                                onPressedChange={pressed => setSettings(s => ({ ...s, frequencyAnalyzer: pressed }))}
+                            >
+                                {settings.frequencyAnalyzer ? 'ON' : 'OFF'}
+                            </Toggle>
                         </Flex>
                         <Text size="xs" color="secondary">
                             Real-time frequency data visualization using Web Audio API analyzer node.
@@ -302,17 +310,19 @@ export const VisualizerControlsDemo: Story = {
                         }}
                     >
                         <Flex
-                            justifyContent="space-between"
-                            alignItems="center"
+                            justify="space-between"
+                            align="center"
                             style={{ marginBottom: vars.spacing.sm }}
                         >
-                            <Text size="sm" weight="600">
+                            <Text size="sm" weight="bold">
                                 WaveSurfer
                             </Text>
                             <Toggle
-                                checked={settings.waveSurfer}
-                                onCheckedChange={checked => setSettings(s => ({ ...s, waveSurfer: checked }))}
-                            />
+                                pressed={settings.waveSurfer}
+                                onPressedChange={pressed => setSettings(s => ({ ...s, waveSurfer: pressed }))}
+                            >
+                                {settings.waveSurfer ? 'ON' : 'OFF'}
+                            </Toggle>
                         </Flex>
                         <Text size="xs" color="secondary">
                             Interactive waveform display with zoom, timeline, and minimap plugins.
@@ -337,7 +347,7 @@ export const VisualizerControlsDemo: Story = {
                     >
                         {settings.frequencyAnalyzer && (
                             <Box style={{ margin: vars.spacing.md }}>
-                                <Flex gap={vars.spacing.xs} alignItems="flex-end" style={{ height: '80px' }}>
+                                <Flex gap={vars.spacing.xs} align="end" style={{ height: '80px' }}>
                                     {Array.from({ length: 32 }, (_, i) => (
                                         <Box
                                             key={i}
@@ -376,7 +386,7 @@ export const VisualizerControlsDemo: Story = {
             </Box>
         );
     }
-};
+} as any;
 
 export const AudioEngineIntegration: Story = {
     render: () => (
@@ -487,7 +497,7 @@ export const AudioEngineIntegration: Story = {
                         Visualizers connect to the audio engine at specific points in the signal chain:
                     </Text>
                     <Flex direction="column" gap={vars.spacing.sm}>
-                        <Flex alignItems="center" gap={vars.spacing.sm}>
+                        <Flex align="center" gap={vars.spacing.sm}>
                             <Box
                                 style={{
                                     width: '120px',
@@ -502,7 +512,7 @@ export const AudioEngineIntegration: Story = {
                                 Connects to: Mixer node for real-time frequency data
                             </Text>
                         </Flex>
-                        <Flex alignItems="center" gap={vars.spacing.sm}>
+                        <Flex align="center" gap={vars.spacing.sm}>
                             <Box
                                 style={{
                                     width: '120px',
@@ -517,7 +527,7 @@ export const AudioEngineIntegration: Story = {
                                 Connects to: Post-gain node for audio-reactive visuals
                             </Text>
                         </Flex>
-                        <Flex alignItems="center" gap={vars.spacing.sm}>
+                        <Flex align="center" gap={vars.spacing.sm}>
                             <Box
                                 style={{
                                     width: '120px',
@@ -557,7 +567,7 @@ export const AudioEngineIntegration: Story = {
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="600" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing.xs }}>
                                 masterAudioOutput
                             </Text>
                             <Text size="xs" color="secondary">
@@ -572,7 +582,7 @@ export const AudioEngineIntegration: Story = {
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="600" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing.xs }}>
                                 audioStore
                             </Text>
                             <Text size="xs" color="secondary">
@@ -586,7 +596,7 @@ export const AudioEngineIntegration: Story = {
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="600" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing.xs }}>
                                 visualizerSettings
                             </Text>
                             <Text size="xs" color="secondary">
@@ -598,7 +608,7 @@ export const AudioEngineIntegration: Story = {
             </Flex>
         </Box>
     )
-};
+} as any;
 
 export const PerformanceOptimization: Story = {
     render: () => (
@@ -647,24 +657,6 @@ export const PerformanceOptimization: Story = {
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
                         WaveSurfer caches extracted audio peaks to avoid re-processing the same audio.
                     </Text>
-                    <Box
-                        style={{
-                            padding: vars.spacing.sm,
-                            backgroundColor: vars.colors.background,
-                            borderRadius: vars.borderRadius.sm
-                        }}
-                    >
-                        <Text size="xs" style={{ fontFamily: 'monospace' }}>
-                            {`const PEAK_CACHE_MAX_SIZE = 10;
-const peakCache = new Map<string, PeakCacheEntry>();
-
-function getCacheKey(itemId: string | null, streamUrl: string | null) {
-    if (itemId) return \`item:\${itemId}\`;
-    if (streamUrl) return \`url:\${streamUrl}\`;
-    return null;
-}`}
-                        </Text>
-                    </Box>
                 </Box>
 
                 <Box
@@ -748,6 +740,4 @@ function getCacheKey(itemId: string | null, streamUrl: string | null) {
             </Flex>
         </Box>
     )
-};
-
-import * as React from 'react';
+} as any;

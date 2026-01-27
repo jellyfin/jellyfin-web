@@ -20,12 +20,12 @@ interface ShowOptions {
     focus?: boolean;
 }
 
-function onHideComplete(this: HTMLButtonElement) {
+function onHideComplete(this: Element) {
     if (this) {
         // Handle focus after the hide transition completes
         if (document.activeElement === this) {
-            this.blur();
-            const pauseButton = document.querySelector('.btnPause');
+            (this as HTMLElement).blur();
+            const pauseButton = document.querySelector('.btnPause') as HTMLElement | null;
             if (pauseButton && focusManager.isCurrentlyFocusable(pauseButton)) {
                 focusManager.focus(pauseButton);
             }
@@ -57,7 +57,7 @@ class SkipSegment extends PlaybackSubscriber {
 
             document.body.insertAdjacentHTML('beforeend', buttonHtml);
 
-            this.skipElement = document.body.querySelector('.skip-button');
+            this.skipElement = document.body.querySelector('.skip-button') as HTMLButtonElement | null;
             if (this.skipElement) {
                 this.skipElement.addEventListener('click', () => {
                     const time =
@@ -88,7 +88,7 @@ class SkipSegment extends PlaybackSubscriber {
         const elem = this.skipElement;
         if (elem) {
             this.clearHideTimeout();
-            dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
+            elem.removeEventListener(dom.whichTransitionEvent(), onHideComplete, {
                 once: true
             });
             elem.classList.remove('hide');
@@ -126,7 +126,7 @@ class SkipSegment extends PlaybackSubscriber {
             requestAnimationFrame(() => {
                 elem.classList.add('skip-button-hidden');
 
-                dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
+                elem.addEventListener(dom.whichTransitionEvent(), onHideComplete, {
                     once: true
                 });
             });

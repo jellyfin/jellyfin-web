@@ -38,6 +38,9 @@ export declare global {
         ApiClient: ApiClient;
         Events: Events;
         NativeShell?: NativeShell;
+        TaskButton?: any;
+        CredentialProvider?: any;
+        Notification?: any;
         Loading: {
             show();
             hide();
@@ -93,12 +96,12 @@ export declare global {
         viewshow: CustomEvent;
     }
 
-    const __COMMIT_SHA__: string;
-    const __JF_BUILD_VERSION__: string;
-    const __PACKAGE_JSON_NAME__: string;
-    const __PACKAGE_JSON_VERSION__: string;
-    const __USE_SYSTEM_FONTS__: boolean;
-    const __DEV_SERVER_PROXY_TARGET__: string;
+    declare const __COMMIT_SHA__: string;
+    declare const __JF_BUILD_VERSION__: string;
+    declare const __PACKAGE_JSON_NAME__: string;
+    declare const __PACKAGE_JSON_VERSION__: string;
+    declare const __USE_SYSTEM_FONTS__: boolean;
+    declare const __DEV_SERVER_PROXY_TARGET__: string;
     const tizen: any;
     const webOS: any;
 }

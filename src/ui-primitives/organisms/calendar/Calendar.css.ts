@@ -1,5 +1,5 @@
 import { style, globalStyle } from '@vanilla-extract/css';
-import { vars } from '../../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 export const calendarContainer = style({
     display: 'flex',

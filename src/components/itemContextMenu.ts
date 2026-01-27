@@ -7,6 +7,7 @@ import globalize from '../lib/globalize';
 import { ServerConnections } from '../lib/jellyfin-apiclient';
 import browser from '../scripts/browser';
 import { AppFeature } from '../constants/appFeature';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { toApi } from '../utils/jellyfin-apiclient/compat';
 import dom from '../utils/dom';
 
@@ -23,25 +24,19 @@ const DOWNLOAD_ALL_TYPES = [BaseItemKind.BoxSet, BaseItemKind.MusicAlbum, BaseIt
 
 export interface ContextMenuOptions {
     readonly item: {
-        readonly Id?: string;
-        readonly Type?: string;
-        readonly MediaType?: string;
-        readonly IsFolder?: boolean;
-        readonly CollectionType?: string;
-        readonly CanDelete?: boolean;
-        readonly ServerId?: string;
+        readonly Id?: string | null;
+        readonly Type?: string | null;
+        readonly MediaType?: string | null;
+        readonly IsFolder?: boolean | null;
+        readonly CollectionType?: string | null;
+        readonly CanDelete?: boolean | null;
+        readonly ServerId?: string | null;
         readonly UserData?: {
-            readonly PlaybackPositionTicks?: number;
-        };
+            readonly PlaybackPositionTicks?: number | null;
+        } | null;
+        readonly CanDownload?: boolean | null;
     };
-    readonly user: {
-        readonly Policy: {
-            readonly IsAdministrator: boolean;
-            readonly EnableCollectionManagement: boolean;
-            readonly EnableLiveTvManagement: boolean;
-            readonly EnableContentDownloading: boolean;
-        };
-    };
+    readonly user: any;
     readonly positionTo?: HTMLElement;
     readonly play?: boolean;
     readonly playAllFromHere?: boolean;
@@ -68,7 +63,7 @@ export interface ContextMenuOptions {
     readonly cancelTimer?: boolean;
 }
 
-function getDeleteLabel(type: (typeof BaseItemKind)[keyof typeof BaseItemKind] | string | undefined) {
+function getDeleteLabel(type: (typeof BaseItemKind)[keyof typeof BaseItemKind] | string | null | undefined) {
     switch (type) {
         case BaseItemKind.Series:
             return globalize.translate('DeleteSeries');
@@ -195,7 +190,8 @@ export async function getCommands(options: ContextMenuOptions): Promise<{ name?:
 }
 
 export async function executeCommand(item: ContextMenuOptions['item'], id: string, _options: ContextMenuOptions): Promise<{ updated?: boolean; deleted?: boolean; command?: string } | undefined> {
-    const apiClient = item.ServerId ? ServerConnections.getApiClient(item.ServerId) : ServerConnections.currentApiClient();
+    const serverId = item.ServerId;
+    const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
     if (!apiClient) return;
 
     switch (id) {

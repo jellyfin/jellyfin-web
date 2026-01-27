@@ -2,6 +2,7 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import listView from '../components/listview/listview';
 import { ServerConnections } from '../lib/jellyfin-apiclient';
 import { toApi } from '../utils/jellyfin-apiclient/compat';
+import { logger } from '../utils/logger';
 
 function getFetchPlaylistItemsFn(apiClient: any, itemId: string) {
     return function () {
@@ -41,7 +42,7 @@ async function init(page: HTMLElement, item: any) {
         });
         isEditable = !!data.CanEdit;
     } catch (err) {
-        console.info('[PlaylistViewer] Failed to fetch playlist permissions', err);
+        logger.warn('Failed to fetch playlist permissions', { component: 'PlaylistViewer' }, err);
     }
 
     const elem = page.querySelector('#childrenContent .itemsContainer') as any;

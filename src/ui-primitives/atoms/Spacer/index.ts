@@ -1,2 +1,1 @@
-export { spacerSizes, SpacerSize, Spacer } from './Spacer';
-export { spacerSizes } from './Spacer.css';
+export { spacerSizes, type SpacerSize, Spacer } from './Spacer';

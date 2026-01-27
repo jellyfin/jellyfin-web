@@ -1,2 +1,24 @@
-export { selectTrigger, selectContent, selectViewport, selectItem, selectItemIndicator, selectLabel, selectSeparator, selectScrollButton, selectInputStyles, selectInputContainer, selectInputLabel, selectInputHelper, selectStyles, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, SelectGroup, SelectLabel, SelectSeparator, SelectInput } from './Select';
-export { selectTrigger, selectContent, selectViewport, selectItem, selectItemIndicator, selectLabel, selectSeparator, selectScrollButton, selectInputStyles, selectInputContainer, selectInputLabel, selectInputHelper } from './Select.css';
+export {
+    selectTrigger,
+    selectContent,
+    selectViewport,
+    selectItem,
+    selectItemIndicator,
+    selectLabel,
+    selectSeparator,
+    selectScrollButton,
+    selectInputStyles,
+    selectInputContainer,
+    selectInputLabel,
+    selectInputHelper,
+    selectStyles,
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem,
+    SelectGroup,
+    SelectLabel,
+    SelectSeparator,
+    SelectInput
+} from './Select';

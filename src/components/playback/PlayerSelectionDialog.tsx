@@ -42,6 +42,7 @@ interface PlaybackTarget {
 }
 
 interface ActivePlayerInfo {
+    id?: string;
     deviceName?: string;
     name?: string;
     supportedCommands?: string[];

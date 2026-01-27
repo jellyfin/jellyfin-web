@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode, useCallback } from 'react';
-import { vars } from '../../styles/tokens.css';
+import { vars } from '../styles/tokens.css';
 
 type ChipVariant = 'default' | 'primary' | 'success' | 'warning' | 'error';
 

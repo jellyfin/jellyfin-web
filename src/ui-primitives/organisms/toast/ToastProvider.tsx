@@ -1,6 +1,6 @@
 import React, { type ReactNode } from 'react';
 import { Toast, toastViewport, toastViewportPosition } from './Toast';
-import { useToastStore } from '../../store/toastStore';
+import { useToastStore } from '../../../store/toastStore';
 
 // Re-export for compatibility
 export { useToastStore as useToast };

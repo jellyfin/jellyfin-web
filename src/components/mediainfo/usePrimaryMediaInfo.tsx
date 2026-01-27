@@ -2,6 +2,7 @@ import * as userSettings from 'scripts/settings/userSettings';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
 import itemHelper from '../itemHelper';
+import { logger } from 'utils/logger';
 
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
@@ -71,7 +72,7 @@ function addOriginalAirDateInfo(
             const date = datetime.parseISO8601Date(itemPremiereDate, itemType !== ItemKind.Episode);
             addMiscInfo({ text: datetime.toLocaleDateString(date) });
         } catch {
-            console.error('error parsing date:', itemPremiereDate);
+            logger.error('Error parsing date', { component: 'PrimaryMediaInfo', date: itemPremiereDate });
         }
     }
 }
@@ -88,7 +89,7 @@ function addSeriesTimerInfo(
     if (showSeriesTimerInfo && itemType === ItemKind.SeriesTimer) {
         if (itemRecordAnyTime) {
             addMiscInfo({ text: globalize.translate('Anytime') });
-        } else {
+        } else if (itemStartDate) {
             addMiscInfo({ text: datetime.getDisplayTime(itemStartDate) });
         }
 
@@ -180,7 +181,7 @@ function addProgramTextInfo(
             const text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
             addMiscInfo({ text: text });
         } catch {
-            console.error('error parsing date:', program.PremiereDate);
+            logger.error('Error parsing premiere date', { component: 'PrimaryMediaInfo', date: program.PremiereDate });
         }
     }
 }
@@ -206,7 +207,7 @@ function addStartDateInfo(
                 addMiscInfo({ text: datetime.getDisplayTime(date) });
             }
         } catch {
-            console.error('error parsing date:', itemStartDate);
+            logger.error('Error parsing start date', { component: 'PrimaryMediaInfo', date: itemStartDate });
         }
     }
 }
@@ -222,12 +223,7 @@ function addSeriesProductionYearInfo(
     if (showYearInfo && itemProductionYear && itemType === ItemKind.Series) {
         if (itemStatus === ItemStatus.Continuing) {
             addMiscInfo({
-                text: globalize.translate(
-                    'SeriesYearToPresent',
-                    datetime.toLocaleString(itemProductionYear, {
-                        useGrouping: false
-                    })
-                )
+                text: globalize.translate('SeriesYearToPresent', String(itemProductionYear))
             });
         } else {
             addproductionYearWithEndDate(itemProductionYear, itemEndDate, addMiscInfo);
@@ -240,21 +236,17 @@ function addproductionYearWithEndDate(
     itemEndDate: NullableString,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
-    let productionYear = datetime.toLocaleString(itemProductionYear, {
-        useGrouping: false
-    });
+    let productionYear = String(itemProductionYear);
 
     if (itemEndDate) {
         try {
-            const endYear = datetime.toLocaleString(datetime.parseISO8601Date(itemEndDate).getFullYear(), {
-                useGrouping: false
-            });
+            const endYear = String(datetime.parseISO8601Date(itemEndDate).getFullYear());
             /* At this point, text will contain only the start year */
-            if (endYear !== itemProductionYear) {
+            if (endYear !== String(itemProductionYear)) {
                 productionYear += `-${endYear}`;
             }
         } catch {
-            console.error('error parsing date:', itemEndDate);
+            logger.error('Error parsing end date', { component: 'PrimaryMediaInfo', date: itemEndDate });
         }
     }
     addMiscInfo({ text: productionYear });
@@ -278,15 +270,13 @@ function addYearInfo(
         itemType !== ItemKind.Season
     ) {
         if (itemProductionYear) {
-            addMiscInfo({ text: itemProductionYear });
+            addMiscInfo({ text: String(itemProductionYear) });
         } else if (itemPremiereDate) {
             try {
-                const text = datetime.toLocaleString(datetime.parseISO8601Date(itemPremiereDate).getFullYear(), {
-                    useGrouping: false
-                });
+                const text = String(datetime.parseISO8601Date(itemPremiereDate).getFullYear());
                 addMiscInfo({ text: text });
             } catch {
-                console.error('error parsing date:', itemPremiereDate);
+                logger.error('Error parsing premiere date for year', { component: 'PrimaryMediaInfo', date: itemPremiereDate });
             }
         }
     }

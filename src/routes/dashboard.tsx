@@ -1,256 +1,221 @@
-import { lazy } from 'react';
-import { createRoute } from '@tanstack/react-router';
+import { createRoute, lazyRouteComponent } from '@tanstack/react-router';
 import { Route } from './__root';
-
-// Helper type for routes that export Component as named export
-type NamedComponent = { Component: React.ComponentType };
-
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardIndex = lazy(() =>
-    import('../apps/dashboard/routes/index').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardActivity = lazy(() =>
-    import('../apps/dashboard/routes/activity').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardBackups = lazy(() =>
-    import('../apps/dashboard/routes/backups').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardBranding = lazy(() =>
-    import('../apps/dashboard/routes/branding').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardDevices = lazy(() =>
-    import('../apps/dashboard/routes/devices').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect expects default export but routes use named Component-error TanStack Router export
-const DashboardSettings = lazy(() =>
-    import('../apps/dashboard/routes/settings').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardKeys = lazy(() =>
-    import('../apps/dashboard/routes/keys').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardLibraries = lazy(() =>
-    import('../apps/dashboard/routes/libraries').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardLibrariesDisplay = lazy(() =>
-    import('../apps/dashboard/routes/libraries/display').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardLibrariesMetadata = lazy(() =>
-    import('../apps/dashboard/routes/libraries/metadata').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardLibrariesNfo = lazy(() =>
-    import('../apps/dashboard/routes/libraries/nfo').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardLivetv = lazy(() =>
-    import('../apps/dashboard/routes/livetv').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardLivetvRecordings = lazy(() =>
-    import('../apps/dashboard/routes/livetv/recordings').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardLogs = lazy(() =>
-    import('../apps/dashboard/routes/logs').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardLogsFile = lazy(() =>
-    import('../apps/dashboard/routes/logs/file').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardPlaybackResume = lazy(() =>
-    import('../apps/dashboard/routes/playback/resume').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardPlaybackStreaming = lazy(() =>
-    import('../apps/dashboard/routes/playback/streaming').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardPlaybackTranscoding = lazy(() =>
-    import('../apps/dashboard/routes/playback/transcoding').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardPlaybackTrickplay = lazy(() =>
-    import('../apps/dashboard/routes/playback/trickplay').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardPlugins = lazy(() =>
-    import('../apps/dashboard/routes/plugins').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardPluginsPlugin = lazy(() =>
-    import('../apps/dashboard/routes/plugins/plugin').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardPluginsRepositories = lazy(() =>
-    import('../apps/dashboard/routes/plugins/repositories').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardTasks = lazy(() =>
-    import('../apps/dashboard/routes/tasks').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardTasksTask = lazy(() =>
-    import('../apps/dashboard/routes/tasks/task').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardUsers = lazy(() =>
-    import('../apps/dashboard/routes/users').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardUsersAccess = lazy(() =>
-    import('../apps/dashboard/routes/users/access').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardUsersAdd = lazy(() =>
-    import('../apps/dashboard/routes/users/add').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardUsersParentalControl = lazy(() =>
-    import('../apps/dashboard/routes/users/parentalcontrol').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardUsersPassword = lazy(() =>
-    import('../apps/dashboard/routes/users/password').then(m => ({ default: (m as NamedComponent).Component }))
-);
-// @ts-expect-error TanStack Router expects default export but routes use named Component export
-const DashboardUsersProfile = lazy(() =>
-    import('../apps/dashboard/routes/users/profile').then(m => ({ default: (m as NamedComponent).Component }))
-);
 
 export const dashboardRoute = createRoute({
     getParentRoute: () => Route,
     path: 'dashboard',
-    // @ts-expect-error AppLayout exports default
-    component: lazy(() => import('../apps/dashboard/AppLayout').then(m => ({ default: m.default }))),
-    children: [
-        {
-            index: true,
-            component: DashboardIndex
-        },
-        {
-            path: 'activity',
-            component: DashboardActivity
-        },
-        {
-            path: 'backups',
-            component: DashboardBackups
-        },
-        {
-            path: 'branding',
-            component: DashboardBranding
-        },
-        {
-            path: 'devices',
-            component: DashboardDevices
-        },
-        {
-            path: 'settings',
-            component: DashboardSettings
-        },
-        {
-            path: 'keys',
-            component: DashboardKeys
-        },
-        {
-            path: 'libraries',
-            component: DashboardLibraries
-        },
-        {
-            path: 'libraries/display',
-            component: DashboardLibrariesDisplay
-        },
-        {
-            path: 'libraries/metadata',
-            component: DashboardLibrariesMetadata
-        },
-        {
-            path: 'libraries/nfo',
-            component: DashboardLibrariesNfo
-        },
-        {
-            path: 'livetv',
-            component: DashboardLivetv
-        },
-        {
-            path: 'livetv/recordings',
-            component: DashboardLivetvRecordings
-        },
-        {
-            path: 'logs',
-            component: DashboardLogs
-        },
-        {
-            path: 'logs/:file',
-            component: DashboardLogsFile
-        },
-        {
-            path: 'playback/resume',
-            component: DashboardPlaybackResume
-        },
-        {
-            path: 'playback/streaming',
-            component: DashboardPlaybackStreaming
-        },
-        {
-            path: 'playback/transcoding',
-            component: DashboardPlaybackTranscoding
-        },
-        {
-            path: 'playback/trickplay',
-            component: DashboardPlaybackTrickplay
-        },
-        {
-            path: 'plugins',
-            component: DashboardPlugins
-        },
-        {
-            path: 'plugins/:pluginId',
-            component: DashboardPluginsPlugin
-        },
-        {
-            path: 'plugins/repositories',
-            component: DashboardPluginsRepositories
-        },
-        {
-            path: 'tasks',
-            component: DashboardTasks
-        },
-        {
-            path: 'tasks/:id',
-            component: DashboardTasksTask
-        },
-        {
-            path: 'users',
-            component: DashboardUsers
-        },
-        {
-            path: 'users/access',
-            component: DashboardUsersAccess
-        },
-        {
-            path: 'users/add',
-            component: DashboardUsersAdd
-        },
-        {
-            path: 'users/parentalcontrol',
-            component: DashboardUsersParentalControl
-        },
-        {
-            path: 'users/password',
-            component: DashboardUsersPassword
-        },
-        {
-            path: 'users/profile',
-            component: DashboardUsersProfile
-        }
-    ]
+    component: lazyRouteComponent(() => import('../apps/dashboard/AppLayout')),
 });
+
+const dashboardIndexRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: '/',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/index')),
+});
+
+const dashboardActivityRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'activity',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/activity')),
+});
+
+const dashboardBackupsRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'backups',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/backups')),
+});
+
+const dashboardBrandingRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'branding',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/branding')),
+});
+
+const dashboardDevicesRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'devices',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/devices')),
+});
+
+const dashboardSettingsRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'settings',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/settings')),
+});
+
+const dashboardKeysRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'keys',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/keys')),
+});
+
+const dashboardLibrariesRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'libraries',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/libraries')),
+});
+
+const dashboardLibrariesDisplayRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'libraries/display',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/libraries/display')),
+});
+
+const dashboardLibrariesMetadataRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'libraries/metadata',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/libraries/metadata')),
+});
+
+const dashboardLibrariesNfoRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'libraries/nfo',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/libraries/nfo')),
+});
+
+const dashboardLivetvRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'livetv',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/livetv')),
+});
+
+const dashboardLivetvRecordingsRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'livetv/recordings',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/livetv/recordings')),
+});
+
+const dashboardLogsRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'logs',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/logs')),
+});
+
+const dashboardLogsFileRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'logs/$file',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/logs/file')),
+});
+
+const dashboardPlaybackResumeRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'playback/resume',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/playback/resume')),
+});
+
+const dashboardPlaybackStreamingRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'playback/streaming',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/playback/streaming')),
+});
+
+const dashboardPlaybackTranscodingRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'playback/transcoding',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/playback/transcoding')),
+});
+
+const dashboardPlaybackTrickplayRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'playback/trickplay',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/playback/trickplay')),
+});
+
+const dashboardPluginsRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'plugins',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/plugins')),
+});
+
+const dashboardPluginsPluginRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'plugins/$pluginId',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/plugins/plugin')),
+});
+
+const dashboardPluginsRepositoriesRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'plugins/repositories',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/plugins/repositories')),
+});
+
+const dashboardTasksRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'tasks',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/tasks')),
+});
+
+const dashboardTasksTaskRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'tasks/$id',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/tasks/task')),
+});
+
+const dashboardUsersRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'users',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/users')),
+});
+
+const dashboardUsersAccessRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'users/access',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/users/access')),
+});
+
+const dashboardUsersAddRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'users/add',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/users/add')),
+});
+
+const dashboardUsersParentalControlRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'users/parentalcontrol',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/users/parentalcontrol')),
+});
+
+const dashboardUsersPasswordRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'users/password',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/users/password')),
+});
+
+const dashboardUsersProfileRoute = createRoute({
+    getParentRoute: () => dashboardRoute,
+    path: 'users/profile',
+    component: lazyRouteComponent(() => import('../apps/dashboard/routes/users/profile')),
+});
+
+dashboardRoute.addChildren([
+    dashboardIndexRoute,
+    dashboardActivityRoute,
+    dashboardBackupsRoute,
+    dashboardBrandingRoute,
+    dashboardDevicesRoute,
+    dashboardSettingsRoute,
+    dashboardKeysRoute,
+    dashboardLibrariesRoute,
+    dashboardLibrariesDisplayRoute,
+    dashboardLibrariesMetadataRoute,
+    dashboardLibrariesNfoRoute,
+    dashboardLivetvRoute,
+    dashboardLivetvRecordingsRoute,
+    dashboardLogsRoute,
+    dashboardLogsFileRoute,
+    dashboardPlaybackResumeRoute,
+    dashboardPlaybackStreamingRoute,
+    dashboardPlaybackTranscodingRoute,
+    dashboardPlaybackTrickplayRoute,
+    dashboardPluginsRoute,
+    dashboardPluginsPluginRoute,
+    dashboardPluginsRepositoriesRoute,
+    dashboardTasksRoute,
+    dashboardTasksTaskRoute,
+    dashboardUsersRoute,
+    dashboardUsersAccessRoute,
+    dashboardUsersAddRoute,
+    dashboardUsersParentalControlRoute,
+    dashboardUsersPasswordRoute,
+    dashboardUsersProfileRoute,
+]);

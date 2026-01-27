@@ -6,44 +6,30 @@
  */
 
 // Authentication
-export { default as Login } from './session/login/Login';
-export { default as SelectServer } from './session/selectServer/SelectServer';
+export { default as Login } from './session/login/index';
+export { default as SelectServer } from './session/selectServer/index';
 
 // Media Views
-export { default as ListView } from './list/ListView';
-export { default as Home } from './home/Home';
-export { default as Favorites } from './favorites/Favorites';
+export { default as ListView } from './list';
+export { default as Home } from './home';
 
 // Movies
-export { default as Movies } from './movies/Movies';
-export { default as MoviesRecommended } from './movies/MoviesRecommended';
+export { default as Movies } from './movies/movies';
+export { default as MoviesRecommended } from './movies/moviesrecommended';
 
 // Music
-export { default as MusicAlbums } from './music/MusicAlbums';
-export { default as Songs } from './music/Songs';
-export { default as Artists } from './music/Artists';
-export { default as MusicPlaylists } from './music/MusicPlaylists';
-export { default as Playlists } from './Playlists';
+export { default as MusicAlbums } from './music/musicalbums';
+export { default as Songs } from './music/songs';
+export { default as Artists } from './music/musicartists';
+export { default as MusicPlaylists } from './music/musicplaylists';
 
 // TV Shows
-export { default as TVShows } from './shows/TVShows';
-export { default as Episodes } from './shows/Episodes';
-export { default as TVRecommended } from './shows/TVRecommended';
-
-// Live TV
-export { default as LiveTV } from './livetv/LiveTV';
+export { default as TVShows } from './shows/tvshows';
+export { default as Episodes } from './shows/episodes';
+export { default as TVRecommended } from './shows/tvrecommended';
 
 // Item Details
-export { default as ItemDetails } from './itemDetails/ItemDetails';
-
-// Search & Discovery
-export { default as Search } from './search/Search';
-export { default as Genres } from './Genres';
-
-// Dashboard (Admin)
-export { default as Settings } from './dashboard/Settings';
-export { default as Users } from './dashboard/Users';
-export { default as Libraries } from './dashboard/Libraries';
+export { default as ItemDetails } from './itemDetails/index';
 
 // Utilities
 export { default as lyrics } from './lyrics';

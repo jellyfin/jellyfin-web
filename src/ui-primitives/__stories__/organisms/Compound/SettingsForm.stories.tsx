@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
-import { vars } from '../../../styles/tokens.css.ts';
+import { vars } from '../../styles/tokens.css.ts';
 import { Box, Flex } from '../../Box';
 import { Heading } from '../../Text';
 import { Card, CardBody, CardFooter, CardHeader } from '../../Card';

@@ -9,7 +9,7 @@ interface EndsAtProps {
     positionTicks?: number;
 }
 
-const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, positionTicks, className }) => {
+const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, positionTicks = 0, className }) => {
     const cssClass = classNames('mediaInfoItem', 'endsAt', className);
 
     const displayTime = mediainfo.getEndsAtFromPosition(runTimeTicks, positionTicks, 1, true);

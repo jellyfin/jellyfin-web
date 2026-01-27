@@ -2,17 +2,17 @@ import { BarChartIcon, DesktopIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
 import ListItemLink from 'components/ListItemLink';
-import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
 import globalize from 'lib/globalize';
+import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
 
-const DevicesDrawerSection = (): React.ReactElement => {
+function DevicesDrawerSection(): React.ReactElement {
     return (
         <List
-            aria-labelledby="devices-subheader"
-            subheader={<ListSubheader id="devices-subheader">{globalize.translate('HeaderDevices')}</ListSubheader>}
+            aria-labelledby='devices-subheader'
+            subheader={<ListSubheader id='devices-subheader'>{globalize.translate('HeaderDevices')}</ListSubheader>}
         >
             <ListItem disablePadding>
-                <ListItemLink to="/dashboard/devices">
+                <ListItemLink to='/dashboard/devices'>
                     <ListItemDecorator>
                         <DesktopIcon />
                     </ListItemDecorator>
@@ -20,7 +20,7 @@ const DevicesDrawerSection = (): React.ReactElement => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to="/dashboard/activity">
+                <ListItemLink to='/dashboard/activity'>
                     <ListItemDecorator>
                         <BarChartIcon />
                     </ListItemDecorator>
@@ -29,6 +29,6 @@ const DevicesDrawerSection = (): React.ReactElement => {
             </ListItem>
         </List>
     );
-};
+}
 
 export default DevicesDrawerSection;

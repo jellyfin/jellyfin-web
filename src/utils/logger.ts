@@ -365,6 +365,10 @@ class Logger implements WideEventLogger {
         }
 
         // Send to endpoint for server-side logging
+        if (this.isDev) {
+            return;
+        }
+
         try {
             fetch('/__wide-event', {
                 method: 'POST',

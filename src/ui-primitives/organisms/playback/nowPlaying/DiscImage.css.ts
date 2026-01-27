@@ -1,5 +1,5 @@
 import { style, keyframes } from '@vanilla-extract/css';
-import { vars } from '../../styles/tokens.css';
+import { vars } from '../../../../styles/tokens.css';
 
 const spin = keyframes({
     from: { transform: 'rotate(0deg)' },

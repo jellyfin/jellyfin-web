@@ -93,7 +93,7 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
         onSubmit: async ({ value }) => {
             const parsed = serverSchema.safeParse(value);
             if (!parsed.success) {
-                setError(parsed.error.errors[0]?.message || 'Invalid server address');
+                setError(parsed.error.issues[0]?.message || 'Invalid server address');
                 return;
             }
 

@@ -50,7 +50,7 @@ async function loadWasmModule(): Promise<WasmModule> {
     try {
         // Use a require-based approach to avoid TypeScript module resolution issues
         // @ts-ignore - Dynamic module that may not exist at build time
-        const wasmModuleImport = await import('./pkg/jellyfin_audio_wasm').catch(() => null);
+        const wasmModuleImport = await import('../../audio-wasm/pkg/jellyfin_audio_wasm').catch(() => null);
 
         if (wasmModuleImport?.default) {
             wasmModule = wasmModuleImport.default;

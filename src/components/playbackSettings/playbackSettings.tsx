@@ -516,10 +516,10 @@ export function PlaybackSettings({
                                                 { value: '', label: globalize.translate('Auto') },
                                                 ...qualityoptions
                                                     .getVideoQualityOptions({
-                                                        currentMaxBitrate: appSettings.maxStreamingBitrate(
+                                                        currentMaxBitrate: Number(appSettings.maxStreamingBitrate(
                                                             true,
                                                             'Video'
-                                                        ) as number,
+                                                        )),
                                                         isAutomaticBitrateEnabled:
                                                             appSettings.enableAutomaticBitrateDetection(
                                                                 true,
@@ -544,10 +544,10 @@ export function PlaybackSettings({
                                                 { value: '', label: globalize.translate('Auto') },
                                                 ...qualityoptions
                                                     .getVideoQualityOptions({
-                                                        currentMaxBitrate: appSettings.maxStreamingBitrate(
+                                                        currentMaxBitrate: Number(appSettings.maxStreamingBitrate(
                                                             false,
                                                             'Video'
-                                                        ) as number,
+                                                        )),
                                                         isAutomaticBitrateEnabled:
                                                             appSettings.enableAutomaticBitrateDetection(
                                                                 false,
@@ -575,9 +575,9 @@ export function PlaybackSettings({
                                                     ...qualityoptions
                                                         .getVideoQualityOptions({
                                                             currentMaxBitrate:
-                                                                appSettings.maxChromecastBitrate() as number,
+                                                                Number(appSettings.maxChromecastBitrate()),
                                                             isAutomaticBitrateEnabled:
-                                                                !(appSettings.maxChromecastBitrate() as number),
+                                                                !Number(appSettings.maxChromecastBitrate()),
                                                             enableAuto: true
                                                         })
                                                         .map((opt: any) => ({
@@ -616,10 +616,10 @@ export function PlaybackSettings({
                                         { value: '', label: globalize.translate('Auto') },
                                         ...qualityoptions
                                             .getAudioQualityOptions({
-                                                currentMaxBitrate: appSettings.maxStreamingBitrate(
+                                                currentMaxBitrate: Number(appSettings.maxStreamingBitrate(
                                                     false,
                                                     'Audio'
-                                                ) as number,
+                                                )),
                                                 isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(
                                                     false,
                                                     'Audio'

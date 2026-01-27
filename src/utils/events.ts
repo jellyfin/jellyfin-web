@@ -24,21 +24,15 @@ export type KnownEventName =
     | 'reportplayback'
     | 'registered';
 
-export type Callback = (e: Event, ...args: unknown[]) => void;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Callback = (e: Event, ...args: any[]) => void;
 
 interface EventCallbacks {
     [key: string]: Callback[];
 }
 
-export type EventObject =
-    | (EventTarget & {
-          _callbacks?: EventCallbacks;
-          name?: string;
-      })
-    | {
-          _callbacks?: EventCallbacks;
-          name?: string;
-      };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type EventObject = any;
 
 /**
  * Legacy Event Bus

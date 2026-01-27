@@ -5,6 +5,7 @@ import loading from 'components/loading/loading';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
 import { getBackdropShape } from 'utils/card';
+import { logger } from 'utils/logger';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -61,7 +62,7 @@ function renderUpcoming(elem, items) {
                           day: 'numeric'
                       });
             } catch (err) {
-                console.error('error parsing timestamp for upcoming tv shows', err);
+                logger.error('Error parsing timestamp for upcoming TV shows', { component: 'TVUpcoming' }, err);
             }
         }
 

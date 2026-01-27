@@ -1,6 +1,6 @@
 import React, { type ReactElement } from 'react';
 import { alertStyles, alertVariants } from './Alert.css';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 export type AlertVariant = keyof typeof alertVariants;
 

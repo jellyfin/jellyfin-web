@@ -2,17 +2,17 @@ import { CameraIcon, VideoIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
 import ListItemLink from 'components/ListItemLink';
-import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
 import globalize from 'lib/globalize';
+import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
 
-const LiveTvDrawerSection = (): React.ReactElement => {
+function LiveTvDrawerSection(): React.ReactElement {
     return (
         <List
-            aria-labelledby="livetv-subheader"
-            subheader={<ListSubheader id="livetv-subheader">{globalize.translate('LiveTV')}</ListSubheader>}
+            aria-labelledby='livetv-subheader'
+            subheader={<ListSubheader id='livetv-subheader'>{globalize.translate('LiveTV')}</ListSubheader>}
         >
             <ListItem disablePadding>
-                <ListItemLink to="/dashboard/livetv">
+                <ListItemLink to='/dashboard/livetv'>
                     <ListItemDecorator>
                         <VideoIcon />
                     </ListItemDecorator>
@@ -20,7 +20,7 @@ const LiveTvDrawerSection = (): React.ReactElement => {
                 </ListItemLink>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemLink to="/dashboard/livetv/recordings">
+                <ListItemLink to='/dashboard/livetv/recordings'>
                     <ListItemDecorator>
                         <CameraIcon />
                     </ListItemDecorator>
@@ -29,6 +29,6 @@ const LiveTvDrawerSection = (): React.ReactElement => {
             </ListItem>
         </List>
     );
-};
+}
 
 export default LiveTvDrawerSection;

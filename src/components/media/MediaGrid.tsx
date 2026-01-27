@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Box, Flex } from 'ui-primitives';
 import { Text } from 'ui-primitives/Text';
 import { vars } from 'styles/tokens.css';

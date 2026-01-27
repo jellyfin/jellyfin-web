@@ -1,21 +1,17 @@
 export {
-    DialogOverlayComponent,
-    DialogContentComponent,
-    DialogTitleComponent,
-    DialogOverlayComponent as DialogOverlay,
-    DialogContentComponent as DialogContent,
-    DialogTitleComponent as DialogTitle,
     Dialog,
     DialogTrigger,
     DialogPortal,
+    DialogOverlayComponent,
+    DialogContentComponent,
+    DialogCloseButton,
+    DialogOverlay,
+    DialogContent,
+    DialogTitle,
     DialogDescription,
     DialogClose,
-    DialogOverlayClass,
-    DialogContentClass,
-    DialogDescriptionClass,
     DialogCloseClass,
-    DialogCloseButton
+    DialogContentClass,
+    DialogOverlayClass,
+    DialogDescriptionClass
 } from './Dialog';
-export {
-    dialogTitleStyles
-} from './Dialog.css';

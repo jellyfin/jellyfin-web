@@ -15,6 +15,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { readFileAsBase64 } from 'utils/file';
 import globalize from 'lib/globalize';
 import { vars } from 'styles/tokens.css';
+import { createRoot } from 'react-dom/client';
 
 interface SubtitleUploaderProps {
     isOpen: boolean;
@@ -294,3 +295,32 @@ export function useSubtitleUploader(options: UseSubtitleUploaderOptions) {
 
     return { show, dialog };
 }
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace SubtitleUploader {
+    export function show(options: UseSubtitleUploaderOptions): Promise<boolean> {
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+        const root = createRoot(container);
+
+        return new Promise(resolve => {
+            function handleClose(hasChanged = false) {
+                root.unmount();
+                document.body.removeChild(container);
+                resolve(hasChanged);
+            }
+
+            root.render(
+                <SubtitleUploader
+                    isOpen={true}
+                    onClose={handleClose}
+                    itemId={options.itemId}
+                    serverId={options.serverId}
+                    languages={options.languages}
+                />
+            );
+        });
+    }
+}
+
+export default SubtitleUploader;

@@ -1,4 +1,4 @@
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 import {
     flexRender,
     getCoreRowModel,

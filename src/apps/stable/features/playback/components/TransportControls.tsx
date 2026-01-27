@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { DiscImage } from './DiscImage';
 import { VinylSeekBar } from './VinylSeekBar';
 import { useBackspinStore } from '../../../../../store/backspinStore';

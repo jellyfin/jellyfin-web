@@ -58,7 +58,7 @@ const DevSettingsPage = () => {
         mutationFn: async (values: DevFormValues) => {
             const parsed = devConfigSchema.safeParse(values);
             if (!parsed.success) {
-                throw new Error(parsed.error.errors[0]?.message || 'Invalid configuration');
+                throw new Error(parsed.error.issues[0]?.message || 'Invalid configuration');
             }
 
             const updated = await saveDevConfig({
@@ -80,9 +80,9 @@ const DevSettingsPage = () => {
         }
     });
 
-    const form = useForm<DevFormValues>({
+    const form = useForm({
         defaultValues: {
-            serverBaseUrl: devConfig.serverBaseUrl,
+            serverBaseUrl: devConfig.serverBaseUrl || '',
             useProxy: devConfig.useProxy
         },
         onSubmit: async ({ value }) => {

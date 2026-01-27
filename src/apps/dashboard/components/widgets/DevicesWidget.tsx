@@ -1,16 +1,18 @@
 import React from 'react';
-import globalize from 'lib/globalize';
-import Widget from './Widget';
+
 import DeviceCard from 'apps/dashboard/features/devices/components/DeviceCard';
 import useLiveSessions from 'apps/dashboard/features/sessions/hooks/useLiveSessions';
-import { Flex } from 'ui-primitives/Box';
+import globalize from 'lib/globalize';
 import { vars } from 'styles/tokens.css';
+import { Flex } from 'ui-primitives/Box';
 
-const DevicesWidget = (): React.ReactElement => {
+import Widget from './Widget';
+
+function DevicesWidget(): React.ReactElement {
     const { data: devices } = useLiveSessions();
 
     return (
-        <Widget title={globalize.translate('HeaderDevices')} href="/dashboard/devices">
+        <Widget title={globalize.translate('HeaderDevices')} href='/dashboard/devices'>
             <Flex style={{ flexDirection: 'row', flexWrap: 'wrap', gap: vars.spacing.md }}>
                 {devices?.map(device => (
                     <DeviceCard key={device.Id} device={device} />
@@ -18,6 +20,6 @@ const DevicesWidget = (): React.ReactElement => {
             </Flex>
         </Widget>
     );
-};
+}
 
 export default DevicesWidget;

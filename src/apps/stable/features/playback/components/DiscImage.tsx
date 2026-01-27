@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useBackspinStore } from '../../../../../store/backspinStore';
 import { backspinHandler } from '../../../../../components/audioEngine/backspinHandler';
 import { HAPTIC_PATTERNS } from '../../../../../types/transport';

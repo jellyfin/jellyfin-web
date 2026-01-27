@@ -297,7 +297,7 @@ export class BookPlayer {
         return new Promise<void>((resolve, reject) => {
             import('epubjs').then(({ default: epubjs }) => {
                 const api = toApi(ServerConnections.getApiClient(item.ServerId));
-                const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
+                const downloadHref = (getLibraryApi(api) as any).getDownloadUrl({ itemId: item.Id });
                 const book = epubjs(downloadHref, { openAs: 'epub' });
 
                 const clientHeight = document.body.clientHeight;

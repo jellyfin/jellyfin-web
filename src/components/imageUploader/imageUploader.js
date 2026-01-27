@@ -11,6 +11,7 @@ import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { logger } from '../../utils/logger';
 
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
@@ -59,7 +60,7 @@ function setFiles(page, files) {
     };
     reader.onabort = () => {
         loading.hide();
-        console.debug('File read cancelled');
+        logger.debug('File read cancelled', { component: 'ImageUploader' });
     };
 
     // Closure to capture the file information.

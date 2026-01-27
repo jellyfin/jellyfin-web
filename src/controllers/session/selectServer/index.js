@@ -10,6 +10,7 @@ import actionSheet from '../../../components/actionSheet/actionSheet';
 import confirm from '../../../components/confirm/confirm';
 import dom from '../../../utils/dom';
 import browser from '../../../scripts/browser';
+import { logger } from '../../../utils/logger';
 import '../../../elements/emby-scroller/emby-scroller';
 import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';
@@ -163,7 +164,7 @@ export default function (view, params) {
                         loadServers();
                     })
                     .catch(err => {
-                        console.error('[selectServer] failed to delete server', err);
+                        logger.error('Failed to delete server', { component: 'SelectServer' }, err);
                     });
             })
             .catch(() => {

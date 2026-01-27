@@ -46,7 +46,7 @@ import './i18n';
 
 import RootApp from './RootApp';
 
-const supportsFeature = feature => Boolean(safeAppHost.supports(feature));
+const supportsFeature = (feature: any) => Boolean(safeAppHost.supports(feature));
 
 async function initializeAudioContextEarly() {
     logger.time('AudioContext Initialization');
@@ -211,7 +211,7 @@ build: ${__JF_BUILD_VERSION__}`,
     if (savedServers.length === 0) {
         const configServers = await getServers();
         if (configServers.length > 0) {
-            const credentials = ServerConnections.credentialProvider().credentials();
+            const credentials = (ServerConnections as any).credentialProvider().credentials();
             const updatedServers = [...credentials.Servers];
             configServers.forEach((server: { ManualAddress?: string }) => {
                 const existing = updatedServers.find(s => s.ManualAddress === server.ManualAddress);
@@ -325,7 +325,7 @@ async function loadPlugins() {
             const name = typeof plugin === 'string' ? plugin : '';
             return !name.startsWith('sessionPlayer') && !name.startsWith('chromecastPlayer');
         });
-    } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
+    } else if (!browser.chrome && !browser.edgeChromium && !browser.operaTv) {
         // Disable chromecast player in unsupported browsers
         list = list.filter(plugin => {
             const name = typeof plugin === 'string' ? plugin : '';
@@ -341,7 +341,7 @@ async function loadPlugins() {
 
     logger.time('Plugin Loading');
     try {
-        await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
+        await Promise.all(list.map((plugin: any) => pluginManager.loadPlugin(plugin)));
         logger.performance('All plugins loaded successfully', {
             component: 'PluginManager',
             pluginCount: list.length
@@ -386,6 +386,10 @@ function loadPlatformFeatures() {
 
 async function renderApp() {
     const container = document.getElementById('reactRoot');
+    if (!container) {
+        logger.error('Failed to find reactRoot container', { component: 'index' });
+        return;
+    }
     // Remove the splash logo
     container.innerHTML = '';
 

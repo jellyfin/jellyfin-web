@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode, type CSSProperties } from 'react';
-import { motion } from 'framer-motion';
-import { vars } from '../../styles/tokens.css.ts';
+import { motion } from 'motion/react';
+import { vars } from '../styles/tokens.css.ts';
 
 interface CardProps {
     children: ReactNode;

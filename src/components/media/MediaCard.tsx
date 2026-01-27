@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Box, Flex } from 'ui-primitives';
 import { Card, CardBody } from 'ui-primitives/Card';
 import { IconButton } from 'ui-primitives/IconButton';

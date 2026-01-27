@@ -1,5 +1,5 @@
-import { format } from 'date-fns';
 import type { Cell } from '@tanstack/react-table';
+import { format } from 'date-fns';
 
 import { useLocale } from 'hooks/useLocale';
 

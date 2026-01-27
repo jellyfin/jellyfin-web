@@ -32,6 +32,7 @@ import '../../elements/emby-button/emby-button';
 import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import template from './subtitleeditor.template.html?raw';
+import subtitleUploader from '../subtitleuploader/SubtitleUploader';
 
 // ============================================================================
 // Type Definitions
@@ -82,7 +83,7 @@ let hasChanges = false;
 // Helper Functions
 // ============================================================================
 
-function downloadRemoteSubtitles(context: Element, id: string): void {
+function downloadRemoteSubtitles(context: HTMLElement, id: string): void {
     if (!currentItem?.Id) return;
 
     const url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
@@ -100,7 +101,7 @@ function downloadRemoteSubtitles(context: Element, id: string): void {
         });
 }
 
-function deleteLocalSubtitle(context: Element, index: string): void {
+function deleteLocalSubtitle(context: HTMLElement, index: string): void {
     const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
     confirm({
@@ -129,7 +130,7 @@ function deleteLocalSubtitle(context: Element, index: string): void {
     });
 }
 
-function fillSubtitleList(context: Element, item: MediaItem): void {
+function fillSubtitleList(context: HTMLElement, item: MediaItem): void {
     const streams = item.MediaStreams || [];
     const subs: SubtitleStream[] = streams.filter((s): s is SubtitleStream => {
         return s.Type === 'Subtitle';
@@ -197,7 +198,7 @@ function fillSubtitleList(context: Element, item: MediaItem): void {
 }
 
 function fillLanguages(
-    context: Element,
+    context: HTMLElement,
     languages: { ThreeLetterISOLanguageName?: string | null; DisplayName?: string | null }[]
 ): void {
     const selectLanguage = context.querySelector('#selectLanguage') as HTMLSelectElement;
@@ -232,7 +233,7 @@ function fillLanguages(
     }
 }
 
-function renderSearchResults(context: Element, results: RemoteSubtitleSearchResult[]): void {
+function renderSearchResults(context: HTMLElement, results: RemoteSubtitleSearchResult[]): void {
     let lastProvider = '';
     let html = '';
 
@@ -350,26 +351,28 @@ function renderSearchResults(context: Element, results: RemoteSubtitleSearchResu
     loading.hide();
 }
 
-function searchForSubtitles(context: Element, language: string): void {
+function searchForSubtitles(context: HTMLElement, language: string): void {
     userSettings.set('subtitleeditor-language', language);
     loading.show();
 
     if (!currentItem?.Id) return;
 
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+    if (!apiClient) return;
     const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
-    apiClient.getJSON<RemoteSubtitleSearchResult[]>(url).then(results => {
+    (apiClient as any).getJSON(url).then((results: RemoteSubtitleSearchResult[]) => {
         renderSearchResults(context, results);
     });
 }
 
 function reload(
-    context: Element,
-    apiClient: { getItem: (userId: string, itemId: string) => Promise<MediaItem>; getCurrentUserId: () => string },
+    context: HTMLElement,
+    apiClient: any,
     itemId: string | MediaItem
 ): void {
-    context.querySelector('.noSearchResults')?.classList.add('hide');
+    const noSearchResults = context.querySelector('.noSearchResults');
+    if (noSearchResults) noSearchResults.classList.add('hide');
 
     function onGetItem(item: MediaItem): void {
         currentItem = item;
@@ -384,18 +387,23 @@ function reload(
         if (file) {
             const pathValue = context.querySelector('.pathValue');
             if (pathValue) (pathValue as HTMLElement).innerText = file;
-            context.querySelector('.originalFile')?.classList.remove('hide');
+            const originalFile = context.querySelector('.originalFile');
+            if (originalFile) originalFile.classList.remove('hide');
         } else {
             const pathValue = context.querySelector('.pathValue');
             if (pathValue) pathValue.innerHTML = '';
-            context.querySelector('.originalFile')?.classList.add('hide');
+            const originalFile = context.querySelector('.originalFile');
+            if (originalFile) originalFile.classList.add('hide');
         }
 
         loading.hide();
     }
 
     if (typeof itemId === 'string') {
-        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(onGetItem);
+        const userId = apiClient.getCurrentUserId();
+        if (userId) {
+            apiClient.getItem(userId, itemId).then(onGetItem);
+        }
     } else {
         onGetItem(itemId);
     }
@@ -427,7 +435,7 @@ function onSubtitleListClick(e: Event): void {
 function onSubtitleResultsClick(e: Event): void {
     const target = e.target as HTMLElement;
     let subtitleId: string | null = null;
-    let context: Element | null = null;
+    let context: HTMLElement | null = null;
 
     const btnOptions = dom.parentWithClass(target, 'btnOptions');
     if (btnOptions) {
@@ -448,7 +456,7 @@ function onSubtitleResultsClick(e: Event): void {
     }
 }
 
-function showDownloadOptions(button: Element, context: Element, subtitleId: string): void {
+function showDownloadOptions(button: HTMLElement, context: HTMLElement, subtitleId: string): void {
     const items: SubtitleDownloadOption[] = [
         {
             name: globalize.translate('Download'),
@@ -484,24 +492,23 @@ function onOpenUploadMenu(e: Event): void {
 
     const selectLanguage = dialog.querySelector('#selectLanguage') as HTMLSelectElement;
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+    if (!apiClient) return;
 
-    import('../subtitleuploader/subtitleuploader').then(({ default: subtitleUploader }: any) => {
-        subtitleUploader
-            .show({
-                languages: {
-                    list: selectLanguage.innerHTML,
-                    value: selectLanguage.value
-                },
-                itemId: currentItem!.Id,
-                serverId: currentItem!.ServerId
-            })
-            .then((hasChanged: boolean) => {
-                if (hasChanged) {
-                    hasChanges = true;
-                    reload(dialog, apiClient, currentItem!.Id);
-                }
-            });
-    });
+    (subtitleUploader as any)
+        .show({
+            languages: {
+                list: selectLanguage.innerHTML,
+                value: selectLanguage.value
+            },
+            itemId: currentItem!.Id,
+            serverId: currentItem!.ServerId
+        })
+        .then((hasChanged: boolean) => {
+            if (hasChanged) {
+                hasChanges = true;
+                reload(dialog, apiClient, currentItem!.Id);
+            }
+        });
 }
 
 // ============================================================================
@@ -518,6 +525,10 @@ function showEditorInternal(itemId: string, serverId: string): Promise<void> {
     hasChanges = false;
 
     const apiClient = ServerConnections.getApiClient(serverId);
+    if (!apiClient) {
+        loading.hide();
+        return Promise.reject('No ApiClient');
+    }
     return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
         const dialogOptions: DialogOptions = {
             removeOnClose: true,

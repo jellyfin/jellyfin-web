@@ -1,2 +1,1 @@
-export { textStyles, textSizes, textWeights, textColors, textAlignments, TextSize, TextWeight, TextColor, TextAlignment, Text, Heading } from './Text';
-export { textStyles, textSizes, textWeights, textColors, textAlignments } from './Text.css';
+export { textStyles, textSizes, textWeights, textColors, textAlignments, type TextSize, type TextWeight, type TextColor, type TextAlignment, Text, Heading } from './Text';

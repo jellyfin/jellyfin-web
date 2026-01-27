@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import * as React from 'react';
 import { vars } from '../../../styles/tokens.css';
 import { Box, Flex } from '../../../ui-primitives/Box';
 import { Text } from '../../../ui-primitives/Text';
@@ -23,7 +24,7 @@ const meta: Meta<typeof WaveformCell> = {
         duration: { control: 'number' },
         currentTime: { control: 'number' }
     }
-};
+} as any;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -57,7 +58,7 @@ export const Default: Story = {
             </Text>
         </Box>
     )
-};
+} as any;
 
 export const NoProgress: Story = {
     render: () => (
@@ -75,7 +76,7 @@ export const NoProgress: Story = {
             />
         </Box>
     )
-};
+} as any;
 
 export const NearEnd: Story = {
     render: () => (
@@ -96,7 +97,7 @@ export const NearEnd: Story = {
             </Text>
         </Box>
     )
-};
+} as any;
 
 export const Interactive: Story = {
     render: () => {
@@ -120,11 +121,11 @@ export const Interactive: Story = {
                 </Box>
                 <Box style={{ width: '100%' }}>
                     <Slider
-                        value={(currentTime / duration) * 100}
-                        onChange={(_e, value) => setCurrentTime(((value as number) * duration) / 100)}
+                        value={[ (currentTime / duration) * 100 ]}
+                        onValueChange={(value) => setCurrentTime((value[0] * duration) / 100)}
                     />
                 </Box>
-                <Flex justifyContent="space-between" style={{ marginTop: vars.spacing.xs }}>
+                <Flex justify="space-between" style={{ marginTop: vars.spacing.xs }}>
                     <Text size="xs" color="secondary">
                         {formatDuration(currentTime)}
                     </Text>
@@ -135,7 +136,7 @@ export const Interactive: Story = {
             </Box>
         );
     }
-};
+} as any;
 
 export const DifferentHeights: Story = {
     render: () => (
@@ -184,7 +185,7 @@ export const DifferentHeights: Story = {
             </Box>
         </Flex>
     )
-};
+} as any;
 
 export const ShortClip: Story = {
     render: () => (
@@ -202,7 +203,7 @@ export const ShortClip: Story = {
             />
         </Box>
     )
-};
+} as any;
 
 export const LongTrack: Story = {
     render: () => (
@@ -220,7 +221,7 @@ export const LongTrack: Story = {
             />
         </Box>
     )
-};
+} as any;
 
 export const Playing: Story = {
     render: () => {
@@ -239,14 +240,13 @@ export const Playing: Story = {
 
         return (
             <Box style={{ width: '400px' }}>
-                <Flex alignItems="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.md }}>
+                <Flex align="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.md }}>
                     <Box
                         style={{
                             width: '12px',
                             height: '12px',
                             borderRadius: '50%',
-                            backgroundColor: vars.colors.success,
-                            animation: 'pulse 1s infinite'
+                            backgroundColor: vars.colors.success
                         }}
                     />
                     <Text size="sm" color="success">
@@ -267,12 +267,12 @@ export const Playing: Story = {
             </Box>
         );
     }
-};
+} as any;
 
 export const Paused: Story = {
     render: () => (
         <Box style={{ width: '400px' }}>
-            <Flex alignItems="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.md }}>
+            <Flex align="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.md }}>
                 <Box
                     style={{
                         width: '12px',
@@ -295,7 +295,7 @@ export const Paused: Story = {
             />
         </Box>
     )
-};
+} as any;
 
 export const MinimalWaveform: Story = {
     render: () => (
@@ -320,7 +320,7 @@ export const MinimalWaveform: Story = {
             />
         </Box>
     )
-};
+} as any;
 
 export const NextTrack: Story = {
     render: () => (
@@ -338,6 +338,4 @@ export const NextTrack: Story = {
             />
         </Box>
     )
-};
-
-import * as React from 'react';
+} as any;

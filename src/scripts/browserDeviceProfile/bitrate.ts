@@ -1,5 +1,6 @@
 import browser from 'scripts/browser';
 import * as userSettings from 'scripts/settings/userSettings';
+import { logger } from 'utils/logger';
 
 declare const webapis: any;
 
@@ -13,9 +14,9 @@ export function getGlobalMaxVideoBitrate(): number | null {
         try {
             const isTizenUhd = webapis.productinfo.isUdPanelSupported();
             isTizenFhd = !isTizenUhd;
-            console.debug('isTizenFhd = ' + isTizenFhd);
+            logger.debug(`isTizenFhd = ${isTizenFhd}`, { component: 'BitrateProfile' });
         } catch (error: any) {
-            console.error('isUdPanelSupported() error code = ' + error.code);
+            logger.error(`isUdPanelSupported() error code = ${error.code}`, { component: 'BitrateProfile' }, error);
         }
     }
 

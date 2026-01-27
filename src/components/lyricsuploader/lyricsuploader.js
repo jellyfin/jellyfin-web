@@ -16,6 +16,7 @@ import '../../elements/emby-select/emby-select';
 import '../formdialog.scss';
 import './lyricsuploader.scss';
 import { readFileAsText } from 'utils/file';
+import { logger } from '../../utils/logger';
 
 let currentItemId;
 let currentServerId;
@@ -59,7 +60,7 @@ function setFiles(page, files) {
     };
     reader.onabort = function () {
         loading.hide();
-        console.debug('File read cancelled');
+        logger.debug('File read cancelled', { component: 'LyricsUploader' });
     };
 
     // Closure to capture the file information.

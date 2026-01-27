@@ -1,6 +1,6 @@
 import { type ReactElement, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { vars } from '../../styles/tokens.css.ts';
+import { vars } from '../styles/tokens.css.ts';
 
 const meta: Meta = {
     title: 'UI Primitives/DatePicker',

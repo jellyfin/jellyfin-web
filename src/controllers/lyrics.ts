@@ -155,7 +155,7 @@ export default function (view: HTMLElement) {
     function onLyricClick(lyricTime: any) {
         autoScroll = AutoScroll.Smooth;
         playbackManager.seek(lyricTime);
-        if (playbackManager.paused()) playbackManager.playPause(currentPlayer);
+        if (!playbackManager.isPlaying()) playbackManager.playPause(currentPlayer);
     }
 
     function onTimeUpdate() {

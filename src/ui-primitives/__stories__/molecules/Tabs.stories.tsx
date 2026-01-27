@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
-import { vars } from '../../styles/tokens.css.ts';
+import { vars } from '../styles/tokens.css.ts';
 
 interface AnimatedTabsProps {
     tabs: { value: string; label: string; content: ReactNode }[];

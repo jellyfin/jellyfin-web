@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import { usePreferencesStore } from '../../store/preferencesStore';
 import { isVisible, onVisibilityChange } from '../../utils/visibility';
+import { logger } from '../../utils/logger';
 
 type FrequencyAnalyzersProps = {
     audioContext?: AudioContext;
@@ -207,12 +208,16 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     const previousBarHeightsRef = useRef<Float32Array | null>(null);
     const pinkNoiseReferenceRef = useRef<Float32Array | null>(null);
 
-    const { frequencyAnalyzer, advanced } = usePreferencesStore(state => state.visualizer);
+    const { visualizer } = usePreferencesStore(state => state);
+    const { advanced, frequencyAnalyzer, smoothing, opacity } = visualizer as any;
     const { fftSize, limiterThreshold: maxDecibels } = advanced;
-    const { smoothing: smoothingTimeConstant, opacity } = frequencyAnalyzer;
+    const smoothingTimeConstant = smoothing;
     const minDecibels = -132; // Standard floor
 
-    const stopLoop = useCallback(() => {
+    const stopLoop = useCallback((reason?: string) => {
+        if (reason) {
+            logger.debug(`Stopping visualizer loop: ${reason}`, { component: 'FrequencyAnalyzer' });
+        }
         if (animationFrameId.current) {
             cancelAnimationFrame(animationFrameId.current);
             animationFrameId.current = undefined;

@@ -8,13 +8,20 @@ import {
     PlayIcon,
     PlusIcon
 } from '@radix-ui/react-icons';
-import React, { type MouseEvent, useCallback, useState } from 'react';
 import { useLocation } from '@tanstack/react-router';
+import React, { type MouseEvent, useCallback, useState } from 'react';
 
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
-import { List, ListItem, ListItemButton, ListItemDecorator, ListItemContent, ListSubheader } from 'ui-primitives/List';
 import { vars } from 'styles/tokens.css';
+import {
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemContent,
+    ListItemDecorator,
+    ListSubheader
+} from 'ui-primitives/List';
 
 const LIBRARY_PATHS = [
     '/dashboard/libraries',
@@ -30,30 +37,37 @@ const PLAYBACK_PATHS = [
     '/dashboard/playback/trickplay'
 ];
 
-const ServerDrawerSection = (): React.ReactElement => {
+function ServerDrawerSection(): React.ReactElement {
     const location = useLocation();
 
-    const [isLibrarySectionOpen, setIsLibrarySectionOpen] = useState(LIBRARY_PATHS.includes(location.pathname));
-    const [isPlaybackSectionOpen, setIsPlaybackSectionOpen] = useState(PLAYBACK_PATHS.includes(location.pathname));
+    const [isLibrarySectionOpen, setIsLibrarySectionOpen] = useState(
+        LIBRARY_PATHS.includes(location.pathname)
+    );
+    const [isPlaybackSectionOpen, setIsPlaybackSectionOpen] = useState(
+        PLAYBACK_PATHS.includes(location.pathname)
+    );
 
     const onLibrarySectionClick = useCallback((e: MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        setIsLibrarySectionOpen(isOpen => !isOpen);
+        setIsLibrarySectionOpen((isOpen) => !isOpen);
     }, []);
 
     const onPlaybackSectionClick = useCallback((e: MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        setIsPlaybackSectionOpen(isOpen => !isOpen);
+        setIsPlaybackSectionOpen((isOpen) => !isOpen);
     }, []);
 
     return (
-        <List size="sm" style={{ '--list-item-radius': '8px', '--list-gap': '4px', '--list-padding': '8px' }}>
+        <List
+            size='sm'
+            style={{ '--list-item-radius': '8px', '--list-gap': '4px', '--list-padding': '8px' }}
+        >
             <ListSubheader sticky>{globalize.translate('TabServer')}</ListSubheader>
 
             <ListItem>
-                <ListItemLink to="/dashboard">
+                <ListItemLink to='/dashboard'>
                     <ListItemDecorator>
                         <DashboardIcon />
                     </ListItemDecorator>
@@ -62,7 +76,7 @@ const ServerDrawerSection = (): React.ReactElement => {
             </ListItem>
 
             <ListItem>
-                <ListItemLink to="/dashboard/settings">
+                <ListItemLink to='/dashboard/settings'>
                     <ListItemDecorator>
                         <GearIcon />
                     </ListItemDecorator>
@@ -71,7 +85,7 @@ const ServerDrawerSection = (): React.ReactElement => {
             </ListItem>
 
             <ListItem>
-                <ListItemLink to="/dashboard/branding">
+                <ListItemLink to='/dashboard/branding'>
                     <ListItemDecorator>
                         <ColorWheelIcon />
                     </ListItemDecorator>
@@ -80,7 +94,7 @@ const ServerDrawerSection = (): React.ReactElement => {
             </ListItem>
 
             <ListItem>
-                <ListItemLink to="/dashboard/users">
+                <ListItemLink to='/dashboard/users'>
                     <ListItemDecorator>
                         <PersonIcon />
                     </ListItemDecorator>
@@ -99,23 +113,41 @@ const ServerDrawerSection = (): React.ReactElement => {
                 {isLibrarySectionOpen && (
                     <List style={{ '--list-gap': '0px' }}>
                         <ListItem>
-                            <ListItemLink to="/dashboard/libraries" style={{ paddingLeft: vars.spacing.lg }}>
-                                <ListItemContent>{globalize.translate('HeaderLibraries')}</ListItemContent>
+                            <ListItemLink
+                                to='/dashboard/libraries'
+                                style={{ paddingLeft: vars.spacing.lg }}
+                            >
+                                <ListItemContent>
+                                    {globalize.translate('HeaderLibraries')}
+                                </ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to="/dashboard/libraries/display" style={{ paddingLeft: vars.spacing.lg }}>
+                            <ListItemLink
+                                to='/dashboard/libraries/display'
+                                style={{ paddingLeft: vars.spacing.lg }}
+                            >
                                 <ListItemContent>{globalize.translate('Display')}</ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to="/dashboard/libraries/metadata" style={{ paddingLeft: vars.spacing.lg }}>
-                                <ListItemContent>{globalize.translate('LabelMetadata')}</ListItemContent>
+                            <ListItemLink
+                                to='/dashboard/libraries/metadata'
+                                style={{ paddingLeft: vars.spacing.lg }}
+                            >
+                                <ListItemContent>
+                                    {globalize.translate('LabelMetadata')}
+                                </ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to="/dashboard/libraries/nfo" style={{ paddingLeft: vars.spacing.lg }}>
-                                <ListItemContent>{globalize.translate('TabNfoSettings')}</ListItemContent>
+                            <ListItemLink
+                                to='/dashboard/libraries/nfo'
+                                style={{ paddingLeft: vars.spacing.lg }}
+                            >
+                                <ListItemContent>
+                                    {globalize.translate('TabNfoSettings')}
+                                </ListItemContent>
                             </ListItemLink>
                         </ListItem>
                     </List>
@@ -133,23 +165,43 @@ const ServerDrawerSection = (): React.ReactElement => {
                 {isPlaybackSectionOpen && (
                     <List style={{ '--list-gap': '0px' }}>
                         <ListItem>
-                            <ListItemLink to="/dashboard/playback/transcoding" style={{ paddingLeft: vars.spacing.lg }}>
-                                <ListItemContent>{globalize.translate('Transcoding')}</ListItemContent>
+                            <ListItemLink
+                                to='/dashboard/playback/transcoding'
+                                style={{ paddingLeft: vars.spacing.lg }}
+                            >
+                                <ListItemContent>
+                                    {globalize.translate('Transcoding')}
+                                </ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to="/dashboard/playback/resume" style={{ paddingLeft: vars.spacing.lg }}>
-                                <ListItemContent>{globalize.translate('ButtonResume')}</ListItemContent>
+                            <ListItemLink
+                                to='/dashboard/playback/resume'
+                                style={{ paddingLeft: vars.spacing.lg }}
+                            >
+                                <ListItemContent>
+                                    {globalize.translate('ButtonResume')}
+                                </ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to="/dashboard/playback/streaming" style={{ paddingLeft: vars.spacing.lg }}>
-                                <ListItemContent>{globalize.translate('TabStreaming')}</ListItemContent>
+                            <ListItemLink
+                                to='/dashboard/playback/streaming'
+                                style={{ paddingLeft: vars.spacing.lg }}
+                            >
+                                <ListItemContent>
+                                    {globalize.translate('TabStreaming')}
+                                </ListItemContent>
                             </ListItemLink>
                         </ListItem>
                         <ListItem>
-                            <ListItemLink to="/dashboard/playback/trickplay" style={{ paddingLeft: vars.spacing.lg }}>
-                                <ListItemContent>{globalize.translate('Trickplay')}</ListItemContent>
+                            <ListItemLink
+                                to='/dashboard/playback/trickplay'
+                                style={{ paddingLeft: vars.spacing.lg }}
+                            >
+                                <ListItemContent>
+                                    {globalize.translate('Trickplay')}
+                                </ListItemContent>
                             </ListItemLink>
                         </ListItem>
                     </List>
@@ -157,6 +209,6 @@ const ServerDrawerSection = (): React.ReactElement => {
             </ListItem>
         </List>
     );
-};
+}
 
 export default ServerDrawerSection;

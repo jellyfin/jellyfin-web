@@ -4,7 +4,7 @@ import layoutManager from '../layoutManager';
 
 export interface ViewElement extends HTMLElement {
     initComplete?: boolean;
-    activeElement?: Element | null;
+    activeElement?: HTMLElement | null;
     [key: string]: any;
 }
 
@@ -14,6 +14,9 @@ export interface ViewOptions {
     cancel?: boolean;
     state?: any;
     url: string;
+    view?: string;
+    type?: string;
+    fullscreen?: boolean;
     options?: any;
 }
 
@@ -162,9 +165,12 @@ class ViewManager {
             return;
         }
 
-        viewContainer.loadView(options).then((view: any) => {
-            onViewChange(view as ViewElement, options);
-        });
+        const result = viewContainer.loadView(options as any);
+        if (result && typeof result.then === 'function') {
+            result.then((view: any) => {
+                onViewChange(view as ViewElement, options);
+            });
+        }
     }
 
     hideView() {
@@ -186,7 +192,7 @@ class ViewManager {
             currentView.activeElement = document.activeElement;
         }
 
-        return viewContainer.tryRestoreView(options).then((view: any) => {
+        return viewContainer.tryRestoreView(options as any).then((view: any) => {
             if (onViewChanging) onViewChanging();
             onViewChange(view as ViewElement, options, true);
         });

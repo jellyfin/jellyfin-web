@@ -26,7 +26,7 @@ function sendConnectionResult(isOk: boolean) {
     } else if (reject) {
         reject();
     } else {
-        playbackManager.removeActivePlayer(PlayerName);
+        playbackManager.setActivePlayer(null);
     }
 }
 
@@ -246,7 +246,7 @@ class CastPlayer {
         const serverAddress = apiClient.serverAddress();
         const hostname = new URL(serverAddress).hostname;
         const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
-        const serverLocalAddress = isLocalhost ? apiClient.serverInfo().LocalAddress : serverAddress;
+        const serverLocalAddress = isLocalhost ? (apiClient as any).serverInfo().LocalAddress : serverAddress;
 
         message = {
             ...message,

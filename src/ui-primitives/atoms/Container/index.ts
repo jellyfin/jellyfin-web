@@ -1,2 +1,1 @@
-export { container as containerStyles, maxWidthStyles as containerMaxWidth, Container } from './Container';
-export { container, maxWidth } from './Container.css';
+export { containerStyles, containerMaxWidth, Container } from './Container';

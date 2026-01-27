@@ -12,7 +12,12 @@ interface ToastProps {
     readonly autoHideDuration?: number;
 }
 
-export function Toast({ open, message, onClose, autoHideDuration = 3300 }: ToastProps): React.ReactElement | null {
+export function Toast({
+    open,
+    message,
+    onClose,
+    autoHideDuration = 3300
+}: ToastProps): React.ReactElement | null {
     const onCloseClick = useCallback(() => {
         onClose?.();
     }, [onClose]);
@@ -31,9 +36,9 @@ export function Toast({ open, message, onClose, autoHideDuration = 3300 }: Toast
 
     return (
         <Alert
-            variant="info"
+            variant='info'
             action={
-                <IconButton variant="plain" size="sm" color="neutral" onClick={onCloseClick}>
+                <IconButton variant='plain' size='sm' color='neutral' onClick={onCloseClick}>
                     <Cross1Icon />
                 </IconButton>
             }

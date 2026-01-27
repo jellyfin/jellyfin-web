@@ -1,5 +1,5 @@
 import React, { forwardRef, type ReactElement, type ReactNode, type HTMLAttributes } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { rotaryContainer, discArt, discGroove, discLabel, centerHole } from './styles.css';
 
 export interface RotaryProps extends HTMLAttributes<HTMLDivElement> {

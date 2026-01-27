@@ -1,8 +1,8 @@
 import { type ReactElement, type ReactNode, useState, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { vars } from '../../styles/tokens.css';
+import { vars } from '../styles/tokens.css';
 import { Button } from '../Button';
 
 interface AnimatedDialogProps {

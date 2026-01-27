@@ -42,9 +42,10 @@ interface PlaybackIconButtonProps {
     active?: boolean;
     size?: 'sm' | 'md' | 'lg';
     variant?: 'plain' | 'soft' | 'solid' | 'ghost' | 'danger';
+    className?: string;
     'aria-label'?: string;
     style?: React.CSSProperties;
-    onClick?: () => void;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
     sx?: React.CSSProperties;
 }
 

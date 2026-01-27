@@ -9,7 +9,7 @@ import React, {
     type KeyboardEvent
 } from 'react';
 import { Root, Track, Range, Thumb } from '@radix-ui/react-slider';
-import { Waveform, type TrackState } from './seek/Waveform';
+import { Waveform, type TrackState } from '../../organisms/seek/Waveform';
 import {
     seekSliderContainer,
     seekSliderTimeDisplay,

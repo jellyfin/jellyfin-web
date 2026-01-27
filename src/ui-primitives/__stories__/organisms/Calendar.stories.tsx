@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
 import { Calendar } from '../../calendar';
 import { DatePicker, DateRangePicker } from '../../DatePicker';
-import { vars } from '../../styles/tokens.css';
+import { vars } from '../styles/tokens.css';
 import type { DateRange } from 'react-day-picker';
 
 const meta: Meta<typeof Calendar> = {

@@ -9,7 +9,7 @@ import {
     TrackPreviousIcon
 } from '@radix-ui/react-icons';
 import { useRouter } from '@tanstack/react-router';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { playbackManager } from 'components/playback/playbackmanager';

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite-vite';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { type ReactElement, useState, useCallback } from 'react';
-import { vars } from '../../styles/tokens.css.ts';
+import { vars } from '../styles/tokens.css.ts';
 import { Button } from '../Button';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';

@@ -88,8 +88,9 @@ class TabbedView {
 
         const self = this;
 
+        const defaultTabIndex = this.getDefaultTabIndex ? this.getDefaultTabIndex(params.parentId) : 0;
         let currentTabIndex = parseInt(
-            params.tab || (this.getDefaultTabIndex ? this.getDefaultTabIndex(params.parentId) : '0'),
+            params.tab || defaultTabIndex.toString(),
             10
         );
         this.initialTabIndex = currentTabIndex;
@@ -118,13 +119,14 @@ class TabbedView {
             });
         };
 
-        const getTabContainers = (): NodeListOf<HTMLElement> => {
-            return view.querySelectorAll('.tabContent');
+        const getTabContainers = (): HTMLElement[] => {
+            return Array.from(view.querySelectorAll('.tabContent'));
         };
 
-        const onTabChange = (e: CustomEvent<TabChangeEventDetail>): void => {
-            const newIndex = parseInt(e.detail.selectedTabIndex, 10);
-            const previousIndex = e.detail.previousIndex;
+        const onTabChange = (e: any): void => {
+            const detail = e.detail as TabChangeEventDetail;
+            const newIndex = parseInt(detail.selectedTabIndex, 10);
+            const previousIndex = detail.previousIndex;
 
             const previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];
             if (previousTabController?.onPause) {
@@ -140,7 +142,7 @@ class TabbedView {
             mainTabsManager.setTabs(
                 view,
                 currentTabIndex,
-                self.getTabs ?? (() => []),
+                () => (self.getTabs ? (self.getTabs() as any[]) : []),
                 getTabContainers,
                 null,
                 onTabChange,
@@ -148,14 +150,14 @@ class TabbedView {
             );
         });
 
-        view.addEventListener('viewshow', (e: CustomEvent<ViewShowDetail>) => {
+        view.addEventListener('viewshow', (e: any) => {
             self.onResume(e.detail);
         });
 
         view.addEventListener('viewdestroy', onViewDestroy.bind(this));
     }
 
-    onResume(): void {
+    onResume(detail?: ViewShowDetail): void {
         this.setTitle();
         clearBackdrop();
 
@@ -164,7 +166,7 @@ class TabbedView {
         if (!currentTabController) {
             mainTabsManager.selectedTabIndex(this.initialTabIndex);
         } else if (currentTabController?.onResume) {
-            currentTabController.onResume({});
+            currentTabController.onResume(detail || {});
         }
     }
 

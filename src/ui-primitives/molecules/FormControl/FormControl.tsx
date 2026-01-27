@@ -1,5 +1,5 @@
 import React, { useId, type ReactElement, type ReactNode, type CSSProperties } from 'react';
-import { formGroup } from './Input';
+import { formGroup } from '../../atoms/Input';
 import { formHelperText, formLabel, switchStyles, switchThumb } from './FormControl.css';
 
 export { formHelperText, formLabel, switchStyles, switchThumb };

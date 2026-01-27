@@ -1,11 +1,11 @@
-import React, { type ReactNode } from 'react';
 import type { ColumnDef, ColumnPinningState } from '@tanstack/react-table';
+import React, { type ReactNode } from 'react';
 
 import Page, { type PageProps } from 'components/Page';
-import { Box as UIBox, Flex } from 'ui-primitives/Box';
-import { Heading, Text } from 'ui-primitives/Text';
-import { DataTable } from 'ui-primitives/DataTable';
 import { vars } from 'styles/tokens.css';
+import { Box as UIBox, Flex } from 'ui-primitives/Box';
+import { DataTable } from 'ui-primitives/DataTable';
+import { Heading, Text } from 'ui-primitives/Text';
 
 interface TablePageProps<T> extends PageProps {
     title: string;
@@ -33,7 +33,7 @@ interface TablePageProps<T> extends PageProps {
     children?: ReactNode;
 }
 
-const TablePage = <T extends unknown>({
+function TablePage<T extends unknown>({
     title,
     subtitle,
     data,
@@ -55,13 +55,13 @@ const TablePage = <T extends unknown>({
     getRowId,
     children,
     ...pageProps
-}: TablePageProps<T>): React.ReactElement => {
+}: TablePageProps<T>): React.ReactElement {
     const isEmpty = data.length === 0 && !isLoading;
 
     return (
         <Page title={title} {...pageProps}>
             <UIBox
-                className="content-primary"
+                className='content-primary'
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -102,7 +102,7 @@ const TablePage = <T extends unknown>({
             {children}
         </Page>
     );
-};
+}
 
 export default TablePage;
 export type { TablePageProps };

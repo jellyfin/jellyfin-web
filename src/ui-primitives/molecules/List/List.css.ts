@@ -1,5 +1,5 @@
 import { style, styleVariants, createVar } from '@vanilla-extract/css';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 export const listGap = createVar();
 export const listPadding = createVar();

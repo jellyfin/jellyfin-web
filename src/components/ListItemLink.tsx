@@ -53,11 +53,8 @@ const ListItemLink: FC<ListItemLinkProps> = ({
             style={{
                 borderRadius: vars.borderRadius.sm,
                 ...(isSelected && {
-                    backgroundColor: vars.colors.primarySoftBg,
-                    color: vars.colors.primary,
-                    '&:hover': {
-                        backgroundColor: vars.colors.primarySoftHoverBg
-                    }
+                    backgroundColor: vars.colors.primaryLight,
+                    color: vars.colors.primary
                 }),
                 ...style
             }}

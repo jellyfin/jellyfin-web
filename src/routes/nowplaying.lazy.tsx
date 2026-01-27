@@ -1,4 +1,4 @@
-import { NowPlayingPage } from 'ui-primitives/nowPlaying/NowPlayingPage';
+import { NowPlayingPage } from '../ui-primitives/organisms/playback/nowPlaying/NowPlayingPage';
 
 export function NowPlayingLazy() {
     return <NowPlayingPage />;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import './nowPlayingBar.scss';
 import { DiscIcon } from '@radix-ui/react-icons';
 
@@ -304,7 +304,7 @@ export const NowPlayingBar: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: vars.colors.neutral700,
+        backgroundColor: vars.colors.surfaceVariant,
         width: '100%',
         height: '100%'
     };
@@ -351,7 +351,7 @@ export const NowPlayingBar: React.FC = () => {
                                     minWidth: 48,
                                     borderRadius: vars.borderRadius.sm,
                                     overflow: 'hidden',
-                                    backgroundColor: vars.colors.neutral800
+                                    backgroundColor: vars.colors.backgroundAlt
                                 }}
                             >
                                 {imageUrl ? (
@@ -384,7 +384,7 @@ export const NowPlayingBar: React.FC = () => {
                             <Text
                                 size="xs"
                                 style={{
-                                    color: vars.colors.neutral400,
+                                    color: vars.colors.textMuted,
                                     whiteSpace: 'nowrap',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis'

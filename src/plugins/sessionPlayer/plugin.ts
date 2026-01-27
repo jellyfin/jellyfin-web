@@ -46,7 +46,9 @@ function sendCommandByName(instance: SessionPlayer, name: string, options?: any)
 function unsubscribeFromPlayerUpdates(instance: SessionPlayer) {
     instance.isUpdating = false;
     const apiClient = getCurrentApiClient(instance);
-    apiClient.sendMessage('SessionsStop');
+    if (apiClient) {
+        apiClient.sendMessage('SessionsStop');
+    }
     if (instance.pollInterval) {
         clearInterval(instance.pollInterval);
         instance.pollInterval = null;

@@ -15,6 +15,7 @@ import LibraryMenu from '../scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { stopMultiSelect } from 'components/multiSelect/multiSelect';
+import { logger } from '../utils/logger';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
     const query = {
@@ -420,7 +421,7 @@ function onNewItemClick() {
             // Dialog closed
         });
     }).catch(err => {
-        console.error('[onNewItemClick] failed to load playlist editor', err);
+        logger.error('Failed to load playlist editor', { component: 'ListController' }, err);
     });
 }
 

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../Table';
-import { vars } from '../../styles/tokens.css';
+import { vars } from '../styles/tokens.css';
 
 const meta: Meta<typeof Table> = {
     title: 'UI Primitives/Table',

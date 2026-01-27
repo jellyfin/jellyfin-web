@@ -137,12 +137,12 @@ export default function (
             const viewStyle = this.getCurrentViewStyle();
             if (viewStyle === 'List') {
                 html = listView.getListViewHtml({
-                    items: result.Items,
+                    items: result.Items || [],
                     sortBy: query.SortBy
                 });
             } else if (viewStyle === 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
-                    items: result.Items,
+                    items: result.Items || [],
                     shape: 'square',
                     context: 'music',
                     showTitle: true,
@@ -151,7 +151,7 @@ export default function (
                 });
             } else {
                 html = cardBuilder.getCardsHtml({
-                    items: result.Items,
+                    items: result.Items || [],
                     shape: 'square',
                     context: 'music',
                     showTitle: true,
@@ -177,7 +177,7 @@ export default function (
                 el.addEventListener('click', onPreviousPageClick);
             });
 
-            const itemsContainer = tabContent.querySelector('.itemsContainer');
+            const itemsContainer = tabContent.querySelector('.itemsContainer') as HTMLElement | null;
             if (itemsContainer) {
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);

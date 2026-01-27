@@ -2,6 +2,7 @@ import cardBuilder from '../components/cardbuilder/cardBuilder';
 import layoutManager from '../components/layoutManager';
 import { getBackdropShape } from '../utils/card';
 import datetime from './datetime';
+import { logger } from '../utils/logger';
 
 function enableScrollX(): boolean {
     return !layoutManager.desktop;
@@ -24,7 +25,7 @@ export async function getTimersHtml(timers: any[], options: any = {}): Promise<s
                     day: 'numeric'
                 });
             } catch (err) {
-                console.error('error parsing premiereDate:' + item.StartDate, err);
+                logger.error(`Error parsing premiereDate: ${item.StartDate}`, { component: 'livetvcomponents' }, err as Error);
             }
         }
 

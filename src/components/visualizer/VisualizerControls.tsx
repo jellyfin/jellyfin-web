@@ -3,6 +3,7 @@ import { Paper } from 'ui-primitives/Paper';
 import { Box, Flex } from 'ui-primitives/Box';
 import { Text, Heading } from 'ui-primitives/Text';
 import React from 'react';
+import { vars } from 'styles/tokens.css';
 
 interface VisualizerControlsProps {
     currentType: string;
@@ -23,16 +24,14 @@ function VisualizerControls(props: VisualizerControlsProps) {
         <Paper
             variant="outlined"
             className={className}
-            style={[
-                {
-                    backgroundColor: 'var(--joy-palette-background-surface)',
-                    borderRadius: '8px',
-                    padding: 16,
-                    boxShadow: 'var(--joy-palette-shadow-sm)',
-                    borderColor: 'var(--joy-palette-divider)'
-                },
-                !isEnabled && { opacity: 0.6 }
-            ]}
+            style={{
+                backgroundColor: vars.colors.surface,
+                borderRadius: vars.borderRadius.md,
+                padding: 16,
+                boxShadow: vars.shadows.sm,
+                borderColor: vars.colors.divider,
+                opacity: isEnabled ? 1 : 0.6
+            }}
         >
             <Box className={`${Flex} ${Flex.col}`} style={{ gap: 16 }}>
                 <Box

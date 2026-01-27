@@ -23,7 +23,7 @@ type ListItemButtonProps = {
     readonly style?: CSSProperties;
     readonly active?: boolean;
     readonly onClick?: MouseEventHandler<HTMLButtonElement>;
-    readonly component?: ElementType<HTMLAttributes<HTMLElement>>;
+    readonly component?: ElementType;
     readonly href?: string;
     readonly to?: string;
     readonly target?: string;
@@ -43,6 +43,23 @@ export function ListItemButton({
     ...props
 }: ListItemButtonProps): ReactElement {
     const buttonClassName = `${listItemButtonStyles} ${active ? listItemButtonActive : ''} ${className ?? ''}`;
+
+    if (Component !== 'button' && Component !== 'a') {
+        const CustomComponent = Component as ElementType;
+        return (
+            <CustomComponent
+                className={buttonClassName}
+                style={buttonStyle}
+                to={to}
+                href={href}
+                target={target}
+                rel={rel}
+                {...props}
+            >
+                {children}
+            </CustomComponent>
+        );
+    }
 
     if (Component === 'a' || href !== undefined || to !== undefined) {
         return (

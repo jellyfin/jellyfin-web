@@ -9,6 +9,7 @@ import globalize from 'lib/globalize';
 import itemContextMenu from 'components/itemContextMenu';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
+import { logger } from 'utils/logger';
 
 import { ItemKind } from 'types/base/models/item-kind';
 import type { NullableString } from 'types/base/common/shared/types';
@@ -161,34 +162,31 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                     positionTo: e.currentTarget
                 })
                 .then(async result => {
+                    if (!result) return;
                     if (result.command === 'playallfromhere') {
-                        console.log('handleItemClick', {
-                            item,
-                            items: items || [],
-                            serverId: item?.ServerId
-                        });
+                        logger.debug('Handling playallfromhere', { component: 'MoreCommandsButton', item, items: items || [], serverId: item?.ServerId });
                         playAllFromHere({
-                            item: item || {},
-                            items: items || [],
+                            item: (item as any) || {},
+                            items: (items as any) || [],
                             serverId: item?.ServerId
                         }).catch((err: unknown) => {
-                            console.error('[MoreCommandsButton] failed to play', err);
+                            logger.error('Failed to play items', { component: 'MoreCommandsButton' }, err as Error);
                         });
                     } else if (result.command === 'queueallfromhere') {
                         playAllFromHere({
-                            item: item || {},
-                            items: items || [],
+                            item: (item as any) || {},
+                            items: (items as any) || [],
                             serverId: item?.ServerId,
                             queue: true
                         }).catch((err: unknown) => {
-                            console.error('[MoreCommandsButton] failed to play', err);
+                            logger.error('Failed to queue items', { component: 'MoreCommandsButton' }, err as Error);
                         });
                     } else if (result.deleted) {
-                        if (result?.itemId !== itemId) {
-                            await queryClient.invalidateQueries({
-                                queryKey
-                            });
-                        } else if (parentIdString) {
+                        // Assuming if result.deleted is true, the item being managed by this button is deleted
+                        await queryClient.invalidateQueries({
+                            queryKey
+                        });
+                        if (parentIdString) {
                             appRouter.showItem(parentIdString, item?.ServerId ?? undefined);
                         } else {
                             await appRouter.goHome();

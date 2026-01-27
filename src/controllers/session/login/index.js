@@ -2,6 +2,7 @@ import { escapeHtml } from '../../../utils/html';
 
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { logger } from '../../../utils/logger';
 
 import { safeAppHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
@@ -58,7 +59,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
         .then(
             json => {
                 if (!json.Secret || !json.Code) {
-                    console.error('Malformed quick connect response', json);
+                    logger.error('Malformed quick connect response', { component: 'LoginPage' }, json);
                     return false;
                 }
 
@@ -105,7 +106,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
                                     title: globalize.translate('HeaderError')
                                 });
 
-                                console.error('Unable to login with quick connect', e);
+                                logger.error('Unable to login with quick connect', { component: 'LoginPage' }, e);
                             }
                         );
                     },
@@ -121,7 +122,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
                     title: globalize.translate('HeaderError')
                 });
 
-                console.error('Quick connect error: ', e);
+                logger.error('Quick connect error', { component: 'LoginPage' }, e);
                 return false;
             }
         );
@@ -217,7 +218,7 @@ export default function (view, params) {
             try {
                 return decodeURIComponent(params.url);
             } catch (err) {
-                console.warn('[LoginPage] unable to decode url param', params.url, err);
+                logger.warn('Unable to decode url param', { component: 'LoginPage', url: params.url }, err);
             }
         }
 
@@ -302,7 +303,7 @@ export default function (view, params) {
                 }
             })
             .catch(() => {
-                console.debug('Failed to get QuickConnect status');
+                logger.debug('Failed to get QuickConnect status', { component: 'LoginPage' });
             });
 
         apiClient

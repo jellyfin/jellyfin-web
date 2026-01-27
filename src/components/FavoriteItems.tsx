@@ -5,6 +5,7 @@ import { Text } from 'ui-primitives/Text';
 import { useServerStore } from '../store/serverStore';
 import { LoadingView } from './feedback';
 import { vars } from 'styles/tokens.css';
+import { logger } from '../utils/logger';
 
 interface FavoriteItemsProps {
     serverId?: string;
@@ -62,7 +63,7 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
                 setItems(result.Items || []);
             }
         } catch (err) {
-            console.error('Error loading favorites:', err);
+            logger.error('Error loading favorites', { component: 'FavoriteItems' }, err as Error);
         } finally {
             setIsLoading(false);
         }

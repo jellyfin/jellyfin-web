@@ -1,6 +1,6 @@
 import React, { forwardRef, type ReactElement, type ElementType } from 'react';
 import { buttonStyles, buttonVariants, buttonSizes, buttonFullWidth } from './Button.css';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'error' | 'outlined' | 'plain' | 'soft';
 export type ButtonSize = keyof typeof buttonSizes;

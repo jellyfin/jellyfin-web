@@ -16,8 +16,8 @@ import { OSDOverlay } from './components/playback';
 import './components/visualizer/visualizers.scss';
 
 const useReactQueryDevtools =
-    typeof window.Proxy !== 'undefined' && // '@tanstack/query-devtools' requires 'Proxy', which cannot be polyfilled for legacy browsers
-    !browser.tv; // Don't use devtools on the TV as the navigation is weird
+    typeof window.Proxy !== 'undefined' // '@tanstack/query-devtools' requires 'Proxy', which cannot be polyfilled for legacy browsers
+    && !browser.tv; // Don't use devtools on the TV as the navigation is weird
 
 function RootApp(): React.ReactElement {
     return (

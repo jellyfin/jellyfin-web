@@ -8,7 +8,7 @@
 import WavesurferPlayer from '@wavesurfer/react';
 import { useEffect, useRef, useCallback, type ReactElement } from 'react';
 import { useVisualizerStore } from 'store/visualizerStore';
-import { vars } from 'styles/tokens.css';
+import { vars } from '../../../../styles/tokens.css';
 import {
     container,
     bufferedOverlay,

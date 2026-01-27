@@ -9,7 +9,10 @@ interface UserAvatarButtonProps {
     readonly style?: React.CSSProperties;
 }
 
-export function UserAvatarButton({ user, style }: UserAvatarButtonProps): React.ReactElement | null {
+export function UserAvatarButton({
+    user,
+    style
+}: UserAvatarButtonProps): React.ReactElement | null {
     const userId = user?.Id;
 
     if (userId == null) {
@@ -21,7 +24,12 @@ export function UserAvatarButton({ user, style }: UserAvatarButtonProps): React.
             href={`/dashboard/users/profile?userId=${userId}`}
             style={{ textDecoration: 'none', color: 'inherit', display: 'inline-flex' }}
         >
-            <IconButton variant="plain" size="lg" title={user?.Name ?? undefined} style={{ padding: 0, ...style }}>
+            <IconButton
+                variant='plain'
+                size='lg'
+                title={user?.Name ?? undefined}
+                style={{ padding: 0, ...style }}
+            >
                 <UserAvatar user={user} />
             </IconButton>
         </a>

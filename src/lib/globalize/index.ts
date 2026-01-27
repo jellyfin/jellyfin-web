@@ -72,7 +72,7 @@ function setDocumentDirection(direction: 'rtl' | 'ltr') {
     document.getElementsByTagName('body')[0].setAttribute('dir', direction);
     document.getElementsByTagName('html')[0].setAttribute('dir', direction);
     if (direction === Direction.rtl) {
-        import('../../styles/rtl.css.ts');
+        import('../../styles/rtl.css');
     }
 }
 

@@ -48,9 +48,12 @@ export function BaseCard({
 
     const cardContent = (
         <>
-            <AspectRatio ratio="16/9" style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
+            <AspectRatio
+                ratio='16/9'
+                style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}
+            >
                 {image != null ? (
-                    <img src={image} loading="lazy" alt={title ?? ''} />
+                    <img src={image} loading='lazy' alt={title ?? ''} />
                 ) : (
                     <Box
                         className={getDefaultBackgroundClass(title ?? '')}
@@ -65,7 +68,13 @@ export function BaseCard({
                     </Box>
                 )}
             </AspectRatio>
-            <Flex style={{ paddingTop: vars.spacing.sm, flexDirection: 'column', gap: vars.spacing.sm }}>
+            <Flex
+                style={{
+                    paddingTop: vars.spacing.sm,
+                    flexDirection: 'column',
+                    gap: vars.spacing.sm
+                }}
+            >
                 <Flex
                     style={{
                         flexDirection: 'row',
@@ -86,7 +95,7 @@ export function BaseCard({
                         </Heading.H5>
                         {text != null && text !== '' && (
                             <Text
-                                size="xs"
+                                size='xs'
                                 style={{
                                     wordBreak: 'break-all',
                                     marginTop: vars.spacing.xs
@@ -98,9 +107,9 @@ export function BaseCard({
                     </Box>
                     {action && (
                         <IconButton
-                            variant="plain"
-                            color="neutral"
-                            size="sm"
+                            variant='plain'
+                            color='neutral'
+                            size='sm'
                             ref={actionRef}
                             onClick={handleActionClick}
                         >
@@ -150,7 +159,11 @@ export function BaseCard({
     if (to != null) {
         return (
             <Link to={to} style={{ textDecoration: 'none' }} onClick={onClick}>
-                <Card style={cardStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                <Card
+                    style={cardStyle}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
                     {cardContent}
                 </Card>
             </Link>
@@ -158,7 +171,12 @@ export function BaseCard({
     }
 
     return (
-        <Card style={cardStyle} onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <Card
+            style={cardStyle}
+            onClick={onClick}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             {cardContent}
         </Card>
     );

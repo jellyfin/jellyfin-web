@@ -1,2 +1,1 @@
-export { boxStyles, BoxProps, Box, FlexComponent, Flex, FlexRow, FlexCol } from './Box';
-export { boxStyles } from './Box.css';
+export { boxStyles, type BoxProps, Box, type FlexComponent, Flex, FlexRow, FlexCol } from './Box';

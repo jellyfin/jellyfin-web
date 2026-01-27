@@ -126,6 +126,58 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
         }
     }, [mapServerInfo, setCurrentServer, addServer, navigate]);
 
+    const connectToServer = useCallback(async (server: ServerInfo) => {
+        setServerConnecting(server.id);
+        setError(null);
+        try {
+            const result = await ServerConnections.connectToAddress(server.address);
+            handleConnectionResult(result);
+        } catch (err) {
+            setError('Failed to connect to server');
+            logger.error('Connect error', { component: 'SelectServer', error: err });
+        } finally {
+            setServerConnecting(null);
+        }
+    }, [handleConnectionResult]);
+
+    const handleAddServer = useCallback(async () => {
+        if (!manualUrl) return;
+        setIsLoading(true);
+        setError(null);
+        try {
+            const result = await ServerConnections.connectToAddress(manualUrl);
+            handleConnectionResult(result, true);
+        } catch (err) {
+            setError('Failed to connect to server. Please check the URL.');
+            logger.error('Add server error', { component: 'SelectServer', error: err });
+        } finally {
+            setIsLoading(false);
+        }
+    }, [manualUrl, handleConnectionResult]);
+
+    const handleSaveDevConfig = useCallback(() => {
+        saveDevConfig({
+            useProxy: devConfig.useProxy,
+            serverBaseUrl: devConfig.serverBaseUrl,
+            proxyBasePath: devConfig.proxyBasePath
+        });
+        setShowDevSettings(false);
+        window.location.reload();
+    }, [devConfig]);
+
+    const onDismissError = () => setError(null);
+    const onShowDevSettings = () => setShowDevSettings(true);
+    const onDismissDevSettings = () => setShowDevSettings(false);
+    const onShowAddDialog = () => setShowAddDialog(true);
+    const onDismissAddDialog = () => {
+        setShowAddDialog(false);
+        setError(null);
+    };
+    const onUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => setManualUrl(e.target.value);
+    const onSWToggle = (checked: boolean) => {
+        localStorage.setItem('enable-service-worker', String(checked));
+    };
+
     const onConnectClick = useCallback((server: ServerInfo) => {
         void connectToServer(server);
     }, [connectToServer]);
@@ -394,7 +446,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 <Checkbox
                                     id="use-proxy"
                                     checked={devConfig.useProxy}
-                                    onChange={devConfig.toggleUseProxy}
+                                    onChangeChecked={checked => devConfig.setUseProxy(checked)}
                                 />
                                 <label htmlFor="use-proxy">
                                     <Text>Use Dev Proxy</Text>
@@ -405,7 +457,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 <Checkbox
                                     id="enable-sw"
                                     checked={localStorage.getItem('enable-service-worker') === 'true'}
-                                    onChange={onSWToggle}
+                                    onChangeChecked={checked => onSWToggle(checked)}
                                 />
                                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                                 <label htmlFor="enable-sw">
@@ -418,13 +470,13 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                     <Input
                                         label="Server Base URL (Target)"
                                         value={devConfig.serverBaseUrl}
-                                        onChange={devConfig.onServerBaseUrlChange}
+                                        onChange={e => devConfig.setServerBaseUrl(e.target.value)}
                                         placeholder="https://demo.jellyfin.org"
                                     />
                                     <Input
                                         label="Proxy Base Path"
                                         value={devConfig.proxyBasePath}
-                                        onChange={devConfig.onProxyBasePathChange}
+                                        onChange={e => devConfig.setProxyBasePath(e.target.value)}
                                         placeholder="/__proxy__/jellyfin"
                                     />
                                 </>

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants } from 'motion/react';
 import { PauseIcon, PlayIcon } from '@radix-ui/react-icons';
 
 interface TransportButtonProps {

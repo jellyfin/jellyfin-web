@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ReactElement } from 'react';
-import { vars } from '../../styles/tokens.css';
+import { vars } from '../styles/tokens.css';
 
 const meta: Meta = {
     title: 'UI Primitives/Rotary',

@@ -1,8 +1,8 @@
 import { useCallback, useRef } from 'react';
-import { useMotionValue, useTransform, MotionValue } from 'framer-motion';
+import { useMotionValue, useTransform, MotionValue } from 'motion/react';
 import { useBackspinStore } from '../store/backspinStore';
 import { backspinHandler } from '../components/audioEngine/backspinHandler';
-import { HAPTIC_PATTERNS } from '../../types/transport';
+import { HAPTIC_PATTERNS } from '../types/transport';
 
 export interface UseTransportGesturesOptions {
     enabled?: boolean;

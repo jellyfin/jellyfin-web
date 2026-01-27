@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useCallback, useState, type ReactElement } from 'react';
 import WavesurferPlayer from '@wavesurfer/react';
 import type WaveSurfer from 'wavesurfer.js';
-import { vars } from '../../styles/tokens.css';
-import { useVisualizerStore } from '../../store/visualizerStore';
+import { vars } from '../../../styles/tokens.css';
+import { useVisualizerStore } from '../../../store/visualizerStore';
 import { waveformContainerStyle, waveformOverlayStyle } from './Waveform.css';
-import { logger } from '../../utils/logger';
+import { logger } from '../../../utils/logger';
 
 export interface TrackState {
     readonly id: string;

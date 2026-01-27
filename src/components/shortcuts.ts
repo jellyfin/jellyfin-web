@@ -128,9 +128,11 @@ function playAllFromHere(card: HTMLElement, serverId: string, queue?: boolean): 
 }
 
 function showProgramDialog(item: ShortcutItemInfo): void {
-    import('./recordingcreator/recordingcreator').then(({ default: recordingCreator }) => {
-        recordingCreator.show(item.Id, item.ServerId);
-    });
+    if (item.Id && item.ServerId) {
+        import('./recordingcreator/recordingcreator').then(({ default: recordingCreator }) => {
+            recordingCreator.show(item.Id, item.ServerId);
+        });
+    }
 }
 
 function getItem(button: HTMLElement): Promise<unknown> {
@@ -144,9 +146,8 @@ function getItem(button: HTMLElement): Promise<unknown> {
     }
 
     const apiClient = ServerConnections.getApiClient(serverId);
-
-    if (type === 'Timer') {
-        return apiClient.getLiveTvTimer(id);
+    if (!apiClient) {
+        return Promise.reject(new Error('Missing apiClient'));
     }
     if (type === 'SeriesTimer') {
         return apiClient.getLiveTvSeriesTimer(id);
@@ -303,10 +304,10 @@ function playTrailer(item: { Id: string; ServerId: string }): void {
     });
 }
 
-function editItem(item: { Type: string; ProgramId?: string; Id: string }, serverId: string): Promise<void> {
+function editItem(item: { Type: string; ProgramId?: string; Id: string }, serverId: string): Promise<any> {
     const apiClient = ServerConnections.getApiClient(serverId);
 
-    return new Promise((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
         const serverInfo = (apiClient as unknown as { serverInfo: () => { Id: string } }).serverInfo();
         const currentServerId = serverInfo.Id;
 

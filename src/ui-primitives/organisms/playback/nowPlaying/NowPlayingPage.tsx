@@ -16,7 +16,7 @@ import { DiscImage } from './DiscImage';
 import { MetadataDisplay } from './MetadataDisplay';
 import { CrossfadeSeeker } from './CrossfadeSeeker';
 import { MobileCrossfadeSeeker } from './MobileCrossfadeSeeker';
-import { WaveformCell, FrequencyAnalyzer, ButterchurnViz } from '../visualizers';
+import { WaveformCell, FrequencyAnalyzer, ButterchurnViz } from '../../visualizers';
 import { useAudioStore } from 'store/audioStore';
 import { useUIStateStore } from 'store/uiStateStore';
 import { useVisualizerStore } from 'store/visualizerStore';

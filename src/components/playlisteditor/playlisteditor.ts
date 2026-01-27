@@ -222,7 +222,7 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
                         }))
                         .catch(err => {
                             // If a user doesn't have access, then the request will 404 and throw
-                            console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
+                            logger.warn('Failed to fetch playlist permissions', { component: 'PlaylistEditor' }, err);
 
                             return playlist;
                         });
@@ -332,14 +332,14 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
         content.querySelector('.fldSelectPlaylist')?.classList.remove('hide');
         populatePlaylists(options, content)
             .catch(err => {
-                console.error('[PlaylistEditor] failed to populate playlists', err);
+                logger.error('Failed to populate playlists', { component: 'PlaylistEditor' }, err);
             })
             .finally(loading.hide);
     } else if (options.id) {
         content.querySelector('.fldSelectPlaylist')?.classList.add('hide');
         const panel = dom.parentWithClass(content, 'dialog') as DialogElement | null;
         if (!panel) {
-            console.error('[PlaylistEditor] could not find dialog element');
+            logger.error('Could not find dialog element', { component: 'PlaylistEditor' });
             return;
         }
 
@@ -359,7 +359,7 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
                 if (publicField) publicField.checked = !!playlist.OpenAccess;
             })
             .catch(err => {
-                console.error('[playlistEditor] failed to get playlist details', err);
+                logger.error('Failed to get playlist details', { component: 'PlaylistEditor' }, err);
             });
     } else {
         content.querySelector('.fldSelectPlaylist')?.classList.add('hide');
@@ -375,7 +375,7 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
 
 function centerFocus(elem: HTMLDivElement | null, horiz: boolean, on: boolean) {
     if (!elem) {
-        console.error('[PlaylistEditor] cannot focus null element');
+        logger.error('Cannot focus null element', { component: 'PlaylistEditor' });
         return;
     }
 
@@ -385,7 +385,7 @@ function centerFocus(elem: HTMLDivElement | null, horiz: boolean, on: boolean) {
             scrollHelper.centerFocus[fn](elem, horiz);
         })
         .catch(err => {
-            console.error('[PlaylistEditor] failed to load scroll helper', err);
+            logger.error('Failed to load scroll helper', { component: 'PlaylistEditor' }, err);
         });
 }
 
@@ -400,7 +400,7 @@ export class PlaylistEditor {
             size: layoutManager.tv ? 'fullscreen' : 'small'
         };
 
-        const dlg: DialogElement = dialogHelper.createDialog(dialogOptions);
+        const dlg = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('formDialog');
 

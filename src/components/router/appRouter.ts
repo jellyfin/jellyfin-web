@@ -221,6 +221,12 @@ class AppRouter {
             const apiClient = serverId
                 ? ServerConnections.getApiClient(serverId)
                 : ServerConnections.currentApiClient();
+
+            if (!apiClient) {
+                logger.error('[AppRouter] Cannot show item without active API client');
+                return;
+            }
+
             const api = toApi(apiClient);
             const userId = apiClient.getCurrentUserId();
 

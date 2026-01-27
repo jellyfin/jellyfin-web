@@ -1,9 +1,9 @@
-import type { History } from 'history';
+import type { RouterHistory } from '@tanstack/react-router';
 
-let appHistory: History | null = null;
+let appHistory: RouterHistory | null = null;
 
-export const setAppHistory = (history: History) => {
+export const setAppHistory = (history: RouterHistory) => {
     appHistory = history;
 };
 
-export const getAppHistory = (): History | null => appHistory;
+export const getAppHistory = (): RouterHistory | null => appHistory;

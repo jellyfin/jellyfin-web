@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import * as React from 'react';
 import { vars } from '../../../styles/tokens.css';
 import { Box, Flex } from '../../../ui-primitives/Box';
 import { Text, Heading } from '../../../ui-primitives/Text';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button } from '../../../ui-primitives/Button';
 import { Slider } from '../../../ui-primitives/Slider';
 import { DEFAULT_WAVESURFER_COLORS, createWaveSurferChannelStyle, WaveSurferColorScheme } from '../WaveSurferOptions';
@@ -17,7 +19,7 @@ const meta: Meta = {
         }
     },
     tags: ['autodocs']
-};
+} as any;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -30,6 +32,7 @@ const colorSchemes: Record<string, WaveSurferColorScheme> = {
     sunset: { left: 'rgb(255, 100, 50)', right: 'rgb(200, 50, 100)', cursor: 'rgb(255, 150, 100)' }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function formatDuration(seconds: number): string {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -60,19 +63,19 @@ export const Overview: Story = {
                         }}
                     >
                         <Flex direction="column" gap={vars.spacing.sm}>
-                            <Flex justifyContent="space-between">
+                            <Flex justify="space-between">
                                 <Text size="sm">0-70 px/sec</Text>
                                 <Text size="sm" color="secondary">
                                     Whole song
                                 </Text>
                             </Flex>
-                            <Flex justifyContent="space-between">
+                            <Flex justify="space-between">
                                 <Text size="sm">71-129 px/sec</Text>
                                 <Text size="sm" color="secondary">
                                     Single channel
                                 </Text>
                             </Flex>
-                            <Flex justifyContent="space-between">
+                            <Flex justify="space-between">
                                 <Text size="sm">130+ px/sec</Text>
                                 <Text size="sm" color="secondary">
                                     Dual channels
@@ -116,7 +119,7 @@ export const Overview: Story = {
             </Flex>
         </Box>
     )
-};
+} as any;
 
 export const ColorSchemes: Story = {
     render: () => (
@@ -124,7 +127,8 @@ export const ColorSchemes: Story = {
             <Heading.H3 style={{ marginBottom: vars.spacing.lg }}>Color Schemes</Heading.H3>
             <Flex direction="column" gap={vars.spacing.lg}>
                 {Object.entries(colorSchemes).map(([name, colors]) => {
-                    const style = createWaveSurferChannelStyle(colors);
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const _style = createWaveSurferChannelStyle(colors);
                     return (
                         <Box
                             key={name}
@@ -134,11 +138,11 @@ export const ColorSchemes: Story = {
                                 borderRadius: vars.borderRadius.md
                             }}
                         >
-                            <Text size="sm" style={{ marginBottom: vars.spacing.sm, fontWeight: 600 }}>
+                            <Text size="sm" style={{ marginBottom: vars.spacing.sm, fontWeight: 'bold' }}>
                                 {name}
                             </Text>
                             <Flex gap={vars.spacing.lg}>
-                                <Flex alignItems="center" gap={vars.spacing.xs}>
+                                <Flex align="center" gap={vars.spacing.xs}>
                                     <Box
                                         style={{
                                             width: '24px',
@@ -151,7 +155,7 @@ export const ColorSchemes: Story = {
                                         Left: {colors.left}
                                     </Text>
                                 </Flex>
-                                <Flex alignItems="center" gap={vars.spacing.xs}>
+                                <Flex align="center" gap={vars.spacing.xs}>
                                     <Box
                                         style={{
                                             width: '24px',
@@ -164,7 +168,7 @@ export const ColorSchemes: Story = {
                                         Right: {colors.right}
                                     </Text>
                                 </Flex>
-                                <Flex alignItems="center" gap={vars.spacing.xs}>
+                                <Flex align="center" gap={vars.spacing.xs}>
                                     <Box
                                         style={{
                                             width: '24px',
@@ -209,7 +213,7 @@ export const ColorSchemes: Story = {
             </Flex>
         </Box>
     )
-};
+} as any;
 
 export const PluginConfiguration: Story = {
     render: () => (
@@ -308,7 +312,7 @@ export const PluginConfiguration: Story = {
             </Flex>
         </Box>
     )
-};
+} as any;
 
 export const InteractiveZoom: Story = {
     render: () => {
@@ -339,7 +343,7 @@ export const InteractiveZoom: Story = {
                         marginBottom: vars.spacing.lg
                     }}
                 >
-                    <Flex justifyContent="space-between" alignItems="center" style={{ marginBottom: vars.spacing.md }}>
+                    <Flex justify="space-between" align="center" style={{ marginBottom: vars.spacing.md }}>
                         <Text size="sm">Zoom Level</Text>
                         <Text size="sm" color="secondary">
                             {minPxPerSec} px/sec
@@ -349,10 +353,10 @@ export const InteractiveZoom: Story = {
                         min={1}
                         max={200}
                         step={1}
-                        value={zoom}
-                        onChange={(_e, value) => setZoom(value as number)}
+                        value={[zoom]}
+                        onValueChange={(value) => setZoom(value[0])}
                     />
-                    <Flex justifyContent="space-between" style={{ marginTop: vars.spacing.xs }}>
+                    <Flex justify="space-between" style={{ marginTop: vars.spacing.xs }}>
                         <Text size="xs" color="secondary">
                             1
                         </Text>
@@ -370,7 +374,7 @@ export const InteractiveZoom: Story = {
                         marginBottom: vars.spacing.lg
                     }}
                 >
-                    <Flex justifyContent="space-between" alignItems="center" style={{ marginBottom: vars.spacing.md }}>
+                    <Flex justify="space-between" align="center" style={{ marginBottom: vars.spacing.md }}>
                         <Text size="sm">Playback Progress</Text>
                         <Text size="sm" color="secondary">
                             {Math.round(progress * 100)}%
@@ -380,13 +384,13 @@ export const InteractiveZoom: Story = {
                         min={0}
                         max={100}
                         step={1}
-                        value={progress * 100}
-                        onChange={(_e, value) => setProgress((value as number) / 100)}
+                        value={[progress * 100]}
+                        onValueChange={(value) => setProgress(value[0] / 100)}
                     />
                 </Box>
 
                 <Box style={{ marginBottom: vars.spacing.md }}>
-                    <Flex alignItems="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.sm }}>
+                    <Flex align="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.sm }}>
                         <Box
                             style={{
                                 width: '12px',
@@ -419,7 +423,7 @@ export const InteractiveZoom: Story = {
                         <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing.xs }}>
                             Waveform visualization
                         </Text>
-                        <Flex style={{ height: '60px', gap: '2px', alignItems: 'center' }}>
+                        <Flex style={{ height: '60px', gap: '2px', align: 'center' }}>
                             {Array.from({ length: 100 }, (_, i) => (
                                 <Box
                                     key={i}
@@ -462,7 +466,7 @@ export const InteractiveZoom: Story = {
             </Box>
         );
     }
-};
+} as any;
 
 export const Features: Story = {
     render: () => (
@@ -552,7 +556,7 @@ export const Features: Story = {
             </Flex>
         </Box>
     )
-};
+} as any;
 
 export const Performance: Story = {
     render: () => (
@@ -570,7 +574,7 @@ export const Performance: Story = {
 
                 <Flex direction="column" gap={vars.spacing.md}>
                     <Box>
-                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>
+                        <Text size="sm" style={{ fontWeight: 'bold', marginBottom: vars.spacing.xs }}>
                             Sample Rate
                         </Text>
                         <Text size="sm" color="secondary">
@@ -580,7 +584,7 @@ export const Performance: Story = {
                     </Box>
 
                     <Box>
-                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>
+                        <Text size="sm" style={{ fontWeight: 'bold', marginBottom: vars.spacing.xs }}>
                             Color Extraction
                         </Text>
                         <Text size="sm" color="secondary">
@@ -590,7 +594,7 @@ export const Performance: Story = {
                     </Box>
 
                     <Box>
-                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>
+                        <Text size="sm" style={{ fontWeight: 'bold', marginBottom: vars.spacing.xs }}>
                             Touch Debouncing
                         </Text>
                         <Text size="sm" color="secondary">
@@ -600,7 +604,7 @@ export const Performance: Story = {
                     </Box>
 
                     <Box>
-                        <Text size="sm" style={{ fontWeight: 600, marginBottom: vars.spacing.xs }}>
+                        <Text size="sm" style={{ fontWeight: 'bold', marginBottom: vars.spacing.xs }}>
                             Peak Processing
                         </Text>
                         <Text size="sm" color="secondary">
@@ -612,6 +616,4 @@ export const Performance: Story = {
             </Box>
         </Box>
     )
-};
-
-import * as React from 'react';
+} as any;

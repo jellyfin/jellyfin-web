@@ -1,0 +1,128 @@
+# CODEOWNERS Template
+#
+# Copy this to .github/CODEOWNERS in the repo root
+# Update team/agent references as needed for your organization
+#
+# Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Agent 1: Jellyfin API + Data Contracts
+# ═══════════════════════════════════════════════════════════════════════════════
+# Responsibilities: Typed Jellyfin client, DTO→domain mapping, TanStack Query
+# Primary Contact: @agent-1
+#
+src/lib/api/**                    @agent-1
+src/store/domain/**               @agent-1
+src/hooks/api/**                  @agent-1
+src/types/**                      @agent-1
+src/utils/query/**                @agent-1
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Agent 2: Playback Engine (Audio/Video) + WASM
+# ═══════════════════════════════════════════════════════════════════════════════
+# Responsibilities: Playback orchestration, WebAudio, WASM bindings, timing
+# Primary Contact: @agent-2
+#
+src/controllers/playback/**       @agent-2
+src/audio-driver/**               @agent-2
+src/audio-wasm/**                 @agent-2
+src/audio-analysis/**             @agent-2
+src/components/playback/**        @agent-2
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Agent 3: UI Systems (Radix + Radix Icons + Motion) + Tokens + A11y
+# ═══════════════════════════════════════════════════════════════════════════════
+# Responsibilities: Radix components, design tokens, motion, accessibility
+# Primary Contact: @agent-3
+#
+src/ui-primitives/**              @agent-3
+src/components/themeProvider/**   @agent-3
+src/stories/**                    @agent-3
+src/styles/**                     @agent-3
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Agent 4: State + Performance (React 19, TanStack Router/Query, Zustand)
+# ═══════════════════════════════════════════════════════════════════════════════
+# Responsibilities: Routing, state design, rendering perf, instrumentation
+# Primary Contact: @agent-4
+#
+src/routes/**                     @agent-4
+src/store/**                      @agent-4
+src/index.tsx                     @agent-4
+src/perf/**                       @agent-4
+src/app/**                        @agent-4
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Agent 5: Library Views (Browse/Search/Playlists/Metadata Editing)
+# ═══════════════════════════════════════════════════════════════════════════════
+# Responsibilities: Collection browsing, search, playlists, metadata editing
+# Primary Contact: @agent-5
+#
+src/components/library/**         @agent-5
+src/components/search/**          @agent-5
+src/components/playlisteditor/**  @agent-5
+src/components/metadataEditor/**  @agent-5
+src/hooks/library/**              @agent-5
+src/hooks/search/**               @agent-5
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Agent 6: Tooling + CI (TypeScript Strict, Lint/Test/Build Gates)
+# ═══════════════════════════════════════════════════════════════════════════════
+# Responsibilities: Quality gates, type safety, testing, CI workflows
+# Primary Contact: @agent-6
+#
+vite.config.ts                    @agent-6
+eslint.config.mjs                 @agent-6
+tsconfig.json                     @agent-6
+tsconfig.app.json                 @agent-6
+vitest.config.ts                  @agent-6
+.github/workflows/**              @agent-6
+tests/**                          @agent-6
+.prettierrc                        @agent-6
+.stylelintrc                       @agent-6
+.husky/**                         @agent-6
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Documentation & Configuration
+# ═══════════════════════════════════════════════════════════════════════════════
+# Shared responsibility (optional review or specific agent below)
+#
+.claude/**                        @agent-1 @agent-2 @agent-3 @agent-4 @agent-5 @agent-6
+docs/**                           @agent-1 @agent-2 @agent-3 @agent-4 @agent-5 @agent-6
+README.md                         @agent-1 @agent-2 @agent-3 @agent-4 @agent-5 @agent-6
+package.json                      @agent-6
+.gitignore                        @agent-6
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# How to Use This File
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# 1. Copy this file to .github/CODEOWNERS (remove .template suffix)
+#
+# 2. Replace @agent-1, @agent-2, etc. with actual team member references:
+#    - GitHub usernames: @username
+#    - Teams: @org/team-name
+#    - Email: email@example.com (for external reviewers)
+#
+# 3. Each PR will automatically request review from code owners
+#
+# 4. Failing to get approval from owning agent blocks merge
+#
+# Example:
+#
+#   src/lib/api/**                @carlos
+#   src/ui-primitives/**          @design-team
+#   .github/workflows/**          @devops-lead
+#
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Notes
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# - More specific paths take precedence (order matters)
+# - Each agent should approve PRs touching their code
+# - Use handoff protocol for cross-team changes (see .claude/agent-team.md)
+# - Update this file if ownership changes
+# - Run "npm run lint" locally before pushing
+#

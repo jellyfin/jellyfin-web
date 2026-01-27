@@ -1,2 +1,1 @@
-export { skeletonRoot, skeletonWave, SkeletonProps, Skeleton } from './Skeleton';
-export { skeletonRoot, skeletonWave } from './Skeleton.css';
+export { skeletonRoot, skeletonWave, type SkeletonProps, Skeleton } from './Skeleton';

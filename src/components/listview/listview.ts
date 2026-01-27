@@ -67,6 +67,7 @@ function getIndex(item: any, options: ListViewOptions): string {
 
 function getImageUrl(item: any, size: number): string | null {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
+    if (!apiClient) return null;
     let itemId = item.Id;
     let tag = item.ImageTags?.Primary;
     if (!tag && item.AlbumId) {

@@ -1,5 +1,5 @@
 import { SpeakerLoudIcon, SpeakerOffIcon, SunIcon } from '@radix-ui/react-icons';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { usePreferencesStore } from '../../store';

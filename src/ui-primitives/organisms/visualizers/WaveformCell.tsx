@@ -3,7 +3,7 @@
  */
 
 import { useEffect, useRef, useCallback, type ReactElement } from 'react';
-import { vars } from 'styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 import { container, emptyState, timeText, canvas } from './WaveformCell.css';
 
 export interface WaveformCellProps {

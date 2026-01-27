@@ -5,6 +5,7 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
 import { ItemKind } from 'types/base/models/item-kind';
 import type { SecondaryInfoOpts } from './type';
+import { logger } from 'utils/logger';
 
 function addProgramTime(
     showProgramTimeInfo: boolean,
@@ -37,7 +38,7 @@ function addProgramTime(
             }
             addMiscInfo({ text: programTimeText });
         } catch {
-            console.error('error parsing date:', itemStartDate);
+            logger.error('Error parsing program start date', { component: 'SecondaryMediaInfo', date: itemStartDate });
         }
     }
 }

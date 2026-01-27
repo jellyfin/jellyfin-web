@@ -1,2 +1,11 @@
-export { volumeSliderContainer, volumeSliderTrack, volumeSliderTrackInner, volumeSliderRange, volumeSliderThumb, volumeSliderMuteButton, volumeSliderMuteButtonSpinning, VolumeSliderProps, VolumeSlider } from './VolumeSlider';
-export { spin, volumeSliderContainer, volumeSliderTrack, volumeSliderTrackInner, volumeSliderRange, volumeSliderThumb, volumeSliderMuteButton, volumeSliderMuteButtonSpinning } from './VolumeSlider.css';
+export {
+    type VolumeSliderProps,
+    VolumeSlider,
+    volumeSliderContainer,
+    volumeSliderTrack,
+    volumeSliderTrackInner,
+    volumeSliderRange,
+    volumeSliderThumb,
+    volumeSliderMuteButton,
+    volumeSliderMuteButtonSpinning
+} from './VolumeSlider';
