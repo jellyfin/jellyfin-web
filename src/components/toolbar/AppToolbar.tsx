@@ -9,6 +9,7 @@ import { IconButton } from 'ui-primitives/IconButton';
 import { Tooltip } from 'ui-primitives/Tooltip';
 import { Box, Flex } from 'ui-primitives/Box';
 import { vars } from 'styles/tokens.css';
+import { logger } from 'utils/logger';
 
 interface AppToolbarProps {
     buttons?: ReactNode;
@@ -21,7 +22,7 @@ interface AppToolbarProps {
 
 const onBackButtonClick = () => {
     appRouter.back().catch(err => {
-        console.error('[AppToolbar] error calling appRouter.back', err);
+        logger.error('Error calling appRouter.back', { component: 'AppToolbar' }, err as Error);
     });
 };
 

@@ -69,7 +69,8 @@ export const Component = () => {
                     as="main"
                     style={{
                         width: '100%',
-                        flexGrow: 1
+                        flexGrow: 1,
+                        paddingTop: '160px'
                     }}
                 >
                     <AppBody>
