@@ -358,7 +358,7 @@ class ChromecastPlayer {
                 this.initializeChromecast();
             });
 
-            if (ServerConnections.currentUserId) {
+            if ((ServerConnections as any).currentUserId) {
                 this.initializeChromecast();
             }
         });

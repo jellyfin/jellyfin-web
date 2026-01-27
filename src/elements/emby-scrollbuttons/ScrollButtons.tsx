@@ -44,7 +44,7 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
         parent.classList.add('emby-scroller-container');
 
         let localeAwarePos = scrollState.scrollPos;
-        if (globalize.getIsElementRTL(scrollButtonsRef.current)) {
+        if (scrollButtonsRef.current && globalize.getIsElementRTL(scrollButtonsRef.current)) {
             localeAwarePos *= -1;
         }
         setLocaleScrollPos(localeAwarePos);

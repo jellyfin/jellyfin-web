@@ -320,7 +320,9 @@ export function PlaybackSettings({
                     user.Configuration.RememberSubtitleSelections = value.rememberSubtitleSelections;
                     user.Configuration.CastReceiverId = value.castReceiverId;
 
-                    await apiClient.updateUserConfiguration(user.Id, user.Configuration);
+                    if (user.Id) {
+                        await apiClient.updateUserConfiguration(user.Id, user.Configuration);
+                    }
                 }
 
                 toast(globalize.translate('SettingsSaved'));

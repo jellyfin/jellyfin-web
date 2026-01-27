@@ -169,7 +169,8 @@ export class PdfPlayer {
 
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }: any) => {
             const api = toApi(ServerConnections.getApiClient(item.ServerId));
-            const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
+            const libraryApi = getLibraryApi(api) as any;
+            const downloadHref = (libraryApi.getDownloadUrl?.({ itemId: item.Id }) || libraryApi.getDownload?.({ itemId: item.Id })) as string;
 
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';

@@ -220,7 +220,7 @@ build: ${__JF_BUILD_VERSION__}`,
                 }
             });
             credentials.Servers = updatedServers;
-            ServerConnections.credentialProvider().credentials(credentials);
+            (ServerConnections as any).credentialProvider?.()?.credentials?.(credentials);
             logger.info('Loaded servers from config.json', {
                 component: 'index',
                 servers: configServers.map((s: { ManualAddress?: string }) => s.ManualAddress)

@@ -130,7 +130,7 @@ function playAllFromHere(card: HTMLElement, serverId: string, queue?: boolean): 
 function showProgramDialog(item: ShortcutItemInfo): void {
     if (item.Id && item.ServerId) {
         import('./recordingcreator/recordingcreator').then(({ default: recordingCreator }) => {
-            recordingCreator.show(item.Id, item.ServerId);
+            recordingCreator.show(item.Id || '', item.ServerId || '');
         });
     }
 }
@@ -314,7 +314,7 @@ function editItem(item: { Type: string; ProgramId?: string; Id: string }, server
         if (item.Type === 'Timer') {
             if (item.ProgramId) {
                 import('./recordingcreator/recordingcreator').then(({ default: recordingCreator }) => {
-                    recordingCreator.show(item.ProgramId, currentServerId).then(resolve, reject);
+                    recordingCreator.show(item.ProgramId || '', currentServerId).then(resolve, reject);
                 });
             } else {
                 import('./recordingcreator/recordingeditor').then(({ default: recordingEditor }) => {
@@ -339,8 +339,13 @@ function onRecordCommand(
     seriesTimerId: string | null
 ): void {
     if (type === 'Program' || timerId || seriesTimerId) {
-        const programId = type === 'Program' ? id : null;
-        recordingHelper.toggleRecording(serverId, programId, timerId, seriesTimerId);
+        const programId = type === 'Program' ? id : undefined;
+        recordingHelper.toggleRecording(
+            serverId,
+            programId,
+            timerId || undefined,
+            seriesTimerId || undefined
+        );
     }
 }
 

@@ -277,7 +277,8 @@ export class ComicsPlayer {
         });
 
         const api = toApi(ServerConnections.getApiClient(item.ServerId));
-        const downloadUrl = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
+        const libraryApi = getLibraryApi(api) as any;
+        const downloadUrl = (libraryApi.getDownloadUrl?.({ itemId: item.Id }) || libraryApi.getDownload?.({ itemId: item.Id })) as string;
         this.archiveSource = new ArchiveSource(downloadUrl);
 
         // @ts-ignore

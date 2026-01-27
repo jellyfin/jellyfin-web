@@ -158,7 +158,7 @@ class ViewManager {
 
         // Record the element that has focus
         if (lastView) {
-            lastView.activeElement = document.activeElement;
+            lastView.activeElement = document.activeElement as HTMLElement | null;
         }
 
         if (options.cancel) {
@@ -189,7 +189,7 @@ class ViewManager {
 
         // Record the element that has focus
         if (currentView) {
-            currentView.activeElement = document.activeElement;
+            currentView.activeElement = document.activeElement as HTMLElement | null;
         }
 
         return viewContainer.tryRestoreView(options as any).then((view: any) => {
