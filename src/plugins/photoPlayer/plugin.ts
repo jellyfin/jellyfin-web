@@ -15,6 +15,11 @@ export default class PhotoPlayer {
                 const index = options.startIndex || 0;
                 const apiClient = ServerConnections.currentApiClient();
 
+                if (!apiClient) {
+                    resolve();
+                    return;
+                }
+
                 apiClient.getCurrentUser().then((result: any) => {
                     const newSlideShow = new Slideshow({
                         showTitle: false,

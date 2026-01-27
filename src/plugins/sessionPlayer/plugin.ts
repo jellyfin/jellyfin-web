@@ -140,6 +140,7 @@ class SessionPlayer {
 
     getTargets(): Promise<any[]> {
         const apiClient = getCurrentApiClient(this);
+        if (!apiClient) return Promise.resolve([]);
         const sessionQuery = { ControllableByUserId: apiClient.getCurrentUserId() };
 
         return apiClient.getSessions(sessionQuery).then((sessions: any[]) => {
@@ -169,6 +170,7 @@ class SessionPlayer {
     sendCommand(command: any) {
         const sessionId = getActivePlayerId();
         const apiClient = getCurrentApiClient(this);
+        if (!apiClient) return;
         apiClient.sendCommand(sessionId, command);
     }
 

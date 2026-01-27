@@ -244,6 +244,8 @@ class CastPlayer {
             apiClient = ServerConnections.currentApiClient();
         }
 
+        if (!apiClient) return Promise.reject(new Error('No API client available'));
+
         const serverAddress = apiClient.serverAddress();
         const hostname = new URL(serverAddress).hostname;
         const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
@@ -525,7 +527,7 @@ class ChromecastPlayer {
         if (options.items.length > 1 && options.ids) {
             options.items.sort((a: any, b: any) => options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id));
         }
-        return this._castPlayer?.loadMedia(options, command);
+        return this._castPlayer?.loadMedia(options, command) || Promise.resolve();
     }
 
     currentTime(val?: number) {
