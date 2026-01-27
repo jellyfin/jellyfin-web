@@ -64,7 +64,7 @@ async function initializeAudioContextEarly() {
         logger.timeEnd('AudioContext Initialization');
     } catch (error) {
         logger.timeEnd('AudioContext Initialization');
-        logger.error('Failed to initialize audio context early', { component: 'AudioEngine' }, error);
+        logger.error('Failed to initialize audio context early', { component: 'AudioEngine' }, error instanceof Error ? error : undefined);
     }
 }
 
@@ -83,7 +83,7 @@ async function initializeCrossfadePreloader() {
         logger.timeEnd('Crossfade Preloader');
     } catch (error) {
         logger.timeEnd('Crossfade Preloader');
-        logger.error('Failed to initialize crossfade preloader', { component: 'AudioEngine' }, error);
+        logger.error('Failed to initialize crossfade preloader', { component: 'AudioEngine' }, error instanceof Error ? error : undefined);
     }
 }
 
@@ -122,7 +122,7 @@ function setupAudioContextResume() {
                 });
             }
         } catch (error) {
-            logger.error('Failed to resume AudioContext', { component: 'AudioEngine' }, error);
+            logger.error('Failed to resume AudioContext', { component: 'AudioEngine' }, error instanceof Error ? error : undefined);
         }
     };
 
@@ -321,13 +321,13 @@ async function loadPlugins() {
     let list = await getPlugins();
     if (!supportsFeature(AppFeature.RemoteControl)) {
         // Disable remote player plugins if not supported
-        list = list.filter(plugin => {
+        list = list.filter((plugin: any) => {
             const name = typeof plugin === 'string' ? plugin : '';
             return !name.startsWith('sessionPlayer') && !name.startsWith('chromecastPlayer');
         });
     } else if (!browser.chrome && !browser.edgeChromium && !browser.operaTv) {
         // Disable chromecast player in unsupported browsers
-        list = list.filter(plugin => {
+        list = list.filter((plugin: any) => {
             const name = typeof plugin === 'string' ? plugin : '';
             return !name.startsWith('chromecastPlayer');
         });
@@ -355,7 +355,7 @@ async function loadPlugins() {
                 component: 'PluginManager',
                 pluginCount: list.length
             },
-            e
+            e instanceof Error ? e : undefined
         );
     }
 

@@ -80,6 +80,7 @@ class CastPlayer {
         }
 
         const apiClient = ServerConnections.currentApiClient();
+        if (!apiClient) return;
         const userId = apiClient.getCurrentUserId();
 
         apiClient.getUser(userId).then((user: any) => {
