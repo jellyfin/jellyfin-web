@@ -7,6 +7,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
 import { Text, Heading } from 'ui-primitives/Text';
 import { IconButton } from 'ui-primitives/IconButton';
@@ -23,6 +24,7 @@ import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';
 import { formatArtistName } from 'utils/formatUtils';
+import { appRouter } from 'components/router/appRouter';
 
 import { logger } from 'utils/logger';
 import * as styles from './MusicArtists.css';
@@ -93,6 +95,10 @@ export const MusicArtists: React.FC = () => {
             setPageIndex(prev => prev - 1);
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
+
+    const handleItemClick = useCallback((item: BaseItemDto) => {
+        appRouter.showItem(item);
+    }, []);
 
     if (isLoading) {
         return <LoadingSpinner message="Loading artists..." />;
@@ -195,7 +201,7 @@ export const MusicArtists: React.FC = () => {
                 )}
             </div>
 
-            <MediaGrid items={artists} />
+            <MediaGrid items={artists} onItemClick={handleItemClick} />
         </div>
     );
 };

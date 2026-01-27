@@ -4,7 +4,8 @@
  * React-based songs/tracks browsing view with TanStack Query and Joy UI.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
 import { IconButton } from 'ui-primitives/IconButton';
 import { Button } from 'ui-primitives/Button';
@@ -23,6 +24,7 @@ import { useListStore } from 'store/listStore';
 import { getItems } from 'lib/api/items';
 import { queryKeys } from 'lib/queryKeys';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { appRouter } from 'components/router/appRouter';
 
 import * as styles from './Songs.css';
 
@@ -73,6 +75,10 @@ export const Songs: React.FC = () => {
             playbackManagerBridge.play();
         }
     };
+
+    const handleItemClick = useCallback((item: BaseItemDto) => {
+        appRouter.showItem(item);
+    }, []);
 
     const hasActiveFilters = genres.length > 0 || artists.length > 0;
 
@@ -164,6 +170,7 @@ export const Songs: React.FC = () => {
                     loading={isLoading}
                     totalCount={data?.TotalRecordCount || 0}
                     showArtist
+                    onItemClick={handleItemClick}
                 />
             </div>
 
