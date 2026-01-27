@@ -5,13 +5,25 @@
  * Uses TanStack Query for caching and state management.
  */
 
-import type { BaseItemDto, BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
+import type {
+    BaseItemDto,
+    BaseItemDtoQueryResult,
+    UserItemDataDto
+} from '@jellyfin/sdk/lib/generated-client';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { queryKeys, type ItemsQueryOptions } from '../queryKeys';
+import { useConnectionStore } from '../../store/connectionStore';
+import { type ItemsQueryOptions, queryKeys } from '../queryKeys';
 
 // Get the current ApiClient
 const getApiClient = () => {
+    // First try to get from modern connection store
+    const store = useConnectionStore.getState();
+    if (store.currentApiClient) {
+        return store.currentApiClient;
+    }
+
+    // Fallback to legacy ServerConnections for backward compatibility
     const apiClient = ServerConnections.currentApiClient();
     if (!apiClient) {
         throw new Error('[ItemsAPI] No API connection available');
@@ -22,14 +34,28 @@ const getApiClient = () => {
 // Get the current user ID
 const getUserId = () => {
     const apiClient = getApiClient();
-    return apiClient.getCurrentUserId();
+    const userId = apiClient.getCurrentUserId();
+
+    // Ensure userId is a string, not an object
+    if (typeof userId !== 'string' || !userId) {
+        // Try fallback from connection store
+        const store = useConnectionStore.getState();
+        if (store.currentUserId) {
+            return store.currentUserId;
+        }
+        throw new Error('[ItemsAPI] Unable to determine current user ID');
+    }
+    return userId;
 };
 
 export const itemsApi = {
     /**
      * Get items by various criteria
      */
-    getItems: async (parentId: string, options?: ItemsQueryOptions): Promise<BaseItemDtoQueryResult> => {
+    getItems: async (
+        parentId: string,
+        options?: ItemsQueryOptions
+    ): Promise<BaseItemDtoQueryResult> => {
         const apiClient = getApiClient();
         const userId = getUserId();
 
@@ -65,10 +91,12 @@ export const itemsApi = {
         const apiClient = getApiClient();
         const userId = getUserId();
 
-        return apiClient.getUserViews(userId, {
-            EnableUserData: true,
-            EnableImages: true
-        });
+        return (apiClient as any)
+            .getUserViews(userId, {
+                EnableUserData: true,
+                EnableImages: true
+            })
+            .then((r: any) => r.Items);
     },
 
     /**
@@ -78,10 +106,14 @@ export const itemsApi = {
         const apiClient = getApiClient();
         const userId = getUserId();
 
-        return apiClient.getGenres(userId, type, parentId, {
-            EnableUserData: true,
-            EnableImages: true
-        });
+        return (apiClient as any)
+            .getGenres(userId, {
+                IncludeItemTypes: type,
+                ParentId: parentId,
+                EnableUserData: true,
+                EnableImages: true
+            })
+            .then((r: any) => r.Items);
     },
 
     /**
@@ -119,10 +151,7 @@ export const itemsApi = {
         const apiClient = getApiClient();
         const userId = getUserId();
 
-        return apiClient.getArtist(userId, id, {
-            EnableUserData: true,
-            EnableImages: true
-        });
+        return apiClient.getItem(userId, id);
     },
 
     /**
@@ -140,9 +169,8 @@ export const itemsApi = {
         }
     ): Promise<BaseItemDtoQueryResult> => {
         const apiClient = getApiClient();
-        const userId = getUserId();
 
-        return apiClient.getEpisodes(userId, seriesId, {
+        return apiClient.getEpisodes(seriesId, {
             SeasonId: options?.seasonId,
             StartIndex: options?.startIndex,
             Limit: options?.limit,
@@ -159,12 +187,13 @@ export const itemsApi = {
      */
     getSeasons: async (seriesId: string): Promise<BaseItemDto[]> => {
         const apiClient = getApiClient();
-        const userId = getUserId();
 
-        return apiClient.getSeasons(userId, seriesId, {
-            EnableUserData: true,
-            EnableImages: true
-        });
+        return (apiClient as any)
+            .getSeasons(seriesId, {
+                EnableUserData: true,
+                EnableImages: true
+            })
+            .then((r: any) => r.Items);
     },
 
     /**
@@ -186,20 +215,11 @@ export const itemsApi = {
     /**
      * Toggle favorite status
      */
-    toggleFavorite: async (itemId: string, isFavorite: boolean): Promise<BaseItemDto> => {
+    toggleFavorite: async (itemId: string, isFavorite: boolean): Promise<UserItemDataDto> => {
         const apiClient = getApiClient();
         const userId = getUserId();
 
-        return new Promise((resolve, reject) => {
-            apiClient.updateFavoriteStatus(userId, itemId, isFavorite, (result: unknown) => {
-                const itemResult = result as BaseItemDto;
-                if (itemResult && (itemResult as { Error?: string }).Error) {
-                    reject(new Error((itemResult as { Error: string }).Error));
-                } else {
-                    resolve(itemResult);
-                }
-            });
-        });
+        return apiClient.updateFavoriteStatus(userId, itemId, isFavorite);
     }
 };
 

@@ -5,23 +5,25 @@
  * Shows user views, resume watching, and recently added content.
  */
 
-import React from 'react';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import { ArrowRightIcon, PlayIcon } from '@radix-ui/react-icons';
 
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
 import { getItems, itemsApi } from 'lib/api/items';
+import { ConnectionState } from 'lib/jellyfin-apiclient/connectionState';
 import { queryKeys } from 'lib/queryKeys';
+import React from 'react';
+import { useConnectionStore } from 'store/connectionStore';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import { Card } from 'ui-primitives/Card';
+import { vars } from 'styles/tokens.css';
 import { AspectRatio } from 'ui-primitives/AspectRatio';
+import { Box, Flex } from 'ui-primitives/Box';
+import { Card } from 'ui-primitives/Card';
 import { IconButton } from 'ui-primitives/IconButton';
 import { Skeleton } from 'ui-primitives/Skeleton';
-import { Box, Flex } from 'ui-primitives/Box';
 import { Heading, Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
 
 interface HomeSectionProps {
     title: string;
@@ -138,7 +140,10 @@ const ContinueWatchingCard: React.FC<{ item: BaseItemDto }> = ({ item }) => {
             : 0;
 
     const imageTag = item.ImageTags?.Primary;
-    const imageUrl = item.Id && imageTag ? `/api/Items/${item.Id}/Images/Primary?tag=${imageTag}&maxWidth=400` : null;
+    const imageUrl =
+        item.Id && imageTag
+            ? `/api/Items/${item.Id}/Images/Primary?tag=${imageTag}&maxWidth=400`
+            : null;
 
     return (
         <Card
@@ -211,10 +216,12 @@ const ContinueWatchingCard: React.FC<{ item: BaseItemDto }> = ({ item }) => {
 
 export const Home: React.FC = () => {
     const navigate = useNavigate();
+    const { currentState, currentUserId } = useConnectionStore();
 
     const { data: userViews, isLoading: viewsLoading } = useQuery({
         queryKey: queryKeys.userViews,
-        queryFn: () => itemsApi.getUserViews()
+        queryFn: () => itemsApi.getUserViews(),
+        enabled: currentState === ConnectionState.SignedIn && !!currentUserId
     });
 
     const { data: resumeItems, isLoading: resumeLoading } = useQuery({
@@ -226,7 +233,8 @@ export const Home: React.FC = () => {
                 sortBy: 'DatePlayed',
                 sortOrder: 'Descending',
                 limit: 10
-            })
+            }),
+        enabled: currentState === ConnectionState.SignedIn && !!currentUserId
     });
 
     const { data: latestMovies, isLoading: latestMoviesLoading } = useQuery({
@@ -238,7 +246,8 @@ export const Home: React.FC = () => {
                 sortBy: 'DateCreated',
                 sortOrder: 'Descending',
                 limit: 10
-            })
+            }),
+        enabled: currentState === ConnectionState.SignedIn && !!currentUserId
     });
 
     const { data: latestShows, isLoading: latestShowsLoading } = useQuery({
@@ -250,7 +259,8 @@ export const Home: React.FC = () => {
                 sortBy: 'DateCreated',
                 sortOrder: 'Descending',
                 limit: 10
-            })
+            }),
+        enabled: currentState === ConnectionState.SignedIn && !!currentUserId
     });
 
     return (
@@ -272,7 +282,7 @@ export const Home: React.FC = () => {
                             paddingBottom: vars.spacing.sm
                         }}
                     >
-                        {resumeItems.Items.map(item => (
+                        {resumeItems.Items.map((item) => (
                             <ContinueWatchingCard key={item.Id || Math.random()} item={item} />
                         ))}
                     </Flex>
@@ -287,13 +297,17 @@ export const Home: React.FC = () => {
                         gap: vars.spacing.md
                     }}
                 >
-                    {userViews?.map(library => (
+                    {userViews?.map((library) => (
                         <LibraryCard key={library.Id || Math.random()} library={library} />
                     ))}
                 </Box>
             </HomeSection>
 
-            <HomeSection title="Recently Added Movies" viewAllLink="/movies" loading={latestMoviesLoading}>
+            <HomeSection
+                title="Recently Added Movies"
+                viewAllLink="/movies"
+                loading={latestMoviesLoading}
+            >
                 <Box
                     style={{
                         display: 'grid',
@@ -301,13 +315,17 @@ export const Home: React.FC = () => {
                         gap: vars.spacing.md
                     }}
                 >
-                    {latestMovies?.Items?.map(item => (
+                    {latestMovies?.Items?.map((item) => (
                         <LibraryCard key={item.Id || Math.random()} library={item} />
                     ))}
                 </Box>
             </HomeSection>
 
-            <HomeSection title="Recently Added TV Shows" viewAllLink="/tvshows" loading={latestShowsLoading}>
+            <HomeSection
+                title="Recently Added TV Shows"
+                viewAllLink="/tvshows"
+                loading={latestShowsLoading}
+            >
                 <Box
                     style={{
                         display: 'grid',
@@ -315,7 +333,7 @@ export const Home: React.FC = () => {
                         gap: vars.spacing.md
                     }}
                 >
-                    {latestShows?.Items?.map(item => (
+                    {latestShows?.Items?.map((item) => (
                         <LibraryCard key={item.Id || Math.random()} library={item} />
                     ))}
                 </Box>

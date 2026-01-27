@@ -2,32 +2,29 @@
 
 import type { LibraryUpdateInfo } from '@jellyfin/sdk/lib/generated-client/models/library-update-info';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { ApiClient } from 'jellyfin-apiclient';
-import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
-import classNames from 'classnames';
-import { Box } from 'ui-primitives/Box';
-import Sortable from 'sortablejs';
 import { useQueryClient } from '@tanstack/react-query';
-import { deprecate } from '../../utils/deprecation';
-
-import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
-import Events from 'utils/events';
-import serverNotifications from 'scripts/serverNotifications';
-import inputManager from 'scripts/inputManager';
-import dom from 'utils/dom';
-import browser from 'scripts/browser';
+import classNames from 'classnames';
+import focusManager from 'components/focusManager';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
-
+import loading from 'components/loading/loading';
+import MultiSelect from 'components/multiSelect/multiSelect';
 // Legacy component with extensive migration needed
 // TODO: Migrate to React + ui-primitives patterns
 import { playbackManager } from 'components/playback/playbackmanager';
 import itemShortcuts from 'components/shortcuts';
-import MultiSelect from 'components/multiSelect/multiSelect';
-import loading from 'components/loading/loading';
-import focusManager from 'components/focusManager';
+import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
+import { ApiClient } from 'jellyfin-apiclient';
+import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
+import browser from 'scripts/browser';
+import inputManager from 'scripts/inputManager';
+import serverNotifications from 'scripts/serverNotifications';
+import Sortable from 'sortablejs';
 import type { ParentId } from 'types/library';
 import type { PlaybackStopInfo } from 'types/playbackStopInfo';
+import { Box } from 'ui-primitives/Box';
+import dom from 'utils/dom';
+import Events from 'utils/events';
 import { useNotificationStore } from '../../store/notificationStore';
 
 function disableEvent(e: MouseEvent) {
@@ -66,12 +63,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     getItemsHtml,
     children
 }) => {
-    deprecate(
-        'emby-itemscontainer/ItemsContainer',
-        'Box with custom event handling',
-        'src/elements/emby-itemscontainer/ItemsContainer.tsx'
-    );
-
     const queryClient = useQueryClient();
     const { mutateAsync: playlistsMoveItemMutation } = usePlaylistsMoveItemMutation();
     const itemsContainerRef = useRef<HTMLDivElement>(null);
@@ -83,7 +74,10 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         const itemsContainer = itemsContainerRef.current as HTMLDivElement;
         const multiSelect = multiSelectref.current;
 
-        if (multiSelect && (multiSelect as any).onContainerClick.call(itemsContainer, e) === false) {
+        if (
+            multiSelect &&
+            (multiSelect as any).onContainerClick.call(itemsContainer, e) === false
+        ) {
             return;
         }
 
@@ -255,21 +249,24 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         [eventsToMonitor, notifyRefreshNeeded]
     );
 
-    const setFocus = useCallback((itemsContainer: HTMLDivElement, focusId: string | null | undefined) => {
-        if (focusId) {
-            const newElement = itemsContainer.querySelector('[data-id="' + focusId + '"]');
-            if (newElement) {
-                try {
-                    focusManager.focus(newElement);
-                    return;
-                } catch (err) {
-                    console.error(err);
+    const setFocus = useCallback(
+        (itemsContainer: HTMLDivElement, focusId: string | null | undefined) => {
+            if (focusId) {
+                const newElement = itemsContainer.querySelector('[data-id="' + focusId + '"]');
+                if (newElement) {
+                    try {
+                        focusManager.focus(newElement);
+                        return;
+                    } catch (err) {
+                        console.error(err);
+                    }
                 }
             }
-        }
 
-        focusManager.autoFocus(itemsContainer);
-    }, []);
+            focusManager.autoFocus(itemsContainer);
+        },
+        []
+    );
 
     useEffect(() => {
         const itemsContainer = itemsContainerRef.current;
@@ -322,8 +319,8 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         itemShortcuts.on(itemsContainer, getShortcutOptions());
 
         const unsubNotifications = useNotificationStore.subscribe(
-            state => state.notifications[0],
-            notif => {
+            (state) => state.notifications[0],
+            (notif) => {
                 if (!notif) return;
                 if (notif.type === 'UserDataChanged') invalidateQueries();
                 if (notif.type === 'TimerCreated') invalidateQueries();
@@ -368,7 +365,11 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         onPlaybackStopped
     ]);
 
-    const itemsContainerClass = classNames('itemsContainer', { 'itemsContainer-tv': layoutManager.tv }, className);
+    const itemsContainerClass = classNames(
+        'itemsContainer',
+        { 'itemsContainer-tv': layoutManager.tv },
+        className
+    );
 
     return (
         <Box ref={itemsContainerRef} className={itemsContainerClass}>
