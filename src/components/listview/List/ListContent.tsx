@@ -39,6 +39,9 @@ const ListContent: FC<ListContentProps> = ({
     downloadWidth
 }) => {
     const indicator = useIndicator(item);
+    const isPlayed = Boolean(item.UserData?.Played);
+    const blurUnplayedDescription = Boolean(listOptions.enableBlurUnplayedDescription) && !isPlayed;
+
     return (
         <ListContentWrapper
             itemOverview={item.Overview}
@@ -73,6 +76,7 @@ const ListContent: FC<ListContentProps> = ({
                 action={action}
                 enableContentWrapper={enableContentWrapper}
                 enableOverview={enableOverview}
+                enableBlurUnplayedDescription={blurUnplayedDescription}
                 enableSideMediaInfo={enableSideMediaInfo}
                 getMissingIndicator={indicator.getMissingIndicator}
             />

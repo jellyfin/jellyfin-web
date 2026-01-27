@@ -1492,3 +1492,12 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     padding-left: 0.8em;
     padding-right: 0.8em;
 }
+
+.listItemBodyText-blurred {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+}
+
+.listItemBodyText-blurred:hover {
+    filter: blur(0);
+}

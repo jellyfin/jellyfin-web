@@ -140,7 +140,9 @@ export default function (view, params, tabContent) {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     context: 'tvshows',
-                    sortBy: query.SortBy
+                    sortBy: query.SortBy,
+                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -302,4 +304,3 @@ export default function (view, params, tabContent) {
         this.alphaPicker?.updateControls(getQuery());
     };
 }
-

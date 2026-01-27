@@ -516,10 +516,14 @@ class ItemsView {
 
         function getItemsHtml(items) {
             const settings = self.getViewSettings();
+            const enableBlurUnplayedTitle = settings.enableBlurUnplayedTitle;
+            const enableBlurUnplayedDescription = settings.enableBlurUnplayedDescription;
 
             if (settings.imageType === 'list') {
                 return listView.getListViewHtml({
-                    items: items
+                    items: items,
+                    enableBlurUnplayedTitle,
+                    enableBlurUnplayedDescription
                 });
             }
 
@@ -1215,6 +1219,8 @@ class ItemsView {
         const params = this.params;
         const item = this.currentItem;
         let showTitle = userSettings.get(basekey + '-showTitle');
+        const enableBlurUnplayedTitle = userSettings.enableBlurUnplayedTitle();
+        const enableBlurUnplayedDescription = userSettings.enableBlurUnplayedDescription();
 
         if (showTitle === 'true') {
             showTitle = true;
@@ -1240,7 +1246,9 @@ class ItemsView {
             showTitle,
             showYear: userSettings.get(basekey + '-showYear') !== 'false',
             imageType: imageType || 'primary',
-            viewType: userSettings.get(basekey + '-viewType') || 'images'
+            viewType: userSettings.get(basekey + '-viewType') || 'images',
+            enableBlurUnplayedTitle,
+            enableBlurUnplayedDescription
         };
     }
 

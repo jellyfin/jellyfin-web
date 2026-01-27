@@ -563,14 +563,19 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             includeParentInfo: options.includeParentInfoInTitle
         });
 
-        lines.push(getTextActionButton({
+        let titleHtml = getTextActionButton({
             Id: item.Id,
             ServerId: serverId,
             Name: name,
             Type: item.Type,
             CollectionType: item.CollectionType,
             IsFolder: item.IsFolder
-        }));
+        });
+
+        if (options.enableBlurUnplayedTitle && item.UserData && !item.UserData.Played) {
+            titleHtml = `<span class="cardText-blurred">${titleHtml}</span>`;
+        }
+        lines.push(titleHtml);
     }
 
     if (showOtherText) {
@@ -738,7 +743,11 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
     }
 
     if (flags.overlayText && showTitle) {
-        lines = [escapeHtml(item.Name)];
+        let overlayTitle = escapeHtml(item.Name);
+        if (options.enableBlurUnplayedTitle && item.UserData && !item.UserData.Played) {
+            overlayTitle = `<span class="cardText-blurred">${overlayTitle}</span>`;
+        }
+        lines = [overlayTitle];
     }
 
     const addRightTextMargin = flags.isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;

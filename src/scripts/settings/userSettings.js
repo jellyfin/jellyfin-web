@@ -273,6 +273,32 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'BlurUnplayed' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'BlurUnplayed' or undefined.
+     * @return {boolean} 'BlurUnplayed' state.
+     */
+    enableBlurUnplayedTitle(val) {
+        if (val !== undefined) {
+            return this.set('BlurUnplayedTitle', val.toString(), false);
+        }
+
+        return toBoolean(this.get('BlurUnplayedTitle', false), true);
+    }
+
+    /**
+     * Get or set 'BlurUnplayed' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'BlurUnplayed' or undefined.
+     * @return {boolean} 'BlurUnplayed' state.
+     */
+    enableBlurUnplayedDescription(val) {
+        if (val !== undefined) {
+            return this.set('BlurUnplayedDescription', val.toString(), false);
+        }
+
+        return toBoolean(this.get('BlurUnplayedDescription', false), true);
+    }
+
+    /**
      * Get or set 'Backdrops' state.
      * @param {boolean|undefined} [val] - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
@@ -694,6 +720,8 @@ export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSet
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
+export const enableBlurUnplayedTitle = currentSettings.enableBlurUnplayedTitle.bind(currentSettings);
+export const enableBlurUnplayedDescription = currentSettings.enableBlurUnplayedDescription.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
 export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
