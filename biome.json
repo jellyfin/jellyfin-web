@@ -1,0 +1,82 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true,
+        "defaultBranch": "master"
+    },
+    "files": {
+        "ignoreUnknown": false,
+        "maxSize": 10000000,
+        "experimentalScannerIgnores": [
+            "src/coverage/**",
+            "coverage/**",
+            "storybook-static/**",
+            "playwright-report/**"
+        ]
+    },
+    "formatter": {
+        "enabled": true,
+        "formatWithErrors": false,
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineWidth": 100,
+        "lineEnding": "lf"
+    },
+    "javascript": {
+        "formatter": {
+            "enabled": true,
+            "quoteStyle": "single",
+            "trailingCommas": "none",
+            "semicolons": "always",
+            "arrowParentheses": "always",
+            "bracketSpacing": true,
+            "bracketSameLine": false
+        },
+        "globals": [
+            "window",
+            "document",
+            "navigator",
+            "localStorage",
+            "sessionStorage",
+            "fetch",
+            "console",
+            "process"
+        ]
+    },
+    "json": {
+        "formatter": {
+            "enabled": true,
+            "trailingCommas": "none"
+        }
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": false,
+            "correctness": {
+                "noUndeclaredVariables": "error",
+                "noConstAssign": "error",
+                "noInvalidConstructorSuper": "error"
+            },
+            "style": {
+                "useConst": "error",
+                "useExponentiationOperator": "warn"
+            },
+            "suspicious": {
+                "noExplicitAny": "warn",
+                "noConsole": {
+                    "level": "warn",
+                    "options": {
+                        "allow": ["warn", "error", "debug", "info"]
+                    }
+                },
+                "noDebugger": "error"
+            },
+            "security": {
+                "noDangerouslySetInnerHtml": "error"
+            }
+        }
+    }
+}

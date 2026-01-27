@@ -212,17 +212,15 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
-      "prettier --write",
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "biome check --write",
       "vitest related --run --passWithNoTests --config vite.config.ts"
     ],
-    "*.css": [
-      "stylelint --fix",
-      "prettier --write"
+    "src/**/*.css": [
+      "stylelint --fix"
     ],
-    "*.{md,json,yml,yaml,html}": [
-      "prettier --write"
+    "src/**/*.{md,json,yml,yaml,html}": [
+      "biome format --write"
     ]
   }
 }
