@@ -608,7 +608,7 @@ function showEditorInternal(itemId: string, serverId: string): Promise<void> {
 
             dialogHelper.open(dlg);
 
-            reload(editorContent, apiClient, item);
+            reload(editorContent, apiClient, item as any);
         });
     });
 }

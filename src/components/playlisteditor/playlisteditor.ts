@@ -423,7 +423,7 @@ export class PlaylistEditor {
 
         dlg.innerHTML = html;
 
-        initEditor(dlg, options, items);
+        initEditor(dlg as any, options, items);
 
         dlg.querySelector('.btnCancel')?.addEventListener('click', () => {
             dialogHelper.close(dlg);

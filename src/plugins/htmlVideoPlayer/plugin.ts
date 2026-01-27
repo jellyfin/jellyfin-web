@@ -682,14 +682,14 @@ export class HtmlVideoPlayer {
         }
 
         this.fetchSubtitles(track, item).then(data => {
-            const cueLine = parseInt(userSettings.getSubtitleAppearanceSettings().verticalPosition, 10);
+            const cueLine = parseInt(String(userSettings.getSubtitleAppearanceSettings().verticalPosition), 10) as any;
             for (const ev of data.TrackEvents) {
                 const TrackCue = (window as any).VTTCue || (window as any).TextTrackCue;
                 const text = normalizeTrackEventText(ev.Text, false);
                 const cue = new TrackCue(ev.StartPositionTicks / 10000000, ev.EndPositionTicks / 10000000, text);
-                if (cue.line === 'auto') {
-                    if (cueLine < 0) cue.line = cueLine - (text.match(/\n/g) || []).length;
-                    else cue.line = cueLine;
+                if ((cue.line as any) === 'auto') {
+                    if (cueLine < 0) (cue.line as any) = cueLine - (text.match(/\n/g) || []).length;
+                    else (cue.line as any) = cueLine;
                 }
                 trackElement.addCue(cue);
             }
@@ -770,7 +770,7 @@ export class HtmlVideoPlayer {
         targetTextTrackIndex: number
     ) {
         this.fetchSubtitles(track, item).then(data => {
-            const pos = parseInt(userSettings.getSubtitleAppearanceSettings().verticalPosition, 10);
+            const pos = parseInt(String(userSettings.getSubtitleAppearanceSettings().verticalPosition), 10) as any;
             if (!this.videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
                 let container = document.querySelector('.videoSubtitles') as HTMLElement;
                 if (!container) {
@@ -1001,7 +1001,7 @@ export class HtmlVideoPlayer {
     }
 
     getBufferedRanges() {
-        return this.mediaElement ? getBufferedRanges(this, this.mediaElement) : [];
+        return this.mediaElement ? getBufferedRanges(this as any, this.mediaElement) : [];
     }
 }
 

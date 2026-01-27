@@ -101,20 +101,20 @@ class TouchHelper {
             }
         };
 
-        dom.addEventListener(elem, 'touchstart', this.touchStartHandler, { passive: true });
+        dom.addEventListener(elem, 'touchstart', this.touchStartHandler as any, { passive: true });
         if (options.triggerOnMove) {
-            dom.addEventListener(elem, 'touchmove', this.touchEndHandler, { passive: !options.preventDefaultOnMove });
+            dom.addEventListener(elem, 'touchmove', this.touchEndHandler as any, { passive: !options.preventDefaultOnMove });
         }
-        dom.addEventListener(elem, 'touchend', this.touchEndHandler, { passive: true });
-        dom.addEventListener(elem, 'touchcancel', this.touchEndHandler, { passive: true });
+        dom.addEventListener(elem, 'touchend', this.touchEndHandler as any, { passive: true });
+        dom.addEventListener(elem, 'touchcancel', this.touchEndHandler as any, { passive: true });
     }
 
     destroy(): void {
         if (this.elem) {
-            dom.removeEventListener(this.elem, 'touchstart', this.touchStartHandler, { passive: true });
-            dom.removeEventListener(this.elem, 'touchmove', this.touchEndHandler, { passive: true });
-            dom.removeEventListener(this.elem, 'touchend', this.touchEndHandler, { passive: true });
-            dom.removeEventListener(this.elem, 'touchcancel', this.touchEndHandler, { passive: true });
+            dom.removeEventListener(this.elem, 'touchstart', this.touchStartHandler as any, { passive: true });
+            dom.removeEventListener(this.elem, 'touchmove', this.touchEndHandler as any, { passive: true });
+            dom.removeEventListener(this.elem, 'touchend', this.touchEndHandler as any, { passive: true });
+            dom.removeEventListener(this.elem, 'touchcancel', this.touchEndHandler as any, { passive: true });
         }
         this.elem = null;
     }

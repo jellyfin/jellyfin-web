@@ -34,7 +34,7 @@ export function zoomIn(elem: HTMLElement): Promise<void> {
     return new Promise(resolve => {
         const duration = 240;
         elem.style.animation = `htmlvideoplayer-zoomin ${duration}ms ease-in normal`;
-        dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
+        dom.addEventListener(elem, dom.whichAnimationEvent(), resolve as any, {
             once: true
         });
     });

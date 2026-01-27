@@ -32,7 +32,7 @@ function getItemsHtmlFn(playlistId: string, isEditable = false) {
 
 async function init(page: HTMLElement, item: any) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
-    const api = toApi(apiClient);
+    const api = toApi(apiClient as any);
 
     let isEditable = false;
     try {
@@ -42,7 +42,7 @@ async function init(page: HTMLElement, item: any) {
         });
         isEditable = !!data.CanEdit;
     } catch (err) {
-        logger.warn('Failed to fetch playlist permissions', { component: 'PlaylistViewer' }, err);
+        logger.warn('Failed to fetch playlist permissions', { component: 'PlaylistViewer' }, err as any);
     }
 
     const elem = page.querySelector('#childrenContent .itemsContainer') as any;

@@ -100,18 +100,18 @@ function stopMouseInterval() {
 function initMouse() {
     stopMouseInterval();
     const moveEvent = (window as any).PointerEvent ? 'pointermove' : 'mousemove';
-    dom.removeEventListener(document, moveEvent, onPointerMove, { passive: true });
+    dom.removeEventListener(document, moveEvent, onPointerMove as any, { passive: true });
 
     if (!layoutManager.mobile) {
         startMouseInterval();
-        dom.addEventListener(document, moveEvent, onPointerMove, { passive: true });
+        dom.addEventListener(document, moveEvent, onPointerMove as any, { passive: true });
     }
 
     const enterEvent = (window as any).PointerEvent ? 'pointerenter' : 'mouseenter';
-    dom.removeEventListener(document, enterEvent, onPointerEnter, { capture: true, passive: true });
+    dom.removeEventListener(document, enterEvent, onPointerEnter as any, { capture: true, passive: true });
 
     if (enableFocusWithMouse()) {
-        dom.addEventListener(document, enterEvent, onPointerEnter, { capture: true, passive: true });
+        dom.addEventListener(document, enterEvent, onPointerEnter as any, { capture: true, passive: true });
     }
 }
 

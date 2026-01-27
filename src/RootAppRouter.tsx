@@ -33,7 +33,7 @@ const isExperimentalLayout =
 setRouter(router);
 
 export const history = createRouterHistory(router);
-setAppHistory(history);
+setAppHistory(history as any);
 
 export function RootAppRouter(): React.ReactElement {
     useEffect(() => {
