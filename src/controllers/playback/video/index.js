@@ -192,6 +192,7 @@ export default function (view) {
         if (!item) {
             updateRecordingButton(null);
             LibraryMenu.setTitle('');
+            Events.trigger(document, EventType.VIDEO_TITLE_CHANGE, [ '' ]);
             nowPlayingVolumeSlider.disabled = true;
             nowPlayingPositionSlider.disabled = true;
             btnFastForward.disabled = true;
