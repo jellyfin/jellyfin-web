@@ -11,6 +11,7 @@ export interface PlayableItem {
     name: string;
     mediaType: MediaType;
     serverId: string;
+    type?: string; // Jellyfin item type (e.g., 'MusicAlbum', 'MusicArtist')
 
     // Metadata
     title?: string;

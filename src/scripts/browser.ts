@@ -80,6 +80,10 @@ const browser = {
     operaTv: userAgent.includes('opr/') || userAgent.includes('opera'),
     vega: userAgent.includes('vega'),
     xboxOne: userAgent.includes('xbox'),
+    android: userAgent.includes('android'),
+    edgeUwp: userAgent.includes('edge') && userAgent.includes('uwp'),
+    osx: userAgent.includes('mac'),
+    slow: false, // Placeholder - could be set based on connection speed detection
     supportsCssAnimation: supportsCssAnimation
 };
 
