@@ -1051,7 +1051,7 @@
     "LabelSimultaneousConnectionLimit": "Límit de fluxos simultanis de dades",
     "LabelServerHostHelp": "192.168.1.100:8096 o https://myserver.com",
     "LabelServerHost": "Amfitrió",
-    "LabelScheduledTaskLastRan": "La darrera execució {0}, ha trigat {1}.",
+    "LabelScheduledTaskLastRan": "De la darrera execució {0}, ha trigat {1}.",
     "LabelRuntimeMinutes": "Temps d'execució",
     "LabelRequireHttpsHelp": "Si se selecciona, el servidor redirigirà automàticament totes les sol·licituds d'HTTP cap a HTTPS. Això no té efecte si el servidor no està escoltant en HTTPS.",
     "LabelRequireHttps": "Requereix HTTPS",
