@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Provider toevoegen",
     "ButtonAddTunerDevice": "Tuner-apparaat toevoegen",
     "LabelSlideshowIntervalHelp": "De weergavetijd per foto in diavoorstellingen (in seconden).",
-    "LabelSlideshowInterval": "Interval diavoorstelling"
+    "LabelSlideshowInterval": "Interval diavoorstelling",
+    "HeaderDeleteCollection": "Collectie verwijderen",
+    "HeaderDeletePlaylist": "Afspeellijst verwijderen",
+    "ConfirmDeleteCollection": "Weet je zeker dat je deze collectie wilt verwijderen?",
+    "ConfirmDeletePlaylist": "Weet je zeker dat je deze afspeellijst wilt verwijderen?"
 }
