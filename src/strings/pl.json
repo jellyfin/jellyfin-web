@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Dodaj dostawcę",
     "ButtonAddTunerDevice": "Dodaj urządzenie tunera",
     "LabelSlideshowInterval": "Interwał pokazu slajdów ze zdjęciami",
-    "LabelSlideshowIntervalHelp": "Czas wyświetlania każdego zdjęcia w pokazie slajdów (w sekundach)."
+    "LabelSlideshowIntervalHelp": "Czas wyświetlania każdego zdjęcia w pokazie slajdów (w sekundach).",
+    "ConfirmDeleteCollection": "Czy na pewno chcesz usunąć tę kolekcję?",
+    "ConfirmDeletePlaylist": "Czy na pewno chcesz usunąć tę listę odtwarzania?",
+    "HeaderDeleteCollection": "Usuń kolekcję",
+    "HeaderDeletePlaylist": "Usuń listę odtwarzania"
 }
