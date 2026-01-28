@@ -1,32 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Card, CardBody } from 'ui-primitives/Card';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { Text } from 'ui-primitives/Text';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Box } from 'ui-primitives';
+import { Card, CardBody } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { PlayIcon } from '@radix-ui/react-icons';
 import { vars } from 'styles/tokens.css';
 import globalize from 'lib/globalize';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { toVideoItem } from 'lib/utils/playbackUtils';
+import { logger } from 'utils/logger';
 
 const LiveTVGuidePage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState<any[]>([]);
+    const [hoveredGuideId, setHoveredGuideId] = useState<number | null>(null);
+    const [playingGuideId, setPlayingGuideId] = useState<number | null>(null);
 
     useEffect(() => {
         const loadData = async () => {
             try {
                 setTimeout(() => {
                     setData([
-                        { id: 1, name: 'Popular Guide', count: 45 },
-                        { id: 2, name: 'Recently Added', count: 23 },
-                        { id: 3, name: 'All Guide', count: 67 }
+                        { id: 1, name: 'Popular Guide', count: 45, guideId: 'guide-1' },
+                        { id: 2, name: 'Recently Added', count: 23, guideId: 'guide-2' },
+                        { id: 3, name: 'All Guide', count: 67, guideId: 'guide-3' }
                     ]);
                     setIsLoading(false);
                 }, 300);
             } catch (error) {
-                console.error('Failed to load data:', error);
+                logger.error('[LiveTVGuidePage] Failed to load data', { error });
                 setIsLoading(false);
             }
         };
         loadData();
+    }, []);
+
+    const handleGuidePlay = useCallback(async (guideId: string, guideName: string) => {
+        try {
+            setPlayingGuideId(parseInt(guideId.split('-')[1]));
+            const playable = toVideoItem({
+                Id: guideId,
+                Name: guideName,
+                Type: 'Program',
+                ServerId: 'livetv'
+            });
+
+            await playbackManagerBridge.setQueue([playable], 0);
+            await playbackManagerBridge.play();
+            setPlayingGuideId(null);
+        } catch (err) {
+            logger.error('[LiveTVGuidePage] Failed to play guide', { guideId, error: err });
+            setPlayingGuideId(null);
+        }
     }, []);
 
     if (isLoading) {
@@ -57,25 +83,62 @@ const LiveTVGuidePage: React.FC = () => {
                 }}
             >
                 {data.map(item => (
-                    <Card key={item.id}>
-                        <Box
-                            style={{
-                                aspectRatio: '16 / 9',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: vars.colors.surfaceHover
-                            }}
-                        >
-                            <Text size="xxl">📡</Text>
-                        </Box>
-                        <CardBody>
-                            <Text weight="medium">{item.name}</Text>
-                            <Text size="sm" color="secondary">
-                                {item.count} items
-                            </Text>
-                        </CardBody>
-                    </Card>
+                    <div
+                        key={item.id}
+                        style={{ position: 'relative' }}
+                        onMouseEnter={() => setHoveredGuideId(item.id)}
+                        onMouseLeave={() => setHoveredGuideId(null)}
+                    >
+                        <Card>
+                            <Box
+                                style={{
+                                    aspectRatio: '16 / 9',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: vars.colors.surfaceHover,
+                                    position: 'relative'
+                                }}
+                            >
+                                <Text size="xxl">📡</Text>
+                                {hoveredGuideId === item.id && (
+                                    <Box
+                                        style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            left: 0,
+                                            backgroundColor: 'rgba(0,0,0,0.4)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderRadius: 'inherit'
+                                        }}
+                                    >
+                                        <IconButton
+                                            size="lg"
+                                            variant="solid"
+                                            disabled={playingGuideId === item.id}
+                                            onClick={(e: React.MouseEvent) => {
+                                                e.stopPropagation();
+                                                handleGuidePlay(item.guideId, item.name);
+                                            }}
+                                            style={{ borderRadius: '50%' }}
+                                        >
+                                            <PlayIcon />
+                                        </IconButton>
+                                    </Box>
+                                )}
+                            </Box>
+                            <CardBody>
+                                <Text weight="medium">{item.name}</Text>
+                                <Text size="sm" color="secondary">
+                                    {item.count} items
+                                </Text>
+                            </CardBody>
+                        </Card>
+                    </div>
                 ))}
             </Box>
         </Box>
