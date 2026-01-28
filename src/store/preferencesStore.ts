@@ -119,6 +119,8 @@ export interface UiPreferences {
     highContrastMode: boolean;
     reducedMotion: boolean;
     brightness: number;
+    showBackdropImages: boolean;
+    backdropBlurAmount: number;
 }
 
 export interface CrossfadeRuntime {
@@ -192,6 +194,8 @@ export interface PreferencesActions {
     setHighContrastMode: (enabled: boolean) => void;
     setBrightness: (brightness: number) => void;
     setReducedMotion: (reduced: boolean) => void;
+    setShowBackdropImages: (show: boolean) => void;
+    setBackdropBlurAmount: (amount: number) => void;
     resetUiSettings: () => void;
 
     setCrossfadeBusy: (busy: boolean) => void;
@@ -300,7 +304,9 @@ const defaultUiPreferences: UiPreferences = {
     animationsEnabled: true,
     highContrastMode: false,
     reducedMotion: false,
-    brightness: 50
+    brightness: 50,
+    showBackdropImages: true,
+    backdropBlurAmount: 5
 };
 
 const defaultRuntime: CrossfadeRuntime = {
@@ -699,6 +705,18 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                 setReducedMotion: reduced => {
                     set({
                         ui: { ...get().ui, reducedMotion: reduced }
+                    });
+                },
+
+                setShowBackdropImages: show => {
+                    set({
+                        ui: { ...get().ui, showBackdropImages: show }
+                    });
+                },
+
+                setBackdropBlurAmount: amount => {
+                    set({
+                        ui: { ...get().ui, backdropBlurAmount: Math.max(0, Math.min(10, amount)) }
                     });
                 },
 

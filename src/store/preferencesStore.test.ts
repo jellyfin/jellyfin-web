@@ -116,7 +116,9 @@ describe('preferencesStore', () => {
                 animationsEnabled: true,
                 highContrastMode: false,
                 reducedMotion: false,
-                brightness: 50
+                brightness: 50,
+                showBackdropImages: true,
+                backdropBlurAmount: 5
             },
             _runtime: {
                 busy: false,
