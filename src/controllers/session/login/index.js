@@ -224,7 +224,7 @@ export default function (view, params) {
             apiClient.getPublicSystemInfo()
                 .then(systemInfo => {
                     baseAlert({
-                        title: 'Server Info:',
+                        title: globalize.translate('ServerInfo'),
                         html: [
                             systemInfo.ServerName,
                             systemInfo.Version,
