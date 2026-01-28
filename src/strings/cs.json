@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Přidat poskytovatele",
     "ButtonAddTunerDevice": "Přidat tuner",
     "LabelSlideshowInterval": "Interval mezi fotkami slideshow",
-    "LabelSlideshowIntervalHelp": "Doba v sekundách po jakou je zobrazena každá fotka při slideshow."
+    "LabelSlideshowIntervalHelp": "Doba v sekundách po jakou je zobrazena každá fotka při slideshow.",
+    "ConfirmDeleteCollection": "Opravdu chcete odstranit tuto kolekci?",
+    "ConfirmDeletePlaylist": "Opravdu chcete odstranit tento seznam skladeb?",
+    "HeaderDeleteCollection": "Odstranit kolekci",
+    "HeaderDeletePlaylist": "Odstranit seznam skladeb"
 }
