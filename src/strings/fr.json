@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Ajouter un fournisseur",
     "ButtonAddTunerDevice": "Ajouter un tuner",
     "LabelSlideshowInterval": "Intervalle du Diaporama",
-    "LabelSlideshowIntervalHelp": "Le temps en secondes entre l'affichage de chaque photo dans le diaporama."
+    "LabelSlideshowIntervalHelp": "Le temps en secondes entre l'affichage de chaque photo dans le diaporama.",
+    "ConfirmDeleteCollection": "Êtes-vous sûr de vouloir supprimer cette collection ?",
+    "ConfirmDeletePlaylist": "Êtes-vous sûr de vouloir supprimer cette playlist ?",
+    "HeaderDeleteCollection": "Supprimer la Collection",
+    "HeaderDeletePlaylist": "Supprimer la Playlist"
 }
