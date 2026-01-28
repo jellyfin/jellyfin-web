@@ -31,24 +31,26 @@ import {
     StopIcon,
     ShuffleIcon,
     TrackNextIcon,
-    TrackPreviousIcon
+    TrackPreviousIcon,
+    MixerHorizontalIcon
 } from '@radix-ui/react-icons';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { vars } from 'styles/tokens.css';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Divider } from 'ui-primitives/Divider';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Input } from 'ui-primitives/Input';
-import { List, ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
-import { ListItemButton } from 'ui-primitives/ListItemButton';
-import { Paper } from 'ui-primitives/Paper';
-import { Slider } from 'ui-primitives/Slider';
-import { Text } from 'ui-primitives/Text';
+import { Box, Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { List, ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives';
+import { ListItemButton } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
+import { Slider } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
+import { DJMixerPanel } from '../../../../components/dj';
 import {
     useCurrentItem,
     useCurrentPlayer,
@@ -631,6 +633,7 @@ export function NowPlayingPage(): React.ReactElement {
     const [isDragging, setIsDragging] = useState(false);
     const [localSeekValue, setLocalSeekValue] = useState(0);
     const [showPlaylist, setShowPlaylist] = useState(false);
+    const [djModeEnabled, setDjModeEnabled] = useState(false);
 
     const isPlaying = useIsPlaying();
     const currentItem = useCurrentItem();
@@ -823,13 +826,23 @@ export function NowPlayingPage(): React.ReactElement {
                 <Text size="sm" color="secondary">
                     {albumName}
                 </Text>
-                <IconButton
-                    onClick={toggleTechnicalInfo}
-                    variant="plain"
-                    color={showTechnicalInfo ? 'primary' : 'neutral'}
-                >
-                    <InfoCircledIcon />
-                </IconButton>
+                <Flex gap={vars.spacing['3']}>
+                    <IconButton
+                        onClick={() => setDjModeEnabled(!djModeEnabled)}
+                        variant="plain"
+                        color={djModeEnabled ? 'primary' : 'neutral'}
+                        title="Toggle DJ Mixer Mode"
+                    >
+                        <MixerHorizontalIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={toggleTechnicalInfo}
+                        variant="plain"
+                        color={showTechnicalInfo ? 'primary' : 'neutral'}
+                    >
+                        <InfoCircledIcon />
+                    </IconButton>
+                </Flex>
             </Flex>
 
             <Flex
@@ -971,7 +984,11 @@ export function NowPlayingPage(): React.ReactElement {
                     style={{ flex: '0 0 280px', marginLeft: vars.spacing['6'], display: isMobile ? 'none' : 'block' }}
                 >
                     <Flex direction="column" gap={vars.spacing['5']}>
-                        <RemoteControlSection onCommand={handleRemoteCommand} />
+                        {djModeEnabled ? (
+                            <DJMixerPanel />
+                        ) : (
+                            <RemoteControlSection onCommand={handleRemoteCommand} />
+                        )}
                         <MessageSection onSendMessage={handleSendMessage} onSendText={handleSendText} />
                         <PlaylistSection
                             items={queueItems}
