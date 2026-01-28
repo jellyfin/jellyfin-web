@@ -1,26 +1,36 @@
 import {
-    DesktopIcon,
-    MobileIcon,
-    LaptopIcon,
     Cross2Icon,
-    VideoIcon,
-    Share1Icon,
+    DesktopIcon,
     ExternalLinkIcon,
-    LinkNone2Icon
+    LaptopIcon,
+    LinkNone2Icon,
+    MobileIcon,
+    Share1Icon,
+    VideoIcon
 } from '@radix-ui/react-icons';
-import React, { useState, useEffect, useCallback } from 'react';
-
+import { useKeyboard } from '@react-aria/interactions';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { vars } from 'styles/tokens.css';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Dialog, DialogContent, DialogTitle } from 'ui-primitives/Dialog';
-import { Divider } from 'ui-primitives/Divider';
-import { IconButton } from 'ui-primitives/IconButton';
-import { List, ListItem, ListItemButton, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
-import { Text } from 'ui-primitives/Text';
+import {
+    Box,
+    Button,
+    Checkbox,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    Flex,
+    IconButton,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemContent,
+    ListItemDecorator,
+    Text
+} from 'ui-primitives';
+import { useEnhancedButtonFocus, useEnhancedFocus } from '../../hooks/useEnhancedFocus';
 
-import { isEnabled, enable } from '../../scripts/autocast';
+import { enable, isEnabled } from '../../scripts/autocast';
 import { logger } from '../../utils/logger';
 
 import { playbackManager } from './playbackmanager';
@@ -61,6 +71,11 @@ interface TargetListItemProps {
 }
 
 const TargetListItem = React.memo(({ target, onClick, getDeviceIcon }: TargetListItemProps) => {
+    const { focusProps, focusRingStyles } = useEnhancedButtonFocus({
+        component: 'TargetListItem',
+        focusColor: 'primary'
+    });
+
     const handleClick = useCallback((): void => {
         onClick(target).catch((error: unknown) => {
             logger.error(
@@ -73,12 +88,27 @@ const TargetListItem = React.memo(({ target, onClick, getDeviceIcon }: TargetLis
 
     return (
         <ListItem key={target.id} data-testid="player-item">
-            <ListItemButton
+            <div
                 onClick={handleClick}
-                selected={target.selected ?? false}
-                style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing['2'] }}
+                style={{
+                    borderRadius: vars.borderRadius.md,
+                    marginBottom: vars.spacing['2'],
+                    ...focusRingStyles,
+                    cursor: 'pointer',
+                    padding: vars.spacing['3'],
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: vars.spacing['3']
+                }}
+                {...focusProps}
+                role="button"
+                tabIndex={0}
+                aria-label={`${target.name} ${target.selected ? 'selected' : 'not selected'} device`}
+                aria-selected={target.selected ?? false}
             >
-                <ListItemDecorator>{getDeviceIcon(target.deviceType, target.isLocalPlayer)}</ListItemDecorator>
+                <ListItemDecorator>
+                    {getDeviceIcon(target.deviceType, target.isLocalPlayer)}
+                </ListItemDecorator>
                 <ListItemContent>
                     <Text>{target.name}</Text>
                     {target.secondaryText !== null &&
@@ -94,20 +124,116 @@ const TargetListItem = React.memo(({ target, onClick, getDeviceIcon }: TargetLis
                         Playing
                     </Text>
                 )}
-            </ListItemButton>
+            </div>
         </ListItem>
     );
 });
 
 TargetListItem.displayName = 'TargetListItem';
 
-export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogProps): React.JSX.Element {
+export function PlayerSelectionDialog({
+    open,
+    onClose
+}: PlayerSelectionDialogProps): React.JSX.Element {
     const [targets, setTargets] = useState<PlaybackTarget[]>([]);
     const [loading, setLoading] = useState(false);
     const [activePlayerInfo, setActivePlayerInfo] = useState<ActivePlayerInfo | null>(null);
     const [showActivePlayerMenu, setShowActivePlayerMenu] = useState(false);
     const [enableMirror, setEnableMirror] = useState(false);
     const [enableAutoCast, setEnableAutoCast] = useState(false);
+    const dialogRef = useRef<HTMLDivElement>(null);
+    const firstFocusableRef = useRef<HTMLButtonElement>(null);
+
+    // Focus trap for the dialog
+    useEffect(() => {
+        if (open && dialogRef.current) {
+            const focusableElements = dialogRef.current.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            ) as NodeListOf<HTMLElement>;
+
+            if (focusableElements.length > 0) {
+                // Focus first element when dialog opens
+                focusableElements[0].focus();
+            }
+
+            const handleKeyDown = (e: KeyboardEvent) => {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        // Shift + Tab: navigate to previous focusable element
+                        if (document.activeElement === focusableElements[0]) {
+                            focusableElements[focusableElements.length - 1].focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        // Tab: navigate to next focusable element
+                        if (
+                            document.activeElement ===
+                            focusableElements[focusableElements.length - 1]
+                        ) {
+                            focusableElements[0].focus();
+                            e.preventDefault();
+                        }
+                    }
+                }
+
+                // Escape key closes dialog
+                if (e.key === 'Escape') {
+                    onClose();
+                    e.preventDefault();
+                }
+            };
+
+            document.addEventListener('keydown', handleKeyDown);
+            return () => {
+                document.removeEventListener('keydown', handleKeyDown);
+            };
+        }
+    }, [open, onClose]);
+
+    // Enhanced focus for dialog container
+    const { focusProps: dialogFocusProps } = useEnhancedFocus({
+        component: 'PlayerSelectionDialog',
+        trackFocusWithin: true
+    });
+
+    // Global keyboard shortcuts
+    useKeyboard({
+        onKeyDown: (e) => {
+            if (!open) return;
+
+            // Arrow keys for target navigation when list is visible
+            if (targets.length > 0) {
+                switch (e.key) {
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        const currentIndex = targets.findIndex((t) => t.selected);
+                        const prevIndex = currentIndex > 0 ? currentIndex - 1 : targets.length - 1;
+                        const prevTarget = targets[prevIndex];
+                        if (prevTarget) {
+                            handleTargetSelect(prevTarget);
+                        }
+                        break;
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        const currentIndexDown = targets.findIndex((t) => t.selected);
+                        const nextIndex =
+                            currentIndexDown < targets.length - 1 ? currentIndexDown + 1 : 0;
+                        const nextTarget = targets[nextIndex];
+                        if (nextTarget) {
+                            handleTargetSelect(nextTarget);
+                        }
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        const selectedTarget = targets.find((t) => t.selected);
+                        if (selectedTarget) {
+                            handleTargetSelect(selectedTarget);
+                        }
+                        break;
+                }
+            }
+        }
+    });
 
     const handleClose = useCallback((): void => {
         onClose();
@@ -127,19 +253,21 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
             const currentPlayerId = playerInfo?.id ?? null;
             const playbackTargets = await playbackManager.getTargets();
 
-            const mappedTargets: PlaybackTarget[] = (playbackTargets as PlaybackTarget[]).map((t: PlaybackTarget) => {
-                let name = t.name;
-                const appName = t.appName as string | undefined;
-                if (appName !== undefined && appName !== '' && appName !== t.name) {
-                    name += ' - ' + appName;
+            const mappedTargets: PlaybackTarget[] = (playbackTargets as PlaybackTarget[]).map(
+                (t: PlaybackTarget) => {
+                    let name = t.name;
+                    const appName = t.appName as string | undefined;
+                    if (appName !== undefined && appName !== '' && appName !== t.name) {
+                        name += ' - ' + appName;
+                    }
+                    return {
+                        ...t,
+                        name,
+                        selected: currentPlayerId === t.id,
+                        secondaryText: t.user?.Name ?? null
+                    };
                 }
-                return {
-                    ...t,
-                    name,
-                    selected: currentPlayerId === t.id,
-                    secondaryText: t.user?.Name ?? null
-                };
-            });
+            );
 
             setTargets(mappedTargets);
         } catch (error) {
@@ -169,16 +297,19 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
         setEnableAutoCast(isEnabled());
     }, []);
 
-    const getDeviceIcon = useCallback((deviceType?: string, isLocalPlayer?: boolean): React.JSX.Element => {
-        if (isLocalPlayer === true) {
-            if (deviceType === 'tv') return <VideoIcon />;
-            if (deviceType === 'smartphone') return <MobileIcon />;
-            if (deviceType === 'tablet') return <LaptopIcon />;
-            if (deviceType === 'desktop') return <DesktopIcon />;
-            return <DesktopIcon />;
-        }
-        return <Share1Icon />;
-    }, []);
+    const getDeviceIcon = useCallback(
+        (deviceType?: string, isLocalPlayer?: boolean): React.JSX.Element => {
+            if (isLocalPlayer === true) {
+                if (deviceType === 'tv') return <VideoIcon />;
+                if (deviceType === 'smartphone') return <MobileIcon />;
+                if (deviceType === 'tablet') return <LaptopIcon />;
+                if (deviceType === 'desktop') return <DesktopIcon />;
+                return <DesktopIcon />;
+            }
+            return <Share1Icon />;
+        },
+        []
+    );
 
     const handleTargetSelect = useCallback(
         async (target: PlaybackTarget): Promise<void> => {
@@ -210,9 +341,12 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                 interface PlayerWithEndSession {
                     endSession: () => void;
                 }
-                const currentPlayer = playbackManager.getCurrentPlayer() as PlayerWithEndSession | null;
+                const currentPlayer =
+                    playbackManager.getCurrentPlayer() as PlayerWithEndSession | null;
                 currentPlayer?.endSession();
-                (playbackManager as { setDefaultPlayerActive: () => void }).setDefaultPlayerActive();
+                (
+                    playbackManager as { setDefaultPlayerActive: () => void }
+                ).setDefaultPlayerActive();
             }
         } else {
             (playbackManager as { setDefaultPlayerActive: () => void }).setDefaultPlayerActive();
@@ -225,7 +359,9 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
     const handleMirrorChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
         const checked = event.target.checked;
         setEnableMirror(checked);
-        (playbackManager as { enableDisplayMirroring: (enabled: boolean) => void }).enableDisplayMirroring(checked);
+        (
+            playbackManager as { enableDisplayMirroring: (enabled: boolean) => void }
+        ).enableDisplayMirroring(checked);
     }, []);
 
     const handleAutoCastChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -235,8 +371,10 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
     }, []);
 
     if (showActivePlayerMenu === true && activePlayerInfo !== null) {
-        const activeDeviceName = activePlayerInfo.deviceName ?? activePlayerInfo.name ?? 'Unknown Device';
-        const supportsMirroring = activePlayerInfo.supportedCommands?.includes('DisplayContent') === true;
+        const activeDeviceName =
+            activePlayerInfo.deviceName ?? activePlayerInfo.name ?? 'Unknown Device';
+        const supportsMirroring =
+            activePlayerInfo.supportedCommands?.includes('DisplayContent') === true;
 
         return (
             <Dialog open={open} onOpenChange={handleClose}>
@@ -247,7 +385,11 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                     }}
                 >
                     <Flex
-                        style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}
+                        style={{
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: vars.spacing['5']
+                        }}
                     >
                         <DialogTitle>{activeDeviceName}</DialogTitle>
                         <IconButton variant="plain" onClick={handleClose} aria-label="Close">
@@ -308,13 +450,21 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
     let content;
     if (loading === true) {
-        content = <Text style={{ padding: vars.spacing['7'], textAlign: 'center' }}>Loading playback devices...</Text>;
+        content = (
+            <Text style={{ padding: vars.spacing['7'], textAlign: 'center' }}>
+                Loading playback devices...
+            </Text>
+        );
     } else if (targets.length === 0) {
-        content = <Text style={{ padding: vars.spacing['7'], textAlign: 'center' }}>No playback devices found</Text>;
+        content = (
+            <Text style={{ padding: vars.spacing['7'], textAlign: 'center' }}>
+                No playback devices found
+            </Text>
+        );
     } else {
         content = (
             <List>
-                {targets.map(target => (
+                {targets.map((target) => (
                     <TargetListItem
                         key={target.id}
                         target={target}
@@ -328,13 +478,24 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
     return (
         <Dialog open={open} onOpenChange={handleClose}>
-            <DialogContent
+            <div
+                ref={dialogRef}
                 style={{
                     '--Dialog-width': '400px',
                     '--Dialog-padding': '24px'
                 }}
+                {...dialogFocusProps}
+                role="dialog"
+                aria-labelledby="player-selection-title"
+                aria-describedby={loading ? 'loading-message' : 'player-list'}
             >
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
+                <Flex
+                    style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: vars.spacing['5']
+                    }}
+                >
                     <DialogTitle>Play On</DialogTitle>
                     <IconButton variant="plain" onClick={handleClose} aria-label="Close">
                         <Cross2Icon />
@@ -342,7 +503,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                 </Flex>
 
                 <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>{content}</Flex>
-            </DialogContent>
+            </div>
         </Dialog>
     );
 }
