@@ -7,6 +7,7 @@
 
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import { ArrowRightIcon, PlayIcon } from '@radix-ui/react-icons';
+import { motion, AnimatePresence } from 'motion/react';
 
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
@@ -14,9 +15,11 @@ import { useNavigate } from '@tanstack/react-router';
 import { getItems, itemsApi } from 'lib/api/items';
 import { ConnectionState } from 'lib/jellyfin-apiclient/connectionState';
 import { queryKeys } from 'lib/queryKeys';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useConnectionStore } from 'store/connectionStore';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { appRouter } from 'components/router/appRouter';
+import { toVideoItem } from 'lib/utils/playbackUtils';
 import { vars } from 'styles/tokens.css';
 import { AspectRatio } from 'ui-primitives/AspectRatio';
 import { Box, Flex } from 'ui-primitives/Box';
@@ -36,14 +39,14 @@ const HomeSection: React.FC<HomeSectionProps> = ({ title, viewAllLink, children,
     const navigate = useNavigate();
 
     return (
-        <Box style={{ marginBottom: vars.spacing.xl }}>
+        <Box style={{ marginBottom: vars.spacing['7'] }}>
             <Flex
                 style={{
                     flexDirection: 'row',
-                    gap: vars.spacing.md,
+                    gap: vars.spacing['5'],
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginBottom: vars.spacing.md
+                    marginBottom: vars.spacing['5']
                 }}
             >
                 <Heading.H4>{title}</Heading.H4>
@@ -58,7 +61,7 @@ const HomeSection: React.FC<HomeSectionProps> = ({ title, viewAllLink, children,
                     style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                        gap: vars.spacing.md
+                        gap: vars.spacing['5']
                     }}
                 >
                     {Array.from({ length: 6 }).map((_, i) => (
@@ -118,12 +121,101 @@ const LibraryCard: React.FC<{ library: BaseItemDto }> = ({ library }) => {
                     </Box>
                 )}
             </AspectRatio>
-            <Box style={{ padding: vars.spacing.sm }}>
+            <Box style={{ padding: vars.spacing['4'] }}>
                 <Text size="sm" style={{ fontWeight: 'bold' }} noWrap>
                     {library.Name}
                 </Text>
             </Box>
         </Card>
+    );
+};
+
+interface RecentlyAddedCardProps {
+    item: BaseItemDto;
+    onPlay: () => void;
+    onClick: () => void;
+}
+
+const RecentlyAddedCard: React.FC<RecentlyAddedCardProps> = ({ item, onPlay, onClick }) => {
+    const [isHovering, setIsHovering] = useState(false);
+    const imageTag = item.ImageTags?.Primary;
+    const imageUrl =
+        item.Id && imageTag
+            ? `/api/Items/${item.Id}/Images/Primary?tag=${imageTag}&maxWidth=400`
+            : null;
+
+    return (
+        <motion.div
+            onHoverStart={() => setIsHovering(true)}
+            onHoverEnd={() => setIsHovering(false)}
+            style={{ position: 'relative' }}
+        >
+            <Card
+                style={{
+                    cursor: 'pointer',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}
+                onClick={onClick}
+            >
+                <AspectRatio ratio="16/9">
+                    {imageUrl ? (
+                        <img src={imageUrl} alt={item.Name || ''} loading="lazy" />
+                    ) : (
+                        <Box
+                            style={{
+                                backgroundColor: vars.colors.surface,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Heading.H3>{item.Name?.charAt(0)}</Heading.H3>
+                        </Box>
+                    )}
+                </AspectRatio>
+                <Box style={{ padding: vars.spacing['4'] }}>
+                    <Text size="sm" style={{ fontWeight: 'bold' }} noWrap>
+                        {item.Name}
+                    </Text>
+                </Box>
+
+                <AnimatePresence>
+                    {isHovering && (
+                        <motion.div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                                backdropFilter: 'blur(2px)'
+                            }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <IconButton
+                                variant="solid"
+                                color="primary"
+                                onClick={e => {
+                                    e.stopPropagation();
+                                    onPlay();
+                                }}
+                                aria-label="Play item"
+                            >
+                                <PlayIcon />
+                            </IconButton>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </Card>
+        </motion.div>
     );
 };
 
@@ -202,7 +294,7 @@ const ContinueWatchingCard: React.FC<{ item: BaseItemDto }> = ({ item }) => {
                     <PlayIcon style={{ width: 24, height: 24 }} />
                 </IconButton>
             </AspectRatio>
-            <Box style={{ padding: vars.spacing.sm }}>
+            <Box style={{ padding: vars.spacing['4'] }}>
                 <Text size="sm" style={{ fontWeight: 'bold' }} noWrap>
                     {item.Name}
                 </Text>
@@ -217,6 +309,20 @@ const ContinueWatchingCard: React.FC<{ item: BaseItemDto }> = ({ item }) => {
 export const Home: React.FC = () => {
     const navigate = useNavigate();
     const { currentState, currentUserId } = useConnectionStore();
+
+    const handleItemClick = useCallback((item: BaseItemDto) => {
+        appRouter.showItem(item);
+    }, []);
+
+    const handleItemPlay = useCallback(async (item: BaseItemDto) => {
+        try {
+            const playable = toVideoItem(item);
+            await playbackManagerBridge.setQueue([playable], 0);
+            await playbackManagerBridge.play();
+        } catch (error) {
+            console.error('[Home] Failed to play item', error);
+        }
+    }, []);
 
     const { data: userViews, isLoading: viewsLoading } = useQuery({
         queryKey: queryKeys.userViews,
@@ -264,9 +370,9 @@ export const Home: React.FC = () => {
     });
 
     return (
-        <Box className="view-content" style={{ paddingBottom: vars.spacing.xl }}>
-            <Box style={{ padding: vars.spacing.md }}>
-                <Heading.H2 style={{ marginBottom: vars.spacing.sm }}>Welcome back</Heading.H2>
+        <Box className="view-content" style={{ paddingBottom: vars.spacing['7'] }}>
+            <Box style={{ padding: vars.spacing['5'] }}>
+                <Heading.H2 style={{ marginBottom: vars.spacing['4'] }}>Welcome back</Heading.H2>
                 <Text size="lg" color="secondary">
                     What would you like to watch today?
                 </Text>
@@ -277,9 +383,9 @@ export const Home: React.FC = () => {
                     <Flex
                         style={{
                             flexDirection: 'row',
-                            gap: vars.spacing.md,
+                            gap: vars.spacing['5'],
                             overflow: 'auto',
-                            paddingBottom: vars.spacing.sm
+                            paddingBottom: vars.spacing['4']
                         }}
                     >
                         {resumeItems.Items.map((item) => (
@@ -294,7 +400,7 @@ export const Home: React.FC = () => {
                     style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-                        gap: vars.spacing.md
+                        gap: vars.spacing['5']
                     }}
                 >
                     {userViews?.map((library) => (
@@ -312,11 +418,16 @@ export const Home: React.FC = () => {
                     style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                        gap: vars.spacing.md
+                        gap: vars.spacing['5']
                     }}
                 >
                     {latestMovies?.Items?.map((item) => (
-                        <LibraryCard key={item.Id || Math.random()} library={item} />
+                        <RecentlyAddedCard
+                            key={item.Id || Math.random()}
+                            item={item}
+                            onPlay={() => handleItemPlay(item)}
+                            onClick={() => handleItemClick(item)}
+                        />
                     ))}
                 </Box>
             </HomeSection>
@@ -330,11 +441,16 @@ export const Home: React.FC = () => {
                     style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                        gap: vars.spacing.md
+                        gap: vars.spacing['5']
                     }}
                 >
                     {latestShows?.Items?.map((item) => (
-                        <LibraryCard key={item.Id || Math.random()} library={item} />
+                        <RecentlyAddedCard
+                            key={item.Id || Math.random()}
+                            item={item}
+                            onPlay={() => handleItemPlay(item)}
+                            onClick={() => handleItemClick(item)}
+                        />
                     ))}
                 </Box>
             </HomeSection>
