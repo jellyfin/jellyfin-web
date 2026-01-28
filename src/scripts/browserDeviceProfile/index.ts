@@ -22,7 +22,8 @@ import {
     canPlayNativeHls,
     canPlayNativeHlsInFmp4,
     supportsCanvas2D,
-    supportsTextTracks
+    supportsTextTracks,
+    supportsAnamorphicVideo
 } from './featureDetection';
 import {
     supportsHdr10,

@@ -385,7 +385,8 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
                 mixerNode.connect(analyser);
                 isAnalyserConnected = true;
             } catch (error) {
-                logger.error('[FrequencyAnalyzer] Failed to connect analyser to mixer', { component: 'FrequencyAnalyzer' }, error);
+                const err = error instanceof Error ? error : new Error(String(error));
+                logger.error('[FrequencyAnalyzer] Failed to connect analyser to mixer', { component: 'FrequencyAnalyzer' }, err);
             }
         }
 

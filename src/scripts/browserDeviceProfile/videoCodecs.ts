@@ -13,12 +13,12 @@ export function canPlayHevc(videoTestElement: HTMLMediaElement, options: any): b
         return false;
     }
 
-    return (
-        !!videoTestElement.canPlayType &&
-        (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L120"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L120"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.0.L120"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''))
+    return Boolean(
+        videoTestElement.canPlayType &&
+            (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L120"').replace(/no/, '') ||
+                videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L120"').replace(/no/, '') ||
+                videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.0.L120"').replace(/no/, '') ||
+                videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''))
     );
 }
 
@@ -27,9 +27,9 @@ export function canPlayAv1(videoTestElement: HTMLMediaElement): boolean {
         return true;
     }
 
-    return (
-        !!videoTestElement.canPlayType &&
-        videoTestElement.canPlayType('video/mp4; codecs="av01.0.15M.08"').replace(/no/, '') &&
-        videoTestElement.canPlayType('video/mp4; codecs="av01.0.15M.10"').replace(/no/, '')
+    return Boolean(
+        videoTestElement.canPlayType &&
+            videoTestElement.canPlayType('video/mp4; codecs="av01.0.15M.08"').replace(/no/, '') &&
+            videoTestElement.canPlayType('video/mp4; codecs="av01.0.15M.10"').replace(/no/, '')
     );
 }

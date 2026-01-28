@@ -3,7 +3,7 @@ import alert from '../../../components/alert';
 import globalize from '../../../lib/globalize';
 
 class PlaybackPermissionManager {
-    private checkPromise: Promise<void> | null = null;
+    private checkPromise?: Promise<void>;
 
     check(): Promise<void> {
         if (this.checkPromise) {
@@ -14,11 +14,12 @@ class PlaybackPermissionManager {
             this.checkPromise = alert({
                 title: globalize.translate('HeaderSyncPlayPlaybackPermission'),
                 text: globalize.translate('MessageSyncPlayPlaybackPermissionSafari')
-            });
+            }).then(() => undefined);
             return this.checkPromise;
         }
 
-        return Promise.resolve();
+        this.checkPromise = Promise.resolve();
+        return this.checkPromise;
     }
 }
 

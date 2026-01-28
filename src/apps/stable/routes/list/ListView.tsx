@@ -22,7 +22,7 @@ export function ListView() {
     const parentId = searchParams.get('parentId') || '';
     const page = parseInt(searchParams.get('page') || '1', 10);
 
-    const { data: userViews } = useUserViews(currentServer?.userId);
+    const { data: userViews } = useUserViews(currentServer?.userId ?? undefined);
 
     const resolvedTitle = useMemo(() => {
         if (parentId && userViews?.Items) {

@@ -8,7 +8,7 @@ import { Button } from '../../../ui-primitives';
 import { IconButton } from '../../../ui-primitives';
 import { Toggle } from '../../../ui-primitives';
 import { Slider } from '../../../ui-primitives';
-import { WaveformCell } from '../../../ui-primitives/organisms/visualizers/WaveformCell';
+import { WaveformCell } from '../../../ui-primitives/organisms/WaveformCell';
 
 const meta: Meta = {
     title: 'Visualizer/Integration',

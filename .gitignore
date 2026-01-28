@@ -32,8 +32,39 @@ debug-storybook.log
 dist.bak/
 tsc_errors.txt
 
-# AI agent data
+# AI agent / tool state
 .gemini/
+.agents/
+.agent/
+.cline/
+.codebuddy/
+.claude/
+.codex/
+.commandcode/
+.continue/
+.crush/
+.cursor/
+.factory/
+.github/skills/
+.goose/
+.junie/
+.kilocode/
+.kiro/
+.kode/
+.mcpjam/
+.mux/
+.neovate/
+.opencode/
+.openhands/
+.pi/
+.pochi/
+.qoder/
+.qwen/
+.roo/
+.trae/
+.windsurf/
+.zencoder/
+skills/
 
 # Local configs
 opencode.jsonc

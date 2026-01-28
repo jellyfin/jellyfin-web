@@ -33,6 +33,9 @@ export function deleteItem(options: DeleteOptions): Promise<void> {
     const { item } = options;
     const parentId = item.SeasonId || item.SeriesId || item.ParentId;
     const apiClient = ServerConnections.getApiClient(item.ServerId);
+    if (!apiClient) {
+        return Promise.reject(new Error('No ApiClient available for deletion'));
+    }
 
     return confirm(getDeletionConfirmContent(item)).then(() => {
         return apiClient.deleteItem(item.Id).then(
@@ -61,6 +64,9 @@ export function deleteLyrics(item: any): Promise<void> {
         primary: 'delete'
     }).then(() => {
         const apiClient = ServerConnections.getApiClient(item.ServerId);
+        if (!apiClient) {
+            return Promise.reject(new Error('No ApiClient available for deletion'));
+        }
         return apiClient
             .ajax({
                 url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),

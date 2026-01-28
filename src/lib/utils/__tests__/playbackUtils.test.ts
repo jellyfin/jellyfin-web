@@ -288,7 +288,7 @@ describe('playbackUtils', () => {
             const mixed: BaseItemDto = {
                 Id: 'item-1',
                 Name: 'Item',
-                Type: 'Unknown',
+                Type: 'Audio',
                 ServerId: 'server-1'
             };
 

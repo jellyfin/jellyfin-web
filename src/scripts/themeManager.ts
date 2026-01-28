@@ -7,7 +7,7 @@ let currentThemeId: string | undefined;
 export interface ThemeInfo {
     id: string;
     name: string;
-    color: string;
+    color?: string;
     [key: string]: any;
 }
 
@@ -40,7 +40,7 @@ export function setTheme(id: string): Promise<void> {
             currentThemeId = info.id;
             document.documentElement.setAttribute('data-theme', info.id);
             const metaThemeColor = document.getElementById('themeColor') as HTMLMetaElement;
-            if (metaThemeColor) metaThemeColor.content = info.color;
+            if (metaThemeColor) metaThemeColor.content = info.color ?? '';
 
             Events.trigger(document, EventType.THEME_CHANGE, [info.id]);
             resolve();

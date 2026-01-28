@@ -14,11 +14,12 @@ export interface TaskButtonOptions {
 
 function taskbutton(options: TaskButtonOptions): void {
     const button = options.button;
-    const serverId = (window as any).ApiClient.serverId();
+    const serverId = (window as any).ApiClient?.serverId?.();
+    if (!serverId) return;
     let pollInterval: any;
 
     function pollTasks() {
-        ServerConnections.getApiClient(serverId).getScheduledTasks({ IsEnabled: true }).then(updateTasks);
+        ServerConnections.getApiClient(serverId)?.getScheduledTasks({ IsEnabled: true }).then(updateTasks);
     }
 
     function updateTasks(tasks: any[]) {
@@ -49,7 +50,7 @@ function taskbutton(options: TaskButtonOptions): void {
 
     function onButtonClick() {
         const id = button.getAttribute('data-taskid');
-        if (id) ServerConnections.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
+        if (id) ServerConnections.getApiClient(serverId)?.startScheduledTask(id).then(pollTasks);
     }
 
     function onScheduledTasksUpdate(_e: any, apiClient: any, info: any[]) {
@@ -58,6 +59,7 @@ function taskbutton(options: TaskButtonOptions): void {
 
     function startInterval() {
         const apiClient = ServerConnections.getApiClient(serverId);
+        if (!apiClient) return;
         if (pollInterval) clearInterval(pollInterval);
         apiClient.sendMessage('ScheduledTasksInfoStart', '1000,1000');
         pollInterval = setInterval(() => {
@@ -66,7 +68,7 @@ function taskbutton(options: TaskButtonOptions): void {
     }
 
     function stopInterval() {
-        ServerConnections.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
+        ServerConnections.getApiClient(serverId)?.sendMessage('ScheduledTasksInfoStop', '');
         if (pollInterval) clearInterval(pollInterval);
     }
 

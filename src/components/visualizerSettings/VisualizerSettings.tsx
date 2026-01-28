@@ -559,15 +559,11 @@ export const VisualizerSettings: React.FC = () => {
                                                     'Starfield background with 5000+ stars',
                                                     'Orbit controls with auto-rotation'
                                                 ].map((feature, idx) => (
-                                                    <Text
-                                                        key={idx}
-                                                        as="li"
-                                                        size="xs"
-                                                        color="secondary"
-                                                        style={{ marginBottom: vars.spacing['2'] }}
-                                                    >
-                                                        {feature}
-                                                    </Text>
+                                                    <Box key={idx} as="li" style={{ marginBottom: vars.spacing['2'] }}>
+                                                        <Text as="span" size="xs" color="secondary">
+                                                            {feature}
+                                                        </Text>
+                                                    </Box>
                                                 ))}
                                             </Box>
                                         </Box>

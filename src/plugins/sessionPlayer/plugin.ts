@@ -47,7 +47,7 @@ function unsubscribeFromPlayerUpdates(instance: SessionPlayer) {
     instance.isUpdating = false;
     const apiClient = getCurrentApiClient(instance);
     if (apiClient) {
-        apiClient.sendMessage('SessionsStop');
+        apiClient.sendMessage('SessionsStop', '');
     }
     if (instance.pollInterval) {
         clearInterval(instance.pollInterval);

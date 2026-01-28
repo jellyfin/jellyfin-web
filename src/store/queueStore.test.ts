@@ -23,6 +23,14 @@ Object.defineProperty(window, 'localStorage', {
     value: localStorageMock
 });
 
+const makeItem = (id: string, name: string = `Song ${id}`): PlayableItem => ({
+    id,
+    name,
+    mediaType: 'Audio',
+    serverId: 'server-1',
+    type: 'Audio'
+});
+
 describe('queueStore', () => {
     beforeEach(() => {
         localStorageMock.clear();
@@ -72,8 +80,8 @@ describe('queueStore', () => {
     describe('setQueue', () => {
         it('should set queue with items', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
 
             useQueueStore.getState().setQueue(items);
@@ -86,9 +94,9 @@ describe('queueStore', () => {
 
         it('should set currentIndex from startIndex parameter', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
 
             useQueueStore.getState().setQueue(items, 2);
@@ -99,7 +107,7 @@ describe('queueStore', () => {
 
         it('should clamp startIndex to valid range', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' }
+                makeItem('1')
             ];
 
             useQueueStore.getState().setQueue(items, 10);
@@ -110,7 +118,7 @@ describe('queueStore', () => {
 
         it('should reset isShuffled flag', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' }
+                makeItem('1')
             ];
 
             useQueueStore.getState().setQueue(items);
@@ -121,7 +129,7 @@ describe('queueStore', () => {
 
         it('should reset queueHistory', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' }
+                makeItem('1')
             ];
 
             useQueueStore.getState().setQueue(items);
@@ -133,10 +141,10 @@ describe('queueStore', () => {
 
     describe('addToQueue', () => {
         it('should add items to end of queue', () => {
-            const initial: PlayableItem[] = [{ id: '1', name: 'Song 1', type: 'Audio' }];
+            const initial: PlayableItem[] = [makeItem('1')];
             useQueueStore.getState().setQueue(initial);
 
-            const newItems: PlayableItem[] = [{ id: '2', name: 'Song 2', type: 'Audio' }];
+            const newItems: PlayableItem[] = [makeItem('2')];
             useQueueStore.getState().addToQueue(newItems);
 
             const state = useQueueStore.getState();
@@ -146,12 +154,12 @@ describe('queueStore', () => {
 
         it('should add items at specific position', () => {
             const initial: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(initial);
 
-            const newItems: PlayableItem[] = [{ id: '2', name: 'Song 2', type: 'Audio' }];
+            const newItems: PlayableItem[] = [makeItem('2')];
             useQueueStore.getState().addToQueue(newItems, 1);
 
             const state = useQueueStore.getState();
@@ -161,12 +169,12 @@ describe('queueStore', () => {
 
         it('should preserve current index after adding', () => {
             const initial: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(initial, 1);
 
-            const newItems: PlayableItem[] = [{ id: '3', name: 'Song 3', type: 'Audio' }];
+            const newItems: PlayableItem[] = [makeItem('3')];
             useQueueStore.getState().addToQueue(newItems);
 
             const state = useQueueStore.getState();
@@ -177,9 +185,9 @@ describe('queueStore', () => {
     describe('removeFromQueue', () => {
         it('should remove items by id', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -192,9 +200,9 @@ describe('queueStore', () => {
 
         it('should adjust currentIndex when removing before current', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items, 2);
 
@@ -206,9 +214,9 @@ describe('queueStore', () => {
 
         it('should adjust currentIndex when removing current item', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items, 1);
 
@@ -222,8 +230,8 @@ describe('queueStore', () => {
     describe('clearQueue', () => {
         it('should clear all items', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -235,7 +243,7 @@ describe('queueStore', () => {
         });
 
         it('should reset all flags', () => {
-            const items: PlayableItem[] = [{ id: '1', name: 'Song 1', type: 'Audio' }];
+            const items: PlayableItem[] = [makeItem('1')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().clearQueue();
@@ -251,8 +259,8 @@ describe('queueStore', () => {
     describe('setCurrentIndex', () => {
         it('should set valid currentIndex', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -262,7 +270,7 @@ describe('queueStore', () => {
         });
 
         it('should not set invalid currentIndex', () => {
-            const items: PlayableItem[] = [{ id: '1', name: 'Song 1', type: 'Audio' }];
+            const items: PlayableItem[] = [makeItem('1')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().setCurrentIndex(5);
@@ -274,9 +282,9 @@ describe('queueStore', () => {
     describe('next', () => {
         it('should move to next item with RepeatNone', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -287,8 +295,8 @@ describe('queueStore', () => {
 
         it('should wrap to start with RepeatAll', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items);
             useQueueStore.getState().setRepeatMode('RepeatAll');
@@ -300,8 +308,8 @@ describe('queueStore', () => {
 
         it('should stay on same item with RepeatOne', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items, 1);
             useQueueStore.getState().setRepeatMode('RepeatOne');
@@ -315,9 +323,9 @@ describe('queueStore', () => {
     describe('prev', () => {
         it('should move to previous item', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items, 2);
 
@@ -327,7 +335,7 @@ describe('queueStore', () => {
         });
 
         it('should not go below 0', () => {
-            const items: PlayableItem[] = [{ id: '1', name: 'Song 1', type: 'Audio' }];
+            const items: PlayableItem[] = [makeItem('1')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().prev();
@@ -339,9 +347,9 @@ describe('queueStore', () => {
     describe('playItem', () => {
         it('should play item by id', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -351,7 +359,7 @@ describe('queueStore', () => {
         });
 
         it('should not change index for non-existent item', () => {
-            const items: PlayableItem[] = [{ id: '1', name: 'Song 1', type: 'Audio' }];
+            const items: PlayableItem[] = [makeItem('1')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().playItem('non-existent');
@@ -363,9 +371,9 @@ describe('queueStore', () => {
     describe('shuffle', () => {
         it('should shuffle queue', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -380,8 +388,8 @@ describe('queueStore', () => {
 
         it('should not shuffle queue with less than 3 items', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -395,9 +403,9 @@ describe('queueStore', () => {
     describe('moveItem', () => {
         it('should move item to new position', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -409,7 +417,7 @@ describe('queueStore', () => {
         });
 
         it('should not move with invalid indices', () => {
-            const items: PlayableItem[] = [{ id: '1', name: 'Song 1', type: 'Audio' }];
+            const items: PlayableItem[] = [makeItem('1')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().moveItem(5, 0);
@@ -472,8 +480,8 @@ describe('queueStore', () => {
     describe('persistence', () => {
         it('should save and load queue state', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items, 1);
 
@@ -497,8 +505,8 @@ describe('queueStore', () => {
     describe('selectors', () => {
         it('should select queue items', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items);
 
@@ -508,8 +516,8 @@ describe('queueStore', () => {
 
         it('should select current index', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items, 1);
 
@@ -519,8 +527,8 @@ describe('queueStore', () => {
 
         it('should select current queue item', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2')
             ];
             useQueueStore.getState().setQueue(items, 1);
 
@@ -534,7 +542,7 @@ describe('queueStore', () => {
             let state = useQueueStore.getState();
             expect(selectIsEmpty(state)).toBe(true);
 
-            const items: PlayableItem[] = [{ id: '1', name: 'Song 1', type: 'Audio' }];
+            const items: PlayableItem[] = [makeItem('1')];
             useQueueStore.getState().setQueue(items);
             state = useQueueStore.getState();
             expect(selectIsEmpty(state)).toBe(false);
@@ -542,9 +550,9 @@ describe('queueStore', () => {
 
         it('should select queue length', () => {
             const items: PlayableItem[] = [
-                { id: '1', name: 'Song 1', type: 'Audio' },
-                { id: '2', name: 'Song 2', type: 'Audio' },
-                { id: '3', name: 'Song 3', type: 'Audio' }
+                makeItem('1'),
+                makeItem('2'),
+                makeItem('3')
             ];
             useQueueStore.getState().setQueue(items);
 

@@ -32,6 +32,7 @@ function getItemsHtmlFn(playlistId: string, isEditable = false) {
 
 async function init(page: HTMLElement, item: any) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
+    if (!apiClient) return;
     const api = toApi(apiClient as any);
 
     let isEditable = false;

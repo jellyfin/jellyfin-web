@@ -19,7 +19,7 @@ function notifyApp() {
 function displayMessage(cmd: any) {
     const args = cmd.Arguments;
     if (args.TimeoutMs) {
-        toast({ title: args.Header, text: args.Text });
+        toast({ title: args.Header, text: args.Text } as any);
     } else {
         alert({ title: args.Header, text: args.Text });
     }

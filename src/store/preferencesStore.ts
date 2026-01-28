@@ -150,7 +150,13 @@ export interface PreferencesActions {
     setVisualizerEnabled: (enabled: boolean) => void;
     setVisualizerType: (type: VisualizerPreferences['type']) => void;
     setButterchurnPreset: (preset: string) => void;
-    setVisualizerColorScheme: (scheme: string) => void;
+    setVisualizerColorScheme: (
+        scheme: string,
+        colors?:
+            | Partial<VisualizerPreferences['frequencyAnalyzer']['colors']>
+            | Partial<VisualizerPreferences['frequencyAnalyzer']['colors']['gradient']>
+            | Partial<VisualizerPreferences['waveSurfer']['colors']>
+    ) => void;
     setSensitivity: (sensitivity: number) => void;
     setBarCount: (count: number) => void;
     setSmoothing: (smoothing: number) => void;
@@ -427,20 +433,64 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setVisualizerColorScheme: scheme => {
+                setVisualizerColorScheme: (scheme, colors) => {
                     const { type } = get().visualizer;
                     const visualizer = { ...get().visualizer };
 
                     if (type === 'frequency') {
-                        visualizer.frequencyAnalyzer = {
+                        const next = {
                             ...visualizer.frequencyAnalyzer,
                             colorScheme: scheme as 'spectrum' | 'solid' | 'albumArt' | 'gradient'
                         };
+
+                        if (colors) {
+                            // Support callers passing either:
+                            // - { solid: string }
+                            // - { low, mid, high }   (gradient)
+                            // - { gradient: { ... } }
+                            const anyColors = colors as any;
+
+                            if (scheme === 'solid' && typeof anyColors.solid === 'string') {
+                                next.colors = {
+                                    ...next.colors,
+                                    solid: anyColors.solid
+                                };
+                            }
+
+                            if (scheme === 'gradient') {
+                                const gradientPatch =
+                                    anyColors.gradient && typeof anyColors.gradient === 'object'
+                                        ? anyColors.gradient
+                                        : anyColors;
+
+                                if (gradientPatch && (gradientPatch.low || gradientPatch.mid || gradientPatch.high)) {
+                                    next.colors = {
+                                        ...next.colors,
+                                        gradient: {
+                                            ...next.colors.gradient,
+                                            ...gradientPatch
+                                        }
+                                    };
+                                }
+                            }
+                        }
+
+                        visualizer.frequencyAnalyzer = next;
                     } else if (type === 'waveform') {
-                        visualizer.waveSurfer = {
+                        const next = {
                             ...visualizer.waveSurfer,
                             colorScheme: scheme as 'albumArt' | 'monochrome' | 'stereo'
                         };
+
+                        if (colors) {
+                            // Expect patches shaped like { monochrome: {...} } or { stereo: {...} }
+                            next.colors = {
+                                ...next.colors,
+                                ...(colors as any)
+                            };
+                        }
+
+                        visualizer.waveSurfer = next;
                     }
 
                     set({ visualizer });

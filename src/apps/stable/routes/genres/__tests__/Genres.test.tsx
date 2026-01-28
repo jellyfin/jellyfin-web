@@ -11,19 +11,19 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 describe('Genres integration', () => {
     describe('genre type detection', () => {
         it('detects music genres', () => {
-            const genreType = 'music';
+            const genreType: string = 'music';
             const isAudio = genreType === 'music';
             expect(isAudio).toBe(true);
         });
 
         it('detects TV genres', () => {
-            const genreType = 'tv';
+            const genreType: string = 'tv';
             const isAudio = genreType === 'music';
             expect(isAudio).toBe(false);
         });
 
         it('detects movie genres', () => {
-            const genreType = 'movies';
+            const genreType: string = 'movies';
             const isAudio = genreType === 'music';
             expect(isAudio).toBe(false);
         });

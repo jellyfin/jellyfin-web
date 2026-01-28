@@ -11,6 +11,7 @@
 
 import { escapeHtml } from 'utils/html';
 import type { ApiClient } from 'jellyfin-apiclient';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 
 import { AppFeature } from 'constants/appFeature';
 import { getUserViewsQuery } from 'hooks/useUserViews';
@@ -475,7 +476,7 @@ function updateLibraryMenu(user?: any): void {
     const customMenuOptions = document.querySelector<HTMLElement>('.customMenuOptions');
     if (customMenuOptions) {
         getMenuLinks().then(links => {
-            links.forEach(link => {
+            links.forEach((link: any) => {
                 const option = document.createElement('a');
                 option.setAttribute('is', 'emby-linkbutton');
                 option.classList.add('navMenuOption', 'lnkMediaFolder');

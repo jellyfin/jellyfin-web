@@ -7,8 +7,8 @@
 import { useFocusRing as ariaUseFocusRing } from '@react-aria/focus';
 import { useFocus, useFocusWithin } from '@react-aria/interactions';
 import { useState } from 'react';
-import { ariaTheme } from '../../lib/accessibility/theme';
-import { logger } from '../../utils/logger';
+import { ariaTheme } from '../lib/accessibility/theme';
+import { logger } from '../utils/logger';
 
 export interface UseEnhancedFocusOptions {
     /** Color for focus ring - defaults to 'primary' */
@@ -119,7 +119,7 @@ export function useEnhancedFocus(options: UseEnhancedFocusOptions = {}): Enhance
         result.withinProps = {
             ...focusWithinProps,
             'data-focus-within': isFocusWithin.toString()
-        };
+        } as unknown as React.HTMLAttributes<HTMLElement>;
     }
 
     return result;
