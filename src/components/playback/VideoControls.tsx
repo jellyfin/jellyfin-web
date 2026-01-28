@@ -1,12 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Slider } from 'ui-primitives/Slider';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Text } from 'ui-primitives/Text';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { vars } from 'styles/tokens.css';
-
 import {
+    DesktopIcon,
     DiscIcon,
     DotFilledIcon,
     DoubleArrowLeftIcon,
@@ -24,11 +17,106 @@ import {
     SpeakerOffIcon,
     TrackNextIcon,
     TrackPreviousIcon,
-    DesktopIcon,
     ViewGridIcon
 } from '@radix-ui/react-icons';
+import { useKeyboard } from '@react-aria/interactions';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { vars } from 'styles/tokens.css';
+import { Box, Flex, IconButton, Slider, Text, Tooltip, VolumeSlider } from 'ui-primitives';
+import {
+    useEnhancedButtonFocus,
+    useEnhancedFocus,
+    useFocusTrap
+} from '../../hooks/useEnhancedFocus';
 
-import { VolumeSlider } from 'ui-primitives/VolumeSlider';
+// Enhanced Play/Pause Button with React ARIA focus
+const EnhancedPlayPauseButton = React.forwardRef<
+    HTMLButtonElement,
+    {
+        isPlaying: boolean;
+        onClick: () => void;
+    }
+>(({ isPlaying, onClick }, ref) => {
+    const { focusProps, focusRingStyles, buttonStyles } = useEnhancedButtonFocus({
+        variant: 'primary',
+        component: 'PlayPauseButton'
+    });
+
+    return (
+        <button
+            ref={ref}
+            className="btnPause"
+            onClick={onClick}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+            style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                border: 'none',
+                borderRadius: '50%',
+                width: '48px',
+                height: '48px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: vars.colors.text,
+                position: 'relative',
+                overflow: 'visible',
+                ...focusRingStyles
+            }}
+            {...focusProps}
+        >
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+        </button>
+    );
+});
+
+EnhancedPlayPauseButton.displayName = 'EnhancedPlayPauseButton';
+
+// Enhanced Seek Slider with React ARIA focus
+const EnhancedSeekSlider: React.FC<{
+    value: number;
+    onChange: (value: number[]) => void;
+    onCommit: (value: number[]) => void;
+    duration: number;
+    bufferedRanges: { start: number; end: number }[];
+}> = ({ value, onChange, onCommit, duration, bufferedRanges }) => {
+    const { focusProps, focusRingStyles } = useEnhancedFocus({
+        focusColor: 'primary',
+        component: 'SeekSlider'
+    });
+
+    return (
+        <Box style={{ position: 'relative' }}>
+            {/* Buffer overlay */}
+            {bufferedRanges.length > 0 && (
+                <Box
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: `${(bufferedRanges[0].start / duration) * 100}%`,
+                        right: `${100 - (bufferedRanges[0].end / duration) * 100}%`,
+                        height: 4,
+                        background: 'rgba(255, 255, 255, 0.3)',
+                        transform: 'translateY(-50%)',
+                        pointerEvents: 'none',
+                        zIndex: 1,
+                        borderRadius: 1
+                    }}
+                />
+            )}
+            <Box style={focusRingStyles} onFocus={focusProps.onFocus} onBlur={focusProps.onBlur}>
+                <Slider
+                    className="osdPositionSlider"
+                    value={[value]}
+                    onValueChange={onChange}
+                    onValueCommit={onCommit}
+                    min={0}
+                    max={100}
+                />
+            </Box>
+        </Box>
+    );
+};
 
 export interface VideoControlsProps {
     isPlaying: boolean;
@@ -121,6 +209,111 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
     const [isSeeking, setIsSeeking] = useState(false);
     const [showControls, setShowControls] = useState(true);
     const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const controlsRef = useRef<HTMLDivElement>(null);
+    const playPauseRef = useRef<HTMLButtonElement>(null);
+
+    // Enhanced focus for the controls container
+    const { focusProps: containerFocusProps, isFocusWithin } = useEnhancedFocus({
+        trackFocusWithin: true,
+        component: 'VideoControls'
+    });
+
+    // Focus trap for when controls are visible
+    useEffect(() => {
+        if (showControls && controlsRef.current) {
+            const container = controlsRef.current;
+
+            const focusableElements = container.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+
+            if (focusableElements.length === 0) return;
+
+            const firstElement = focusableElements[0] as HTMLElement;
+            const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+            const handleTabKey = (e: KeyboardEvent) => {
+                if (e.key !== 'Tab') return;
+
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        lastElement.focus();
+                        e.preventDefault();
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        firstElement.focus();
+                        e.preventDefault();
+                    }
+                }
+            };
+
+            container.addEventListener('keydown', handleTabKey);
+            return () => {
+                container.removeEventListener('keydown', handleTabKey);
+            };
+        }
+    }, [showControls]);
+
+    // Global keyboard shortcuts for video controls
+    useKeyboard({
+        onKeyDown: (e) => {
+            if (!showControls) return;
+
+            switch (e.key) {
+                case ' ':
+                case 'Space':
+                    e.preventDefault();
+                    onPlayPause();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    onRewind();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    onFastForward();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    onVolumeChange(Math.min(volume + 0.1, 1));
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    onVolumeChange(Math.max(volume - 0.1, 0));
+                    break;
+                case 'm':
+                case 'M':
+                    e.preventDefault();
+                    onMuteToggle();
+                    break;
+                case 'f':
+                case 'F':
+                    if (canFullscreen && onFullscreenClick) {
+                        e.preventDefault();
+                        onFullscreenClick();
+                    }
+                    break;
+                case 'j':
+                case 'J':
+                    e.preventDefault();
+                    onRewind();
+                    break;
+                case 'l':
+                case 'L':
+                    e.preventDefault();
+                    onFastForward();
+                    break;
+            }
+        }
+    });
+
+    // Focus play/pause button when controls become visible
+    useEffect(() => {
+        if (showControls && playPauseRef.current && isFocusWithin) {
+            playPauseRef.current.focus();
+        }
+    }, [showControls, isFocusWithin]);
 
     const handleMouseLeave = useCallback(() => {
         if (isPlaying) {
@@ -181,6 +374,7 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
 
     return (
         <Box
+            ref={controlsRef}
             className="videoOsdBottom"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -196,23 +390,42 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
                 pointerEvents: showOsd && showControls ? 'auto' : 'none',
                 visibility: isVisible ? 'visible' : 'hidden'
             }}
+            role="toolbar"
+            aria-label="Video player controls"
+            onFocus={containerFocusProps.onFocus}
+            onBlur={containerFocusProps.onBlur}
         >
             <Box className="osdControls" style={{ maxWidth: 1200, margin: '0 auto' }}>
                 {title != null && title !== '' && (
-                    <Box className="osdTextContainer osdMainTextContainer" style={{ marginBottom: vars.spacing['4'] }}>
-                        <Text weight="bold" style={{ color: vars.colors.text, fontSize: vars.typography['6'].fontSize }}>
+                    <Box
+                        className="osdTextContainer osdMainTextContainer"
+                        style={{ marginBottom: vars.spacing['4'] }}
+                    >
+                        <Text
+                            weight="bold"
+                            style={{
+                                color: vars.colors.text,
+                                fontSize: vars.typography['6'].fontSize
+                            }}
+                        >
                             {title}
                         </Text>
                     </Box>
                 )}
 
-                <Box className="sliderContainer" style={{ position: 'relative', marginBottom: vars.spacing['5'] }}>
+                <Box
+                    className="sliderContainer"
+                    style={{ position: 'relative', marginBottom: vars.spacing['5'] }}
+                >
                     <Box
                         className="sliderBufferOverlay"
                         style={{
                             position: 'absolute',
                             top: '50%',
-                            left: bufferedRanges.length > 0 ? `${(bufferedRanges[0].start / duration) * 100}%` : '0%',
+                            left:
+                                bufferedRanges.length > 0
+                                    ? `${(bufferedRanges[0].start / duration) * 100}%`
+                                    : '0%',
                             right:
                                 bufferedRanges.length > 0
                                     ? `${100 - (bufferedRanges[0].end / duration) * 100}%`
@@ -225,13 +438,12 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
                             borderRadius: 1
                         }}
                     />
-                    <Slider
-                        className="osdPositionSlider"
-                        value={[localSeekValue]}
-                        onValueChange={handleSeekChange}
-                        onValueCommit={handleSeekEnd}
-                        min={0}
-                        max={100}
+                    <EnhancedSeekSlider
+                        value={localSeekValue}
+                        onChange={handleSeekChange}
+                        onCommit={handleSeekEnd}
+                        duration={duration}
+                        bufferedRanges={bufferedRanges}
                     />
                 </Box>
 
@@ -246,7 +458,11 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
                     <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                         <Box
                             className="osdTextContainer startTimeText"
-                            style={{ color: vars.colors.text, fontSize: vars.typography['3'].fontSize, minWidth: 50 }}
+                            style={{
+                                color: vars.colors.text,
+                                fontSize: vars.typography['3'].fontSize,
+                                minWidth: 50
+                            }}
                         >
                             {formatTime(progress)}
                         </Box>
@@ -308,19 +524,12 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title={isPlaying ? 'Pause' : 'Play'}>
-                            <IconButton
-                                className="btnPause"
-                                size="lg"
-                                variant="solid"
+                        <Tooltip title={isPlaying ? 'Pause (Space)' : 'Play (Space)'}>
+                            <EnhancedPlayPauseButton
+                                isPlaying={isPlaying}
                                 onClick={onPlayPause}
-                                style={{
-                                    backgroundColor: 'rgba(255, 255, 255, 0.2)'
-                                }}
-                                aria-label={isPlaying ? 'Pause' : 'Play'}
-                            >
-                                {isPlaying ? <PauseIcon /> : <PlayIcon />}
-                            </IconButton>
+                                ref={playPauseRef}
+                            />
                         </Tooltip>
 
                         <Tooltip title="Fast Forward (L)">
@@ -365,7 +574,11 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
 
                         <Box
                             className="osdTextContainer endTimeText"
-                            style={{ color: vars.colors.text, fontSize: vars.typography['3'].fontSize, minWidth: 50 }}
+                            style={{
+                                color: vars.colors.text,
+                                fontSize: vars.typography['3'].fontSize,
+                                minWidth: 50
+                            }}
                         >
                             {formatTime(duration)}
                         </Box>
@@ -422,7 +635,11 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
 
                         <Box
                             className="volumeButtons"
-                            style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'] }}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: vars.spacing['2']
+                            }}
                         >
                             <Tooltip title="Mute (M)">
                                 <IconButton
