@@ -341,27 +341,33 @@ export function Login() {
                         )}
 
                         <Box style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                            <Input
-                                ref={usernameInputRef}
-                                id="username"
-                                label="Username"
-                                value={form.state.values.username}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    form.setFieldValue('username', e.target.value)
-                                }
-                                autoComplete="username"
-                            />
+                            <form.Field name="username">
+                                {field => (
+                                    <Input
+                                        ref={usernameInputRef}
+                                        id="username"
+                                        label="Username"
+                                        value={field.state.value ?? ''}
+                                        onChange={event => field.handleChange(event.target.value)}
+                                        onBlur={field.handleBlur}
+                                        autoComplete="username"
+                                    />
+                                )}
+                            </form.Field>
 
-                            <Input
-                                id="password"
-                                type="password"
-                                label="Password"
-                                value={form.state.values.password}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    form.setFieldValue('password', e.target.value)
-                                }
-                                autoComplete="current-password"
-                            />
+                            <form.Field name="password">
+                                {field => (
+                                    <Input
+                                        id="password"
+                                        type="password"
+                                        label="Password"
+                                        value={field.state.value ?? ''}
+                                        onChange={event => field.handleChange(event.target.value)}
+                                        onBlur={field.handleBlur}
+                                        autoComplete="current-password"
+                                    />
+                                )}
+                            </form.Field>
 
                             <Button variant="primary" fullWidth onClick={handleManualLogin} disabled={isAuthenticating}>
                                 {isAuthenticating ? 'Signing in...' : 'Sign in'}
