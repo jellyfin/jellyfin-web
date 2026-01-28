@@ -1,6 +1,6 @@
 import React, { type ReactElement } from 'react';
 import { DayPicker, type DateRange } from 'react-day-picker';
-import 'react-day-picker/src/style.css.ts';
+import 'react-day-picker/style.css';
 import { calendarContainer } from './Calendar.css.ts';
 
 export interface CalendarProps {
