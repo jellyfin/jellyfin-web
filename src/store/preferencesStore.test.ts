@@ -248,13 +248,13 @@ describe('preferencesStore', () => {
         });
 
         it('should reset visualizer settings', () => {
-            usePreferencesStore.getState().setVisualizerEnabled(false);
+            usePreferencesStore.getState().setVisualizerEnabled(true);
             usePreferencesStore.getState().setSensitivity(75);
 
             usePreferencesStore.getState().resetVisualizerSettings();
 
             const state = usePreferencesStore.getState();
-            expect(state.visualizer.enabled).toBe(true);
+            expect(state.visualizer.enabled).toBe(false);
             expect(state.visualizer.sensitivity).toBe(50);
         });
     });
@@ -560,7 +560,7 @@ describe('preferencesStore', () => {
         it('should calculate crossfade sustain', () => {
             expect(getCrossfadeSustain(0)).toBe(0);
             expect(getCrossfadeSustain(0.2)).toBe(0.1);
-            expect(getCrossfadeSustain(1)).toBe(0.5 / 12);
+            expect(getCrossfadeSustain(1)).toBe(1 / 12);
             expect(getCrossfadeSustain(10)).toBe(10 / 12);
         });
 

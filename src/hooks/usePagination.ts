@@ -26,7 +26,7 @@ interface UsePaginationReturn {
 }
 
 export const usePagination = (componentKey: string, options: UsePaginationOptions = {}): UsePaginationReturn => {
-    const { defaultPageSize = 50, storageKey = 'jellyfin-pagination' } = options;
+    const { defaultPageSize = 30, storageKey = 'jellyfin-pagination' } = options;
 
     const [pageIndex, setPageIndexState] = useState(0);
     const [pageSize, setPageSizeState] = useState(defaultPageSize);

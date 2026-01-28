@@ -214,7 +214,7 @@ const defaultAudioPreferences: AudioPreferences = {
 };
 
 const defaultVisualizerPreferences: VisualizerPreferences = {
-    enabled: true,
+    enabled: false,
     type: 'butterchurn',
     sensitivity: 50,
     barCount: 64,
@@ -295,7 +295,7 @@ const defaultAutoDJPreferences: AutoDJPreferences = {
 const defaultUiPreferences: UiPreferences = {
     theme: 'dark',
     compactMode: false,
-    showVisualizer: true,
+    showVisualizer: false,
     showNowPlaying: true,
     animationsEnabled: true,
     highContrastMode: false,
