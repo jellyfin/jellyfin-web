@@ -171,13 +171,12 @@ export const Component = () => {
     }, [ brandingOptions ]);
 
     const previewLoginDisclaimer = useCallback(() => {
-        console.log('Toastbrot');
-        baseAlert({
+        void baseAlert({
             title: 'Login disclaimer Preview:',
             html: [
                 brandingOptions.LoginDisclaimer
             ]
-        })
+        });
     }, [ brandingOptions ]);
 
     const onSubmit = useCallback(() => {
