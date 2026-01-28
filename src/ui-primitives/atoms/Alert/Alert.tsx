@@ -7,6 +7,7 @@ export type AlertVariant = keyof typeof alertVariants;
 interface AlertProps {
     readonly variant?: AlertVariant;
     readonly severity?: AlertVariant;
+    readonly title?: string;
     readonly children: React.ReactNode;
     readonly className?: string;
     readonly style?: React.CSSProperties;
@@ -16,6 +17,7 @@ interface AlertProps {
 export function Alert({
     variant = 'error',
     severity,
+    title,
     children,
     className,
     style: alertStyle,
@@ -29,7 +31,12 @@ export function Alert({
             style={alertStyle}
             role="alert"
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.sm }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                {title !== undefined && (
+                    <div style={{ fontWeight: vars.typography.fontWeightBold, fontSize: vars.typography['3'].fontSize }}>
+                        {title}
+                    </div>
+                )}
                 <div>{children}</div>
                 {action !== undefined && <div>{action}</div>}
             </div>

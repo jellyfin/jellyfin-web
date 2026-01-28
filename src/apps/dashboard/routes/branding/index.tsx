@@ -174,9 +174,9 @@ export const Component = () => {
             title={globalize.translate('HeaderBranding')}
             className="mainAnimatedPage type-interior"
         >
-            <Box style={{ maxWidth: 800, margin: '0 auto', padding: vars.spacing.lg }}>
+            <Box style={{ maxWidth: 800, margin: '0 auto', padding: vars.spacing['6'] }}>
                 <form onSubmit={handleSubmit}>
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.xl }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['7'] }}>
                         <Heading.H2>{globalize.translate('HeaderBranding')}</Heading.H2>
 
                         {!isSubmitting && actionData?.isSaved && (
@@ -188,7 +188,7 @@ export const Component = () => {
                         <Flex
                             style={{
                                 flexDirection: 'column',
-                                gap: vars.spacing.md,
+                                gap: vars.spacing['5'],
                                 alignItems: 'flex-start'
                             }}
                         >
@@ -196,7 +196,7 @@ export const Component = () => {
                                 <Image isLoading={false} url={isSplashscreenEnabled ? splashscreenUrl : undefined} />
                             </Box>
 
-                            <Flex style={{ flex: 1, flexDirection: 'column', gap: vars.spacing.md }}>
+                            <Flex style={{ flex: 1, flexDirection: 'column', gap: vars.spacing['5'] }}>
                                 <FormControlLabel
                                     control={
                                         <Switch

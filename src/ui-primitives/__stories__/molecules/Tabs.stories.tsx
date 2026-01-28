@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode, useState } from 'react';
 import { motion } from 'motion/react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
-import { vars } from '../styles/tokens.css.ts';
+import { vars } from '../../../styles/tokens.css';
 
 interface AnimatedTabsProps {
     tabs: { value: string; label: string; content: ReactNode }[];
@@ -18,7 +18,7 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                 style={{
                     display: 'flex',
                     borderBottom: `1px solid ${vars.colors.divider}`,
-                    marginBottom: vars.spacing.md
+                    marginBottom: vars.spacing['5']
                 }}
             >
                 {tabs.map(tab => (
@@ -27,11 +27,11 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                         value={tab.value}
                         style={{
                             position: 'relative',
-                            padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+                            padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
                             background: 'none',
                             border: 'none',
                             color: activeTab === tab.value ? vars.colors.primary : vars.colors.textSecondary,
-                            fontSize: vars.typography.fontSizeMd,
+                            fontSize: vars.typography['6'].fontSize,
                             fontWeight: activeTab === tab.value ? 600 : 400,
                             cursor: 'pointer',
                             transition: 'color 0.2s'
@@ -64,7 +64,7 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                         exit={{ opacity: 0, x: -10 }}
                         transition={{ duration: 0.2 }}
                         style={{
-                            padding: vars.spacing.md,
+                            padding: vars.spacing['5'],
                             color: vars.colors.text
                         }}
                     >

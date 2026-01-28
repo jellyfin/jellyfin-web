@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
-import { List, ListItem, ListItemButton, ListItemContent, ListItemDecorator, ListSubheader } from '../List';
+import { List, ListItem, ListItemButton, ListItemContent, ListItemDecorator, ListSubheader } from '../../List';
 
 const meta: Meta<typeof List> = {
     title: 'UI Primitives/List',

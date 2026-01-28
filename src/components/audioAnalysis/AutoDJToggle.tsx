@@ -19,7 +19,7 @@ export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({ enabled, onToggle, d
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: vars.spacing.xs,
+                gap: vars.spacing['2'],
                 opacity: disabled ? 0.5 : 1
             }}
             title={

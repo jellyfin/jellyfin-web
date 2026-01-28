@@ -39,10 +39,10 @@ const ActivityListItem = ({ item, displayShortOverview, to }: ActivityListItemPr
                 to={to}
                 style={{
                     width: '100%',
-                    paddingTop: vars.spacing.sm,
-                    paddingBottom: vars.spacing.sm,
-                    paddingLeft: vars.spacing.md,
-                    paddingRight: vars.spacing.md
+                    paddingTop: vars.spacing['4'],
+                    paddingBottom: vars.spacing['4'],
+                    paddingLeft: vars.spacing['5'],
+                    paddingRight: vars.spacing['5']
                 }}
             >
                 <ListItemDecorator>
@@ -62,7 +62,7 @@ const ActivityListItem = ({ item, displayShortOverview, to }: ActivityListItemPr
                     >
                         {item.Name}
                     </Text>
-                    <Flex style={{ gap: vars.spacing.xs }}>
+                    <Flex style={{ gap: vars.spacing['2'] }}>
                         <Text size="xs" color="secondary">
                             {relativeDate}
                         </Text>

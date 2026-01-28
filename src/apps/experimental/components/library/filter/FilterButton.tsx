@@ -29,14 +29,14 @@ const sectionHeaderStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     backgroundColor: vars.colors.surfaceHover,
     border: `1px solid ${vars.colors.divider}`,
     cursor: 'pointer'
 };
 
 const sectionBodyStyle: React.CSSProperties = {
-    padding: vars.spacing.md,
+    padding: vars.spacing['5'],
     borderLeft: `1px solid ${vars.colors.divider}`,
     borderRight: `1px solid ${vars.colors.divider}`,
     borderBottom: `1px solid ${vars.colors.divider}`
@@ -160,7 +160,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <Text size="md">{globalize.translate('HeaderSeriesStatus')}</Text>
                             <ChevronRightIcon
                                 style={{
-                                    fontSize: vars.typography.fontSizeSm,
+                                    fontSize: vars.typography['3'].fontSize,
                                     transform: expanded === 'filtersSeriesStatus' ? 'rotate(90deg)' : undefined
                                 }}
                             />
@@ -185,7 +185,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <Text size="md">{globalize.translate('HeaderEpisodesStatus')}</Text>
                             <ChevronRightIcon
                                 style={{
-                                    fontSize: vars.typography.fontSizeSm,
+                                    fontSize: vars.typography['3'].fontSize,
                                     transform: expanded === 'filtersEpisodesStatus' ? 'rotate(90deg)' : undefined
                                 }}
                             />
@@ -210,7 +210,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <Text size="md">{globalize.translate('Features')}</Text>
                             <ChevronRightIcon
                                 style={{
-                                    fontSize: vars.typography.fontSizeSm,
+                                    fontSize: vars.typography['3'].fontSize,
                                     transform: expanded === 'filtersFeatures' ? 'rotate(90deg)' : undefined
                                 }}
                             />
@@ -236,7 +236,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <Text size="md">{globalize.translate('HeaderVideoType')}</Text>
                             <ChevronRightIcon
                                 style={{
-                                    fontSize: vars.typography.fontSizeSm,
+                                    fontSize: vars.typography['3'].fontSize,
                                     transform: expanded === 'filtersVideoTypes' ? 'rotate(90deg)' : undefined
                                 }}
                             />
@@ -264,7 +264,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     <Text size="md">{globalize.translate('Genres')}</Text>
                                     <ChevronRightIcon
                                         style={{
-                                            fontSize: vars.typography.fontSizeSm,
+                                            fontSize: vars.typography['3'].fontSize,
                                             transform: expanded === 'filtersGenres' ? 'rotate(90deg)' : undefined
                                         }}
                                     />
@@ -291,7 +291,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     <Text size="md">{globalize.translate('HeaderParentalRatings')}</Text>
                                     <ChevronRightIcon
                                         style={{
-                                            fontSize: vars.typography.fontSizeSm,
+                                            fontSize: vars.typography['3'].fontSize,
                                             transform:
                                                 expanded === 'filtersOfficialRatings' ? 'rotate(90deg)' : undefined
                                         }}
@@ -319,7 +319,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     <Text size="md">{globalize.translate('Tags')}</Text>
                                     <ChevronRightIcon
                                         style={{
-                                            fontSize: vars.typography.fontSizeSm,
+                                            fontSize: vars.typography['3'].fontSize,
                                             transform: expanded === 'filtersTags' ? 'rotate(90deg)' : undefined
                                         }}
                                     />
@@ -346,7 +346,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     <Text size="md">{globalize.translate('HeaderYears')}</Text>
                                     <ChevronRightIcon
                                         style={{
-                                            fontSize: vars.typography.fontSizeSm,
+                                            fontSize: vars.typography['3'].fontSize,
                                             transform: expanded === 'filtersYears' ? 'rotate(90deg)' : undefined
                                         }}
                                     />
@@ -374,7 +374,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <Text size="md">{globalize.translate('Studios')}</Text>
                             <ChevronRightIcon
                                 style={{
-                                    fontSize: vars.typography.fontSizeSm,
+                                    fontSize: vars.typography['3'].fontSize,
                                     transform: expanded === 'filtersStudios' ? 'rotate(90deg)' : undefined
                                 }}
                             />

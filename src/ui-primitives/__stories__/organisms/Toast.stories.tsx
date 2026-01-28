@@ -22,10 +22,6 @@ const meta: Meta<typeof ToastProvider> = {
             control: 'select',
             options: ['top-right', 'top-left', 'bottom-right', 'bottom-left'],
             description: 'Position of the toast viewport'
-        },
-        defaultDuration: {
-            control: 'number',
-            description: 'Default toast duration in milliseconds'
         }
     }
 };

@@ -115,9 +115,9 @@ describe('connectionStore', () => {
 
         it('should set available servers', () => {
             const servers = [
-                { id: '1', name: 'Server 1', address: 'http://localhost' },
-                { id: '2', name: 'Server 2', address: 'http://192.168.1.1' }
-            ];
+                { Id: '1', Name: 'Server 1', Address: 'http://localhost' },
+                { Id: '2', Name: 'Server 2', Address: 'http://192.168.1.1' }
+            ] as any;
             useConnectionStore.getState().setAvailableServers(servers);
 
             expect(useConnectionStore.getState().availableServers).toEqual(servers);
@@ -360,8 +360,8 @@ describe('connectionStore', () => {
         it('should handle connection lifecycle', () => {
             useConnectionStore.getState().setCurrentState(ConnectionState.ServerSelection);
             useConnectionStore.getState().setAvailableServers([
-                { id: 'srv1', name: 'Server 1', address: 'http://localhost' }
-            ]);
+                { Id: 'srv1', Name: 'Server 1', Address: 'http://localhost' }
+            ] as any);
 
             useConnectionStore.getState().setCurrentState(ConnectionState.SignedIn);
             useConnectionStore.getState().setCurrentServerId('srv1');

@@ -130,7 +130,7 @@ export const Component = (): React.ReactElement => {
             />
             <Box className="content-primary">
                 <Box className="readOnlyContent">
-                    <Flex direction="column" gap={vars.spacing.md}>
+                    <Flex direction="column" gap={vars.spacing['5']}>
                         <Heading.H2>{task.Name}</Heading.H2>
                         <Text>{task.Description}</Text>
                         <Button

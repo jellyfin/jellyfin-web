@@ -1,8 +1,10 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Divider } from '../Divider';
-import { Box } from '../Box';
-import { Text } from '../Text';
+import { Divider } from '../../Divider';
+import { Box } from '../../Box';
+import { Text } from '../../Text';
 
 const meta: Meta<typeof Divider> = {
     title: 'UI Primitives/Divider',
@@ -79,7 +81,7 @@ export const InCard: Story = {
                     <Text>Card content area with some text.</Text>
                 </Box>
                 <Divider />
-                <Box style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                <Box style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: vars.spacing['2'] }}>
                     <Text as="span" size="sm" color="secondary">
                         Cancel
                     </Text>
@@ -94,7 +96,7 @@ export const InCard: Story = {
 
 function MultipleVerticalStory(): ReactElement {
     return (
-        <Box style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'] }}>
             <Text>Home</Text>
             <Divider orientation="vertical" />
             <Text>About</Text>

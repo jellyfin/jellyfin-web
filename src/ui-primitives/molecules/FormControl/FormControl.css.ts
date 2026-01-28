@@ -39,12 +39,12 @@ export const switchThumb = style({
 });
 
 export const formLabel = style({
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     fontWeight: vars.typography.fontWeightMedium,
     color: vars.colors.text
 });
 
 export const formHelperText = style({
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary
 });

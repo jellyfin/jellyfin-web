@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
-import { ListItemButton, ListSubheader } from '../ListItemButton';
+import { ListItemButton, ListSubheader } from '../../ListItemButton';
 
 const meta: Meta<typeof ListItemButton> = {
     title: 'UI Primitives/ListItemButton',

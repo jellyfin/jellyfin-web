@@ -1,3 +1,5 @@
+import { vars } from '../../../../styles/tokens.css';
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
@@ -240,7 +242,7 @@ export const Component = (): React.ReactElement => {
                                     <Text as="h3" size="lg" weight="bold">
                                         {globalize.translate('LabelEnableHardwareDecodingFor')}
                                     </Text>
-                                    <Flex style={{ flexDirection: 'column', gap: '8px' }}>
+                                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
                                         {availableCodecs.map(codec => (
                                             <FormControlLabel
                                                 key={codec.name}
@@ -346,7 +348,7 @@ export const Component = (): React.ReactElement => {
                             )}
 
                             {hardwareAccelType !== 'none' && (
-                                <Flex style={{ flexDirection: 'column', gap: '16px' }}>
+                                <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
                                     <Text as="h3" size="lg" weight="bold">
                                         {globalize.translate('LabelHardwareEncodingOptions')}
                                     </Text>
@@ -387,7 +389,7 @@ export const Component = (): React.ReactElement => {
                                 </Flex>
                             )}
 
-                            <Flex style={{ flexDirection: 'column', gap: '16px' }}>
+                            <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
                                 <Text as="h3" size="lg" weight="bold">
                                     {globalize.translate('LabelEncodingFormatOptions')}
                                 </Text>

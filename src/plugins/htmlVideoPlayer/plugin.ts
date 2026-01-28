@@ -582,9 +582,9 @@ export class HtmlVideoPlayer {
     }
 
     private async fetchSubtitles(track: any, item: any) {
-        if (window.Windows && itemHelper.isLocalItem(item)) {
-            const storageFile = await Windows.Storage.StorageFile.getFileFromPathAsync(track.Path);
-            const text = await Windows.Storage.FileIO.readTextAsync(storageFile);
+        if ((window as any).Windows && itemHelper.isLocalItem(item)) {
+            const storageFile = await (window as any).Windows.Storage.StorageFile.getFileFromPathAsync(track.Path);
+            const text = await (window as any).Windows.Storage.FileIO.readTextAsync(storageFile);
             return JSON.parse(text);
         }
         this.incrementFetchQueue();
@@ -606,7 +606,7 @@ export class HtmlVideoPlayer {
         const p =
             !isDirect && appSettings.alwaysBurnInSubtitleWhenTranscoding()
                 ? ServerConnections.getApiClient(this._currentPlayOptions.item.ServerId)
-                      .getSessions({ deviceId: ServerConnections.currentApiClient().deviceId() })
+                      .getSessions({ deviceId: ServerConnections.currentApiClient()?.deviceId() })
                       .then((s: any) => s[0] || {})
                 : Promise.resolve({});
 

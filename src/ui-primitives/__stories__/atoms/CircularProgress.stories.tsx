@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
 import { motion } from 'motion/react';
-import { vars } from '../styles/tokens.css.ts';
+import { vars } from '../../../styles/tokens.css';
 
 interface CircularProgressProps {
     size?: number;
@@ -64,7 +64,7 @@ export const Determinate: Story = {
 
 function SizesStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: vars.spacing.md, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['5'], alignItems: 'center' }}>
             <CircularProgress size={24} indeterminate />
             <CircularProgress size={40} indeterminate />
             <CircularProgress size={56} indeterminate />
@@ -78,7 +78,7 @@ export const Sizes: Story = {
 
 function ValuesStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: vars.spacing.md, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['5'], alignItems: 'center' }}>
             <CircularProgress value={25} />
             <CircularProgress value={50} />
             <CircularProgress value={75} />

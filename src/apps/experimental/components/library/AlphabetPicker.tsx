@@ -65,7 +65,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({ className, libraryViewS
             style={{
                 position: 'fixed',
                 bottom: '1.5em',
-                fontSize: vars.typography.fontSizeXs
+                fontSize: vars.typography['1'].fontSize
             }}
         >
             <ToggleGroup
@@ -78,7 +78,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({ className, libraryViewS
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: vars.spacing.xs,
+                    gap: vars.spacing['2'],
                     backgroundColor: 'transparent',
                     borderRadius: vars.borderRadius.md
                 }}

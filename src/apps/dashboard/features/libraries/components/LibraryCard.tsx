@@ -222,7 +222,7 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
                 icon={
                     <div
                         style={{
-                            fontSize: vars.typography.fontSizeXxl,
+                            fontSize: vars.typography['9'].fontSize,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'

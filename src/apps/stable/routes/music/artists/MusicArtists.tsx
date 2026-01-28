@@ -15,7 +15,7 @@ import { Chip } from 'ui-primitives/Chip';
 
 import { ChevronLeftIcon, ChevronRightIcon, GridIcon, ListBulletIcon } from '@radix-ui/react-icons';
 
-import { itemsApi } from 'lib/api/items';
+import { itemsApi, getItems } from 'lib/api/items';
 import { useViewStyle } from 'hooks/useViewStyle';
 import { usePagination } from 'hooks/usePagination';
 import { MediaGrid } from 'components/media/MediaGrid';
@@ -25,6 +25,8 @@ import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';
 import { formatArtistName } from 'utils/formatUtils';
 import { appRouter } from 'components/router/appRouter';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { toPlayableItems } from 'lib/utils/playbackUtils';
 
 import { logger } from 'utils/logger';
 import * as styles from './MusicArtists.css';
@@ -98,6 +100,36 @@ export const MusicArtists: React.FC = () => {
 
     const handleItemClick = useCallback((item: BaseItemDto) => {
         appRouter.showItem(item);
+    }, []);
+
+    const handleItemPlay = useCallback(async (item: BaseItemDto) => {
+        try {
+            const artistId = item.Id;
+            if (!artistId) {
+                console.warn('[MusicArtists] Artist has no ID');
+                return;
+            }
+
+            // Fetch artist tracks (limited to 100 per user preference)
+            const tracks = await getItems(artistId, {
+                includeTypes: ['Audio'],
+                recursive: true,
+                sortBy: 'Random',
+                limit: 100
+            });
+
+            if (!tracks.Items || tracks.Items.length === 0) {
+                console.warn('[MusicArtists] No tracks found for artist');
+                return;
+            }
+
+            const playableItems = toPlayableItems(tracks.Items);
+            await playbackManagerBridge.setQueue(playableItems, 0);
+            await playbackManagerBridge.setShuffleMode('Shuffle');
+            await playbackManagerBridge.play();
+        } catch (error) {
+            console.error('[MusicArtists] Failed to play artist', error);
+        }
     }, []);
 
     if (isLoading) {
@@ -201,7 +233,7 @@ export const MusicArtists: React.FC = () => {
                 )}
             </div>
 
-            <MediaGrid items={artists} onItemClick={handleItemClick} />
+            <MediaGrid items={artists} onItemClick={handleItemClick} onItemPlay={handleItemPlay} showPlayButtons />
         </div>
     );
 };

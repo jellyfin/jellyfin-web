@@ -24,9 +24,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ icon, title, description
                     textAlign: 'center'
                 }}
             >
-                <Flex style={{ flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+                <Flex style={{ flexDirection: 'column', alignItems: 'center', gap: vars.spacing['4'] }}>
                     {icon && (
-                        <Box style={{ fontSize: vars.typography.fontSizeDisplay, opacity: 0.3, marginBottom: '8px' }}>
+                        <Box style={{ fontSize: vars.typography.fontSizeDisplay, opacity: 0.3, marginBottom: vars.spacing['2'] }}>
                             {icon}
                         </Box>
                     )}

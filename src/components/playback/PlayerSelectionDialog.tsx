@@ -76,7 +76,7 @@ const TargetListItem = React.memo(({ target, onClick, getDeviceIcon }: TargetLis
             <ListItemButton
                 onClick={handleClick}
                 selected={target.selected ?? false}
-                style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.xs }}
+                style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing['2'] }}
             >
                 <ListItemDecorator>{getDeviceIcon(target.deviceType, target.isLocalPlayer)}</ListItemDecorator>
                 <ListItemContent>
@@ -247,7 +247,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                     }}
                 >
                     <Flex
-                        style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}
+                        style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}
                     >
                         <DialogTitle>{activeDeviceName}</DialogTitle>
                         <IconButton variant="plain" onClick={handleClose} aria-label="Close">
@@ -257,16 +257,16 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
                     <Divider />
 
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                         {supportsMirroring && (
-                            <Box style={{ marginBottom: vars.spacing.md }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Checkbox checked={enableMirror} onChange={handleMirrorChange}>
                                     Enable display mirroring
                                 </Checkbox>
                             </Box>
                         )}
 
-                        <Box style={{ marginBottom: vars.spacing.md }}>
+                        <Box style={{ marginBottom: vars.spacing['5'] }}>
                             <Checkbox checked={enableAutoCast} onChange={handleAutoCastChange}>
                                 Enable auto-cast
                             </Checkbox>
@@ -275,7 +275,7 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
                     <Divider />
 
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
                         <Button
                             variant="plain"
                             startDecorator={<ExternalLinkIcon />}
@@ -308,9 +308,9 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
 
     let content;
     if (loading === true) {
-        content = <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>Loading playback devices...</Text>;
+        content = <Text style={{ padding: vars.spacing['7'], textAlign: 'center' }}>Loading playback devices...</Text>;
     } else if (targets.length === 0) {
-        content = <Text style={{ padding: vars.spacing.xl, textAlign: 'center' }}>No playback devices found</Text>;
+        content = <Text style={{ padding: vars.spacing['7'], textAlign: 'center' }}>No playback devices found</Text>;
     } else {
         content = (
             <List>
@@ -334,14 +334,14 @@ export function PlayerSelectionDialog({ open, onClose }: PlayerSelectionDialogPr
                     '--Dialog-padding': '24px'
                 }}
             >
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
+                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
                     <DialogTitle>Play On</DialogTitle>
                     <IconButton variant="plain" onClick={handleClose} aria-label="Close">
                         <Cross2Icon />
                     </IconButton>
                 </Flex>
 
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>{content}</Flex>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>{content}</Flex>
             </DialogContent>
         </Dialog>
     );

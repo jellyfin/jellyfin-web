@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React, { useState, useEffect } from 'react';
 import { Button } from 'ui-primitives/Button';
 import { Box, Flex } from 'ui-primitives/Box';
@@ -156,7 +158,7 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
                     </Text>
 
                     {isTv && (
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>TV Home Screen</FormLabel>
                                 <select
@@ -167,14 +169,14 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
                                     <option value="horizontal">Horizontal</option>
                                     <option value="vertical">Vertical</option>
                                 </select>
-                                <Text size="sm" color="secondary" style={{ marginTop: '4px' }}>
+                                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['1'] }}>
                                     Please restart
                                 </Text>
                             </FormControl>
                         </Box>
                     )}
 
-                    <Box style={{ marginTop: '16px' }}>
+                    <Box style={{ marginTop: vars.spacing['4'] }}>
                         <Checkbox
                             checked={hidePlayedFromLatest}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -190,7 +192,7 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
                     {Array.from({ length: numConfigurableSections }, (_, i) => {
                         const sectionIndex = i;
                         return (
-                            <Box key={sectionIndex} style={{ marginBottom: '16px' }}>
+                            <Box key={sectionIndex} style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
                                     <FormLabel>{sectionLabels[sectionIndex]}</FormLabel>
                                     <select
@@ -219,7 +221,7 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
                     <Box style={{ height: '24px' }} />
 
                     {views.map(view => (
-                        <Box key={view.Id} style={{ marginBottom: '16px' }}>
+                        <Box key={view.Id} style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{view.Name} Landing Screen</FormLabel>
                                 <select

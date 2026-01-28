@@ -355,16 +355,16 @@ export function DataTable<T>({
                     className={dataTablePaginationStyles}
                     style={enableStickyFooter ? { position: 'sticky', bottom: 0, zIndex: 2 } : {}}
                 >
-                    <div style={{ fontSize: vars.typography.fontSizeSm, color: vars.colors.textSecondary }}>
+                    <div style={{ fontSize: vars.typography['3'].fontSize, color: vars.colors.textSecondary }}>
                         {`${itemStart}-${itemEnd} of ${totalCount}`}
                     </div>
-                    <div style={{ display: 'flex', gap: vars.spacing.sm }}>
+                    <div style={{ display: 'flex', gap: vars.spacing['4'] }}>
                         <button
                             type="button"
                             onClick={onPrevPageClick}
                             disabled={!canPrevPage}
                             style={{
-                                padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+                                padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
                                 backgroundColor: 'transparent',
                                 border: `1px solid ${vars.colors.divider}`,
                                 borderRadius: vars.borderRadius.sm,
@@ -380,7 +380,7 @@ export function DataTable<T>({
                             onClick={onNextPageClick}
                             disabled={!canNextPage}
                             style={{
-                                padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+                                padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
                                 backgroundColor: 'transparent',
                                 border: `1px solid ${vars.colors.divider}`,
                                 borderRadius: vars.borderRadius.sm,

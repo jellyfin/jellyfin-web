@@ -23,7 +23,7 @@ const ActivityLogWidget = (): React.ReactElement => {
     return (
         <Widget title={globalize.translate('HeaderActivity')} href="/dashboard/activity?useractivity=true">
             {isPending ? (
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                     <Skeleton variant="rectangular" height={60} style={{ borderRadius: vars.borderRadius.md }} />
                     <Skeleton variant="rectangular" height={60} style={{ borderRadius: vars.borderRadius.md }} />
                     <Skeleton variant="rectangular" height={60} style={{ borderRadius: vars.borderRadius.md }} />

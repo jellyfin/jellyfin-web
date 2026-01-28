@@ -2,8 +2,8 @@ import { type ReactElement, type ReactNode, useState, useCallback } from 'react'
 import { AnimatePresence, motion } from 'motion/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { vars } from '../styles/tokens.css';
-import { Button } from '../Button';
+import { vars } from '../../../styles/tokens.css';
+import { Button } from '../../Button';
 
 interface AnimatedDialogProps {
     open: boolean;
@@ -68,16 +68,16 @@ function AnimatedDialog({
                                     minWidth: '400px',
                                     maxWidth: '90vw',
                                     maxHeight: '85vh',
-                                    padding: vars.spacing.lg,
+                                    padding: vars.spacing['6'],
                                     zIndex: 1001
                                 }}
                             >
                                 <DialogPrimitive.Title
                                     style={{
                                         margin: 0,
-                                        marginBottom: vars.spacing.sm,
+                                        marginBottom: vars.spacing['4'],
                                         fontWeight: 600,
-                                        fontSize: vars.typography.fontSizeXl,
+                                        fontSize: vars.typography['8'].fontSize,
                                         color: vars.colors.text
                                     }}
                                 >
@@ -86,9 +86,9 @@ function AnimatedDialog({
                                 {description !== undefined && description !== '' && (
                                     <DialogPrimitive.Description
                                         style={{
-                                            marginBottom: vars.spacing.md,
+                                            marginBottom: vars.spacing['5'],
                                             color: vars.colors.textSecondary,
-                                            fontSize: vars.typography.fontSizeSm
+                                            fontSize: vars.typography['3'].fontSize
                                         }}
                                     >
                                         {description}
@@ -101,15 +101,15 @@ function AnimatedDialog({
                                         aria-label="Close"
                                         style={{
                                             position: 'absolute',
-                                            top: vars.spacing.md,
-                                            right: vars.spacing.md,
+                                            top: vars.spacing['5'],
+                                            right: vars.spacing['5'],
                                             background: 'none',
                                             border: 'none',
                                             color: vars.colors.textMuted,
                                             cursor: 'pointer',
-                                            padding: vars.spacing.xs,
+                                            padding: vars.spacing['2'],
                                             borderRadius: vars.borderRadius.sm,
-                                            fontSize: vars.typography.fontSizeLg
+                                            fontSize: vars.typography['7'].fontSize
                                         }}
                                     >
                                         ✕
@@ -154,10 +154,10 @@ function DefaultStory(): ReactElement {
                 title="Dialog Title"
                 description="This is a description of the dialog content."
             >
-                <p style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}>
+                <p style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
                     Dialog content goes here. This dialog uses Framer Motion for smooth animations.
                 </p>
-                <div style={{ display: 'flex', gap: vars.spacing.sm, justifyContent: 'flex-end' }}>
+                <div style={{ display: 'flex', gap: vars.spacing['4'], justifyContent: 'flex-end' }}>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
@@ -195,9 +195,9 @@ function ConfirmationStory(): ReactElement {
                 <div
                     style={{
                         display: 'flex',
-                        gap: vars.spacing.sm,
+                        gap: vars.spacing['4'],
                         justifyContent: 'flex-end',
-                        marginTop: vars.spacing.md
+                        marginTop: vars.spacing['5']
                     }}
                 >
                     <Button variant="secondary" onClick={handleClose}>
@@ -234,12 +234,12 @@ function WithFormStory(): ReactElement {
                 title="Create New User"
                 description="Fill in the details below to create a new user account."
             >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'] }}>
                     <input
                         type="text"
                         placeholder="Username"
                         style={{
-                            padding: vars.spacing.sm,
+                            padding: vars.spacing['4'],
                             borderRadius: vars.borderRadius.sm,
                             border: `1px solid ${vars.colors.textMuted}`,
                             backgroundColor: vars.colors.background,
@@ -250,7 +250,7 @@ function WithFormStory(): ReactElement {
                         type="email"
                         placeholder="Email"
                         style={{
-                            padding: vars.spacing.sm,
+                            padding: vars.spacing['4'],
                             borderRadius: vars.borderRadius.sm,
                             border: `1px solid ${vars.colors.textMuted}`,
                             backgroundColor: vars.colors.background,
@@ -260,9 +260,9 @@ function WithFormStory(): ReactElement {
                     <div
                         style={{
                             display: 'flex',
-                            gap: vars.spacing.sm,
+                            gap: vars.spacing['4'],
                             justifyContent: 'flex-end',
-                            marginTop: vars.spacing.sm
+                            marginTop: vars.spacing['4']
                         }}
                     >
                         <Button variant="secondary" onClick={handleClose}>
@@ -302,18 +302,18 @@ function LargeContentStory(): ReactElement {
                     style={{
                         maxHeight: '300px',
                         overflowY: 'auto',
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         backgroundColor: vars.colors.background,
                         borderRadius: vars.borderRadius.sm,
-                        marginBottom: vars.spacing.md
+                        marginBottom: vars.spacing['5']
                     }}
                 >
-                    <p style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}>
+                    <p style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                         laboris nisi ut aliquip ex ea commodo consequat.
                     </p>
-                    <p style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}>
+                    <p style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
                         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
                         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
                         mollit anim id est laborum.
@@ -324,7 +324,7 @@ function LargeContentStory(): ReactElement {
                         beatae vitae dicta sunt explicabo.
                     </p>
                 </div>
-                <div style={{ display: 'flex', gap: vars.spacing.sm, justifyContent: 'flex-end' }}>
+                <div style={{ display: 'flex', gap: vars.spacing['4'], justifyContent: 'flex-end' }}>
                     <Button variant="secondary" onClick={handleClose}>
                         Decline
                     </Button>

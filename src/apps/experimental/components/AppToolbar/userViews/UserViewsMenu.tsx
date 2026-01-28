@@ -22,8 +22,8 @@ const UserViewsMenu: FC<UserViewsMenuProps> = ({ userViews, selectedId, open, on
     const navigate = useNavigate();
 
     const renderMenuItemContent = (icon: React.ReactNode, label: string, isSelected: boolean) => (
-        <Flex align="center" gap={vars.spacing.sm}>
-            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>{icon}</Box>
+        <Flex align="center" gap={vars.spacing['4']}>
+            <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>{icon}</Box>
             <Text size="md" weight={isSelected ? 'medium' : 'normal'}>
                 {label}
             </Text>

@@ -59,24 +59,24 @@ export function Box({
     onClick,
     ...props
 }: BoxProps): ReactElement {
-    const Component = (component ?? as) as ElementType;
-    return (
-        <Component
-            className={className}
-            style={boxStyle}
-            dangerouslySetInnerHTML={dangerouslySetInnerHTML}
-            href={href}
-            target={target}
-            rel={rel}
-            to={to}
-            src={src}
-            alt={alt}
-            dir={dir}
-            onClick={onClick}
-            {...props}
-        >
-            {children}
-        </Component>
+    const Tag = (component ?? as) as ElementType;
+    return React.createElement(
+        Tag,
+        {
+            className,
+            style: boxStyle,
+            dangerouslySetInnerHTML,
+            href,
+            target,
+            rel,
+            to,
+            src,
+            alt,
+            dir,
+            onClick,
+            ...props
+        },
+        children
     );
 }
 

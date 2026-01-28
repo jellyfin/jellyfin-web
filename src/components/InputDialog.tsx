@@ -43,13 +43,13 @@ const InputDialog = ({
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent style={{ minWidth: 320 }}>
                 {title && <DialogTitle>{title}</DialogTitle>}
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                     <FormControl>
                         <FormLabel>{label}</FormLabel>
                         <Input autoFocus value={text} onChange={onTextChange} />
                         {helperText && <FormHelperText>{helperText}</FormHelperText>}
                     </FormControl>
-                    <Flex style={{ gap: vars.spacing.sm, marginTop: vars.spacing.sm }}>
+                    <Flex style={{ gap: vars.spacing['4'], marginTop: vars.spacing['4'] }}>
                         <Button variant="primary" color="primary" onClick={onConfirmClick}>
                             {confirmButtonText || globalize.translate('ButtonOk')}
                         </Button>

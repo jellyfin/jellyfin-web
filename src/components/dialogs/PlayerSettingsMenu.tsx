@@ -27,7 +27,7 @@ export const PlayerSettingsMenu: React.FC<PlayerSettingsMenuProps> = ({ open, on
 
     const renderMainPage = () => (
         <>
-            <Text as="h2" size="lg" weight="bold" style={{ marginBottom: vars.spacing.md }}>
+            <Text as="h2" size="lg" weight="bold" style={{ marginBottom: vars.spacing['5'] }}>
                 {globalize.translate('Settings')}
             </Text>
             <List>
@@ -59,7 +59,7 @@ export const PlayerSettingsMenu: React.FC<PlayerSettingsMenuProps> = ({ open, on
         const rates = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
         return (
             <>
-                <Text as="h2" size="lg" weight="bold" style={{ marginBottom: vars.spacing.md }}>
+                <Text as="h2" size="lg" weight="bold" style={{ marginBottom: vars.spacing['5'] }}>
                     {globalize.translate('PlaybackRate')}
                 </Text>
                 <List>

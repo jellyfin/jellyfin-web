@@ -1,3 +1,5 @@
+import { vars } from '../../../../styles/tokens.css';
+
 import React, { useCallback, useState } from 'react';
 import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
 import { Button } from 'ui-primitives/Button';
@@ -51,40 +53,40 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
             <DialogContentComponent
                 title={globalize.translate('HeaderSyncPlaySettings')}
                 style={{
-                    minWidth: { xs: '90%', sm: 500 },
+                    minWidth: 'min(90%, 500px)',
                     maxWidth: 600,
                     maxHeight: '90vh',
                     overflow: 'auto',
-                    padding: '24px'
+                    padding: vars.spacing['5']
                 }}
             >
-                <Flex style={{ flexDirection: 'column', gap: '24px', marginTop: '8px' }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'], marginTop: vars.spacing['2'] }}>
                     <Text as="h4" size="lg" weight="bold">
                         {globalize.translate('HeaderSyncPlayPlaybackSettings')}
                     </Text>
 
-                    <Flex direction="column" gap="xs">
+                    <Flex direction="column" gap={vars.spacing['2']}>
                         <Checkbox
                             checked={settings.enableSyncCorrection}
                             onChange={(e: any) => handleChange('enableSyncCorrection', e.target.checked)}
                         >
                             {globalize.translate('LabelSyncPlaySettingsSyncCorrection')}
                         </Checkbox>
-                        <Text size="sm" style={{ opacity: 0.7, paddingLeft: '26px' }}>
+                        <Text size="sm" style={{ opacity: 0.7, paddingLeft: vars.spacing['5'] }}>
                             {globalize.translate('LabelSyncPlaySettingsSyncCorrectionHelp')}
                         </Text>
                     </Flex>
 
                     <Divider />
 
-                    <Flex direction="column" gap="xs">
+                    <Flex direction="column" gap={vars.spacing['2']}>
                         <Checkbox
                             checked={settings.useSpeedToSync}
                             onChange={(e: any) => handleChange('useSpeedToSync', e.target.checked)}
                         >
                             {globalize.translate('LabelSyncPlaySettingsSpeedToSync')}
                         </Checkbox>
-                        <Text size="sm" style={{ opacity: 0.7, paddingLeft: '26px' }}>
+                        <Text size="sm" style={{ opacity: 0.7, paddingLeft: vars.spacing['5'] }}>
                             {globalize.translate('LabelSyncPlaySettingsSpeedToSyncHelp')}
                         </Text>
                     </Flex>
@@ -115,14 +117,14 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
 
                     <Divider />
 
-                    <Flex direction="column" gap="xs">
+                    <Flex direction="column" gap={vars.spacing['2']}>
                         <Checkbox
                             checked={settings.useSkipToSync}
                             onChange={(e: any) => handleChange('useSkipToSync', e.target.checked)}
                         >
                             {globalize.translate('LabelSyncPlaySettingsSkipToSync')}
                         </Checkbox>
-                        <Text size="sm" style={{ opacity: 0.7, paddingLeft: '26px' }}>
+                        <Text size="sm" style={{ opacity: 0.7, paddingLeft: vars.spacing['5'] }}>
                             {globalize.translate('LabelSyncPlaySettingsSkipToSyncHelp')}
                         </Text>
                     </Flex>
@@ -148,7 +150,7 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
                     />
                 </Flex>
 
-                <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
+                <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['2'], marginTop: vars.spacing['5'] }}>
                     <Button onClick={handleSave}>{globalize.translate('Save')}</Button>
                     <Button variant="plain" color="neutral" onClick={onClose}>
                         {globalize.translate('ButtonCancel')}

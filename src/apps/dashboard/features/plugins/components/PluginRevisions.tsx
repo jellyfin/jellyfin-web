@@ -39,7 +39,7 @@ const PluginRevisions: FC<PluginRevisionsProps> = ({ pluginDetails, onInstall })
         <Accordion key={version.checksum}>
             <AccordionSummary>
                 <Flex style={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                    <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                    <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                         <span style={{ fontWeight: vars.typography.fontWeightMedium }}>{version.version}</span>
                         {version.timestamp && (
                             <>
@@ -54,7 +54,7 @@ const PluginRevisions: FC<PluginRevisionsProps> = ({ pluginDetails, onInstall })
                 </Flex>
             </AccordionSummary>
             <AccordionDetails>
-                <Flex style={{ flexDirection: 'column', gap: '16px' }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
                     <MarkdownBox fallback={globalize.translate('LabelNoChangelog')} markdown={version.changelog} />
                     {pluginDetails.status && version.version === pluginDetails.version?.version ? (
                         <Button variant="outlined" disabled startDecorator={<DownloadDoneIcon />}>

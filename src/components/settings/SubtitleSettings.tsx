@@ -347,19 +347,19 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
 
     if (state.loading && !state.user) {
         return (
-            <Box style={{ display: 'flex', justifyContent: 'center', padding: vars.spacing.lg }}>
+            <Box style={{ display: 'flex', justifyContent: 'center', padding: vars.spacing['6'] }}>
                 <CircularProgress />
             </Box>
         );
     }
 
     return (
-        <Box style={{ maxWidth: 600, margin: '0 auto', padding: vars.spacing.md }}>
-            <Text as="h2" size="xl" weight="bold" style={{ marginBottom: vars.spacing.lg }}>
+        <Box style={{ maxWidth: 600, margin: '0 auto', padding: vars.spacing['5'] }}>
+            <Text as="h2" size="xl" weight="bold" style={{ marginBottom: vars.spacing['6'] }}>
                 {globalize.translate('Subtitles')}
             </Text>
 
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['6'] }}>
                 <FormControl>
                     <FormLabel>{globalize.translate('LabelPreferredSubtitleLanguage')}</FormLabel>
                     <Select
@@ -420,7 +420,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                                 ))}
                             </SelectContent>
                         </Select>
-                        <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>
+                        <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                             {globalize.translate('BurnSubtitlesHelp')}
                         </Text>
                     </FormControl>
@@ -446,7 +446,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
 
                     <Box
                         style={{
-                            padding: vars.spacing.lg,
+                            padding: vars.spacing['6'],
                             background: 'linear-gradient(140deg, #aa5cc3, #00a4dc)',
                             borderRadius: vars.borderRadius.md,
                             textAlign: 'center'
@@ -456,7 +456,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                             style={{
                                 width: '90%',
                                 margin: '0 auto',
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: state.textBackground || 'transparent',
                                 color: state.textColor || '#ffffff',
                                 ...previewStyles
@@ -546,7 +546,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
 
                     <FormControl>
                         <FormLabel>{globalize.translate('LabelTextColor')}</FormLabel>
-                        <Flex style={{ gap: vars.spacing.sm, flexWrap: 'wrap' }}>
+                        <Flex style={{ gap: vars.spacing['4'], flexWrap: 'wrap' }}>
                             {TEXT_COLOR_OPTIONS.map(option => (
                                 <Box
                                     key={option.value}
@@ -570,7 +570,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                             type="text"
                             value={state.textColor}
                             onChange={handleTextColorChange}
-                            style={{ marginTop: vars.spacing.sm }}
+                            style={{ marginTop: vars.spacing['4'] }}
                             placeholder="#ffffff"
                         />
                     </FormControl>
@@ -613,7 +613,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                             max={16}
                             step={1}
                         />
-                        <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>
+                        <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                             {globalize.translate('SubtitleVerticalPositionHelp')}
                         </Text>
                     </FormControl>
@@ -632,7 +632,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                     variant="primary"
                     onClick={handleSave}
                     loading={state.loading}
-                    style={{ marginTop: vars.spacing.md }}
+                    style={{ marginTop: vars.spacing['5'] }}
                 >
                     {globalize.translate('Save')}
                 </Button>

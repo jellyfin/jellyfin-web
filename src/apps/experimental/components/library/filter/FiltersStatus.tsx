@@ -65,7 +65,7 @@ const FiltersStatus: FC<FiltersStatusProps> = ({ viewType, libraryViewSettings, 
     };
 
     return (
-        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             {statusFiltersOptions
                 .filter(filter => getVisibleFiltersStatus().includes(filter.value))
                 .map(filter => (

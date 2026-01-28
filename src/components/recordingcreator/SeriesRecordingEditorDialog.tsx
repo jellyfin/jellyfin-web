@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     Dialog,
@@ -199,7 +201,7 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                         borderRadius: '16px'
                     }}
                 >
-                    <Flex align="center" justify="space-between" style={{ marginBottom: '24px' }}>
+                    <Flex align="center" justify="space-between" style={{ marginBottom: vars.spacing['5'] }}>
                         <Text as="h3" size="lg" weight="bold">
                             {globalize.translate('SeriesSettings')}
                         </Text>
@@ -212,7 +214,7 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                         </Box>
                     ) : (
                         <form ref={formRef} onSubmit={handleSubmit}>
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Input
                                     label={globalize.translate('PrePadding')}
                                     name="prePadding"
@@ -224,7 +226,7 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                                 />
                             </Box>
 
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Input
                                     label={globalize.translate('PostPadding')}
                                     name="postPadding"
@@ -236,21 +238,21 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                                 />
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
-                                <Text size="sm" style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
+                                <Text size="sm" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
                                     {globalize.translate('Channel')}
                                 </Text>
                                 <Text size="md">{channelInfo}</Text>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
-                                <Text size="sm" style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
+                                <Text size="sm" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
                                     {globalize.translate('AirTime')}
                                 </Text>
                                 <Text size="md">{aroundTime}</Text>
                             </Box>
 
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Select name="recordAnyChannel" defaultValue={timer?.RecordAnyChannel ? 'all' : 'one'}>
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue placeholder={globalize.translate('RecordAnyChannel')} />
@@ -262,7 +264,7 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                                 </Select>
                             </Box>
 
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Select name="recordAnyTime" defaultValue={timer?.RecordAnyTime ? 'any' : 'original'}>
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue placeholder={globalize.translate('AirTime')} />
@@ -276,7 +278,7 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                                 </Select>
                             </Box>
 
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Select name="recordNewOnly" defaultValue={timer?.RecordNewOnly ? 'new' : 'all'}>
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue placeholder={globalize.translate('RecordNewOnly')} />
@@ -288,13 +290,13 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                                 </Select>
                             </Box>
 
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Checkbox name="skipEpisodesInLibrary" defaultChecked={timer?.SkipEpisodesInLibrary}>
                                     {globalize.translate('SkipEpisodesInLibrary')}
                                 </Checkbox>
                             </Box>
 
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Select name="keepUpTo" defaultValue={String(timer?.KeepUpTo || 0)}>
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue placeholder={globalize.translate('KeepUpTo')} />

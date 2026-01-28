@@ -1,6 +1,6 @@
 import { type ReactElement, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 const meta: Meta = {
     title: 'UI Primitives/SeekSlider',
@@ -24,9 +24,9 @@ function SeekSliderStory(): ReactElement {
     };
 
     return (
-        <div style={{ padding: vars.spacing.md, maxWidth: '500px' }}>
-            <div style={{ marginBottom: vars.spacing.md }}>
-                <p style={{ color: vars.colors.text, marginBottom: vars.spacing.sm }}>
+        <div style={{ padding: vars.spacing['5'], maxWidth: '500px' }}>
+            <div style={{ marginBottom: vars.spacing['5'] }}>
+                <p style={{ color: vars.colors.text, marginBottom: vars.spacing['4'] }}>
                     Music Player Seek Slider
                 </p>
                 <div
@@ -34,10 +34,10 @@ function SeekSliderStory(): ReactElement {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        marginBottom: vars.spacing.sm
+                        marginBottom: vars.spacing['4']
                     }}
                 >
-                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography.fontSizeSm }}>
+                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
                         {formatTime(position)}
                     </span>
                     <div
@@ -46,7 +46,7 @@ function SeekSliderStory(): ReactElement {
                             height: '6px',
                             backgroundColor: vars.colors.background,
                             borderRadius: vars.borderRadius.sm,
-                            margin: `0 ${vars.spacing.md}`,
+                            margin: `0 ${vars.spacing['5']}`,
                             cursor: 'pointer',
                             position: 'relative'
                         }}
@@ -81,7 +81,7 @@ function SeekSliderStory(): ReactElement {
                             }}
                         />
                     </div>
-                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography.fontSizeSm }}>
+                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
                         {formatTime(duration)}
                     </span>
                 </div>
@@ -106,9 +106,9 @@ function BufferedSeekSliderStory(): ReactElement {
     };
 
     return (
-        <div style={{ padding: vars.spacing.md, maxWidth: '500px' }}>
-            <div style={{ marginBottom: vars.spacing.md }}>
-                <p style={{ color: vars.colors.text, marginBottom: vars.spacing.sm }}>
+        <div style={{ padding: vars.spacing['5'], maxWidth: '500px' }}>
+            <div style={{ marginBottom: vars.spacing['5'] }}>
+                <p style={{ color: vars.colors.text, marginBottom: vars.spacing['4'] }}>
                     Seek Slider with Buffering
                 </p>
                 <div
@@ -116,10 +116,10 @@ function BufferedSeekSliderStory(): ReactElement {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        marginBottom: vars.spacing.sm
+                        marginBottom: vars.spacing['4']
                     }}
                 >
-                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography.fontSizeSm }}>
+                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
                         {formatTime(position)}
                     </span>
                     <div
@@ -128,7 +128,7 @@ function BufferedSeekSliderStory(): ReactElement {
                             height: '6px',
                             backgroundColor: vars.colors.background,
                             borderRadius: vars.borderRadius.sm,
-                            margin: `0 ${vars.spacing.md}`,
+                            margin: `0 ${vars.spacing['5']}`,
                             cursor: 'pointer',
                             position: 'relative',
                             overflow: 'hidden'
@@ -175,7 +175,7 @@ function BufferedSeekSliderStory(): ReactElement {
                             }}
                         />
                     </div>
-                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography.fontSizeSm }}>
+                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
                         {formatTime(duration)}
                     </span>
                 </div>

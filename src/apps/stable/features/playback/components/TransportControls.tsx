@@ -94,7 +94,7 @@ export function TransportControls({
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '16px',
+                gap: vars.spacing['4'],
                 padding: '20px',
                 background: 'linear-gradient(180deg, #1a1a1a 0%, #101010 100%)',
                 borderRadius: '12px',
@@ -127,7 +127,7 @@ export function TransportControls({
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: vars.typography.fontSizeSm
+                        fontSize: vars.typography['3'].fontSize
                     }}
                     aria-label="Previous track"
                     title="Previous track"
@@ -163,7 +163,7 @@ export function TransportControls({
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: vars.typography.fontSizeSm
+                        fontSize: vars.typography['3'].fontSize
                     }}
                     aria-label="Next track"
                     title="Next track"
@@ -185,7 +185,7 @@ export function TransportControls({
             <div
                 style={{
                     display: 'flex',
-                    gap: '8px',
+                    gap: vars.spacing['2'],
                     alignItems: 'center'
                 }}
             >
@@ -206,7 +206,7 @@ export function TransportControls({
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: vars.typography.fontSizeMd
+                        fontSize: vars.typography['6'].fontSize
                     }}
                     aria-label={isPlaying ? 'Pause' : 'Play'}
                     title={isPlaying ? 'Pause' : 'Play'}

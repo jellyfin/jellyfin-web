@@ -323,17 +323,17 @@ const PluginPage: FC = () => {
         <Page id="addPluginPage" title={pluginDetails?.name || pluginName} className="mainAnimatedPage type-interior">
             <Container className="content-primary">
                 {alertMessages.map(({ severity = 'error', messageKey }) => (
-                    <Alert key={messageKey} severity={severity} style={{ marginBottom: vars.spacing.md }}>
+                    <Alert key={messageKey} severity={severity} style={{ marginBottom: vars.spacing['5'] }}>
                         {globalize.translate(messageKey)}
                     </Alert>
                 ))}
 
-                <Flex direction="column" gap={vars.spacing.lg}>
-                    <Flex direction="row" wrap="wrap" gap={vars.spacing.lg} align="flex-start">
+                <Flex direction="column" gap={vars.spacing['6']}>
+                    <Flex direction="row" wrap="wrap" gap={vars.spacing['6']} align="flex-start">
                         <Box style={{ flex: '1 1 480px', minWidth: 0 }}>
                             <Heading.H1>{pluginDetails?.name || pluginName}</Heading.H1>
 
-                            <Box style={{ marginTop: vars.spacing.md, maxWidth: '80ch' }}>
+                            <Box style={{ marginTop: vars.spacing['5'], maxWidth: '80ch' }}>
                                 {isLoading && !pluginDetails?.description ? (
                                     <Skeleton width="100%" height={20} />
                                 ) : (
@@ -354,16 +354,16 @@ const PluginPage: FC = () => {
 
                     {!!pluginDetails?.versions.length && (
                         <Box>
-                            <Heading.H3 style={{ marginBottom: vars.spacing.md }}>
+                            <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>
                                 {globalize.translate('HeaderRevisionHistory')}
                             </Heading.H3>
                             <PluginRevisions pluginDetails={pluginDetails} onInstall={onInstall} />
                         </Box>
                     )}
 
-                    <Flex direction="row" wrap="wrap" gap={vars.spacing.lg}>
+                    <Flex direction="row" wrap="wrap" gap={vars.spacing['6']}>
                         <Box style={{ flex: '1 1 280px' }}>
-                            <Flex direction="column" gap={vars.spacing.sm}>
+                            <Flex direction="column" gap={vars.spacing['4']}>
                                 {!isLoading && !pluginDetails?.status && (
                                     <>
                                         <Alert severity="info">

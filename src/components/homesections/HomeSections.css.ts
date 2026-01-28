@@ -4,11 +4,11 @@ import { vars } from 'styles/tokens.css';
 export const loadingContainer = style({
     display: 'flex',
     justifyContent: 'center',
-    padding: `${vars.spacing.xl} * 4`
+    padding: `calc(${vars.spacing['7']} * 4)`
 });
 
 export const container = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.lg
+    gap: vars.spacing['6']
 });

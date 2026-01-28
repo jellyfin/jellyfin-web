@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
 import { motion } from 'motion/react';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
-import { vars } from '../styles/tokens.css.ts';
+import { vars } from '../../../styles/tokens.css';
 
 interface SwitchProps {
     checked?: boolean;
@@ -13,7 +13,7 @@ interface SwitchProps {
 
 function Switch({ checked, onCheckedChange, disabled, label }: Readonly<SwitchProps>): ReactElement {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.sm }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['4'] }}>
             <SwitchPrimitive.Root
                 checked={checked}
                 onCheckedChange={onCheckedChange}
@@ -47,7 +47,7 @@ function Switch({ checked, onCheckedChange, disabled, label }: Readonly<SwitchPr
                 </SwitchPrimitive.Thumb>
             </SwitchPrimitive.Root>
             {label !== undefined && label !== '' && (
-                <span style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeMd }}>{label}</span>
+                <span style={{ color: vars.colors.text, fontSize: vars.typography['6'].fontSize }}>{label}</span>
             )}
         </div>
     );
@@ -113,7 +113,7 @@ function SettingsExampleStory(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'] }}>
             <Switch checked={settings.darkMode} onCheckedChange={handleDarkModeChange} label="Dark Mode" />
             <Switch
                 checked={settings.notifications}

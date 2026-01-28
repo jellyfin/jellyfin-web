@@ -5,8 +5,8 @@ export const container = style({
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingLeft: vars.spacing.md,
-    paddingRight: vars.spacing.md
+    paddingLeft: vars.spacing['5'],
+    paddingRight: vars.spacing['5']
 });
 
 export const maxWidth = styleVariants({

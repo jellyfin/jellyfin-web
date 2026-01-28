@@ -50,7 +50,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDraw
             style={{
                 position: 'relative',
                 width: '100%',
-                padding: `${vars.spacing.xs} ${vars.spacing.sm} ${vars.spacing.md}`,
+                padding: `${vars.spacing['2']} ${vars.spacing['4']} ${vars.spacing['5']}`,
                 zIndex: 0
             }}
         >
@@ -73,7 +73,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDraw
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: vars.spacing.xs,
+                    gap: vars.spacing['2'],
                     zIndex: 1
                 }}
             >
@@ -94,7 +94,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDraw
                     isUserMenuAvailable={!isPublicPath}
                 >
                     {!isDrawerAvailable && (
-                        <Flex align="center" gap={vars.spacing.xs}>
+                        <Flex align="center" gap={vars.spacing['2']}>
                             <ServerButton />
 
                             {!isPublicPath && <UserViewNav />}
@@ -103,11 +103,11 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDraw
                 </AppToolbar>
 
                 {!isPublicPath && (
-                    <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
+                    <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
                         <Box
                             style={{
                                 alignSelf: 'flex-start',
-                                padding: `0 ${vars.spacing.md}`,
+                                padding: `0 ${vars.spacing['5']}`,
                                 borderRadius: vars.borderRadius.xl,
                                 border: `1px solid ${highlightTone}`,
                                 backgroundColor: vars.colors.surfaceVariant,
@@ -127,7 +127,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDraw
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between',
-                                padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+                                padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
                                 borderRadius: vars.borderRadius.lg,
                                 background: `linear-gradient(120deg, ${vars.colors.surfaceVariant}, ${vars.colors.surface})`,
                                 border: `1px solid ${vars.colors.border}`,
@@ -136,7 +136,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDraw
                                 transition: 'transform 230ms ease, opacity 230ms ease',
                                 transform: currentQueueItem ? 'translateY(0)' : 'translateY(6px)',
                                 opacity: currentQueueItem ? 1 : 0.72,
-                                gap: vars.spacing.sm
+                                gap: vars.spacing['4']
                             }}
                         >
                             <Box style={{ minWidth: 0 }}>

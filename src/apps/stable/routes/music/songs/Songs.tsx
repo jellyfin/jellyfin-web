@@ -25,6 +25,7 @@ import { getItems } from 'lib/api/items';
 import { queryKeys } from 'lib/queryKeys';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { appRouter } from 'components/router/appRouter';
+import { toPlayableItem } from 'lib/utils/playbackUtils';
 
 import * as styles from './Songs.css';
 
@@ -78,6 +79,16 @@ export const Songs: React.FC = () => {
 
     const handleItemClick = useCallback((item: BaseItemDto) => {
         appRouter.showItem(item);
+    }, []);
+
+    const handleItemPlay = useCallback(async (item: BaseItemDto) => {
+        try {
+            const playable = toPlayableItem(item);
+            await playbackManagerBridge.setQueue([playable], 0);
+            await playbackManagerBridge.play();
+        } catch (error) {
+            console.error('[Songs] Failed to play song', error);
+        }
     }, []);
 
     const hasActiveFilters = genres.length > 0 || artists.length > 0;
@@ -171,6 +182,8 @@ export const Songs: React.FC = () => {
                     totalCount={data?.TotalRecordCount || 0}
                     showArtist
                     onItemClick={handleItemClick}
+                    onItemPlay={handleItemPlay}
+                    showPlayButtons
                 />
             </div>
 

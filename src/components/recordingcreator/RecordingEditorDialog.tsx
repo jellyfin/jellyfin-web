@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     Dialog,
@@ -153,7 +155,7 @@ function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: Reco
                         borderRadius: '16px'
                     }}
                 >
-                    <Flex align="center" justify="space-between" style={{ marginBottom: '24px' }}>
+                    <Flex align="center" justify="space-between" style={{ marginBottom: vars.spacing['5'] }}>
                         <Text as="h3" size="lg" weight="bold">
                             {globalize.translate('RecordingSettings')}
                         </Text>
@@ -166,7 +168,7 @@ function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: Reco
                         </Box>
                     ) : (
                         <form ref={formRef} onSubmit={handleSubmit}>
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Input
                                     label={globalize.translate('PrePadding')}
                                     name="prePadding"
@@ -178,7 +180,7 @@ function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: Reco
                                 />
                             </Box>
 
-                            <Box style={{ marginBottom: '24px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Input
                                     label={globalize.translate('PostPadding')}
                                     name="postPadding"

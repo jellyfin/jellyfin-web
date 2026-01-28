@@ -34,7 +34,7 @@ const FiltersTags: FC<FiltersTagsProps> = ({ tagsOptions, libraryViewSettings, s
     );
 
     return (
-        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             {tagsOptions.map(filter => (
                 <Checkbox
                     key={filter}

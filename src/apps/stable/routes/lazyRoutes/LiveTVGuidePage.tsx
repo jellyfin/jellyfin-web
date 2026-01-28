@@ -45,15 +45,15 @@ const LiveTVGuidePage: React.FC = () => {
     }
 
     return (
-        <Box style={{ padding: vars.spacing.lg }}>
-            <Text as="h2" size="xl" weight="bold" style={{ marginBottom: vars.spacing.lg }}>
+        <Box style={{ padding: vars.spacing['6'] }}>
+            <Text as="h2" size="xl" weight="bold" style={{ marginBottom: vars.spacing['6'] }}>
                 {globalize.translate('Guide')}
             </Text>
             <Box
                 style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-                    gap: vars.spacing.lg
+                    gap: vars.spacing['6']
                 }}
             >
                 {data.map(item => (

@@ -86,16 +86,16 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({ viewType, libraryView
             }
         >
             <MenuItem onClick={onGridViewClick}>
-                <Flex align="center" gap={vars.spacing.sm}>
-                    <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                <Flex align="center" gap={vars.spacing['4']}>
+                    <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>
                         {isGridView ? <CheckIcon /> : null}
                     </Box>
                     <Text size="md">{globalize.translate('GridView')}</Text>
                 </Flex>
             </MenuItem>
             <MenuItem onClick={onListViewClick}>
-                <Flex align="center" gap={vars.spacing.sm}>
-                    <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                <Flex align="center" gap={vars.spacing['4']}>
+                    <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>
                         {!isGridView ? <CheckIcon /> : null}
                     </Box>
                     <Text size="md">{globalize.translate('ListView')}</Text>
@@ -107,12 +107,12 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({ viewType, libraryView
                     <MenuSeparator />
                     {isImageTypeVisible && (
                         <>
-                            <Box style={{ padding: vars.spacing.sm, width: 220 }}>
+                            <Box style={{ padding: vars.spacing['4'], width: 220 }}>
                                 <Text size="sm" weight="medium" color="secondary">
                                     {globalize.translate('LabelImageType')}
                                 </Text>
                                 <Select value={libraryViewSettings.ImageType} onValueChange={onSelectChange}>
-                                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
+                                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing['2'] }}>
                                         <SelectValue placeholder={globalize.translate('LabelImageType')} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -127,7 +127,7 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({ viewType, libraryView
                             <Divider />
                         </>
                     )}
-                    <Box style={{ padding: vars.spacing.sm }}>
+                    <Box style={{ padding: vars.spacing['4'] }}>
                         <Checkbox checked={libraryViewSettings.ShowTitle} onChange={handleChange} name="ShowTitle">
                             {globalize.translate('ShowTitle')}
                         </Checkbox>

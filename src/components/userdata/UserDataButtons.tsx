@@ -102,7 +102,7 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
     const effectiveStyle = style === 'fab-mini' ? 'fab' : style;
 
     return (
-        <div className="userDataButtons" style={{ display: 'flex', gap: '4px' }}>
+        <div className="userDataButtons" style={{ display: 'flex', gap: vars.spacing['1'] }}>
             {canMarkPlayed && (
                 <Tooltip title={globalize.translate(isPlayed ? 'MarkPlayed' : 'AddToPlayQueue')}>
                     <IconButton

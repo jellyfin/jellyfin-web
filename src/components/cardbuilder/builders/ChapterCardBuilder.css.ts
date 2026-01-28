@@ -4,7 +4,7 @@ import { vars } from 'styles/tokens.css';
 export const grid = style({
     display: 'grid',
     gridTemplateColumns: 'repeat(1, 1fr)',
-    gap: vars.spacing.md,
+    gap: vars.spacing['5'],
     '@media': {
         '(min-width: 600px)': {
             gridTemplateColumns: 'repeat(2, 1fr)'

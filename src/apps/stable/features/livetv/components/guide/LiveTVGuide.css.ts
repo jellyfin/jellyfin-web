@@ -62,5 +62,5 @@ export const channelRow = style({
 export const loadingContainer = style({
     display: 'flex',
     justifyContent: 'center',
-    padding: vars.spacing.lg
+    padding: vars.spacing['6']
 });

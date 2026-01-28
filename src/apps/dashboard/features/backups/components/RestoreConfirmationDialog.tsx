@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import { Button } from 'ui-primitives/Button';
 import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
 import { Flex } from 'ui-primitives/Box';
@@ -18,7 +20,7 @@ const RestoreConfirmationDialog: FunctionComponent<IProps> = ({ open, onClose, o
                 title={globalize.translate('LabelRestore')}
                 description={globalize.translate('MessageRestoreDisclaimer')}
             >
-                <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '16px' }}>
+                <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['2'], marginTop: vars.spacing['4'] }}>
                     <Button variant="ghost" onClick={onClose}>
                         {globalize.translate('ButtonCancel')}
                     </Button>

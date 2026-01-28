@@ -44,8 +44,8 @@ export function Toast({
             }
             style={{
                 position: 'fixed',
-                bottom: vars.spacing.lg,
-                left: vars.spacing.lg,
+                bottom: vars.spacing['6'],
+                left: vars.spacing['6'],
                 zIndex: Number(vars.zIndex.toast),
                 minWidth: 240
             }}

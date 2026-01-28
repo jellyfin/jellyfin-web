@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
 import { motion } from 'motion/react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import { vars } from '../styles/tokens.css.ts';
+import { vars } from '../../../styles/tokens.css';
 
 interface CheckboxProps {
     label?: string;
@@ -17,7 +17,7 @@ function Checkbox({ label, checked, onCheckedChange, disabled }: Readonly<Checkb
             style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: vars.spacing.sm,
+                gap: vars.spacing['4'],
                 cursor: disabled === true ? 'not-allowed' : 'pointer',
                 opacity: disabled === true ? 0.5 : 1
             }}
@@ -43,14 +43,14 @@ function Checkbox({ label, checked, onCheckedChange, disabled }: Readonly<Checkb
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         exit={{ scale: 0 }}
-                        style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeSm }}
+                        style={{ color: vars.colors.text, fontSize: vars.typography['3'].fontSize }}
                     >
                         ✓
                     </motion.div>
                 </CheckboxPrimitive.Indicator>
             </CheckboxPrimitive.Root>
             {label !== undefined && label !== '' && (
-                <span style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeMd }}>{label}</span>
+                <span style={{ color: vars.colors.text, fontSize: vars.typography['6'].fontSize }}>{label}</span>
             )}
         </label>
     );
@@ -107,7 +107,7 @@ function GroupStory(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.sm }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
             <Checkbox label="Movies" checked={selected.includes('movies')} onCheckedChange={toggleMovies} />
             <Checkbox label="TV Shows" checked={selected.includes('tvshows')} onCheckedChange={toggleTVShows} />
             <Checkbox label="Music" checked={selected.includes('music')} onCheckedChange={toggleMusic} />

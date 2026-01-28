@@ -32,7 +32,7 @@ export const toast = style({
     transition: 'transform 0.3s ease-out',
     minHeight: 'initial',
     padding: '1em 1.5em',
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     margin: '0.25em 0',
     marginRight: 'auto',
     pointerEvents: 'initial',

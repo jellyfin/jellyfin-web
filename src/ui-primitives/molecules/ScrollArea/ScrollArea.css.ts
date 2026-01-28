@@ -17,15 +17,15 @@ export const scrollAreaScrollbar = style({
     display: 'flex',
     userSelect: 'none',
     touchAction: 'none',
-    padding: vars.spacing.xs,
+    padding: vars.spacing['2'],
     background: vars.colors.surface,
     transition: `background ${vars.transitions.fast}`,
     selectors: {
         '&[data-orientation="vertical"]': {
-            width: vars.spacing.sm
+            width: vars.spacing['4']
         },
         '&[data-orientation="horizontal"]': {
-            height: vars.spacing.sm,
+            height: vars.spacing['4'],
             flexDirection: 'row'
         }
     }

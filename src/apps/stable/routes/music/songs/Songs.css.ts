@@ -2,11 +2,11 @@ import { style } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css';
 
 export const container = style({
-    padding: vars.spacing.md
+    padding: vars.spacing['5']
 });
 
 export const header = style({
-    padding: `${vars.spacing.md} ${vars.spacing.md}`,
+    padding: `${vars.spacing['5']} ${vars.spacing['5']}`,
     borderBottom: `1px solid ${vars.colors.divider}`
 });
 
@@ -14,50 +14,50 @@ export const headerRow = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: vars.spacing.md,
+    gap: vars.spacing['5'],
     flexWrap: 'wrap'
 });
 
 export const buttonGroup = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });
 
 export const buttonRow = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.xs
+    gap: vars.spacing['2']
 });
 
 export const viewToggleGroup = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.xs
+    gap: vars.spacing['2']
 });
 
 export const filterRow = style({
-    padding: `${vars.spacing.xs} ${vars.spacing.md}`,
+    padding: `${vars.spacing['2']} ${vars.spacing['5']}`,
     backgroundColor: vars.colors.surface,
     display: 'flex',
-    gap: vars.spacing.xs,
+    gap: vars.spacing['2'],
     flexWrap: 'wrap'
 });
 
 export const filterChip = style({
-    padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+    padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
     borderRadius: '16px',
     border: `1px solid ${vars.colors.divider}`,
-    fontSize: vars.typography.fontSizeXs
+    fontSize: vars.typography['1'].fontSize
 });
 
 export const errorContainer = style({
-    padding: vars.spacing.lg,
+    padding: vars.spacing['6'],
     textAlign: 'center'
 });
 
 export const gridContainer = style({
-    padding: vars.spacing.md
+    padding: vars.spacing['5']
 });
 
 export const iconButtonGrid = style({

@@ -45,7 +45,7 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
             style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: vars.spacing.sm,
+                gap: vars.spacing['4'],
                 minHeight: '64px',
                 paddingLeft: 'max(16px, env(safe-area-inset-left))',
                 paddingRight: 'max(16px, env(safe-area-inset-right))',
@@ -78,11 +78,11 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                 </Tooltip>
             )}
 
-            <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.sm }}>{children}</Box>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['4'] }}>{children}</Box>
 
             <Box style={{ flexGrow: 1 }} />
 
-            <Flex style={{ flexDirection: 'row', gap: vars.spacing.sm, alignItems: 'center' }}>
+            <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], alignItems: 'center' }}>
                 {buttons}
                 {isUserLoggedIn && isUserMenuAvailable && <UserMenuButton />}
             </Flex>

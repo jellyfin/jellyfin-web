@@ -11,7 +11,7 @@ export interface ToastData {
     readonly id: string;
     readonly title: string;
     readonly description?: string;
-    readonly variant?: 'success' | 'error' | 'warning' | 'info';
+    readonly variant?: 'success' | 'error' | 'warning' | 'info' | 'default';
     readonly duration?: number;
     readonly action?: {
         readonly label: string;

@@ -1,8 +1,10 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Container } from '../Container';
-import { Box } from '../Box';
-import { Text } from '../Text';
+import { Container } from '../../Container';
+import { Box } from '../../Box';
+import { Text } from '../../Text';
 
 const meta: Meta<typeof Container> = {
     title: 'UI Primitives/Container',
@@ -60,7 +62,7 @@ function AllSizesStory(): ReactElement {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {(['xs', 'sm', 'md', 'lg', 'xl', 'none'] as const).map(size => (
                 <Box key={size}>
-                    <Text as="small" color="secondary" style={{ marginBottom: '8px' }}>
+                    <Text as="small" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                         maxWidth=&quot;{size}&quot;
                     </Text>
                     <Container maxWidth={size}>

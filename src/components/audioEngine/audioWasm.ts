@@ -53,7 +53,7 @@ async function loadWasmModule(): Promise<WasmModule> {
         const wasmModuleImport = await import('../../audio-wasm/pkg/jellyfin_audio_wasm').catch(() => null);
 
         if (wasmModuleImport?.default) {
-            wasmModule = wasmModuleImport.default;
+            wasmModule = wasmModuleImport.default as any;
             logger.info('Audio WASM loaded', { component: 'audioWasm', version: wasmModule!.version() });
             return wasmModule!;
         } else {

@@ -1,6 +1,8 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
-import { FormControl, FormLabel, FormHelperText, Switch, FormControlLabel } from '../FormControl';
+import { FormControl, FormLabel, FormHelperText, Switch, FormControlLabel } from '../../FormControl';
 
 const meta: Meta<typeof FormControl> = {
     title: 'UI Primitives/FormControl',
@@ -67,7 +69,7 @@ export const WithSwitch: Story = {
 function MultipleFieldsStory(): ReactElement {
     return (
         <div style={{ width: '350px' }}>
-            <FormControl style={{ marginBottom: '16px' }}>
+            <FormControl style={{ marginBottom: vars.spacing['4'] }}>
                 <FormLabel>Username</FormLabel>
                 <input
                     type="text"
@@ -82,7 +84,7 @@ function MultipleFieldsStory(): ReactElement {
                     }}
                 />
             </FormControl>
-            <FormControl style={{ marginBottom: '16px' }}>
+            <FormControl style={{ marginBottom: vars.spacing['4'] }}>
                 <FormLabel>Password</FormLabel>
                 <input
                     type="password"
@@ -139,10 +141,10 @@ function FormControlLabelOnlyStory(): ReactElement {
     return (
         <div style={{ width: '300px' }}>
             <FormControlLabel label="Dark Mode" control={<Switch defaultChecked />} />
-            <div style={{ marginTop: '16px' }}>
+            <div style={{ marginTop: vars.spacing['4'] }}>
                 <FormControlLabel label="Auto-play videos" control={<Switch />} />
             </div>
-            <div style={{ marginTop: '16px' }}>
+            <div style={{ marginTop: vars.spacing['4'] }}>
                 <FormControlLabel label="Show notifications" control={<Switch defaultChecked />} />
             </div>
         </div>

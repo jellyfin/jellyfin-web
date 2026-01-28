@@ -180,7 +180,7 @@ const FavoritesTab: React.FC<FavoritesTabProps> = ({ autoFocus = false }) => {
                         <Text
                             className="sectionTitle sectionTitle-cards"
                             style={{
-                                fontSize: vars.typography.fontSizeMd,
+                                fontSize: vars.typography['6'].fontSize,
                                 fontWeight: vars.typography.fontWeightMedium
                             }}
                         >

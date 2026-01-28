@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Dialog, DialogContent, DialogOverlay, DialogContentClass } from 'ui-primitives/Dialog';
@@ -32,11 +34,11 @@ export function ConfirmDialog({
             <DialogPrimitive.Portal>
                 <DialogOverlay />
                 <DialogPrimitive.Content className={DialogContentClass}>
-                    <Box style={{ padding: '24px', maxWidth: '400px' }}>
+                    <Box style={{ padding: vars.spacing['5'], maxWidth: '400px' }}>
                         <DialogPrimitive.Title>{title}</DialogPrimitive.Title>
                         {message && <DialogPrimitive.Description>{message}</DialogPrimitive.Description>}
 
-                        <Flex style={{ gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+                        <Flex style={{ gap: vars.spacing['3'], justifyContent: 'flex-end', marginTop: '24px' }}>
                             <Button variant="ghost" onClick={onCancel}>
                                 {cancelText || globalize.translate('ButtonCancel')}
                             </Button>

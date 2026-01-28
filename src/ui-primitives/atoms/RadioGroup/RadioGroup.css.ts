@@ -4,14 +4,14 @@ import { vars } from '../../../styles/tokens.css';
 export const radioGroupRoot = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });
 
 export const radioGroupItem = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.sm,
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    gap: vars.spacing['4'],
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     borderRadius: vars.borderRadius.md,
     cursor: 'pointer',
     transition: vars.transitions.fast,
@@ -31,8 +31,8 @@ export const radioGroupItem = style({
 });
 
 export const radioGroupIndicator = style({
-    width: vars.spacing.md,
-    height: vars.spacing.md,
+    width: vars.spacing['5'],
+    height: vars.spacing['5'],
     borderRadius: '50%',
     border: `2px solid ${vars.colors.primary}`,
     display: 'flex',
@@ -41,8 +41,8 @@ export const radioGroupIndicator = style({
 });
 
 export const radioGroupIndicatorInner = style({
-    width: vars.spacing.xs,
-    height: vars.spacing.xs,
+    width: vars.spacing['2'],
+    height: vars.spacing['2'],
     borderRadius: '50%',
     backgroundColor: vars.colors.primary,
     transform: 'scale(0)',
@@ -55,13 +55,13 @@ export const radioGroupIndicatorInner = style({
 });
 
 export const radioGroupLabel = style({
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text,
     flex: 1
 });
 
 export const radioGroupItemIndicator = style({
-    width: vars.spacing.md,
+    width: vars.spacing['5'],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'

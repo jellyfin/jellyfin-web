@@ -130,7 +130,7 @@ const SortableRow: React.FC<SortableRowProps> = ({
             </Box>
 
             {/* Title & Artist */}
-            <Box style={{ flex: '1 1 auto', minWidth: 0, padding: `0 ${vars.spacing.md}` }}>
+            <Box style={{ flex: '1 1 auto', minWidth: 0, padding: `0 ${vars.spacing['5']}` }}>
                 <Text
                     as="div"
                     size="sm"
@@ -173,7 +173,7 @@ const SortableRow: React.FC<SortableRowProps> = ({
             </Box>
 
             {/* Duration */}
-            <Box style={{ width: 60, flexShrink: 0, textAlign: 'right', paddingRight: vars.spacing.xs }}>
+            <Box style={{ width: 60, flexShrink: 0, textAlign: 'right', paddingRight: vars.spacing['2'] }}>
                 <Text as="span" size="xs" color="muted">
                     {formatDuration(item.RunTimeTicks)}
                 </Text>
@@ -322,13 +322,13 @@ export const QueueTable: React.FC<QueueTableProps> = ({ queueData, currentIndex,
                         #
                     </Text>
                 </Box>
-                <Box style={{ flex: '1 1 auto', padding: `0 ${vars.spacing.md}` }}>
+                <Box style={{ flex: '1 1 auto', padding: `0 ${vars.spacing['5']}` }}>
                     <Text as="span" size="xs" color="muted" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
                         Title
                     </Text>
                 </Box>
                 <Box style={{ width: 150 }} className={hideOnSmall} />
-                <Box style={{ width: 60, textAlign: 'right', paddingRight: vars.spacing.xs }}>
+                <Box style={{ width: 60, textAlign: 'right', paddingRight: vars.spacing['2'] }}>
                     <Text as="span" size="xs" color="muted" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
                         Time
                     </Text>

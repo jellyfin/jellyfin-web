@@ -34,7 +34,7 @@ export const QueueNowPlaying: React.FC<QueueNowPlayingProps> = ({
     return (
         <div
             className="nowPlayingInfoContainer"
-            style={{ display: 'flex', gap: vars.spacing.lg, marginBottom: vars.spacing.lg }}
+            style={{ display: 'flex', gap: vars.spacing['6'], marginBottom: vars.spacing['6'] }}
         >
             <div className="nowPlayingPageImageContainer">
                 <Avatar
@@ -53,9 +53,9 @@ export const QueueNowPlaying: React.FC<QueueNowPlayingProps> = ({
                 className="nowPlayingInfoControls"
                 style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
             >
-                <div className="infoContainer flex" style={{ marginBottom: vars.spacing.md }}>
+                <div className="infoContainer flex" style={{ marginBottom: vars.spacing['5'] }}>
                     <div className="nowPlayingInfoContainerMedia">
-                        <Heading.H2 style={{ fontWeight: 'bold', marginBottom: vars.spacing.xs }}>
+                        <Heading.H2 style={{ fontWeight: 'bold', marginBottom: vars.spacing['2'] }}>
                             {currentItem?.name || 'No track playing'}
                         </Heading.H2>
                         <Text style={{ fontWeight: 'bold', marginBottom: '4px' }}>{currentItem?.artist || ''}</Text>

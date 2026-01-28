@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { vars } from '../styles/tokens.css.ts';
+import { vars } from '../../../styles/tokens.css';
 
 interface AvatarProps {
     src?: string;
@@ -61,7 +61,7 @@ export const WithFallback: Story = {
 
 function SizesStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: vars.spacing.md, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['5'], alignItems: 'center' }}>
             <Avatar fallback="S" size={24} />
             <Avatar fallback="M" size={40} />
             <Avatar fallback="L" size={56} />

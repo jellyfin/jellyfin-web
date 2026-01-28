@@ -1,1 +1,1 @@
-export { WaveformCell } from '../WaveformCell';
+export { WaveformCell } from '../../../ui-primitives/organisms/visualizers/WaveformCell';

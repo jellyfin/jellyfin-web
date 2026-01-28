@@ -147,7 +147,7 @@ const DevSettingsPage = () => {
 
     return (
         <Page id="devSettingsPage" title="Dev Settings" isBackButtonEnabled isMenuButtonEnabled={false}>
-            <Box style={{ padding: vars.spacing.lg, maxWidth: '48rem', margin: '0 auto' }}>
+            <Box style={{ padding: vars.spacing['6'], maxWidth: '48rem', margin: '0 auto' }}>
                 <Card>
                     <CardHeader>
                         <Heading.H2>Dev Settings</Heading.H2>
@@ -162,7 +162,7 @@ const DevSettingsPage = () => {
                                 void form.handleSubmit();
                             }}
                         >
-                            <Flex direction="column" gap={vars.spacing.md}>
+                            <Flex direction="column" gap={vars.spacing['5']}>
                                 <Input
                                     label="Jellyfin Server URL"
                                     placeholder="https://server:8096 or server:8096"
@@ -171,7 +171,7 @@ const DevSettingsPage = () => {
                                     helperText="Real server address (stored locally for dev)."
                                 />
 
-                                <Flex align="center" gap={vars.spacing.sm}>
+                                <Flex align="center" gap={vars.spacing['4']}>
                                     <Checkbox
                                         checked={form.state.values.useProxy}
                                         onChangeChecked={checked => form.setFieldValue('useProxy', checked)}
@@ -198,7 +198,7 @@ const DevSettingsPage = () => {
                                     </Text>
                                 </Box>
 
-                                <Flex gap={vars.spacing.sm} style={{ flexWrap: 'wrap' }}>
+                                <Flex gap={vars.spacing['4']} style={{ flexWrap: 'wrap' }}>
                                     <Button type="submit" variant="primary">
                                         Save Settings
                                     </Button>
@@ -218,31 +218,31 @@ const DevSettingsPage = () => {
                         </form>
 
                         {saveMessage && (
-                            <Alert variant="info" style={{ marginTop: vars.spacing.md }}>
+                            <Alert variant="info" style={{ marginTop: vars.spacing['5'] }}>
                                 {saveMessage}
                             </Alert>
                         )}
 
                         {testConnectionMutation.isError && (
-                            <Alert variant="error" style={{ marginTop: vars.spacing.md }}>
+                            <Alert variant="error" style={{ marginTop: vars.spacing['5'] }}>
                                 {classifyConnectionError(testConnectionMutation.error, form.state.values.useProxy)}
                             </Alert>
                         )}
 
                         {testConnectionMutation.isSuccess && (
-                            <Alert variant="success" style={{ marginTop: vars.spacing.md }}>
+                            <Alert variant="success" style={{ marginTop: vars.spacing['5'] }}>
                                 Connection successful.
                             </Alert>
                         )}
                     </CardBody>
                 </Card>
 
-                <Card style={{ marginTop: vars.spacing.lg }}>
+                <Card style={{ marginTop: vars.spacing['6'] }}>
                     <CardHeader>
                         <Heading.H3>Maintenance</Heading.H3>
                     </CardHeader>
                     <CardBody>
-                        <Flex direction="column" gap={vars.spacing.md}>
+                        <Flex direction="column" gap={vars.spacing['5']}>
                             <Button
                                 type="button"
                                 variant="secondary"

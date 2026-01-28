@@ -160,12 +160,12 @@ const SortButton: FC<SortButtonProps> = ({ viewType, libraryViewSettings, setLib
                 </Button>
             }
         >
-            <Box style={{ padding: vars.spacing.sm, width: 220 }}>
+            <Box style={{ padding: vars.spacing['4'], width: 220 }}>
                 <Text size="sm" weight="medium" color="secondary">
                     {globalize.translate('LabelSortBy')}
                 </Text>
                 <Select value={libraryViewSettings.SortBy} onValueChange={onSortByChange}>
-                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
+                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing['2'] }}>
                         <SelectValue placeholder={globalize.translate('LabelSortBy')} />
                     </SelectTrigger>
                     <SelectContent>
@@ -180,12 +180,12 @@ const SortButton: FC<SortButtonProps> = ({ viewType, libraryViewSettings, setLib
 
             <Divider />
 
-            <Box style={{ padding: vars.spacing.sm, width: 220 }}>
+            <Box style={{ padding: vars.spacing['4'], width: 220 }}>
                 <Text size="sm" weight="medium" color="secondary">
                     {globalize.translate('LabelSortOrder')}
                 </Text>
                 <Select value={libraryViewSettings.SortOrder} onValueChange={onSortOrderChange}>
-                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing.xs }}>
+                    <SelectTrigger style={{ width: '100%', marginTop: vars.spacing['2'] }}>
                         <SelectValue placeholder={globalize.translate('LabelSortOrder')} />
                     </SelectTrigger>
                     <SelectContent>

@@ -18,7 +18,7 @@ function showMessage(text: string, userSettingsKey: string, appHostFeature: stri
     }
 
     (userSettings as any).set(userSettingsKey, '1', false);
-    return alert(text);
+    return alert(text) as any;
 }
 
 function showBlurayMessage() {

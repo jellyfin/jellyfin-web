@@ -53,11 +53,11 @@ export const alphaPickerButtonVertical = style({
 });
 
 export const alphaPickerButtonIcon = style({
-    fontSize: vars.typography.fontSizeMd
+    fontSize: vars.typography['6'].fontSize
 });
 
 export const alphaPickerTv = style({
-    fontSize: vars.typography.fontSizeSm
+    fontSize: vars.typography['3'].fontSize
 });
 
 export const alphaPickerFixedRight = style({
@@ -93,14 +93,14 @@ export const alphaPickerShort = style({
         'all and (max-height: 49em)': {
             selectors: {
                 '&.alphaPicker-vertical': {
-                    fontSize: vars.typography.fontSizeLg
+                    fontSize: vars.typography['7'].fontSize
                 }
             }
         },
         'all and (max-height: 44em)': {
             selectors: {
                 '&.alphaPicker-vertical': {
-                    fontSize: vars.typography.fontSizeMd
+                    fontSize: vars.typography['6'].fontSize
                 },
                 '&.alphaPickerButton-vertical': {
                     paddingTop: 0,
@@ -111,14 +111,14 @@ export const alphaPickerShort = style({
         'all and (max-height: 37em)': {
             selectors: {
                 '&.alphaPicker-vertical': {
-                    fontSize: vars.typography.fontSizeSm
+                    fontSize: vars.typography['3'].fontSize
                 }
             }
         },
         'all and (max-height: 32em)': {
             selectors: {
                 '&.alphaPicker-vertical': {
-                    fontSize: vars.typography.fontSizeXs
+                    fontSize: vars.typography['1'].fontSize
                 }
             }
         },

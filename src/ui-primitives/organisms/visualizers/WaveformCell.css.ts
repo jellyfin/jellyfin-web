@@ -18,7 +18,7 @@ export const emptyState = style({
 });
 
 export const timeText = style({
-    fontSize: vars.typography.fontSizeXs,
+    fontSize: vars.typography['1'].fontSize,
     color: vars.colors.textSecondary
 });
 

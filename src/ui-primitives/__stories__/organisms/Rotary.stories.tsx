@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ReactElement } from 'react';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 const meta: Meta = {
     title: 'UI Primitives/Rotary',
@@ -15,11 +15,11 @@ type Story = StoryObj<typeof meta>;
 
 function RotaryStory(): ReactElement {
     return (
-        <div style={{ padding: vars.spacing.md, textAlign: 'center' }}>
-            <h2 style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}>
+        <div style={{ padding: vars.spacing['5'], textAlign: 'center' }}>
+            <h2 style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
                 Rotary Component (Vinyl Record)
             </h2>
-            <p style={{ color: vars.colors.textSecondary, marginBottom: vars.spacing.lg }}>
+            <p style={{ color: vars.colors.textSecondary, marginBottom: vars.spacing['6'] }}>
                 The Rotary component displays a rotating vinyl record animation for music playback.
             </p>
             <div
@@ -56,8 +56,8 @@ export const Default: Story = {
 
 function RotaryStoppedStory(): ReactElement {
     return (
-        <div style={{ padding: vars.spacing.md, textAlign: 'center' }}>
-            <h2 style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}>
+        <div style={{ padding: vars.spacing['5'], textAlign: 'center' }}>
+            <h2 style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
                 Rotary (Paused)
             </h2>
             <div

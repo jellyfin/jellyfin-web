@@ -8,12 +8,21 @@ export const textStyles = style({
 });
 
 export const textSizes = styleVariants({
-    xs: { fontSize: vars.typography.fontSizeXs },
-    sm: { fontSize: vars.typography.fontSizeSm },
-    md: { fontSize: vars.typography.fontSizeMd },
-    lg: { fontSize: vars.typography.fontSizeLg },
-    xl: { fontSize: vars.typography.fontSizeXl },
-    xxl: { fontSize: vars.typography.fontSizeXxl },
+    '1': { fontSize: vars.typography['1'].fontSize },
+    '2': { fontSize: vars.typography['2'].fontSize },
+    '3': { fontSize: vars.typography['3'].fontSize },
+    '4': { fontSize: vars.typography['4'].fontSize },
+    '5': { fontSize: vars.typography['5'].fontSize },
+    '6': { fontSize: vars.typography['6'].fontSize },
+    '7': { fontSize: vars.typography['7'].fontSize },
+    '8': { fontSize: vars.typography['8'].fontSize },
+    '9': { fontSize: vars.typography['9'].fontSize },
+    xs: { fontSize: vars.typography['1'].fontSize },
+    sm: { fontSize: vars.typography['3'].fontSize },
+    md: { fontSize: vars.typography['6'].fontSize },
+    lg: { fontSize: vars.typography['7'].fontSize },
+    xl: { fontSize: vars.typography['8'].fontSize },
+    xxl: { fontSize: vars.typography['9'].fontSize },
     display: { fontSize: vars.typography.fontSizeDisplay }
 });
 
@@ -30,7 +39,8 @@ export const textColors = styleVariants({
     error: { color: vars.colors.error },
     success: { color: vars.colors.success },
     warning: { color: vars.colors.warning },
-    info: { color: vars.colors.info }
+    info: { color: vars.colors.info },
+    inherit: { color: 'inherit' }
 });
 
 export const textAlignments = styleVariants({

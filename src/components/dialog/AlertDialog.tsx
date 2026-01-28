@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Dialog, DialogContent, DialogOverlay, DialogContentClass } from 'ui-primitives/Dialog';
@@ -36,7 +38,7 @@ export function AlertDialog({ isOpen, onButtonClick, title, text, html, buttons 
             <DialogPrimitive.Portal>
                 <DialogOverlay />
                 <DialogPrimitive.Content className={DialogContentClass}>
-                    <Box style={{ padding: '24px', maxWidth: '450px' }}>
+                    <Box style={{ padding: vars.spacing['5'], maxWidth: '450px' }}>
                         {title && <Heading.H3>{title}</Heading.H3>}
                         {(text || html) && (
                             <Box style={{ marginTop: '12px' }}>
@@ -48,7 +50,7 @@ export function AlertDialog({ isOpen, onButtonClick, title, text, html, buttons 
                             </Box>
                         )}
 
-                        <Flex style={{ marginTop: '24px', gap: '12px', flexWrap: 'wrap' }}>
+                        <Flex style={{ marginTop: '24px', gap: vars.spacing['3'], flexWrap: 'wrap' }}>
                             {buttons.map((button, index) => (
                                 <Button
                                     key={button.id}

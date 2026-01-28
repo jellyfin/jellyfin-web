@@ -76,7 +76,7 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
     if (isLoading) {
         return (
             <Box className="verticalSection">
-                <Box style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingTop: '16px' }}>
+                <Box style={{ display: 'flex', gap: vars.spacing['4'], overflowX: 'auto', paddingTop: '16px' }}>
                     {Array.from({ length: 6 }).map((_, i) => (
                         <Box
                             key={i}

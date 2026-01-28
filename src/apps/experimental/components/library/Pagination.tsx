@@ -53,10 +53,10 @@ const Pagination: FC<PaginationProps> = ({
     return (
         <Flex
             align="center"
-            gap={vars.spacing.xs}
+            gap={vars.spacing['2']}
             style={{
                 flexGrow: isSmallScreen ? 0 : 1,
-                marginLeft: isSmallScreen ? vars.spacing.xs : 0
+                marginLeft: isSmallScreen ? vars.spacing['2'] : 0
             }}
         >
             {!isSmallScreen && (
@@ -76,8 +76,8 @@ const Pagination: FC<PaginationProps> = ({
                     flexGrow: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginLeft: vars.spacing.sm,
-                    marginRight: vars.spacing.sm
+                    marginLeft: vars.spacing['4'],
+                    marginRight: vars.spacing['4']
                 }}
             >
                 <Text size="sm" color="secondary">
@@ -86,7 +86,7 @@ const Pagination: FC<PaginationProps> = ({
             </Box>
 
             {isSmallScreen && (
-                <Flex align="center" gap={vars.spacing.xs}>
+                <Flex align="center" gap={vars.spacing['2']}>
                     <Button
                         variant="plain"
                         title={globalize.translate('Previous')}

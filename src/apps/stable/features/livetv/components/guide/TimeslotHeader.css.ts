@@ -14,7 +14,7 @@ export const timeslotCell = style({
     flexShrink: 0,
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: vars.spacing.sm,
+    paddingLeft: vars.spacing['4'],
     borderRight: `1px solid ${vars.colors.divider}`,
-    fontSize: vars.typography.fontSizeSm
+    fontSize: vars.typography['3'].fontSize
 });

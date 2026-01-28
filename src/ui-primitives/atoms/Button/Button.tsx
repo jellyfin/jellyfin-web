@@ -70,7 +70,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
         }
 
         const buttonContent = loading ? (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['1'] }}>
                 <span
                     style={{
                         width: '12px',
@@ -121,10 +121,10 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
         }
 
         const CustomComponent = Component as ElementType;
-        return (
-            <CustomComponent ref={ref} to={to} href={href} target={target} rel={rel} {...commonProps}>
-                {buttonContent}
-            </CustomComponent>
+        return React.createElement(
+            CustomComponent,
+            { ref, to, href, target, rel, ...commonProps },
+            buttonContent
         );
     }
 );

@@ -36,6 +36,7 @@ import {
 } from './routes/livetv';
 import { settingsRoute, userprofileRoute, searchRoute, quickconnectRoute } from './routes/user';
 import { lyricsRoute } from './routes/lyrics';
+import { metadataRoute } from './routes/metadata';
 import { loginRoute, selectServerRoute, testRoute, forgotPasswordPinRoute } from './routes/session';
 import { devRoute } from './routes/dev';
 import {
@@ -45,14 +46,8 @@ import {
     userSubtitleSettingsRoute,
     userHomeSettingsRoute
 } from './routes/userPreferences';
-import {
-    wizardStartRoute,
-    wizardUserRoute,
-    wizardLibraryRoute,
-    wizardSettingsRoute,
-    wizardRemoteRoute,
-    wizardFinishRoute
-} from './routes/wizard';
+import { wizardStartRoute, wizardUserRoute, wizardLibraryRoute, wizardSettingsRoute, wizardRemoteRoute, wizardFinishRoute } from './routes/wizard';
+import { dashboardRoute } from './routes/dashboard';
 
 const routeTree = Route.addChildren([
     indexRoute,
@@ -98,12 +93,14 @@ const routeTree = Route.addChildren([
     userSubtitleSettingsRoute,
     userHomeSettingsRoute,
     lyricsRoute,
+    metadataRoute,
     wizardStartRoute,
     wizardUserRoute,
     wizardLibraryRoute,
     wizardSettingsRoute,
     wizardRemoteRoute,
     wizardFinishRoute,
+    dashboardRoute,
     ...(import.meta.env.DEV ? [devRoute] : [])
 ]);
 

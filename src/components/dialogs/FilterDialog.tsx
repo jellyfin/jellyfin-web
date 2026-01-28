@@ -13,6 +13,7 @@ import { Text } from 'ui-primitives/Text';
 import { Chip } from 'ui-primitives/Chip';
 import { RadioGroup, RadioGroupItem } from 'ui-primitives/RadioGroup';
 import { Divider } from 'ui-primitives/Divider';
+import { vars } from '../../styles/tokens.css';
 
 import { useFilterStore } from 'store/filterStore';
 
@@ -120,9 +121,9 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                 exit="hidden"
                                 variants={contentVariants}
                                 style={{
-                                    backgroundColor: '#252525',
-                                    borderRadius: '12px',
-                                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+                                    backgroundColor: vars.colors.surface,
+                                    borderRadius: vars.borderRadius.lg,
+                                    boxShadow: vars.shadows.lg,
                                     position: 'fixed',
                                     top: '50%',
                                     left: '50%',
@@ -131,25 +132,25 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     width: '90%',
                                     maxHeight: '85vh',
                                     overflow: 'auto',
-                                    padding: '24px',
+                                    padding: vars.spacing['5'],
                                     zIndex: 1001
                                 }}
                             >
-                                <Text size="xl" style={{ fontWeight: 600, marginBottom: '16px', color: '#ffffff' }}>
+                                <Text size="xl" style={{ fontWeight: 600, marginBottom: vars.spacing['4'], color: vars.colors.text }}>
                                     Filter Options
                                 </Text>
                                 <DialogPrimitive.Close asChild>
                                     <button
                                         style={{
                                             position: 'absolute',
-                                            top: '16px',
-                                            right: '16px',
+                                            top: vars.spacing['4'],
+                                            right: vars.spacing['4'],
                                             background: 'none',
                                             border: 'none',
-                                            color: '#b0b0b0',
+                                            color: vars.colors.textSecondary,
                                             cursor: 'pointer',
-                                            padding: '8px',
-                                            borderRadius: '6px'
+                                            padding: vars.spacing['2'],
+                                            borderRadius: vars.borderRadius.sm
                                         }}
                                         aria-label="Close"
                                     >
@@ -157,33 +158,33 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     </button>
                                 </DialogPrimitive.Close>
 
-                                <Box style={{ paddingTop: '8px' }}>
-                                    <Text size="sm" style={{ fontWeight: 500, marginBottom: '8px', color: '#ffffff' }}>
+                                <Box style={{ paddingTop: vars.spacing['2'] }}>
+                                    <Text size="sm" style={{ fontWeight: 500, marginBottom: vars.spacing['2'], color: vars.colors.text }}>
                                         Genre Match
                                     </Text>
                                     <RadioGroup
                                         value={localGenresMode}
                                         onValueChange={val => setLocalGenresMode(val as 'and' | 'or')}
                                     >
-                                        <Flex style={{ gap: '16px' }}>
+                                        <Flex style={{ gap: vars.spacing['4'] }}>
                                             <RadioGroupItem value="and" id="genre-and" label="All (AND)" />
                                             <RadioGroupItem value="or" id="genre-or" label="Any (OR)" />
                                         </Flex>
                                     </RadioGroup>
                                 </Box>
 
-                                <Divider style={{ margin: '16px 0', borderColor: '#404040' }} />
+                                <Divider style={{ margin: `${vars.spacing['4']} 0`, borderColor: vars.colors.divider }} />
 
                                 {availableGenres.length > 0 && (
-                                    <Box style={{ marginBottom: '16px' }}>
+                                    <Box style={{ marginBottom: vars.spacing['4'] }}>
                                         <Text
                                             size="sm"
                                             color="secondary"
-                                            style={{ marginBottom: '8px', color: '#b0b0b0' }}
+                                            style={{ marginBottom: vars.spacing['2'], color: vars.colors.textSecondary }}
                                         >
                                             Genres
                                         </Text>
-                                        <Flex style={{ flexWrap: 'wrap', gap: '4px' }}>
+                                        <Flex style={{ flexWrap: 'wrap', gap: vars.spacing['1'] }}>
                                             {availableGenres.slice(0, 10).map(genre => (
                                                 <Chip
                                                     key={genre}
@@ -199,15 +200,15 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                 )}
 
                                 {availableYears.length > 0 && (
-                                    <Box style={{ marginBottom: '16px' }}>
+                                    <Box style={{ marginBottom: vars.spacing['4'] }}>
                                         <Text
                                             size="sm"
                                             color="secondary"
-                                            style={{ marginBottom: '8px', color: '#b0b0b0' }}
+                                            style={{ marginBottom: vars.spacing['2'], color: vars.colors.textSecondary }}
                                         >
                                             Years
                                         </Text>
-                                        <Flex style={{ flexWrap: 'wrap', gap: '4px' }}>
+                                        <Flex style={{ flexWrap: 'wrap', gap: vars.spacing['1'] }}>
                                             {availableYears.slice(0, 10).map(year => (
                                                 <Chip
                                                     key={year}
@@ -223,15 +224,15 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                 )}
 
                                 {availableStudios.length > 0 && (
-                                    <Box style={{ marginBottom: '16px' }}>
+                                    <Box style={{ marginBottom: vars.spacing['4'] }}>
                                         <Text
                                             size="sm"
                                             color="secondary"
-                                            style={{ marginBottom: '8px', color: '#b0b0b0' }}
+                                            style={{ marginBottom: vars.spacing['2'], color: vars.colors.textSecondary }}
                                         >
                                             Studios
                                         </Text>
-                                        <Flex style={{ flexWrap: 'wrap', gap: '4px' }}>
+                                        <Flex style={{ flexWrap: 'wrap', gap: vars.spacing['1'] }}>
                                             {availableStudios.slice(0, 10).map(studio => (
                                                 <Chip
                                                     key={studio}
@@ -246,13 +247,13 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     </Box>
                                 )}
 
-                                <Divider style={{ margin: '16px 0', borderColor: '#404040' }} />
+                                <Divider style={{ margin: `${vars.spacing['4']} 0`, borderColor: vars.colors.divider }} />
 
-                                <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '16px' }}>
+                                <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: vars.spacing['4'] }}>
                                     <Button variant="ghost" onClick={handleClear}>
                                         Clear All
                                     </Button>
-                                    <Flex style={{ gap: '8px' }}>
+                                    <Flex style={{ gap: vars.spacing['2'] }}>
                                         <Button variant="ghost" onClick={onClose}>
                                             Cancel
                                         </Button>

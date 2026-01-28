@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { useState } from 'react';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { Box, Flex, FlexCol } from 'ui-primitives/Box';
@@ -37,13 +39,13 @@ export function FilterSection({
                     cursor: collapsible ? 'pointer' : 'default'
                 }}
             >
-                <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                     {icon && <span>{icon}</span>}
                     <Text weight="medium" size="sm" color="secondary">
                         {title}
                     </Text>
                 </Flex>
-                <Flex style={{ alignItems: 'center', gap: '4px' }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['1'] }}>
                     {onClear && hasActiveFilters && (
                         <Box
                             style={{ cursor: 'pointer' }}

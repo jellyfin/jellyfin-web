@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { createRootRoute, Outlet, useLocation } from '@tanstack/react-router';
+import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from '../components/themeProvider/ThemeProvider';
@@ -7,18 +7,14 @@ import browser from '../scripts/browser';
 import { queryClient } from '../utils/query/queryClient';
 import { OSDOverlay } from '../components/playback';
 import { LoadingOverlay } from '../components/feedback';
-import AppBody from '../components/AppBody';
+import { LayoutProvider } from '../components/layout/LayoutProvider';
 import CustomCss from '../components/CustomCss';
 import Backdrop from '../components/Backdrop';
-import AppHeader from '../components/AppHeader';
-import { DASHBOARD_APP_PATHS } from '../apps/dashboard/routes/routes';
-import { LayoutMode } from '../constants/layoutMode';
 import { Box, Text, Button } from 'ui-primitives';
 
 const Visualizers = lazy(() => import('../components/visualizer/Visualizers'));
 
 const useReactQueryDevtools = typeof window.Proxy !== 'undefined' && !browser.tv;
-const LAYOUT_SETTING_KEY = 'layout';
 
 const handleGoHome = () => {
     window.location.href = '/';
@@ -50,12 +46,6 @@ function NotFoundPage() {
 }
 
 function RootComponent() {
-    const location = useLocation();
-
-    const layoutMode = browser.tv ? LayoutMode.Tv : localStorage.getItem(LAYOUT_SETTING_KEY);
-    const isExperimentalLayout = layoutMode == null || layoutMode === '' || layoutMode === LayoutMode.Experimental;
-    const isNewLayoutPath = Object.values(DASHBOARD_APP_PATHS).some(path => location.pathname.startsWith(`/${path}`));
-
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider>
@@ -63,11 +53,10 @@ function RootComponent() {
                     <Visualizers />
                 </Suspense>
                 <Backdrop />
-                <AppHeader isHidden={isExperimentalLayout || isNewLayoutPath} />
-
-                <AppBody>
+                
+                <LayoutProvider>
                     <Outlet />
-                </AppBody>
+                </LayoutProvider>
 
                 <CustomCss />
                 <OSDOverlay />

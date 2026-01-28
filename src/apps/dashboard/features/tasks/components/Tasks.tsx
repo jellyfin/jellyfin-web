@@ -14,7 +14,7 @@ interface TasksProps {
 
 const Tasks: FunctionComponent<TasksProps> = ({ category, tasks }: TasksProps) => {
     return (
-        <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+        <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
             <Heading.H3>{category}</Heading.H3>
             <Paper
                 variant="outlined"

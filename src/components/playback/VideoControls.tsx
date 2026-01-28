@@ -199,14 +199,14 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
         >
             <Box className="osdControls" style={{ maxWidth: 1200, margin: '0 auto' }}>
                 {title != null && title !== '' && (
-                    <Box className="osdTextContainer osdMainTextContainer" style={{ marginBottom: vars.spacing.sm }}>
-                        <Text weight="bold" style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeMd }}>
+                    <Box className="osdTextContainer osdMainTextContainer" style={{ marginBottom: vars.spacing['4'] }}>
+                        <Text weight="bold" style={{ color: vars.colors.text, fontSize: vars.typography['6'].fontSize }}>
                             {title}
                         </Text>
                     </Box>
                 )}
 
-                <Box className="sliderContainer" style={{ position: 'relative', marginBottom: vars.spacing.md }}>
+                <Box className="sliderContainer" style={{ position: 'relative', marginBottom: vars.spacing['5'] }}>
                     <Box
                         className="sliderBufferOverlay"
                         style={{
@@ -240,13 +240,13 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         flexWrap: 'wrap',
-                        gap: vars.spacing.sm
+                        gap: vars.spacing['4']
                     }}
                 >
-                    <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                    <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                         <Box
                             className="osdTextContainer startTimeText"
-                            style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeSm, minWidth: 50 }}
+                            style={{ color: vars.colors.text, fontSize: vars.typography['3'].fontSize, minWidth: 50 }}
                         >
                             {formatTime(progress)}
                         </Box>
@@ -365,13 +365,13 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
 
                         <Box
                             className="osdTextContainer endTimeText"
-                            style={{ color: vars.colors.text, fontSize: vars.typography.fontSizeSm, minWidth: 50 }}
+                            style={{ color: vars.colors.text, fontSize: vars.typography['3'].fontSize, minWidth: 50 }}
                         >
                             {formatTime(duration)}
                         </Box>
                     </Flex>
 
-                    <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                    <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                         {onFavoriteClick && (
                             <Tooltip title="Rate">
                                 <IconButton
@@ -422,7 +422,7 @@ export const VideoControls: React.FC<VideoControlsProps> = ({
 
                         <Box
                             className="volumeButtons"
-                            style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.xs }}
+                            style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'] }}
                         >
                             <Tooltip title="Mute (M)">
                                 <IconButton

@@ -15,8 +15,8 @@ export interface SwitchProps {
 export const Switch = (props: SwitchProps) => {
     const { label, helperText, error, ...rest } = props;
     return (
-        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', gap: vars.spacing.sm }}>
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.xs }}>
+        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', gap: vars.spacing['4'] }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
                 {label && <FormLabel>{label}</FormLabel>}
                 {helperText && <FormHelperText>{helperText}</FormHelperText>}
                 {error && <FormHelperText style={{ color: vars.colors.error }}>{error}</FormHelperText>}

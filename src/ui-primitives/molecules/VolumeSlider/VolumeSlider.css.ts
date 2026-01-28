@@ -10,7 +10,7 @@ export const spin = keyframes({
 export const volumeSliderContainer = vanillaStyle({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.xs
+    gap: vars.spacing['2']
 });
 
 export const volumeSliderTrack = vanillaStyle({
@@ -20,7 +20,7 @@ export const volumeSliderTrack = vanillaStyle({
     userSelect: 'none',
     touchAction: 'none',
     width: '80px',
-    height: vars.spacing.md
+    height: vars.spacing['5']
 });
 
 export const volumeSliderTrackInner = vanillaStyle({
@@ -28,7 +28,7 @@ export const volumeSliderTrackInner = vanillaStyle({
     position: 'relative',
     flexGrow: 1,
     borderRadius: vars.borderRadius.full,
-    height: vars.spacing.xs
+    height: vars.spacing['2']
 });
 
 export const volumeSliderRange = vanillaStyle({
@@ -40,8 +40,8 @@ export const volumeSliderRange = vanillaStyle({
 
 export const volumeSliderThumb = vanillaStyle({
     display: 'block',
-    width: vars.spacing.md,
-    height: vars.spacing.md,
+    width: vars.spacing['5'],
+    height: vars.spacing['5'],
     backgroundColor: vars.colors.text,
     boxShadow: vars.shadows.md,
     borderRadius: vars.borderRadius.full,

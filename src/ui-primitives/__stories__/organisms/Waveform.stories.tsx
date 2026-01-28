@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ReactElement } from 'react';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 const meta: Meta = {
     title: 'UI Primitives/Waveform',
@@ -15,11 +15,11 @@ type Story = StoryObj<typeof meta>;
 
 function WaveformStory(): ReactElement {
     return (
-        <div style={{ padding: vars.spacing.md, maxWidth: '600px' }}>
-            <h2 style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}>
+        <div style={{ padding: vars.spacing['5'], maxWidth: '600px' }}>
+            <h2 style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
                 Waveform Component
             </h2>
-            <p style={{ color: vars.colors.textSecondary, marginBottom: vars.spacing.md }}>
+            <p style={{ color: vars.colors.textSecondary, marginBottom: vars.spacing['5'] }}>
                 The Waveform component is used to display audio waveforms for music playback visualization.
             </p>
             <div

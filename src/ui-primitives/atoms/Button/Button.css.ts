@@ -5,11 +5,11 @@ export const buttonStyles = style({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: vars.spacing.sm,
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    gap: vars.spacing['4'],
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     borderRadius: vars.borderRadius.md,
     fontFamily: vars.typography.fontFamily,
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     fontWeight: vars.typography.fontWeightMedium,
     lineHeight: vars.typography.lineHeightNormal,
     cursor: 'pointer',
@@ -88,16 +88,16 @@ export const buttonVariants = styleVariants({
 
 export const buttonSizes = styleVariants({
     sm: {
-        padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-        fontSize: vars.typography.fontSizeSm
+        padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
+        fontSize: vars.typography['3'].fontSize
     },
     md: {
-        padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-        fontSize: vars.typography.fontSizeMd
+        padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
+        fontSize: vars.typography['6'].fontSize
     },
     lg: {
-        padding: `${vars.spacing.md} ${vars.spacing.lg}`,
-        fontSize: vars.typography.fontSizeLg
+        padding: `${vars.spacing['5']} ${vars.spacing['6']}`,
+        fontSize: vars.typography['7'].fontSize
     }
 });
 

@@ -169,23 +169,23 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                         right: 0,
                         bottom: 0,
                         background: 'linear-gradient(rgba(0,0,0,0.8), transparent, rgba(0,0,0,0.8))',
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}
                 >
-                    <Flex style={{ gap: vars.spacing.md, alignItems: 'center' }}>
+                    <Flex style={{ gap: vars.spacing['5'], alignItems: 'center' }}>
                         <Avatar src={deviceIcon} variant="plain" style={{ width: '2.5rem', height: '2.5rem' }} />
-                        <Flex style={{ gap: vars.spacing.xs }}>
+                        <Flex style={{ gap: vars.spacing['2'] }}>
                             <Heading.H5 style={{ color: vars.colors.text }}>{device.DeviceName}</Heading.H5>
                             <Text size="xs" style={{ color: vars.colors.textSecondary }}>
                                 {device.Client + ' ' + device.ApplicationVersion}
                             </Text>
                         </Flex>
                     </Flex>
-                    <Flex style={{ gap: vars.spacing.xs, alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                        <Flex style={{ gap: vars.spacing.xs }}>
+                    <Flex style={{ gap: vars.spacing['2'], alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                        <Flex style={{ gap: vars.spacing['2'] }}>
                             {nowPlayingName.image ? (
                                 <img
                                     src={nowPlayingName.image}
@@ -231,10 +231,10 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
 
             <Flex
                 style={{
-                    gap: vars.spacing.sm,
+                    gap: vars.spacing['4'],
                     justifyContent: 'center',
-                    paddingTop: vars.spacing.sm,
-                    paddingBottom: vars.spacing.sm
+                    paddingTop: vars.spacing['4'],
+                    paddingBottom: vars.spacing['4']
                 }}
             >
                 {canControl && isPlayingMedia && (
@@ -264,8 +264,8 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                     style={{
                         borderTop: '1px solid',
                         borderColor: vars.colors.divider,
-                        paddingTop: vars.spacing.sm,
-                        paddingBottom: vars.spacing.sm,
+                        paddingTop: vars.spacing['4'],
+                        paddingBottom: vars.spacing['4'],
                         textAlign: 'center'
                     }}
                 >

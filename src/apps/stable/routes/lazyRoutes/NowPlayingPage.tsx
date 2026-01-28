@@ -111,7 +111,7 @@ function QueueListItem({ item, index, isCurrent, onPlay }: QueueListItemProps): 
                 ...style,
                 backgroundColor: isCurrent ? `${vars.colors.primary}1a` : 'transparent',
                 borderRadius: vars.borderRadius.sm,
-                marginBottom: vars.spacing.xs
+                marginBottom: vars.spacing['2']
             }}
         >
             <ListItemButton onClick={onPlayItem}>
@@ -151,7 +151,7 @@ function QueueListItem({ item, index, isCurrent, onPlay }: QueueListItemProps): 
                         {artistName}
                     </Text>
                 </ListItemContent>
-                <Text size="xs" color="muted" style={{ marginRight: vars.spacing.xs }}>
+                <Text size="xs" color="muted" style={{ marginRight: vars.spacing['2'] }}>
                     {formatTime(duration)}
                 </Text>
                 <Box {...listeners} style={{ cursor: 'grab', color: vars.colors.textMuted }}>
@@ -174,14 +174,14 @@ function CollapseSection({ title, children, defaultExpanded = true }: CollapseSe
     const toggleExpanded = useCallback(() => setExpanded(prev => !prev), []);
 
     return (
-        <Paper variant="outlined" style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing.md }}>
+        <Paper variant="outlined" style={{ borderRadius: vars.borderRadius.md, marginBottom: vars.spacing['5'] }}>
             <Box
                 onClick={toggleExpanded}
                 style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: vars.spacing.sm,
+                    padding: vars.spacing['4'],
                     cursor: 'pointer',
                     backgroundColor: 'transparent'
                 }}
@@ -202,7 +202,7 @@ function CollapseSection({ title, children, defaultExpanded = true }: CollapseSe
                         transition={{ duration: 0.2 }}
                         style={{ overflow: 'hidden' }}
                     >
-                        <Box style={{ padding: vars.spacing.md, paddingTop: 0 }}>{children}</Box>
+                        <Box style={{ padding: vars.spacing['5'], paddingTop: 0 }}>{children}</Box>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -230,11 +230,11 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps): React.R
 
     return (
         <CollapseSection title="Navigation" defaultExpanded={false}>
-            <Flex direction="column" align="center" gap={vars.spacing.sm}>
+            <Flex direction="column" align="center" gap={vars.spacing['4']}>
                 <IconButton style={navButtonSx} onClick={handleNavClick('MoveUp')}>
                     <ChevronUpIcon />
                 </IconButton>
-                <Flex direction="row" gap={vars.spacing.sm}>
+                <Flex direction="row" gap={vars.spacing['4']}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('MoveLeft')}>
                         <ChevronLeftIcon />
                     </IconButton>
@@ -245,7 +245,7 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps): React.R
                         <ChevronRightIcon />
                     </IconButton>
                 </Flex>
-                <Flex direction="row" gap={vars.spacing.sm}>
+                <Flex direction="row" gap={vars.spacing['4']}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('Back')}>
                         <ArrowLeftIcon />
                     </IconButton>
@@ -256,8 +256,8 @@ function RemoteControlSection({ onCommand }: RemoteControlSectionProps): React.R
                         <HamburgerMenuIcon />
                     </IconButton>
                 </Flex>
-                <Divider style={{ margin: `${vars.spacing.sm} 0`, width: '100%' }} />
-                <Flex direction="row" gap={vars.spacing.sm}>
+                <Divider style={{ margin: `${vars.spacing['4']} 0`, width: '100%' }} />
+                <Flex direction="row" gap={vars.spacing['4']}>
                     <IconButton style={navButtonSx} onClick={handleNavClick('GoHome')}>
                         <HomeIcon />
                     </IconButton>
@@ -315,9 +315,9 @@ function MessageSection({ onSendMessage, onSendText }: MessageSectionProps): Rea
     );
 
     return (
-        <Flex direction="column" gap={vars.spacing.md}>
+        <Flex direction="column" gap={vars.spacing['5']}>
             <CollapseSection title="Send Message" defaultExpanded={false}>
-                <Flex direction="column" gap={vars.spacing.md}>
+                <Flex direction="column" gap={vars.spacing['5']}>
                     <Input placeholder="Message title" value={messageTitle} onChange={onMessageTitleChange} />
                     <Input placeholder="Message text" value={messageText} onChange={onMessageTextChange} />
                     <Button onClick={handleSendMessage} startDecorator={<PaperPlaneIcon />} size="sm">
@@ -327,7 +327,7 @@ function MessageSection({ onSendMessage, onSendText }: MessageSectionProps): Rea
             </CollapseSection>
 
             <CollapseSection title="Enter Text" defaultExpanded={false}>
-                <Flex direction="column" gap={vars.spacing.md}>
+                <Flex direction="column" gap={vars.spacing['5']}>
                     <Input
                         placeholder="Enter text"
                         value={typeText}
@@ -367,7 +367,7 @@ function PlaylistSection({
 
     return (
         <Box className="playlistSection">
-            <Flex direction="row" justify="center" gap={vars.spacing.sm} className="playlistSectionButton">
+            <Flex direction="row" justify="center" gap={vars.spacing['4']} className="playlistSectionButton">
                 <IconButton onClick={handleTogglePlaylist} title="Playlist">
                     <StackIcon />
                 </IconButton>
@@ -495,9 +495,9 @@ function PlaybackControls({
                 align="center"
                 justify="space-between"
                 className="nowPlayingButtonsContainer focuscontainer-x"
-                gap={vars.spacing.sm}
+                gap={vars.spacing['4']}
             >
-                <Flex direction="row" align="center" className="nowPlayingInfoButtons" gap={vars.spacing.xs}>
+                <Flex direction="row" align="center" className="nowPlayingInfoButtons" gap={vars.spacing['2']}>
                     <IconButton
                         onClick={onToggleRepeat}
                         variant="plain"
@@ -559,7 +559,7 @@ function PlaybackControls({
                     </IconButton>
                 </Flex>
 
-                <Flex direction="row" align="center" className="nowPlayingSecondaryButtons" gap={vars.spacing.xs}>
+                <Flex direction="row" align="center" className="nowPlayingSecondaryButtons" gap={vars.spacing['2']}>
                     {hasAudioTracks === true && (
                         <IconButton
                             onClick={onAudioTracks}
@@ -601,7 +601,7 @@ function PlaybackControls({
                 </Flex>
             </Flex>
 
-            <Flex direction="row" align="center" gap={vars.spacing.xs} style={{ marginTop: vars.spacing.xs }}>
+            <Flex direction="row" align="center" gap={vars.spacing['2']} style={{ marginTop: vars.spacing['2'] }}>
                 <IconButton onClick={onToggleMute} variant="plain" size="sm" color="neutral">
                     {muted ? <SpeakerOffIcon /> : <SpeakerLoudIcon />}
                 </IconButton>
@@ -815,7 +815,7 @@ export function NowPlayingPage(): React.ReactElement {
                 direction="row"
                 justify="space-between"
                 align="center"
-                style={{ position: 'relative', zIndex: 1, padding: vars.spacing.md }}
+                style={{ position: 'relative', zIndex: 1, padding: vars.spacing['5'] }}
             >
                 <IconButton onClick={goBack} variant="plain" color="neutral">
                     <ArrowLeftIcon />
@@ -835,20 +835,20 @@ export function NowPlayingPage(): React.ReactElement {
             <Flex
                 as="main"
                 direction={isMobile ? 'column' : 'row'}
-                gap={vars.spacing.xl}
+                gap={vars.spacing['7']}
                 align="center"
                 justify="center"
                 style={{
                     position: 'relative',
                     zIndex: 1,
                     flex: 1,
-                    padding: vars.spacing.xl,
+                    padding: vars.spacing['7'],
                     height: 'calc(100vh - 80px)'
                 }}
             >
                 <Box className="nowPlayingInfoContainer" style={{ flex: '1 1 auto', maxWidth: 600 }}>
-                    <Flex direction="column" gap={vars.spacing.lg}>
-                        <Flex direction="row" gap={vars.spacing.lg} align="flex-start">
+                    <Flex direction="column" gap={vars.spacing['6']}>
+                        <Flex direction="row" gap={vars.spacing['6']} align="flex-start">
                             <Box style={{ position: 'relative' }}>
                                 <motion.div layoutId="now-playing-art">
                                     <Box
@@ -968,9 +968,9 @@ export function NowPlayingPage(): React.ReactElement {
 
                 <Box
                     className="remoteControlSection"
-                    style={{ flex: '0 0 280px', marginLeft: vars.spacing.lg, display: isMobile ? 'none' : 'block' }}
+                    style={{ flex: '0 0 280px', marginLeft: vars.spacing['6'], display: isMobile ? 'none' : 'block' }}
                 >
-                    <Flex direction="column" gap={vars.spacing.md}>
+                    <Flex direction="column" gap={vars.spacing['5']}>
                         <RemoteControlSection onCommand={handleRemoteCommand} />
                         <MessageSection onSendMessage={handleSendMessage} onSendText={handleSendText} />
                         <PlaylistSection
@@ -995,7 +995,7 @@ export function NowPlayingPage(): React.ReactElement {
                         <Paper
                             variant="outlined"
                             style={{
-                                padding: vars.spacing.lg,
+                                padding: vars.spacing['6'],
                                 borderRadius: vars.borderRadius.lg,
                                 backgroundColor: 'rgba(0,0,0,0.8)',
                                 backdropFilter: 'blur(20px)'
@@ -1004,11 +1004,11 @@ export function NowPlayingPage(): React.ReactElement {
                             <Text
                                 size="sm"
                                 weight="medium"
-                                style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}
+                                style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}
                             >
                                 Technical Stream Info
                             </Text>
-                            <Flex direction="row" gap={vars.spacing.lg} wrap="wrap">
+                            <Flex direction="row" gap={vars.spacing['6']} wrap="wrap">
                                 <Box>
                                     <Text size="xs" color="muted">
                                         Codec
@@ -1060,11 +1060,11 @@ export function NowPlayingPage(): React.ReactElement {
                         bottom: 0,
                         backgroundColor: 'rgba(0,0,0,0.9)',
                         zIndex: 100,
-                        padding: vars.spacing.lg,
+                        padding: vars.spacing['6'],
                         overflow: 'auto'
                     }}
                 >
-                    <Flex direction="column" gap={vars.spacing.md}>
+                    <Flex direction="column" gap={vars.spacing['5']}>
                         <Flex direction="row" justify="space-between" align="center">
                             <Text size="lg" weight="bold">
                                 Playlist

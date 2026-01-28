@@ -334,7 +334,7 @@ export const NowPlayingBar: React.FC = () => {
                     <Flex
                         style={{
                             flexDirection: 'row',
-                            gap: vars.spacing.md,
+                            gap: vars.spacing['5'],
                             alignItems: 'center',
                             cursor: 'pointer',
                             minWidth: 0,
@@ -361,7 +361,7 @@ export const NowPlayingBar: React.FC = () => {
                                         <DiscIcon
                                             data-testid="nowPlayingBarPlaceholderIcon"
                                             style={{
-                                                fontSize: vars.typography.fontSizeMd,
+                                                fontSize: vars.typography['6'].fontSize,
                                                 color: vars.colors.textSecondary
                                             }}
                                         />
@@ -398,7 +398,7 @@ export const NowPlayingBar: React.FC = () => {
                     <Flex
                         style={{
                             flexDirection: 'row',
-                            gap: vars.spacing.xs,
+                            gap: vars.spacing['2'],
                             alignItems: 'center'
                         }}
                         className="nowPlayingBarCenter"
@@ -416,7 +416,7 @@ export const NowPlayingBar: React.FC = () => {
 
                         {!isMobile && <PlaybackIconButton icon="next" onClick={handleNext} aria-label="Next" />}
 
-                        <Text size="xs" className="nowPlayingBarCurrentTime" style={{ marginLeft: vars.spacing.sm }}>
+                        <Text size="xs" className="nowPlayingBarCurrentTime" style={{ marginLeft: vars.spacing['4'] }}>
                             {currentTimeFormatted}
                             {duration > 0 && ` / ${durationFormatted}`}
                         </Text>
@@ -425,7 +425,7 @@ export const NowPlayingBar: React.FC = () => {
                     <Flex
                         style={{
                             flexDirection: 'row',
-                            gap: vars.spacing.xs,
+                            gap: vars.spacing['2'],
                             alignItems: 'center'
                         }}
                         className="nowPlayingBarRight"

@@ -53,7 +53,7 @@ function ViewSettingsDialogContent({ settingsKey, settings, visibleSettings, onC
                         {globalize.translate('Settings')}
                     </DialogPrimitive.Title>
 
-                    <Flex direction="column" gap={vars.spacing.md}>
+                    <Flex direction="column" gap={vars.spacing['5']}>
                         {visibleSettings.includes('imageType') && (
                             <SelectInput
                                 label={globalize.translate('LabelImageType')}

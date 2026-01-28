@@ -1,3 +1,5 @@
+import { vars } from '../../../../styles/tokens.css';
+
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import React, { useCallback, useState } from 'react';
@@ -63,7 +65,7 @@ export const Component = (): React.ReactElement => {
                 message={globalize.translate('CopyLogSuccess')}
             />
             <Container className="content-primary" style={{ maxWidth: 'none' }}>
-                <Flex style={{ flexDirection: 'column', gap: '16px' }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
                     <Text as="h1" size="xl" weight="bold">
                         {fileName}
                     </Text>
@@ -71,7 +73,7 @@ export const Component = (): React.ReactElement => {
                     {error && (
                         <Alert
                             variant="error"
-                            style={{ marginTop: '16px' }}
+                            style={{ marginTop: vars.spacing['4'] }}
                             action={
                                 <Button variant="ghost" size="sm" onClick={retry}>
                                     {globalize.translate('Retry')}
@@ -86,7 +88,7 @@ export const Component = (): React.ReactElement => {
 
                     {!error && !loading && (
                         <>
-                            <Flex style={{ gap: '8px', marginTop: '16px' }}>
+                            <Flex style={{ gap: vars.spacing['2'], marginTop: vars.spacing['4'] }}>
                                 <Button startDecorator={<ContentCopyIcon />} onClick={copyToClipboard}>
                                     {globalize.translate('Copy')}
                                 </Button>

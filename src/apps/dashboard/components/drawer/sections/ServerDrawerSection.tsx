@@ -115,7 +115,7 @@ function ServerDrawerSection(): React.ReactElement {
                         <ListItem>
                             <ListItemLink
                                 to='/dashboard/libraries'
-                                style={{ paddingLeft: vars.spacing.lg }}
+                                style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
                                     {globalize.translate('HeaderLibraries')}
@@ -125,7 +125,7 @@ function ServerDrawerSection(): React.ReactElement {
                         <ListItem>
                             <ListItemLink
                                 to='/dashboard/libraries/display'
-                                style={{ paddingLeft: vars.spacing.lg }}
+                                style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>{globalize.translate('Display')}</ListItemContent>
                             </ListItemLink>
@@ -133,7 +133,7 @@ function ServerDrawerSection(): React.ReactElement {
                         <ListItem>
                             <ListItemLink
                                 to='/dashboard/libraries/metadata'
-                                style={{ paddingLeft: vars.spacing.lg }}
+                                style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
                                     {globalize.translate('LabelMetadata')}
@@ -143,7 +143,7 @@ function ServerDrawerSection(): React.ReactElement {
                         <ListItem>
                             <ListItemLink
                                 to='/dashboard/libraries/nfo'
-                                style={{ paddingLeft: vars.spacing.lg }}
+                                style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
                                     {globalize.translate('TabNfoSettings')}
@@ -167,7 +167,7 @@ function ServerDrawerSection(): React.ReactElement {
                         <ListItem>
                             <ListItemLink
                                 to='/dashboard/playback/transcoding'
-                                style={{ paddingLeft: vars.spacing.lg }}
+                                style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
                                     {globalize.translate('Transcoding')}
@@ -177,7 +177,7 @@ function ServerDrawerSection(): React.ReactElement {
                         <ListItem>
                             <ListItemLink
                                 to='/dashboard/playback/resume'
-                                style={{ paddingLeft: vars.spacing.lg }}
+                                style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
                                     {globalize.translate('ButtonResume')}
@@ -187,7 +187,7 @@ function ServerDrawerSection(): React.ReactElement {
                         <ListItem>
                             <ListItemLink
                                 to='/dashboard/playback/streaming'
-                                style={{ paddingLeft: vars.spacing.lg }}
+                                style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
                                     {globalize.translate('TabStreaming')}
@@ -197,7 +197,7 @@ function ServerDrawerSection(): React.ReactElement {
                         <ListItem>
                             <ListItemLink
                                 to='/dashboard/playback/trickplay'
-                                style={{ paddingLeft: vars.spacing.lg }}
+                                style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
                                     {globalize.translate('Trickplay')}

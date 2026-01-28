@@ -49,7 +49,7 @@ export const popoverContent = style({
     backgroundColor: vars.colors.surface,
     borderRadius: vars.borderRadius.lg,
     boxShadow: vars.shadows.xl,
-    padding: vars.spacing.md,
+    padding: vars.spacing['5'],
     zIndex: vars.zIndex.dropdown,
     minWidth: 180,
     maxWidth: 'var(--radix-popover-content-available-width)',
@@ -79,13 +79,13 @@ export const popoverArrow = style({
 
 export const popoverClose = style({
     position: 'absolute',
-    top: vars.spacing.sm,
-    right: vars.spacing.sm,
+    top: vars.spacing['4'],
+    right: vars.spacing['4'],
     background: 'none',
     border: 'none',
     color: vars.colors.textMuted,
     cursor: 'pointer',
-    padding: vars.spacing.xs,
+    padding: vars.spacing['2'],
     borderRadius: vars.borderRadius.sm,
     display: 'flex',
     alignItems: 'center',
@@ -102,31 +102,31 @@ export const popoverClose = style({
 });
 
 export const popoverHeader = style({
-    marginBottom: vars.spacing.sm
+    marginBottom: vars.spacing['4']
 });
 
 export const popoverTitle = style({
     fontWeight: vars.typography.fontWeightBold,
-    fontSize: vars.typography.fontSizeLg,
+    fontSize: vars.typography['7'].fontSize,
     color: vars.colors.text,
     margin: 0,
-    paddingRight: vars.spacing.lg
+    paddingRight: vars.spacing['6']
 });
 
 export const popoverDescription = style({
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.textSecondary,
-    margin: `${vars.spacing.xs} 0 0`
+    margin: `${vars.spacing['2']} 0 0`
 });
 
 export const popoverFooter = style({
-    marginTop: vars.spacing.md,
-    paddingTop: vars.spacing.md,
+    marginTop: vars.spacing['5'],
+    paddingTop: vars.spacing['5'],
     borderTop: `1px solid ${vars.colors.divider}`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });
 
 export const alignVariants = styleVariants({

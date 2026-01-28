@@ -247,7 +247,7 @@ const UserProfile: FunctionComponent = () => {
                             alignItems: 'center'
                         }}
                     >
-                        <h2 className="username" style={{ margin: 0, fontSize: vars.typography.fontSizeXl }}>
+                        <h2 className="username" style={{ margin: 0, fontSize: vars.typography['8'].fontSize }}>
                             {user?.Name}
                         </h2>
                         <br />

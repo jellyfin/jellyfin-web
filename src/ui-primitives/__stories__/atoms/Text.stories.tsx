@@ -1,6 +1,8 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Text, Heading } from '../Text';
+import { Text, Heading } from '../../Text';
 
 const meta: Meta<typeof Text> = {
     title: 'UI Primitives/Text',
@@ -10,7 +12,7 @@ const meta: Meta<typeof Text> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl', 'display'] },
+        size: { control: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'display'] },
         weight: { control: 'select', options: ['normal', 'medium', 'bold'] },
         color: { control: 'select', options: ['primary', 'secondary', 'muted', 'error', 'success', 'warning', 'info'] },
         align: { control: 'select', options: ['left', 'center', 'right'] },
@@ -32,7 +34,7 @@ export const Default: Story = {
 
 function AllSizesStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             <Text size="xs">Extra Small (12px)</Text>
             <Text size="sm">Small (14px)</Text>
             <Text size="md">Medium (16px)</Text>
@@ -50,7 +52,7 @@ export const AllSizes: Story = {
 
 function AllColorsStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             <Text color="primary">Primary Color</Text>
             <Text color="secondary">Secondary Color</Text>
             <Text color="muted">Muted Color</Text>
@@ -68,7 +70,7 @@ export const AllColors: Story = {
 
 function AllWeightsStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             <Text weight="normal">Normal Weight</Text>
             <Text weight="medium">Medium Weight</Text>
             <Text weight="bold">Bold Weight</Text>
@@ -96,12 +98,12 @@ export const Alignments: Story = {
 
 function HeadingsStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Heading level={1}>Heading 1</Heading>
-            <Heading level={2}>Heading 2</Heading>
-            <Heading level={3}>Heading 3</Heading>
-            <Heading level={4}>Heading 4</Heading>
-            <Heading level={5}>Heading 5</Heading>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
+            <Heading.H1>Heading 1</Heading.H1>
+            <Heading.H2>Heading 2</Heading.H2>
+            <Heading.H3>Heading 3</Heading.H3>
+            <Heading.H4>Heading 4</Heading.H4>
+            <Heading.H5>Heading 5</Heading.H5>
         </div>
     );
 }
@@ -119,7 +121,7 @@ export const WithHtmlElement: Story = {
 
 function WithEmphasisStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             <Text as="em">Emphasized text</Text>
             <Text as="strong">Strong text</Text>
             <Text as="span">Regular span</Text>
@@ -134,14 +136,14 @@ export const WithEmphasis: Story = {
 function ParagraphExampleStory(): ReactElement {
     return (
         <div style={{ width: '400px' }}>
-            <Text size="lg" weight="bold" style={{ marginBottom: '8px' }}>
+            <Text size="lg" weight="bold" style={{ marginBottom: vars.spacing['2'] }}>
                 Article Title
             </Text>
             <Text color="secondary">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua.
             </Text>
-            <Text color="secondary" style={{ marginTop: '8px' }}>
+            <Text color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                 consequat.
             </Text>

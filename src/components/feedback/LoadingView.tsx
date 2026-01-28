@@ -4,6 +4,8 @@
  * Inline loading indicator with framer-motion animations.
  */
 
+import { vars } from '../../styles/tokens.css';
+
 import React from 'react';
 import { motion } from 'motion/react';
 import { Box, Flex } from 'ui-primitives';
@@ -68,7 +70,7 @@ export function LoadingView({ message }: LoadingViewProps) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 minHeight: '50vh',
-                gap: '12px'
+                gap: vars.spacing['3']
             }}
         >
             <motion.div

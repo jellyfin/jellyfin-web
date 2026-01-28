@@ -4,6 +4,8 @@
  * Reusable card component for displaying media items with framer-motion animations.
  */
 
+import { vars } from '../../styles/tokens.css';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Box, Flex } from 'ui-primitives';
@@ -328,7 +330,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
                         {displayName}
                     </Text>
                     {subtitle && (
-                        <Text size="xs" color="secondary" style={{ marginTop: '4px' }}>
+                        <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['1'] }}>
                             {subtitle}
                         </Text>
                     )}

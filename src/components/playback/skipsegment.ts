@@ -88,9 +88,7 @@ class SkipSegment extends PlaybackSubscriber {
         const elem = this.skipElement;
         if (elem) {
             this.clearHideTimeout();
-            elem.removeEventListener(dom.whichTransitionEvent(), onHideComplete, {
-                once: true
-            });
+            elem.removeEventListener(dom.whichTransitionEvent() as any, onHideComplete);
             elem.classList.remove('hide');
             if (!options.animate) {
                 elem.classList.add('no-transition');
@@ -126,7 +124,7 @@ class SkipSegment extends PlaybackSubscriber {
             requestAnimationFrame(() => {
                 elem.classList.add('skip-button-hidden');
 
-                elem.addEventListener(dom.whichTransitionEvent(), onHideComplete, {
+                elem.addEventListener(dom.whichTransitionEvent() as any, onHideComplete, {
                     once: true
                 });
             });

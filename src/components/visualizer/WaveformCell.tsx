@@ -103,7 +103,7 @@ export function WaveformCell({
                 }}
             >
                 {duration !== undefined && duration > 0 && (
-                    <Box as="span" style={{ fontSize: vars.typography.fontSizeXs, color: vars.colors.textSecondary }}>
+                    <Box as="span" style={{ fontSize: vars.typography['1'].fontSize, color: vars.colors.textSecondary }}>
                         {formatDuration(duration)}
                     </Box>
                 )}

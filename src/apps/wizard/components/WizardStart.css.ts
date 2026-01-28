@@ -4,24 +4,24 @@ import { vars } from 'styles/tokens.css';
 export const container = style({
     maxWidth: '600px',
     margin: '0 auto',
-    marginTop: `calc(${vars.spacing.xl as string} * 2)`,
-    padding: vars.spacing.lg
+    marginTop: `calc(${vars.spacing['7'] as string} * 2)`,
+    padding: vars.spacing['6']
 });
 
 export const title = style({
-    marginBottom: vars.spacing.xs
+    marginBottom: vars.spacing['2']
 });
 
 export const helpText = style({
-    marginBottom: vars.spacing.lg
+    marginBottom: vars.spacing['6']
 });
 
 export const formStack = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.md
+    gap: vars.spacing['5']
 });
 
 export const submitButton = style({
-    marginTop: vars.spacing.sm
+    marginTop: vars.spacing['4']
 });

@@ -16,7 +16,7 @@ export const drawerContent = style({
     maxWidth: '100vw',
     backgroundColor: vars.colors.surface,
     boxShadow: vars.shadows.xl,
-    padding: vars.spacing.md,
+    padding: vars.spacing['5'],
     overflowY: 'auto',
     zIndex: vars.zIndex.modal,
     transition: `transform ${vars.transitions.fast}`

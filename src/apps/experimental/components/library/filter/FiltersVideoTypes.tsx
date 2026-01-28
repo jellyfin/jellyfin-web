@@ -69,7 +69,7 @@ const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({ libraryViewSettings, se
     );
 
     return (
-        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             {videoBasicFilterOptions.map(filter => (
                 <Checkbox
                     key={filter.value}

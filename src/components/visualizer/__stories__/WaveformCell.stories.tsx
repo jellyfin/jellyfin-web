@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { vars } from '../../../styles/tokens.css';
-import { Box, Flex } from '../../../ui-primitives/Box';
-import { Text } from '../../../ui-primitives/Text';
-import { Slider } from '../../../ui-primitives/Slider';
-import { WaveformCell } from '../WaveformCell';
+import { Box, Flex } from '../../../ui-primitives';
+import { Text } from '../../../ui-primitives';
+import { Slider } from '../../../ui-primitives';
+import { WaveformCell } from '../../../ui-primitives/organisms/visualizers/WaveformCell';
 
 const meta: Meta<typeof WaveformCell> = {
     title: 'Visualizer/Waveform Cell',
@@ -42,18 +42,15 @@ function formatDuration(ticks?: number): string {
 export const Default: Story = {
     render: () => (
         <Box style={{ width: '400px' }}>
-            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.sm }}>
+            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Waveform with playback progress
             </Text>
             <WaveformCell
-                itemId="test-1"
                 peaks={[mockPeaks]}
                 duration={180000}
                 currentTime={72000}
-                isCurrentTrack={true}
-                isNextTrack={false}
             />
-            <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>
+            <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                 1:12 / 3:00
             </Text>
         </Box>
@@ -63,16 +60,13 @@ export const Default: Story = {
 export const NoProgress: Story = {
     render: () => (
         <Box style={{ width: '400px' }}>
-            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.sm }}>
+            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Waveform at start (no progress)
             </Text>
             <WaveformCell
-                itemId="test-2"
                 peaks={[mockPeaks]}
                 duration={180000}
                 currentTime={0}
-                isCurrentTrack={true}
-                isNextTrack={false}
             />
         </Box>
     )
@@ -81,18 +75,15 @@ export const NoProgress: Story = {
 export const NearEnd: Story = {
     render: () => (
         <Box style={{ width: '400px' }}>
-            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.sm }}>
+            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Waveform near end of track
             </Text>
             <WaveformCell
-                itemId="test-3"
                 peaks={[mockPeaks]}
                 duration={180000}
                 currentTime={165000}
-                isCurrentTrack={true}
-                isNextTrack={false}
             />
-            <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>
+            <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                 2:45 / 3:00
             </Text>
         </Box>
@@ -106,17 +97,14 @@ export const Interactive: Story = {
 
         return (
             <Box style={{ width: '500px' }}>
-                <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
+                <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                     Interactive waveform - drag to seek
                 </Text>
-                <Box style={{ marginBottom: vars.spacing.md }}>
+                <Box style={{ marginBottom: vars.spacing['5'] }}>
                     <WaveformCell
-                        itemId="test-4"
                         peaks={[mockPeaks]}
                         duration={duration}
                         currentTime={currentTime}
-                        isCurrentTrack={true}
-                        isNextTrack={false}
                     />
                 </Box>
                 <Box style={{ width: '100%' }}>
@@ -125,7 +113,7 @@ export const Interactive: Story = {
                         onValueChange={(value) => setCurrentTime((value[0] * duration) / 100)}
                     />
                 </Box>
-                <Flex justify="space-between" style={{ marginTop: vars.spacing.xs }}>
+                <Flex justify="space-between" style={{ marginTop: vars.spacing['2'] }}>
                     <Text size="xs" color="secondary">
                         {formatDuration(currentTime)}
                     </Text>
@@ -140,47 +128,38 @@ export const Interactive: Story = {
 
 export const DifferentHeights: Story = {
     render: () => (
-        <Flex gap={vars.spacing.lg} direction="column">
+        <Flex gap={vars.spacing['6']} direction="column">
             <Box style={{ width: '300px' }}>
-                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing.xs }}>
+                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                     Small (24px)
                 </Text>
                 <WaveformCell
-                    itemId="test-5"
                     peaks={[mockPeaks]}
                     height={24}
                     duration={180000}
                     currentTime={60000}
-                    isCurrentTrack={true}
-                    isNextTrack={false}
                 />
             </Box>
             <Box style={{ width: '300px' }}>
-                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing.xs }}>
+                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                     Medium (40px)
                 </Text>
                 <WaveformCell
-                    itemId="test-6"
                     peaks={[mockPeaks]}
                     height={40}
                     duration={180000}
                     currentTime={60000}
-                    isCurrentTrack={true}
-                    isNextTrack={false}
                 />
             </Box>
             <Box style={{ width: '300px' }}>
-                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing.xs }}>
+                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                     Large (60px)
                 </Text>
                 <WaveformCell
-                    itemId="test-7"
                     peaks={[mockPeaks]}
                     height={60}
                     duration={180000}
                     currentTime={60000}
-                    isCurrentTrack={true}
-                    isNextTrack={false}
                 />
             </Box>
         </Flex>
@@ -190,16 +169,13 @@ export const DifferentHeights: Story = {
 export const ShortClip: Story = {
     render: () => (
         <Box style={{ width: '200px' }}>
-            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.sm }}>
+            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Short audio clip (30 seconds)
             </Text>
             <WaveformCell
-                itemId="test-8"
                 peaks={[mockPeaks]}
                 duration={30000}
                 currentTime={15000}
-                isCurrentTrack={true}
-                isNextTrack={false}
             />
         </Box>
     )
@@ -208,16 +184,13 @@ export const ShortClip: Story = {
 export const LongTrack: Story = {
     render: () => (
         <Box style={{ width: '500px' }}>
-            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.sm }}>
+            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Long track (10 minutes)
             </Text>
             <WaveformCell
-                itemId="test-9"
                 peaks={[mockPeaks]}
                 duration={600000}
                 currentTime={120000}
-                isCurrentTrack={true}
-                isNextTrack={false}
             />
         </Box>
     )
@@ -240,7 +213,7 @@ export const Playing: Story = {
 
         return (
             <Box style={{ width: '400px' }}>
-                <Flex align="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.md }}>
+                <Flex align="center" gap={vars.spacing['4']} style={{ marginBottom: vars.spacing['5'] }}>
                     <Box
                         style={{
                             width: '12px',
@@ -254,14 +227,11 @@ export const Playing: Story = {
                     </Text>
                 </Flex>
                 <WaveformCell
-                    itemId="test-10"
                     peaks={[mockPeaks]}
                     duration={duration}
                     currentTime={time}
-                    isCurrentTrack={true}
-                    isNextTrack={false}
                 />
-                <Text size="xs" color="secondary" style={{ marginTop: vars.spacing.xs }}>
+                <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                     {formatDuration(time)} / {formatDuration(duration)}
                 </Text>
             </Box>
@@ -272,7 +242,7 @@ export const Playing: Story = {
 export const Paused: Story = {
     render: () => (
         <Box style={{ width: '400px' }}>
-            <Flex align="center" gap={vars.spacing.sm} style={{ marginBottom: vars.spacing.md }}>
+            <Flex align="center" gap={vars.spacing['4']} style={{ marginBottom: vars.spacing['5'] }}>
                 <Box
                     style={{
                         width: '12px',
@@ -286,12 +256,9 @@ export const Paused: Story = {
                 </Text>
             </Flex>
             <WaveformCell
-                itemId="test-11"
                 peaks={[mockPeaks]}
                 duration={180000}
                 currentTime={72000}
-                isCurrentTrack={true}
-                isNextTrack={false}
             />
         </Box>
     )
@@ -302,21 +269,18 @@ export const MinimalWaveform: Story = {
         <Box
             style={{
                 width: '300px',
-                padding: vars.spacing.md,
+                padding: vars.spacing['5'],
                 backgroundColor: vars.colors.surface,
                 borderRadius: vars.borderRadius.md
             }}
         >
-            <Text size="sm" style={{ marginBottom: vars.spacing.sm }}>
+            <Text size="sm" style={{ marginBottom: vars.spacing['4'] }}>
                 Minimal waveform
             </Text>
             <WaveformCell
-                itemId="test-12"
                 peaks={[mockPeaks]}
                 duration={180000}
                 currentTime={45000}
-                isCurrentTrack={true}
-                isNextTrack={false}
             />
         </Box>
     )
@@ -325,16 +289,13 @@ export const MinimalWaveform: Story = {
 export const NextTrack: Story = {
     render: () => (
         <Box style={{ width: '400px' }}>
-            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.sm }}>
+            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Next track in queue (not current)
             </Text>
             <WaveformCell
-                itemId="test-13"
                 peaks={[mockPeaks]}
                 duration={180000}
                 currentTime={0}
-                isCurrentTrack={false}
-                isNextTrack={true}
             />
         </Box>
     )

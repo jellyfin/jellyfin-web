@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { type FunctionComponent, useCallback } from 'react';
 import globalize from 'lib/globalize';
 import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
@@ -41,7 +43,7 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
                 description={globalize.translate('MessageBackupDisclaimer')}
             >
                 <form onSubmit={onSubmit}>
-                    <Flex style={{ flexDirection: 'column', gap: '16px' }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
                         <FormControl>
                             <FormControlLabel
                                 control={<Checkbox name="Database" defaultChecked={true} disabled />}
@@ -71,7 +73,7 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
                         </FormControl>
                     </Flex>
 
-                    <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
+                    <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['2'], marginTop: '24px' }}>
                         <Button variant="ghost" onClick={onClose}>
                             {globalize.translate('ButtonCancel')}
                         </Button>

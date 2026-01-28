@@ -38,7 +38,7 @@ const FiltersEpisodesStatus: FC<FiltersEpisodesStatusProps> = ({ libraryViewSett
     );
 
     return (
-        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             {episodeFilterOptions.map(filter => (
                 <Checkbox
                     key={filter.value}

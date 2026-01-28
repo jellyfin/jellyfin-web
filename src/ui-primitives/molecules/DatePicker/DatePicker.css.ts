@@ -9,13 +9,13 @@ export const datePickerContainer = style({
 export const datePickerTrigger = style({
     display: 'inline-flex',
     alignItems: 'center',
-    gap: vars.spacing.sm,
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    gap: vars.spacing['4'],
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     border: `1px solid ${vars.colors.divider}`,
     borderRadius: vars.borderRadius.md,
     backgroundColor: vars.colors.surface,
     color: vars.colors.text,
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     cursor: 'pointer',
     transition: `border-color ${vars.transitions.fast}, box-shadow ${vars.transitions.fast}`,
     ':hover': {
@@ -46,14 +46,14 @@ export const datePickerValue = style({
 });
 
 export const datePickerCalendar = style({
-    padding: vars.spacing.sm
+    padding: vars.spacing['4']
 });
 
 export const datePickerFooter = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: vars.spacing.sm,
+    paddingTop: vars.spacing['4'],
     borderTop: `1px solid ${vars.colors.divider}`,
-    marginTop: vars.spacing.sm
+    marginTop: vars.spacing['4']
 });

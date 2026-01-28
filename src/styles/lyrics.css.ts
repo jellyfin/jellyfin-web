@@ -18,7 +18,7 @@ export const lyricsLine = style({
     display: 'inline-block',
     width: 'fit-content',
     margin: '0.1em',
-    fontSize: vars.typography.fontSizeXl,
+    fontSize: vars.typography['8'].fontSize,
     color: 'inherit',
     minHeight: '2em',
     transitionProperty: 'opacity',

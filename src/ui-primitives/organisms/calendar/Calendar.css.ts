@@ -4,8 +4,8 @@ import { vars } from '../../../styles/tokens.css';
 export const calendarContainer = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.sm,
-    padding: vars.spacing.md,
+    gap: vars.spacing['4'],
+    padding: vars.spacing['5'],
     backgroundColor: vars.colors.surface,
     borderRadius: vars.borderRadius.lg,
     boxShadow: vars.shadows.lg,
@@ -29,7 +29,7 @@ globalStyle(`${calendarContainer} .rdp-day`, {
     minWidth: 'var(--rdp-cell-size)',
     height: 'var(--rdp-cell-size)',
     borderRadius: vars.borderRadius.sm,
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.text
 });
 
@@ -84,7 +84,7 @@ globalStyle(`${calendarContainer} .rdp-week_header`, {
 globalStyle(`${calendarContainer} .rdp-weekday`, {
     padding: '4px',
     textAlign: 'center',
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     fontWeight: vars.typography.fontWeightMedium,
     color: vars.colors.textSecondary,
     textTransform: 'uppercase'

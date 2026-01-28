@@ -152,10 +152,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} style={{ padding: vars.spacing.md }}>
-            <Heading.H4 style={{ marginBottom: vars.spacing.lg }}>General Settings</Heading.H4>
+        <Box component="form" onSubmit={handleSubmit} style={{ padding: vars.spacing['5'] }}>
+            <Heading.H4 style={{ marginBottom: vars.spacing['6'] }}>General Settings</Heading.H4>
 
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['6'] }}>
                 <Input
                     label="Application Title"
                     value={String(formData.appTitle.value)}
@@ -253,7 +253,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                 />
             </Flex>
 
-            <Flex style={{ marginTop: vars.spacing.xl, gap: vars.spacing.md, justifyContent: 'flex-end' }}>
+            <Flex style={{ marginTop: vars.spacing['7'], gap: vars.spacing['5'], justifyContent: 'flex-end' }}>
                 <Button variant="outlined" color="neutral" onClick={handleReset} disabled={isSubmitting}>
                     Reset
                 </Button>

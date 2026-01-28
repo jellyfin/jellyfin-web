@@ -40,8 +40,8 @@ const LiveTVChannelsPage: React.FC = () => {
     }
 
     return (
-        <Box style={{ padding: vars.spacing.md }}>
-            <Heading.H2 style={{ marginBottom: vars.spacing.lg }}>{globalize.translate('Channels')}</Heading.H2>
+        <Box style={{ padding: vars.spacing['5'] }}>
+            <Heading.H2 style={{ marginBottom: vars.spacing['6'] }}>{globalize.translate('Channels')}</Heading.H2>
             <Grid container spacing="md">
                 {data.map(item => (
                     <Grid key={item.id} xs={12} sm={6} md={4} lg={3}>
@@ -55,9 +55,9 @@ const LiveTVChannelsPage: React.FC = () => {
                                     backgroundColor: vars.colors.surfaceHover
                                 }}
                             >
-                                <Text style={{ fontSize: vars.typography.fontSizeXxl }}>📺</Text>
+                                <Text style={{ fontSize: vars.typography['9'].fontSize }}>📺</Text>
                             </Box>
-                            <Box style={{ padding: vars.spacing.md }}>
+                            <Box style={{ padding: vars.spacing['5'] }}>
                                 <Text size="lg" weight="bold">
                                     {item.name}
                                 </Text>

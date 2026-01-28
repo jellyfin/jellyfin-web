@@ -1,3 +1,5 @@
+import { vars } from '../../../../styles/tokens.css';
+
 import React from 'react';
 
 import globalize from 'lib/globalize';
@@ -28,12 +30,12 @@ export function DashboardForm({
     children
 }: Readonly<DashboardFormProps>): React.ReactElement {
     return (
-        <Box style={{ maxWidth: 800, margin: '0 auto', padding: '24px' }}>
+        <Box style={{ maxWidth: 800, margin: '0 auto', padding: vars.spacing['5'] }}>
             <Heading.H3 style={{ marginBottom: description != null ? '8px' : '24px' }}>
                 {title}
             </Heading.H3>
             {description != null && (
-                <Text color='secondary' size='sm' style={{ marginBottom: '24px' }}>
+                <Text color='secondary' size='sm' style={{ marginBottom: vars.spacing['5'] }}>
                     {description}
                 </Text>
             )}
@@ -43,7 +45,7 @@ export function DashboardForm({
 
                 <Divider style={{ margin: '24px 0' }} />
 
-                <Flex style={{ gap: '16px', justifyContent: 'flex-end' }}>
+                <Flex style={{ gap: vars.spacing['4'], justifyContent: 'flex-end' }}>
                     {onCancel && (
                         <Button variant='ghost' onClick={onCancel}>
                             {globalize.translate('ButtonCancel')}
@@ -84,7 +86,7 @@ export function FormTextField({
     error
 }: Readonly<FormTextFieldProps>): React.ReactElement {
     return (
-        <Box style={{ marginBottom: '16px', width: fullWidth ? '100%' : 'auto' }}>
+        <Box style={{ marginBottom: vars.spacing['4'], width: fullWidth ? '100%' : 'auto' }}>
             <FormControl>
                 <FormLabel>
                     {label}
@@ -128,7 +130,7 @@ export function FormSelectField({
     error
 }: Readonly<FormSelectFieldProps>): React.ReactElement {
     return (
-        <Box style={{ marginBottom: '16px' }}>
+        <Box style={{ marginBottom: vars.spacing['4'] }}>
             <FormControl>
                 <FormLabel>
                     {label}
@@ -163,9 +165,9 @@ export function FormCheckboxField({
     onChange
 }: Readonly<FormCheckboxFieldProps>): React.ReactElement {
     return (
-        <Box style={{ marginBottom: '16px' }}>
+        <Box style={{ marginBottom: vars.spacing['4'] }}>
             <FormControl>
-                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                     <Checkbox checked={checked ?? false} onChangeChecked={onChange} />
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
                 </Flex>
@@ -191,7 +193,7 @@ export function FormSwitchField({
     onChange
 }: Readonly<FormSwitchFieldProps>): React.ReactElement {
     return (
-        <Box style={{ marginBottom: '16px' }}>
+        <Box style={{ marginBottom: vars.spacing['4'] }}>
             <FormControl>
                 <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
@@ -215,12 +217,12 @@ export function FormSection({
     children
 }: Readonly<FormSectionProps>): React.ReactElement {
     return (
-        <Box style={{ marginBottom: '32px' }}>
+        <Box style={{ marginBottom: vars.spacing['6'] }}>
             <Heading.H4 style={{ marginBottom: description != null ? '8px' : '16px' }}>
                 {title}
             </Heading.H4>
             {description != null && (
-                <Text color='secondary' size='sm' style={{ marginBottom: '16px' }}>
+                <Text color='secondary' size='sm' style={{ marginBottom: vars.spacing['4'] }}>
                     {description}
                 </Text>
             )}
@@ -237,13 +239,13 @@ interface FormCardProps {
 
 export function FormCard({ title, children, action }: Readonly<FormCardProps>): React.ReactElement {
     return (
-        <Card style={{ marginBottom: '24px' }}>
+        <Card style={{ marginBottom: vars.spacing['5'] }}>
             <CardBody>
                 <Flex
                     style={{
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        marginBottom: '16px'
+                        marginBottom: vars.spacing['4']
                     }}
                 >
                     <Text weight='bold'>{title}</Text>
@@ -262,7 +264,7 @@ interface FormAlertProps {
 
 export function FormAlert({ variant, children }: Readonly<FormAlertProps>): React.ReactElement {
     return (
-        <Alert variant={variant} style={{ marginBottom: '24px' }}>
+        <Alert variant={variant} style={{ marginBottom: vars.spacing['5'] }}>
             {children}
         </Alert>
     );
@@ -274,7 +276,7 @@ interface FormRowProps {
 }
 
 export function FormRow({ children, style }: Readonly<FormRowProps>): React.ReactElement {
-    return <Flex style={{ gap: '16px', ...style }}>{children}</Flex>;
+    return <Flex style={{ gap: vars.spacing['4'], ...style }}>{children}</Flex>;
 }
 
 interface FormColumnProps {

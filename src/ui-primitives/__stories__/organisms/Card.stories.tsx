@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode, type CSSProperties } from 'react';
 import { motion } from 'motion/react';
-import { vars } from '../styles/tokens.css.ts';
+import { vars } from '../../../styles/tokens.css';
 
 interface CardProps {
     children: ReactNode;
@@ -36,21 +36,21 @@ interface CardSectionProps {
 }
 
 function CardHeader({ children }: Readonly<CardSectionProps>): ReactElement {
-    return <div style={{ padding: vars.spacing.md, borderBottom: `1px solid ${vars.colors.divider}` }}>{children}</div>;
+    return <div style={{ padding: vars.spacing['5'], borderBottom: `1px solid ${vars.colors.divider}` }}>{children}</div>;
 }
 
 function CardBody({ children }: Readonly<CardSectionProps>): ReactElement {
-    return <div style={{ padding: vars.spacing.md }}>{children}</div>;
+    return <div style={{ padding: vars.spacing['5'] }}>{children}</div>;
 }
 
 function CardFooter({ children }: Readonly<CardSectionProps>): ReactElement {
     return (
         <div
             style={{
-                padding: vars.spacing.md,
+                padding: vars.spacing['5'],
                 borderTop: `1px solid ${vars.colors.divider}`,
                 display: 'flex',
-                gap: vars.spacing.sm,
+                gap: vars.spacing['4'],
                 justifyContent: 'flex-end'
             }}
         >
@@ -74,7 +74,7 @@ function DefaultStory(): ReactElement {
         <Card>
             <CardBody>
                 <h3 style={{ margin: 0, color: vars.colors.text }}>Card Title</h3>
-                <p style={{ color: vars.colors.textSecondary, marginTop: vars.spacing.sm }}>
+                <p style={{ color: vars.colors.textSecondary, marginTop: vars.spacing['4'] }}>
                     This is a simple card with just a body.
                 </p>
             </CardBody>
@@ -101,7 +101,7 @@ function WithHeaderAndFooterStory(): ReactElement {
                 <button
                     type="button"
                     style={{
-                        padding: `${vars.spacing.xs} ${vars.spacing.md}`,
+                        padding: `${vars.spacing['2']} ${vars.spacing['5']}`,
                         background: 'none',
                         border: `1px solid ${vars.colors.divider}`,
                         borderRadius: vars.borderRadius.sm,
@@ -114,7 +114,7 @@ function WithHeaderAndFooterStory(): ReactElement {
                 <button
                     type="button"
                     style={{
-                        padding: `${vars.spacing.xs} ${vars.spacing.md}`,
+                        padding: `${vars.spacing['2']} ${vars.spacing['5']}`,
                         background: vars.colors.primary,
                         border: 'none',
                         borderRadius: vars.borderRadius.sm,
@@ -135,15 +135,15 @@ export const WithHeaderAndFooter: Story = {
 
 function HoverableStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: vars.spacing.md }}>
+        <div style={{ display: 'flex', gap: vars.spacing['5'] }}>
             <Card hoverable>
                 <CardBody>
                     <h4 style={{ margin: 0, color: vars.colors.text }}>Hoverable Card</h4>
                     <p
                         style={{
                             color: vars.colors.textSecondary,
-                            marginTop: vars.spacing.xs,
-                            fontSize: vars.typography.fontSizeSm
+                            marginTop: vars.spacing['2'],
+                            fontSize: vars.typography['3'].fontSize
                         }}
                     >
                         Hover to see animation
@@ -156,8 +156,8 @@ function HoverableStory(): ReactElement {
                     <p
                         style={{
                             color: vars.colors.textSecondary,
-                            marginTop: vars.spacing.xs,
-                            fontSize: vars.typography.fontSizeSm
+                            marginTop: vars.spacing['2'],
+                            fontSize: vars.typography['3'].fontSize
                         }}
                     >
                         Uses Framer Motion
@@ -184,15 +184,15 @@ function MediaCardStory(): ReactElement {
                     justifyContent: 'center'
                 }}
             >
-                <span style={{ fontSize: vars.typography.fontSizeXxl }}>🎬</span>
+                <span style={{ fontSize: vars.typography['9'].fontSize }}>🎬</span>
             </div>
             <CardBody>
                 <h4 style={{ margin: 0, color: vars.colors.text }}>Movie Title</h4>
                 <p
                     style={{
                         color: vars.colors.textSecondary,
-                        marginTop: vars.spacing.xs,
-                        fontSize: vars.typography.fontSizeSm
+                        marginTop: vars.spacing['2'],
+                        fontSize: vars.typography['3'].fontSize
                     }}
                 >
                     2024 • Action, Adventure

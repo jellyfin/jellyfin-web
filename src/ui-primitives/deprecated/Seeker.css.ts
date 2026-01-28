@@ -10,13 +10,13 @@ const spin = keyframes({
 export const seekerContainer = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs
+    gap: vars.spacing['2']
 });
 
 export const seekerTimeDisplay = style({
     display: 'flex',
     justifyContent: 'space-between',
-    fontSize: vars.typography.fontSizeXs,
+    fontSize: vars.typography['1'].fontSize,
     color: vars.colors.textSecondary,
     fontVariantNumeric: 'tabular-nums',
     userSelect: 'none'

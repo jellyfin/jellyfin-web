@@ -11,7 +11,7 @@ export const tableContainer = style({
 export const headerRow = style({
     display: 'flex',
     alignItems: 'center',
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     borderBottom: `1px solid ${vars.colors.divider}`,
     backgroundColor: 'rgba(0,0,0,0.4)'
 });
@@ -19,7 +19,7 @@ export const headerRow = style({
 export const tableRow = style({
     display: 'flex',
     alignItems: 'center',
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     borderBottom: `1px solid ${vars.colors.divider}`,
     cursor: 'pointer',
     transition: vars.transitions.fast,

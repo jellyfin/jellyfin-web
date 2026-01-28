@@ -102,7 +102,7 @@ export const SkipSegmentButton: React.FC<SkipSegmentButtonProps> = ({
                     paddingTop: 8,
                     paddingBottom: 8,
                     textTransform: 'none',
-                    fontSize: vars.typography.fontSizeSm,
+                    fontSize: vars.typography['3'].fontSize,
                     boxShadow: 'var(--joy-palette-shadow-3)',
                     transition: 'all 0.2s ease-in-out'
                 }}
@@ -114,7 +114,7 @@ export const SkipSegmentButton: React.FC<SkipSegmentButtonProps> = ({
                         style={{
                             marginLeft: 8,
                             opacity: 0.7,
-                            fontSize: vars.typography.fontSizeSm,
+                            fontSize: vars.typography['3'].fontSize,
                             borderLeft: '1px solid var(--joy-palette-divider)',
                             paddingLeft: 8
                         }}

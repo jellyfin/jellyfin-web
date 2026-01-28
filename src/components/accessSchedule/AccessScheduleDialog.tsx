@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React, { useState } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Dialog, DialogPortal, DialogContentComponent, DialogClose } from 'ui-primitives/Dialog';
@@ -138,7 +140,7 @@ const AccessScheduleDialog: React.FC<AccessScheduleProps> = ({ schedule, onSubmi
                             </Select>
                         </Box>
                         {error && <Box className={errorStyle}>{error}</Box>}
-                        <Flex style={{ gap: '8px', justifyContent: 'flex-end', marginTop: '24px' }}>
+                        <Flex style={{ gap: vars.spacing['2'], justifyContent: 'flex-end', marginTop: '24px' }}>
                             <DialogClose asChild>
                                 <Button variant="ghost" type="button" onClick={onClose}>
                                     {globalize.translate('Cancel')}

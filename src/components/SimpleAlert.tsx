@@ -32,9 +32,9 @@ const SimpleAlert = ({ open, title, text, onClose }: SimpleAlertDialog) => {
             <DialogPortal>
                 <DialogOverlayComponent />
                 <DialogContentComponent>
-                    {title && <DialogTitle style={{ marginBottom: vars.spacing.sm }}>{title}</DialogTitle>}
+                    {title && <DialogTitle style={{ marginBottom: vars.spacing['4'] }}>{title}</DialogTitle>}
                     <Text style={{ whiteSpace: 'pre-wrap' }}>{text}</Text>
-                    <Box style={{ display: 'flex', justifyContent: 'flex-end', marginTop: vars.spacing.lg }}>
+                    <Box style={{ display: 'flex', justifyContent: 'flex-end', marginTop: vars.spacing['6'] }}>
                         <Button onClick={onClose}>{globalize.translate('ButtonGotIt')}</Button>
                     </Box>
                 </DialogContentComponent>

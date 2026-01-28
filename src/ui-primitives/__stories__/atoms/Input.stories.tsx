@@ -1,6 +1,8 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
-import { Input } from '../Input';
+import { Input } from '../../Input';
 
 const meta: Meta<typeof Input> = {
     title: 'UI Primitives/Input',
@@ -58,7 +60,7 @@ export const WithHelperText: Story = {
 
 function AllStatesStory(): ReactElement {
     return (
-        <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
             <Input label="Default" placeholder="Enter text..." />
             <Input label="With Value" defaultValue="Some text" />
             <Input label="Disabled" placeholder="Disabled" disabled />
@@ -106,7 +108,7 @@ function FormExampleStory(): ReactElement {
                 placeholder="Enter your email"
                 value={email}
                 onChange={handleEmailChange}
-                style={{ marginBottom: '16px' }}
+                style={{ marginBottom: vars.spacing['4'] }}
             />
             <Input
                 label="Password"
@@ -114,7 +116,7 @@ function FormExampleStory(): ReactElement {
                 placeholder="Enter your password"
                 value={password}
                 onChange={handlePasswordChange}
-                style={{ marginBottom: '16px' }}
+                style={{ marginBottom: vars.spacing['4'] }}
             />
             <Input label="Bio" placeholder="Tell us about yourself..." as="textarea" rows={3} />
         </div>
@@ -127,7 +129,7 @@ export const FormExample: Story = {
 
 function TypesStory(): ReactElement {
     return (
-        <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
             <Input label="Text" type="text" placeholder="Text input" />
             <Input label="Email" type="email" placeholder="Email input" />
             <Input label="Password" type="password" placeholder="Password input" />

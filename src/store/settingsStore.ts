@@ -19,7 +19,7 @@ export interface AudioSettings {
 
 export interface VisualizerSettings {
     enabled: boolean;
-    type: 'waveform' | 'frequency' | 'butterchurn';
+    type: 'waveform' | 'frequency' | 'butterchurn' | 'threed';
     butterchurnPreset: string;
     colorScheme: 'default' | 'vintage' | 'neon' | 'warm' | 'cool';
     sensitivity: number;

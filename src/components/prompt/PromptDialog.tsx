@@ -45,9 +45,9 @@ export function PromptDialog({
     };
 
     const dialogDescriptionStyle: React.CSSProperties = {
-        fontSize: '14px',
+        fontSize: vars.typography['2'].fontSize,
         color: vars.colors.textSecondary,
-        marginBottom: '16px'
+        marginBottom: vars.spacing['4']
     };
 
     const dialogContentStyle: React.CSSProperties = {
@@ -78,8 +78,8 @@ export function PromptDialog({
             <DialogPrimitive.Portal>
                 <DialogPrimitive.Overlay style={dialogOverlayStyle} />
                 <DialogPrimitive.Content style={dialogContentStyle}>
-                    <Box style={{ padding: '24px' }}>
-                        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                    <Box style={{ padding: vars.spacing['5'] }}>
+                        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
                             {title && <DialogPrimitive.Title style={dialogTitleStyle}>{title}</DialogPrimitive.Title>}
                             <DialogPrimitive.Close asChild>
                                 <button

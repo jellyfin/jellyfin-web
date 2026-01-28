@@ -9,7 +9,7 @@ export const avatarStyles = style({
     alignItems: 'center',
     justifyContent: 'center',
     color: vars.colors.text,
-    fontSize: vars.typography.fontSizeLg,
+    fontSize: vars.typography['7'].fontSize,
     fontWeight: vars.typography.fontWeightMedium,
     overflow: 'hidden',
     flexShrink: 0

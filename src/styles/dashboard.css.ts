@@ -107,12 +107,12 @@ export const formRow = style({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
-    marginBottom: vars.spacing.md
+    marginBottom: vars.spacing['5']
 });
 
 export const formLabel = style({
     flex: '0 0 auto',
-    paddingRight: vars.spacing.md,
+    paddingRight: vars.spacing['5'],
     maxWidth: '200px'
 });
 
@@ -122,32 +122,32 @@ export const formInput = style({
 });
 
 export const settingGroup = style({
-    marginBottom: vars.spacing.xl,
-    paddingBottom: vars.spacing.lg,
+    marginBottom: vars.spacing['7'],
+    paddingBottom: vars.spacing['6'],
     borderBottom: `1px solid ${vars.colors.divider}`
 });
 
 export const settingGroupTitle = style({
-    fontSize: vars.typography.fontSizeLg,
+    fontSize: vars.typography['7'].fontSize,
     fontWeight: vars.typography.fontWeightBold,
-    marginBottom: vars.spacing.md
+    marginBottom: vars.spacing['5']
 });
 
 export const paperButton = style({
     backgroundColor: vars.colors.surface,
     border: `1px solid ${vars.colors.divider}`,
     borderRadius: vars.borderRadius.md,
-    padding: vars.spacing.md,
-    marginBottom: vars.spacing.md
+    padding: vars.spacing['5'],
+    marginBottom: vars.spacing['5']
 });
 
 export const dialogContent = style({
-    padding: vars.spacing.lg
+    padding: vars.spacing['6']
 });
 
 export const dialogActions = style({
     display: 'flex',
     justifyContent: 'flex-end',
-    gap: vars.spacing.sm,
-    marginTop: vars.spacing.lg
+    gap: vars.spacing['4'],
+    marginTop: vars.spacing['6']
 });

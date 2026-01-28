@@ -2,10 +2,10 @@ import { styleVariants } from '@vanilla-extract/css';
 import { vars } from '../../../styles/tokens.css';
 
 export const spacerSizes = styleVariants({
-    xs: { height: vars.spacing.xs },
-    sm: { height: vars.spacing.sm },
-    md: { height: vars.spacing.md },
-    lg: { height: vars.spacing.lg },
-    xl: { height: vars.spacing.xl },
-    xxl: { height: vars.spacing.xxl }
+    xs: { height: vars.spacing['2'] },
+    sm: { height: vars.spacing['4'] },
+    md: { height: vars.spacing['5'] },
+    lg: { height: vars.spacing['6'] },
+    xl: { height: vars.spacing['7'] },
+    xxl: { height: vars.spacing['8'] }
 });

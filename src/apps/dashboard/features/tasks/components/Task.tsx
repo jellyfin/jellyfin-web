@@ -61,10 +61,10 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
                 to={`/dashboard/tasks/${task.Id}`}
                 style={{
                     width: '100%',
-                    paddingTop: vars.spacing.sm,
-                    paddingBottom: vars.spacing.sm,
-                    paddingLeft: vars.spacing.md,
-                    paddingRight: vars.spacing.md
+                    paddingTop: vars.spacing['4'],
+                    paddingBottom: vars.spacing['4'],
+                    paddingLeft: vars.spacing['5'],
+                    paddingRight: vars.spacing['5']
                 }}
             >
                 <ListItemDecorator>

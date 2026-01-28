@@ -4,11 +4,11 @@ import { vars } from '../../../styles/tokens.css';
 export const listItemButtonStyles = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.sm,
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    gap: vars.spacing['4'],
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     borderRadius: vars.borderRadius.md,
     fontFamily: vars.typography.fontFamily,
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text,
     cursor: 'pointer',
     transition: `all ${vars.transitions.fast}`,
@@ -32,8 +32,8 @@ export const listItemButtonActive = style({
 });
 
 export const listSubheaderStyles = style({
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-    fontSize: vars.typography.fontSizeSm,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
+    fontSize: vars.typography['3'].fontSize,
     fontWeight: vars.typography.fontWeightBold,
     color: vars.colors.textSecondary,
     textTransform: 'uppercase',

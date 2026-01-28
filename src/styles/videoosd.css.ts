@@ -102,17 +102,17 @@ export const osdControls = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: vars.spacing.md,
-    padding: vars.spacing.md
+    gap: vars.spacing['5'],
+    padding: vars.spacing['5']
 });
 
 export const osdButton = style({
     background: 'transparent',
     border: 'none',
     color: '#fff',
-    fontSize: vars.typography.fontSizeLg,
+    fontSize: vars.typography['7'].fontSize,
     cursor: 'pointer',
-    padding: vars.spacing.sm,
+    padding: vars.spacing['4'],
     borderRadius: '50%',
     transition: vars.transitions.fast,
     ':hover': {
@@ -122,32 +122,32 @@ export const osdButton = style({
 
 export const osdTimeDisplay = style({
     color: '#fff',
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     fontFamily: vars.typography.fontFamilyMono
 });
 
 export const osdVolumeContainer = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });
 
 export const osdMenuContainer = style({
     display: 'flex',
-    gap: vars.spacing.lg,
-    marginLeft: vars.spacing.xl
+    gap: vars.spacing['6'],
+    marginLeft: vars.spacing['7']
 });
 
 export const osdMenuButton = style({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: vars.spacing.xs,
+    gap: vars.spacing['2'],
     background: 'transparent',
     border: 'none',
     color: '#fff',
     cursor: 'pointer',
-    padding: vars.spacing.sm
+    padding: vars.spacing['4']
 });
 
 export const osdProgressRoot = style({

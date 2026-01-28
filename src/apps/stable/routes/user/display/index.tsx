@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from 'ui-primitives/Button';
 import { Flex } from 'ui-primitives/Box';
@@ -150,22 +152,22 @@ export default function UserDisplayPreferences() {
         >
             <div className="settingsContainer padded-left padded-right padded-bottom-page">
                 {saveSuccess && (
-                    <Alert variant="success" style={{ marginBottom: '24px' }}>
+                    <Alert variant="success" style={{ marginBottom: vars.spacing['5'] }}>
                         {globalize.translate('SettingsSaved')}
                     </Alert>
                 )}
 
                 {error && (
-                    <Alert variant="error" style={{ marginBottom: '24px' }}>
+                    <Alert variant="error" style={{ marginBottom: vars.spacing['5'] }}>
                         {error}
                     </Alert>
                 )}
 
                 <Box style={{ maxWidth: '800px', margin: '0 auto' }}>
-                    <Box style={{ marginBottom: '32px' }}>
-                        <Heading.H3 style={{ marginBottom: '8px' }}>{globalize.translate('Localization')}</Heading.H3>
+                    <Box style={{ marginBottom: vars.spacing['6'] }}>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>{globalize.translate('Localization')}</Heading.H3>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelDisplayLanguage')}</FormLabel>
                                 <Select
@@ -189,10 +191,10 @@ export default function UserDisplayPreferences() {
 
                     <Divider style={{ margin: '24px 0' }} />
 
-                    <Box style={{ marginBottom: '32px' }}>
-                        <Heading.H3 style={{ marginBottom: '8px' }}>{globalize.translate('Display')}</Heading.H3>
+                    <Box style={{ marginBottom: vars.spacing['6'] }}>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>{globalize.translate('Display')}</Heading.H3>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelDisplayMode')}</FormLabel>
                                 <Select
@@ -214,7 +216,7 @@ export default function UserDisplayPreferences() {
                             <FormHelperText>{globalize.translate('DisplayModeHelp')}</FormHelperText>
                         </Box>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelTheme')}</FormLabel>
                                 <Select
@@ -236,9 +238,9 @@ export default function UserDisplayPreferences() {
                             </FormControl>
                         </Box>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
-                                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.disableCustomCss}
                                         onChange={e => handleFieldChange('disableCustomCss', e.target.checked)}
@@ -250,7 +252,7 @@ export default function UserDisplayPreferences() {
                             </FormControl>
                         </Box>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelCustomCss')}</FormLabel>
                                 <Input
@@ -265,14 +267,14 @@ export default function UserDisplayPreferences() {
 
                     <Divider style={{ margin: '24px 0' }} />
 
-                    <Box style={{ marginBottom: '32px' }}>
-                        <Heading.H3 style={{ marginBottom: '16px' }}>
+                    <Box style={{ marginBottom: vars.spacing['6'] }}>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>
                             {globalize.translate('HeaderLibraries')}
                         </Heading.H3>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
-                                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableLibraryBackdrops}
                                         onChange={e => handleFieldChange('enableLibraryBackdrops', e.target.checked)}
@@ -284,9 +286,9 @@ export default function UserDisplayPreferences() {
                             </FormControl>
                         </Box>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
-                                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableLibraryThemeSongs}
                                         onChange={e => handleFieldChange('enableLibraryThemeSongs', e.target.checked)}
@@ -298,9 +300,9 @@ export default function UserDisplayPreferences() {
                             </FormControl>
                         </Box>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
-                                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableLibraryThemeVideos}
                                         onChange={e => handleFieldChange('enableLibraryThemeVideos', e.target.checked)}
@@ -315,10 +317,10 @@ export default function UserDisplayPreferences() {
 
                     <Divider style={{ margin: '24px 0' }} />
 
-                    <Box style={{ marginBottom: '32px' }}>
-                        <Heading.H3 style={{ marginBottom: '16px' }}>{globalize.translate('NextUp')}</Heading.H3>
+                    <Box style={{ marginBottom: vars.spacing['6'] }}>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('NextUp')}</Heading.H3>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelMaxDaysForNextUp')}</FormLabel>
                                 <Input
@@ -333,9 +335,9 @@ export default function UserDisplayPreferences() {
                             </FormControl>
                         </Box>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
-                                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableRewatchingInNextUp}
                                         onChange={e => handleFieldChange('enableRewatchingInNextUp', e.target.checked)}
@@ -347,9 +349,9 @@ export default function UserDisplayPreferences() {
                             </FormControl>
                         </Box>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
-                                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.episodeImagesInNextUp}
                                         onChange={e => handleFieldChange('episodeImagesInNextUp', e.target.checked)}
@@ -364,12 +366,12 @@ export default function UserDisplayPreferences() {
 
                     <Divider style={{ margin: '24px 0' }} />
 
-                    <Box style={{ marginBottom: '32px' }}>
-                        <Heading.H3 style={{ marginBottom: '16px' }}>{globalize.translate('ItemDetails')}</Heading.H3>
+                    <Box style={{ marginBottom: vars.spacing['6'] }}>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('ItemDetails')}</Heading.H3>
 
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
-                                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableItemDetailsBanner}
                                         onChange={e => handleFieldChange('enableItemDetailsBanner', e.target.checked)}
@@ -382,7 +384,7 @@ export default function UserDisplayPreferences() {
                         </Box>
                     </Box>
 
-                    <Flex style={{ gap: '16px', justifyContent: 'flex-end' }}>
+                    <Flex style={{ gap: vars.spacing['4'], justifyContent: 'flex-end' }}>
                         <Button variant="ghost" onClick={loadSettings} disabled={saving}>
                             {globalize.translate('ButtonCancel')}
                         </Button>

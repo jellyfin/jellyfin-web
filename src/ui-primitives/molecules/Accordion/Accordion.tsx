@@ -1,6 +1,6 @@
 import React, { useState, type ReactElement, useCallback } from 'react';
-import { Flex } from './Box';
-import { IconButton } from './IconButton';
+import { Flex } from '../../atoms/Box';
+import { IconButton } from '../../atoms/IconButton';
 import { accordionRoot, accordionHeader, accordionExpanded, accordionContent } from './Accordion.css';
 
 interface AccordionProps {

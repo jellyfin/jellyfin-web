@@ -20,7 +20,7 @@ import type { VisualizerSettings } from './settingsStore';
 
 export interface VisualizerState {
     enabled: boolean;
-    type: 'waveform' | 'frequency' | 'butterchurn';
+    type: 'waveform' | 'frequency' | 'butterchurn' | 'threed';
     opacity: number;
     sensitivity: number;
     barCount: number;

@@ -47,8 +47,8 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({ open, onOpenChange, trigger }
         <Menu open={open} onOpenChange={onOpenChange} trigger={trigger} align="end" id={ID}>
             {!isChromecastPluginLoaded && (
                 <MenuItem disabled>
-                    <Flex align="center" gap={vars.spacing.sm}>
-                        <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                    <Flex align="center" gap={vars.spacing['4']}>
+                        <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>
                             <ExclamationTriangleIcon />
                         </Box>
                         <Text size="md">{globalize.translate('GoogleCastUnsupported')}</Text>
@@ -65,8 +65,8 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({ open, onOpenChange, trigger }
                     // eslint-disable-next-line react/jsx-no-bind
                     onClick={() => onPlayTargetClick(target)}
                 >
-                    <Flex align="center" gap={vars.spacing.sm}>
-                        <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+                    <Flex align="center" gap={vars.spacing['4']}>
+                        <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>
                             <PlayTargetIcon target={target} />
                         </Box>
                         <Box style={{ display: 'flex', flexDirection: 'column' }}>

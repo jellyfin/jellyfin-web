@@ -178,29 +178,29 @@ export const verticalWrap = style({
 });
 
 export const paddedLeft = style({
-    paddingLeft: vars.spacing.md
+    paddingLeft: vars.spacing['5']
 });
 
 export const paddedRight = style({
-    paddingRight: vars.spacing.md
+    paddingRight: vars.spacing['5']
 });
 
 export const paddedTop = style({
-    paddingTop: vars.spacing.md
+    paddingTop: vars.spacing['5']
 });
 
 export const paddedBottom = style({
-    paddingBottom: vars.spacing.md
+    paddingBottom: vars.spacing['5']
 });
 
 export const sectionTitle = style({
-    fontSize: vars.typography.fontSizeXl,
+    fontSize: vars.typography['8'].fontSize,
     fontWeight: vars.typography.fontWeightBold,
-    marginBottom: vars.spacing.md
+    marginBottom: vars.spacing['5']
 });
 
 export const sectionTitleCards = style({
-    marginLeft: vars.spacing.sm
+    marginLeft: vars.spacing['4']
 });
 
 export const libraryView = style({
@@ -210,12 +210,12 @@ export const libraryView = style({
 export const itemsContainer = style({
     display: 'flex',
     flexWrap: 'wrap',
-    gap: vars.spacing.md
+    gap: vars.spacing['5']
 });
 
 export const itemTile = style({
     borderRadius: vars.borderRadius.lg,
-    padding: vars.spacing.md,
+    padding: vars.spacing['5'],
     transition: vars.transitions.fast
 });
 
@@ -235,31 +235,31 @@ export const cardText = style({
 
 export const actionButtons = style({
     display: 'flex',
-    gap: vars.spacing.sm,
+    gap: vars.spacing['4'],
     justifyContent: 'flex-end'
 });
 
 export const collectionItems = style({
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-    gap: vars.spacing.md
+    gap: vars.spacing['5']
 });
 
 export const metadataSidebar = style({
-    padding: vars.spacing.lg
+    padding: vars.spacing['6']
 });
 
 export const metadataField = style({
-    marginBottom: vars.spacing.md
+    marginBottom: vars.spacing['5']
 });
 
 export const metadataLabel = style({
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary,
-    marginBottom: vars.spacing.xs
+    marginBottom: vars.spacing['2']
 });
 
 export const metadataValue = style({
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text
 });

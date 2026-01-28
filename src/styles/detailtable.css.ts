@@ -13,10 +13,10 @@ export const detailTableHeaderCell = style({
     fontWeight: vars.typography.fontWeightBold,
     textAlign: 'left',
     verticalAlign: 'top',
-    padding: vars.spacing.sm
+    padding: vars.spacing['4']
 });
 
 export const detailTableBodyCell = style({
     borderSpacing: 0,
-    padding: vars.spacing.sm
+    padding: vars.spacing['4']
 });

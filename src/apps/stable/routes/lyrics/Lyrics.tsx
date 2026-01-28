@@ -128,10 +128,10 @@ export const Lyrics: React.FC = () => {
 
     if (error) {
         return (
-            <Box style={{ padding: vars.spacing.xl, textAlign: 'center' }}>
-                <Heading.H3 style={{ marginBottom: vars.spacing.md }}>Lyrics</Heading.H3>
+            <Box style={{ padding: vars.spacing['7'], textAlign: 'center' }}>
+                <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>Lyrics</Heading.H3>
                 <Text color="secondary">{error}</Text>
-                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing.sm }}>
+                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['4'] }}>
                     Play a song to view its lyrics
                 </Text>
             </Box>
@@ -139,10 +139,10 @@ export const Lyrics: React.FC = () => {
     }
 
     return (
-        <Box style={{ padding: vars.spacing.lg, maxWidth: 800, margin: '0 auto' }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.lg }}>
+        <Box style={{ padding: vars.spacing['6'], maxWidth: 800, margin: '0 auto' }}>
+            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['6'] }}>
                 <Heading.H3>Lyrics</Heading.H3>
-                <Flex style={{ gap: vars.spacing.sm, alignItems: 'center' }}>
+                <Flex style={{ gap: vars.spacing['4'], alignItems: 'center' }}>
                     <Button
                         variant={autoScroll === 'smooth' ? 'soft' : 'plain'}
                         size="sm"
@@ -156,8 +156,8 @@ export const Lyrics: React.FC = () => {
             {currentItem && (
                 <Box
                     style={{
-                        marginBottom: vars.spacing.lg,
-                        padding: vars.spacing.md,
+                        marginBottom: vars.spacing['6'],
+                        padding: vars.spacing['5'],
                         backgroundColor: vars.colors.surface,
                         borderRadius: vars.borderRadius.md
                     }}
@@ -176,7 +176,7 @@ export const Lyrics: React.FC = () => {
                 style={{
                     maxHeight: 500,
                     overflowY: 'auto',
-                    padding: vars.spacing.md,
+                    padding: vars.spacing['5'],
                     backgroundColor: vars.colors.backgroundLevel2,
                     borderRadius: vars.borderRadius.md
                 }}
@@ -187,8 +187,8 @@ export const Lyrics: React.FC = () => {
                         ref={index === currentLineIndex ? currentLineRef : null}
                         data-lyrictime={line.Start}
                         style={{
-                            padding: vars.spacing.sm,
-                            marginBottom: vars.spacing.xs,
+                            padding: vars.spacing['4'],
+                            marginBottom: vars.spacing['2'],
                             borderRadius: vars.borderRadius.sm,
                             backgroundColor: index === currentLineIndex ? vars.colors.primary + '20' : 'transparent',
                             textAlign: 'center',
@@ -207,7 +207,7 @@ export const Lyrics: React.FC = () => {
                 ))}
             </Box>
 
-            <Flex style={{ justifyContent: 'center', gap: vars.spacing.md, marginTop: vars.spacing.lg }}>
+            <Flex style={{ justifyContent: 'center', gap: vars.spacing['5'], marginTop: vars.spacing['6'] }}>
                 <Button
                     variant="plain"
                     onClick={() => {
@@ -219,7 +219,7 @@ export const Lyrics: React.FC = () => {
             </Flex>
 
             {currentItem && (
-                <Box style={{ marginTop: vars.spacing.xl, textAlign: 'center' }}>
+                <Box style={{ marginTop: vars.spacing['7'], textAlign: 'center' }}>
                     <Text size="sm" color="secondary">
                         {formatTime(currentTime)} / {formatTime((currentItem.RunTimeTicks || 0) / 10000000)}
                     </Text>

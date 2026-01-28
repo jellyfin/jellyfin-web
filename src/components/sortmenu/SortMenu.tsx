@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React, { useState, useEffect } from 'react';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -56,8 +58,8 @@ export function SortMenu({ open, onClose, onChange, options }: SortMenuProps) {
             <DialogPortal>
                 <DialogOverlayComponent />
                 <DialogContentComponent title={globalize.translate('Sort')} style={{ maxWidth: '400px' }}>
-                    <Box style={{ padding: '24px' }}>
-                        <Box style={{ marginBottom: '24px' }}>
+                    <Box style={{ padding: vars.spacing['5'] }}>
+                        <Box style={{ marginBottom: vars.spacing['5'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelSortBy')}</FormLabel>
                                 <Select value={sortBy} onValueChange={(value: string) => setSortBy(value)}>
@@ -75,7 +77,7 @@ export function SortMenu({ open, onClose, onChange, options }: SortMenuProps) {
                             </FormControl>
                         </Box>
 
-                        <Box style={{ marginBottom: '24px' }}>
+                        <Box style={{ marginBottom: vars.spacing['5'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelSortOrder')}</FormLabel>
                                 <Select
@@ -86,13 +88,13 @@ export function SortMenu({ open, onClose, onChange, options }: SortMenuProps) {
                                         <SelectValue />
                                         <SelectContent>
                                             <SelectItem value="Ascending">
-                                                <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                                                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                                                     <ChevronUpIcon />
                                                     {globalize.translate('Ascending')}
                                                 </Flex>
                                             </SelectItem>
                                             <SelectItem value="Descending">
-                                                <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                                                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                                                     <ChevronDownIcon />
                                                     {globalize.translate('Descending')}
                                                 </Flex>
@@ -103,7 +105,7 @@ export function SortMenu({ open, onClose, onChange, options }: SortMenuProps) {
                             </FormControl>
                         </Box>
 
-                        <Flex style={{ justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
+                        <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['3'], marginTop: '24px' }}>
                             <Button variant="ghost" onClick={handleClose}>
                                 {globalize.translate('ButtonBack')}
                             </Button>

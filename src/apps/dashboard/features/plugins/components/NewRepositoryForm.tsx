@@ -39,11 +39,11 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
             <DialogPrimitive.Portal>
                 <DialogOverlay />
                 <DialogPrimitive.Content className={DialogContentClass} style={{ minWidth: 400 }}>
-                    <Box style={{ padding: '24px' }}>
+                    <Box style={{ padding: vars.spacing['5'] }}>
                         <FlexRow style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                             <span
                                 style={{
-                                    fontSize: vars.typography.fontSizeMd,
+                                    fontSize: vars.typography['6'].fontSize,
                                     fontWeight: vars.typography.fontWeightMedium
                                 }}
                             >
@@ -55,7 +55,7 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
                                         background: 'none',
                                         border: 'none',
                                         cursor: 'pointer',
-                                        fontSize: vars.typography.fontSizeMd,
+                                        fontSize: vars.typography['6'].fontSize,
                                         color: vars.colors.textSecondary
                                     }}
                                     type="button"

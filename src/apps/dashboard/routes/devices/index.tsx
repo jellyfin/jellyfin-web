@@ -169,7 +169,7 @@ export const Component = () => {
                 <Flex
                     style={{
                         display: 'flex',
-                        gap: '8px',
+                        gap: vars.spacing['2'],
                         backgroundColor: 'transparent'
                     }}
                 >

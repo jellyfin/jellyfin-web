@@ -108,7 +108,7 @@ export const QueueView: React.FC<QueueViewProps> = ({ onNavigateToItem, onShowPl
             style={{
                 height: '100%',
                 overflow: 'auto',
-                padding: vars.spacing.lg,
+                padding: vars.spacing['6'],
                 backgroundColor: vars.colors.background
             }}
         >
@@ -143,14 +143,14 @@ export const QueueView: React.FC<QueueViewProps> = ({ onNavigateToItem, onShowPl
                     onVolumeDown={() => {}}
                 />
 
-                <Box className="playlistSection" style={{ marginTop: vars.spacing.xl }}>
+                <Box className="playlistSection" style={{ marginTop: vars.spacing['7'] }}>
                     <Box
                         className="playlistSectionButton flex align-items-center justify-content-center"
                         style={{
                             display: 'flex',
                             justifyContent: 'flex-end',
-                            gap: vars.spacing.sm,
-                            marginBottom: vars.spacing.md
+                            gap: vars.spacing['4'],
+                            marginBottom: vars.spacing['5']
                         }}
                     >
                         <Tooltip title="Toggle Playlist">
@@ -197,11 +197,11 @@ export const QueueView: React.FC<QueueViewProps> = ({ onNavigateToItem, onShowPl
                         style={{
                             backgroundColor: vars.colors.surface,
                             borderRadius: vars.borderRadius.md,
-                            padding: vars.spacing.md,
+                            padding: vars.spacing['5'],
                             minHeight: 200
                         }}
                     >
-                        <Text weight="medium" style={{ marginBottom: vars.spacing.md }}>
+                        <Text weight="medium" style={{ marginBottom: vars.spacing['5'] }}>
                             Playlist ({items.length} tracks)
                         </Text>
                         {items.length > 0 ? (
@@ -215,9 +215,9 @@ export const QueueView: React.FC<QueueViewProps> = ({ onNavigateToItem, onShowPl
                                 onSelectItem={handleSelectItem}
                             />
                         ) : (
-                            <Box style={{ textAlign: 'center', padding: vars.spacing.xl }}>
+                            <Box style={{ textAlign: 'center', padding: vars.spacing['7'] }}>
                                 <Text color="secondary">No tracks in queue</Text>
-                                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing.xs }}>
+                                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                                     Add some music to get started
                                 </Text>
                             </Box>

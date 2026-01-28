@@ -7,7 +7,7 @@ export const container = style({
 
 export const compactContainer = style({
     display: 'flex',
-    gap: vars.spacing.xs,
+    gap: vars.spacing['2'],
     flexWrap: 'wrap',
     alignItems: 'center'
 });
@@ -15,23 +15,23 @@ export const compactContainer = style({
 export const compactItem = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs
+    gap: vars.spacing['2']
 });
 
 export const section = style({
-    marginBottom: vars.spacing.md
+    marginBottom: vars.spacing['5']
 });
 
 export const statsGrid = style({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gap: vars.spacing.md
+    gap: vars.spacing['5']
 });
 
 export const statItem = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs
+    gap: vars.spacing['2']
 });
 
 export const progressBar = style({
@@ -39,7 +39,7 @@ export const progressBar = style({
     borderRadius: '4px',
     backgroundColor: vars.colors.surface,
     overflow: 'hidden',
-    marginTop: vars.spacing.xs
+    marginTop: vars.spacing['2']
 });
 
 export const progressBarFill = style({
@@ -51,5 +51,5 @@ export const progressBarFill = style({
 export const chip = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.xs
+    gap: vars.spacing['2']
 });

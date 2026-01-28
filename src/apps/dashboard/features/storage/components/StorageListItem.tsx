@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import type { FolderStorageDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { type FC } from 'react';
 import { Progress } from 'ui-primitives/Progress';
@@ -43,15 +45,15 @@ const StorageListItem: FC<StorageListItemProps> = ({ label, folder }) => {
     const statusColor = folder ? getStatusColor(usedPercentage) : 'primary';
 
     return (
-        <Flex style={{ alignItems: 'center', gap: '16px', padding: '12px 0' }}>
+        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], padding: '12px 0' }}>
             <div title={getStorageTypeText(folder?.StorageType)}>
                 <StorageTypeIcon type={folder?.StorageType} />
             </div>
-            <Flex style={{ flex: 1, flexDirection: 'column', gap: '4px' }}>
+            <Flex style={{ flex: 1, flexDirection: 'column', gap: vars.spacing['1'] }}>
                 <Text as="span" size="sm" style={{ wordBreak: 'break-all' }}>
                     {label}
                 </Text>
-                <Flex style={{ flexDirection: 'column', gap: '4px' }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['1'] }}>
                     {folder ? (
                         <Text as="span" size="sm" color="secondary" style={{ lineBreak: 'anywhere' }}>
                             {folder.Path}

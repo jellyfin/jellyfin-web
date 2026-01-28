@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { type FunctionComponent } from 'react';
 import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
 import { Progress } from 'ui-primitives/Progress';
@@ -14,7 +16,7 @@ const RestoreProgressDialog: FunctionComponent<IProps> = ({ open }) => {
         <Dialog open={open}>
             <DialogOverlayComponent />
             <DialogContentComponent title={globalize.translate('MessageRestoreInProgress')}>
-                <Flex style={{ flexDirection: 'column', gap: '16px' }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
                     <div>{globalize.translate('MessageWaitingForServer')}</div>
                     <Progress />
                 </Flex>

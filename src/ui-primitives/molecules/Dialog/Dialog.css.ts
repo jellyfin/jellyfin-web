@@ -21,7 +21,7 @@ export const DialogContent = style({
     width: '90%',
     maxHeight: '85vh',
     overflow: 'auto',
-    padding: vars.spacing.lg,
+    padding: vars.spacing['6'],
     zIndex: vars.zIndex.modal,
     animation: 'scale-in 150ms ease'
 });
@@ -29,25 +29,25 @@ export const DialogContent = style({
 export const dialogTitleStyles = style({
     margin: 0,
     fontWeight: vars.typography.fontWeightBold,
-    fontSize: vars.typography.fontSizeXl,
+    fontSize: vars.typography['8'].fontSize,
     color: vars.colors.text
 });
 
 export const DialogDescription = style({
-    margin: `${vars.spacing.sm} 0 ${vars.spacing.lg}`,
+    margin: `${vars.spacing['4']} 0 ${vars.spacing['6']}`,
     color: vars.colors.textSecondary,
-    fontSize: vars.typography.fontSizeMd
+    fontSize: vars.typography['6'].fontSize
 });
 
 export const DialogClose = style({
     position: 'absolute',
-    top: vars.spacing.md,
-    right: vars.spacing.md,
+    top: vars.spacing['5'],
+    right: vars.spacing['5'],
     background: 'none',
     border: 'none',
     color: vars.colors.textMuted,
     cursor: 'pointer',
-    padding: vars.spacing.xs,
+    padding: vars.spacing['2'],
     borderRadius: vars.borderRadius.sm,
     ':hover': {
         color: vars.colors.text,

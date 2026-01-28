@@ -17,11 +17,11 @@ const LoadingFallback: React.FC = () => (
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: '300px',
-            padding: vars.spacing.lg
+            padding: vars.spacing['6']
         }}
     >
         <CircularProgress size="lg" />
-        <Text size="lg" color="secondary" style={{ marginTop: vars.spacing.md }}>
+        <Text size="lg" color="secondary" style={{ marginTop: vars.spacing['5'] }}>
             Loading...
         </Text>
     </Box>

@@ -29,6 +29,8 @@ import { Input } from 'ui-primitives/Input';
 import { Text } from 'ui-primitives/Text';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
 
+import { PageContainer } from 'components/layout/PageContainer';
+
 export const Component = (): React.ReactElement => {
     const { data: config, isPending: isConfigPending, isError: isConfigError } = useConfiguration();
     const { data: cultures, isPending: isCulturesPending, isError: isCulturesError } = useCultures();
@@ -82,83 +84,85 @@ export const Component = (): React.ReactElement => {
             title={globalize.translate('LabelMetadata')}
             className="type-interior mainAnimatedPage"
         >
-            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
-                {isConfigError || isCulturesError || isCountriesError ? (
-                    <Alert variant="error">{globalize.translate('MetadataImagesLoadError')}</Alert>
-                ) : (
-                    <form onSubmit={handleSubmit}>
-                        <Flex style={{ flexDirection: 'column', gap: '24px' }}>
-                            {!isSubmitting && actionData?.isSaved && (
-                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
-                            )}
-                            <Text as="h2" size="lg" weight="bold">
-                                {globalize.translate('HeaderPreferredMetadataLanguage')}
-                            </Text>
-                            <Text as="p">{globalize.translate('DefaultMetadataLangaugeDescription')}</Text>
+            <PageContainer>
+                <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
+                    {isConfigError || isCulturesError || isCountriesError ? (
+                        <Alert variant="error">{globalize.translate('MetadataImagesLoadError')}</Alert>
+                    ) : (
+                        <form onSubmit={handleSubmit}>
+                            <Flex style={{ flexDirection: 'column', gap: '24px' }}>
+                                {!isSubmitting && actionData?.isSaved && (
+                                    <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
+                                )}
+                                <Text as="h2" size="lg" weight="bold">
+                                    {globalize.translate('HeaderPreferredMetadataLanguage')}
+                                </Text>
+                                <Text as="p">{globalize.translate('DefaultMetadataLangaugeDescription')}</Text>
 
-                            <Select name="Language" defaultValue={config.PreferredMetadataLanguage}>
-                                <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelLanguage')} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {cultures.map(culture => (
-                                        <SelectItem
-                                            key={culture.TwoLetterISOLanguageName ?? ''}
-                                            value={culture.TwoLetterISOLanguageName ?? ''}
-                                        >
-                                            {culture.DisplayName}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                                <Select name="Language" defaultValue={config.PreferredMetadataLanguage}>
+                                    <SelectTrigger style={{ width: '100%' }}>
+                                        <SelectValue placeholder={globalize.translate('LabelLanguage')} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {cultures.map(culture => (
+                                            <SelectItem
+                                                key={culture.TwoLetterISOLanguageName ?? ''}
+                                                value={culture.TwoLetterISOLanguageName ?? ''}
+                                            >
+                                                {culture.DisplayName}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
 
-                            <Select name="Country" defaultValue={config.MetadataCountryCode}>
-                                <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelCountry')} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {countries.map(country => (
-                                        <SelectItem
-                                            key={country.DisplayName}
-                                            value={country.TwoLetterISORegionName || ''}
-                                        >
-                                            {country.DisplayName}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                                <Select name="Country" defaultValue={config.MetadataCountryCode}>
+                                    <SelectTrigger style={{ width: '100%' }}>
+                                        <SelectValue placeholder={globalize.translate('LabelCountry')} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {countries.map(country => (
+                                            <SelectItem
+                                                key={country.TwoLetterISORegionName || country.DisplayName}
+                                                value={country.TwoLetterISORegionName || ''}
+                                            >
+                                                {country.DisplayName}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
 
-                            <Text as="h2" size="lg" weight="bold">
-                                {globalize.translate('HeaderDummyChapter')}
-                            </Text>
+                                <Text as="h2" size="lg" weight="bold">
+                                    {globalize.translate('HeaderDummyChapter')}
+                                </Text>
 
-                            <Input
-                                name="DummyChapterDuration"
-                                type="number"
-                                defaultValue={config.DummyChapterDuration}
-                                label={globalize.translate('LabelDummyChapterDuration')}
-                                min={0}
-                                required
-                            />
+                                <Input
+                                    name="DummyChapterDuration"
+                                    type="number"
+                                    defaultValue={config.DummyChapterDuration}
+                                    label={globalize.translate('LabelDummyChapterDuration')}
+                                    min={0}
+                                    required
+                                />
 
-                            <Select name="ChapterImageResolution" defaultValue={config.ChapterImageResolution}>
-                                <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelChapterImageResolution')} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {imageResolutions.map(resolution => (
-                                        <SelectItem key={resolution.name} value={resolution.value}>
-                                            {resolution.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                                <Select name="ChapterImageResolution" defaultValue={config.ChapterImageResolution}>
+                                    <SelectTrigger style={{ width: '100%' }}>
+                                        <SelectValue placeholder={globalize.translate('LabelChapterImageResolution')} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {imageResolutions.map(resolution => (
+                                            <SelectItem key={resolution.name} value={resolution.value}>
+                                                {resolution.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
 
-                            <Button type="submit">{globalize.translate('Save')}</Button>
-                        </Flex>
-                    </form>
-                )}
-            </Flex>
+                                <Button type="submit">{globalize.translate('Save')}</Button>
+                            </Flex>
+                        </form>
+                    )}
+                </Flex>
+            </PageContainer>
         </Page>
     );
 };

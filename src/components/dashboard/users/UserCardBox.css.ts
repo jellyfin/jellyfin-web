@@ -44,7 +44,7 @@ export const disabledText = style({
 });
 
 export const cardContent = style({
-    paddingTop: vars.spacing.sm
+    paddingTop: vars.spacing['4']
 });
 
 export const headerRow = style({
@@ -72,7 +72,7 @@ export const avatarPlaceholder = style({
     justifyContent: 'center',
     backgroundColor: vars.colors.primary,
     color: 'white',
-    fontSize: vars.typography.fontSizeXxl
+    fontSize: vars.typography['9'].fontSize
 });
 
 export const userName = style({

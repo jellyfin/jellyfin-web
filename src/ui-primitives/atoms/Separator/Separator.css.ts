@@ -9,13 +9,13 @@ export const separatorRoot = style({
 export const separatorHorizontal = style({
     height: 1,
     width: '100%',
-    margin: `${vars.spacing.sm} 0`
+    margin: `${vars.spacing['4']} 0`
 });
 
 export const separatorVertical = style({
     width: 1,
     height: '100%',
-    margin: `0 ${vars.spacing.sm}`
+    margin: `0 ${vars.spacing['4']}`
 });
 
 export const separatorStyles = {

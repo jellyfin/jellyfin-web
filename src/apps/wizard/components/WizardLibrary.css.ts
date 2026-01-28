@@ -4,21 +4,21 @@ import { vars } from 'styles/tokens.css';
 export const container = style({
     maxWidth: '1000px',
     margin: '0 auto',
-    marginTop: `calc(${vars.spacing.xl as string} * 2)`,
-    padding: vars.spacing.lg
+    marginTop: `calc(${vars.spacing['7'] as string} * 2)`,
+    padding: vars.spacing['6']
 });
 
 export const header = style({
-    marginBottom: vars.spacing.xs
+    marginBottom: vars.spacing['2']
 });
 
 export const helpText = style({
-    marginBottom: `calc(${vars.spacing.xl as string} * 2)`
+    marginBottom: `calc(${vars.spacing['7'] as string} * 2)`
 });
 
 export const grid = style({
     display: 'grid',
-    gap: vars.spacing.lg,
+    gap: vars.spacing['6'],
     gridTemplateColumns: 'repeat(1, 1fr)',
     '@media': {
         '(min-width: 600px)': {
@@ -31,7 +31,7 @@ export const grid = style({
 });
 
 export const buttonRow = style({
-    marginTop: `calc(${vars.spacing.xl as string} * 3)`,
+    marginTop: `calc(${vars.spacing['7'] as string} * 3)`,
     display: 'flex',
     justifyContent: 'flex-end'
 });

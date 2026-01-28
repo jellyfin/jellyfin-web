@@ -119,7 +119,7 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
                         width: '90%',
                         maxHeight: '85vh',
                         overflowY: 'auto',
-                        padding: '24px',
+                        padding: vars.spacing['5'],
                         zIndex: vars.zIndex.modal
                     }}
                 >
@@ -127,40 +127,40 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
                         style={{
                             fontSize: '18px',
                             fontWeight: '600',
-                            marginBottom: '16px',
+                            marginBottom: vars.spacing['4'],
                             display: 'block'
                         }}
                     >
                         {globalize.translate('Filters')}
                     </Text>
                     <Box style={{ padding: '0' }}>
-                        <Box style={{ marginBottom: '24px' }}>
-                            <Text size="sm" color="secondary" style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['5'] }}>
+                            <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                                 {globalize.translate('Unplayed')}
                             </Text>
-                            <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                            <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: vars.spacing['2'] }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.IsUnplayed || false}
                                         onChange={() => toggleFilter('IsUnplayed')}
                                     />
                                     <Text size="sm">{globalize.translate('Unplayed')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.IsPlayed || false}
                                         onChange={() => toggleFilter('IsPlayed')}
                                     />
                                     <Text size="sm">{globalize.translate('Played')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.IsFavorite || false}
                                         onChange={() => toggleFilter('IsFavorite')}
                                     />
                                     <Text size="sm">{globalize.translate('Favorite')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.IsResumable || false}
                                         onChange={() => toggleFilter('IsResumable')}
@@ -172,12 +172,12 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
 
                         <Box style={{ height: '1px', background: 'var(--border-color)', margin: '16px 0' }} />
 
-                        <Box style={{ marginBottom: '24px' }}>
-                            <Heading.H4 style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['5'] }}>
+                            <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>
                                 {globalize.translate('HeaderSeriesStatus')}
                             </Heading.H4>
-                            <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                            <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: vars.spacing['2'] }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.SeriesStatus === 'Continuing'}
                                         onChange={() =>
@@ -190,7 +190,7 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
                                     />
                                     <Text size="sm">{globalize.translate('Continuing')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.SeriesStatus === 'Ended'}
                                         onChange={() =>
@@ -202,7 +202,7 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
                                     />
                                     <Text size="sm">{globalize.translate('Ended')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.SeriesStatus === 'Unreleased'}
                                         onChange={() =>
@@ -221,18 +221,18 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
                         {genreOptions.length > 0 && (
                             <>
                                 <Box style={{ height: '1px', background: 'var(--border-color)', margin: '16px 0' }} />
-                                <Box style={{ marginBottom: '24px' }}>
-                                    <Heading.H4 style={{ marginBottom: '16px' }}>
+                                <Box style={{ marginBottom: vars.spacing['5'] }}>
+                                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>
                                         {globalize.translate('Genres')}
                                     </Heading.H4>
-                                    <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                                    <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: vars.spacing['2'] }}>
                                         {genreOptions.map(genre => (
                                             <label
                                                 key={genre.Id}
                                                 style={{
                                                     display: 'flex',
                                                     alignItems: 'center',
-                                                    gap: '8px',
+                                                    gap: vars.spacing['2'],
                                                     cursor: 'pointer'
                                                 }}
                                             >
@@ -250,24 +250,24 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
 
                         <Box style={{ height: '1px', background: 'var(--border-color)', margin: '16px 0' }} />
 
-                        <Box style={{ marginBottom: '24px' }}>
-                            <Heading.H4 style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['5'] }}>
+                            <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>
                                 {globalize.translate('HeaderVideoType')}
                             </Heading.H4>
-                            <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                            <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: vars.spacing['2'] }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox checked={filters.IsHD || false} onChange={() => toggleFilter('IsHD')} />
                                     <Text size="sm">HD</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox checked={filters.Is4K || false} onChange={() => toggleFilter('Is4K')} />
                                     <Text size="sm">4K</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox checked={filters.IsSD || false} onChange={() => toggleFilter('IsSD')} />
                                     <Text size="sm">SD</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox checked={filters.Is3D || false} onChange={() => toggleFilter('Is3D')} />
                                     <Text size="sm">3D</Text>
                                 </label>
@@ -276,38 +276,38 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
 
                         <Box style={{ height: '1px', background: 'var(--border-color)', margin: '16px 0' }} />
 
-                        <Box style={{ marginBottom: '24px' }}>
-                            <Heading.H4 style={{ marginBottom: '16px' }}>{globalize.translate('Features')}</Heading.H4>
-                            <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                        <Box style={{ marginBottom: vars.spacing['5'] }}>
+                            <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('Features')}</Heading.H4>
+                            <Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: vars.spacing['2'] }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.HasSubtitles || false}
                                         onChange={() => toggleFilter('HasSubtitles')}
                                     />
                                     <Text size="sm">{globalize.translate('Subtitles')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.HasTrailer || false}
                                         onChange={() => toggleFilter('HasTrailer')}
                                     />
                                     <Text size="sm">{globalize.translate('Trailers')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.HasSpecialFeature || false}
                                         onChange={() => toggleFilter('HasSpecialFeature')}
                                     />
                                     <Text size="sm">{globalize.translate('Extras')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.HasThemeSong || false}
                                         onChange={() => toggleFilter('HasThemeSong')}
                                     />
                                     <Text size="sm">{globalize.translate('ThemeSongs')}</Text>
                                 </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer' }}>
                                     <Checkbox
                                         checked={filters.HasThemeVideo || false}
                                         onChange={() => toggleFilter('HasThemeVideo')}
@@ -317,7 +317,7 @@ export function FilterMenu({ open, onClose, options }: FilterMenuProps) {
                             </Box>
                         </Box>
 
-                        <Flex style={{ justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
+                        <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['3'], marginTop: '24px' }}>
                             <Button variant="ghost" onClick={handleClose}>
                                 {globalize.translate('ButtonBack')}
                             </Button>

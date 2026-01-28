@@ -5,9 +5,9 @@ export const toggleRoot = style({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: `${vars.spacing.xs} ${vars.spacing.md}`,
+    padding: `${vars.spacing['2']} ${vars.spacing['5']}`,
     borderRadius: vars.borderRadius.md,
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     fontWeight: vars.typography.fontWeightMedium,
     lineHeight: 1,
     cursor: 'pointer',
@@ -42,16 +42,16 @@ export const toggleVariant = styleVariants({
 
 export const toggleSizes = styleVariants({
     sm: {
-        padding: `2px ${vars.spacing.sm}`,
-        fontSize: vars.typography.fontSizeSm
+        padding: `2px ${vars.spacing['4']}`,
+        fontSize: vars.typography['3'].fontSize
     },
     md: {
-        padding: `${vars.spacing.xs} ${vars.spacing.md}`,
-        fontSize: vars.typography.fontSizeMd
+        padding: `${vars.spacing['2']} ${vars.spacing['5']}`,
+        fontSize: vars.typography['6'].fontSize
     },
     lg: {
-        padding: `${vars.spacing.sm} ${vars.spacing.lg}`,
-        fontSize: vars.typography.fontSizeLg
+        padding: `${vars.spacing['4']} ${vars.spacing['6']}`,
+        fontSize: vars.typography['7'].fontSize
     }
 });
 
@@ -67,8 +67,8 @@ export const toggleGroupItem = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: `${vars.spacing.xs} ${vars.spacing.md}`,
-    fontSize: vars.typography.fontSizeMd,
+    padding: `${vars.spacing['2']} ${vars.spacing['5']}`,
+    fontSize: vars.typography['6'].fontSize,
     lineHeight: 1,
     cursor: 'pointer',
     transition: vars.transitions.fast,

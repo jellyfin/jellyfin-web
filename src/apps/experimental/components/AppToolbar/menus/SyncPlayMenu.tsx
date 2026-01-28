@@ -136,8 +136,8 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
     }, [__legacyApiClient__, onOpenChange, syncPlay]);
 
     const renderMenuItemContent = (icon: React.ReactNode, primary: string, secondary?: string) => (
-        <Flex align="center" gap={vars.spacing.sm}>
-            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>{icon}</Box>
+        <Flex align="center" gap={vars.spacing['4']}>
+            <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>{icon}</Box>
             <Box style={{ display: 'flex', flexDirection: 'column' }}>
                 <Text size="md">{primary}</Text>
                 {secondary && (

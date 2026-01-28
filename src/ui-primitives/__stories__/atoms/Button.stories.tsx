@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Button } from '../Button';
+import { Button } from '../../Button';
 import { motion } from 'motion/react';
 
 const meta: Meta<typeof Button> = {

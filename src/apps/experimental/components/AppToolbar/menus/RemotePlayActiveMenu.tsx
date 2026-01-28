@@ -82,8 +82,8 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({ open, onOpenChang
     }, [onOpenChange, remotePlayerName]);
 
     const renderMenuItemContent = (icon: React.ReactNode | null, label: string) => (
-        <Flex align="center" gap={vars.spacing.sm}>
-            <Box style={{ width: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>{icon}</Box>
+        <Flex align="center" gap={vars.spacing['4']}>
+            <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>{icon}</Box>
             <Text size="md">{label}</Text>
         </Flex>
     );

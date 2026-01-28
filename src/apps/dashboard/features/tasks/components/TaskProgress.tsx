@@ -13,8 +13,8 @@ const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
             style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: vars.spacing.sm,
-                marginTop: vars.spacing.xs,
+                gap: vars.spacing['4'],
+                marginTop: vars.spacing['2'],
                 minWidth: '170px'
             }}
         >

@@ -9,7 +9,7 @@ export const checkAnimation = keyframes({
 export const checkboxContainer = style({
     display: 'flex',
     alignItems: 'center',
-    gap: '8px',
+    gap: vars.spacing['2'],
     cursor: 'pointer',
     padding: '4px 0'
 });
@@ -55,7 +55,7 @@ export const checkboxInput = style({
 });
 
 export const checkboxLabel = style({
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text,
     cursor: 'pointer',
     userSelect: 'none'

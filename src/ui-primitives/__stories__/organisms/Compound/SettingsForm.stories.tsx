@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
-import { vars } from '../../styles/tokens.css.ts';
-import { Box, Flex } from '../../Box';
-import { Heading } from '../../Text';
-import { Card, CardBody, CardFooter, CardHeader } from '../../Card';
-import { Button } from '../../Button';
-import { Input } from '../../Input';
-import { Switch, FormControl, FormLabel, FormHelperText } from '../../FormControl';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../Select';
-import { Alert } from '../../Alert';
+import { vars } from '../../../../styles/tokens.css';
+import { Box, Flex } from '../../../';
+import { Heading } from '../../../';
+import { Card, CardBody, CardFooter, CardHeader } from '../../../';
+import { Button } from '../../../';
+import { Input } from '../../../';
+import { Switch, FormControl, FormLabel, FormHelperText } from '../../../';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../../';
+import { Alert } from '../../../';
 
 const meta: Meta = {
     title: 'UI Primitives/Compound/Settings Form',
@@ -82,10 +82,10 @@ function SettingsFormStory(): ReactElement {
         <Box style={{ width: '500px' }}>
             <Card>
                 <CardHeader>
-                    <Heading level={3}>Settings</Heading>
+                    <Heading.H3>Settings</Heading.H3>
                 </CardHeader>
                 <CardBody>
-                    <Flex direction="column" gap={vars.spacing.lg}>
+                    <Flex direction="column" gap={vars.spacing['6']}>
                         <FormControl>
                             <FormLabel>Display Name</FormLabel>
                             <Input
@@ -134,17 +134,17 @@ function SettingsFormStory(): ReactElement {
                             </Select>
                         </FormControl>
 
-                        <Flex align="center" justify="space-between" style={{ padding: `${vars.spacing.sm} 0` }}>
+                        <Flex align="center" justify="space-between" style={{ padding: `${vars.spacing['4']} 0` }}>
                             <Box>
-                                <FormLabel style={{ marginBottom: vars.spacing.xs }}>Enable Notifications</FormLabel>
+                                <FormLabel style={{ marginBottom: vars.spacing['2'] }}>Enable Notifications</FormLabel>
                                 <FormHelperText style={{ margin: 0 }}>Receive push notifications</FormHelperText>
                             </Box>
                             <Switch checked={formData.enableNotifications} onChange={handleNotificationsChange} />
                         </Flex>
 
-                        <Flex align="center" justify="space-between" style={{ padding: `${vars.spacing.sm} 0` }}>
+                        <Flex align="center" justify="space-between" style={{ padding: `${vars.spacing['4']} 0` }}>
                             <Box>
-                                <FormLabel style={{ marginBottom: vars.spacing.xs }}>Auto-play Media</FormLabel>
+                                <FormLabel style={{ marginBottom: vars.spacing['2'] }}>Auto-play Media</FormLabel>
                                 <FormHelperText style={{ margin: 0 }}>Automatically play next episode</FormHelperText>
                             </Box>
                             <Switch checked={formData.enableAutoPlay} onChange={handleAutoPlayChange} />
@@ -158,7 +158,7 @@ function SettingsFormStory(): ReactElement {
                     </Flex>
                 </CardBody>
                 <CardFooter>
-                    <Flex gap={vars.spacing.sm} justify="flex-end">
+                    <Flex gap={vars.spacing['4']} justify="flex-end">
                         <Button variant="ghost" onClick={handleReset}>
                             Reset
                         </Button>
@@ -186,10 +186,10 @@ function SettingsFormWithErrorsStory(): ReactElement {
         <Box style={{ width: '500px' }}>
             <Card>
                 <CardHeader>
-                    <Heading level={3}>Settings</Heading>
+                    <Heading.H3>Settings</Heading.H3>
                 </CardHeader>
                 <CardBody>
-                    <Flex direction="column" gap={vars.spacing.lg}>
+                    <Flex direction="column" gap={vars.spacing['6']}>
                         <FormControl error>
                             <FormLabel>Display Name</FormLabel>
                             <Input value="" onChange={(): void => {}} placeholder="Enter your name" />
@@ -227,10 +227,10 @@ function SettingsFormLoadingStory(): ReactElement {
         <Box style={{ width: '500px' }}>
             <Card>
                 <CardHeader>
-                    <Heading level={3}>Settings</Heading>
+                    <Heading.H3>Settings</Heading.H3>
                 </CardHeader>
                 <CardBody>
-                    <Flex direction="column" gap={vars.spacing.lg}>
+                    <Flex direction="column" gap={vars.spacing['6']}>
                         <FormControl>
                             <FormLabel>Display Name</FormLabel>
                             <Input value="Loading..." disabled />
@@ -243,7 +243,7 @@ function SettingsFormLoadingStory(): ReactElement {
                     </Flex>
                 </CardBody>
                 <CardFooter>
-                    <Flex gap={vars.spacing.sm} justify="flex-end">
+                    <Flex gap={vars.spacing['4']} justify="flex-end">
                         <Button variant="ghost" disabled>
                             Reset
                         </Button>

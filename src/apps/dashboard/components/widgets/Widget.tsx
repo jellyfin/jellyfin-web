@@ -14,7 +14,7 @@ interface WidgetProps {
 
 const Widget = ({ title, href, children }: WidgetProps): React.ReactElement => {
     return (
-        <Box style={{ marginBottom: vars.spacing.md }}>
+        <Box style={{ marginBottom: vars.spacing['5'] }}>
             <Button
                 to={href}
                 variant="plain"
@@ -22,7 +22,7 @@ const Widget = ({ title, href, children }: WidgetProps): React.ReactElement => {
                 endDecorator={<ChevronRightIcon />}
                 style={{
                     padding: 0,
-                    marginBottom: vars.spacing.sm,
+                    marginBottom: vars.spacing['4'],
                     backgroundColor: 'transparent',
                     color: vars.colors.primary,
                     justifyContent: 'flex-start'

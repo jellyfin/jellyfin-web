@@ -1,3 +1,5 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState } from 'react';
 import { Button } from '../../Button';
@@ -46,7 +48,7 @@ function DefaultStory(): ReactElement {
                         Make changes to your profile here. Click save when you&apos;re done.
                     </PopoverDescription>
                 </PopoverHeader>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], marginTop: vars.spacing['4'] }}>
                     <input
                         type="text"
                         placeholder="Enter your name"
@@ -116,7 +118,7 @@ function WithCustomTriggerStory(): ReactElement {
                 <PopoverHeader>
                     <PopoverTitle>Actions</PopoverTitle>
                 </PopoverHeader>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['1'] }}>
                     <button
                         type="button"
                         style={{
@@ -172,7 +174,7 @@ export const WithCustomTrigger: Story = {
 
 function AlignVariantsStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['2'] }}>
             <Popover>
                 <PopoverTrigger asChild>
                     <Button variant="secondary" size="sm">

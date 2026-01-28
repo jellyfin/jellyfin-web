@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -185,9 +187,9 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
             <Dialog open={open} onOpenChange={handleOpenChange}>
                 <DialogPortal>
                     <DialogOverlayComponent />
-                    <DialogContentComponent style={{ padding: '48px', textAlign: 'center' }}>
+                    <DialogContentComponent style={{ padding: vars.spacing['6'], textAlign: 'center' }}>
                         <CircularProgress size="lg" />
-                        <Text style={{ marginTop: '16px' }}>{globalize.translate('Loading')}</Text>
+                        <Text style={{ marginTop: vars.spacing['4'] }}>{globalize.translate('Loading')}</Text>
                     </DialogContentComponent>
                 </DialogPortal>
             </Dialog>
@@ -214,13 +216,13 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                         overflow: 'auto'
                     }}
                 >
-                    <Flex align="center" justify="space-between" style={{ marginBottom: '24px' }}>
+                    <Flex align="center" justify="space-between" style={{ marginBottom: vars.spacing['5'] }}>
                         <Heading.H3>{globalize.translate('HeaderEditMetadata')}</Heading.H3>
                         <DialogCloseButton onClick={() => setOpen(false)} />
                     </Flex>
 
                     {saveError && (
-                        <Alert variant="error" style={{ marginBottom: '24px' }}>
+                        <Alert variant="error" style={{ marginBottom: vars.spacing['5'] }}>
                             {saveError}
                         </Alert>
                     )}
@@ -354,7 +356,7 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
 
                             <Box>
                                 {people.length > 0 ? (
-                                    <Flex direction="column" style={{ gap: '8px' }}>
+                                    <Flex direction="column" style={{ gap: vars.spacing['2'] }}>
                                         {people.map((person: any, index: number) => (
                                             <Flex
                                                 key={`${person.Name}-${person.Type}-${index}`}

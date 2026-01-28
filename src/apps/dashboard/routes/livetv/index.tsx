@@ -1,3 +1,5 @@
+import { vars } from '../../../../styles/tokens.css';
+
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Page from 'components/Page';
 import { useNamedConfiguration } from 'hooks/useNamedConfiguration';
@@ -97,7 +99,7 @@ export const Component = (): React.ReactElement => {
                             style={{
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                                gap: '16px'
+                                gap: vars.spacing['4']
                             }}
                         >
                             {config.TunerHosts?.map(tunerHost => (
@@ -109,8 +111,8 @@ export const Component = (): React.ReactElement => {
                             {globalize.translate('HeaderGuideProviders')}
                         </Text>
 
-                        <Flex style={{ alignSelf: 'flex-start', flexDirection: 'column', gap: '16px' }}>
-                            <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                        <Flex style={{ alignSelf: 'flex-start', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Button
                                     style={{ alignSelf: 'flex-start' }}
                                     startDecorator={<AddIcon />}

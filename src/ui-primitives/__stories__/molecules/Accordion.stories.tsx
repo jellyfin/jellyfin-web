@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { motion } from 'motion/react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 interface AccordionItemData {
     value: string;
@@ -38,18 +38,18 @@ function AnimatedAccordion({ items, type = 'single', defaultValue }: Readonly<An
                                 alignItems: 'center',
                                 justifyContent: 'space-between',
                                 width: '100%',
-                                padding: vars.spacing.md,
+                                padding: vars.spacing['5'],
                                 background: 'none',
                                 border: 'none',
                                 color: vars.colors.text,
-                                fontSize: vars.typography.fontSizeMd,
+                                fontSize: vars.typography['6'].fontSize,
                                 fontWeight: vars.typography.fontWeightMedium,
                                 cursor: 'pointer',
                                 textAlign: 'left'
                             }}
                         >
                             {item.title}
-                            <motion.span initial={false} style={{ fontSize: vars.typography.fontSizeSm }}>
+                            <motion.span initial={false} style={{ fontSize: vars.typography['3'].fontSize }}>
                                 ▼
                             </motion.span>
                         </AccordionPrimitive.Trigger>
@@ -62,9 +62,9 @@ function AnimatedAccordion({ items, type = 'single', defaultValue }: Readonly<An
                             transition={{ duration: 0.2 }}
                             style={{
                                 overflow: 'hidden',
-                                padding: `0 ${vars.spacing.md} ${vars.spacing.md}`,
+                                padding: `0 ${vars.spacing['5']} ${vars.spacing['5']}`,
                                 color: vars.colors.textSecondary,
-                                fontSize: vars.typography.fontSizeSm
+                                fontSize: vars.typography['3'].fontSize
                             }}
                         >
                             {item.content}

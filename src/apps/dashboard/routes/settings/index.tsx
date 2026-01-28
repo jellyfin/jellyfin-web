@@ -152,7 +152,7 @@ export const Component = (): React.ReactElement => {
             title={globalize.translate('General')}
             className="type-interior mainAnimatedPage"
         >
-            <Box style={{ maxWidth: 800, margin: '0 auto', padding: vars.spacing.lg }}>
+            <Box style={{ maxWidth: 800, margin: '0 auto', padding: vars.spacing['6'] }}>
                 {isConfigError || isLocalizationOptionsError ? (
                     <Alert variant="error">{globalize.translate('SettingsPageLoadError')}</Alert>
                 ) : (
@@ -162,7 +162,7 @@ export const Component = (): React.ReactElement => {
                             form.handleSubmit();
                         }}
                     >
-                        <Flex style={{ flexDirection: 'column', gap: vars.spacing.xl }}>
+                        <Flex style={{ flexDirection: 'column', gap: vars.spacing['7'] }}>
                             <Heading.H2 style={{ margin: 0 }}>{globalize.translate('Settings')}</Heading.H2>
 
                             {!isSubmitting && actionData?.isSaved && (
@@ -205,7 +205,7 @@ export const Component = (): React.ReactElement => {
                                 )}
                             </form.Field>
 
-                            <Heading.H4 style={{ marginTop: vars.spacing.md, marginBottom: 0 }}>
+                            <Heading.H4 style={{ marginTop: vars.spacing['5'], marginBottom: 0 }}>
                                 {globalize.translate('HeaderPaths')}
                             </Heading.H4>
 
@@ -243,7 +243,7 @@ export const Component = (): React.ReactElement => {
                                 )}
                             </form.Field>
 
-                            <Heading.H4 style={{ marginTop: vars.spacing.md, marginBottom: 0 }}>
+                            <Heading.H4 style={{ marginTop: vars.spacing['5'], marginBottom: 0 }}>
                                 {globalize.translate('QuickConnect')}
                             </Heading.H4>
 
@@ -258,7 +258,7 @@ export const Component = (): React.ReactElement => {
                                 )}
                             </form.Field>
 
-                            <Heading.H4 style={{ marginTop: vars.spacing.md, marginBottom: 0 }}>
+                            <Heading.H4 style={{ marginTop: vars.spacing['5'], marginBottom: 0 }}>
                                 {globalize.translate('HeaderPerformance')}
                             </Heading.H4>
 
@@ -286,7 +286,7 @@ export const Component = (): React.ReactElement => {
                                 )}
                             </form.Field>
 
-                            <Box style={{ marginTop: vars.spacing.md, display: 'flex', justifyContent: 'flex-end' }}>
+                            <Box style={{ marginTop: vars.spacing['5'], display: 'flex', justifyContent: 'flex-end' }}>
                                 <Button type="submit" size="lg" loading={isSubmitting}>
                                     {globalize.translate('Save')}
                                 </Button>

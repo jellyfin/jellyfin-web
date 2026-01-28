@@ -44,10 +44,10 @@ export const cardIconContainer = style({
 });
 
 export const cardContent = style({
-    paddingTop: vars.spacing.sm,
-    paddingBottom: vars.spacing.md,
-    paddingLeft: vars.spacing.md,
-    paddingRight: vars.spacing.md
+    paddingTop: vars.spacing['4'],
+    paddingBottom: vars.spacing['5'],
+    paddingLeft: vars.spacing['5'],
+    paddingRight: vars.spacing['5']
 });
 
 export const cardTitleRow = style({
@@ -55,7 +55,7 @@ export const cardTitleRow = style({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });
 
 export const cardTitleContainer = style({
@@ -71,7 +71,7 @@ export const cardTitle = style({
 
 export const cardSubtitle = style({
     wordBreak: 'break-word',
-    marginTop: vars.spacing.xs
+    marginTop: vars.spacing['2']
 });
 
 export const cardAction = style({

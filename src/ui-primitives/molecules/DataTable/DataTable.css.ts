@@ -14,7 +14,7 @@ export const dataTableContainerStyles = style({
 export const dataTableStyles = style({
     width: '100%',
     borderCollapse: 'collapse',
-    fontSize: vars.typography.fontSizeMd
+    fontSize: vars.typography['6'].fontSize
 });
 
 export const dataTableHeaderStyles = style({
@@ -23,11 +23,11 @@ export const dataTableHeaderStyles = style({
 });
 
 export const dataTableHeaderCellStyles = style({
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     textAlign: 'left',
     fontWeight: vars.typography.fontWeightMedium,
     color: vars.colors.textSecondary,
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
     cursor: 'pointer',
@@ -81,7 +81,7 @@ export const dataTableRowPinnedRightStyles = style({
 });
 
 export const dataTableCellStyles = style({
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     color: vars.colors.text
 });
 
@@ -100,13 +100,13 @@ export const dataTableCellPinnedRightStyles = style({
 });
 
 export const dataTableEmptyStyles = style({
-    padding: vars.spacing.xl,
+    padding: vars.spacing['7'],
     textAlign: 'center',
     color: vars.colors.textSecondary
 });
 
 export const dataTableLoadingStyles = style({
-    padding: vars.spacing.xl,
+    padding: vars.spacing['7'],
     textAlign: 'center',
     color: vars.colors.textSecondary
 });
@@ -115,7 +115,7 @@ export const dataTablePaginationStyles = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: vars.spacing.sm,
+    padding: vars.spacing['4'],
     borderTop: `1px solid ${vars.colors.divider}`,
     backgroundColor: vars.colors.background
 });
@@ -124,7 +124,7 @@ export const dataTableToolbarStyles = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: vars.spacing.sm,
+    padding: vars.spacing['4'],
     borderBottom: `1px solid ${vars.colors.divider}`,
     backgroundColor: vars.colors.background
 });
@@ -149,7 +149,7 @@ export const dataTableResizerActiveStyles = style({
 });
 
 export const dataTableActionsCellStyles = style({
-    padding: vars.spacing.xs,
+    padding: vars.spacing['2'],
     textAlign: 'center',
     width: '1%',
     whiteSpace: 'nowrap'

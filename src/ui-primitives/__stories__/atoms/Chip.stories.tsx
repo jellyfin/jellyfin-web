@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode, useCallback } from 'react';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 type ChipVariant = 'default' | 'primary' | 'success' | 'warning' | 'error';
 
@@ -30,12 +30,12 @@ function Chip({ children, variant = 'default', onDelete, icon }: Readonly<ChipPr
             style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: vars.spacing.xs,
-                padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+                gap: vars.spacing['2'],
+                padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
                 backgroundColor: variant === 'default' ? vars.colors.surface : `${variantColors[variant]}33`,
                 border: `1px solid ${variantColors[variant]}`,
                 borderRadius: '9999px',
-                fontSize: vars.typography.fontSizeSm,
+                fontSize: vars.typography['3'].fontSize,
                 color: vars.colors.text
             }}
         >
@@ -51,8 +51,8 @@ function Chip({ children, variant = 'default', onDelete, icon }: Readonly<ChipPr
                         color: vars.colors.textMuted,
                         cursor: 'pointer',
                         padding: 0,
-                        marginLeft: vars.spacing.xs,
-                        fontSize: vars.typography.fontSizeSm
+                        marginLeft: vars.spacing['2'],
+                        fontSize: vars.typography['3'].fontSize
                     }}
                 >
                     ✕
@@ -78,7 +78,7 @@ export const Default: Story = {
 
 function VariantsStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: vars.spacing.sm, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['4'], flexWrap: 'wrap' }}>
             <Chip variant="default">Default</Chip>
             <Chip variant="primary">Primary</Chip>
             <Chip variant="success">Success</Chip>
@@ -94,7 +94,7 @@ export const Variants: Story = {
 
 function WithIconStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: vars.spacing.sm }}>
+        <div style={{ display: 'flex', gap: vars.spacing['4'] }}>
             <Chip icon="🎬">Movies</Chip>
             <Chip icon="📺">TV Shows</Chip>
             <Chip icon="🎵">Music</Chip>
@@ -112,7 +112,7 @@ function DeletableStory(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', gap: vars.spacing.sm }}>
+        <div style={{ display: 'flex', gap: vars.spacing['4'] }}>
             <Chip onDelete={handleDelete}>Removable</Chip>
             <Chip variant="primary" onDelete={handleDelete}>
                 Primary

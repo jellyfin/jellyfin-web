@@ -136,12 +136,12 @@ export default function (
 
             const viewStyle = this.getCurrentViewStyle();
             if (viewStyle === 'List') {
-                html = listView.getListViewHtml({
+                html = (listView as any).getListViewHtml({
                     items: result.Items || [],
                     sortBy: query.SortBy
                 });
             } else if (viewStyle === 'PosterCard') {
-                html = cardBuilder.getCardsHtml({
+                html = (cardBuilder as any).getCardsHtml({
                     items: result.Items || [],
                     shape: 'square',
                     context: 'music',
@@ -150,7 +150,7 @@ export default function (
                     cardLayout: true
                 });
             } else {
-                html = cardBuilder.getCardsHtml({
+                html = (cardBuilder as any).getCardsHtml({
                     items: result.Items || [],
                     shape: 'square',
                     context: 'music',

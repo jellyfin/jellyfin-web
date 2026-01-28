@@ -136,10 +136,10 @@ const MainDrawerContent = ({ isOpen }: MainDrawerContentProps) => {
                     <Box
                         style={{
                             width: '100%',
-                            padding: vars.spacing.sm,
+                            padding: vars.spacing['4'],
                             display: 'flex',
                             alignItems: 'center',
-                            gap: vars.spacing.sm
+                            gap: vars.spacing['4']
                         }}
                     >
                         <ListItemDecorator>
@@ -157,14 +157,14 @@ const MainDrawerContent = ({ isOpen }: MainDrawerContentProps) => {
                     <Box
                         style={{
                             width: '100%',
-                            padding: vars.spacing.sm,
+                            padding: vars.spacing['4'],
                             display: 'flex',
                             alignItems: 'center',
-                            gap: vars.spacing.sm,
+                            gap: vars.spacing['4'],
                             flexWrap: 'wrap'
                         }}
                     >
-                        <Flex align="center" gap={vars.spacing.sm}>
+                        <Flex align="center" gap={vars.spacing['4']}>
                             <SyncPlayButton />
                             <RemotePlayButton />
                         </Flex>

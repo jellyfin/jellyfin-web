@@ -1,3 +1,5 @@
+import { vars } from '../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react';
 import {
     BackpackIcon,
@@ -86,8 +88,8 @@ function IconGrid({ icons }: IconGridProps): React.ReactElement {
             style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-                gap: '16px',
-                padding: '24px'
+                gap: vars.spacing['4'],
+                padding: vars.spacing['5']
             }}
         >
             {Object.entries(icons)
@@ -99,14 +101,14 @@ function IconGrid({ icons }: IconGridProps): React.ReactElement {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            gap: '8px',
+                            gap: vars.spacing['2'],
                             padding: '12px',
                             border: '1px solid var(--border-1)',
                             borderRadius: 'var(--r-md)',
                             backgroundColor: 'var(--surface-1)'
                         }}
                     >
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: vars.spacing['2'], alignItems: 'center' }}>
                             <Icon className="icon-md" style={{ color: 'var(--text-1)' }} />
                             <Icon className="icon-lg" style={{ color: 'var(--primary)' }} />
                         </div>
@@ -253,25 +255,25 @@ export const SizingDemo: Story = {
                 display: 'flex',
                 gap: '24px',
                 alignItems: 'center',
-                padding: '24px'
+                padding: vars.spacing['5']
             }}
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-sm" style={{ color: 'var(--primary)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>12px (sm)</code>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-md" style={{ color: 'var(--primary)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>15px (md)</code>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-lg" style={{ color: 'var(--primary)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>18px (lg)</code>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-xl" style={{ color: 'var(--primary)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>24px (xl)</code>
             </div>
@@ -286,30 +288,30 @@ export const ColorDemo: Story = {
                 display: 'flex',
                 gap: '24px',
                 alignItems: 'center',
-                padding: '24px'
+                padding: vars.spacing['5']
             }}
         >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-lg" style={{ color: 'var(--text-1)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>--text-1</code>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-lg" style={{ color: 'var(--primary)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>--primary</code>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-lg" style={{ color: 'var(--success)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>--success</code>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-lg" style={{ color: 'var(--warning)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>--warning</code>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], alignItems: 'center' }}>
                 <PlusIcon className="icon-lg" style={{ color: 'var(--error)' }} />
                 <code style={{ fontSize: '11px', color: 'var(--text-2)' }}>--error</code>
             </div>
@@ -322,9 +324,9 @@ export const IconButtonDemo: Story = {
         <div
             style={{
                 display: 'flex',
-                gap: '16px',
+                gap: vars.spacing['4'],
                 alignItems: 'center',
-                padding: '24px'
+                padding: vars.spacing['5']
             }}
         >
             <button className="iconButton">
@@ -351,9 +353,9 @@ export const ButtonWithIconDemo: Story = {
         <div
             style={{
                 display: 'flex',
-                gap: '16px',
+                gap: vars.spacing['4'],
                 alignItems: 'center',
-                padding: '24px',
+                padding: vars.spacing['5'],
                 flexWrap: 'wrap'
             }}
         >

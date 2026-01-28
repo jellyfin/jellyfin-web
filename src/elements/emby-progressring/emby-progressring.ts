@@ -25,12 +25,6 @@ type EmbyProgressRingPrototype = {
     detachedCallback: (this: EmbyProgressRingElement) => void;
 } & HTMLElement;
 
-declare global {
-    interface Document {
-        registerElement: (tagName: string, options: { prototype: EmbyProgressRingPrototype; extends: string }) => void;
-    }
-}
-
 const EmbyProgressRing = Object.create(HTMLDivElement.prototype) as unknown as EmbyProgressRingPrototype;
 
 EmbyProgressRing.createdCallback = function (this: EmbyProgressRingElement): void {
@@ -119,7 +113,7 @@ EmbyProgressRing.detachedCallback = function (this: EmbyProgressRingElement): vo
     }
 };
 
-document.registerElement('emby-progressring', {
+(document as any).registerElement('emby-progressring', {
     prototype: EmbyProgressRing,
     extends: 'div'
 });

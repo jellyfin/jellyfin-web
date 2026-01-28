@@ -47,8 +47,8 @@ export const toastVariantStyles = styleVariants({
 export const toastContainer = style({
     display: 'flex',
     alignItems: 'flex-start',
-    gap: vars.spacing.sm,
-    padding: vars.spacing.md,
+    gap: vars.spacing['4'],
+    padding: vars.spacing['5'],
     backgroundColor: vars.colors.surface,
     borderRadius: vars.borderRadius.lg,
     boxShadow: vars.shadows.lg,
@@ -75,8 +75,8 @@ export const toastViewport = style({
     position: 'fixed',
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.sm,
-    padding: vars.spacing.md,
+    gap: vars.spacing['4'],
+    padding: vars.spacing['5'],
     width: 380,
     maxHeight: 'calc(100vh - 24px)',
     overflow: 'auto',
@@ -126,18 +126,18 @@ export const toastViewportPosition = styleVariants({
 export const toastContent = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs,
+    gap: vars.spacing['2'],
     flex: 1
 });
 
 export const toastTitle = style({
     fontWeight: vars.typography.fontWeightBold,
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text
 });
 
 export const toastDescription = style({
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary,
     lineHeight: vars.typography.lineHeightNormal
 });
@@ -146,8 +146,8 @@ export const toastAction = style({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-    fontSize: vars.typography.fontSizeSm,
+    padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
+    fontSize: vars.typography['3'].fontSize,
     fontWeight: vars.typography.fontWeightMedium,
     borderRadius: vars.borderRadius.sm,
     border: 'none',
@@ -162,13 +162,13 @@ export const toastAction = style({
 
 export const toastClose = style({
     position: 'absolute',
-    top: vars.spacing.sm,
-    right: vars.spacing.sm,
+    top: vars.spacing['4'],
+    right: vars.spacing['4'],
     background: 'none',
     border: 'none',
     color: vars.colors.textMuted,
     cursor: 'pointer',
-    padding: vars.spacing.xs,
+    padding: vars.spacing['2'],
     borderRadius: vars.borderRadius.sm,
     display: 'flex',
     alignItems: 'center',

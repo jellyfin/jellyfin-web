@@ -66,7 +66,7 @@ export const actionSheetItemText = style({
 
 export const actionSheetItemAsideText = style({
     opacity: 0.7,
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     display: 'flex',
     justifyContent: 'flex-end',
     flexShrink: 0,
@@ -76,7 +76,7 @@ export const actionSheetItemAsideText = style({
 
 export const actionSheetItemAsideTextRtl = style({
     opacity: 0.7,
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     display: 'flex',
     justifyContent: 'flex-end',
     flexShrink: 0,
@@ -127,7 +127,7 @@ export const actionsheetMenuItemIconRtl = style({
 });
 
 export const actionsheetXlargeFont = style({
-    fontSize: `${vars.typography.fontSizeLg} !important`
+    fontSize: `${vars.typography['7'].fontSize} !important`
 });
 
 export const btnCloseActionSheet = style({

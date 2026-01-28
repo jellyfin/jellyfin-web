@@ -39,9 +39,9 @@ export const commandInline = style({
 export const commandInputContainer = style({
     display: 'flex',
     alignItems: 'center',
-    padding: vars.spacing.sm,
+    padding: vars.spacing['4'],
     borderBottom: `1px solid ${vars.colors.divider}`,
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });
 
 export const commandSearchIcon = style({
@@ -56,7 +56,7 @@ export const commandInput = style({
     flex: 1,
     border: 'none',
     background: 'transparent',
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text,
     outline: 'none',
     '::placeholder': {
@@ -68,8 +68,8 @@ export const commandKbd = style({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-    fontSize: vars.typography.fontSizeSm,
+    padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
+    fontSize: vars.typography['3'].fontSize,
     fontFamily: vars.typography.fontFamilyMono,
     backgroundColor: vars.colors.surfaceHover,
     borderRadius: vars.borderRadius.sm,
@@ -79,23 +79,23 @@ export const commandKbd = style({
 export const commandList = style({
     maxHeight: 300,
     overflow: 'auto',
-    padding: vars.spacing.xs
+    padding: vars.spacing['2']
 });
 
 export const commandEmpty = style({
-    padding: vars.spacing.lg,
+    padding: vars.spacing['6'],
     textAlign: 'center',
     color: vars.colors.textSecondary,
-    fontSize: vars.typography.fontSizeMd
+    fontSize: vars.typography['6'].fontSize
 });
 
 export const commandGroup = style({
-    paddingBottom: vars.spacing.xs
+    paddingBottom: vars.spacing['2']
 });
 
 export const commandGroupLabel = style({
-    padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-    fontSize: vars.typography.fontSizeSm,
+    padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
+    fontSize: vars.typography['3'].fontSize,
     fontWeight: vars.typography.fontWeightMedium,
     color: vars.colors.textSecondary,
     textTransform: 'uppercase',
@@ -105,10 +105,10 @@ export const commandGroupLabel = style({
 export const commandItem = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.sm,
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    gap: vars.spacing['4'],
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     borderRadius: vars.borderRadius.sm,
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text,
     cursor: 'pointer',
     transition: `all ${vars.transitions.fast}`,
@@ -126,7 +126,7 @@ export const commandItem = style({
 });
 
 export const commandItemIndicator = style({
-    width: vars.spacing.md,
+    width: vars.spacing['5'],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -136,13 +136,13 @@ export const commandItemIndicator = style({
 export const commandSeparator = style({
     height: 1,
     backgroundColor: vars.colors.divider,
-    margin: `${vars.spacing.xs} 0`
+    margin: `${vars.spacing['2']} 0`
 });
 
 export const commandShortcut = style({
     marginLeft: 'auto',
-    paddingLeft: vars.spacing.lg,
-    fontSize: vars.typography.fontSizeSm,
+    paddingLeft: vars.spacing['6'],
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textMuted
 });
 
@@ -150,6 +150,6 @@ export const commandLoading = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: vars.spacing.lg,
+    padding: vars.spacing['6'],
     color: vars.colors.textSecondary
 });

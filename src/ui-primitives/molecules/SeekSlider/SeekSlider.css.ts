@@ -10,14 +10,14 @@ export const spin = keyframes({
 export const seekSliderContainer = vanillaStyle({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs,
+    gap: vars.spacing['2'],
     width: '100%'
 });
 
 export const seekSliderTimeDisplay = vanillaStyle({
     display: 'flex',
     justifyContent: 'space-between',
-    fontSize: vars.typography.fontSizeXs,
+    fontSize: vars.typography['1'].fontSize,
     color: vars.colors.textSecondary,
     fontVariantNumeric: 'tabular-nums',
     userSelect: 'none'

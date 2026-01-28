@@ -9,8 +9,8 @@ import {
     SelectGroup,
     SelectLabel,
     SelectSeparator
-} from '../Select';
-import { vars } from '../styles/tokens.css';
+} from '../../Select';
+import { vars } from '../../../styles/tokens.css';
 
 const meta: Meta<typeof Select> = {
     title: 'UI Primitives/Select',
@@ -128,12 +128,12 @@ function SettingsExampleStory(): ReactElement {
 
     return (
         <div style={{ width: '280px' }}>
-            <div style={{ marginBottom: '16px' }}>
+            <div style={{ marginBottom: vars.spacing['4'] }}>
                 <label
                     htmlFor="theme-select"
                     style={{
                         display: 'block',
-                        fontSize: vars.typography.fontSizeSm,
+                        fontSize: vars.typography['3'].fontSize,
                         color: vars.colors.textSecondary,
                         marginBottom: '6px'
                     }}
@@ -151,12 +151,12 @@ function SettingsExampleStory(): ReactElement {
                     </SelectContent>
                 </Select>
             </div>
-            <div style={{ marginBottom: '16px' }}>
+            <div style={{ marginBottom: vars.spacing['4'] }}>
                 <label
                     htmlFor="language-select"
                     style={{
                         display: 'block',
-                        fontSize: vars.typography.fontSizeSm,
+                        fontSize: vars.typography['3'].fontSize,
                         color: vars.colors.textSecondary,
                         marginBottom: '6px'
                     }}
@@ -180,7 +180,7 @@ function SettingsExampleStory(): ReactElement {
                     htmlFor="notifications-select"
                     style={{
                         display: 'block',
-                        fontSize: vars.typography.fontSizeSm,
+                        fontSize: vars.typography['3'].fontSize,
                         color: vars.colors.textSecondary,
                         marginBottom: '6px'
                     }}

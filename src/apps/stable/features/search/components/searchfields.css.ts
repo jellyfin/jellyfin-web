@@ -9,6 +9,6 @@ export const searchFieldsInner = style({
 export const searchFieldsIcon = style({
     marginBottom: '0.1em',
     marginRight: '0.25em',
-    fontSize: vars.typography.fontSizeLg,
+    fontSize: vars.typography['7'].fontSize,
     alignSelf: 'flex-end'
 });

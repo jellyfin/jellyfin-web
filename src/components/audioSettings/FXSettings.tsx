@@ -50,16 +50,16 @@ export const FXSettings: React.FC = () => {
     };
 
     return (
-        <Box style={{ padding: vars.spacing.md }}>
-            <Card style={{ marginBottom: vars.spacing.md }}>
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+        <Box style={{ padding: vars.spacing['5'] }}>
+            <Card style={{ marginBottom: vars.spacing['5'] }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                     <MixerHorizontalIcon />
                     <Text size="lg" weight="bold">
                         DJ FX
                     </Text>
                 </Flex>
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                    <Text size="sm" weight="medium" style={{ marginBottom: vars.spacing.xs }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
+                    <Text size="sm" weight="medium" style={{ marginBottom: vars.spacing['2'] }}>
                         Notch Filter (Hum Removal)
                     </Text>
                     <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
@@ -67,8 +67,8 @@ export const FXSettings: React.FC = () => {
                         <Switch checked={notchEnabled} onChange={e => setNotchEnabled(e.target.checked)} />
                     </Flex>
                     {notchEnabled && (
-                        <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                        <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Frequency: {notchFrequency}Hz
                             </Text>
                             <Slider
@@ -78,7 +78,7 @@ export const FXSettings: React.FC = () => {
                                 max={70}
                                 step={1}
                             />
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs, marginTop: vars.spacing.sm }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'], marginTop: vars.spacing['4'] }}>
                                 Resonance: {notchResonance.toFixed(1)}
                             </Text>
                             <Slider
@@ -93,11 +93,11 @@ export const FXSettings: React.FC = () => {
 
                     <Divider />
 
-                    <Text size="sm" weight="medium" style={{ marginBottom: vars.spacing.xs }}>
+                    <Text size="sm" weight="medium" style={{ marginBottom: vars.spacing['2'] }}>
                         FX Bus 1 - Reverb
                     </Text>
-                    <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Wet Mix: {Math.round(fxBus1WetMix * 100)}%
                         </Text>
                         <Slider
@@ -108,8 +108,8 @@ export const FXSettings: React.FC = () => {
                             step={0.01}
                         />
                     </Box>
-                    <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Return Level: {Math.round(fxBus1ReturnLevel * 100)}%
                         </Text>
                         <Slider
@@ -123,11 +123,11 @@ export const FXSettings: React.FC = () => {
 
                     <Divider />
 
-                    <Text size="sm" weight="medium" style={{ marginBottom: vars.spacing.xs }}>
+                    <Text size="sm" weight="medium" style={{ marginBottom: vars.spacing['2'] }}>
                         FX Bus 2 - Echo
                     </Text>
-                    <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Wet Mix: {Math.round(fxBus2WetMix * 100)}%
                         </Text>
                         <Slider
@@ -138,8 +138,8 @@ export const FXSettings: React.FC = () => {
                             step={0.01}
                         />
                     </Box>
-                    <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Return Level: {Math.round(fxBus2ReturnLevel * 100)}%
                         </Text>
                         <Slider
@@ -153,7 +153,7 @@ export const FXSettings: React.FC = () => {
 
                     <Divider />
 
-                    <Text size="sm" weight="medium" style={{ marginBottom: vars.spacing.xs }}>
+                    <Text size="sm" weight="medium" style={{ marginBottom: vars.spacing['2'] }}>
                         Rubber Banding (Time Stretch)
                     </Text>
                     <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
@@ -164,8 +164,8 @@ export const FXSettings: React.FC = () => {
                         />
                     </Flex>
                     {rubberBandingEnabled && (
-                        <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                        <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Rate: {rubberBandingRate}x
                             </Text>
                             <Slider
@@ -175,7 +175,7 @@ export const FXSettings: React.FC = () => {
                                 max={10}
                                 step={0.5}
                             />
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs, marginTop: vars.spacing.sm }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'], marginTop: vars.spacing['4'] }}>
                                 Intensity: {Math.round(rubberBandingIntensity * 100)}%
                             </Text>
                             <Slider
@@ -190,23 +190,23 @@ export const FXSettings: React.FC = () => {
                 </Flex>
             </Card>
 
-            <Card style={{ marginTop: vars.spacing.md }}>
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+            <Card style={{ marginTop: vars.spacing['5'] }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                     <SpeakerLoudIcon />
                     <Text size="md" weight="bold">
                         FX Send Levels
                     </Text>
                 </Flex>
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                     <Text
                         size="sm"
                         weight="medium"
-                        style={{ marginBottom: vars.spacing.xs, color: vars.colors.primary }}
+                        style={{ marginBottom: vars.spacing['2'], color: vars.colors.primary }}
                     >
                         Deck A
                     </Text>
-                    <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Send 1 (Reverb): {Math.round(deckAFXSend1 * 100)}%
                         </Text>
                         <Slider
@@ -217,8 +217,8 @@ export const FXSettings: React.FC = () => {
                             step={0.01}
                         />
                     </Box>
-                    <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Send 2 (Echo): {Math.round(deckAFXSend2 * 100)}%
                         </Text>
                         <Slider
@@ -235,12 +235,12 @@ export const FXSettings: React.FC = () => {
                     <Text
                         size="sm"
                         weight="medium"
-                        style={{ marginBottom: vars.spacing.xs, color: vars.colors.success }}
+                        style={{ marginBottom: vars.spacing['2'], color: vars.colors.success }}
                     >
                         Deck B
                     </Text>
-                    <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Send 1 (Reverb): {Math.round(deckBFXSend1 * 100)}%
                         </Text>
                         <Slider
@@ -251,8 +251,8 @@ export const FXSettings: React.FC = () => {
                             step={0.01}
                         />
                     </Box>
-                    <Box style={{ paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md }}>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Send 2 (Echo): {Math.round(deckBFXSend2 * 100)}%
                         </Text>
                         <Slider

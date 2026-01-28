@@ -8,7 +8,7 @@ export const inputStyles = style({
     fontFamily: 'inherit',
     fontWeight: 'inherit',
     padding: '0.4em 0.25em',
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     boxSizing: 'border-box',
     outline: 'none !important',
     WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
@@ -36,7 +36,7 @@ export const textareaStyles = style({
     fontFamily: vars.typography.fontFamilyMono,
     fontWeight: 'inherit',
     padding: '0.4em 0.25em',
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     boxSizing: 'border-box',
     outline: 'none !important',
     WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
@@ -62,7 +62,7 @@ export const textareaStyles = style({
 export const inputLabel = style({
     display: 'block',
     marginBottom: '0.25em',
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary
 });
 
@@ -73,12 +73,12 @@ export const inputContainer = style({
 export const inputHelperText = style({
     display: 'block',
     marginTop: '0.25em',
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textMuted
 });
 
 export const formGroup = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: '8px'
+    gap: vars.spacing['2']
 });

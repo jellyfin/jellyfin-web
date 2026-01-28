@@ -22,7 +22,7 @@ export function SearchInput({ label, ...props }: SearchInputProps): React.ReactE
         >
             <Box
                 style={{
-                    padding: `0 ${vars.spacing.md}`,
+                    padding: `0 ${vars.spacing['5']}`,
                     height: '100%',
                     position: 'absolute',
                     pointerEvents: 'none',
@@ -38,8 +38,8 @@ export function SearchInput({ label, ...props }: SearchInputProps): React.ReactE
                 placeholder={label}
                 aria-label={label}
                 style={{
-                    padding: `${vars.spacing.sm} ${vars.spacing.sm} ${vars.spacing.sm} 0`,
-                    paddingLeft: `calc(1em + ${vars.spacing.xl})`,
+                    padding: `${vars.spacing['4']} ${vars.spacing['4']} ${vars.spacing['4']} 0`,
+                    paddingLeft: `calc(1em + ${vars.spacing['7']})`,
                     transition: `width ${vars.transitions.fast}`,
                     width: '100%',
                     backgroundColor: 'transparent',

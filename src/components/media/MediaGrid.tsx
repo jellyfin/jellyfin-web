@@ -155,7 +155,7 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
                         style={{
                             fontSize: vars.typography.fontSizeDisplay,
                             opacity: 0.3,
-                            marginBottom: '16px'
+                            marginBottom: vars.spacing['4']
                         }}
                     >
                         🎬

@@ -17,8 +17,8 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
     if (!analysis) {
         return (
             <Card style={{ minWidth: compact ? 200 : 280 }}>
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm }}>
-                    <Text size="sm" style={{ marginBottom: vars.spacing.xs }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
+                    <Text size="sm" style={{ marginBottom: vars.spacing['2'] }}>
                         Track Analysis
                     </Text>
                     <Text size="sm" color="secondary">
@@ -36,7 +36,7 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
 
     if (compact) {
         return (
-            <Flex style={{ gap: vars.spacing.sm, flexWrap: 'wrap', alignItems: 'center' }}>
+            <Flex style={{ gap: vars.spacing['4'], flexWrap: 'wrap', alignItems: 'center' }}>
                 <Tooltip title={`${analysis.bpm.toFixed(1)} BPM`}>
                     <Chip size="sm">{analysis.bpm.toFixed(1)}</Chip>
                 </Tooltip>
@@ -55,14 +55,14 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
 
     return (
         <Card style={{ minWidth: 280, maxWidth: 320 }}>
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                <Text size="sm" style={{ marginBottom: vars.spacing.md }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
+                <Text size="sm" style={{ marginBottom: vars.spacing['5'] }}>
                     Track Analysis
                 </Text>
 
-                <Box style={{ display: 'grid', gap: vars.spacing.sm }}>
+                <Box style={{ display: 'grid', gap: vars.spacing['4'] }}>
                     <Box>
-                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                             <Text size="xs" color="secondary">
                                 BPM
                             </Text>
@@ -74,7 +74,7 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
                     </Box>
 
                     <Box>
-                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                             <Text size="xs" color="secondary">
                                 Key
                             </Text>
@@ -88,7 +88,7 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
                     </Box>
 
                     <Box>
-                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                             <Text size="xs" color="secondary">
                                 Energy
                             </Text>
@@ -104,7 +104,7 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
                     </Box>
 
                     <Box>
-                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                             <Text size="xs" color="secondary">
                                 Brightness
                             </Text>
@@ -118,7 +118,7 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
                     <Flex
                         style={{
                             justifyContent: 'space-between',
-                            paddingTop: vars.spacing.sm,
+                            paddingTop: vars.spacing['4'],
                             borderTop: `1px solid ${vars.colors.border}`
                         }}
                     >

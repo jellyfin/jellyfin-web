@@ -1,3 +1,5 @@
+import { vars } from '../../../../styles/tokens.css';
+
 import type { BaseItemDto, CreateUserByName } from '@jellyfin/sdk/lib/generated-client';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -172,8 +174,8 @@ const UserNew = (): React.ReactElement => {
     return (
         <Page id="newUserPage" className="mainAnimatedPage type-interior">
             <Toast open={isErrorToastOpen} onClose={handleToastClose} message={globalize.translate('ErrorDefault')} />
-            <Flex className="content-primary" style={{ padding: '24px' }}>
-                <Flex className="verticalSection" style={{ marginBottom: '24px' }}>
+            <Flex className="content-primary" style={{ padding: vars.spacing['5'] }}>
+                <Flex className="verticalSection" style={{ marginBottom: vars.spacing['5'] }}>
                     <Text as="h1" size="xl" weight="bold">
                         {globalize.translate('HeaderAddUser')}
                     </Text>
@@ -232,11 +234,11 @@ const UserNew = (): React.ReactElement => {
                         />
 
                         {!formData.enableAllFolders && (
-                            <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: '8px' }}>
+                            <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: vars.spacing['2'] }}>
                                 <Text as="span" size="sm" color="secondary">
                                     {globalize.translate('HeaderLibraries')}
                                 </Text>
-                                <Flex style={{ flexDirection: 'column', gap: '8px' }}>
+                                <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
                                     {mediaFoldersItems.map(Item => (
                                         <FormControlLabel
                                             key={Item.Id}
@@ -276,11 +278,11 @@ const UserNew = (): React.ReactElement => {
                         />
 
                         {!formData.enableAllChannels && (
-                            <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: '8px' }}>
+                            <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: vars.spacing['2'] }}>
                                 <Text as="span" size="sm" color="secondary">
                                     {globalize.translate('Channels')}
                                 </Text>
-                                <Flex style={{ flexDirection: 'column', gap: '8px' }}>
+                                <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
                                     {channelsItems.map(Item => (
                                         <FormControlLabel
                                             key={Item.Id}
@@ -297,7 +299,7 @@ const UserNew = (): React.ReactElement => {
                             </Flex>
                         )}
 
-                        <Flex style={{ marginTop: '16px', gap: '16px' }}>
+                        <Flex style={{ marginTop: vars.spacing['4'], gap: vars.spacing['4'] }}>
                             <Button type="submit" disabled={isSubmitting}>
                                 {isSubmitting ? globalize.translate('Loading') + '...' : globalize.translate('Save')}
                             </Button>

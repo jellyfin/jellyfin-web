@@ -20,21 +20,21 @@ export const content = style({
     maxWidth: '90vw',
     maxHeight: '85vh',
     overflow: 'auto',
-    padding: vars.spacing.lg,
+    padding: vars.spacing['6'],
     zIndex: vars.zIndex.modal
 });
 
 export const title = style({
     margin: 0,
-    marginBottom: vars.spacing.md,
+    marginBottom: vars.spacing['5'],
     fontWeight: vars.typography.fontWeightBold,
-    fontSize: vars.typography.fontSizeXl,
+    fontSize: vars.typography['8'].fontSize,
     color: vars.colors.text
 });
 
 export const footer = style({
-    marginTop: vars.spacing.lg,
+    marginTop: vars.spacing['6'],
     display: 'flex',
     justifyContent: 'flex-end',
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });

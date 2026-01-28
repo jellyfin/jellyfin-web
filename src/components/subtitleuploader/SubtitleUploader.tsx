@@ -118,8 +118,8 @@ export function SubtitleUploader({ isOpen, onClose, itemId, serverId, languages 
             <DialogPrimitive.Portal>
                 <DialogPrimitive.Overlay style={dialogOverlayStyle} />
                 <DialogPrimitive.Content style={dialogContentStyle}>
-                    <Box style={{ padding: '24px' }}>
-                        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                    <Box style={{ padding: vars.spacing['5'] }}>
+                        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
                             <Heading.H3 style={{ margin: 0 }}>{globalize.translate('HeaderUploadSubtitle')}</Heading.H3>
                             <DialogPrimitive.Close asChild>
                                 <button
@@ -142,8 +142,8 @@ export function SubtitleUploader({ isOpen, onClose, itemId, serverId, languages 
                         </Flex>
 
                         <form onSubmit={handleSubmit}>
-                            <Box style={{ marginBottom: '24px' }}>
-                                <Flex style={{ alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
+                                <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], marginBottom: vars.spacing['4'] }}>
                                     <Heading.H4 style={{ margin: 0 }}>
                                         {globalize.translate('HeaderAddUpdateSubtitle')}
                                     </Heading.H4>
@@ -180,7 +180,7 @@ export function SubtitleUploader({ isOpen, onClose, itemId, serverId, languages 
                                         }}
                                     />
                                     {file ? (
-                                        <Flex style={{ alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                        <Flex style={{ alignItems: 'center', justifyContent: 'center', gap: vars.spacing['2'] }}>
                                             <Text>{file.name}</Text>
                                         </Flex>
                                     ) : (
@@ -191,10 +191,10 @@ export function SubtitleUploader({ isOpen, onClose, itemId, serverId, languages 
 
                             {file && (
                                 <>
-                                    <Box style={{ marginBottom: '24px' }}>
-                                        <Flex style={{ alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
+                                    <Box style={{ marginBottom: vars.spacing['5'] }}>
+                                        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], marginBottom: '12px' }}>
                                             <FormControl>
-                                                <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                                                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                                                     <Checkbox
                                                         checked={isForced}
                                                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -208,9 +208,9 @@ export function SubtitleUploader({ isOpen, onClose, itemId, serverId, languages 
                                             </FormControl>
                                         </Flex>
 
-                                        <Flex style={{ alignItems: 'center', gap: '16px' }}>
+                                        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                                             <FormControl>
-                                                <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                                                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                                                     <Checkbox
                                                         checked={isHearingImpaired}
                                                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -225,7 +225,7 @@ export function SubtitleUploader({ isOpen, onClose, itemId, serverId, languages 
                                         </Flex>
                                     </Box>
 
-                                    <Box style={{ marginBottom: '24px' }}>
+                                    <Box style={{ marginBottom: vars.spacing['5'] }}>
                                         <FormControl>
                                             <FormLabel>{globalize.translate('LabelLanguage')}</FormLabel>
                                             <Select value={language} onValueChange={setLanguage}>
@@ -241,7 +241,7 @@ export function SubtitleUploader({ isOpen, onClose, itemId, serverId, languages 
                                         </FormControl>
                                     </Box>
 
-                                    <Flex style={{ gap: '12px', justifyContent: 'flex-end' }}>
+                                    <Flex style={{ gap: vars.spacing['3'], justifyContent: 'flex-end' }}>
                                         <Button type="button" variant="ghost" onClick={handleClose}>
                                             {globalize.translate('ButtonCancel')}
                                         </Button>

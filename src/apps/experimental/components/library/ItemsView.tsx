@@ -212,17 +212,17 @@ const ItemsView: FC<ItemsViewProps> = ({
                     alignItems: 'center'
                 }}
             >
-                <Box style={{ marginRight: vars.spacing.sm }}>
+                <Box style={{ marginRight: vars.spacing['4'] }}>
                     <LibraryViewMenu />
                 </Box>
 
                 <Box
                     style={{
                         flexGrow: isSmallScreen ? 0 : 1,
-                        marginRight: vars.spacing.sm
+                        marginRight: vars.spacing['4']
                     }}
                 >
-                    <Flex align="center" gap={vars.spacing.xs}>
+                    <Flex align="center" gap={vars.spacing['2']}>
                         {isBtnFilterEnabled && (
                             <FilterButton
                                 parentId={parentId}
@@ -261,7 +261,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                 >
                     {!isPending && (
                         <>
-                            <Flex align="center" gap={vars.spacing.xs}>
+                            <Flex align="center" gap={vars.spacing['2']}>
                                 {isBtnPlayAllEnabled && (
                                     <PlayAllButton
                                         item={item}
@@ -305,7 +305,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                         justifyContent: 'end',
                         flexBasis: isSmallScreen ? 'auto' : '100%',
                         flexGrow: 1,
-                        marginTop: isSmallScreen ? 0 : vars.spacing.xs
+                        marginTop: isSmallScreen ? 0 : vars.spacing['2']
                     }}
                 >
                     {!isPending && isPaginationEnabled && (

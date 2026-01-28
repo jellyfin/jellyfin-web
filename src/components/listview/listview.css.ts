@@ -89,7 +89,7 @@ export const listItemIcon = style({
     verticalAlign: 'middle',
     width: '1em',
     height: '1em',
-    fontSize: vars.typography.fontSizeLg
+    fontSize: vars.typography['7'].fontSize
 });
 
 export const listItemIconTransparent = style({
@@ -145,7 +145,7 @@ export const listItemImageButton = style({
     margin: 'auto',
     color: 'rgba(255, 255, 255, 0.6)',
     background: 'rgba(0, 0, 0, 0.4)',
-    fontSize: vars.typography.fontSizeXl,
+    fontSize: vars.typography['8'].fontSize,
     transition: '200ms ease-out',
     display: 'flex'
 });
@@ -160,7 +160,7 @@ export const listItemImageButtonIcon = style({
 
 export const cardImageIcon = style({
     margin: 'auto',
-    fontSize: vars.typography.fontSizeXxl
+    fontSize: vars.typography['9'].fontSize
 });
 
 export const listItemImageLargeTv = style({
@@ -205,7 +205,7 @@ export const listItemIndicators = style({
 });
 
 export const listItemBottomOverview = style({
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     marginBottom: '1em',
     marginTop: '0.2em'
 });
@@ -300,7 +300,7 @@ export const listItemImageLargeResponsive = style({
 export const listItemIndicatorsSmall = style({
     '@media': {
         'all and (max-width: 64em)': {
-            fontSize: vars.typography.fontSizeXs
+            fontSize: vars.typography['1'].fontSize
         }
     }
 });
@@ -308,7 +308,7 @@ export const listItemIndicatorsSmall = style({
 export const listItemImageButtonSmall = style({
     '@media': {
         'all and (max-width: 64em)': {
-            fontSize: vars.typography.fontSizeXs
+            fontSize: vars.typography['1'].fontSize
         }
     }
 });

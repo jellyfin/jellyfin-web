@@ -140,7 +140,7 @@ export function VinylSeekBar({ progress, duration, onSeek, onExpand, onCollapse,
                 style={{
                     position: 'absolute',
                     left: 16,
-                    fontSize: vars.typography.fontSizeXs,
+                    fontSize: vars.typography['1'].fontSize,
                     color: '#b0b0b0',
                     fontFamily: 'monospace',
                     pointerEvents: 'none'
@@ -153,7 +153,7 @@ export function VinylSeekBar({ progress, duration, onSeek, onExpand, onCollapse,
                 style={{
                     position: 'absolute',
                     right: 16,
-                    fontSize: vars.typography.fontSizeXs,
+                    fontSize: vars.typography['1'].fontSize,
                     color: '#b0b0b0',
                     fontFamily: 'monospace',
                     pointerEvents: 'none'

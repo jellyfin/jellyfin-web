@@ -9,6 +9,7 @@ import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
+import { vars } from '../../styles/tokens.css';
 import { Alert } from 'ui-primitives/Alert';
 import { Box, Flex, FlexCol } from 'ui-primitives/Box';
 import { Button } from 'ui-primitives/Button';
@@ -153,8 +154,8 @@ function FormSliderField({
     );
 
     return (
-        <Box style={{ marginBottom: '16px' }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+        <Box style={{ marginBottom: vars.spacing['4'] }}>
+            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['2'] }}>
                 <Text size="sm" weight="medium">
                     {label}
                 </Text>
@@ -174,7 +175,7 @@ function FormSliderField({
                 style={{ width: '100%' }}
             />
             {helpText !== undefined && (
-                <Text size="xs" color="secondary" style={{ marginTop: '4px' }}>
+                <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['1'] }}>
                     {helpText}
                 </Text>
             )}
@@ -339,9 +340,9 @@ export function PlaybackSettings({
 
     if (isLoading) {
         return (
-            <Box style={{ padding: '48px', textAlign: 'center' }}>
+            <Box style={{ padding: vars.spacing['6'], textAlign: 'center' }}>
                 <CircularProgress size="lg" />
-                <Text style={{ marginTop: '16px' }}>{globalize.translate('Loading')}</Text>
+                <Text style={{ marginTop: vars.spacing['4'] }}>{globalize.translate('Loading')}</Text>
             </Box>
         );
     }
@@ -358,9 +359,9 @@ export function PlaybackSettings({
     }));
 
     return (
-        <Box style={{ maxWidth: '900px', margin: '0 auto', padding: '24px' }}>
+        <Box style={{ maxWidth: '900px', margin: '0 auto', padding: vars.spacing['5'] }}>
             {saveError !== null && (
-                <Alert variant="error" style={{ marginBottom: '24px' }}>
+                <Alert variant="error" style={{ marginBottom: vars.spacing['5'] }}>
                     {saveError}
                 </Alert>
             )}
@@ -374,19 +375,19 @@ export function PlaybackSettings({
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabList>
                         <Tab value="audio">
-                            <SpeakerLoudIcon style={{ marginRight: 8, width: 20, height: 20 }} />
+                            <SpeakerLoudIcon style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }} />
                             {globalize.translate('Audio')}
                         </Tab>
                         <Tab value="video">
-                            <VideoIcon style={{ marginRight: 8, width: 20, height: 20 }} />
+                            <VideoIcon style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }} />
                             {globalize.translate('Video')}
                         </Tab>
                         <Tab value="playback">
-                            <PlayIcon style={{ marginRight: 8, width: 20, height: 20 }} />
+                            <PlayIcon style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }} />
                             {globalize.translate('Playback')}
                         </Tab>
                         <Tab value="advanced">
-                            <GearIcon style={{ marginRight: 8, width: 20, height: 20 }} />
+                            <GearIcon style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }} />
                             {globalize.translate('TabAdvanced')}
                         </Tab>
                     </TabList>
@@ -784,13 +785,13 @@ export function PlaybackSettings({
                     </TabPanel>
 
                     <TabPanel value="advanced">
-                        <Box style={{ textAlign: 'center', padding: '48px' }}>
+                        <Box style={{ textAlign: 'center', padding: vars.spacing['6'] }}>
                             <Text color="secondary">{globalize.translate('AdvancedSettingsComingSoon')}</Text>
                         </Box>
                     </TabPanel>
                 </Tabs>
 
-                <Flex justify="flex-end" gap="12px" style={{ marginTop: '24px' }}>
+                <Flex justify="flex-end" gap={vars.spacing['3']} style={{ marginTop: vars.spacing['5'] }}>
                     <Button type="submit" variant="primary" loading={isLoading}>
                         {globalize.translate('Save')}
                     </Button>

@@ -25,9 +25,9 @@ export const CrossfadeSettings: React.FC = () => {
     } = usePreferencesStore();
 
     return (
-        <Card style={{ marginBottom: vars.spacing.md }}>
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+        <Card style={{ marginBottom: vars.spacing['5'] }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                     <ClockIcon />
                     <Text size="sm" style={{ fontWeight: 'bold' }}>
                         Crossfade
@@ -47,7 +47,7 @@ export const CrossfadeSettings: React.FC = () => {
                 </Flex>
 
                 <Box>
-                    <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                    <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                         Crossfade Duration: {crossfadeDuration}s
                     </Text>
                     <Slider
@@ -60,7 +60,7 @@ export const CrossfadeSettings: React.FC = () => {
                     />
                 </Box>
 
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                     <ReloadIcon />
                     <Text size="sm" style={{ fontWeight: 'bold' }}>
                         Network Latency Compensation
@@ -82,7 +82,7 @@ export const CrossfadeSettings: React.FC = () => {
 
                 {networkLatencyMode === 'auto' ? (
                     <Box>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Detected Latency: {networkLatencyCompensation}s
                         </Text>
                         <Text size="xs" color="secondary">
@@ -91,7 +91,7 @@ export const CrossfadeSettings: React.FC = () => {
                     </Box>
                 ) : (
                     <Box>
-                        <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                        <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Manual Offset: {manualLatencyOffset}s
                         </Text>
                         <Slider

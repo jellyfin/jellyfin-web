@@ -46,9 +46,9 @@ export const VisualizerSettings: React.FC = () => {
               : butterchurn.opacity;
 
     return (
-        <Card style={{ marginBottom: vars.spacing.md }}>
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+        <Card style={{ marginBottom: vars.spacing['5'] }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                     <ActivityLogIcon />
                     <Text size="sm" style={{ fontWeight: 'bold' }}>
                         Visualizer
@@ -70,22 +70,22 @@ export const VisualizerSettings: React.FC = () => {
                 {enabled && (
                     <>
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Visualizer Type
                             </Text>
-                            <Flex style={{ gap: vars.spacing.xs, flexWrap: 'wrap' }}>
+                            <Flex style={{ gap: vars.spacing['2'], flexWrap: 'wrap' }}>
                                 {visualizerTypes.map(t => (
                                     <Box
                                         key={t.value}
                                         onClick={() => setVisualizerType(t.value)}
                                         style={{
-                                            padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+                                            padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
                                             borderRadius: vars.borderRadius.sm,
                                             background:
                                                 type === t.value ? vars.colors.primary : vars.colors.surfaceVariant,
                                             color: type === t.value ? 'white' : vars.colors.text,
                                             cursor: 'pointer',
-                                            fontSize: vars.typography.fontSizeXs
+                                            fontSize: vars.typography['1'].fontSize
                                         }}
                                     >
                                         {t.label}
@@ -95,7 +95,7 @@ export const VisualizerSettings: React.FC = () => {
                         </Box>
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Opacity: {Math.round(currentOpacity * 100)}%
                             </Text>
                             <Slider
@@ -108,10 +108,10 @@ export const VisualizerSettings: React.FC = () => {
                         </Box>
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 FFT Size (Detail): {advanced.fftSize}
                             </Text>
-                            <Flex style={{ gap: vars.spacing.xs }}>
+                            <Flex style={{ gap: vars.spacing['2'] }}>
                                 {[1024, 2048, 4096, 8192].map(size => (
                                     <Box
                                         key={size}
@@ -135,7 +135,7 @@ export const VisualizerSettings: React.FC = () => {
                         </Box>
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Sensitivity: {sensitivity}%
                             </Text>
                             <Slider
@@ -149,7 +149,7 @@ export const VisualizerSettings: React.FC = () => {
 
                         {type === 'frequency' && (
                             <Box>
-                                <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                     Bar Count: {barCount}
                                 </Text>
                                 <Slider
@@ -163,7 +163,7 @@ export const VisualizerSettings: React.FC = () => {
                         )}
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Smoothing: {Math.round(smoothing * 100)}%
                             </Text>
                             <Slider

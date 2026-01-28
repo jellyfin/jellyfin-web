@@ -118,9 +118,9 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
         <Box
             className="nowPlayingButtonsContainer"
             data-testid="queue-controls"
-            style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}
+            style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'] }}
         >
-            <Flex style={{ alignItems: 'center', gap: vars.spacing.sm, marginBottom: vars.spacing.sm }}>
+            <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], marginBottom: vars.spacing['4'] }}>
                 <Box className="positionTime" style={{ minWidth: 45, textAlign: 'right' }}>
                     <Text size="xs" color="secondary">
                         {formatTime(progress)}
@@ -128,7 +128,7 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
                 </Box>
                 <Box
                     className="nowPlayingPositionSliderContainer"
-                    style={{ flex: 1, margin: `0 ${vars.spacing.sm}`, position: 'relative' }}
+                    style={{ flex: 1, margin: `0 ${vars.spacing['4']}`, position: 'relative' }}
                 >
                     <Box
                         className="sliderBufferOverlay"
@@ -175,10 +175,10 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
-                    gap: vars.spacing.sm
+                    gap: vars.spacing['4']
                 }}
             >
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                     <Tooltip title={getRepeatAriaLabel(repeatMode)}>
                         <IconButton
                             className="btnRepeat repeatToggleButton"
@@ -222,7 +222,7 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
                             variant="solid"
                             onClick={onPlayPause}
                             style={{
-                                margin: `0 ${vars.spacing.sm}`,
+                                margin: `0 ${vars.spacing['4']}`,
                                 backgroundColor: 'rgba(255, 255, 255, 0.2)'
                             }}
                         >
@@ -273,7 +273,7 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
                     </Tooltip>
                 </Flex>
 
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                     <VolumeSlider
                         volume={isMuted ? 0 : volume}
                         muted={isMuted}

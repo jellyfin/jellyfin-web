@@ -4,9 +4,9 @@ import { vars } from '../../../styles/tokens.css';
 export const chipStyles = style({
     display: 'inline-flex',
     alignItems: 'center',
-    gap: vars.spacing.xs,
-    padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-    fontSize: vars.typography.fontSizeSm,
+    gap: vars.spacing['2'],
+    padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
+    fontSize: vars.typography['3'].fontSize,
     borderRadius: vars.borderRadius.full,
     fontWeight: vars.typography.fontWeightMedium,
     cursor: 'default'
@@ -49,15 +49,15 @@ export const chipVariants = styleVariants({
 
 export const chipSizes = styleVariants({
     sm: {
-        padding: `2px ${vars.spacing.sm}`,
-        fontSize: vars.typography.fontSizeXs
+        padding: `2px ${vars.spacing['4']}`,
+        fontSize: vars.typography['1'].fontSize
     },
     md: {
-        padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-        fontSize: vars.typography.fontSizeSm
+        padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
+        fontSize: vars.typography['3'].fontSize
     },
     lg: {
-        padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-        fontSize: vars.typography.fontSizeMd
+        padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
+        fontSize: vars.typography['6'].fontSize
     }
 });

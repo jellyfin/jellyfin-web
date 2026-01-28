@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useCallback } from 'react';
-import { DataTable } from '../DataTable';
+import { DataTable } from '../../DataTable';
 import { type ColumnDef } from '@tanstack/react-table';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 interface User {
     id: number;

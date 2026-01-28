@@ -8,11 +8,11 @@ export const menuContent = style({
 });
 
 export const header = style({
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`
 });
 
 export const description = style({
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`
 });
 
 export const iconSlot = style({
@@ -26,7 +26,7 @@ export const iconSlot = style({
 export const itemContent = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs,
+    gap: vars.spacing['2'],
     flex: 1
 });
 

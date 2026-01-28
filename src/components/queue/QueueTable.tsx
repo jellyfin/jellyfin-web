@@ -86,12 +86,12 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
             style={{
                 backgroundColor: isCurrent ? 'rgba(33, 150, 243, 0.1)' : 'transparent',
                 borderRadius: vars.borderRadius.sm,
-                marginBottom: vars.spacing.xs,
+                marginBottom: vars.spacing['2'],
                 padding: 0,
                 ...style
             }}
             endAction={
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                     <IconButton size="sm" variant="plain" color="neutral" onClick={onRemove}>
                         <TrashIcon />
                     </IconButton>
@@ -111,8 +111,8 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
             <ListItemButton
                 onClick={onSelect}
                 style={{
-                    paddingTop: vars.spacing.sm,
-                    paddingRight: `calc(${vars.spacing.xl} * 3)`
+                    paddingTop: vars.spacing['4'],
+                    paddingRight: `calc(${vars.spacing['7']} * 3)`
                 }}
             >
                 <ListItemAvatar style={{ minWidth: 56 }}>
@@ -129,7 +129,7 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
                 </ListItemAvatar>
                 <ListItemText
                     primary={
-                        <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                             <Text
                                 size="sm"
                                 style={{
@@ -152,7 +152,7 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
                         </Text>
                     }
                 />
-                <Box style={{ marginLeft: 'auto', paddingRight: vars.spacing.md }}>
+                <Box style={{ marginLeft: 'auto', paddingRight: vars.spacing['5'] }}>
                     <Text size="xs" color="secondary">
                         {formatDuration(item.item.runtimeTicks)}
                     </Text>
@@ -247,11 +247,11 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                                 backgroundColor: vars.colors.surface,
                                 borderRadius: vars.borderRadius.sm,
                                 boxShadow: vars.shadows.lg,
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 opacity: 0.9
                             }}
                         >
-                            <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                                 <Avatar src={activeItem.item.imageUrl || undefined} style={{ width: 40, height: 40 }}>
                                     <DiscIcon />
                                 </Avatar>

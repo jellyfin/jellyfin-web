@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Text, Button, Input, Alert, Checkbox } from 'ui-primitives';
 import { LoadingView } from 'components/feedback/LoadingView';
@@ -199,12 +201,12 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
     return (
         <div className={`${pageClass} selectServerPage`} style={{ minHeight: '100vh', padding: 16 }}>
             <Box style={{ maxWidth: 800, margin: '0 auto' }}>
-                <Text as="h2" size="xl" weight="bold" style={{ marginBottom: '8px', textAlign: 'center' }}>
+                <Text as="h2" size="xl" weight="bold" style={{ marginBottom: vars.spacing['2'], textAlign: 'center' }}>
                     {globalize.translate('SelectServer')}
                 </Text>
 
                 {error !== null && (
-                    <Box style={{ marginBottom: '16px' }}>
+                    <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <Alert variant="error">
                             <Text color="error">{error}</Text>
                             <Button
@@ -229,7 +231,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
 
                 {servers.length === 0 ? (
                     <Box style={{ textAlign: 'center', padding: '32px 0' }}>
-                        <Text size="md" color="secondary" style={{ marginBottom: '24px' }}>
+                        <Text size="md" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                             {globalize.translate('MessageNoServersAvailable')}
                         </Text>
                         <Button variant="primary" onClick={onShowAddDialog}>
@@ -356,7 +358,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                         style={{
                             backgroundColor: '#252525',
                             borderRadius: '12px',
-                            padding: '24px',
+                            padding: vars.spacing['5'],
                             maxWidth: '400px',
                             width: '90%',
                             position: 'relative'
@@ -385,11 +387,11 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                             />
                         </Box>
                         {error !== null && (
-                            <Alert variant="error" style={{ marginTop: '16px' }}>
+                            <Alert variant="error" style={{ marginTop: vars.spacing['4'] }}>
                                 <Text color="error">{error}</Text>
                             </Alert>
                         )}
-                        <Box style={{ marginTop: '24px', display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                        <Box style={{ marginTop: '24px', display: 'flex', gap: vars.spacing['2'], justifyContent: 'flex-end' }}>
                             <Button variant="secondary" onClick={onDismissAddDialog}>
                                 {globalize.translate('Cancel')}
                             </Button>
@@ -421,7 +423,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                         style={{
                             backgroundColor: '#252525',
                             borderRadius: '12px',
-                            padding: '24px',
+                            padding: vars.spacing['5'],
                             maxWidth: '400px',
                             width: '90%',
                             position: 'relative'
@@ -483,7 +485,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                             )}
                         </Box>
 
-                        <Box style={{ marginTop: '24px', display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                        <Box style={{ marginTop: '24px', display: 'flex', gap: vars.spacing['2'], justifyContent: 'flex-end' }}>
                             <Button variant="secondary" onClick={onDismissDevSettings}>
                                 Cancel
                             </Button>

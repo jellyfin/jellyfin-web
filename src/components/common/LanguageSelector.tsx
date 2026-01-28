@@ -31,12 +31,12 @@ export function LanguageSelector({ value, onChange, className, showAll = false }
                 onChange={handleChange}
                 disabled={isLoading}
                 style={{
-                    padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+                    padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
                     borderRadius: vars.borderRadius.sm,
                     border: `1px solid ${vars.colors.divider}`,
                     background: vars.colors.surface,
                     color: vars.colors.text,
-                    fontSize: vars.typography.fontSizeSm,
+                    fontSize: vars.typography['3'].fontSize,
                     cursor: isLoading ? 'not-allowed' : 'pointer',
                     minWidth: '150px'
                 }}
@@ -51,8 +51,8 @@ export function LanguageSelector({ value, onChange, className, showAll = false }
             {isLoading && (
                 <span
                     style={{
-                        marginLeft: vars.spacing.sm,
-                        fontSize: vars.typography.fontSizeXs,
+                        marginLeft: vars.spacing['4'],
+                        fontSize: vars.typography['1'].fontSize,
                         color: vars.colors.textSecondary
                     }}
                 >

@@ -1,6 +1,6 @@
 import { type ReactElement, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 
 const meta: Meta = {
     title: 'UI Primitives/Drawer',
@@ -17,17 +17,17 @@ function DrawerStory(): ReactElement {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div style={{ padding: vars.spacing.md }}>
+        <div style={{ padding: vars.spacing['5'] }}>
             <button
                 onClick={() => setIsOpen(true)}
                 style={{
-                    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+                    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
                     borderRadius: vars.borderRadius.sm,
                     border: 'none',
                     backgroundColor: vars.colors.primary,
-                    color: vars.colors.primaryText,
+                    color: vars.colors.text,
                     cursor: 'pointer',
-                    fontSize: vars.typography.fontSizeSm
+                    fontSize: vars.typography['3'].fontSize
                 }}
             >
                 Open Drawer
@@ -58,8 +58,8 @@ function DrawerStory(): ReactElement {
                             overflowY: 'auto'
                         }}
                     >
-                        <div style={{ padding: vars.spacing.md }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
+                        <div style={{ padding: vars.spacing['5'] }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
                                 <h2 style={{ color: vars.colors.text, margin: 0 }}>Drawer Title</h2>
                                 <button
                                     onClick={() => setIsOpen(false)}
@@ -68,7 +68,7 @@ function DrawerStory(): ReactElement {
                                         border: 'none',
                                         color: vars.colors.text,
                                         cursor: 'pointer',
-                                        fontSize: vars.typography.fontSizeLg
+                                        fontSize: vars.typography['7'].fontSize
                                     }}
                                 >
                                     ✕
@@ -93,17 +93,17 @@ function RightDrawerStory(): ReactElement {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div style={{ padding: vars.spacing.md }}>
+        <div style={{ padding: vars.spacing['5'] }}>
             <button
                 onClick={() => setIsOpen(true)}
                 style={{
-                    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+                    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
                     borderRadius: vars.borderRadius.sm,
                     border: 'none',
                     backgroundColor: vars.colors.primary,
-                    color: vars.colors.primaryText,
+                    color: vars.colors.text,
                     cursor: 'pointer',
-                    fontSize: vars.typography.fontSizeSm
+                    fontSize: vars.typography['3'].fontSize
                 }}
             >
                 Open Right Drawer
@@ -134,8 +134,8 @@ function RightDrawerStory(): ReactElement {
                             overflowY: 'auto'
                         }}
                     >
-                        <div style={{ padding: vars.spacing.md }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}>
+                        <div style={{ padding: vars.spacing['5'] }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
                                 <h2 style={{ color: vars.colors.text, margin: 0 }}>Side Panel</h2>
                                 <button
                                     onClick={() => setIsOpen(false)}
@@ -144,7 +144,7 @@ function RightDrawerStory(): ReactElement {
                                         border: 'none',
                                         color: vars.colors.text,
                                         cursor: 'pointer',
-                                        fontSize: vars.typography.fontSizeLg
+                                        fontSize: vars.typography['7'].fontSize
                                     }}
                                 >
                                     ✕

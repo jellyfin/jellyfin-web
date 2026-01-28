@@ -9,24 +9,24 @@ export const cardStyles = style({
 });
 
 export const cardPadding = style({
-    padding: vars.spacing.lg
+    padding: vars.spacing['6']
 });
 
 export const cardHeader = style({
-    padding: vars.spacing.lg,
+    padding: vars.spacing['6'],
     paddingBottom: 0
 });
 
 export const cardBody = style({
-    padding: vars.spacing.lg
+    padding: vars.spacing['6']
 });
 
 export const cardFooter = style({
-    padding: vars.spacing.lg,
+    padding: vars.spacing['6'],
     paddingTop: 0,
     borderTop: `1px solid ${vars.colors.divider}`,
     display: 'flex',
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });
 
 export const cardInteractive = style({

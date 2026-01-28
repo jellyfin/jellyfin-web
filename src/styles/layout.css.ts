@@ -54,12 +54,12 @@ export const alignSelf = styleVariants({
 });
 
 export const gap = styleVariants({
-    xs: { gap: vars.spacing.xs },
-    sm: { gap: vars.spacing.sm },
-    md: { gap: vars.spacing.md },
-    lg: { gap: vars.spacing.lg },
-    xl: { gap: vars.spacing.xl },
-    xxl: { gap: vars.spacing.xxl }
+    xs: { gap: vars.spacing['2'] },
+    sm: { gap: vars.spacing['4'] },
+    md: { gap: vars.spacing['5'] },
+    lg: { gap: vars.spacing['6'] },
+    xl: { gap: vars.spacing['7'] },
+    xxl: { gap: vars.spacing['8'] }
 });
 
 export const fullHeight = style({

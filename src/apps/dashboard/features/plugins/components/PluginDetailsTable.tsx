@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { type FC } from 'react';
 import { Paper } from 'ui-primitives/Paper';
 import { Table, TableBody, TableRow, TableCell, TableHead } from 'ui-primitives/Table';
@@ -119,7 +121,7 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                                             rel="noopener noreferrer"
                                             style={{ color: 'var(--colors-primary)', textDecoration: 'none' }}
                                         >
-                                            <Flex style={{ alignItems: 'center', gap: '4px' }}>
+                                            <Flex style={{ alignItems: 'center', gap: vars.spacing['1'] }}>
                                                 <Text as="span">{repo.text}</Text>
                                             </Flex>
                                         </a>

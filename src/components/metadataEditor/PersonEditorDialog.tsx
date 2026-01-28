@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
 import React, { useState } from 'react';
@@ -77,7 +79,7 @@ function PersonEditorDialog({ open, person, onClose, onSave }: PersonEditorDialo
                             form.handleSubmit();
                         }}
                     >
-                        <Flex direction="column" style={{ gap: '16px', marginTop: '8px' }}>
+                        <Flex direction="column" style={{ gap: vars.spacing['4'], marginTop: vars.spacing['2'] }}>
                             <form.Field name="Name">
                                 {field => (
                                     <Input
@@ -119,7 +121,7 @@ function PersonEditorDialog({ open, person, onClose, onSave }: PersonEditorDialo
                             )}
                         </Flex>
 
-                        <Flex gap="8px" style={{ marginTop: '16px' }}>
+                        <Flex gap="8px" style={{ marginTop: vars.spacing['4'] }}>
                             <Button type="submit" variant="primary">
                                 {globalize.translate('Save')}
                             </Button>

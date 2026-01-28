@@ -4,7 +4,7 @@ import { vars } from 'styles/tokens.css';
 export const styledProgramCell = style({
     position: 'absolute',
     height: '100%',
-    padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+    padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
     border: `1px solid ${vars.colors.divider}`,
     backgroundColor: vars.colors.surface,
     textAlign: 'left',
@@ -26,13 +26,13 @@ export const styledProgramCellActive = style({
 export const programHeader = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.xs,
+    gap: vars.spacing['2'],
     overflow: 'hidden'
 });
 
 export const programName = style({
     fontWeight: 'bold',
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
@@ -43,7 +43,7 @@ export const liveChip = style({
     color: 'white',
     padding: '2px 4px',
     borderRadius: vars.borderRadius.sm,
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     fontWeight: 'bold',
     whiteSpace: 'nowrap',
     flexShrink: 0
@@ -54,17 +54,17 @@ export const newChip = style({
     color: 'white',
     padding: '2px 4px',
     borderRadius: vars.borderRadius.sm,
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     fontWeight: 'bold',
     whiteSpace: 'nowrap',
     flexShrink: 0
 });
 
 export const programTitle = style({
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    marginTop: vars.spacing.xs
+    marginTop: vars.spacing['2']
 });

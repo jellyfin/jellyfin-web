@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React from 'react';
 import { useLocale } from 'hooks/useLocale';
 import { Flex } from 'ui-primitives/Box';
@@ -14,7 +16,7 @@ const TaskTriggerCell = ({ cell }: CellContext<TaskTriggerInfo, TaskTriggerInfo>
     const timeLimitHours = trigger.MaxRuntimeTicks ? trigger.MaxRuntimeTicks / 36e9 : false;
 
     return (
-        <Flex style={{ flexDirection: 'column', gap: '4px' }}>
+        <Flex style={{ flexDirection: 'column', gap: vars.spacing['1'] }}>
             <Text as="span">{getTriggerFriendlyName(trigger, dateFnsLocale)}</Text>
             {timeLimitHours !== false && (
                 <Text as="span" size="sm" color="secondary">

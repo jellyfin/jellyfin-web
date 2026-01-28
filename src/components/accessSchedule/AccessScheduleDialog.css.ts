@@ -18,16 +18,16 @@ export const contentStyle = style({
     transform: 'translate(-50%, -50%)',
     maxWidth: '400px',
     width: '90%',
-    padding: '24px',
+    padding: vars.spacing['5'],
     zIndex: 1000
 });
 
 export const titleStyle = style({
     margin: 0,
     fontWeight: vars.typography.fontWeightMedium,
-    fontSize: vars.typography.fontSizeMd,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text,
-    marginBottom: vars.spacing.md
+    marginBottom: vars.spacing['5']
 });
 
 export const closeButtonStyle = style({
@@ -46,16 +46,16 @@ export const closeButtonStyle = style({
 export const labelStyle = style({
     display: 'block',
     marginBottom: '6px',
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary
 });
 
 export const selectContainerStyle = style({
-    marginBottom: '16px'
+    marginBottom: vars.spacing['4']
 });
 
 export const errorStyle = style({
     color: vars.colors.error,
-    marginBottom: vars.spacing.md,
-    fontSize: vars.typography.fontSizeSm
+    marginBottom: vars.spacing['5'],
+    fontSize: vars.typography['3'].fontSize
 });

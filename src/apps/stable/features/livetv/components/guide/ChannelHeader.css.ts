@@ -12,7 +12,7 @@ export const styledChannelHeader = style({
     borderBottom: `1px solid ${vars.colors.divider}`,
     borderRight: `1px solid ${vars.colors.divider}`,
     backgroundColor: vars.colors.surface,
-    padding: vars.spacing.sm,
+    padding: vars.spacing['4'],
     textAlign: 'center'
 });
 
@@ -23,7 +23,7 @@ export const channelImage = style({
 });
 
 export const channelNumber = style({
-    marginTop: vars.spacing.xs,
-    fontSize: vars.typography.fontSizeSm,
+    marginTop: vars.spacing['2'],
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary
 });

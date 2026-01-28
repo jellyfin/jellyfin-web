@@ -72,8 +72,16 @@ export function getTextTrackUrl(track: any, item: any, format?: string): string 
         return track.Path;
     }
 
-    let url = playbackManager.getSubtitleUrl(track, item.ServerId);
-    if (format) {
+    let url = playbackManager.getSubtitleUrl({
+        track: track,
+        serverId: item.ServerId
+    });
+
+    if (url === null) {
+        return '';
+    }
+
+    if (format !== undefined && format !== '') {
         url = url.replace('.vtt', format);
     }
 

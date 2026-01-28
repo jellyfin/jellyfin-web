@@ -5,9 +5,9 @@ export const selectTrigger = style({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: vars.spacing.sm,
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-    fontSize: vars.typography.fontSizeMd,
+    gap: vars.spacing['4'],
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
+    fontSize: vars.typography['6'].fontSize,
     fontFamily: vars.typography.fontFamily,
     color: vars.colors.text,
     backgroundColor: vars.colors.surface,
@@ -38,15 +38,15 @@ export const selectContent = style({
 });
 
 export const selectViewport = style({
-    padding: vars.spacing.xs
+    padding: vars.spacing['2']
 });
 
 export const selectItem = style({
     display: 'flex',
     alignItems: 'center',
-    gap: vars.spacing.sm,
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-    fontSize: vars.typography.fontSizeMd,
+    gap: vars.spacing['4'],
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
+    fontSize: vars.typography['6'].fontSize,
     color: vars.colors.text,
     borderRadius: vars.borderRadius.sm,
     cursor: 'pointer',
@@ -64,15 +64,15 @@ export const selectItem = style({
 });
 
 export const selectItemIndicator = style({
-    width: vars.spacing.md,
+    width: vars.spacing['5'],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
 });
 
 export const selectLabel = style({
-    padding: `${vars.spacing.xs} ${vars.spacing.md}`,
-    fontSize: vars.typography.fontSizeSm,
+    padding: `${vars.spacing['2']} ${vars.spacing['5']}`,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary,
     fontWeight: vars.typography.fontWeightMedium
 });
@@ -80,14 +80,14 @@ export const selectLabel = style({
 export const selectSeparator = style({
     height: 1,
     backgroundColor: vars.colors.divider,
-    margin: `${vars.spacing.xs} 0`
+    margin: `${vars.spacing['2']} 0`
 });
 
 export const selectScrollButton = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    height: vars.spacing.md,
+    height: vars.spacing['5'],
     backgroundColor: vars.colors.surface,
     color: vars.colors.text,
     cursor: 'default'
@@ -96,8 +96,8 @@ export const selectScrollButton = style({
 export const selectInputStyles = style({
     display: 'block',
     width: '100%',
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-    fontSize: vars.typography.fontSizeMd,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
+    fontSize: vars.typography['6'].fontSize,
     fontFamily: vars.typography.fontFamily,
     color: vars.colors.text,
     backgroundColor: vars.colors.surface,
@@ -113,19 +113,19 @@ export const selectInputStyles = style({
 });
 
 export const selectInputContainer = style({
-    marginBottom: vars.spacing.md
+    marginBottom: vars.spacing['5']
 });
 
 export const selectInputLabel = style({
     display: 'block',
     marginBottom: '6px',
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textSecondary,
     fontWeight: vars.typography.fontWeightMedium
 });
 
 export const selectInputHelper = style({
-    marginTop: '4px',
-    fontSize: vars.typography.fontSizeSm,
+    marginTop: vars.spacing['1'],
+    fontSize: vars.typography['3'].fontSize,
     color: vars.colors.textMuted
 });

@@ -1,8 +1,10 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Separator } from '../Separator';
-import { Box } from '../Box';
-import { Text } from '../Text';
+import { Separator } from '../../Separator';
+import { Box } from '../../Box';
+import { Text } from '../../Text';
 
 const meta: Meta<typeof Separator> = {
     title: 'UI Primitives/Separator',
@@ -61,7 +63,7 @@ export const InCard: Story = {
                     <Text>Card content area with some text.</Text>
                 </Box>
                 <Separator />
-                <Box style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                <Box style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: vars.spacing['2'] }}>
                     <Text as="span" size="sm" color="secondary">
                         Cancel
                     </Text>
@@ -76,12 +78,12 @@ export const InCard: Story = {
 
 function NavigationBreadcrumbStory(): ReactElement {
     return (
-        <Box style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Text as="a" href="#" color="primary">
+        <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'] }}>
+            <Text as="span" color="primary">
                 Home
             </Text>
             <Separator orientation="vertical" />
-            <Text as="a" href="#" color="primary">
+            <Text as="span" color="primary">
                 Documents
             </Text>
             <Separator orientation="vertical" />
@@ -111,7 +113,9 @@ function SettingsPanelStory(): ReactElement {
                         Security
                     </Text>
                 </Box>
-                <Separator style={{ margin: '16px 0' }} />
+                <Box style={{ margin: '16px 0' }}>
+                    <Separator />
+                </Box>
                 <Box style={{ marginBottom: '12px' }}>
                     <Text size="sm" color="secondary">
                         Notifications

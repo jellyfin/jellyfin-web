@@ -8,7 +8,7 @@ export const sliderRoot = style({
     userSelect: 'none',
     touchAction: 'none',
     width: '100%',
-    height: vars.spacing.md
+    height: vars.spacing['5']
 });
 
 export const sliderTrack = style({
@@ -16,7 +16,7 @@ export const sliderTrack = style({
     position: 'relative',
     flexGrow: 1,
     borderRadius: vars.borderRadius.full,
-    height: vars.spacing.xs
+    height: vars.spacing['2']
 });
 
 export const sliderRange = style({
@@ -28,8 +28,8 @@ export const sliderRange = style({
 
 export const sliderThumb = style({
     display: 'block',
-    width: vars.spacing.md,
-    height: vars.spacing.md,
+    width: vars.spacing['5'],
+    height: vars.spacing['5'],
     backgroundColor: vars.colors.text,
     boxShadow: vars.shadows.md,
     borderRadius: vars.borderRadius.full,

@@ -7,11 +7,20 @@ export const gridContainer = style({
 });
 
 export const gridGap = styleVariants({
-    xs: { gap: vars.spacing.xs },
-    sm: { gap: vars.spacing.sm },
-    md: { gap: vars.spacing.md },
-    lg: { gap: vars.spacing.lg },
-    xl: { gap: vars.spacing.xl }
+    '1': { gap: vars.spacing['1'] },
+    '2': { gap: vars.spacing['2'] },
+    '3': { gap: vars.spacing['3'] },
+    '4': { gap: vars.spacing['4'] },
+    '5': { gap: vars.spacing['5'] },
+    '6': { gap: vars.spacing['6'] },
+    '7': { gap: vars.spacing['7'] },
+    '8': { gap: vars.spacing['8'] },
+    '9': { gap: vars.spacing['9'] },
+    xs: { gap: vars.spacing['2'] },
+    sm: { gap: vars.spacing['4'] },
+    md: { gap: vars.spacing['5'] },
+    lg: { gap: vars.spacing['6'] },
+    xl: { gap: vars.spacing['7'] }
 });
 
 export const gridColumns = styleVariants({

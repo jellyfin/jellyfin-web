@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react-vite-vite';
+import type { Meta, StoryObj } from '@storybook/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { type ReactElement, useState, useCallback } from 'react';
-import { vars } from '../styles/tokens.css.ts';
-import { Button } from '../Button';
+import { vars } from '../../../styles/tokens.css';
+import { Button } from '../../Button';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
@@ -39,22 +39,22 @@ function AnimatedAlert({
             style={{
                 display: 'flex',
                 alignItems: 'flex-start',
-                gap: vars.spacing.sm,
-                padding: vars.spacing.md,
+                gap: vars.spacing['4'],
+                padding: vars.spacing['5'],
                 backgroundColor: styles.bg,
                 borderLeft: `4px solid ${styles.border}`,
                 borderRadius: vars.borderRadius.md,
                 color: vars.colors.text
             }}
         >
-            <span style={{ fontSize: vars.typography.fontSizeMd }}>{styles.icon}</span>
+            <span style={{ fontSize: vars.typography['6'].fontSize }}>{styles.icon}</span>
             <div style={{ flex: 1 }}>
                 {title !== undefined && title !== '' && (
-                    <div style={{ fontWeight: vars.typography.fontWeightMedium, marginBottom: vars.spacing.xs }}>
+                    <div style={{ fontWeight: vars.typography.fontWeightMedium, marginBottom: vars.spacing['2'] }}>
                         {title}
                     </div>
                 )}
-                <div style={{ fontSize: vars.typography.fontSizeSm }}>{children}</div>
+                <div style={{ fontSize: vars.typography['3'].fontSize }}>{children}</div>
             </div>
             {dismissible === true && (
                 <motion.button
@@ -66,8 +66,8 @@ function AnimatedAlert({
                         border: 'none',
                         color: vars.colors.textMuted,
                         cursor: 'pointer',
-                        padding: vars.spacing.xs,
-                        fontSize: vars.typography.fontSizeSm
+                        padding: vars.spacing['2'],
+                        fontSize: vars.typography['3'].fontSize
                     }}
                 >
                     ✕
@@ -131,7 +131,7 @@ function DismissibleAlert(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'] }}>
             <AnimatePresence>
                 {visible && (
                     <AnimatedAlert variant="info" title="Dismissible Alert" dismissible onDismiss={handleDismiss}>
@@ -150,7 +150,7 @@ export const Dismissible: Story = {
 
 function AllVariantsStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'] }}>
             <AnimatedAlert variant="info" title="Info">
                 Information message
             </AnimatedAlert>

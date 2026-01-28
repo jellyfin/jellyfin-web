@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { type FunctionComponent, useCallback, useMemo, useState } from 'react';
 import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
 import { Button } from 'ui-primitives/Button';
@@ -164,7 +166,7 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         />
                     </Flex>
 
-                    <Flex style={{ justifyContent: 'flex-end', gap: '8px', marginTop: '24px' }}>
+                    <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['2'], marginTop: '24px' }}>
                         <Button variant="ghost" onClick={onClose}>
                             {globalize.translate('ButtonCancel')}
                         </Button>

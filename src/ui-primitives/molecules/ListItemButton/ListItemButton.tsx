@@ -45,19 +45,19 @@ export function ListItemButton({
     const buttonClassName = `${listItemButtonStyles} ${active ? listItemButtonActive : ''} ${className ?? ''}`;
 
     if (Component !== 'button' && Component !== 'a') {
-        const CustomComponent = Component as ElementType;
-        return (
-            <CustomComponent
-                className={buttonClassName}
-                style={buttonStyle}
-                to={to}
-                href={href}
-                target={target}
-                rel={rel}
-                {...props}
-            >
-                {children}
-            </CustomComponent>
+        const Tag = Component as ElementType;
+        return React.createElement(
+            Tag,
+            {
+                className: buttonClassName,
+                style: buttonStyle,
+                to,
+                href,
+                target,
+                rel,
+                ...props
+            },
+            children
         );
     }
 

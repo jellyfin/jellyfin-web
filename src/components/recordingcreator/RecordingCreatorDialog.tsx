@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
     Dialog,
@@ -288,14 +290,14 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
                         borderRadius: '24px'
                     }}
                 >
-                    <Flex align="center" justify="space-between" style={{ marginBottom: '16px' }}>
+                    <Flex align="center" justify="space-between" style={{ marginBottom: vars.spacing['4'] }}>
                         <Text as="h3" size="xl" weight="bold">
                             {heroTitle}
                         </Text>
                         <DialogCloseButton onClick={() => setOpen(false)} />
                     </Flex>
 
-                    <Flex direction="row" align="flex-start" gap="24px" style={{ marginBottom: '16px' }}>
+                    <Flex direction="row" align="flex-start" gap="24px" style={{ marginBottom: vars.spacing['4'] }}>
                         <Box
                             style={{
                                 width: 160,
@@ -314,7 +316,7 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
                         </Box>
                         <Box style={{ flex: 1, minWidth: 0 }}>
                             {program?.Overview && (
-                                <Text size="md" style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>
+                                <Text size="md" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
                                     {program.Overview}
                                 </Text>
                             )}
@@ -327,8 +329,8 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
                     </Flex>
 
                     {showSeriesControls && (
-                        <Box style={{ marginBottom: '16px' }}>
-                            <Text size="sm" style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
+                            <Text size="sm" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
                                 {globalize.translate('RecordSeries')}
                             </Text>
                             <Flex align="center" gap="12px">
@@ -354,8 +356,8 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
                         </Box>
                     )}
 
-                    <Box style={{ marginBottom: '24px' }}>
-                        <Text size="sm" style={{ marginBottom: '8px', color: 'var(--text-secondary)' }}>
+                    <Box style={{ marginBottom: vars.spacing['5'] }}>
+                        <Text size="sm" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
                             {globalize.translate('Record')}
                         </Text>
                         <Flex align="center" gap="12px">

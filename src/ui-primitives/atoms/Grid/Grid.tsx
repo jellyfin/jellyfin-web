@@ -19,7 +19,7 @@ interface GridProps {
     readonly className?: string;
     readonly style?: CSSProperties;
     readonly container?: boolean;
-    readonly spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    readonly spacing?: keyof typeof gridGap;
     readonly columns?: GridSize;
     readonly xs?: GridSize | string;
     readonly sm?: GridSize | string;

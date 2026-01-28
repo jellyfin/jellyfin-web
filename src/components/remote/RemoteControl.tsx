@@ -194,7 +194,7 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                 width: '100%',
                 maxWidth: 400,
                 margin: '0 auto',
-                padding: vars.spacing.lg
+                padding: vars.spacing['6']
             }}
         >
             <Paper
@@ -206,8 +206,8 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                     backdropFilter: 'blur(20px)'
                 }}
             >
-                <Box style={{ padding: vars.spacing.lg }}>
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg, alignItems: 'center' }}>
+                <Box style={{ padding: vars.spacing['6'] }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['6'], alignItems: 'center' }}>
                         <Box className="nowPlayingPageImageContainer">
                             <Avatar
                                 src={imageUrl || undefined}
@@ -232,7 +232,7 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                             </Text>
                         </Box>
 
-                        <Flex style={{ alignItems: 'center', gap: vars.spacing.sm, width: '100%' }}>
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], width: '100%' }}>
                             <Text size="xs" color="secondary" style={{ minWidth: 45 }}>
                                 {formatTime(progress * 10000000)}
                             </Text>
@@ -250,7 +250,7 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                             </Text>
                         </Flex>
 
-                        <Flex style={{ alignItems: 'center', justifyContent: 'center', gap: vars.spacing.md }}>
+                        <Flex style={{ alignItems: 'center', justifyContent: 'center', gap: vars.spacing['5'] }}>
                             <IconButton
                                 size="md"
                                 variant="plain"
@@ -319,11 +319,11 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                             style={{
                                 alignItems: 'center',
                                 justifyContent: 'space-between',
-                                gap: vars.spacing.sm,
+                                gap: vars.spacing['4'],
                                 width: '100%'
                             }}
                         >
-                            <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                                 <Tooltip title="Favorite">
                                     <IconButton
                                         size="sm"
@@ -374,7 +374,7 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                                 />
                             </Flex>
 
-                            <Flex style={{ alignItems: 'center', gap: vars.spacing.xs }}>
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                                 {canAirPlay && (
                                     <Tooltip title="AirPlay">
                                         <IconButton size="sm" variant="plain" onClick={onAirPlay} color="neutral">

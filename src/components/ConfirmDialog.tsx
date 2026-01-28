@@ -39,7 +39,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
             <DialogContent style={{ minWidth: 320, whiteSpace: 'pre-wrap' }}>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>{effectiveText}</DialogDescription>
-                <Flex style={{ gap: vars.spacing.sm, marginTop: vars.spacing.md }}>
+                <Flex style={{ gap: vars.spacing['4'], marginTop: vars.spacing['5'] }}>
                     <Button variant="primary" color={effectiveColor as 'primary' | 'danger'} onClick={onConfirm}>
                         {effectiveConfirmText}
                     </Button>

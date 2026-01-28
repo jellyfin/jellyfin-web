@@ -47,6 +47,15 @@ const themeContract = createThemeContract({
         border: null
     },
     spacing: {
+        '1': null,
+        '2': null,
+        '3': null,
+        '4': null,
+        '5': null,
+        '6': null,
+        '7': null,
+        '8': null,
+        '9': null,
         xs: null,
         sm: null,
         md: null,
@@ -56,6 +65,15 @@ const themeContract = createThemeContract({
         xxxl: null
     },
     typography: {
+        '1': { fontSize: null, lineHeight: null },
+        '2': { fontSize: null, lineHeight: null },
+        '3': { fontSize: null, lineHeight: null },
+        '4': { fontSize: null, lineHeight: null },
+        '5': { fontSize: null, lineHeight: null },
+        '6': { fontSize: null, lineHeight: null },
+        '7': { fontSize: null, lineHeight: null },
+        '8': { fontSize: null, lineHeight: null },
+        '9': { fontSize: null, lineHeight: null },
         fontFamily: null,
         fontFamilyMono: null,
         fontSizeXs: null,
@@ -109,6 +127,7 @@ const themeContract = createThemeContract({
         base: null,
         dropdown: null,
         sticky: null,
+        fixed: null,
         banner: null,
         overlay: null,
         modalBackdrop: null,
@@ -186,6 +205,15 @@ const baseTheme = {
         border: '#333333'
     },
     spacing: {
+        '1': '0.25rem',
+        '2': '0.5rem',
+        '3': '0.75rem',
+        '4': '1rem',
+        '5': '1.5rem',
+        '6': '2rem',
+        '7': '2.5rem',
+        '8': '3rem',
+        '9': '4rem',
         xs: '0.5rem',
         sm: '1rem',
         md: '1.5rem',
@@ -195,6 +223,15 @@ const baseTheme = {
         xxxl: '4rem'
     },
     typography: {
+        '1': { fontSize: '0.75rem', lineHeight: '1rem' },
+        '2': { fontSize: '0.875rem', lineHeight: '1.25rem' },
+        '3': { fontSize: '1rem', lineHeight: '1.5rem' },
+        '4': { fontSize: '1.125rem', lineHeight: '1.75rem' },
+        '5': { fontSize: '1.25rem', lineHeight: '1.75rem' },
+        '6': { fontSize: '1.5rem', lineHeight: '2rem' },
+        '7': { fontSize: '1.875rem', lineHeight: '2.25rem' },
+        '8': { fontSize: '2.25rem', lineHeight: '2.5rem' },
+        '9': { fontSize: '3rem', lineHeight: '1' },
         fontFamily: '"InterVariable", "Inter var", "Inter", system-ui, sans-serif',
         fontFamilyMono: '"SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace',
         fontSizeXs: '0.5rem',
@@ -248,6 +285,7 @@ const baseTheme = {
         base: '0',
         dropdown: '1000',
         sticky: '1020',
+        fixed: '100',
         banner: '1030',
         overlay: '1040',
         modalBackdrop: '1050',
@@ -453,130 +491,6 @@ createGlobalTheme(
     })
 );
 
-createGlobalTheme(
-    ':root[data-theme="appletv"]',
-    themeContract,
-    withColors({
-        background: '#d5e9f2',
-        backgroundAlt: '#c8dce6',
-        surface: '#ffffff',
-        surfaceHover: '#f3f7fa',
-        surfaceActive: '#e8eef4',
-        surfaceLight: 'rgba(0, 0, 0, 0.05)',
-        surfaceVariant: '#f0f0f0',
-        text: '#0b0b0b',
-        textSecondary: '#3a3a3a',
-        textMuted: 'rgba(0, 0, 0, 0.6)',
-        textDisabled: 'rgba(0, 0, 0, 0.3)',
-        textInverse: '#ffffff',
-        divider: '#bcbcbc',
-        dividerLight: 'rgba(0, 0, 0, 0.1)',
-        overlay: 'rgba(213, 233, 242, 0.6)',
-        backdrop: 'rgba(213, 233, 242, 0.8)',
-        focus: '#006a93',
-        focusRing: '0 0 0 3px rgba(0, 106, 147, 0.4)',
-        waveformWave: '#0b7a5a',
-        waveformProgress: '#006a93',
-        link: '#006a93',
-        linkHover: '#004d6b'
-    })
-);
-
-createGlobalTheme(
-    ':root[data-theme="blueradiance"]',
-    themeContract,
-    withColors({
-        background: '#011432',
-        backgroundAlt: '#0b1e3d',
-        surface: '#011432',
-        surfaceHover: '#0b1e3d',
-        surfaceActive: '#142d52',
-        surfaceLight: 'rgba(255, 255, 255, 0.05)',
-        surfaceVariant: '#0a1833',
-        text: '#ffffff',
-        textSecondary: '#c8d4f0',
-        textMuted: 'rgba(200, 212, 240, 0.6)',
-        textDisabled: 'rgba(255, 255, 255, 0.3)',
-        textInverse: '#000000',
-        divider: '#0e2a5c',
-        dividerLight: 'rgba(255, 255, 255, 0.1)',
-        overlay: 'rgba(1, 20, 50, 0.7)',
-        backdrop: 'rgba(1, 20, 50, 0.8)',
-        focus: '#6aa9ff',
-        focusRing: '0 0 0 3px rgba(106, 169, 255, 0.4)',
-        waveformWave: '#6aa9ff',
-        waveformProgress: '#00a4dc',
-        link: '#6aa9ff',
-        linkHover: '#8bb8ff'
-    })
-);
-
-createGlobalTheme(
-    ':root[data-theme="purplehaze"]',
-    themeContract,
-    withColors({
-        primary: '#48c3c8',
-        primaryHover: '#38aab0',
-        primaryActive: '#288a92',
-        primaryLight: 'rgba(72, 195, 200, 0.15)',
-        secondary: '#ff77f1',
-        secondaryHover: '#ff5de8',
-        background: '#000420',
-        backgroundAlt: '#0a0f33',
-        surface: '#0a0f33',
-        surfaceHover: '#12183f',
-        surfaceActive: '#18214d',
-        surfaceLight: 'rgba(255, 255, 255, 0.05)',
-        surfaceVariant: '#08071f',
-        text: '#ffffff',
-        textSecondary: '#b6b8ff',
-        textMuted: 'rgba(182, 184, 255, 0.6)',
-        textDisabled: 'rgba(255, 255, 255, 0.3)',
-        textInverse: '#000000',
-        divider: '#1b1f44',
-        dividerLight: 'rgba(255, 255, 255, 0.1)',
-        overlay: 'rgba(0, 4, 32, 0.7)',
-        backdrop: 'rgba(0, 4, 32, 0.8)',
-        focus: '#48c3c8',
-        focusRing: '0 0 0 3px rgba(72, 195, 200, 0.4)',
-        waveformWave: '#6ff0b5',
-        waveformProgress: '#48c3c8',
-        link: '#48c3c8',
-        linkHover: '#38aab0',
-        visited: '#ff77f1'
-    })
-);
-
-createGlobalTheme(
-    ':root[data-theme="wmc"]',
-    themeContract,
-    withColors({
-        background: '#0c2450',
-        backgroundAlt: '#0f2a5e',
-        surface: '#0c2450',
-        surfaceHover: '#133061',
-        surfaceActive: '#1a3a72',
-        surfaceLight: 'rgba(255, 255, 255, 0.05)',
-        surfaceVariant: '#0a1e40',
-        text: '#ffffff',
-        textSecondary: '#c8d2e8',
-        textMuted: 'rgba(200, 210, 232, 0.6)',
-        textDisabled: 'rgba(255, 255, 255, 0.3)',
-        textInverse: '#000000',
-        divider: '#1f3b6f',
-        dividerLight: 'rgba(255, 255, 255, 0.1)',
-        overlay: 'rgba(12, 36, 80, 0.7)',
-        backdrop: 'rgba(12, 36, 80, 0.8)',
-        focus: '#7fd0ff',
-        focusRing: '0 0 0 3px rgba(127, 208, 255, 0.4)',
-        waveformWave: '#7fd0ff',
-        waveformProgress: '#00a4dc',
-        link: '#7fd0ff',
-        linkHover: '#a0d8ff',
-        visited: '#b088d8'
-    })
-);
-
 globalStyle('*, *::before, *::after', {
     boxSizing: 'border-box'
 });
@@ -650,3 +564,42 @@ globalStyle(':focus-visible', {
     outline: 'none',
     boxShadow: vars.shadows.outline
 });
+
+// Transition helper with deprecation warnings
+export const tokens = {
+    spacing: {
+        '1': vars.spacing['1'],
+        '2': vars.spacing['2'],
+        '3': vars.spacing['3'],
+        '4': vars.spacing['4'],
+        '5': vars.spacing['5'],
+        '6': vars.spacing['6'],
+        '7': vars.spacing['7'],
+        '8': vars.spacing['8'],
+        '9': vars.spacing['9'],
+        get xs() { console.warn('tokens.spacing.xs is deprecated, use tokens.spacing["2"]'); return vars.spacing['2']; },
+        get sm() { console.warn('tokens.spacing.sm is deprecated, use tokens.spacing["4"]'); return vars.spacing['4']; },
+        get md() { console.warn('tokens.spacing.md is deprecated, use tokens.spacing["5"]'); return vars.spacing['5']; },
+        get lg() { console.warn('tokens.spacing.lg is deprecated, use tokens.spacing["6"]'); return vars.spacing['6']; },
+        get xl() { console.warn('tokens.spacing.xl is deprecated, use tokens.spacing["7"]'); return vars.spacing['7']; },
+        get xxl() { console.warn('tokens.spacing.xxl is deprecated, use tokens.spacing["8"]'); return vars.spacing['8']; },
+        get xxxl() { console.warn('tokens.spacing.xxxl is deprecated, use tokens.spacing["9"]'); return vars.spacing['9']; }
+    },
+    typography: {
+        '1': vars.typography['1'],
+        '2': vars.typography['2'],
+        '3': vars.typography['3'],
+        '4': vars.typography['4'],
+        '5': vars.typography['5'],
+        '6': vars.typography['6'],
+        '7': vars.typography['7'],
+        '8': vars.typography['8'],
+        '9': vars.typography['9'],
+        get fontSizeXs() { console.warn('tokens.typography.fontSizeXs is deprecated, use tokens.typography["1"].fontSize'); return vars.typography['1'].fontSize; },
+        get fontSizeSm() { console.warn('tokens.typography.fontSizeSm is deprecated, use tokens.typography["3"].fontSize'); return vars.typography['3'].fontSize; },
+        get fontSizeMd() { console.warn('tokens.typography.fontSizeMd is deprecated, use tokens.typography["6"].fontSize'); return vars.typography['6'].fontSize; },
+        get fontSizeLg() { console.warn('tokens.typography.fontSizeLg is deprecated, use tokens.typography["7"].fontSize'); return vars.typography['7'].fontSize; },
+        get fontSizeXl() { console.warn('tokens.typography.fontSizeXl is deprecated, use tokens.typography["8"].fontSize'); return vars.typography['8'].fontSize; },
+        get fontSizeXxl() { console.warn('tokens.typography.fontSizeXxl is deprecated, use tokens.typography["9"].fontSize'); return vars.typography['9'].fontSize; }
+    }
+};

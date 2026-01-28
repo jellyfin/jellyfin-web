@@ -6,14 +6,14 @@ describe('Utils: events', () => {
     describe('Method: on', () => {
         it('should throw error if object is null', () => {
             const obj: EventObject = null as unknown as EventObject;
-            const call = () => eventsUtils.on(obj, 'testEvent', vi.fn());
+            const call = () => eventsUtils.on(obj, 'testEvent', vi.fn() as any);
 
             expect(call).toThrowError(new Error('EventBus: obj cannot be null!'));
         });
 
         it('should init object callbacks with testEvent type if it does not exist', () => {
             const obj: EventObject = {};
-            const callback = vi.fn();
+            const callback = vi.fn() as any;
 
             eventsUtils.on(obj, 'testEvent', callback);
 
@@ -27,7 +27,7 @@ describe('Utils: events', () => {
             const obj: EventObject = {
                 _callbacks: { testEvent: [initialCallback] }
             };
-            const otherCallback = vi.fn();
+            const otherCallback = vi.fn() as any;
 
             eventsUtils.on(obj, 'testEvent', otherCallback);
 
@@ -39,9 +39,9 @@ describe('Utils: events', () => {
 
     describe('Method: off', () => {
         let obj: EventObject;
-        let initialCallback: ReturnType<typeof vi.fn>;
+        let initialCallback: any;
         beforeEach(() => {
-            initialCallback = vi.fn();
+            initialCallback = vi.fn() as any;
             obj = {
                 _callbacks: {
                     testEvent: [initialCallback]
@@ -63,7 +63,7 @@ describe('Utils: events', () => {
             });
         });
         it('should not remove callback if it is not registered', () => {
-            const callbackToRemove = vi.fn();
+            const callbackToRemove = vi.fn() as any;
 
             eventsUtils.off(obj, 'testEvent', callbackToRemove);
 
@@ -76,7 +76,7 @@ describe('Utils: events', () => {
     describe('Method: trigger', () => {
         it('should trigger registered callback with given parameters', () => {
             const obj: EventObject = {};
-            const callback = vi.fn();
+            const callback = vi.fn() as any;
             eventsUtils.on(obj, 'testEvent', callback);
 
             eventsUtils.trigger(obj, 'testEvent', ['testValue1', 'testValue2']);

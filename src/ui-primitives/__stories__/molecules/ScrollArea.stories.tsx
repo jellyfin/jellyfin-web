@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { ScrollArea } from '../ScrollArea';
-import { Text } from '../Text';
-import { vars } from '../styles/tokens.css';
+import { ScrollArea } from '../../ScrollArea';
+import { Text } from '../../Text';
+import { vars } from '../../../styles/tokens.css';
 
 const meta: Meta<typeof ScrollArea> = {
     title: 'UI Primitives/ScrollArea',
@@ -40,7 +40,7 @@ function HorizontalScrollStory(): ReactElement {
             horizontal
             style={{ width: '400px', height: '150px', border: '1px solid #333', borderRadius: '8px' }}
         >
-            <div style={{ padding: '8px', display: 'flex', gap: '8px' }}>
+            <div style={{ padding: '8px', display: 'flex', gap: vars.spacing['2'] }}>
                 {Array.from({ length: 15 }, (_, i) => (
                     <div
                         key={i}
@@ -68,12 +68,12 @@ function BothDirectionsStory(): ReactElement {
     return (
         <ScrollArea style={{ width: '400px', height: '300px', border: '1px solid #333', borderRadius: '8px' }}>
             <div style={{ padding: '8px' }}>
-                <div style={{ width: '600px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                <div style={{ width: '600px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: vars.spacing['2'] }}>
                     {Array.from({ length: 24 }, (_, i) => (
                         <div
                             key={i}
                             style={{
-                                padding: '24px',
+                                padding: vars.spacing['5'],
                                 backgroundColor: '#252525',
                                 borderRadius: '8px',
                                 textAlign: 'center'
@@ -99,7 +99,7 @@ function ChatInterfaceStory(): ReactElement {
                 <Text weight="bold">Chat Messages</Text>
             </div>
             <ScrollArea style={{ height: '300px' }}>
-                <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: vars.spacing['3'] }}>
                     {[
                         { from: 'Alice', message: 'Hey, how are you?', time: '10:30 AM' },
                         { from: 'Bob', message: 'Doing great, thanks!', time: '10:32 AM' },
@@ -119,7 +119,7 @@ function ChatInterfaceStory(): ReactElement {
                                 {msg.from}
                             </Text>
                             <Text size="sm">{msg.message}</Text>
-                            <Text size="xs" color="muted" style={{ marginTop: '4px' }}>
+                            <Text size="xs" color="muted" style={{ marginTop: vars.spacing['1'] }}>
                                 {msg.time}
                             </Text>
                         </div>
@@ -157,7 +157,7 @@ function CodeBlockStory(): ReactElement {
                         margin: 0,
                         padding: '16px',
                         fontFamily: vars.typography.fontFamilyMono,
-                        fontSize: vars.typography.fontSizeSm,
+                        fontSize: vars.typography['3'].fontSize,
                         lineHeight: vars.typography.lineHeightNormal
                     }}
                 >
@@ -179,11 +179,15 @@ class User {
         this.name = name;
     }
     
-    greet() {
-        return \
-Hello, ${this.name}!\
+        greet() {
+    
+            return \`Hello, \\\${this.name}!\`;
+    
+        }
+    
     }
-}`}
+    
+    `}
                 </pre>
             </ScrollArea>
         </div>

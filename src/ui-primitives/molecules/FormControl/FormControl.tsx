@@ -1,3 +1,5 @@
+import { vars } from '../../../styles/tokens.css';
+
 import React, { useId, type ReactElement, type ReactNode, type CSSProperties } from 'react';
 import { formGroup } from '../../atoms/Input';
 import { formHelperText, formLabel, switchStyles, switchThumb } from './FormControl.css';
@@ -6,6 +8,7 @@ export { formHelperText, formLabel, switchStyles, switchThumb };
 
 export interface SwitchProps {
     readonly checked?: boolean;
+    readonly defaultChecked?: boolean;
     readonly disabled?: boolean;
     readonly onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     readonly className?: string;
@@ -15,7 +18,8 @@ export interface SwitchProps {
 }
 
 export function Switch({
-    checked = false,
+    checked,
+    defaultChecked,
     disabled = false,
     onChange,
     className,
@@ -34,6 +38,7 @@ export function Switch({
                 id={resolvedId}
                 type="checkbox"
                 checked={checked}
+                defaultChecked={defaultChecked}
                 disabled={disabled}
                 onChange={onChange}
                 style={{ display: 'none' }}
@@ -41,10 +46,10 @@ export function Switch({
             />
             <div
                 className={`${switchStyles} ${className ?? ''}`}
-                data-state={checked ? 'checked' : 'unchecked'}
+                data-state={(checked ?? defaultChecked) ? 'checked' : 'unchecked'}
                 style={{ opacity: disabled ? 0.5 : 1 }}
             >
-                <div className={switchThumb} data-state={checked ? 'checked' : 'unchecked'} />
+                <div className={switchThumb} data-state={(checked ?? defaultChecked) ? 'checked' : 'unchecked'} />
             </div>
             {label !== undefined && <span style={{ marginLeft: 8 }}>{label}</span>}
         </label>
@@ -54,10 +59,20 @@ export function Switch({
 interface FormControlProps {
     readonly children: ReactNode;
     readonly className?: string;
+    readonly style?: CSSProperties;
+    readonly error?: boolean;
 }
 
-export function FormControl({ children, className }: FormControlProps): ReactElement {
-    return <div className={`${formGroup} ${className ?? ''}`}>{children}</div>;
+export function FormControl({ children, className, style, error }: FormControlProps): ReactElement {
+    return (
+        <div
+            className={`${formGroup} ${className ?? ''}`}
+            style={style}
+            data-error={error === true ? 'true' : undefined}
+        >
+            {children}
+        </div>
+    );
 }
 
 export function FormLabel({
@@ -116,7 +131,7 @@ export function FormControlLabel({ label, control, className, style, htmlFor }: 
     return (
         <Component
             className={className}
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', ...style }}
+            style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer', ...style }}
             htmlFor={htmlFor}
         >
             {control}

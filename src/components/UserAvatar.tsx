@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import React, { type FC, type CSSProperties } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import { vars } from 'styles/tokens.css';
 import { Avatar } from 'ui-primitives/Avatar';
@@ -7,9 +7,10 @@ import { useApi } from 'hooks/useApi';
 
 interface UserAvatarProps {
     user?: UserDto;
+    style?: CSSProperties;
 }
 
-const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
+const UserAvatar: FC<UserAvatarProps> = ({ user, style }) => {
     const { api } = useApi();
 
     return user ? (
@@ -23,7 +24,8 @@ const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
             style={{
                 backgroundColor:
                     api && user.Id && user.PrimaryImageTag ? vars.colors.surface : vars.colors.primaryHover,
-                color: 'inherit'
+                color: 'inherit',
+                ...style
             }}
         />
     ) : null;

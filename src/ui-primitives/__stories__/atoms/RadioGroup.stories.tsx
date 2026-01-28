@@ -1,7 +1,9 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
-import { Text } from '../Text';
-import { RadioGroup, RadioGroupItem } from '../RadioGroup';
+import { Text } from '../../Text';
+import { RadioGroup, RadioGroupItem } from '../../RadioGroup';
 
 const meta: Meta<typeof RadioGroup> = {
     title: 'UI Primitives/RadioGroup',
@@ -54,7 +56,7 @@ function WithSelectionStory(): ReactElement {
                 <RadioGroupItem value="pro" id="pro" label="Pro - $10/month" />
                 <RadioGroupItem value="enterprise" id="enterprise" label="Enterprise - $50/month" />
             </RadioGroup>
-            <p style={{ marginTop: '16px', color: '#b0b0b0' }}>
+            <p style={{ marginTop: vars.spacing['4'], color: '#b0b0b0' }}>
                 Selected: <strong style={{ color: '#fff' }}>{plan}</strong>
             </p>
         </div>
@@ -112,8 +114,8 @@ function SurveyStory(): ReactElement {
     return (
         <div style={{ width: '300px' }}>
             <h4 style={{ margin: '0 0 16px', color: '#fff' }}>Feedback Survey</h4>
-            <div style={{ marginBottom: '24px' }}>
-                <Text size="sm" style={{ marginBottom: '8px' }}>
+            <div style={{ marginBottom: vars.spacing['5'] }}>
+                <Text size="sm" style={{ marginBottom: vars.spacing['2'] }}>
                     How satisfied are you?
                 </Text>
                 <RadioGroup value={satisfaction} onValueChange={handleSatisfactionChange}>
@@ -124,7 +126,7 @@ function SurveyStory(): ReactElement {
                 </RadioGroup>
             </div>
             <div>
-                <Text size="sm" style={{ marginBottom: '8px' }}>
+                <Text size="sm" style={{ marginBottom: vars.spacing['2'] }}>
                     Would you recommend us?
                 </Text>
                 <RadioGroup value={recommend} onValueChange={handleRecommendChange}>
@@ -149,10 +151,10 @@ function InlineStory(): ReactElement {
 
     return (
         <div>
-            <Text size="sm" style={{ marginBottom: '8px' }}>
+            <Text size="sm" style={{ marginBottom: vars.spacing['2'] }}>
                 Preferred time
             </Text>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: vars.spacing['2'] }}>
                 <RadioGroup value={time} onValueChange={handleTimeChange}>
                     <RadioGroupItem value="morning" id="morn" label="Morning" />
                     <RadioGroupItem value="afternoon" id="aft" label="Afternoon" />

@@ -35,7 +35,7 @@ const FiltersStudios: FC<FiltersStudiosProps> = ({ studiosOptions, libraryViewSe
     );
 
     return (
-        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             {studiosOptions?.map(filter => (
                 <Checkbox
                     key={filter.Id}

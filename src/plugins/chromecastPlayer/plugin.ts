@@ -26,7 +26,7 @@ function sendConnectionResult(isOk: boolean) {
     } else if (reject) {
         reject();
     } else {
-        playbackManager.setActivePlayer(null);
+        playbackManager.setActivePlayer(null as any, {});
     }
 }
 

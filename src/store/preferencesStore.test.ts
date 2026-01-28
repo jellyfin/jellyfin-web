@@ -535,7 +535,7 @@ describe('preferencesStore', () => {
             const importData = {
                 audio: { volume: 50 },
                 visualizer: { enabled: false }
-            };
+            } as any;
 
             usePreferencesStore.getState().importPreferences(importData);
 

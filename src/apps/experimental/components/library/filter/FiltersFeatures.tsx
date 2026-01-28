@@ -42,7 +42,7 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({ libraryViewSettings, setLib
     );
 
     return (
-        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.xs }}>
+        <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             {featuresOptions.map(filter => (
                 <Checkbox
                     key={filter.value}

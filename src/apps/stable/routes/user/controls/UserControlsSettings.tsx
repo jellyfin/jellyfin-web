@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { useState, useEffect } from 'react';
 
 import { Box } from 'ui-primitives/Box';
@@ -53,21 +55,21 @@ export function UserControlsSettings() {
     }
 
     return (
-        <Box className="libraryPage" style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
-            <Heading.H3 style={{ marginBottom: '24px' }}>Control Settings</Heading.H3>
+        <Box className="libraryPage" style={{ padding: vars.spacing['5'], maxWidth: '800px', margin: '0 auto' }}>
+            <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>Control Settings</Heading.H3>
 
             {message && (
-                <Alert variant="success" style={{ marginBottom: '16px' }}>
+                <Alert variant="success" style={{ marginBottom: vars.spacing['4'] }}>
                     {message}
                 </Alert>
             )}
 
-            <Card style={{ marginBottom: '24px' }}>
+            <Card style={{ marginBottom: vars.spacing['5'] }}>
                 <CardBody>
-                    <Text weight="bold" style={{ marginBottom: '16px' }}>
+                    <Text weight="bold" style={{ marginBottom: vars.spacing['4'] }}>
                         Input Devices
                     </Text>
-                    <Flex style={{ alignItems: 'center', gap: '16px' }}>
+                    <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                         <FormControl>
                             <FormLabel style={{ marginBottom: 0 }}>Enable Gamepad Navigation</FormLabel>
                             <Switch
@@ -76,19 +78,19 @@ export function UserControlsSettings() {
                             />
                         </FormControl>
                     </Flex>
-                    <FormHelperText style={{ marginTop: '8px' }}>
+                    <FormHelperText style={{ marginTop: vars.spacing['2'] }}>
                         Use a game controller to navigate the interface
                     </FormHelperText>
                 </CardBody>
             </Card>
 
             {isTv && (
-                <Card style={{ marginBottom: '24px' }}>
+                <Card style={{ marginBottom: vars.spacing['5'] }}>
                     <CardBody>
-                        <Text weight="bold" style={{ marginBottom: '16px' }}>
+                        <Text weight="bold" style={{ marginBottom: vars.spacing['4'] }}>
                             Scrolling
                         </Text>
-                        <Flex style={{ alignItems: 'center', gap: '16px' }}>
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel style={{ marginBottom: 0 }}>Smooth Scrolling</FormLabel>
                                 <Switch
@@ -99,12 +101,12 @@ export function UserControlsSettings() {
                                 />
                             </FormControl>
                         </Flex>
-                        <FormHelperText style={{ marginTop: '8px' }}>Enable smooth scrolling animations</FormHelperText>
+                        <FormHelperText style={{ marginTop: vars.spacing['2'] }}>Enable smooth scrolling animations</FormHelperText>
                     </CardBody>
                 </Card>
             )}
 
-            <Flex style={{ gap: '16px' }}>
+            <Flex style={{ gap: vars.spacing['4'] }}>
                 <Button variant="primary" onClick={handleSave}>
                     Save
                 </Button>

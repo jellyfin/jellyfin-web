@@ -49,8 +49,8 @@ const MusicAlbumsPage: React.FC = () => {
     }
 
     return (
-        <Box style={{ padding: vars.spacing.lg }}>
-            <Text as="h1" size="xl" weight="bold" style={{ marginBottom: vars.spacing.md }}>
+        <Box style={{ padding: vars.spacing['6'] }}>
+            <Text as="h1" size="xl" weight="bold" style={{ marginBottom: vars.spacing['5'] }}>
                 {globalize.translate('Albums')}
             </Text>
 
@@ -58,7 +58,7 @@ const MusicAlbumsPage: React.FC = () => {
                 style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-                    gap: vars.spacing.lg
+                    gap: vars.spacing['6']
                 }}
             >
                 {albumsData.map(item => (

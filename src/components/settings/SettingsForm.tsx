@@ -1,3 +1,5 @@
+import { vars } from '../../styles/tokens.css';
+
 import React, { useState } from 'react';
 import { Box, Flex, FlexCol } from 'ui-primitives/Box';
 import { Text, Heading } from 'ui-primitives/Text';
@@ -18,10 +20,10 @@ interface SettingsSectionProps {
 
 export function SettingsSection({ title, description, children }: SettingsSectionProps) {
     return (
-        <Box style={{ marginBottom: '32px' }}>
+        <Box style={{ marginBottom: vars.spacing['6'] }}>
             <Heading.H4 style={{ marginBottom: description ? '8px' : '16px' }}>{title}</Heading.H4>
             {description && (
-                <Text color="secondary" size="sm" style={{ marginBottom: '16px' }}>
+                <Text color="secondary" size="sm" style={{ marginBottom: vars.spacing['4'] }}>
                     {description}
                 </Text>
             )}
@@ -40,7 +42,7 @@ interface FormSelectProps {
 
 export function FormSelect({ label, value, onChange, options, description }: FormSelectProps) {
     return (
-        <Box style={{ marginBottom: '16px' }}>
+        <Box style={{ marginBottom: vars.spacing['4'] }}>
             <FormControl>
                 <FormLabel>{label}</FormLabel>
                 <Select value={value} onValueChange={onChange}>
@@ -57,7 +59,7 @@ export function FormSelect({ label, value, onChange, options, description }: For
                 </Select>
             </FormControl>
             {description && (
-                <Text size="sm" color="secondary" style={{ marginTop: '4px' }}>
+                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['1'] }}>
                     {description}
                 </Text>
             )}
@@ -74,15 +76,15 @@ interface FormCheckboxProps {
 
 export function FormCheckbox({ label, checked, onChange, description }: FormCheckboxProps) {
     return (
-        <Box style={{ marginBottom: '16px' }}>
+        <Box style={{ marginBottom: vars.spacing['4'] }}>
             <FormControl>
-                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                     <Checkbox checked={checked} onChange={e => onChange(e.target.checked)} />
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
                 </Flex>
             </FormControl>
             {description && (
-                <Text size="sm" color="secondary" style={{ marginTop: '4px', marginLeft: '36px' }}>
+                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['1'], marginLeft: '36px' }}>
                     {description}
                 </Text>
             )}
@@ -99,7 +101,7 @@ interface ModernSettingsFormProps {
 
 export function ModernSettingsForm({ onSave, onCancel, isSaving, children }: ModernSettingsFormProps) {
     return (
-        <Box style={{ maxWidth: '800px', margin: '0 auto', padding: '24px' }}>
+        <Box style={{ maxWidth: '800px', margin: '0 auto', padding: vars.spacing['5'] }}>
             <form
                 onSubmit={e => {
                     e.preventDefault();
@@ -110,7 +112,7 @@ export function ModernSettingsForm({ onSave, onCancel, isSaving, children }: Mod
 
                 <Divider style={{ margin: '32px 0' }} />
 
-                <Flex style={{ gap: '16px', justifyContent: 'flex-end' }}>
+                <Flex style={{ gap: vars.spacing['4'], justifyContent: 'flex-end' }}>
                     <Button variant="ghost" onClick={onCancel} disabled={isSaving}>
                         {globalize.translate('ButtonCancel')}
                     </Button>
@@ -132,8 +134,8 @@ interface ToggleSectionProps {
 
 export function ToggleSection({ title, checked, onToggle, children }: ToggleSectionProps) {
     return (
-        <Box style={{ marginBottom: '24px' }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <Box style={{ marginBottom: vars.spacing['5'] }}>
+            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
                 <Text weight="medium">{title}</Text>
                 <Switch checked={checked} onChange={e => onToggle(e.target.checked)} />
             </Flex>
@@ -150,7 +152,7 @@ interface SettingsCardProps {
 
 export function SettingsCard({ title, children, action }: SettingsCardProps) {
     return (
-        <Card style={{ marginBottom: '24px' }}>
+        <Card style={{ marginBottom: vars.spacing['5'] }}>
             <CardHeader>
                 <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                     <Text weight="bold">{title}</Text>
@@ -169,7 +171,7 @@ interface SettingsAlertProps {
 
 export function SettingsAlert({ variant, children }: SettingsAlertProps) {
     return (
-        <Alert variant={variant} style={{ marginBottom: '24px' }}>
+        <Alert variant={variant} style={{ marginBottom: vars.spacing['5'] }}>
             {children}
         </Alert>
     );

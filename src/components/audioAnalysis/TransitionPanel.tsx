@@ -62,9 +62,9 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
 
     return (
         <Card style={{ minWidth: 300 }}>
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                 <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text size="sm" style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.xs }}>
+                    <Text size="sm" style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'] }}>
                         <MagicWandIcon />
                         Smart Transition
                     </Text>
@@ -78,15 +78,15 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                 </Flex>
 
                 {!suggestion && !loading && (
-                    <Flex style={{ flexDirection: 'column', alignItems: 'center', padding: vars.spacing.md }}>
-                        <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
+                    <Flex style={{ flexDirection: 'column', alignItems: 'center', padding: vars.spacing['5'] }}>
+                        <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                             Analyze next track for optimal transition
                         </Text>
                         <Button onClick={handleAnalyze} disabled={!nextAudioBuffer || disabled || isAnalyzing}>
                             {isAnalyzing ? 'Analyzing...' : 'Analyze Transition'}
                         </Button>
                         {lastError && (
-                            <Text size="xs" color="error" style={{ marginTop: vars.spacing.xs }}>
+                            <Text size="xs" color="error" style={{ marginTop: vars.spacing['2'] }}>
                                 {lastError.message}
                             </Text>
                         )}
@@ -94,7 +94,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                 )}
 
                 {loading && (
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm, padding: vars.spacing.sm }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'], padding: vars.spacing['4'] }}>
                         <Text size="sm" color="secondary">
                             Analyzing tracks...
                         </Text>
@@ -104,15 +104,15 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
 
                 {suggestion && (
                     <Box>
-                        <Flex style={{ alignItems: 'center', gap: vars.spacing.sm, marginBottom: vars.spacing.md }}>
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], marginBottom: vars.spacing['5'] }}>
                             <Chip size="lg" variant={getTransitionVariant(suggestion.transitionType)}>
                                 {suggestion.transitionType}
                             </Chip>
                         </Flex>
 
-                        <Box style={{ display: 'grid', gap: vars.spacing.md, marginBottom: vars.spacing.md }}>
+                        <Box style={{ display: 'grid', gap: vars.spacing['5'], marginBottom: vars.spacing['5'] }}>
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                                     <Text size="xs" color="secondary">
                                         Compatibility
                                     </Text>
@@ -124,7 +124,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                             </Box>
 
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                                     <Text size="xs" color="secondary">
                                         Energy Match
                                     </Text>
@@ -137,8 +137,8 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                         </Box>
 
                         {suggestion.fxRecommendation && suggestion.fxRecommendation !== 'No FX' && (
-                            <Box style={{ marginBottom: vars.spacing.md }}>
-                                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing.xs }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
+                                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                                     Recommended FX
                                 </Text>
                                 <Chip variant="neutral" size="sm">
@@ -148,7 +148,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                         )}
 
                         {suggestion.crossfadeDuration > 0 && (
-                            <Box style={{ marginBottom: vars.spacing.md }}>
+                            <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Text size="xs" color="secondary">
                                     Crossfade: {suggestion.crossfadeDuration.toFixed(1)}s
                                 </Text>
@@ -157,7 +157,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
 
                         <Divider />
 
-                        <Flex style={{ gap: vars.spacing.sm }}>
+                        <Flex style={{ gap: vars.spacing['4'] }}>
                             <Button variant="outlined" size="sm" onClick={handleAnalyze} disabled={disabled}>
                                 Re-analyze
                             </Button>
@@ -168,9 +168,9 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                     </Box>
                 )}
 
-                <Card style={{ marginTop: vars.spacing.md }}>
+                <Card style={{ marginTop: vars.spacing['5'] }}>
                     <Text size="sm">Auto-DJ Settings</Text>
-                    <Box style={{ display: 'grid', gap: vars.spacing.md }}>
+                    <Box style={{ display: 'grid', gap: vars.spacing['5'] }}>
                         <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                             <Text size="xs">Prefer Harmonic</Text>
                             <Switch
@@ -196,7 +196,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                         </Flex>
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Min Crossfade: {config.minCrossfadeDuration}s
                             </Text>
                             <Slider
@@ -209,7 +209,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                         </Box>
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Max Crossfade: {config.maxCrossfadeDuration}s
                             </Text>
                             <Slider

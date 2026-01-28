@@ -1,3 +1,5 @@
+import { vars } from '../../../../styles/tokens.css';
+
 import React, { useCallback, useMemo } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
@@ -64,8 +66,8 @@ export const Component = (): React.ReactElement => {
             title={globalize.translate('HeaderLibraries')}
             className="mainAnimatedPage type-interior"
         >
-            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px', marginTop: '16px' }}>
-                <Flex style={{ alignItems: 'center', gap: '12px' }}>
+            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px', marginTop: vars.spacing['4'] }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                     <Button startDecorator={<AddIcon />} onClick={showMediaLibraryCreator}>
                         {globalize.translate('ButtonAddMediaLibrary')}
                     </Button>
@@ -79,7 +81,7 @@ export const Component = (): React.ReactElement => {
                     style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                        gap: '16px'
+                        gap: vars.spacing['4']
                     }}
                 >
                     {virtualFolders?.map(virtualFolder => (

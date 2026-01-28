@@ -28,17 +28,17 @@ const ServerInfoWidget = ({
 
     return (
         <Widget title={globalize.translate('TabServer')} href="/dashboard/settings">
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['6'] }}>
                 <Paper
                     variant="outlined"
                     style={{
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         borderRadius: vars.borderRadius.md,
                         backgroundColor: vars.colors.surface
                     }}
                 >
-                    <Flex style={{ flexDirection: 'row', gap: vars.spacing.md }}>
-                        <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm, minWidth: 140 }}>
+                    <Flex style={{ flexDirection: 'row', gap: vars.spacing['5'] }}>
+                        <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'], minWidth: 140 }}>
                             <Text size="sm" style={{ fontWeight: vars.typography.fontWeightBold }}>
                                 {globalize.translate('LabelServerName')}
                             </Text>
@@ -52,7 +52,7 @@ const ServerInfoWidget = ({
                                 {globalize.translate('LabelBuildVersion')}
                             </Text>
                         </Flex>
-                        <Flex style={{ flexDirection: 'column', gap: vars.spacing.sm, flexGrow: 1 }}>
+                        <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'], flexGrow: 1 }}>
                             {isPending ? (
                                 <>
                                     <Skeleton variant="text" width="80%" />
@@ -72,7 +72,7 @@ const ServerInfoWidget = ({
                     </Flex>
                 </Paper>
 
-                <Flex style={{ flexDirection: 'row', flexWrap: 'wrap', gap: vars.spacing.sm }}>
+                <Flex style={{ flexDirection: 'row', flexWrap: 'wrap', gap: vars.spacing['4'] }}>
                     <Button
                         onClick={onScanLibrariesClick}
                         startDecorator={<ReloadIcon />}

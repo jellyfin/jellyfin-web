@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
 import { Calendar } from '../../calendar';
 import { DatePicker, DateRangePicker } from '../../DatePicker';
-import { vars } from '../styles/tokens.css';
+import { vars } from '../../../styles/tokens.css';
 import type { DateRange } from 'react-day-picker';
 
 const meta: Meta<typeof Calendar> = {
@@ -136,7 +136,7 @@ function WithDisabledDatesStory(): ReactElement {
     return (
         <div>
             <Calendar mode="single" selected={selected} onSelect={handleSelect} disabled={isDisabled} />
-            <p style={{ marginTop: 16, fontSize: vars.typography.fontSizeSm, color: vars.colors.textSecondary }}>
+            <p style={{ marginTop: 16, fontSize: vars.typography['3'].fontSize, color: vars.colors.textSecondary }}>
                 Past dates and Sundays are disabled
             </p>
         </div>

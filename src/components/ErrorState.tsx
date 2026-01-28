@@ -20,9 +20,9 @@ export const ErrorState: React.FC<ErrorStateProps> = ({ message = 'Something wen
                     textAlign: 'center'
                 }}
             >
-                <Flex style={{ flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-                    <Box style={{ fontSize: vars.typography.fontSizeXxl, color: vars.colors.error }}>
-                        <ExclamationTriangleIcon style={{ fontSize: vars.typography.fontSizeXxl }} />
+                <Flex style={{ flexDirection: 'column', alignItems: 'center', gap: vars.spacing['4'] }}>
+                    <Box style={{ fontSize: vars.typography['9'].fontSize, color: vars.colors.error }}>
+                        <ExclamationTriangleIcon style={{ fontSize: vars.typography['9'].fontSize }} />
                     </Box>
                     <Text as="h4" size="lg" weight="bold" color="error">
                         Oops!

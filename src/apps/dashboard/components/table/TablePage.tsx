@@ -71,8 +71,8 @@ function TablePage<T extends unknown>({
                 <Flex
                     style={{
                         flexDirection: 'column',
-                        gap: vars.spacing.sm,
-                        marginBottom: vars.spacing.md
+                        gap: vars.spacing['4'],
+                        marginBottom: vars.spacing['5']
                     }}
                 >
                     <Heading.H1>{title}</Heading.H1>

@@ -245,7 +245,7 @@ export function QueuePage(): React.ReactElement {
                 }}
             >
                 <CircularProgress size="lg" />
-                <Text size="lg" color="secondary" style={{ marginTop: vars.spacing.md }}>
+                <Text size="lg" color="secondary" style={{ marginTop: vars.spacing['5'] }}>
                     {globalize.translate('Loading')}...
                 </Text>
             </Box>
@@ -275,12 +275,12 @@ export function QueuePage(): React.ReactElement {
                     <ArrowLeftIcon />
                 </IconButton>
                 <DiscIcon
-                    style={{ width: 80, height: 80, color: vars.colors.textMuted, marginBottom: vars.spacing.md }}
+                    style={{ width: 80, height: 80, color: vars.colors.textMuted, marginBottom: vars.spacing['5'] }}
                 />
                 <Text size="xl" weight="bold" color="secondary">
                     {globalize.translate('MessageNoItemsAvailable')}
                 </Text>
-                <Text size="md" color="muted" style={{ marginTop: vars.spacing.xs }}>
+                <Text size="md" color="muted" style={{ marginTop: vars.spacing['2'] }}>
                     Start playing something to see the queue
                 </Text>
             </Box>
@@ -305,7 +305,7 @@ export function QueuePage(): React.ReactElement {
                 direction="row"
                 justify="space-between"
                 align="center"
-                style={{ position: 'relative', zIndex: 1, padding: vars.spacing.md }}
+                style={{ position: 'relative', zIndex: 1, padding: vars.spacing['5'] }}
             >
                 <IconButton onClick={onBackClick} variant="plain" color="neutral">
                     <ArrowLeftIcon />
@@ -320,13 +320,13 @@ export function QueuePage(): React.ReactElement {
 
             {/* Tabs */}
             <Tabs value={String(activeTab)} onValueChange={onTabsChange} style={{ position: 'relative', zIndex: 1 }}>
-                <TabList style={{ justifyContent: 'center', gap: vars.spacing.md, backgroundColor: 'transparent' }}>
+                <TabList style={{ justifyContent: 'center', gap: vars.spacing['5'], backgroundColor: 'transparent' }}>
                     <Tab value="0">
-                        <DiscIcon style={{ marginRight: vars.spacing.xs }} />
+                        <DiscIcon style={{ marginRight: vars.spacing['2'] }} />
                         Now Playing
                     </Tab>
                     <Tab value="1">
-                        <StackIcon style={{ marginRight: vars.spacing.xs }} />
+                        <StackIcon style={{ marginRight: vars.spacing['2'] }} />
                         Queue ({queueData.length})
                     </Tab>
                 </TabList>
@@ -335,10 +335,10 @@ export function QueuePage(): React.ReactElement {
                 <TabPanel value="0" style={{ padding: 0 }}>
                     <Flex
                         direction={window.innerWidth < 600 ? 'column' : 'row'}
-                        gap={vars.spacing.xl}
+                        gap={vars.spacing['7']}
                         align="center"
                         justify="center"
-                        style={{ padding: vars.spacing.xl, minHeight: 'calc(100vh - 180px)' }}
+                        style={{ padding: vars.spacing['7'], minHeight: 'calc(100vh - 180px)' }}
                     >
                         {/* Artwork */}
                         <Box style={{ flex: '0 0 auto' }}>
@@ -374,7 +374,7 @@ export function QueuePage(): React.ReactElement {
                         {/* Info and Controls */}
                         <Flex
                             direction="column"
-                            gap={vars.spacing.lg}
+                            gap={vars.spacing['6']}
                             style={{ flex: '1 1 auto', maxWidth: 500, width: '100%' }}
                         >
                             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
@@ -398,7 +398,7 @@ export function QueuePage(): React.ReactElement {
                                     onValueChange={handleSeekChange}
                                     onValueCommit={handleSeekEnd}
                                 />
-                                <Flex direction="row" justify="space-between" style={{ marginTop: vars.spacing.xs }}>
+                                <Flex direction="row" justify="space-between" style={{ marginTop: vars.spacing['2'] }}>
                                     <Text size="xs" color="muted">
                                         {currentTimeFormatted}
                                     </Text>
@@ -409,7 +409,7 @@ export function QueuePage(): React.ReactElement {
                             </Box>
 
                             {/* Playback Buttons */}
-                            <Flex direction="row" gap={vars.spacing.md} justify="center" align="center">
+                            <Flex direction="row" gap={vars.spacing['5']} justify="center" align="center">
                                 <IconButton onClick={handlePrevious} variant="plain" size="lg" color="neutral">
                                     <TrackPreviousIcon style={{ width: 40, height: 40 }} />
                                 </IconButton>
@@ -436,16 +436,16 @@ export function QueuePage(): React.ReactElement {
                                     <Paper
                                         variant="outlined"
                                         style={{
-                                            padding: vars.spacing.md,
+                                            padding: vars.spacing['5'],
                                             borderRadius: vars.borderRadius.md,
                                             backgroundColor: 'rgba(255,255,255,0.1)',
                                             backdropFilter: 'blur(10px)'
                                         }}
                                     >
-                                        <Chip size="sm" variant="soft" style={{ marginBottom: vars.spacing.xs }}>
+                                        <Chip size="sm" variant="soft" style={{ marginBottom: vars.spacing['2'] }}>
                                             NEXT UP
                                         </Chip>
-                                        <Flex direction="row" gap={vars.spacing.md} align="center">
+                                        <Flex direction="row" gap={vars.spacing['5']} align="center">
                                             <Box
                                                 style={{
                                                     width: 48,
@@ -514,11 +514,11 @@ export function QueuePage(): React.ReactElement {
 
                 {/* Queue Tab */}
                 <TabPanel value="1" style={{ padding: 0 }}>
-                    <Box style={{ padding: vars.spacing.lg, paddingBottom: vars.spacing.md }}>
+                    <Box style={{ padding: vars.spacing['6'], paddingBottom: vars.spacing['5'] }}>
                         <Text size="xl" weight="bold">
                             {(globalize.translate('HeaderPlaybackQueue') as string) ?? 'Playback Queue'}
                         </Text>
-                        <Text size="sm" color="muted" style={{ marginTop: vars.spacing.xs }}>
+                        <Text size="sm" color="muted" style={{ marginTop: vars.spacing['2'] }}>
                             {queueData.length} {(globalize.translate('Items') as string).toLowerCase()}
                         </Text>
                     </Box>
@@ -545,7 +545,7 @@ export function QueuePage(): React.ReactElement {
                         <Paper
                             variant="outlined"
                             style={{
-                                padding: vars.spacing.lg,
+                                padding: vars.spacing['6'],
                                 borderRadius: vars.borderRadius.lg,
                                 backgroundColor: 'rgba(0,0,0,0.9)',
                                 backdropFilter: 'blur(20px)'
@@ -554,11 +554,11 @@ export function QueuePage(): React.ReactElement {
                             <Text
                                 size="sm"
                                 weight="medium"
-                                style={{ color: vars.colors.text, marginBottom: vars.spacing.md }}
+                                style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}
                             >
                                 Technical Stream Info
                             </Text>
-                            <Flex direction="row" gap={vars.spacing.lg}>
+                            <Flex direction="row" gap={vars.spacing['6']}>
                                 <Box>
                                     <Text size="xs" color="muted">
                                         Codec

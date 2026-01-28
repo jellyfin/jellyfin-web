@@ -2,38 +2,38 @@ import { style } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css';
 
 export const container = style({
-    padding: vars.spacing.lg
+    padding: vars.spacing['6']
 });
 
 export const headerRow = style({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: vars.spacing.lg
+    marginBottom: vars.spacing['6']
 });
 
 export const chipGroup = style({
     display: 'flex',
-    gap: vars.spacing.sm
+    gap: vars.spacing['4']
 });
 
 export const paginationRow = style({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: vars.spacing.lg
+    marginBottom: vars.spacing['6']
 });
 
 export const paginationControls = style({
     display: 'flex',
-    gap: vars.spacing.sm,
+    gap: vars.spacing['4'],
     alignItems: 'center'
 });
 
 export const gridContainer = style({
     display: 'grid',
-    gap: vars.spacing.md,
-    marginBottom: vars.spacing.lg,
+    gap: vars.spacing['5'],
+    marginBottom: vars.spacing['6'],
     gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))'
 });
 
@@ -65,7 +65,7 @@ export const cardCoverGradient = style({
 });
 
 export const cardContent = style({
-    padding: vars.spacing.md,
+    padding: vars.spacing['5'],
     background: 'linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)',
     display: 'flex',
     flexDirection: 'column',
@@ -76,9 +76,9 @@ export const cardContent = style({
 export const cardTitle = style({
     color: 'white',
     fontWeight: vars.typography.fontWeightBold,
-    fontSize: vars.typography.fontSizeLg,
+    fontSize: vars.typography['7'].fontSize,
     textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-    marginBottom: vars.spacing.xs,
+    marginBottom: vars.spacing['2'],
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
@@ -86,12 +86,12 @@ export const cardTitle = style({
 
 export const cardSubtitle = style({
     color: 'rgba(255,255,255,0.9)',
-    fontSize: vars.typography.fontSizeSm,
+    fontSize: vars.typography['3'].fontSize,
     textShadow: '0 1px 2px rgba(0,0,0,0.5)'
 });
 
 export const bottomPaginationContainer = style({
     display: 'flex',
     justifyContent: 'center',
-    marginTop: vars.spacing.lg
+    marginTop: vars.spacing['6']
 });

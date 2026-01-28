@@ -1,6 +1,8 @@
+import { vars } from '../../../styles/tokens.css';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { IconButton } from '../IconButton';
+import { IconButton } from '../../IconButton';
 
 const meta: Meta<typeof IconButton> = {
     title: 'UI Primitives/IconButton',
@@ -72,7 +74,7 @@ export const Default: Story = {
 
 function AllVariantsStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['4'], alignItems: 'center' }}>
             <IconButton variant="plain">
                 <HomeIcon />
             </IconButton>
@@ -98,7 +100,7 @@ export const AllVariants: Story = {
 
 function AllSizesStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['4'], alignItems: 'center' }}>
             <IconButton size="sm">
                 <HomeIcon />
             </IconButton>
@@ -118,7 +120,7 @@ export const AllSizes: Story = {
 
 function AllColorsStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['4'], alignItems: 'center' }}>
             <IconButton color="primary">
                 <HomeIcon />
             </IconButton>
@@ -147,7 +149,7 @@ export const AllColors: Story = {
 
 function DisabledStory(): ReactElement {
     return (
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: vars.spacing['4'], alignItems: 'center' }}>
             <IconButton variant="plain" disabled>
                 <HomeIcon />
             </IconButton>
@@ -174,7 +176,7 @@ export const WithTitle: Story = {
 
 function IconGalleryStory(): ReactElement {
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', width: '300px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: vars.spacing['4'], width: '300px' }}>
             <IconButton variant="ghost">
                 <HomeIcon />
             </IconButton>

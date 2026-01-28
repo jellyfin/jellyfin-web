@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
 import { motion } from 'motion/react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
-import { vars } from '../styles/tokens.css.ts';
+import { vars } from '../../../styles/tokens.css';
 
 interface SliderProps {
     value?: number[];
@@ -94,7 +94,7 @@ function DefaultStory(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md, alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'], alignItems: 'center' }}>
             <Slider value={value} onValueChange={handleValueChange} />
             <span style={{ color: vars.colors.text }}>{value[0]}</span>
         </div>
@@ -112,7 +112,7 @@ function RangeStory(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing.md, alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'], alignItems: 'center' }}>
             <Slider value={value} onValueChange={handleValueChange} />
             <span style={{ color: vars.colors.text }}>
                 {value[0]} - {value[1]}
@@ -132,7 +132,7 @@ function VolumeControlStory(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: vars.spacing.sm }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['4'] }}>
             <span style={{ color: vars.colors.text }}>🔊</span>
             <Slider value={value} onValueChange={handleValueChange} />
             <span style={{ color: vars.colors.textSecondary, width: '30px' }}>{value[0]}%</span>

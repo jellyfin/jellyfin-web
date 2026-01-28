@@ -134,8 +134,8 @@ export const LiveTV: React.FC = () => {
     const channelCount = channelsData?.TotalRecordCount || 0;
 
     return (
-        <Box style={{ padding: vars.spacing.lg }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.xl }}>
+        <Box style={{ padding: vars.spacing['6'] }}>
+            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['7'] }}>
                 <Heading.H3>Live TV</Heading.H3>
                 <Button startDecorator={<MixerHorizontalIcon />} variant="soft">
                     Settings
@@ -145,31 +145,31 @@ export const LiveTV: React.FC = () => {
             <Tabs value={activeTab} onValueChange={value => setActiveTab(value as LiveTVTab)}>
                 <TabList>
                     <Tab value="suggestions">
-                        <DesktopIcon style={{ marginRight: vars.spacing.sm }} /> On Now
+                        <DesktopIcon style={{ marginRight: vars.spacing['4'] }} /> On Now
                     </Tab>
                     <Tab value="guide">
-                        <CalendarIcon style={{ marginRight: vars.spacing.sm }} /> Guide
+                        <CalendarIcon style={{ marginRight: vars.spacing['4'] }} /> Guide
                     </Tab>
                     <Tab value="channels">
-                        <MixerHorizontalIcon style={{ marginRight: vars.spacing.sm }} /> Channels
+                        <MixerHorizontalIcon style={{ marginRight: vars.spacing['4'] }} /> Channels
                     </Tab>
                     <Tab value="recordings">
-                        <DotFilledIcon style={{ marginRight: vars.spacing.sm }} /> Recordings
+                        <DotFilledIcon style={{ marginRight: vars.spacing['4'] }} /> Recordings
                     </Tab>
                     <Tab value="series">
-                        <VideoIcon style={{ marginRight: vars.spacing.sm }} /> Series
+                        <VideoIcon style={{ marginRight: vars.spacing['4'] }} /> Series
                     </Tab>
                 </TabList>
 
                 <TabPanel value="suggestions">
-                    <Box style={{ marginBottom: vars.spacing.xl }}>
-                        <Heading.H3 style={{ marginBottom: vars.spacing.md }}>On Now</Heading.H3>
+                    <Box style={{ marginBottom: vars.spacing['7'] }}>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>On Now</Heading.H3>
                         {onNowPrograms.length > 0 ? (
                             <Box
                                 style={{
                                     display: 'grid',
                                     gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                                    gap: vars.spacing.md
+                                    gap: vars.spacing['5']
                                 }}
                             >
                                 {onNowPrograms.map(item => (
@@ -179,7 +179,7 @@ export const LiveTV: React.FC = () => {
                                                 aspectRatio: '16/9',
                                                 borderRadius: vars.borderRadius.md,
                                                 overflow: 'hidden',
-                                                marginBottom: vars.spacing.xs
+                                                marginBottom: vars.spacing['2']
                                             }}
                                         >
                                             {(item as any).PrimaryImageTag && (
@@ -206,13 +206,13 @@ export const LiveTV: React.FC = () => {
 
                     <Divider />
 
-                    <Box style={{ marginBottom: vars.spacing.xl }}>
-                        <Heading.H3 style={{ marginBottom: vars.spacing.md }}>Shows</Heading.H3>
+                    <Box style={{ marginBottom: vars.spacing['7'] }}>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>Shows</Heading.H3>
                         <Box
                             style={{
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                                gap: vars.spacing.md
+                                gap: vars.spacing['5']
                             }}
                         >
                             {upcomingPrograms.slice(0, 6).map(item => (
@@ -222,7 +222,7 @@ export const LiveTV: React.FC = () => {
                                             aspectRatio: '16/9',
                                             borderRadius: vars.borderRadius.md,
                                             overflow: 'hidden',
-                                            marginBottom: vars.spacing.xs
+                                            marginBottom: vars.spacing['2']
                                         }}
                                     >
                                         {(item as any).PrimaryImageTag && (
@@ -244,12 +244,12 @@ export const LiveTV: React.FC = () => {
                     <Divider />
 
                     <Box>
-                        <Heading.H3 style={{ marginBottom: vars.spacing.md }}>Movies</Heading.H3>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>Movies</Heading.H3>
                         <Box
                             style={{
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                                gap: vars.spacing.md
+                                gap: vars.spacing['5']
                             }}
                         >
                             {upcomingPrograms.slice(6, 12).map(item => (
@@ -259,7 +259,7 @@ export const LiveTV: React.FC = () => {
                                             aspectRatio: '16/9',
                                             borderRadius: vars.borderRadius.md,
                                             overflow: 'hidden',
-                                            marginBottom: vars.spacing.xs
+                                            marginBottom: vars.spacing['2']
                                         }}
                                     >
                                         {(item as any).PrimaryImageTag && (
@@ -280,8 +280,8 @@ export const LiveTV: React.FC = () => {
                 </TabPanel>
 
                 <TabPanel value="guide">
-                    <Box style={{ textAlign: 'center', padding: '48px' }}>
-                        <Heading.H4 style={{ marginBottom: vars.spacing.md }}>TV Guide</Heading.H4>
+                    <Box style={{ textAlign: 'center', padding: vars.spacing['6'] }}>
+                        <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>TV Guide</Heading.H4>
                         <Text color="secondary">
                             The TV guide is available in the Jellyfin mobile app or desktop client.
                         </Text>
@@ -290,13 +290,13 @@ export const LiveTV: React.FC = () => {
 
                 <TabPanel value="channels">
                     <Flex
-                        style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing.md }}
+                        style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}
                     >
                         <Text size="sm" color="secondary">
                             {channelCount} channel{channelCount !== 1 ? 's' : ''}
                         </Text>
                         {(hasPreviousPage || hasNextPage) && (
-                            <Flex style={{ gap: vars.spacing.sm, alignItems: 'center' }}>
+                            <Flex style={{ gap: vars.spacing['4'], alignItems: 'center' }}>
                                 <IconButton
                                     size="sm"
                                     onClick={handlePreviousPage}
@@ -317,7 +317,7 @@ export const LiveTV: React.FC = () => {
                             style={{
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                                gap: vars.spacing.md
+                                gap: vars.spacing['5']
                             }}
                         >
                             {channels.map(item => (
@@ -327,7 +327,7 @@ export const LiveTV: React.FC = () => {
                                             aspectRatio: '16/9',
                                             borderRadius: vars.borderRadius.md,
                                             overflow: 'hidden',
-                                            marginBottom: vars.spacing.xs
+                                            marginBottom: vars.spacing['2']
                                         }}
                                     >
                                         {(item as any).PrimaryImageTag && (
@@ -353,8 +353,8 @@ export const LiveTV: React.FC = () => {
                 </TabPanel>
 
                 <TabPanel value="recordings">
-                    <Box style={{ marginBottom: vars.spacing.xl }}>
-                        <Heading.H3 style={{ marginBottom: vars.spacing.md }}>Latest Recordings</Heading.H3>
+                    <Box style={{ marginBottom: vars.spacing['7'] }}>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>Latest Recordings</Heading.H3>
                         <EmptyState
                             title="No Recordings"
                             description="Recordings from your Live TV tuner will appear here."
@@ -364,7 +364,7 @@ export const LiveTV: React.FC = () => {
                     <Divider />
 
                     <Box>
-                        <Heading.H3 style={{ marginBottom: vars.spacing.md }}>Scheduled Recordings</Heading.H3>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>Scheduled Recordings</Heading.H3>
                         <EmptyState
                             title="No Scheduled Recordings"
                             description="Schedule recordings from the TV guide."
@@ -373,7 +373,7 @@ export const LiveTV: React.FC = () => {
                 </TabPanel>
 
                 <TabPanel value="series">
-                    <Heading.H3 style={{ marginBottom: vars.spacing.md }}>Recorded Series</Heading.H3>
+                    <Heading.H3 style={{ marginBottom: vars.spacing['5'] }}>Recorded Series</Heading.H3>
                     <EmptyState title="No Recorded Series" description="Record entire series to see them here." />
                 </TabPanel>
             </Tabs>

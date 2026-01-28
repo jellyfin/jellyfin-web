@@ -70,9 +70,9 @@ export function BaseCard({
             </AspectRatio>
             <Flex
                 style={{
-                    paddingTop: vars.spacing.sm,
+                    paddingTop: vars.spacing['4'],
                     flexDirection: 'column',
-                    gap: vars.spacing.sm
+                    gap: vars.spacing['4']
                 }}
             >
                 <Flex
@@ -80,7 +80,7 @@ export function BaseCard({
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         alignItems: 'flex-start',
-                        gap: vars.spacing.sm
+                        gap: vars.spacing['4']
                     }}
                 >
                     <Box style={{ flexGrow: 1, minWidth: 0 }}>
@@ -98,7 +98,7 @@ export function BaseCard({
                                 size='xs'
                                 style={{
                                     wordBreak: 'break-all',
-                                    marginTop: vars.spacing.xs
+                                    marginTop: vars.spacing['2']
                                 }}
                             >
                                 {text}

@@ -10,6 +10,7 @@ import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
 import layoutManager from '../layoutManager';
 import toast from '../toast/toast';
+import { vars } from '../../styles/tokens.css';
 
 import { Box, Flex, FlexCol } from 'ui-primitives/Box';
 import { Text, Heading } from 'ui-primitives/Text';
@@ -193,17 +194,17 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
 
     if (isLoading) {
         return (
-            <Box style={{ padding: '48px', textAlign: 'center' }}>
+            <Box style={{ padding: vars.spacing['6'], textAlign: 'center' }}>
                 <CircularProgress size="lg" />
-                <Text style={{ marginTop: '16px' }}>{globalize.translate('Loading')}</Text>
+                <Text style={{ marginTop: vars.spacing['4'] }}>{globalize.translate('Loading')}</Text>
             </Box>
         );
     }
 
     return (
-        <Box style={{ maxWidth: '800px', margin: '0 auto', padding: '24px' }}>
+        <Box style={{ maxWidth: '800px', margin: '0 auto', padding: vars.spacing['5'] }}>
             {saveError && (
-                <Alert variant="error" style={{ marginBottom: '24px' }}>
+                <Alert variant="error" style={{ marginBottom: vars.spacing['5'] }}>
                     {saveError}
                 </Alert>
             )}
@@ -214,10 +215,10 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                     form.handleSubmit();
                 }}
             >
-                <Box style={{ marginBottom: '32px' }}>
-                    <Heading.H3 style={{ marginBottom: '16px' }}>{globalize.translate('Subtitles')}</Heading.H3>
+                <Box style={{ marginBottom: vars.spacing['6'] }}>
+                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('Subtitles')}</Heading.H3>
 
-                    <Box style={{ marginBottom: '16px' }}>
+                    <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
                             <FormLabel>{globalize.translate('LabelPreferredSubtitleLanguage')}</FormLabel>
                             <Select
@@ -238,7 +239,7 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                         </FormControl>
                     </Box>
 
-                    <Box style={{ marginBottom: '16px' }}>
+                    <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
                             <FormLabel>{globalize.translate('LabelSubtitlePlaybackMode')}</FormLabel>
                             <Select
@@ -274,7 +275,7 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                     </Box>
 
                     {canShowBurnIn && (
-                        <Box style={{ marginBottom: '16px' }}>
+                        <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelBurnSubtitles')}</FormLabel>
                                 <Select
@@ -297,9 +298,9 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                         </Box>
                     )}
 
-                    <Box style={{ marginBottom: '16px' }}>
+                    <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
-                            <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={form.state.values.alwaysBurnInSubtitleWhenTranscoding}
                                     onChange={e =>
@@ -310,17 +311,17 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                     {globalize.translate('AlwaysBurnInSubtitleWhenTranscoding')}
                                 </FormLabel>
                             </Flex>
-                            <FormHelperText style={{ marginLeft: '36px' }}>
+                            <FormHelperText style={{ marginLeft: vars.spacing['6'] }}>
                                 {globalize.translate('AlwaysBurnInSubtitleWhenTranscodingHelp')}
                             </FormHelperText>
                         </FormControl>
                     </Box>
                 </Box>
 
-                <Divider style={{ margin: '24px 0' }} />
+                <Divider style={{ margin: `${vars.spacing['5']} 0` }} />
 
-                <Box style={{ marginBottom: '32px' }}>
-                    <Flex style={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <Box style={{ marginBottom: vars.spacing['6'] }}>
+                    <Flex style={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: vars.spacing['4'] }}>
                         <Heading.H3 style={{ marginBottom: 0 }}>
                             {globalize.translate('HeaderSubtitleAppearance')}
                         </Heading.H3>
@@ -334,24 +335,24 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                     </Flex>
 
                     {showAppearanceSection && (
-                        <Box style={{ marginTop: '16px' }}>
-                            <Box style={{ marginBottom: '32px' }}>
+                        <Box style={{ marginTop: vars.spacing['4'] }}>
+                            <Box style={{ marginBottom: vars.spacing['6'] }}>
                                 <Box
                                     style={{
-                                        padding: '24px',
+                                        padding: vars.spacing['5'],
                                         background: 'linear-gradient(140deg, #aa5cc3, #00a4dc)',
-                                        borderRadius: '8px',
-                                        marginBottom: '16px'
+                                        borderRadius: vars.borderRadius.md,
+                                        marginBottom: vars.spacing['4']
                                     }}
                                 >
                                     <Box
                                         style={{
                                             background: 'rgba(255, 255, 255, 0.95)',
-                                            padding: '16px',
-                                            borderRadius: '4px',
+                                            padding: vars.spacing['4'],
+                                            borderRadius: vars.borderRadius.sm,
                                             color: form.state.values.textColor,
                                             textAlign: 'center',
-                                            fontSize: '14px'
+                                            fontSize: vars.typography['2'].fontSize
                                         }}
                                     >
                                         {globalize.translate('TheseSettingsAffectSubtitlesOnThisDevice')}
@@ -360,12 +361,12 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                 <Text size="sm" color="secondary">
                                     {globalize.translate('SubtitleAppearanceSettingsDisclaimer')}
                                 </Text>
-                                <Text size="sm" color="secondary" style={{ marginTop: '4px' }}>
+                                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['1'] }}>
                                     {globalize.translate('SubtitleAppearanceSettingsAlsoPassedToCastDevices')}
                                 </Text>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
                                     <FormLabel>{globalize.translate('LabelSubtitleStyling')}</FormLabel>
                                     <Select
@@ -396,7 +397,7 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                 </FormHelperText>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
                                     <FormLabel>{globalize.translate('LabelTextSize')}</FormLabel>
                                     <Select
@@ -419,7 +420,7 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                 </FormControl>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
                                     <FormLabel>{globalize.translate('LabelTextWeight')}</FormLabel>
                                     <Select
@@ -442,7 +443,7 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                 </FormControl>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
                                     <FormLabel>{globalize.translate('LabelFont')}</FormLabel>
                                     <Select
@@ -463,7 +464,7 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                 </FormControl>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
                                     <FormLabel>{globalize.translate('LabelTextColor')}</FormLabel>
                                     {layoutManager.tv ? (
@@ -487,13 +488,13 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                             type="color"
                                             value={form.state.values.textColor}
                                             onChange={e => form.setFieldValue('textColor', e.target.value)}
-                                            style={{ width: '100%', height: '48px', padding: '4px' }}
+                                            style={{ width: '100%', height: '48px', padding: vars.spacing['1'] }}
                                         />
                                     )}
                                 </FormControl>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
                                     <FormLabel>{globalize.translate('LabelDropShadow')}</FormLabel>
                                     <Select
@@ -516,10 +517,10 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                 </FormControl>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
                                     <FormLabel>{globalize.translate('LabelSubtitleVerticalPosition')}</FormLabel>
-                                    <Flex style={{ alignItems: 'center', gap: '16px' }}>
+                                    <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                                         <Slider
                                             value={[form.state.values.verticalPosition]}
                                             onValueChange={([val]: number[]) =>
@@ -538,9 +539,9 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                 <FormHelperText>{globalize.translate('SubtitleVerticalPositionHelp')}</FormHelperText>
                             </Box>
 
-                            <Box style={{ marginBottom: '16px' }}>
+                            <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
-                                    <Flex style={{ alignItems: 'center', gap: '12px' }}>
+                                    <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                         <Checkbox checked={false} onChange={() => {}} />
                                         <FormLabel style={{ marginBottom: 0 }}>
                                             {globalize.translate('Preview')}

@@ -14,7 +14,7 @@ const NoItemsMessage: FC<NoItemsMessageProps> = ({ message = 'MessageNoItemsAvai
             <Text as="h1" size="display" weight="bold">
                 {globalize.translate('MessageNothingHere')}
             </Text>
-            <Text style={{ marginBottom: vars.spacing.md }}>{globalize.translate(message)}</Text>
+            <Text style={{ marginBottom: vars.spacing['5'] }}>{globalize.translate(message)}</Text>
         </Box>
     );
 };

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type HTMLAttributes, type ReactNode } from 'react';
-import { vars } from '../styles/tokens.css.ts';
+import { vars } from '../../../styles/tokens.css';
 
 interface BoxProps extends HTMLAttributes<HTMLDivElement> {
     children?: ReactNode;
@@ -63,7 +63,7 @@ function DemoBox({ label }: Readonly<DemoBoxProps>): ReactElement {
     return (
         <div
             style={{
-                padding: vars.spacing.md,
+                padding: vars.spacing['5'],
                 backgroundColor: vars.colors.primary,
                 borderRadius: vars.borderRadius.md,
                 color: vars.colors.text
@@ -78,7 +78,7 @@ function BasicBoxStory(): ReactElement {
     return (
         <Box
             style={{
-                padding: vars.spacing.lg,
+                padding: vars.spacing['6'],
                 backgroundColor: vars.colors.surface,
                 borderRadius: vars.borderRadius.md
             }}
@@ -94,7 +94,7 @@ export const BasicBox: Story = {
 
 function FlexRowStory(): ReactElement {
     return (
-        <Flex gap={vars.spacing.md}>
+        <Flex gap={vars.spacing['5']}>
             <DemoBox label="Item 1" />
             <DemoBox label="Item 2" />
             <DemoBox label="Item 3" />
@@ -108,7 +108,7 @@ export const FlexRow: Story = {
 
 function FlexColumnStory(): ReactElement {
     return (
-        <Flex direction="column" gap={vars.spacing.md}>
+        <Flex direction="column" gap={vars.spacing['5']}>
             <DemoBox label="Item 1" />
             <DemoBox label="Item 2" />
             <DemoBox label="Item 3" />
@@ -142,7 +142,7 @@ function FlexSpaceBetweenStory(): ReactElement {
             justify="space-between"
             style={{
                 backgroundColor: vars.colors.surface,
-                padding: vars.spacing.md,
+                padding: vars.spacing['5'],
                 borderRadius: vars.borderRadius.md
             }}
         >
@@ -158,7 +158,7 @@ export const FlexSpaceBetween: Story = {
 
 function FlexWrapStory(): ReactElement {
     return (
-        <Flex gap={vars.spacing.sm} wrap style={{ maxWidth: '300px' }}>
+        <Flex gap={vars.spacing['4']} wrap style={{ maxWidth: '300px' }}>
             {Array.from({ length: 8 }, (_, i) => (
                 <DemoBox key={i} label={`Item ${i + 1}`} />
             ))}

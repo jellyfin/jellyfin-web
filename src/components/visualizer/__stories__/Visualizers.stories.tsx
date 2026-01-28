@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { vars } from '../../../styles/tokens.css';
-import { Box, Flex } from '../../../ui-primitives/Box';
-import { Text, Heading } from '../../../ui-primitives/Text';
+import { Box, Flex } from '../../../ui-primitives';
+import { Text, Heading } from '../../../ui-primitives';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Button } from '../../../ui-primitives/Button';
-import { IconButton } from '../../../ui-primitives/IconButton';
-import { Toggle } from '../../../ui-primitives/Toggle';
-import { Slider } from '../../../ui-primitives/Slider';
-import { WaveformCell } from '../WaveformCell';
+import { Button } from '../../../ui-primitives';
+import { IconButton } from '../../../ui-primitives';
+import { Toggle } from '../../../ui-primitives';
+import { Slider } from '../../../ui-primitives';
+import { WaveformCell } from '../../../ui-primitives/organisms/visualizers/WaveformCell';
 
 const meta: Meta = {
     title: 'Visualizer/Integration',
@@ -121,24 +121,21 @@ export const PlaybackWithVisualizer: Story = {
 
                 <Box
                     style={{
-                        padding: vars.spacing.lg,
+                        padding: vars.spacing['6'],
                         backgroundColor: vars.colors.surface,
                         borderTop: `1px solid ${vars.colors.border}`
                     }}
                 >
-                    <Box style={{ marginBottom: vars.spacing.md }}>
+                    <Box style={{ marginBottom: vars.spacing['5'] }}>
                         <WaveformCell
-                            itemId="current-track"
                             peaks={[mockPeaks]}
                             duration={duration}
                             currentTime={currentTime}
-                            isCurrentTrack={true}
-                            isNextTrack={false}
                             height={48}
                         />
                     </Box>
 
-                    <Flex align="center" gap={vars.spacing.md} style={{ marginBottom: vars.spacing.md }}>
+                    <Flex align="center" gap={vars.spacing['5']} style={{ marginBottom: vars.spacing['5'] }}>
                         <IconButton
                             variant="ghost"
                             size="lg"
@@ -177,7 +174,7 @@ export const PlaybackWithVisualizer: Story = {
                                 Artist Name
                             </Text>
                         </Box>
-                        <Flex align="center" gap={vars.spacing.sm}>
+                        <Flex align="center" gap={vars.spacing['4']}>
                             <Box
                                 style={{
                                     width: '8px',
@@ -207,9 +204,9 @@ export const VisualizerControlsDemo: Story = {
         });
 
         return (
-            <Box style={{ padding: vars.spacing.lg }}>
-                <Heading.H3 style={{ marginBottom: vars.spacing.lg }}>Visualizer Controls</Heading.H3>
-                <Text color="secondary" style={{ marginBottom: vars.spacing.lg }}>
+            <Box style={{ padding: vars.spacing['6'] }}>
+                <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>Visualizer Controls</Heading.H3>
+                <Text color="secondary" style={{ marginBottom: vars.spacing['6'] }}>
                     Control which visualizer components are active. Each visualizer renders in the visualizer container
                     when enabled.
                 </Text>
@@ -218,12 +215,12 @@ export const VisualizerControlsDemo: Story = {
                     style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                        gap: vars.spacing.md
+                        gap: vars.spacing['5']
                     }}
                 >
                     <Box
                         style={{
-                            padding: vars.spacing.md,
+                            padding: vars.spacing['5'],
                             backgroundColor: vars.colors.surface,
                             borderRadius: vars.borderRadius.md
                         }}
@@ -231,7 +228,7 @@ export const VisualizerControlsDemo: Story = {
                         <Flex
                             justify="space-between"
                             align="center"
-                            style={{ marginBottom: vars.spacing.sm }}
+                            style={{ marginBottom: vars.spacing['4'] }}
                         >
                             <Text size="sm" weight="bold">
                                 Butterchurn
@@ -250,7 +247,7 @@ export const VisualizerControlsDemo: Story = {
 
                     <Box
                         style={{
-                            padding: vars.spacing.md,
+                            padding: vars.spacing['5'],
                             backgroundColor: vars.colors.surface,
                             borderRadius: vars.borderRadius.md
                         }}
@@ -258,7 +255,7 @@ export const VisualizerControlsDemo: Story = {
                         <Flex
                             justify="space-between"
                             align="center"
-                            style={{ marginBottom: vars.spacing.sm }}
+                            style={{ marginBottom: vars.spacing['4'] }}
                         >
                             <Text size="sm" weight="bold">
                                 3D Visualizer
@@ -277,7 +274,7 @@ export const VisualizerControlsDemo: Story = {
 
                     <Box
                         style={{
-                            padding: vars.spacing.md,
+                            padding: vars.spacing['5'],
                             backgroundColor: vars.colors.surface,
                             borderRadius: vars.borderRadius.md
                         }}
@@ -285,7 +282,7 @@ export const VisualizerControlsDemo: Story = {
                         <Flex
                             justify="space-between"
                             align="center"
-                            style={{ marginBottom: vars.spacing.sm }}
+                            style={{ marginBottom: vars.spacing['4'] }}
                         >
                             <Text size="sm" weight="bold">
                                 Frequency Analyzer
@@ -304,7 +301,7 @@ export const VisualizerControlsDemo: Story = {
 
                     <Box
                         style={{
-                            padding: vars.spacing.md,
+                            padding: vars.spacing['5'],
                             backgroundColor: vars.colors.surface,
                             borderRadius: vars.borderRadius.md
                         }}
@@ -312,7 +309,7 @@ export const VisualizerControlsDemo: Story = {
                         <Flex
                             justify="space-between"
                             align="center"
-                            style={{ marginBottom: vars.spacing.sm }}
+                            style={{ marginBottom: vars.spacing['4'] }}
                         >
                             <Text size="sm" weight="bold">
                                 WaveSurfer
@@ -330,8 +327,8 @@ export const VisualizerControlsDemo: Story = {
                     </Box>
                 </Box>
 
-                <Box style={{ marginTop: vars.spacing.xl }}>
-                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
+                <Box style={{ marginTop: vars.spacing['7'] }}>
+                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                         Active visualizers will render below in the visualizer container:
                     </Text>
                     <Box
@@ -346,8 +343,8 @@ export const VisualizerControlsDemo: Story = {
                         }}
                     >
                         {settings.frequencyAnalyzer && (
-                            <Box style={{ margin: vars.spacing.md }}>
-                                <Flex gap={vars.spacing.xs} align="end" style={{ height: '80px' }}>
+                            <Box style={{ margin: vars.spacing['5'] }}>
+                                <Flex gap={vars.spacing['2']} align="end" style={{ height: '80px' }}>
                                     {Array.from({ length: 32 }, (_, i) => (
                                         <Box
                                             key={i}
@@ -364,14 +361,11 @@ export const VisualizerControlsDemo: Story = {
                             </Box>
                         )}
                         {settings.waveSurfer && (
-                            <Box style={{ margin: vars.spacing.md }}>
+                            <Box style={{ margin: vars.spacing['5'] }}>
                                 <WaveformCell
-                                    itemId="demo-waveform"
                                     peaks={[mockPeaks]}
                                     duration={180000}
                                     currentTime={72000}
-                                    isCurrentTrack={true}
-                                    isNextTrack={false}
                                     height={60}
                                 />
                             </Box>
@@ -390,24 +384,24 @@ export const VisualizerControlsDemo: Story = {
 
 export const AudioEngineIntegration: Story = {
     render: () => (
-        <Box style={{ padding: vars.spacing.lg }}>
-            <Heading.H3 style={{ marginBottom: vars.spacing.lg }}>Audio Engine Integration</Heading.H3>
+        <Box style={{ padding: vars.spacing['6'] }}>
+            <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>Audio Engine Integration</Heading.H3>
 
-            <Flex direction="column" gap={vars.spacing.lg}>
+            <Flex direction="column" gap={vars.spacing['6']}>
                 <Box
                     style={{
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         backgroundColor: vars.colors.surface,
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Signal Flow</Heading.H4>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Signal Flow</Heading.H4>
                     <Box
                         style={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: vars.spacing.md,
-                            padding: vars.spacing.md,
+                            gap: vars.spacing['5'],
+                            padding: vars.spacing['5'],
                             backgroundColor: vars.colors.background,
                             borderRadius: vars.borderRadius.sm,
                             overflowX: 'auto'
@@ -415,7 +409,7 @@ export const AudioEngineIntegration: Story = {
                     >
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.primary,
                                 borderRadius: vars.borderRadius.sm
                             }}
@@ -427,7 +421,7 @@ export const AudioEngineIntegration: Story = {
                         </Text>
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.surface,
                                 borderRadius: vars.borderRadius.sm
                             }}
@@ -439,7 +433,7 @@ export const AudioEngineIntegration: Story = {
                         </Text>
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.surface,
                                 borderRadius: vars.borderRadius.sm
                             }}
@@ -451,7 +445,7 @@ export const AudioEngineIntegration: Story = {
                         </Text>
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.surface,
                                 borderRadius: vars.borderRadius.sm
                             }}
@@ -463,7 +457,7 @@ export const AudioEngineIntegration: Story = {
                         </Text>
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.surface,
                                 borderRadius: vars.borderRadius.sm
                             }}
@@ -475,7 +469,7 @@ export const AudioEngineIntegration: Story = {
                         </Text>
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.success,
                                 borderRadius: vars.borderRadius.sm
                             }}
@@ -487,21 +481,21 @@ export const AudioEngineIntegration: Story = {
 
                 <Box
                     style={{
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         backgroundColor: vars.colors.surface,
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Visualizer Connections</Heading.H4>
-                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Visualizer Connections</Heading.H4>
+                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                         Visualizers connect to the audio engine at specific points in the signal chain:
                     </Text>
-                    <Flex direction="column" gap={vars.spacing.sm}>
-                        <Flex align="center" gap={vars.spacing.sm}>
+                    <Flex direction="column" gap={vars.spacing['4']}>
+                        <Flex align="center" gap={vars.spacing['4']}>
                             <Box
                                 style={{
                                     width: '120px',
-                                    padding: vars.spacing.xs,
+                                    padding: vars.spacing['2'],
                                     backgroundColor: vars.colors.background,
                                     borderRadius: vars.borderRadius.sm
                                 }}
@@ -512,11 +506,11 @@ export const AudioEngineIntegration: Story = {
                                 Connects to: Mixer node for real-time frequency data
                             </Text>
                         </Flex>
-                        <Flex align="center" gap={vars.spacing.sm}>
+                        <Flex align="center" gap={vars.spacing['4']}>
                             <Box
                                 style={{
                                     width: '120px',
-                                    padding: vars.spacing.xs,
+                                    padding: vars.spacing['2'],
                                     backgroundColor: vars.colors.background,
                                     borderRadius: vars.borderRadius.sm
                                 }}
@@ -527,11 +521,11 @@ export const AudioEngineIntegration: Story = {
                                 Connects to: Post-gain node for audio-reactive visuals
                             </Text>
                         </Flex>
-                        <Flex align="center" gap={vars.spacing.sm}>
+                        <Flex align="center" gap={vars.spacing['4']}>
                             <Box
                                 style={{
                                     width: '120px',
-                                    padding: vars.spacing.xs,
+                                    padding: vars.spacing['2'],
                                     backgroundColor: vars.colors.background,
                                     borderRadius: vars.borderRadius.sm
                                 }}
@@ -547,27 +541,27 @@ export const AudioEngineIntegration: Story = {
 
                 <Box
                     style={{
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         backgroundColor: vars.colors.surface,
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Key Components</Heading.H4>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Key Components</Heading.H4>
                     <Box
                         style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                            gap: vars.spacing.md
+                            gap: vars.spacing['5']
                         }}
                     >
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.background,
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing['2'] }}>
                                 masterAudioOutput
                             </Text>
                             <Text size="xs" color="secondary">
@@ -577,12 +571,12 @@ export const AudioEngineIntegration: Story = {
                         </Box>
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.background,
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing['2'] }}>
                                 audioStore
                             </Text>
                             <Text size="xs" color="secondary">
@@ -591,12 +585,12 @@ export const AudioEngineIntegration: Story = {
                         </Box>
                         <Box
                             style={{
-                                padding: vars.spacing.sm,
+                                padding: vars.spacing['4'],
                                 backgroundColor: vars.colors.background,
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing['2'] }}>
                                 visualizerSettings
                             </Text>
                             <Text size="xs" color="secondary">
@@ -612,25 +606,25 @@ export const AudioEngineIntegration: Story = {
 
 export const PerformanceOptimization: Story = {
     render: () => (
-        <Box style={{ padding: vars.spacing.lg }}>
-            <Heading.H3 style={{ marginBottom: vars.spacing.lg }}>Performance Optimization</Heading.H3>
+        <Box style={{ padding: vars.spacing['6'] }}>
+            <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>Performance Optimization</Heading.H3>
 
-            <Flex direction="column" gap={vars.spacing.lg}>
+            <Flex direction="column" gap={vars.spacing['6']}>
                 <Box
                     style={{
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         backgroundColor: vars.colors.surface,
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Lazy Loading</Heading.H4>
-                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Lazy Loading</Heading.H4>
+                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                         Visualizer components use React.lazy() to reduce initial bundle size. They are only loaded when
                         enabled in settings.
                     </Text>
                     <Box
                         style={{
-                            padding: vars.spacing.sm,
+                            padding: vars.spacing['4'],
                             backgroundColor: vars.colors.background,
                             borderRadius: vars.borderRadius.sm
                         }}
@@ -648,30 +642,30 @@ export const PerformanceOptimization: Story = {
 
                 <Box
                     style={{
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         backgroundColor: vars.colors.surface,
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Peak Caching</Heading.H4>
-                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Peak Caching</Heading.H4>
+                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                         WaveSurfer caches extracted audio peaks to avoid re-processing the same audio.
                     </Text>
                 </Box>
 
                 <Box
                     style={{
-                        padding: vars.spacing.md,
+                        padding: vars.spacing['5'],
                         backgroundColor: vars.colors.surface,
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing.sm }}>Audio Processing</Heading.H4>
-                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing.md }}>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Audio Processing</Heading.H4>
+                    <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                         Audio processing optimizations:
                     </Text>
-                    <Flex direction="column" gap={vars.spacing.sm}>
-                        <Flex gap={vars.spacing.sm}>
+                    <Flex direction="column" gap={vars.spacing['4']}>
+                        <Flex gap={vars.spacing['4']}>
                             <Box
                                 style={{
                                     width: '24px',
@@ -687,7 +681,7 @@ export const PerformanceOptimization: Story = {
                             </Box>
                             <Text size="sm">Sample rate: 6000 Hz for waveform, 3000 Hz for minimap</Text>
                         </Flex>
-                        <Flex gap={vars.spacing.sm}>
+                        <Flex gap={vars.spacing['4']}>
                             <Box
                                 style={{
                                     width: '24px',
@@ -703,7 +697,7 @@ export const PerformanceOptimization: Story = {
                             </Box>
                             <Text size="sm">Touch event debouncing at 20ms intervals</Text>
                         </Flex>
-                        <Flex gap={vars.spacing.sm}>
+                        <Flex gap={vars.spacing['4']}>
                             <Box
                                 style={{
                                     width: '24px',
@@ -719,7 +713,7 @@ export const PerformanceOptimization: Story = {
                             </Box>
                             <Text size="sm">Canvas operations use device pixel ratio</Text>
                         </Flex>
-                        <Flex gap={vars.spacing.sm}>
+                        <Flex gap={vars.spacing['4']}>
                             <Box
                                 style={{
                                     width: '24px',

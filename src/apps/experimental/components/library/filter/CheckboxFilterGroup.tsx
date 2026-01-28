@@ -1,3 +1,5 @@
+import { vars } from '../../../../../styles/tokens.css';
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { FilterSection } from './FilterSection';
@@ -73,7 +75,7 @@ export function CheckboxFilterGroup({
             hasActiveFilters={hasActiveFilters}
         >
             {isLoading ? (
-                <FlexCol style={{ gap: '8px' }}>
+                <FlexCol style={{ gap: vars.spacing['2'] }}>
                     {Array.from({ length: 3 }).map((_, i) => (
                         <Box
                             key={i}
@@ -90,14 +92,14 @@ export function CheckboxFilterGroup({
                     Failed to load options
                 </Text>
             ) : (
-                <FlexCol style={{ gap: '8px' }}>
+                <FlexCol style={{ gap: vars.spacing['2'] }}>
                     {visibleOptions?.map(option => (
                         <Checkbox
                             key={option.value}
                             checked={selectedValues.includes(option.value)}
                             onChangeChecked={() => handleToggle(option.value)}
                         >
-                            <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                            <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                                 <span>{option.label}</span>
                                 {showCounts && option.count !== undefined && (
                                     <Text size="xs" color="secondary">
@@ -112,18 +114,18 @@ export function CheckboxFilterGroup({
                         <Box
                             style={{
                                 cursor: 'pointer',
-                                marginTop: '4px'
+                                marginTop: vars.spacing['1']
                             }}
                             onClick={() => setShowAll(!showAll)}
                         >
                             <Text size="sm" color="primary">
                                 {showAll ? (
-                                    <Flex style={{ alignItems: 'center', gap: '4px' }}>
+                                    <Flex style={{ alignItems: 'center', gap: vars.spacing['1'] }}>
                                         <MinusIcon style={{ width: 16, height: 16 }} />
                                         Show less
                                     </Flex>
                                 ) : (
-                                    <Flex style={{ alignItems: 'center', gap: '4px' }}>
+                                    <Flex style={{ alignItems: 'center', gap: vars.spacing['1'] }}>
                                         <PlusIcon style={{ width: 16, height: 16 }} />
                                         Show {options.length - maxVisible} more
                                     </Flex>
@@ -133,7 +135,7 @@ export function CheckboxFilterGroup({
                     )}
 
                     {selectedValues.length > 0 && (
-                        <Text size="xs" color="secondary" style={{ marginTop: '4px' }}>
+                        <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['1'] }}>
                             {selectedValues.length} selected
                         </Text>
                     )}

@@ -27,17 +27,17 @@ export const AutoDJSettings: React.FC = () => {
     const stats = getTransitionStats();
 
     return (
-        <Card style={{ marginBottom: vars.spacing.md }}>
-            <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+        <Card style={{ marginBottom: vars.spacing['5'] }}>
+            <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                     <MagicWandIcon />
                     <Text size="sm" style={{ fontWeight: 'bold' }}>
                         Auto-DJ
                     </Text>
                 </Flex>
 
-                <Card style={{ marginBottom: vars.spacing.md }}>
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                <Card style={{ marginBottom: vars.spacing['5'] }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                         <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                             <Box>
                                 <Text size="sm" style={{ fontWeight: 'bold' }}>
@@ -53,7 +53,7 @@ export const AutoDJSettings: React.FC = () => {
                         <Divider />
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Default Crossfade Duration: {duration}s
                             </Text>
                             <Slider
@@ -69,7 +69,7 @@ export const AutoDJSettings: React.FC = () => {
                         <Divider />
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Prefer Harmonic Transitions
                             </Text>
                             <Switch
@@ -80,7 +80,7 @@ export const AutoDJSettings: React.FC = () => {
                         </Box>
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Prefer Energy Match Transitions
                             </Text>
                             <Switch
@@ -91,7 +91,7 @@ export const AutoDJSettings: React.FC = () => {
                         </Box>
 
                         <Box>
-                            <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                 Use Notch Filter
                             </Text>
                             <Switch
@@ -103,7 +103,7 @@ export const AutoDJSettings: React.FC = () => {
 
                         {useNotchFilter && (
                             <Box>
-                                <Text size="xs" style={{ marginBottom: vars.spacing.xs }}>
+                                <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                     Notch Frequency: {notchFrequency}Hz
                                 </Text>
                                 <Slider
@@ -120,17 +120,17 @@ export const AutoDJSettings: React.FC = () => {
                 </Card>
 
                 <Card>
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                        <Flex style={{ alignItems: 'center', gap: vars.spacing.sm }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
+                        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                             <CounterClockwiseClockIcon />
                             <Text size="sm" style={{ fontWeight: 'bold' }}>
                                 Transition History
                             </Text>
                         </Flex>
 
-                        <Box style={{ display: 'grid', gap: vars.spacing.sm }}>
+                        <Box style={{ display: 'grid', gap: vars.spacing['4'] }}>
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                                     <Text size="xs" color="secondary">
                                         Total Transitions
                                     </Text>
@@ -140,7 +140,7 @@ export const AutoDJSettings: React.FC = () => {
                                 </Flex>
                             </Box>
 
-                            <Flex style={{ gap: vars.spacing.md }}>
+                            <Flex style={{ gap: vars.spacing['5'] }}>
                                 <ChipStat label="Harmonic" value={stats.harmonicMixes} />
                                 <ChipStat label="Energy" value={stats.energyMixes} />
                                 <ChipStat label="Tempo" value={stats.tempoChanges} />
@@ -150,7 +150,7 @@ export const AutoDJSettings: React.FC = () => {
                             <Divider />
 
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                                     <Text size="xs" color="secondary">
                                         Avg Compatibility
                                     </Text>
@@ -162,7 +162,7 @@ export const AutoDJSettings: React.FC = () => {
                             </Box>
 
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing.xs }}>
+                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
                                     <Text size="xs" color="secondary">
                                         Variety Score
                                     </Text>

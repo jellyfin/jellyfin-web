@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode, useState, useCallback, type MouseEvent } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import { vars } from '../styles/tokens.css.ts';
-import { Button } from '../Button';
+import { vars } from '../../../styles/tokens.css';
+import { Button } from '../../Button';
 
 interface AnimatedMenuProps {
     trigger: ReactNode;
@@ -40,7 +40,7 @@ function AnimatedMenu({ trigger, children }: Readonly<AnimatedMenuProps>): React
                                     backgroundColor: vars.colors.surface,
                                     borderRadius: vars.borderRadius.md,
                                     boxShadow: vars.shadows.lg,
-                                    padding: vars.spacing.xs,
+                                    padding: vars.spacing['2'],
                                     zIndex: 1000
                                 }}
                             >
@@ -74,10 +74,10 @@ function MenuItem({ children, onSelect }: Readonly<MenuItemProps>): ReactElement
             style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: vars.spacing.sm,
-                padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+                gap: vars.spacing['4'],
+                padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
                 borderRadius: vars.borderRadius.sm,
-                fontSize: vars.typography.fontSizeMd,
+                fontSize: vars.typography['6'].fontSize,
                 color: vars.colors.text,
                 cursor: 'pointer',
                 outline: 'none'
@@ -96,7 +96,7 @@ function MenuSeparator(): ReactElement {
             style={{
                 height: 1,
                 backgroundColor: vars.colors.divider,
-                margin: `${vars.spacing.xs} 0`
+                margin: `${vars.spacing['2']} 0`
             }}
         />
     );

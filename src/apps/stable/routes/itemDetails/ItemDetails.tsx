@@ -128,7 +128,7 @@ export const ItemDetails: React.FC = () => {
 
     if (itemLoading) {
         return (
-            <Box style={{ padding: vars.spacing.lg, display: 'flex', justifyContent: 'center' }}>
+            <Box style={{ padding: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>
                 <Text>Loading...</Text>
             </Box>
         );
@@ -136,7 +136,7 @@ export const ItemDetails: React.FC = () => {
 
     if (!item) {
         return (
-            <Box style={{ padding: vars.spacing.lg, textAlign: 'center' }}>
+            <Box style={{ padding: vars.spacing['6'], textAlign: 'center' }}>
                 <Text color="error">Item not found</Text>
             </Box>
         );
@@ -158,7 +158,7 @@ export const ItemDetails: React.FC = () => {
                     background: backdropUrl ? `url(${backdropUrl}) center/cover` : vars.colors.surface,
                     borderRadius: vars.borderRadius.lg,
                     overflow: 'hidden',
-                    marginBottom: vars.spacing.xl
+                    marginBottom: vars.spacing['7']
                 }}
             >
                 <Box
@@ -168,18 +168,18 @@ export const ItemDetails: React.FC = () => {
                         left: 0,
                         right: 0,
                         background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
-                        padding: vars.spacing.xl,
+                        padding: vars.spacing['7'],
                         display: 'flex',
-                        gap: vars.spacing.md,
+                        gap: vars.spacing['5'],
                         flexWrap: 'wrap'
                     }}
                 >
                     <Button variant="primary" size="lg" onClick={handlePlay}>
-                        <PlayIcon style={{ marginRight: vars.spacing.xs }} /> Play
+                        <PlayIcon style={{ marginRight: vars.spacing['2'] }} /> Play
                     </Button>
                     {(item.Type === 'Series' || item.Type === 'MusicAlbum') && (
                         <Button variant="ghost" size="lg" onClick={handleShuffle}>
-                            <ShuffleIcon style={{ marginRight: vars.spacing.xs }} /> Shuffle
+                            <ShuffleIcon style={{ marginRight: vars.spacing['2'] }} /> Shuffle
                         </Button>
                     )}
                     <IconButton variant="plain" size="lg" onClick={toggleFavorite}>
@@ -195,9 +195,9 @@ export const ItemDetails: React.FC = () => {
             </Box>
 
             <Box
-                style={{ paddingLeft: vars.spacing.xl, paddingRight: vars.spacing.xl, paddingBottom: vars.spacing.xl }}
+                style={{ paddingLeft: vars.spacing['7'], paddingRight: vars.spacing['7'], paddingBottom: vars.spacing['7'] }}
             >
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.lg }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['6'] }}>
                     <Box>
                         <Heading.H2>{item.Name}</Heading.H2>
                         {item.OriginalTitle && item.OriginalTitle !== item.Name && (
@@ -207,7 +207,7 @@ export const ItemDetails: React.FC = () => {
                         )}
                     </Box>
 
-                    <Flex style={{ flexDirection: 'row', gap: vars.spacing.sm, flexWrap: 'wrap' }}>
+                    <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}>
                         {item.ProductionYear && <Chip>{item.ProductionYear}</Chip>}
                         {item.OfficialRating && <Chip>{item.OfficialRating}</Chip>}
                         {runtimeLabel && <Chip>{runtimeLabel}</Chip>}
@@ -215,7 +215,7 @@ export const ItemDetails: React.FC = () => {
                     </Flex>
 
                     {item.Genres && item.Genres.length > 0 && (
-                        <Flex style={{ flexDirection: 'row', gap: vars.spacing.sm, flexWrap: 'wrap' }}>
+                        <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}>
                             {item.Genres.map(genre => (
                                 <Chip key={genre}>{genre}</Chip>
                             ))}
@@ -225,14 +225,14 @@ export const ItemDetails: React.FC = () => {
                     {item.Overview && (
                         <Box>
                             <Heading.H4>Overview</Heading.H4>
-                            <Text style={{ marginTop: vars.spacing.sm, whiteSpace: 'pre-wrap' }}>{item.Overview}</Text>
+                            <Text style={{ marginTop: vars.spacing['4'], whiteSpace: 'pre-wrap' }}>{item.Overview}</Text>
                         </Box>
                     )}
 
                     {item.People && item.People.length > 0 && (
                         <Box>
-                            <Heading.H4 style={{ marginBottom: vars.spacing.md }}>Cast & Crew</Heading.H4>
-                            <Flex style={{ flexDirection: 'row', gap: vars.spacing.sm, flexWrap: 'wrap' }}>
+                            <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>Cast & Crew</Heading.H4>
+                            <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}>
                                 {item.People.slice(0, 10).map(person => (
                                     <Chip key={person.Id}>
                                         {person.Name}
@@ -247,12 +247,12 @@ export const ItemDetails: React.FC = () => {
 
                     {similarItems?.Items && similarItems.Items.length > 0 && (
                         <Box>
-                            <Heading.H4 style={{ marginBottom: vars.spacing.md }}>Similar Items</Heading.H4>
+                            <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>Similar Items</Heading.H4>
                             <Box
                                 style={{
                                     display: 'grid',
                                     gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                                    gap: vars.spacing.md
+                                    gap: vars.spacing['5']
                                 }}
                             >
                                 {similarItems.Items.map(similarItem => {
@@ -264,7 +264,7 @@ export const ItemDetails: React.FC = () => {
                                                     aspectRatio: '16/9',
                                                     borderRadius: vars.borderRadius.md,
                                                     overflow: 'hidden',
-                                                    marginBottom: vars.spacing.xs
+                                                    marginBottom: vars.spacing['2']
                                                 }}
                                             >
                                                 {imageTag && (

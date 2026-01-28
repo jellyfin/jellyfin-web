@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode } from 'react';
 import { motion } from 'motion/react';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
-import { vars } from '../styles/tokens.css.ts';
-import { Button } from '../Button';
+import { vars } from '../../../styles/tokens.css';
+import { Button } from '../../Button';
 
 interface AnimatedTooltipProps {
     content: string;
@@ -26,9 +26,9 @@ function AnimatedTooltip({ content, children, side = 'top' }: Readonly<AnimatedT
                             style={{
                                 backgroundColor: vars.colors.text,
                                 color: vars.colors.background,
-                                padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+                                padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
                                 borderRadius: vars.borderRadius.sm,
-                                fontSize: vars.typography.fontSizeSm,
+                                fontSize: vars.typography['3'].fontSize,
                                 boxShadow: vars.shadows.md,
                                 zIndex: 1000
                             }}

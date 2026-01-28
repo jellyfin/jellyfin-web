@@ -40,24 +40,24 @@ const BackupInfoDialog: FunctionComponent<Readonly<IProps>> = ({
         <Dialog open={open} onOpenChange={open => !open && onClose()}>
             <Toast open={isCopiedToastOpen} onClose={handleToastClose} message={globalize.translate('Copied')} />
             <DialogContent title={backup.DateCreated}>
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.xs }}>
-                        <Flex style={{ gap: vars.spacing.md, alignItems: 'center' }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
+                        <Flex style={{ gap: vars.spacing['5'], alignItems: 'center' }}>
                             <Text weight="bold">{globalize.translate('LabelPath')}</Text>
-                            <Flex style={{ gap: vars.spacing.xs, alignItems: 'center' }}>
+                            <Flex style={{ gap: vars.spacing['2'], alignItems: 'center' }}>
                                 <Text color="secondary">{backup.Path}</Text>
                                 <IconButton variant="plain" size="sm" onClick={copyPath}>
                                     <CopyIcon />
                                 </IconButton>
                             </Flex>
                         </Flex>
-                        <Flex style={{ gap: vars.spacing.md }}>
+                        <Flex style={{ gap: vars.spacing['5'] }}>
                             <Text weight="bold">{globalize.translate('LabelVersion')}</Text>
                             <Text color="secondary">{backup.ServerVersion}</Text>
                         </Flex>
                     </Flex>
 
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing.xs }}>
+                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
                         <Checkbox name="Database" checked={true} disabled>
                             {globalize.translate('LabelDatabase')}
                         </Checkbox>
@@ -74,7 +74,7 @@ const BackupInfoDialog: FunctionComponent<Readonly<IProps>> = ({
                 </Flex>
             </DialogContent>
 
-            <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing.sm, padding: vars.spacing.md }}>
+            <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['4'], padding: vars.spacing['5'] }}>
                 <Button variant="primary" onClick={onClose}>
                     {globalize.translate('ButtonOk')}
                 </Button>

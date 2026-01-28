@@ -13,18 +13,18 @@ export const listStyles = style({
 
 export const listSizes = styleVariants({
     sm: {
-        [listGap]: vars.spacing.xs,
-        [listPadding]: vars.spacing.sm,
+        [listGap]: vars.spacing['2'],
+        [listPadding]: vars.spacing['4'],
         [listItemRadius]: vars.borderRadius.sm
     },
     md: {
-        [listGap]: vars.spacing.sm,
-        [listPadding]: vars.spacing.md,
+        [listGap]: vars.spacing['4'],
+        [listPadding]: vars.spacing['5'],
         [listItemRadius]: vars.borderRadius.md
     },
     lg: {
-        [listGap]: vars.spacing.md,
-        [listPadding]: vars.spacing.lg,
+        [listGap]: vars.spacing['5'],
+        [listPadding]: vars.spacing['6'],
         [listItemRadius]: vars.borderRadius.lg
     }
 });
@@ -32,14 +32,14 @@ export const listSizes = styleVariants({
 export const listNested = style({
     padding: 0,
     margin: 0,
-    marginLeft: vars.spacing.md,
+    marginLeft: vars.spacing['5'],
     borderLeft: `1px solid ${vars.colors.divider}`,
-    paddingLeft: vars.spacing.md,
+    paddingLeft: vars.spacing['5'],
     listStyle: 'none'
 });
 
 export const listItemStyles = style({
-    padding: 'var(--list-item-padding, var(--list-padding, vars.spacing.md))',
+    padding: `var(--list-item-padding, var(--list-padding, ${vars.spacing['5']}))`,
     borderBottom: `1px solid ${vars.colors.divider}`,
     ':last-child': {
         borderBottom: 'none'
@@ -49,7 +49,7 @@ export const listItemStyles = style({
 export const listItemContentStyles = style({
     display: 'flex',
     flexDirection: 'column',
-    gap: vars.spacing.xs,
+    gap: vars.spacing['2'],
     flex: 1
 });
 
@@ -57,13 +57,13 @@ export const listItemDecorator = style({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: vars.spacing.sm,
+    marginRight: vars.spacing['4'],
     color: vars.colors.textSecondary
 });
 
 export const listSubheaderStyles = style({
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-    fontSize: vars.typography.fontSizeSm,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
+    fontSize: vars.typography['3'].fontSize,
     fontWeight: vars.typography.fontWeightBold,
     color: vars.colors.textSecondary,
     textTransform: 'uppercase',
@@ -82,7 +82,7 @@ export const listItemButtonStyles = style({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
     backgroundColor: 'transparent',
     border: 'none',
     textAlign: 'left',

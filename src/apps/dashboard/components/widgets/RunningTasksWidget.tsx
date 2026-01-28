@@ -25,17 +25,17 @@ const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps): React.ReactElem
             <Paper
                 variant="outlined"
                 style={{
-                    padding: vars.spacing.md,
+                    padding: vars.spacing['5'],
                     borderRadius: vars.borderRadius.md,
                     backgroundColor: vars.colors.surface
                 }}
             >
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing.md }}>
+                <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                     {runningTasks.map(task => (
                         <Box key={task.Id}>
                             <Text
                                 size="sm"
-                                style={{ fontWeight: vars.typography.fontWeightBold, marginBottom: vars.spacing.xs }}
+                                style={{ fontWeight: vars.typography.fontWeightBold, marginBottom: vars.spacing['2'] }}
                             >
                                 {task.Name}
                             </Text>
