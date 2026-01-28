@@ -1,9 +1,9 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React from 'react';
 import { useLocale } from 'hooks/useLocale';
-import { Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
+import { Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import { getTriggerFriendlyName } from '../utils/edit';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import globalize from 'lib/globalize';

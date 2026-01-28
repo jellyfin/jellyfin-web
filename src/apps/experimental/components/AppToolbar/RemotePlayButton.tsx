@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { DesktopIcon, Link2Icon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css';
-import { Box } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
+import { vars } from 'styles/tokens.css.ts';
+import { Box } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';

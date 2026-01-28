@@ -4,7 +4,7 @@
  * Displays all genres with item counts and navigation.
  */
 
-import { vars } from '../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState, useCallback } from 'react';
 import { useParams } from '@tanstack/react-router';
@@ -16,16 +16,16 @@ import { usePagination } from 'hooks/usePagination';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';
-import { Card, CardBody } from 'ui-primitives/Card';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Chip } from 'ui-primitives/Chip';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Card, CardBody } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 import { ChevronLeftIcon, ChevronRightIcon, PlayIcon } from '@radix-ui/react-icons';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
 
 import { logger } from 'utils/logger';
-import * as styles from './Genres.css';
+import * as styles from './Genres.css.ts';
 
 interface GenreItem {
     Name: string;

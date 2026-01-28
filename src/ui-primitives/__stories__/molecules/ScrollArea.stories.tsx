@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { ScrollArea } from '../../ScrollArea';
-import { Text } from '../../Text';
-import { vars } from '../../../styles/tokens.css';
+import { ScrollArea } from '../..';
+import { Text } from '../..';
+import { vars } from 'styles/tokens.css.ts';
 
 const meta: Meta<typeof ScrollArea> = {
     title: 'UI Primitives/ScrollArea',

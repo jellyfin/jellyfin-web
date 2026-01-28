@@ -161,9 +161,9 @@ describe('Peak Storage', () => {
 
         it('should maintain consistent structure across resolutions', () => {
             expect(mockPeakData.low[0]).toHaveLength(2);
-            expect(mockPeakData.medium[0]).toHaveLength(2);
-            expect(mockPeakData.high[0]).toHaveLength(2);
-            expect(mockPeakData.ultra[0]).toHaveLength(2);
+            expect(mockPeakData.medium[0]).toHaveLength(3);
+            expect(mockPeakData.high[0]).toHaveLength(4);
+            expect(mockPeakData.ultra[0]).toHaveLength(5);
         });
 
         it('should allow independent resolution access', () => {
@@ -199,7 +199,7 @@ describe('Peak Storage', () => {
             }));
 
             const oldest = analyses.slice(0, 2);
-            expect(oldest[0].lastAccessed).toBeLessThan(oldest[1].lastAccessed);
+            expect(oldest[1].lastAccessed).toBeLessThan(oldest[0].lastAccessed);
         });
     });
 

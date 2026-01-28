@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
-import { List, ListItem, ListItemButton, ListItemContent, ListItemDecorator, ListSubheader } from '../../List';
+import { List, ListItem, ListItemButton, ListItemContent, ListItemDecorator, ListSubheader } from '../..';
 
 const meta: Meta<typeof List> = {
     title: 'UI Primitives/List',
@@ -117,7 +117,7 @@ function WithSelectionStory(): ReactElement {
         <div style={{ width: '280px' }}>
             <List>
                 <ListItem>
-                    <ListItemButton selected={selected === 'home'} onClick={selectHome}>
+                    <ListItemButton active={selected === 'home'} onClick={selectHome}>
                         <ListItemDecorator>
                             <HomeIcon />
                         </ListItemDecorator>
@@ -125,7 +125,7 @@ function WithSelectionStory(): ReactElement {
                     </ListItemButton>
                 </ListItem>
                 <ListItem>
-                    <ListItemButton selected={selected === 'profile'} onClick={selectProfile}>
+                    <ListItemButton active={selected === 'profile'} onClick={selectProfile}>
                         <ListItemDecorator>
                             <PersonIcon />
                         </ListItemDecorator>
@@ -133,7 +133,7 @@ function WithSelectionStory(): ReactElement {
                     </ListItemButton>
                 </ListItem>
                 <ListItem>
-                    <ListItemButton selected={selected === 'notifications'} onClick={selectNotifications}>
+                    <ListItemButton active={selected === 'notifications'} onClick={selectNotifications}>
                         <ListItemDecorator>
                             <NotificationsIcon />
                         </ListItemDecorator>
@@ -141,7 +141,7 @@ function WithSelectionStory(): ReactElement {
                     </ListItemButton>
                 </ListItem>
                 <ListItem>
-                    <ListItemButton selected={selected === 'settings'} onClick={selectSettings}>
+                    <ListItemButton active={selected === 'settings'} onClick={selectSettings}>
                         <ListItemDecorator>
                             <SettingsIcon />
                         </ListItemDecorator>

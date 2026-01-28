@@ -9,13 +9,13 @@ import { useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Chip } from 'ui-primitives/Chip';
-import { Divider } from 'ui-primitives/Divider';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { itemsApi } from 'lib/api/items';
 import { useViewStyle } from 'hooks/useViewStyle';

@@ -4,11 +4,11 @@ import Widget from './Widget';
 import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 import { subSeconds } from 'date-fns';
-import { List } from 'ui-primitives/List';
-import { Paper } from 'ui-primitives/Paper';
-import { Skeleton } from 'ui-primitives/Skeleton';
-import { Flex } from 'ui-primitives/Box';
-import { vars } from 'styles/tokens.css';
+import { List } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
+import { Skeleton } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 const ActivityLogWidget = (): React.ReactElement => {
     const dayBefore = useMemo(() => subSeconds(new Date(), 24 * 60 * 60).toISOString(), []);

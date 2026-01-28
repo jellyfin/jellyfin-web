@@ -1,9 +1,9 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
-import { Text } from '../../Text';
-import { Toggle, ToggleGroup, ToggleGroupItem } from '../../Toggle';
+import { Text } from '../..';
+import { Toggle, ToggleGroup, ToggleGroupItem } from '../..';
 
 const meta: Meta<typeof Toggle> = {
     title: 'UI Primitives/Toggle',

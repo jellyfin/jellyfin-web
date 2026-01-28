@@ -21,12 +21,12 @@ import { logger } from 'utils/logger';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { appRouter } from 'components/router/appRouter';
 import { toVideoItem } from 'lib/utils/playbackUtils';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Chip } from 'ui-primitives/Chip';
-import { Divider } from 'ui-primitives/Divider';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Heading, Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { IconButton } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface ShowCardProps {
     item: BaseItemDto;

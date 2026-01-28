@@ -1,7 +1,7 @@
 import React, { type ReactElement } from 'react';
 import { DayPicker, type DateRange } from 'react-day-picker';
-import 'react-day-picker/src/style.css';
-import { calendarContainer } from './Calendar.css';
+import 'react-day-picker/src/style.css.ts';
+import { calendarContainer } from './Calendar.css.ts';
 
 export interface CalendarProps {
     readonly mode?: 'single' | 'range' | 'multiple';

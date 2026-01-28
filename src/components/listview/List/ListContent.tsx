@@ -1,7 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC } from 'react';
 import { DragHandleDots2Icon } from '@radix-ui/react-icons';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 
 import useIndicator from 'components/indicators/useIndicator';
 import { ItemAction } from 'constants/itemAction';

@@ -1,7 +1,7 @@
 import React, { type FC, useCallback } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
 import { EpisodeFilter, type LibraryViewSettings } from 'types/library';
 

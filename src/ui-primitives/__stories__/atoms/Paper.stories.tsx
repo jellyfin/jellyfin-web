@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Paper } from '../../Paper';
-import { Text } from '../../Text';
+import { Paper } from '../..';
+import { Text } from '../..';
 
 const meta: Meta<typeof Paper> = {
     title: 'UI Primitives/Paper',

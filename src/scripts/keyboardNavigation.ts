@@ -67,7 +67,7 @@ function attachGamepadScript() {
 
 if (
     typeof navigator !== 'undefined' &&
-    navigator.getGamepads &&
+    typeof navigator.getGamepads === 'function' &&
     (appSettings as any).enableGamepad() &&
     typeof (appSettings as any).enableGamepad === 'function'
 ) {
@@ -80,7 +80,7 @@ const keyboardNavigation = {
     isNavigationKey: (key: string) => Object.values(KeyNames).includes(key || ''),
     canEnableGamepad: () =>
         typeof navigator !== 'undefined' &&
-        navigator.getGamepads &&
+        typeof navigator.getGamepads === 'function' &&
         (appSettings as any).enableGamepad() &&
         typeof (appSettings as any).enableGamepad === 'function'
 };

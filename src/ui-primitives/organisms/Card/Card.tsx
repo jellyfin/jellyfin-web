@@ -5,7 +5,7 @@ import React, {
     type ReactNode,
     type ReactElement
 } from 'react';
-import { cardStyles, cardPadding, cardInteractive, cardHeader, cardBody, cardFooter } from './Card.css';
+import { cardStyles, cardPadding, cardInteractive, cardHeader, cardBody, cardFooter } from './Card.css.ts';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
     readonly children: ReactNode;

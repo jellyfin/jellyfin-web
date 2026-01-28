@@ -1,7 +1,7 @@
 import icon from '@jellyfin/ux-web/icon-transparent.png';
 import React, { FC } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 
 import { useSystemInfo } from 'hooks/useSystemInfo';
 

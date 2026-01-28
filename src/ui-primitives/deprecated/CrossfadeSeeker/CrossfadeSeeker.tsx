@@ -1,12 +1,12 @@
 /**
  * CrossfadeSeeker - Seek Bar with Waveform Visualization
  *
- * @deprecated Use SeekSlider from 'ui-primitives/SeekSlider' with showWaveform=true instead.
+ * @deprecated Use SeekSlider from 'ui-primitives' with showWaveform=true instead.
  * This component will be removed in a future version.
  */
 
 import { useRef, useState, useCallback, useEffect, type ReactElement } from 'react';
-import { CrossfadeWaveSurfer, type TrackState } from './CrossfadeWaveSurfer';
+import { CrossfadeWaveSurfer, type TrackState } from '../CrossfadeWaveSurfer';
 import {
     seekerContainer,
     timeDisplay,
@@ -15,7 +15,7 @@ import {
     buffered as bufferedStyle,
     handle,
     waveformContainer
-} from './CrossfadeSeeker.css';
+} from './CrossfadeSeeker.css.ts';
 
 export interface CrossfadeSeekerProps {
     readonly currentTrack: TrackState;

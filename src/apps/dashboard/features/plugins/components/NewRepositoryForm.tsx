@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Dialog, DialogPortal, DialogOverlayComponent, DialogContentClass } from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex, FlexRow, FlexCol } from 'ui-primitives/Box';
+import { Dialog, DialogPortal, DialogOverlayComponent, DialogContentClass } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Box, Flex, FlexRow, FlexCol } from 'ui-primitives';
 import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives/Input';
-import { DialogContent, DialogOverlay } from 'ui-primitives/Dialog';
-import { vars } from 'styles/tokens.css';
+import { Input } from 'ui-primitives';
+import { DialogContent, DialogOverlay } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface IProps {
     open: boolean;

@@ -2,7 +2,7 @@ import { Theme } from '@radix-ui/themes';
 import { useEffect, useMemo } from 'react';
 import { useUserTheme } from '../../hooks/useUserTheme';
 import themeManager from '../../scripts/themeManager';
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 type RadixTheme = 'light' | 'dark';
 

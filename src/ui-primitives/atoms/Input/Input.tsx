@@ -5,7 +5,7 @@ import React, {
     type CSSProperties,
     type InputHTMLAttributes
 } from 'react';
-import { inputStyles, textareaStyles, inputLabel, inputContainer, inputHelperText, formGroup } from './Input.css';
+import { inputStyles, textareaStyles, inputLabel, inputContainer, inputHelperText, formGroup } from './Input.css.ts';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
     readonly label?: string;

@@ -6,9 +6,9 @@
 
 import React, { useState, useCallback } from 'react';
 
-import { IconButton } from 'ui-primitives/IconButton';
-import { Button } from 'ui-primitives/Button';
-import { Text } from 'ui-primitives/Text';
+import { IconButton } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
 import { PlayIcon, ShuffleIcon } from '@radix-ui/react-icons';
 
@@ -27,7 +27,7 @@ import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { appRouter } from 'components/router/appRouter';
 import { toPlayableItem } from 'lib/utils/playbackUtils';
 
-import * as styles from './MusicAlbums.css';
+import * as styles from './MusicAlbums.css.ts';
 
 export const MusicAlbums: React.FC = () => {
     const { topParentId } = useParams({ strict: false }) as { topParentId?: string };

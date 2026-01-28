@@ -1,16 +1,16 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
-import { Box } from 'ui-primitives/Box';
-import { Heading } from 'ui-primitives/Text';
-import { Divider } from 'ui-primitives/Divider';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { FormLabel, FormHelperText, FormControl } from 'ui-primitives/FormControl';
-import { Input } from 'ui-primitives/Input';
-import { Alert } from 'ui-primitives/Alert';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Box } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { FormLabel, FormHelperText, FormControl } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Alert } from 'ui-primitives';
 import { useApi } from 'hooks/useApi';
 import { useThemes } from 'hooks/useThemes';
 import { currentSettings, UserSettings } from 'scripts/settings/userSettings';

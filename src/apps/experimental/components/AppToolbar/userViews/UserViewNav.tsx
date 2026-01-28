@@ -4,9 +4,9 @@ import { ChevronDownIcon, HeartFilledIcon } from '@radix-ui/react-icons';
 import React, { useMemo, useState } from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { useSearchParams } from 'hooks/useSearchParams';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 import useMediaQuery from 'hooks/useMediaQuery';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { MetaView } from 'apps/experimental/constants/metaView';

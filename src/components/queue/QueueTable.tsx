@@ -23,12 +23,12 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 import type { QueueItem } from 'store/types';
-import { List, ListItem, ListItemButton, ListItemAvatar, ListItemText } from 'ui-primitives/List';
-import { Avatar } from 'ui-primitives/Avatar';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { List, ListItem, ListItemButton, ListItemAvatar, ListItemText } from 'ui-primitives';
+import { Avatar } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export interface QueueTableProps {
     items: QueueItem[];

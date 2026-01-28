@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 import mediainfo from './mediainfo';
 
 interface EndsAtProps {

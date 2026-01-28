@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Flex, Text, Button } from '../ui-primitives';
+import { Box, Flex, Text, Button } from 'ui-primitives';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface ErrorStateProps {
     message?: string;

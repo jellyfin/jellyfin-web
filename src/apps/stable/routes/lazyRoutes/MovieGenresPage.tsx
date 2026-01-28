@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Card, CardBody } from 'ui-primitives/Card';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { Card, CardBody } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
 
 const MovieGenresPage: React.FC = () => {

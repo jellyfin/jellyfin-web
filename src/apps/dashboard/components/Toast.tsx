@@ -1,9 +1,9 @@
 import { Cross1Icon } from '@radix-ui/react-icons';
 import React, { useCallback, useEffect } from 'react';
 
-import { vars } from 'styles/tokens.css';
-import { Alert } from 'ui-primitives/Alert';
-import { IconButton } from 'ui-primitives/IconButton';
+import { vars } from 'styles/tokens.css.ts';
+import { Alert } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 
 interface ToastProps {
     readonly open: boolean;

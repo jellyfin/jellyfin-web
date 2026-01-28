@@ -6,7 +6,7 @@ import { Slider } from 'ui-primitives';
 import { Switch } from 'ui-primitives';
 import { Box, Flex } from 'ui-primitives';
 import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export const VisualizerSettings: React.FC = () => {
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['basic']));

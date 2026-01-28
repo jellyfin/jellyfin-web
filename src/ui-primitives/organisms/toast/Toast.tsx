@@ -12,7 +12,7 @@ import {
     toastIcon,
     toastViewport,
     toastViewportPosition
-} from './Toast.css';
+} from './Toast.css.ts';
 
 export {
     toastVariantStyles,

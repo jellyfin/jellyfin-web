@@ -2,8 +2,8 @@ import React, { type FC } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import globalize from 'lib/globalize';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
 import { useSearchParams } from 'hooks/useSearchParams';
 
 const getUrlParams = (searchParams: URLSearchParams) => {

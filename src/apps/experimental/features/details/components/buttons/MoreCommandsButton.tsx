@@ -1,5 +1,5 @@
 import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
 

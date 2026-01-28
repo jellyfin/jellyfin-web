@@ -1,4 +1,4 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Text, Button, Input, Alert, Checkbox } from 'ui-primitives';

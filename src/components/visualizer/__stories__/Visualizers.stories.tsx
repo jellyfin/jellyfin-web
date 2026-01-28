@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import { Box, Flex } from '../../../ui-primitives';
 import { Text, Heading } from '../../../ui-primitives';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

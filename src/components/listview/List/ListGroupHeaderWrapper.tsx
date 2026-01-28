@@ -1,5 +1,5 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import { Text } from 'ui-primitives/Text';
+import { Text } from 'ui-primitives';
 
 interface ListGroupHeaderWrapperProps {
     index?: number;

@@ -11,7 +11,7 @@ import {
     listItemButtonStyles,
     listItemAvatarStyles,
     listItemTextStyles
-} from './List.css';
+} from './List.css.ts';
 
 export interface ListProps {
     readonly children: ReactNode;
@@ -69,31 +69,7 @@ export function ListItem({
     );
 }
 
-export function ListItemButton({
-    children,
-    className,
-    onClick,
-    selected,
-    style: buttonStyle
-}: {
-    readonly children: ReactNode;
-    readonly className?: string;
-    readonly onClick?: (e: MouseEvent) => void;
-    readonly selected?: boolean;
-    readonly style?: CSSProperties;
-}): ReactElement {
-    return (
-        <button
-            type="button"
-            className={`${listItemButtonStyles} ${className ?? ''}`}
-            onClick={onClick}
-            data-selected={selected}
-            style={buttonStyle}
-        >
-            {children}
-        </button>
-    );
-}
+
 
 export function ListItemContent({
     children,
@@ -178,7 +154,6 @@ export {
     listItemDecorator,
     listSubheaderStyles,
     listSubheaderSticky,
-    listItemButtonStyles,
     listItemAvatarStyles,
     listItemTextStyles
 };

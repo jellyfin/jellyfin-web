@@ -8,12 +8,12 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Box, Flex } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 import { LoadingView } from 'components/feedback/LoadingView';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import { ChevronUpIcon, ChevronDownIcon, PlayIcon, PauseIcon } from '@radix-ui/react-icons';
 

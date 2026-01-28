@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation, supportedLocales, type LocaleCode } from 'hooks/useTranslation';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export interface LanguageSelectorProps {
     value?: string;

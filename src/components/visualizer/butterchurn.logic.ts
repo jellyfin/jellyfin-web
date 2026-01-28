@@ -99,11 +99,17 @@ async function validateButterchurnPrerequisites(): Promise<boolean> {
 }
 
 function createVisualizerOptions() {
+    // Detect device capability to balance quality vs performance
+    // Use 2x only on high-end devices (high DPI + high resolution)
+    const dpr = window.devicePixelRatio || 1;
+    const isHighEndDevice = dpr >= 2 && (window.innerWidth >= 2560 || window.innerHeight >= 1440);
+    const pixelRatioMultiplier = isHighEndDevice ? 2 : 1;
+
     return {
         width: window.innerWidth,
         height: window.innerHeight,
-        pixelRatio: window.devicePixelRatio * 2 || 1,
-        textureRatio: 2
+        pixelRatio: Math.min(dpr * pixelRatioMultiplier, 3), // Cap at 3x max
+        textureRatio: isHighEndDevice ? 2 : 1 // Reduce texture ratio on standard devices
     };
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 import {
     ChatBubbleIcon,
     DesktopIcon,
@@ -17,7 +17,7 @@ import {
     TrackNextIcon,
     TrackPreviousIcon
 } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export type PlaybackIconType =
     | 'play'

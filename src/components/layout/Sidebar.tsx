@@ -7,7 +7,7 @@ import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import Dashboard from '../../utils/dashboard';
 import UserAvatar from '../UserAvatar';
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import globalize from '../../lib/globalize';
 import { useVirtualizer } from '@tanstack/react-virtual';
 

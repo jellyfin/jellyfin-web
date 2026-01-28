@@ -1,5 +1,5 @@
 import React, { type ReactElement, type ReactNode, type CSSProperties, type MouseEventHandler } from 'react';
-import { iconButtonStyles, iconButtonVariants, iconButtonSizes, iconButtonColors } from './IconButton.css';
+import { iconButtonStyles, iconButtonVariants, iconButtonSizes, iconButtonColors } from './IconButton.css.ts';
 
 export type IconButtonVariant = keyof typeof iconButtonVariants;
 export type IconButtonSize = keyof typeof iconButtonSizes;

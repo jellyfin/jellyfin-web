@@ -1,12 +1,12 @@
 import React, { StrictMode, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from '@tanstack/react-router';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 import useMediaQuery from 'hooks/useMediaQuery';
 
 import AppBody from 'components/AppBody';
 import CustomCss from 'components/CustomCss';
 import { useApi } from 'hooks/useApi';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';

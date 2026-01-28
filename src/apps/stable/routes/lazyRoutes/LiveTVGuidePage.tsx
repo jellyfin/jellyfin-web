@@ -5,7 +5,7 @@ import { CircularProgress } from 'ui-primitives';
 import { Text } from 'ui-primitives';
 import { IconButton } from 'ui-primitives';
 import { PlayIcon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { toVideoItem } from 'lib/utils/playbackUtils';

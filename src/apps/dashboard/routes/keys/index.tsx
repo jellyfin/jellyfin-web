@@ -22,10 +22,10 @@ import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
 import globalize from 'lib/globalize';
 import InputDialog from 'components/InputDialog';
 import ConfirmDialog from 'components/ConfirmDialog';
-import { Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
+import { Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
 
 const AddIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

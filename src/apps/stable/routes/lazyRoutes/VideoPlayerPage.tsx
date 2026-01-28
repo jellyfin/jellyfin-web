@@ -1,5 +1,5 @@
 import React, { useRef, type FC, useEffect, useState, useCallback } from 'react';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 
 import RemotePlayButton from 'apps/experimental/components/AppToolbar/RemotePlayButton';
 import SyncPlayButton from 'apps/experimental/components/AppToolbar/SyncPlayButton';

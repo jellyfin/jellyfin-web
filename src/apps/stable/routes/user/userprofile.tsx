@@ -2,7 +2,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import React, { type FunctionComponent, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'hooks/useSearchParams';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
@@ -15,7 +15,7 @@ import { queryClient } from 'utils/query/queryClient';
 import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
 import Page from 'components/Page';
 import Loading from 'components/loading/LoadingComponent';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 
 const UserProfile: FunctionComponent = () => {
     const [searchParams] = useSearchParams();

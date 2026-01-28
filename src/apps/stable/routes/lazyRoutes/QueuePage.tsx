@@ -14,15 +14,15 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
-import { vars } from 'styles/tokens.css';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Chip } from 'ui-primitives/Chip';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Paper } from 'ui-primitives/Paper';
-import { Slider } from 'ui-primitives/Slider';
-import { Tab, TabList, TabPanel, Tabs } from 'ui-primitives/Tabs';
-import { Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
+import { Slider } from 'ui-primitives';
+import { Tab, TabList, TabPanel, Tabs } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import Events, { type EventObject } from 'utils/events';
 
 import {

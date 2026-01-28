@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button } from 'ui-primitives/Button';
-import { Text, Heading } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { FormControl, FormLabel } from 'ui-primitives/FormControl';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { FormControl, FormLabel } from 'ui-primitives';
 import { useNavigate } from '@tanstack/react-router';
 import Loading from '../../../components/loading/LoadingComponent';
-import * as styles from './WizardSettings.css';
+import * as styles from './WizardSettings.css.ts';
 
 const WizardSettings = () => {
     const [isLoading, setIsLoading] = useState(true);

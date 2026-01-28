@@ -1,7 +1,7 @@
 import React, { type FunctionComponent } from 'react';
 import type { LogFile } from '@jellyfin/sdk/lib/generated-client/models/log-file';
-import { List, ListItem, ListItemContent } from 'ui-primitives/List';
-import { Text } from 'ui-primitives/Text';
+import { List, ListItem, ListItemContent } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import datetime from 'scripts/datetime';
 import ListItemLink from 'components/ListItemLink';
 

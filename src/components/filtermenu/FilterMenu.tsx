@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { Checkbox } from 'ui-primitives/Checkbox';
+import { Box, Flex } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
 
 interface FilterGenre {
     Id: string;

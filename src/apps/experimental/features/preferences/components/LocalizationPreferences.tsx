@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { FormControl, FormHelperText, FormLabel } from 'ui-primitives/FormControl';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
-import { Heading } from 'ui-primitives/Text';
+import { Box, Flex } from 'ui-primitives';
+import { FormControl, FormHelperText, FormLabel } from 'ui-primitives';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
 
 import { DATE_LOCALE_OPTIONS, LANGUAGE_OPTIONS } from 'apps/experimental/features/preferences/constants/locales';
 import { safeAppHost } from 'components/apphost';

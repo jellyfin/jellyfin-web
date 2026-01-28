@@ -2,10 +2,10 @@ import type { ColumnDef, ColumnPinningState } from '@tanstack/react-table';
 import React, { type ReactNode } from 'react';
 
 import Page, { type PageProps } from 'components/Page';
-import { vars } from 'styles/tokens.css';
-import { Box as UIBox, Flex } from 'ui-primitives/Box';
-import { DataTable } from 'ui-primitives/DataTable';
-import { Heading, Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css.ts';
+import { Box as UIBox, Flex } from 'ui-primitives';
+import { DataTable } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
 
 interface TablePageProps<T> extends PageProps {
     title: string;

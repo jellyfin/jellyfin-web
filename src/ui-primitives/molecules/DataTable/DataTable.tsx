@@ -1,4 +1,4 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import {
     flexRender,
     getCoreRowModel,
@@ -41,7 +41,7 @@ import {
     dataTableRowStyles,
     dataTableStyles,
     dataTableToolbarStyles
-} from './DataTable.css';
+} from './DataTable.css.ts';
 
 export {
     dataTableActionsCellStyles,

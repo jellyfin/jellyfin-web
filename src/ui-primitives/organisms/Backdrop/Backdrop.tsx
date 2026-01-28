@@ -3,7 +3,7 @@
  */
 
 import { useState, useCallback, type ReactElement } from 'react';
-import { backdrop, blur, overlay } from './Backdrop.css';
+import { backdrop, blur, overlay } from './Backdrop.css.ts';
 
 export interface BackdropProps {
     readonly src?: string | null;

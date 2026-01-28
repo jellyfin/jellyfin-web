@@ -4,7 +4,7 @@
 
 import { useEffect, useRef, type ReactElement } from 'react';
 import { logger } from 'utils/logger';
-import { canvas } from './ButterchurnViz.css';
+import { canvas } from './ButterchurnViz.css.ts';
 
 interface ButterchurnModule {
     createVisualizer: (

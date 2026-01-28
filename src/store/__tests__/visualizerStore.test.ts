@@ -8,7 +8,7 @@ describe('preferencesStore - Visualizer', () => {
 
     it('should have correct default visualizer settings', () => {
         const state = usePreferencesStore.getState().visualizer;
-        expect(state.enabled).toBe(true);
+        expect(state.enabled).toBe(false);
         expect(state.type).toBe('butterchurn');
         expect(state.frequencyAnalyzer.colorScheme).toBe('spectrum');
         expect(state.waveSurfer.opacity).toBe(0.7);

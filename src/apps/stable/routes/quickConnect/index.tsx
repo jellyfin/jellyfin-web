@@ -4,8 +4,8 @@ import { Link } from '@tanstack/react-router';
 
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives/Input';
-import { Button } from 'ui-primitives/Button';
+import { Input } from 'ui-primitives';
+import { Button } from 'ui-primitives';
 import { useApi } from 'hooks/useApi';
 import { useSearchParams } from 'hooks/useSearchParams';
 

@@ -1,5 +1,5 @@
 import { style, styleVariants, keyframes, globalStyle } from '@vanilla-extract/css';
-import { vars } from './tokens.css';
+import { vars } from './tokens.css.ts';
 
 export const iconButton = style({
     display: 'inline-flex',

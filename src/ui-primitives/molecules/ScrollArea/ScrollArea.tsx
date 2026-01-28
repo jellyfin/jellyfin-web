@@ -6,7 +6,7 @@ import {
     scrollAreaScrollbar,
     scrollAreaThumb,
     scrollAreaCorner
-} from './ScrollArea.css';
+} from './ScrollArea.css.ts';
 
 interface ScrollAreaProps {
     readonly children: ReactNode;

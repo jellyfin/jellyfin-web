@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { Box } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import type { CardOptions } from 'types/cardOptions';
 
 interface FavoritesTabProps {

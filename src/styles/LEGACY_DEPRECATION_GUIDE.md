@@ -9,8 +9,38 @@ This document outlines deprecated patterns in the Jellyfin Web codebase and thei
 3. [Console Statements](#console-statements)
 4. [Legacy Class Components](#legacy-class-components)
 5. [MUI Joy Imports](#mui-joy-imports)
+6. [UI Primitives Structure](#ui-primitives-structure)
 
 ---
+
+## UI Primitives Structure
+
+**Directory:** `src/ui-primitives/`
+
+**Status:** Restructured to Atomic Design
+
+**Description:** UI primitives have been reorganized from a flat structure into `atoms/`, `molecules/`, and `organisms/` tiers.
+
+### Migration
+
+| Old Path                               | New Path                                          |
+| -------------------------------------- | ------------------------------------------------- |
+| `src/ui-primitives/Button.tsx`         | `src/ui-primitives/atoms/Button/`                 |
+| `src/ui-primitives/Dialog.tsx`         | `src/ui-primitives/molecules/Dialog/`             |
+| `src/ui-primitives/Card.tsx`           | `src/ui-primitives/organisms/Card/`               |
+| `src/ui-primitives/Seeker.tsx`         | `src/ui-primitives/deprecated/Seeker/`            |
+
+### Example
+
+```typescript
+// BEFORE (deprecated)
+import { Button } from 'ui-primitives/Button';
+
+// AFTER (migrated)
+import { Button } from 'ui-primitives/atoms/Button';
+// or via main entry point
+import { Button } from 'ui-primitives';
+```
 
 ## Library Menu Module
 

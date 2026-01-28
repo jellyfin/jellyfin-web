@@ -1,2 +1,2 @@
 export { circularProgressRoot, circularProgressSizes, CircularProgress } from './CircularProgress';
-export { rotate } from './CircularProgress.css';
+export { rotate } from './CircularProgress.css.ts';

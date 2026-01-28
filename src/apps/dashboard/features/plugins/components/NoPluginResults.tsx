@@ -1,9 +1,9 @@
-import { Button } from 'ui-primitives/Button';
-import { Heading } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
 import React, { type FC } from 'react';
 
 import globalize from 'lib/globalize';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 
 interface NoPluginResultsProps {
     isFiltered: boolean;

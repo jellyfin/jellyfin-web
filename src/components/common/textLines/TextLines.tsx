@@ -1,7 +1,7 @@
 import React, { type FC, type PropsWithChildren } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
+import { Box } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import useTextLines from './useTextLines';
 
 import type { ItemDto } from 'types/base/models/item-dto';

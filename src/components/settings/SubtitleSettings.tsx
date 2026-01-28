@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Divider } from 'ui-primitives/Divider';
-import { FormControl, FormLabel } from 'ui-primitives/FormControl';
-import { Input } from 'ui-primitives/Input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
-import { Slider } from 'ui-primitives/Slider';
-import { Text } from 'ui-primitives/Text';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { FormControl, FormLabel } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives';
+import { Slider } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { UserConfiguration } from '@jellyfin/sdk/lib/generated-client';

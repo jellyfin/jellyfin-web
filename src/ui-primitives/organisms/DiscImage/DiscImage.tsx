@@ -3,8 +3,8 @@
  */
 
 import { type ReactElement } from 'react';
-import { AlbumArt } from './AlbumArt';
-import { discContainer, discGroove, discSpindle, spinning } from './DiscImage.css';
+import { AlbumArt } from '../AlbumArt';
+import { discContainer, discGroove, discSpindle, spinning } from './DiscImage.css.ts';
 
 export interface DiscImageProps {
     readonly src?: string | null;

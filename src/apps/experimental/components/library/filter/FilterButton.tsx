@@ -1,11 +1,11 @@
 import { type BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC, useCallback } from 'react';
 import { ChevronRightIcon, MixerHorizontalIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Menu } from 'ui-primitives/Menu';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Menu } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';

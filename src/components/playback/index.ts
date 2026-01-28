@@ -1,5 +1,4 @@
 export { VideoControls } from './VideoControls';
-export { OSDOverlay } from './OSDOverlay';
+export { OSDOverlay, AutoDJToggle } from 'ui-primitives';
 export { SkipSegmentButton } from './SkipSegmentButton';
-export { AutoDJToggle } from './AutoDJToggle';
 export { PlaybackIconButton } from './PlaybackIconButton';

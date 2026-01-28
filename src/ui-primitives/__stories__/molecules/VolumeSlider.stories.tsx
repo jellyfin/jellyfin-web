@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback, type ComponentProps } from 'react';
-import { VolumeSlider } from '../../VolumeSlider';
+import { VolumeSlider } from '../..';
 
 const meta: Meta<typeof VolumeSlider> = {
     title: 'UI Primitives/VolumeSlider',

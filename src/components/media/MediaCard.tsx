@@ -4,15 +4,15 @@
  * Reusable card component for displaying media items with framer-motion animations.
  */
 
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Box, Flex } from 'ui-primitives';
-import { Card, CardBody } from 'ui-primitives/Card';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Text } from 'ui-primitives/Text';
-import { Skeleton } from 'ui-primitives/Skeleton';
+import { Card, CardBody } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Skeleton } from 'ui-primitives';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 
 import { DotsVerticalIcon, PlayIcon } from '@radix-ui/react-icons';

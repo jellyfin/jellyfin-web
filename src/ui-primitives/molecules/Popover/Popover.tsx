@@ -9,7 +9,7 @@ import {
     popoverDescription,
     popoverFooter,
     alignVariants
-} from './Popover.css';
+} from './Popover.css.ts';
 
 export { popoverContent, popoverArrow, popoverClose, popoverHeader, popoverTitle, popoverDescription, popoverFooter };
 

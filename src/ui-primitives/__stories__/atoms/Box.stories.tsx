@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type HTMLAttributes, type ReactNode } from 'react';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface BoxProps extends HTMLAttributes<HTMLDivElement> {
     children?: ReactNode;

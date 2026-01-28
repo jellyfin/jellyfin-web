@@ -3,7 +3,7 @@ import React from 'react';
 
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
-import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
+import { List, ListItem, ListItemDecorator, ListSubheader } from 'ui-primitives';
 
 function DevicesDrawerSection(): React.ReactElement {
     return (

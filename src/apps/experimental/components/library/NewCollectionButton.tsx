@@ -1,6 +1,6 @@
 import React, { type FC, useCallback } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 
 import globalize from 'lib/globalize';
 

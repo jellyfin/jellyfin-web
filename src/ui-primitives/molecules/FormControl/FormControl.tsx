@@ -1,8 +1,8 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useId, type ReactElement, type ReactNode, type CSSProperties } from 'react';
 import { formGroup } from '../../atoms/Input';
-import { formHelperText, formLabel, switchStyles, switchThumb } from './FormControl.css';
+import { formHelperText, formLabel, switchStyles, switchThumb } from './FormControl.css.ts';
 
 export { formHelperText, formLabel, switchStyles, switchThumb };
 

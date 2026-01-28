@@ -12,7 +12,7 @@ import { Text, Heading } from 'ui-primitives';
 import { Input } from 'ui-primitives';
 import { Dialog, DialogContent, DialogTitle } from 'ui-primitives';
 import { TrashIcon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import { logger } from 'utils/logger';
 
 export interface PlaybackPreset {

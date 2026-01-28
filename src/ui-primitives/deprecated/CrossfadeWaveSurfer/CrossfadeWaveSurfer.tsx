@@ -9,14 +9,14 @@ import WavesurferPlayer from '@wavesurfer/react';
 import type WaveSurfer from 'wavesurfer.js';
 import { useEffect, useRef, useCallback, type ReactElement } from 'react';
 import { useVisualizerStore } from 'store/visualizerStore';
-import { vars } from '../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import {
     container,
     bufferedOverlay,
     bufferedSegment,
     crossfadingOverlay,
     crossfadingText
-} from './CrossfadeWaveSurfer.css';
+} from './CrossfadeWaveSurfer.css.ts';
 
 export interface TrackState {
     readonly id: string;

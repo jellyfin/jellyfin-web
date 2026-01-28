@@ -1,9 +1,9 @@
 import React, { type FC, useCallback } from 'react';
 import { StackIcon } from '@radix-ui/react-icons';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { vars } from 'styles/tokens.css';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';

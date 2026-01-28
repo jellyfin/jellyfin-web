@@ -1,21 +1,21 @@
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Dialog, DialogPortal, DialogContentComponent, DialogClose } from 'ui-primitives/Dialog';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex } from 'ui-primitives/Box';
+import { Dialog, DialogPortal, DialogContentComponent, DialogClose } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
 import globalize from '../../lib/globalize';
 import datetime from '../../scripts/datetime';
-import './accessSchedule.css';
+import './accessSchedule.css.ts';
 import {
     closeButtonStyle,
     errorStyle,
     labelStyle,
     overlayStyle,
     selectContainerStyle
-} from './AccessScheduleDialog.css';
+} from './AccessScheduleDialog.css.ts';
 import type { AccessSchedule } from '@jellyfin/sdk/lib/generated-client/models/access-schedule';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 

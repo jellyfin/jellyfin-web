@@ -4,7 +4,7 @@ import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import { useSearchSuggestions } from '../api/useSearchSuggestions';
 import globalize from 'lib/globalize';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 
 interface SearchSuggestionsProps {
     parentId?: string | null;

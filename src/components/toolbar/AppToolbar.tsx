@@ -5,10 +5,10 @@ import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import UserMenuButton from './UserMenuButton';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { Box, Flex } from 'ui-primitives/Box';
-import { vars } from 'styles/tokens.css';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import { logger } from 'utils/logger';
 
 interface AppToolbarProps {

@@ -11,7 +11,7 @@
 import type { DeviceInfoDto } from '@jellyfin/sdk/lib/generated-client/models/device-info-dto';
 import { parseISO } from 'date-fns';
 import React, { useCallback, useMemo, useState } from 'react';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import type { CellContext } from '@tanstack/react-table';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
@@ -25,10 +25,10 @@ import ConfirmDialog from 'components/ConfirmDialog';
 import { useApi } from 'hooks/useApi';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
-import { Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
+import { Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
 import type { ColumnDef } from '@tanstack/react-table';
 
 const DeleteIcon = () => (

@@ -1,16 +1,16 @@
-import { vars } from '../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import React, { useCallback, useState } from 'react';
 import { useParams } from '@tanstack/react-router';
 import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
-import { Alert } from 'ui-primitives/Alert';
-import { Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Paper } from 'ui-primitives/Paper';
-import { Text } from 'ui-primitives/Text';
-import { Container } from 'ui-primitives/Container';
+import { Alert } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Container } from 'ui-primitives';
 import Toast from 'apps/dashboard/components/Toast';
 import globalize from 'lib/globalize';
 import { copy } from 'scripts/clipboard';

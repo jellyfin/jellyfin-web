@@ -1,6 +1,6 @@
 import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { Progress } from 'ui-primitives/Progress';
+import { Progress } from 'ui-primitives';
 import { deprecate } from '../../utils/deprecation';
 
 import type { ProgressOptions } from 'types/progressOptions';

@@ -8,13 +8,13 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import { Box, Flex, FlexCol } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Alert } from 'ui-primitives/Alert';
-import { List, ListItem } from 'ui-primitives/List';
-import { Spacer } from 'ui-primitives/Spacer';
-import { Paper } from 'ui-primitives/Paper';
+import { Box, Flex, FlexCol } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Alert } from 'ui-primitives';
+import { List, ListItem } from 'ui-primitives';
+import { Spacer } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
 import { useBackups } from 'apps/dashboard/features/backups/api/useBackups';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';

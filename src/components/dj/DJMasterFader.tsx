@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback, type ReactElement } from 'react';
 import { useFXStore } from 'store/fxStore';
-import * as DJStyles from './DJ.css';
+import * as DJStyles from './DJ.css.ts';
 
 type CrossfadeCurve = 'linear' | 'logarithmic' | 'scalecut';
 

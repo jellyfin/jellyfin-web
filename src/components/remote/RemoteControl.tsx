@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Slider } from 'ui-primitives/Slider';
-import { Avatar } from 'ui-primitives/Avatar';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { Paper } from 'ui-primitives/Paper';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Slider } from 'ui-primitives';
+import { Avatar } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import {
     DesktopIcon,
@@ -24,7 +24,7 @@ import {
     ViewGridIcon
 } from '@radix-ui/react-icons';
 
-import { VolumeSlider } from 'ui-primitives/VolumeSlider';
+import { VolumeSlider } from 'ui-primitives';
 import { ActionMenu, type ActionMenuItem } from '../dialogs/ActionMenu';
 
 import type { PlayableItem } from 'store/types';

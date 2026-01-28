@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 import { PlayIcon } from '@radix-ui/react-icons';
 import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Heading, Text } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 
 import { useServerStore } from 'store/serverStore';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
@@ -12,7 +12,7 @@ import { appRouter } from 'components/router/appRouter';
 import { toVideoItem } from 'lib/utils/playbackUtils';
 import { LoadingView } from 'components/feedback/LoadingView';
 import { logger } from 'utils/logger';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface TVUpcomingParams {
     topParentId?: string;

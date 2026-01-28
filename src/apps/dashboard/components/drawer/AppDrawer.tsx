@@ -2,7 +2,7 @@ import React from 'react';
 
 import DrawerHeaderLink from 'apps/experimental/components/drawers/DrawerHeaderLink';
 import ResponsiveDrawer, { type ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
-import { List, ListItem } from 'ui-primitives/List';
+import { List, ListItem } from 'ui-primitives';
 
 import AdvancedDrawerSection from './sections/AdvancedDrawerSection';
 import DevicesDrawerSection from './sections/DevicesDrawerSection';

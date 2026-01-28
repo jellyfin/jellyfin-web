@@ -1,5 +1,5 @@
 import React, { type ReactElement, type ElementType } from 'react';
-import { boxStyles } from './Box.css';
+import { boxStyles } from './Box.css.ts';
 
 export { boxStyles };
 

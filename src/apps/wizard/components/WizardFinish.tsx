@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-import { Button } from 'ui-primitives/Button';
-import { Text, Heading } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import Loading from '../../../components/loading/LoadingComponent';
-import * as styles from './WizardFinish.css';
+import * as styles from './WizardFinish.css.ts';
 
 const WizardFinish = () => {
     const [isLoading, setIsLoading] = useState(false);

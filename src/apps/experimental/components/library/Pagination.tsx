@@ -1,10 +1,10 @@
 import React, { type FC, useCallback } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Text } from 'ui-primitives/Text';
+import { Box, Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import useMediaQuery from 'hooks/useMediaQuery';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';

@@ -10,19 +10,19 @@ import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
 import layoutManager from '../layoutManager';
 import toast from '../toast/toast';
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
-import { Box, Flex, FlexCol } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { Input } from 'ui-primitives/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { FormControl, FormLabel, FormHelperText } from 'ui-primitives/FormControl';
-import { Slider } from 'ui-primitives/Slider';
-import { Divider } from 'ui-primitives/Divider';
-import { Alert } from 'ui-primitives/Alert';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { Box, Flex, FlexCol } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { FormControl, FormLabel, FormHelperText } from 'ui-primitives';
+import { Slider } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Alert } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
 
 const subtitleSettingsSchema = z.object({
     subtitleLanguage: z.string(),

@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react';
 
-import { Box } from 'ui-primitives/Box';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Text } from 'ui-primitives/Text';
-import { Avatar } from 'ui-primitives/Avatar';
-import { Menu, MenuItem } from 'ui-primitives/Menu';
+import { Box } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Avatar } from 'ui-primitives';
+import { Menu, MenuItem } from 'ui-primitives';
 
 // Material Icons
 import { DiscIcon, DotsVerticalIcon, DragHandleDots2Icon, PlayIcon, TrashIcon } from '@radix-ui/react-icons';
@@ -31,7 +31,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { WaveformCell } from 'components/visualizer/WaveformCell';
 import { getCachedPeaks } from 'components/visualizer/WaveSurfer';
 import Events, { type EventObject } from 'utils/events';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import {
     dragHandle,
     headerRow,
@@ -42,7 +42,7 @@ import {
     tableRow,
     virtualItem,
     virtualList
-} from './QueueTable.css';
+} from './QueueTable.css.ts';
 
 const SCROLL_POSITION_KEY = 'jellyfin-queue-scroll-position';
 

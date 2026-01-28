@@ -1,6 +1,6 @@
 import React, { type ReactNode, type ReactElement, type CSSProperties } from 'react';
 import { Root, List, Trigger, Content } from '@radix-ui/react-tabs';
-import { tabsList, tabTrigger, tabContent } from './Tabs.css';
+import { tabsList, tabTrigger, tabContent } from './Tabs.css.ts';
 
 interface TabsProps {
     readonly value: string;

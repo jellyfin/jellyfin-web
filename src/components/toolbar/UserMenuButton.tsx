@@ -1,5 +1,5 @@
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
 import React, { useCallback, useState } from 'react';
 
 import UserAvatar from 'components/UserAvatar';

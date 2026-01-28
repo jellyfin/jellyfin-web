@@ -1,7 +1,7 @@
 import React, { useState, type ReactElement, useCallback } from 'react';
 import { Flex } from '../../atoms/Box';
 import { IconButton } from '../../atoms/IconButton';
-import { accordionRoot, accordionHeader, accordionExpanded, accordionContent } from './Accordion.css';
+import { accordionRoot, accordionHeader, accordionExpanded, accordionContent } from './Accordion.css.ts';
 
 interface AccordionProps {
     readonly children: React.ReactNode;

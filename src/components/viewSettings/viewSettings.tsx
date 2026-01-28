@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { vars } from 'styles/tokens.css';
-import { Button } from 'ui-primitives/Button';
-import { SelectInput } from 'ui-primitives/Select';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css.ts';
+import { Button } from 'ui-primitives';
+import { SelectInput } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
 import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import * as styles from './viewSettings.css';
+import * as styles from './viewSettings.css.ts';
 
 interface ViewSettingsOptions {
     settingsKey: string;

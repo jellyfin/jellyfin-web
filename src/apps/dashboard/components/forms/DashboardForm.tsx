@@ -1,18 +1,18 @@
-import { vars } from '../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React from 'react';
 
 import globalize from 'lib/globalize';
-import { Alert } from 'ui-primitives/Alert';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Card, CardBody } from 'ui-primitives/Card';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Divider } from 'ui-primitives/Divider';
-import { FormControl, FormHelperText, FormLabel, Switch } from 'ui-primitives/FormControl';
-import { Input } from 'ui-primitives/Input';
-import { SelectInput } from 'ui-primitives/Select';
-import { Heading, Text } from 'ui-primitives/Text';
+import { Alert } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Card, CardBody } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { FormControl, FormHelperText, FormLabel, Switch } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { SelectInput } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
 
 interface DashboardFormProps {
     onSubmit: (e: React.FormEvent) => Promise<void> | void;

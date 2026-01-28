@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import { Box, Flex } from 'ui-primitives/Box';
+import { Box, Flex } from 'ui-primitives';
 import { getCategories, getTasksByCategory } from '../../features/tasks/utils/tasks';
 import Loading from 'components/loading/LoadingComponent';
 import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';

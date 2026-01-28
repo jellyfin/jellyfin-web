@@ -1,8 +1,8 @@
 import React, { Component, ReactNode, Suspense } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { logger } from 'utils/logger';
 

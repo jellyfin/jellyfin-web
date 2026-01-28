@@ -1,12 +1,12 @@
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Dialog, DialogContent, DialogOverlay, DialogContentClass } from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Heading } from 'ui-primitives/Text';
+import { Dialog, DialogContent, DialogOverlay, DialogContentClass } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
 
 export interface DialogButton {
     id: string;

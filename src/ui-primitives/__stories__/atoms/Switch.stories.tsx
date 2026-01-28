@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
 import { motion } from 'motion/react';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface SwitchProps {
     checked?: boolean;

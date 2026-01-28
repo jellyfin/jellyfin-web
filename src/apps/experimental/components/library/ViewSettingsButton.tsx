@@ -2,14 +2,14 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import React, { type FC, useCallback } from 'react';
 
 import { CheckIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Divider } from 'ui-primitives/Divider';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Menu, MenuItem, MenuSeparator } from 'ui-primitives/Menu';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Menu, MenuItem, MenuSeparator } from 'ui-primitives';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import globalize from 'lib/globalize';
 import { type LibraryViewSettings, ViewMode } from 'types/library';

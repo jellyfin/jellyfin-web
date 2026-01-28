@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Text } from 'ui-primitives/Text';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import {
     DoubleArrowLeftIcon,
@@ -17,8 +17,8 @@ import {
     TrackPreviousIcon
 } from '@radix-ui/react-icons';
 
-import { VolumeSlider } from 'ui-primitives/VolumeSlider';
-import { SeekSlider } from 'ui-primitives/SeekSlider';
+import { VolumeSlider } from 'ui-primitives';
+import { SeekSlider } from 'ui-primitives';
 
 import type { RepeatMode, ShuffleMode } from 'store/types';
 

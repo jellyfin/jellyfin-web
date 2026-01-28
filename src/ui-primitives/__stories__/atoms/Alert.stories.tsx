@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { type ReactElement, useState, useCallback } from 'react';
-import { vars } from '../../../styles/tokens.css';
-import { Button } from '../../Button';
+import { vars } from 'styles/tokens.css.ts';
+import { Button } from '../..';
 
 type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 

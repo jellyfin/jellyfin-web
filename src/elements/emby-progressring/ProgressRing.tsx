@@ -1,7 +1,7 @@
 import React from 'react';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { Text } from 'ui-primitives/Text';
-import { Box } from 'ui-primitives/Box';
+import { CircularProgress } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Box } from 'ui-primitives';
 import { toPercentString } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'lib/globalize';
 import { deprecate } from '../../utils/deprecation';

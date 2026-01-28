@@ -2,12 +2,12 @@ import { SpeakerLoudIcon, SpeakerOffIcon, SunIcon } from '@radix-ui/react-icons'
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { usePreferencesStore } from '../../store';
-import { vars } from 'styles/tokens.css';
-import { Flex } from 'ui-primitives/Box';
-import { Progress } from 'ui-primitives/Progress';
+import { usePreferencesStore } from 'store/preferencesStore';
+import { vars } from 'styles/tokens.css.ts';
+import { Flex } from 'ui-primitives';
+import { Progress } from 'ui-primitives';
 
-import * as styles from './OSDOverlay.css';
+import * as styles from './OSDOverlay.css.ts';
 
 type OSDType = 'volume' | 'brightness' | null;
 

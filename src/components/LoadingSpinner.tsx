@@ -5,9 +5,9 @@
  */
 
 import React from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { Text } from 'ui-primitives/Text';
+import { Box, Flex } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
 interface LoadingSpinnerProps {
     size?: 'sm' | 'md' | 'lg' | 'xl';

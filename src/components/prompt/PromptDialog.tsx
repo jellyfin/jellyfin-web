@@ -1,12 +1,12 @@
 import React, { useState, type FormEvent } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Input } from 'ui-primitives/Input';
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
+import { Input } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import globalize from 'lib/globalize';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface PromptDialogProps {
     isOpen: boolean;

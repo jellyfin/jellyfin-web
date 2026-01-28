@@ -1,7 +1,7 @@
 import React from 'react';
-import { Flex } from 'ui-primitives/Box';
-import { FormHelperText, FormLabel, Switch as UIPrimitiveSwitch } from 'ui-primitives/FormControl';
-import { vars } from 'styles/tokens.css';
+import { Flex } from 'ui-primitives';
+import { FormHelperText, FormLabel, Switch as UIPrimitiveSwitch } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export interface SwitchProps {
     label?: string;

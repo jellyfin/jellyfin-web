@@ -4,8 +4,8 @@ import React from 'react';
 
 import { HelpLinks } from 'apps/dashboard/constants/helpLinks';
 import globalize from 'lib/globalize';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
 
 function HelpButton(): React.ReactElement | null {
     const location = useLocation();

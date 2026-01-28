@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import { Box } from 'ui-primitives/Box';
-import * as styles from './MarkdownBox.css';
+import { Box } from 'ui-primitives';
+import * as styles from './MarkdownBox.css.ts';
 import ReactMarkdownBox from './ReactMarkdownBox';
 
 interface MarkdownBoxProps {

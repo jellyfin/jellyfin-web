@@ -10,7 +10,7 @@ import {
 } from '@radix-ui/react-icons';
 import { useKeyboard } from '@react-aria/interactions';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import {
     Box,
     Button,

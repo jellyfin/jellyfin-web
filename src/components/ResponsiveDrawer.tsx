@@ -1,8 +1,8 @@
 import React, { type FC, type PropsWithChildren } from 'react';
 import browser from 'scripts/browser';
-import { Drawer } from 'ui-primitives/Drawer';
-import { Box } from 'ui-primitives/Box';
-import { vars } from 'styles/tokens.css';
+import { Drawer } from 'ui-primitives';
+import { Box } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export const DRAWER_WIDTH = 240;
 

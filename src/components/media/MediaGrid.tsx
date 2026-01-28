@@ -7,10 +7,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
-import { Grid } from 'ui-primitives/Grid';
-import { Skeleton } from 'ui-primitives/Skeleton';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
+import { Grid } from 'ui-primitives';
+import { Skeleton } from 'ui-primitives';
 import { MediaCard, MediaCardProps } from './MediaCard';
 
 export interface MediaGridProps {

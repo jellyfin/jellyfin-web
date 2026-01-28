@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { motion } from 'motion/react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface AccordionItemData {
     value: string;

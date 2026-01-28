@@ -1,8 +1,8 @@
-import { vars } from '../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useCallback } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
+import { Box } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
 
 import { useServerStore } from 'store/serverStore';
 import { useUiStore } from 'store/uiStore';

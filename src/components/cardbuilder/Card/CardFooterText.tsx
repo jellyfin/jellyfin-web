@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 import useCardText from './useCardText';
 import layoutManager from 'components/layoutManager';
 import MoreVertIconButton from 'components/common/MoreVertIconButton';

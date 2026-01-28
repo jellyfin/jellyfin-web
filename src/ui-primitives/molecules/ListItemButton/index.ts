@@ -1,1 +1,1 @@
-export { listItemButtonActive, listItemButtonStyles, listSubheaderSticky, listSubheaderStyles, ListItemButton, ListSubheader } from './ListItemButton';
+export { listItemButtonActive, listItemButtonStyles, ListItemButton } from './ListItemButton';

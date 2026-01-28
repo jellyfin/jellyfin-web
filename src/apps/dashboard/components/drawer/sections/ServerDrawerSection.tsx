@@ -13,7 +13,7 @@ import React, { type MouseEvent, useCallback, useState } from 'react';
 
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import {
     List,
     ListItem,
@@ -21,7 +21,7 @@ import {
     ListItemContent,
     ListItemDecorator,
     ListSubheader
-} from 'ui-primitives/List';
+} from 'ui-primitives';
 
 const LIBRARY_PATHS = [
     '/dashboard/libraries',

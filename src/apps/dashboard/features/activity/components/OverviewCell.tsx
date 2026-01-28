@@ -2,9 +2,9 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import React, { useCallback, useState } from 'react';
 
 import type { ActivityLogEntryCell } from '../types/ActivityLogEntryCell';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { Box, Flex } from 'ui-primitives/Box';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
 
 const OverviewCell = ({ row }: ActivityLogEntryCell) => {
     const { ShortOverview, Overview } = row.original;

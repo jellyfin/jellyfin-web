@@ -1,7 +1,7 @@
 import React from 'react';
 import globalize from 'lib/globalize';
-import { Text } from 'ui-primitives/Text';
-import * as styles from './ProgramCell.css';
+import { Text } from 'ui-primitives';
+import * as styles from './ProgramCell.css.ts';
 
 interface ProgramCellProps {
     program: any;

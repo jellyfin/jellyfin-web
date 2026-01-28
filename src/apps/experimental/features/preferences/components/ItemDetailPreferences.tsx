@@ -1,8 +1,8 @@
 import React from 'react';
-import { Flex } from 'ui-primitives/Box';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { FormControl, FormHelperText } from 'ui-primitives/FormControl';
-import { Heading } from 'ui-primitives/Text';
+import { Flex } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { FormControl, FormHelperText } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
 
 import globalize from 'lib/globalize';
 

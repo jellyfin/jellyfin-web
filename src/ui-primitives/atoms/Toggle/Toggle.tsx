@@ -5,7 +5,7 @@ import {
     type ToggleGroupSingleProps
 } from '@radix-ui/react-toggle-group';
 import type { ReactElement, ReactNode } from 'react';
-import { toggleRoot, toggleVariant, toggleSizes, toggleGroupRoot, toggleGroupItem } from './Toggle.css';
+import { toggleRoot, toggleVariant, toggleSizes, toggleGroupRoot, toggleGroupItem } from './Toggle.css.ts';
 
 interface ToggleProps {
     readonly children: ReactNode;

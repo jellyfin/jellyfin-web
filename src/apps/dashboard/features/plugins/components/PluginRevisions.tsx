@@ -4,10 +4,10 @@ import React, { type FC } from 'react';
 import MarkdownBox from 'components/MarkdownBox';
 import { getDisplayDateTime } from 'scripts/datetime';
 import globalize from 'lib/globalize';
-import { vars } from 'styles/tokens.css';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
-import { Accordion, AccordionSummary, AccordionDetails } from 'ui-primitives/Accordion';
+import { vars } from 'styles/tokens.css.ts';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Accordion, AccordionSummary, AccordionDetails } from 'ui-primitives';
 
 import type { PluginDetails } from '../types/PluginDetails';
 

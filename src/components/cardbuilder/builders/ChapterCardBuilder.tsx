@@ -3,7 +3,7 @@ import React from 'react';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import BaseCard from '../Card/BaseCard';
 import datetime from '../../../scripts/datetime';
-import * as styles from './ChapterCardBuilder.css';
+import * as styles from './ChapterCardBuilder.css.ts';
 
 interface ChapterCardBuilderProps {
     item: any;

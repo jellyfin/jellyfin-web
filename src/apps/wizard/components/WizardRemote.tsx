@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import { Button } from 'ui-primitives/Button';
-import { Text, Heading } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { Checkbox } from 'ui-primitives/Checkbox';
+import { Checkbox } from 'ui-primitives';
 import { useNavigate } from '@tanstack/react-router';
 import Loading from '../../../components/loading/LoadingComponent';
-import * as styles from './WizardRemote.css';
+import * as styles from './WizardRemote.css.ts';
 
 const WizardRemote = () => {
     const [isLoading, setIsLoading] = useState(false);

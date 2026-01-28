@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box } from 'ui-primitives/Box';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
+import { Box } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
 import { CheckCircledIcon, CheckIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from '../../lib/globalize';

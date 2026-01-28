@@ -9,9 +9,9 @@ import { useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
-import { Text, Heading } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Chip } from 'ui-primitives/Chip';
+import { Text, Heading } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
 
 import { ChevronLeftIcon, ChevronRightIcon, GridIcon, ListBulletIcon } from '@radix-ui/react-icons';
 
@@ -29,7 +29,7 @@ import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { toPlayableItems } from 'lib/utils/playbackUtils';
 
 import { logger } from 'utils/logger';
-import * as styles from './MusicArtists.css';
+import * as styles from './MusicArtists.css.ts';
 
 type ViewStyle = 'List' | 'Poster';
 

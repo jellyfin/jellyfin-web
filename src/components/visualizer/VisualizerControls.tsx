@@ -1,9 +1,9 @@
-import { Button } from 'ui-primitives/Button';
-import { Paper } from 'ui-primitives/Paper';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
 import React from 'react';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface VisualizerControlsProps {
     currentType: string;

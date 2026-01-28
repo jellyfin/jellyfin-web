@@ -1,5 +1,5 @@
 import { style, styleVariants } from '@vanilla-extract/css';
-import { vars } from './tokens.css';
+import { vars } from './tokens.css.ts';
 
 export const hidden = style({ display: 'none' });
 export const invisible = style({ visibility: 'hidden' });

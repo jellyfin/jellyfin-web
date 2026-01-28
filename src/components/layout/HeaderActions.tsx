@@ -3,7 +3,7 @@ import { IconButton, Tooltip, Flex } from 'ui-primitives';
 import globalize from '../../lib/globalize';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useUiStore } from '../../store/uiStore';
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import inputManager from '../../scripts/inputManager';
 import { playbackManager } from '../playback/playbackmanager';
 import playerSelectionMenu from '../playback/playerSelectionMenu';

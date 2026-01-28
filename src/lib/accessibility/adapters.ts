@@ -7,7 +7,7 @@
 
 import { useFocusRing as ariaUseFocusRing } from '@react-aria/focus';
 import React from 'react';
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 /**
  * Enhanced focus ring hook with custom styling integration

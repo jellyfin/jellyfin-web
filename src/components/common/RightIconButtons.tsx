@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 
 import { ItemAction } from 'constants/itemAction';
 

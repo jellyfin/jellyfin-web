@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { PageContainer } from 'components/layout/PageContainer';
 import { Box, Flex, Text, Heading, IconButton } from 'ui-primitives';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
 import { useUserViews } from 'hooks/useUserViews';
 import { useApi } from 'hooks/useApi';
@@ -21,7 +21,7 @@ interface FlatTreeItem {
     parentId: string | null;
 }
 
-const MetadataManager: React.FC = () => {
+export const MetadataManager: React.FC = () => {
     const { user } = useApi();
     const { data: views, isLoading: viewsLoading } = useUserViews(user?.Id);
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
@@ -165,4 +165,4 @@ const MetadataManager: React.FC = () => {
     );
 };
 
-export default MetadataManager;
+

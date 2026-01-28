@@ -1,7 +1,7 @@
 import React, { type FC, type CSSProperties } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import { vars } from 'styles/tokens.css';
-import { Avatar } from 'ui-primitives/Avatar';
+import { vars } from 'styles/tokens.css.ts';
+import { Avatar } from 'ui-primitives';
 
 import { useApi } from 'hooks/useApi';
 

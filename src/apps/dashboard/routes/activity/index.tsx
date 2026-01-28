@@ -13,7 +13,7 @@ import { parseISO } from 'date-fns/parseISO';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
-import { ToggleGroup, ToggleGroupItem } from 'ui-primitives/Toggle';
+import { ToggleGroup, ToggleGroupItem } from 'ui-primitives';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { CellContext } from '@tanstack/react-table';
 import { useSearchParams } from 'hooks/useSearchParams';

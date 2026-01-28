@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
-import { ListItemButton } from 'ui-primitives/ListItemButton';
-import { vars } from 'styles/tokens.css';
+import { ListItemButton } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import { useSearchParams } from 'hooks/useSearchParams';
 
 interface ListItemLinkProps {

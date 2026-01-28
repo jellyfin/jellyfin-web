@@ -1,5 +1,5 @@
 import React, { type ChangeEvent, type CSSProperties, type ReactNode, type ReactElement, useCallback } from 'react';
-import { checkboxContainer, checkboxInput, checkboxLabel } from './Checkbox.css';
+import { checkboxContainer, checkboxInput, checkboxLabel } from './Checkbox.css.ts';
 
 interface CheckboxProps {
     readonly checked?: boolean;
@@ -57,4 +57,4 @@ export function Checkbox({
     );
 }
 
-export { checkboxContainer, checkboxInput, checkboxLabel } from './Checkbox.css';
+export { checkboxContainer, checkboxInput, checkboxLabel } from './Checkbox.css.ts';

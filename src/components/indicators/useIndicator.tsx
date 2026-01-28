@@ -1,10 +1,10 @@
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import React from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Progress } from 'ui-primitives/Progress';
+import { Box } from 'ui-primitives';
+import { Progress } from 'ui-primitives';
 import { CheckIcon, DotFilledIcon, DotIcon, FileIcon, ImageIcon, VideoIcon, ViewGridIcon } from '@radix-ui/react-icons';
 import classNames from 'classnames';
-import * as styles from './useIndicator.css';
+import * as styles from './useIndicator.css.ts';
 
 import datetime from 'scripts/datetime';
 import itemHelper from 'components/itemHelper';

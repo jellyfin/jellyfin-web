@@ -1,8 +1,8 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
-import { Button } from 'ui-primitives/Button';
-import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
-import { Flex } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives';
+import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
 import globalize from 'lib/globalize';
 import React, { type FunctionComponent } from 'react';
 

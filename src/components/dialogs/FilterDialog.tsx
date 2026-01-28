@@ -8,12 +8,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives/Button';
-import { Text } from 'ui-primitives/Text';
-import { Chip } from 'ui-primitives/Chip';
-import { RadioGroup, RadioGroupItem } from 'ui-primitives/RadioGroup';
-import { Divider } from 'ui-primitives/Divider';
-import { vars } from '../../styles/tokens.css';
+import { Button } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { RadioGroup, RadioGroupItem } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { useFilterStore } from 'store/filterStore';
 

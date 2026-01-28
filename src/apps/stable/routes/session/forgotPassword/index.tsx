@@ -6,8 +6,8 @@ import { useNavigate, useRouter } from '@tanstack/react-router';
 
 import alert from 'components/alert';
 import Page from 'components/Page';
-import { Button } from 'ui-primitives/Button';
-import { Input } from 'ui-primitives/Input';
+import { Button } from 'ui-primitives';
+import { Input } from 'ui-primitives';
 import globalize from 'lib/globalize';
 import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 
 const FallbackRoute = () => {
     const location = useLocation();

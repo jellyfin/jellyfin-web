@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { CircularProgress } from 'ui-primitives';
 import ChannelHeader from './ChannelHeader';
 import ProgramCell from './ProgramCell';
 import TimeslotHeader from './TimeslotHeader';
-import * as styles from './LiveTVGuide.css';
+import * as styles from './LiveTVGuide.css.ts';
 
 const LiveTVGuide: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);

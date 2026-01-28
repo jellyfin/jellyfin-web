@@ -10,11 +10,11 @@ import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
 import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives/Text';
-import { Input } from 'ui-primitives/Input';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Chip } from 'ui-primitives/Chip';
-import { vars } from 'styles/tokens.css';
+import { Heading, Text } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { Cross2Icon, DesktopIcon, DiscIcon, MagnifyingGlassIcon, PersonIcon, VideoIcon } from '@radix-ui/react-icons';
 

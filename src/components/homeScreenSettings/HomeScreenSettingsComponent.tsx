@@ -1,11 +1,11 @@
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { FormControl, FormLabel } from 'ui-primitives/FormControl';
+import { Button } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { FormControl, FormLabel } from 'ui-primitives';
 import { logger } from 'utils/logger';
 import { getEnvironmentContext, generateEventId } from 'utils/observability';
 

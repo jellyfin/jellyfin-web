@@ -875,7 +875,7 @@ export class HtmlVideoPlayer {
                         this.forcedFullscreen = true;
                     });
                 }
-                if (!browser.slow && browser.supportsCssAnimation) await zoomIn(dlg);
+                if (!browser.slow && browser.supportsCssAnimation()) await zoomIn(dlg);
             }
             return video;
         }

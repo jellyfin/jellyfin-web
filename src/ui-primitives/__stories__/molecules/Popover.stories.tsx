@@ -1,8 +1,8 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState } from 'react';
-import { Button } from '../../Button';
+import { Button } from '../..';
 import {
     Popover,
     PopoverTrigger,
@@ -13,7 +13,7 @@ import {
     PopoverFooter,
     PopoverClose,
     PopoverArrow
-} from '../../Popover';
+} from '../..';
 
 const meta: Meta<typeof Popover> = {
     title: 'UI Primitives/Popover',

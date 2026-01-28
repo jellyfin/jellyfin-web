@@ -1,9 +1,9 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Progress } from '../../Progress';
-import { Text } from '../../Text';
+import { Progress } from '../..';
+import { Text } from '../..';
 
 const meta: Meta<typeof Progress> = {
     title: 'UI Primitives/Progress',

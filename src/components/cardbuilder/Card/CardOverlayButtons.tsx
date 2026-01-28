@@ -1,7 +1,7 @@
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 
 import { appRouter } from 'components/router/appRouter';
 import { ItemAction } from 'constants/itemAction';

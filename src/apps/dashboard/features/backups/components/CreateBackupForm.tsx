@@ -1,13 +1,13 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { type FunctionComponent, useCallback } from 'react';
 import globalize from 'lib/globalize';
 import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
-import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { FormControl, FormControlLabel, FormLabel } from 'ui-primitives/FormControl';
+import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { FormControl, FormControlLabel, FormLabel } from 'ui-primitives';
 
 interface IProps {
     open: boolean;

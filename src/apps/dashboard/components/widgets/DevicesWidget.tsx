@@ -3,8 +3,8 @@ import React from 'react';
 import DeviceCard from 'apps/dashboard/features/devices/components/DeviceCard';
 import useLiveSessions from 'apps/dashboard/features/sessions/hooks/useLiveSessions';
 import globalize from 'lib/globalize';
-import { vars } from 'styles/tokens.css';
-import { Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css.ts';
+import { Flex } from 'ui-primitives';
 
 import Widget from './Widget';
 

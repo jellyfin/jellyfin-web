@@ -6,7 +6,7 @@ import Page from 'components/Page';
 import ReactMarkdownBox from 'components/ReactMarkdownBox';
 import toast from 'components/toast/toast';
 import { AppFeature } from 'constants/appFeature';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 

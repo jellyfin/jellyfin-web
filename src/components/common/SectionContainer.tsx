@@ -1,6 +1,6 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
+import { Box } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 import classNames from 'classnames';
 import ItemsContainer, { type ItemsContainerProps } from '../items/ItemsContainer';

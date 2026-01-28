@@ -2,10 +2,10 @@ import React, { type FunctionComponent, useCallback, useState } from 'react';
 import type { BackupManifestDto } from '@jellyfin/sdk/lib/generated-client/models/backup-manifest-dto';
 import globalize from 'lib/globalize';
 import BackupInfoDialog from './BackupInfoDialog';
-import { List, ListItem, ListItemButton, ListItemContent } from 'ui-primitives/List';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { Text } from 'ui-primitives/Text';
+import { List, ListItem, ListItemButton, ListItemContent } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
 const RestoreIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

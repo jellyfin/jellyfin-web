@@ -17,11 +17,11 @@ import { queryKeys } from 'lib/queryKeys';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { appRouter } from 'components/router/appRouter';
 import { toVideoItem } from 'lib/utils/playbackUtils';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Heading, Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface EpisodeCardWithPlayProps {
     item: BaseItemDto;

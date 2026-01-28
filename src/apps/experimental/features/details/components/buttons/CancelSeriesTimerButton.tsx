@@ -1,6 +1,6 @@
 import React, { type FC, useCallback } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 import { TrashIcon } from '@radix-ui/react-icons';
 
 import { useCancelSeriesTimer } from 'hooks/api/liveTvHooks';

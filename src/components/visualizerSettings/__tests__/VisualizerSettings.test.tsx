@@ -35,7 +35,7 @@ vi.mock('../../../store/preferencesStore', () => ({
     })
 }));
 
-vi.mock('../../../styles/tokens.css', () => ({
+vi.mock('../../../styles/tokens.css.ts', () => ({
     vars: {
         spacing: { md: '16px', sm: '12px', xs: '8px', xl: '24px' },
         colors: { primary: '#000', surfaceSecondary: '#333', textPrimary: '#fff' },

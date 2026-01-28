@@ -22,7 +22,7 @@ export default class LogoScreensaver {
         ];
 
         const elem = document.querySelector('.logoScreenSaverImage') as HTMLElement;
-        if (elem?.animate) {
+        if (typeof elem?.animate === 'function') {
             const random = randomInt(0, animations.length - 1);
             animations[random](elem, 1);
         }
@@ -149,7 +149,7 @@ export default class LogoScreensaver {
         const elem = document.querySelector('.logoScreenSaver') as HTMLElement;
         if (elem) {
             return new Promise<void>(resolve => {
-                if (elem.animate) {
+                if (typeof elem.animate === 'function') {
                     const animation = this.fadeOut(elem, 1);
                     animation.onfinish = () => {
                         elem.remove();

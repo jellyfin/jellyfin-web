@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 
-import { vars } from 'styles/tokens.css';
-import { Box } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css.ts';
+import { Box } from 'ui-primitives';
 
 interface WaveformCellProps {
     readonly itemId: string;

@@ -9,7 +9,7 @@ import React, {
     type KeyboardEvent
 } from 'react';
 import { Root, Track, Range, Thumb } from '@radix-ui/react-slider';
-import { Waveform, type TrackState } from '../../organisms/seek/Waveform';
+import { Waveform, type WaveformTrackState } from '../../organisms/Waveform/Waveform';
 import {
     seekSliderContainer,
     seekSliderTimeDisplay,
@@ -20,7 +20,7 @@ import {
     seekSliderThumb,
     seekSliderThumbVisible,
     seekSliderThumbSpinning
-} from './SeekSlider.css';
+} from './SeekSlider.css.ts';
 
 export interface BufferedRange {
     readonly start: number;
@@ -52,8 +52,8 @@ export interface SeekSliderProps {
 
     readonly waveSurferCompatible?: boolean;
     readonly showWaveform?: boolean;
-    readonly currentTrack?: TrackState;
-    readonly nextTrack?: TrackState | null;
+    readonly currentTrack?: WaveformTrackState;
+    readonly nextTrack?: WaveformTrackState | null;
     readonly isCrossfading?: boolean;
     readonly _crossfadeProgress?: number;
     readonly barWidth?: number;

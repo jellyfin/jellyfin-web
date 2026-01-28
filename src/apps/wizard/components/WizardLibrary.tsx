@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'ui-primitives/Button';
-import { Heading, Text } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { useNavigate } from '@tanstack/react-router';
@@ -8,7 +8,7 @@ import Loading from '../../../components/loading/LoadingComponent';
 import { PlusIcon } from '@radix-ui/react-icons';
 import BaseCard from '../../../components/cardbuilder/Card/BaseCard';
 import imageHelper from '../../../utils/image';
-import * as styles from './WizardLibrary.css';
+import * as styles from './WizardLibrary.css.ts';
 
 const WizardLibrary = () => {
     const [isLoading, setIsLoading] = useState(true);

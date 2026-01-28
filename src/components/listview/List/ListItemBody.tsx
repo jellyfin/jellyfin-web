@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 
 import TextLines from 'components/common/textLines/TextLines';
 import { ItemAction } from 'constants/itemAction';

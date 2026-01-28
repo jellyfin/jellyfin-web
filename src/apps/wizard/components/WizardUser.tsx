@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button } from 'ui-primitives/Button';
-import { Text, Heading } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives/Input';
+import { Input } from 'ui-primitives';
 import { useNavigate } from '@tanstack/react-router';
 import Loading from '../../../components/loading/LoadingComponent';
 import toast from '../../../components/toast/toast';
-import * as styles from './WizardUser.css';
+import * as styles from './WizardUser.css.ts';
 
 const WizardUser = () => {
     const [isLoading, setIsLoading] = useState(true);

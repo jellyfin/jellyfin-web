@@ -1,8 +1,8 @@
 import { SyncPlayUserAccessType } from '@jellyfin/sdk/lib/generated-client/models/sync-play-user-access-type';
 import { GroupIcon } from '@radix-ui/react-icons';
 import React, { useCallback, useState } from 'react';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
 
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';

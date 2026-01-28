@@ -22,7 +22,7 @@ import serverNotifications from 'scripts/serverNotifications';
 import Sortable from 'sortablejs';
 import type { ParentId } from 'types/library';
 import type { PlaybackStopInfo } from 'types/playbackStopInfo';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 import dom from 'utils/dom';
 import Events from 'utils/events';
 import { useNotificationStore } from '../../store/notificationStore';

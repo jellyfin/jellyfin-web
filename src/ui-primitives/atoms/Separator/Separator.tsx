@@ -1,6 +1,6 @@
 import { Root } from '@radix-ui/react-separator';
 import React, { type ReactElement } from 'react';
-import { separatorHorizontal, separatorRoot, separatorStyles, separatorVertical } from './Separator.css';
+import { separatorHorizontal, separatorRoot, separatorStyles, separatorVertical } from './Separator.css.ts';
 
 export { separatorHorizontal, separatorRoot, separatorStyles, separatorVertical };
 

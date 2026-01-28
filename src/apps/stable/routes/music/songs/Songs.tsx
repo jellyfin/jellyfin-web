@@ -7,9 +7,9 @@
 import React, { useState, useCallback } from 'react';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
-import { IconButton } from 'ui-primitives/IconButton';
-import { Button } from 'ui-primitives/Button';
-import { Text } from 'ui-primitives/Text';
+import { IconButton } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
 import { PlayIcon, ShuffleIcon } from '@radix-ui/react-icons';
 
@@ -27,7 +27,7 @@ import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { appRouter } from 'components/router/appRouter';
 import { toPlayableItem } from 'lib/utils/playbackUtils';
 
-import * as styles from './Songs.css';
+import * as styles from './Songs.css.ts';
 
 export const Songs: React.FC = () => {
     const { topParentId } = useParams({ strict: false }) as { topParentId?: string };

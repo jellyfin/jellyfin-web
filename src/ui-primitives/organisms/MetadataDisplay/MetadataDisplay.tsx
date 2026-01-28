@@ -3,14 +3,14 @@
  */
 
 import { type ReactElement } from 'react';
-import { Text } from 'ui-primitives/Text';
+import { Text } from 'ui-primitives';
 import {
     container,
     title as titleStyle,
     artist as artistStyle,
     album as albumStyle,
     link
-} from './MetadataDisplay.css';
+} from './MetadataDisplay.css.ts';
 
 export interface MetadataDisplayProps {
     readonly title?: string | null;

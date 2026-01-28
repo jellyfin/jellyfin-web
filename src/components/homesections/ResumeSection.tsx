@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { Heading } from 'ui-primitives/Text';
+import { Heading } from 'ui-primitives';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
-import * as styles from './ResumeSection.css';
+import * as styles from './ResumeSection.css.ts';
 
 interface ResumeSectionProps {
     mediaType: 'Video' | 'Audio' | 'Book';

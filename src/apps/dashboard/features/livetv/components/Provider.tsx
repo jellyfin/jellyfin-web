@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import type { ListingsProviderInfo } from '@jellyfin/sdk/lib/generated-client/models/listings-provider-info';
-import { Avatar } from 'ui-primitives/Avatar';
-import { List, ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
-import { Text } from 'ui-primitives/Text';
-import { Menu, MenuItem } from 'ui-primitives/Menu';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Avatar } from 'ui-primitives';
+import { List, ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Menu, MenuItem } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 import ListItemLink from 'components/ListItemLink';
 import getProviderConfigurationUrl from '../utils/getProviderConfigurationUrl';
 import getProviderName from '../utils/getProviderName';

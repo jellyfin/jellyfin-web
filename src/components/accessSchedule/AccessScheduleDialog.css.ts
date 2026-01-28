@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export const overlayStyle = style({
     backgroundColor: 'rgba(0,0,0,0.7)',

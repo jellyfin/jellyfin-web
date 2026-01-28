@@ -13,9 +13,9 @@ import {
     listItemButtonStyles,
     listSubheaderSticky,
     listSubheaderStyles
-} from './ListItemButton.css';
+} from './ListItemButton.css.ts';
 
-export { listItemButtonActive, listItemButtonStyles, listSubheaderSticky, listSubheaderStyles };
+export { listItemButtonActive, listItemButtonStyles };
 
 type ListItemButtonProps = {
     readonly children: ReactNode;
@@ -88,16 +88,4 @@ export function ListItemButton({
     );
 }
 
-interface ListSubheaderProps {
-    readonly children: ReactNode;
-    readonly className?: string;
-    readonly sticky?: boolean;
-}
 
-export function ListSubheader({ children, className, sticky = false }: ListSubheaderProps): ReactElement {
-    return (
-        <div className={`${listSubheaderStyles} ${sticky ? listSubheaderSticky : ''} ${className ?? ''}`}>
-            {children}
-        </div>
-    );
-}

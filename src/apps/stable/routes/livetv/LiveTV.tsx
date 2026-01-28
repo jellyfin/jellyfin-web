@@ -23,14 +23,14 @@ import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';
 import { logger } from 'utils/logger';
-import { Tabs, TabList, Tab, TabPanel } from 'ui-primitives/Tabs';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Chip } from 'ui-primitives/Chip';
-import { Divider } from 'ui-primitives/Divider';
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Heading, Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Tabs, TabList, Tab, TabPanel } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 type LiveTVTab = 'suggestions' | 'guide' | 'channels' | 'recordings' | 'series';
 

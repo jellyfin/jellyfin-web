@@ -1,4 +1,4 @@
-import { vars } from '../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import Page from 'components/Page';
@@ -9,14 +9,14 @@ import Loading from 'components/loading/LoadingComponent';
 import TunerDeviceCard from 'apps/dashboard/features/livetv/components/TunerDeviceCard';
 import Provider from 'apps/dashboard/features/livetv/components/Provider';
 import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import { Menu, MenuTrigger, MenuContent, MenuItem } from 'ui-primitives/Menu';
-import { Alert } from 'ui-primitives/Alert';
+import { Menu, MenuTrigger, MenuContent, MenuItem } from 'ui-primitives';
+import { Alert } from 'ui-primitives';
 
 const RefreshIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="Refresh">

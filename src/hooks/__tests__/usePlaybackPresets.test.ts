@@ -4,7 +4,7 @@
  * Tests for the usePlaybackPresets hook functionality.
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('usePlaybackPresets Hook', () => {
     beforeEach(() => {
@@ -140,7 +140,7 @@ describe('usePlaybackPresets Hook', () => {
         });
 
         it('handles loading non-existent preset', () => {
-            const presets = [];
+            const presets: any[] = [];
             const loaded = presets.find((p) => p.id === 'non-existent');
             expect(loaded).toBeUndefined();
         });

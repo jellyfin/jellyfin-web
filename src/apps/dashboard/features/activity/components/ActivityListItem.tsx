@@ -5,11 +5,11 @@ import { formatRelative } from 'date-fns';
 import { getLocale } from 'utils/dateFnsLocale';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
 import ListItemLink from 'components/ListItemLink';
-import { List, ListItem, ListItemDecorator, ListItemContent } from 'ui-primitives/List';
-import { Avatar } from 'ui-primitives/Avatar';
-import { Text } from 'ui-primitives/Text';
-import { Box, Flex } from 'ui-primitives/Box';
-import { vars } from 'styles/tokens.css';
+import { List, ListItem, ListItemDecorator, ListItemContent } from 'ui-primitives';
+import { Avatar } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface ActivityListItemProps {
     item: ActivityLogEntry;

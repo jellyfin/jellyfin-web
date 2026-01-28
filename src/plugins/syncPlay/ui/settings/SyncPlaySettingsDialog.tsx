@@ -1,13 +1,13 @@
-import { vars } from '../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useCallback, useState } from 'react';
-import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Divider } from 'ui-primitives/Divider';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Input } from 'ui-primitives/Input';
+import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { Input } from 'ui-primitives';
 import globalize from '../../../../lib/globalize';
 import { setSetting } from '../../core/Settings';
 import Events from '../../../../utils/events';

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback } from 'react';
 import { motion } from 'motion/react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface CheckboxProps {
     label?: string;

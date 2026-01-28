@@ -1,7 +1,7 @@
 import '@fontsource-variable/inter/standard.css';
 
 import { globalStyle } from '@vanilla-extract/css';
-import { vars } from './tokens.css';
+import { vars } from './tokens.css.ts';
 
 globalStyle('h1', {
     fontWeight: vars.typography.fontWeightNormal,

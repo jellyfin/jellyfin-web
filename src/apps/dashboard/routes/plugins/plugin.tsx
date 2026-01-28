@@ -4,14 +4,14 @@ import { Component2Icon, DownloadIcon, GearIcon, TrashIcon } from '@radix-ui/rea
 import React, { type FC, useState, useCallback, useMemo } from 'react';
 import { Link as RouterLink, useParams } from '@tanstack/react-router';
 import { useSearchParams } from 'hooks/useSearchParams';
-import { Alert } from 'ui-primitives/Alert';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Container } from 'ui-primitives/Container';
-import { FormControlLabel, Switch } from 'ui-primitives/FormControl';
-import { Heading, Text } from 'ui-primitives/Text';
-import { Skeleton } from 'ui-primitives/Skeleton';
-import { vars } from 'styles/tokens.css';
+import { Alert } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Container } from 'ui-primitives';
+import { FormControlLabel, Switch } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
+import { Skeleton } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { findBestConfigurationPage } from 'apps/dashboard/features/plugins/api/configurationPage';
 import { findBestPluginInfo } from 'apps/dashboard/features/plugins/api/pluginInfo';

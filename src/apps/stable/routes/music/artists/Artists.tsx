@@ -15,15 +15,15 @@ import { MediaGrid } from 'components/media/MediaGrid';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';
-import { Text, Heading } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Chip } from 'ui-primitives/Chip';
+import { Text, Heading } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
 
 import { CaretSortIcon, ChevronLeftIcon, ChevronRightIcon, GridIcon, ListBulletIcon } from '@radix-ui/react-icons';
 
 import { logger } from 'utils/logger';
 import { formatArtistName } from 'utils/formatUtils';
-import * as styles from './Artists.css';
+import * as styles from './Artists.css.ts';
 
 type ViewStyle = 'List' | 'Poster';
 type SortOption = 'Name' | 'AlbumCount' | 'SongCount' | 'PlayCount' | 'DateAdded';

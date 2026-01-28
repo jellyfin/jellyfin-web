@@ -4,15 +4,15 @@
  * Radix UI component for sort options with framer-motion animations.
  */
 
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives/Text';
-import { List, ListItem } from 'ui-primitives/List';
-import { RadioGroup, RadioGroupItem } from 'ui-primitives/RadioGroup';
-import { Paper } from 'ui-primitives/Paper';
+import { Text } from 'ui-primitives';
+import { List, ListItem } from 'ui-primitives';
+import { RadioGroup, RadioGroupItem } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
 
 import { useSortStore } from 'store/sortStore';
 

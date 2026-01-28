@@ -1,7 +1,7 @@
 import React, { type ReactNode, type ReactElement } from 'react';
 import { Provider, Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-tooltip';
-import { vars } from '../../../styles/tokens.css';
-import { tooltipContent } from './Tooltip.css';
+import { vars } from 'styles/tokens.css.ts';
+import { tooltipContent } from './Tooltip.css.ts';
 
 type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
 

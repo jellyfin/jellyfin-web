@@ -1,9 +1,9 @@
 import React from 'react';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
 import { MagicWandIcon } from '@radix-ui/react-icons';
 import { useAutoDJStore } from 'store/autoDJStore';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface AutoDJToggleProps {
     size?: 'sm' | 'md' | 'lg';

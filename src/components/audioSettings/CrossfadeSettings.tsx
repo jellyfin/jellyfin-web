@@ -1,12 +1,12 @@
 import React from 'react';
 import { ClockIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { usePreferencesStore } from 'store/preferencesStore';
-import { Card } from 'ui-primitives/Card';
-import { Slider } from 'ui-primitives/Slider';
-import { Switch } from 'ui-primitives/FormControl';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Card } from 'ui-primitives';
+import { Slider } from 'ui-primitives';
+import { Switch } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export const CrossfadeSettings: React.FC = () => {
     const {

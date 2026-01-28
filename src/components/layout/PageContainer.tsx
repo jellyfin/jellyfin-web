@@ -1,6 +1,6 @@
 import React, { FC, PropsWithChildren } from 'react';
-import { Box } from '../../ui-primitives/Box';
-import { vars } from '../../styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface PageContainerProps {
     padding?: boolean;

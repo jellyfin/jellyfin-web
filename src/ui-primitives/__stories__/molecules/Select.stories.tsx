@@ -9,8 +9,8 @@ import {
     SelectGroup,
     SelectLabel,
     SelectSeparator
-} from '../../Select';
-import { vars } from '../../../styles/tokens.css';
+} from '../..';
+import { vars } from 'styles/tokens.css.ts';
 
 const meta: Meta<typeof Select> = {
     title: 'UI Primitives/Select',

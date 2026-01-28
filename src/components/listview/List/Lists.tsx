@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
 import { groupBy } from '../../../utils/lodashUtils';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 import { getIndex } from './listHelper';
 import ListGroupHeaderWrapper from './ListGroupHeaderWrapper';
 import List from './List';

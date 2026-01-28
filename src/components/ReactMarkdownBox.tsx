@@ -1,8 +1,8 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import React, { type FC } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { container } from './ReactMarkdownBox.css';
+import { Box } from 'ui-primitives';
+import { container } from './ReactMarkdownBox.css.ts';
 
 interface ReactMarkdownBoxProps {
     markdown?: string | null;

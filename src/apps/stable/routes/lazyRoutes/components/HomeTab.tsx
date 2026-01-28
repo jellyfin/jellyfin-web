@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { Box, Flex } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getUserViewsQuery } from 'hooks/useUserViews';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -11,7 +11,7 @@ import ResumeSection from 'components/homesections/ResumeSection';
 import NextUpSection from 'components/homesections/NextUpSection';
 import RecentlyAddedSection from 'components/homesections/RecentlyAddedSection';
 import LibraryTilesSection from 'components/homesections/LibraryTilesSection';
-import * as styles from 'components/homesections/HomeSections.css';
+import * as styles from 'components/homesections/HomeSections.css.ts';
 
 interface HomeTabProps {
     autoFocus?: boolean;

@@ -7,7 +7,7 @@ import {
     radioGroupItemIndicator,
     radioGroupLabel,
     radioGroupRoot
-} from './RadioGroup.css';
+} from './RadioGroup.css.ts';
 
 export {
     radioGroupIndicator,

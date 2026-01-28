@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export const menuContent = style({
     minWidth: '240px',

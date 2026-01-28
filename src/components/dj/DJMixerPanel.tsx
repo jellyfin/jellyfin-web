@@ -2,7 +2,7 @@ import React, { type ReactElement } from 'react';
 import { useFXStore } from 'store/fxStore';
 import { DJChannelStrip } from './DJChannelStrip';
 import { DJMasterFader } from './DJMasterFader';
-import * as DJStyles from './DJ.css';
+import * as DJStyles from './DJ.css.ts';
 
 interface DJMixerPanelProps {
   disabled?: boolean;

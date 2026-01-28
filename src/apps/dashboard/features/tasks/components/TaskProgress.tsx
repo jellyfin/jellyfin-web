@@ -1,9 +1,9 @@
 import React, { type FunctionComponent } from 'react';
 import { type TaskProps } from '../types/taskProps';
-import { Progress } from 'ui-primitives/Progress';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Progress } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const progress = task.CurrentProgressPercentage;

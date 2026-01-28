@@ -6,15 +6,15 @@ import TaskLastRan from './TaskLastRan';
 import { useStartTask } from '../api/useStartTask';
 import { useStopTask } from '../api/useStopTask';
 import ListItemLink from 'components/ListItemLink';
-import { ListItem } from 'ui-primitives/List';
-import { ListItemButton } from 'ui-primitives/ListItemButton';
-import { ListItemDecorator } from 'ui-primitives/List';
-import { ListItemContent } from 'ui-primitives/List';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Avatar } from 'ui-primitives/Avatar';
-import { Heading } from 'ui-primitives/Text';
-import { Box } from 'ui-primitives/Box';
-import { vars } from 'styles/tokens.css';
+import { ListItem } from 'ui-primitives';
+import { ListItemButton } from 'ui-primitives';
+import { ListItemDecorator } from 'ui-primitives';
+import { ListItemContent } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Avatar } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
+import { Box } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const startTask = useStartTask();

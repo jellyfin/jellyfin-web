@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'hooks/useSearchParams';
 import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { vars } from 'styles/tokens.css';
+import { Heading, Text } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import { useServerStore } from 'store/serverStore';
 import { LoadingView } from 'components/feedback/LoadingView';
 import { PageContainer } from 'components/layout/PageContainer';

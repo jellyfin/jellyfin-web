@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { Heading } from 'ui-primitives/Text';
+import { Heading } from 'ui-primitives';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
-import * as styles from './RecentlyAddedSection.css';
+import * as styles from './RecentlyAddedSection.css.ts';
 
 interface RecentlyAddedLibrarySectionProps {
     library: any;

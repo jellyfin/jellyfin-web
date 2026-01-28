@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { skeletonRoot, skeletonWave } from './Skeleton.css';
+import { skeletonRoot, skeletonWave } from './Skeleton.css.ts';
 
 export interface SkeletonProps {
     readonly className?: string;

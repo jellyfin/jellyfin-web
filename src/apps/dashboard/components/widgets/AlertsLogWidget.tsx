@@ -4,9 +4,9 @@ import Widget from './Widget';
 import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
 import { subSeconds } from 'date-fns';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
-import { List } from 'ui-primitives/List';
-import { Paper } from 'ui-primitives/Paper';
-import { vars } from 'styles/tokens.css';
+import { List } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 const AlertsLogWidget = (): React.ReactElement | null => {
     const weekBefore = useMemo(() => subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString(), []);

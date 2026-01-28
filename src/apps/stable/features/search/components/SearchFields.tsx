@@ -1,11 +1,11 @@
 import React, { type ChangeEvent, type FC, useCallback, useRef } from 'react';
 import AlphaPicker from 'components/alphaPicker/AlphaPickerComponent';
-import { Input } from 'ui-primitives/Input';
+import { Input } from 'ui-primitives';
 import globalize from 'lib/globalize';
 import layoutManager from 'components/layoutManager';
 import browser from 'scripts/browser';
-import * as layoutStyles from 'styles/layout.css';
-import * as styles from './searchfields.css';
+import * as layoutStyles from 'styles/layout.css.ts';
+import * as styles from './searchfields.css.ts';
 
 interface SearchFieldsProps {
     query: string;

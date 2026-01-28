@@ -1,0 +1,1 @@
+export { Switch, switchStyles, switchThumb, type SwitchProps } from '../../molecules/FormControl';

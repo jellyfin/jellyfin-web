@@ -2,7 +2,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto
 import React from 'react';
 
 import UserAvatar from 'components/UserAvatar';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 
 interface UserAvatarButtonProps {
     readonly user?: UserDto;

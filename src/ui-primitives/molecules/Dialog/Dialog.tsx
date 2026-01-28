@@ -16,7 +16,7 @@ import {
     dialogTitleStyles,
     DialogDescription as dialogDescriptionStyle,
     DialogClose as dialogCloseStyle
-} from './Dialog.css';
+} from './Dialog.css.ts';
 
 interface DialogProps {
     readonly open?: boolean;

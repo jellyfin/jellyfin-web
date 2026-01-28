@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useCallback } from 'react';
-import { Button } from '../../Button';
-import { ToastProvider, useToast, type ToastVariant } from '../../toast';
-import { Flex } from '../../Box';
+import { Button } from '../..';
+import { ToastProvider, useToast, type ToastVariant } from '../..';
+import { Flex } from '../..';
 
 const meta: Meta<typeof ToastProvider> = {
     title: 'UI Primitives/Toast',

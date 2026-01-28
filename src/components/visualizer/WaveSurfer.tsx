@@ -629,9 +629,41 @@ async function destroyWaveSurferInstance(fullDestroy = false): Promise<WaveSurfe
     if (fullDestroy && waveSurferInstance) {
         clearWaveSurferPlugins();
         waveSurferInstance.destroy();
+
+        // Complete cleanup of all module-level state to prevent memory leaks
         waveSurferInstance = null;
         waveSurferContainer = null;
         waveSurferReady = false;
+        waveSurferLoadSequence = 0;
+        lastLoadedItemId = null;
+        lastLoadedStreamUrl = null;
+        lastAlbumArtUrl = null;
+        lastAlbumArtColors = null;
+
+        // Clear DOM element references
+        inputSurfer = null;
+        simpleSlider = null;
+        barSurfer = null;
+        mediaElement = null;
+        activeMediaElement = null;
+        mediaSyncHandler = null;
+        timelinePlugin = null;
+        zoomPlugin = null;
+        minimapPlugin = null;
+        lastPluginContainer = null;
+        lastPluginColorKey = null;
+
+        // Reset interaction state
+        mobileTouch = false;
+        isDragging = false;
+        touchHandlersBound = false;
+        currentZoom = 105;
+        initialDistance = null;
+        lastTouchMoveTime = 0;
+
+        // Clear audio data
+        savedDuration = 0;
+        savedPeaks = undefined;
     }
 
     return legacy;

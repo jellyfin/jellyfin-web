@@ -3,13 +3,13 @@ import { CopyIcon } from '@radix-ui/react-icons';
 import globalize from 'lib/globalize';
 import React, { type FunctionComponent, useCallback, useState } from 'react';
 import { copy } from 'scripts/clipboard';
-import { Dialog, DialogContentComponent as DialogContent, DialogTitle } from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { vars } from 'styles/tokens.css';
+import { Dialog, DialogContentComponent as DialogContent, DialogTitle } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import Toast from 'apps/dashboard/components/Toast';
 
 interface IProps {

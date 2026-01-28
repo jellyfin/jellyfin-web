@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives/Box';
-import { ToggleGroup, ToggleGroupItem } from 'ui-primitives/Toggle';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { ToggleGroup, ToggleGroupItem } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { type LibraryViewSettings } from 'types/library';
 import 'components/alphaPicker/style.css.ts';

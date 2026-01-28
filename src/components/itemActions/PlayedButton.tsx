@@ -1,7 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { type FC, useCallback } from 'react';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 import { CheckCircledIcon, CheckIcon } from '@radix-ui/react-icons';
 import { deprecate } from '../../utils/deprecation';
 

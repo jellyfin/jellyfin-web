@@ -1,9 +1,9 @@
 import React, { type FC } from 'react';
 import globalize from 'lib/globalize';
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogCloseButton } from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
-import { vars } from 'styles/tokens.css';
+import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogCloseButton } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export interface ConfirmDialogProps {
     open: boolean;

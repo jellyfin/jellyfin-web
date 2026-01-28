@@ -22,12 +22,12 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useState } from 'react';
 import { type ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
-import { Alert } from 'ui-primitives/Alert';
-import { Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Input } from 'ui-primitives/Input';
-import { Text } from 'ui-primitives/Text';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { Alert } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
 
 import { PageContainer } from 'components/layout/PageContainer';
 

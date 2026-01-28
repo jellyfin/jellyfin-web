@@ -1,5 +1,5 @@
 import React, { type ReactElement, type ReactNode, type CSSProperties } from 'react';
-import { textStyles, textSizes, textWeights, textColors, textAlignments } from './Text.css';
+import { textStyles, textSizes, textWeights, textColors, textAlignments } from './Text.css.ts';
 
 export type TextSize = keyof typeof textSizes;
 export type TextWeight = keyof typeof textWeights;

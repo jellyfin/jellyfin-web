@@ -9,15 +9,15 @@ import { useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Chip } from 'ui-primitives/Chip';
-import { FormControl, FormLabel } from 'ui-primitives/FormControl';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from 'ui-primitives/Menu';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { FormControl, FormLabel } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { itemsApi } from 'lib/api/items';
 import { useViewStyle } from 'hooks/useViewStyle';
@@ -220,7 +220,7 @@ export const Playlists: React.FC = () => {
                         <FormLabel>Sort</FormLabel>
                         <Select
                             value={sortBy}
-                            onValueChange={value => {
+                            onValueChange={(value: string) => {
                                 setSortBy(value as SortOption);
                                 setPageIndex(0);
                             }}

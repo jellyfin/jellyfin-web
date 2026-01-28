@@ -7,8 +7,8 @@ import { appRouter } from 'components/router/appRouter';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
 import { useApi } from 'hooks/useApi';
-import { vars } from 'styles/tokens.css';
-import { Box, Flex } from 'ui-primitives/Box';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex } from 'ui-primitives';
 
 import AppTabs from './components/AppTabs';
 import AppDrawer from './components/drawer/AppDrawer';

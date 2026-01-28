@@ -4,7 +4,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue
-} from 'ui-primitives/Select';
+} from 'ui-primitives';
 import { FormField } from './FormField';
 
 export interface SelectProps {

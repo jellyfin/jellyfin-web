@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { StopwatchIcon, TimerIcon } from '@radix-ui/react-icons';
 import { useTimeStretchStore } from 'store/timeStretchStore';
-import { Slider } from 'ui-primitives/Slider';
-import { Switch } from 'ui-primitives/Switch';
-import { RadioGroup, Radio } from 'ui-primitives/RadioGroup';
-import { Divider } from 'ui-primitives/Divider';
-import { Progress } from 'ui-primitives/Progress';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Card } from 'ui-primitives/Card';
-import { vars } from 'styles/tokens.css';
+import { Slider } from 'ui-primitives';
+import { Switch } from 'ui-primitives';
+import { RadioGroup, Radio } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Progress } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Card } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export const TimeStretchSettings: React.FC = () => {
     const {

@@ -1,6 +1,6 @@
 import { Root, Portal, Overlay, Content } from '@radix-ui/react-dialog';
 import React, { useCallback, type ReactElement, type ReactNode, type CSSProperties } from 'react';
-import { drawerOverlay, drawerContent, drawerAnchor } from './Drawer.css';
+import { drawerOverlay, drawerContent, drawerAnchor } from './Drawer.css.ts';
 
 export type DrawerAnchor = 'left' | 'right' | 'top' | 'bottom';
 

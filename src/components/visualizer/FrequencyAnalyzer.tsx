@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useMemo } from 'react';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
 import { usePreferencesStore } from '../../store/preferencesStore';
 import { isVisible, onVisibilityChange } from '../../utils/visibility';
@@ -17,6 +17,7 @@ type FrequencyAnalyzersProps = {
 // Module-level singleton to preserve AnalyserNode across mounts
 let sharedAnalyser: AnalyserNode | null = null;
 let sharedAnalyserContext: AudioContext | null = null;
+let isAnalyserConnected = false; // Track connection state
 
 /**
  * Interpolates between two colors based on ratio
@@ -209,10 +210,20 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     const pinkNoiseReferenceRef = useRef<Float32Array | null>(null);
 
     const { visualizer } = usePreferencesStore(state => state);
-    const { advanced, frequencyAnalyzer, smoothing, opacity } = visualizer as any;
+    const { advanced, frequencyAnalyzer, smoothing } = visualizer as any;
     const { fftSize, limiterThreshold: maxDecibels } = advanced;
     const smoothingTimeConstant = smoothing;
     const minDecibels = -132; // Standard floor
+
+    // Memoize frequency analyzer settings to prevent unnecessary callback recreation
+    const frequencyAnalyzerSettings = useMemo(
+        () => ({
+            opacity: frequencyAnalyzer.opacity,
+            colorScheme: frequencyAnalyzer.colorScheme,
+            colors: frequencyAnalyzer.colors
+        }),
+        [frequencyAnalyzer.opacity, frequencyAnalyzer.colorScheme, frequencyAnalyzer.colors]
+    );
 
     const stopLoop = useCallback((reason?: string) => {
         if (reason) {
@@ -241,7 +252,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             ctx.scale(dpr, dpr);
 
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-            ctx.globalAlpha = frequencyAnalyzer.opacity;
+            ctx.globalAlpha = frequencyAnalyzerSettings.opacity;
 
             const minBarWidth = Math.max(2, canvasWidth / 200);
             const barGap = Math.max(1, canvasWidth / 400);
@@ -271,7 +282,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             const previousBarHeights = previousBarHeightsRef.current!;
             const pinkNoiseReference = pinkNoiseReferenceRef.current!;
 
-            const { colorScheme, colors } = frequencyAnalyzer;
+            const { colorScheme, colors } = frequencyAnalyzerSettings;
             const { solid: colorSolid } = colors;
             const { low: colorLow, mid: colorMid, high: colorHigh } = colors.gradient;
 
@@ -316,7 +327,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
             drawAmplitudeLabels(ctx, canvasWidth, canvasHeight, minDecibels, maxDecibels);
             drawFrequencyLabels(ctx, canvasWidth, logMinFreq, logMaxFreq);
         },
-        [fftSize, minDecibels, maxDecibels, alpha, frequencyAnalyzer]
+        [fftSize, minDecibels, maxDecibels, alpha, frequencyAnalyzerSettings]
     );
 
     const startLoop = useCallback(
@@ -349,15 +360,17 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
 
         // Reuse or create AnalyserNode
         if (sharedAnalyserContext !== audioContext || !sharedAnalyser) {
-            if (sharedAnalyser && sharedAnalyserContext) {
+            if (sharedAnalyser && isAnalyserConnected) {
                 try {
                     sharedAnalyser.disconnect();
+                    isAnalyserConnected = false;
                 } catch {
                     /* already disconnected */
                 }
             }
             sharedAnalyser = audioContext.createAnalyser();
             sharedAnalyserContext = audioContext;
+            isAnalyserConnected = false;
         }
 
         const analyser = sharedAnalyser;
@@ -366,11 +379,13 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         analyser.minDecibels = minDecibels;
         analyser.maxDecibels = maxDecibels;
 
-        if (mixerNode) {
+        // Only connect if not already connected
+        if (mixerNode && !isAnalyserConnected) {
             try {
                 mixerNode.connect(analyser);
-            } catch {
-                /* already connected */
+                isAnalyserConnected = true;
+            } catch (error) {
+                logger.error('[FrequencyAnalyzer] Failed to connect analyser to mixer', { component: 'FrequencyAnalyzer' }, error);
             }
         }
 
@@ -396,7 +411,15 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         return () => {
             stopLoop();
             unsubscribe();
-            // Don't disconnect analyser - it's shared
+            // Properly disconnect analyser on cleanup to prevent dangling connections
+            if (sharedAnalyser && isAnalyserConnected) {
+                try {
+                    sharedAnalyser.disconnect();
+                    isAnalyserConnected = false;
+                } catch {
+                    /* already disconnected */
+                }
+            }
         };
     }, [audioContext, mixerNode, fftSize, smoothingTimeConstant, minDecibels, maxDecibels, startLoop, stopLoop]);
 

@@ -9,7 +9,7 @@
  */
 
 import { useRef, useState, useCallback, useEffect, type ReactElement } from 'react';
-import { CrossfadeWaveSurfer, type TrackState } from './CrossfadeWaveSurfer';
+import { CrossfadeWaveSurfer, type TrackState } from '../CrossfadeWaveSurfer';
 import {
     seekerContainer,
     timeDisplay,
@@ -21,7 +21,7 @@ import {
     waveformContainer,
     swipeHintLeft,
     swipeHintRight
-} from './MobileCrossfadeSeeker.css';
+} from './MobileCrossfadeSeeker.css.ts';
 
 export interface MobileCrossfadeSeekerProps {
     readonly currentTrack: TrackState;

@@ -16,13 +16,13 @@ import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import type { MediaType, PlayableItem } from 'store/types';
-import { Button } from 'ui-primitives/Button';
-import { Chip } from 'ui-primitives/Chip';
-import { Divider } from 'ui-primitives/Divider';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Heading, Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Button } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 const formatRuntime = (ticks: number | undefined): string => {
     if (!ticks) return '';

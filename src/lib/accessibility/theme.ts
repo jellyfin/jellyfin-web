@@ -5,7 +5,7 @@
  * for consistent styling across React Aria and Radix UI components.
  */
 
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 /**
  * React Aria theme configuration using our design tokens

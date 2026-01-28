@@ -1,12 +1,12 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { type FunctionComponent, useCallback, useMemo, useState } from 'react';
-import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Input } from 'ui-primitives/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import { TaskTriggerInfoType } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info-type';
 import { DayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/day-of-week';

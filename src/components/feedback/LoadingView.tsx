@@ -4,13 +4,13 @@
  * Inline loading indicator with framer-motion animations.
  */
 
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React from 'react';
 import { motion } from 'motion/react';
 import { Box, Flex } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { Text } from 'ui-primitives/Text';
+import { CircularProgress } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
 interface LoadingViewProps {
     message?: string;

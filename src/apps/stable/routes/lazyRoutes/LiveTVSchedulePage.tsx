@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Heading } from 'ui-primitives/Text';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
-import { Grid } from 'ui-primitives/Grid';
-import { Card } from 'ui-primitives/Card';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
+import { Grid } from 'ui-primitives';
+import { Card } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
 
 const LiveTVSchedulePage: React.FC = () => {

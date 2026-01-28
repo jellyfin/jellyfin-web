@@ -1,5 +1,5 @@
 import React, { type FC, useCallback } from 'react';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 import { ShuffleIcon } from '@radix-ui/react-icons';
 
 import { playbackManager } from 'components/playback/playbackmanager';

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
 import { motion } from 'motion/react';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface CircularProgressProps {
     size?: number;

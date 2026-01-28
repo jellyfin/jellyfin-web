@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import { z } from 'zod';
 import { Input, Textarea, Switch, Select } from './index';
-import { Button } from 'ui-primitives/Button';
-import { Divider } from 'ui-primitives/Divider';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Heading, Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Button } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 const settingsSchema = z.object({
     appTitle: z.string().min(1, 'App title is required').max(100, 'Title too long'),

@@ -4,7 +4,7 @@
 
 import { useEffect, useRef, useCallback, type ReactElement } from 'react';
 import { logger } from 'utils/logger';
-import { canvas } from './FrequencyAnalyzer.css';
+import { canvas } from './FrequencyAnalyzer.css.ts';
 
 export interface FrequencyAnalyzerProps {
     readonly fftSize?: number;

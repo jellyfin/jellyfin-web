@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { vars } from 'styles/tokens.css';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';

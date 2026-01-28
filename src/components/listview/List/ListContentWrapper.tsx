@@ -1,5 +1,5 @@
 import React, { type FC, type PropsWithChildren } from 'react';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 
 interface ListContentWrapperProps {
     itemOverview: string | null | undefined;

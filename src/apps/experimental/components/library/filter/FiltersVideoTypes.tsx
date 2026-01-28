@@ -1,8 +1,8 @@
 import { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-type';
 import React, { type FC, useCallback } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { type LibraryViewSettings, VideoBasicFilter } from 'types/library';
 

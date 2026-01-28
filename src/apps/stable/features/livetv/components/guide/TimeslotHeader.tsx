@@ -1,7 +1,7 @@
 import React from 'react';
 import datetime from '../../../../../../scripts/datetime';
-import { Text } from 'ui-primitives/Text';
-import * as styles from './TimeslotHeader.css';
+import { Text } from 'ui-primitives';
+import * as styles from './TimeslotHeader.css.ts';
 
 interface TimeslotHeaderProps {
     startDate: Date;

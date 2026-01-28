@@ -4,7 +4,7 @@ import { Link } from '@tanstack/react-router';
 
 import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
 import globalize from 'lib/globalize';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 
 const ActionsCell = ({ row }: ActivityLogEntryCell) =>
     row.original.ItemId ? (

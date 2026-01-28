@@ -1,12 +1,12 @@
 import React from 'react';
 import { type FullTrackAnalysis } from './autoDJ';
-import { Chip } from 'ui-primitives/Chip';
-import { Progress } from 'ui-primitives/Progress';
-import { Card } from 'ui-primitives/Card';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Chip } from 'ui-primitives';
+import { Progress } from 'ui-primitives';
+import { Card } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface AnalysisDisplayProps {
     analysis: FullTrackAnalysis | null;

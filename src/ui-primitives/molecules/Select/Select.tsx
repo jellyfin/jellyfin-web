@@ -32,7 +32,7 @@ import {
     selectInputContainer,
     selectInputLabel,
     selectInputHelper
-} from './Select.css';
+} from './Select.css.ts';
 
 export const selectStyles = {
     trigger: selectTrigger,
@@ -248,4 +248,4 @@ export {
     selectInputContainer,
     selectInputLabel,
     selectInputHelper
-} from './Select.css';
+} from './Select.css.ts';

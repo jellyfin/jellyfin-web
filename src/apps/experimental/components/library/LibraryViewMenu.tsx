@@ -2,10 +2,10 @@ import { ChevronDownIcon } from '@radix-ui/react-icons';
 import React, { type FC, useState } from 'react';
 import { useLocation } from '@tanstack/react-router';
 import { useSearchParams } from 'hooks/useSearchParams';
-import { Button } from 'ui-primitives/Button';
-import { Menu, MenuItem } from 'ui-primitives/Menu';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Button } from 'ui-primitives';
+import { Menu, MenuItem } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { LibraryRoutes } from 'apps/experimental/features/libraries/constants/libraryRoutes';
 import useCurrentTab from 'hooks/useCurrentTab';

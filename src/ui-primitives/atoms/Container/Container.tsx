@@ -1,5 +1,5 @@
 import type { ReactElement, ReactNode } from 'react';
-import { container, maxWidth as maxWidthStyles } from './Container.css';
+import { container, maxWidth as maxWidthStyles } from './Container.css.ts';
 
 export { container as containerStyles, maxWidthStyles as containerMaxWidth };
 

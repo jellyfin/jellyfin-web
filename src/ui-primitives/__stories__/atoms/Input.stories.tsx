@@ -1,8 +1,8 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
-import { Input } from '../../Input';
+import { Input } from '../..';
 
 const meta: Meta<typeof Input> = {
     title: 'UI Primitives/Input',

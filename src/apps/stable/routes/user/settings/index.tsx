@@ -7,7 +7,7 @@ import layoutManager from 'components/layoutManager';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { AppFeature } from 'constants/appFeature';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 import { useApi } from 'hooks/useApi';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
 import { useUsers } from 'hooks/useUsers';

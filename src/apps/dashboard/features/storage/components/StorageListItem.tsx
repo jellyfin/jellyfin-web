@@ -1,11 +1,11 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { FolderStorageDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { type FC } from 'react';
-import { Progress } from 'ui-primitives/Progress';
-import { Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Skeleton } from 'ui-primitives/Skeleton';
+import { Progress } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Skeleton } from 'ui-primitives';
 
 import globalize from 'lib/globalize';
 import { getReadableSize } from 'utils/file';

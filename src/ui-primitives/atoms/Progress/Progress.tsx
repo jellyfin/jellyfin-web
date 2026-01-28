@@ -1,6 +1,6 @@
 import { Root, Indicator } from '@radix-ui/react-progress';
 import React, { type ReactElement, type CSSProperties } from 'react';
-import { progressRoot, progressIndicator } from './Progress.css';
+import { progressRoot, progressIndicator } from './Progress.css.ts';
 
 export const progressStyles = {
     root: progressRoot,

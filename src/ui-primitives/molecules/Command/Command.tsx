@@ -17,7 +17,7 @@ import {
     commandSearchIcon,
     commandSeparator,
     commandShortcut
-} from './Command.css';
+} from './Command.css.ts';
 
 export {
     commandContent,

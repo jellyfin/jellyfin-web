@@ -5,8 +5,8 @@ import React, { useMemo } from 'react';
 import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
 import MetricCard, { type MetricCardProps } from 'apps/dashboard/features/metrics/components/MetricCard';
 import globalize from 'lib/globalize';
-import { Grid } from 'ui-primitives/Grid';
-import { Flex } from 'ui-primitives/Box';
+import { Grid } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
 
 interface MetricDefinition {
     key: keyof ItemCounts;

@@ -1,6 +1,6 @@
 import React, { type ReactElement } from 'react';
 import { useFXStore } from 'store/fxStore';
-import * as DJStyles from './DJ.css';
+import * as DJStyles from './DJ.css.ts';
 import { Fader } from './Fader';
 import { EQKnob } from './EQKnob';
 import { FXSend } from './FXSend';

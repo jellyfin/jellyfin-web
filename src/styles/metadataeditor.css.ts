@@ -1,5 +1,5 @@
 import { style, globalStyle } from '@vanilla-extract/css';
-import { vars } from './tokens.css';
+import { vars } from './tokens.css.ts';
 
 export const editPageSidebar = style({
     display: 'block'

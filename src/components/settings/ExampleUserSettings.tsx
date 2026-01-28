@@ -10,7 +10,7 @@ import {
 } from 'components/settings/SettingsForm';
 import { useAlert } from 'components/dialog/AlertDialog';
 import globalize from 'lib/globalize';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 
 interface ExampleUserSettings {
     enableNotifications: boolean;

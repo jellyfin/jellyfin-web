@@ -3,7 +3,7 @@ import StorageListItem from 'apps/dashboard/features/storage/components/StorageL
 import globalize from 'lib/globalize';
 import Widget from './Widget';
 import { useSystemStorage } from 'apps/dashboard/features/storage/api/useSystemStorage';
-import { List, ListItem } from 'ui-primitives/List';
+import { List, ListItem } from 'ui-primitives';
 
 const ServerPathWidget = (): React.ReactElement => {
     const { data: systemStorage } = useSystemStorage();

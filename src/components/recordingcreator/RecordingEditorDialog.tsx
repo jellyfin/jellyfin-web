@@ -1,4 +1,4 @@
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -7,11 +7,11 @@ import {
     DialogOverlayComponent,
     DialogContentComponent,
     DialogCloseButton
-} from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Input } from 'ui-primitives/Input';
+} from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Input } from 'ui-primitives';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { TimerInfoDto } from '@jellyfin/sdk/lib/generated-client';

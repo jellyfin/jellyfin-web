@@ -1,5 +1,5 @@
 import React, { type ReactElement } from 'react';
-import { spacerSizes } from './Spacer.css';
+import { spacerSizes } from './Spacer.css.ts';
 
 export type SpacerSize = keyof typeof spacerSizes;
 

@@ -1,7 +1,7 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Skeleton } from '../../Skeleton';
+import { Skeleton } from '../..';
 
 const meta: Meta<typeof Skeleton> = {
     title: 'UI Primitives/Skeleton',

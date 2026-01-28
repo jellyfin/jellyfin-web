@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
+import { Box } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
 import { useServerStore } from '../store/serverStore';
 import { LoadingView } from './feedback';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import { logger } from '../utils/logger';
 
 interface FavoriteItemsProps {

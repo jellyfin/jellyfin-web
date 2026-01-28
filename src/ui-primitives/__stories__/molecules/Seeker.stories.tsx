@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback, type ComponentProps } from 'react';
-import { Seeker } from '../../Seeker';
+import { Seeker } from '../..';
 
 const meta: Meta<typeof Seeker> = {
     title: 'UI Primitives/Seeker',

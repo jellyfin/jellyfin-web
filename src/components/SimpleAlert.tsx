@@ -1,16 +1,16 @@
 import globalize from 'lib/globalize';
 import React from 'react';
-import { Button } from 'ui-primitives/Button';
-import { Box } from 'ui-primitives/Box';
+import { Button } from 'ui-primitives';
+import { Box } from 'ui-primitives';
 import {
     Dialog,
     DialogContentComponent,
     DialogOverlayComponent,
     DialogPortal,
     DialogTitle
-} from 'ui-primitives/Dialog';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+} from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface SimpleAlertDialog {
     open: boolean;

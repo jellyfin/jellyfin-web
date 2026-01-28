@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { BookmarkIcon, DotsVerticalIcon, StackIcon } from '@radix-ui/react-icons';
 

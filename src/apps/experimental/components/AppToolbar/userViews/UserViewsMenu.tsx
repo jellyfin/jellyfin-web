@@ -1,10 +1,10 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { type FC } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Menu, MenuItem } from 'ui-primitives/Menu';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Menu, MenuItem } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { appRouter } from 'components/router/appRouter';

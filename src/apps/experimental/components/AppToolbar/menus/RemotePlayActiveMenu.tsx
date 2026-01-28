@@ -3,10 +3,10 @@ import dialog from 'components/dialog/dialog';
 import { playbackManager } from 'components/playback/playbackmanager';
 import React, { type FC, useCallback, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Menu, MenuItem, MenuLabel, MenuSeparator } from 'ui-primitives/Menu';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Menu, MenuItem, MenuLabel, MenuSeparator } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { enable, isEnabled } from 'scripts/autocast';
 import globalize from 'lib/globalize';

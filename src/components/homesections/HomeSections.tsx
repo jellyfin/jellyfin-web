@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { CircularProgress } from 'ui-primitives';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getUserViewsQuery } from '../../hooks/useUserViews';
@@ -13,7 +13,7 @@ import ResumeSection from './ResumeSection';
 import NextUpSection from './NextUpSection';
 import RecentlyAddedSection from './RecentlyAddedSection';
 import LibraryTilesSection from './LibraryTilesSection';
-import * as styles from './HomeSections.css';
+import * as styles from './HomeSections.css.ts';
 
 const HomeSections: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);

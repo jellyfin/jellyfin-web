@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box } from 'ui-primitives/Box';
-import { ListItemContent, ListItemDecorator } from 'ui-primitives/List';
-import { Text } from 'ui-primitives/Text';
+import { Box } from 'ui-primitives';
+import { ListItemContent, ListItemDecorator } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
 import { useSystemInfo } from 'hooks/useSystemInfo';
 import ListItemLink from 'components/ListItemLink';

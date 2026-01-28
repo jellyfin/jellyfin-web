@@ -12,10 +12,10 @@ import {
 } from '@radix-ui/react-icons';
 import type { ApiClient } from 'jellyfin-apiclient';
 import React, { type FC, useCallback, useEffect, useState } from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Menu, MenuItem, MenuLabel, MenuSeparator } from 'ui-primitives/Menu';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex } from 'ui-primitives';
+import { Menu, MenuItem, MenuLabel, MenuSeparator } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';

@@ -3,8 +3,8 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import BaseCard from '../Card/BaseCard';
 import { CardOptions, setCardData, getCardImageUrl } from '../cardBuilder';
 import imageHelper from '../../../utils/image';
-import { Grid } from 'ui-primitives/Grid';
-import { vars } from 'styles/tokens.css';
+import { Grid } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface CardBuilderProps {
     items: any[];

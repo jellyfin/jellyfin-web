@@ -38,7 +38,7 @@ import { useNavigate, useRouter } from '@tanstack/react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import { Box, Flex } from 'ui-primitives';
 import { Button } from 'ui-primitives';
 import { Divider } from 'ui-primitives';

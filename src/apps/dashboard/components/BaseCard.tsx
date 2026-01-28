@@ -3,12 +3,12 @@ import { Link, type LinkProps } from '@tanstack/react-router';
 import React, { useCallback, useMemo } from 'react';
 
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-import { vars } from 'styles/tokens.css';
-import { AspectRatio } from 'ui-primitives/AspectRatio';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Card } from 'ui-primitives/Card';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Heading, Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css.ts';
+import { AspectRatio } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Card } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
 
 interface BaseCardProps {
     readonly title?: string;

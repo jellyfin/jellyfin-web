@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 import classNames from 'classnames';
 import layoutManager from 'components/layoutManager';
 import CardText from './CardText';

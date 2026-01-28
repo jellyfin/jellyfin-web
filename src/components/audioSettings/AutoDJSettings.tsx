@@ -2,14 +2,14 @@ import React from 'react';
 import { CounterClockwiseClockIcon, MagicWandIcon } from '@radix-ui/react-icons';
 import { useAutoDJStore } from 'store/autoDJStore';
 import { usePreferencesStore } from 'store/preferencesStore';
-import { Card } from 'ui-primitives/Card';
-import { Slider } from 'ui-primitives/Slider';
-import { Switch } from 'ui-primitives/FormControl';
-import { Divider } from 'ui-primitives/Divider';
-import { Progress } from 'ui-primitives/Progress';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Card } from 'ui-primitives';
+import { Slider } from 'ui-primitives';
+import { Switch } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Progress } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export const AutoDJSettings: React.FC = () => {
     const { getTransitionStats } = useAutoDJStore();

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import { MagicWandIcon } from '@radix-ui/react-icons';
-import * as styles from './AutoDJToggle.css';
+import * as styles from './AutoDJToggle.css.ts';
 
 interface AutoDJToggleProps {
     enabled: boolean;

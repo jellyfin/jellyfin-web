@@ -1,5 +1,5 @@
 import React, { type FC } from 'react';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 
 import itemHelper from '../../itemHelper';
 import PlayedButton from '../../itemActions/PlayedButton';

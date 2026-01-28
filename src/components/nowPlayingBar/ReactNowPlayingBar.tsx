@@ -1,42 +1,36 @@
+import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import './nowPlayingBar.scss';
 import { DiscIcon } from '@radix-ui/react-icons';
-
-import { PlaybackIconButton, AutoDJToggle } from '../playback';
-
-import { VolumeSlider } from 'ui-primitives/VolumeSlider';
-import { SeekSlider } from 'ui-primitives/SeekSlider';
-
+import { useKeyboard } from '@react-aria/interactions';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { vars } from 'styles/tokens.css.ts';
+import { AspectRatio, Box, Flex, SeekSlider, Text, VolumeSlider } from 'ui-primitives';
+import { useEnhancedButtonFocus, useEnhancedFocus } from '../../hooks/useEnhancedFocus';
 import {
-    useIsPlaying,
+    useCrossfadeStore,
     useCurrentItem,
+    useCurrentPlayer,
+    useCurrentQueueIndex,
     useCurrentTime,
     useDuration,
-    useVolume,
+    useFormattedTime,
     useIsMuted,
-    useRepeatMode,
-    useShuffleMode,
+    useIsPlaying,
+    useNotificationStore,
     usePlaybackActions,
     useQueueActions,
-    useFormattedTime,
-    useCurrentQueueIndex,
-    useCurrentPlayer,
-    useNotificationStore,
-    useCrossfadeStore
+    useRepeatMode,
+    useShuffleMode,
+    useVolume
 } from '../../store';
-import type { PlayableItem, PlayerInfo } from '../../store/types';
-
-import layoutManager from '../layoutManager';
-import Events from '../../utils/events';
-import { appRouter } from '../router/appRouter';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { playbackManagerBridge } from '../../store/playbackManagerBridge';
+import type { PlayableItem, PlayerInfo } from '../../store/types';
+import Events from '../../utils/events';
 import { logger } from '../../utils/logger';
-import { AspectRatio } from 'ui-primitives/AspectRatio';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import layoutManager from '../layoutManager';
+import { AutoDJToggle, PlaybackIconButton } from '../playback';
+import { appRouter } from '../router/appRouter';
 
 export const NowPlayingBar: React.FC = () => {
     const isPlaying = useIsPlaying();
@@ -51,14 +45,15 @@ export const NowPlayingBar: React.FC = () => {
     const currentPlayer = useCurrentPlayer();
     const { currentTimeFormatted, durationFormatted } = useFormattedTime();
 
-    const { togglePlayPause, stop, seek, seekPercent, setVolume, toggleMute } = usePlaybackActions();
+    const { togglePlayPause, stop, seek, seekPercent, setVolume, toggleMute } =
+        usePlaybackActions();
     const { next, previous, toggleRepeatMode, toggleShuffleMode } = useQueueActions();
 
-    const crossfadeEnabled = useCrossfadeStore(state => state.enabled);
-    const crossfadeDuration = useCrossfadeStore(state => state.duration);
-    const crossfadeBusy = useCrossfadeStore(state => state.busy);
-    const setCrossfadeEnabled = useCrossfadeStore(state => state.setEnabled);
-    const syncCrossfade = useCrossfadeStore(state => state.syncFromEngine);
+    const crossfadeEnabled = useCrossfadeStore((state) => state.enabled);
+    const crossfadeDuration = useCrossfadeStore((state) => state.duration);
+    const crossfadeBusy = useCrossfadeStore((state) => state.busy);
+    const setCrossfadeEnabled = useCrossfadeStore((state) => state.setEnabled);
+    const syncCrossfade = useCrossfadeStore((state) => state.syncFromEngine);
 
     const [isMobile, setIsMobile] = useState(layoutManager.mobile);
     const [isDragging, setIsDragging] = useState(false);
@@ -71,6 +66,97 @@ export const NowPlayingBar: React.FC = () => {
     const [bufferedRanges, setBufferedRanges] = useState<{ start: number; end: number }[]>([]);
 
     const supportedCommands = currentPlayer?.supportedCommands || [];
+
+    // Enhanced focus for the entire now playing bar
+    const { focusProps: barFocusProps } = useEnhancedFocus({
+        component: 'NowPlayingBar',
+        trackFocusWithin: true
+    });
+
+    // Global keyboard shortcuts for playback controls
+    useKeyboard({
+        onKeyDown: (e) => {
+            if (!currentItem) return;
+
+            switch (e.key) {
+                case ' ':
+                    e.preventDefault();
+                    handlePlayPause();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    if (currentTime >= 5 || currentQueueIndex <= 0) {
+                        seek(0);
+                    } else {
+                        seek(currentTime - 10);
+                    }
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    seek(currentTime + 10);
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    setVolume(Math.min(volume + 0.1, 1));
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    setVolume(Math.max(volume - 0.1, 0));
+                    break;
+                case 'm':
+                case 'M':
+                    e.preventDefault();
+                    toggleMute();
+                    break;
+                case 's':
+                case 'S':
+                    e.preventDefault();
+                    if (hasRepeat) {
+                        toggleRepeatMode();
+                    }
+                    break;
+                case 'r':
+                case 'R':
+                    e.preventDefault();
+                    if (currentQueueIndex > 0) {
+                        previous();
+                    }
+                    break;
+                case 'f':
+                case 'F':
+                    e.preventDefault();
+                    if (isFavorite) {
+                        setIsFavoritesLoading(true);
+                        // Toggle favorite logic would go here
+                        setTimeout(() => setIsFavoritesLoading(false), 500);
+                    }
+                    break;
+                case 'l':
+                case 'L':
+                    e.preventDefault();
+                    if (hasLyrics) {
+                        setIsLyricsActive(!isLyricsActive);
+                    }
+                    break;
+                case 'p':
+                case 'P':
+                    e.preventDefault();
+                    if (shuffleMode) {
+                        toggleShuffleMode();
+                    }
+                    break;
+                case 'n':
+                case 'N':
+                    e.preventDefault();
+                    next();
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    setIsVisible(false);
+                    break;
+            }
+        }
+    });
     const hasAirPlay = supportedCommands.includes('AirPlay');
     const hasRepeat = supportedCommands.includes('SetRepeatMode');
     const hasLyrics = currentItem
@@ -117,7 +203,8 @@ export const NowPlayingBar: React.FC = () => {
 
     useEffect(() => {
         const handleViewBeforeShow = (e: Event) => {
-            const detail = (e as CustomEvent<{ options?: { enableMediaControl?: boolean } }>).detail;
+            const detail = (e as CustomEvent<{ options?: { enableMediaControl?: boolean } }>)
+                .detail;
             if (!detail?.options?.enableMediaControl) {
                 setIsVisible(false);
             } else {
@@ -147,8 +234,8 @@ export const NowPlayingBar: React.FC = () => {
 
     useEffect(() => {
         const unsub = useNotificationStore.subscribe(
-            state => state.lastUserDataUpdate,
-            update => {
+            (state) => state.lastUserDataUpdate,
+            (update) => {
                 if (currentItem && update?.itemId === currentItem.id) {
                     setIsFavorite(update.isFavorite);
                 }
@@ -164,7 +251,7 @@ export const NowPlayingBar: React.FC = () => {
         const updateBufferedRanges = () => {
             if (currentItem && duration > 0) {
                 const ranges = playbackManagerBridge.getBufferedRanges();
-                const normalizedRanges = ranges.map(range => ({
+                const normalizedRanges = ranges.map((range) => ({
                     start: (range.start / duration) * 100,
                     end: (range.end / duration) * 100
                 }));
@@ -227,7 +314,10 @@ export const NowPlayingBar: React.FC = () => {
         setIsDragging(true);
     };
 
-    const handleSeekChange = (_event: React.SyntheticEvent | Event, newValue: number | number[]) => {
+    const handleSeekChange = (
+        _event: React.SyntheticEvent | Event,
+        newValue: number | number[]
+    ) => {
         const value = Array.isArray(newValue) ? newValue[0] : newValue;
         setLocalSeekValue(value);
     };
@@ -253,7 +343,10 @@ export const NowPlayingBar: React.FC = () => {
     };
 
     const handleAirPlay = () => {
-        if (currentPlayer && (currentPlayer as PlayerInfo & { toggleAirPlay?: () => void }).toggleAirPlay) {
+        if (
+            currentPlayer &&
+            (currentPlayer as PlayerInfo & { toggleAirPlay?: () => void }).toggleAirPlay
+        ) {
             (currentPlayer as PlayerInfo & { toggleAirPlay: () => void }).toggleAirPlay();
         }
     };
@@ -274,7 +367,11 @@ export const NowPlayingBar: React.FC = () => {
 
             setIsFavorite(newFavoriteState);
         } catch (error) {
-            logger.error('Failed to update favorite status', { component: 'ReactNowPlayingBar' }, error as Error);
+            logger.error(
+                'Failed to update favorite status',
+                { component: 'ReactNowPlayingBar' },
+                error as Error
+            );
             setIsFavorite(!newFavoriteState);
         } finally {
             setIsFavoritesLoading(false);
@@ -297,7 +394,7 @@ export const NowPlayingBar: React.FC = () => {
     const artistName = currentItem.artist || currentItem.albumArtist || '';
     const imageUrl =
         currentItem.imageUrl ||
-        currentItem.artwork?.find(img => img.type === 'Primary')?.url ||
+        currentItem.artwork?.find((img) => img.type === 'Primary')?.url ||
         currentItem.artwork?.[0]?.url;
 
     const albumArtStyle: React.CSSProperties = {
@@ -324,7 +421,7 @@ export const NowPlayingBar: React.FC = () => {
                             currentTime={currentTime}
                             duration={duration || 100}
                             bufferedRanges={bufferedRanges}
-                            onSeek={time => seekPercent((time / duration) * 100)}
+                            onSeek={(time) => seekPercent((time / duration) * 100)}
                             onSeekStart={handleSeekStart}
                             onSeekEnd={handleSeekEnd}
                             waveSurferCompatible
@@ -355,7 +452,12 @@ export const NowPlayingBar: React.FC = () => {
                                 }}
                             >
                                 {imageUrl ? (
-                                    <img src={imageUrl} alt={trackName} loading="lazy" style={{ objectFit: 'cover' }} />
+                                    <img
+                                        src={imageUrl}
+                                        alt={trackName}
+                                        loading="lazy"
+                                        style={{ objectFit: 'cover' }}
+                                    />
                                 ) : (
                                     <div style={albumArtStyle}>
                                         <DiscIcon
@@ -403,7 +505,11 @@ export const NowPlayingBar: React.FC = () => {
                         }}
                         className="nowPlayingBarCenter"
                     >
-                        <PlaybackIconButton icon="previous" onClick={handlePrevious} aria-label="Previous" />
+                        <PlaybackIconButton
+                            icon="previous"
+                            onClick={handlePrevious}
+                            aria-label="Previous"
+                        />
 
                         <PlaybackIconButton
                             icon={isPlaying ? 'pause' : 'play'}
@@ -414,9 +520,19 @@ export const NowPlayingBar: React.FC = () => {
 
                         <PlaybackIconButton icon="stop" onClick={handleStop} aria-label="Stop" />
 
-                        {!isMobile && <PlaybackIconButton icon="next" onClick={handleNext} aria-label="Next" />}
+                        {!isMobile && (
+                            <PlaybackIconButton
+                                icon="next"
+                                onClick={handleNext}
+                                aria-label="Next"
+                            />
+                        )}
 
-                        <Text size="xs" className="nowPlayingBarCurrentTime" style={{ marginLeft: vars.spacing['4'] }}>
+                        <Text
+                            size="xs"
+                            className="nowPlayingBarCurrentTime"
+                            style={{ marginLeft: vars.spacing['4'] }}
+                        >
                             {currentTimeFormatted}
                             {duration > 0 && ` / ${durationFormatted}`}
                         </Text>
@@ -455,7 +571,9 @@ export const NowPlayingBar: React.FC = () => {
                                     <Text
                                         size="xs"
                                         style={{
-                                            color: crossfadeBusy ? vars.colors.primary : vars.colors.textSecondary,
+                                            color: crossfadeBusy
+                                                ? vars.colors.primary
+                                                : vars.colors.textSecondary,
                                             fontWeight: crossfadeBusy ? 600 : 500
                                         }}
                                     >
@@ -508,7 +626,9 @@ export const NowPlayingBar: React.FC = () => {
                                 onClick={handleFavorite}
                                 active={isFavorite}
                                 className="emby-ratingbutton"
-                                aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                                aria-label={
+                                    isFavorite ? 'Remove from favorites' : 'Add to favorites'
+                                }
                             />
                         </div>
 
@@ -527,7 +647,11 @@ export const NowPlayingBar: React.FC = () => {
                                     size="md"
                                     aria-label={isPlaying ? 'Pause' : 'Play'}
                                 />
-                                <PlaybackIconButton icon="next" onClick={handleNext} aria-label="Next" />
+                                <PlaybackIconButton
+                                    icon="next"
+                                    onClick={handleNext}
+                                    aria-label="Next"
+                                />
                             </>
                         )}
                     </Flex>

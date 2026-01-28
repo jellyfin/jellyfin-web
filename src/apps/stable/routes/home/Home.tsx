@@ -20,13 +20,13 @@ import { useConnectionStore } from 'store/connectionStore';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { appRouter } from 'components/router/appRouter';
 import { toVideoItem } from 'lib/utils/playbackUtils';
-import { vars } from 'styles/tokens.css';
-import { AspectRatio } from 'ui-primitives/AspectRatio';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Card } from 'ui-primitives/Card';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Skeleton } from 'ui-primitives/Skeleton';
-import { Heading, Text } from 'ui-primitives/Text';
+import { vars } from 'styles/tokens.css.ts';
+import { AspectRatio } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Card } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Skeleton } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
 
 interface HomeSectionProps {
     title: string;

@@ -2,13 +2,13 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC, useCallback } from 'react';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { Box } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Divider } from 'ui-primitives/Divider';
-import { Menu } from 'ui-primitives/Menu';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives/Select';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Menu } from 'ui-primitives';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import globalize from 'lib/globalize';
 import { type LibraryViewSettings } from 'types/library';

@@ -1,5 +1,5 @@
 import { styleVariants } from '@vanilla-extract/css';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export const spacerSizes = styleVariants({
     xs: { height: vars.spacing['2'] },

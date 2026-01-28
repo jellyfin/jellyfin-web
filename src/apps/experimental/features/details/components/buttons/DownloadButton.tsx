@@ -1,5 +1,5 @@
 import React, { type FC, useCallback } from 'react';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 import { DownloadIcon } from '@radix-ui/react-icons';
 
 import { useApi } from 'hooks/useApi';

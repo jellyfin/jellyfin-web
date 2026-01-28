@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import type { TunerHostInfo } from '@jellyfin/sdk/lib/generated-client/models/tuner-host-info';
 import BaseCard from 'components/cardbuilder/Card/BaseCard';
-import { Menu, MenuItem } from 'ui-primitives/Menu';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Menu, MenuItem } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 import getTunerName from '../utils/getTunerName';
 import globalize from 'lib/globalize';
 import { useNavigate } from '@tanstack/react-router';

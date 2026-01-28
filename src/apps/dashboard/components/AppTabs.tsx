@@ -2,8 +2,8 @@ import { Link } from '@tanstack/react-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { EventType } from 'constants/eventType';
-import { vars } from 'styles/tokens.css';
-import { Tabs, TabList, Tab } from 'ui-primitives/Tabs';
+import { vars } from 'styles/tokens.css.ts';
+import { Tabs, TabList, Tab } from 'ui-primitives';
 import Events from 'utils/events';
 
 import { debounce, isEqual } from '../../../utils/lodashUtils';

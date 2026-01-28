@@ -6,7 +6,7 @@ import AppBody from '../AppBody';
 import { useUiStore } from '../../store/uiStore';
 import browser from '../../scripts/browser';
 import { Box } from 'ui-primitives';
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     const isDrawerOpen = useUiStore((state) => state.isDrawerOpen);

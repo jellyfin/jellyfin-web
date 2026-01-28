@@ -121,11 +121,11 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
             },
 
             addToQueue: (items, position) => {
-                const { items: currentItems } = get();
+                const { items: currentItems, currentIndex: currentIdx } = get();
                 const queueItems = createQueueItems(items);
 
                 const newItems = [...currentItems];
-                if (position !== undefined && position >= 0 && position < newItems.length) {
+                if (position !== undefined && position >= 0 && position <= newItems.length) {
                     newItems.splice(position, 0, ...queueItems);
                 } else {
                     newItems.push(...queueItems);
@@ -136,9 +136,14 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                     index
                 }));
 
+                let newIndex = currentIdx;
+                if (position !== undefined && position <= currentIdx) {
+                    newIndex = currentIdx + queueItems.length;
+                }
+
                 set({
                     items: updatedItems,
-                    currentIndex: position ?? currentItems.length
+                    currentIndex: newIndex
                 });
 
                 get().saveQueue();
@@ -148,19 +153,20 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 const { items, currentIndex } = get();
 
                 const toRemove = new Set(itemIds);
+                const removedAtOrBefore = items
+                    .slice(0, currentIndex + 1)
+                    .filter(item => toRemove.has(item.item.id)).length;
+
                 const filteredItems = items.filter(item => !toRemove.has(item.item.id));
-                const removedBeforeCurrent = items.slice(0, currentIndex).some(item => toRemove.has(item.item.id));
 
                 const updatedItems = filteredItems.map((item, index) => ({
                     ...item,
                     index
                 }));
 
-                let newIndex = currentIndex;
-                if (removedBeforeCurrent && updatedItems.length > 0) {
-                    newIndex = Math.max(0, currentIndex - 1);
-                } else if (currentIndex >= updatedItems.length) {
-                    newIndex = Math.max(0, updatedItems.length - 1);
+                let newIndex = Math.max(0, currentIndex - removedAtOrBefore);
+                if (newIndex >= updatedItems.length && updatedItems.length > 0) {
+                    newIndex = updatedItems.length - 1;
                 }
 
                 set({

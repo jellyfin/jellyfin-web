@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Dialog, DialogContentComponent, DialogOverlayComponent, DialogPortal } from 'ui-primitives/Dialog';
-import { List, ListItem, ListItemButton, ListItemContent } from 'ui-primitives/List';
-import { Text } from 'ui-primitives/Text';
+import { Box } from 'ui-primitives';
+import { Dialog, DialogContentComponent, DialogOverlayComponent, DialogPortal } from 'ui-primitives';
+import { List, ListItem, ListItemButton, ListItemContent } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 import { CheckIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import { useMediaStore, useQueueStore } from '../../store';
 import globalize from '../../lib/globalize';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface PlayerSettingsMenuProps {
     open: boolean;

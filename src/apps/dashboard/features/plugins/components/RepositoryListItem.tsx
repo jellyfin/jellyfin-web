@@ -3,12 +3,12 @@ import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/r
 import globalize from 'lib/globalize';
 import { ExternalLinkIcon, TrashIcon } from '@radix-ui/react-icons';
 import ConfirmDialog from 'components/ConfirmDialog';
-import { ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives/List';
-import { ListItemButton } from 'ui-primitives/ListItemButton';
-import { Tooltip } from 'ui-primitives/Tooltip';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Avatar } from 'ui-primitives/Avatar';
-import { Heading, Text } from 'ui-primitives/Text';
+import { ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives';
+import { ListItemButton } from 'ui-primitives';
+import { Tooltip } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Avatar } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
 
 interface IProps {
     repository: RepositoryInfo;

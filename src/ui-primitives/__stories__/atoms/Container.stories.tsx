@@ -1,10 +1,10 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Container } from '../../Container';
-import { Box } from '../../Box';
-import { Text } from '../../Text';
+import { Container } from '../..';
+import { Box } from '../..';
+import { Text } from '../..';
 
 const meta: Meta<typeof Container> = {
     title: 'UI Primitives/Container',

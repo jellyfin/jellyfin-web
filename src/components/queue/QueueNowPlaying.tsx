@@ -1,9 +1,9 @@
 import React from 'react';
-import { Avatar } from 'ui-primitives/Avatar';
-import { Text, Heading } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Avatar } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 import { DiscIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { PlayableItem } from 'store/types';
 

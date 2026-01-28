@@ -1,11 +1,11 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { type FC } from 'react';
-import { Paper } from 'ui-primitives/Paper';
-import { Table, TableBody, TableRow, TableCell, TableHead } from 'ui-primitives/Table';
-import { Skeleton } from 'ui-primitives/Skeleton';
-import { Text } from 'ui-primitives/Text';
-import { Flex } from 'ui-primitives/Box';
+import { Paper } from 'ui-primitives';
+import { Table, TableBody, TableRow, TableCell, TableHead } from 'ui-primitives';
+import { Skeleton } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
 
 import globalize from 'lib/globalize';
 import type { PluginDetails } from '../types/PluginDetails';

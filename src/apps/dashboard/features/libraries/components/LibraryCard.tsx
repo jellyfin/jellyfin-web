@@ -6,7 +6,7 @@ import globalize from 'lib/globalize';
 import { getLibraryIcon } from 'utils/image';
 import MediaLibraryEditor from 'components/mediaLibraryEditor/mediaLibraryEditor';
 import { queryClient } from 'utils/query/queryClient';
-import { Menu, MenuItem } from 'ui-primitives/Menu';
+import { Menu, MenuItem } from 'ui-primitives';
 import imageeditor from 'components/imageeditor/imageeditor';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import InputDialog from 'components/InputDialog';
@@ -18,7 +18,7 @@ import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { useApi } from 'hooks/useApi';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import dom from 'utils/dom';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 // Inline SVG icons
 const ImageIcon = () => (

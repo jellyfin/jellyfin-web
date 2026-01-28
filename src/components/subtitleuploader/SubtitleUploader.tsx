@@ -1,20 +1,20 @@
 import React, { useState, useRef, useCallback, type ChangeEvent, type FormEvent } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { ArrowLeftIcon, UploadIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { FormLabel, FormControl } from 'ui-primitives/FormControl';
-import { Input } from 'ui-primitives/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { Box, Flex } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { FormLabel, FormControl } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { readFileAsBase64 } from 'utils/file';
 import globalize from 'lib/globalize';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import { createRoot } from 'react-dom/client';
 
 interface SubtitleUploaderProps {

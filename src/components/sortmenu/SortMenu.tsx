@@ -1,16 +1,16 @@
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState, useEffect } from 'react';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { ArrowLeftIcon, ChevronUpIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { Dialog, DialogPortal, DialogOverlayComponent, DialogContentComponent } from 'ui-primitives/Dialog';
-import { FormControl, FormLabel } from 'ui-primitives/FormControl';
+import { Box, Flex } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { Dialog, DialogPortal, DialogOverlayComponent, DialogContentComponent } from 'ui-primitives';
+import { FormControl, FormLabel } from 'ui-primitives';
 
 interface SortOption {
     value: string;

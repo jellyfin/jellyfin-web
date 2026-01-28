@@ -1,8 +1,8 @@
-import { Alert } from 'ui-primitives/Alert';
-import { Box, Flex } from 'ui-primitives/Box';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Heading } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Alert } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import { useLocalizationOptions } from 'apps/dashboard/features/settings/api/useLocalizationOptions';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
@@ -13,15 +13,15 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { Button } from 'ui-primitives/Button';
+import { Button } from 'ui-primitives';
 import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
 import { type ActionData } from 'types/actionData';
-import { Input } from 'ui-primitives/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { FormControl, FormLabel, FormHelperText } from 'ui-primitives/FormControl';
-import { Checkbox } from 'ui-primitives/Checkbox';
+import { Input } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { FormControl, FormLabel, FormHelperText } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
 
 const settingsSchema = z.object({
     serverName: z.string().optional(),

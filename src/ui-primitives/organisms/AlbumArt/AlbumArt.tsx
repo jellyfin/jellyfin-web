@@ -3,7 +3,7 @@
  */
 
 import { useState, useCallback, type ReactElement } from 'react';
-import { container, image, placeholder } from './AlbumArt.css';
+import { container, image, placeholder } from './AlbumArt.css.ts';
 
 export interface AlbumArtProps {
     readonly src?: string | null;

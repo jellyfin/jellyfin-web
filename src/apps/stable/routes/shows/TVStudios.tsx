@@ -2,16 +2,16 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PlayIcon } from '@radix-ui/react-icons';
 import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Heading, Text } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 
 import { useServerStore } from 'store/serverStore';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { toVideoItem } from 'lib/utils/playbackUtils';
 import { LoadingView } from 'components/feedback/LoadingView';
 import { logger } from 'utils/logger';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 interface StudioCardProps {
     studio: any;

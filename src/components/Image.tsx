@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Paper } from 'ui-primitives/Paper';
+import { Box } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
 import { ImageIcon } from '@radix-ui/react-icons';
 
 import { LoadingSkeleton } from './LoadingSkeleton';

@@ -10,13 +10,14 @@
  */
 
 import { useEffect, useCallback, type ReactElement } from 'react';
-import { Backdrop } from './Backdrop';
-import { AlbumArt } from './AlbumArt';
-import { DiscImage } from './DiscImage';
-import { MetadataDisplay } from './MetadataDisplay';
-import { CrossfadeSeeker } from './CrossfadeSeeker';
-import { MobileCrossfadeSeeker } from './MobileCrossfadeSeeker';
-import { WaveformCell, FrequencyAnalyzer, ButterchurnViz } from '../../visualizers';
+import { Backdrop } from '../../Backdrop';
+import { AlbumArt } from '../../AlbumArt';
+import { DiscImage } from '../../DiscImage';
+import { MetadataDisplay } from '../../MetadataDisplay';
+import { SeekSlider } from '../../../molecules/SeekSlider';
+import { WaveformCell } from '../../WaveformCell';
+import { FrequencyAnalyzer } from '../../FrequencyAnalyzer';
+import { ButterchurnViz } from '../../ButterchurnViz';
 import { useAudioStore } from 'store/audioStore';
 import { useUIStateStore } from 'store/uiStateStore';
 import { useVisualizerStore } from 'store/visualizerStore';
@@ -30,7 +31,7 @@ import {
     controlButton,
     playButton,
     icon
-} from './NowPlayingPage.css';
+} from './NowPlayingPage.css.ts';
 
 export interface NowPlayingPageProps {
     readonly onClose?: () => void;
@@ -85,8 +86,6 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
         // In a real implementation, this would call playbackManager.next()
     }, []);
 
-    const SeekerComponent = isMobile ? MobileCrossfadeSeeker : CrossfadeSeeker;
-
     const trackPeaks = currentTrack?.id !== undefined && currentTrack?.id !== '' ? [] : undefined;
 
     return (
@@ -120,18 +119,10 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
                 </div>
 
                 <div className={seekerContainer}>
-                    <SeekerComponent
-                        currentTrack={{
-                            id: currentTrack?.id ?? '',
-                            url: currentTrack?.streamInfo?.url ?? '',
-                            peaks: trackPeaks
-                        }}
-                        currentTime={currentTime}
+                    <SeekSlider
+                        value={currentTime}
                         duration={duration}
-                        isPlaying={isPlaying}
-                        isCrossfading={false}
                         onSeek={handleSeek}
-                        height={isMobile ? 80 : 60}
                     />
                 </div>
 

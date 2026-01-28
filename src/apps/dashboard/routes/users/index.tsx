@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import globalize from '../../../../lib/globalize';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { Grid, gridContainer, gridGap, gridXs, gridSm, gridMd, gridLg } from 'ui-primitives/Grid';
+import { Box, Flex } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Grid, gridContainer, gridGap, gridXs, gridSm, gridMd, gridLg } from 'ui-primitives';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useUsers } from 'hooks/useUsers';

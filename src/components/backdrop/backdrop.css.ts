@@ -1,5 +1,5 @@
 import { style, keyframes } from '@vanilla-extract/css';
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export const backdropContainer = style({
     contain: 'layout style size'

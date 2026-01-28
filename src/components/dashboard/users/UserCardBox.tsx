@@ -14,13 +14,13 @@ import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../lib/globalize';
-import { Card, CardBody } from 'ui-primitives/Card';
-import { Text, Heading } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Avatar } from 'ui-primitives/Avatar';
+import { Card, CardBody } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Avatar } from 'ui-primitives';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { Link } from '@tanstack/react-router';
-import * as styles from './UserCardBox.css';
+import * as styles from './UserCardBox.css.ts';
 
 type IProps = {
     user?: UserDto;

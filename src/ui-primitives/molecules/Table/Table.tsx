@@ -1,5 +1,5 @@
 import React, { type ReactElement, type ReactNode, type CSSProperties } from 'react';
-import { tableCell, tableContainer, tableHeader, tableRow, tableStyles } from './Table.css';
+import { tableCell, tableContainer, tableHeader, tableRow, tableStyles } from './Table.css.ts';
 
 export { tableCell, tableContainer, tableHeader, tableRow, tableStyles };
 

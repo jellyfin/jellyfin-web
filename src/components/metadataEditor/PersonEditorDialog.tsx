@@ -1,22 +1,22 @@
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
 import React, { useState } from 'react';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import globalize from '../../lib/globalize';
-import { Input } from 'ui-primitives/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { FormControl, FormLabel } from 'ui-primitives/FormControl';
+import { Input } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { FormControl, FormLabel } from 'ui-primitives';
 import {
     Dialog,
     DialogPortal,
     DialogOverlayComponent,
     DialogContentComponent,
     DialogTitle
-} from 'ui-primitives/Dialog';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
+} from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
 
 const personSchema = z.object({
     Name: z.string().min(1, globalize.translate('NameIsRequired')),

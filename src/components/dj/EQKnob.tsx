@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback, type ReactElement } from 'react';
-import * as DJStyles from './DJ.css';
+import * as DJStyles from './DJ.css.ts';
 
 interface EQKnobProps {
   label: 'Low' | 'Mid' | 'High';

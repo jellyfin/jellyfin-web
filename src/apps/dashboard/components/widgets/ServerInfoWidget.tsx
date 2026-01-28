@@ -3,12 +3,12 @@ import { ExitIcon, ReloadIcon, ResetIcon } from '@radix-ui/react-icons';
 
 import { useSystemInfo } from 'hooks/useSystemInfo';
 import globalize from 'lib/globalize';
-import { Button } from 'ui-primitives/Button';
-import { Flex } from 'ui-primitives/Box';
-import { Paper } from 'ui-primitives/Paper';
-import { Skeleton } from 'ui-primitives/Skeleton';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Button } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Paper } from 'ui-primitives';
+import { Skeleton } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import Widget from './Widget';
 
 interface ServerInfoWidgetProps {

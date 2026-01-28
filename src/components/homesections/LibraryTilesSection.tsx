@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Heading } from 'ui-primitives/Text';
+import { Heading } from 'ui-primitives';
 
 import globalize from 'lib/globalize';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
-import * as styles from './LibraryTilesSection.css';
+import * as styles from './LibraryTilesSection.css.ts';
 
 interface LibraryTilesSectionProps {
     userViews: any[];

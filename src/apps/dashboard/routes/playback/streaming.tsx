@@ -7,11 +7,11 @@ import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
 import { type ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
-import { Alert } from 'ui-primitives/Alert';
-import { Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Input } from 'ui-primitives/Input';
-import { Text } from 'ui-primitives/Text';
+import { Alert } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Text } from 'ui-primitives';
 
 export const Component = (): React.ReactElement => {
     const [actionData, setActionData] = useState<ActionData | undefined>();

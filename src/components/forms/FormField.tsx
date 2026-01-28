@@ -1,6 +1,6 @@
 import React from 'react';
-import { FormControl, FormHelperText, FormLabel } from 'ui-primitives/FormControl';
-import { vars } from 'styles/tokens.css';
+import { FormControl, FormHelperText, FormLabel } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export interface FormFieldProps {
     label?: string;

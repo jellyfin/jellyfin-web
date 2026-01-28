@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, type ReactNode, type ReactElement, useCallback } from 'react';
 import { format } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
-import { Calendar } from '../../calendar';
+import { Calendar } from '../../organisms/Calendar';
 import { Popover, PopoverTrigger, PopoverContent, PopoverArrow } from '../Popover';
 import { type ButtonVariant, type ButtonSize } from '../../atoms/Button';
 import {
@@ -10,7 +10,7 @@ import {
     datePickerTriggerActive,
     datePickerIcon,
     datePickerValue
-} from './DatePicker.css';
+} from './DatePicker.css.ts';
 
 function CalendarIcon(): ReactElement {
     return (

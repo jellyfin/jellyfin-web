@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Flex, Text, Button } from '../ui-primitives';
-import { vars } from 'styles/tokens.css';
+import { Box, Flex, Text, Button } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface EmptyStateProps {
     icon?: React.ReactNode;

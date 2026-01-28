@@ -1,15 +1,15 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState, useEffect } from 'react';
 
-import { Box } from 'ui-primitives/Box';
-import { Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { Card, CardBody } from 'ui-primitives/Card';
-import { Switch, FormControl, FormLabel, FormHelperText } from 'ui-primitives/FormControl';
-import { Alert } from 'ui-primitives/Alert';
+import { Box } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Card, CardBody } from 'ui-primitives';
+import { Switch, FormControl, FormLabel, FormHelperText } from 'ui-primitives';
+import { Alert } from 'ui-primitives';
 
 import { LoadingSpinner } from 'components/LoadingSpinner';
 

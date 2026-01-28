@@ -1,7 +1,7 @@
 import React from 'react';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { Text } from 'ui-primitives/Text';
-import * as styles from './ChannelHeader.css';
+import { Text } from 'ui-primitives';
+import * as styles from './ChannelHeader.css.ts';
 
 interface ChannelHeaderProps {
     channel: any;

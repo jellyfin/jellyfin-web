@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Skeleton, type SkeletonProps } from 'ui-primitives/Skeleton';
+import { Skeleton, type SkeletonProps } from 'ui-primitives';
 
 interface LoadingSkeletonProps extends SkeletonProps {
     isLoading: boolean;

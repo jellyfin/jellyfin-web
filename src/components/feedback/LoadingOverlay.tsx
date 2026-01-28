@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { CircularProgress } from 'ui-primitives';
 import { useUiStore } from '../../store';
 
 export const LoadingOverlay: React.FC = () => {

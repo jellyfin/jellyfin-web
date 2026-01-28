@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { Heading } from 'ui-primitives/Text';
+import { Heading } from 'ui-primitives';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
-import * as styles from './NextUpSection.css';
+import * as styles from './NextUpSection.css.ts';
 
 const NextUpSection: React.FC = () => {
     const [items, setItems] = useState<any[]>([]);

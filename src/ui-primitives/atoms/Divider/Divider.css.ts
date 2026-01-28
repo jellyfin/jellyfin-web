@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 export const dividerStyles = style({
     margin: `${vars.spacing['5']} 0`,

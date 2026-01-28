@@ -422,18 +422,23 @@ function onSidebarLinkClick(this: HTMLElement): void {
     LibraryMenu.setTitle(text);
 }
 
-function getUserViews(apiClient: ApiClient, userId: string): Promise<any[]> {
+interface ExtendedBaseItemDto extends BaseItemDto {
+    icon?: string;
+    url?: string;
+}
+
+function getUserViews(apiClient: ApiClient, userId: string): Promise<ExtendedBaseItemDto[]> {
     return queryClient.fetchQuery(getUserViewsQuery(toApi(apiClient), userId)).then(result => {
         const items = result.Items || [];
-        const list: any[] = [];
+        const list: ExtendedBaseItemDto[] = [];
 
         for (let i = 0, length = items.length; i < length; i++) {
-            const view = items[i];
+            const view = items[i] as ExtendedBaseItemDto;
             list.push(view);
 
             if (view.CollectionType == 'livetv') {
                 view.icon = 'live_tv';
-                const guideView = Object.assign({}, view);
+                const guideView = Object.assign({}, view) as ExtendedBaseItemDto;
                 guideView.Name = globalize.translate('Guide');
                 guideView.ImageTags = {};
                 guideView.icon = 'dvr';
@@ -759,7 +764,7 @@ function setTabs(type: string | null, selectedIndex: number, builder: () => any)
                 return [];
             });
         } else {
-            mainTabsManager.setTabs(null);
+            mainTabsManager.setTabs(null, 0, () => []);
         }
     });
 }

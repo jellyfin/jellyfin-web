@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { type FC, type PropsWithChildren } from 'react';
-import { Box } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
+import { Box } from 'ui-primitives';
+import { Button } from 'ui-primitives';
 
 import { ItemAction } from 'constants/itemAction';
 import type { DataAttributes } from 'types/dataAttributes';

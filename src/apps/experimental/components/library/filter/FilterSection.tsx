@@ -1,10 +1,10 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState } from 'react';
 import * as Collapsible from '@radix-ui/react-collapsible';
-import { Box, Flex, FlexCol } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Box, Flex, FlexCol } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 interface FilterSectionProps {

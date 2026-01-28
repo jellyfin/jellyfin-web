@@ -1,13 +1,13 @@
 import React, { useState, type SyntheticEvent } from 'react';
 import { ActivityLogIcon, MixerHorizontalIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { useFXStore } from 'store/fxStore';
-import { Slider } from 'ui-primitives/Slider';
-import { Switch } from 'ui-primitives/Switch';
-import { Divider } from 'ui-primitives/Divider';
-import { Card } from 'ui-primitives/Card';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Slider } from 'ui-primitives';
+import { Switch } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Card } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 export const FXSettings: React.FC = () => {
     const {

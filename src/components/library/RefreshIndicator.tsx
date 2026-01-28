@@ -4,9 +4,9 @@ import serverNotifications from 'scripts/serverNotifications';
 import classNames from 'classnames';
 import { deprecate } from '../../utils/deprecation';
 
-import { Box } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Box } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import { toPercentString } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'lib/globalize';
 import type { ItemDto } from 'types/base/models/item-dto';

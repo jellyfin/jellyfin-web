@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives/Box';
+import { Box } from 'ui-primitives';
 import useSecondaryMediaInfo from './useSecondaryMediaInfo';
 import useIndicator from 'components/indicators/useIndicator';
 import MediaInfoItem from './MediaInfoItem';

@@ -3,12 +3,12 @@ import { Link } from '@tanstack/react-router';
 import type { LinkProps } from '@tanstack/react-router';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-import { Card } from 'ui-primitives/Card';
-import { AspectRatio } from 'ui-primitives/AspectRatio';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Heading, Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Card } from 'ui-primitives';
+import { AspectRatio } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface BaseCardProps {
     title?: string;

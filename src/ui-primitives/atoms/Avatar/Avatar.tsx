@@ -1,5 +1,5 @@
 import React, { type ReactElement } from 'react';
-import { avatarStyles, avatarVariants, avatarColors, avatarImage } from './Avatar.css';
+import { avatarStyles, avatarVariants, avatarColors, avatarImage } from './Avatar.css.ts';
 
 interface AvatarProps {
     readonly src?: string;

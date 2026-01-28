@@ -1,4 +1,4 @@
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
@@ -6,22 +6,22 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { FormLabel, FormHelperText } from 'ui-primitives/FormControl';
-import { Button } from 'ui-primitives/Button';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Heading, Text } from 'ui-primitives/Text';
-import { Divider } from 'ui-primitives/Divider';
-import { Alert } from 'ui-primitives/Alert';
-import { CircularProgress } from 'ui-primitives/CircularProgress';
+import { Input } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { FormLabel, FormHelperText } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Heading, Text } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Alert } from 'ui-primitives';
+import { CircularProgress } from 'ui-primitives';
 import {
     Dialog,
     DialogPortal,
     DialogOverlayComponent,
     DialogContentComponent,
     DialogCloseButton
-} from 'ui-primitives/Dialog';
+} from 'ui-primitives';
 import { PersonEditorDialog } from './PersonEditorDialog';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import toast from '../toast/toast';

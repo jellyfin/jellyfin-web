@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { lazy, Suspense } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Grid, gridContainer, gridGap, gridXs, gridMd, gridLg, gridXl } from 'ui-primitives/Grid';
+import { Box, Flex } from 'ui-primitives';
+import { Grid, gridContainer, gridGap, gridXs, gridMd, gridLg, gridXl } from 'ui-primitives';
 import ServerPathWidget from '../components/widgets/ServerPathWidget';
 
 // Lazy load widgets for code splitting

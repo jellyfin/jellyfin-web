@@ -1,6 +1,6 @@
 import React, { type FC, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { IconButton } from 'ui-primitives/IconButton';
+import { IconButton } from 'ui-primitives';
 import { HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons';
 import { deprecate } from '../../utils/deprecation';
 

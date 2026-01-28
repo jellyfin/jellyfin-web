@@ -1,5 +1,5 @@
 import React, { type CSSProperties, type ReactElement } from 'react';
-import { dividerStyles, dividerVertical } from './Divider.css';
+import { dividerStyles, dividerVertical } from './Divider.css.ts';
 
 interface DividerProps {
     readonly orientation?: 'horizontal' | 'vertical';
@@ -14,4 +14,4 @@ export function Divider({ orientation = 'horizontal', className, style }: Divide
     return <hr className={`${dividerStyles} ${className ?? ''}`} style={style} />;
 }
 
-export { dividerStyles, dividerVertical } from './Divider.css';
+export { dividerStyles, dividerVertical } from './Divider.css.ts';

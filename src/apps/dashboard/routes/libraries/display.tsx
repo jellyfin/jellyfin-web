@@ -20,14 +20,14 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { type ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
 import type { MetadataConfiguration } from '@jellyfin/sdk/lib/generated-client/models/metadata-configuration';
-import { Alert } from 'ui-primitives/Alert';
-import { Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives/FormControl';
-import { Input } from 'ui-primitives/Input';
-import { Text } from 'ui-primitives/Text';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
+import { Alert } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
 
 const CONFIG_KEY = 'metadata';
 

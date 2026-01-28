@@ -1,8 +1,8 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
-import { FormControl, FormLabel, FormHelperText, Switch, FormControlLabel } from '../../FormControl';
+import { FormControl, FormLabel, FormHelperText, Switch, FormControlLabel } from '../..';
 
 const meta: Meta<typeof FormControl> = {
     title: 'UI Primitives/FormControl',

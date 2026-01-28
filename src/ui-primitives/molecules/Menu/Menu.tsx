@@ -30,7 +30,7 @@ import {
     subMenuTrigger,
     subMenuTriggerIndicator,
     listItemDecorator
-} from './Menu.css';
+} from './Menu.css.ts';
 
 interface MenuProps {
     readonly open: boolean;
@@ -84,7 +84,7 @@ export function MenuItem({ children, onClick, variant = 'default', disabled }: M
     );
 }
 
-export function ListItemDecorator({ children }: { readonly children: ReactNode }): ReactElement {
+export function MenuItemDecorator({ children }: { readonly children: ReactNode }): ReactElement {
     return <span className={listItemDecorator}>{children}</span>;
 }
 
@@ -210,5 +210,5 @@ export {
     subMenuContent,
     subMenuTrigger,
     subMenuTriggerIndicator,
-    listItemDecorator
+    listItemDecorator as menuItemDecorator
 };

@@ -1,12 +1,12 @@
 import { HeartFilledIcon, HomeIcon, ListBulletIcon, PlayIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
 import React from 'react';
 import { useLocation } from '@tanstack/react-router';
-import { Divider } from 'ui-primitives/Divider';
-import { Box, Flex } from 'ui-primitives/Box';
-import { List, ListItem, ListItemContent, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
-import { ListItemButton } from 'ui-primitives/ListItemButton';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Divider } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { List, ListItem, ListItemContent, ListItemDecorator, ListSubheader } from 'ui-primitives';
+import { ListItemButton } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 import ListItemLink from 'components/ListItemLink';
 import { appRouter } from 'components/router/appRouter';

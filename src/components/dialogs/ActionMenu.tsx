@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import { Box } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { menuStyles } from 'ui-primitives/Menu';
-import * as styles from './ActionMenu.css';
+import { Box } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { menuStyles } from 'ui-primitives';
+import * as styles from './ActionMenu.css.ts';
 
 export interface ActionMenuItem {
     id?: string;

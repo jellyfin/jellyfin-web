@@ -1,10 +1,10 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Divider } from '../../Divider';
-import { Box } from '../../Box';
-import { Text } from '../../Text';
+import { Divider } from '../..';
+import { Box } from '../..';
+import { Text } from '../..';
 
 const meta: Meta<typeof Divider> = {
     title: 'UI Primitives/Divider',

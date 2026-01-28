@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
-import { List, ListItemDecorator, ListSubheader } from 'ui-primitives/List';
+import { List, ListItemDecorator, ListSubheader } from 'ui-primitives';
 import Dashboard from 'utils/dashboard';
 import { logger } from 'utils/logger';
 

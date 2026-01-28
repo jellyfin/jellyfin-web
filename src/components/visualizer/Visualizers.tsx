@@ -54,8 +54,11 @@ function VisualizerLoading(): React.ReactElement {
 
 export function Visualizers(): React.ReactElement | null {
     const isReady = useAudioStore(state => state.isReady);
-    const { enabled, type } = usePreferencesStore(state => state.visualizer);
-    const showVisualizer = usePreferencesStore(state => state.ui.showVisualizer);
+    const { enabled, type, showVisualizer } = usePreferencesStore(state => ({
+        enabled: state.visualizer.enabled,
+        type: state.visualizer.type,
+        showVisualizer: state.ui.showVisualizer
+    }));
 
     // Only render if audio engine is ready and visualizer is enabled both globally and in UI
     if (!isReady || !enabled || !showVisualizer || !masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {

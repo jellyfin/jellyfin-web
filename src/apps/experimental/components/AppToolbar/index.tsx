@@ -1,8 +1,8 @@
 import React, { type FC } from 'react';
 import { useLocation } from '@tanstack/react-router';
-import { Box, Flex } from 'ui-primitives/Box';
-import { vars } from 'styles/tokens.css';
-import { Text } from 'ui-primitives/Text';
+import { Box, Flex } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
+import { Text } from 'ui-primitives';
 
 import { selectCurrentPlayer, selectCurrentQueueItem, usePlayerStore, useQueueStore } from 'store';
 

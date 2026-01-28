@@ -4,9 +4,9 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
-import { Box, Flex } from 'ui-primitives/Box';
+import { Box, Flex } from 'ui-primitives';
 import useMediaQuery from 'hooks/useMediaQuery';
-import { vars } from 'styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';

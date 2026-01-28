@@ -1,12 +1,12 @@
-import { vars } from '../../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { FilterSection } from './FilterSection';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Box, Flex, FlexCol } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { IconButton } from 'ui-primitives/IconButton';
+import { Checkbox } from 'ui-primitives';
+import { Box, Flex, FlexCol } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 
 export interface FilterOption {

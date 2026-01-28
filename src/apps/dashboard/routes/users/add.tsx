@@ -1,4 +1,4 @@
-import { vars } from '../../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { BaseItemDto, CreateUserByName } from '@jellyfin/sdk/lib/generated-client';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -15,14 +15,14 @@ import { useCreateUser } from 'apps/dashboard/features/users/api/useCreateUser';
 import { useNavigate } from '@tanstack/react-router';
 import { logger } from 'utils/logger';
 
-import { Button } from 'ui-primitives/Button';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Flex } from 'ui-primitives/Box';
-import { FormControl, FormControlLabel } from 'ui-primitives/FormControl';
-import { Input } from 'ui-primitives/Input';
-import { Text } from 'ui-primitives/Text';
-import { Divider } from 'ui-primitives/Divider';
-import { Switch } from 'ui-primitives/FormControl';
+import { Button } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { Flex } from 'ui-primitives';
+import { FormControl, FormControlLabel } from 'ui-primitives';
+import { Input } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Switch } from 'ui-primitives';
 import { z } from 'zod';
 
 interface ItemsArr {

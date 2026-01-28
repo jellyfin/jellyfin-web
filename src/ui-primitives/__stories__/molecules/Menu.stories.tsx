@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode, useState, useCallback, type MouseEvent } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import { vars } from '../../../styles/tokens.css';
-import { Button } from '../../Button';
+import { vars } from 'styles/tokens.css.ts';
+import { Button } from '../..';
 
 interface AnimatedMenuProps {
     trigger: ReactNode;

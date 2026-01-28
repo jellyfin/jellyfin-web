@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, type ReactNode } from 'react';
 import { motion } from 'motion/react';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
-import { vars } from '../../../styles/tokens.css';
-import { Button } from '../../Button';
+import { vars } from 'styles/tokens.css.ts';
+import { Button } from '../..';
 
 interface AnimatedTooltipProps {
     content: string;

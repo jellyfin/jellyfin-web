@@ -1,4 +1,4 @@
-import { vars } from '../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react';
 import {

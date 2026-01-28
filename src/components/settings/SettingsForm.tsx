@@ -1,15 +1,15 @@
-import { vars } from '../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import React, { useState } from 'react';
-import { Box, Flex, FlexCol } from 'ui-primitives/Box';
-import { Text, Heading } from 'ui-primitives/Text';
-import { Button } from 'ui-primitives/Button';
-import { Card, CardBody, CardHeader } from 'ui-primitives/Card';
-import { Switch, FormControl, FormLabel } from 'ui-primitives/FormControl';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives/Select';
-import { Checkbox } from 'ui-primitives/Checkbox';
-import { Divider } from 'ui-primitives/Divider';
-import { Alert } from 'ui-primitives/Alert';
+import { Box, Flex, FlexCol } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Card, CardBody, CardHeader } from 'ui-primitives';
+import { Switch, FormControl, FormLabel } from 'ui-primitives';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { Checkbox } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Alert } from 'ui-primitives';
 import globalize from 'lib/globalize';
 
 interface SettingsSectionProps {

@@ -1,8 +1,8 @@
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { IconButton } from '../../IconButton';
+import { IconButton } from '../..';
 
 const meta: Meta<typeof IconButton> = {
     title: 'UI Primitives/IconButton',

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback, type ReactElement } from 'react';
-import * as DJStyles from './DJ.css';
+import * as DJStyles from './DJ.css.ts';
 
 interface FXSendProps {
   number: 1 | 2;

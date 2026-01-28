@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { GearIcon, MagicWandIcon } from '@radix-ui/react-icons';
 import { type TransitionSuggestion, type FullTrackAnalysis } from './autoDJ';
 import { useAutoDJ } from 'hooks/useAutoDJ';
-import { Button } from 'ui-primitives/Button';
-import { Chip } from 'ui-primitives/Chip';
-import { IconButton } from 'ui-primitives/IconButton';
-import { Divider } from 'ui-primitives/Divider';
-import { Slider } from 'ui-primitives/Slider';
-import { Switch } from 'ui-primitives/Switch';
-import { Progress } from 'ui-primitives/Progress';
-import { Card } from 'ui-primitives/Card';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Text } from 'ui-primitives/Text';
-import { vars } from 'styles/tokens.css';
+import { Button } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { IconButton } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Slider } from 'ui-primitives';
+import { Switch } from 'ui-primitives';
+import { Progress } from 'ui-primitives';
+import { Card } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 
 interface TransitionPanelProps {
     currentTrackId: string | null;

@@ -1,10 +1,10 @@
-import { Alert } from 'ui-primitives/Alert';
-import { Box, Flex } from 'ui-primitives/Box';
-import { Button } from 'ui-primitives/Button';
-import { Chip } from 'ui-primitives/Chip';
-import { Divider } from 'ui-primitives/Divider';
-import { Grid, gridContainer, gridGap, gridXs, gridSm, gridMd, gridLg, gridXl } from 'ui-primitives/Grid';
-import { Text, Heading } from 'ui-primitives/Text';
+import { Alert } from 'ui-primitives';
+import { Box, Flex } from 'ui-primitives';
+import { Button } from 'ui-primitives';
+import { Chip } from 'ui-primitives';
+import { Divider } from 'ui-primitives';
+import { Grid, gridContainer, gridGap, gridXs, gridSm, gridMd, gridLg, gridXl } from 'ui-primitives';
+import { Text, Heading } from 'ui-primitives';
 import React, { useCallback, useMemo } from 'react';
 import { Link } from '@tanstack/react-router';
 

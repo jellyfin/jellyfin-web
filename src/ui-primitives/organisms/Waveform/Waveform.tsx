@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useCallback, useState, type ReactElement } from 'react';
 import WavesurferPlayer from '@wavesurfer/react';
 import type WaveSurfer from 'wavesurfer.js';
-import { vars } from '../../../styles/tokens.css';
+import { vars } from 'styles/tokens.css.ts';
 import { useVisualizerStore } from '../../../store/visualizerStore';
-import { waveformContainerStyle, waveformOverlayStyle } from './Waveform.css';
+import { waveformContainerStyle, waveformOverlayStyle } from './Waveform.css.ts';
 import { logger } from '../../../utils/logger';
 
-export interface TrackState {
+export interface WaveformTrackState {
     readonly id: string;
     readonly url: string;
     readonly peaks?: readonly number[][];
@@ -14,8 +14,8 @@ export interface TrackState {
 }
 
 export interface WaveformProps {
-    readonly currentTrack: TrackState;
-    readonly nextTrack?: TrackState | null;
+    readonly currentTrack: WaveformTrackState;
+    readonly nextTrack?: WaveformTrackState | null;
     readonly duration: number;
     readonly currentTime: number;
     readonly buffered?: readonly { readonly start: number; readonly end: number }[];
