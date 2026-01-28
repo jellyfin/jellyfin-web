@@ -7,6 +7,7 @@
 import React, { useState, useCallback } from 'react';
 import { useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
 import { Box, Flex } from 'ui-primitives/Box';
 import { Text, Heading } from 'ui-primitives/Text';
@@ -25,6 +26,9 @@ import { MediaGrid } from 'components/media/MediaGrid';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { appRouter } from 'components/router/appRouter';
+import { toPlayableItem } from 'lib/utils/playbackUtils';
 
 import { logger } from 'utils/logger';
 
@@ -115,6 +119,20 @@ export const Playlists: React.FC = () => {
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
 
+    const handleItemClick = useCallback((item: BaseItemDto) => {
+        appRouter.showItem(item);
+    }, []);
+
+    const handleItemPlay = useCallback(async (item: BaseItemDto) => {
+        try {
+            const playable = toPlayableItem(item);
+            await playbackManagerBridge.setQueue([playable], 0);
+            await playbackManagerBridge.play();
+        } catch (error) {
+            logger.error('[Playlists] Failed to play playlist', { error });
+        }
+    }, []);
+
     if (isLoading) {
         return <LoadingSpinner message="Loading playlists..." />;
     }
@@ -133,8 +151,8 @@ export const Playlists: React.FC = () => {
 
     if (playlists.length === 0) {
         return (
-            <Box style={{ padding: '24px' }}>
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+            <Box style={{ padding: vars.spacing['5'] }}>
+                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
                     <Heading.H3>Playlists</Heading.H3>
                     <Button
                         startDecorator={<AddIcon />}
@@ -164,18 +182,18 @@ export const Playlists: React.FC = () => {
     }
 
     return (
-        <Box style={{ padding: '24px' }}>
+        <Box style={{ padding: vars.spacing['5'] }}>
             <Flex
                 style={{
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginBottom: '24px',
+                    marginBottom: vars.spacing['5'],
                     flexWrap: 'wrap',
-                    gap: '16px'
+                    gap: vars.spacing['4']
                 }}
             >
                 <Heading.H3>Playlists</Heading.H3>
-                <Flex style={{ alignItems: 'center', gap: '16px' }}>
+                <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                     <Button
                         startDecorator={<AddIcon />}
                         onClick={e => {
@@ -220,7 +238,7 @@ export const Playlists: React.FC = () => {
                             </SelectContent>
                         </Select>
                     </FormControl>
-                    <Flex style={{ gap: '4px' }}>
+                    <Flex style={{ gap: vars.spacing['1'] }}>
                         <IconButton
                             variant={viewStyle === 'List' ? 'solid' : 'plain'}
                             onClick={() => setViewStyle('List')}
@@ -239,12 +257,12 @@ export const Playlists: React.FC = () => {
                 </Flex>
             </Flex>
 
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
                 <Text size="sm" color="secondary">
                     {totalCount} playlist{totalCount !== 1 ? 's' : ''}
                 </Text>
                 {(hasPreviousPage || hasNextPage) && (
-                    <Flex style={{ alignItems: 'center', gap: '8px' }}>
+                    <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                         <IconButton
                             size="sm"
                             onClick={handlePreviousPage}
@@ -260,7 +278,12 @@ export const Playlists: React.FC = () => {
                 )}
             </Flex>
 
-            <MediaGrid items={playlists} showPlayButtons />
+            <MediaGrid
+                items={playlists}
+                onItemClick={handleItemClick}
+                onItemPlay={handleItemPlay}
+                showPlayButtons
+            />
         </Box>
     );
 };

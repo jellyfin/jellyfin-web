@@ -7,6 +7,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
 import { Box, Flex } from 'ui-primitives';
 import { Heading, Text } from 'ui-primitives/Text';
@@ -22,6 +23,9 @@ import { MediaGrid } from 'components/media/MediaGrid';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { appRouter } from 'components/router/appRouter';
+import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
 
 import { logger } from 'utils/logger';
 import { useDebounce } from 'hooks/useDebounce';
@@ -104,6 +108,25 @@ export const Search: React.FC = () => {
         }
     };
 
+    const isAudioItem = (item: BaseItemDto): boolean => {
+        return item.Type === 'Audio' || item.Type === 'MusicArtist' || item.Type === 'MusicAlbum';
+    };
+
+    const handleItemClick = useCallback((item: BaseItemDto) => {
+        appRouter.showItem(item);
+    }, []);
+
+    const handleItemPlay = useCallback(async (item: BaseItemDto) => {
+        try {
+            // Determine if this is audio or video based on item type
+            const playable = isAudioItem(item) ? toPlayableItem(item) : toVideoItem(item);
+            await playbackManagerBridge.setQueue([playable], 0);
+            await playbackManagerBridge.play();
+        } catch (error) {
+            logger.error('[Search] Failed to play item', { error });
+        }
+    }, []);
+
     const handleClear = useCallback(() => {
         setSearchQuery('');
         navigate({ to: '/search' });
@@ -127,10 +150,10 @@ export const Search: React.FC = () => {
     const filteredResults = results;
 
     return (
-        <Box style={{ padding: vars.spacing.lg }}>
-            <Heading.H3 style={{ marginBottom: vars.spacing.lg }}>Search</Heading.H3>
+        <Box style={{ padding: vars.spacing['6'] }}>
+            <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>Search</Heading.H3>
 
-            <Box style={{ marginBottom: vars.spacing.lg, position: 'relative' }}>
+            <Box style={{ marginBottom: vars.spacing['6'], position: 'relative' }}>
                 <Flex align="center" style={{ position: 'relative' }}>
                     <Box style={{ position: 'absolute', left: 12, zIndex: 1 }}>
                         <MagnifyingGlassIcon style={{ color: vars.colors.textMuted }} />
@@ -169,8 +192,8 @@ export const Search: React.FC = () => {
                     <Box
                         style={{
                             display: 'flex',
-                            gap: vars.spacing.sm,
-                            marginBottom: vars.spacing.lg,
+                            gap: vars.spacing['4'],
+                            marginBottom: vars.spacing['6'],
                             flexWrap: 'wrap'
                         }}
                     >
@@ -191,7 +214,7 @@ export const Search: React.FC = () => {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            marginBottom: vars.spacing.md
+                            marginBottom: vars.spacing['5']
                         }}
                     >
                         <Text size="sm" color="secondary">
@@ -200,7 +223,12 @@ export const Search: React.FC = () => {
                     </Box>
 
                     {filteredResults.length > 0 ? (
-                        <MediaGrid items={filteredResults} showPlayButtons />
+                        <MediaGrid
+                            items={filteredResults}
+                            onItemClick={handleItemClick}
+                            onItemPlay={handleItemPlay}
+                            showPlayButtons
+                        />
                     ) : (
                         <EmptyState
                             title="No Results"

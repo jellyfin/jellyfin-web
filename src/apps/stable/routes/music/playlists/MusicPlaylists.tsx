@@ -7,6 +7,7 @@
 import React, { useState, useCallback } from 'react';
 import { useParams } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 
 import { Text, Heading } from 'ui-primitives/Text';
 import { IconButton } from 'ui-primitives/IconButton';
@@ -22,6 +23,9 @@ import { MediaCard } from 'components/media/MediaCard';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ErrorState } from 'components/ErrorState';
 import { EmptyState } from 'components/EmptyState';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { appRouter } from 'components/router/appRouter';
+import { toPlayableItem } from 'lib/utils/playbackUtils';
 
 import { logger } from 'utils/logger';
 import * as styles from './MusicPlaylists.css';
@@ -66,6 +70,20 @@ export const MusicPlaylists: React.FC = () => {
             setPageIndex(prev => prev - 1);
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
+
+    const handleItemClick = useCallback((item: BaseItemDto) => {
+        appRouter.showItem(item);
+    }, []);
+
+    const handleItemPlay = useCallback(async (item: BaseItemDto) => {
+        try {
+            const playable = toPlayableItem(item);
+            await playbackManagerBridge.setQueue([playable], 0);
+            await playbackManagerBridge.play();
+        } catch (error) {
+            logger.error('[MusicPlaylists] Failed to play playlist', { error });
+        }
+    }, []);
 
     if (isLoading) {
         return <LoadingSpinner message="Loading playlists..." />;
@@ -130,7 +148,12 @@ export const MusicPlaylists: React.FC = () => {
                 )}
             </div>
 
-            <MediaGrid items={playlists} />
+            <MediaGrid
+                items={playlists}
+                onItemClick={handleItemClick}
+                onItemPlay={handleItemPlay}
+                showPlayButtons
+            />
         </div>
     );
 };

@@ -2,10 +2,17 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Box, Flex } from 'ui-primitives';
 import { Heading, Text } from 'ui-primitives/Text';
 import { Button } from 'ui-primitives/Button';
+import { IconButton } from 'ui-primitives/IconButton';
+import { PlayIcon } from '@radix-ui/react-icons';
 
 import { useServerStore } from 'store/serverStore';
 import { LoadingView } from 'components/feedback/LoadingView';
 import { vars } from 'styles/tokens.css';
+import { itemsApi } from 'lib/api/items';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { appRouter } from 'components/router/appRouter';
+import { toVideoItem } from 'lib/utils/playbackUtils';
+import { logger } from 'utils/logger';
 
 export function MovieCollections() {
     const { currentServer } = useServerStore();
@@ -14,6 +21,8 @@ export function MovieCollections() {
     const [error, setError] = useState<string | null>(null);
     const [startIndex, setStartIndex] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const [hoveredCollectionId, setHoveredCollectionId] = useState<string | null>(null);
+    const [playingCollectionId, setPlayingCollectionId] = useState<string | null>(null);
 
     const loadCollections = useCallback(
         async (reset = false) => {
@@ -66,6 +75,41 @@ export function MovieCollections() {
         loadCollections(false);
     };
 
+    const handleCollectionPlay = useCallback(
+        async (collectionId: string, collectionName: string) => {
+            if (!currentServer?.id) return;
+
+            try {
+                setPlayingCollectionId(collectionId);
+                // Fetch all movies in the collection
+                const items = await itemsApi.getItems(collectionId, {
+                    recursive: true,
+                    limit: 1000
+                });
+
+                if (!items.Items || items.Items.length === 0) {
+                    logger.warn('[MovieCollections] No movies found in collection', { collectionId });
+                    setPlayingCollectionId(null);
+                    return;
+                }
+
+                // Convert to playable items
+                const playableItems = items.Items.map(toVideoItem);
+                await playbackManagerBridge.setQueue(playableItems, 0);
+                await playbackManagerBridge.play();
+                setPlayingCollectionId(null);
+            } catch (err) {
+                logger.error('[MovieCollections] Failed to play collection', { collectionId, error: err });
+                setPlayingCollectionId(null);
+            }
+        },
+        [currentServer?.id]
+    );
+
+    const handleCollectionClick = useCallback((collectionId: string) => {
+        appRouter.showItem({ Id: collectionId });
+    }, []);
+
     if (!currentServer?.id) {
         return <LoadingView message="Select a server" />;
     }
@@ -76,12 +120,12 @@ export function MovieCollections() {
 
     if (error && collections.length === 0) {
         return (
-            <Box style={{ padding: vars.spacing.md }}>
+            <Box style={{ padding: vars.spacing['5'] }}>
                 <Text color="error">{error}</Text>
                 <Button
                     variant="secondary"
                     onClick={() => loadCollections(true)}
-                    style={{ marginTop: vars.spacing.sm }}
+                    style={{ marginTop: vars.spacing['4'] }}
                 >
                     Retry
                 </Button>
@@ -102,27 +146,28 @@ export function MovieCollections() {
     };
 
     return (
-        <Box style={{ padding: vars.spacing.md }}>
-            <Box style={{ marginBottom: vars.spacing.lg }}>
+        <Box style={{ padding: vars.spacing['5'] }}>
+            <Box style={{ marginBottom: vars.spacing['6'] }}>
                 <Box style={{ display: 'flex', alignItems: 'center' }}>
                     <Heading.H2>Collections</Heading.H2>
                 </Box>
             </Box>
 
-            <Box style={{ display: 'flex', flexWrap: 'wrap', gap: vars.spacing.md }}>
+            <Box style={{ display: 'flex', flexWrap: 'wrap', gap: vars.spacing['5'] }}>
                 {collections.map(collection => (
-                    <a
+                    <Box
                         key={collection.Id}
-                        href={`/details.html?serverId=${currentServer.id}&id=${collection.Id}`}
                         style={{
                             width: 180,
                             textDecoration: 'none',
                             color: 'inherit',
                             display: 'flex',
                             flexDirection: 'column',
-                            padding: vars.spacing.md,
-                            borderRadius: vars.borderRadius.lg
+                            cursor: 'pointer'
                         }}
+                        onMouseEnter={() => setHoveredCollectionId(collection.Id)}
+                        onMouseLeave={() => setHoveredCollectionId(null)}
+                        onClick={() => handleCollectionClick(collection.Id)}
                     >
                         <Box
                             style={{
@@ -130,14 +175,45 @@ export function MovieCollections() {
                                 aspectRatio: '2/3',
                                 backgroundColor: vars.colors.surface,
                                 borderRadius: vars.borderRadius.md,
-                                marginBottom: vars.spacing.sm,
+                                marginBottom: vars.spacing['4'],
                                 backgroundImage: collection.PrimaryImageTag
                                     ? `url(${getImageUrl(collection)})`
                                     : 'none',
                                 backgroundSize: 'cover',
-                                backgroundPosition: 'center'
+                                backgroundPosition: 'center',
+                                position: 'relative'
                             }}
-                        />
+                        >
+                            {hoveredCollectionId === collection.Id && (
+                                <Box
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        left: 0,
+                                        backgroundColor: 'rgba(0,0,0,0.4)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: vars.borderRadius.md
+                                    }}
+                                >
+                                    <IconButton
+                                        size="lg"
+                                        variant="solid"
+                                        disabled={playingCollectionId === collection.Id}
+                                        onClick={(e: React.MouseEvent) => {
+                                            e.stopPropagation();
+                                            handleCollectionPlay(collection.Id, collection.Name);
+                                        }}
+                                        style={{ borderRadius: '50%' }}
+                                    >
+                                        <PlayIcon />
+                                    </IconButton>
+                                </Box>
+                            )}
+                        </Box>
                         <Text
                             size="sm"
                             style={{
@@ -155,12 +231,12 @@ export function MovieCollections() {
                                 {collection.ChildCount} items
                             </Text>
                         )}
-                    </a>
+                    </Box>
                 ))}
             </Box>
 
             {hasMore && (
-                <Box style={{ textAlign: 'center', marginTop: vars.spacing.lg }}>
+                <Box style={{ textAlign: 'center', marginTop: vars.spacing['6'] }}>
                     <Button variant="secondary" onClick={handleLoadMore} disabled={isLoading}>
                         {isLoading ? 'Loading...' : 'Load More'}
                     </Button>
@@ -168,7 +244,7 @@ export function MovieCollections() {
             )}
 
             {collections.length === 0 && (
-                <Box style={{ textAlign: 'center', padding: vars.spacing.xxl }}>
+                <Box style={{ textAlign: 'center', padding: vars.spacing['8'] }}>
                     <Heading.H4 color="secondary">No collections found</Heading.H4>
                 </Box>
             )}

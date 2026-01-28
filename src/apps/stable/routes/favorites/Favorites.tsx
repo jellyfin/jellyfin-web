@@ -1,4 +1,6 @@
-import React from 'react';
+import { vars } from '../../../../styles/tokens.css';
+
+import React, { useCallback } from 'react';
 import { Box } from 'ui-primitives/Box';
 import { Text, Heading } from 'ui-primitives/Text';
 
@@ -6,6 +8,9 @@ import { useServerStore } from 'store/serverStore';
 import { useUiStore } from 'store/uiStore';
 import { MediaCard } from 'components/media/MediaCard';
 import { LoadingView } from 'components/feedback/LoadingView';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { appRouter } from 'components/router/appRouter';
+import { toPlayableItem } from 'lib/utils/playbackUtils';
 import globalize from 'lib/globalize';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 
@@ -19,6 +24,8 @@ interface FavoritesSectionProps {
     coverImage?: boolean;
     overlayPlayButton?: boolean;
     viewAllUrl?: string;
+    onPlay?: (item: BaseItemDto) => void;
+    onItemClick?: (item: BaseItemDto) => void;
 }
 
 function FavoritesSection({
@@ -30,7 +37,9 @@ function FavoritesSection({
     showParentTitle = false,
     coverImage = false,
     overlayPlayButton = true,
-    viewAllUrl
+    viewAllUrl,
+    onPlay,
+    onItemClick
 }: FavoritesSectionProps) {
     if (!items || items.length === 0) {
         return null;
@@ -43,7 +52,7 @@ function FavoritesSection({
                     <a
                         href={viewAllUrl}
                         className="more button-flat button-flat-mini sectionTitleTextButton"
-                        style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: vars.spacing['1'] }}
                     >
                         <Heading.H2 className="sectionTitle sectionTitle-cards">
                             {globalize.translate(title)}
@@ -60,13 +69,20 @@ function FavoritesSection({
                 className="padded-top-focusscale padded-bottom-focusscale"
                 style={{
                     display: 'flex',
-                    gap: '16px',
+                    gap: vars.spacing['4'],
                     overflowX: 'auto',
                     scrollSnapType: 'x mandatory'
                 }}
             >
                 {items.slice(0, 12).map(item => (
-                    <MediaCard key={item.Id} item={item} cardSize="medium" showPlayButton={overlayPlayButton} />
+                    <MediaCard
+                        key={item.Id}
+                        item={item}
+                        cardSize="medium"
+                        showPlayButton={overlayPlayButton}
+                        onPlay={onPlay}
+                        onClick={onItemClick}
+                    />
                 ))}
             </Box>
         </Box>
@@ -79,6 +95,20 @@ export function FavoritesView() {
 
     const currentServerId = currentServer?.id;
     const currentUserId = currentServer?.userId;
+
+    const handleItemClick = useCallback((item: BaseItemDto) => {
+        appRouter.showItem(item);
+    }, []);
+
+    const handleItemPlay = useCallback(async (item: BaseItemDto) => {
+        try {
+            const playable = toPlayableItem(item);
+            await playbackManagerBridge.setQueue([playable], 0);
+            await playbackManagerBridge.play();
+        } catch (error) {
+            console.error('[Favorites] Failed to play item', error);
+        }
+    }, []);
 
     if (!currentServerId || !currentUserId) {
         return <LoadingView />;
@@ -102,6 +132,8 @@ export function FavoritesView() {
                         coverImage={false}
                         overlayPlayButton
                         viewAllUrl={`/list.html?serverId=${currentServerId}&types=Movie&isFavorite=true`}
+                        onPlay={handleItemPlay}
+                        onItemClick={handleItemClick}
                     />
                     <FavoritesSection
                         title="Shows"
@@ -113,6 +145,8 @@ export function FavoritesView() {
                         coverImage={false}
                         overlayPlayButton
                         viewAllUrl={`/list.html?serverId=${currentServerId}&types=Series&isFavorite=true`}
+                        onPlay={handleItemPlay}
+                        onItemClick={handleItemClick}
                     />
                     <FavoritesSection
                         title="Collections"
@@ -123,6 +157,8 @@ export function FavoritesView() {
                         coverImage={false}
                         overlayPlayButton
                         viewAllUrl={`/list.html?serverId=${currentServerId}&types=BoxSet&isFavorite=true`}
+                        onPlay={handleItemPlay}
+                        onItemClick={handleItemClick}
                     />
                     <FavoritesSection
                         title="Playlists"
@@ -133,6 +169,8 @@ export function FavoritesView() {
                         coverImage
                         overlayPlayButton
                         viewAllUrl={`/list.html?serverId=${currentServerId}&types=Playlist&isFavorite=true`}
+                        onPlay={handleItemPlay}
+                        onItemClick={handleItemClick}
                     />
                     <FavoritesSection
                         title="Artists"
@@ -143,6 +181,8 @@ export function FavoritesView() {
                         coverImage
                         overlayPlayButton
                         viewAllUrl={`/list.html?serverId=${currentServerId}&types=MusicArtist&isFavorite=true`}
+                        onPlay={handleItemPlay}
+                        onItemClick={handleItemClick}
                     />
                     <FavoritesSection
                         title="Albums"
@@ -153,6 +193,8 @@ export function FavoritesView() {
                         coverImage
                         overlayPlayButton
                         viewAllUrl={`/list.html?serverId=${currentServerId}&types=MusicAlbum&isFavorite=true`}
+                        onPlay={handleItemPlay}
+                        onItemClick={handleItemClick}
                     />
                     <FavoritesSection
                         title="Songs"
@@ -163,6 +205,8 @@ export function FavoritesView() {
                         coverImage
                         overlayPlayButton={false}
                         viewAllUrl={`/list.html?serverId=${currentServerId}&types=Audio&isFavorite=true`}
+                        onPlay={handleItemPlay}
+                        onItemClick={handleItemClick}
                     />
                 </Box>
             </Box>
