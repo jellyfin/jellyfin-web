@@ -181,5 +181,14 @@
     "ConfirmDeleteSeries": "Deleting this series will delete All{0} episodes from both the file system and your media library. Are you sure you wish to continue?",
     "ConfirmDeleteCollection": "Are you sure you want to remove this collection?",
     "ConfirmDeletePlaylist": "Are you sure you want to remove this playlist?",
-    "ConfirmDeleteItems": "Deleting these items will delete them from both the file system and your media library. Are you sure you want to continue?"
+    "ConfirmDeleteItems": "Deleting these items will delete them from both the file system and your media library. Are you sure you want to continue?",
+    "ConfirmDeleteLyrics": "Deleting these lyrics will delete them from both the file system and your media library. Are you sure you want to continue?",
+    "ConfirmDeleteRepository": "Delete repository?",
+    "ConfirmDeletion": "Confirm Deletion",
+    "ConfirmEndPlayerSession": "Would you like to shut Jellyfin down on {0}?",
+    "Connect": "Connect",
+    "ConnectAnyway": "Connect Anyway",
+    "ContinueWatching": "Continue watching",
+    "Continuing": "Continuing",
+    "Copied": "Copied"
 }
