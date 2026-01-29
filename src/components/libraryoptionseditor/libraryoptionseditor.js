@@ -472,8 +472,8 @@ export function setContentType(parent, contentType) {
     }
 
     const hasChapterOptions = !contentType /* Mixed */ || CHAPTER_CONTENT_TYPES.includes(contentType);
-    parent.querySelector('.trickplaySettingsSection').classList.toggle('hide', !hasChapterOptions);
     parent.querySelector('.chapterSettingsSection').classList.toggle('hide', !hasChapterOptions);
+    parent.querySelector('.trickplaySettingsSection').classList.toggle('hide', !hasChapterOptions);
 
     if (contentType === 'tvshows') {
         parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.remove('hide');
