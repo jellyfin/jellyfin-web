@@ -64,7 +64,7 @@ describe('crossfadeController', () => {
         vi.restoreAllMocks();
     });
 
-    it.skip('returns false when audio engine is not initialized', async () => {
+    it('returns false when audio engine is not initialized', async () => {
         mocks.masterAudioOutput.audioContext = undefined as any;
 
         const result = await preloadNextTrack({
@@ -131,7 +131,7 @@ describe('crossfadeController', () => {
         ).toBeNull();
     });
 
-    it.skip('starts a crossfade and schedules gain ramps', async () => {
+    it('starts a crossfade and schedules gain ramps', async () => {
         const fromElement = document.createElement('audio');
         const ctx = mocks.masterAudioOutput.audioContext as any;
         if (ctx) {
@@ -373,7 +373,7 @@ describe('crossfadeController', () => {
             await preloadPromise2;
         });
 
-        it.skip('clears preloaded element when strategy changes', async () => {
+        it('clears preloaded element when strategy changes', async () => {
             mocks.ensureAudioNodeBundle.mockReturnValue({
                 gainNode: { gain: mocks.audioParam },
                 crossfadeGainNode: { gain: mocks.audioParam }
@@ -404,6 +404,8 @@ describe('crossfadeController', () => {
                 strategy: 'streaming'
             });
 
+            const element2Before = getPreloadedElement();
+            element2Before?.dispatchEvent(new Event('canplay'));
             await preloadPromise2;
 
             const element2 = getPreloadedElement();

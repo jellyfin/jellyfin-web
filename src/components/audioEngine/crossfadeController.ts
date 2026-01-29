@@ -28,6 +28,7 @@ type PreloadedTrack = {
     ready: boolean;
     token: number;
     purpose: 'crossfade' | 'analysis';
+    strategy: PreloadStrategy;
 };
 
 export type PreloadPurpose = 'crossfade' | 'analysis';
@@ -143,15 +144,25 @@ export async function preloadNextTrack(options: PreloadOptions) {
         return false;
     }
 
+    if (!masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
+        logger.warn('[Crossfade] Audio engine not initialized', { component: 'CrossfadeController' });
+        return false;
+    }
+
+    const strategy = options.strategy ?? 'full';
+
     if (preloadState) {
         if (
             preloadState.itemId === options.itemId &&
             preloadState.url === options.url &&
-            preloadState.purpose === options.purpose
+            preloadState.purpose === options.purpose &&
+            preloadState.strategy === strategy
         ) {
             return preloadState.ready;
         }
+        // Strategy changed - clear both state and promise to force new preload
         clearPreloadedElement();
+        preloadPromise = null;
     }
 
     if (preloadPromise) {
@@ -164,7 +175,6 @@ export async function preloadNextTrack(options: PreloadOptions) {
     const abortController = new AbortController();
     const networkTimeoutMs = options.timeoutMs || 15000;
 
-    const strategy = options.strategy ?? 'full';
     const isStreaming = strategy === 'streaming';
     const effectiveTimeoutMs = isStreaming ? Math.min(networkTimeoutMs, 5000) : networkTimeoutMs;
 
@@ -193,7 +203,8 @@ export async function preloadNextTrack(options: PreloadOptions) {
         targetGain: 1,
         ready: false,
         token,
-        purpose: options.purpose
+        purpose: options.purpose,
+        strategy
     };
 
     if (options.purpose === 'crossfade') {
