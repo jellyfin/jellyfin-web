@@ -23,16 +23,16 @@ import { toBoolean } from 'utils/string';
 const DEFAULT_PAGE_SIZE = 25;
 const VIEW_PARAM = 'useractivity';
 
-const enum ActivityView {
-    All = 'All',
-    User = 'User',
-    System = 'System'
-}
+const ACTIVITY_VIEW = {
+    All :'All',
+    User :'User',
+    System :'System'
+} as const;
 
 const getActivityView = (param: string | null) => {
-    if (param === null) return ActivityView.All;
-    if (toBoolean(param)) return ActivityView.User;
-    return ActivityView.System;
+    if (param === null) return ACTIVITY_VIEW.All;
+    if (toBoolean(param)) return ACTIVITY_VIEW.User;
+    return ACTIVITY_VIEW.System;
 };
 
 const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
@@ -61,7 +61,7 @@ export const Component = () => {
     const activityParams = useMemo(() => ({
         startIndex: pagination.pageIndex * pagination.pageSize,
         limit: pagination.pageSize,
-        hasUserId: activityView !== ActivityView.All ? activityView === ActivityView.User : undefined
+        hasUserId: activityView !== ACTIVITY_VIEW.All ? activityView === ACTIVITY_VIEW.User : undefined
     }), [activityView, pagination.pageIndex, pagination.pageSize]);
 
     const { data, isLoading: isLogEntriesLoading } = useLogEntries(activityParams);
@@ -75,7 +75,7 @@ export const Component = () => {
     const isLoading = isUsersLoading || isLogEntriesLoading;
 
     const userColumn: MRT_ColumnDef<ActivityLogEntry>[] = useMemo(() =>
-        (activityView === ActivityView.System) ? [] : [{
+        (activityView === ACTIVITY_VIEW.System) ? [] : [{
             id: 'User',
             accessorFn: row => row.UserId && users[row.UserId]?.Name,
             header: globalize.translate('LabelUser'),
@@ -141,7 +141,7 @@ export const Component = () => {
         }
     ], [ userColumn ]);
 
-    const onViewChange = useCallback((_e: React.MouseEvent<HTMLElement, MouseEvent>, newView: ActivityView | null) => {
+    const onViewChange = useCallback((_e: React.MouseEvent<HTMLElement, MouseEvent>, newView: keyof typeof ACTIVITY_VIEW | null) => {
         if (newView !== null) {
             setActivityView(newView);
         }
@@ -150,10 +150,10 @@ export const Component = () => {
     useEffect(() => {
         const currentViewParam = getActivityView(searchParams.get(VIEW_PARAM));
         if (currentViewParam !== activityView) {
-            if (activityView === ActivityView.All) {
+            if (activityView === ACTIVITY_VIEW.All) {
                 searchParams.delete(VIEW_PARAM);
             } else {
-                searchParams.set(VIEW_PARAM, `${activityView === ActivityView.User}`);
+                searchParams.set(VIEW_PARAM, `${activityView === ACTIVITY_VIEW.User}`);
             }
             setSearchParams(searchParams);
         }
@@ -194,13 +194,13 @@ export const Component = () => {
                 onChange={onViewChange}
                 exclusive
             >
-                <ToggleButton value={ActivityView.All}>
+                <ToggleButton value={ACTIVITY_VIEW.All}>
                     {globalize.translate('All')}
                 </ToggleButton>
-                <ToggleButton value={ActivityView.User}>
+                <ToggleButton value={ACTIVITY_VIEW.User}>
                     {globalize.translate('LabelUser')}
                 </ToggleButton>
-                <ToggleButton value={ActivityView.System}>
+                <ToggleButton value={ACTIVITY_VIEW.System}>
                     {globalize.translate('LabelSystem')}
                 </ToggleButton>
             </ToggleButtonGroup>
