@@ -1534,6 +1534,7 @@
     "SeriesRecordingScheduled": "Series recording scheduled.",
     "SeriesSettings": "Series settings",
     "SeriesYearToPresent": "{0} - Present",
+    "ServerInfo": "Server Info",
     "ServerNameIsRestarting": "The server at {0} is restarting.",
     "ServerNameIsShuttingDown": "The server at {0} is shutting down.",
     "ServerRestartNeededAfterPluginInstall": "Jellyfin will need to be restarted after installing the plugin.",
