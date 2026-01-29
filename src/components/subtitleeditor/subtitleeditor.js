@@ -278,8 +278,24 @@ function searchForSubtitles(context, language) {
     const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
     const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
 
-    apiClient.getJSON(url).then(function (results) {
+    apiClient.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        timeout: 300000 // 5 minutes in milliseconds
+    }).then(function (results) {
         renderSearchResults(context, results);
+    }).catch(function (error) {
+        loading.hide();
+
+        if (!error) {
+            toast(globalize.translate('SubtitleSearchTimeout'));
+        } else {
+            toast(globalize.translate('SubtitleSearchError'));
+        }
+
+        context.querySelector('.subtitleResults').innerHTML = '';
+        context.querySelector('.noSearchResults').classList.remove('hide');
     });
 }
 
