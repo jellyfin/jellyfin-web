@@ -1865,5 +1865,9 @@
     "ViewAllPlugins": "Zobraziť všetky zásuvné moduly",
     "ButtonAddProvider": "Pridať poskytovateľa",
     "ButtonAddTunerDevice": "Pridať zariadenie s tunerom",
-    "LabelSlideshowIntervalHelp": "Čas v sekundách, počas ktorého sa každá fotografia zobrazí v prezentácii."
+    "LabelSlideshowIntervalHelp": "Čas v sekundách, počas ktorého sa každá fotografia zobrazí v prezentácii.",
+    "ConfirmDeleteCollection": "Naozaj chcete odstrániť túto kolekciu?",
+    "ConfirmDeletePlaylist": "Naozaj chcete odstrániť tento zoznam skladieb?",
+    "HeaderDeleteCollection": "Vymazať kolekciu",
+    "HeaderDeletePlaylist": "Vymazať zoznam skladieb"
 }
