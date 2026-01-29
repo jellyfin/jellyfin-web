@@ -17,13 +17,14 @@ export const textSizes = styleVariants({
     '7': { fontSize: vars.typography['7'].fontSize },
     '8': { fontSize: vars.typography['8'].fontSize },
     '9': { fontSize: vars.typography['9'].fontSize },
+    // Semantic sizes (xs..xxl) should track our typography scale.
     xs: { fontSize: vars.typography['1'].fontSize },
-    sm: { fontSize: vars.typography['3'].fontSize },
-    md: { fontSize: vars.typography['6'].fontSize },
-    lg: { fontSize: vars.typography['7'].fontSize },
-    xl: { fontSize: vars.typography['8'].fontSize },
-    xxl: { fontSize: vars.typography['9'].fontSize },
-    display: { fontSize: vars.typography.fontSizeDisplay }
+    sm: { fontSize: vars.typography['2'].fontSize },
+    md: { fontSize: vars.typography['3'].fontSize },
+    lg: { fontSize: vars.typography['4'].fontSize },
+    xl: { fontSize: vars.typography['6'].fontSize },
+    xxl: { fontSize: vars.typography['7'].fontSize },
+    display: { fontSize: vars.typography['9'].fontSize }
 });
 
 export const textWeights = styleVariants({

@@ -340,7 +340,13 @@ export function Login() {
                             </Alert>
                         )}
 
-                        <Box style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleManualLogin();
+                            }}
+                            style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
+                        >
                             <form.Field name="username">
                                 {field => (
                                     <Input
@@ -369,12 +375,13 @@ export function Login() {
                                 )}
                             </form.Field>
 
-                            <Button variant="primary" fullWidth onClick={handleManualLogin} disabled={isAuthenticating}>
+                            <Button variant="primary" fullWidth type="submit" disabled={isAuthenticating}>
                                 {isAuthenticating ? 'Signing in...' : 'Sign in'}
                             </Button>
                             <Button
                                 variant="ghost"
                                 fullWidth
+                                type="button"
                                 onClick={() => {
                                     setManualMode(false);
                                     setError(null);
@@ -382,7 +389,7 @@ export function Login() {
                             >
                                 Back to user list
                             </Button>
-                        </Box>
+                        </form>
                     </Box>
                 )}
             </Box>

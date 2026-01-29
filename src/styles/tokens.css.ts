@@ -499,8 +499,9 @@ globalStyle('html, body', {
     margin: 0,
     padding: 0,
     fontFamily: vars.typography.fontFamily,
-    fontSize: vars.typography.fontSizeMd,
-    lineHeight: vars.typography.lineHeightNormal,
+    // Base body text should be normal reading size (Radix/Tailwind-ish), not heading-sized.
+    fontSize: vars.typography['3'].fontSize,
+    lineHeight: vars.typography['3'].lineHeight,
     color: vars.colors.text,
     backgroundColor: vars.colors.background,
     WebkitFontSmoothing: 'antialiased',
