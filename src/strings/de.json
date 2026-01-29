@@ -1866,5 +1866,9 @@
     "ButtonAddTunerDevice": "Tuner-Gerät hinzufügen",
     "ButtonAddProvider": "Provider hinzufügen",
     "LabelSlideshowInterval": "Photo Diashow Intervall",
-    "LabelSlideshowIntervalHelp": "Die Zeit in Sekunden die jedes Foto in Diashows angezeigt wird."
+    "LabelSlideshowIntervalHelp": "Die Zeit in Sekunden die jedes Foto in Diashows angezeigt wird.",
+    "ConfirmDeleteCollection": "Bist du sicher, dass du diese Sammlung löschen möchtest?",
+    "ConfirmDeletePlaylist": "Bist du sicher, dass du diese Wiedergabeliste löschen möchtest?",
+    "HeaderDeleteCollection": "Sammlung löschen",
+    "HeaderDeletePlaylist": "Wiedergabeliste löschen"
 }
