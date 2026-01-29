@@ -414,6 +414,9 @@ export const NowPlayingBar: React.FC = () => {
                 animate={{ y: 0 }}
                 exit={{ y: 100 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                role="toolbar"
+                aria-label="Now playing controls"
+                {...barFocusProps}
             >
                 <div className="nowPlayingBarTop">
                     <div id="barSurfer" className="nowPlayingBarPositionContainer sliderContainer">

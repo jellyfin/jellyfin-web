@@ -30,6 +30,26 @@ interface PeakCacheEntry {
 const PEAK_CACHE_MAX_SIZE = 10;
 const peakCache = new Map<string, PeakCacheEntry>();
 
+// Color extraction cache with LRU eviction
+interface ColorCacheEntry {
+    colors: WaveSurferColorScheme;
+    timestamp: number;
+}
+const COLOR_CACHE_MAX_SIZE = 20; // More generous than peak cache (different images)
+const colorCache = new Map<string, ColorCacheEntry>();
+
+// Shared canvas for efficient color extraction (reuse instead of create)
+let sharedColorExtractionCanvas: HTMLCanvasElement | null = null;
+
+function getSharedColorCanvas(): HTMLCanvasElement {
+    if (!sharedColorExtractionCanvas) {
+        sharedColorExtractionCanvas = document.createElement('canvas');
+        sharedColorExtractionCanvas.width = 100; // sampleSize
+        sharedColorExtractionCanvas.height = 100;
+    }
+    return sharedColorExtractionCanvas;
+}
+
 function getCacheKey(itemId: string | null, streamUrl: string | null): string | null {
     if (itemId) return `item:${itemId}`;
     if (streamUrl) return `url:${streamUrl}`;
@@ -76,6 +96,33 @@ function setCachedPeaks(
 
 export function clearPeakCache(): void {
     peakCache.clear();
+}
+
+function getCachedColors(url: string): WaveSurferColorScheme | null {
+    const entry = colorCache.get(url);
+    if (entry) {
+        // Update timestamp for LRU
+        entry.timestamp = Date.now();
+        return entry.colors;
+    }
+    return null;
+}
+
+function setCachedColors(url: string, colors: WaveSurferColorScheme): void {
+    // Evict oldest entry if at capacity
+    if (colorCache.size >= COLOR_CACHE_MAX_SIZE) {
+        let oldestKey: string | null = null;
+        let oldestTime = Infinity;
+        colorCache.forEach((entry, k) => {
+            if (entry.timestamp < oldestTime) {
+                oldestTime = entry.timestamp;
+                oldestKey = k;
+            }
+        });
+        if (oldestKey) colorCache.delete(oldestKey);
+    }
+
+    colorCache.set(url, { colors, timestamp: Date.now() });
 }
 
 type WaveSurferLegacy = {
@@ -170,7 +217,19 @@ async function extractColorsFromAlbumArt(_apiClient: ApiClient): Promise<WaveSur
 
     const url = getBackgroundImageUrl(artElem);
     if (!url) return DEFAULT_WAVESURFER_COLORS;
-    if (url === lastAlbumArtUrl && lastAlbumArtColors) return lastAlbumArtColors;
+
+    // Check both module-level cache and LRU cache
+    if (url === lastAlbumArtUrl && lastAlbumArtColors) {
+        return lastAlbumArtColors;
+    }
+
+    // Check LRU color cache (survives album art URL changes)
+    const cachedColors = getCachedColors(url);
+    if (cachedColors) {
+        lastAlbumArtUrl = url;
+        lastAlbumArtColors = cachedColors;
+        return cachedColors;
+    }
 
     if (isCrossOriginUrl(url)) {
         return DEFAULT_WAVESURFER_COLORS;
@@ -179,16 +238,16 @@ async function extractColorsFromAlbumArt(_apiClient: ApiClient): Promise<WaveSur
     const img = await loadImageElement(url, false);
     if (!img) return DEFAULT_WAVESURFER_COLORS;
 
-    // Optimize by using smaller canvas size for faster processing
-    const sampleSize = 100;
-    const canvas = document.createElement('canvas');
-    canvas.width = sampleSize;
-    canvas.height = sampleSize;
+    // Reuse shared canvas instead of creating new one (avoid allocation overhead)
+    const canvas = getSharedColorCanvas();
     const ctx = canvas.getContext('2d');
     if (!ctx) {
         return DEFAULT_WAVESURFER_COLORS;
     }
-    ctx.drawImage(img, 0, 0, sampleSize, sampleSize);
+
+    // Clear and redraw on shared canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 
     let r = 0;
@@ -212,8 +271,12 @@ async function extractColorsFromAlbumArt(_apiClient: ApiClient): Promise<WaveSur
     const right = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
     const cursor = `rgb(${Math.min(r + 100, 255)}, ${Math.min(g + 100, 255)}, ${Math.min(b + 100, 255)})`;
     const colors = { left, right, cursor };
+
+    // Update both caches
     lastAlbumArtUrl = url;
     lastAlbumArtColors = colors;
+    setCachedColors(url, colors);
+
     return colors;
 }
 

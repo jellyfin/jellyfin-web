@@ -1,4 +1,0 @@
-
-> jellyfin-web-modernized@10.12.0 type-check
-> NODE_OPTIONS='--max-old-space-size=4096' node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- tsc --noEmit
-

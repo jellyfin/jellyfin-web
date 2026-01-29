@@ -20,16 +20,19 @@ let sharedAnalyserContext: AudioContext | null = null;
 let isAnalyserConnected = false; // Track connection state
 
 /**
+ * Converts hex color to RGB components
+ */
+function hex2rgb(hex: string): [number, number, number] {
+    const r = parseInt(hex.substring(1, 3), 16);
+    const g = parseInt(hex.substring(3, 5), 16);
+    const b = parseInt(hex.substring(5, 7), 16);
+    return [r, g, b];
+}
+
+/**
  * Interpolates between two colors based on ratio
  */
 function interpolateColor(color1: string, color2: string, ratio: number): string {
-    const hex2rgb = (hex: string) => {
-        const r = parseInt(hex.substring(1, 3), 16);
-        const g = parseInt(hex.substring(3, 5), 16);
-        const b = parseInt(hex.substring(5, 7), 16);
-        return [r, g, b];
-    };
-
     const [r1, g1, b1] = hex2rgb(color1);
     const [r2, g2, b2] = hex2rgb(color2);
 
@@ -38,6 +41,31 @@ function interpolateColor(color1: string, color2: string, ratio: number): string
     const b = Math.round(b1 + (b2 - b1) * ratio);
 
     return `rgb(${r}, ${g}, ${b})`;
+}
+
+/**
+ * Creates a gradient lookup table for fast color lookups
+ * Pre-computes 256 color values covering the gradient range
+ * instead of computing on-the-fly for each bar
+ */
+function createGradientLookup(colorLow: string, colorMid: string, colorHigh: string): string[] {
+    const lookup: string[] = [];
+
+    for (let i = 0; i < 256; i++) {
+        const ratio = i / 255; // 0 to 1
+
+        if (ratio < 0.5) {
+            // Low to Mid (0-50%)
+            const midRatio = ratio * 2; // 0 to 1 over first half
+            lookup[i] = interpolateColor(colorLow, colorMid, midRatio);
+        } else {
+            // Mid to High (50-100%)
+            const highRatio = (ratio - 0.5) * 2; // 0 to 1 over second half
+            lookup[i] = interpolateColor(colorMid, colorHigh, highRatio);
+        }
+    }
+
+    return lookup;
 }
 
 /**
@@ -86,13 +114,15 @@ interface ColorSettings {
 
 /**
  * Determines the color for a frequency bar based on the scheme and decibel level
+ * @param gradientLookup Optional pre-computed gradient lookup table for fast O(1) color lookups
  */
 function getBarColor(
     actualDecibel: number,
     minDecibels: number,
     maxDecibels: number,
     pinkNoiseLevel: number,
-    colors: ColorSettings
+    colors: ColorSettings,
+    gradientLookup?: string[]
 ): string {
     const clippingDecibel = 12;
     const nearClippingDecibel = -64;
@@ -112,17 +142,12 @@ function getBarColor(
         } else {
             return 'hsl(0, 100%, 50%)';
         }
-    } else if (colors.scheme === 'gradient') {
-        // Custom gradient: interpolate between low/mid/high colors
+    } else if (colors.scheme === 'gradient' && gradientLookup) {
+        // Custom gradient: use pre-computed lookup table for O(1) color access
         const ratio = (actualDecibel - minDecibels) / (maxDecibels - minDecibels);
         const clamped = Math.min(Math.max(ratio, 0), 1);
-        if (clamped < 0.5) {
-            // Low to Mid (0-50%)
-            return interpolateColor(colors.low, colors.mid, clamped * 2);
-        } else {
-            // Mid to High (50-100%)
-            return interpolateColor(colors.mid, colors.high, (clamped - 0.5) * 2);
-        }
+        const lookupIndex = Math.floor(clamped * 255);
+        return gradientLookup[lookupIndex];
     } else {
         // Solid or album art fallback
         return colors.solid;
@@ -208,6 +233,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
     const previousBarHeightsRef = useRef<Float32Array | null>(null);
     const pinkNoiseReferenceRef = useRef<Float32Array | null>(null);
+    const gradientLookupRef = useRef<string[] | null>(null); // Cache for gradient color lookup
 
     const { visualizer } = usePreferencesStore((state) => state);
     const { advanced, frequencyAnalyzer, smoothing } = visualizer as any;
@@ -334,7 +360,8 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
                         low: colorLow,
                         mid: colorMid,
                         high: colorHigh
-                    }
+                    },
+                    gradientLookupRef.current ?? undefined // Use cached gradient lookup
                 );
 
                 ctx.fillStyle = fillColor;
@@ -456,6 +483,21 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         maxDecibels,
         startLoop,
         stopLoop
+    ]);
+
+    // Pre-compute gradient lookup table when colors change (improves rendering performance)
+    useEffect(() => {
+        if (frequencyAnalyzerSettings.colorScheme === 'gradient') {
+            const { low, mid, high } = frequencyAnalyzerSettings.colors.gradient;
+            gradientLookupRef.current = createGradientLookup(low, mid, high);
+        } else {
+            gradientLookupRef.current = null;
+        }
+    }, [
+        frequencyAnalyzerSettings.colorScheme,
+        frequencyAnalyzerSettings.colors.gradient.low,
+        frequencyAnalyzerSettings.colors.gradient.mid,
+        frequencyAnalyzerSettings.colors.gradient.high
     ]);
 
     useEffect(() => {

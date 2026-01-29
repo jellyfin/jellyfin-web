@@ -22,6 +22,17 @@ import type {
     RepeatMode,
     ShuffleMode
 } from './types';
+// Re-export granular visualizer selectors for convenience
+export {
+    useVisualizerTypeState,
+    useFrequencyAnalyzerSettings,
+    useWaveSurferSettings,
+    useButterchurnSettings,
+    useThreeDSettings,
+    useVisualizerUISettings,
+    useVisualizerAdvancedSettings,
+    useCompleteVisualizerSettings
+} from './visualizerSelectorStore';
 
 // Playback state hooks
 export function usePlaybackStatus(): PlaybackStatus {
@@ -176,6 +187,11 @@ export function useTheme(): ReturnType<typeof usePreferencesStore.getState>['ui'
     return theme;
 }
 
+/**
+ * @deprecated Use useVisualizerTypeState() from visualizerSelectorStore instead
+ * This hook combines two separate properties (enabled + showVisualizer) which causes
+ * unnecessary re-renders. Use the granular selectors for better performance.
+ */
 export function useVisualizerEnabled(): boolean {
     const enabled = usePreferencesStore(
         (state) => state.visualizer.enabled && state.ui.showVisualizer
@@ -183,6 +199,10 @@ export function useVisualizerEnabled(): boolean {
     return enabled;
 }
 
+/**
+ * @deprecated Use useVisualizerTypeState() or useVisualizerUISettings() from visualizerSelectorStore instead
+ * This hook is narrow in scope but duplicates functionality. Use the new granular selectors.
+ */
 export function useVisualizerType(): ReturnType<
     typeof usePreferencesStore.getState
 >['visualizer']['type'] {
@@ -190,6 +210,17 @@ export function useVisualizerType(): ReturnType<
     return type;
 }
 
+/**
+ * @deprecated Use specific selectors from visualizerSelectorStore instead
+ * Examples:
+ * - useFrequencyAnalyzerSettings() for frequency analyzer
+ * - useWaveSurferSettings() for waveform visualizer
+ * - useButterchurnSettings() for Butterchurn visualizer
+ * - useThreeDSettings() for 3D visualizer
+ *
+ * This broad subscription causes re-renders on ANY visualizer property change.
+ * Use granular selectors to subscribe only to properties your component needs.
+ */
 export function useVisualizerSettings() {
     const settings = usePreferencesStore((state) => state.visualizer);
     return settings;
