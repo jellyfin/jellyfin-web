@@ -293,6 +293,14 @@ export class HtmlVideoPlayer {
      * @type {number | null | undefined}
      */
     #currentTime;
+    /**
+     * @type {number | null | undefined}
+     */
+    #hlsStreamTimeShift;
+    /**
+     * @type number
+     */
+    #currentSubtitleCorrectionOffset;
 
     /**
      * @private (used in other files)
@@ -466,6 +474,36 @@ export class HtmlVideoPlayer {
                 hls.attachMedia(elem);
 
                 bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
+
+                //Usually fires on load, random seeks and video stream change
+                hls.on(Hls.Events.INIT_PTS_FOUND, (e, data) => {
+                    //Calculating the amount the stream shifted (signed)
+                    this.#hlsStreamTimeShift = data.initPTS / data.timescale;
+                    //Calculating how much offset to apply relative to the current one
+                    const offsetToApply = this.#hlsStreamTimeShift - this.#currentSubtitleCorrectionOffset;
+
+                    const textTracksShowing = this.getTextTracks();
+                    for (const textTrack of textTracksShowing) {
+                        const cues = textTrack.cues;
+                        if (!cues) return;
+
+                        const shouldClearActiveCues = this.requiresHidingActiveCuesOnOffsetChange();
+                        if (shouldClearActiveCues) {
+                            this.hideTextTrackWithActiveCues(textTrack);
+                        }
+
+                        for (const cue of Array.from(cues)) {
+                            cue.startTime -= offsetToApply;
+                            cue.endTime -= offsetToApply;
+                        }
+
+                        if (shouldClearActiveCues) {
+                            this.forceClearTextTrackActiveCues(textTrack);
+                        }
+                    }
+                    //Saving the updated correction offset
+                    this.#currentSubtitleCorrectionOffset += offsetToApply;
+                });
 
                 this._hlsPlayer = hls;
 
@@ -1478,7 +1516,7 @@ export class HtmlVideoPlayer {
         }
 
         // download the track json
-        this.fetchSubtitles(track, item).then(function (data) {
+        this.fetchSubtitles(track, item).then(data => {
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
@@ -1500,8 +1538,13 @@ export class HtmlVideoPlayer {
                     }
                 }
 
+                //Applying the base offset to counteract the stream shift
+                cue.startTime -= this.#hlsStreamTimeShift;
+                cue.endTime -= this.#hlsStreamTimeShift;
+
                 trackElement.addCue(cue);
             }
+            this.#currentSubtitleCorrectionOffset = this.#hlsStreamTimeShift;
 
             trackElement.mode = 'showing';
         });
