@@ -29,7 +29,7 @@ function canPlayAv1(videoTestElement) {
     }
 
     if (browser.xboxOne) {
-        // webview2 on xbox may falsey report AV1 as supported
+        // webview2 on xbox may falsely report AV1 as supported
         return false;
     }
 
@@ -179,7 +179,7 @@ function canPlayAudioFormat(format) {
             // canPlayType lies about OPUS support
             return browser.web0sVersion >= 3.5;
         } else if (browser.xboxOne) {
-            // webview2 on xbox may falsey report OPUS as supported
+            // webview2 on xbox may falsely report OPUS as supported
             return false;
         }
 
