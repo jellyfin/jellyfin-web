@@ -229,3 +229,167 @@ class PerformanceMonitor {
 }
 
 export default PerformanceMonitor;
+
+/**
+ * Component-Level Performance Metrics
+ *
+ * Development-only utilities for tracking component render performance,
+ * frame rates, and store subscription frequency.
+ */
+
+const isDev = process.env.NODE_ENV === 'development';
+
+interface ComponentMetrics {
+    componentRenders: Map<string, number>;
+    frameRate: number;
+    storeSubscriptions: Map<string, number>;
+    renderTimes: Map<string, number[]>; // Array of recent render times in ms
+}
+
+const componentMetrics: ComponentMetrics = {
+    componentRenders: new Map(),
+    frameRate: 0,
+    storeSubscriptions: new Map(),
+    renderTimes: new Map()
+};
+
+let lastFrameTime = performance.now();
+let frameCount = 0;
+
+/**
+ * Track a component render
+ * @param componentName Name of the component
+ */
+export function trackComponentRender(componentName: string): void {
+    if (!isDev) return;
+
+    const current = componentMetrics.componentRenders.get(componentName) ?? 0;
+    componentMetrics.componentRenders.set(componentName, current + 1);
+}
+
+/**
+ * Track render time for a component
+ * @param componentName Name of the component
+ * @param renderTimeMs Render time in milliseconds
+ * @param maxHistorySize Max number of recent samples to keep
+ */
+export function trackComponentRenderTime(
+    componentName: string,
+    renderTimeMs: number,
+    maxHistorySize = 60
+): void {
+    if (!isDev) return;
+
+    const times = componentMetrics.renderTimes.get(componentName) ?? [];
+    times.push(renderTimeMs);
+
+    // Keep only recent samples (FIFO buffer)
+    if (times.length > maxHistorySize) {
+        times.shift();
+    }
+
+    componentMetrics.renderTimes.set(componentName, times);
+}
+
+/**
+ * Track store subscription changes
+ * @param storeName Name of the store
+ * @param selectorPath Path to the selector (e.g. "visualizer.enabled")
+ */
+export function trackStoreSubscription(storeName: string, selectorPath: string): void {
+    if (!isDev) return;
+
+    const key = `${storeName}:${selectorPath}`;
+    const current = componentMetrics.storeSubscriptions.get(key) ?? 0;
+    componentMetrics.storeSubscriptions.set(key, current + 1);
+}
+
+/**
+ * Update frame rate calculation
+ * Should be called once per animation frame
+ */
+export function updateComponentFrameRate(): void {
+    if (!isDev) return;
+
+    frameCount++;
+    const now = performance.now();
+    const elapsed = now - lastFrameTime;
+
+    // Update FPS every 1000ms
+    if (elapsed >= 1000) {
+        componentMetrics.frameRate = (frameCount * 1000) / elapsed;
+        frameCount = 0;
+        lastFrameTime = now;
+    }
+}
+
+/**
+ * Get current component performance metrics
+ */
+export function getComponentMetrics(): {
+    renders: Record<string, number>;
+    frameRate: number;
+    subscriptions: Record<string, number>;
+    renderTimes: Record<string, { min: number; max: number; avg: number }>;
+} {
+    const renderTimes: Record<string, { min: number; max: number; avg: number }> = {};
+
+    componentMetrics.renderTimes.forEach((times, componentName) => {
+        if (times.length > 0) {
+            const min = Math.min(...times);
+            const max = Math.max(...times);
+            const avg = times.reduce((a, b) => a + b, 0) / times.length;
+            renderTimes[componentName] = { min, max, avg };
+        }
+    });
+
+    return {
+        renders: Object.fromEntries(componentMetrics.componentRenders),
+        frameRate: Math.round(componentMetrics.frameRate),
+        subscriptions: Object.fromEntries(componentMetrics.storeSubscriptions),
+        renderTimes
+    };
+}
+
+/**
+ * Reset all component metrics
+ */
+export function resetComponentMetrics(): void {
+    componentMetrics.componentRenders.clear();
+    componentMetrics.storeSubscriptions.clear();
+    componentMetrics.renderTimes.clear();
+    componentMetrics.frameRate = 0;
+    frameCount = 0;
+    lastFrameTime = performance.now();
+}
+
+/**
+ * Print component metrics to console for inspection
+ */
+export function logComponentMetrics(): void {
+    if (!isDev) return;
+
+    const data = getComponentMetrics();
+    console.group('📊 Component Performance Metrics');
+
+    if (Object.keys(data.renders).length > 0) {
+        console.log('Render Counts:');
+        console.table(data.renders);
+    }
+
+    if (data.frameRate > 0) {
+        console.log(`🎬 Frame Rate: ${data.frameRate} FPS`);
+    }
+
+    if (Object.keys(data.subscriptions).length > 0) {
+        console.log('Store Subscriptions:');
+        console.table(data.subscriptions);
+    }
+
+    if (Object.keys(data.renderTimes).length > 0) {
+        console.log('Render Times (ms):');
+        console.table(data.renderTimes);
+    }
+
+    console.groupEnd();
+}
