@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-
-import { Heading } from 'ui-primitives';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import { Heading } from 'ui-primitives';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
 import * as styles from './ResumeSection.css.ts';

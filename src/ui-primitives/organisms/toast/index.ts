@@ -1,22 +1,22 @@
-export { ToastProvider, useToast } from './ToastProvider';
 export {
     Toast,
-    ToastTitle,
-    ToastDescription,
     ToastAction,
     ToastClose,
-    toastContainer,
-    toastViewport,
-    toastViewportPosition,
-    toastVariantStyles,
-    toastContent,
-    toastTitle,
-    toastDescription,
+    ToastDescription,
+    type ToastPosition,
+    ToastTitle,
+    type ToastVariant,
     toastAction,
     toastClose,
+    toastContainer,
+    toastContent,
+    toastDescription,
+    toastIcon,
     toastIndicator,
     toastProgressBar,
-    toastIcon,
-    type ToastVariant,
-    type ToastPosition
+    toastTitle,
+    toastVariantStyles,
+    toastViewport,
+    toastViewportPosition
 } from './Toast';
+export { ToastProvider, useToast } from './ToastProvider';

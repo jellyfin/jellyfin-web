@@ -1,6 +1,12 @@
-import React, { forwardRef, type ReactElement, type CSSProperties } from 'react';
-import { Root, Track, Range, Thumb, type SliderProps as RadixSliderProps } from '@radix-ui/react-slider';
-import { sliderRoot, sliderTrack, sliderRange, sliderThumb } from './Slider.css.ts';
+import {
+    type SliderProps as RadixSliderProps,
+    Range,
+    Root,
+    Thumb,
+    Track
+} from '@radix-ui/react-slider';
+import React, { type CSSProperties, forwardRef, type ReactElement } from 'react';
+import { sliderRange, sliderRoot, sliderThumb, sliderTrack } from './Slider.css.ts';
 
 export interface SliderProps extends Omit<RadixSliderProps, 'asChild'> {
     readonly className?: string;

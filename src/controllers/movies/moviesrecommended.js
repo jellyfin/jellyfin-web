@@ -1,11 +1,9 @@
-import escapeHtml from 'escape-html';
-
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import * as mainTabsManager from 'components/maintabsmanager';
 import { playbackManager } from 'components/playback/playbackmanager';
-import dom from 'utils/dom';
+import escapeHtml from 'escape-html';
 import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
@@ -13,6 +11,7 @@ import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import { getBackdropShape, getPortraitShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
+import dom from 'utils/dom';
 import Events from 'utils/events';
 
 import 'elements/emby-scroller/emby-scroller';
@@ -34,23 +33,25 @@ function loadLatest(page, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then((items) => {
-        const allowBottomPadding = !enableScrollX();
-        const container = page.querySelector('#recentlyAddedItems');
-        cardBuilder.buildCards(items, {
-            itemsContainer: container,
-            shape: getPortraitShape(enableScrollX()),
-            scalable: true,
-            overlayPlayButton: true,
-            allowBottomPadding: allowBottomPadding,
-            showTitle: true,
-            showYear: true,
-            centerText: true
-        });
+    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(
+        (items) => {
+            const allowBottomPadding = !enableScrollX();
+            const container = page.querySelector('#recentlyAddedItems');
+            cardBuilder.buildCards(items, {
+                itemsContainer: container,
+                shape: getPortraitShape(enableScrollX()),
+                scalable: true,
+                overlayPlayButton: true,
+                allowBottomPadding: allowBottomPadding,
+                showTitle: true,
+                showYear: true,
+                centerText: true
+            });
 
-        // FIXME: Wait for all sections to load
-        autoFocus(page);
-    });
+            // FIXME: Wait for all sections to load
+            autoFocus(page);
+        }
+    );
 }
 
 function loadResume(page, userId, parentId) {
@@ -102,16 +103,25 @@ function getRecommendationHtml(recommendation) {
 
     switch (recommendation.RecommendationType) {
         case 'SimilarToRecentlyPlayed':
-            title = globalize.translate('RecommendationBecauseYouWatched', recommendation.BaselineItemName);
+            title = globalize.translate(
+                'RecommendationBecauseYouWatched',
+                recommendation.BaselineItemName
+            );
             break;
 
         case 'SimilarToLikedItem':
-            title = globalize.translate('RecommendationBecauseYouLike', recommendation.BaselineItemName);
+            title = globalize.translate(
+                'RecommendationBecauseYouLike',
+                recommendation.BaselineItemName
+            );
             break;
 
         case 'HasDirectorFromRecentlyPlayed':
         case 'HasLikedDirector':
-            title = globalize.translate('RecommendationDirectedBy', recommendation.BaselineItemName);
+            title = globalize.translate(
+                'RecommendationDirectedBy',
+                recommendation.BaselineItemName
+            );
             break;
 
         case 'HasActorFromRecentlyPlayed':
@@ -121,14 +131,18 @@ function getRecommendationHtml(recommendation) {
     }
 
     html += '<div class="verticalSection">';
-    html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + escapeHtml(title) + '</h2>';
+    html +=
+        '<h2 class="sectionTitle sectionTitle-cards padded-left">' + escapeHtml(title) + '</h2>';
     const allowBottomPadding = true;
 
     if (enableScrollX()) {
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
-        html += '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
+        html +=
+            '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+        html +=
+            '<div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x">';
     } else {
-        html += '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
+        html +=
+            '<div is="emby-itemscontainer" class="itemsContainer focuscontainer-x padded-left padded-right vertical-wrap">';
     }
 
     html += cardBuilder.getCardsHtml(recommendation.Items, {
@@ -227,17 +241,23 @@ function loadSuggestionsTab(view, params, tabContent) {
 }
 
 function getTabs() {
-    return [{
-        name: globalize.translate('Movies')
-    }, {
-        name: globalize.translate('Suggestions')
-    }, {
-        name: globalize.translate('Favorites')
-    }, {
-        name: globalize.translate('Collections')
-    }, {
-        name: globalize.translate('Genres')
-    }];
+    return [
+        {
+            name: globalize.translate('Movies')
+        },
+        {
+            name: globalize.translate('Suggestions')
+        },
+        {
+            name: globalize.translate('Favorites')
+        },
+        {
+            name: globalize.translate('Collections')
+        },
+        {
+            name: globalize.translate('Genres')
+        }
+    ];
 }
 
 function getDefaultTabIndex(folderId) {
@@ -274,7 +294,14 @@ export default function (view, params) {
     }
 
     function initTabs() {
-        mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
+        mainTabsManager.setTabs(
+            view,
+            currentTabIndex,
+            getTabs,
+            getTabContainers,
+            onBeforeTabChange,
+            onTabChange
+        );
     }
 
     const getTabController = (page, index, callback) => {
@@ -338,12 +365,12 @@ export default function (view, params) {
 
     function loadTab(page, index) {
         currentTabIndex = index;
-        getTabController(page, index, ((controller) => {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
             }
-        }));
+        });
     }
 
     function onPlaybackStop(e, state) {
@@ -364,12 +391,16 @@ export default function (view, params) {
     const suggestionsTabIndex = 1;
 
     this.initTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         initSuggestedTab(view, tabContent);
     };
 
     this.renderTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         loadSuggestionsTab(view, params, tabContent);
     };
 
@@ -403,4 +434,3 @@ export default function (view, params) {
         }
     }
 }
-

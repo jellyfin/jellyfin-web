@@ -1,16 +1,15 @@
-import escapeHtml from 'escape-html';
-
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
-import loading from '../../components/loading/loading';
-import scrollHelper from '../../scripts/scrollHelper';
-import layoutManager from '../layoutManager';
+import escapeHtml from 'escape-html';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import template from './lyricsuploader.template.html?raw';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import dialogHelper from '../../components/dialogHelper/dialogHelper';
+import loading from '../../components/loading/loading';
+import scrollHelper from '../../scripts/scrollHelper';
+import dom from '../../utils/dom';
+import layoutManager from '../layoutManager';
 import toast from '../toast/toast';
+import template from './lyricsuploader.template.html?raw';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-select/emby-select';
 import '../formdialog.scss';
@@ -33,10 +32,12 @@ function onFileReaderError(evt) {
 }
 
 function isValidLyricsFile(file) {
-    return file && ['.lrc', '.txt']
-        .some((ext) => {
+    return (
+        file &&
+        ['.lrc', '.txt'].some((ext) => {
             return file.name.endsWith(ext);
-        });
+        })
+    );
 }
 
 function setFiles(page, files) {
@@ -95,14 +96,18 @@ async function onSubmit(e) {
     const lyricsApi = getLyricsApi(api);
     const data = await readFileAsText(file);
 
-    lyricsApi.uploadLyrics({
-        itemId: currentItemId, fileName: file.name, body: data
-    }).then(() => {
-        dlg.querySelector('#uploadLyrics').value = '';
-        loading.hide();
-        hasChanges = true;
-        dialogHelper.close(dlg);
-    });
+    lyricsApi
+        .uploadLyrics({
+            itemId: currentItemId,
+            fileName: file.name,
+            body: data
+        })
+        .then(() => {
+            dlg.querySelector('#uploadLyrics').value = '';
+            loading.hide();
+            hasChanges = true;
+            dialogHelper.close(dlg);
+        });
 }
 
 function initEditor(page) {

@@ -1,28 +1,22 @@
 import { type BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { type FC, useCallback } from 'react';
 import { ChevronRightIcon, MixerHorizontalIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Menu } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
-
+import React, { type FC, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { type LibraryViewSettings, type ParentId } from 'types/library';
+import { LibraryTab } from 'types/libraryTab';
+import { Box, Button, Flex, Menu, Text } from 'ui-primitives';
+import FiltersEpisodesStatus from './FiltersEpisodesStatus';
 import FiltersFeatures from './FiltersFeatures';
 import FiltersGenres from './FiltersGenres';
 import FiltersOfficialRatings from './FiltersOfficialRatings';
-import FiltersEpisodesStatus from './FiltersEpisodesStatus';
 import FiltersSeriesStatus from './FiltersSeriesStatus';
 import FiltersStatus from './FiltersStatus';
 import FiltersStudios from './FiltersStudios';
 import FiltersTags from './FiltersTags';
 import FiltersVideoTypes from './FiltersVideoTypes';
 import FiltersYears from './FiltersYears';
-
-import { type LibraryViewSettings, type ParentId } from 'types/library';
-import { LibraryTab } from 'types/libraryTab';
 
 const sectionHeaderStyle: React.CSSProperties = {
     width: '100%',
@@ -66,7 +60,7 @@ const FilterButton: FC<FilterButtonProps> = ({
     const { data: studios } = useGetStudios(parentId, itemType);
 
     const toggleSection = useCallback((panel: string) => {
-        setExpanded(current => (current === panel ? false : panel));
+        setExpanded((current) => (current === panel ? false : panel));
     }, []);
 
     const isFiltersLegacyEnabled = () => {
@@ -86,7 +80,11 @@ const FilterButton: FC<FilterButtonProps> = ({
     };
 
     const isFiltersFeaturesEnabled = () => {
-        return viewType === LibraryTab.Movies || viewType === LibraryTab.Series || viewType === LibraryTab.Episodes;
+        return (
+            viewType === LibraryTab.Movies ||
+            viewType === LibraryTab.Series ||
+            viewType === LibraryTab.Episodes
+        );
     };
 
     const isFiltersVideoTypesEnabled = () => {
@@ -130,13 +128,18 @@ const FilterButton: FC<FilterButtonProps> = ({
         >
             <Box style={{ maxHeight: '50vh', width: 260, overflow: 'auto' }}>
                 <Box>
-                    <button type="button" style={sectionHeaderStyle} onClick={() => toggleSection('filtersStatus')}>
+                    <button
+                        type="button"
+                        style={sectionHeaderStyle}
+                        onClick={() => toggleSection('filtersStatus')}
+                    >
                         <Text size="md">{globalize.translate('Filters')}</Text>
                         <ChevronRightIcon
                             style={{
                                 width: 14,
                                 height: 14,
-                                transform: expanded === 'filtersStatus' ? 'rotate(90deg)' : undefined
+                                transform:
+                                    expanded === 'filtersStatus' ? 'rotate(90deg)' : undefined
                             }}
                         />
                     </button>
@@ -161,7 +164,10 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <ChevronRightIcon
                                 style={{
                                     fontSize: vars.typography['3'].fontSize,
-                                    transform: expanded === 'filtersSeriesStatus' ? 'rotate(90deg)' : undefined
+                                    transform:
+                                        expanded === 'filtersSeriesStatus'
+                                            ? 'rotate(90deg)'
+                                            : undefined
                                 }}
                             />
                         </button>
@@ -186,7 +192,10 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <ChevronRightIcon
                                 style={{
                                     fontSize: vars.typography['3'].fontSize,
-                                    transform: expanded === 'filtersEpisodesStatus' ? 'rotate(90deg)' : undefined
+                                    transform:
+                                        expanded === 'filtersEpisodesStatus'
+                                            ? 'rotate(90deg)'
+                                            : undefined
                                 }}
                             />
                         </button>
@@ -211,7 +220,8 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <ChevronRightIcon
                                 style={{
                                     fontSize: vars.typography['3'].fontSize,
-                                    transform: expanded === 'filtersFeatures' ? 'rotate(90deg)' : undefined
+                                    transform:
+                                        expanded === 'filtersFeatures' ? 'rotate(90deg)' : undefined
                                 }}
                             />
                         </button>
@@ -237,7 +247,10 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <ChevronRightIcon
                                 style={{
                                     fontSize: vars.typography['3'].fontSize,
-                                    transform: expanded === 'filtersVideoTypes' ? 'rotate(90deg)' : undefined
+                                    transform:
+                                        expanded === 'filtersVideoTypes'
+                                            ? 'rotate(90deg)'
+                                            : undefined
                                 }}
                             />
                         </button>
@@ -265,7 +278,10 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     <ChevronRightIcon
                                         style={{
                                             fontSize: vars.typography['3'].fontSize,
-                                            transform: expanded === 'filtersGenres' ? 'rotate(90deg)' : undefined
+                                            transform:
+                                                expanded === 'filtersGenres'
+                                                    ? 'rotate(90deg)'
+                                                    : undefined
                                         }}
                                     />
                                 </button>
@@ -288,12 +304,16 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     style={sectionHeaderStyle}
                                     onClick={() => toggleSection('filtersOfficialRatings')}
                                 >
-                                    <Text size="md">{globalize.translate('HeaderParentalRatings')}</Text>
+                                    <Text size="md">
+                                        {globalize.translate('HeaderParentalRatings')}
+                                    </Text>
                                     <ChevronRightIcon
                                         style={{
                                             fontSize: vars.typography['3'].fontSize,
                                             transform:
-                                                expanded === 'filtersOfficialRatings' ? 'rotate(90deg)' : undefined
+                                                expanded === 'filtersOfficialRatings'
+                                                    ? 'rotate(90deg)'
+                                                    : undefined
                                         }}
                                     />
                                 </button>
@@ -320,7 +340,10 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     <ChevronRightIcon
                                         style={{
                                             fontSize: vars.typography['3'].fontSize,
-                                            transform: expanded === 'filtersTags' ? 'rotate(90deg)' : undefined
+                                            transform:
+                                                expanded === 'filtersTags'
+                                                    ? 'rotate(90deg)'
+                                                    : undefined
                                         }}
                                     />
                                 </button>
@@ -347,7 +370,10 @@ const FilterButton: FC<FilterButtonProps> = ({
                                     <ChevronRightIcon
                                         style={{
                                             fontSize: vars.typography['3'].fontSize,
-                                            transform: expanded === 'filtersYears' ? 'rotate(90deg)' : undefined
+                                            transform:
+                                                expanded === 'filtersYears'
+                                                    ? 'rotate(90deg)'
+                                                    : undefined
                                         }}
                                     />
                                 </button>
@@ -375,7 +401,8 @@ const FilterButton: FC<FilterButtonProps> = ({
                             <ChevronRightIcon
                                 style={{
                                     fontSize: vars.typography['3'].fontSize,
-                                    transform: expanded === 'filtersStudios' ? 'rotate(90deg)' : undefined
+                                    transform:
+                                        expanded === 'filtersStudios' ? 'rotate(90deg)' : undefined
                                 }}
                             />
                         </button>

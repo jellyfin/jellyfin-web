@@ -1,10 +1,9 @@
 import * as userSettings from '../../scripts/settings/userSettings';
-import audioErrorHandler, { AudioErrorType, AudioErrorSeverity } from './audioErrorHandler';
-import { safeConnect, dBToLinear } from './audioUtils';
-
 import { useAudioStore } from '../../store/audioStore';
-import { usePreferencesStore, getCrossfadeFadeOut } from '../../store/preferencesStore';
+import { getCrossfadeFadeOut, usePreferencesStore } from '../../store/preferencesStore';
 import { logger } from '../../utils/logger';
+import audioErrorHandler, { AudioErrorSeverity, AudioErrorType } from './audioErrorHandler';
+import { dBToLinear, safeConnect } from './audioUtils';
 
 type MasterAudioTypes = {
     mixerNode?: GainNode;
@@ -39,7 +38,7 @@ const FADE_IN_RAMP_DIVISOR = 24;
  */
 function applyDbReduction(originalVolume: number, reductionDb: number) {
     const originalLinear = originalVolume / 100; // Convert the original volume to a linear scale of 0 to 1
-    const newLinear = originalLinear * Math.pow(10, -reductionDb / 20);
+    const newLinear = originalLinear * 10 ** (-reductionDb / 20);
 
     return newLinear * 100; // Convert back to a scale of 0 to 100
 }
@@ -120,7 +119,9 @@ async function loadAudioWorklets(audioContext: AudioContext) {
 
     // Also skip if AudioWorklet is not supported
     if (isDevelopment || !audioContext.audioWorklet) {
-        const reason = isDevelopment ? 'development/local environment' : 'AudioWorklet not supported in this browser';
+        const reason = isDevelopment
+            ? 'development/local environment'
+            : 'AudioWorklet not supported in this browser';
         logger.info(`AudioWorklet: Skipping loading (${reason}). Using Web Audio API fallbacks.`, {
             component: 'masterAudio'
         });
@@ -139,9 +140,13 @@ async function loadAudioWorklets(audioContext: AudioContext) {
     for (const worklet of worklets) {
         try {
             const workletUrl = new URL(worklet, import.meta.url);
-            logger.debug(`AudioWorklet: Loading ${worklet} from ${workletUrl.href}`, { component: 'masterAudio' });
+            logger.debug(`AudioWorklet: Loading ${worklet} from ${workletUrl.href}`, {
+                component: 'masterAudio'
+            });
             await audioContext.audioWorklet.addModule(workletUrl);
-            logger.debug(`AudioWorklet: Successfully loaded ${worklet}`, { component: 'masterAudio' });
+            logger.debug(`AudioWorklet: Successfully loaded ${worklet}`, {
+                component: 'masterAudio'
+            });
             loadedCount++;
         } catch (error) {
             // Use centralized error handler
@@ -159,11 +164,16 @@ async function loadAudioWorklets(audioContext: AudioContext) {
     }
 
     if (loadedCount > 0) {
-        logger.info(`AudioWorklet: Successfully loaded ${loadedCount}/${worklets.length} worklets`, {
+        logger.info(
+            `AudioWorklet: Successfully loaded ${loadedCount}/${worklets.length} worklets`,
+            {
+                component: 'masterAudio'
+            }
+        );
+    } else {
+        logger.info('AudioWorklet: No worklets loaded, using Web Audio API fallbacks', {
             component: 'masterAudio'
         });
-    } else {
-        logger.info('AudioWorklet: No worklets loaded, using Web Audio API fallbacks', { component: 'masterAudio' });
     }
 }
 
@@ -194,7 +204,7 @@ export function initializeMasterAudio(unbind: () => void) {
 
     // Subscribe to store changes to update audio engine
     useAudioStore.subscribe(
-        state => ({ volume: state.volume, muted: state.muted, makeupGain: state.makeupGain }),
+        (state) => ({ volume: state.volume, muted: state.muted, makeupGain: state.makeupGain }),
         ({ volume, muted, makeupGain }) => {
             if (!masterAudioOutput.mixerNode || !masterAudioOutput.audioContext) return;
 
@@ -202,7 +212,9 @@ export function initializeMasterAudio(unbind: () => void) {
             const linearVolume = (targetVolume / 100) * makeupGain;
 
             // Smooth transition to prevent clicks
-            masterAudioOutput.mixerNode.gain.cancelScheduledValues(masterAudioOutput.audioContext.currentTime);
+            masterAudioOutput.mixerNode.gain.cancelScheduledValues(
+                masterAudioOutput.audioContext.currentTime
+            );
             masterAudioOutput.mixerNode.gain.setTargetAtTime(
                 linearVolume,
                 masterAudioOutput.audioContext.currentTime,
@@ -252,10 +264,18 @@ export function initializeMasterAudio(unbind: () => void) {
         try {
             limiter = new AudioWorkletNode(audioCtx, 'limiter-processor');
             // Set parameters equivalent to DynamicsCompressor
-            (limiter as AudioWorkletNode).parameters.get('threshold')?.setValueAtTime(0.8, audioCtx.currentTime);
-            (limiter as AudioWorkletNode).parameters.get('ratio')?.setValueAtTime(20, audioCtx.currentTime);
-            (limiter as AudioWorkletNode).parameters.get('attack')?.setValueAtTime(0.003, audioCtx.currentTime);
-            (limiter as AudioWorkletNode).parameters.get('release')?.setValueAtTime(0.25, audioCtx.currentTime);
+            (limiter as AudioWorkletNode).parameters
+                .get('threshold')
+                ?.setValueAtTime(0.8, audioCtx.currentTime);
+            (limiter as AudioWorkletNode).parameters
+                .get('ratio')
+                ?.setValueAtTime(20, audioCtx.currentTime);
+            (limiter as AudioWorkletNode).parameters
+                .get('attack')
+                ?.setValueAtTime(0.003, audioCtx.currentTime);
+            (limiter as AudioWorkletNode).parameters
+                .get('release')
+                ?.setValueAtTime(0.25, audioCtx.currentTime);
         } catch {
             // Fallback to DynamicsCompressor
             limiter = audioCtx.createDynamicsCompressor();
@@ -282,7 +302,11 @@ const elementNodeMap = new WeakMap<HTMLMediaElement, AudioNodeBundle>();
 // Track active normalization nodes for rampPlaybackGain targeting
 const normalizationNodeMap = new WeakMap<GainNode, GainNode>();
 
-function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initialNormalizationGain?: number) {
+function createNodeBundle(
+    elem: HTMLMediaElement,
+    registerInBus = false,
+    initialNormalizationGain?: number
+) {
     if (!masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
         logger.warn('MasterAudio is not initialized', { component: 'MasterAudio' });
         return;
@@ -308,8 +332,12 @@ function createNodeBundle(elem: HTMLMediaElement, registerInBus = false, initial
     const crossfadeGainNode = masterAudioOutput.audioContext.createGain();
 
     // Default normalization to 1 (no change) if not specified
-    const normalizationGainValue = initialNormalizationGain !== undefined ? initialNormalizationGain : 1;
-    normalizationGainNode.gain.setValueAtTime(normalizationGainValue, masterAudioOutput.audioContext.currentTime);
+    const normalizationGainValue =
+        initialNormalizationGain !== undefined ? initialNormalizationGain : 1;
+    normalizationGainNode.gain.setValueAtTime(
+        normalizationGainValue,
+        masterAudioOutput.audioContext.currentTime
+    );
     // Crossfade gain always starts at 1 (full volume)
     crossfadeGainNode.gain.setValueAtTime(1, masterAudioOutput.audioContext.currentTime);
 
@@ -358,7 +386,11 @@ export function ensureAudioNodeBundle(
     elem: HTMLMediaElement,
     options?: { initialNormalizationGain?: number; registerInBus?: boolean }
 ) {
-    return createNodeBundle(elem, options?.registerInBus ?? false, options?.initialNormalizationGain);
+    return createNodeBundle(
+        elem,
+        options?.registerInBus ?? false,
+        options?.initialNormalizationGain
+    );
 }
 
 /**
@@ -412,7 +444,9 @@ export function rampPlaybackGain(normalizationGain?: number) {
     const targetNormalizationNode = normalizationNodeMap.get(audioNodeBus[0]);
 
     if (!targetNormalizationNode) {
-        logger.warn('Could not find normalization node for current playback', { component: 'RampPlaybackGain' });
+        logger.warn('Could not find normalization node for current playback', {
+            component: 'RampPlaybackGain'
+        });
         return;
     }
 
@@ -425,5 +459,8 @@ export function rampPlaybackGain(normalizationGain?: number) {
     targetNormalizationNode.gain.cancelScheduledValues(audioCtx.currentTime);
 
     targetNormalizationNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime);
-    targetNormalizationNode.gain.exponentialRampToValueAtTime(gainValue, audioCtx.currentTime + sustain);
+    targetNormalizationNode.gain.exponentialRampToValueAtTime(
+        gainValue,
+        audioCtx.currentTime + sustain
+    );
 }

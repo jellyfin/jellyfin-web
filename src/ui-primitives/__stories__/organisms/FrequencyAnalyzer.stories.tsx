@@ -5,8 +5,8 @@ const meta: Meta<typeof FrequencyAnalyzer> = {
     title: 'Organisms/FrequencyAnalyzer',
     component: FrequencyAnalyzer,
     parameters: {
-        layout: 'fullscreen',
-    },
+        layout: 'fullscreen'
+    }
 };
 
 export default meta;
@@ -15,6 +15,6 @@ type Story = StoryObj<typeof FrequencyAnalyzer>;
 export const Default: Story = {
     args: {
         colorScheme: 'spectrum',
-        barCount: 64,
-    },
+        barCount: 64
+    }
 };

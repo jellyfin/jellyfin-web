@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback } from 'react';
-import { motion } from 'motion/react';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { motion } from 'motion/react';
+import { type ReactElement, useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 interface SwitchProps {
@@ -11,7 +11,12 @@ interface SwitchProps {
     label?: string;
 }
 
-function Switch({ checked, onCheckedChange, disabled, label }: Readonly<SwitchProps>): ReactElement {
+function Switch({
+    checked,
+    onCheckedChange,
+    disabled,
+    label
+}: Readonly<SwitchProps>): ReactElement {
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['4'] }}>
             <SwitchPrimitive.Root
@@ -47,7 +52,9 @@ function Switch({ checked, onCheckedChange, disabled, label }: Readonly<SwitchPr
                 </SwitchPrimitive.Thumb>
             </SwitchPrimitive.Root>
             {label !== undefined && label !== '' && (
-                <span style={{ color: vars.colors.text, fontSize: vars.typography['6'].fontSize }}>{label}</span>
+                <span style={{ color: vars.colors.text, fontSize: vars.typography['6'].fontSize }}>
+                    {label}
+                </span>
             )}
         </div>
     );
@@ -82,7 +89,13 @@ function WithLabelStory(): ReactElement {
         setChecked(v);
     }, []);
 
-    return <Switch checked={checked} onCheckedChange={handleCheckedChange} label="Enable notifications" />;
+    return (
+        <Switch
+            checked={checked}
+            onCheckedChange={handleCheckedChange}
+            label="Enable notifications"
+        />
+    );
 }
 
 export const WithLabel: Story = {
@@ -101,26 +114,34 @@ function SettingsExampleStory(): ReactElement {
     });
 
     const handleDarkModeChange = useCallback((v: boolean): void => {
-        setSettings(s => ({ ...s, darkMode: v }));
+        setSettings((s) => ({ ...s, darkMode: v }));
     }, []);
 
     const handleNotificationsChange = useCallback((v: boolean): void => {
-        setSettings(s => ({ ...s, notifications: v }));
+        setSettings((s) => ({ ...s, notifications: v }));
     }, []);
 
     const handleAutoPlayChange = useCallback((v: boolean): void => {
-        setSettings(s => ({ ...s, autoPlay: v }));
+        setSettings((s) => ({ ...s, autoPlay: v }));
     }, []);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'] }}>
-            <Switch checked={settings.darkMode} onCheckedChange={handleDarkModeChange} label="Dark Mode" />
+            <Switch
+                checked={settings.darkMode}
+                onCheckedChange={handleDarkModeChange}
+                label="Dark Mode"
+            />
             <Switch
                 checked={settings.notifications}
                 onCheckedChange={handleNotificationsChange}
                 label="Push Notifications"
             />
-            <Switch checked={settings.autoPlay} onCheckedChange={handleAutoPlayChange} label="Auto-play next episode" />
+            <Switch
+                checked={settings.autoPlay}
+                onCheckedChange={handleAutoPlayChange}
+                label="Auto-play next episode"
+            />
         </div>
     );
 }

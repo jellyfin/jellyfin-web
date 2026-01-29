@@ -16,7 +16,9 @@ interface NewViewInfo {
     hasScript: boolean;
 }
 
-let onBeforeChange: ((view: HTMLElement, isRestored: boolean, options: ViewOptions) => void) | undefined;
+let onBeforeChange:
+    | ((view: HTMLElement, isRestored: boolean, options: ViewOptions) => void)
+    | undefined;
 let allPages: HTMLElement[] = [];
 let currentUrls: string[] = [];
 const pageContainerCount = 3;
@@ -37,17 +39,21 @@ function setControllerClass(view: HTMLElement, options: ViewOptions): Promise<vo
         controllerUrl = Dashboard.getPluginUrl(controllerUrl);
         const apiUrl = (window as any).ApiClient.getUrl('/web/' + controllerUrl);
         return fetch(apiUrl)
-            .then(response => response.text())
-            .then(scriptText => {
+            .then((response) => response.text())
+            .then((scriptText) => {
                 const blob = new Blob([scriptText], { type: 'application/javascript' });
                 const blobUrl = URL.createObjectURL(blob);
-                return import(/* @vite-ignore */ blobUrl).then(ControllerFactory => {
+                return import(/* @vite-ignore */ blobUrl).then((ControllerFactory) => {
                     options.controllerFactory = ControllerFactory;
                     URL.revokeObjectURL(blobUrl);
                 });
             })
-            .catch(err => {
-                logger.warn('[viewContainer] Failed to load controller', { component: 'ViewContainer' }, err);
+            .catch((err) => {
+                logger.warn(
+                    '[viewContainer] Failed to load controller',
+                    { component: 'ViewContainer' },
+                    err
+                );
                 return Promise.resolve();
             });
     }
@@ -57,7 +63,9 @@ function setControllerClass(view: HTMLElement, options: ViewOptions): Promise<vo
 function parseHtml(html: string, hasScript: boolean): HTMLElement | null {
     let processedHtml = html;
     if (hasScript) {
-        processedHtml = html.replaceAll('\x3c!--<script', '<script').replaceAll('</script>--\x3e', '</script>');
+        processedHtml = html
+            .replaceAll('\x3c!--<script', '<script')
+            .replaceAll('</script>--\x3e', '</script>');
     }
     const wrapper = document.createElement('div');
     wrapper.innerHTML = processedHtml;
@@ -104,7 +112,9 @@ export function loadView(options: ViewOptions): Promise<HTMLElement | void> | vo
 
     const mainAnimatedPages = getMainAnimatedPages();
     if (!mainAnimatedPages) {
-        logger.warn('[viewContainer] Main animated pages element is not present', { component: 'ViewContainer' });
+        logger.warn('[viewContainer] Main animated pages element is not present', {
+            component: 'ViewContainer'
+        });
         return;
     }
 
@@ -127,7 +137,7 @@ export function loadView(options: ViewOptions): Promise<HTMLElement | void> | vo
     allPages[pageIndex] = view;
 
     return setControllerClass(view, options)
-        .then(() => new Promise(resolve => setTimeout(resolve, 0)))
+        .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
         .then(() => {
             onBeforeChange?.(view, false, options);
             for (let i = 0; i < allPages.length; i++) {
@@ -192,7 +202,9 @@ export function reset(): void {
     selectedPageIndex = -1;
 }
 
-export function setOnBeforeChange(fn: (view: HTMLElement, isRestored: boolean, options: ViewOptions) => void): void {
+export function setOnBeforeChange(
+    fn: (view: HTMLElement, isRestored: boolean, options: ViewOptions) => void
+): void {
     onBeforeChange = fn;
 }
 

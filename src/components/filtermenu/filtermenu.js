@@ -1,12 +1,12 @@
 import escapeHtml from 'escape-html';
-import dom from '../../utils/dom';
-import focusManager from '../focusManager';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import inputManager from '../../scripts/inputManager';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
+import inputManager from '../../scripts/inputManager';
 import * as userSettings from '../../scripts/settings/userSettings';
+import dom from '../../utils/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
@@ -31,7 +31,7 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     let html = '';
 
     html += items
-        .map(filter => {
+        .map((filter) => {
             let itemHtml = '';
 
             const checkedHtml = isCheckedFn(filter) ? ' checked' : '';
@@ -55,10 +55,14 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
 }
 
 function renderDynamicFilters(context, result, options) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, i => {
+    renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, (i) => {
         // Switching from | to ,
         const delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
-        return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
+        return (
+            (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(
+                delimeter + i.Id + delimeter
+            ) !== -1
+        );
     });
 }
 
@@ -90,7 +94,7 @@ function moveCheckboxFocus(elem, offset) {
     }
 }
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then(scrollHelper => {
+    import('../../scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -110,9 +114,13 @@ function onInputCommand(e) {
     }
 }
 function saveValues(context, settings, settingsKey) {
-    context.querySelectorAll('.simpleFilter').forEach(elem => {
+    context.querySelectorAll('.simpleFilter').forEach((elem) => {
         if (elem.tagName === 'INPUT') {
-            setBasicFilter(context, settingsKey + '-filter-' + elem.getAttribute('data-settingname'), elem);
+            setBasicFilter(
+                context,
+                settingsKey + '-filter-' + elem.getAttribute('data-settingname'),
+                elem
+            );
         } else {
             setBasicFilter(
                 context,
@@ -124,7 +132,7 @@ function saveValues(context, settings, settingsKey) {
 
     // Video type
     const videoTypes = [];
-    context.querySelectorAll('.chkVideoTypeFilter').forEach(elem => {
+    context.querySelectorAll('.chkVideoTypeFilter').forEach((elem) => {
         if (elem.checked) {
             videoTypes.push(elem.getAttribute('data-filter'));
         }
@@ -134,7 +142,7 @@ function saveValues(context, settings, settingsKey) {
 
     // Series status
     const seriesStatuses = [];
-    context.querySelectorAll('.chkSeriesStatus').forEach(elem => {
+    context.querySelectorAll('.chkSeriesStatus').forEach((elem) => {
         if (elem.checked) {
             seriesStatuses.push(elem.getAttribute('data-filter'));
         }
@@ -144,7 +152,7 @@ function saveValues(context, settings, settingsKey) {
 
     // Genres
     const genres = [];
-    context.querySelectorAll('.chkGenreFilter').forEach(elem => {
+    context.querySelectorAll('.chkGenreFilter').forEach((elem) => {
         if (elem.checked) {
             genres.push(elem.getAttribute('data-filter'));
         }
@@ -173,7 +181,8 @@ function initEditor(context, settings) {
         if (elems[i].tagName === 'INPUT') {
             elems[i].checked = settings[elems[i].getAttribute('data-settingname')] || false;
         } else {
-            elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            elems[i].querySelector('input').checked =
+                settings[elems[i].getAttribute('data-settingname')] || false;
         }
     }
 
@@ -212,13 +221,13 @@ function loadDynamicFilters(context, options) {
         IncludeItemTypes: options.itemTypes.join(',')
     });
 
-    apiClient.getFilters(filterMenuOptions).then(result => {
+    apiClient.getFilters(filterMenuOptions).then((result) => {
         renderDynamicFilters(context, result, options);
     });
 }
 class FilterMenu {
     show(options) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             const dialogOptions = {
                 removeOnClose: true,
                 scrollY: false
@@ -247,7 +256,11 @@ class FilterMenu {
 
             const settingElements = dlg.querySelectorAll('.viewSetting');
             for (let i = 0, length = settingElements.length; i < length; i++) {
-                if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
+                if (
+                    options.visibleSettings.indexOf(
+                        settingElements[i].getAttribute('data-settingname')
+                    ) === -1
+                ) {
                     settingElements[i].classList.add('hide');
                 } else {
                     settingElements[i].classList.remove('hide');

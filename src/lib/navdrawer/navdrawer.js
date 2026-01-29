@@ -54,7 +54,7 @@ class NavDrawer {
         this.velocity = Math.abs(deltaX) / time;
     }
 
-    onMenuTouchStart = e => {
+    onMenuTouchStart = (e) => {
         const options = this.options;
 
         options.target.classList.remove('transition');
@@ -65,7 +65,7 @@ class NavDrawer {
         this.menuTouchStartTime = new Date().getTime();
     };
 
-    onMenuTouchMove = e => {
+    onMenuTouchMove = (e) => {
         const scrollContainer = this.scrollContainer;
 
         const isOpen = this.visible;
@@ -98,7 +98,7 @@ class NavDrawer {
         }
     };
 
-    onMenuTouchEnd = e => {
+    onMenuTouchEnd = (e) => {
         const options = this.options;
         const scrollContainer = this.scrollContainer;
 
@@ -118,13 +118,13 @@ class NavDrawer {
         this.checkMenuState(deltaX, deltaY);
     };
 
-    onEdgeTouchMove = e => {
+    onEdgeTouchMove = (e) => {
         e.preventDefault();
         e.stopPropagation();
         this.onEdgeTouchStart(e);
     };
 
-    onEdgeTouchStart = e => {
+    onEdgeTouchStart = (e) => {
         const options = this.options;
 
         if (this.isPeeking) {
@@ -141,7 +141,7 @@ class NavDrawer {
         }
     };
 
-    onEdgeTouchEnd = e => {
+    onEdgeTouchEnd = (e) => {
         if (this.isPeeking) {
             this.isPeeking = false;
             dom.removeEventListener(this.edgeContainer, 'touchmove', this.onEdgeTouchMove, {});
@@ -149,14 +149,14 @@ class NavDrawer {
         }
     };
 
-    onBackgroundTouchStart = e => {
+    onBackgroundTouchStart = (e) => {
         const touches = getTouches(e);
         const touch = touches[0] || {};
         this.backgroundTouchStartX = touch.clientX;
         this.backgroundTouchStartTime = new Date().getTime();
     };
 
-    onBackgroundTouchMove = e => {
+    onBackgroundTouchMove = (e) => {
         const options = this.options;
 
         const touches = getTouches(e);
@@ -186,7 +186,7 @@ class NavDrawer {
         e.stopPropagation();
     };
 
-    onBackgroundTouchEnd = e => {
+    onBackgroundTouchEnd = (e) => {
         const touches = getTouches(e);
         const touch = touches[0] || {};
         const endX = touch.clientX || 0;
@@ -220,7 +220,9 @@ class NavDrawer {
         const options = this.options;
         const languageAwarePos = globalize.getIsRTL() ? -pos : pos;
         requestAnimationFrame(() => {
-            options.target.style.transform = pos ? 'translateX(' + languageAwarePos + 'px)' : 'none';
+            options.target.style.transform = pos
+                ? 'translateX(' + languageAwarePos + 'px)'
+                : 'none';
         });
     }
 

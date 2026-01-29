@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import Visualizers from '../Visualizers';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAudioStore } from '../../../store/audioStore';
 import { usePreferencesStore } from '../../../store/preferencesStore';
+import Visualizers from '../Visualizers';
 
 // Mock dependencies
 vi.mock('../../../store/audioStore', () => ({
@@ -22,10 +22,18 @@ vi.mock('components/audioEngine/master.logic', () => ({
 }));
 
 // Mock visualizer components
-vi.mock('../Butterchurn', () => ({ default: () => <div data-testid="butterchurn">Butterchurn</div> }));
-vi.mock('../FrequencyAnalyzer', () => ({ default: () => <div data-testid="frequency">Frequency</div> }));
-vi.mock('../ThreeDimensionVisualizer', () => ({ default: () => <div data-testid="threed">3D</div> }));
-vi.mock('../WaveSurfer', () => ({ WaveSurferVisualizer: () => <div data-testid="waveform">Waveform</div> }));
+vi.mock('../Butterchurn', () => ({
+    default: () => <div data-testid="butterchurn">Butterchurn</div>
+}));
+vi.mock('../FrequencyAnalyzer', () => ({
+    default: () => <div data-testid="frequency">Frequency</div>
+}));
+vi.mock('../ThreeDimensionVisualizer', () => ({
+    default: () => <div data-testid="threed">3D</div>
+}));
+vi.mock('../WaveSurfer', () => ({
+    WaveSurferVisualizer: () => <div data-testid="waveform">Waveform</div>
+}));
 
 describe('Visualizers Component', () => {
     beforeEach(() => {

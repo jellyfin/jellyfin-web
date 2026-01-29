@@ -1,16 +1,16 @@
+import type { MediaStream } from '@jellyfin/sdk/lib/generated-client/models/media-stream';
 import { MediaStreamType } from '@jellyfin/sdk/lib/generated-client/models/media-stream-type';
 import { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-type';
-import type { MediaStream } from '@jellyfin/sdk/lib/generated-client/models/media-stream';
 import itemHelper from 'components/itemHelper';
-import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
-
+import datetime from 'scripts/datetime';
+import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
-import type { NullableString } from 'types/base/common/shared/types';
 import type { MediaInfoStatsOpts } from './type';
 
-const getResolution = (label: string, isInterlaced?: boolean) => (isInterlaced ? `${label}i` : label);
+const getResolution = (label: string, isInterlaced?: boolean) =>
+    isInterlaced ? `${label}i` : label;
 
 const getResolutionText = (showResolutionInfo: boolean, stream: MediaStream) => {
     const { Width, Height, IsInterlaced } = stream;
@@ -60,10 +60,11 @@ function getAudioStreamForDisplay(item: ItemDto) {
     const mediaSource = (item.MediaSources || [])[0] || {};
 
     return (
-        (mediaSource.MediaStreams || []).filter(i => {
+        (mediaSource.MediaStreams || []).filter((i) => {
             return (
                 i.Type === MediaStreamType.Audio &&
-                (i.Index === mediaSource.DefaultAudioStreamIndex || mediaSource.DefaultAudioStreamIndex == null)
+                (i.Index === mediaSource.DefaultAudioStreamIndex ||
+                    mediaSource.DefaultAudioStreamIndex == null)
             );
         })[0] || {}
     );
@@ -73,7 +74,7 @@ function getVideoStreamForDisplay(item: ItemDto) {
     const mediaSource = (item.MediaSources || [])[0] || {};
 
     return (
-        (mediaSource.MediaStreams || []).filter(i => {
+        (mediaSource.MediaStreams || []).filter((i) => {
             return i.Type === MediaStreamType.Video;
         })[0] || {}
     );
@@ -145,7 +146,11 @@ function addAudioStreamCodec(
     }
 }
 
-function addDateAdded(showDateAddedInfo: boolean, item: ItemDto, addMiscInfo: (val: MiscInfo) => void): void {
+function addDateAdded(
+    showDateAddedInfo: boolean,
+    item: ItemDto,
+    addMiscInfo: (val: MiscInfo) => void
+): void {
     if (showDateAddedInfo && item.DateCreated && itemHelper.enableDateAddedDisplay(item)) {
         const dateCreated = datetime.parseISO8601Date(item.DateCreated);
         addMiscInfo({

@@ -3,12 +3,12 @@ import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kin
 import { escapeHtml } from 'utils/html';
 
 import { ItemAction } from '../../constants/itemAction';
-import browser from '../../scripts/browser';
-import datetime from '../../scripts/datetime';
-import dom from '../../utils/dom';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from '../../lib/jellyfin-apiclient';
+import browser from '../../scripts/browser';
+import datetime from '../../scripts/datetime';
 import { getBackdropShape, getPortraitShape, getSquareShape } from '../../utils/card';
+import dom from '../../utils/dom';
 import { getItemTypeIcon, getLibraryIcon } from '../../utils/image';
 
 import focusManager from '../focusManager';
@@ -118,7 +118,8 @@ export function setCardData(items: any[], options: CardOptions): void {
         }
 
         if (!options.shape) {
-            options.shape = options.defaultShape || getSquareShape(requestedShape === 'autooverflow');
+            options.shape =
+                options.defaultShape || getSquareShape(requestedShape === 'autooverflow');
         }
     }
 
@@ -214,7 +215,9 @@ export function getCardImageUrl(item: any, apiClient: any, options: CardOptions,
 
     return {
         imgUrl: imgUrl,
-        blurhash: (options.imageBlurhashes || pInfo.ImageBlurHashes || {})[imgType || '']?.[imgTag || ''],
+        blurhash: (options.imageBlurhashes || pInfo.ImageBlurHashes || {})[imgType || '']?.[
+            imgTag || ''
+        ],
         forceName: false,
         coverImage: false
     };
@@ -239,11 +242,12 @@ export function getCardsHtml(items: any[], options: CardOptions = {}): string {
 }
 
 export function getDefaultText(item: any, options: CardOptions): string {
-    let icon =
+    const icon =
         item.Type === BaseItemKind.CollectionFolder || item.CollectionType
             ? getLibraryIcon(item.CollectionType)
             : getItemTypeIcon(item.Type, options.defaultCardImageIcon);
-    if (icon) return `<span class="cardImageIcon material-icons ${icon}" aria-hidden="true"></span>`;
+    if (icon)
+        return `<span class="cardImageIcon material-icons ${icon}" aria-hidden="true"></span>`;
     return `<div class="cardText cardDefaultText">${escapeHtml(item.Name)}</div>`;
 }
 

@@ -4,10 +4,10 @@
  * Tests for the ListView component.
  */
 
-import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 // Simplified mock for ListView
 const mockItems = [
@@ -29,7 +29,7 @@ const createListViewWithMocks = () => {
             <div>
                 <h1>My Movies</h1>
                 <p>{items.length} items</p>
-                {items.map(item => (
+                {items.map((item) => (
                     <div key={item.Id} data-testid={`item-${item.Id}`}>
                         {item.Name}
                     </div>

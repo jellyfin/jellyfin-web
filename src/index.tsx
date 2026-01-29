@@ -1,35 +1,40 @@
 // Import legacy browser polyfills
 import 'lib/legacy';
 
+// NOTE: We need to import this first to initialize the connection
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-// NOTE: We need to import this first to initialize the connection
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-
 // Initialize observability context
 import { initializeEnvironment } from './utils/observability';
+
 initializeEnvironment();
 
-import { appHost, safeAppHost } from './components/apphost';
-import { logger } from './utils/logger';
-import autoFocuser from './components/autoFocuser';
 import loading from 'components/loading/loading';
+import { AppFeature } from 'constants/appFeature';
+import { loadCoreDictionary } from 'lib/globalize/loader';
+import { appHost, safeAppHost } from './components/apphost';
+import autoFocuser from './components/autoFocuser';
 import { pluginManager } from './components/pluginManager';
 import { appRouter } from './components/router/appRouter';
-import { AppFeature } from 'constants/appFeature';
 import globalize from './lib/globalize';
-import { loadCoreDictionary } from 'lib/globalize/loader';
 import { initialize as initializeAutoCast } from './scripts/autocast';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
 import { getPlugins, getServers } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
-import { pageClassOn, serverAddress } from './utils/dashboard';
-import Events from './utils/events';
-import { cleanupExpiredCache } from './utils/randomSortCache';
 import { useDevConfigStore } from './store/devConfigStore';
-import { fetchDevConfig, normalizeServerBaseUrl, resolveApiBaseUrl, saveDevConfig } from './utils/devConfig';
+import { pageClassOn, serverAddress } from './utils/dashboard';
+import {
+    fetchDevConfig,
+    normalizeServerBaseUrl,
+    resolveApiBaseUrl,
+    saveDevConfig
+} from './utils/devConfig';
+import Events from './utils/events';
+import { logger } from './utils/logger';
+import { cleanupExpiredCache } from './utils/randomSortCache';
 import './utils/performanceMonitor';
 import './utils/pwaInstall';
 import './utils/pwaUpdate';
@@ -64,7 +69,11 @@ async function initializeAudioContextEarly() {
         logger.timeEnd('AudioContext Initialization');
     } catch (error) {
         logger.timeEnd('AudioContext Initialization');
-        logger.error('Failed to initialize audio context early', { component: 'AudioEngine' }, error instanceof Error ? error : undefined);
+        logger.error(
+            'Failed to initialize audio context early',
+            { component: 'AudioEngine' },
+            error instanceof Error ? error : undefined
+        );
     }
 }
 
@@ -74,8 +83,9 @@ async function initializeCrossfadePreloader() {
         logger.performance('Initializing crossfade preloader', {
             component: 'AudioEngine'
         });
-        const { initializeCrossfadePreloadHandler, destroyCrossfadePreloadHandler } =
-            await import('./components/audioEngine');
+        const { initializeCrossfadePreloadHandler, destroyCrossfadePreloadHandler } = await import(
+            './components/audioEngine'
+        );
 
         // Initialize preload handler to listen for playback events
         initializeCrossfadePreloadHandler();
@@ -83,7 +93,11 @@ async function initializeCrossfadePreloader() {
         logger.timeEnd('Crossfade Preloader');
     } catch (error) {
         logger.timeEnd('Crossfade Preloader');
-        logger.error('Failed to initialize crossfade preloader', { component: 'AudioEngine' }, error instanceof Error ? error : undefined);
+        logger.error(
+            'Failed to initialize crossfade preloader',
+            { component: 'AudioEngine' },
+            error instanceof Error ? error : undefined
+        );
     }
 }
 
@@ -112,9 +126,12 @@ function setupAudioContextResume() {
                         component: 'AudioEngine'
                     });
                 } else {
-                    logger.warn('Failed to resume AudioContext - already running or error occurred', {
-                        component: 'AudioEngine'
-                    });
+                    logger.warn(
+                        'Failed to resume AudioContext - already running or error occurred',
+                        {
+                            component: 'AudioEngine'
+                        }
+                    );
                 }
             } else {
                 logger.warn('AudioContext not available for resume - may not be initialized yet', {
@@ -122,7 +139,11 @@ function setupAudioContextResume() {
                 });
             }
         } catch (error) {
-            logger.error('Failed to resume AudioContext', { component: 'AudioEngine' }, error instanceof Error ? error : undefined);
+            logger.error(
+                'Failed to resume AudioContext',
+                { component: 'AudioEngine' },
+                error instanceof Error ? error : undefined
+            );
         }
     };
 
@@ -135,7 +156,10 @@ function setupAudioContextResume() {
 window.addEventListener('beforeunload', () => {
     import('./components/audioEngine/master.logic')
         .then(({ masterAudioOutput }) => {
-            if (masterAudioOutput.audioContext && masterAudioOutput.audioContext.state !== 'closed') {
+            if (
+                masterAudioOutput.audioContext &&
+                masterAudioOutput.audioContext.state !== 'closed'
+            ) {
                 masterAudioOutput.audioContext.close();
             }
             // eslint-disable-next-line no-empty-function
@@ -214,7 +238,9 @@ build: ${__JF_BUILD_VERSION__}`,
             const credentials = (ServerConnections as any).credentialProvider().credentials();
             const updatedServers = [...credentials.Servers];
             configServers.forEach((server: { ManualAddress?: string }) => {
-                const existing = updatedServers.find(s => s.ManualAddress === server.ManualAddress);
+                const existing = updatedServers.find(
+                    (s) => s.ManualAddress === server.ManualAddress
+                );
                 if (!existing) {
                     updatedServers.push(server);
                 }
@@ -280,7 +306,7 @@ build: ${__JF_BUILD_VERSION__}`,
     });
 
     // Register API request error handlers
-    ServerConnections.getApiClients().forEach(apiClient => {
+    ServerConnections.getApiClients().forEach((apiClient) => {
         Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
         Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
     });

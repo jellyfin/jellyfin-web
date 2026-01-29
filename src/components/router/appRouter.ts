@@ -1,19 +1,17 @@
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-
-import { setBackdropTransparency } from '../backdrop/backdrop';
-import globalize from '../../lib/globalize';
-import itemHelper from '../itemHelper';
-import loading from '../loading/loading';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import alert from '../alert';
-
 import { LayoutMode } from 'constants/layoutMode';
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
+import globalize from '../../lib/globalize';
 import { simpleHistory } from '../../utils/history';
 import { logger } from '../../utils/logger';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import alert from '../alert';
+import { setBackdropTransparency } from '../backdrop/backdrop';
+import itemHelper from '../itemHelper';
+import loading from '../loading/loading';
 
 // TanStack Router for navigation (if available)
 let _router: any = null;
@@ -88,7 +86,8 @@ class AppRouter {
         }
 
         this._history = simpleHistory;
-        this.lastPath = (simpleHistory.location.pathname || '') + (simpleHistory.location.search || '');
+        this.lastPath =
+            (simpleHistory.location.pathname || '') + (simpleHistory.location.search || '');
         this.listen();
         return simpleHistory;
     }
@@ -106,7 +105,7 @@ class AppRouter {
             return Promise.resolve();
         }
 
-        this.promiseShow = new Promise(resolve => {
+        this.promiseShow = new Promise((resolve) => {
             const unlisten = history.listen(() => {
                 unlisten();
                 this.promiseShow = null;
@@ -170,7 +169,7 @@ class AppRouter {
             return Promise.resolve();
         }
 
-        this.promiseShow = new Promise(resolve => {
+        this.promiseShow = new Promise((resolve) => {
             this.resolveOnNextShow = resolve;
             // Schedule a call to return the promise
             setTimeout(() => history.push(path, options), 0);
@@ -190,7 +189,9 @@ class AppRouter {
             const fullPath = normalizedPath + location.search;
 
             if (fullPath === this.lastPath) {
-                logger.debug('[appRouter] path did not change, resolving promise', { component: 'AppRouter' });
+                logger.debug('[appRouter] path did not change, resolving promise', {
+                    component: 'AppRouter'
+                });
                 this.onViewShow();
             }
 
@@ -208,7 +209,11 @@ class AppRouter {
             path = history ? history.location.pathname : window.location.pathname;
         }
 
-        if (!document.querySelector('.dialogContainer') && path && START_PAGE_PATHS.includes(path)) {
+        if (
+            !document.querySelector('.dialogContainer') &&
+            path &&
+            START_PAGE_PATHS.includes(path)
+        ) {
             return false;
         }
 
@@ -232,11 +237,15 @@ class AppRouter {
 
             queryClient
                 .fetchQuery(getItemQuery(api, item, userId))
-                .then(itemObject => {
+                .then((itemObject) => {
                     this.showItem(itemObject, serverId, options);
                 })
-                .catch(err => {
-                    logger.error('[AppRouter] Failed to fetch item', { component: 'AppRouter' }, err);
+                .catch((err) => {
+                    logger.error(
+                        '[AppRouter] Failed to fetch item',
+                        { component: 'AppRouter' },
+                        err
+                    );
                 });
         } else {
             // handle the case where options is passed as second argument
@@ -260,7 +269,9 @@ class AppRouter {
      */
     setTransparency(level: any) {
         // TODO: Remove this after JMP is updated to not use this function
-        logger.warn('Deprecated! Use Dashboard.setBackdropTransparency', { component: 'AppRouter' });
+        logger.warn('Deprecated! Use Dashboard.setBackdropTransparency', {
+            component: 'AppRouter'
+        });
         setBackdropTransparency(level);
     }
 
@@ -301,7 +312,9 @@ class AppRouter {
 
             // Bounce to the login screen, but not if a password entry fails, obviously
             if (!isPublicPage) {
-                appRouter.showForcedLogoutMessage(globalize.translate('AccessRestrictedTryAgainLater'));
+                appRouter.showForcedLogoutMessage(
+                    globalize.translate('AccessRestrictedTryAgainLater')
+                );
                 appRouter.showLocalLogin(apiClient.serverId());
             }
         }
@@ -412,7 +425,10 @@ class AppRouter {
             }
 
             if (options.section === 'shows') {
-                return '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + serverId;
+                return (
+                    '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' +
+                    serverId
+                );
             }
 
             if (options.section === 'sports') {
@@ -531,7 +547,10 @@ class AppRouter {
 
             const layoutMode = localStorage.getItem('layout');
 
-            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Homevideos) {
+            if (
+                layoutMode === LayoutMode.Experimental &&
+                item.CollectionType == CollectionType.Homevideos
+            ) {
                 url = '#/homevideos?topParentId=' + item.Id;
 
                 return url;

@@ -1,4 +1,10 @@
-import React, { type ChangeEvent, type CSSProperties, type ReactNode, type ReactElement, useCallback } from 'react';
+import React, {
+    type ChangeEvent,
+    type CSSProperties,
+    type ReactElement,
+    type ReactNode,
+    useCallback
+} from 'react';
 import { checkboxContainer, checkboxInput, checkboxLabel } from './Checkbox.css.ts';
 
 interface CheckboxProps {
@@ -40,7 +46,11 @@ export function Checkbox({
     );
 
     return (
-        <label className={`${checkboxContainer} ${className ?? ''}`} style={style} htmlFor={inputId}>
+        <label
+            className={`${checkboxContainer} ${className ?? ''}`}
+            style={style}
+            htmlFor={inputId}
+        >
             <input
                 type="checkbox"
                 id={inputId}

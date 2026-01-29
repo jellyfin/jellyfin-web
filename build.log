@@ -1,0 +1,8 @@
+
+> jellyfin-web-modernized@10.12.0 build:production
+> NODE_OPTIONS='--max-old-space-size=4096' node scripts/runWithTimeout.mjs 180000 --max-bytes 5242880 --max-lines 2000 -- vite build
+
+vite v7.3.1 building client environment for production...
+transforming...
+
+favicons/banner-light.png referenced in favicons/banner-light.png didn't resolve at build time, it will remain unchanged to be resolved at runtime

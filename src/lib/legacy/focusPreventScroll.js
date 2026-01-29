@@ -6,10 +6,14 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
         try {
             const focusElem = document.createElement('div');
 
-            focusElem.addEventListener('focus', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-            }, true);
+            focusElem.addEventListener(
+                'focus',
+                (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                },
+                true
+            );
 
             const opts = Object.defineProperty({}, 'preventScroll', {
                 get: function () {
@@ -26,7 +30,7 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
         if (!supportsPreventScrollOption) {
             HTMLElement.prototype.nativeFocus = HTMLElement.prototype.focus;
 
-            HTMLElement.prototype.focus = function(options) {
+            HTMLElement.prototype.focus = function (options) {
                 const scrollX = window.scrollX;
                 const scrollY = window.scrollY;
 

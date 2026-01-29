@@ -7,6 +7,7 @@ export const useCreateUser = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: UserApiCreateUserByNameRequest) => getUserApi(api!).createUserByName(params)
+        mutationFn: (params: UserApiCreateUserByNameRequest) =>
+            getUserApi(api!).createUserByName(params)
     });
 };

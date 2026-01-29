@@ -1,9 +1,9 @@
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
 import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import loading from '../loading/loading';
 
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/emby-button';
@@ -25,8 +25,12 @@ function getEditorHtml() {
         '<select is="emby-select" id="selectMetadataRefreshMode" label="' +
         globalize.translate('LabelRefreshMode') +
         '">';
-    html += '<option value="scan" selected>' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
-    html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
+    html +=
+        '<option value="scan" selected>' +
+        globalize.translate('ScanForNewAndUpdatedFiles') +
+        '</option>';
+    html +=
+        '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
     html += '<option value="all">' + globalize.translate('ReplaceAllMetadata') + '</option>';
     html += '</select>';
     html += '</div>';
@@ -63,7 +67,7 @@ function getEditorHtml() {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then(scrollHelper => {
+    import('../../scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -80,11 +84,16 @@ function onSubmit(e) {
 
     const replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
 
-    const mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
-    const replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
-    const replaceTrickplayImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceTrickplayImages').checked;
+    const mode =
+        dlg.querySelector('#selectMetadataRefreshMode').value === 'scan'
+            ? 'Default'
+            : 'FullRefresh';
+    const replaceAllImages =
+        mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
+    const replaceTrickplayImages =
+        mode === 'FullRefresh' && dlg.querySelector('.chkReplaceTrickplayImages').checked;
 
-    options.itemIds.forEach(itemId => {
+    options.itemIds.forEach((itemId) => {
         apiClient.refreshItem(itemId, {
             Recursive: true,
             ImageRefreshMode: mode,
@@ -167,7 +176,7 @@ class RefreshDialog {
             centerFocus(dlg.querySelector('.formDialogContent'), false, true);
         }
 
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }

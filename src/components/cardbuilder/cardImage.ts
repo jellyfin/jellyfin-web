@@ -4,14 +4,17 @@ import type { ApiClient } from 'jellyfin-apiclient';
 
 import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
-
-import { getCardImageUrl, getDefaultText } from './cardBuilder';
 import type { CardOptions as BuilderCardOptions } from './cardBuilder';
+import { getCardImageUrl, getDefaultText } from './cardBuilder';
 
 /**
  * Builds an html string for a basic image only card.
  */
-export function buildCardImage(apiClient: ApiClient, item: BaseItemDto, options: CardOptions): string {
+export function buildCardImage(
+    apiClient: ApiClient,
+    item: BaseItemDto,
+    options: CardOptions
+): string {
     let shape: CardShape = CardShape.Square;
     if (item.PrimaryImageAspectRatio) {
         if (item.PrimaryImageAspectRatio >= 3) {

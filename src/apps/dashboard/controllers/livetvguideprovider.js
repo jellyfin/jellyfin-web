@@ -1,8 +1,8 @@
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
 import Dashboard, { pageIdOn } from 'utils/dashboard';
-import { getParameterByName } from 'utils/url';
 import Events from 'utils/events';
+import { getParameterByName } from 'utils/url';
 
 function onListingsSubmitted() {
     Dashboard.navigate('dashboard/livetv');

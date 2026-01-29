@@ -1,7 +1,7 @@
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Dashboard from '../utils/dashboard';
 import dom from '../utils/dom';
 import { appRouter } from './router/appRouter';
-import Dashboard from '../utils/dashboard';
 
 function onGroupedCardClick(e, card) {
     const itemId = card.getAttribute('data-id');
@@ -19,15 +19,17 @@ function onGroupedCardClick(e, card) {
     const actionableParent = dom.parentWithTag(e.target, ['A', 'BUTTON', 'INPUT']);
 
     if (!actionableParent || actionableParent.classList.contains('cardContent')) {
-        apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then((items) => {
-            if (items.length === 1) {
-                appRouter.showItem(items[0]);
-                return;
-            }
+        apiClient
+            .getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options))
+            .then((items) => {
+                if (items.length === 1) {
+                    appRouter.showItem(items[0]);
+                    return;
+                }
 
-            const url = 'details?id=' + itemId + '&serverId=' + serverId;
-            Dashboard.navigate(url);
-        });
+                const url = 'details?id=' + itemId + '&serverId=' + serverId;
+                Dashboard.navigate(url);
+            });
         e.stopPropagation();
         e.preventDefault();
         return false;

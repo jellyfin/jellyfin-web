@@ -1,16 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { Grid } from 'ui-primitives';
-import { Card } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
 import { PlayIcon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { toVideoItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useEffect, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, CircularProgress, Grid, Heading, IconButton, Text } from 'ui-primitives';
 import { logger } from 'utils/logger';
 
 const LiveTVRecordingsPage: React.FC = () => {
@@ -52,14 +46,24 @@ const LiveTVRecordingsPage: React.FC = () => {
             await playbackManagerBridge.play();
             setPlayingRecordingId(null);
         } catch (err) {
-            logger.error('[LiveTVRecordingsPage] Failed to play recording', { recordingId, error: err });
+            logger.error('[LiveTVRecordingsPage] Failed to play recording', {
+                recordingId,
+                error: err
+            });
             setPlayingRecordingId(null);
         }
     }, []);
 
     if (isLoading) {
         return (
-            <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+            <Box
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '200px'
+                }}
+            >
                 <CircularProgress size="lg" />
             </Box>
         );
@@ -67,15 +71,22 @@ const LiveTVRecordingsPage: React.FC = () => {
 
     return (
         <Box style={{ padding: vars.spacing['5'] }}>
-            <Heading.H2 style={{ marginBottom: vars.spacing['6'] }}>{globalize.translate('Recordings')}</Heading.H2>
+            <Heading.H2 style={{ marginBottom: vars.spacing['6'] }}>
+                {globalize.translate('Recordings')}
+            </Heading.H2>
             <Grid container spacing="md">
-                {data.map(item => (
+                {data.map((item) => (
                     <Grid key={item.id} xs={12} sm={6} md={4} lg={3}>
                         <Box
                             onMouseEnter={() => setHoveredRecordingId(item.id)}
                             onMouseLeave={() => setHoveredRecordingId(null)}
                         >
-                            <Card style={{ border: `1px solid ${vars.colors.divider}`, position: 'relative' }}>
+                            <Card
+                                style={{
+                                    border: `1px solid ${vars.colors.divider}`,
+                                    position: 'relative'
+                                }}
+                            >
                                 <Box
                                     style={{
                                         aspectRatio: '16/9',
@@ -86,7 +97,9 @@ const LiveTVRecordingsPage: React.FC = () => {
                                         position: 'relative'
                                     }}
                                 >
-                                    <Text style={{ fontSize: vars.typography['9'].fontSize }}>📼</Text>
+                                    <Text style={{ fontSize: vars.typography['9'].fontSize }}>
+                                        📼
+                                    </Text>
                                     {hoveredRecordingId === item.id && (
                                         <Box
                                             style={{
@@ -108,7 +121,10 @@ const LiveTVRecordingsPage: React.FC = () => {
                                                 disabled={playingRecordingId === item.id}
                                                 onClick={(e: React.MouseEvent) => {
                                                     e.stopPropagation();
-                                                    handleRecordingPlay(item.recordingId, item.name);
+                                                    handleRecordingPlay(
+                                                        item.recordingId,
+                                                        item.name
+                                                    );
                                                 }}
                                                 style={{ borderRadius: '50%' }}
                                             >

@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { defaultLocale, getLocaleCode, localeCodes } from './lib/locale-config';
 import { getLocale, type TranslationDict } from './lib/locale-loader';
-import { defaultLocale, localeCodes, getLocaleCode } from './lib/locale-config';
 import { logger } from './utils/logger';
 
 interface JellyfinBackendOptions {
@@ -23,14 +23,25 @@ class JellyfinBackend {
             const locale = getLocaleCode(language);
             return await getLocale(locale);
         } catch (error) {
-            logger.error(`Failed to load translations for ${language}:`, { component: 'i18n' }, error as Error);
+            logger.error(
+                `Failed to load translations for ${language}:`,
+                { component: 'i18n' },
+                error as Error
+            );
             return undefined;
         }
     }
 
-    public create(languages: readonly string[], _namespace: string, key: string, _fallbackValue: string): void {
+    public create(
+        languages: readonly string[],
+        _namespace: string,
+        key: string,
+        _fallbackValue: string
+    ): void {
         for (const lang of languages) {
-            logger.warn(`Missing translation key "${key}" for locale "${lang}"`, { component: 'i18n' });
+            logger.warn(`Missing translation key "${key}" for locale "${lang}"`, {
+                component: 'i18n'
+            });
         }
     }
 }

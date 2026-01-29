@@ -1,1 +1,1 @@
-export { chipStyles, chipVariants, chipSizes, type ChipVariant, type ChipSize, Chip } from './Chip';
+export { Chip, type ChipSize, type ChipVariant, chipSizes, chipStyles, chipVariants } from './Chip';

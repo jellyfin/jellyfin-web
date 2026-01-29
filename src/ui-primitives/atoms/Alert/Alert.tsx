@@ -1,6 +1,6 @@
 import React, { type ReactElement } from 'react';
-import { alertStyles, alertVariants } from './Alert.css.ts';
 import { vars } from 'styles/tokens.css.ts';
+import { alertStyles, alertVariants } from './Alert.css.ts';
 
 export type AlertVariant = keyof typeof alertVariants;
 
@@ -33,7 +33,12 @@ export function Alert({
         >
             <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
                 {title !== undefined && (
-                    <div style={{ fontWeight: vars.typography.fontWeightBold, fontSize: vars.typography['3'].fontSize }}>
+                    <div
+                        style={{
+                            fontWeight: vars.typography.fontWeightBold,
+                            fontSize: vars.typography['3'].fontSize
+                        }}
+                    >
                         {title}
                     </div>
                 )}

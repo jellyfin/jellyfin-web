@@ -1,22 +1,27 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"avx\", \"default\", \"neon\", \"sse\"]",
-  "declared_features": "[\"avx\", \"default\", \"neon\", \"sse\", \"wasm_simd\"]",
-  "target": 15785386267615396073,
-  "profile": 8276155916380437441,
-  "path": 9711163463621568324,
-  "deps": [
-    [2670695657336865460, "primal_check", false, 13620609367110003028],
-    [3726277658779405417, "strength_reduce", false, 10837014477936482743],
-    [5157631553186200874, "num_traits", false, 3077057522397920384],
-    [11862003692520442184, "transpose", false, 10498822518474841791],
-    [12319020793864570031, "num_complex", false, 16459018074393145831],
-    [16795989132585092538, "num_integer", false, 5100405434946302724]
-  ],
-  "local": [
-    { "CheckDepInfo": { "dep_info": "debug/.fingerprint/rustfft-c4940a37153e2abb/dep-lib-rustfft", "checksum": false } }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[\"avx\", \"default\", \"neon\", \"sse\"]",
+    "declared_features": "[\"avx\", \"default\", \"neon\", \"sse\", \"wasm_simd\"]",
+    "target": 15785386267615396073,
+    "profile": 8276155916380437441,
+    "path": 9711163463621568324,
+    "deps": [
+        [2670695657336865460, "primal_check", false, 13620609367110003028],
+        [3726277658779405417, "strength_reduce", false, 10837014477936482743],
+        [5157631553186200874, "num_traits", false, 3077057522397920384],
+        [11862003692520442184, "transpose", false, 10498822518474841791],
+        [12319020793864570031, "num_complex", false, 16459018074393145831],
+        [16795989132585092538, "num_integer", false, 5100405434946302724]
+    ],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/rustfft-c4940a37153e2abb/dep-lib-rustfft",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

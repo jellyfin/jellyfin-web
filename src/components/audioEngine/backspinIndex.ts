@@ -1,3 +1,3 @@
-export { backspinHandler, BackspinHandler } from './backspinHandler';
+export { BackspinHandler, backspinHandler } from './backspinHandler';
 export { BackspinProcessor } from './backspinProcessor';
-export { VinylScratchSynth, createVinylScratchSynth } from './vinylScratch';
+export { createVinylScratchSynth, VinylScratchSynth } from './vinylScratch';

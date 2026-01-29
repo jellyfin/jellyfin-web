@@ -1,1 +1,8 @@
-export { drawerOverlay, drawerContent, drawerAnchor, type DrawerAnchor, type DrawerProps, Drawer } from './Drawer';
+export {
+    Drawer,
+    type DrawerAnchor,
+    type DrawerProps,
+    drawerAnchor,
+    drawerContent,
+    drawerOverlay
+} from './Drawer';

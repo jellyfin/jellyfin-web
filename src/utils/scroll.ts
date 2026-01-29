@@ -1,4 +1,11 @@
-import { scrollBehavior, scrollX, scrollY, scrollYSmooth, hiddenScrollbar, overflow } from '../styles/layout.css';
+import {
+    hiddenScrollbar,
+    overflow,
+    scrollBehavior,
+    scrollX,
+    scrollY,
+    scrollYSmooth
+} from '../styles/layout.css';
 
 export { scrollBehavior, scrollX, scrollY, scrollYSmooth, hiddenScrollbar, overflow };
 
@@ -59,7 +66,10 @@ export function scrollWindowToTop(behavior: 'auto' | 'smooth' = 'smooth'): void 
     window.scrollTo({ top: 0, behavior });
 }
 
-export function scrollElementToTop(element: HTMLElement, behavior: 'auto' | 'smooth' = 'smooth'): void {
+export function scrollElementToTop(
+    element: HTMLElement,
+    behavior: 'auto' | 'smooth' = 'smooth'
+): void {
     element.scrollTo({ top: 0, behavior });
 }
 
@@ -67,7 +77,10 @@ export function scrollWindowToLeft(behavior: 'auto' | 'smooth' = 'smooth'): void
     window.scrollTo({ left: 0, behavior });
 }
 
-export function scrollElementToLeft(element: HTMLElement, behavior: 'auto' | 'smooth' = 'smooth'): void {
+export function scrollElementToLeft(
+    element: HTMLElement,
+    behavior: 'auto' | 'smooth' = 'smooth'
+): void {
     element.scrollTo({ left: 0, behavior });
 }
 
@@ -85,7 +98,12 @@ export function getScrollableParent(element: HTMLElement): HTMLElement | null {
         const style = window.getComputedStyle(parent);
         const overflowY = style.getPropertyValue('overflow-y');
         const overflow = style.getPropertyValue('overflow');
-        if (overflowY === 'auto' || overflowY === 'scroll' || overflow === 'auto' || overflow === 'scroll') {
+        if (
+            overflowY === 'auto' ||
+            overflowY === 'scroll' ||
+            overflow === 'auto' ||
+            overflow === 'scroll'
+        ) {
             return parent;
         }
         parent = parent.parentElement;
@@ -138,7 +156,7 @@ export function smoothScrollTo(element: HTMLElement, targetTop: number): void {
     function animateScroll(currentTime: number): void {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        const easeProgress = 1 - (1 - progress) ** 3;
         element.scrollTop = start + change * easeProgress;
 
         if (progress < 1) {

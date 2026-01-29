@@ -1,17 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
+import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import Loading from 'components/loading/LoadingComponent';
+import React, { useCallback, useState } from 'react';
 import { type ActionData } from 'types/actionData';
+import { Alert, Button, Flex, Input, Text } from 'ui-primitives';
 import { queryClient } from 'utils/query/queryClient';
-import { Alert } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 
 export const Component = (): React.ReactElement => {
     const [actionData, setActionData] = useState<ActionData | undefined>();

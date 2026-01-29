@@ -4,8 +4,8 @@
  * React-based subtitle settings page for user preferences.
  */
 
-import React from 'react';
 import { SubtitleSettings } from 'components/subtitlesettings/SubtitleSettings';
+import React from 'react';
 import * as userSettings from 'scripts/settings/userSettings';
 import { useServerStore } from 'store/serverStore';
 
@@ -22,7 +22,13 @@ export const SubtitleSettingsPage: React.FC = () => {
     const isLocalUser = true;
     const currentSettings = isLocalUser ? userSettings : new userSettings.UserSettings();
 
-    return <SubtitleSettings userId={currentUserId} serverId={serverId} userSettings={currentSettings} />;
+    return (
+        <SubtitleSettings
+            userId={currentUserId}
+            serverId={serverId}
+            userSettings={currentSettings}
+        />
+    );
 };
 
 export default SubtitleSettingsPage;

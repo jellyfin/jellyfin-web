@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
 import {
-    useQueueStore,
-    selectQueueItems,
     selectCurrentIndex,
     selectCurrentQueueItem,
+    selectIsShuffled,
+    selectQueueItems,
     selectRepeatMode,
     selectShuffleMode,
-    selectIsShuffled
+    useQueueStore
 } from 'store/queueStore';
-import type { QueueItem, PlayableItem, RepeatMode, ShuffleMode } from 'store/types';
+import type { PlayableItem, QueueItem, RepeatMode, ShuffleMode } from 'store/types';
 
 export interface QueueHooks {
     items: QueueItem[];
@@ -41,9 +41,9 @@ export const useQueue = (): QueueHooks => {
     const repeatMode = useQueueStore(selectRepeatMode);
     const shuffleMode = useQueueStore(selectShuffleMode);
     const isShuffled = useQueueStore(selectIsShuffled);
-    const isPlaying = useQueueStore(state => (state as any).isPlaying ?? false);
-    const currentTime = useQueueStore(state => (state as any).currentTime ?? 0);
-    const duration = useQueueStore(state => (state as any).duration ?? 0);
+    const isPlaying = useQueueStore((state) => (state as any).isPlaying ?? false);
+    const currentTime = useQueueStore((state) => (state as any).currentTime ?? 0);
+    const duration = useQueueStore((state) => (state as any).duration ?? 0);
 
     const setQueue = useCallback((items: PlayableItem[], startIndex?: number) => {
         useQueueStore.getState().setQueue(items, startIndex);

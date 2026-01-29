@@ -6,22 +6,22 @@
 
 // Re-export specific types to avoid conflicts
 export type {
-    PlayableItem,
-    MediaImage,
-    StreamInfo,
     AudioTrack,
-    SubtitleTrack,
-    TrackInfo,
+    MediaImage,
+    MediaType,
+    PlayableItem,
     PlaybackProgress,
     PlaybackState,
+    PlaybackStatus,
+    PlayerInfo,
     QueueItem,
     QueueState,
     RepeatMode,
     ShuffleMode,
-    PlaybackStatus,
-    PlayerInfo,
-    TransferInfo,
-    MediaType
+    StreamInfo,
+    SubtitleTrack,
+    TrackInfo,
+    TransferInfo
 } from './media';
 
 // Quality types

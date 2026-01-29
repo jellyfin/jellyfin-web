@@ -3,7 +3,7 @@ import { CircularProgress } from 'ui-primitives';
 import { useUiStore } from '../../store';
 
 export const LoadingOverlay: React.FC = () => {
-    const isLoading = useUiStore(state => state.isLoading);
+    const isLoading = useUiStore((state) => state.isLoading);
 
     return (
         <div

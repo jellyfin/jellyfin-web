@@ -80,7 +80,11 @@ class BiquadProcessor extends AudioWorkletProcessor {
         }
     }
 
-    process(inputs: Float32Array[][], outputs: Float32Array[][], parameters: Record<string, Float32Array>): boolean {
+    process(
+        inputs: Float32Array[][],
+        outputs: Float32Array[][],
+        parameters: Record<string, Float32Array>
+    ): boolean {
         const input = inputs[0];
         const output = outputs[0];
 
@@ -120,7 +124,10 @@ class BiquadProcessor extends AudioWorkletProcessor {
                     a2
                 );
 
-                const result = memoryBuffer.subarray(this.outputPtr / 4, this.outputPtr / 4 + inputChannel.length);
+                const result = memoryBuffer.subarray(
+                    this.outputPtr / 4,
+                    this.outputPtr / 4 + inputChannel.length
+                );
                 outputChannel.set(result);
             }
         } else {

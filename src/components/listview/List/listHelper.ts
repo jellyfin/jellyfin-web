@@ -61,7 +61,9 @@ const sortByAlbumArtist = (item: ItemDto): string => {
 
 export function getIndex(item: ItemDto, listOptions: ListOptions): string {
     if (listOptions.index === 'disc') {
-        return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
+        return item.ParentIndexNumber == null
+            ? ''
+            : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
     }
 
     const sortBy = (listOptions.sortBy ?? '').toLowerCase();

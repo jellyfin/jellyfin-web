@@ -1,14 +1,10 @@
-import React from 'react';
-import { Link } from '@tanstack/react-router';
-import type { LinkProps } from '@tanstack/react-router';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
+import type { LinkProps } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
-import { Card } from 'ui-primitives';
-import { AspectRatio } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
+import React from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { AspectRatio, Box, Card, Flex, Heading, IconButton, Text } from 'ui-primitives';
 
 interface BaseCardProps {
     title?: string;
@@ -39,7 +35,10 @@ const BaseCard = ({
 }: BaseCardProps) => {
     const cardContent = (
         <>
-            <AspectRatio ratio="16/9" style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}>
+            <AspectRatio
+                ratio="16/9"
+                style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}
+            >
                 {image ? (
                     <img src={image} loading="lazy" alt={title} />
                 ) : (
@@ -56,7 +55,13 @@ const BaseCard = ({
                     </Box>
                 )}
             </AspectRatio>
-            <Flex style={{ paddingTop: vars.spacing['4'], flexDirection: 'column', gap: vars.spacing['4'] }}>
+            <Flex
+                style={{
+                    paddingTop: vars.spacing['4'],
+                    flexDirection: 'column',
+                    gap: vars.spacing['4']
+                }}
+            >
                 <Flex
                     style={{
                         flexDirection: 'row',
@@ -93,7 +98,7 @@ const BaseCard = ({
                             color="neutral"
                             size="sm"
                             ref={actionRef}
-                            onClick={e => {
+                            onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 onActionClick?.();

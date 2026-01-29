@@ -1,11 +1,9 @@
-import React, { type FC, type PropsWithChildren } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import useTextLines from './useTextLines';
-
+import React, { type FC, type PropsWithChildren } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { Box, Text } from 'ui-primitives';
 import type { TextLine, TextLineOpts } from './types';
+import useTextLines from './useTextLines';
 
 interface TextWrapperProps {
     isHeading?: boolean;
@@ -13,7 +11,12 @@ interface TextWrapperProps {
     className?: string;
 }
 
-const TextWrapper: FC<PropsWithChildren<TextWrapperProps>> = ({ isHeading, isLargeStyle, className, children }) => {
+const TextWrapper: FC<PropsWithChildren<TextWrapperProps>> = ({
+    isHeading,
+    isLargeStyle,
+    className,
+    children
+}) => {
     if (isHeading) {
         return (
             <Text
@@ -38,18 +41,33 @@ interface TextLinesProps {
     textClassName?: string;
 }
 
-const TextLines: FC<TextLinesProps> = ({ item, textLineOpts, isLargeStyle, className, textClassName }) => {
+const TextLines: FC<TextLinesProps> = ({
+    item,
+    textLineOpts,
+    isLargeStyle,
+    className,
+    textClassName
+}) => {
     const { textLines } = useTextLines({ item, textLineOpts });
 
     const renderTextlines = (text: TextLine, index: number) => {
         return (
-            <TextWrapper key={index} isHeading={index === 0} isLargeStyle={isLargeStyle} className={textClassName}>
+            <TextWrapper
+                key={index}
+                isHeading={index === 0}
+                isLargeStyle={isLargeStyle}
+                className={textClassName}
+            >
                 <bdi>{text.title}</bdi>
             </TextWrapper>
         );
     };
 
-    return <Box className={className}>{textLines?.map((text, index) => renderTextlines(text, index))}</Box>;
+    return (
+        <Box className={className}>
+            {textLines?.map((text, index) => renderTextlines(text, index))}
+        </Box>
+    );
 };
 
 export default TextLines;

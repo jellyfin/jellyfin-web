@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, type ReactNode, useState } from 'react';
-import { motion } from 'motion/react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { motion } from 'motion/react';
+import { type ReactElement, type ReactNode, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 interface AnimatedTabsProps {
@@ -10,7 +10,9 @@ interface AnimatedTabsProps {
 }
 
 function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): ReactElement {
-    const [activeTab, setActiveTab] = useState(defaultValue ?? (tabs.length > 0 ? tabs[0].value : ''));
+    const [activeTab, setActiveTab] = useState(
+        defaultValue ?? (tabs.length > 0 ? tabs[0].value : '')
+    );
 
     return (
         <TabsPrimitive.Root value={activeTab} onValueChange={setActiveTab}>
@@ -21,7 +23,7 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                     marginBottom: vars.spacing['5']
                 }}
             >
-                {tabs.map(tab => (
+                {tabs.map((tab) => (
                     <TabsPrimitive.Trigger
                         key={tab.value}
                         value={tab.value}
@@ -30,7 +32,10 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                             padding: `${vars.spacing['4']} ${vars.spacing['5']}`,
                             background: 'none',
                             border: 'none',
-                            color: activeTab === tab.value ? vars.colors.primary : vars.colors.textSecondary,
+                            color:
+                                activeTab === tab.value
+                                    ? vars.colors.primary
+                                    : vars.colors.textSecondary,
                             fontSize: vars.typography['6'].fontSize,
                             fontWeight: activeTab === tab.value ? 600 : 400,
                             cursor: 'pointer',
@@ -56,7 +61,7 @@ function AnimatedTabs({ tabs, defaultValue }: Readonly<AnimatedTabsProps>): Reac
                 ))}
             </TabsPrimitive.List>
 
-            {tabs.map(tab => (
+            {tabs.map((tab) => (
                 <TabsPrimitive.Content key={tab.value} value={tab.value} asChild>
                     <motion.div
                         initial={{ opacity: 0, x: 10 }}

@@ -1,13 +1,13 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
-    usePreferencesStore,
     getCrossfadeFadeOut,
+    isCrossfadeActive,
     isCrossfadeEnabled,
-    isCrossfadeActive
+    usePreferencesStore
 } from '../../store/preferencesStore';
 
-import { timeRunningOut, cancelCrossfadeTimeouts, syncManager } from './crossfader.logic';
+import { cancelCrossfadeTimeouts, syncManager, timeRunningOut } from './crossfader.logic';
 
 vi.mock('components/visualizer/WaveSurfer', () => ({
     destroyWaveSurferInstance: vi.fn()
@@ -383,10 +383,26 @@ describe('crossfader.logic - SyncManager', () => {
         mockElement1 = document.createElement('audio');
         mockElement2 = document.createElement('audio');
 
-        Object.defineProperty(mockElement1, 'currentTime', { value: 10, writable: true, configurable: true });
-        Object.defineProperty(mockElement1, 'paused', { value: false, writable: true, configurable: true });
-        Object.defineProperty(mockElement1, 'readyState', { value: 4, writable: true, configurable: true });
-        Object.defineProperty(mockElement1, 'playbackRate', { value: 1.0, writable: true, configurable: true });
+        Object.defineProperty(mockElement1, 'currentTime', {
+            value: 10,
+            writable: true,
+            configurable: true
+        });
+        Object.defineProperty(mockElement1, 'paused', {
+            value: false,
+            writable: true,
+            configurable: true
+        });
+        Object.defineProperty(mockElement1, 'readyState', {
+            value: 4,
+            writable: true,
+            configurable: true
+        });
+        Object.defineProperty(mockElement1, 'playbackRate', {
+            value: 1.0,
+            writable: true,
+            configurable: true
+        });
         Object.defineProperty(mockElement1, 'buffered', {
             value: {
                 length: 1,
@@ -396,10 +412,26 @@ describe('crossfader.logic - SyncManager', () => {
             configurable: true
         });
 
-        Object.defineProperty(mockElement2, 'currentTime', { value: 12, writable: true, configurable: true });
-        Object.defineProperty(mockElement2, 'paused', { value: false, writable: true, configurable: true });
-        Object.defineProperty(mockElement2, 'readyState', { value: 4, writable: true, configurable: true });
-        Object.defineProperty(mockElement2, 'playbackRate', { value: 1.0, writable: true, configurable: true });
+        Object.defineProperty(mockElement2, 'currentTime', {
+            value: 12,
+            writable: true,
+            configurable: true
+        });
+        Object.defineProperty(mockElement2, 'paused', {
+            value: false,
+            writable: true,
+            configurable: true
+        });
+        Object.defineProperty(mockElement2, 'readyState', {
+            value: 4,
+            writable: true,
+            configurable: true
+        });
+        Object.defineProperty(mockElement2, 'playbackRate', {
+            value: 1.0,
+            writable: true,
+            configurable: true
+        });
         Object.defineProperty(mockElement2, 'buffered', {
             value: {
                 length: 1,

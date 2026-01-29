@@ -1,7 +1,7 @@
+import { MotionValue, useMotionValue, useTransform } from 'motion/react';
 import { useCallback, useRef } from 'react';
-import { useMotionValue, useTransform, MotionValue } from 'motion/react';
-import { useBackspinStore } from '../store/backspinStore';
 import { backspinHandler } from '../components/audioEngine/backspinHandler';
+import { useBackspinStore } from '../store/backspinStore';
 import { HAPTIC_PATTERNS } from '../types/transport';
 
 export interface UseTransportGesturesOptions {
@@ -18,7 +18,9 @@ export interface UseTransportGesturesReturn {
     rotation: MotionValue<number>;
 }
 
-export function useTransportGestures(options: UseTransportGesturesOptions = {}): UseTransportGesturesReturn {
+export function useTransportGestures(
+    options: UseTransportGesturesOptions = {}
+): UseTransportGesturesReturn {
     const { enabled = true, onSeekExpand, onSeekCollapse, onZoom } = options;
 
     const positionX = useMotionValue(0);
@@ -100,7 +102,15 @@ export function useTransportGestures(options: UseTransportGesturesOptions = {}):
                 }
             }
         };
-    }, [enabled, isPlayingState, isPausedState, store.isExpanded, onSeekExpand, onSeekCollapse, triggerHaptic]);
+    }, [
+        enabled,
+        isPlayingState,
+        isPausedState,
+        store.isExpanded,
+        onSeekExpand,
+        onSeekCollapse,
+        triggerHaptic
+    ]);
 
     return {
         bind,

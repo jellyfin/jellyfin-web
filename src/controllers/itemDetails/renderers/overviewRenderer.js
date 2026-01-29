@@ -1,6 +1,6 @@
-import { escapeHtml } from '../../../utils/html';
-import { appRouter } from '../../../components/router/appRouter';
 import globalize from 'lib/globalize';
+import { appRouter } from '../../../components/router/appRouter';
+import { escapeHtml } from '../../../utils/html';
 import { hideAll } from '../utils/viewHelpers';
 
 export function renderOverview(page, item) {
@@ -15,11 +15,13 @@ export function renderOverview(page, item) {
             const escapedOverview = escapeHtml(overviewText);
 
             for (const overviewElement of overviewElements) {
-                overviewElement.innerHTML = '<bdi>' + escapedOverview.replace(/\n/g, '<br>') + '</bdi>';
+                overviewElement.innerHTML =
+                    '<bdi>' + escapedOverview.replace(/\n/g, '<br>') + '</bdi>';
                 overviewElement.classList.remove('hide');
                 overviewElement.classList.add('detail-clamp-text');
 
-                const expandButton = overviewElement.parentElement.querySelector('.overview-expand');
+                const expandButton =
+                    overviewElement.parentElement.querySelector('.overview-expand');
 
                 if (overviewElement.scrollHeight - overviewElement.offsetHeight > 2) {
                     expandButton.classList.remove('hide');

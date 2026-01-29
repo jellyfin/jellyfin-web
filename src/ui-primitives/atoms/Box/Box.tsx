@@ -1,4 +1,4 @@
-import React, { type ReactElement, type ElementType } from 'react';
+import React, { type ElementType, type ReactElement } from 'react';
 import { boxStyles } from './Box.css.ts';
 
 export { boxStyles };

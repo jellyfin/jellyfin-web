@@ -1,18 +1,15 @@
-import { vars } from 'styles/tokens.css.ts';
-
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { LoadingView } from 'components/feedback/LoadingView';
+import { MediaCard } from 'components/media/MediaCard';
+import { appRouter } from 'components/router/appRouter';
+import globalize from 'lib/globalize';
+import { toPlayableItem } from 'lib/utils/playbackUtils';
 import React, { useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { useServerStore } from 'store/serverStore';
 import { useUiStore } from 'store/uiStore';
-import { MediaCard } from 'components/media/MediaCard';
-import { LoadingView } from 'components/feedback/LoadingView';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
-import { appRouter } from 'components/router/appRouter';
-import { toPlayableItem } from 'lib/utils/playbackUtils';
-import globalize from 'lib/globalize';
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Heading, Text } from 'ui-primitives';
 
 interface FavoritesSectionProps {
     title: string;
@@ -52,7 +49,12 @@ function FavoritesSection({
                     <a
                         href={viewAllUrl}
                         className="more button-flat button-flat-mini sectionTitleTextButton"
-                        style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: vars.spacing['1'] }}
+                        style={{
+                            textDecoration: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: vars.spacing['1']
+                        }}
                     >
                         <Heading.H2 className="sectionTitle sectionTitle-cards">
                             {globalize.translate(title)}
@@ -62,7 +64,9 @@ function FavoritesSection({
                         </Box>
                     </a>
                 ) : (
-                    <Heading.H2 className="sectionTitle sectionTitle-cards">{globalize.translate(title)}</Heading.H2>
+                    <Heading.H2 className="sectionTitle sectionTitle-cards">
+                        {globalize.translate(title)}
+                    </Heading.H2>
                 )}
             </Box>
             <Box
@@ -74,7 +78,7 @@ function FavoritesSection({
                     scrollSnapType: 'x mandatory'
                 }}
             >
-                {items.slice(0, 12).map(item => (
+                {items.slice(0, 12).map((item) => (
                     <MediaCard
                         key={item.Id}
                         item={item}

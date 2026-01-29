@@ -1,5 +1,5 @@
 import React, { type ReactElement } from 'react';
-import { DayPicker, type DateRange } from 'react-day-picker';
+import { type DateRange, DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import { calendarContainer } from './Calendar.css.ts';
 
@@ -36,7 +36,7 @@ export function Calendar({
             const disabledArray = disabled as Date[];
             disabledDays = (date: Date): boolean => {
                 return disabledArray.some(
-                    d =>
+                    (d) =>
                         d.getDate() === date.getDate() &&
                         d.getMonth() === date.getMonth() &&
                         d.getFullYear() === date.getFullYear()

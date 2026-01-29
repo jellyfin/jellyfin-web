@@ -127,7 +127,11 @@ export interface QualityStatus {
  * Calculate quality status based on thresholds
  */
 export function calculateQualityStatus(metrics: QualityMetrics): QualityStatus {
-    const checkThreshold = (value: number, warning: number, critical: number): 'passed' | 'warning' | 'failed' => {
+    const checkThreshold = (
+        value: number,
+        warning: number,
+        critical: number
+    ): 'passed' | 'warning' | 'failed' => {
         if (value >= critical) return 'failed';
         if (value >= warning) return 'warning';
         return 'passed';
@@ -160,10 +164,14 @@ export function generateRecommendations(violations: QualityViolation[]): string[
     for (const violation of violations) {
         switch (violation.metric) {
             case 'storeUpdateMs':
-                recommendations.push('Consider optimizing store selectors or reducing state update frequency');
+                recommendations.push(
+                    'Consider optimizing store selectors or reducing state update frequency'
+                );
                 break;
             case 'errorRate':
-                recommendations.push('Review error handling patterns and add more graceful fallbacks');
+                recommendations.push(
+                    'Review error handling patterns and add more graceful fallbacks'
+                );
                 break;
             case 'accessibilityScore':
                 recommendations.push('Audit UI components for ARIA labels and keyboard navigation');

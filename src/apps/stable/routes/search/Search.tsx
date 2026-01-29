@@ -4,31 +4,30 @@
  * Search interface with instant results, suggestions, and filters.
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate, useParams } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
-import { Cross2Icon, DesktopIcon, DiscIcon, MagnifyingGlassIcon, PersonIcon, VideoIcon } from '@radix-ui/react-icons';
-
-import { itemsApi } from 'lib/api/items';
-import { MediaGrid } from 'components/media/MediaGrid';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { ErrorState } from 'components/ErrorState';
+import {
+    Cross2Icon,
+    DesktopIcon,
+    DiscIcon,
+    MagnifyingGlassIcon,
+    PersonIcon,
+    VideoIcon
+} from '@radix-ui/react-icons';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { EmptyState } from 'components/EmptyState';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { ErrorState } from 'components/ErrorState';
+import { LoadingSpinner } from 'components/LoadingSpinner';
+import { MediaGrid } from 'components/media/MediaGrid';
 import { appRouter } from 'components/router/appRouter';
-import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
-
-import { logger } from 'utils/logger';
 import { useDebounce } from 'hooks/useDebounce';
+import { itemsApi } from 'lib/api/items';
+import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useEffect, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Chip, Flex, Heading, IconButton, Input, Text } from 'ui-primitives';
+import { logger } from 'utils/logger';
 
 type SearchType =
     | 'all'
@@ -67,7 +66,11 @@ export const Search: React.FC = () => {
                 return { Items: [], TotalRecordCount: 0 };
             }
 
-            logger.debug('Searching', { component: 'Search', query: debouncedQuery, type: activeType });
+            logger.debug('Searching', {
+                component: 'Search',
+                query: debouncedQuery,
+                type: activeType
+            });
 
             const includeTypes = getIncludeTypes(activeType);
 
@@ -186,7 +189,10 @@ export const Search: React.FC = () => {
             ) : isLoading ? (
                 <LoadingSpinner message="Searching..." />
             ) : isError ? (
-                <ErrorState message={error instanceof Error ? error.message : 'Search failed'} onRetry={refetch} />
+                <ErrorState
+                    message={error instanceof Error ? error.message : 'Search failed'}
+                    onRetry={refetch}
+                />
             ) : (
                 <>
                     <Box
@@ -197,7 +203,7 @@ export const Search: React.FC = () => {
                             flexWrap: 'wrap'
                         }}
                     >
-                        {searchTypes.map(type => (
+                        {searchTypes.map((type) => (
                             <Chip
                                 key={type.value}
                                 variant={activeType === type.value ? 'primary' : 'secondary'}

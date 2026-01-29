@@ -102,7 +102,9 @@ export function getPlayedIndicatorHtml(item) {
         const userData = item.UserData || {};
         if (userData.UnplayedItemCount) {
             return (
-                '<div class="countIndicator indicator">' + formatCountIndicator(userData.UnplayedItemCount) + '</div>'
+                '<div class="countIndicator indicator">' +
+                formatCountIndicator(userData.UnplayedItemCount) +
+                '</div>'
             );
         }
 
@@ -118,7 +120,11 @@ export function getChildCountIndicatorHtml(item, options) {
     const minCount = options?.minCount ? options.minCount : 0;
 
     if (item.ChildCount && item.ChildCount > minCount) {
-        return '<div class="countIndicator indicator">' + formatCountIndicator(item.ChildCount) + '</div>';
+        return (
+            '<div class="countIndicator indicator">' +
+            formatCountIndicator(item.ChildCount) +
+            '</div>'
+        );
     }
 
     return '';

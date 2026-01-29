@@ -1,11 +1,11 @@
 import escapeHtml from 'escape-html';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
 import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-checkbox/emby-checkbox';
@@ -48,7 +48,7 @@ function createCollection(apiClient, dlg) {
             url: url,
             dataType: 'json'
         })
-        .then(result => {
+        .then((result) => {
             loading.hide();
 
             const id = result.Id;
@@ -102,12 +102,12 @@ function populateCollections(panel) {
     };
 
     const apiClient = ServerConnections.getApiClient(currentServerId);
-    apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
+    apiClient.getItems(apiClient.getCurrentUserId(), options).then((result) => {
         let html = '';
 
         html += `<option value="">${globalize.translate('OptionNew')}</option>`;
 
-        html += result.Items.map(i => {
+        html += result.Items.map((i) => {
             return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
         });
 
@@ -195,7 +195,7 @@ function initEditor(content, items) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then(scrollHelper => {
+    import('../../scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });

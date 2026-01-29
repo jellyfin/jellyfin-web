@@ -1,23 +1,23 @@
-import { vars } from 'styles/tokens.css.ts';
 import {
+    type Cell,
+    type ColumnDef,
+    type ColumnFiltersState,
+    type ColumnPinningState,
+    type ColumnResizeMode,
     flexRender,
     getCoreRowModel,
-    getSortedRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
-    useReactTable,
-    type SortingState,
-    type ColumnFiltersState,
-    type ColumnDef,
-    type ColumnResizeMode,
-    type ColumnPinningState,
+    getSortedRowModel,
     type Header,
-    type Cell,
+    type PaginationState,
     type Row,
+    type SortingState,
     type Updater,
-    type PaginationState
+    useReactTable
 } from '@tanstack/react-table';
-import React, { useState, useCallback, useMemo, type ReactElement, type ReactNode } from 'react';
+import React, { type ReactElement, type ReactNode, useCallback, useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import {
     dataTableActionsCellStyles,
     dataTableBodyStyles,
@@ -82,7 +82,10 @@ interface DataTableProps<T> {
         readonly pageIndex: number;
         readonly pageSize: number;
     };
-    readonly onPaginationChange?: (pagination: { readonly pageIndex: number; readonly pageSize: number }) => void;
+    readonly onPaginationChange?: (pagination: {
+        readonly pageIndex: number;
+        readonly pageSize: number;
+    }) => void;
     readonly enableColumnResizing?: boolean;
     readonly enableStickyHeader?: boolean;
     readonly enableStickyFooter?: boolean;
@@ -114,7 +117,7 @@ function TableRow<T>({
             onClick={handleRowClick}
             style={{ cursor: onRowClick !== undefined ? 'pointer' : 'default' }}
         >
-            {row.getVisibleCells().map(cell => (
+            {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className={getCellClassName(cell)}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
@@ -297,16 +300,18 @@ export function DataTable<T>({
 
     return (
         <div className={dataTableContainerStyles}>
-            {renderToolbar !== undefined && <div className={dataTableToolbarStyles}>{renderToolbar()}</div>}
+            {renderToolbar !== undefined && (
+                <div className={dataTableToolbarStyles}>{renderToolbar()}</div>
+            )}
             <div style={{ overflow: 'auto', flex: 1 }}>
                 <table className={dataTableStyles} style={{ width: table.getTotalSize() }}>
                     <thead
                         className={dataTableHeaderStyles}
                         style={enableStickyHeader ? { position: 'sticky', top: 0, zIndex: 2 } : {}}
                     >
-                        {table.getHeaderGroups().map(headerGroup => (
+                        {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
-                                {headerGroup.headers.map(header => {
+                                {headerGroup.headers.map((header) => {
                                     const onHeaderClick = header.column.getToggleSortingHandler();
 
                                     return (
@@ -316,21 +321,25 @@ export function DataTable<T>({
                                             style={{ width: header.getSize() }}
                                             onClick={onHeaderClick}
                                         >
-                                            {flexRender(header.column.columnDef.header, header.getContext())}
+                                            {flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
                                             {{
                                                 asc: ' ↑',
                                                 desc: ' ↓'
                                             }[header.column.getIsSorted() as string] ?? null}
-                                            {enableColumnResizing && header.column.getCanResize() && (
-                                                <button
-                                                    type="button"
-                                                    onClick={handleStopPropagation}
-                                                    onMouseDown={header.getResizeHandler()}
-                                                    onTouchStart={header.getResizeHandler()}
-                                                    className={`${dataTableResizerStyles} ${header.column.getIsResizing() ? dataTableResizerActiveStyles : ''}`}
-                                                    aria-label="Resize column"
-                                                />
-                                            )}
+                                            {enableColumnResizing &&
+                                                header.column.getCanResize() && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleStopPropagation}
+                                                        onMouseDown={header.getResizeHandler()}
+                                                        onTouchStart={header.getResizeHandler()}
+                                                        className={`${dataTableResizerStyles} ${header.column.getIsResizing() ? dataTableResizerActiveStyles : ''}`}
+                                                        aria-label="Resize column"
+                                                    />
+                                                )}
                                         </th>
                                     );
                                 })}
@@ -338,7 +347,7 @@ export function DataTable<T>({
                         ))}
                     </thead>
                     <tbody className={dataTableBodyStyles}>
-                        {table.getRowModel().rows.map(row => (
+                        {table.getRowModel().rows.map((row) => (
                             <TableRow
                                 key={row.id}
                                 row={row}
@@ -355,7 +364,12 @@ export function DataTable<T>({
                     className={dataTablePaginationStyles}
                     style={enableStickyFooter ? { position: 'sticky', bottom: 0, zIndex: 2 } : {}}
                 >
-                    <div style={{ fontSize: vars.typography['3'].fontSize, color: vars.colors.textSecondary }}>
+                    <div
+                        style={{
+                            fontSize: vars.typography['3'].fontSize,
+                            color: vars.colors.textSecondary
+                        }}
+                    >
                         {`${itemStart}-${itemEnd} of ${totalCount}`}
                     </div>
                     <div style={{ display: 'flex', gap: vars.spacing['4'] }}>

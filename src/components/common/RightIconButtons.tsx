@@ -1,7 +1,6 @@
+import { ItemAction } from 'constants/itemAction';
 import React, { type FC } from 'react';
 import { IconButton } from 'ui-primitives';
-
-import { ItemAction } from 'constants/itemAction';
 
 interface RightIconButtonsProps {
     className?: string;
@@ -12,7 +11,12 @@ interface RightIconButtonsProps {
 
 const RightIconButtons: FC<RightIconButtonsProps> = ({ className, id, title, icon }) => {
     return (
-        <IconButton className={className} data-action={ItemAction.Custom} data-customaction={id} title={title}>
+        <IconButton
+            className={className}
+            data-action={ItemAction.Custom}
+            data-customaction={id}
+            title={title}
+        >
             {icon}
         </IconButton>
     );

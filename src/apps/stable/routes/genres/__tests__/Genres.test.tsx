@@ -4,9 +4,9 @@
  * Integration tests for genres with playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Genres integration', () => {
     describe('genre type detection', () => {
@@ -165,8 +165,18 @@ describe('Genres integration', () => {
 
         it('handles classical genre songs', () => {
             const classicalSongs: BaseItemDto[] = [
-                { Id: 'classical-1', Name: 'Classical Symphony 1', Type: 'Audio', ServerId: 'server-1' },
-                { Id: 'classical-2', Name: 'Classical Symphony 2', Type: 'Audio', ServerId: 'server-1' }
+                {
+                    Id: 'classical-1',
+                    Name: 'Classical Symphony 1',
+                    Type: 'Audio',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'classical-2',
+                    Name: 'Classical Symphony 2',
+                    Type: 'Audio',
+                    ServerId: 'server-1'
+                }
             ];
 
             const queue = classicalSongs.map(toPlayableItem);
@@ -175,9 +185,24 @@ describe('Genres integration', () => {
 
         it('handles electronic genre songs', () => {
             const electronicSongs: BaseItemDto[] = [
-                { Id: 'electronic-1', Name: 'Electronic Track 1', Type: 'Audio', ServerId: 'server-1' },
-                { Id: 'electronic-2', Name: 'Electronic Track 2', Type: 'Audio', ServerId: 'server-1' },
-                { Id: 'electronic-3', Name: 'Electronic Track 3', Type: 'Audio', ServerId: 'server-1' }
+                {
+                    Id: 'electronic-1',
+                    Name: 'Electronic Track 1',
+                    Type: 'Audio',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'electronic-2',
+                    Name: 'Electronic Track 2',
+                    Type: 'Audio',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'electronic-3',
+                    Name: 'Electronic Track 3',
+                    Type: 'Audio',
+                    ServerId: 'server-1'
+                }
             ];
 
             const queue = electronicSongs.map(toPlayableItem);
@@ -253,8 +278,18 @@ describe('Genres integration', () => {
     describe('TV genres', () => {
         it('handles drama TV shows', () => {
             const dramaSeries: BaseItemDto[] = [
-                { Id: 'drama-series-1', Name: 'Drama Series 1', Type: 'Series', ServerId: 'server-1' },
-                { Id: 'drama-series-2', Name: 'Drama Series 2', Type: 'Series', ServerId: 'server-1' }
+                {
+                    Id: 'drama-series-1',
+                    Name: 'Drama Series 1',
+                    Type: 'Series',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'drama-series-2',
+                    Name: 'Drama Series 2',
+                    Type: 'Series',
+                    ServerId: 'server-1'
+                }
             ];
 
             const queue = dramaSeries.map(toVideoItem);
@@ -266,8 +301,18 @@ describe('Genres integration', () => {
 
         it('handles comedy TV shows', () => {
             const comedySeries: BaseItemDto[] = [
-                { Id: 'comedy-series-1', Name: 'Comedy Series 1', Type: 'Series', ServerId: 'server-1' },
-                { Id: 'comedy-series-2', Name: 'Comedy Series 2', Type: 'Series', ServerId: 'server-1' }
+                {
+                    Id: 'comedy-series-1',
+                    Name: 'Comedy Series 1',
+                    Type: 'Series',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'comedy-series-2',
+                    Name: 'Comedy Series 2',
+                    Type: 'Series',
+                    ServerId: 'server-1'
+                }
             ];
 
             const queue = comedySeries.map(toVideoItem);
@@ -276,8 +321,18 @@ describe('Genres integration', () => {
 
         it('handles thriller TV shows', () => {
             const thrillerSeries: BaseItemDto[] = [
-                { Id: 'thriller-series-1', Name: 'Thriller Series 1', Type: 'Series', ServerId: 'server-1' },
-                { Id: 'thriller-series-2', Name: 'Thriller Series 2', Type: 'Series', ServerId: 'server-1' }
+                {
+                    Id: 'thriller-series-1',
+                    Name: 'Thriller Series 1',
+                    Type: 'Series',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'thriller-series-2',
+                    Name: 'Thriller Series 2',
+                    Type: 'Series',
+                    ServerId: 'server-1'
+                }
             ];
 
             const queue = thrillerSeries.map(toVideoItem);

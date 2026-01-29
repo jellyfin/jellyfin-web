@@ -88,9 +88,15 @@ export function normalizeLocale(localeName: string) {
 }
 
 export async function updateLocale(newLocale: string) {
-    logger.debug('[dateFnsLocale] updating date-fns locale', { component: 'dateFnsLocale', newLocale });
+    logger.debug('[dateFnsLocale] updating date-fns locale', {
+        component: 'dateFnsLocale',
+        newLocale
+    });
     localeString = normalizeLocale(newLocale);
-    logger.debug('[dateFnsLocale] mapped to date-fns locale', { component: 'dateFnsLocale', localeString });
+    logger.debug('[dateFnsLocale] mapped to date-fns locale', {
+        component: 'dateFnsLocale',
+        localeString
+    });
     locale = await fetchLocale(localeString);
 }
 

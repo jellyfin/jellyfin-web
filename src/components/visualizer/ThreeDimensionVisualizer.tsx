@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Sphere, Stars } from '@react-three/drei';
-import * as THREE from 'three';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import * as THREE from 'three';
 
 interface AudioReactiveSceneProps {
     analyser: AnalyserNode;
@@ -16,10 +16,18 @@ const AudioReactiveSphere: React.FC<AudioReactiveSceneProps> = ({ analyser }) =>
     const targetScale = useRef(1);
     const currentScale = useRef(1);
 
+    // Throttle audio sampling to every 3 frames (~20 FPS audio sampling vs 60 FPS rendering)
+    const frameCountRef = useRef(0);
+    const audioSampleInterval = 3; // Sample every 3 frames (60 FPS / 3 = 20 FPS sampling)
+
     useFrame((state, delta) => {
         if (!meshRef.current) return;
 
-        analyser.getByteFrequencyData(dataArray);
+        // Only update audio data every N frames for performance
+        if (frameCountRef.current % audioSampleInterval === 0) {
+            analyser.getByteFrequencyData(dataArray);
+        }
+        frameCountRef.current++;
 
         // Calculate average bass (low frequencies)
         // Bin count is usually 1024 or 2048. 44.1kHz / 2 = 22kHz.
@@ -36,8 +44,8 @@ const AudioReactiveSphere: React.FC<AudioReactiveSceneProps> = ({ analyser }) =>
         // Calculate target scale (1.0 to 2.5)
         targetScale.current = 1 + (bassAvg / 255) * 1.5;
 
-        // Linear interpolation for smoothness
-        const smoothing = 10 * delta; // Adjust speed
+        // Linear interpolation for smoothness - slower interpolation compensates for less frequent samples
+        const smoothing = 7 * delta; // Slightly reduced to compensate for less frequent updates
         currentScale.current += (targetScale.current - currentScale.current) * smoothing;
 
         meshRef.current.scale.set(currentScale.current, currentScale.current, currentScale.current);
@@ -56,7 +64,12 @@ const AudioReactiveSphere: React.FC<AudioReactiveSceneProps> = ({ analyser }) =>
 
     return (
         <Sphere ref={meshRef} args={[1.5, 128, 128]} position={[0, 0, 0]}>
-            <meshStandardMaterial color="#8800ff" roughness={0.1} metalness={0.8} wireframe={true} />
+            <meshStandardMaterial
+                color="#8800ff"
+                roughness={0.1}
+                metalness={0.8}
+                wireframe={true}
+            />
         </Sphere>
     );
 };
@@ -91,11 +104,28 @@ const ThreeDimensionVisualizer: React.FC = () => {
     if (!analyser) return null;
 
     return (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0 }}>
+        <div
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                zIndex: 0
+            }}
+        >
             <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} />
-                <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+                <Stars
+                    radius={100}
+                    depth={50}
+                    count={5000}
+                    factor={4}
+                    saturation={0}
+                    fade
+                    speed={1}
+                />
                 <AudioReactiveSphere analyser={analyser} />
                 <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
             </Canvas>

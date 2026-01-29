@@ -1,5 +1,5 @@
-import { type ReactElement, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { type ReactElement, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 const meta: Meta = {
@@ -18,7 +18,13 @@ function DatePickerStory(): ReactElement {
 
     return (
         <div style={{ padding: vars.spacing['5'], maxWidth: '400px' }}>
-            <label style={{ display: 'block', marginBottom: vars.spacing['4'], color: vars.colors.text }}>
+            <label
+                style={{
+                    display: 'block',
+                    marginBottom: vars.spacing['4'],
+                    color: vars.colors.text
+                }}
+            >
                 Select a date
             </label>
             <input
@@ -36,7 +42,13 @@ function DatePickerStory(): ReactElement {
                 }}
             />
             {selectedDate && (
-                <p style={{ color: vars.colors.textSecondary, marginTop: vars.spacing['4'], fontSize: vars.typography['3'].fontSize }}>
+                <p
+                    style={{
+                        color: vars.colors.textSecondary,
+                        marginTop: vars.spacing['4'],
+                        fontSize: vars.typography['3'].fontSize
+                    }}
+                >
                     Selected: {new Date(selectedDate).toLocaleDateString()}
                 </p>
             )}
@@ -55,7 +67,13 @@ function DateRangePickerStory(): ReactElement {
     return (
         <div style={{ padding: vars.spacing['5'], maxWidth: '400px' }}>
             <div style={{ marginBottom: vars.spacing['5'] }}>
-                <label style={{ display: 'block', marginBottom: vars.spacing['4'], color: vars.colors.text }}>
+                <label
+                    style={{
+                        display: 'block',
+                        marginBottom: vars.spacing['4'],
+                        color: vars.colors.text
+                    }}
+                >
                     Start date
                 </label>
                 <input
@@ -74,7 +92,13 @@ function DateRangePickerStory(): ReactElement {
                 />
             </div>
             <div>
-                <label style={{ display: 'block', marginBottom: vars.spacing['4'], color: vars.colors.text }}>
+                <label
+                    style={{
+                        display: 'block',
+                        marginBottom: vars.spacing['4'],
+                        color: vars.colors.text
+                    }}
+                >
                     End date
                 </label>
                 <input
@@ -93,8 +117,15 @@ function DateRangePickerStory(): ReactElement {
                 />
             </div>
             {startDate && endDate && (
-                <p style={{ color: vars.colors.textSecondary, marginTop: vars.spacing['5'], fontSize: vars.typography['3'].fontSize }}>
-                    Range: {new Date(startDate).toLocaleDateString()} to {new Date(endDate).toLocaleDateString()}
+                <p
+                    style={{
+                        color: vars.colors.textSecondary,
+                        marginTop: vars.spacing['5'],
+                        fontSize: vars.typography['3'].fontSize
+                    }}
+                >
+                    Range: {new Date(startDate).toLocaleDateString()} to{' '}
+                    {new Date(endDate).toLocaleDateString()}
                 </p>
             )}
         </div>

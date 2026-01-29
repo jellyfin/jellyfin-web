@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { useBackspinStore } from '../../../../../store/backspinStore';
-import { backspinHandler } from '../../../../../components/audioEngine/backspinHandler';
-import { HAPTIC_PATTERNS } from '../../../../../types/transport';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { backspinHandler } from '../../../../../components/audioEngine/backspinHandler';
+import { useBackspinStore } from '../../../../../store/backspinStore';
+import { HAPTIC_PATTERNS } from '../../../../../types/transport';
 
 export interface VinylSeekBarProps {
     progress: number;
@@ -14,7 +14,14 @@ export interface VinylSeekBarProps {
     className?: string;
 }
 
-export function VinylSeekBar({ progress, duration, onSeek, onExpand, onCollapse, className }: VinylSeekBarProps) {
+export function VinylSeekBar({
+    progress,
+    duration,
+    onSeek,
+    onExpand,
+    onCollapse,
+    className
+}: VinylSeekBarProps) {
     const store = useBackspinStore();
     const hapticEnabled = store.config.hapticEnabled;
     const containerRef = useRef<HTMLDivElement>(null);
@@ -25,7 +32,7 @@ export function VinylSeekBar({ progress, duration, onSeek, onExpand, onCollapse,
         const rect = containerRef.current.getBoundingClientRect();
         setContainerWidth(rect.width);
 
-        const observer = new ResizeObserver(entries => {
+        const observer = new ResizeObserver((entries) => {
             for (const entry of entries) {
                 setContainerWidth(entry.contentRect.width);
             }

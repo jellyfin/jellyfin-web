@@ -4,36 +4,36 @@ import * as userSettings from '../settings/userSettings';
 
 import {
     canPlayAudioFormat,
+    canPlayDts,
     supportsAc3,
-    supportsEac3,
     supportsAc3InHls,
-    supportsMp3InHls,
-    canPlayDts
+    supportsEac3,
+    supportsMp3InHls
 } from './audioCodecs';
-import { getMaxBitrate, getGlobalMaxVideoBitrate, getPhysicalAudioChannels } from './bitrate';
+import { getGlobalMaxVideoBitrate, getMaxBitrate, getPhysicalAudioChannels } from './bitrate';
 import {
     getDirectPlayProfileForVideoContainer,
-    testCanPlayMkv,
     supportsMpeg2Video,
-    supportsVc1
+    supportsVc1,
+    testCanPlayMkv
 } from './containerSupport';
 import {
     canPlayHls,
     canPlayNativeHls,
     canPlayNativeHlsInFmp4,
+    supportsAnamorphicVideo,
     supportsCanvas2D,
-    supportsTextTracks,
-    supportsAnamorphicVideo
+    supportsTextTracks
 } from './featureDetection';
 import {
-    supportsHdr10,
-    supportsHlg,
-    supportsDolbyVision,
+    supportedDolbyVisionProfileAv1,
     supportedDolbyVisionProfilesHevc,
-    supportedDolbyVisionProfileAv1
+    supportsDolbyVision,
+    supportsHdr10,
+    supportsHlg
 } from './hdr';
 import { canPlaySecondaryAudio } from './secondaryAudio';
-import { canPlayH264, canPlayHevc, canPlayAv1 } from './videoCodecs';
+import { canPlayAv1, canPlayH264, canPlayHevc } from './videoCodecs';
 
 export * from './audioCodecs';
 export * from './bitrate';
@@ -65,7 +65,10 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
     const safariSupportsOpus =
         browser.safari &&
         (browser as any).versionMajor >= 17 &&
-        !!document.createElement('audio').canPlayType('audio/x-caf; codecs="opus"').replace(/no/, '');
+        !!document
+            .createElement('audio')
+            .canPlayType('audio/x-caf; codecs="opus"')
+            .replace(/no/, '');
     const webmAudioCodecs = ['vorbis'];
 
     const canPlayMkv = testCanPlayMkv(videoTestElement);
@@ -87,8 +90,12 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
     let hlsInFmp4VideoAudioCodecs: string[] = [];
 
     const supportsMp3VideoAudio =
-        videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.69"').replace(/no/, '') ||
-        videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '') ||
+        videoTestElement
+            .canPlayType('video/mp4; codecs="avc1.640029, mp4a.69"')
+            .replace(/no/, '') ||
+        videoTestElement
+            .canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"')
+            .replace(/no/, '') ||
         videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp3"').replace(/no/, '');
 
     let supportsMp2VideoAudio = options.supportsMp2VideoAudio;
@@ -97,7 +104,9 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
 
         if (
             supportsMp3VideoAudio &&
-            (browser.chrome || browser.edgeChromium || (browser.firefox && (browser as any).versionMajor >= 83))
+            (browser.chrome ||
+                browser.edgeChromium ||
+                (browser.firefox && (browser as any).versionMajor >= 83))
         ) {
             supportsMp2VideoAudio = true;
         }
@@ -208,15 +217,15 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
         hlsInFmp4VideoAudioCodecs.push('alac');
     }
 
-    videoAudioCodecs = videoAudioCodecs.filter(c => {
+    videoAudioCodecs = videoAudioCodecs.filter((c) => {
         return (options.disableVideoAudioCodecs || []).indexOf(c) === -1;
     });
 
-    hlsInTsVideoAudioCodecs = hlsInTsVideoAudioCodecs.filter(c => {
+    hlsInTsVideoAudioCodecs = hlsInTsVideoAudioCodecs.filter((c) => {
         return (options.disableHlsVideoAudioCodecs || []).indexOf(c) === -1;
     });
 
-    hlsInFmp4VideoAudioCodecs = hlsInFmp4VideoAudioCodecs.filter(c => {
+    hlsInFmp4VideoAudioCodecs = hlsInFmp4VideoAudioCodecs.filter((c) => {
         return (options.disableHlsVideoAudioCodecs || []).indexOf(c) === -1;
     });
 
@@ -228,7 +237,11 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
     if (
         canPlayAv1(videoTestElement) &&
         (browser.safari ||
-            (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome || (browser as any).opera)))
+            (!browser.mobile &&
+                (browser.edgeChromium ||
+                    browser.firefox ||
+                    browser.chrome ||
+                    (browser as any).opera)))
     ) {
         hlsInFmp4VideoCodecs.push('av1');
     }
@@ -284,7 +297,9 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
         }
         if (
             !browser.safari ||
-            (browser.safari && (browser as any).versionMajor >= 15 && (browser as any).versionMajor < 17)
+            (browser.safari &&
+                (browser as any).versionMajor >= 15 &&
+                (browser as any).versionMajor < 17)
         ) {
             webmVideoCodecs.push('vp9');
         }
@@ -294,7 +309,9 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
         mp4VideoCodecs.push('av1');
         if (
             !browser.safari ||
-            (browser.safari && (browser as any).versionMajor >= 15 && (browser as any).versionMajor < 17)
+            (browser.safari &&
+                (browser as any).versionMajor >= 15 &&
+                (browser as any).versionMajor < 17)
         ) {
             webmVideoCodecs.push('av1');
         }
@@ -331,20 +348,40 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
         });
     }
 
-    ['m2ts', 'wmv', 'ts', 'asf', 'avi', 'mpg', 'mpeg', 'flv', '3gp', 'mts', 'trp', 'vob', 'vro', 'mov']
-        .map(container => {
-            return getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options);
+    [
+        'm2ts',
+        'wmv',
+        'ts',
+        'asf',
+        'avi',
+        'mpg',
+        'mpeg',
+        'flv',
+        '3gp',
+        'mts',
+        'trp',
+        'vob',
+        'vro',
+        'mov'
+    ]
+        .map((container) => {
+            return getDirectPlayProfileForVideoContainer(
+                container,
+                videoAudioCodecs,
+                videoTestElement,
+                options
+            );
         })
-        .filter(i => {
+        .filter((i) => {
             return i != null;
         })
-        .forEach(i => {
+        .forEach((i) => {
             profile.DirectPlayProfiles.push(i);
         });
 
     ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga']
         .filter(canPlayAudioFormat)
-        .forEach(audioFormat => {
+        .forEach((audioFormat) => {
             if (audioFormat === 'mp3' && !canPlayMp3VideoAudioInHls) {
                 profile.DirectPlayProfiles.push({
                     Container: 'ts',
@@ -398,7 +435,10 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
     }
 
     const hlsBreakOnNonKeyFrames =
-        (browser as any).iOS || (browser as any).osx || (browser as any).edge || !canPlayNativeHls();
+        (browser as any).iOS ||
+        (browser as any).osx ||
+        (browser as any).edge ||
+        !canPlayNativeHls();
     let enableFmp4Hls = (userSettings as any).preferFmp4HlsContainer();
     if ((browser.safari || (browser as any).tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
         enableFmp4Hls = false;
@@ -418,7 +458,7 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
         });
     }
 
-    ['aac', 'mp3', 'opus', 'wav'].filter(canPlayAudioFormat).forEach(audioFormat => {
+    ['aac', 'mp3', 'opus', 'wav'].filter(canPlayAudioFormat).forEach((audioFormat) => {
         profile.TranscodingProfiles.push({
             Container: audioFormat,
             Type: 'Audio',
@@ -429,7 +469,7 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
         });
     });
 
-    ['opus', 'mp3', 'aac', 'wav'].filter(canPlayAudioFormat).forEach(audioFormat => {
+    ['opus', 'mp3', 'aac', 'wav'].filter(canPlayAudioFormat).forEach((audioFormat) => {
         profile.TranscodingProfiles.push({
             Container: audioFormat,
             Type: 'Audio',
@@ -504,7 +544,11 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
     const supportsSecondaryAudioVal = canPlaySecondaryAudio(videoTestElement);
     const aacCodecProfileConditions = [];
 
-    if (!videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.5"').replace(/no/, '')) {
+    if (
+        !videoTestElement
+            .canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.5"')
+            .replace(/no/, '')
+    ) {
         aacCodecProfileConditions.push({
             Condition: 'NotEquals',
             Property: 'AudioProfile',
@@ -589,7 +633,7 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
 
         const flacTranscodingProfiles: any[] = [];
 
-        profile.TranscodingProfiles.forEach(transcodingProfile => {
+        profile.TranscodingProfiles.forEach((transcodingProfile) => {
             if (transcodingProfile.Type !== 'Video') return;
 
             const audioCodecs = (transcodingProfile.AudioCodec as string).split(',');
@@ -605,7 +649,9 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
 
             flacTranscodingProfiles.push(flacTranscodingProfile);
 
-            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec !== 'flac').join(',');
+            transcodingProfile.AudioCodec = audioCodecs
+                .filter((codec) => codec !== 'flac')
+                .join(',');
         });
 
         profile.TranscodingProfiles.push(...flacTranscodingProfiles);
@@ -629,7 +675,7 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
 
         const opusTranscodingProfiles: any[] = [];
 
-        profile.TranscodingProfiles.forEach(transcodingProfile => {
+        profile.TranscodingProfiles.forEach((transcodingProfile) => {
             if (transcodingProfile.Type !== 'Video') return;
 
             const audioCodecs = (transcodingProfile.AudioCodec as string).split(',');
@@ -645,7 +691,9 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
 
             opusTranscodingProfiles.push(opusTranscodingProfile);
 
-            transcodingProfile.AudioCodec = audioCodecs.filter(codec => codec !== 'opus').join(',');
+            transcodingProfile.AudioCodec = audioCodecs
+                .filter((codec) => codec !== 'opus')
+                .join(',');
         });
 
         profile.TranscodingProfiles.push(...opusTranscodingProfiles);
@@ -769,8 +817,10 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
         av1VideoRangeTypes += '|HDR10|HDR10Plus';
 
         if ((browser as any).tizenVersion >= 3 || (browser as any).vidaa) {
-            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
-            av1VideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            hevcVideoRangeTypes +=
+                '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            av1VideoRangeTypes +=
+                '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
         }
     }
 
@@ -1013,7 +1063,11 @@ export function browserDeviceProfile(options: any = {}): DeviceProfile {
                 Method: 'External'
             });
         }
-        if (options.enableSsaRender !== false && !options.isRetry && subtitleBurninSetting !== 'allcomplexformats') {
+        if (
+            options.enableSsaRender !== false &&
+            !options.isRetry &&
+            subtitleBurninSetting !== 'allcomplexformats'
+        ) {
             profile.SubtitleProfiles.push({
                 Format: 'ass',
                 Method: 'External'

@@ -1,5 +1,5 @@
-import React, { type FC, type PropsWithChildren } from 'react';
 import layoutManager from 'components/layoutManager';
+import React, { type FC, type PropsWithChildren } from 'react';
 import type { DataAttributes } from 'types/dataAttributes';
 
 interface CardWrapperProps {
@@ -7,7 +7,11 @@ interface CardWrapperProps {
     dataAttributes: DataAttributes;
 }
 
-const CardWrapper: FC<PropsWithChildren<CardWrapperProps>> = ({ className, dataAttributes, children }) => {
+const CardWrapper: FC<PropsWithChildren<CardWrapperProps>> = ({
+    className,
+    dataAttributes,
+    children
+}) => {
     if (layoutManager.tv) {
         return (
             <button className={className} {...dataAttributes}>

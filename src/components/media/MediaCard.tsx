@@ -4,18 +4,12 @@
  * Reusable card component for displaying media items with framer-motion animations.
  */
 
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Box, Flex } from 'ui-primitives';
-import { Card, CardBody } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Skeleton } from 'ui-primitives';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-
 import { DotsVerticalIcon, PlayIcon } from '@radix-ui/react-icons';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, CardBody, Flex, IconButton, Skeleton, Text } from 'ui-primitives';
 
 export interface MediaCardProps {
     item: BaseItemDto;
@@ -38,7 +32,12 @@ const getPrimaryImageUrl = (item: BaseItemDto): string | null => {
                 getApiClient: () => {
                     getImageUrl: (
                         id: string,
-                        options: { type: number; tag?: string; maxWidth?: number; maxHeight?: number }
+                        options: {
+                            type: number;
+                            tag?: string;
+                            maxWidth?: number;
+                            maxHeight?: number;
+                        }
                     ) => string | null;
                 };
             };
@@ -73,13 +72,17 @@ const getDisplayName = (item: BaseItemDto): string => {
     return item.Name || 'Unknown';
 };
 
-const getSubtitle = (item: BaseItemDto, showAlbumArtist?: boolean, showArtist?: boolean): string => {
+const getSubtitle = (
+    item: BaseItemDto,
+    showAlbumArtist?: boolean,
+    showArtist?: boolean
+): string => {
     const parts: string[] = [];
 
     if (showAlbumArtist && item.AlbumArtist) {
         parts.push(item.AlbumArtist);
     } else if (showArtist && item.ArtistItems && item.ArtistItems.length > 0) {
-        parts.push(item.ArtistItems.map(a => a.Name).join(', '));
+        parts.push(item.ArtistItems.map((a) => a.Name).join(', '));
     } else if (item.ProductionYear) {
         parts.push(item.ProductionYear.toString());
     }

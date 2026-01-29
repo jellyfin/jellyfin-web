@@ -2,12 +2,12 @@
  * @vitest-environment jsdom
  */
 
-import React from 'react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, cleanup } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SortMenu } from '../SortMenu';
+import React from 'react';
 import { useSortStore } from 'store/sortStore';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { SortMenu } from '../SortMenu';
 
 vi.mock('store/sortStore');
 
@@ -135,10 +135,22 @@ describe('SortMenu', () => {
         });
 
         render(<SortMenu open={true} onClose={mockOnClose} />);
-        expect(screen.getByRole('radio', { name: 'Name' })).toHaveAttribute('data-state', 'unchecked');
-        expect(screen.getByRole('radio', { name: 'Runtime' })).toHaveAttribute('data-state', 'checked');
-        expect(screen.getByRole('radio', { name: 'Ascending' })).toHaveAttribute('data-state', 'checked');
-        expect(screen.getByRole('radio', { name: 'Descending' })).toHaveAttribute('data-state', 'unchecked');
+        expect(screen.getByRole('radio', { name: 'Name' })).toHaveAttribute(
+            'data-state',
+            'unchecked'
+        );
+        expect(screen.getByRole('radio', { name: 'Runtime' })).toHaveAttribute(
+            'data-state',
+            'checked'
+        );
+        expect(screen.getByRole('radio', { name: 'Ascending' })).toHaveAttribute(
+            'data-state',
+            'checked'
+        );
+        expect(screen.getByRole('radio', { name: 'Descending' })).toHaveAttribute(
+            'data-state',
+            'unchecked'
+        );
     });
 
     it('positions correctly when open', () => {

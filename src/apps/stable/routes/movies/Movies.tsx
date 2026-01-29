@@ -4,30 +4,32 @@
  * React-based movies browsing view with TanStack Query and ui-primitives.
  */
 
-import React, { useState, useCallback } from 'react';
-import { PlayIcon, ShuffleIcon } from '@radix-ui/react-icons';
-import { motion, AnimatePresence } from 'motion/react';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-
+import { PlayIcon, ShuffleIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
-
-import { useFilterStore } from 'store/filterStore';
-import { useSortStore } from 'store/sortStore';
-import { useListStore } from 'store/listStore';
+import { appRouter } from 'components/router/appRouter';
 import { getItems } from 'lib/api/items';
 import { queryKeys } from 'lib/queryKeys';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
-import { appRouter } from 'components/router/appRouter';
 import { toVideoItem } from 'lib/utils/playbackUtils';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { Card } from 'ui-primitives';
-import { AspectRatio } from 'ui-primitives';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useCallback, useState } from 'react';
+import { useFilterStore } from 'store/filterStore';
+import { useListStore } from 'store/listStore';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { useSortStore } from 'store/sortStore';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    AspectRatio,
+    Box,
+    Button,
+    Card,
+    Flex,
+    Heading,
+    IconButton,
+    Paper,
+    Text
+} from 'ui-primitives';
 
 interface MovieCardWithPlayProps {
     item: BaseItemDto;
@@ -36,7 +38,12 @@ interface MovieCardWithPlayProps {
     onClick: () => void;
 }
 
-const MovieCardWithPlay: React.FC<MovieCardWithPlayProps> = ({ item, imageTag, onPlay, onClick }) => {
+const MovieCardWithPlay: React.FC<MovieCardWithPlayProps> = ({
+    item,
+    imageTag,
+    onPlay,
+    onClick
+}) => {
     const [isHovering, setIsHovering] = useState(false);
 
     return (
@@ -91,7 +98,7 @@ const MovieCardWithPlay: React.FC<MovieCardWithPlayProps> = ({ item, imageTag, o
                             <IconButton
                                 variant="solid"
                                 color="primary"
-                                onClick={e => {
+                                onClick={(e) => {
                                     e.stopPropagation();
                                     onPlay();
                                 }}
@@ -186,7 +193,12 @@ export const Movies: React.FC = () => {
 
     return (
         <Box className="view-content">
-            <Box style={{ padding: vars.spacing['5'], borderBottom: `1px solid ${vars.colors.divider}` }}>
+            <Box
+                style={{
+                    padding: vars.spacing['5'],
+                    borderBottom: `1px solid ${vars.colors.divider}`
+                }}
+            >
                 <Flex
                     style={{
                         flexDirection: 'row',
@@ -195,7 +207,13 @@ export const Movies: React.FC = () => {
                         justifyContent: 'space-between'
                     }}
                 >
-                    <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], alignItems: 'center' }}>
+                    <Flex
+                        style={{
+                            flexDirection: 'row',
+                            gap: vars.spacing['4'],
+                            alignItems: 'center'
+                        }}
+                    >
                         <Button
                             variant="primary"
                             startDecorator={<PlayIcon />}
@@ -213,7 +231,13 @@ export const Movies: React.FC = () => {
                             Shuffle
                         </Button>
                     </Flex>
-                    <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], alignItems: 'center' }}>
+                    <Flex
+                        style={{
+                            flexDirection: 'row',
+                            gap: vars.spacing['4'],
+                            alignItems: 'center'
+                        }}
+                    >
                         <Button
                             variant={hasActiveFilters ? 'primary' : 'outlined'}
                             color={hasActiveFilters ? 'primary' : 'neutral'}
@@ -237,10 +261,34 @@ export const Movies: React.FC = () => {
                                         gap: 2
                                     }}
                                 >
-                                    <Box style={{ width: 8, height: 8, backgroundColor: 'currentColor' }} />
-                                    <Box style={{ width: 8, height: 8, backgroundColor: 'currentColor' }} />
-                                    <Box style={{ width: 8, height: 8, backgroundColor: 'currentColor' }} />
-                                    <Box style={{ width: 8, height: 8, backgroundColor: 'currentColor' }} />
+                                    <Box
+                                        style={{
+                                            width: 8,
+                                            height: 8,
+                                            backgroundColor: 'currentColor'
+                                        }}
+                                    />
+                                    <Box
+                                        style={{
+                                            width: 8,
+                                            height: 8,
+                                            backgroundColor: 'currentColor'
+                                        }}
+                                    />
+                                    <Box
+                                        style={{
+                                            width: 8,
+                                            height: 8,
+                                            backgroundColor: 'currentColor'
+                                        }}
+                                    />
+                                    <Box
+                                        style={{
+                                            width: 8,
+                                            height: 8,
+                                            backgroundColor: 'currentColor'
+                                        }}
+                                    />
                                 </Box>
                             </IconButton>
                             <IconButton
@@ -256,9 +304,27 @@ export const Movies: React.FC = () => {
                                         gap: 2
                                     }}
                                 >
-                                    <Box style={{ width: 16, height: 2, backgroundColor: 'currentColor' }} />
-                                    <Box style={{ width: 16, height: 2, backgroundColor: 'currentColor' }} />
-                                    <Box style={{ width: 16, height: 2, backgroundColor: 'currentColor' }} />
+                                    <Box
+                                        style={{
+                                            width: 16,
+                                            height: 2,
+                                            backgroundColor: 'currentColor'
+                                        }}
+                                    />
+                                    <Box
+                                        style={{
+                                            width: 16,
+                                            height: 2,
+                                            backgroundColor: 'currentColor'
+                                        }}
+                                    />
+                                    <Box
+                                        style={{
+                                            width: 16,
+                                            height: 2,
+                                            backgroundColor: 'currentColor'
+                                        }}
+                                    />
                                 </Box>
                             </IconButton>
                         </Flex>
@@ -275,8 +341,10 @@ export const Movies: React.FC = () => {
                         backgroundColor: vars.colors.backgroundAlt
                     }}
                 >
-                    <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}>
-                        {genres.map(genre => (
+                    <Flex
+                        style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}
+                    >
+                        {genres.map((genre) => (
                             <Paper
                                 key={genre}
                                 style={{
@@ -290,7 +358,7 @@ export const Movies: React.FC = () => {
                                 <Text size="xs">{genre}</Text>
                             </Paper>
                         ))}
-                        {years.map(year => (
+                        {years.map((year) => (
                             <Paper
                                 key={year}
                                 style={{
@@ -304,7 +372,7 @@ export const Movies: React.FC = () => {
                                 <Text size="xs">{year}</Text>
                             </Paper>
                         ))}
-                        {studios.map(studio => (
+                        {studios.map((studio) => (
                             <Paper
                                 key={studio}
                                 style={{
@@ -330,7 +398,7 @@ export const Movies: React.FC = () => {
                         gap: vars.spacing['5']
                     }}
                 >
-                    {data?.Items?.map(item => {
+                    {data?.Items?.map((item) => {
                         const itemAny = item as any;
                         return (
                             <MovieCardWithPlay

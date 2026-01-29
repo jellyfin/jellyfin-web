@@ -11,22 +11,29 @@ class BundleAnalyzer {
         logger.info('Bundle Size Analysis', { component: 'BundleAnalyzer' });
 
         if ('performance' in window && 'getEntriesByType' in performance) {
-            const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-            const scripts = resources.filter(r => r.name.includes('.js') && !r.name.includes('libraries/'));
+            const resources = performance.getEntriesByType(
+                'resource'
+            ) as PerformanceResourceTiming[];
+            const scripts = resources.filter(
+                (r) => r.name.includes('.js') && !r.name.includes('libraries/')
+            );
 
-            const scriptInfo = scripts.map(script => ({
+            const scriptInfo = scripts.map((script) => ({
                 name: script.name.split('/').pop(),
                 sizeKB: (script.transferSize / 1024).toFixed(1),
                 cached: script.transferSize === 0
             }));
-            logger.debug('JavaScript Bundles', { component: 'BundleAnalyzer', scripts: scriptInfo });
+            logger.debug('JavaScript Bundles', {
+                component: 'BundleAnalyzer',
+                scripts: scriptInfo
+            });
 
             const totalSize = scripts.reduce((sum, script) => sum + script.transferSize, 0);
             const totalKB = (totalSize / 1024).toFixed(1);
             logger.info(`Total JavaScript Size: ${totalKB} KB`, { component: 'BundleAnalyzer' });
 
-            const styles = resources.filter(r => r.name.includes('.css'));
-            const styleInfo = styles.map(style => ({
+            const styles = resources.filter((r) => r.name.includes('.css'));
+            const styleInfo = styles.map((style) => ({
                 name: style.name.split('/').pop(),
                 sizeKB: (style.transferSize / 1024).toFixed(1)
             }));
@@ -103,11 +110,19 @@ class BundleAnalyzer {
                 impact: 'Reduce bundle by 10-20%',
                 effort: 'Medium'
             },
-            { priority: 'LOW', action: 'Compress and optimize assets', impact: 'Reduce bundle by 5-10%', effort: 'Low' }
+            {
+                priority: 'LOW',
+                action: 'Compress and optimize assets',
+                impact: 'Reduce bundle by 5-10%',
+                effort: 'Low'
+            }
         ];
 
-        suggestions.forEach(suggestion => {
-            logger.info(`${suggestion.priority}: ${suggestion.action}`, { component: 'BundleAnalyzer', ...suggestion });
+        suggestions.forEach((suggestion) => {
+            logger.info(`${suggestion.priority}: ${suggestion.action}`, {
+                component: 'BundleAnalyzer',
+                ...suggestion
+            });
         });
     }
 
@@ -117,12 +132,18 @@ class BundleAnalyzer {
             'Phase 1 (Quick Wins): Lazy load themeMediaPlayer, defer screensaverManager, dynamic imports for admin routes',
             { component: 'BundleAnalyzer' }
         );
-        logger.info('Phase 2 (Route-Based Splitting): Split visualizer, music/video player, dashboard/admin routes', {
-            component: 'BundleAnalyzer'
-        });
-        logger.info('Phase 3 (Advanced): Virtual scrolling, SW pre-caching, bundle splitting optimization', {
-            component: 'BundleAnalyzer'
-        });
+        logger.info(
+            'Phase 2 (Route-Based Splitting): Split visualizer, music/video player, dashboard/admin routes',
+            {
+                component: 'BundleAnalyzer'
+            }
+        );
+        logger.info(
+            'Phase 3 (Advanced): Virtual scrolling, SW pre-caching, bundle splitting optimization',
+            {
+                component: 'BundleAnalyzer'
+            }
+        );
         logger.info(
             'Expected: Initial bundle 29MB -> 10-15MB (45-50% reduction), 100-200ms faster first paint, 30-50% TTI improvement',
             { component: 'BundleAnalyzer' }

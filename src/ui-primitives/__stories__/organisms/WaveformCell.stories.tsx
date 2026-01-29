@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { Box, Flex } from '../../../ui-primitives';
-import { Text } from '../../../ui-primitives';
-import { Slider } from '../../../ui-primitives';
+import { Box, Flex, Slider, Text } from '../../../ui-primitives';
 import { WaveformCell } from '../../organisms/WaveformCell';
 
 const meta: Meta<typeof WaveformCell> = {
@@ -45,11 +43,7 @@ export const Default: Story = {
             <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Waveform with playback progress
             </Text>
-            <WaveformCell
-                peaks={[mockPeaks]}
-                duration={180000}
-                currentTime={72000}
-            />
+            <WaveformCell peaks={[mockPeaks]} duration={180000} currentTime={72000} />
             <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                 1:12 / 3:00
             </Text>
@@ -63,11 +57,7 @@ export const NoProgress: Story = {
             <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Waveform at start (no progress)
             </Text>
-            <WaveformCell
-                peaks={[mockPeaks]}
-                duration={180000}
-                currentTime={0}
-            />
+            <WaveformCell peaks={[mockPeaks]} duration={180000} currentTime={0} />
         </Box>
     )
 } as any;
@@ -78,11 +68,7 @@ export const NearEnd: Story = {
             <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Waveform near end of track
             </Text>
-            <WaveformCell
-                peaks={[mockPeaks]}
-                duration={180000}
-                currentTime={165000}
-            />
+            <WaveformCell peaks={[mockPeaks]} duration={180000} currentTime={165000} />
             <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                 2:45 / 3:00
             </Text>
@@ -109,7 +95,7 @@ export const Interactive: Story = {
                 </Box>
                 <Box style={{ width: '100%' }}>
                     <Slider
-                        value={[ (currentTime / duration) * 100 ]}
+                        value={[(currentTime / duration) * 100]}
                         onValueChange={(value) => setCurrentTime((value[0] * duration) / 100)}
                     />
                 </Box>
@@ -172,11 +158,7 @@ export const ShortClip: Story = {
             <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Short audio clip (30 seconds)
             </Text>
-            <WaveformCell
-                peaks={[mockPeaks]}
-                duration={30000}
-                currentTime={15000}
-            />
+            <WaveformCell peaks={[mockPeaks]} duration={30000} currentTime={15000} />
         </Box>
     )
 } as any;
@@ -187,11 +169,7 @@ export const LongTrack: Story = {
             <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Long track (10 minutes)
             </Text>
-            <WaveformCell
-                peaks={[mockPeaks]}
-                duration={600000}
-                currentTime={120000}
-            />
+            <WaveformCell peaks={[mockPeaks]} duration={600000} currentTime={120000} />
         </Box>
     )
 } as any;
@@ -203,7 +181,7 @@ export const Playing: Story = {
 
         React.useEffect(() => {
             const interval = setInterval(() => {
-                setTime(t => {
+                setTime((t) => {
                     if (t >= duration) return 0;
                     return t + 1000;
                 });
@@ -213,7 +191,11 @@ export const Playing: Story = {
 
         return (
             <Box style={{ width: '400px' }}>
-                <Flex align="center" gap={vars.spacing['4']} style={{ marginBottom: vars.spacing['5'] }}>
+                <Flex
+                    align="center"
+                    gap={vars.spacing['4']}
+                    style={{ marginBottom: vars.spacing['5'] }}
+                >
                     <Box
                         style={{
                             width: '12px',
@@ -226,11 +208,7 @@ export const Playing: Story = {
                         Playing
                     </Text>
                 </Flex>
-                <WaveformCell
-                    peaks={[mockPeaks]}
-                    duration={duration}
-                    currentTime={time}
-                />
+                <WaveformCell peaks={[mockPeaks]} duration={duration} currentTime={time} />
                 <Text size="xs" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
                     {formatDuration(time)} / {formatDuration(duration)}
                 </Text>
@@ -242,7 +220,11 @@ export const Playing: Story = {
 export const Paused: Story = {
     render: () => (
         <Box style={{ width: '400px' }}>
-            <Flex align="center" gap={vars.spacing['4']} style={{ marginBottom: vars.spacing['5'] }}>
+            <Flex
+                align="center"
+                gap={vars.spacing['4']}
+                style={{ marginBottom: vars.spacing['5'] }}
+            >
                 <Box
                     style={{
                         width: '12px',
@@ -255,11 +237,7 @@ export const Paused: Story = {
                     Paused
                 </Text>
             </Flex>
-            <WaveformCell
-                peaks={[mockPeaks]}
-                duration={180000}
-                currentTime={72000}
-            />
+            <WaveformCell peaks={[mockPeaks]} duration={180000} currentTime={72000} />
         </Box>
     )
 } as any;
@@ -277,11 +255,7 @@ export const MinimalWaveform: Story = {
             <Text size="sm" style={{ marginBottom: vars.spacing['4'] }}>
                 Minimal waveform
             </Text>
-            <WaveformCell
-                peaks={[mockPeaks]}
-                duration={180000}
-                currentTime={45000}
-            />
+            <WaveformCell peaks={[mockPeaks]} duration={180000} currentTime={45000} />
         </Box>
     )
 } as any;
@@ -292,11 +266,7 @@ export const NextTrack: Story = {
             <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['4'] }}>
                 Next track in queue (not current)
             </Text>
-            <WaveformCell
-                peaks={[mockPeaks]}
-                duration={180000}
-                currentTime={0}
-            />
+            <WaveformCell peaks={[mockPeaks]} duration={180000} currentTime={0} />
         </Box>
     )
 } as any;

@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
 import { GearIcon, MagicWandIcon } from '@radix-ui/react-icons';
-import { type TransitionSuggestion, type FullTrackAnalysis } from './autoDJ';
 import { useAutoDJ } from 'hooks/useAutoDJ';
-import { Button } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Switch } from 'ui-primitives';
-import { Progress } from 'ui-primitives';
-import { Card } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
+import React, { useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Card,
+    Chip,
+    Divider,
+    Flex,
+    IconButton,
+    Progress,
+    Slider,
+    Switch,
+    Text
+} from 'ui-primitives';
+import { type FullTrackAnalysis, type TransitionSuggestion } from './autoDJ';
 
 interface TransitionPanelProps {
     currentTrackId: string | null;
@@ -29,7 +32,8 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
     onApplyTransition,
     disabled = false
 }) => {
-    const { getTransition, recordTransition, config, updateConfig, isAnalyzing, lastError } = useAutoDJ();
+    const { getTransition, recordTransition, config, updateConfig, isAnalyzing, lastError } =
+        useAutoDJ();
 
     const [suggestion, setSuggestion] = useState<TransitionSuggestion | null>(null);
     const [loading, setLoading] = useState(false);
@@ -40,7 +44,11 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
 
         setLoading(true);
         try {
-            const result = await getTransition(currentTrackId || '', nextTrackId || '', nextAudioBuffer);
+            const result = await getTransition(
+                currentTrackId || '',
+                nextTrackId || '',
+                nextAudioBuffer
+            );
             setSuggestion(result);
         } catch (error) {
             console.error('Failed to analyze transition:', error);
@@ -64,7 +72,10 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
         <Card style={{ minWidth: 300 }}>
             <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                 <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text size="sm" style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'] }}>
+                    <Text
+                        size="sm"
+                        style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'] }}
+                    >
                         <MagicWandIcon />
                         Smart Transition
                     </Text>
@@ -78,11 +89,24 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                 </Flex>
 
                 {!suggestion && !loading && (
-                    <Flex style={{ flexDirection: 'column', alignItems: 'center', padding: vars.spacing['5'] }}>
-                        <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
+                    <Flex
+                        style={{
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            padding: vars.spacing['5']
+                        }}
+                    >
+                        <Text
+                            size="sm"
+                            color="secondary"
+                            style={{ marginBottom: vars.spacing['5'] }}
+                        >
                             Analyze next track for optimal transition
                         </Text>
-                        <Button onClick={handleAnalyze} disabled={!nextAudioBuffer || disabled || isAnalyzing}>
+                        <Button
+                            onClick={handleAnalyze}
+                            disabled={!nextAudioBuffer || disabled || isAnalyzing}
+                        >
                             {isAnalyzing ? 'Analyzing...' : 'Analyze Transition'}
                         </Button>
                         {lastError && (
@@ -94,7 +118,13 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                 )}
 
                 {loading && (
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'], padding: vars.spacing['4'] }}>
+                    <Flex
+                        style={{
+                            flexDirection: 'column',
+                            gap: vars.spacing['4'],
+                            padding: vars.spacing['4']
+                        }}
+                    >
                         <Text size="sm" color="secondary">
                             Analyzing tracks...
                         </Text>
@@ -104,15 +134,35 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
 
                 {suggestion && (
                     <Box>
-                        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], marginBottom: vars.spacing['5'] }}>
-                            <Chip size="lg" variant={getTransitionVariant(suggestion.transitionType)}>
+                        <Flex
+                            style={{
+                                alignItems: 'center',
+                                gap: vars.spacing['4'],
+                                marginBottom: vars.spacing['5']
+                            }}
+                        >
+                            <Chip
+                                size="lg"
+                                variant={getTransitionVariant(suggestion.transitionType)}
+                            >
                                 {suggestion.transitionType}
                             </Chip>
                         </Flex>
 
-                        <Box style={{ display: 'grid', gap: vars.spacing['5'], marginBottom: vars.spacing['5'] }}>
+                        <Box
+                            style={{
+                                display: 'grid',
+                                gap: vars.spacing['5'],
+                                marginBottom: vars.spacing['5']
+                            }}
+                        >
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                                <Flex
+                                    style={{
+                                        justifyContent: 'space-between',
+                                        marginBottom: vars.spacing['2']
+                                    }}
+                                >
                                     <Text size="xs" color="secondary">
                                         Compatibility
                                     </Text>
@@ -124,7 +174,12 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                             </Box>
 
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                                <Flex
+                                    style={{
+                                        justifyContent: 'space-between',
+                                        marginBottom: vars.spacing['2']
+                                    }}
+                                >
                                     <Text size="xs" color="secondary">
                                         Energy Match
                                     </Text>
@@ -138,7 +193,11 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
 
                         {suggestion.fxRecommendation && suggestion.fxRecommendation !== 'No FX' && (
                             <Box style={{ marginBottom: vars.spacing['5'] }}>
-                                <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
+                                <Text
+                                    size="xs"
+                                    color="secondary"
+                                    style={{ marginBottom: vars.spacing['2'] }}
+                                >
                                     Recommended FX
                                 </Text>
                                 <Chip variant="neutral" size="sm">
@@ -158,10 +217,20 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                         <Divider />
 
                         <Flex style={{ gap: vars.spacing['4'] }}>
-                            <Button variant="outlined" size="sm" onClick={handleAnalyze} disabled={disabled}>
+                            <Button
+                                variant="outlined"
+                                size="sm"
+                                onClick={handleAnalyze}
+                                disabled={disabled}
+                            >
                                 Re-analyze
                             </Button>
-                            <Button size="sm" onClick={handleApply} disabled={disabled} style={{ flex: 1 }}>
+                            <Button
+                                size="sm"
+                                onClick={handleApply}
+                                disabled={disabled}
+                                style={{ flex: 1 }}
+                            >
                                 Apply
                             </Button>
                         </Flex>
@@ -175,7 +244,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                             <Text size="xs">Prefer Harmonic</Text>
                             <Switch
                                 checked={config.preferHarmonic}
-                                onChange={e => updateConfig({ preferHarmonic: e.target.checked })}
+                                onChange={(e) => updateConfig({ preferHarmonic: e.target.checked })}
                             />
                         </Flex>
 
@@ -183,7 +252,9 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                             <Text size="xs">Prefer Energy Match</Text>
                             <Switch
                                 checked={config.preferEnergyMatch}
-                                onChange={e => updateConfig({ preferEnergyMatch: e.target.checked })}
+                                onChange={(e) =>
+                                    updateConfig({ preferEnergyMatch: e.target.checked })
+                                }
                             />
                         </Flex>
 
@@ -191,7 +262,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                             <Text size="xs">Notch Filter</Text>
                             <Switch
                                 checked={config.useNotchFilter}
-                                onChange={e => updateConfig({ useNotchFilter: e.target.checked })}
+                                onChange={(e) => updateConfig({ useNotchFilter: e.target.checked })}
                             />
                         </Flex>
 
@@ -201,7 +272,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                             </Text>
                             <Slider
                                 value={[config.minCrossfadeDuration]}
-                                onValueChange={v => updateConfig({ minCrossfadeDuration: v[0] })}
+                                onValueChange={(v) => updateConfig({ minCrossfadeDuration: v[0] })}
                                 min={4}
                                 max={30}
                                 step={2}
@@ -214,7 +285,7 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
                             </Text>
                             <Slider
                                 value={[config.maxCrossfadeDuration]}
-                                onValueChange={v => updateConfig({ maxCrossfadeDuration: v[0] })}
+                                onValueChange={(v) => updateConfig({ maxCrossfadeDuration: v[0] })}
                                 min={10}
                                 max={60}
                                 step={2}
@@ -227,7 +298,9 @@ export const TransitionPanel: React.FC<TransitionPanelProps> = ({
     );
 };
 
-function getTransitionVariant(type: string): 'success' | 'warning' | 'error' | 'primary' | 'neutral' {
+function getTransitionVariant(
+    type: string
+): 'success' | 'warning' | 'error' | 'primary' | 'neutral' {
     switch (type) {
         case 'Harmonic Mix':
             return 'success';

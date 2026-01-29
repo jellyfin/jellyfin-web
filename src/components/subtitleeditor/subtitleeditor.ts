@@ -9,19 +9,18 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import { escapeHtml } from 'utils/html';
-
 import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { escapeHtml } from 'utils/html';
+import globalize from '../../lib/globalize';
+import { MediaStream } from '../../plugins/htmlVideoPlayer/types';
+import * as userSettings from '../../scripts/settings/userSettings';
+import dom from '../../utils/dom';
 import { safeAppHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from '../../scripts/settings/userSettings';
-import loading from '../loading/loading';
 import focusManager from '../focusManager';
-import dom from '../../utils/dom';
-import { MediaStream } from '../../plugins/htmlVideoPlayer/types';
+import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
 
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
@@ -29,10 +28,10 @@ import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import './subtitleeditor.scss';
 import '../../elements/emby-button/emby-button';
-import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
-import template from './subtitleeditor.template.html?raw';
 import subtitleUploader from '../subtitleuploader/SubtitleUploader';
+import toast from '../toast/toast';
+import template from './subtitleeditor.template.html?raw';
 
 // ============================================================================
 // Type Definitions
@@ -143,12 +142,14 @@ function fillSubtitleList(context: HTMLElement, item: MediaItem): void {
         html += '<div>';
 
         html += subs
-            .map(s => {
+            .map((s) => {
                 let itemHtml = '';
 
                 const tagName = layoutManager.tv ? 'button' : 'div';
                 let className =
-                    layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
+                    layoutManager.tv && s.Path
+                        ? 'listItem listItem-border btnDelete'
+                        : 'listItem listItem-border';
 
                 if (layoutManager.tv) {
                     className += ' listItem-focusscale listItem-button';
@@ -156,15 +157,18 @@ function fillSubtitleList(context: HTMLElement, item: MediaItem): void {
 
                 className += ' listItem-noborder';
 
-                itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
-                itemHtml += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
+                itemHtml +=
+                    '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
+                itemHtml +=
+                    '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
                 itemHtml += '<div class="listItemBody two-line">';
                 itemHtml += '<div>';
                 itemHtml += escapeHtml(s.DisplayTitle || '');
                 itemHtml += '</div>';
 
                 if (s.Path) {
-                    itemHtml += '<div class="secondary listItemBodyText">' + escapeHtml(s.Path) + '</div>';
+                    itemHtml +=
+                        '<div class="secondary listItemBodyText">' + escapeHtml(s.Path) + '</div>';
                 }
 
                 itemHtml += '</div>';
@@ -204,7 +208,7 @@ function fillLanguages(
     const selectLanguage = context.querySelector('#selectLanguage') as HTMLSelectElement;
 
     selectLanguage.innerHTML = languages
-        .map(l => {
+        .map((l) => {
             return (
                 '<option value="' +
                 (l.ThreeLetterISOLanguageName || '') +
@@ -221,9 +225,9 @@ function fillLanguages(
     } else {
         const apiClient = currentItem ? ServerConnections.getApiClient(currentItem.ServerId) : null;
         if (apiClient) {
-            apiClient.getCurrentUser().then(user => {
-                const lang = (user as { Configuration?: { SubtitleLanguagePreference?: string } })?.Configuration
-                    ?.SubtitleLanguagePreference;
+            apiClient.getCurrentUser().then((user) => {
+                const lang = (user as { Configuration?: { SubtitleLanguagePreference?: string } })
+                    ?.Configuration?.SubtitleLanguagePreference;
 
                 if (lang) {
                     selectLanguage.value = lang;
@@ -261,13 +265,16 @@ function renderSearchResults(context: HTMLElement, results: RemoteSubtitleSearch
         }
 
         const tagName = layoutManager.tv ? 'button' : 'div';
-        let className = layoutManager.tv ? 'listItem listItem-border btnOptions' : 'listItem listItem-border';
+        let className = layoutManager.tv
+            ? 'listItem listItem-border btnOptions'
+            : 'listItem listItem-border';
         if (layoutManager.tv) {
             className += ' listItem-focusscale listItem-button';
         }
 
         html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
-        html += '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
+        html +=
+            '<span class="listItemIcon material-icons closed_caption" aria-hidden="true"></span>';
 
         const hasAnyFlags =
             result.IsHashMatch ||
@@ -282,7 +289,10 @@ function renderSearchResults(context: HTMLElement, results: RemoteSubtitleSearch
         html += '<div class="secondary listItemBodyText">';
 
         if (result.Format) {
-            html += '<span style="margin-right:1em;">' + globalize.translate('FormatValue', result.Format) + '</span>';
+            html +=
+                '<span style="margin-right:1em;">' +
+                globalize.translate('FormatValue', result.Format) +
+                '</span>';
         }
 
         if (result.DownloadCount != null) {
@@ -293,7 +303,8 @@ function renderSearchResults(context: HTMLElement, results: RemoteSubtitleSearch
         }
 
         if (result.FrameRate) {
-            html += '<span>' + globalize.translate('Framerate') + ': ' + result.FrameRate + '</span>';
+            html +=
+                '<span>' + globalize.translate('Framerate') + ': ' + result.FrameRate + '</span>';
         }
 
         html += '</div>';
@@ -366,11 +377,7 @@ function searchForSubtitles(context: HTMLElement, language: string): void {
     });
 }
 
-function reload(
-    context: HTMLElement,
-    apiClient: any,
-    itemId: string | MediaItem
-): void {
+function reload(context: HTMLElement, apiClient: any, itemId: string | MediaItem): void {
     const noSearchResults = context.querySelector('.noSearchResults');
     if (noSearchResults) noSearchResults.classList.add('hide');
 
@@ -529,7 +536,7 @@ function showEditorInternal(itemId: string, serverId: string): Promise<void> {
         loading.hide();
         return Promise.reject('No ApiClient');
     }
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         const dialogOptions: DialogOptions = {
             removeOnClose: true,
             scrollY: false
@@ -549,7 +556,8 @@ function showEditorInternal(itemId: string, serverId: string): Promise<void> {
         dlg.innerHTML = globalize.translateHtml(template, 'core');
 
         const originalSubtitleFileLabel = dlg.querySelector('.originalSubtitleFileLabel');
-        if (originalSubtitleFileLabel) originalSubtitleFileLabel.innerHTML = globalize.translate('File');
+        if (originalSubtitleFileLabel)
+            originalSubtitleFileLabel.innerHTML = globalize.translate('File');
 
         const searchForm = dlg.querySelector('.subtitleSearchForm');
         if (searchForm) searchForm.addEventListener('submit', onSearchSubmit);
@@ -581,7 +589,7 @@ function showEditorInternal(itemId: string, serverId: string): Promise<void> {
         const subtitleResults = dlg.querySelector('.subtitleResults');
         if (subtitleResults) subtitleResults.addEventListener('click', onSubtitleResultsClick);
 
-        apiClient.getCultures().then(languages => {
+        apiClient.getCultures().then((languages) => {
             fillLanguages(editorContent, languages);
         });
 

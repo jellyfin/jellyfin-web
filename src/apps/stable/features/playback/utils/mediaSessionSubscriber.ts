@@ -20,7 +20,7 @@ const hasNativeShell = !!window.NativeShell;
 const getArtwork = (item: ItemDto): MediaImage[] => {
     const artwork: MediaImage[] = [];
 
-    DEFAULT_IMAGE_SIZES.forEach(height => {
+    DEFAULT_IMAGE_SIZES.forEach((height) => {
         const src = getImageUrl(item, { height });
         if (src) {
             artwork.push({
@@ -51,17 +51,30 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
     }
 
     private bindNavigatorSession() {
-        const actions: MediaSessionAction[] = ['pause', 'play', 'previoustrack', 'nexttrack', 'stop', 'seekto'];
+        const actions: MediaSessionAction[] = [
+            'pause',
+            'play',
+            'previoustrack',
+            'nexttrack',
+            'stop',
+            'seekto'
+        ];
 
         // iOS will only show next/prev track controls or seek controls
         if (!browser.iOS) actions.push('seekbackward', 'seekforward');
 
         for (const action of actions) {
             try {
-                navigator.mediaSession.setActionHandler(action, this.onMediaSessionAction.bind(this));
+                navigator.mediaSession.setActionHandler(
+                    action,
+                    this.onMediaSessionAction.bind(this)
+                );
             } catch (err) {
                 // NOTE: Some legacy (TV) browsers lack support for the stop and seekto actions
-                console.warn(`[MediaSessionSubscriber] Failed to add "${action}" action handler`, err);
+                console.warn(
+                    `[MediaSessionSubscriber] Failed to add "${action}" action handler`,
+                    err
+                );
             }
         }
     }
@@ -105,7 +118,10 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
         const item = state.NowPlayingItem;
 
         if (!item) {
-            console.debug('[MediaSessionSubscriber] no now playing item; resetting media session', state);
+            console.debug(
+                '[MediaSessionSubscriber] no now playing item; resetting media session',
+                state
+            );
             return resetMediaSession();
         }
 
@@ -147,7 +163,9 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
                 title,
                 artist,
                 album,
-                duration: item.RunTimeTicks ? Math.round(item.RunTimeTicks / TICKS_PER_MILLISECOND) : 0,
+                duration: item.RunTimeTicks
+                    ? Math.round(item.RunTimeTicks / TICKS_PER_MILLISECOND)
+                    : 0,
                 position: state.PlayState.PositionTicks
                     ? Math.round(state.PlayState.PositionTicks / TICKS_PER_MILLISECOND)
                     : 0,

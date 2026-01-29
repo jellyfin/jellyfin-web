@@ -42,19 +42,25 @@ const getNowPlayingName = (session: SessionInfo): NowPlayingInfo => {
     }
 
     if (nowPlayingItem.ImageTags?.Logo) {
-        imgUrl = ServerConnections.getApiClient(session.ServerId!).getScaledImageUrl(nowPlayingItem.Id!, {
-            tag: nowPlayingItem.ImageTags.Logo,
-            maxHeight: 24,
-            maxWidth: 130,
-            type: 'Logo'
-        });
+        imgUrl = ServerConnections.getApiClient(session.ServerId!).getScaledImageUrl(
+            nowPlayingItem.Id!,
+            {
+                tag: nowPlayingItem.ImageTags.Logo,
+                maxHeight: 24,
+                maxWidth: 130,
+                type: 'Logo'
+            }
+        );
     } else if (nowPlayingItem.ParentLogoImageTag) {
-        imgUrl = ServerConnections.getApiClient(session.ServerId!).getScaledImageUrl(nowPlayingItem.ParentLogoItemId!, {
-            tag: nowPlayingItem.ParentLogoImageTag,
-            maxHeight: 24,
-            maxWidth: 130,
-            type: 'Logo'
-        });
+        imgUrl = ServerConnections.getApiClient(session.ServerId!).getScaledImageUrl(
+            nowPlayingItem.ParentLogoItemId!,
+            {
+                tag: nowPlayingItem.ParentLogoImageTag,
+                maxHeight: 24,
+                maxWidth: 130,
+                type: 'Logo'
+            }
+        );
     }
 
     return {

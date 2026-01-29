@@ -51,20 +51,27 @@ function getNodeInnerHtml(item) {
     }
     let htmlName = "<div class='editorNode'>";
     if (item.IsFolder) {
-        htmlName += '<span class="material-icons metadataSidebarIcon folder" aria-hidden="true"></span>';
+        htmlName +=
+            '<span class="material-icons metadataSidebarIcon folder" aria-hidden="true"></span>';
     } else if (item.MediaType === 'Video') {
-        htmlName += '<span class="material-icons metadataSidebarIcon movie" aria-hidden="true"></span>';
+        htmlName +=
+            '<span class="material-icons metadataSidebarIcon movie" aria-hidden="true"></span>';
     } else if (item.MediaType === 'Audio') {
-        htmlName += '<span class="material-icons metadataSidebarIcon audiotrack" aria-hidden="true"></span>';
+        htmlName +=
+            '<span class="material-icons metadataSidebarIcon audiotrack" aria-hidden="true"></span>';
     } else if (item.Type === 'TvChannel') {
-        htmlName += '<span class="material-icons metadataSidebarIcon live_tv" aria-hidden="true"></span>';
+        htmlName +=
+            '<span class="material-icons metadataSidebarIcon live_tv" aria-hidden="true"></span>';
     } else if (item.MediaType === 'Photo') {
-        htmlName += '<span class="material-icons metadataSidebarIcon photo" aria-hidden="true"></span>';
+        htmlName +=
+            '<span class="material-icons metadataSidebarIcon photo" aria-hidden="true"></span>';
     } else if (item.MediaType === 'Book') {
-        htmlName += '<span class="material-icons metadataSidebarIcon book" aria-hidden="true"></span>';
+        htmlName +=
+            '<span class="material-icons metadataSidebarIcon book" aria-hidden="true"></span>';
     }
     if (item.LockData) {
-        htmlName += '<span class="material-icons metadataSidebarIcon lock" aria-hidden="true"></span>';
+        htmlName +=
+            '<span class="material-icons metadataSidebarIcon lock" aria-hidden="true"></span>';
     }
     htmlName += escapeHtml(name);
     htmlName += '</div>';
@@ -74,7 +81,7 @@ function getNodeInnerHtml(item) {
 function loadChildrenOfRootNode(page, scope, callback) {
     ApiClient.getLiveTvChannels({
         limit: 0
-    }).then(result => {
+    }).then((result) => {
         const nodes = [];
         nodes.push({
             id: 'MediaFolders',
@@ -116,8 +123,8 @@ function loadLiveTvChannels(service, openItems, callback) {
     ApiClient.getLiveTvChannels({
         ServiceName: service,
         AddCurrentProgram: false
-    }).then(result => {
-        const nodes = result.Items.map(i => {
+    }).then((result) => {
+        const nodes = result.Items.map((i) => {
             const state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
             return getNode(i, state, false);
         });
@@ -126,8 +133,8 @@ function loadLiveTvChannels(service, openItems, callback) {
 }
 
 function loadMediaFolders(page, scope, openItems, callback) {
-    ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then(result => {
-        const nodes = result.Items.map(n => {
+    ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then((result) => {
+        const nodes = result.Items.map((n) => {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, false);
         });
@@ -167,8 +174,8 @@ function loadNode(page, scope, node, openItems, selectedId, currentUser, callbac
     if (itemtype != 'Season' && itemtype != 'Series') {
         query.SortBy = 'SortName';
     }
-    ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(result => {
-        const nodes = result.Items.map(n => {
+    ApiClient.getItems(Dashboard.getCurrentUserId(), query).then((result) => {
+        const nodes = result.Items.map((n) => {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, n.Id == selectedId);
         });
@@ -260,7 +267,7 @@ function loadNodesToLoad(page, node) {
     for (let i = 0, length = children.length; i < length; i++) {
         const child = children[i];
         if (nodesToLoad.indexOf(child) != -1) {
-            nodesToLoad = nodesToLoad.filter(n => {
+            nodesToLoad = nodesToLoad.filter((n) => {
                 return n != child;
             });
             $.jstree.reference('.libraryTree', page).load_node(child, loadNodeCallback);
@@ -313,15 +320,15 @@ $(document)
     })
     .on('pagebeforeshow', '.metadataEditorPage', function () {
         const page = this;
-        Dashboard.getCurrentUser().then(user => {
+        Dashboard.getCurrentUser().then((user) => {
             if (!user) {
                 return;
             }
 
             const id = getCurrentItemId();
             if (id) {
-                ApiClient.getAncestorItems(id, user.Id).then(ancestors => {
-                    const ids = ancestors.map(i => {
+                ApiClient.getAncestorItems(id, user.Id).then((ancestors) => {
+                    const ids = ancestors.map((i) => {
                         return i.Id;
                     });
                     initializeTree(page, user, ids, id);

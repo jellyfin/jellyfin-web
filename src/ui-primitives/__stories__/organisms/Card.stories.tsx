@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, type ReactNode, type CSSProperties } from 'react';
 import { motion } from 'motion/react';
+import { type CSSProperties, type ReactElement, type ReactNode } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 interface CardProps {
@@ -36,7 +36,13 @@ interface CardSectionProps {
 }
 
 function CardHeader({ children }: Readonly<CardSectionProps>): ReactElement {
-    return <div style={{ padding: vars.spacing['5'], borderBottom: `1px solid ${vars.colors.divider}` }}>{children}</div>;
+    return (
+        <div
+            style={{ padding: vars.spacing['5'], borderBottom: `1px solid ${vars.colors.divider}` }}
+        >
+            {children}
+        </div>
+    );
 }
 
 function CardBody({ children }: Readonly<CardSectionProps>): ReactElement {

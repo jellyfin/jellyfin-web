@@ -1,28 +1,27 @@
 // Video playback controller
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { AppFeature } from 'constants/appFeature';
-import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
 import { EventType } from 'constants/eventType';
-
-import { playbackManager } from '../../../components/playback/playbackmanager';
-import browser from '../../../scripts/browser';
-import dom from '../../../utils/dom';
-import inputManager from '../../../scripts/inputManager';
-import mouseManager from '../../../scripts/mouseManager';
-import datetime from '../../../scripts/datetime';
-import itemHelper from '../../../components/itemHelper';
-import mediaInfo from '../../../components/mediainfo/mediainfo';
-import focusManager from '../../../components/focusManager';
-import Events from '../../../utils/events';
-import globalize from '../../../lib/globalize';
-import { safeAppHost } from '../../../components/apphost';
-import layoutManager from '../../../components/layoutManager';
-import * as userSettings from '../../../scripts/settings/userSettings';
-import keyboardnavigation from '../../../scripts/keyboardNavigation';
-import shell from '../../../scripts/shell';
-import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
-import { appRouter } from '../../../components/router/appRouter';
+import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { safeAppHost } from '../../../components/apphost';
+import focusManager from '../../../components/focusManager';
+import itemHelper from '../../../components/itemHelper';
+import layoutManager from '../../../components/layoutManager';
+import mediaInfo from '../../../components/mediainfo/mediainfo';
+import { playbackManager } from '../../../components/playback/playbackmanager';
+import { appRouter } from '../../../components/router/appRouter';
+import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
+import globalize from '../../../lib/globalize';
+import browser from '../../../scripts/browser';
+import datetime from '../../../scripts/datetime';
+import inputManager from '../../../scripts/inputManager';
+import keyboardnavigation from '../../../scripts/keyboardNavigation';
+import mouseManager from '../../../scripts/mouseManager';
+import * as userSettings from '../../../scripts/settings/userSettings';
+import shell from '../../../scripts/shell';
+import dom from '../../../utils/dom';
+import Events from '../../../utils/events';
 
 function getOpenedDialog(): Element | null {
     return document.querySelector('.dialogContainer .dialog.opened');

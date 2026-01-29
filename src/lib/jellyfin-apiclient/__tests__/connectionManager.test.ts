@@ -4,7 +4,7 @@
  * Phase 1: Verify TypeScript conversion and backward compatibility
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { CredentialProvider, Credentials } from '../types/connectionManager.types';
 
@@ -20,7 +20,7 @@ const createMockCredentialProvider = (): CredentialProvider => {
                 storedCredentials = data;
             }
             return storedCredentials;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }) as any,
         addOrUpdateServer: (servers, server) => {
             const index = servers.findIndex((s) => s.Id === server.Id);

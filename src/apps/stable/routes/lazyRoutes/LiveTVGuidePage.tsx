@@ -1,14 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Card, CardBody } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
 import { PlayIcon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { toVideoItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useEffect, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, CardBody, CircularProgress, IconButton, Text } from 'ui-primitives';
 import { logger } from 'utils/logger';
 
 const LiveTVGuidePage: React.FC = () => {
@@ -82,7 +78,7 @@ const LiveTVGuidePage: React.FC = () => {
                     gap: vars.spacing['6']
                 }}
             >
-                {data.map(item => (
+                {data.map((item) => (
                     <div
                         key={item.id}
                         style={{ position: 'relative' }}

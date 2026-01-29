@@ -1,15 +1,15 @@
-import { playbackManager } from '../../components/playback/playbackmanager';
-import loading from '../../components/loading/loading';
-import libraryBrowser from '../../scripts/libraryBrowser';
-import imageLoader from '../../components/images/imageLoader';
-import AlphaPicker from '../../components/alphaPicker/alphaPicker';
-import listView from '../../components/listview/listview';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from '../../lib/globalize';
-import Events from '../../utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
-import { getPaginatedRandomItems, getCachedRandomItems } from '../../utils/randomSortCache';
+import AlphaPicker from '../../components/alphaPicker/alphaPicker';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import listView from '../../components/listview/listview';
+import loading from '../../components/loading/loading';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import globalize from '../../lib/globalize';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import * as userSettings from '../../scripts/settings/userSettings';
+import Events from '../../utils/events';
+import { getCachedRandomItems, getPaginatedRandomItems } from '../../utils/randomSortCache';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
@@ -102,11 +102,18 @@ export default function (view, params, tabContent) {
                 allQuery.ImageTypeLimit = 1;
                 allQuery.EnableImageTypes = 'Primary';
                 allQuery.Limit = 5000; // Conservative limit to avoid memory issues
-                return ApiClient.getItems(ApiClient.getCurrentUserId(), allQuery).then(r => r.Items);
+                return ApiClient.getItems(ApiClient.getCurrentUserId(), allQuery).then(
+                    (r) => r.Items
+                );
             };
             itemPromise = Promise.all([
-                getPaginatedRandomItems(cacheKey, fetchAllItems, query.StartIndex || 0, query.Limit || 100),
-                getCachedRandomItems(cacheKey, fetchAllItems).then(items => items.length)
+                getPaginatedRandomItems(
+                    cacheKey,
+                    fetchAllItems,
+                    query.StartIndex || 0,
+                    query.Limit || 100
+                ),
+                getCachedRandomItems(cacheKey, fetchAllItems).then((items) => items.length)
             ]).then(([paginatedItems, totalCount]) => ({
                 Items: paginatedItems,
                 TotalRecordCount: totalCount
@@ -267,28 +274,36 @@ export default function (view, params, tabContent) {
 
         tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
-                items: [{
-                    name: globalize.translate('Name'),
-                    id: 'SortName'
-                }, {
-                    name: globalize.translate('AlbumArtist'),
-                    id: 'AlbumArtist,SortName'
-                }, {
-                    name: globalize.translate('OptionCommunityRating'),
-                    id: 'CommunityRating,SortName'
-                }, {
-                    name: globalize.translate('OptionCriticRating'),
-                    id: 'CriticRating,SortName'
-                }, {
-                    name: globalize.translate('OptionDateAdded'),
-                    id: 'DateCreated,SortName'
-                }, {
-                    name: globalize.translate('OptionReleaseDate'),
-                    id: 'ProductionYear,PremiereDate,SortName'
-                }, {
-                    name: globalize.translate('OptionRandom'),
-                    id: 'Random,SortName'
-                }],
+                items: [
+                    {
+                        name: globalize.translate('Name'),
+                        id: 'SortName'
+                    },
+                    {
+                        name: globalize.translate('AlbumArtist'),
+                        id: 'AlbumArtist,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionCommunityRating'),
+                        id: 'CommunityRating,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionCriticRating'),
+                        id: 'CriticRating,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionReleaseDate'),
+                        id: 'ProductionYear,PremiereDate,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionRandom'),
+                        id: 'Random,SortName'
+                    }
+                ],
                 callback: function () {
                     getQuery().StartIndex = 0;
                     reloadItems();
@@ -300,7 +315,11 @@ export default function (view, params, tabContent) {
 
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', (e) => {
-            libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
+            libraryBrowser.showLayoutMenu(
+                e.target,
+                this.getCurrentViewStyle(),
+                'List,Poster,PosterCard'.split(',')
+            );
         });
 
         btnSelectView.addEventListener('layoutchange', (e) => {
@@ -324,4 +343,3 @@ export default function (view, params, tabContent) {
         this.alphaPicker?.updateControls(getQuery());
     };
 }
-

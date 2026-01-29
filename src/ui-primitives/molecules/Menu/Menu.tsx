@@ -1,35 +1,35 @@
 import {
-    Root,
-    Trigger,
-    Portal,
     Content,
+    Group,
     Item,
-    RadioItem,
     ItemIndicator,
-    RadioGroup,
-    Separator,
     Label,
+    Portal,
+    RadioGroup,
+    RadioItem,
+    Root,
+    Separator,
     Sub,
-    SubTrigger,
     SubContent,
-    Group
+    SubTrigger,
+    Trigger
 } from '@radix-ui/react-dropdown-menu';
-import React, { type ReactElement, type ReactNode, type ElementType } from 'react';
+import React, { type ElementType, type ReactElement, type ReactNode } from 'react';
 import {
+    listItemDecorator,
+    menuArrow,
     menuContent,
     menuItem,
+    menuItemIndicator,
     menuItemVariant,
-    menuSeparator,
     menuLabel,
-    menuTrigger,
-    menuArrow,
     menuRadioGroup,
     menuRadioItem,
-    menuItemIndicator,
+    menuSeparator,
+    menuTrigger,
     subMenuContent,
     subMenuTrigger,
-    subMenuTriggerIndicator,
-    listItemDecorator
+    subMenuTriggerIndicator
 } from './Menu.css.ts';
 
 interface MenuProps {
@@ -52,7 +52,11 @@ export function Menu({
     id
 }: MenuProps): ReactElement {
     if (!trigger) {
-        return <Root open={open} onOpenChange={onOpenChange}>{children}</Root>;
+        return (
+            <Root open={open} onOpenChange={onOpenChange}>
+                {children}
+            </Root>
+        );
     }
 
     return (
@@ -76,9 +80,18 @@ interface MenuItemProps {
     readonly to?: string;
 }
 
-export function MenuItem({ children, onClick, variant = 'default', disabled }: MenuItemProps): ReactElement {
+export function MenuItem({
+    children,
+    onClick,
+    variant = 'default',
+    disabled
+}: MenuItemProps): ReactElement {
     return (
-        <Item className={`${menuItem} ${menuItemVariant[variant]}`} onClick={onClick} disabled={disabled}>
+        <Item
+            className={`${menuItem} ${menuItemVariant[variant]}`}
+            onClick={onClick}
+            disabled={disabled}
+        >
             {children}
         </Item>
     );
@@ -109,7 +122,11 @@ interface MenuRadioGroupProps {
     readonly onValueChange: (value: string) => void;
 }
 
-export function MenuRadioGroup({ children, value, onValueChange }: MenuRadioGroupProps): ReactElement {
+export function MenuRadioGroup({
+    children,
+    value,
+    onValueChange
+}: MenuRadioGroupProps): ReactElement {
     return (
         <RadioGroup className={menuRadioGroup} value={value} onValueChange={onValueChange}>
             {children}
@@ -169,7 +186,12 @@ export function MenuContent({
     readonly sideOffset?: number;
 }): ReactElement {
     return (
-        <Content className={className ?? menuContent} style={style} align={align} sideOffset={sideOffset}>
+        <Content
+            className={className ?? menuContent}
+            style={style}
+            align={align}
+            sideOffset={sideOffset}
+        >
             {children}
         </Content>
     );

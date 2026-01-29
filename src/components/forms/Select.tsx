@@ -1,9 +1,9 @@
 import {
-    Select as UIPrimitiveSelect,
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue
+    SelectValue,
+    Select as UIPrimitiveSelect
 } from 'ui-primitives';
 import { FormField } from './FormField';
 
@@ -20,15 +20,20 @@ export interface SelectProps {
 }
 
 export const Select = (props: SelectProps) => {
-    const { label, helperText, error, options, onChange, placeholder, value, disabled, required } = props;
+    const { label, helperText, error, options, onChange, placeholder, value, disabled, required } =
+        props;
     return (
         <FormField label={label} helperText={helperText} error={error} required={required}>
-            <UIPrimitiveSelect value={value} onValueChange={newValue => onChange?.(null, newValue)} disabled={disabled}>
+            <UIPrimitiveSelect
+                value={value}
+                onValueChange={(newValue) => onChange?.(null, newValue)}
+                disabled={disabled}
+            >
                 <SelectTrigger>
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
-                    {options.map(opt => (
+                    {options.map((opt) => (
                         <SelectItem key={opt.value} value={opt.value}>
                             {opt.label}
                         </SelectItem>

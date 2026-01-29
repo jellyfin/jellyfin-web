@@ -11,9 +11,9 @@
 
 import './emby-progressring.scss';
 import 'webcomponents.js/webcomponents-lite';
-import template from './emby-progressring.template.html';
 import { getCurrentDateTimeLocale } from '../../lib/globalize';
 import { toPercentString } from '../../utils/number';
+import template from './emby-progressring.template.html';
 
 const EmbyProgressRing = Object.create(HTMLDivElement.prototype);
 
@@ -26,7 +26,7 @@ EmbyProgressRing.createdCallback = function () {
 
     if (window.MutationObserver) {
         // create an observer instance
-        const observer = new MutationObserver(mutations => {
+        const observer = new MutationObserver((mutations) => {
             mutations.forEach(() => {
                 instance.setProgress(parseFloat(instance.getAttribute('data-progress') || '0'));
             });
@@ -82,7 +82,10 @@ EmbyProgressRing.setProgress = function (progress) {
         this.querySelector('.animate-75-100-b').style.transform = 'rotate(' + angle + 'deg)';
     }
 
-    this.querySelector('.progressring-text').innerHTML = toPercentString(progress / 100, getCurrentDateTimeLocale());
+    this.querySelector('.progressring-text').innerHTML = toPercentString(
+        progress / 100,
+        getCurrentDateTimeLocale()
+    );
 };
 
 EmbyProgressRing.attachedCallback = function () {

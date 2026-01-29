@@ -1,13 +1,10 @@
-import React, { type FC, useCallback } from 'react';
 import { StackIcon } from '@radix-ui/react-icons';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { Button, IconButton, Tooltip } from 'ui-primitives';
 import { logger } from 'utils/logger';
 
 interface QueueButtonProps {
@@ -25,7 +22,11 @@ const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters, isTextVisi
                     items: [item]
                 })
                 .catch((err: unknown) => {
-                    logger.error('[QueueButton] failed to add to queue', { component: 'QueueButton' }, err as Error);
+                    logger.error(
+                        '[QueueButton] failed to add to queue',
+                        { component: 'QueueButton' },
+                        err as Error
+                    );
                 });
         } else {
             playbackManager
@@ -33,7 +34,11 @@ const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters, isTextVisi
                     items
                 })
                 .catch((err: unknown) => {
-                    logger.error('[QueueButton] failed to add to queue', { component: 'QueueButton' }, err as Error);
+                    logger.error(
+                        '[QueueButton] failed to add to queue',
+                        { component: 'QueueButton' },
+                        err as Error
+                    );
                 });
         }
     }, [hasFilters, item, items]);

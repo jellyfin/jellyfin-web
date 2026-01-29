@@ -1,6 +1,6 @@
+import actionsheet from '../../components/actionSheet/actionSheet';
 import layoutManager from '../../components/layoutManager';
 import browser from '../../scripts/browser';
-import actionsheet from '../../components/actionSheet/actionSheet';
 import './emby-select.scss';
 import 'webcomponents.js/webcomponents-lite';
 
@@ -36,17 +36,18 @@ function setValue(select, value) {
 
 function showActionSheet(select) {
     const labelElem = getLabel(select);
-    const title = labelElem ? (labelElem.textContent || labelElem.innerText) : null;
+    const title = labelElem ? labelElem.textContent || labelElem.innerText : null;
 
-    actionsheet.show({
-        items: select.options,
-        positionTo: select,
-        title: title
-
-    }).then((value) => {
-        setValue(select, value);
-        triggerChange(select);
-    });
+    actionsheet
+        .show({
+            items: select.options,
+            positionTo: select,
+            title: title
+        })
+        .then((value) => {
+            setValue(select, value);
+            triggerChange(select);
+        });
 }
 
 function getLabel(select) {
@@ -122,7 +123,10 @@ EmbySelectPrototype.attachedCallback = function () {
     this.parentNode?.insertBefore(label, this);
 
     if (this.classList.contains('emby-select-withcolor')) {
-        this.parentNode?.insertAdjacentHTML('beforeend', '<div class="selectArrowContainer"><div style="visibility:hidden;display:none;">0</div><span class="selectArrow material-icons keyboard_arrow_down" aria-hidden="true"></span></div>');
+        this.parentNode?.insertAdjacentHTML(
+            'beforeend',
+            '<div class="selectArrowContainer"><div style="visibility:hidden;display:none;">0</div><span class="selectArrow material-icons keyboard_arrow_down" aria-hidden="true"></span></div>'
+        );
     }
 };
 
@@ -136,4 +140,3 @@ document.registerElement('emby-select', {
     prototype: EmbySelectPrototype,
     extends: 'select'
 });
-

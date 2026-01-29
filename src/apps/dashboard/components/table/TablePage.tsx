@@ -1,11 +1,8 @@
 import type { ColumnDef, ColumnPinningState } from '@tanstack/react-table';
-import React, { type ReactNode } from 'react';
-
 import Page, { type PageProps } from 'components/Page';
+import React, { type ReactNode } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { Box as UIBox, Flex } from 'ui-primitives';
-import { DataTable } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
+import { DataTable, Flex, Heading, Text, Box as UIBox } from 'ui-primitives';
 
 interface TablePageProps<T> extends PageProps {
     title: string;
@@ -61,7 +58,7 @@ function TablePage<T extends unknown>({
     return (
         <Page title={title} {...pageProps}>
             <UIBox
-                className='content-primary'
+                className="content-primary"
                 style={{
                     display: 'flex',
                     flexDirection: 'column',

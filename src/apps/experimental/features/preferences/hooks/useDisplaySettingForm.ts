@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'hooks/useSearchParams';
-
 import toast from 'components/toast/toast';
+import { useSearchParams } from 'hooks/useSearchParams';
 import globalize from 'lib/globalize';
+import { useCallback, useEffect, useState } from 'react';
 
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 import { useDisplaySettings } from './useDisplaySettings';
@@ -14,7 +13,9 @@ interface UpdateField {
 
 export function useDisplaySettingForm() {
     const [urlParams] = useSearchParams();
-    const { displaySettings, loading, saveDisplaySettings } = useDisplaySettings({ userId: urlParams.get('userId') });
+    const { displaySettings, loading, saveDisplaySettings } = useDisplaySettings({
+        userId: urlParams.get('userId')
+    });
     const [formValues, setFormValues] = useState<DisplaySettingsValues>();
 
     useEffect(() => {

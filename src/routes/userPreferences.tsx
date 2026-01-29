@@ -10,19 +10,28 @@ export const userDisplaySettingsRoute = createRoute({
 export const userControlsSettingsRoute = createRoute({
     getParentRoute: () => Route,
     path: 'mypreferencescontrols',
-    component: lazyRouteComponent(() => import('apps/stable/routes/user/controls/UserControlsSettings'), 'default')
+    component: lazyRouteComponent(
+        () => import('apps/stable/routes/user/controls/UserControlsSettings'),
+        'default'
+    )
 });
 
 export const userPlaybackSettingsRoute = createRoute({
     getParentRoute: () => Route,
     path: 'mypreferencesplayback',
-    component: lazyRouteComponent(() => import('apps/stable/routes/user/playback/PlaybackSettings'), 'default')
+    component: lazyRouteComponent(
+        () => import('apps/stable/routes/user/playback/PlaybackSettings'),
+        'default'
+    )
 });
 
 export const userSubtitleSettingsRoute = createRoute({
     getParentRoute: () => Route,
     path: 'mypreferencessubtitles',
-    component: lazyRouteComponent(() => import('apps/stable/routes/user/subtitles/SubtitleSettings'), 'default')
+    component: lazyRouteComponent(
+        () => import('apps/stable/routes/user/subtitles/SubtitleSettings'),
+        'default'
+    )
 });
 
 export const userHomeSettingsRoute = createRoute({

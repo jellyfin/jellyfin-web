@@ -1,1 +1,1 @@
-export { checkboxContainer, checkboxInput, checkboxLabel, Checkbox } from './Checkbox';
+export { Checkbox, checkboxContainer, checkboxInput, checkboxLabel } from './Checkbox';

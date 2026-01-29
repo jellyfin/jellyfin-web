@@ -1,18 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useTranslation as useReactTranslation, type UseTranslationOptions } from 'react-i18next';
+import { type UseTranslationOptions, useTranslation as useReactTranslation } from 'react-i18next';
 import i18n from '../i18n';
-import { supportedLocales, type LocaleCode, defaultLocale } from '../lib/locale-config';
-import { preloadLocale, getLocale } from '../lib/locale-loader';
+import { defaultLocale, type LocaleCode, supportedLocales } from '../lib/locale-config';
+import { getLocale, preloadLocale } from '../lib/locale-loader';
 import { logger } from '../utils/logger';
 
-export { supportedLocales, LocaleCode } from '../lib/locale-config';
+export { LocaleCode, supportedLocales } from '../lib/locale-config';
 
 export interface UseJellyfinTranslationOptions extends UseTranslationOptions<string> {
     preload?: boolean;
 }
 
 interface TranslationResult {
-    t: (key: string, options?: { [key: string]: string | number | boolean | undefined } | undefined) => string;
+    t: (
+        key: string,
+        options?: { [key: string]: string | number | boolean | undefined } | undefined
+    ) => string;
     i18n: typeof i18n;
     currentLanguage: string;
     changeLanguage: (lng: string) => Promise<void>;
@@ -42,7 +45,10 @@ export function useTranslation(options: UseJellyfinTranslationOptions = {}): Tra
             await getLocale(code);
             await i18n.changeLanguage(code);
         } catch (error) {
-            logger.error(`Failed to set language to ${code}`, { error, component: 'useTranslation' });
+            logger.error(`Failed to set language to ${code}`, {
+                error,
+                component: 'useTranslation'
+            });
         } finally {
             setIsLoading(false);
         }

@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import type { PeakData, AudioAnalysis } from './peakStorage';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { AudioAnalysis, PeakData } from './peakStorage';
 
 // Mock IndexedDB
 const mockDB = {
@@ -19,10 +19,22 @@ vi.mock('idb', () => ({
 
 describe('Peak Storage', () => {
     const mockPeakData: PeakData = {
-        low: [[0.1, 0.2], [0.15, 0.25]],
-        medium: [[0.1, 0.2, 0.15], [0.15, 0.25, 0.2]],
-        high: [[0.1, 0.2, 0.15, 0.18], [0.15, 0.25, 0.2, 0.22]],
-        ultra: [[0.1, 0.2, 0.15, 0.18, 0.12], [0.15, 0.25, 0.2, 0.22, 0.18]]
+        low: [
+            [0.1, 0.2],
+            [0.15, 0.25]
+        ],
+        medium: [
+            [0.1, 0.2, 0.15],
+            [0.15, 0.25, 0.2]
+        ],
+        high: [
+            [0.1, 0.2, 0.15, 0.18],
+            [0.15, 0.25, 0.2, 0.22]
+        ],
+        ultra: [
+            [0.1, 0.2, 0.15, 0.18, 0.12],
+            [0.15, 0.25, 0.2, 0.22, 0.18]
+        ]
     };
 
     const mockAnalysis: AudioAnalysis = {
@@ -110,14 +122,26 @@ describe('Peak Storage', () => {
 
         it('should handle various peak value ranges', () => {
             const peaks: PeakData = {
-                low: [[0, 0.5], [0.5, 1]],
-                medium: [[0.1, 0.2], [0.3, 0.4]],
-                high: [[0.05, 0.15], [0.25, 0.35]],
-                ultra: [[0.01, 0.1], [0.2, 0.3]]
+                low: [
+                    [0, 0.5],
+                    [0.5, 1]
+                ],
+                medium: [
+                    [0.1, 0.2],
+                    [0.3, 0.4]
+                ],
+                high: [
+                    [0.05, 0.15],
+                    [0.25, 0.35]
+                ],
+                ultra: [
+                    [0.01, 0.1],
+                    [0.2, 0.3]
+                ]
             };
 
-            peaks.low.forEach(channel => {
-                channel.forEach(value => {
+            peaks.low.forEach((channel) => {
+                channel.forEach((value) => {
                     expect(value).toBeGreaterThanOrEqual(0);
                     expect(value).toBeLessThanOrEqual(1);
                 });
@@ -153,7 +177,7 @@ describe('Peak Storage', () => {
     describe('multi-resolution storage', () => {
         it('should store all resolution levels', () => {
             const resolutions = ['low', 'medium', 'high', 'ultra'] as const;
-            resolutions.forEach(res => {
+            resolutions.forEach((res) => {
                 expect(mockPeakData[res]).toBeDefined();
                 expect(Array.isArray(mockPeakData[res])).toBe(true);
             });
@@ -169,7 +193,7 @@ describe('Peak Storage', () => {
         it('should allow independent resolution access', () => {
             const lowRes = mockPeakData.low;
             const highRes = mockPeakData.high;
-            
+
             expect(lowRes).not.toBe(highRes);
             expect(lowRes[0]).toHaveLength(2);
             expect(highRes[0]).toHaveLength(4);
@@ -241,12 +265,14 @@ describe('Peak Storage', () => {
         it('should validate peak data ranges', () => {
             const isValidPeak = (peaks: PeakData): boolean => {
                 const validate = (arr: number[][]): boolean =>
-                    arr.every(channel =>
-                        channel.every(v => v >= 0 && v <= 1)
-                    );
-                
-                return validate(peaks.low) && validate(peaks.medium) &&
-                       validate(peaks.high) && validate(peaks.ultra);
+                    arr.every((channel) => channel.every((v) => v >= 0 && v <= 1));
+
+                return (
+                    validate(peaks.low) &&
+                    validate(peaks.medium) &&
+                    validate(peaks.high) &&
+                    validate(peaks.ultra)
+                );
             };
 
             expect(isValidPeak(mockPeakData)).toBe(true);

@@ -3,38 +3,37 @@ import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/c
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import classNames from 'classnames';
-import React, { type FC, useCallback } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import useMediaQuery from 'hooks/useMediaQuery';
-import { vars } from 'styles/tokens.css.ts';
-
-import { ItemAction } from 'constants/itemAction';
-import { useApi } from 'hooks/useApi';
-import { useLocalStorage } from 'hooks/useLocalStorage';
-import { useGetItemsViewByType } from 'hooks/useFetchItems';
-import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
-import { CardShape } from 'utils/card';
-import Loading from 'components/loading/LoadingComponent';
-import { playbackManager } from 'components/playback/playbackmanager';
-import ItemsContainer from '../../../../components/items/ItemsContainer';
+import Cards from 'components/cardbuilder/Card/Cards';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import Lists from 'components/listview/List/Lists';
-import Cards from 'components/cardbuilder/Card/Cards';
-import { LibraryTab } from 'types/libraryTab';
-import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
-import type { CardOptions } from 'types/cardOptions';
-import type { ListOptions } from 'types/listOptions';
+import Loading from 'components/loading/LoadingComponent';
+import { playbackManager } from 'components/playback/playbackmanager';
+import { ItemAction } from 'constants/itemAction';
+import { useApi } from 'hooks/useApi';
+import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { useItem } from 'hooks/useItem';
+import { useLocalStorage } from 'hooks/useLocalStorage';
+import useMediaQuery from 'hooks/useMediaQuery';
+import React, { type FC, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import type { CardOptions } from 'types/cardOptions';
+import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
+import { LibraryTab } from 'types/libraryTab';
+import type { ListOptions } from 'types/listOptions';
+import { Box, Flex } from 'ui-primitives';
+import { CardShape } from 'utils/card';
+import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
+import ItemsContainer from '../../../../components/items/ItemsContainer';
 
 import AlphabetPicker from './AlphabetPicker';
 import FilterButton from './filter/FilterButton';
+import LibraryViewMenu from './LibraryViewMenu';
 import NewCollectionButton from './NewCollectionButton';
 import Pagination from './Pagination';
 import PlayAllButton from './PlayAllButton';
 import QueueButton from './QueueButton';
 import ShuffleButton from './ShuffleButton';
 import SortButton from './SortButton';
-import LibraryViewMenu from './LibraryViewMenu';
 import ViewSettingsButton from './ViewSettingsButton';
 
 interface ItemsViewProps {
@@ -145,7 +144,11 @@ const ItemsView: FC<ItemsViewProps> = ({
             serverId: __legacyApiClient__?.serverId()
         };
 
-        if (viewType === LibraryTab.Songs || viewType === LibraryTab.Albums || viewType === LibraryTab.Episodes) {
+        if (
+            viewType === LibraryTab.Songs ||
+            viewType === LibraryTab.Albums ||
+            viewType === LibraryTab.Episodes
+        ) {
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
             cardOptions.overlayPlayButton = true;
         } else if (viewType === LibraryTab.Artists) {
@@ -188,11 +191,17 @@ const ItemsView: FC<ItemsViewProps> = ({
             return <Lists items={itemsResult?.Items ?? []} listOptions={getListOptions()} />;
         }
         return <Cards items={itemsResult?.Items ?? []} cardOptions={getCardOptions()} />;
-    }, [libraryViewSettings.ViewMode, itemsResult?.Items, getListOptions, getCardOptions, noItemsMessage]);
+    }, [
+        libraryViewSettings.ViewMode,
+        itemsResult?.Items,
+        getListOptions,
+        getCardOptions,
+        noItemsMessage
+    ]);
 
     const totalRecordCount = itemsResult?.TotalRecordCount ?? 0;
     const items = itemsResult?.Items ?? [];
-    const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some(filter => !!filter);
+    const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some((filter) => !!filter);
     const hasSortName = libraryViewSettings.SortBy !== ItemSortBy.Random;
 
     const itemsContainerClass = classNames(
@@ -289,12 +298,18 @@ const ItemsView: FC<ItemsViewProps> = ({
                                         item={item}
                                         items={items}
                                         hasFilters={hasFilters}
-                                        isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
+                                        isTextVisible={
+                                            isSmallScreen &&
+                                            !isBtnPlayAllEnabled &&
+                                            !isBtnShuffleEnabled
+                                        }
                                     />
                                 )}
                             </Flex>
 
-                            {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
+                            {isBtnNewCollectionEnabled && (
+                                <NewCollectionButton isTextVisible={isSmallScreen} />
+                            )}
                         </>
                     )}
                 </Box>

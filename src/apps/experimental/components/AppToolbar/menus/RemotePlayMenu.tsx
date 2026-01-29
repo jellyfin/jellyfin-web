@@ -1,14 +1,11 @@
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import React, { type FC, useEffect, useState } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { Menu, MenuItem, MenuSeparator } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
-import globalize from 'lib/globalize';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { pluginManager } from 'components/pluginManager';
+import globalize from 'lib/globalize';
+import React, { type FC, useEffect, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import type { PlayTarget } from 'types/playTarget';
+import { Box, Flex, Menu, MenuItem, MenuSeparator, Text } from 'ui-primitives';
 
 import PlayTargetIcon from '../../PlayTargetIcon';
 
@@ -22,7 +19,9 @@ export const ID = 'app-remote-play-menu';
 
 const RemotePlayMenu: FC<RemotePlayMenuProps> = ({ open, onOpenChange, trigger }) => {
     // TODO: Add other checks for support (Android app, secure context, etc)
-    const isChromecastPluginLoaded = !!pluginManager.plugins.find(plugin => plugin.id === 'chromecast');
+    const isChromecastPluginLoaded = !!pluginManager.plugins.find(
+        (plugin) => plugin.id === 'chromecast'
+    );
 
     const [playbackTargets, setPlaybackTargets] = useState<PlayTarget[]>([]);
 
@@ -37,7 +36,7 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({ open, onOpenChange, trigger }
         };
 
         if (open) {
-            fetchPlaybackTargets().catch(err => {
+            fetchPlaybackTargets().catch((err) => {
                 console.error('[AppRemotePlayMenu] unable to get playback targets', err);
             });
         }
@@ -48,7 +47,13 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({ open, onOpenChange, trigger }
             {!isChromecastPluginLoaded && (
                 <MenuItem disabled>
                     <Flex align="center" gap={vars.spacing['4']}>
-                        <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>
+                        <Box
+                            style={{
+                                width: vars.spacing['6'],
+                                display: 'flex',
+                                justifyContent: 'center'
+                            }}
+                        >
                             <ExclamationTriangleIcon />
                         </Box>
                         <Text size="md">{globalize.translate('GoogleCastUnsupported')}</Text>
@@ -58,7 +63,7 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({ open, onOpenChange, trigger }
 
             {!isChromecastPluginLoaded && playbackTargets.length > 0 && <MenuSeparator />}
 
-            {playbackTargets.map(target => (
+            {playbackTargets.map((target) => (
                 <MenuItem
                     key={target.id}
                     // Since we are looping over targets there is no good way to avoid creating a new function here
@@ -66,11 +71,21 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({ open, onOpenChange, trigger }
                     onClick={() => onPlayTargetClick(target)}
                 >
                     <Flex align="center" gap={vars.spacing['4']}>
-                        <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>
+                        <Box
+                            style={{
+                                width: vars.spacing['6'],
+                                display: 'flex',
+                                justifyContent: 'center'
+                            }}
+                        >
                             <PlayTargetIcon target={target} />
                         </Box>
                         <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                            <Text size="md">{target.appName ? `${target.name} - ${target.appName}` : target.name}</Text>
+                            <Text size="md">
+                                {target.appName
+                                    ? `${target.name} - ${target.appName}`
+                                    : target.name}
+                            </Text>
                             {target.user?.Name && (
                                 <Text size="sm" color="secondary">
                                     {target.user.Name}

@@ -30,33 +30,54 @@ export const getVideoBasicFilter = (libraryViewSettings: LibraryViewSettings) =>
 
     return {
         isHd,
-        is4K: libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.Is4K) ? true : undefined,
-        is3D: libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.Is3D) ? true : undefined
+        is4K: libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.Is4K)
+            ? true
+            : undefined,
+        is3D: libraryViewSettings.Filters?.VideoBasicFilter?.includes(VideoBasicFilter.Is3D)
+            ? true
+            : undefined
     };
 };
 
 export const getFeatureFilters = (libraryViewSettings: LibraryViewSettings) => {
     return {
-        hasSubtitles: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasSubtitles) ? true : undefined,
-        hasTrailer: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasTrailer) ? true : undefined,
-        hasSpecialFeature: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasSpecialFeature)
+        hasSubtitles: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasSubtitles)
             ? true
             : undefined,
-        hasThemeSong: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasThemeSong) ? true : undefined,
-        hasThemeVideo: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasThemeVideo) ? true : undefined
+        hasTrailer: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasTrailer)
+            ? true
+            : undefined,
+        hasSpecialFeature: libraryViewSettings.Filters?.Features?.includes(
+            FeatureFilters.HasSpecialFeature
+        )
+            ? true
+            : undefined,
+        hasThemeSong: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasThemeSong)
+            ? true
+            : undefined,
+        hasThemeVideo: libraryViewSettings.Filters?.Features?.includes(FeatureFilters.HasThemeVideo)
+            ? true
+            : undefined
     };
 };
 
-export const getEpisodeFilter = (viewType: LibraryTab, libraryViewSettings: LibraryViewSettings) => {
+export const getEpisodeFilter = (
+    viewType: LibraryTab,
+    libraryViewSettings: LibraryViewSettings
+) => {
     return {
-        parentIndexNumber: libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.ParentIndexNumber)
+        parentIndexNumber: libraryViewSettings.Filters?.EpisodeFilter?.includes(
+            EpisodeFilter.ParentIndexNumber
+        )
             ? 0
             : undefined,
         isMissing:
             viewType === LibraryTab.Episodes
                 ? !!libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsMissing)
                 : undefined,
-        isUnaired: libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsUnaired) ? true : undefined
+        isUnaired: libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsUnaired)
+            ? true
+            : undefined
     };
 };
 
@@ -91,7 +112,8 @@ export const getLimitQuery = () => {
 };
 
 export const getAlphaPickerQuery = (libraryViewSettings: LibraryViewSettings) => {
-    const alphabetValue = libraryViewSettings.Alphabet !== null ? libraryViewSettings.Alphabet : undefined;
+    const alphabetValue =
+        libraryViewSettings.Alphabet !== null ? libraryViewSettings.Alphabet : undefined;
 
     return {
         nameLessThan: alphabetValue === '#' ? 'A' : undefined,

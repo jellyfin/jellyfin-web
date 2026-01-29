@@ -86,14 +86,21 @@ class EventBus {
 
         // Debug log for important events to help migration
         if (['playbackstart', 'playbackstop', 'playerchange'].includes(type)) {
-            logger.debug(`[Events] Triggered: ${type}`, { component: 'EventBus', origin: obj.name ?? 'unknown' });
+            logger.debug(`[Events] Triggered: ${type}`, {
+                component: 'EventBus',
+                origin: obj.name ?? 'unknown'
+            });
         }
 
-        callbacks.slice(0).forEach(callback => {
+        callbacks.slice(0).forEach((callback) => {
             try {
                 callback.apply(obj, eventArgs);
             } catch (err) {
-                logger.error(`[Events] Error in callback for ${type}`, { component: 'EventBus' }, err as Error);
+                logger.error(
+                    `[Events] Error in callback for ${type}`,
+                    { component: 'EventBus' },
+                    err as Error
+                );
             }
         });
     }

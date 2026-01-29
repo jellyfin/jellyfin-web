@@ -4,7 +4,7 @@
  * Detects clicks outside of a referenced element.
  */
 
-import { useEffect, useRef, useCallback, RefObject } from 'react';
+import { RefObject, useCallback, useEffect, useRef } from 'react';
 
 export function useClickOutside<T extends HTMLElement>(
     callback: (event: MouseEvent | TouchEvent) => void

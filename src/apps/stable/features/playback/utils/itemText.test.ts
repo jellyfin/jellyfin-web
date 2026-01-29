@@ -1,7 +1,6 @@
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { describe, expect, it } from 'vitest';
-
 import type { ItemDto } from 'types/base/models/item-dto';
+import { describe, expect, it } from 'vitest';
 
 import { getItemTextLines } from './itemText';
 

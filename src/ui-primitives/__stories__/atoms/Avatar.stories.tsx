@@ -27,7 +27,11 @@ function Avatar({ src, alt, fallback, size = 40 }: Readonly<AvatarProps>): React
             }}
         >
             {src !== undefined && src !== '' ? (
-                <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img
+                    src={src}
+                    alt={alt}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
             ) : (
                 fallback
             )}

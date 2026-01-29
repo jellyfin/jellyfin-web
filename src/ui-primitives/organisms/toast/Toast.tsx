@@ -1,15 +1,15 @@
-import React, { type ReactNode, type ReactElement, useCallback } from 'react';
+import React, { type ReactElement, type ReactNode, useCallback } from 'react';
 import {
-    toastVariantStyles,
-    toastContainer,
-    toastContent,
-    toastTitle,
-    toastDescription,
     toastAction,
     toastClose,
-    toastProgressBar,
-    toastIndicator,
+    toastContainer,
+    toastContent,
+    toastDescription,
     toastIcon,
+    toastIndicator,
+    toastProgressBar,
+    toastTitle,
+    toastVariantStyles,
     toastViewport,
     toastViewportPosition
 } from './Toast.css.ts';
@@ -106,7 +106,12 @@ export function Toast({
                     </button>
                 )}
             </div>
-            <button type="button" className={toastClose} onClick={handleCloseClick} aria-label="Close">
+            <button
+                type="button"
+                className={toastClose}
+                onClick={handleCloseClick}
+                aria-label="Close"
+            >
                 <svg
                     width="14"
                     height="14"

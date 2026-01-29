@@ -10,8 +10,8 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import { playbackManager } from '../playback/playbackmanager';
 import layoutManager from '../layoutManager';
+import { playbackManager } from '../playback/playbackmanager';
 import template from './subtitlesync.template.html?raw';
 import './subtitlesync.scss';
 
@@ -101,7 +101,13 @@ function init(instance) {
     subtitleSyncSlider.addEventListener('change', () => updateSubtitleOffset());
 
     subtitleSyncSlider.getBubbleHtml = function (_, value) {
-        return '<h1 class="sliderBubbleText">' + (value > 0 ? '+' : '') + parseFloat(value) + 's' + '</h1>';
+        return (
+            '<h1 class="sliderBubbleText">' +
+            (value > 0 ? '+' : '') +
+            parseFloat(value) +
+            's' +
+            '</h1>'
+        );
     };
 
     subtitleSyncCloseButton.addEventListener('click', () => {
@@ -145,7 +151,12 @@ class SubtitleSync {
                     playbackManager.canHandleOffsetOnCurrentSubtitle(player)
                 ) {
                     // if no subtitle offset is defined or element has focus (offset being defined)
-                    if (!(playbackManager.getPlayerSubtitleOffset(player) || subtitleSyncTextField.hasFocus)) {
+                    if (
+                        !(
+                            playbackManager.getPlayerSubtitleOffset(player) ||
+                            subtitleSyncTextField.hasFocus
+                        )
+                    ) {
                         // set default offset to '0' = 0ms
                         subtitleSyncSlider.value = '0';
                         subtitleSyncTextField.textContent = '0s';

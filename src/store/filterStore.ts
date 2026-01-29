@@ -37,44 +37,48 @@ const initialState = {
     isAdvancedFilter: false
 };
 
-export const useFilterStore = create<FilterState>(set => ({
+export const useFilterStore = create<FilterState>((set) => ({
     ...initialState,
 
-    setGenres: genres => set({ genres }),
+    setGenres: (genres) => set({ genres }),
 
-    toggleGenre: genre =>
-        set(state => ({
-            genres: state.genres.includes(genre) ? state.genres.filter(g => g !== genre) : [...state.genres, genre]
+    toggleGenre: (genre) =>
+        set((state) => ({
+            genres: state.genres.includes(genre)
+                ? state.genres.filter((g) => g !== genre)
+                : [...state.genres, genre]
         })),
 
-    setYears: years => set({ years }),
+    setYears: (years) => set({ years }),
 
-    toggleYear: year =>
-        set(state => ({
-            years: state.years.includes(year) ? state.years.filter(y => y !== year) : [...state.years, year]
+    toggleYear: (year) =>
+        set((state) => ({
+            years: state.years.includes(year)
+                ? state.years.filter((y) => y !== year)
+                : [...state.years, year]
         })),
 
-    setStudios: studios => set({ studios }),
+    setStudios: (studios) => set({ studios }),
 
-    toggleStudio: studio =>
-        set(state => ({
+    toggleStudio: (studio) =>
+        set((state) => ({
             studios: state.studios.includes(studio)
-                ? state.studios.filter(s => s !== studio)
+                ? state.studios.filter((s) => s !== studio)
                 : [...state.studios, studio]
         })),
 
-    setArtists: artists => set({ artists }),
+    setArtists: (artists) => set({ artists }),
 
-    toggleArtist: artist =>
-        set(state => ({
+    toggleArtist: (artist) =>
+        set((state) => ({
             artists: state.artists.includes(artist)
-                ? state.artists.filter(a => a !== artist)
+                ? state.artists.filter((a) => a !== artist)
                 : [...state.artists, artist]
         })),
 
-    setGenresMode: mode => set({ genresMode: mode }),
+    setGenresMode: (mode) => set({ genresMode: mode }),
 
-    setAdvancedFilter: isAdvanced => set({ isAdvancedFilter: isAdvanced }),
+    setAdvancedFilter: (isAdvanced) => set({ isAdvancedFilter: isAdvanced }),
 
     clearFilters: () => set(initialState)
 }));

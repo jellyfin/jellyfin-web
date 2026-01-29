@@ -21,7 +21,7 @@ interface TimeStretchState {
 
 export const useTimeStretchStore = create<TimeStretchState>()(
     persist(
-        set => ({
+        (set) => ({
             enabled: false,
             pauseDuration: 2.0,
             resumeDuration: 0.5,
@@ -30,13 +30,15 @@ export const useTimeStretchStore = create<TimeStretchState>()(
             isTransitioning: false,
             isStopped: false,
 
-            setEnabled: enabled => set({ enabled }),
-            setPauseDuration: pauseDuration => set({ pauseDuration: Math.max(0.1, Math.min(10, pauseDuration)) }),
-            setResumeDuration: resumeDuration => set({ resumeDuration: Math.max(0.1, Math.min(5, resumeDuration)) }),
-            setTransitionCurve: transitionCurve => set({ transitionCurve }),
-            setCurrentTempo: currentTempo => set({ currentTempo }),
-            setIsTransitioning: isTransitioning => set({ isTransitioning }),
-            setIsStopped: isStopped => set({ isStopped })
+            setEnabled: (enabled) => set({ enabled }),
+            setPauseDuration: (pauseDuration) =>
+                set({ pauseDuration: Math.max(0.1, Math.min(10, pauseDuration)) }),
+            setResumeDuration: (resumeDuration) =>
+                set({ resumeDuration: Math.max(0.1, Math.min(5, resumeDuration)) }),
+            setTransitionCurve: (transitionCurve) => set({ transitionCurve }),
+            setCurrentTempo: (currentTempo) => set({ currentTempo }),
+            setIsTransitioning: (isTransitioning) => set({ isTransitioning }),
+            setIsStopped: (isStopped) => set({ isStopped })
         }),
         {
             name: 'jellyfin-time-stretch-store'

@@ -2,10 +2,9 @@ import classNames from 'classnames';
 
 import layoutManager from 'components/layoutManager';
 import { ItemAction } from 'constants/itemAction';
-import { getDataAttributes } from 'utils/items';
-
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
+import { getDataAttributes } from 'utils/items';
 
 interface UseListProps {
     item: ItemDto;
@@ -38,7 +37,8 @@ function useList({ item, listOptions }: UseListProps) {
     const listWrapperClass = classNames(
         'listItem',
         {
-            'listItem-border': listOptions.border ?? (listOptions.highlight !== false && !layoutManager.tv)
+            'listItem-border':
+                listOptions.border ?? (listOptions.highlight !== false && !layoutManager.tv)
         },
         { 'itemAction listItem-button': clickEntireItem },
         { 'listItem-focusscale': layoutManager.tv },

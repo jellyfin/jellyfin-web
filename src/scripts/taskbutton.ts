@@ -19,11 +19,13 @@ function taskbutton(options: TaskButtonOptions): void {
     let pollInterval: any;
 
     function pollTasks() {
-        ServerConnections.getApiClient(serverId)?.getScheduledTasks({ IsEnabled: true }).then(updateTasks);
+        ServerConnections.getApiClient(serverId)
+            ?.getScheduledTasks({ IsEnabled: true })
+            .then(updateTasks);
     }
 
     function updateTasks(tasks: any[]) {
-        const task = tasks.find(t => t.Key === options.taskKey);
+        const task = tasks.find((t) => t.Key === options.taskKey);
         if (options.panel) options.panel.classList.toggle('hide', !task);
         if (!task) return;
 

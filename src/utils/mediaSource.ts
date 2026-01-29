@@ -7,6 +7,7 @@ import type { MediaSourceInfo } from '@jellyfin/sdk/lib/generated-client';
  */
 export function isHls(mediaSource: MediaSourceInfo | null | undefined): boolean {
     return (
-        mediaSource?.TranscodingSubProtocol?.toUpperCase() === 'HLS' || mediaSource?.Container?.toUpperCase() === 'HLS'
+        mediaSource?.TranscodingSubProtocol?.toUpperCase() === 'HLS' ||
+        mediaSource?.Container?.toUpperCase() === 'HLS'
     );
 }

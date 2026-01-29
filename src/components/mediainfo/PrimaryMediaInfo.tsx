@@ -1,18 +1,16 @@
-import React, { type FC } from 'react';
 import classNames from 'classnames';
+import React, { type FC } from 'react';
+import type { ItemDto } from 'types/base/models/item-dto';
+import { ItemMediaKind } from 'types/base/models/item-media-kind';
+import type { MiscInfo } from 'types/mediaInfoItem';
 import { Box } from 'ui-primitives';
-import usePrimaryMediaInfo from './usePrimaryMediaInfo';
-
-import MediaInfoItem from './MediaInfoItem';
-import StarIcons from './StarIcons';
 import CaptionMediaInfo from './CaptionMediaInfo';
 import CriticRatingMediaInfo from './CriticRatingMediaInfo';
 import EndsAt from './EndsAt';
-
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { MiscInfo } from 'types/mediaInfoItem';
+import MediaInfoItem from './MediaInfoItem';
+import StarIcons from './StarIcons';
 import type { PrimaryInfoOpts } from './type';
+import usePrimaryMediaInfo from './usePrimaryMediaInfo';
 
 interface PrimaryMediaInfoProps extends PrimaryInfoOpts {
     className?: string;
@@ -66,8 +64,15 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
         showVideo3DFormatInfo,
         showPhotoSizeInfo
     });
-    const { StartDate, HasSubtitles, MediaType, RunTimeTicks, PlaybackPositionTicks, CommunityRating, CriticRating } =
-        item;
+    const {
+        StartDate,
+        HasSubtitles,
+        MediaType,
+        RunTimeTicks,
+        PlaybackPositionTicks,
+        CommunityRating,
+        CriticRating
+    } = item;
 
     const cssClass = classNames(className);
 
@@ -81,7 +86,11 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
     return (
         <Box className={cssClass}>
             {miscInfo.map((info, index) => (
-                <MediaInfoItem key={getInfoKey(info, index)} className={infoclass} miscInfo={info} />
+                <MediaInfoItem
+                    key={getInfoKey(info, index)}
+                    className={infoclass}
+                    miscInfo={info}
+                />
             ))}
 
             {showStarRatingInfo && CommunityRating && (
@@ -95,7 +104,11 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
             )}
 
             {showEndsAtInfo && MediaType === ItemMediaKind.Video && RunTimeTicks && !StartDate && (
-                <EndsAt className={infoclass} runTimeTicks={RunTimeTicks} positionTicks={PlaybackPositionTicks} />
+                <EndsAt
+                    className={infoclass}
+                    runTimeTicks={RunTimeTicks}
+                    positionTicks={PlaybackPositionTicks}
+                />
             )}
 
             {getMissingIndicator?.()}

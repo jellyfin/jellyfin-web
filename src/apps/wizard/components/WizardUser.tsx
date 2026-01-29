@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
-
-import { Button } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives';
 import { useNavigate } from '@tanstack/react-router';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import { Button, Heading, Input, Text } from 'ui-primitives';
 import Loading from '../../../components/loading/LoadingComponent';
 import toast from '../../../components/toast/toast';
 import * as styles from './WizardUser.css.ts';
@@ -65,7 +61,9 @@ const WizardUser = () => {
 
     return (
         <div className={styles.container}>
-            <Heading.H2 className={styles.title}>{globalize.translate('HeaderCreateUser')}</Heading.H2>
+            <Heading.H2 className={styles.title}>
+                {globalize.translate('HeaderCreateUser')}
+            </Heading.H2>
             <Text className={styles.helpText}>{globalize.translate('HeaderCreateUserHelp')}</Text>
 
             <form onSubmit={handleSubmit}>

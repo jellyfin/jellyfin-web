@@ -1,17 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { PlayIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-
-import { useServerStore } from 'store/serverStore';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
-import { toVideoItem } from 'lib/utils/playbackUtils';
 import { LoadingView } from 'components/feedback/LoadingView';
-import { logger } from 'utils/logger';
+import { toVideoItem } from 'lib/utils/playbackUtils';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { useServerStore } from 'store/serverStore';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Flex, Heading, IconButton, Text } from 'ui-primitives';
+import { logger } from 'utils/logger';
 
 interface StudioCardProps {
     studio: any;
@@ -83,7 +79,7 @@ const StudioCard: React.FC<StudioCardProps> = ({ studio, currentServerId, onPlay
                                 <IconButton
                                     variant="solid"
                                     color="primary"
-                                    onClick={e => {
+                                    onClick={(e) => {
                                         e.stopPropagation();
                                         onPlay();
                                     }}
@@ -149,46 +145,54 @@ export function TVStudios() {
         loadStudios();
     }, [loadStudios]);
 
-    const handleStudioClick = useCallback((studioId: string) => {
-        if (currentServer?.id) {
-            window.location.href = `/list.html?serverId=${currentServer.id}&studioId=${studioId}&type=Series`;
-        }
-    }, [currentServer?.id]);
-
-    const handleStudioPlay = useCallback(async (studio: any) => {
-        try {
-            if (!currentServer?.id || !currentServer?.userId) return;
-
-            const apiClient = (window as any).ApiClient;
-            if (!apiClient) return;
-
-            const client = apiClient.getApiClient(currentServer.id);
-
-            // Fetch shows from this studio (limit to 50)
-            const url = client.getUrl('Items', {
-                UserId: currentServer.userId,
-                IncludeItemTypes: 'Series',
-                Studios: studio.Id,
-                Limit: 50,
-                Recursive: true,
-                SortBy: 'Random',
-                Fields: 'MediaSources'
-            });
-
-            const result = await client.getJSON(url);
-
-            if (!result.Items || result.Items.length === 0) {
-                logger.warn('[TVStudios] No shows found for studio', { studioName: studio.Name });
-                return;
+    const handleStudioClick = useCallback(
+        (studioId: string) => {
+            if (currentServer?.id) {
+                window.location.href = `/list.html?serverId=${currentServer.id}&studioId=${studioId}&type=Series`;
             }
+        },
+        [currentServer?.id]
+    );
 
-            const playables = result.Items.map(toVideoItem);
-            await playbackManagerBridge.setQueue(playables, 0);
-            await playbackManagerBridge.play();
-        } catch (error) {
-            logger.error('[TVStudios] Failed to play studio shows', { error });
-        }
-    }, [currentServer?.id, currentServer?.userId]);
+    const handleStudioPlay = useCallback(
+        async (studio: any) => {
+            try {
+                if (!currentServer?.id || !currentServer?.userId) return;
+
+                const apiClient = (window as any).ApiClient;
+                if (!apiClient) return;
+
+                const client = apiClient.getApiClient(currentServer.id);
+
+                // Fetch shows from this studio (limit to 50)
+                const url = client.getUrl('Items', {
+                    UserId: currentServer.userId,
+                    IncludeItemTypes: 'Series',
+                    Studios: studio.Id,
+                    Limit: 50,
+                    Recursive: true,
+                    SortBy: 'Random',
+                    Fields: 'MediaSources'
+                });
+
+                const result = await client.getJSON(url);
+
+                if (!result.Items || result.Items.length === 0) {
+                    logger.warn('[TVStudios] No shows found for studio', {
+                        studioName: studio.Name
+                    });
+                    return;
+                }
+
+                const playables = result.Items.map(toVideoItem);
+                await playbackManagerBridge.setQueue(playables, 0);
+                await playbackManagerBridge.play();
+            } catch (error) {
+                logger.error('[TVStudios] Failed to play studio shows', { error });
+            }
+        },
+        [currentServer?.id, currentServer?.userId]
+    );
 
     if (!currentServer?.id) {
         return <LoadingView message="Select a server" />;
@@ -202,7 +206,11 @@ export function TVStudios() {
         return (
             <Box style={{ padding: vars.spacing['5'] }}>
                 <Text color="error">{error}</Text>
-                <Button variant="secondary" onClick={loadStudios} style={{ marginTop: vars.spacing['4'] }}>
+                <Button
+                    variant="secondary"
+                    onClick={loadStudios}
+                    style={{ marginTop: vars.spacing['4'] }}
+                >
                     Retry
                 </Button>
             </Box>
@@ -218,7 +226,7 @@ export function TVStudios() {
             </Box>
 
             <Box style={{ display: 'flex', flexWrap: 'wrap', gap: vars.spacing['5'] }}>
-                {studios.map(studio => (
+                {studios.map((studio) => (
                     <StudioCard
                         key={studio.Id}
                         studio={studio}

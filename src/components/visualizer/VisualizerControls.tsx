@@ -1,9 +1,6 @@
-import { Button } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
 import React from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Flex, Heading, Paper, Text } from 'ui-primitives';
 
 interface VisualizerControlsProps {
     currentType: string;
@@ -17,8 +14,15 @@ interface VisualizerControlsProps {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function VisualizerControls(props: VisualizerControlsProps) {
-    const { currentType, isEnabled, sensitivity, onTypeChange, onSensitivityChange, onToggleEnabled, className } =
-        props;
+    const {
+        currentType,
+        isEnabled,
+        sensitivity,
+        onTypeChange,
+        onSensitivityChange,
+        onToggleEnabled,
+        className
+    } = props;
 
     return (
         <Paper

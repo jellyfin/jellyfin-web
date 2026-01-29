@@ -1,6 +1,6 @@
-import { Root, Portal, Overlay, Content } from '@radix-ui/react-dialog';
-import React, { useCallback, type ReactElement, type ReactNode, type CSSProperties } from 'react';
-import { drawerOverlay, drawerContent, drawerAnchor } from './Drawer.css.ts';
+import { Content, Overlay, Portal, Root } from '@radix-ui/react-dialog';
+import React, { type CSSProperties, type ReactElement, type ReactNode, useCallback } from 'react';
+import { drawerAnchor, drawerContent, drawerOverlay } from './Drawer.css.ts';
 
 export type DrawerAnchor = 'left' | 'right' | 'top' | 'bottom';
 
@@ -13,7 +13,14 @@ export interface DrawerProps {
     readonly className?: string;
 }
 
-export function Drawer({ anchor = 'left', open, onClose, children, style, className }: DrawerProps): ReactElement {
+export function Drawer({
+    anchor = 'left',
+    open,
+    onClose,
+    children,
+    style,
+    className
+}: DrawerProps): ReactElement {
     const handleOpenChange = useCallback(
         (value: boolean): void => {
             if (!value) {
@@ -27,7 +34,10 @@ export function Drawer({ anchor = 'left', open, onClose, children, style, classN
         <Root open={open} onOpenChange={handleOpenChange}>
             <Portal>
                 <Overlay className={drawerOverlay} />
-                <Content className={[drawerContent, drawerAnchor[anchor], className ?? ''].join(' ')} style={style}>
+                <Content
+                    className={[drawerContent, drawerAnchor[anchor], className ?? ''].join(' ')}
+                    style={style}
+                >
                     {children}
                 </Content>
             </Portal>

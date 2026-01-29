@@ -1,5 +1,5 @@
-import globalize from 'lib/globalize';
 import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
 import dom from 'utils/dom';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
@@ -16,9 +16,11 @@ function fillTypes(view, currentId) {
     return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then((types) => {
         const selectType = view.querySelector('.selectType');
         let html = '';
-        html += types.map((tuner) => {
-            return '<option value="' + tuner.Id + '">' + tuner.Name + '</option>';
-        }).join('');
+        html += types
+            .map((tuner) => {
+                return '<option value="' + tuner.Id + '">' + tuner.Name + '</option>';
+            })
+            .join('');
         html += '<option value="other">';
         html += globalize.translate('TabOther');
         html += '</option>';
@@ -65,7 +67,8 @@ function fillTunerHostInfo(view, info) {
     view.querySelector('.chkStreamSharing').checked = info.AllowStreamSharing;
     view.querySelector('.chkIgnoreDts').checked = info.IgnoreDts;
     view.querySelector('.chkReadInputAtNativeFramerate').checked = info.ReadAtNativeFramerate;
-    view.querySelector('.txtFallbackMaxStreamingBitrate').value = info.FallbackMaxStreamingBitrate / 1e6 || '30';
+    view.querySelector('.txtFallbackMaxStreamingBitrate').value =
+        info.FallbackMaxStreamingBitrate / 1e6 || '30';
     view.querySelector('.txtTunerCount').value = info.TunerCount || '0';
 }
 
@@ -78,7 +81,10 @@ function submitForm(page) {
         FriendlyName: page.querySelector('.txtFriendlyName').value || null,
         DeviceId: page.querySelector('.fldDeviceId').value || null,
         TunerCount: page.querySelector('.txtTunerCount').value || 0,
-        FallbackMaxStreamingBitrate: parseInt(1e6 * parseFloat(page.querySelector('.txtFallbackMaxStreamingBitrate').value || '30'), 10),
+        FallbackMaxStreamingBitrate: parseInt(
+            1e6 * parseFloat(page.querySelector('.txtFallbackMaxStreamingBitrate').value || '30'),
+            10
+        ),
         ImportFavoritesOnly: page.querySelector('.chkFavorite').checked,
         AllowHWTranscoding: page.querySelector('.chkTranscode').checked,
         AllowFmp4TranscodingContainer: page.querySelector('.chkFmp4Container').checked,
@@ -102,15 +108,18 @@ function submitForm(page) {
         url: ApiClient.getUrl('LiveTv/TunerHosts'),
         data: JSON.stringify(info),
         contentType: 'application/json'
-    }).then(() => {
-        Dashboard.processServerConfigurationUpdateResult();
-        Dashboard.navigate('dashboard/livetv');
-    }, () => {
-        loading.hide();
-        Dashboard.alert({
-            message: globalize.translate('ErrorSavingTvProvider')
-        });
-    });
+    }).then(
+        () => {
+            Dashboard.processServerConfigurationUpdateResult();
+            Dashboard.navigate('dashboard/livetv');
+        },
+        () => {
+            loading.hide();
+            Dashboard.alert({
+                message: globalize.translate('ErrorSavingTvProvider')
+            });
+        }
+    );
 }
 
 function getDetectedDevice() {
@@ -179,7 +188,10 @@ function onTypeChange() {
 
     view.querySelector('.fldFmp4Container').classList.toggle('hide', !supportsFmp4Container);
     view.querySelector('.fldStreamSharing').classList.toggle('hide', !supportsStreamSharing);
-    view.querySelector('.fldFallbackMaxStreamingBitrate').classList.toggle('hide', !supportsFallbackBitrate);
+    view.querySelector('.fldFallbackMaxStreamingBitrate').classList.toggle(
+        'hide',
+        !supportsFallbackBitrate
+    );
 
     if (supportsStreamLooping) {
         view.querySelector('.fldStreamLoop').classList.remove('hide');
@@ -193,7 +205,10 @@ function onTypeChange() {
         view.querySelector('.fldIgnoreDts').classList.add('hide');
     }
 
-    view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle('hide', !supportsReadInputAtNativeFramerate);
+    view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle(
+        'hide',
+        !supportsReadInputAtNativeFramerate
+    );
 
     if (supportsTunerCount) {
         view.querySelector('.fldTunerCount').classList.remove('hide');
@@ -240,18 +255,20 @@ export default function (view, params) {
         });
     });
     view.querySelector('.btnSelectPath').addEventListener('click', () => {
-        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-            const picker = new DirectoryBrowser();
-            picker.show({
-                includeFiles: true,
-                callback: function (path) {
-                    if (path) {
-                        view.querySelector('.txtDevicePath').value = path;
-                    }
+        import('components/directorybrowser/directorybrowser').then(
+            ({ default: DirectoryBrowser }) => {
+                const picker = new DirectoryBrowser();
+                picker.show({
+                    includeFiles: true,
+                    callback: function (path) {
+                        if (path) {
+                            view.querySelector('.txtDevicePath').value = path;
+                        }
 
-                    picker.close();
-                }
-            });
-        });
+                        picker.close();
+                    }
+                });
+            }
+        );
     });
 }

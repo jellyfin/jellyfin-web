@@ -64,8 +64,8 @@ function parseTimestampsFromElement(parent: Element, selector: string): number[]
     if (text === undefined || text === '') return [];
     return text
         .split(',')
-        .map(s => parseFloat(s.trim()))
-        .filter(n => !isNaN(n));
+        .map((s) => parseFloat(s.trim()))
+        .filter((n) => !isNaN(n));
 }
 
 function parseAnalysis(analysisEl: Element): NfoPeaksData['analysis'] {
@@ -99,7 +99,7 @@ function parseResolutions(resolutionsEl: Element, peaks: PeakData): void {
         ultra: 'ultra'
     };
 
-    resolutionsEl.querySelectorAll('low, medium, high, ultra').forEach(resEl => {
+    resolutionsEl.querySelectorAll('low, medium, high, ultra').forEach((resEl) => {
         const tagName = resEl.tagName.toLowerCase();
         const key = resolutionMap[tagName] ?? 'medium';
         peaks[key] = parseChannelData(resEl.textContent ?? '');
@@ -145,8 +145,8 @@ function parseChannelData(text: string): number[][] {
 
     const values = text
         .split(',')
-        .map(s => parseFloat(s.trim()))
-        .filter(n => !isNaN(n));
+        .map((s) => parseFloat(s.trim()))
+        .filter((n) => !isNaN(n));
     const channel1: number[] = [];
     const channel2: number[] = [];
 

@@ -3,37 +3,36 @@
  * Centralized exports for wide events and logging
  */
 
-// Core types
-export type {
-    WideEvent,
-    RequestContextData,
-    BusinessContext,
-    EnvironmentContext,
-    HighCardinalityFields,
-    CreateEventOptions,
-    JourneyContext,
-    EventOutcome,
-    LogLevel as WideEventLogLevel,
-    WideEventLogger
-} from './types';
+// Legacy logger (updated to support wide events)
+export { type LogContext, LogLevel as LegacyLogLevel, logger } from '../logger';
 
 // Environment utilities
 export {
-    getSessionId,
-    getBuildHash,
-    getAppVersion,
-    getUserAgent,
-    getCurrentUrl,
-    getEnvironmentContext,
-    getCurrentUserId,
-    getCurrentServerId,
-    generateEventId,
     clearEnvironmentCache,
+    generateEventId,
+    getAppVersion,
+    getBuildHash,
+    getCurrentServerId,
+    getCurrentUrl,
+    getCurrentUserId,
+    getEnvironmentContext,
+    getSessionId,
+    getUserAgent,
     initializeEnvironment
 } from './environment';
 
 // Request context middleware
 export { RequestContext } from './requestContext';
-
-// Legacy logger (updated to support wide events)
-export { logger, LogLevel as LegacyLogLevel, type LogContext } from '../logger';
+// Core types
+export type {
+    BusinessContext,
+    CreateEventOptions,
+    EnvironmentContext,
+    EventOutcome,
+    HighCardinalityFields,
+    JourneyContext,
+    LogLevel as WideEventLogLevel,
+    RequestContextData,
+    WideEvent,
+    WideEventLogger
+} from './types';

@@ -1,10 +1,7 @@
-import React from 'react';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
-
-import { Box } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
+import React from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Heading } from 'ui-primitives';
 
 interface WidgetProps {
     title: string;

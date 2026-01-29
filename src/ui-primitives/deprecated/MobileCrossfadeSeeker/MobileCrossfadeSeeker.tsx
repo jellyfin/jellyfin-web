@@ -8,19 +8,19 @@
  * - Haptic feedback support
  */
 
-import { useRef, useState, useCallback, useEffect, type ReactElement } from 'react';
+import { type ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { CrossfadeWaveSurfer, type TrackState } from '../CrossfadeWaveSurfer';
 import {
-    seekerContainer,
-    timeDisplay,
-    progressBarContainer,
-    progressBar,
-    progressFill,
     buffered as bufferedStyle,
     handle,
-    waveformContainer,
+    progressBar,
+    progressBarContainer,
+    progressFill,
+    seekerContainer,
     swipeHintLeft,
-    swipeHintRight
+    swipeHintRight,
+    timeDisplay,
+    waveformContainer
 } from './MobileCrossfadeSeeker.css.ts';
 
 export interface MobileCrossfadeSeekerProps {
@@ -116,7 +116,12 @@ export function MobileCrossfadeSeeker({
             const threshold = 50;
 
             if (Math.abs(deltaX) > threshold) {
-                if (deltaX < 0 && nextTrack !== null && nextTrack !== undefined && onNext !== undefined) {
+                if (
+                    deltaX < 0 &&
+                    nextTrack !== null &&
+                    nextTrack !== undefined &&
+                    onNext !== undefined
+                ) {
                     setSwipeDirection('left');
                 } else if (
                     deltaX > 0 &&
@@ -140,9 +145,17 @@ export function MobileCrossfadeSeeker({
             const deltaX = touch.clientX - touchStartRef.current;
             const swipeThreshold = 100;
 
-            if (swipeDirection === 'left' && onNext !== undefined && Math.abs(deltaX) > swipeThreshold) {
+            if (
+                swipeDirection === 'left' &&
+                onNext !== undefined &&
+                Math.abs(deltaX) > swipeThreshold
+            ) {
                 onNext();
-            } else if (swipeDirection === 'right' && onPrevious !== undefined && Math.abs(deltaX) > swipeThreshold) {
+            } else if (
+                swipeDirection === 'right' &&
+                onPrevious !== undefined &&
+                Math.abs(deltaX) > swipeThreshold
+            ) {
                 onPrevious();
             } else {
                 const seekProgress = localProgress;
@@ -212,7 +225,7 @@ export function MobileCrossfadeSeeker({
     );
 
     const renderBuffered = (): ReactElement[] => {
-        return buffered.map(range => {
+        return buffered.map((range) => {
             const startPercent = (range.start / duration) * 100;
             const widthPercent = ((range.end - range.start) / duration) * 100;
             return (
@@ -230,8 +243,15 @@ export function MobileCrossfadeSeeker({
 
     const isSwipeActive = swipeDirection !== null;
     const showLeftHint =
-        showSwipeHints && previousTrack !== null && previousTrack !== undefined && swipeDirection === 'right';
-    const showRightHint = showSwipeHints && nextTrack !== null && nextTrack !== undefined && swipeDirection === 'left';
+        showSwipeHints &&
+        previousTrack !== null &&
+        previousTrack !== undefined &&
+        swipeDirection === 'right';
+    const showRightHint =
+        showSwipeHints &&
+        nextTrack !== null &&
+        nextTrack !== undefined &&
+        swipeDirection === 'left';
 
     return (
         <div className={seekerContainer}>

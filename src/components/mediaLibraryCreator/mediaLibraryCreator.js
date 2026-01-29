@@ -1,15 +1,14 @@
-
 /**
  * Module for media library creator.
  * @module components/mediaLibraryCreator/mediaLibraryCreator
  */
 
 import escapeHtml from 'escape-html';
-import loading from '../loading/loading';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
-import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../lib/globalize';
+import dom from '../../utils/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
+import loading from '../loading/loading';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
@@ -18,8 +17,8 @@ import '../../elements/emby-toggle/emby-toggle';
 import '../listview/listview.scss';
 import '../formdialog.scss';
 import './style.scss';
-import toast from '../toast/toast';
 import alert from '../alert';
+import toast from '../toast/toast';
 import template from './mediaLibraryCreator.template.html?raw';
 
 function onAddLibrary(e) {
@@ -60,25 +59,32 @@ function onAddLibrary(e) {
         type = null;
     }
 
-    const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
+    const libraryOptions = libraryoptionseditor.getLibraryOptions(
+        dlg.querySelector('.libraryOptions')
+    );
     libraryOptions.PathInfos = pathInfos;
-    ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
-        hasChanges = true;
-        isCreating = false;
-        loading.hide();
-        dialogHelper.close(dlg);
-    }, () => {
-        toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
+    ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(
+        () => {
+            hasChanges = true;
+            isCreating = false;
+            loading.hide();
+            dialogHelper.close(dlg);
+        },
+        () => {
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
 
-        isCreating = false;
-        loading.hide();
-    });
+            isCreating = false;
+            loading.hide();
+        }
+    );
 }
 
 function getCollectionTypeOptionsHtml(collectionTypeOptions) {
-    return collectionTypeOptions.map(i => {
-        return `<option value="${i.value}">${i.name}</option>`;
-    }).join('');
+    return collectionTypeOptions
+        .map((i) => {
+            return `<option value="${i.value}">${i.name}</option>`;
+        })
+        .join('');
 }
 
 function initEditor(page, collectionTypeOptions) {
@@ -107,8 +113,9 @@ function initEditor(page, collectionTypeOptions) {
             }
         }
 
-        const folderOption = collectionTypeOptions.find(i => i.value === value);
-        dlg.querySelector('.collectionTypeFieldDescription').innerHTML = folderOption?.message || '';
+        const folderOption = collectionTypeOptions.find((i) => i.value === value);
+        dlg.querySelector('.collectionTypeFieldDescription').innerHTML =
+            folderOption?.message || '';
     });
     page.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
     page.querySelector('.addLibraryForm').addEventListener('submit', onAddLibrary);
@@ -162,7 +169,7 @@ function renderPaths(page) {
 
 function addMediaLocation(page, path) {
     const pathLower = path.toLowerCase();
-    const pathFilter = pathInfos.filter(p => {
+    const pathFilter = pathInfos.filter((p) => {
         return p.Path.toLowerCase() == pathLower;
     });
 
@@ -181,7 +188,7 @@ function onRemoveClick(e) {
     const index = parseInt(button.getAttribute('data-index'), 10);
     const location = pathInfos[index].Path;
     const locationLower = location.toLowerCase();
-    pathInfos = pathInfos.filter(p => {
+    pathInfos = pathInfos.filter((p) => {
         return p.Path.toLowerCase() != locationLower;
     });
     renderPaths(dom.parentWithClass(button, 'dlg-librarycreator'));

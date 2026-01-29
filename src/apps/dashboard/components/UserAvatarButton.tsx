@@ -1,7 +1,6 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import React from 'react';
-
 import UserAvatar from 'components/UserAvatar';
+import React from 'react';
 import { IconButton } from 'ui-primitives';
 
 interface UserAvatarButtonProps {
@@ -25,8 +24,8 @@ export function UserAvatarButton({
             style={{ textDecoration: 'none', color: 'inherit', display: 'inline-flex' }}
         >
             <IconButton
-                variant='plain'
-                size='lg'
+                variant="plain"
+                size="lg"
                 title={user?.Name ?? undefined}
                 style={{ padding: 0, ...style }}
             >

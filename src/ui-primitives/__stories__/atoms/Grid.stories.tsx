@@ -1,10 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Grid } from '../..';
-import { Box } from '../..';
-import { Text } from '../..';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Grid, Text } from '../..';
 
 const meta: Meta<typeof Grid> = {
     title: 'UI Primitives/Grid',
@@ -22,32 +19,74 @@ function DefaultStory(): ReactElement {
     return (
         <Grid container spacing="5" style={{ width: '400px' }}>
             <Grid xs={12}>
-                <Box style={{ backgroundColor: '#aa5eaa', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                <Box
+                    style={{
+                        backgroundColor: '#aa5eaa',
+                        padding: '16px',
+                        borderRadius: '8px',
+                        textAlign: 'center'
+                    }}
+                >
                     <Text color="secondary">Full Width (12)</Text>
                 </Box>
             </Grid>
             <Grid xs={6}>
-                <Box style={{ backgroundColor: '#4caf50', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                <Box
+                    style={{
+                        backgroundColor: '#4caf50',
+                        padding: '16px',
+                        borderRadius: '8px',
+                        textAlign: 'center'
+                    }}
+                >
                     <Text color="secondary">Half (6)</Text>
                 </Box>
             </Grid>
             <Grid xs={6}>
-                <Box style={{ backgroundColor: '#2196f3', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                <Box
+                    style={{
+                        backgroundColor: '#2196f3',
+                        padding: '16px',
+                        borderRadius: '8px',
+                        textAlign: 'center'
+                    }}
+                >
                     <Text color="secondary">Half (6)</Text>
                 </Box>
             </Grid>
             <Grid xs={4}>
-                <Box style={{ backgroundColor: '#ff9800', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                <Box
+                    style={{
+                        backgroundColor: '#ff9800',
+                        padding: '16px',
+                        borderRadius: '8px',
+                        textAlign: 'center'
+                    }}
+                >
                     <Text color="secondary">Third (4)</Text>
                 </Box>
             </Grid>
             <Grid xs={4}>
-                <Box style={{ backgroundColor: '#e91e63', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                <Box
+                    style={{
+                        backgroundColor: '#e91e63',
+                        padding: '16px',
+                        borderRadius: '8px',
+                        textAlign: 'center'
+                    }}
+                >
                     <Text color="secondary">Third (4)</Text>
                 </Box>
             </Grid>
             <Grid xs={4}>
-                <Box style={{ backgroundColor: '#9c27b0', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                <Box
+                    style={{
+                        backgroundColor: '#9c27b0',
+                        padding: '16px',
+                        borderRadius: '8px',
+                        textAlign: 'center'
+                    }}
+                >
                     <Text color="secondary">Third (4)</Text>
                 </Box>
             </Grid>
@@ -90,24 +129,42 @@ export const Responsive: Story = {
 function AllSpacingsStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '500px' }}>
-            {(['2', '4', '5', '6', '7'] as const).map(spacing => (
+            {(['2', '4', '5', '6', '7'] as const).map((spacing) => (
                 <Box key={spacing}>
                     <Text as="small" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                         spacing=&quot;{spacing}&quot;
                     </Text>
                     <Grid container spacing={spacing}>
                         <Grid xs={4}>
-                            <Box style={{ backgroundColor: '#252525', padding: '12px', borderRadius: '4px' }}>
+                            <Box
+                                style={{
+                                    backgroundColor: '#252525',
+                                    padding: '12px',
+                                    borderRadius: '4px'
+                                }}
+                            >
                                 <Text size="sm">Item</Text>
                             </Box>
                         </Grid>
                         <Grid xs={4}>
-                            <Box style={{ backgroundColor: '#252525', padding: '12px', borderRadius: '4px' }}>
+                            <Box
+                                style={{
+                                    backgroundColor: '#252525',
+                                    padding: '12px',
+                                    borderRadius: '4px'
+                                }}
+                            >
                                 <Text size="sm">Item</Text>
                             </Box>
                         </Grid>
                         <Grid xs={4}>
-                            <Box style={{ backgroundColor: '#252525', padding: '12px', borderRadius: '4px' }}>
+                            <Box
+                                style={{
+                                    backgroundColor: '#252525',
+                                    padding: '12px',
+                                    borderRadius: '4px'
+                                }}
+                            >
                                 <Text size="sm">Item</Text>
                             </Box>
                         </Grid>
@@ -128,7 +185,12 @@ function TwelveColumnsStory(): ReactElement {
             {Array.from({ length: 12 }, (_, i) => (
                 <Grid key={i} xs={1}>
                     <Box
-                        style={{ backgroundColor: '#aa5eaa', padding: '8px', borderRadius: '4px', textAlign: 'center' }}
+                        style={{
+                            backgroundColor: '#aa5eaa',
+                            padding: '8px',
+                            borderRadius: '4px',
+                            textAlign: 'center'
+                        }}
                     >
                         <Text size="xs">{i + 1}</Text>
                     </Box>

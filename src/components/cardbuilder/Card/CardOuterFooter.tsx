@@ -1,11 +1,10 @@
-import React, { type FC } from 'react';
 import classNames from 'classnames';
 import { useApi } from 'hooks/useApi';
-import { getCardLogoUrl } from './cardHelper';
-import CardFooterText from './CardFooterText';
-
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
+import CardFooterText from './CardFooterText';
+import { getCardLogoUrl } from './cardHelper';
 
 interface CardOuterFooterProps {
     item: ItemDto;
@@ -15,7 +14,13 @@ interface CardOuterFooterProps {
     overlayText: boolean | undefined;
 }
 
-const CardOuterFooter: FC<CardOuterFooterProps> = ({ item, cardOptions, overlayText, imgUrl, forceName }) => {
+const CardOuterFooter: FC<CardOuterFooterProps> = ({
+    item,
+    cardOptions,
+    overlayText,
+    imgUrl,
+    forceName
+}) => {
     const { api } = useApi();
     const logoInfo = getCardLogoUrl(item, api, cardOptions);
     const logoUrl = (logoInfo as any).logoUrl || '';

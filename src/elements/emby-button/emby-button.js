@@ -4,8 +4,8 @@ import { safeAppHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
-import { removeEventListener, addEventListener } from 'utils/dom';
 import shell from 'scripts/shell';
+import { addEventListener, removeEventListener } from 'utils/dom';
 
 import './emby-button.scss';
 

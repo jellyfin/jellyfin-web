@@ -9,6 +9,7 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
+import type { XbmcMetadataOptions } from '@jellyfin/sdk/lib/generated-client/models/xbmc-metadata-options';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
@@ -19,15 +20,22 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useState } from 'react';
 import { type ActionData } from 'types/actionData';
+import {
+    Alert,
+    Button,
+    Checkbox,
+    Flex,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 import { queryClient } from 'utils/query/queryClient';
-import type { XbmcMetadataOptions } from '@jellyfin/sdk/lib/generated-client/models/xbmc-metadata-options';
-import { Alert } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
 
 const CONFIG_KEY = 'xbmcmetadata';
 
@@ -67,7 +75,10 @@ export const Component = (): React.ReactElement => {
                 EnableExtraThumbsDuplication: data.EnableExtraThumbsDuplication?.toString() === 'on'
             };
 
-            await getConfigurationApi(api).updateNamedConfiguration({ key: CONFIG_KEY, body: newConfig });
+            await getConfigurationApi(api).updateNamedConfiguration({
+                key: CONFIG_KEY,
+                body: newConfig
+            });
 
             void queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY, CONFIG_KEY]
@@ -103,7 +114,9 @@ export const Component = (): React.ReactElement => {
                     <form onSubmit={handleSubmit}>
                         <Flex style={{ flexDirection: 'column', gap: '24px' }}>
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
+                                <Alert variant="success">
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
                             )}
                             <Text as="h1" size="xl" weight="bold">
                                 {globalize.translate('TabNfoSettings')}
@@ -112,11 +125,13 @@ export const Component = (): React.ReactElement => {
 
                             <Select name="UserId" defaultValue={config.UserId || ''}>
                                 <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelKodiMetadataUser')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate('LabelKodiMetadataUser')}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="">{globalize.translate('None')}</SelectItem>
-                                    {users.map(user => (
+                                    {users.map((user) => (
                                         <SelectItem key={user.Id} value={user.Id || ''}>
                                             {user.Name}
                                         </SelectItem>
@@ -147,10 +162,14 @@ export const Component = (): React.ReactElement => {
                                             defaultChecked={config.EnablePathSubstitution}
                                         />
                                     }
-                                    label={globalize.translate('LabelKodiMetadataEnablePathSubstitution')}
+                                    label={globalize.translate(
+                                        'LabelKodiMetadataEnablePathSubstitution'
+                                    )}
                                 />
                                 <FormHelperText>
-                                    {globalize.translate('LabelKodiMetadataEnablePathSubstitutionHelp')}
+                                    {globalize.translate(
+                                        'LabelKodiMetadataEnablePathSubstitutionHelp'
+                                    )}
                                 </FormHelperText>
                             </FormControl>
 
@@ -162,7 +181,9 @@ export const Component = (): React.ReactElement => {
                                             defaultChecked={config.EnableExtraThumbsDuplication}
                                         />
                                     }
-                                    label={globalize.translate('LabelKodiMetadataEnableExtraThumbs')}
+                                    label={globalize.translate(
+                                        'LabelKodiMetadataEnableExtraThumbs'
+                                    )}
                                 />
                                 <FormHelperText>
                                     {globalize.translate('LabelKodiMetadataEnableExtraThumbsHelp')}

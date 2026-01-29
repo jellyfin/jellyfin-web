@@ -6,174 +6,192 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, usePreferencesStore } from './index';
-import type { PlayableItem, PlaybackProgress, RepeatMode, ShuffleMode, PlayerInfo } from './types';
 import type { ControlSource } from './controlsStore';
-import type { PlaybackStatus } from './types';
+import {
+    useControlsStore,
+    useMediaStore,
+    usePlayerStore,
+    usePreferencesStore,
+    useQueueStore
+} from './index';
+import type {
+    PlayableItem,
+    PlaybackProgress,
+    PlaybackStatus,
+    PlayerInfo,
+    RepeatMode,
+    ShuffleMode
+} from './types';
 
 // Playback state hooks
 export function usePlaybackStatus(): PlaybackStatus {
-    const status = useMediaStore(state => state.status);
+    const status = useMediaStore((state) => state.status);
     return status;
 }
 
 export function useIsPlaying(): boolean {
-    const status = useMediaStore(state => state.status);
+    const status = useMediaStore((state) => state.status);
     return status === 'playing';
 }
 
 export function useIsPaused(): boolean {
-    const status = useMediaStore(state => state.status);
+    const status = useMediaStore((state) => state.status);
     return status === 'paused';
 }
 
 export function useIsBuffering(): boolean {
-    const status = useMediaStore(state => state.status);
+    const status = useMediaStore((state) => state.status);
     return status === 'buffering';
 }
 
 export function useCurrentItem(): PlayableItem | null {
-    const currentItem = useMediaStore(state => state.currentItem);
+    const currentItem = useMediaStore((state) => state.currentItem);
     return currentItem;
 }
 
 export function useProgress(): PlaybackProgress {
-    const progress = useMediaStore(state => state.progress);
+    const progress = useMediaStore((state) => state.progress);
     return progress;
 }
 
 export function useBuffered(): number {
-    const buffered = useMediaStore(state => state.progress.buffered);
+    const buffered = useMediaStore((state) => state.progress.buffered);
     return buffered;
 }
 
 export function useCurrentTime(): number {
-    const currentTime = useMediaStore(state => state.progress.currentTime);
+    const currentTime = useMediaStore((state) => state.progress.currentTime);
     return currentTime;
 }
 
 export function useDuration(): number {
-    const duration = useMediaStore(state => state.progress.duration);
+    const duration = useMediaStore((state) => state.progress.duration);
     return duration;
 }
 
 // Volume and audio hooks
 export function useVolume(): number {
-    const volume = usePreferencesStore(state => state.audio.volume);
+    const volume = usePreferencesStore((state) => state.audio.volume);
     return volume;
 }
 
 export function useIsMuted(): boolean {
-    const muted = usePreferencesStore(state => state.audio.muted);
+    const muted = usePreferencesStore((state) => state.audio.muted);
     return muted;
 }
 
 export function usePlaybackRate(): number {
-    const playbackRate = useMediaStore(state => state.playbackRate);
+    const playbackRate = useMediaStore((state) => state.playbackRate);
     return playbackRate;
 }
 
 // Queue hooks
 export function useQueueItems(): PlayableItem[] {
-    const items = useQueueStore(state => state.items.map(qi => qi.item));
+    const items = useQueueStore((state) => state.items.map((qi) => qi.item));
     return items;
 }
 
 export function useCurrentQueueIndex(): number {
-    const currentIndex = useQueueStore(state => state.currentIndex);
+    const currentIndex = useQueueStore((state) => state.currentIndex);
     return currentIndex;
 }
 
 export function useCurrentQueueItem(): PlayableItem | null {
-    const item = useQueueStore(state => state.items[state.currentIndex]?.item ?? null);
+    const item = useQueueStore((state) => state.items[state.currentIndex]?.item ?? null);
     return item;
 }
 
 export function useQueueSize(): number {
-    const size = useQueueStore(state => state.items.length);
+    const size = useQueueStore((state) => state.items.length);
     return size;
 }
 
 export function useRepeatMode(): RepeatMode {
-    const repeatMode = useMediaStore(state => state.repeatMode);
+    const repeatMode = useMediaStore((state) => state.repeatMode);
     return repeatMode;
 }
 
 export function useShuffleMode(): ShuffleMode {
-    const shuffleMode = useQueueStore(state => state.shuffleMode);
+    const shuffleMode = useQueueStore((state) => state.shuffleMode);
     return shuffleMode;
 }
 
 export function useIsShuffled(): boolean {
-    const isShuffled = useQueueStore(state => state.isShuffled);
+    const isShuffled = useQueueStore((state) => state.isShuffled);
     return isShuffled;
 }
 
 // Player hooks
 export function useCurrentPlayer(): PlayerInfo | null {
-    const currentPlayer = usePlayerStore(state => state.currentPlayer);
+    const currentPlayer = usePlayerStore((state) => state.currentPlayer);
     return currentPlayer;
 }
 
 export function useAvailablePlayers(): PlayerInfo[] {
-    const availablePlayers = usePlayerStore(state => state.availablePlayers);
+    const availablePlayers = usePlayerStore((state) => state.availablePlayers);
     return availablePlayers;
 }
 
 export function useIsLocalPlayerActive(): boolean {
-    const isLocal = usePlayerStore(state => state.isLocalPlayerActive());
+    const isLocal = usePlayerStore((state) => state.isLocalPlayerActive());
     return isLocal;
 }
 
 // Control source hooks
 export function useActiveControlSource(): ControlSource {
-    const activeSource = useControlsStore(state => state.activeControlSource);
+    const activeSource = useControlsStore((state) => state.activeControlSource);
     return activeSource;
 }
 
 export function useIsRemoteActive(): boolean {
-    const isRemote = useControlsStore(state => state.isRemoteActive());
+    const isRemote = useControlsStore((state) => state.isRemoteActive());
     return isRemote;
 }
 
 export function useRemoteClientName(): string | null {
-    const clientName = useControlsStore(state => state.remoteClientName);
+    const clientName = useControlsStore((state) => state.remoteClientName);
     return clientName;
 }
 
-export function usePendingTransfer(): ReturnType<typeof useControlsStore.getState>['pendingTransfer'] {
-    const pendingTransfer = useControlsStore(state => state.pendingTransfer);
+export function usePendingTransfer(): ReturnType<
+    typeof useControlsStore.getState
+>['pendingTransfer'] {
+    const pendingTransfer = useControlsStore((state) => state.pendingTransfer);
     return pendingTransfer;
 }
 
 export function useShowTransferDialog(): boolean {
-    const showDialog = useControlsStore(state => state.showTransferDialog);
+    const showDialog = useControlsStore((state) => state.showTransferDialog);
     return showDialog;
 }
 
 export function useTransferCountdown(): number | null {
-    const countdown = useControlsStore(state => state.transferCountdown);
+    const countdown = useControlsStore((state) => state.transferCountdown);
     return countdown;
 }
 
 // Settings hooks
 export function useTheme(): ReturnType<typeof usePreferencesStore.getState>['ui']['theme'] {
-    const theme = usePreferencesStore(state => state.ui.theme);
+    const theme = usePreferencesStore((state) => state.ui.theme);
     return theme;
 }
 
 export function useVisualizerEnabled(): boolean {
-    const enabled = usePreferencesStore(state => state.visualizer.enabled && state.ui.showVisualizer);
+    const enabled = usePreferencesStore(
+        (state) => state.visualizer.enabled && state.ui.showVisualizer
+    );
     return enabled;
 }
 
-export function useVisualizerType(): ReturnType<typeof usePreferencesStore.getState>['visualizer']['type'] {
-    const type = usePreferencesStore(state => state.visualizer.type);
+export function useVisualizerType(): ReturnType<
+    typeof usePreferencesStore.getState
+>['visualizer']['type'] {
+    const type = usePreferencesStore((state) => state.visualizer.type);
     return type;
 }
 
 export function useVisualizerSettings() {
-    const settings = usePreferencesStore(state => state.visualizer);
+    const settings = usePreferencesStore((state) => state.visualizer);
     return settings;
 }
 
@@ -255,7 +273,17 @@ export function usePlaybackActions() {
         [mediaStore]
     );
 
-    return { play, pause, stop, togglePlayPause, seek, seekPercent, setVolume, toggleMute, setPlaybackRate };
+    return {
+        play,
+        pause,
+        stop,
+        togglePlayPause,
+        seek,
+        seekPercent,
+        setVolume,
+        toggleMute,
+        setPlaybackRate
+    };
 }
 
 export function useQueueActions() {

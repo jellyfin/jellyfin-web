@@ -4,9 +4,9 @@
  * Integration tests for music playlists with playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toPlayableItem } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toPlayableItem } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Music Playlists integration', () => {
     describe('music playlist item playback conversion', () => {
@@ -59,7 +59,12 @@ describe('Music Playlists integration', () => {
                 { Id: 'rock-1', Name: 'Rock Classics', Type: 'Playlist', ServerId: 'server-1' },
                 { Id: 'pop-1', Name: 'Pop Hits', Type: 'Playlist', ServerId: 'server-1' },
                 { Id: 'jazz-1', Name: 'Jazz Standards', Type: 'Playlist', ServerId: 'server-1' },
-                { Id: 'hip-hop-1', Name: 'Hip Hop Essentials', Type: 'Playlist', ServerId: 'server-1' }
+                {
+                    Id: 'hip-hop-1',
+                    Name: 'Hip Hop Essentials',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                }
             ];
 
             playlists.forEach((item, index) => {
@@ -71,7 +76,12 @@ describe('Music Playlists integration', () => {
 
         it('handles system/auto playlists', () => {
             const systemPlaylists: BaseItemDto[] = [
-                { Id: 'recently-added', Name: 'Recently Added', Type: 'Playlist', ServerId: 'server-1' },
+                {
+                    Id: 'recently-added',
+                    Name: 'Recently Added',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
                 { Id: 'most-played', Name: 'Most Played', Type: 'Playlist', ServerId: 'server-1' },
                 { Id: 'favorites', Name: 'Favorites', Type: 'Playlist', ServerId: 'server-1' }
             ];
@@ -279,7 +289,12 @@ describe('Music Playlists integration', () => {
 
         it('handles curated playlists section', () => {
             const curatedPlaylists: BaseItemDto[] = [
-                { Id: 'curated-1', Name: 'Discover Weekly', Type: 'Playlist', ServerId: 'server-1' },
+                {
+                    Id: 'curated-1',
+                    Name: 'Discover Weekly',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
                 { Id: 'curated-2', Name: 'Release Radar', Type: 'Playlist', ServerId: 'server-1' }
             ];
 
@@ -290,10 +305,30 @@ describe('Music Playlists integration', () => {
 
         it('handles recently played playlists', () => {
             const recentPlaylists: BaseItemDto[] = [
-                { Id: 'recent-1', Name: 'Recently Played 1', Type: 'Playlist', ServerId: 'server-1' },
-                { Id: 'recent-2', Name: 'Recently Played 2', Type: 'Playlist', ServerId: 'server-1' },
-                { Id: 'recent-3', Name: 'Recently Played 3', Type: 'Playlist', ServerId: 'server-1' },
-                { Id: 'recent-4', Name: 'Recently Played 4', Type: 'Playlist', ServerId: 'server-1' }
+                {
+                    Id: 'recent-1',
+                    Name: 'Recently Played 1',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'recent-2',
+                    Name: 'Recently Played 2',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'recent-3',
+                    Name: 'Recently Played 3',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'recent-4',
+                    Name: 'Recently Played 4',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                }
             ];
 
             const queue = recentPlaylists.map(toPlayableItem);
@@ -347,7 +382,12 @@ describe('Music Playlists integration', () => {
         it('handles playlists sorted by name', () => {
             const playlists: BaseItemDto[] = [
                 { Id: 'z-1', Name: 'Zen Meditation', Type: 'Playlist', ServerId: 'server-1' },
-                { Id: 'a-1', Name: 'Action Movie Soundtracks', Type: 'Playlist', ServerId: 'server-1' },
+                {
+                    Id: 'a-1',
+                    Name: 'Action Movie Soundtracks',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
                 { Id: 'm-1', Name: 'Morning Drive', Type: 'Playlist', ServerId: 'server-1' }
             ];
 
@@ -368,7 +408,12 @@ describe('Music Playlists integration', () => {
 
         it('handles playlists sorted by date modified', () => {
             const playlists: BaseItemDto[] = [
-                { Id: 'mod-1', Name: 'Recently Modified 1', Type: 'Playlist', ServerId: 'server-1' },
+                {
+                    Id: 'mod-1',
+                    Name: 'Recently Modified 1',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
                 { Id: 'mod-2', Name: 'Recently Modified 2', Type: 'Playlist', ServerId: 'server-1' }
             ];
 

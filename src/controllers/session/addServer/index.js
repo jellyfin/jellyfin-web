@@ -11,7 +11,11 @@ function handleConnectionResult(page, result) {
     switch (result.State) {
         case ConnectionState.SignedIn: {
             const apiClient = result.ApiClient;
-            Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
+            Dashboard.onServerChanged(
+                apiClient.getCurrentUserId(),
+                apiClient.accessToken(),
+                apiClient
+            );
             Dashboard.navigate('home');
             break;
         }
@@ -23,7 +27,10 @@ function handleConnectionResult(page, result) {
             break;
         case ConnectionState.ServerUpdateNeeded:
             Dashboard.alert({
-                message: globalize.translate('ServerUpdateNeeded', '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>')
+                message: globalize.translate(
+                    'ServerUpdateNeeded',
+                    '<a href="https://github.com/jellyfin/jellyfin">https://github.com/jellyfin/jellyfin</a>'
+                )
             });
             break;
         case ConnectionState.Unavailable:
@@ -40,16 +47,19 @@ function submitServer(page) {
     const host = page.querySelector('#txtServerHost').value.replace(/\/+$/, '');
     ServerConnections.connectToAddress(host, {
         enableAutoLogin: appSettings.enableAutoLogin()
-    }).then((result) => {
-        handleConnectionResult(page, result);
-    }, () => {
-        handleConnectionResult(page, {
-            State: ConnectionState.Unavailable
-        });
-    });
+    }).then(
+        (result) => {
+            handleConnectionResult(page, result);
+        },
+        () => {
+            handleConnectionResult(page, {
+                State: ConnectionState.Unavailable
+            });
+        }
+    );
 }
 
-export default function(view) {
+export default function (view) {
     view.querySelector('.addServerForm').addEventListener('submit', onServerSubmit);
     view.querySelector('.btnCancel').addEventListener('click', goBack);
 
@@ -69,4 +79,3 @@ export default function(view) {
         });
     }
 }
-

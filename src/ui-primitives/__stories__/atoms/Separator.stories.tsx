@@ -1,10 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Separator } from '../..';
-import { Box } from '../..';
-import { Text } from '../..';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Separator, Text } from '../..';
 
 const meta: Meta<typeof Separator> = {
     title: 'UI Primitives/Separator',
@@ -54,7 +51,14 @@ export const Vertical: Story = {
 export const InCard: Story = {
     decorators: [
         (_Story): ReactElement => (
-            <Box style={{ width: '300px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
+            <Box
+                style={{
+                    width: '300px',
+                    border: '1px solid #333',
+                    borderRadius: '8px',
+                    overflow: 'hidden'
+                }}
+            >
                 <Box style={{ padding: '16px', backgroundColor: '#2a2a2a' }}>
                     <Text weight="bold">Card Header</Text>
                 </Box>
@@ -63,7 +67,14 @@ export const InCard: Story = {
                     <Text>Card content area with some text.</Text>
                 </Box>
                 <Separator />
-                <Box style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: vars.spacing['2'] }}>
+                <Box
+                    style={{
+                        padding: '16px',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: vars.spacing['2']
+                    }}
+                >
                     <Text as="span" size="sm" color="secondary">
                         Cancel
                     </Text>
@@ -98,7 +109,14 @@ export const NavigationBreadcrumb: Story = {
 
 function SettingsPanelStory(): ReactElement {
     return (
-        <Box style={{ width: '350px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
+        <Box
+            style={{
+                width: '350px',
+                border: '1px solid #333',
+                borderRadius: '8px',
+                overflow: 'hidden'
+            }}
+        >
             <Box style={{ padding: '12px 16px', backgroundColor: '#2a2a2a' }}>
                 <Text weight="medium">Account Settings</Text>
             </Box>

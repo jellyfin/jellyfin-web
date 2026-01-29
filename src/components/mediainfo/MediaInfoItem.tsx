@@ -1,7 +1,7 @@
-import React, { type FC } from 'react';
-import { Box } from 'ui-primitives';
 import classNames from 'classnames';
+import React, { type FC } from 'react';
 import type { MiscInfo } from 'types/mediaInfoItem';
+import { Box } from 'ui-primitives';
 
 interface MediaInfoItemProps {
     className?: string;
@@ -28,7 +28,9 @@ const MediaInfoItem: FC<MediaInfoItemProps> = ({ className, miscInfo }) => {
         return text;
     };
 
-    return <Box className={classNames('mediaInfoItem', cssClass, type, className)}>{renderText()}</Box>;
+    return (
+        <Box className={classNames('mediaInfoItem', cssClass, type, className)}>{renderText()}</Box>
+    );
 };
 
 export default MediaInfoItem;

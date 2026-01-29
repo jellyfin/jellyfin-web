@@ -1,1 +1,1 @@
-export { avatarStyles, avatarVariants, avatarColors, avatarImage, Avatar } from './Avatar';
+export { Avatar, avatarColors, avatarImage, avatarStyles, avatarVariants } from './Avatar';

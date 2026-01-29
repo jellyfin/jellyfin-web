@@ -1,6 +1,10 @@
+import {
+    type FullTrackAnalysis,
+    loadAutoDJAnalyzer,
+    type TransitionSuggestion
+} from 'components/audioAnalysis/autoDJ';
 import { useCallback, useRef, useState } from 'react';
 import { logger } from 'utils/logger';
-import { loadAutoDJAnalyzer, type FullTrackAnalysis, type TransitionSuggestion } from 'components/audioAnalysis/autoDJ';
 
 interface AnalysisCache {
     features: FullTrackAnalysis;
@@ -138,7 +142,10 @@ export function useAutoDJ() {
             logger.info('AutoDJ analyzer initialized', { component: 'AutoDJ' });
             return analyzer;
         } catch (error) {
-            logger.error('Failed to initialize AutoDJ analyzer', { component: 'AutoDJ', error: String(error) });
+            logger.error('Failed to initialize AutoDJ analyzer', {
+                component: 'AutoDJ',
+                error: String(error)
+            });
             throw error;
         }
     }, []);
@@ -153,7 +160,11 @@ export function useAutoDJ() {
     }, []);
 
     const analyzeTrack = useCallback(
-        async (trackId: string, audioBuffer: AudioBuffer, saveToCache = true): Promise<FullTrackAnalysis> => {
+        async (
+            trackId: string,
+            audioBuffer: AudioBuffer,
+            saveToCache = true
+        ): Promise<FullTrackAnalysis> => {
             const module = await initializeAnalyzer();
 
             try {
@@ -265,7 +276,7 @@ export function useAutoDJ() {
     }, []);
 
     const updateConfig = useCallback((newConfig: Partial<AutoDJConfig>) => {
-        setConfig(prev => ({ ...prev, ...newConfig }));
+        setConfig((prev) => ({ ...prev, ...newConfig }));
         logger.info('Updated AutoDJ config', { component: 'AutoDJ', config: newConfig });
     }, []);
 

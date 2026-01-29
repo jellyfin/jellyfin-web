@@ -1,11 +1,6 @@
-import React from 'react';
-import { Flex } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControl, FormHelperText } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-
 import globalize from 'lib/globalize';
+import React from 'react';
+import { Checkbox, Flex, FormControl, FormHelperText, Heading, Input } from 'ui-primitives';
 
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 

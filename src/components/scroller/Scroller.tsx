@@ -1,13 +1,20 @@
-import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import useElementSize from 'hooks/useElementSize';
-import layoutManager from '../../components/layoutManager';
-import dom from '../../utils/dom';
-import browser from '../../scripts/browser';
-import focusManager from '../../components/focusManager';
 import ScrollerFactory from 'lib/scroller';
+import React, {
+    type FC,
+    type PropsWithChildren,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
+import focusManager from '../../components/focusManager';
+import layoutManager from '../../components/layoutManager';
 import ScrollButtons from '../../elements/emby-scrollbuttons/ScrollButtons';
+import browser from '../../scripts/browser';
 import { deprecate } from '../../utils/deprecation';
+import dom from '../../utils/dom';
 
 export interface ScrollerProps {
     className?: string;
@@ -185,7 +192,8 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
             return;
         }
 
-        const enableScrollButtons = layoutManager.desktop && isHorizontalEnabled && isScrollButtonsEnabled;
+        const enableScrollButtons =
+            layoutManager.desktop && isHorizontalEnabled && isScrollButtonsEnabled;
 
         const options = {
             horizontal: isHorizontalEnabled,

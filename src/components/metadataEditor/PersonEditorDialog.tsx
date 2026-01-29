@@ -1,22 +1,26 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import { z } from 'zod';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { useForm } from '@tanstack/react-form';
 import React, { useState } from 'react';
-import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
-import globalize from '../../lib/globalize';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { FormControl, FormLabel } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
 import {
+    Button,
     Dialog,
-    DialogPortal,
-    DialogOverlayComponent,
     DialogContentComponent,
-    DialogTitle
+    DialogOverlayComponent,
+    DialogPortal,
+    DialogTitle,
+    Flex,
+    FormControl,
+    FormLabel,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
 } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
+import { z } from 'zod';
+import globalize from '../../lib/globalize';
 
 const personSchema = z.object({
     Name: z.string().min(1, globalize.translate('NameIsRequired')),
@@ -34,8 +38,8 @@ interface PersonEditorDialogProps {
 }
 
 const typeOptions = Object.values(PersonKind)
-    .filter(t => t !== PersonKind.Unknown)
-    .map(t => ({ label: globalize.translate(t), value: t }));
+    .filter((t) => t !== PersonKind.Unknown)
+    .map((t) => ({ label: globalize.translate(t), value: t }));
 
 const showRoleForType = (type: PersonKind): boolean => {
     return type === PersonKind.Actor || type === PersonKind.GuestStar;
@@ -72,20 +76,25 @@ function PersonEditorDialog({ open, person, onClose, onSave }: PersonEditorDialo
             <DialogPortal>
                 <DialogOverlayComponent />
                 <DialogContentComponent style={{ minWidth: 400 }}>
-                    <DialogTitle>{globalize.translate(person ? 'HeaderEditPerson' : 'HeaderAddPerson')}</DialogTitle>
+                    <DialogTitle>
+                        {globalize.translate(person ? 'HeaderEditPerson' : 'HeaderAddPerson')}
+                    </DialogTitle>
                     <form
-                        onSubmit={e => {
+                        onSubmit={(e) => {
                             e.preventDefault();
                             form.handleSubmit();
                         }}
                     >
-                        <Flex direction="column" style={{ gap: vars.spacing['4'], marginTop: vars.spacing['2'] }}>
+                        <Flex
+                            direction="column"
+                            style={{ gap: vars.spacing['4'], marginTop: vars.spacing['2'] }}
+                        >
                             <form.Field name="Name">
-                                {field => (
+                                {(field) => (
                                     <Input
                                         label={globalize.translate('LabelName')}
                                         value={field.state.value}
-                                        onChange={e => field.handleChange(e.target.value)}
+                                        onChange={(e) => field.handleChange(e.target.value)}
                                         required
                                         autoFocus
                                     />
@@ -94,12 +103,15 @@ function PersonEditorDialog({ open, person, onClose, onSave }: PersonEditorDialo
 
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelType')}</FormLabel>
-                                <Select value={form.state.values.Type} onValueChange={handleTypeChange}>
+                                <Select
+                                    value={form.state.values.Type}
+                                    onValueChange={handleTypeChange}
+                                >
                                     <SelectTrigger>
                                         <SelectValue placeholder="" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {typeOptions.map(opt => (
+                                        {typeOptions.map((opt) => (
                                             <SelectItem key={opt.value} value={opt.value}>
                                                 {opt.label}
                                             </SelectItem>
@@ -110,11 +122,13 @@ function PersonEditorDialog({ open, person, onClose, onSave }: PersonEditorDialo
 
                             {showRole && (
                                 <form.Field name="Role">
-                                    {field => (
+                                    {(field) => (
                                         <Input
                                             label={globalize.translate('LabelRole')}
                                             value={field.state.value || ''}
-                                            onChange={e => field.handleChange(e.target.value || null)}
+                                            onChange={(e) =>
+                                                field.handleChange(e.target.value || null)
+                                            }
                                         />
                                     )}
                                 </form.Field>

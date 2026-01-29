@@ -45,7 +45,9 @@ export const formatAlbumName = (album: BaseItemDto | { Name?: string } | null): 
 /**
  * Format movie/show title
  */
-export const formatTitle = (item: BaseItemDto | { Name?: string; OriginalTitle?: string } | null): string => {
+export const formatTitle = (
+    item: BaseItemDto | { Name?: string; OriginalTitle?: string } | null
+): string => {
     if (item === null || item === undefined) return 'Unknown';
 
     if (typeof item === 'string') {

@@ -1,13 +1,3 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Avatar } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import {
     DesktopIcon,
     DiscIcon,
@@ -23,12 +13,21 @@ import {
     TrackPreviousIcon,
     ViewGridIcon
 } from '@radix-ui/react-icons';
-
-import { VolumeSlider } from 'ui-primitives';
+import React, { useCallback, useEffect, useState } from 'react';
+import type { PlayableItem, RepeatMode, ShuffleMode } from 'store/types';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Avatar,
+    Box,
+    Flex,
+    IconButton,
+    Paper,
+    Slider,
+    Text,
+    Tooltip,
+    VolumeSlider
+} from 'ui-primitives';
 import { ActionMenu, type ActionMenuItem } from '../dialogs/ActionMenu';
-
-import type { PlayableItem } from 'store/types';
-import type { RepeatMode, ShuffleMode } from 'store/types';
 
 export interface RemoteControlProps {
     currentItem: PlayableItem | null;
@@ -167,15 +166,19 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
         [onSubtitleTrackSelect, handleSubtitleMenuClose]
     );
 
-    const audioMenuItems: ActionMenuItem[] = audioTracks.map(track => ({
+    const audioMenuItems: ActionMenuItem[] = audioTracks.map((track) => ({
         id: track.Index.toString(),
         name: track.DisplayTitle,
         selected: track.Index === currentAudioIndex
     }));
 
     const subtitleMenuItems: ActionMenuItem[] = [
-        { id: '-1', name: 'Off', selected: currentSubtitleIndex === null || currentSubtitleIndex === -1 },
-        ...subtitleTracks.map(track => ({
+        {
+            id: '-1',
+            name: 'Off',
+            selected: currentSubtitleIndex === null || currentSubtitleIndex === -1
+        },
+        ...subtitleTracks.map((track) => ({
             id: track.Index.toString(),
             name: track.DisplayTitle,
             selected: track.Index === currentSubtitleIndex
@@ -207,7 +210,13 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                 }}
             >
                 <Box style={{ padding: vars.spacing['6'] }}>
-                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['6'], alignItems: 'center' }}>
+                    <Flex
+                        style={{
+                            flexDirection: 'column',
+                            gap: vars.spacing['6'],
+                            alignItems: 'center'
+                        }}
+                    >
                         <Box className="nowPlayingPageImageContainer">
                             <Avatar
                                 src={imageUrl || undefined}
@@ -216,15 +225,29 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                                     height: 200,
                                     borderRadius: vars.borderRadius.md,
                                     boxShadow: vars.shadows.md,
-                                    backgroundColor: imageUrl ? 'transparent' : vars.colors.surfaceHover
+                                    backgroundColor: imageUrl
+                                        ? 'transparent'
+                                        : vars.colors.surfaceHover
                                 }}
                             >
-                                {!imageUrl && <DiscIcon style={{ fontSize: 64, color: vars.colors.textSecondary }} />}
+                                {!imageUrl && (
+                                    <DiscIcon
+                                        style={{ fontSize: 64, color: vars.colors.textSecondary }}
+                                    />
+                                )}
                             </Avatar>
                         </Box>
 
-                        <Box className="nowPlayingInfoContainer" style={{ width: '100%', textAlign: 'center' }}>
-                            <Text as="h4" size="lg" weight="bold" style={{ color: vars.colors.text }}>
+                        <Box
+                            className="nowPlayingInfoContainer"
+                            style={{ width: '100%', textAlign: 'center' }}
+                        >
+                            <Text
+                                as="h4"
+                                size="lg"
+                                weight="bold"
+                                style={{ color: vars.colors.text }}
+                            >
                                 {currentItem?.name || 'No track playing'}
                             </Text>
                             <Text size="md" color="secondary">
@@ -232,7 +255,9 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                             </Text>
                         </Box>
 
-                        <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], width: '100%' }}>
+                        <Flex
+                            style={{ alignItems: 'center', gap: vars.spacing['4'], width: '100%' }}
+                        >
                             <Text size="xs" color="secondary" style={{ minWidth: 45 }}>
                                 {formatTime(progress * 10000000)}
                             </Text>
@@ -250,7 +275,13 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                             </Text>
                         </Flex>
 
-                        <Flex style={{ alignItems: 'center', justifyContent: 'center', gap: vars.spacing['5'] }}>
+                        <Flex
+                            style={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: vars.spacing['5']
+                            }}
+                        >
                             <IconButton
                                 size="md"
                                 variant="plain"
@@ -262,7 +293,12 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                             </IconButton>
 
                             <Tooltip title="Previous">
-                                <IconButton size="md" variant="plain" onClick={onPreviousTrack} color="neutral">
+                                <IconButton
+                                    size="md"
+                                    variant="plain"
+                                    onClick={onPreviousTrack}
+                                    color="neutral"
+                                >
                                     <TrackPreviousIcon />
                                 </IconButton>
                             </Tooltip>
@@ -289,7 +325,12 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                             </Tooltip>
 
                             <Tooltip title="Next">
-                                <IconButton size="md" variant="plain" onClick={onNextTrack} color="neutral">
+                                <IconButton
+                                    size="md"
+                                    variant="plain"
+                                    onClick={onNextTrack}
+                                    color="neutral"
+                                >
                                     <TrackNextIcon />
                                 </IconButton>
                             </Tooltip>
@@ -377,7 +418,12 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                                 {canAirPlay && (
                                     <Tooltip title="AirPlay">
-                                        <IconButton size="sm" variant="plain" onClick={onAirPlay} color="neutral">
+                                        <IconButton
+                                            size="sm"
+                                            variant="plain"
+                                            onClick={onAirPlay}
+                                            color="neutral"
+                                        >
                                             <DesktopIcon />
                                         </IconButton>
                                     </Tooltip>
@@ -385,7 +431,12 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
 
                                 {canPiP && (
                                     <Tooltip title="Picture in Picture">
-                                        <IconButton size="sm" variant="plain" onClick={onPiP} color="neutral">
+                                        <IconButton
+                                            size="sm"
+                                            variant="plain"
+                                            onClick={onPiP}
+                                            color="neutral"
+                                        >
                                             <ViewGridIcon />
                                         </IconButton>
                                     </Tooltip>
@@ -393,7 +444,12 @@ export const RemoteControl: React.FC<RemoteControlProps> = ({
 
                                 {canFullscreen && (
                                     <Tooltip title="Fullscreen">
-                                        <IconButton size="sm" variant="plain" onClick={onFullscreen} color="neutral">
+                                        <IconButton
+                                            size="sm"
+                                            variant="plain"
+                                            onClick={onFullscreen}
+                                            color="neutral"
+                                        >
                                             <EnterFullScreenIcon />
                                         </IconButton>
                                     </Tooltip>

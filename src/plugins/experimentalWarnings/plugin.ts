@@ -1,9 +1,9 @@
+import { getWeek } from 'date-fns';
+import alert from '../../components/alert';
+import { safeAppHost } from '../../components/apphost';
 import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { safeAppHost } from '../../components/apphost';
-import alert from '../../components/alert';
 import { PluginType } from '../../types/plugin';
-import { getWeek } from 'date-fns';
 
 function showMessage(text: string, userSettingsKey: string, appHostFeature: string): Promise<void> {
     if (safeAppHost.supports(appHostFeature)) {
@@ -22,15 +22,27 @@ function showMessage(text: string, userSettingsKey: string, appHostFeature: stri
 }
 
 function showBlurayMessage() {
-    return showMessage(globalize.translate('UnsupportedPlayback'), 'blurayexpirementalinfo', 'nativeblurayplayback');
+    return showMessage(
+        globalize.translate('UnsupportedPlayback'),
+        'blurayexpirementalinfo',
+        'nativeblurayplayback'
+    );
 }
 
 function showDvdMessage() {
-    return showMessage(globalize.translate('UnsupportedPlayback'), 'dvdexpirementalinfo', 'nativedvdplayback');
+    return showMessage(
+        globalize.translate('UnsupportedPlayback'),
+        'dvdexpirementalinfo',
+        'nativedvdplayback'
+    );
 }
 
 function showIsoMessage() {
-    return showMessage(globalize.translate('UnsupportedPlayback'), 'isoexpirementalinfo', 'nativeisoplayback');
+    return showMessage(
+        globalize.translate('UnsupportedPlayback'),
+        'isoexpirementalinfo',
+        'nativeisoplayback'
+    );
 }
 
 class ExpirementalPlaybackWarnings {

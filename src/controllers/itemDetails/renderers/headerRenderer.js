@@ -1,6 +1,6 @@
 import imageLoader from 'components/images/imageLoader';
-import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 import * as userSettings from 'scripts/settings/userSettings';
+import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 
 export function renderHeaderBackdrop(page, item, apiClient) {
     // Details banner is disabled in user settings

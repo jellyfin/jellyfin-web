@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement } from 'react';
 import { motion } from 'motion/react';
+import { type ReactElement } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 interface CircularProgressProps {
@@ -9,7 +9,11 @@ interface CircularProgressProps {
     indeterminate?: boolean;
 }
 
-function CircularProgress({ size = 40, value, indeterminate }: Readonly<CircularProgressProps>): ReactElement {
+function CircularProgress({
+    size = 40,
+    value,
+    indeterminate
+}: Readonly<CircularProgressProps>): ReactElement {
     const strokeWidth = size * 0.1;
     const radius = (size - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
@@ -38,7 +42,11 @@ function CircularProgress({ size = 40, value, indeterminate }: Readonly<Circular
                 transform={`rotate(-90 ${size / 2} ${size / 2})`}
                 initial={indeterminate === true ? { rotate: 0 } : undefined}
                 animate={indeterminate === true ? { rotate: 360 } : undefined}
-                transition={indeterminate === true ? { duration: 1, repeat: Infinity, ease: 'linear' } : undefined}
+                transition={
+                    indeterminate === true
+                        ? { duration: 1, repeat: Infinity, ease: 'linear' }
+                        : undefined
+                }
             />
         </svg>
     );

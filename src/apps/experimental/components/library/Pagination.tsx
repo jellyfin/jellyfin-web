@@ -1,15 +1,12 @@
-import React, { type FC, useCallback } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import useMediaQuery from 'hooks/useMediaQuery';
-import { vars } from 'styles/tokens.css.ts';
-
-import globalize from 'lib/globalize';
-import * as userSettings from 'scripts/settings/userSettings';
-import { type LibraryViewSettings } from 'types/library';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
+import useMediaQuery from 'hooks/useMediaQuery';
+import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import * as userSettings from 'scripts/settings/userSettings';
+import { vars } from 'styles/tokens.css.ts';
+import { type LibraryViewSettings } from 'types/library';
+import { Box, Button, Flex, Text } from 'ui-primitives';
 
 interface PaginationProps {
     libraryViewSettings: LibraryViewSettings;
@@ -35,7 +32,7 @@ const Pagination: FC<PaginationProps> = ({
     const onNextPageClick = useCallback(() => {
         scrollPageToTop();
         const newIndex = startIndex + limit;
-        setLibraryViewSettings(prevState => ({
+        setLibraryViewSettings((prevState) => ({
             ...prevState,
             StartIndex: newIndex
         }));
@@ -44,7 +41,7 @@ const Pagination: FC<PaginationProps> = ({
     const onPreviousPageClick = useCallback(() => {
         scrollPageToTop();
         const newIndex = Math.max(0, startIndex - limit);
-        setLibraryViewSettings(prevState => ({
+        setLibraryViewSettings((prevState) => ({
             ...prevState,
             StartIndex: newIndex
         }));
@@ -99,7 +96,11 @@ const Pagination: FC<PaginationProps> = ({
                     <Button
                         variant="plain"
                         title={globalize.translate('Next')}
-                        disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData}
+                        disabled={
+                            !showControls ||
+                            startIndex + limit >= totalRecordCount ||
+                            isPlaceholderData
+                        }
                         onClick={onNextPageClick}
                     >
                         <ArrowRightIcon />
@@ -111,7 +112,9 @@ const Pagination: FC<PaginationProps> = ({
                 <Button
                     variant="plain"
                     title={globalize.translate('Next')}
-                    disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData}
+                    disabled={
+                        !showControls || startIndex + limit >= totalRecordCount || isPlaceholderData
+                    }
                     onClick={onNextPageClick}
                 >
                     <ArrowRightIcon />

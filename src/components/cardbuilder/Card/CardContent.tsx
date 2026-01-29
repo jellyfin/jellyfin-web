@@ -1,10 +1,9 @@
-import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { getDefaultBackgroundClass } from '../cardBuilderUtils';
-import CardImageContainer from './CardImageContainer';
-
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
+import { getDefaultBackgroundClass } from '../cardBuilderUtils';
+import CardImageContainer from './CardImageContainer';
 
 interface CardContentProps {
     item: ItemDto;
@@ -25,7 +24,9 @@ const CardContent: FC<CardContentProps> = ({
     blurhash,
     forceName
 }) => {
-    const cardContentClass = classNames('cardContent', { [getDefaultBackgroundClass(item.Name)]: !imgUrl });
+    const cardContentClass = classNames('cardContent', {
+        [getDefaultBackgroundClass(item.Name)]: !imgUrl
+    });
 
     return (
         <div className={cardContentClass}>

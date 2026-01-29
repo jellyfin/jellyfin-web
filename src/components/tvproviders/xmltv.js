@@ -1,12 +1,12 @@
-import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
+import loading from '../loading/loading';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
+import dom from 'utils/dom';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events';
-import dom from 'utils/dom';
 
 function getTunerName(providerId) {
     switch (providerId.toLowerCase()) {
@@ -30,7 +30,12 @@ function refreshTunerDevices(page, providerInfo, devices) {
         const enabledTuners = providerInfo.EnabledTuners || [];
         const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
         const checkedAttribute = isChecked ? ' checked' : '';
-        html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' + device.Id + '" ' + checkedAttribute + '><span></span></label>';
+        html +=
+            '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkTuner" data-id="' +
+            device.Id +
+            '" ' +
+            checkedAttribute +
+            '><span></span></label>';
         html += '<div class="listItemBody two-line">';
         html += '<div class="listItemBodyText">';
         html += device.FriendlyName || getTunerName(device.Type);
@@ -120,9 +125,10 @@ export default function (page, providerId, options) {
         loading.show();
         const id = providerId;
         ApiClient.getNamedConfiguration('livetv').then((config) => {
-            const info = config.ListingProviders.filter((provider) => {
-                return provider.Id === id;
-            })[0] || {};
+            const info =
+                config.ListingProviders.filter((provider) => {
+                    return provider.Id === id;
+                })[0] || {};
             info.Type = 'xmltv';
             info.Path = page.querySelector('.txtPath').value;
             info.MoviePrefix = page.querySelector('.txtMoviePrefix').value || null;
@@ -132,9 +138,11 @@ export default function (page, providerId, options) {
             info.NewsCategories = getCategories(page.querySelector('.txtNews'));
             info.SportsCategories = getCategories(page.querySelector('.txtSports'));
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-            info.EnabledTuners = info.EnableAllTuners ? [] : Array.from(page.querySelectorAll('.chkTuner'))
-                .filter((tuner) => tuner.checked)
-                .map((tuner) => tuner.getAttribute('data-id'));
+            info.EnabledTuners = info.EnableAllTuners
+                ? []
+                : Array.from(page.querySelectorAll('.chkTuner'))
+                      .filter((tuner) => tuner.checked)
+                      .map((tuner) => tuner.getAttribute('data-id'));
             ApiClient.ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ListingProviders', {
@@ -142,20 +150,23 @@ export default function (page, providerId, options) {
                 }),
                 data: JSON.stringify(info),
                 contentType: 'application/json'
-            }).then(() => {
-                loading.hide();
+            }).then(
+                () => {
+                    loading.hide();
 
-                if (options.showConfirmation !== false) {
-                    Dashboard.processServerConfigurationUpdateResult();
+                    if (options.showConfirmation !== false) {
+                        Dashboard.processServerConfigurationUpdateResult();
+                    }
+
+                    Events.trigger(self, 'submitted');
+                },
+                () => {
+                    loading.hide();
+                    Dashboard.alert({
+                        message: globalize.translate('ErrorAddingXmlTvFile')
+                    });
                 }
-
-                Events.trigger(self, 'submitted');
-            }, () => {
-                loading.hide();
-                Dashboard.alert({
-                    message: globalize.translate('ErrorAddingXmlTvFile')
-                });
-            });
+            );
         });
     }
 

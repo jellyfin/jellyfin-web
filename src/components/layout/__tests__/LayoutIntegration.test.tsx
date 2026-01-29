@@ -1,11 +1,11 @@
-import React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import { LayoutProvider } from '../LayoutProvider';
-import { useUiStore } from '../../../store/uiStore';
-import { LayoutMode } from '../../../constants/layoutMode';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import browser from '../../../scripts/browser';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { act, render, screen } from '@testing-library/react';
+import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { LayoutMode } from '../../../constants/layoutMode';
+import browser from '../../../scripts/browser';
+import { useUiStore } from '../../../store/uiStore';
+import { LayoutProvider } from '../LayoutProvider';
 
 // Mock browser
 vi.mock('../../../scripts/browser', () => ({
@@ -28,7 +28,9 @@ vi.mock('../../../utils/dashboard', () => ({
 // Mock AppHeader to verify it's rendered and hidden/shown
 vi.mock('../../AppHeader', () => ({
     default: ({ isHidden }: { isHidden: boolean }) => (
-        <div data-testid="legacy-header" style={isHidden ? { display: 'none' } : {}}>Legacy Header</div>
+        <div data-testid="legacy-header" style={isHidden ? { display: 'none' } : {}}>
+            Legacy Header
+        </div>
     )
 }));
 
@@ -66,11 +68,11 @@ describe('Layout Integration', () => {
         queryClient = new QueryClient({
             defaultOptions: {
                 queries: {
-                    retry: false,
-                },
-            },
+                    retry: false
+                }
+            }
         });
-        
+
         // Reset store
         useUiStore.setState({
             layout: LayoutMode.Auto,
@@ -118,7 +120,7 @@ describe('Layout Integration', () => {
 
     it('should force experimental layout on dashboard paths regardless of store state', () => {
         mockUseLocation.mockReturnValue({ pathname: '/dashboard' });
-        
+
         // Even if layout is set to Desktop
         act(() => {
             useUiStore.getState().setLayout(LayoutMode.Desktop);

@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'hooks/useSearchParams';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-import { useServerStore } from 'store/serverStore';
+import { useNavigate } from '@tanstack/react-router';
 import { LoadingView } from 'components/feedback/LoadingView';
 import { PageContainer } from 'components/layout/PageContainer';
+import { useSearchParams } from 'hooks/useSearchParams';
 import { useUserViews } from 'hooks/useUserViews';
-import { useNavigate } from '@tanstack/react-router';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useServerStore } from 'store/serverStore';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Flex, Heading, Text } from 'ui-primitives';
 
 export function ListView() {
     const [searchParams] = useSearchParams();
@@ -26,15 +24,15 @@ export function ListView() {
 
     const resolvedTitle = useMemo(() => {
         if (parentId && userViews?.Items) {
-            const view = userViews.Items.find(v => v.Id === parentId);
+            const view = userViews.Items.find((v) => v.Id === parentId);
             if (view) return view.Name;
         }
-        
+
         if (type === 'Movie') return 'Movies';
         if (type === 'Series') return 'TV Shows';
         if (type === 'MusicAlbum') return 'Albums';
         if (type) return type;
-        
+
         return 'Items';
     }, [parentId, userViews, type]);
 
@@ -75,7 +73,12 @@ export function ListView() {
     return (
         <PageContainer>
             <Box style={{ paddingBottom: vars.spacing['7'] }}>
-                <Flex align="center" wrap="wrap" gap="md" style={{ marginBottom: vars.spacing['6'] }}>
+                <Flex
+                    align="center"
+                    wrap="wrap"
+                    gap="md"
+                    style={{ marginBottom: vars.spacing['6'] }}
+                >
                     <Box style={{ flexGrow: 1 }}>
                         <Heading.H2>{resolvedTitle}</Heading.H2>
                         <Text color="secondary">{items.length} items</Text>
@@ -97,23 +100,26 @@ export function ListView() {
                         <Heading.H4 color="secondary">No items found</Heading.H4>
                     </Box>
                 ) : (
-                    <Box 
-                        style={{ 
-                            display: 'grid', 
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', 
-                            gap: vars.spacing['5'] 
+                    <Box
+                        style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+                            gap: vars.spacing['5']
                         }}
                     >
                         {items.map((item: any) => {
                             const imageTag = item.ImageTags?.Primary;
-                            const imageUrl = item.Id && imageTag
-                                ? `/api/Items/${item.Id}/Images/Primary?tag=${imageTag}&maxWidth=400`
-                                : null;
+                            const imageUrl =
+                                item.Id && imageTag
+                                    ? `/api/Items/${item.Id}/Images/Primary?tag=${imageTag}&maxWidth=400`
+                                    : null;
 
                             return (
                                 <Box
                                     key={item.Id}
-                                    onClick={() => navigate({ to: '/details', search: { id: item.Id } as any })}
+                                    onClick={() =>
+                                        navigate({ to: '/details', search: { id: item.Id } as any })
+                                    }
                                     style={{
                                         cursor: 'pointer',
                                         display: 'block'
@@ -135,7 +141,11 @@ export function ListView() {
                                     <Text
                                         size="sm"
                                         weight="medium"
-                                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                        style={{
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap'
+                                        }}
                                     >
                                         {item.Name}
                                     </Text>

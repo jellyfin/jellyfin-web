@@ -4,9 +4,9 @@
  * Integration tests for home dashboard with continue watching and recently added playback.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Home integration', () => {
     describe('continue watching conversion', () => {
@@ -40,7 +40,7 @@ describe('Home integration', () => {
             const playables = toVideoItems(items);
 
             expect(playables).toHaveLength(2);
-            playables.forEach(p => expect(p.mediaType).toBe('Video'));
+            playables.forEach((p) => expect(p.mediaType).toBe('Video'));
         });
     });
 
@@ -90,7 +90,7 @@ describe('Home integration', () => {
             const queue = toVideoItems(recentItems);
 
             expect(queue).toHaveLength(3);
-            queue.forEach(item => expect(item.mediaType).toBe('Video'));
+            queue.forEach((item) => expect(item.mediaType).toBe('Video'));
         });
 
         it('supports batch conversion of recently added content', () => {
@@ -127,9 +127,27 @@ describe('Home integration', () => {
 
         it('maintains recently added order in reverse chronological', () => {
             const movies: BaseItemDto[] = [
-                { Id: 'movie-1', Name: 'Latest', Type: 'Movie' as const, ServerId: 'server-1', ProductionYear: 2023 },
-                { Id: 'movie-2', Name: 'Middle', Type: 'Movie' as const, ServerId: 'server-1', ProductionYear: 2022 },
-                { Id: 'movie-3', Name: 'Oldest', Type: 'Movie' as const, ServerId: 'server-1', ProductionYear: 2021 }
+                {
+                    Id: 'movie-1',
+                    Name: 'Latest',
+                    Type: 'Movie' as const,
+                    ServerId: 'server-1',
+                    ProductionYear: 2023
+                },
+                {
+                    Id: 'movie-2',
+                    Name: 'Middle',
+                    Type: 'Movie' as const,
+                    ServerId: 'server-1',
+                    ProductionYear: 2022
+                },
+                {
+                    Id: 'movie-3',
+                    Name: 'Oldest',
+                    Type: 'Movie' as const,
+                    ServerId: 'server-1',
+                    ProductionYear: 2021
+                }
             ];
 
             const queue = toVideoItems(movies);
@@ -170,20 +188,38 @@ describe('Home integration', () => {
             const queue = toVideoItems(mixed);
 
             expect(queue).toHaveLength(4);
-            queue.forEach(item => expect(item.mediaType).toBe('Video'));
+            queue.forEach((item) => expect(item.mediaType).toBe('Video'));
         });
 
         it('handles mixed content in continue watching', () => {
             const items: BaseItemDto[] = [
-                { Id: 'resume-movie', Name: 'Movie', Type: 'Movie', ServerId: 'server-1', UserData: { PlaybackPositionTicks: 1000 } },
-                { Id: 'resume-episode', Name: 'Episode', Type: 'Episode', ServerId: 'server-1', UserData: { PlaybackPositionTicks: 2000 } },
-                { Id: 'resume-video', Name: 'Video', Type: 'Video', ServerId: 'server-1', UserData: { PlaybackPositionTicks: 3000 } }
+                {
+                    Id: 'resume-movie',
+                    Name: 'Movie',
+                    Type: 'Movie',
+                    ServerId: 'server-1',
+                    UserData: { PlaybackPositionTicks: 1000 }
+                },
+                {
+                    Id: 'resume-episode',
+                    Name: 'Episode',
+                    Type: 'Episode',
+                    ServerId: 'server-1',
+                    UserData: { PlaybackPositionTicks: 2000 }
+                },
+                {
+                    Id: 'resume-video',
+                    Name: 'Video',
+                    Type: 'Video',
+                    ServerId: 'server-1',
+                    UserData: { PlaybackPositionTicks: 3000 }
+                }
             ];
 
             const queue = toVideoItems(items);
 
             expect(queue).toHaveLength(3);
-            queue.forEach(item => expect(item.mediaType).toBe('Video'));
+            queue.forEach((item) => expect(item.mediaType).toBe('Video'));
         });
     });
 

@@ -1,6 +1,6 @@
-import { forwardRef } from 'react';
-import { motion, Variants } from 'motion/react';
 import { PauseIcon, PlayIcon } from '@radix-ui/react-icons';
+import { motion, Variants } from 'motion/react';
+import { forwardRef } from 'react';
 
 interface TransportButtonProps {
     state: 'playing' | 'paused' | 'braking' | 'spinning' | 'idle';
@@ -31,7 +31,10 @@ const buttonVariants: Variants = {
 };
 
 export const TransportButton = forwardRef<HTMLButtonElement, TransportButtonProps>(
-    ({ state, onPause, onPlay, onStop, size = 'md', disabled = false, className, ...props }, ref) => {
+    (
+        { state, onPause, onPlay, onStop, size = 'md', disabled = false, className, ...props },
+        ref
+    ) => {
         const sizeMap = {
             sm: 36,
             md: 48,

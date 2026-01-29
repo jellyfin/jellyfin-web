@@ -1,12 +1,12 @@
-import React, { type FC, useCallback } from 'react';
-import { IconButton } from 'ui-primitives';
 import { StopIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
+import loading from 'components/loading/loading';
+import toast from 'components/toast/toast';
 
 import { useCancelTimer } from 'hooks/api/liveTvHooks';
 import globalize from 'lib/globalize';
-import loading from 'components/loading/loading';
-import toast from 'components/toast/toast';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives';
 
 interface CancelTimerButtonProps {
     timerId: string;

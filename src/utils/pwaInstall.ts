@@ -13,7 +13,7 @@ class PWAInstallManager {
 
     static init() {
         // Listen for the beforeinstallprompt event
-        window.addEventListener('beforeinstallprompt', e => {
+        window.addEventListener('beforeinstallprompt', (e) => {
             logger.info('[PWA] Install prompt available', { component: 'pwaInstall' });
             e.preventDefault();
             this.deferredPrompt = e;
@@ -39,7 +39,10 @@ class PWAInstallManager {
 
     static isInstalled(): boolean {
         // Check if running in standalone mode
-        return window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
+        return (
+            window.matchMedia('(display-mode: standalone)').matches ||
+            (window.navigator as any).standalone === true
+        );
     }
 
     private static setupAutoPrompt() {
@@ -59,7 +62,8 @@ class PWAInstallManager {
     }
 
     static showInstallPrompt() {
-        if (!this.deferredPrompt || sessionStorage.getItem('pwa-install-dismissed') === 'true') return;
+        if (!this.deferredPrompt || sessionStorage.getItem('pwa-install-dismissed') === 'true')
+            return;
 
         // Create and show install banner
         const banner = document.createElement('div');

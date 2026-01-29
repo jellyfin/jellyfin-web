@@ -1,26 +1,26 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-    Dialog,
-    DialogPortal,
-    DialogOverlayComponent,
-    DialogContentComponent,
-    DialogCloseButton
-} from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import { playbackManager } from '../playback/playbackmanager';
-import loading from '../loading/loading';
-import recordingHelper from './recordinghelper';
-import Events, { Callback as EventsCallback, Event as EventsEvent } from '../../utils/events';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogCloseButton,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogPortal,
+    Flex,
+    Text
+} from 'ui-primitives';
 import serverNotifications from '../../scripts/serverNotifications';
+import Events, { Callback as EventsCallback, Event as EventsEvent } from '../../utils/events';
+import loading from '../loading/loading';
+import { playbackManager } from '../playback/playbackmanager';
 import toast from '../toast/toast';
 import PlaceholderImage from './empty.png';
+import recordingHelper from './recordinghelper';
 
 type LiveTvProgram = BaseItemDto & {
     PrimaryImageTag?: string;
@@ -182,7 +182,7 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
 
             apiClient
                 .getLiveTvProgram(programId, apiClient.getCurrentUserId())
-                .then(item => {
+                .then((item) => {
                     const channelId = item?.ChannelId || item?.Id;
                     if (channelId) {
                         playbackManager.play({ ids: [channelId], serverId });
@@ -243,7 +243,16 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
 
         markDirty();
         fetchProgram();
-    }, [fetchProgram, markDirty, program, programId, serverId, seriesTimerId, timerId, timerStatus]);
+    }, [
+        fetchProgram,
+        markDirty,
+        program,
+        programId,
+        serverId,
+        seriesTimerId,
+        timerId,
+        timerStatus
+    ]);
 
     const handlePlay = useCallback(() => {
         closeActionRef.current = 'play';
@@ -269,10 +278,12 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
         }
 
         import('./seriesrecordingeditor').then(({ default: seriesRecordingEditor }) => {
-            seriesRecordingEditor.show(seriesTimerId, serverId, { enableCancel: false }).then(() => {
-                markDirty();
-                fetchProgram();
-            });
+            seriesRecordingEditor
+                .show(seriesTimerId, serverId, { enableCancel: false })
+                .then(() => {
+                    markDirty();
+                    fetchProgram();
+                });
         });
     }, [fetchProgram, markDirty, serverId, seriesTimerId]);
 
@@ -290,14 +301,23 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
                         borderRadius: '24px'
                     }}
                 >
-                    <Flex align="center" justify="space-between" style={{ marginBottom: vars.spacing['4'] }}>
+                    <Flex
+                        align="center"
+                        justify="space-between"
+                        style={{ marginBottom: vars.spacing['4'] }}
+                    >
                         <Text as="h3" size="xl" weight="bold">
                             {heroTitle}
                         </Text>
                         <DialogCloseButton onClick={() => setOpen(false)} />
                     </Flex>
 
-                    <Flex direction="row" align="flex-start" gap="24px" style={{ marginBottom: vars.spacing['4'] }}>
+                    <Flex
+                        direction="row"
+                        align="flex-start"
+                        gap="24px"
+                        style={{ marginBottom: vars.spacing['4'] }}
+                    >
                         <Box
                             style={{
                                 width: 160,
@@ -316,7 +336,13 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
                         </Box>
                         <Box style={{ flex: 1, minWidth: 0 }}>
                             {program?.Overview && (
-                                <Text size="md" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
+                                <Text
+                                    size="md"
+                                    style={{
+                                        marginBottom: vars.spacing['2'],
+                                        color: 'var(--text-secondary)'
+                                    }}
+                                >
                                     {program.Overview}
                                 </Text>
                             )}
@@ -330,14 +356,22 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
 
                     {showSeriesControls && (
                         <Box style={{ marginBottom: vars.spacing['4'] }}>
-                            <Text size="sm" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
+                            <Text
+                                size="sm"
+                                style={{
+                                    marginBottom: vars.spacing['2'],
+                                    color: 'var(--text-secondary)'
+                                }}
+                            >
                                 {globalize.translate('RecordSeries')}
                             </Text>
                             <Flex align="center" gap="12px">
                                 <Button
                                     variant={hasSeriesTimer ? 'danger' : 'primary'}
                                     size="md"
-                                    startIcon={<span className="material-icons">fiber_smart_record</span>}
+                                    startIcon={
+                                        <span className="material-icons">fiber_smart_record</span>
+                                    }
                                     onClick={toggleSeriesRecording}
                                 >
                                     {seriesButtonLabel}
@@ -357,20 +391,33 @@ function RecordingCreatorDialog({ programId, serverId, onClose }: RecordingCreat
                     )}
 
                     <Box style={{ marginBottom: vars.spacing['5'] }}>
-                        <Text size="sm" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
+                        <Text
+                            size="sm"
+                            style={{
+                                marginBottom: vars.spacing['2'],
+                                color: 'var(--text-secondary)'
+                            }}
+                        >
                             {globalize.translate('Record')}
                         </Text>
                         <Flex align="center" gap="12px">
                             <Button
                                 variant={hasActiveTimer ? 'danger' : 'primary'}
                                 size="md"
-                                startIcon={<span className="material-icons">fiber_manual_record</span>}
+                                startIcon={
+                                    <span className="material-icons">fiber_manual_record</span>
+                                }
                                 onClick={toggleRecording}
                             >
                                 {recordButtonLabel}
                             </Button>
                             {hasActiveTimer && (
-                                <Button variant="ghost" size="md" color="neutral" onClick={handleManageRecording}>
+                                <Button
+                                    variant="ghost"
+                                    size="md"
+                                    color="neutral"
+                                    onClick={handleManageRecording}
+                                >
                                     {globalize.translate('Settings')}
                                 </Button>
                             )}

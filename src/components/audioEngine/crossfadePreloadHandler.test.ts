@@ -67,8 +67,12 @@ describe('crossfadePreloadHandler', () => {
         it('returns next track info when available in queue', () => {
             mocks.useQueueStore.getState.mockReturnValue({
                 items: [
-                    { item: { id: 'item-1', streamInfo: { url: 'https://example.com/item1.mp3' } } },
-                    { item: { id: 'item-2', streamInfo: { url: 'https://example.com/item2.mp3' } } },
+                    {
+                        item: { id: 'item-1', streamInfo: { url: 'https://example.com/item1.mp3' } }
+                    },
+                    {
+                        item: { id: 'item-2', streamInfo: { url: 'https://example.com/item2.mp3' } }
+                    },
                     { item: { id: 'item-3', streamInfo: { url: 'https://example.com/item3.mp3' } } }
                 ],
                 currentIndex: 0

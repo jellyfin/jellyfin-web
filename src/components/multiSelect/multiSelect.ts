@@ -9,17 +9,17 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
+import { AppFeature } from 'constants/appFeature';
 import type { ApiClient } from 'jellyfin-apiclient';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { AppFeature } from 'constants/appFeature';
-import browser from '../../scripts/browser';
-import { safeAppHost } from '../apphost';
-import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
+import browser from '../../scripts/browser';
 import dom from '../../utils/dom';
 import alert from '../alert';
+import { safeAppHost } from '../apphost';
 import confirm from '../confirm/confirm';
 import itemHelper, { type User } from '../itemHelper';
+import loading from '../loading/loading';
 import './multiSelect.scss';
 
 interface MultiSelectOptions {
@@ -56,7 +56,9 @@ function hideSelections(): void {
 
 function onItemSelectionPanelClick(e: MouseEvent, itemSelectionPanel: Element): boolean | void {
     if (!dom.parentWithClass(e.target as HTMLElement, 'chkItemSelect')) {
-        const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect') as HTMLInputElement;
+        const chkItemSelect = itemSelectionPanel.querySelector(
+            '.chkItemSelect'
+        ) as HTMLInputElement;
 
         if (chkItemSelect) {
             if (chkItemSelect.classList.contains('checkedInitial')) {
@@ -81,7 +83,7 @@ function updateItemSelection(chkItemSelect: HTMLInputElement, selected: boolean)
     if (!id) return;
 
     if (selected) {
-        const current = selectedItems.filter(i => {
+        const current = selectedItems.filter((i) => {
             return i === id;
         });
 
@@ -90,10 +92,10 @@ function updateItemSelection(chkItemSelect: HTMLInputElement, selected: boolean)
             selectedElements.push(chkItemSelect);
         }
     } else {
-        selectedItems = selectedItems.filter(i => {
+        selectedItems = selectedItems.filter((i) => {
             return i !== id;
         });
-        selectedElements = selectedElements.filter(i => {
+        selectedElements = selectedElements.filter((i) => {
             return i !== chkItemSelect;
         });
     }
@@ -131,7 +133,9 @@ function showSelection(item: Element, isChecked: boolean, addInitialCheck: boole
         }
         const checkedAttribute = isChecked ? ' checked' : '';
         itemSelectionPanel.innerHTML = `<label class="checkboxContainer"><input type="checkbox" is="emby-checkbox" data-outlineclass="multiSelectCheckboxOutline" class="${cssClass}"${checkedAttribute}/><span></span></label>`;
-        const chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect') as HTMLInputElement;
+        const chkItemSelect = itemSelectionPanel.querySelector(
+            '.chkItemSelect'
+        ) as HTMLInputElement;
         chkItemSelect.addEventListener('change', onSelectionChange);
     }
 }
@@ -180,7 +184,7 @@ interface AlertOptions {
 }
 
 function alertText(options: AlertOptions): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         alert(options).then(
             () => resolve(),
             () => resolve()
@@ -199,7 +203,7 @@ function deleteItems(apiClient: ApiClient, itemIds: string[]): Promise<void> {
         }
 
         confirm(msg, title).then(() => {
-            const promises = itemIds.map(itemId => apiClient.deleteItem(itemId));
+            const promises = itemIds.map((itemId) => apiClient.deleteItem(itemId));
 
             Promise.all(promises).then(
                 () => resolve(),
@@ -219,10 +223,10 @@ function showMenuForSelectedItems(e: MouseEvent): void {
 
     if (!apiClient) return;
 
-    apiClient.getCurrentUser().then(user => {
+    apiClient.getCurrentUser().then((user) => {
         if (!selectedItems[0]) return;
 
-        apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then(firstItem => {
+        apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then((firstItem) => {
             const menuItems: MenuItem[] = [];
 
             menuItems.push({
@@ -251,7 +255,10 @@ function showMenuForSelectedItems(e: MouseEvent): void {
                 });
             }
 
-            if ((user as User).Policy?.EnableContentDownloading && safeAppHost.supports(AppFeature.FileDownload)) {
+            if (
+                (user as User).Policy?.EnableContentDownloading &&
+                safeAppHost.supports(AppFeature.FileDownload)
+            ) {
             }
 
             if ((user as User).Policy?.IsAdministrator) {
@@ -282,7 +289,7 @@ function showMenuForSelectedItems(e: MouseEvent): void {
                 });
             }
 
-            import('../actionSheet/actionSheet').then(actionsheet => {
+            import('../actionSheet/actionSheet').then((actionsheet) => {
                 actionsheet.show({
                     items: menuItems,
                     positionTo: e.target as Element | null | undefined,
@@ -312,13 +319,15 @@ function showMenuForSelectedItems(e: MouseEvent): void {
                                 }
                                 break;
                             case 'addtocollection':
-                                import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
-                                    const collectionEditor = new CollectionEditor();
-                                    collectionEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    });
-                                });
+                                import('../collectionEditor/collectionEditor').then(
+                                    ({ default: CollectionEditor }) => {
+                                        const collectionEditor = new CollectionEditor();
+                                        collectionEditor.show({
+                                            items: items,
+                                            serverId: serverId
+                                        });
+                                    }
+                                );
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
@@ -333,8 +342,11 @@ function showMenuForSelectedItems(e: MouseEvent): void {
                                             })
                                             .catch(() => {});
                                     })
-                                    .catch(err => {
-                                        console.error('[AddToPlaylist] failed to load playlist editor', err);
+                                    .catch((err) => {
+                                        console.error(
+                                            '[AddToPlaylist] failed to load playlist editor',
+                                            err
+                                        );
                                     });
                                 hideSelections();
                                 dispatchNeedsRefresh();
@@ -348,26 +360,36 @@ function showMenuForSelectedItems(e: MouseEvent): void {
                                 combineVersions(apiClient, items);
                                 break;
                             case 'markplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markPlayed(apiClient.getCurrentUserId(), itemId, new Date());
+                                items.forEach((itemId) => {
+                                    apiClient.markPlayed(
+                                        apiClient.getCurrentUserId(),
+                                        itemId,
+                                        new Date()
+                                    );
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'markunplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId, new Date());
+                                items.forEach((itemId) => {
+                                    apiClient.markUnplayed(
+                                        apiClient.getCurrentUserId(),
+                                        itemId,
+                                        new Date()
+                                    );
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'refresh':
-                                import('../refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
-                                    new RefreshDialog({
-                                        itemIds: items,
-                                        serverId: serverId
-                                    }).show();
-                                });
+                                import('../refreshdialog/refreshdialog').then(
+                                    ({ default: RefreshDialog }) => {
+                                        new RefreshDialog({
+                                            itemIds: items,
+                                            serverId: serverId
+                                        }).show();
+                                    }
+                                );
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
@@ -384,7 +406,7 @@ function showMenuForSelectedItems(e: MouseEvent): void {
 function dispatchNeedsRefresh(): void {
     const elems: Element[] = [];
 
-    [].forEach.call(selectedElements, i => {
+    [].forEach.call(selectedElements, (i) => {
         const container = dom.parentWithAttribute(i as HTMLElement, 'is', 'emby-itemscontainer');
 
         if (container && !elems.includes(container)) {
@@ -573,10 +595,18 @@ export default function multiSelect(options: MultiSelectOptions): MultiSelectIns
         if (browser.touch && !browser.safari) {
             element.addEventListener('contextmenu', onTapHold);
         } else {
-            dom.addEventListener(element, 'touchstart', onTouchStart, { passive: true } as AddEventListenerOptions);
-            dom.addEventListener(element, 'touchmove', onTouchMove, { passive: true } as AddEventListenerOptions);
-            dom.addEventListener(element, 'touchend', onTouchEnd, { passive: true } as AddEventListenerOptions);
-            dom.addEventListener(element, 'touchcancel', onTouchEnd, { passive: true } as AddEventListenerOptions);
+            dom.addEventListener(element, 'touchstart', onTouchStart, {
+                passive: true
+            } as AddEventListenerOptions);
+            dom.addEventListener(element, 'touchmove', onTouchMove, {
+                passive: true
+            } as AddEventListenerOptions);
+            dom.addEventListener(element, 'touchend', onTouchEnd, {
+                passive: true
+            } as AddEventListenerOptions);
+            dom.addEventListener(element, 'touchcancel', onTouchEnd, {
+                passive: true
+            } as AddEventListenerOptions);
             dom.addEventListener(
                 element,
                 'mousedown',

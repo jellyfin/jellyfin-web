@@ -1,9 +1,8 @@
 // NOTE: This is used for jsdoc return type
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Api } from '@jellyfin/sdk';
-import { Credentials, ApiClient } from 'jellyfin-apiclient';
-
 import { appHost, safeAppHost } from 'components/apphost';
+import { ApiClient, Credentials } from 'jellyfin-apiclient';
 import appSettings from 'scripts/settings/appSettings';
 import { setUserInfo } from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
@@ -14,7 +13,7 @@ import { logger } from 'utils/logger';
 import ConnectionManager from './connectionManager';
 import { ConnectionMode } from './connectionMode';
 
-const normalizeImageOptions = options => {
+const normalizeImageOptions = (options) => {
     if (
         !options.quality &&
         (options.maxWidth ||
@@ -54,7 +53,10 @@ class ServerConnections extends ConnectionManager {
             // Ensure the updated credentials are persisted to storage
             credentialProvider.credentials(credentialProvider.credentials());
 
-            if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedOut === 'function') {
+            if (
+                window.NativeShell &&
+                typeof window.NativeShell.onLocalUserSignedOut === 'function'
+            ) {
                 window.NativeShell.onLocalUserSignedOut(logoutInfo);
             }
         });
@@ -168,7 +170,10 @@ class ServerConnections extends ConnectionManager {
         const apiClient = this.getApiClient(user.ServerId);
         this.setLocalApiClient(apiClient);
         return setUserInfo(user.Id, apiClient).then(() => {
-            if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedIn === 'function') {
+            if (
+                window.NativeShell &&
+                typeof window.NativeShell.onLocalUserSignedIn === 'function'
+            ) {
                 return window.NativeShell.onLocalUserSignedIn(user, apiClient.accessToken());
             }
             return Promise.resolve();
@@ -189,7 +194,7 @@ class ServerConnections extends ConnectionManager {
         const servers = credentials?.Servers || [];
         if (!servers.length) return;
 
-        servers.forEach(server => {
+        servers.forEach((server) => {
             server.ManualAddress = this.devServerAddress;
             server.LocalAddress = this.devServerAddress;
             server.RemoteAddress = null;
@@ -199,7 +204,7 @@ class ServerConnections extends ConnectionManager {
 
         credentialProvider.credentials(credentials);
 
-        this.getApiClients().forEach(apiClient => {
+        this.getApiClients().forEach((apiClient) => {
             apiClient.enableAutomaticNetworking = false;
             apiClient.manualAddressOnly = true;
             apiClient.serverAddress(this.devServerAddress);

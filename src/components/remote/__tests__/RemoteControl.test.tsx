@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { RemoteControl } from '../RemoteControl';
 
 describe('RemoteControl', () => {
@@ -74,7 +74,9 @@ describe('RemoteControl', () => {
     });
 
     it('displays time correctly', () => {
-        const { getByText } = render(<RemoteControl {...defaultProps} currentTime={65} duration={300} />);
+        const { getByText } = render(
+            <RemoteControl {...defaultProps} currentTime={65} duration={300} />
+        );
         expect(getByText('1:05')).toBeInTheDocument();
         expect(getByText('5:00')).toBeInTheDocument();
     });

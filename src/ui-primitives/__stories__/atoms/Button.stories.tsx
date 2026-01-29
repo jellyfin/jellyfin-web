@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { motion } from 'motion/react';
 import { type ReactElement } from 'react';
 import { Button } from '../..';
-import { motion } from 'motion/react';
 
 const meta: Meta<typeof Button> = {
     title: 'UI Primitives/Button',

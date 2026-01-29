@@ -11,10 +11,10 @@ import type {
 } from 'apps/stable/features/playback/types/callbacks';
 import type { PlaybackManager, Player } from 'components/playback/playbackmanager';
 import type { MediaError } from 'types/mediaError';
-import type { PlayTarget } from 'types/playTarget';
 import type { PlaybackStopInfo, PlayerState } from 'types/playbackStopInfo';
+import type { PlayTarget } from 'types/playTarget';
 import type { PlayerPlugin } from 'types/plugin';
-import Events, { type Event, type EventObject, type Callback } from 'utils/events';
+import Events, { type Callback, type Event, type EventObject } from 'utils/events';
 import { PlaybackManagerEvent } from '../constants/playbackManagerEvent';
 import { PlayerEvent } from '../constants/playerEvent';
 
@@ -24,7 +24,12 @@ export interface PlaybackSubscriber {
     onPlaybackError?(e: Event, errorType: MediaError): void;
     onPlaybackStart?(e: Event, player: PlayerPlugin, state: PlayerState): void;
     onPlaybackStop?(e: Event, info: PlaybackStopInfo): void;
-    onPlayerChange?(e: Event, player: PlayerPlugin, target: PlayTarget, previousPlayer: PlayerPlugin): void;
+    onPlayerChange?(
+        e: Event,
+        player: PlayerPlugin,
+        target: PlayTarget,
+        previousPlayer: PlayerPlugin
+    ): void;
     onPromptSkip?(e: Event, mediaSegment: MediaSegmentDto): void;
     onPlayerError?(e: Event, error: PlayerError): void;
     onPlayerFullscreenChange?(e: Event): void;
@@ -84,7 +89,11 @@ export abstract class PlaybackSubscriber {
 
     constructor(protected readonly playbackManager: PlaybackManager) {
         // Bind player events before invoking any player change handlers
-        Events.on(playbackManager as EventObject, PlaybackManagerEvent.PlayerChange, this.bindPlayerEvents.bind(this));
+        Events.on(
+            playbackManager as EventObject,
+            PlaybackManagerEvent.PlayerChange,
+            this.bindPlayerEvents.bind(this)
+        );
 
         Object.entries(this.playbackManagerEvents).forEach(([event, handler]) => {
             if (handler) Events.on(playbackManager as EventObject, event, handler as Callback);

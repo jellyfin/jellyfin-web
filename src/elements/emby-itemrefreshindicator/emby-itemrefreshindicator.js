@@ -9,10 +9,10 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import EmbyProgressRing from '../emby-progressring/emby-progressring';
-import dom from '../../utils/dom';
 import serverNotifications from '../../scripts/serverNotifications';
+import dom from '../../utils/dom';
 import Events from '../../utils/events';
+import EmbyProgressRing from '../emby-progressring/emby-progressring';
 
 import 'webcomponents.js/webcomponents-lite';
 

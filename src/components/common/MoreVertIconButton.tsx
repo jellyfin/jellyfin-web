@@ -1,9 +1,8 @@
-import React, { type FC } from 'react';
-import { IconButton } from 'ui-primitives';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
-
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
+import { IconButton } from 'ui-primitives';
 
 interface MoreVertIconButtonProps {
     className?: string;
@@ -12,7 +11,11 @@ interface MoreVertIconButtonProps {
 
 const MoreVertIconButton: FC<MoreVertIconButtonProps> = ({ className, iconClassName }) => {
     return (
-        <IconButton className={className} data-action={ItemAction.Menu} title={globalize.translate('ButtonMore')}>
+        <IconButton
+            className={className}
+            data-action={ItemAction.Menu}
+            title={globalize.translate('ButtonMore')}
+        >
             <DotsVerticalIcon className={iconClassName} />
         </IconButton>
     );

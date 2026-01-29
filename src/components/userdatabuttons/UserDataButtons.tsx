@@ -1,9 +1,7 @@
-import React from 'react';
-import { Box } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
 import { CheckCircledIcon, CheckIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React from 'react';
+import { Box, IconButton, Tooltip } from 'ui-primitives';
 import globalize from '../../lib/globalize';
 import itemHelper from '../itemHelper';
 
@@ -13,7 +11,11 @@ interface UserDataButtonsProps {
     onUpdate?: () => void;
 }
 
-const UserDataButtons: React.FC<UserDataButtonsProps> = ({ item, includePlayed = true, onUpdate }) => {
+const UserDataButtons: React.FC<UserDataButtonsProps> = ({
+    item,
+    includePlayed = true,
+    onUpdate
+}) => {
     const userData = item.UserData || {};
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 

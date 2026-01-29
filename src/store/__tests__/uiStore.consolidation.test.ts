@@ -1,7 +1,7 @@
-import { useUiStore } from '../uiStore';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LayoutMode } from '../../constants/layoutMode';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
 import browser from '../../scripts/browser';
+import { useUiStore } from '../uiStore';
 
 // Mock browser
 vi.mock('../../scripts/browser', () => ({
@@ -43,7 +43,7 @@ describe('uiStore Consolidation', () => {
 
     it('should toggle drawer state correctly', () => {
         const store = useUiStore.getState();
-        
+
         store.toggleDrawer(true);
         expect(useUiStore.getState().isDrawerOpen).toBe(true);
 
@@ -56,9 +56,9 @@ describe('uiStore Consolidation', () => {
 
     it('should update HTML classes when layout changes', () => {
         const spy = vi.spyOn(document.documentElement.classList, 'add');
-        
+
         useUiStore.getState().setLayout(LayoutMode.Tv);
-        
+
         expect(spy).toHaveBeenCalledWith('layout-tv');
         expect(document.documentElement.classList.contains('layout-tv')).toBe(true);
     });

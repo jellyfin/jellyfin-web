@@ -4,31 +4,42 @@
  * Main playlists browser displaying all playlists.
  */
 
-import React, { useState, useCallback } from 'react';
-import { useParams } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-
-import { Box, Flex } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { FormControl, FormLabel } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Menu, MenuTrigger, MenuContent, MenuItem, MenuSeparator } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
-import { itemsApi } from 'lib/api/items';
-import { useViewStyle } from 'hooks/useViewStyle';
-import { usePagination } from 'hooks/usePagination';
-import { MediaGrid } from 'components/media/MediaGrid';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { ErrorState } from 'components/ErrorState';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 import { EmptyState } from 'components/EmptyState';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { ErrorState } from 'components/ErrorState';
+import { LoadingSpinner } from 'components/LoadingSpinner';
+import { MediaGrid } from 'components/media/MediaGrid';
 import { appRouter } from 'components/router/appRouter';
+import { usePagination } from 'hooks/usePagination';
+import { useViewStyle } from 'hooks/useViewStyle';
+import { itemsApi } from 'lib/api/items';
 import { toPlayableItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Chip,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    IconButton,
+    Menu,
+    MenuContent,
+    MenuItem,
+    MenuSeparator,
+    MenuTrigger,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 
 import { logger } from 'utils/logger';
 
@@ -109,13 +120,13 @@ export const Playlists: React.FC = () => {
 
     const handleNextPage = useCallback(() => {
         if (hasNextPage) {
-            setPageIndex(prev => prev + 1);
+            setPageIndex((prev) => prev + 1);
         }
     }, [hasNextPage, setPageIndex]);
 
     const handlePreviousPage = useCallback(() => {
         if (hasPreviousPage && pageIndex > 0) {
-            setPageIndex(prev => prev - 1);
+            setPageIndex((prev) => prev - 1);
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
 
@@ -152,18 +163,28 @@ export const Playlists: React.FC = () => {
     if (playlists.length === 0) {
         return (
             <Box style={{ padding: vars.spacing['5'] }}>
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
+                <Flex
+                    style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: vars.spacing['5']
+                    }}
+                >
                     <Heading.H3>Playlists</Heading.H3>
                     <Button
                         startDecorator={<AddIcon />}
-                        onClick={e => {
+                        onClick={(e) => {
                             setCreateMenuAnchor(e.currentTarget);
                             setIsCreateMenuOpen(true);
                         }}
                     >
                         Create
                     </Button>
-                    <Menu open={isCreateMenuOpen} onOpenChange={setIsCreateMenuOpen} trigger={<></>}>
+                    <Menu
+                        open={isCreateMenuOpen}
+                        onOpenChange={setIsCreateMenuOpen}
+                        trigger={<></>}
+                    >
                         <MenuContent>
                             <MenuItem
                                 onClick={() => {
@@ -176,7 +197,10 @@ export const Playlists: React.FC = () => {
                         </MenuContent>
                     </Menu>
                 </Flex>
-                <EmptyState title="No Playlists" description="Create playlists to organize your media." />
+                <EmptyState
+                    title="No Playlists"
+                    description="Create playlists to organize your media."
+                />
             </Box>
         );
     }
@@ -196,7 +220,7 @@ export const Playlists: React.FC = () => {
                 <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                     <Button
                         startDecorator={<AddIcon />}
-                        onClick={e => {
+                        onClick={(e) => {
                             setCreateMenuAnchor(e.currentTarget);
                             setIsCreateMenuOpen(true);
                         }}
@@ -204,7 +228,11 @@ export const Playlists: React.FC = () => {
                     >
                         Create
                     </Button>
-                    <Menu open={isCreateMenuOpen} onOpenChange={setIsCreateMenuOpen} trigger={<></>}>
+                    <Menu
+                        open={isCreateMenuOpen}
+                        onOpenChange={setIsCreateMenuOpen}
+                        trigger={<></>}
+                    >
                         <MenuContent>
                             <MenuItem
                                 onClick={() => {
@@ -257,7 +285,13 @@ export const Playlists: React.FC = () => {
                 </Flex>
             </Flex>
 
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
+            <Flex
+                style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: vars.spacing['4']
+                }}
+            >
                 <Text size="sm" color="secondary">
                     {totalCount} playlist{totalCount !== 1 ? 's' : ''}
                 </Text>

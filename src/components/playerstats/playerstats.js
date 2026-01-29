@@ -29,12 +29,20 @@ function init(instance) {
     if (layoutManager.tv) {
         button = '';
     } else {
-        button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close" aria-hidden="true"></span></button>';
+        button =
+            '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><span class="material-icons close" aria-hidden="true"></span></button>';
     }
 
-    const contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';
+    const contentClass = layoutManager.tv
+        ? 'playerStats-content playerStats-content-tv'
+        : 'playerStats-content';
 
-    parent.innerHTML = '<div class="' + contentClass + '">' + button + '<div class="playerStats-stats"></div></div>';
+    parent.innerHTML =
+        '<div class="' +
+        contentClass +
+        '">' +
+        button +
+        '<div class="playerStats-stats"></div></div>';
 
     button = parent.querySelector('.playerStats-closeButton');
 
@@ -52,64 +60,71 @@ function onCloseButtonClick() {
 }
 
 function renderStats(elem, categories) {
-    elem.querySelector('.playerStats-stats').innerHTML = categories.map((category) => {
-        let categoryHtml = '';
+    elem.querySelector('.playerStats-stats').innerHTML = categories
+        .map((category) => {
+            let categoryHtml = '';
 
-        const stats = category.stats;
+            const stats = category.stats;
 
-        if (stats.length && category.name) {
-            categoryHtml += '<div class="playerStats-stat playerStats-stat-header">';
+            if (stats.length && category.name) {
+                categoryHtml += '<div class="playerStats-stat playerStats-stat-header">';
 
-            categoryHtml += '<div class="playerStats-stat-label">';
-            categoryHtml += category.name;
-            categoryHtml += '</div>';
+                categoryHtml += '<div class="playerStats-stat-label">';
+                categoryHtml += category.name;
+                categoryHtml += '</div>';
 
-            categoryHtml += '<div class="playerStats-stat-value">';
-            categoryHtml += category.subText || '';
-            categoryHtml += '</div>';
+                categoryHtml += '<div class="playerStats-stat-value">';
+                categoryHtml += category.subText || '';
+                categoryHtml += '</div>';
 
-            categoryHtml += '</div>';
-        }
+                categoryHtml += '</div>';
+            }
 
-        for (let i = 0, length = stats.length; i < length; i++) {
-            categoryHtml += '<div class="playerStats-stat">';
+            for (let i = 0, length = stats.length; i < length; i++) {
+                categoryHtml += '<div class="playerStats-stat">';
 
-            const stat = stats[i];
+                const stat = stats[i];
 
-            categoryHtml += '<div class="playerStats-stat-label">';
-            categoryHtml += stat.label;
-            categoryHtml += '</div>';
+                categoryHtml += '<div class="playerStats-stat-label">';
+                categoryHtml += stat.label;
+                categoryHtml += '</div>';
 
-            categoryHtml += '<div class="playerStats-stat-value">';
-            categoryHtml += stat.value;
-            categoryHtml += '</div>';
+                categoryHtml += '<div class="playerStats-stat-value">';
+                categoryHtml += stat.value;
+                categoryHtml += '</div>';
 
-            categoryHtml += '</div>';
-        }
+                categoryHtml += '</div>';
+            }
 
-        return categoryHtml;
-    }).join('');
+            return categoryHtml;
+        })
+        .join('');
 }
 
 function getSession(instance, player) {
     const now = new Date().getTime();
 
-    if ((now - (instance.lastSessionTime || 0)) < 10000) {
+    if (now - (instance.lastSessionTime || 0) < 10000) {
         return Promise.resolve(instance.lastSession);
     }
 
     const apiClient = ServerConnections.getApiClient(playbackManager.currentItem(player).ServerId);
 
-    return apiClient.getSessions({
-        deviceId: apiClient.deviceId()
-    }).then((sessions) => {
-        instance.lastSession = sessions[0] || {};
-        instance.lastSessionTime = new Date().getTime();
+    return apiClient
+        .getSessions({
+            deviceId: apiClient.deviceId()
+        })
+        .then(
+            (sessions) => {
+                instance.lastSession = sessions[0] || {};
+                instance.lastSessionTime = new Date().getTime();
 
-        return Promise.resolve(instance.lastSession);
-    }, () => {
-        return Promise.resolve({});
-    });
+                return Promise.resolve(instance.lastSession);
+            },
+            () => {
+                return Promise.resolve({});
+            }
+        );
 }
 
 function translateReason(reason) {
@@ -134,14 +149,18 @@ function getTranscodingStats(session, player, displayPlayMethod) {
     if (videoCodec) {
         sessionStats.push({
             label: globalize.translate('LabelVideoCodec'),
-            value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
+            value: session.TranscodingInfo.IsVideoDirect
+                ? videoCodec.toUpperCase() + ' (direct)'
+                : videoCodec.toUpperCase()
         });
     }
 
     if (audioCodec) {
         sessionStats.push({
             label: globalize.translate('LabelAudioCodec'),
-            value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
+            value: session.TranscodingInfo.IsAudioDirect
+                ? audioCodec.toUpperCase() + ' (direct)'
+                : audioCodec.toUpperCase()
         });
     }
 
@@ -243,16 +262,18 @@ function getMediaSourceStats(session, player) {
     }
 
     const mediaStreams = mediaSource.MediaStreams || [];
-    const videoStream = mediaStreams.filter((s) => {
-        return s.Type === 'Video';
-    })[0] || {};
+    const videoStream =
+        mediaStreams.filter((s) => {
+            return s.Type === 'Video';
+        })[0] || {};
 
     const videoCodec = videoStream.Codec;
 
     const audioStreamIndex = playbackManager.getAudioStreamIndex(player);
-    const audioStream = playbackManager.audioTracks(player).filter((s) => {
-        return s.Type === 'Audio' && s.Index === audioStreamIndex;
-    })[0] || {};
+    const audioStream =
+        playbackManager.audioTracks(player).filter((s) => {
+            return s.Type === 'Audio' && s.Index === audioStreamIndex;
+        })[0] || {};
 
     const audioCodec = audioStream.Codec;
     const audioChannels = audioStream.Channels;
@@ -455,7 +476,7 @@ function getStats(instance, player) {
 function renderPlayerStats(instance, player) {
     const now = new Date().getTime();
 
-    if ((now - (instance.lastRender || 0)) < 700) {
+    if (now - (instance.lastRender || 0) < 700) {
         return;
     }
 

@@ -4,22 +4,22 @@
  */
 
 import escapeHtml from 'escape-html';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
-import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import scrollHelper from '../../scripts/scrollHelper';
-import layoutManager from '../layoutManager';
-import focusManager from '../focusManager';
+import globalize from '../../lib/globalize';
 import browser from '../../scripts/browser';
+import scrollHelper from '../../scripts/scrollHelper';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import '../cardbuilder/card.scss';
+import datetime from '../../scripts/datetime';
 import toast from '../toast/toast';
 import template from './itemidentifier.template.html?raw';
-import datetime from '../../scripts/datetime';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -95,7 +95,7 @@ function searchForIdentificationResults(page) {
             contentType: 'application/json',
             dataType: 'json'
         })
-        .then(results => {
+        .then((results) => {
             loading.hide();
             showIdentificationSearchResults(page, results);
         });
@@ -288,7 +288,7 @@ function submitIdentficationResult(page) {
 function showIdentificationForm(page, item) {
     const apiClient = getApiClient();
 
-    apiClient.getJSON(apiClient.getUrl(`Items/${item.Id}/ExternalIdInfos`)).then(idList => {
+    apiClient.getJSON(apiClient.getUrl(`Items/${item.Id}/ExternalIdInfos`)).then((idList) => {
         let html = '';
 
         for (let i = 0, length = idList.length; i < length; i++) {
@@ -331,7 +331,7 @@ function showEditor(itemId) {
 
     const apiClient = getApiClient();
 
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         currentItem = item;
         currentItemType = currentItem.Type;
 
@@ -372,13 +372,13 @@ function showEditor(itemId) {
 
         dialogHelper.open(dlg);
 
-        dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
+        dlg.querySelector('.popupIdentifyForm').addEventListener('submit', (e) => {
             e.preventDefault();
             searchForIdentificationResults(dlg);
             return false;
         });
 
-        dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
+        dlg.querySelector('.identifyOptionsForm').addEventListener('submit', (e) => {
             e.preventDefault();
             submitIdentficationResult(dlg);
             return false;
@@ -439,7 +439,7 @@ function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
         dialogHelper.close(dlg);
     });
 
-    dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
+    dlg.querySelector('.popupIdentifyForm').addEventListener('submit', (e) => {
         e.preventDefault();
         searchForIdentificationResults(dlg);
         return false;
@@ -483,7 +483,7 @@ export function show(itemId, serverId) {
 }
 
 export function showFindNew(itemName, itemYear, itemType, serverId) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         currentServerId = serverId;
 
         hasChanges = false;

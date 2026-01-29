@@ -1,6 +1,5 @@
-import React, { FunctionComponent } from 'react';
-
 import globalize from 'lib/globalize';
+import React, { FunctionComponent } from 'react';
 
 type IProps = {
     is?: string;
@@ -14,7 +13,16 @@ type IProps = {
     onClick?: () => void;
 };
 
-const createIconButtonElement = ({ is, id, className, title, icon, dataIndex, dataTag, dataProfileid }: IProps) => ({
+const createIconButtonElement = ({
+    is,
+    id,
+    className,
+    title,
+    icon,
+    dataIndex,
+    dataTag,
+    dataProfileid
+}: IProps) => ({
     __html: `<button
         is="${is}"
         type="button"
@@ -52,7 +60,9 @@ const IconButtonElement: FunctionComponent<IProps> = ({
     });
 
     if (onClick !== undefined) {
-        return <button style={{ all: 'unset' }} dangerouslySetInnerHTML={button} onClick={onClick} />;
+        return (
+            <button style={{ all: 'unset' }} dangerouslySetInnerHTML={button} onClick={onClick} />
+        );
     }
 
     return <div dangerouslySetInnerHTML={button} />;

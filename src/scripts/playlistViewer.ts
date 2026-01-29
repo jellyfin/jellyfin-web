@@ -43,7 +43,11 @@ async function init(page: HTMLElement, item: any) {
         });
         isEditable = !!data.CanEdit;
     } catch (err) {
-        logger.warn('Failed to fetch playlist permissions', { component: 'PlaylistViewer' }, err as any);
+        logger.warn(
+            'Failed to fetch playlist permissions',
+            { component: 'PlaylistViewer' },
+            err as any
+        );
     }
 
     const elem = page.querySelector('#childrenContent .itemsContainer') as any;

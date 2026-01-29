@@ -1,8 +1,7 @@
 import { Component2Icon } from '@radix-ui/react-icons';
-import React, { useMemo } from 'react';
 import { useLocation } from '@tanstack/react-router';
-
 import BaseCard from 'apps/dashboard/components/BaseCard';
+import React, { useMemo } from 'react';
 
 import { type PluginDetails } from '../types/PluginDetails';
 
@@ -27,7 +26,7 @@ const PluginCard = ({ plugin }: PluginCardProps) => {
         <BaseCard
             title={plugin.name}
             to={pluginPage as any}
-            text={[plugin.version?.VersionNumber, plugin.status].filter(t => t).join(' ')}
+            text={[plugin.version?.VersionNumber, plugin.status].filter((t) => t).join(' ')}
             image={plugin.imageUrl}
             icon={<Component2Icon style={{ width: 80, height: 80 }} />}
         />

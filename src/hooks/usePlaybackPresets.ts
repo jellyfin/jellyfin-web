@@ -4,8 +4,8 @@
  * Manages saving, loading, and deleting playback queue presets.
  */
 
-import { useState, useCallback, useEffect } from 'react';
 import type { PlaybackPreset } from 'components/playback/PlaybackPresets';
+import { useCallback, useEffect, useState } from 'react';
 import { logger } from 'utils/logger';
 
 const PRESETS_STORAGE_KEY = 'jellyfin-playback-presets';
@@ -14,7 +14,12 @@ const MAX_PRESETS = 10;
 export interface UsePlaybackPresetsReturn {
     presets: PlaybackPreset[];
     isLoading: boolean;
-    savePreset: (name: string, queueData: any, shuffleMode: string, repeatMode: string) => Promise<void>;
+    savePreset: (
+        name: string,
+        queueData: any,
+        shuffleMode: string,
+        repeatMode: string
+    ) => Promise<void>;
     loadPreset: (presetId: string) => Promise<any>;
     deletePreset: (presetId: string) => Promise<void>;
     clearAllPresets: () => Promise<void>;
@@ -102,18 +107,21 @@ export const usePlaybackPresets = (): UsePlaybackPresetsReturn => {
     );
 
     // Delete preset
-    const deletePreset = useCallback(async (presetId: string) => {
-        try {
-            const updated = presets.filter((p) => p.id !== presetId);
-            setPresets(updated);
-            localStorage.setItem(PRESETS_STORAGE_KEY, JSON.stringify(updated));
+    const deletePreset = useCallback(
+        async (presetId: string) => {
+            try {
+                const updated = presets.filter((p) => p.id !== presetId);
+                setPresets(updated);
+                localStorage.setItem(PRESETS_STORAGE_KEY, JSON.stringify(updated));
 
-            logger.debug('[usePlaybackPresets] Preset deleted', { presetId });
-        } catch (error) {
-            logger.error('[usePlaybackPresets] Failed to delete preset', { presetId, error });
-            throw error;
-        }
-    }, [presets]);
+                logger.debug('[usePlaybackPresets] Preset deleted', { presetId });
+            } catch (error) {
+                logger.error('[usePlaybackPresets] Failed to delete preset', { presetId, error });
+                throw error;
+            }
+        },
+        [presets]
+    );
 
     // Clear all presets
     const clearAllPresets = useCallback(async () => {

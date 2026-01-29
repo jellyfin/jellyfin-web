@@ -4,18 +4,14 @@
  * React-based lyrics display with synchronized scrolling during playback.
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { Box, Flex } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
+import { ChevronDownIcon, ChevronUpIcon, PauseIcon, PlayIcon } from '@radix-ui/react-icons';
 import { LoadingView } from 'components/feedback/LoadingView';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-
-import { ChevronUpIcon, ChevronDownIcon, PlayIcon, PauseIcon } from '@radix-ui/react-icons';
+import { Box, Button, Flex, Heading, IconButton, Text } from 'ui-primitives';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 interface LyricLine {
     Start?: number | null | undefined;
@@ -79,7 +75,8 @@ export const Lyrics: React.FC = () => {
 
             const ticks = time * 10000;
             const lineIndex = lyrics.findLastIndex(
-                (line, i) => (line.Start ?? 0) <= ticks && (lyrics[i + 1]?.Start ?? Infinity) > ticks
+                (line, i) =>
+                    (line.Start ?? 0) <= ticks && (lyrics[i + 1]?.Start ?? Infinity) > ticks
             );
             setCurrentLineIndex(lineIndex);
         };
@@ -140,7 +137,13 @@ export const Lyrics: React.FC = () => {
 
     return (
         <Box style={{ padding: vars.spacing['6'], maxWidth: 800, margin: '0 auto' }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['6'] }}>
+            <Flex
+                style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: vars.spacing['6']
+                }}
+            >
                 <Heading.H3>Lyrics</Heading.H3>
                 <Flex style={{ gap: vars.spacing['4'], alignItems: 'center' }}>
                     <Button
@@ -190,14 +193,20 @@ export const Lyrics: React.FC = () => {
                             padding: vars.spacing['4'],
                             marginBottom: vars.spacing['2'],
                             borderRadius: vars.borderRadius.sm,
-                            backgroundColor: index === currentLineIndex ? vars.colors.primary + '20' : 'transparent',
+                            backgroundColor:
+                                index === currentLineIndex
+                                    ? vars.colors.primary + '20'
+                                    : 'transparent',
                             textAlign: 'center',
                             transition: 'background-color 0.3s ease'
                         }}
                     >
                         <Text
                             style={{
-                                color: index === currentLineIndex ? vars.colors.text : vars.colors.textSecondary,
+                                color:
+                                    index === currentLineIndex
+                                        ? vars.colors.text
+                                        : vars.colors.textSecondary,
                                 fontWeight: index === currentLineIndex ? 'bold' : 'normal'
                             }}
                         >
@@ -207,7 +216,13 @@ export const Lyrics: React.FC = () => {
                 ))}
             </Box>
 
-            <Flex style={{ justifyContent: 'center', gap: vars.spacing['5'], marginTop: vars.spacing['6'] }}>
+            <Flex
+                style={{
+                    justifyContent: 'center',
+                    gap: vars.spacing['5'],
+                    marginTop: vars.spacing['6']
+                }}
+            >
                 <Button
                     variant="plain"
                     onClick={() => {
@@ -221,7 +236,8 @@ export const Lyrics: React.FC = () => {
             {currentItem && (
                 <Box style={{ marginTop: vars.spacing['7'], textAlign: 'center' }}>
                     <Text size="sm" color="secondary">
-                        {formatTime(currentTime)} / {formatTime((currentItem.RunTimeTicks || 0) / 10000000)}
+                        {formatTime(currentTime)} /{' '}
+                        {formatTime((currentItem.RunTimeTicks || 0) / 10000000)}
                     </Text>
                 </Box>
             )}

@@ -4,7 +4,7 @@
  * Manages pagination state with localStorage persistence.
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 
 interface UsePaginationOptions {
@@ -25,7 +25,10 @@ interface UsePaginationReturn {
     previousPage: () => void;
 }
 
-export const usePagination = (componentKey: string, options: UsePaginationOptions = {}): UsePaginationReturn => {
+export const usePagination = (
+    componentKey: string,
+    options: UsePaginationOptions = {}
+): UsePaginationReturn => {
     const { defaultPageSize = 30, storageKey = 'jellyfin-pagination' } = options;
 
     const [pageIndex, setPageIndexState] = useState(0);
@@ -33,7 +36,10 @@ export const usePagination = (componentKey: string, options: UsePaginationOption
 
     const [storedPageIndex] = useLocalStorage<number>(`${storageKey}-${componentKey}-page`, 0);
 
-    const [storedPageSize] = useLocalStorage<number>(`${storageKey}-${componentKey}-size`, defaultPageSize);
+    const [storedPageSize] = useLocalStorage<number>(
+        `${storageKey}-${componentKey}-size`,
+        defaultPageSize
+    );
 
     useEffect(() => {
         setPageIndexState(storedPageIndex);
@@ -44,7 +50,7 @@ export const usePagination = (componentKey: string, options: UsePaginationOption
     }, [storedPageSize]);
 
     const setPageIndex = useCallback<React.Dispatch<React.SetStateAction<number>>>(
-        index => {
+        (index) => {
             const newIndex = typeof index === 'function' ? index(pageIndex) : Math.max(0, index);
             setPageIndexState(newIndex);
             localStorage.setItem(`${storageKey}-${componentKey}-page`, String(newIndex));

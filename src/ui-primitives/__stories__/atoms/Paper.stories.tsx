@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Paper } from '../..';
-import { Text } from '../..';
+import { Paper, Text } from '../..';
 
 const meta: Meta<typeof Paper> = {
     title: 'UI Primitives/Paper',
@@ -105,17 +104,26 @@ export const CardExample: Story = {
 function StackedPapersStory(): ReactElement {
     return (
         <div style={{ position: 'relative', width: '300px', height: '200px' }}>
-            <Paper elevation="sm" style={{ position: 'absolute', top: 16, left: 16, width: '100%', padding: '16px' }}>
+            <Paper
+                elevation="sm"
+                style={{ position: 'absolute', top: 16, left: 16, width: '100%', padding: '16px' }}
+            >
                 <Text size="sm" color="secondary">
                     Background layer
                 </Text>
             </Paper>
-            <Paper elevation="md" style={{ position: 'absolute', top: 8, left: 8, width: '100%', padding: '16px' }}>
+            <Paper
+                elevation="md"
+                style={{ position: 'absolute', top: 8, left: 8, width: '100%', padding: '16px' }}
+            >
                 <Text size="sm" color="secondary">
                     Middle layer
                 </Text>
             </Paper>
-            <Paper elevation="lg" style={{ position: 'absolute', top: 0, left: 0, width: '100%', padding: '16px' }}>
+            <Paper
+                elevation="lg"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', padding: '16px' }}
+            >
                 <Text weight="bold">Top layer</Text>
             </Paper>
         </div>

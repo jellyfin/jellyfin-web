@@ -1,10 +1,10 @@
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import autoFocuser from 'components/autoFocuser';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import * as mainTabsManager from 'components/maintabsmanager';
 import { playbackManager } from 'components/playback/playbackmanager';
-import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
@@ -12,8 +12,8 @@ import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import { getBackdropShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
+import dom from 'utils/dom';
 import Events from 'utils/events';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { logger } from 'utils/logger';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -115,7 +115,7 @@ function loadResume(view, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(userId, options).then(result => {
+    ApiClient.getItems(userId, options).then((result) => {
         if (result.Items.length) {
             view.querySelector('#resumableSection').classList.remove('hide');
         } else {
@@ -153,7 +153,7 @@ function loadLatest(view, userId, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    ApiClient.getLatestItems(options).then(items => {
+    ApiClient.getLatestItems(options).then((items) => {
         const section = view.querySelector('#latestItemsSection');
         const allowBottomPadding = !enableScrollX();
         const container = section.querySelector('#latestEpisodesItems');
@@ -193,7 +193,7 @@ function loadNextUp(view, userId, parentId) {
         EnableTotalRecordCount: false
     };
     query.ParentId = libraryMenu.getTopParentId();
-    ApiClient.getNextUpEpisodes(query).then(result => {
+    ApiClient.getNextUpEpisodes(query).then((result) => {
         if (result.Items.length) {
             view.querySelector('.noNextUpItems').classList.add('hide');
         } else {
@@ -241,7 +241,14 @@ export default function (view, params) {
     }
 
     function initTabs() {
-        mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
+        mainTabsManager.setTabs(
+            view,
+            currentTabIndex,
+            getTabs,
+            getTabContainers,
+            onBeforeTabChange,
+            onTabChange
+        );
     }
 
     function getTabController(page, index, callback) {
@@ -304,7 +311,7 @@ export default function (view, params) {
     }
 
     function preLoadTab(page, index) {
-        getTabController(page, index, controller => {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                 controller.preRender();
             }
@@ -313,7 +320,7 @@ export default function (view, params) {
 
     function loadTab(page, index) {
         currentTabIndex = index;
-        getTabController(page, index, controller => {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
@@ -331,7 +338,10 @@ export default function (view, params) {
     function onWebSocketMessage(e, data) {
         const msg = data;
 
-        if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId == ApiClient.getCurrentUserId()) {
+        if (
+            msg.MessageType === 'UserDataChanged' &&
+            msg.Data.UserId == ApiClient.getCurrentUserId()
+        ) {
             renderedTabs = [];
         }
     }
@@ -339,7 +349,9 @@ export default function (view, params) {
     function onInputCommand(e) {
         if (e.detail.command === 'search') {
             e.preventDefault();
-            Dashboard.navigate(`search?collectionType=${CollectionType.Tvshows}&parentId=${params.topParentId}`);
+            Dashboard.navigate(
+                `search?collectionType=${CollectionType.Tvshows}&parentId=${params.topParentId}`
+            );
         }
     }
 
@@ -348,12 +360,16 @@ export default function (view, params) {
     const suggestionsTabIndex = 1;
 
     self.initTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         initSuggestedTab(view, tabContent);
     };
 
     self.renderTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         loadSuggestionsTab(view, params, tabContent);
     };
 
@@ -365,7 +381,7 @@ export default function (view, params) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(item => {
+                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then((item) => {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });
@@ -385,7 +401,7 @@ export default function (view, params) {
         Events.off(ApiClient, 'message', onWebSocketMessage);
     });
     view.addEventListener('viewdestroy', () => {
-        tabControllers.forEach(t => {
+        tabControllers.forEach((t) => {
             if (t.destroy) {
                 t.destroy();
             }

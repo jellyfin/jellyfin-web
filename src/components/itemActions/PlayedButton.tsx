@@ -1,13 +1,12 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { CheckCircledIcon, CheckIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
+import { ItemAction } from 'constants/itemAction';
+import { useTogglePlayedMutation } from 'hooks/useFetchItems';
+import globalize from 'lib/globalize';
 import React, { type FC, useCallback } from 'react';
 import { IconButton } from 'ui-primitives';
-import { CheckCircledIcon, CheckIcon } from '@radix-ui/react-icons';
 import { deprecate } from '../../utils/deprecation';
-
-import { ItemAction } from 'constants/itemAction';
-import globalize from 'lib/globalize';
-import { useTogglePlayedMutation } from 'hooks/useFetchItems';
 
 interface PlayedButtonProps {
     className?: string;
@@ -17,7 +16,13 @@ interface PlayedButtonProps {
     queryKey?: string[];
 }
 
-const PlayedButton: FC<PlayedButtonProps> = ({ className, isPlayed = false, itemId, itemType, queryKey }) => {
+const PlayedButton: FC<PlayedButtonProps> = ({
+    className,
+    isPlayed = false,
+    itemId,
+    itemType,
+    queryKey
+}) => {
     deprecate(
         'emby-playstatebutton/PlayedButton',
         'Direct ui-primitives/IconButton usage with custom played logic',
@@ -30,9 +35,13 @@ const PlayedButton: FC<PlayedButtonProps> = ({ className, isPlayed = false, item
     const getTitle = useCallback(() => {
         let buttonTitle;
         if (itemType !== BaseItemKind.AudioBook) {
-            buttonTitle = isPlayed ? globalize.translate('Watched') : globalize.translate('MarkPlayed');
+            buttonTitle = isPlayed
+                ? globalize.translate('Watched')
+                : globalize.translate('MarkPlayed');
         } else {
-            buttonTitle = isPlayed ? globalize.translate('Played') : globalize.translate('MarkPlayed');
+            buttonTitle = isPlayed
+                ? globalize.translate('Played')
+                : globalize.translate('MarkPlayed');
         }
 
         return buttonTitle;

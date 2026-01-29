@@ -1,7 +1,7 @@
-import actionsheet from './actionSheet/actionSheet';
-import datetime from '../scripts/datetime';
-import { playbackManager } from './playback/playbackmanager';
 import globalize from '../lib/globalize';
+import datetime from '../scripts/datetime';
+import actionsheet from './actionSheet/actionSheet';
+import { playbackManager } from './playback/playbackmanager';
 
 export function show(options) {
     const item = options.item;
@@ -30,38 +30,38 @@ export function show(options) {
         id: 'play'
     });
 
-    actionsheet.show({
-
-        items: menuItems,
-        positionTo: options.positionTo
-
-    }).then((id) => {
-        switch (id) {
-            case 'play':
-                playbackManager.play({
-                    ids: [playableItemId],
-                    serverId: item.ServerId
-                });
-                break;
-            case 'resume':
-                playbackManager.play({
-                    ids: [playableItemId],
-                    startPositionTicks: resumePositionTicks,
-                    serverId: item.ServerId
-                });
-                break;
-            case 'queue':
-                playbackManager.queue({
-                    items: [item]
-                });
-                break;
-            case 'shuffle':
-                playbackManager.shuffle(item);
-                break;
-            default:
-                break;
-        }
-    });
+    actionsheet
+        .show({
+            items: menuItems,
+            positionTo: options.positionTo
+        })
+        .then((id) => {
+            switch (id) {
+                case 'play':
+                    playbackManager.play({
+                        ids: [playableItemId],
+                        serverId: item.ServerId
+                    });
+                    break;
+                case 'resume':
+                    playbackManager.play({
+                        ids: [playableItemId],
+                        startPositionTicks: resumePositionTicks,
+                        serverId: item.ServerId
+                    });
+                    break;
+                case 'queue':
+                    playbackManager.queue({
+                        items: [item]
+                    });
+                    break;
+                case 'shuffle':
+                    playbackManager.shuffle(item);
+                    break;
+                default:
+                    break;
+            }
+        });
 }
 
 export default {

@@ -1,8 +1,8 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ResponsiveDrawer from './ResponsiveDrawer';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import browser from '../scripts/browser';
+import ResponsiveDrawer from './ResponsiveDrawer';
 
 // Mock browser
 vi.mock('../scripts/browser', () => ({
@@ -13,7 +13,8 @@ vi.mock('../scripts/browser', () => ({
 
 // Mock ui-primitives
 vi.mock('ui-primitives/Drawer', () => ({
-    Drawer: ({ children, open }: any) => (open ? <div data-testid="mock-drawer">{children}</div> : null)
+    Drawer: ({ children, open }: any) =>
+        open ? <div data-testid="mock-drawer">{children}</div> : null
 }));
 
 vi.mock('ui-primitives/Box', () => ({

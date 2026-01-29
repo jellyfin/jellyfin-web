@@ -1,19 +1,17 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import { type ApiClient } from 'jellyfin-apiclient';
-import { useCallback, useEffect, useState } from 'react';
-import { LayoutMode } from 'constants/layoutMode';
-
 import { safeAppHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import { AppFeature } from 'constants/appFeature';
+import { LayoutMode } from 'constants/layoutMode';
 import { useApi } from 'hooks/useApi';
-import themeManager from 'scripts/themeManager';
-import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
-
-import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 import { useThemes } from 'hooks/useThemes';
-import { type Theme } from 'types/webConfig';
 import { FALLBACK_THEME_ID } from 'hooks/useUserTheme';
+import { type ApiClient } from 'jellyfin-apiclient';
+import { useCallback, useEffect, useState } from 'react';
+import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
+import themeManager from 'scripts/themeManager';
+import { type Theme } from 'types/webConfig';
+import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface UseDisplaySettingsParams {
     userId?: string | null;
@@ -83,7 +81,12 @@ interface LoadDisplaySettingsParams {
     defaultTheme?: Theme;
 }
 
-async function loadDisplaySettings({ currentUser, userId, api, defaultTheme }: LoadDisplaySettingsParams) {
+async function loadDisplaySettings({
+    currentUser,
+    userId,
+    api,
+    defaultTheme
+}: LoadDisplaySettingsParams) {
     const settings = !userId || userId === currentUser?.Id ? currentSettings : new UserSettings();
     const user = !userId || userId === currentUser?.Id ? currentUser : await api.getUser(userId);
 
@@ -96,23 +99,36 @@ async function loadDisplaySettings({ currentUser, userId, api, defaultTheme }: L
         disableCustomCss: Boolean(settings.disableCustomCss()),
         displayMissingEpisodes: user?.Configuration?.DisplayMissingEpisodes ?? false,
         enableBlurHash: settings.enableBlurhash ? Boolean(settings.enableBlurhash()) : false,
-        enableFasterAnimation: settings.enableFastFadein ? Boolean(settings.enableFastFadein()) : false,
+        enableFasterAnimation: settings.enableFastFadein
+            ? Boolean(settings.enableFastFadein())
+            : false,
         enableItemDetailsBanner: settings.detailsBanner ? Boolean(settings.detailsBanner()) : false,
-        enableLibraryBackdrops: settings.enableBackdrops ? Boolean(settings.enableBackdrops()) : false,
-        enableLibraryThemeSongs: settings.enableThemeSongs ? Boolean(settings.enableThemeSongs()) : false,
-        enableLibraryThemeVideos: settings.enableThemeVideos ? Boolean(settings.enableThemeVideos()) : false,
+        enableLibraryBackdrops: settings.enableBackdrops
+            ? Boolean(settings.enableBackdrops())
+            : false,
+        enableLibraryThemeSongs: settings.enableThemeSongs
+            ? Boolean(settings.enableThemeSongs())
+            : false,
+        enableLibraryThemeVideos: settings.enableThemeVideos
+            ? Boolean(settings.enableThemeVideos())
+            : false,
         enableRewatchingInNextUp: settings.enableRewatchingInNextUp
             ? Boolean(settings.enableRewatchingInNextUp())
             : false,
         episodeImagesInNextUp: settings.useEpisodeImagesInNextUpAndResume
             ? Boolean(settings.useEpisodeImagesInNextUpAndResume())
             : false,
-        language: settings.language && typeof settings.language === 'function' ? settings.language() || 'auto' : 'auto',
+        language:
+            settings.language && typeof settings.language === 'function'
+                ? settings.language() || 'auto'
+                : 'auto',
         layout: layoutManager.getSavedLayout() || 'auto',
         libraryPageSize: settings.libraryPageSize ? settings.libraryPageSize() : 0,
         maxDaysForNextUp: settings.maxDaysForNextUp ? settings.maxDaysForNextUp() : 0,
         screensaver: settings.screensaver ? settings.screensaver() || 'none' : 'none',
-        screensaverInterval: settings.backdropScreensaverInterval ? settings.backdropScreensaverInterval() : 0,
+        screensaverInterval: settings.backdropScreensaverInterval
+            ? settings.backdropScreensaverInterval()
+            : 0,
         slideshowInterval: settings.slideshowInterval ? settings.slideshowInterval() : 0,
         theme: settings.theme() || defaultTheme?.id || FALLBACK_THEME_ID
     };
@@ -130,7 +146,12 @@ interface SaveDisplaySettingsParams {
     userId: string;
 }
 
-async function saveDisplaySettings({ api, newDisplaySettings, userSettings, userId }: SaveDisplaySettingsParams) {
+async function saveDisplaySettings({
+    api,
+    newDisplaySettings,
+    userSettings,
+    userId
+}: SaveDisplaySettingsParams) {
     const user = await api.getUser(userId);
 
     if (safeAppHost.supports(AppFeature.DisplayLanguage)) {

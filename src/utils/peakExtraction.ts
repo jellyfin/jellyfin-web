@@ -8,12 +8,15 @@ import { logger } from 'utils/logger';
 
 import { readPeaksFromNfo } from './nfoPeaks';
 import type { ExtractPeaksRequest, ExtractPeaksResponse } from './peakExtractor.worker';
-import { getSongAnalysis, saveSongAnalysis, type PeakData } from './peakStorage';
+import { getSongAnalysis, type PeakData, saveSongAnalysis } from './peakStorage';
 
 const WORKER_PATH = '/src/utils/peakExtractor.worker.ts';
 
 let worker: Worker | null = null;
-const pendingRequests: Map<string, { resolve: (value: PeakData) => void; reject: (error: Error) => void }> = new Map();
+const pendingRequests: Map<
+    string,
+    { resolve: (value: PeakData) => void; reject: (error: Error) => void }
+> = new Map();
 
 function getWorker(): Worker {
     if (!worker) {
@@ -84,7 +87,7 @@ export async function extractPeaksForTrack(options: ExtractPeaksOptions): Promis
     return new Promise((resolve, reject) => {
         const workerInstance = getWorker();
         pendingRequests.set(itemId, {
-            resolve: peaks => {
+            resolve: (peaks) => {
                 saveSongAnalysis({
                     itemId,
                     url,
@@ -92,7 +95,13 @@ export async function extractPeaksForTrack(options: ExtractPeaksOptions): Promis
                     peaks,
                     timestamp: Date.now(),
                     lastAccessed: Date.now()
-                }).catch(error => logger.error('Failed to save song analysis', { component: 'PeakExtraction' }, error));
+                }).catch((error) =>
+                    logger.error(
+                        'Failed to save song analysis',
+                        { component: 'PeakExtraction' },
+                        error
+                    )
+                );
                 resolve(peaks);
             },
             reject

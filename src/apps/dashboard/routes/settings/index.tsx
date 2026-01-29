@@ -1,27 +1,36 @@
-import { Alert } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
+import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { useForm } from '@tanstack/react-form';
 import { useLocalizationOptions } from 'apps/dashboard/features/settings/api/useLocalizationOptions';
+import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
-import { z } from 'zod';
-import { useForm } from '@tanstack/react-form';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { Button } from 'ui-primitives';
-import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import { queryClient } from 'utils/query/queryClient';
+import { vars } from 'styles/tokens.css.ts';
 import { type ActionData } from 'types/actionData';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { FormControl, FormLabel, FormHelperText } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
+import {
+    Alert,
+    Box,
+    Button,
+    Checkbox,
+    Flex,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    IconButton,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from 'ui-primitives';
+import { queryClient } from 'utils/query/queryClient';
+import { z } from 'zod';
 
 const settingsSchema = z.object({
     serverName: z.string().optional(),
@@ -30,11 +39,11 @@ const settingsSchema = z.object({
     metadataPath: z.string().optional(),
     quickConnectAvailable: z.boolean().optional(),
     libraryScanFanoutConcurrency: z.preprocess(
-        value => (value === '' || value == null ? undefined : Number(value)),
+        (value) => (value === '' || value == null ? undefined : Number(value)),
         z.number().int().min(0).optional()
     ),
     parallelImageEncodingLimit: z.preprocess(
-        value => (value === '' || value == null ? undefined : Number(value)),
+        (value) => (value === '' || value == null ? undefined : Number(value)),
         z.number().int().min(0).optional()
     )
 });
@@ -75,10 +84,16 @@ export const Component = (): React.ReactElement => {
                 currentConfig.CachePath = values.cachePath?.toString() ?? null;
                 currentConfig.MetadataPath = values.metadataPath?.toString() ?? null;
                 currentConfig.QuickConnectAvailable = Boolean(values.quickConnectAvailable);
-                currentConfig.LibraryScanFanoutConcurrency = Number(values.libraryScanFanoutConcurrency ?? 0);
-                currentConfig.ParallelImageEncodingLimit = Number(values.parallelImageEncodingLimit ?? 0);
+                currentConfig.LibraryScanFanoutConcurrency = Number(
+                    values.libraryScanFanoutConcurrency ?? 0
+                );
+                currentConfig.ParallelImageEncodingLimit = Number(
+                    values.parallelImageEncodingLimit ?? 0
+                );
 
-                await getConfigurationApi(api).updateConfiguration({ serverConfiguration: currentConfig });
+                await getConfigurationApi(api).updateConfiguration({
+                    serverConfiguration: currentConfig
+                });
 
                 void queryClient.invalidateQueries({
                     queryKey: [QUERY_KEY]
@@ -157,41 +172,52 @@ export const Component = (): React.ReactElement => {
                     <Alert variant="error">{globalize.translate('SettingsPageLoadError')}</Alert>
                 ) : (
                     <form
-                        onSubmit={e => {
+                        onSubmit={(e) => {
                             e.preventDefault();
                             form.handleSubmit();
                         }}
                     >
                         <Flex style={{ flexDirection: 'column', gap: vars.spacing['7'] }}>
-                            <Heading.H2 style={{ margin: 0 }}>{globalize.translate('Settings')}</Heading.H2>
+                            <Heading.H2 style={{ margin: 0 }}>
+                                {globalize.translate('Settings')}
+                            </Heading.H2>
 
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
+                                <Alert variant="success">
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
                             )}
 
                             <form.Field name="serverName">
-                                {field => (
+                                {(field) => (
                                     <Input
                                         label={globalize.translate('LabelServerName')}
                                         helperText={globalize.translate('LabelServerNameHelp')}
                                         value={field.state.value ?? ''}
-                                        onChange={event => field.handleChange(event.target.value)}
+                                        onChange={(event) => field.handleChange(event.target.value)}
                                     />
                                 )}
                             </form.Field>
 
                             <form.Field name="uiCulture">
-                                {field => (
+                                {(field) => (
                                     <FormControl>
-                                        <FormLabel>{globalize.translate('LabelPreferredDisplayLanguage')}</FormLabel>
-                                        <Select value={field.state.value ?? ''} onValueChange={field.handleChange}>
+                                        <FormLabel>
+                                            {globalize.translate('LabelPreferredDisplayLanguage')}
+                                        </FormLabel>
+                                        <Select
+                                            value={field.state.value ?? ''}
+                                            onValueChange={field.handleChange}
+                                        >
                                             <SelectTrigger>
                                                 <SelectValue
-                                                    placeholder={globalize.translate('LabelPreferredDisplayLanguage')}
+                                                    placeholder={globalize.translate(
+                                                        'LabelPreferredDisplayLanguage'
+                                                    )}
                                                 />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {languageOptions?.map(l => (
+                                                {languageOptions?.map((l) => (
                                                     <SelectItem key={l.Value} value={l.Value || ''}>
                                                         {l.Name}
                                                     </SelectItem>
@@ -210,15 +236,19 @@ export const Component = (): React.ReactElement => {
                             </Heading.H4>
 
                             <form.Field name="cachePath">
-                                {field => (
+                                {(field) => (
                                     <Input
                                         label={globalize.translate('LabelCachePath')}
                                         helperText={globalize.translate('LabelCachePathHelp')}
                                         value={field.state.value ?? ''}
-                                        onChange={event => field.handleChange(event.target.value)}
+                                        onChange={(event) => field.handleChange(event.target.value)}
                                         style={{ position: 'relative' }}
                                         endDecorator={
-                                            <IconButton onClick={showCachePathPicker} size="sm" variant="plain">
+                                            <IconButton
+                                                onClick={showCachePathPicker}
+                                                size="sm"
+                                                variant="plain"
+                                            >
                                                 <MagnifyingGlassIcon />
                                             </IconButton>
                                         }
@@ -227,15 +257,19 @@ export const Component = (): React.ReactElement => {
                             </form.Field>
 
                             <form.Field name="metadataPath">
-                                {field => (
+                                {(field) => (
                                     <Input
                                         label={globalize.translate('LabelMetadataPath')}
                                         helperText={globalize.translate('LabelMetadataPathHelp')}
                                         value={field.state.value ?? ''}
-                                        onChange={event => field.handleChange(event.target.value)}
+                                        onChange={(event) => field.handleChange(event.target.value)}
                                         style={{ position: 'relative' }}
                                         endDecorator={
-                                            <IconButton onClick={showMetadataPathPicker} size="sm" variant="plain">
+                                            <IconButton
+                                                onClick={showMetadataPathPicker}
+                                                size="sm"
+                                                variant="plain"
+                                            >
                                                 <MagnifyingGlassIcon />
                                             </IconButton>
                                         }
@@ -248,10 +282,12 @@ export const Component = (): React.ReactElement => {
                             </Heading.H4>
 
                             <form.Field name="quickConnectAvailable">
-                                {field => (
+                                {(field) => (
                                     <Checkbox
                                         checked={Boolean(field.state.value)}
-                                        onChange={event => field.handleChange(event.target.checked)}
+                                        onChange={(event) =>
+                                            field.handleChange(event.target.checked)
+                                        }
                                     >
                                         {globalize.translate('EnableQuickConnect')}
                                     </Checkbox>
@@ -263,30 +299,46 @@ export const Component = (): React.ReactElement => {
                             </Heading.H4>
 
                             <form.Field name="libraryScanFanoutConcurrency">
-                                {field => (
+                                {(field) => (
                                     <Input
                                         type="number"
                                         label={globalize.translate('LibraryScanFanoutConcurrency')}
-                                        helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
+                                        helperText={globalize.translate(
+                                            'LibraryScanFanoutConcurrencyHelp'
+                                        )}
                                         value={field.state.value?.toString() ?? ''}
-                                        onChange={event => field.handleChange(Number(event.target.value))}
+                                        onChange={(event) =>
+                                            field.handleChange(Number(event.target.value))
+                                        }
                                     />
                                 )}
                             </form.Field>
 
                             <form.Field name="parallelImageEncodingLimit">
-                                {field => (
+                                {(field) => (
                                     <Input
                                         type="number"
-                                        label={globalize.translate('LabelParallelImageEncodingLimit')}
-                                        helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
+                                        label={globalize.translate(
+                                            'LabelParallelImageEncodingLimit'
+                                        )}
+                                        helperText={globalize.translate(
+                                            'LabelParallelImageEncodingLimitHelp'
+                                        )}
                                         value={field.state.value?.toString() ?? ''}
-                                        onChange={event => field.handleChange(Number(event.target.value))}
+                                        onChange={(event) =>
+                                            field.handleChange(Number(event.target.value))
+                                        }
                                     />
                                 )}
                             </form.Field>
 
-                            <Box style={{ marginTop: vars.spacing['5'], display: 'flex', justifyContent: 'flex-end' }}>
+                            <Box
+                                style={{
+                                    marginTop: vars.spacing['5'],
+                                    display: 'flex',
+                                    justifyContent: 'flex-end'
+                                }}
+                            >
                                 <Button type="submit" size="lg" loading={isSubmitting}>
                                     {globalize.translate('Save')}
                                 </Button>

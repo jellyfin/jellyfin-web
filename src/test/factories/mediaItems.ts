@@ -46,9 +46,7 @@ export const createMockAlbums = (count: number): BaseItemDto[] =>
     );
 
 export const createMockSongs = (count: number): BaseItemDto[] =>
-    Array.from({ length: count }, (_, i) =>
-        createMockSong({ Id: `song-${i}`, Name: `Song ${i}` })
-    );
+    Array.from({ length: count }, (_, i) => createMockSong({ Id: `song-${i}`, Name: `Song ${i}` }));
 
 export const createMockArtists = (count: number): BaseItemDto[] =>
     Array.from({ length: count }, (_, i) =>
@@ -114,9 +112,7 @@ export const createMockMovies = (count: number): BaseItemDto[] =>
     );
 
 export const createMockShows = (count: number): BaseItemDto[] =>
-    Array.from({ length: count }, (_, i) =>
-        createMockShow({ Id: `show-${i}`, Name: `Show ${i}` })
-    );
+    Array.from({ length: count }, (_, i) => createMockShow({ Id: `show-${i}`, Name: `Show ${i}` }));
 
 export const createMockEpisodes = (count: number, seriesName = 'Test Show'): BaseItemDto[] =>
     Array.from({ length: count }, (_, i) =>

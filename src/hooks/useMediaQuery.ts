@@ -4,7 +4,7 @@
  * Tracks whether a media query matches, for responsive design.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useMediaQuery(query: string): boolean {
     const getMatches = useCallback((q: string): boolean => {

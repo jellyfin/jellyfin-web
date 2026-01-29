@@ -1,4 +1,4 @@
-import { style, keyframes, globalStyle } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css.ts';
 
 export const dialogContainer = style({

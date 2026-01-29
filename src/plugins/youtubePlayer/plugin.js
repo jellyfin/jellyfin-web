@@ -1,7 +1,7 @@
-import browser from '../../scripts/browser';
-import { appRouter } from '../../components/router/appRouter';
-import loading from '../../components/loading/loading';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import loading from '../../components/loading/loading';
+import { appRouter } from '../../components/router/appRouter';
+import browser from '../../scripts/browser';
 import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 
@@ -140,7 +140,9 @@ function onPlaying(instance, playOptions, resolve) {
 function setCurrentSrc(instance, elem, options) {
     return new Promise((resolve, reject) => {
         instance._currentSrc = options.url;
-        const params = new URLSearchParams(options.url.split('?')[1]); /* eslint-disable-line compat/compat */
+        const params = new URLSearchParams(
+            options.url.split('?')[1]
+        ); /* eslint-disable-line compat/compat */
         // 3. This function creates an <iframe> (and YouTube player)
         //    after the API code downloads.
         window.onYouTubeIframeAPIReady = function () {
@@ -149,8 +151,8 @@ function setCurrentSrc(instance, elem, options) {
                 width: instance.videoDialog.offsetWidth,
                 videoId: params.get('v'),
                 events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': function (event) {
+                    onReady: onPlayerReady,
+                    onStateChange: function (event) {
                         if (event.data === YT.PlayerState.PLAYING) {
                             onPlaying(instance, options, resolve);
                         } else if (event.data === YT.PlayerState.ENDED) {
@@ -159,7 +161,7 @@ function setCurrentSrc(instance, elem, options) {
                             Events.trigger(instance, 'pause');
                         }
                     },
-                    'onError': (e) => reject(errorCodes[e.data] || 'ErrorDefault')
+                    onError: (e) => reject(errorCodes[e.data] || 'ErrorDefault')
                 },
                 playerVars: {
                     controls: 0,

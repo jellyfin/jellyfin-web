@@ -1,9 +1,13 @@
-import { clientsClaim } from 'workbox-core';
-import { cleanupOutdatedCaches, precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
-import { registerRoute, NavigationRoute, setCatchHandler } from 'workbox-routing';
-import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
-import { ExpirationPlugin } from 'workbox-expiration';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { clientsClaim } from 'workbox-core';
+import { ExpirationPlugin } from 'workbox-expiration';
+import {
+    cleanupOutdatedCaches,
+    createHandlerBoundToURL,
+    precacheAndRoute
+} from 'workbox-precaching';
+import { NavigationRoute, registerRoute, setCatchHandler } from 'workbox-routing';
+import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
 // Take control of the page immediately
 clientsClaim();
@@ -20,12 +24,14 @@ precacheAndRoute(self.__WB_MANIFEST);
 // ---------------------------------------------------------------------------
 // Match any request that includes specific API paths
 const apiMatchCallback = ({ url }) => {
-    return url.pathname.includes('/emby/')
-           || url.pathname.includes('/jellyfin/')
-           || url.pathname.includes('/api/')
-           || url.pathname.includes('/Items/')
-           || url.pathname.includes('/Users/')
-           || url.pathname.includes('/System/');
+    return (
+        url.pathname.includes('/emby/') ||
+        url.pathname.includes('/jellyfin/') ||
+        url.pathname.includes('/api/') ||
+        url.pathname.includes('/Items/') ||
+        url.pathname.includes('/Users/') ||
+        url.pathname.includes('/System/')
+    );
 };
 
 registerRoute(
@@ -48,11 +54,13 @@ registerRoute(
 // Image Caching (CacheFirst)
 // ---------------------------------------------------------------------------
 const imageMatchCallback = ({ request, url }) => {
-    return request.destination === 'image'
-           || url.pathname.includes('/images/')
-           || url.pathname.includes('/thumbnails/')
-           || url.pathname.includes('/logos/')
-           || url.pathname.includes('/backdrop/');
+    return (
+        request.destination === 'image' ||
+        url.pathname.includes('/images/') ||
+        url.pathname.includes('/thumbnails/') ||
+        url.pathname.includes('/logos/') ||
+        url.pathname.includes('/backdrop/')
+    );
 };
 
 registerRoute(

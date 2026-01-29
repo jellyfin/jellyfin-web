@@ -1,11 +1,17 @@
-import { Root, Viewport, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaCorner } from '@radix-ui/react-scroll-area';
+import {
+    Root,
+    ScrollAreaCorner,
+    ScrollAreaScrollbar,
+    ScrollAreaThumb,
+    Viewport
+} from '@radix-ui/react-scroll-area';
 import type { ReactElement, ReactNode } from 'react';
 import {
+    scrollAreaCorner,
     scrollAreaRoot,
-    scrollAreaViewport,
     scrollAreaScrollbar,
     scrollAreaThumb,
-    scrollAreaCorner
+    scrollAreaViewport
 } from './ScrollArea.css.ts';
 
 interface ScrollAreaProps {
@@ -26,7 +32,10 @@ export function ScrollArea({
     return (
         <Root className={`${scrollAreaRoot} ${className ?? ''}`} style={style}>
             <Viewport className={scrollAreaViewport}>{children}</Viewport>
-            <ScrollAreaScrollbar className={scrollAreaScrollbar} orientation={vertical ? 'vertical' : 'horizontal'}>
+            <ScrollAreaScrollbar
+                className={scrollAreaScrollbar}
+                orientation={vertical ? 'vertical' : 'horizontal'}
+            >
                 <ScrollAreaThumb className={scrollAreaThumb} />
             </ScrollAreaScrollbar>
             {horizontal && (
@@ -39,4 +48,10 @@ export function ScrollArea({
     );
 }
 
-export { scrollAreaRoot, scrollAreaViewport, scrollAreaScrollbar, scrollAreaThumb, scrollAreaCorner };
+export {
+    scrollAreaRoot,
+    scrollAreaViewport,
+    scrollAreaScrollbar,
+    scrollAreaThumb,
+    scrollAreaCorner
+};

@@ -2,7 +2,7 @@
  * Backdrop - Full-screen backdrop image with blur effect
  */
 
-import { useState, useCallback, type ReactElement } from 'react';
+import { type ReactElement, useCallback, useState } from 'react';
 import { backdrop, blur, overlay } from './Backdrop.css.ts';
 
 export interface BackdropProps {

@@ -1,6 +1,6 @@
-import serverNotifications from '../../scripts/serverNotifications';
-import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
+import serverNotifications from '../../scripts/serverNotifications';
 import Events from '../../utils/events';
 import EmbyButtonPrototype from '../emby-button/emby-button';
 
@@ -72,14 +72,16 @@ function setState(button, likes, isFavorite, updateAttribute) {
     if (updateAttribute !== false) {
         button.setAttribute('data-isfavorite', isFavorite);
 
-        button.setAttribute('data-likes', (likes === null ? '' : likes));
+        button.setAttribute('data-likes', likes === null ? '' : likes);
     }
 
     setTitle(button, isFavorite);
 }
 
 function setTitle(button, isFavorite) {
-    button.title = isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites');
+    button.title = isFavorite
+        ? globalize.translate('Favorite')
+        : globalize.translate('AddToFavorites');
 
     const text = button.querySelector('.button-text');
     if (text) {
@@ -164,4 +166,3 @@ document.registerElement('emby-ratingbutton', {
     prototype: EmbyRatingButtonPrototype,
     extends: 'button'
 });
-

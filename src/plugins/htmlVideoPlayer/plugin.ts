@@ -1,62 +1,60 @@
-import { escapeHtml } from '../../utils/html';
-import { debounce } from '../../utils/lodashUtils';
-import fullscreen from '../../utils/fullscreen';
-
 import { useCustomSubtitles } from 'apps/stable/features/playback/utils/subtitleStyles';
-import subtitleAppearanceHelper from '../../components/subtitlesettings/subtitleappearancehelper';
-import { AppFeature } from '../../constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { currentSettings as userSettings } from '../../scripts/settings/userSettings';
-import { MediaError } from '../../types/mediaError';
-
-import browser from '../../scripts/browser';
-import appSettings from '../../scripts/settings/appSettings';
 import { appHost, safeAppHost } from '../../components/apphost';
-import loading from '../../components/loading/loading';
-import dom from '../../utils/dom';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import { appRouter } from '../../components/router/appRouter';
+import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
 import {
-    bindEventsToHlsPlayer,
-    destroyHlsPlayer,
-    destroyFlvPlayer,
-    destroyCastPlayer,
-    getCrossOriginValue,
-    enableHlsJsPlayerForCodecs,
     applySrc,
-    resetSrc,
-    playWithPromise,
-    onEndedInternal,
-    saveVolume,
-    seekOnPlaybackStart,
-    onErrorInternal,
-    handleHlsJsMediaError,
+    bindEventsToHlsPlayer,
+    destroyCastPlayer,
+    destroyFlvPlayer,
+    destroyHlsPlayer,
+    enableHlsJsPlayerForCodecs,
+    getBufferedRanges,
+    getCrossOriginValue,
     getSavedVolume,
+    handleHlsJsMediaError,
     isValidDuration,
-    getBufferedRanges
+    onEndedInternal,
+    onErrorInternal,
+    playWithPromise,
+    resetSrc,
+    saveVolume,
+    seekOnPlaybackStart
 } from '../../components/htmlMediaHelper';
 import itemHelper from '../../components/itemHelper';
+import loading from '../../components/loading/loading';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import { appRouter } from '../../components/router/appRouter';
+import subtitleAppearanceHelper from '../../components/subtitlesettings/subtitleappearancehelper';
+import { AppFeature } from '../../constants/appFeature';
 import globalize from '../../lib/globalize';
+import browser from '../../scripts/browser';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
+import appSettings from '../../scripts/settings/appSettings';
+import { currentSettings as userSettings } from '../../scripts/settings/userSettings';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
-import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
+import { MediaError } from '../../types/mediaError';
 import { PluginType } from '../../types/plugin';
-import Events from '../../utils/events';
 import { includesAny } from '../../utils/container';
-import { isHls } from '../../utils/mediaSource';
+import dom from '../../utils/dom';
+import Events from '../../utils/events';
+import fullscreen from '../../utils/fullscreen';
+import { escapeHtml } from '../../utils/html';
+import { debounce } from '../../utils/lodashUtils';
 import { logger } from '../../utils/logger';
+import { isHls } from '../../utils/mediaSource';
 
 import {
-    resolveUrl,
-    tryRemoveElement,
-    zoomIn,
-    normalizeTrackEventText,
-    getMediaStreamVideoTracks,
+    enableNativeTrackSupport,
     getMediaStreamAudioTracks,
     getMediaStreamTextTracks,
+    getMediaStreamVideoTracks,
     getTextTrackUrl,
+    normalizeTrackEventText,
     requireHlsPlayer,
-    enableNativeTrackSupport
+    resolveUrl,
+    tryRemoveElement,
+    zoomIn
 } from './indexModules';
 
 const PRIMARY_TEXT_TRACK_INDEX = 0;
@@ -167,7 +165,10 @@ export class HtmlVideoPlayer {
 
     private setSrcWithFlvJs(elem: HTMLVideoElement, _options: any, url: string) {
         return import('flv.js').then(({ default: flvjs }: any) => {
-            const flvPlayer = flvjs.createPlayer({ type: 'flv', url }, { seekType: 'range', lazyLoad: false });
+            const flvPlayer = flvjs.createPlayer(
+                { type: 'flv', url },
+                { seekType: 'range', lazyLoad: false }
+            );
             flvPlayer.attachMediaElement(elem);
             flvPlayer.load();
             this._flvPlayer = flvPlayer;
@@ -217,16 +218,21 @@ export class HtmlVideoPlayer {
         destroyCastPlayer(this as any);
 
         let secondaryTrackValid = true;
-        this.subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex ?? -1;
+        this.subtitleTrackIndexToSetOnPlaying =
+            options.mediaSource.DefaultSubtitleStreamIndex ?? -1;
         if (this.subtitleTrackIndexToSetOnPlaying >= 0) {
-            const initialSubtitleStream = options.mediaSource.MediaStreams[this.subtitleTrackIndexToSetOnPlaying];
+            const initialSubtitleStream =
+                options.mediaSource.MediaStreams[this.subtitleTrackIndexToSetOnPlaying];
             if (!initialSubtitleStream || initialSubtitleStream.DeliveryMethod === 'Encode') {
                 this.subtitleTrackIndexToSetOnPlaying = -1;
                 secondaryTrackValid = false;
             }
             if (
                 initialSubtitleStream &&
-                !(playbackManager as any).trackHasSecondarySubtitleSupport(initialSubtitleStream, this)
+                !(playbackManager as any).trackHasSecondarySubtitleSupport(
+                    initialSubtitleStream,
+                    this
+                )
             ) {
                 secondaryTrackValid = false;
             }
@@ -243,10 +249,15 @@ export class HtmlVideoPlayer {
                 options.mediaSource.DefaultSecondarySubtitleStreamIndex ?? -1;
             if (this.secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
                 const initialSecondarySubtitleStream =
-                    options.mediaSource.MediaStreams[this.secondarySubtitleTrackIndexToSetOnPlaying];
+                    options.mediaSource.MediaStreams[
+                        this.secondarySubtitleTrackIndexToSetOnPlaying
+                    ];
                 if (
                     !initialSecondarySubtitleStream ||
-                    !(playbackManager as any).trackHasSecondarySubtitleSupport(initialSecondarySubtitleStream, this)
+                    !(playbackManager as any).trackHasSecondarySubtitleSupport(
+                        initialSecondarySubtitleStream,
+                        this
+                    )
                 ) {
                     this.secondarySubtitleTrackIndexToSetOnPlaying = -1;
                 }
@@ -258,9 +269,15 @@ export class HtmlVideoPlayer {
         const crossOrigin = getCrossOriginValue(options.mediaSource);
         if (crossOrigin) elem.crossOrigin = crossOrigin;
 
-        if (enableHlsJsPlayerForCodecs(options.mediaSource, 'Video') && isHls(options.mediaSource)) {
+        if (
+            enableHlsJsPlayerForCodecs(options.mediaSource, 'Video') &&
+            isHls(options.mediaSource)
+        ) {
             return this.setSrcWithHlsJs(elem, options, val);
-        } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container?.toUpperCase() === 'FLV') {
+        } else if (
+            options.playMethod !== 'Transcode' &&
+            options.mediaSource.Container?.toUpperCase() === 'FLV'
+        ) {
             return this.setSrcWithFlvJs(elem, options, val);
         } else {
             elem.autoplay = true;
@@ -297,7 +314,9 @@ export class HtmlVideoPlayer {
     }
 
     private getTextTracks() {
-        return this.mediaElement ? Array.from(this.mediaElement.textTracks).filter(t => t.mode === 'showing') : null;
+        return this.mediaElement
+            ? Array.from(this.mediaElement.textTracks).filter((t) => t.mode === 'showing')
+            : null;
     }
 
     setSubtitleOffset = debounce((offset: string) => {
@@ -316,7 +335,11 @@ export class HtmlVideoPlayer {
                 tracks.forEach((t, i) => this.setTextTrackSubtitleOffset(t, offsetValue, i));
             } else if (this.currentTrackEvents || this.currentSecondaryTrackEvents) {
                 if (this.currentTrackEvents)
-                    this.setTrackEventsSubtitleOffset(this.currentTrackEvents, offsetValue, PRIMARY_TEXT_TRACK_INDEX);
+                    this.setTrackEventsSubtitleOffset(
+                        this.currentTrackEvents,
+                        offsetValue,
+                        PRIMARY_TEXT_TRACK_INDEX
+                    );
                 if (this.currentSecondaryTrackEvents)
                     this.setTrackEventsSubtitleOffset(
                         this.currentSecondaryTrackEvents,
@@ -327,22 +350,29 @@ export class HtmlVideoPlayer {
         }
     }, 100);
 
-    private updateCurrentTrackOffset(offsetValue: number, currentTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
-        let offsetToCompare = this.isSecondaryTrack(currentTrackIndex)
+    private updateCurrentTrackOffset(
+        offsetValue: number,
+        currentTrackIndex = PRIMARY_TEXT_TRACK_INDEX
+    ) {
+        const offsetToCompare = this.isSecondaryTrack(currentTrackIndex)
             ? this.secondaryTrackOffset
             : this.currentTrackOffset;
-        let relativeOffset = offsetValue - offsetToCompare;
+        const relativeOffset = offsetValue - offsetToCompare;
         if (this.isSecondaryTrack(currentTrackIndex)) this.secondaryTrackOffset = offsetValue;
         else this.currentTrackOffset = offsetValue;
         return relativeOffset;
     }
 
-    private setTextTrackSubtitleOffset(currentTrack: TextTrack, offsetValue: number, currentTrackIndex: number) {
+    private setTextTrackSubtitleOffset(
+        currentTrack: TextTrack,
+        offsetValue: number,
+        currentTrackIndex: number
+    ) {
         if (currentTrack.cues) {
             const relativeOffset = this.updateCurrentTrackOffset(offsetValue, currentTrackIndex);
             if (relativeOffset === 0) return;
             if (browser.firefox && currentTrack.activeCues) currentTrack.mode = 'hidden';
-            Array.from(currentTrack.cues).forEach(cue => {
+            Array.from(currentTrack.cues).forEach((cue) => {
                 cue.startTime -= relativeOffset;
                 cue.endTime -= relativeOffset;
             });
@@ -355,10 +385,14 @@ export class HtmlVideoPlayer {
         }
     }
 
-    private setTrackEventsSubtitleOffset(trackEvents: any[], offsetValue: number, currentTrackIndex: number) {
+    private setTrackEventsSubtitleOffset(
+        trackEvents: any[],
+        offsetValue: number,
+        currentTrackIndex: number
+    ) {
         const relativeOffset = this.updateCurrentTrackOffset(offsetValue, currentTrackIndex) * 1e7;
         if (relativeOffset === 0) return;
-        trackEvents.forEach(e => {
+        trackEvents.forEach((e) => {
             e.StartPositionTicks -= relativeOffset;
             e.EndPositionTicks -= relativeOffset;
         });
@@ -388,7 +422,7 @@ export class HtmlVideoPlayer {
     private getSupportedAudioStreams() {
         const mediaSource = this._currentPlayOptions.mediaSource;
         const container = mediaSource.Container.toLowerCase();
-        return getMediaStreamAudioTracks(mediaSource).filter(s =>
+        return getMediaStreamAudioTracks(mediaSource).filter((s) =>
             this.isAudioStreamSupported(s, this.lastProfile, container)
         );
     }
@@ -396,7 +430,7 @@ export class HtmlVideoPlayer {
     setAudioStreamIndex(index: number) {
         const streams = this.getSupportedAudioStreams();
         if (streams.length < 2 || !this.mediaElement) return;
-        const audioIndex = streams.findIndex(s => s.Index === index);
+        const audioIndex = streams.findIndex((s) => s.Index === index);
         if (audioIndex === -1) return;
         const elemTracks = (this.mediaElement as any).audioTracks || [];
         Array.from(elemTracks).forEach((t: any, i) => {
@@ -458,7 +492,8 @@ export class HtmlVideoPlayer {
         this.currentTimeValue = elem.currentTime;
         if (this._currentPlayOptions) {
             this.updateSubtitleText(
-                elem.currentTime * 1000 + (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000
+                elem.currentTime * 1000 +
+                    (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000
             );
         }
         Events.trigger(this, 'timeupdate');
@@ -470,12 +505,21 @@ export class HtmlVideoPlayer {
     };
 
     private onStartedAndNavigatedToOsd() {
-        this.setCurrentTrackElement(this.subtitleTrackIndexToSetOnPlaying, PRIMARY_TEXT_TRACK_INDEX);
+        this.setCurrentTrackElement(
+            this.subtitleTrackIndexToSetOnPlaying,
+            PRIMARY_TEXT_TRACK_INDEX
+        );
         if (this.audioTrackIndexToSetOnPlaying != null && this.canSetAudioStreamIndex()) {
             this.setAudioStreamIndex(this.audioTrackIndexToSetOnPlaying);
         }
         if (this.secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
-            setTimeout(() => this.setSecondarySubtitleStreamIndex(this.secondarySubtitleTrackIndexToSetOnPlaying), 0);
+            setTimeout(
+                () =>
+                    this.setSecondarySubtitleStreamIndex(
+                        this.secondarySubtitleTrackIndexToSetOnPlaying
+                    ),
+                0
+            );
         }
     }
 
@@ -484,14 +528,20 @@ export class HtmlVideoPlayer {
             this.started = true;
             e.target.removeAttribute('controls');
             loading.hide();
-            seekOnPlaybackStart(this as any, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
-                if (this.currentAssRenderer) {
-                    this.currentAssRenderer.timeOffset =
-                        (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.currentTrackOffset;
-                    this.currentAssRenderer.resize();
-                    this.currentAssRenderer.resetRenderAheadCache(false);
+            seekOnPlaybackStart(
+                this as any,
+                e.target,
+                this._currentPlayOptions.playerStartPositionTicks,
+                () => {
+                    if (this.currentAssRenderer) {
+                        this.currentAssRenderer.timeOffset =
+                            (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 +
+                            this.currentTrackOffset;
+                        this.currentAssRenderer.resize();
+                        this.currentAssRenderer.resetRenderAheadCache(false);
+                    }
                 }
-            });
+            );
             if (this._currentPlayOptions.fullscreen) {
                 appRouter.showVideoOsd().then(() => {
                     this.videoDialog?.classList.remove('videoPlayerContainer-onTop');
@@ -530,7 +580,10 @@ export class HtmlVideoPlayer {
 
     private ensureValidVideo(elem: HTMLVideoElement) {
         if (elem === this.mediaElement && elem.videoWidth === 0 && elem.videoHeight === 0) {
-            if (!this._currentPlayOptions?.mediaSource || this._currentPlayOptions.mediaSource.RunTimeTicks) {
+            if (
+                !this._currentPlayOptions?.mediaSource ||
+                this._currentPlayOptions.mediaSource.RunTimeTicks
+            ) {
                 onErrorInternal(this as any, MediaError.NO_MEDIA_ERROR);
             }
         }
@@ -583,7 +636,9 @@ export class HtmlVideoPlayer {
 
     private async fetchSubtitles(track: any, item: any) {
         if ((window as any).Windows && itemHelper.isLocalItem(item)) {
-            const storageFile = await (window as any).Windows.Storage.StorageFile.getFileFromPathAsync(track.Path);
+            const storageFile = await (
+                window as any
+            ).Windows.Storage.StorageFile.getFileFromPathAsync(track.Path);
             const text = await (window as any).Windows.Storage.FileIO.readTextAsync(storageFile);
             return JSON.parse(text);
         }
@@ -599,7 +654,7 @@ export class HtmlVideoPlayer {
 
     private setCurrentTrackElement(streamIndex: number, targetTextTrackIndex: number) {
         const tracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
-        let track = streamIndex === -1 ? null : tracks.find(t => t.Index === streamIndex);
+        const track = streamIndex === -1 ? null : tracks.find((t) => t.Index === streamIndex);
 
         // Simplified session handling for transcode/direct check
         const isDirect = this._currentPlayOptions.playMethod === 'DirectPlay';
@@ -612,7 +667,7 @@ export class HtmlVideoPlayer {
 
         p.then((s: any) => {
             if (!s.TranscodingInfo || s.TranscodingInfo.IsVideoDirect) {
-                tracks.forEach(t => {
+                tracks.forEach((t) => {
                     t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
                 });
                 this.setTrackForDisplay(this.mediaElement!, track, targetTextTrackIndex);
@@ -620,7 +675,7 @@ export class HtmlVideoPlayer {
                     if (streamIndex !== -1) this.setCueAppearance();
                 }
             } else {
-                tracks.forEach(t => {
+                tracks.forEach((t) => {
                     t.realDeliveryMethod = t.DeliveryMethod;
                     t.DeliveryMethod = 'Encode';
                 });
@@ -629,7 +684,11 @@ export class HtmlVideoPlayer {
         });
     }
 
-    private setTrackForDisplay(videoElement: HTMLVideoElement, track: any, targetTextTrackIndex: number) {
+    private setTrackForDisplay(
+        videoElement: HTMLVideoElement,
+        track: any,
+        targetTextTrackIndex: number
+    ) {
         if (!track) {
             this.destroyCustomTrack(
                 videoElement,
@@ -638,18 +697,30 @@ export class HtmlVideoPlayer {
             return;
         }
         if (
-            (this.isSecondaryTrack(targetTextTrackIndex) ? this.customSecondaryTrackIndex : this.customTrackIndex) ===
-            track.Index
+            (this.isSecondaryTrack(targetTextTrackIndex)
+                ? this.customSecondaryTrackIndex
+                : this.customTrackIndex) === track.Index
         )
             return;
         this.resetSubtitleOffset();
         this.destroyCustomTrack(videoElement, targetTextTrackIndex);
-        if (this.isSecondaryTrack(targetTextTrackIndex)) this.customSecondaryTrackIndex = track.Index;
+        if (this.isSecondaryTrack(targetTextTrackIndex))
+            this.customSecondaryTrackIndex = track.Index;
         else this.customTrackIndex = track.Index;
-        this.renderTracksEvents(videoElement, track, this._currentPlayOptions.item, targetTextTrackIndex);
+        this.renderTracksEvents(
+            videoElement,
+            track,
+            this._currentPlayOptions.item,
+            targetTextTrackIndex
+        );
     }
 
-    private renderTracksEvents(videoElement: HTMLVideoElement, track: any, item: any, targetTextTrackIndex: number) {
+    private renderTracksEvents(
+        videoElement: HTMLVideoElement,
+        track: any,
+        item: any,
+        targetTextTrackIndex: number
+    ) {
         if (!itemHelper.isLocalItem(item) || track.IsExternal) {
             const fmt = (track.Codec || '').toLowerCase();
             if (fmt === 'ssa' || fmt === 'ass') {
@@ -661,7 +732,12 @@ export class HtmlVideoPlayer {
                 return;
             }
             if (useCustomSubtitles(userSettings)) {
-                this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
+                this.renderSubtitlesWithCustomElement(
+                    videoElement,
+                    track,
+                    item,
+                    targetTextTrackIndex
+                );
                 return;
             }
         }
@@ -681,12 +757,19 @@ export class HtmlVideoPlayer {
             trackElement = videoElement.addTextTrack('subtitles', 'manualTrack', 'und');
         }
 
-        this.fetchSubtitles(track, item).then(data => {
-            const cueLine = parseInt(String(userSettings.getSubtitleAppearanceSettings().verticalPosition), 10) as any;
+        this.fetchSubtitles(track, item).then((data) => {
+            const cueLine = parseInt(
+                String(userSettings.getSubtitleAppearanceSettings().verticalPosition),
+                10
+            ) as any;
             for (const ev of data.TrackEvents) {
                 const TrackCue = (window as any).VTTCue || (window as any).TextTrackCue;
                 const text = normalizeTrackEventText(ev.Text, false);
-                const cue = new TrackCue(ev.StartPositionTicks / 10000000, ev.EndPositionTicks / 10000000, text);
+                const cue = new TrackCue(
+                    ev.StartPositionTicks / 10000000,
+                    ev.EndPositionTicks / 10000000,
+                    text
+                );
                 if ((cue.line as any) === 'auto') {
                     if (cueLine < 0) (cue.line as any) = cueLine - (text.match(/\n/g) || []).length;
                     else (cue.line as any) = cueLine;
@@ -709,7 +792,8 @@ export class HtmlVideoPlayer {
         const availableFonts: string[] = [];
         const apiClient = ServerConnections.getApiClient(item);
         (this._currentPlayOptions.mediaSource.MediaAttachments || []).forEach((i: any) => {
-            if (supportedFonts.includes(i.MimeType)) availableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+            if (supportedFonts.includes(i.MimeType))
+                availableFonts.push(apiClient.getUrl(i.DeliveryUrl));
         });
 
         import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }: any) => {
@@ -735,13 +819,20 @@ export class HtmlVideoPlayer {
             apiClient.getNamedConfiguration('encoding').then((config: any) => {
                 if (config.EnableFallbackFont) {
                     apiClient
-                        .getJSON(apiClient.getUrl('/FallbackFont/Fonts', { ApiKey: apiClient.accessToken() }))
+                        .getJSON(
+                            apiClient.getUrl('/FallbackFont/Fonts', {
+                                ApiKey: apiClient.accessToken()
+                            })
+                        )
                         .then((fontFiles: any[] = []) => {
-                            fontFiles.forEach(f =>
+                            fontFiles.forEach((f) =>
                                 availableFonts.push(
-                                    apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(f.Name)}`, {
-                                        ApiKey: apiClient.accessToken()
-                                    })
+                                    apiClient.getUrl(
+                                        `/FallbackFont/Fonts/${encodeURIComponent(f.Name)}`,
+                                        {
+                                            ApiKey: apiClient.accessToken()
+                                        }
+                                    )
                                 )
                             );
                             this.currentAssRenderer = new SubtitlesOctopus(options);
@@ -769,8 +860,11 @@ export class HtmlVideoPlayer {
         item: any,
         targetTextTrackIndex: number
     ) {
-        this.fetchSubtitles(track, item).then(data => {
-            const pos = parseInt(String(userSettings.getSubtitleAppearanceSettings().verticalPosition), 10) as any;
+        this.fetchSubtitles(track, item).then((data) => {
+            const pos = parseInt(
+                String(userSettings.getSubtitleAppearanceSettings().verticalPosition),
+                10
+            ) as any;
             if (!this.videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
                 let container = document.querySelector('.videoSubtitles') as HTMLElement;
                 if (!container) {
@@ -784,7 +878,10 @@ export class HtmlVideoPlayer {
                 this.setSubtitleAppearance(container, inner);
                 videoElement.parentNode?.appendChild(container);
                 this.currentTrackEvents = data.TrackEvents;
-            } else if (!this.videoSecondarySubtitlesElem && this.isSecondaryTrack(targetTextTrackIndex)) {
+            } else if (
+                !this.videoSecondarySubtitlesElem &&
+                this.isSecondaryTrack(targetTextTrackIndex)
+            ) {
                 const container = document.querySelector('.videoSubtitles') as HTMLElement;
                 if (!container) return;
                 const inner = document.createElement('div');
@@ -813,20 +910,26 @@ export class HtmlVideoPlayer {
             style.id = id;
             document.head.appendChild(style);
         }
-        const app = subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings());
-        style.innerHTML = `.htmlvideoplayer::cue { ${app.text.map(s => (s.value ? `${s.name}:${s.value}!important;` : '')).join('')} }`;
+        const app = subtitleAppearanceHelper.getStyles(
+            userSettings.getSubtitleAppearanceSettings()
+        );
+        style.innerHTML = `.htmlvideoplayer::cue { ${app.text.map((s) => (s.value ? `${s.name}:${s.value}!important;` : '')).join('')} }`;
     }
 
     private updateSubtitleText(timeMs: number) {
         [
             { evs: this.currentTrackEvents, el: this.videoSubtitlesElem },
             { evs: this.currentSecondaryTrackEvents, el: this.videoSecondarySubtitlesElem }
-        ].forEach(target => {
+        ].forEach((target) => {
             if (target.evs && target.el) {
                 const ticks = timeMs * 10000;
-                const ev = target.evs.find(e => e.StartPositionTicks <= ticks && e.EndPositionTicks >= ticks);
+                const ev = target.evs.find(
+                    (e) => e.StartPositionTicks <= ticks && e.EndPositionTicks >= ticks
+                );
                 if (ev?.Text) {
-                    target.el.innerHTML = escapeHtml(normalizeTrackEventText(ev.Text, true)).replace(/\n/g, '<br>');
+                    target.el.innerHTML = escapeHtml(
+                        normalizeTrackEventText(ev.Text, true)
+                    ).replace(/\n/g, '<br>');
                     target.el.classList.remove('hide');
                 } else target.el.classList.add('hide');
             }
@@ -850,7 +953,8 @@ export class HtmlVideoPlayer {
             video.setAttribute('webkit-playsinline', '');
             video.setAttribute('playsinline', '');
             if (!safeAppHost.supports(AppFeature.HtmlVideoAutoplay)) video.controls = true;
-            if (!safeAppHost.supports(AppFeature.PhysicalVolumeControl)) video.volume = getSavedVolume();
+            if (!safeAppHost.supports(AppFeature.PhysicalVolumeControl))
+                video.volume = getSavedVolume();
 
             video.addEventListener('timeupdate', this.onTimeUpdate);
             video.addEventListener('ended', this.onEnded);
@@ -881,7 +985,12 @@ export class HtmlVideoPlayer {
         }
         if (options.fullscreen) {
             document.body.classList.add('hide-scroll');
-            if (!this.forcedFullscreen && !window.NativeShell && browser.web0s && fullscreen.isEnabled) {
+            if (
+                !this.forcedFullscreen &&
+                !window.NativeShell &&
+                browser.web0s &&
+                fullscreen.isEnabled
+            ) {
                 fullscreen.request().then(() => {
                     this.forcedFullscreen = true;
                 });
@@ -896,7 +1005,9 @@ export class HtmlVideoPlayer {
         return (type || '').toLowerCase() === 'video';
     }
     supportsPlayMethod(method: string, item: any) {
-        return (appHost as any)?.supportsPlayMethod ? (appHost as any).supportsPlayMethod(method, item) : true;
+        return (appHost as any)?.supportsPlayMethod
+            ? (appHost as any).supportsPlayMethod(method, item)
+            : true;
     }
 
     getDeviceProfile(item: any, options: any) {
@@ -916,7 +1027,10 @@ export class HtmlVideoPlayer {
         if (!this.supportedFeatures) {
             const list = ['SetBrightness', 'SetAspectRatio', 'SecondarySubtitles'];
             const v = document.createElement('video');
-            if (document.pictureInPictureEnabled || (v as any).webkitSupportsPresentationMode?.('picture-in-picture'))
+            if (
+                document.pictureInPictureEnabled ||
+                (v as any).webkitSupportsPresentationMode?.('picture-in-picture')
+            )
                 list.push('PictureInPicture');
             if (browser.safari || browser.iOS) list.push('AirPlay');
             if (typeof v.playbackRate === 'number') list.push('PlaybackRate');
@@ -972,10 +1086,12 @@ export class HtmlVideoPlayer {
         return this.mediaElement?.playbackRate ?? 1.0;
     }
     setVolume(v: number) {
-        if (this.mediaElement) this.mediaElement.volume = Math.pow(v / 100, 3);
+        if (this.mediaElement) this.mediaElement.volume = (v / 100) ** 3;
     }
     getVolume() {
-        return this.mediaElement ? Math.min(Math.round(Math.pow(this.mediaElement.volume, 1 / 3) * 100), 100) : 100;
+        return this.mediaElement
+            ? Math.min(Math.round(this.mediaElement.volume ** (1 / 3) * 100), 100)
+            : 100;
     }
     setMute(m: boolean) {
         if (this.mediaElement) this.mediaElement.muted = m;
@@ -989,7 +1105,8 @@ export class HtmlVideoPlayer {
             if (val === 'auto') this.mediaElement.style.removeProperty('object-fit');
             else this.mediaElement.style.objectFit = val;
         }
-        if (this.currentPgsRenderer) this.currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
+        if (this.currentPgsRenderer)
+            this.currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
     }
 
     setAspectRatio(val: string) {

@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { ScrollArea } from '../..';
-import { Text } from '../..';
 import { vars } from 'styles/tokens.css.ts';
+import { ScrollArea, Text } from '../..';
 
 const meta: Meta<typeof ScrollArea> = {
     title: 'UI Primitives/ScrollArea',
@@ -24,7 +23,14 @@ const longContent = Array.from({ length: 30 }, (_, i) => (
 
 function DefaultStory(): ReactElement {
     return (
-        <ScrollArea style={{ width: '250px', height: '300px', border: '1px solid #333', borderRadius: '8px' }}>
+        <ScrollArea
+            style={{
+                width: '250px',
+                height: '300px',
+                border: '1px solid #333',
+                borderRadius: '8px'
+            }}
+        >
             <div style={{ padding: '8px' }}>{longContent}</div>
         </ScrollArea>
     );
@@ -38,7 +44,12 @@ function HorizontalScrollStory(): ReactElement {
     return (
         <ScrollArea
             horizontal
-            style={{ width: '400px', height: '150px', border: '1px solid #333', borderRadius: '8px' }}
+            style={{
+                width: '400px',
+                height: '150px',
+                border: '1px solid #333',
+                borderRadius: '8px'
+            }}
         >
             <div style={{ padding: '8px', display: 'flex', gap: vars.spacing['2'] }}>
                 {Array.from({ length: 15 }, (_, i) => (
@@ -66,9 +77,23 @@ export const HorizontalScroll: Story = {
 
 function BothDirectionsStory(): ReactElement {
     return (
-        <ScrollArea style={{ width: '400px', height: '300px', border: '1px solid #333', borderRadius: '8px' }}>
+        <ScrollArea
+            style={{
+                width: '400px',
+                height: '300px',
+                border: '1px solid #333',
+                borderRadius: '8px'
+            }}
+        >
             <div style={{ padding: '8px' }}>
-                <div style={{ width: '600px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: vars.spacing['2'] }}>
+                <div
+                    style={{
+                        width: '600px',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(3, 1fr)',
+                        gap: vars.spacing['2']
+                    }}
+                >
                     {Array.from({ length: 24 }, (_, i) => (
                         <div
                             key={i}
@@ -94,12 +119,32 @@ export const BothDirections: Story = {
 
 function ChatInterfaceStory(): ReactElement {
     return (
-        <div style={{ width: '350px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
-            <div style={{ padding: '12px', borderBottom: '1px solid #333', backgroundColor: '#2a2a2a' }}>
+        <div
+            style={{
+                width: '350px',
+                border: '1px solid #333',
+                borderRadius: '8px',
+                overflow: 'hidden'
+            }}
+        >
+            <div
+                style={{
+                    padding: '12px',
+                    borderBottom: '1px solid #333',
+                    backgroundColor: '#2a2a2a'
+                }}
+            >
                 <Text weight="bold">Chat Messages</Text>
             </div>
             <ScrollArea style={{ height: '300px' }}>
-                <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: vars.spacing['3'] }}>
+                <div
+                    style={{
+                        padding: '16px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: vars.spacing['3']
+                    }}
+                >
                     {[
                         { from: 'Alice', message: 'Hey, how are you?', time: '10:30 AM' },
                         { from: 'Bob', message: 'Doing great, thanks!', time: '10:32 AM' },
@@ -114,7 +159,14 @@ function ChatInterfaceStory(): ReactElement {
                         { from: 'Alice', message: 'Sounds good!', time: '10:43 AM' },
                         { from: 'Bob', message: 'Awesome!', time: '10:44 AM' }
                     ].map((msg, i) => (
-                        <div key={i} style={{ padding: '8px', backgroundColor: '#252525', borderRadius: '8px' }}>
+                        <div
+                            key={i}
+                            style={{
+                                padding: '8px',
+                                backgroundColor: '#252525',
+                                borderRadius: '8px'
+                            }}
+                        >
                             <Text size="sm" weight="bold" color="primary">
                                 {msg.from}
                             </Text>
@@ -136,7 +188,14 @@ export const ChatInterface: Story = {
 
 function CodeBlockStory(): ReactElement {
     return (
-        <div style={{ width: '500px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
+        <div
+            style={{
+                width: '500px',
+                border: '1px solid #333',
+                borderRadius: '8px',
+                overflow: 'hidden'
+            }}
+        >
             <div
                 style={{
                     padding: '8px 12px',

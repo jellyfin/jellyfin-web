@@ -7,9 +7,9 @@ import type {
     UserItemDataDto,
     VirtualFolderInfo
 } from '@jellyfin/sdk/lib/generated-client';
-import type { ItemStatus } from './item-status';
 import type { ItemKind } from './item-kind';
 import type { ItemMediaKind } from './item-media-kind';
+import type { ItemStatus } from './item-status';
 
 type BaseItem = Omit<
     BaseItemDto,
@@ -29,12 +29,24 @@ type TimerInfo = Omit<
     TimerInfoDto,
     'ChannelId' | 'EndDate' | 'Id' | 'StartDate' | 'Status' | 'Type' | 'Name' | 'ProgramInfo'
 >;
-type SeriesTimerInfo = Omit<SeriesTimerInfoDto, 'ChannelId' | 'EndDate' | 'Id' | 'StartDate' | 'Type' | 'Name'>;
-type SearchHintItem = Omit<SearchHint, 'ItemId' | 'Artists' | 'Id' | 'MediaType' | 'Name' | 'StartDate' | 'Type'>;
+type SeriesTimerInfo = Omit<
+    SeriesTimerInfoDto,
+    'ChannelId' | 'EndDate' | 'Id' | 'StartDate' | 'Type' | 'Name'
+>;
+type SearchHintItem = Omit<
+    SearchHint,
+    'ItemId' | 'Artists' | 'Id' | 'MediaType' | 'Name' | 'StartDate' | 'Type'
+>;
 type UserItem = Omit<UserItemDataDto, 'ItemId'>;
 type VirtualFolder = Omit<VirtualFolderInfo, 'CollectionType'>;
 
-export interface ItemDto extends BaseItem, TimerInfo, SeriesTimerInfo, SearchHintItem, UserItem, VirtualFolder {
+export interface ItemDto
+    extends BaseItem,
+        TimerInfo,
+        SeriesTimerInfo,
+        SearchHintItem,
+        UserItem,
+        VirtualFolder {
     ChannelId?: string | null;
     EndDate?: string | null;
     Id?: string | null;

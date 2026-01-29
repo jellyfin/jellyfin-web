@@ -1,6 +1,5 @@
+import React, { type CSSProperties, type ReactElement, type ReactNode, useId } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-
-import React, { useId, type ReactElement, type ReactNode, type CSSProperties } from 'react';
 import { formGroup } from '../../atoms/Input';
 import { formHelperText, formLabel, switchStyles, switchThumb } from './FormControl.css.ts';
 
@@ -32,7 +31,11 @@ export function Switch({
     return (
         <label
             htmlFor={resolvedId}
-            style={{ display: 'inline-flex', alignItems: 'center', cursor: disabled ? 'not-allowed' : 'pointer' }}
+            style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                cursor: disabled ? 'not-allowed' : 'pointer'
+            }}
         >
             <input
                 id={resolvedId}
@@ -49,7 +52,10 @@ export function Switch({
                 data-state={(checked ?? defaultChecked) ? 'checked' : 'unchecked'}
                 style={{ opacity: disabled ? 0.5 : 1 }}
             >
-                <div className={switchThumb} data-state={(checked ?? defaultChecked) ? 'checked' : 'unchecked'} />
+                <div
+                    className={switchThumb}
+                    data-state={(checked ?? defaultChecked) ? 'checked' : 'unchecked'}
+                />
             </div>
             {label !== undefined && <span style={{ marginLeft: 8 }}>{label}</span>}
         </label>
@@ -126,12 +132,24 @@ interface FormControlLabelProps {
     readonly htmlFor?: string;
 }
 
-export function FormControlLabel({ label, control, className, style, htmlFor }: FormControlLabelProps): ReactElement {
+export function FormControlLabel({
+    label,
+    control,
+    className,
+    style,
+    htmlFor
+}: FormControlLabelProps): ReactElement {
     const Component = htmlFor !== undefined && htmlFor !== '' ? 'label' : 'div';
     return (
         <Component
             className={className}
-            style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'], cursor: 'pointer', ...style }}
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: vars.spacing['2'],
+                cursor: 'pointer',
+                ...style
+            }}
             htmlFor={htmlFor}
         >
             {control}

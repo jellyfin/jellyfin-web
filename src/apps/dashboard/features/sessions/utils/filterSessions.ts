@@ -6,7 +6,7 @@ const MIN_SESSION_ACTIVE_TIME = 95;
 const filterSessions = (sessions: SessionInfoDto[] = []) => {
     const minActiveDate = subSeconds(new Date(), MIN_SESSION_ACTIVE_TIME);
 
-    return sessions.filter(session => {
+    return sessions.filter((session) => {
         if (!session.LastActivityDate) return false;
 
         const lastActivityDate = parseISO(session.LastActivityDate);

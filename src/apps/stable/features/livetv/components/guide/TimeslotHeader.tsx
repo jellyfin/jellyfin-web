@@ -1,6 +1,6 @@
 import React from 'react';
-import datetime from '../../../../../../scripts/datetime';
 import { Text } from 'ui-primitives';
+import datetime from '../../../../../../scripts/datetime';
 import * as styles from './TimeslotHeader.css.ts';
 
 interface TimeslotHeaderProps {
@@ -19,7 +19,7 @@ const TimeslotHeader: React.FC<TimeslotHeaderProps> = ({ startDate }) => {
 
     return (
         <div className={styles.styledTimeslotHeader}>
-            {slots.map(date => (
+            {slots.map((date) => (
                 <div key={date.getTime()} className={styles.timeslotCell}>
                     <Text size="xs">{datetime.getDisplayTime(date).toLowerCase()}</Text>
                 </div>

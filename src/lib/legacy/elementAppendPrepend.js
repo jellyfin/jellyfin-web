@@ -40,7 +40,9 @@
 
                 argArr.forEach((argItem) => {
                     const isNode = argItem instanceof Node;
-                    docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
+                    docFrag.appendChild(
+                        isNode ? argItem : document.createTextNode(String(argItem))
+                    );
                 });
 
                 this.appendChild(docFrag);
@@ -65,7 +67,9 @@
 
                 argArr.forEach((argItem) => {
                     const isNode = argItem instanceof Node;
-                    docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
+                    docFrag.appendChild(
+                        isNode ? argItem : document.createTextNode(String(argItem))
+                    );
                 });
 
                 this.insertBefore(docFrag, this.firstChild);

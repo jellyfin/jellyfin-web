@@ -1,11 +1,11 @@
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import type { ApiClient } from 'jellyfin-apiclient';
 import type { SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
+import type { ApiClient } from 'jellyfin-apiclient';
 import globalizeLib from 'lib/globalize';
-import loading from '../loading/loading';
-import toast from '../toast/toast';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import confirm from '../confirm/confirm';
 import dialog, { DialogButton, ShowDialogOptions } from '../dialog/dialog';
+import loading from '../loading/loading';
+import toast from '../toast/toast';
 
 type LiveTvItem = {
     IsSeries?: boolean | null;
@@ -13,7 +13,9 @@ type LiveTvItem = {
 
 type LiveTvTimerDefaults = SeriesTimerInfoDto;
 
-function extractSeriesTimerId(seriesTimerId?: string | SeriesTimerInfoDto | null): string | undefined {
+function extractSeriesTimerId(
+    seriesTimerId?: string | SeriesTimerInfoDto | null
+): string | undefined {
     if (!seriesTimerId) {
         return undefined;
     }
@@ -35,12 +37,14 @@ function changeRecordingToSeries(
 
     return apiClient.getItem(apiClient.getCurrentUserId(), programId).then((item: LiveTvItem) => {
         if (item.IsSeries) {
-            return apiClient.getNewLiveTvTimerDefaults({ programId }).then((timerDefaults: LiveTvTimerDefaults) => {
-                return apiClient.createLiveTvSeriesTimer(timerDefaults).then(() => {
-                    loading.hide();
-                    toast(globalizeLib.translate('SeriesRecordingScheduled'));
+            return apiClient
+                .getNewLiveTvTimerDefaults({ programId })
+                .then((timerDefaults: LiveTvTimerDefaults) => {
+                    return apiClient.createLiveTvSeriesTimer(timerDefaults).then(() => {
+                        loading.hide();
+                        toast(globalizeLib.translate('SeriesRecordingScheduled'));
+                    });
                 });
-            });
         }
 
         if (confirmTimerCancellation) {
@@ -102,10 +106,16 @@ function cancelTimer(apiClient: ApiClient, timerId: string, hideLoading?: boolea
     });
 }
 
-function createRecording(apiClient: ApiClient, programId: string, isSeries?: boolean): Promise<void> {
+function createRecording(
+    apiClient: ApiClient,
+    programId: string,
+    isSeries?: boolean
+): Promise<void> {
     loading.show();
-    return apiClient.getNewLiveTvTimerDefaults({ programId }).then(item => {
-        const promise = isSeries ? apiClient.createLiveTvSeriesTimer(item) : apiClient.createLiveTvTimer(item);
+    return apiClient.getNewLiveTvTimerDefaults({ programId }).then((item) => {
+        const promise = isSeries
+            ? apiClient.createLiveTvSeriesTimer(item)
+            : apiClient.createLiveTvTimer(item);
 
         return promise.then(() => {
             loading.hide();
@@ -155,7 +165,7 @@ function showMultiCancellationPrompt(
             buttons: items
         };
 
-        dialog.show(options).then(result => {
+        dialog.show(options).then((result) => {
             const apiClient = ServerConnections.getApiClient(serverId);
 
             if (result === 'canceltimer') {
@@ -192,7 +202,13 @@ function toggleRecording(
     const resolvedSeriesTimerId = extractSeriesTimerId(seriesTimerId);
 
     if (resolvedSeriesTimerId && timerId && timerStatus && timerStatus !== 'Cancelled') {
-        return showMultiCancellationPrompt(serverId, programId, timerId, timerStatus, resolvedSeriesTimerId);
+        return showMultiCancellationPrompt(
+            serverId,
+            programId,
+            timerId,
+            timerStatus,
+            resolvedSeriesTimerId
+        );
     }
 
     if (timerId && timerStatus && timerStatus !== 'Cancelled') {

@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import globalize from '../../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { useSyncPlayStore } from '../../../store/syncPlayStore';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActionMenu, type ActionMenuItem } from '../../../components/dialogs';
-import SyncPlaySettingsDialog from './settings/SyncPlaySettingsDialog';
 import { pluginManager } from '../../../components/pluginManager';
+import globalize from '../../../lib/globalize';
+import { useSyncPlayStore } from '../../../store/syncPlayStore';
 import { PluginType } from '../../../types/plugin';
+import SyncPlaySettingsDialog from './settings/SyncPlaySettingsDialog';
 
 interface SyncPlayGroupMenuProps {
     open: boolean;
@@ -14,8 +14,8 @@ interface SyncPlayGroupMenuProps {
 }
 
 const SyncPlayGroupMenu: React.FC<SyncPlayGroupMenuProps> = ({ open, anchorEl, onClose }) => {
-    const isEnabled = useSyncPlayStore(state => state.isEnabled);
-    const groupInfo = useSyncPlayStore(state => state.groupInfo);
+    const isEnabled = useSyncPlayStore((state) => state.isEnabled);
+    const groupInfo = useSyncPlayStore((state) => state.groupInfo);
     const [groups, setGroups] = useState<any[]>([]);
     const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -70,7 +70,7 @@ const SyncPlayGroupMenu: React.FC<SyncPlayGroupMenuProps> = ({ open, anchorEl, o
     const menuItems: ActionMenuItem[] = [];
 
     if (!isEnabled) {
-        groups.forEach(group => {
+        groups.forEach((group) => {
             menuItems.push({
                 id: group.GroupId,
                 name: group.GroupName,
@@ -118,7 +118,11 @@ const SyncPlayGroupMenu: React.FC<SyncPlayGroupMenuProps> = ({ open, anchorEl, o
                 items={menuItems}
                 onClose={onClose}
                 onSelect={handleSelect}
-                title={isEnabled ? groupInfo?.groupName : globalize.translate('HeaderSyncPlaySelectGroup')}
+                title={
+                    isEnabled
+                        ? groupInfo?.groupName
+                        : globalize.translate('HeaderSyncPlaySelectGroup')
+                }
                 text={isEnabled ? groupInfo?.participants.join(', ') : undefined}
             />
             <SyncPlaySettingsDialog

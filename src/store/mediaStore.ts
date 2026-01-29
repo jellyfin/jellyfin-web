@@ -7,21 +7,21 @@
 
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
+import {
+    type StreamInfo as PolicyStreamInfo,
+    shouldTranscode,
+    type TranscodeDecision
+} from './domain/playback/transcodePolicy';
 import type {
     PlayableItem,
     PlaybackProgress,
     PlaybackState,
     PlaybackStatus,
-    StreamInfo,
-    TrackInfo,
     RepeatMode,
-    ShuffleMode
+    ShuffleMode,
+    StreamInfo,
+    TrackInfo
 } from './types';
-import {
-    shouldTranscode,
-    type TranscodeDecision,
-    type StreamInfo as PolicyStreamInfo
-} from './domain/playback/transcodePolicy';
 
 export interface MediaState extends PlaybackState {
     // Current item details
@@ -110,7 +110,7 @@ export const useMediaStore = create<MediaState & MediaActions>()(
     subscribeWithSelector((set, get) => ({
         ...initialState,
 
-        play: item => {
+        play: (item) => {
             const { currentItem, status } = get();
 
             if (item) {
@@ -163,15 +163,15 @@ export const useMediaStore = create<MediaState & MediaActions>()(
             });
         },
 
-        setPlaybackRate: rate => {
+        setPlaybackRate: (rate) => {
             set({ playbackRate: rate });
         },
 
-        setAudioTrack: trackIndex => {
+        setAudioTrack: (trackIndex) => {
             set({ audioTrack: trackIndex });
         },
 
-        setSubtitleTrack: trackIndex => {
+        setSubtitleTrack: (trackIndex) => {
             set({ subtitleTrack: trackIndex });
         },
 
@@ -199,7 +199,7 @@ export const useMediaStore = create<MediaState & MediaActions>()(
             }
         },
 
-        setRepeatMode: mode => {
+        setRepeatMode: (mode) => {
             set({ repeatMode: mode });
         },
 
@@ -213,7 +213,7 @@ export const useMediaStore = create<MediaState & MediaActions>()(
             set({ repeatMode: modes[nextIndex] });
         },
 
-        setShuffleMode: mode => {
+        setShuffleMode: (mode) => {
             set({ shuffleMode: mode });
         },
 
@@ -225,19 +225,19 @@ export const useMediaStore = create<MediaState & MediaActions>()(
             });
         },
 
-        setVolume: volume => {
+        setVolume: (volume) => {
             set({ volume: Math.max(0, Math.min(100, volume)) });
         },
 
-        setMuted: muted => {
+        setMuted: (muted) => {
             set({ isMuted: muted });
         },
 
         toggleMuted: () => {
-            set(state => ({ isMuted: !state.isMuted }));
+            set((state) => ({ isMuted: !state.isMuted }));
         },
 
-        setProgress: progress => {
+        setProgress: (progress) => {
             set({ progress });
         },
 
@@ -252,15 +252,15 @@ export const useMediaStore = create<MediaState & MediaActions>()(
             });
         },
 
-        setBuffering: buffering => {
+        setBuffering: (buffering) => {
             set({ status: buffering ? 'buffering' : 'playing' });
         },
 
-        setStatus: status => {
+        setStatus: (status) => {
             set({ status });
         },
 
-        setStreamInfo: streamInfo => {
+        setStreamInfo: (streamInfo) => {
             set({ streamInfo });
         },
 
@@ -288,7 +288,7 @@ export const useMediaStore = create<MediaState & MediaActions>()(
             return streamInfo.playMethod || 'DirectPlay';
         },
 
-        setError: error => {
+        setError: (error) => {
             set({
                 lastError: error ? { message: error, timestamp: Date.now() } : null,
                 status: error ? 'error' : 'idle'
@@ -299,7 +299,7 @@ export const useMediaStore = create<MediaState & MediaActions>()(
             set({ lastError: null });
         },
 
-        setLoading: loading => {
+        setLoading: (loading) => {
             set({ isLoading: loading, status: loading ? 'buffering' : 'idle' });
         },
 

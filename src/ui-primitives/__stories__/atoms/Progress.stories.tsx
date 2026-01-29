@@ -1,9 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Progress } from '../..';
-import { Text } from '../..';
+import { vars } from 'styles/tokens.css.ts';
+import { Progress, Text } from '../..';
 
 const meta: Meta<typeof Progress> = {
     title: 'UI Primitives/Progress',
@@ -32,7 +30,14 @@ export const Default: Story = {
 
 function AllValuesStory(): ReactElement {
     return (
-        <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+        <div
+            style={{
+                width: '300px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: vars.spacing['4']
+            }}
+        >
             <Progress value={0} />
             <Text size="sm" color="secondary">
                 0%

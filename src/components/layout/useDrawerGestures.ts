@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useUiStore } from '../../store/uiStore';
 import browser from '../../scripts/browser';
+import { useUiStore } from '../../store/uiStore';
 
 export const useDrawerGestures = () => {
     const toggleDrawer = useUiStore((state) => state.toggleDrawer);

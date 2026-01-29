@@ -1,15 +1,15 @@
-import { playbackManager } from './playback/playbackmanager';
-import { appRouter } from './router/appRouter';
-import actionsheet from './actionSheet/actionSheet';
-import { safeAppHost } from './apphost';
-import itemHelper, { canEditPlaylist } from './itemHelper';
+import { AppFeature } from '../constants/appFeature';
 import globalize from '../lib/globalize';
 import { ServerConnections } from '../lib/jellyfin-apiclient';
 import browser from '../scripts/browser';
-import { AppFeature } from '../constants/appFeature';
+import dom from '../utils/dom';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { toApi } from '../utils/jellyfin-apiclient/compat';
-import dom from '../utils/dom';
+import actionsheet from './actionSheet/actionSheet';
+import { safeAppHost } from './apphost';
+import itemHelper, { canEditPlaylist } from './itemHelper';
+import { playbackManager } from './playback/playbackmanager';
+import { appRouter } from './router/appRouter';
 
 const BaseItemKind = {
     Playlist: 'Playlist',
@@ -20,7 +20,12 @@ const BaseItemKind = {
     Episode: 'Episode'
 } as const;
 
-const DOWNLOAD_ALL_TYPES = [BaseItemKind.BoxSet, BaseItemKind.MusicAlbum, BaseItemKind.Season, BaseItemKind.Series];
+const DOWNLOAD_ALL_TYPES = [
+    BaseItemKind.BoxSet,
+    BaseItemKind.MusicAlbum,
+    BaseItemKind.Season,
+    BaseItemKind.Series
+];
 
 export interface ContextMenuOptions {
     readonly item: {
@@ -63,7 +68,9 @@ export interface ContextMenuOptions {
     readonly cancelTimer?: boolean;
 }
 
-function getDeleteLabel(type: (typeof BaseItemKind)[keyof typeof BaseItemKind] | string | null | undefined) {
+function getDeleteLabel(
+    type: (typeof BaseItemKind)[keyof typeof BaseItemKind] | string | null | undefined
+) {
     switch (type) {
         case BaseItemKind.Series:
             return globalize.translate('DeleteSeries');
@@ -77,7 +84,9 @@ function getDeleteLabel(type: (typeof BaseItemKind)[keyof typeof BaseItemKind] |
     }
 }
 
-export async function getCommands(options: ContextMenuOptions): Promise<{ name?: string; id?: string; icon?: string; divider?: boolean }[]> {
+export async function getCommands(
+    options: ContextMenuOptions
+): Promise<{ name?: string; id?: string; icon?: string; divider?: boolean }[]> {
     const { item, user } = options;
     const canPlay = (playbackManager as any).canPlay(item);
     const commands: { name?: string; id?: string; icon?: string; divider?: boolean }[] = [];
@@ -86,21 +95,41 @@ export async function getCommands(options: ContextMenuOptions): Promise<{ name?:
         if (options.play !== false)
             commands.push({ name: globalize.translate('Play'), id: 'resume', icon: 'play_arrow' });
         if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
-            commands.push({ name: globalize.translate('PlayAllFromHere'), id: 'playallfromhere', icon: 'play_arrow' });
+            commands.push({
+                name: globalize.translate('PlayAllFromHere'),
+                id: 'playallfromhere',
+                icon: 'play_arrow'
+            });
         }
     }
 
     if (playbackManager.getCurrentPlayer()) {
         if (options.stopPlayback)
-            commands.push({ name: globalize.translate('StopPlayback'), id: 'stopPlayback', icon: 'stop' });
+            commands.push({
+                name: globalize.translate('StopPlayback'),
+                id: 'stopPlayback',
+                icon: 'stop'
+            });
         if (options.clearQueue)
-            commands.push({ name: globalize.translate('ClearQueue'), id: 'clearQueue', icon: 'clear_all' });
+            commands.push({
+                name: globalize.translate('ClearQueue'),
+                id: 'clearQueue',
+                icon: 'clear_all'
+            });
     }
 
     if ((playbackManager as any).canQueue(item)) {
         if (options.queue !== false) {
-            commands.push({ name: globalize.translate('AddToPlayQueue'), id: 'queue', icon: 'playlist_add' });
-            commands.push({ name: globalize.translate('PlayNext'), id: 'queuenext', icon: 'playlist_add' });
+            commands.push({
+                name: globalize.translate('AddToPlayQueue'),
+                id: 'queue',
+                icon: 'playlist_add'
+            });
+            commands.push({
+                name: globalize.translate('PlayNext'),
+                id: 'queuenext',
+                icon: 'playlist_add'
+            });
         }
     }
 
@@ -120,14 +149,22 @@ export async function getCommands(options: ContextMenuOptions): Promise<{ name?:
         options.instantMix !== false &&
         !itemHelper.isLocalItem(item)
     ) {
-        commands.push({ name: globalize.translate('InstantMix'), id: 'instantmix', icon: 'explore' });
+        commands.push({
+            name: globalize.translate('InstantMix'),
+            id: 'instantmix',
+            icon: 'explore'
+        });
     }
 
     if (commands.length > 0) commands.push({ divider: true });
 
     if (!browser.tv) {
         if (options.positionTo && dom.parentWithClass(options.positionTo, 'card')) {
-            commands.push({ name: globalize.translate('Select'), id: 'multiSelect', icon: 'library_add_check' });
+            commands.push({
+                name: globalize.translate('Select'),
+                id: 'multiSelect',
+                icon: 'library_add_check'
+            });
         }
         if (
             itemHelper.supportsAddingToCollection(item) &&
@@ -140,26 +177,54 @@ export async function getCommands(options: ContextMenuOptions): Promise<{ name?:
             });
         }
         if (itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
-            commands.push({ name: globalize.translate('AddToPlaylist'), id: 'addtoplaylist', icon: 'playlist_add' });
+            commands.push({
+                name: globalize.translate('AddToPlaylist'),
+                id: 'addtoplaylist',
+                icon: 'playlist_add'
+            });
         }
     }
 
     if (user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
         if (item.Type === 'Timer' || (item.Type === 'Recording' && item.MediaType === 'Video')) {
-            commands.push({ name: globalize.translate('CancelRecording'), id: 'canceltimer', icon: 'cancel' });
+            commands.push({
+                name: globalize.translate('CancelRecording'),
+                id: 'canceltimer',
+                icon: 'cancel'
+            });
         }
         if (item.Type === 'SeriesTimer') {
-            commands.push({ name: globalize.translate('CancelSeries'), id: 'cancelseriestimer', icon: 'cancel' });
+            commands.push({
+                name: globalize.translate('CancelSeries'),
+                id: 'cancelseriestimer',
+                icon: 'cancel'
+            });
         }
     }
 
     if (safeAppHost.supports(AppFeature.FileDownload)) {
-        if (user.Policy.EnableContentDownloading && item.Type && DOWNLOAD_ALL_TYPES.includes(item.Type as any)) {
-            commands.push({ name: globalize.translate('DownloadAll'), id: 'downloadall', icon: 'file_download' });
+        if (
+            user.Policy.EnableContentDownloading &&
+            item.Type &&
+            DOWNLOAD_ALL_TYPES.includes(item.Type as any)
+        ) {
+            commands.push({
+                name: globalize.translate('DownloadAll'),
+                id: 'downloadall',
+                icon: 'file_download'
+            });
         }
         if (item.CanDownload && item.Type !== 'Book') {
-            commands.push({ name: globalize.translate('Download'), id: 'download', icon: 'file_download' });
-            commands.push({ name: globalize.translate('CopyStreamURL'), id: 'copy-stream', icon: 'content_copy' });
+            commands.push({
+                name: globalize.translate('Download'),
+                id: 'download',
+                icon: 'file_download'
+            });
+            commands.push({
+                name: globalize.translate('CopyStreamURL'),
+                id: 'copy-stream',
+                icon: 'content_copy'
+            });
         }
     }
 
@@ -183,15 +248,25 @@ export async function getCommands(options: ContextMenuOptions): Promise<{ name?:
     }
 
     if ((itemHelper as any).canEditSubtitles(user, item) && options.editSubtitles !== false) {
-        commands.push({ name: globalize.translate('EditSubtitles'), id: 'editsubtitles', icon: 'closed_caption' });
+        commands.push({
+            name: globalize.translate('EditSubtitles'),
+            id: 'editsubtitles',
+            icon: 'closed_caption'
+        });
     }
 
     return commands;
 }
 
-export async function executeCommand(item: ContextMenuOptions['item'], id: string, _options: ContextMenuOptions): Promise<{ updated?: boolean; deleted?: boolean; command?: string } | undefined> {
+export async function executeCommand(
+    item: ContextMenuOptions['item'],
+    id: string,
+    _options: ContextMenuOptions
+): Promise<{ updated?: boolean; deleted?: boolean; command?: string } | undefined> {
     const serverId = item.ServerId;
-    const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
+    const apiClient = serverId
+        ? ServerConnections.getApiClient(serverId)
+        : ServerConnections.currentApiClient();
     if (!apiClient) return;
 
     switch (id) {
@@ -219,7 +294,9 @@ export async function executeCommand(item: ContextMenuOptions['item'], id: strin
     return { command: id };
 }
 
-export async function show(options: ContextMenuOptions): Promise<{ updated?: boolean; deleted?: boolean; command?: string } | undefined> {
+export async function show(
+    options: ContextMenuOptions
+): Promise<{ updated?: boolean; deleted?: boolean; command?: string } | undefined> {
     const commands = await getCommands(options);
     if (commands.length === 0) throw new Error('No item commands present');
 

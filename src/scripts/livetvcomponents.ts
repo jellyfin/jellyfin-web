@@ -1,15 +1,15 @@
 import cardBuilder from '../components/cardbuilder/cardBuilder';
 import layoutManager from '../components/layoutManager';
 import { getBackdropShape } from '../utils/card';
-import datetime from './datetime';
 import { logger } from '../utils/logger';
+import datetime from './datetime';
 
 function enableScrollX(): boolean {
     return !layoutManager.desktop;
 }
 
 export async function getTimersHtml(timers: any[], options: any = {}): Promise<string> {
-    const items = timers.map(t => ({ ...t, Type: 'Timer' }));
+    const items = timers.map((t) => ({ ...t, Type: 'Timer' }));
     const groups: { name: string; items: any[] }[] = [];
     let currentGroupName = '';
     let currentGroup: any[] = [];
@@ -25,7 +25,11 @@ export async function getTimersHtml(timers: any[], options: any = {}): Promise<s
                     day: 'numeric'
                 });
             } catch (err) {
-                logger.error(`Error parsing premiereDate: ${item.StartDate}`, { component: 'livetvcomponents' }, err as Error);
+                logger.error(
+                    `Error parsing premiereDate: ${item.StartDate}`,
+                    { component: 'livetvcomponents' },
+                    err as Error
+                );
             }
         }
 

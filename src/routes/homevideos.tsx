@@ -1,5 +1,5 @@
-import { lazy } from 'react';
 import { createRoute } from '@tanstack/react-router';
+import { lazy } from 'react';
 import { Route } from './__root';
 
 const HomeVideosPage = lazy(() => import('../apps/stable/routes/lazyRoutes/HomeVideosPage'));

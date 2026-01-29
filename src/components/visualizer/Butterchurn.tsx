@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { butterchurnInstance, initializeButterChurn } from './butterchurn.logic';
 import { logger } from 'utils/logger';
+import { butterchurnInstance, initializeButterChurn } from './butterchurn.logic';
 
 const ButterchurnVisualizer: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -11,7 +11,11 @@ const ButterchurnVisualizer: React.FC = () => {
                 try {
                     await initializeButterChurn(canvasRef.current);
                 } catch (error) {
-                    logger.error('Failed to initialize', { component: 'Butterchurn' }, error as Error);
+                    logger.error(
+                        'Failed to initialize',
+                        { component: 'Butterchurn' },
+                        error as Error
+                    );
                 }
             }
         };
@@ -33,7 +37,11 @@ const ButterchurnVisualizer: React.FC = () => {
                 try {
                     butterchurnInstance.visualizer.setRendererSize(width, height);
                 } catch (error) {
-                    logger.warn('Failed to resize visualizer', { component: 'Butterchurn' }, error as Error);
+                    logger.warn(
+                        'Failed to resize visualizer',
+                        { component: 'Butterchurn' },
+                        error as Error
+                    );
                 }
             }
         };
@@ -46,12 +54,23 @@ const ButterchurnVisualizer: React.FC = () => {
             try {
                 butterchurnInstance.destroy();
             } catch (error) {
-                logger.warn('Failed to destroy visualizer', { component: 'Butterchurn' }, error as Error);
+                logger.warn(
+                    'Failed to destroy visualizer',
+                    { component: 'Butterchurn' },
+                    error as Error
+                );
             }
         };
     }, []);
 
-    return <canvas id="butterchurn" ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />;
+    return (
+        <canvas
+            id="butterchurn"
+            ref={canvasRef}
+            width={window.innerWidth}
+            height={window.innerHeight}
+        />
+    );
 };
 
 export default ButterchurnVisualizer;

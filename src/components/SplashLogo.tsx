@@ -1,5 +1,5 @@
-import React from 'react';
 import { motion } from 'motion/react';
+import React from 'react';
 import { splashLogoVariants } from '../styles/animations';
 
 interface SplashLogoProps {

@@ -2,23 +2,22 @@ import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { AppFeature } from 'constants/appFeature';
 import { ItemAction } from 'constants/itemAction';
-
+import { renderDiscImage, renderLogo, renderYear } from 'controllers/itemDetails';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
 import datetime from '../../scripts/datetime';
-import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
-import listView from '../listview/listview';
-import imageLoader from '../images/imageLoader';
-import { playbackManager } from '../playback/playbackmanager';
+import * as userSettings from '../../scripts/settings/userSettings';
 import Events from '../../utils/events';
 import { safeAppHost } from '../apphost';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import layoutManager from '../layoutManager';
-import * as userSettings from '../../scripts/settings/userSettings';
-import itemContextMenu from '../itemContextMenu';
-import toast from '../toast/toast';
-import { appRouter } from '../router/appRouter';
+import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
-import { renderDiscImage, renderLogo, renderYear } from 'controllers/itemDetails';
+import imageLoader from '../images/imageLoader';
+import itemContextMenu from '../itemContextMenu';
+import layoutManager from '../layoutManager';
+import listView from '../listview/listview';
+import { playbackManager } from '../playback/playbackmanager';
+import { appRouter } from '../router/appRouter';
+import toast from '../toast/toast';
 
 import '../cardbuilder/card.scss';
 import '../../elements/emby-button/emby-button';
@@ -85,7 +84,7 @@ function showAudioMenu(context: RemoteControlContext, player: Player, button: HT
         return menuItem;
     });
 
-    import('../actionSheet/actionSheet').then(actionsheet => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         (actionsheet as any).show({
             items: menuItems,
             positionTo: button,
@@ -96,7 +95,11 @@ function showAudioMenu(context: RemoteControlContext, player: Player, button: HT
     });
 }
 
-function showSubtitleMenu(context: RemoteControlContext, player: Player, button: HTMLElement): void {
+function showSubtitleMenu(
+    context: RemoteControlContext,
+    player: Player,
+    button: HTMLElement
+): void {
     const currentIndex = (playbackManager as any).getSubtitleStreamIndex(player as any);
     const streams = (playbackManager as any).subtitleTracks(player as any);
     const menuItems = streams.map(function (s: any) {
@@ -117,7 +120,7 @@ function showSubtitleMenu(context: RemoteControlContext, player: Player, button:
         selected: currentIndex === null
     });
 
-    import('../actionSheet/actionSheet').then(actionsheet => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         (actionsheet as any).show({
             items: menuItems,
             positionTo: button,
@@ -128,7 +131,11 @@ function showSubtitleMenu(context: RemoteControlContext, player: Player, button:
     });
 }
 
-function updateNowPlayingInfo(context: RemoteControlContext, state: PlayerState, serverId: string): void {
+function updateNowPlayingInfo(
+    context: RemoteControlContext,
+    state: PlayerState,
+    serverId: string
+): void {
     const item = state.NowPlayingItem;
     if (item) {
         const lines = getItemTextLines(item);
@@ -154,7 +161,9 @@ function updateNowPlayingInfo(context: RemoteControlContext, state: PlayerState,
         // Set backdrops
         setBackdrops([item]);
         // Update user data
-        const userDataBtn = context.querySelector('.nowPlayingPageUserDataButtons') as HTMLElement | null;
+        const userDataBtn = context.querySelector(
+            '.nowPlayingPageUserDataButtons'
+        ) as HTMLElement | null;
         if (userDataBtn && item.UserData) {
             userDataBtn.innerHTML =
                 '<button is="emby-ratingbutton" data-id="' +
@@ -165,7 +174,9 @@ function updateNowPlayingInfo(context: RemoteControlContext, state: PlayerState,
         }
     } else {
         clearBackdrop();
-        const userDataBtn = context.querySelector('.nowPlayingPageUserDataButtons') as HTMLElement | null;
+        const userDataBtn = context.querySelector(
+            '.nowPlayingPageUserDataButtons'
+        ) as HTMLElement | null;
         if (userDataBtn) userDataBtn.innerHTML = '';
     }
 }
@@ -220,7 +231,11 @@ export default function (): RemoteControlInstance {
         }
     }
 
-    function updatePlayerState(player: Player, context: RemoteControlContext, state: PlayerState): void {
+    function updatePlayerState(
+        player: Player,
+        context: RemoteControlContext,
+        state: PlayerState
+    ): void {
         const playState = state.PlayState || {};
         const item = state.NowPlayingItem;
 
@@ -235,7 +250,9 @@ export default function (): RemoteControlInstance {
         }
 
         // Update volume
-        const volumeSlider = context.querySelector('.remoteVolumeSlider') as HTMLInputElement | null;
+        const volumeSlider = context.querySelector(
+            '.remoteVolumeSlider'
+        ) as HTMLInputElement | null;
         if (volumeSlider && !(volumeSlider as any).dragging) {
             volumeSlider.value = playState.VolumeLevel?.toString() || '0';
         }

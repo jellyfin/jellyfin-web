@@ -21,7 +21,9 @@ export function waitForEventOnce(
             Events.off(emitter, eventType, callback);
             if (rejectTimeout) clearTimeout(rejectTimeout);
             if (Array.isArray(rejectEventTypes)) {
-                rejectEventTypes.forEach(eventName => Events.off(emitter, eventName, rejectCallback));
+                rejectEventTypes.forEach((eventName) =>
+                    Events.off(emitter, eventName, rejectCallback)
+                );
             }
         };
 
@@ -36,7 +38,7 @@ export function waitForEventOnce(
 
         Events.on(emitter, eventType, callback);
         if (Array.isArray(rejectEventTypes)) {
-            rejectEventTypes.forEach(eventName => Events.on(emitter, eventName, rejectCallback));
+            rejectEventTypes.forEach((eventName) => Events.on(emitter, eventName, rejectCallback));
         }
     });
 }
@@ -48,7 +50,9 @@ export function stringToGuid(input: string): string {
 export function getItemsForPlayback(apiClient: any, query: any): Promise<any> {
     if (query.Ids && query.Ids.split(',').length === 1) {
         const itemId = query.Ids.split(',');
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item: any) => ({ Items: [item] }));
+        return apiClient
+            .getItem(apiClient.getCurrentUserId(), itemId)
+            .then((item: any) => ({ Items: [item] }));
     }
     query.Limit = query.Limit || 300;
     query.Fields = ['Chapters', 'Trickplay'];
@@ -66,7 +70,11 @@ function mergePlaybackQueries(obj1: any, obj2: any) {
     return query;
 }
 
-export function translateItemsForPlayback(apiClient: any, items: any[], options: any): Promise<any[]> {
+export function translateItemsForPlayback(
+    apiClient: any,
+    items: any[],
+    options: any
+): Promise<any[]> {
     if (items.length > 1 && options?.ids) {
         items.sort((a, b) => options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id));
     }
@@ -78,7 +86,10 @@ export function translateItemsForPlayback(apiClient: any, items: any[], options:
     if (firstItem.Type === 'Program') {
         promise = getItemsForPlayback(apiClient, { Ids: firstItem.ChannelId });
     } else if (firstItem.Type === 'Playlist') {
-        promise = getItemsForPlayback(apiClient, { ParentId: firstItem.Id, SortBy: options.shuffle ? 'Random' : null });
+        promise = getItemsForPlayback(apiClient, {
+            ParentId: firstItem.Id,
+            SortBy: options.shuffle ? 'Random' : null
+        });
     } else if (firstItem.Type === 'MusicArtist') {
         promise = getItemsForPlayback(apiClient, {
             ArtistIds: firstItem.Id,
@@ -88,7 +99,7 @@ export function translateItemsForPlayback(apiClient: any, items: any[], options:
             MediaTypes: 'Audio'
         });
     } else if (firstItem.IsFolder) {
-        let sortBy = options.shuffle ? 'Random' : firstItem.Type === 'BoxSet' ? 'SortName' : null;
+        const sortBy = options.shuffle ? 'Random' : firstItem.Type === 'BoxSet' ? 'SortName' : null;
         promise = getItemsForPlayback(
             apiClient,
             mergePlaybackQueries(
@@ -104,6 +115,6 @@ export function translateItemsForPlayback(apiClient: any, items: any[], options:
         );
     }
 
-    if (promise) return promise.then(res => (res ? res.Items : items));
+    if (promise) return promise.then((res) => (res ? res.Items : items));
     return Promise.resolve(items);
 }

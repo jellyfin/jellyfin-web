@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import type { Api } from '@jellyfin/sdk/lib/api';
 import { getSyncPlayApi } from '@jellyfin/sdk/lib/utils/api/sync-play-api';
+import { useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
 import { useApi } from './useApi';

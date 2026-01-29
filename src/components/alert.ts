@@ -1,6 +1,6 @@
-import { appRouter } from './router/appRouter';
-import dialog from './dialog/dialog';
 import globalize from '../lib/globalize';
+import dialog from './dialog/dialog';
+import { appRouter } from './router/appRouter';
 
 export interface AlertOptions {
     title?: string;

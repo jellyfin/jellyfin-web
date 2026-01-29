@@ -4,28 +4,22 @@
  * React-based songs/tracks browsing view with TanStack Query and Joy UI.
  */
 
-import React, { useState, useCallback } from 'react';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-
-import { IconButton } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-
 import { PlayIcon, ShuffleIcon } from '@radix-ui/react-icons';
-
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
-
-import { MediaGrid } from 'components/media';
 import { FilterDialog, SortMenu } from 'components/dialogs';
-import { useFilterStore } from 'store/filterStore';
-import { useSortStore } from 'store/sortStore';
-import { useListStore } from 'store/listStore';
+import { MediaGrid } from 'components/media';
+import { appRouter } from 'components/router/appRouter';
 import { getItems } from 'lib/api/items';
 import { queryKeys } from 'lib/queryKeys';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
-import { appRouter } from 'components/router/appRouter';
 import { toPlayableItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useState } from 'react';
+import { useFilterStore } from 'store/filterStore';
+import { useListStore } from 'store/listStore';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { useSortStore } from 'store/sortStore';
+import { Button, IconButton, Text } from 'ui-primitives';
 
 import * as styles from './Songs.css.ts';
 
@@ -106,11 +100,19 @@ export const Songs: React.FC = () => {
             <div className={styles.header}>
                 <div className={styles.headerRow}>
                     <div className={styles.buttonGroup}>
-                        <Button variant="primary" onClick={handlePlayAll} disabled={!data?.Items?.length}>
+                        <Button
+                            variant="primary"
+                            onClick={handlePlayAll}
+                            disabled={!data?.Items?.length}
+                        >
                             <PlayIcon style={{ marginRight: '8px' }} />
                             Play All
                         </Button>
-                        <Button variant="secondary" onClick={handleShuffle} disabled={!data?.Items?.length}>
+                        <Button
+                            variant="secondary"
+                            onClick={handleShuffle}
+                            disabled={!data?.Items?.length}
+                        >
                             <ShuffleIcon style={{ marginRight: '8px' }} />
                             Shuffle
                         </Button>
@@ -161,12 +163,12 @@ export const Songs: React.FC = () => {
 
             {hasActiveFilters && (
                 <div className={styles.filterRow}>
-                    {genres.map(genre => (
+                    {genres.map((genre) => (
                         <div key={genre} className={styles.filterChip}>
                             <Text size="xs">{genre}</Text>
                         </div>
                     ))}
-                    {artists.map(artist => (
+                    {artists.map((artist) => (
                         <div key={artist} className={styles.filterChip}>
                             <Text size="xs">{artist}</Text>
                         </div>
@@ -187,7 +189,11 @@ export const Songs: React.FC = () => {
                 />
             </div>
 
-            <FilterDialog open={filterOpen} onClose={() => setFilterOpen(false)} onApply={() => setFilterOpen(false)} />
+            <FilterDialog
+                open={filterOpen}
+                onClose={() => setFilterOpen(false)}
+                onApply={() => setFilterOpen(false)}
+            />
         </div>
     );
 };

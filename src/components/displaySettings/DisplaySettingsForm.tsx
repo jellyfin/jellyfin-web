@@ -1,16 +1,26 @@
-import { vars } from 'styles/tokens.css.ts';
+import globalize from 'lib/globalize';
 
 import React, { useState } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControl, FormLabel, FormHelperText } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Alert } from 'ui-primitives';
-import globalize from 'lib/globalize';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Alert,
+    Box,
+    Button,
+    Checkbox,
+    Divider,
+    Flex,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 
 interface DisplaySettingsData {
     language: string;
@@ -41,7 +51,13 @@ interface DisplaySettingsFormProps {
     initialData?: Partial<DisplaySettingsData>;
 }
 
-export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initialData }: DisplaySettingsFormProps) {
+export function DisplaySettingsForm({
+    cultures,
+    themes,
+    onSave,
+    onCancel,
+    initialData
+}: DisplaySettingsFormProps) {
     const [isSaving, setIsSaving] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [formData, setFormData] = useState<DisplaySettingsData>({
@@ -70,7 +86,7 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
     ];
 
     const handleChange = (field: keyof DisplaySettingsData, value: string | number | boolean) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormData((prev) => ({ ...prev, [field]: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -95,7 +111,9 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
 
             <form onSubmit={handleSubmit}>
                 <Box style={{ marginBottom: vars.spacing['6'] }}>
-                    <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>{globalize.translate('Localization')}</Heading.H3>
+                    <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>
+                        {globalize.translate('Localization')}
+                    </Heading.H3>
                     <Text color="secondary" size="sm" style={{ marginBottom: vars.spacing['4'] }}>
                         {globalize.translate('LabelDisplayLanguageHelp')}
                     </Text>
@@ -110,7 +128,7 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue placeholder={globalize.translate('Auto')} />
                                     <SelectContent>
-                                        {languageOptions.map(opt => (
+                                        {languageOptions.map((opt) => (
                                             <SelectItem key={opt.value} value={opt.value}>
                                                 {opt.label}
                                             </SelectItem>
@@ -126,12 +144,14 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                             <FormLabel>{globalize.translate('LabelDateTimeLocale')}</FormLabel>
                             <Select
                                 value={formData.dateTimeLocale}
-                                onValueChange={(value: string) => handleChange('dateTimeLocale', value)}
+                                onValueChange={(value: string) =>
+                                    handleChange('dateTimeLocale', value)
+                                }
                             >
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue placeholder={globalize.translate('Auto')} />
                                     <SelectContent>
-                                        {languageOptions.map(opt => (
+                                        {languageOptions.map((opt) => (
                                             <SelectItem key={opt.value} value={opt.value}>
                                                 {opt.label}
                                             </SelectItem>
@@ -146,19 +166,23 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                 <Divider style={{ margin: '24px 0' }} />
 
                 <Box style={{ marginBottom: vars.spacing['6'] }}>
-                    <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>{globalize.translate('Display')}</Heading.H3>
+                    <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>
+                        {globalize.translate('Display')}
+                    </Heading.H3>
 
                     <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
                             <FormLabel>{globalize.translate('LabelDisplayMode')}</FormLabel>
                             <Select
                                 value={formData.displayMode}
-                                onValueChange={(value: string) => handleChange('displayMode', value)}
+                                onValueChange={(value: string) =>
+                                    handleChange('displayMode', value)
+                                }
                             >
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue />
                                     <SelectContent>
-                                        {displayModeOptions.map(opt => (
+                                        {displayModeOptions.map((opt) => (
                                             <SelectItem key={opt.value} value={opt.value}>
                                                 {opt.label}
                                             </SelectItem>
@@ -180,7 +204,7 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue placeholder={globalize.translate('Auto')} />
                                     <SelectContent>
-                                        {themes.map(opt => (
+                                        {themes.map((opt) => (
                                             <SelectItem key={opt.value} value={opt.value}>
                                                 {opt.label}
                                             </SelectItem>
@@ -196,7 +220,9 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={formData.disableCustomCss}
-                                    onChange={e => handleChange('disableCustomCss', e.target.checked)}
+                                    onChange={(e) =>
+                                        handleChange('disableCustomCss', e.target.checked)
+                                    }
                                 />
                                 <FormLabel style={{ marginBottom: 0 }}>
                                     {globalize.translate('DisableCustomCss')}
@@ -214,27 +240,35 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                             <Input
                                 as="textarea"
                                 value={formData.customCss}
-                                onChange={e => handleChange('customCss', e.target.value)}
+                                onChange={(e) => handleChange('customCss', e.target.value)}
                                 style={{ minHeight: '100px', fontFamily: 'monospace' }}
                             />
                         </FormControl>
-                        <FormHelperText>{globalize.translate('LabelLocalCustomCss')}</FormHelperText>
+                        <FormHelperText>
+                            {globalize.translate('LabelLocalCustomCss')}
+                        </FormHelperText>
                     </Box>
                 </Box>
 
                 <Divider style={{ margin: '24px 0' }} />
 
                 <Box style={{ marginBottom: vars.spacing['6'] }}>
-                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('HeaderLibraries')}</Heading.H3>
+                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>
+                        {globalize.translate('HeaderLibraries')}
+                    </Heading.H3>
 
                     <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={formData.enableBackdrops}
-                                    onChange={e => handleChange('enableBackdrops', e.target.checked)}
+                                    onChange={(e) =>
+                                        handleChange('enableBackdrops', e.target.checked)
+                                    }
                                 />
-                                <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('Backdrops')}</FormLabel>
+                                <FormLabel style={{ marginBottom: 0 }}>
+                                    {globalize.translate('Backdrops')}
+                                </FormLabel>
                             </Flex>
                             <FormHelperText style={{ marginLeft: '36px' }}>
                                 {globalize.translate('EnableBackdropsHelp')}
@@ -247,9 +281,13 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={formData.enableThemeSongs}
-                                    onChange={e => handleChange('enableThemeSongs', e.target.checked)}
+                                    onChange={(e) =>
+                                        handleChange('enableThemeSongs', e.target.checked)
+                                    }
                                 />
-                                <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('ThemeSongs')}</FormLabel>
+                                <FormLabel style={{ marginBottom: 0 }}>
+                                    {globalize.translate('ThemeSongs')}
+                                </FormLabel>
                             </Flex>
                             <FormHelperText style={{ marginLeft: '36px' }}>
                                 {globalize.translate('EnableThemeSongsHelp')}
@@ -262,9 +300,13 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={formData.enableThemeVideos}
-                                    onChange={e => handleChange('enableThemeVideos', e.target.checked)}
+                                    onChange={(e) =>
+                                        handleChange('enableThemeVideos', e.target.checked)
+                                    }
                                 />
-                                <FormLabel style={{ marginBottom: 0 }}>{globalize.translate('ThemeVideos')}</FormLabel>
+                                <FormLabel style={{ marginBottom: 0 }}>
+                                    {globalize.translate('ThemeVideos')}
+                                </FormLabel>
                             </Flex>
                             <FormHelperText style={{ marginLeft: '36px' }}>
                                 {globalize.translate('EnableThemeVideosHelp')}
@@ -276,7 +318,9 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                 <Divider style={{ margin: '24px 0' }} />
 
                 <Box style={{ marginBottom: vars.spacing['6'] }}>
-                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('NextUp')}</Heading.H3>
+                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>
+                        {globalize.translate('NextUp')}
+                    </Heading.H3>
 
                     <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
@@ -284,12 +328,19 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                             <Input
                                 type="number"
                                 value={formData.maxDaysForNextUp}
-                                onChange={e => handleChange('maxDaysForNextUp', parseFloat(e.target.value) || 0)}
+                                onChange={(e) =>
+                                    handleChange(
+                                        'maxDaysForNextUp',
+                                        parseFloat(e.target.value) || 0
+                                    )
+                                }
                                 min={0}
                                 max={1000}
                             />
                         </FormControl>
-                        <FormHelperText>{globalize.translate('LabelMaxDaysForNextUpHelp')}</FormHelperText>
+                        <FormHelperText>
+                            {globalize.translate('LabelMaxDaysForNextUpHelp')}
+                        </FormHelperText>
                     </Box>
 
                     <Box style={{ marginBottom: vars.spacing['4'] }}>
@@ -297,7 +348,9 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={formData.enableRewatchingNextUp}
-                                    onChange={e => handleChange('enableRewatchingNextUp', e.target.checked)}
+                                    onChange={(e) =>
+                                        handleChange('enableRewatchingNextUp', e.target.checked)
+                                    }
                                 />
                                 <FormLabel style={{ marginBottom: 0 }}>
                                     {globalize.translate('EnableRewatchingNextUp')}
@@ -314,7 +367,9 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={formData.useEpisodeImagesInNextUp}
-                                    onChange={e => handleChange('useEpisodeImagesInNextUp', e.target.checked)}
+                                    onChange={(e) =>
+                                        handleChange('useEpisodeImagesInNextUp', e.target.checked)
+                                    }
                                 />
                                 <FormLabel style={{ marginBottom: 0 }}>
                                     {globalize.translate('UseEpisodeImagesInNextUp')}
@@ -330,14 +385,18 @@ export function DisplaySettingsForm({ cultures, themes, onSave, onCancel, initia
                 <Divider style={{ margin: '24px 0' }} />
 
                 <Box style={{ marginBottom: vars.spacing['6'] }}>
-                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('ItemDetails')}</Heading.H3>
+                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>
+                        {globalize.translate('ItemDetails')}
+                    </Heading.H3>
 
                     <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={formData.enableDetailsBanner}
-                                    onChange={e => handleChange('enableDetailsBanner', e.target.checked)}
+                                    onChange={(e) =>
+                                        handleChange('enableDetailsBanner', e.target.checked)
+                                    }
                                 />
                                 <FormLabel style={{ marginBottom: 0 }}>
                                     {globalize.translate('EnableDetailsBanner')}

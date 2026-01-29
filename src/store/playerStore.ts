@@ -7,7 +7,7 @@
 
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { PlayerInfo, TransferInfo, MediaType } from './types';
+import type { MediaType, PlayerInfo, TransferInfo } from './types';
 
 export interface PlayerState {
     // Current player
@@ -74,7 +74,16 @@ const createHTML5Player = (): PlayerInfo => ({
     name: 'HTML5 Video Player',
     id: 'html5-video',
     isLocalPlayer: true,
-    supportedCommands: ['play', 'pause', 'stop', 'seek', 'volume', 'mute', 'playbackRate', 'fullscreen'],
+    supportedCommands: [
+        'play',
+        'pause',
+        'stop',
+        'seek',
+        'volume',
+        'mute',
+        'playbackRate',
+        'fullscreen'
+    ],
     canPlayMediaTypes: ['Audio', 'Video', 'Photo']
 });
 
@@ -93,14 +102,14 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
     subscribeWithSelector((set, get) => ({
         ...initialState,
 
-        setCurrentPlayer: player => {
+        setCurrentPlayer: (player) => {
             set({ currentPlayer: player });
         },
 
-        addPlayer: player => {
+        addPlayer: (player) => {
             const { availablePlayers } = get();
 
-            if (!availablePlayers.find(p => p.id === player.id)) {
+            if (!availablePlayers.find((p) => p.id === player.id)) {
                 set({
                     availablePlayers: [...availablePlayers, player],
                     activePlayers: new Map(get().activePlayers).set(player.id, player)
@@ -108,10 +117,10 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             }
         },
 
-        removePlayer: playerId => {
+        removePlayer: (playerId) => {
             const { availablePlayers, currentPlayer } = get();
 
-            const filtered = availablePlayers.filter(p => p.id !== playerId);
+            const filtered = availablePlayers.filter((p) => p.id !== playerId);
 
             set({
                 availablePlayers: filtered,
@@ -127,7 +136,9 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
         updatePlayer: (playerId, updates) => {
             const { availablePlayers } = get();
 
-            const updated = availablePlayers.map(p => (p.id === playerId ? { ...p, ...updates } : p));
+            const updated = availablePlayers.map((p) =>
+                p.id === playerId ? { ...p, ...updates } : p
+            );
 
             set({
                 availablePlayers: updated,
@@ -147,7 +158,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             return Array.from(activePlayers.values());
         },
 
-        initiateTransfer: info => {
+        initiateTransfer: (info) => {
             set({
                 pendingTransfer: info,
                 isTransferring: true,
@@ -180,13 +191,13 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             });
         },
 
-        updateTransferProgress: progress => {
+        updateTransferProgress: (progress) => {
             set({ transferProgress: progress });
         },
 
-        selectPlayer: playerId => {
+        selectPlayer: (playerId) => {
             const { availablePlayers } = get();
-            const player = availablePlayers.find(p => p.id === playerId);
+            const player = availablePlayers.find((p) => p.id === playerId);
 
             if (player) {
                 set({
@@ -202,7 +213,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             return false;
         },
 
-        autoSelectBestPlayer: mediaType => {
+        autoSelectBestPlayer: (mediaType) => {
             const { availablePlayers, currentPlayer } = get();
 
             if (currentPlayer && currentPlayer.canPlayMediaTypes.includes(mediaType)) {
@@ -210,35 +221,35 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             }
 
             const localPlayers = availablePlayers.filter(
-                p => p.isLocalPlayer && p.canPlayMediaTypes.includes(mediaType)
+                (p) => p.isLocalPlayer && p.canPlayMediaTypes.includes(mediaType)
             );
 
             if (localPlayers.length > 0) {
                 return localPlayers[0];
             }
 
-            return availablePlayers.find(p => p.canPlayMediaTypes.includes(mediaType)) || null;
+            return availablePlayers.find((p) => p.canPlayMediaTypes.includes(mediaType)) || null;
         },
 
         selectLocalPlayer: () => {
             const { availablePlayers } = get();
 
-            return availablePlayers.find(p => p.isLocalPlayer) || null;
+            return availablePlayers.find((p) => p.isLocalPlayer) || null;
         },
 
-        canPlayMediaType: mediaType => {
+        canPlayMediaType: (mediaType) => {
             const { currentPlayer } = get();
 
             if (!currentPlayer) {
                 const { availablePlayers } = get();
-                return availablePlayers.some(p => p.canPlayMediaTypes.includes(mediaType));
+                return availablePlayers.some((p) => p.canPlayMediaTypes.includes(mediaType));
             }
 
             return currentPlayer.canPlayMediaTypes.includes(mediaType);
         },
 
-        getPlayerById: playerId => {
-            return get().availablePlayers.find(p => p.id === playerId) || null;
+        getPlayerById: (playerId) => {
+            return get().availablePlayers.find((p) => p.id === playerId) || null;
         },
 
         isLocalPlayerActive: () => {
@@ -246,7 +257,7 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
             return currentPlayer?.isLocalPlayer ?? false;
         },
 
-        setPlayerChanged: change => {
+        setPlayerChanged: (change) => {
             set({ playerChanged: change });
         },
 
@@ -262,8 +273,10 @@ export const usePlayerStore = create<PlayerState & PlayerActions>()(
 
 // Selectors
 export const selectCurrentPlayer = (state: PlayerState & PlayerActions) => state.currentPlayer;
-export const selectAvailablePlayers = (state: PlayerState & PlayerActions) => state.availablePlayers;
+export const selectAvailablePlayers = (state: PlayerState & PlayerActions) =>
+    state.availablePlayers;
 export const selectPendingTransfer = (state: PlayerState & PlayerActions) => state.pendingTransfer;
 export const selectIsTransferring = (state: PlayerState & PlayerActions) => state.isTransferring;
-export const selectIsLocalPlayerActive = (state: PlayerState & PlayerActions) => state.isLocalPlayerActive();
+export const selectIsLocalPlayerActive = (state: PlayerState & PlayerActions) =>
+    state.isLocalPlayerActive();
 export const selectPlayerChanged = (state: PlayerState & PlayerActions) => state.playerChanged;

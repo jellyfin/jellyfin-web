@@ -30,6 +30,7 @@
   ],
   "sideEffects": false,
   "devDependencies": {
+    "@biomejs/biome": "2.3.13",
     "@eslint-community/eslint-plugin-eslint-comments": "4.6.0",
     "@eslint/js": "9.39.2",
     "@playwright/test": "1.58.0",

@@ -1,24 +1,22 @@
-import { escapeHtml } from '../../../utils/html';
-
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { logger } from '../../../utils/logger';
-
 import { safeAppHost } from '../../../components/apphost';
+import layoutManager from '../../../components/layoutManager';
+import loading from '../../../components/loading/loading';
+import globalize from '../../../lib/globalize';
+import browser from '../../../scripts/browser';
+import libraryMenu from '../../../scripts/libraryMenu';
 import appSettings from '../../../scripts/settings/appSettings';
 import dom from '../../../utils/dom';
-import loading from '../../../components/loading/loading';
-import layoutManager from '../../../components/layoutManager';
-import libraryMenu from '../../../scripts/libraryMenu';
-import browser from '../../../scripts/browser';
-import globalize from '../../../lib/globalize';
+import { escapeHtml } from '../../../utils/html';
+import { logger } from '../../../utils/logger';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-checkbox/emby-checkbox';
-import Dashboard from '../../../utils/dashboard';
-import toast from '../../../components/toast/toast';
-import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
 import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import dialogHelper from '../../../components/dialogHelper/dialogHelper';
+import toast from '../../../components/toast/toast';
+import Dashboard from '../../../utils/dashboard';
 
 import './login.scss';
 
@@ -27,19 +25,20 @@ const enableFocusTransform = !browser.slow && !browser.edge;
 function authenticateUserByName(page, apiClient, url, username, password) {
     loading.show();
     apiClient.authenticateUserByName(username, password).then(
-        result => {
+        (result) => {
             const user = result.User;
             loading.hide();
 
             onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
         },
-        response => {
+        (response) => {
             page.querySelector('#txtManualPassword').value = '';
             loading.hide();
 
             const UnauthorizedOrForbidden = [401, 403];
             if (UnauthorizedOrForbidden.includes(response.status)) {
-                const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
+                const messageKey =
+                    response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
                 toast(globalize.translate(messageKey));
             } else {
                 Dashboard.alert({
@@ -55,11 +54,15 @@ function authenticateQuickConnect(apiClient, targetUrl) {
     const url = apiClient.getUrl('/QuickConnect/Initiate');
     apiClient
         .ajax({ type: 'POST', url }, true)
-        .then(res => res.json())
+        .then((res) => res.json())
         .then(
-            json => {
+            (json) => {
                 if (!json.Secret || !json.Code) {
-                    logger.error('Malformed quick connect response', { component: 'LoginPage' }, json);
+                    logger.error(
+                        'Malformed quick connect response',
+                        { component: 'LoginPage' },
+                        json
+                    );
                     return false;
                 }
 
@@ -76,7 +79,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
                 const interval = setInterval(
                     () => {
                         apiClient.getJSON(connectUrl).then(
-                            async data => {
+                            async (data) => {
                                 if (!data.Authenticated) {
                                     return;
                                 }
@@ -90,9 +93,14 @@ function authenticateQuickConnect(apiClient, targetUrl) {
                                 }
 
                                 const result = await apiClient.quickConnect(data.Secret);
-                                onLoginSuccessful(result.User.Id, result.AccessToken, apiClient, targetUrl);
+                                onLoginSuccessful(
+                                    result.User.Id,
+                                    result.AccessToken,
+                                    apiClient,
+                                    targetUrl
+                                );
                             },
-                            e => {
+                            (e) => {
                                 clearInterval(interval);
 
                                 // Close the QuickConnect dialog
@@ -106,7 +114,11 @@ function authenticateQuickConnect(apiClient, targetUrl) {
                                     title: globalize.translate('HeaderError')
                                 });
 
-                                logger.error('Unable to login with quick connect', { component: 'LoginPage' }, e);
+                                logger.error(
+                                    'Unable to login with quick connect',
+                                    { component: 'LoginPage' },
+                                    e
+                                );
                             }
                         );
                     },
@@ -116,7 +128,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
 
                 return true;
             },
-            e => {
+            (e) => {
                 Dashboard.alert({
                     message: globalize.translate('QuickConnectNotActive'),
                     title: globalize.translate('HeaderError')
@@ -183,7 +195,9 @@ function loadUserList(context, apiClient, users) {
             });
 
             html +=
-                '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + '\');"></div>';
+                '<div class="cardImageContainer coveredImage" style="background-image:url(\'' +
+                imgUrl +
+                '\');"></div>';
         } else {
             html += `<div class="cardImage flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
             html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
@@ -218,7 +232,11 @@ export default function (view, params) {
             try {
                 return decodeURIComponent(params.url);
             } catch (err) {
-                logger.warn('Unable to decode url param', { component: 'LoginPage', url: params.url }, err);
+                logger.warn(
+                    'Unable to decode url param',
+                    { component: 'LoginPage', url: params.url },
+                    err
+                );
             }
         }
 
@@ -235,7 +253,7 @@ export default function (view, params) {
         });
     }
 
-    view.querySelector('#divUsers').addEventListener('click', e => {
+    view.querySelector('#divUsers').addEventListener('click', (e) => {
         const card = dom.parentWithClass(e.target, 'card');
         const cardContent = card ? card.querySelector('.cardContent') : null;
 
@@ -257,7 +275,7 @@ export default function (view, params) {
             }
         }
     });
-    view.querySelector('.manualLoginForm').addEventListener('submit', e => {
+    view.querySelector('.manualLoginForm').addEventListener('submit', (e) => {
         appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
         authenticateUserByName(
             view,
@@ -297,7 +315,7 @@ export default function (view, params) {
 
         apiClient
             .getQuickConnect('Enabled')
-            .then(enabled => {
+            .then((enabled) => {
                 if (enabled === true) {
                     view.querySelector('.btnQuick').classList.remove('hide');
                 }
@@ -308,7 +326,7 @@ export default function (view, params) {
 
         apiClient
             .getPublicUsers()
-            .then(users => {
+            .then((users) => {
                 if (users.length) {
                     showVisualForm();
                     loadUserList(view, apiClient, users);
@@ -321,7 +339,7 @@ export default function (view, params) {
             .then(() => {
                 loading.hide();
             });
-        apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(options => {
+        apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then((options) => {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
             const disclaimerText = options.LoginDisclaimer || '';
 

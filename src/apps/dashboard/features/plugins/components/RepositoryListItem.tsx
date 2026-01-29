@@ -1,14 +1,19 @@
-import React, { useCallback, useState } from 'react';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
-import globalize from 'lib/globalize';
 import { ExternalLinkIcon, TrashIcon } from '@radix-ui/react-icons';
 import ConfirmDialog from 'components/ConfirmDialog';
-import { ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives';
-import { ListItemButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Avatar } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
+import globalize from 'lib/globalize';
+import React, { useCallback, useState } from 'react';
+import {
+    Avatar,
+    Heading,
+    IconButton,
+    ListItem,
+    ListItemButton,
+    ListItemContent,
+    ListItemDecorator,
+    Text,
+    Tooltip
+} from 'ui-primitives';
 
 interface IProps {
     repository: RepositoryInfo;
@@ -70,7 +75,11 @@ const RepositoryListItem = ({ repository, onDelete }: IProps): React.ReactElemen
                         <Text
                             size="xs"
                             color="secondary"
-                            style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                            style={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
+                            }}
                         >
                             {repository.Url}
                         </Text>

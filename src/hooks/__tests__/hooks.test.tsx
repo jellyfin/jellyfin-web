@@ -2,14 +2,14 @@
  * @vitest-environment jsdom
  */
 
-import React from 'react';
-import { describe, it, expect, vi, beforeEach, afterEach, test } from 'vitest';
-import { render, screen, cleanup, act, waitFor } from '@testing-library/react';
+import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { afterEach, beforeEach, describe, expect, it, test, vi } from 'vitest';
+import { useClickOutside } from '../useClickOutside';
 import { useDebounce } from '../useDebounce';
 import { useLocalStorage } from '../useLocalStorage';
 import { useMediaQuery } from '../useMediaQuery';
-import { useClickOutside } from '../useClickOutside';
 
 describe('useDebounce', () => {
     function TestComponent({ value, delay = 300 }: { value: string; delay?: number }) {
@@ -39,13 +39,19 @@ describe('useDebounce', () => {
 });
 
 describe('useLocalStorage', () => {
-    function TestComponent({ storageKey, initialValue }: { storageKey: string; initialValue: string }) {
+    function TestComponent({
+        storageKey,
+        initialValue
+    }: {
+        storageKey: string;
+        initialValue: string;
+    }) {
         const [value, setValue] = useLocalStorage(storageKey, initialValue);
         return (
             <div>
                 <span data-testid="value">{value}</span>
                 <button onClick={() => setValue('updated')}>Update</button>
-                <button onClick={() => setValue(v => (v || '') + '-appended')}>Append</button>
+                <button onClick={() => setValue((v) => (v || '') + '-appended')}>Append</button>
             </div>
         );
     }
@@ -92,7 +98,7 @@ describe('useMediaQuery', () => {
     beforeEach(() => {
         Object.defineProperty(window, 'matchMedia', {
             writable: true,
-            value: vi.fn().mockImplementation(query => ({
+            value: vi.fn().mockImplementation((query) => ({
                 matches: false,
                 media: query,
                 onchange: null,

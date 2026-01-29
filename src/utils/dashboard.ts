@@ -57,9 +57,11 @@ export async function serverAddress(): Promise<string | undefined> {
 
     // Extract URLs from server objects (config.json uses Server objects with ManualAddress/LocalAddress)
     const urls: string[] = servers
-        .map((server: { ManualAddress?: string; LocalAddress?: string; RemoteAddress?: string }) => {
-            return server.ManualAddress || server.LocalAddress || server.RemoteAddress || '';
-        })
+        .map(
+            (server: { ManualAddress?: string; LocalAddress?: string; RemoteAddress?: string }) => {
+                return server.ManualAddress || server.LocalAddress || server.RemoteAddress || '';
+            }
+        )
         .filter(Boolean);
 
     if (urls.length === 0) {
@@ -90,7 +92,7 @@ export async function serverAddress(): Promise<string | undefined> {
 
     const promises = urls.map((url: string) => {
         return fetch(`${url}/System/Info/Public`, { cache: 'no-cache' })
-            .then(async resp => {
+            .then(async (resp) => {
                 if (!resp.ok) {
                     return;
                 }
@@ -107,17 +109,18 @@ export async function serverAddress(): Promise<string | undefined> {
                     config
                 };
             })
-            .catch(error => {
+            .catch((error) => {
                 logger.error('Error fetching server info', { component: 'Dashboard', url }, error);
             });
     });
 
     return Promise.all(promises)
-        .then(responses => {
-            return (responses as any[]).filter(obj => obj?.config);
+        .then((responses) => {
+            return (responses as any[]).filter((obj) => obj?.config);
         })
-        .then(configs => {
-            const selection = configs.find(obj => !obj.config.StartupWizardCompleted) || configs[0];
+        .then((configs) => {
+            const selection =
+                configs.find((obj) => !obj.config.StartupWizardCompleted) || configs[0];
             const selectedUrl = selection?.url;
 
             // In development mode, skip localhost URLs as they're the dev server, not the Jellyfin server
@@ -138,7 +141,7 @@ export async function serverAddress(): Promise<string | undefined> {
 
             return selectedUrl;
         })
-        .catch(error => {
+        .catch((error) => {
             logger.error('Error selecting server address', { component: 'Dashboard' }, error);
             return undefined;
         });
@@ -222,7 +225,9 @@ export function processErrorResponse(response: Response) {
     });
 }
 
-export function alert(options: string | { title?: string; message?: string; callback?: () => void }) {
+export function alert(
+    options: string | { title?: string; message?: string; callback?: () => void }
+) {
     if (typeof options === 'string') {
         logger.info(options, { component: 'Dashboard' });
     } else {
@@ -275,7 +280,8 @@ export function capabilities(host: any) {
                 'PlayMediaSource',
                 'PlayTrailers'
             ],
-            SupportsPersistentIdentifier: window.appMode === 'cordova' || window.appMode === 'android',
+            SupportsPersistentIdentifier:
+                window.appMode === 'cordova' || window.appMode === 'android',
             SupportsMediaControl: true
         },
         host?.getPushTokenInfo ? host.getPushTokenInfo() : safeAppHost?.getPushTokenInfo?.() || {}
@@ -313,7 +319,7 @@ export const pageClassOn = function (
     className: string,
     fn: (this: HTMLElement, event: Event) => void
 ) {
-    document.addEventListener(eventName, event => {
+    document.addEventListener(eventName, (event) => {
         const target = event.target as HTMLElement;
 
         if (target.classList.contains(className)) {
@@ -322,8 +328,12 @@ export const pageClassOn = function (
     });
 };
 
-export const pageIdOn = function (eventName: string, id: string, fn: (this: HTMLElement, event: Event) => void) {
-    document.addEventListener(eventName, event => {
+export const pageIdOn = function (
+    eventName: string,
+    id: string,
+    fn: (this: HTMLElement, event: Event) => void
+) {
+    document.addEventListener(eventName, (event) => {
         const target = event.target as HTMLElement;
 
         if (target.id === id) {

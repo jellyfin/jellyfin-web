@@ -133,7 +133,9 @@ export interface AudioAnalysisResult {
 }
 
 let wasmModule: {
-    AutoDJAnalyzer: new (fftSize?: number) => {
+    AutoDJAnalyzer: new (
+        fftSize?: number
+    ) => {
         analyzeFull: (samples: Float32Array, sampleRate: number) => string;
         suggestTransition: (currentJson: string, nextJson: string) => string;
         version: () => string;
@@ -151,7 +153,9 @@ async function loadWasmModule() {
         logger.info('Audio analysis WASM module loaded', { component: 'AudioAnalysis' });
         return wasmModule;
     } catch (error) {
-        logger.warn('Audio analysis WASM not available, using JS fallback', { component: 'AudioAnalysis' });
+        logger.warn('Audio analysis WASM not available, using JS fallback', {
+            component: 'AudioAnalysis'
+        });
         wasmModule = createJSFallback() as never;
         return wasmModule;
     }
@@ -180,7 +184,10 @@ function createJSFallback() {
             for (let i = 1; i < samples.length; i++) {
                 sumSq += samples[i] * samples[i];
                 peak = Math.max(peak, Math.abs(samples[i]));
-                if ((samples[i] >= 0 && samples[i - 1] < 0) || (samples[i] < 0 && samples[i - 1] >= 0)) {
+                if (
+                    (samples[i] >= 0 && samples[i - 1] < 0) ||
+                    (samples[i] < 0 && samples[i - 1] >= 0)
+                ) {
                     zcr++;
                 }
             }
@@ -289,7 +296,9 @@ function convertWasmTransition(wasm: WasmTransitionSuggestion): TransitionSugges
 }
 
 export function loadAutoDJAnalyzer(): Promise<{
-    AutoDJAnalyzer: new (fftSize?: number) => {
+    AutoDJAnalyzer: new (
+        fftSize?: number
+    ) => {
         analyzeFull: (samples: Float32Array, sampleRate: number) => string;
         suggestTransition: (currentJson: string, nextJson: string) => string;
         version: () => string;
@@ -297,7 +306,7 @@ export function loadAutoDJAnalyzer(): Promise<{
     analyzeTrack: (samples: Float32Array, sampleRate: number) => AudioFeatures;
     suggestTransition: (current: AudioFeatures, next: AudioFeatures) => TransitionSuggestion;
 }> {
-    return loadWasmModule().then(module => ({
+    return loadWasmModule().then((module) => ({
         AutoDJAnalyzer: module.AutoDJAnalyzer,
         analyzeTrack: (samples: Float32Array, sampleRate: number): AudioFeatures => {
             const analyzer = new module.AutoDJAnalyzer(2048);
@@ -315,7 +324,9 @@ export function loadAutoDJAnalyzer(): Promise<{
 }
 
 export function loadAudioAnalyzer(): Promise<{
-    AudioAnalyzer: new (fftSize?: number) => {
+    AudioAnalyzer: new (
+        fftSize?: number
+    ) => {
         analyze: (samples: Float32Array, sampleRate: number) => WasmAudioFeatures;
         analyzeStructure: (
             samples: Float32Array,
@@ -470,7 +481,11 @@ export async function getAudioAnalyzerVersion(): Promise<string> {
     return analyzer.version();
 }
 
-export { loadAutoDJAnalyzer as default, type FullTrackAnalysis, type TransitionSuggestion } from './autoDJ';
 export { AnalysisDisplay } from './AnalysisDisplay';
-export { TransitionPanel } from './TransitionPanel';
 export { AutoDJToggle } from './AutoDJToggle';
+export {
+    type FullTrackAnalysis,
+    loadAutoDJAnalyzer as default,
+    type TransitionSuggestion
+} from './autoDJ';
+export { TransitionPanel } from './TransitionPanel';

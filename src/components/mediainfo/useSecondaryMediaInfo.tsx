@@ -1,11 +1,11 @@
-import datetime from 'scripts/datetime';
 import { appRouter } from 'components/router/appRouter';
+import datetime from 'scripts/datetime';
 import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
-import type { MiscInfo } from 'types/mediaInfoItem';
 import { ItemKind } from 'types/base/models/item-kind';
-import type { SecondaryInfoOpts } from './type';
+import type { MiscInfo } from 'types/mediaInfoItem';
 import { logger } from 'utils/logger';
+import type { SecondaryInfoOpts } from './type';
 
 function addProgramTime(
     showProgramTimeInfo: boolean,
@@ -38,7 +38,10 @@ function addProgramTime(
             }
             addMiscInfo({ text: programTimeText });
         } catch {
-            logger.error('Error parsing program start date', { component: 'SecondaryMediaInfo', date: itemStartDate });
+            logger.error('Error parsing program start date', {
+                component: 'SecondaryMediaInfo',
+                date: itemStartDate
+            });
         }
     }
 }
@@ -106,7 +109,14 @@ function useSecondaryMediaInfo({
             }
         };
 
-        addProgramTime(showProgramTimeInfo, showStartDateInfo, showEndDateInfo, StartDate, EndDate, addMiscInfo);
+        addProgramTime(
+            showProgramTimeInfo,
+            showStartDateInfo,
+            showEndDateInfo,
+            StartDate,
+            EndDate,
+            addMiscInfo
+        );
 
         addChannelNumber(showChannelNumberInfo, ChannelNumber, addMiscInfo);
 

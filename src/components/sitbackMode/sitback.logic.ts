@@ -1,6 +1,6 @@
-import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
 import { usePreferencesStore } from '../../store/preferencesStore';
+import layoutManager from '../layoutManager';
 
 const defaultSitbackSettings = {
     trackInfoDuration: 5,
@@ -127,8 +127,12 @@ if (layoutManager.mobile) {
     };
 
     const hasPointerEvent = 'PointerEvent' in window;
-    document.addEventListener(hasPointerEvent ? 'pointermove' : 'mousemove', pointerActivity, { passive: true });
-    document.addEventListener(hasPointerEvent ? 'pointerdown' : 'mousedown', pointerActivity, { passive: true });
+    document.addEventListener(hasPointerEvent ? 'pointermove' : 'mousemove', pointerActivity, {
+        passive: true
+    });
+    document.addEventListener(hasPointerEvent ? 'pointerdown' : 'mousedown', pointerActivity, {
+        passive: true
+    });
 
     // Reset idle timer when tab becomes visible to prevent immediate hiding on return
     document.addEventListener('visibilitychange', () => {

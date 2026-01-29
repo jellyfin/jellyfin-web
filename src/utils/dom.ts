@@ -5,11 +5,17 @@
 /**
  * Returns parent of element with specified attribute value.
  */
-export function parentWithAttribute(elem: HTMLElement, name: string, value?: string): HTMLElement | null {
+export function parentWithAttribute(
+    elem: HTMLElement,
+    name: string,
+    value?: string
+): HTMLElement | null {
     let current: HTMLElement | null = elem;
     while (
         current !== null &&
-        (value === undefined ? current.getAttribute(name) === null : current.getAttribute(name) !== value)
+        (value === undefined
+            ? current.getAttribute(name) === null
+            : current.getAttribute(name) !== value)
     ) {
         const parent = current.parentNode as HTMLElement;
 
@@ -27,7 +33,7 @@ export function parentWithAttribute(elem: HTMLElement, name: string, value?: str
  */
 export function parentWithTag(elem: HTMLElement, tagNames: string | string[]): HTMLElement | null {
     const tags = Array.isArray(tagNames) ? tagNames : [tagNames];
-    const normalizedTags = tags.map(t => t.toUpperCase());
+    const normalizedTags = tags.map((t) => t.toUpperCase());
 
     let current: HTMLElement | null = elem;
     while (current !== null && !normalizedTags.includes(current.tagName ?? '')) {
@@ -56,11 +62,17 @@ function containsAnyClass(classList: DOMTokenList, classNames: string[]): boolea
 /**
  * Returns parent of element with one of specified class names.
  */
-export function parentWithClass(elem: HTMLElement, classNames: string | string[]): HTMLElement | null {
+export function parentWithClass(
+    elem: HTMLElement,
+    classNames: string | string[]
+): HTMLElement | null {
     const classes = Array.isArray(classNames) ? classNames : [classNames];
 
     let current: HTMLElement | null = elem;
-    while (current !== null && (current.classList === undefined || !containsAnyClass(current.classList, classes))) {
+    while (
+        current !== null &&
+        (current.classList === undefined || !containsAnyClass(current.classList, classes))
+    ) {
         current = current.parentNode as HTMLElement;
 
         if (current?.classList === undefined) {
@@ -192,7 +204,9 @@ export function getScreenWidth(): number {
         width = height * (16.0 / 9.0);
     }
 
-    const sortedWidths = [...standardWidths].sort((a, b) => Math.abs(width - a) - Math.abs(width - b));
+    const sortedWidths = [...standardWidths].sort(
+        (a, b) => Math.abs(width - a) - Math.abs(width - b)
+    );
 
     return sortedWidths[0];
 }
@@ -232,7 +246,9 @@ export function whichAnimationEvent(): string {
  * Returns name of animation cancel event.
  */
 export function whichAnimationCancelEvent(): string {
-    return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
+    return whichAnimationEvent()
+        .replace('animationend', 'animationcancel')
+        .replace('AnimationEnd', 'AnimationCancel');
 }
 
 /**

@@ -3,10 +3,10 @@
  * @module components/alphaPicker/alphaPicker
  */
 
+import globalize from '../../lib/globalize';
+import dom from '../../utils/dom';
 import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';
-import dom from '../../utils/dom';
-import globalize from '../../lib/globalize';
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 
@@ -42,7 +42,7 @@ function getLetterButton(l, vertical) {
 }
 
 function mapLetters(letters, vertical) {
-    return letters.map(l => {
+    return letters.map((l) => {
         return getLetterButton(l, vertical);
     });
 }

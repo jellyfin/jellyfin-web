@@ -1,5 +1,5 @@
-import React from 'react';
 import globalize from 'lib/globalize';
+import React from 'react';
 import { Text } from 'ui-primitives';
 import * as styles from './ProgramCell.css.ts';
 
@@ -10,7 +10,12 @@ interface ProgramCellProps {
     onClick?: (program: any) => void;
 }
 
-const ProgramCell: React.FC<ProgramCellProps> = ({ program, startPercent, widthPercent, onClick }) => {
+const ProgramCell: React.FC<ProgramCellProps> = ({
+    program,
+    startPercent,
+    widthPercent,
+    onClick
+}) => {
     const isLive = program.IsLive;
     const isNew = program.IsSeries && !program.IsRepeat;
 
@@ -26,7 +31,9 @@ const ProgramCell: React.FC<ProgramCellProps> = ({ program, startPercent, widthP
                 {isLive && <div className={styles.liveChip}>{globalize.translate('Live')}</div>}
                 {isNew && <div className={styles.newChip}>{globalize.translate('New')}</div>}
             </div>
-            {program.EpisodeTitle && <div className={styles.programTitle}>{program.EpisodeTitle}</div>}
+            {program.EpisodeTitle && (
+                <div className={styles.programTitle}>{program.EpisodeTitle}</div>
+            )}
         </button>
     );
 };

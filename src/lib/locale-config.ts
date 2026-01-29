@@ -71,17 +71,17 @@ export const defaultLocale: LocaleCode = 'en';
 
 export function getLocaleCode(code: string): LocaleCode {
     const normalized = code.toLowerCase().replace('_', '-');
-    const found = supportedLocales.find(l => l.code.toLowerCase() === normalized);
+    const found = supportedLocales.find((l) => l.code.toLowerCase() === normalized);
     return found?.code ?? defaultLocale;
 }
 
 export function isSupportedLocale(code: string): boolean {
-    return supportedLocales.some(l => l.code.toLowerCase() === code.toLowerCase());
+    return supportedLocales.some((l) => l.code.toLowerCase() === code.toLowerCase());
 }
 
 export function getLocaleFile(code: LocaleCode): string {
-    const locale = supportedLocales.find(l => l.code === code);
+    const locale = supportedLocales.find((l) => l.code === code);
     return locale?.file ?? 'en_US';
 }
 
-export const localeCodes = supportedLocales.map(l => l.code) as readonly LocaleCode[];
+export const localeCodes = supportedLocales.map((l) => l.code) as readonly LocaleCode[];

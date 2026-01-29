@@ -3,7 +3,7 @@
  * Tests visibility-aware RAF loop and AnalyserNode reuse
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock dependencies before importing the component
 vi.mock('components/audioEngine/master.logic', () => ({

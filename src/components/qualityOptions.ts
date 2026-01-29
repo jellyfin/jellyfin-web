@@ -55,17 +55,23 @@ export function getVideoQualityOptions(options: QualityOptionsArgs): QualityOpti
     }
 
     if (videoBitRate > 0 && videoBitRate < bitrateConfigurations[0].bitrate) {
-        if (videoCodec && ['hevc', 'av1', 'vp9'].includes(videoCodec) && referenceBitRate <= 20000000) {
+        if (
+            videoCodec &&
+            ['hevc', 'av1', 'vp9'].includes(videoCodec) &&
+            referenceBitRate <= 20000000
+        ) {
             referenceBitRate *= 1.5;
         }
 
-        const sourceOptions = bitrateConfigurations.filter(c => c.bitrate > referenceBitRate).pop();
+        const sourceOptions = bitrateConfigurations
+            .filter((c) => c.bitrate > referenceBitRate)
+            .pop();
         if (sourceOptions) {
             qualityOptions.push(sourceOptions);
         }
     }
 
-    bitrateConfigurations.forEach(configuration => {
+    bitrateConfigurations.forEach((configuration) => {
         if (videoBitRate <= 0 || configuration.bitrate <= referenceBitRate) {
             qualityOptions.push(configuration);
         }

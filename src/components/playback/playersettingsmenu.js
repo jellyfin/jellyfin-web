@@ -1,7 +1,7 @@
-import actionsheet from '../actionSheet/actionSheet';
-import { playbackManager } from '../playback/playbackmanager';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import actionsheet from '../actionSheet/actionSheet';
+import { playbackManager } from '../playback/playbackmanager';
 import qualityoptions from '../qualityOptions';
 
 function showQualityMenu(player, btn) {
@@ -40,18 +40,23 @@ function showQualityMenu(player, btn) {
 
     const selectedBitrate = selectedId.length ? selectedId[0].bitrate : null;
 
-    return actionsheet.show({
-        items: menuItems,
-        positionTo: btn
-    }).then((id) => {
-        const bitrate = parseInt(id, 10);
-        if (bitrate !== selectedBitrate) {
-            playbackManager.setMaxStreamingBitrate({
-                enableAutomaticBitrateDetection: !bitrate,
-                maxBitrate: bitrate
-            }, player);
-        }
-    });
+    return actionsheet
+        .show({
+            items: menuItems,
+            positionTo: btn
+        })
+        .then((id) => {
+            const bitrate = parseInt(id, 10);
+            if (bitrate !== selectedBitrate) {
+                playbackManager.setMaxStreamingBitrate(
+                    {
+                        enableAutomaticBitrateDetection: !bitrate,
+                        maxBitrate: bitrate
+                    },
+                    player
+                );
+            }
+        });
 }
 
 function showRepeatModeMenu(player, btn) {
@@ -76,14 +81,16 @@ function showRepeatModeMenu(player, btn) {
         selected: currentValue === 'RepeatNone'
     });
 
-    return actionsheet.show({
-        items: menuItems,
-        positionTo: btn
-    }).then((mode) => {
-        if (mode) {
-            playbackManager.setRepeatMode(mode, player);
-        }
-    });
+    return actionsheet
+        .show({
+            items: menuItems,
+            positionTo: btn
+        })
+        .then((mode) => {
+            if (mode) {
+                playbackManager.setRepeatMode(mode, player);
+            }
+        });
 }
 
 function getQualitySecondaryText(player) {
@@ -133,46 +140,49 @@ function getQualitySecondaryText(player) {
 function showAspectRatioMenu(player, btn) {
     // each has a name and id
     const currentId = playbackManager.getAspectRatio(player);
-    const menuItems = playbackManager.getSupportedAspectRatios(player)
-        .map(({ id, name }) => ({
-            id,
-            name,
-            selected: id === currentId
-        }));
+    const menuItems = playbackManager.getSupportedAspectRatios(player).map(({ id, name }) => ({
+        id,
+        name,
+        selected: id === currentId
+    }));
 
-    return actionsheet.show({
-        items: menuItems,
-        positionTo: btn
-    }).then((id) => {
-        if (id) {
-            playbackManager.setAspectRatio(id, player);
-            return Promise.resolve();
-        }
+    return actionsheet
+        .show({
+            items: menuItems,
+            positionTo: btn
+        })
+        .then((id) => {
+            if (id) {
+                playbackManager.setAspectRatio(id, player);
+                return Promise.resolve();
+            }
 
-        return Promise.reject();
-    });
+            return Promise.reject();
+        });
 }
 
 function showPlaybackRateMenu(player, btn) {
     // each has a name and id
     const currentId = playbackManager.getPlaybackRate(player);
-    const menuItems = playbackManager.getSupportedPlaybackRates(player).map(i => ({
+    const menuItems = playbackManager.getSupportedPlaybackRates(player).map((i) => ({
         id: i.id,
         name: i.name,
         selected: i.id === currentId
     }));
 
-    return actionsheet.show({
-        items: menuItems,
-        positionTo: btn
-    }).then((id) => {
-        if (id) {
-            playbackManager.setPlaybackRate(id, player);
-            return Promise.resolve();
-        }
+    return actionsheet
+        .show({
+            items: menuItems,
+            positionTo: btn
+        })
+        .then((id) => {
+            if (id) {
+                playbackManager.setPlaybackRate(id, player);
+                return Promise.resolve();
+            }
 
-        return Promise.reject();
-    });
+            return Promise.reject();
+        });
 }
 
 function showWithUser(options, player, user) {
@@ -194,7 +204,9 @@ function showWithUser(options, player, user) {
 
     if (supportedCommands.indexOf('PlaybackRate') !== -1) {
         const currentPlaybackRateId = playbackManager.getPlaybackRate(player);
-        const currentPlaybackRate = playbackManager.getSupportedPlaybackRates(player).filter(i => i.id === currentPlaybackRateId)[0];
+        const currentPlaybackRate = playbackManager
+            .getSupportedPlaybackRates(player)
+            .filter((i) => i.id === currentPlaybackRateId)[0];
 
         menuItems.push({
             name: globalize.translate('PlaybackRate'),
@@ -203,8 +215,11 @@ function showWithUser(options, player, user) {
         });
     }
 
-    if (options.quality && supportedCommands.includes('SetMaxStreamingBitrate')
-            && user?.Policy?.EnableVideoPlaybackTranscoding) {
+    if (
+        options.quality &&
+        supportedCommands.includes('SetMaxStreamingBitrate') &&
+        user?.Policy?.EnableVideoPlaybackTranscoding
+    ) {
         const secondaryQualityText = getQualitySecondaryText(player);
 
         menuItems.push({
@@ -216,11 +231,17 @@ function showWithUser(options, player, user) {
 
     const repeatMode = playbackManager.getRepeatMode(player);
 
-    if (supportedCommands.indexOf('SetRepeatMode') !== -1 && playbackManager.currentMediaSource(player).RunTimeTicks) {
+    if (
+        supportedCommands.indexOf('SetRepeatMode') !== -1 &&
+        playbackManager.currentMediaSource(player).RunTimeTicks
+    ) {
         menuItems.push({
             name: globalize.translate('RepeatMode'),
             id: 'repeatmode',
-            asideText: repeatMode === 'RepeatNone' ? globalize.translate('None') : globalize.translate('' + repeatMode)
+            asideText:
+                repeatMode === 'RepeatNone'
+                    ? globalize.translate('None')
+                    : globalize.translate('' + repeatMode)
         });
     }
 
@@ -240,12 +261,14 @@ function showWithUser(options, player, user) {
         });
     }
 
-    return actionsheet.show({
-        items: menuItems,
-        positionTo: options.positionTo
-    }).then((id) => {
-        return handleSelectedOption(id, options, player);
-    });
+    return actionsheet
+        .show({
+            items: menuItems,
+            positionTo: options.positionTo
+        })
+        .then((id) => {
+            return handleSelectedOption(id, options, player);
+        });
 }
 
 export function show(options) {

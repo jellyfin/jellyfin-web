@@ -1,9 +1,9 @@
 import { escapeHtml } from 'utils/html';
 import { ServerConnections } from '../../lib/jellyfin-apiclient';
+import browser from '../../scripts/browser';
 import datetime from '../../scripts/datetime';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
-import browser from '../../scripts/browser';
 
 const enableFocusTransform = !browser.mobile && !browser.edge;
 
@@ -69,7 +69,8 @@ function buildChapterCard(
           })
         : null;
 
-    let cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
+    let cardImageContainerClass =
+        'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
     if (options.coverImage) cardImageContainerClass += ' coveredImage';
     const dataAttributes = ` data-action="play" data-isfolder="${item.IsFolder}" data-id="${item.Id}" data-serverid="${item.ServerId}" data-type="${item.Type}" data-mediatype="${item.MediaType}" data-positionticks="${chapter.StartPositionTicks}"`;
     let cardImageContainer = imgUrl
@@ -77,7 +78,8 @@ function buildChapterCard(
         : `<div class="${cardImageContainerClass}">`;
 
     if (!imgUrl)
-        cardImageContainer += '<span class="material-icons cardImageIcon local_movies" aria-hidden="true"></span>';
+        cardImageContainer +=
+            '<span class="material-icons cardImageIcon local_movies" aria-hidden="true"></span>';
 
     const nameHtml = `<div class="cardText">${escapeHtml(chapter.Name)}</div><div class="cardText">${datetime.getDisplayRunningTime(chapter.StartPositionTicks)}</div>`;
     return `<button type="button" class="${className}"${dataAttributes}><div class="cardBox"><div class="cardScalable"><div class="cardPadder-${shape}"></div>${cardImageContainer}</div><div class="innerCardFooter">${nameHtml}</div></div></div></button>`;

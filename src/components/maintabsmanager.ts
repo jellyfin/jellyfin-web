@@ -1,5 +1,5 @@
-import dom from '../utils/dom';
 import browser from '../scripts/browser';
+import dom from '../utils/dom';
 import Events from '../utils/events';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
@@ -31,7 +31,8 @@ function allowSwipe(target: HTMLElement): boolean {
     const allowSwipeOn = (elem: HTMLElement) => {
         if (dom.parentWithTag(elem, 'input')) return false;
         const classList = elem.classList;
-        if (classList) return !classList.contains('scrollX') && !classList.contains('animatedScrollX');
+        if (classList)
+            return !classList.contains('scrollX') && !classList.contains('animatedScrollX');
         return true;
     };
 

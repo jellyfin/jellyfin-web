@@ -1,9 +1,7 @@
-import React from 'react';
-
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import { MagicWandIcon } from '@radix-ui/react-icons';
+import React from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Text } from 'ui-primitives';
 import * as styles from './AutoDJToggle.css.ts';
 
 interface AutoDJToggleProps {
@@ -12,7 +10,11 @@ interface AutoDJToggleProps {
     disabled?: boolean;
 }
 
-export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({ enabled, onToggle, disabled = false }) => {
+export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({
+    enabled,
+    onToggle,
+    disabled = false
+}) => {
     return (
         <div
             style={{
@@ -29,15 +31,20 @@ export const AutoDJToggle: React.FC<AutoDJToggleProps> = ({ enabled, onToggle, d
             }
         >
             <div className={styles.labelContainer}>
-                <MagicWandIcon style={{ color: enabled ? vars.colors.primary : vars.colors.textSecondary }} />
-                <span className={styles.label} style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
+                <MagicWandIcon
+                    style={{ color: enabled ? vars.colors.primary : vars.colors.textSecondary }}
+                />
+                <span
+                    className={styles.label}
+                    style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+                >
                     <Text size="sm">Auto-DJ</Text>
                 </span>
             </div>
             <input
                 type="checkbox"
                 checked={enabled}
-                onChange={e => onToggle(e.target.checked)}
+                onChange={(e) => onToggle(e.target.checked)}
                 disabled={disabled}
                 style={{
                     width: '20px',

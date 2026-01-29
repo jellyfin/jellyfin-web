@@ -1,20 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"default\", \"std\"]",
-  "declared_features": "[\"default\", \"enable-interning\", \"gg-alloc\", \"msrv\", \"rustversion\", \"serde\", \"serde-serialize\", \"serde_json\", \"spans\", \"std\", \"strict-macro\", \"xxx_debug_only_print_generated_code\"]",
-  "target": 5408242616063297496,
-  "profile": 11729191390807630031,
-  "path": 2030392299064901300,
-  "deps": [[14156967978702956262, "rustversion_compat", false, 2942425018109777449]],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "debug/.fingerprint/wasm-bindgen-a46da58c78f95fe1/dep-build-script-build-script-build",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[\"default\", \"std\"]",
+    "declared_features": "[\"default\", \"enable-interning\", \"gg-alloc\", \"msrv\", \"rustversion\", \"serde\", \"serde-serialize\", \"serde_json\", \"spans\", \"std\", \"strict-macro\", \"xxx_debug_only_print_generated_code\"]",
+    "target": 5408242616063297496,
+    "profile": 11729191390807630031,
+    "path": 2030392299064901300,
+    "deps": [[14156967978702956262, "rustversion_compat", false, 2942425018109777449]],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/wasm-bindgen-a46da58c78f95fe1/dep-build-script-build-script-build",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

@@ -1,5 +1,5 @@
+import { Indicator, Item, Root } from '@radix-ui/react-radio-group';
 import React, { type ReactElement, type ReactNode } from 'react';
-import { Root, Item, Indicator } from '@radix-ui/react-radio-group';
 import {
     radioGroupIndicator,
     radioGroupIndicatorInner,
@@ -25,9 +25,18 @@ interface RadioGroupProps {
     readonly className?: string;
 }
 
-export function RadioGroup({ children, value, onValueChange, className }: RadioGroupProps): ReactElement {
+export function RadioGroup({
+    children,
+    value,
+    onValueChange,
+    className
+}: RadioGroupProps): ReactElement {
     return (
-        <Root className={`${radioGroupRoot} ${className ?? ''}`} value={value} onValueChange={onValueChange}>
+        <Root
+            className={`${radioGroupRoot} ${className ?? ''}`}
+            value={value}
+            onValueChange={onValueChange}
+        >
             {children}
         </Root>
     );

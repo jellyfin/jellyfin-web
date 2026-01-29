@@ -1,15 +1,14 @@
-
-import libraryBrowser from '../../scripts/libraryBrowser';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
 import loading from '../../components/loading/loading';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import * as userSettings from '../../scripts/settings/userSettings';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events';
-import { setFilterStatus } from 'components/filterdialog/filterIndicator';
-import { getPaginatedRandomItems, getCachedRandomItems } from '../../utils/randomSortCache';
+import { getCachedRandomItems, getPaginatedRandomItems } from '../../utils/randomSortCache';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
@@ -122,7 +121,9 @@ export default function (view, params, tabContent) {
             imageLoader.lazyChildren(itemsContainer);
             userSettings.saveQuerySettings(getSavedQueryKey(), query);
 
-            tabContent.querySelector('.btnShuffle').classList.toggle('hide', result.TotalRecordCount < 1);
+            tabContent
+                .querySelector('.btnShuffle')
+                .classList.toggle('hide', result.TotalRecordCount < 1);
 
             loading.hide();
             isLoading = false;
@@ -142,11 +143,18 @@ export default function (view, params, tabContent) {
                 allQuery.ImageTypeLimit = 1;
                 allQuery.EnableImageTypes = 'Primary';
                 allQuery.Limit = 5000; // Conservative limit to avoid memory issues
-                return ApiClient.getItems(Dashboard.getCurrentUserId(), allQuery).then(r => r.Items);
+                return ApiClient.getItems(Dashboard.getCurrentUserId(), allQuery).then(
+                    (r) => r.Items
+                );
             };
             Promise.all([
-                getPaginatedRandomItems(cacheKey, fetchAllItems, query.StartIndex || 0, query.Limit || 100),
-                getCachedRandomItems(cacheKey, fetchAllItems).then(items => items.length)
+                getPaginatedRandomItems(
+                    cacheKey,
+                    fetchAllItems,
+                    query.StartIndex || 0,
+                    query.Limit || 100
+                ),
+                getCachedRandomItems(cacheKey, fetchAllItems).then((items) => items.length)
             ]).then(([paginatedItems, totalCount]) => {
                 handleResult({
                     Items: paginatedItems,
@@ -193,37 +201,48 @@ export default function (view, params, tabContent) {
         });
         tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
-                items: [{
-                    name: globalize.translate('OptionTrackName'),
-                    id: 'Name'
-                }, {
-                    name: globalize.translate('Album'),
-                    id: 'Album,AlbumArtist,SortName'
-                }, {
-                    name: globalize.translate('AlbumArtist'),
-                    id: 'AlbumArtist,Album,SortName'
-                }, {
-                    name: globalize.translate('Artist'),
-                    id: 'Artist,Album,SortName'
-                }, {
-                    name: globalize.translate('OptionDateAdded'),
-                    id: 'DateCreated,SortName'
-                }, {
-                    name: globalize.translate('OptionDatePlayed'),
-                    id: 'DatePlayed,SortName'
-                }, {
-                    name: globalize.translate('OptionPlayCount'),
-                    id: 'PlayCount,SortName'
-                }, {
-                    name: globalize.translate('OptionReleaseDate'),
-                    id: 'PremiereDate,AlbumArtist,Album,SortName'
-                }, {
-                    name: globalize.translate('Runtime'),
-                    id: 'Runtime,AlbumArtist,Album,SortName'
-                }, {
-                    name: globalize.translate('OptionRandom'),
-                    id: 'Random,SortName'
-                }],
+                items: [
+                    {
+                        name: globalize.translate('OptionTrackName'),
+                        id: 'Name'
+                    },
+                    {
+                        name: globalize.translate('Album'),
+                        id: 'Album,AlbumArtist,SortName'
+                    },
+                    {
+                        name: globalize.translate('AlbumArtist'),
+                        id: 'AlbumArtist,Album,SortName'
+                    },
+                    {
+                        name: globalize.translate('Artist'),
+                        id: 'Artist,Album,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionDatePlayed'),
+                        id: 'DatePlayed,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionPlayCount'),
+                        id: 'PlayCount,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionReleaseDate'),
+                        id: 'PremiereDate,AlbumArtist,Album,SortName'
+                    },
+                    {
+                        name: globalize.translate('Runtime'),
+                        id: 'Runtime,AlbumArtist,Album,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionRandom'),
+                        id: 'Random,SortName'
+                    }
+                ],
                 callback: function () {
                     getQuery().StartIndex = 0;
                     reloadItems();

@@ -1,9 +1,8 @@
-import React, { type FC, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import { FeatureFilters, type LibraryViewSettings } from 'types/library';
+import { Box, Checkbox } from 'ui-primitives';
 
 const featuresOptions = [
     { label: 'Subtitles', value: FeatureFilters.HasSubtitles },
@@ -18,7 +17,10 @@ interface FiltersFeaturesProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersFeatures: FC<FiltersFeaturesProps> = ({ libraryViewSettings, setLibraryViewSettings }) => {
+const FiltersFeatures: FC<FiltersFeaturesProps> = ({
+    libraryViewSettings,
+    setLibraryViewSettings
+}) => {
     const onFiltersFeaturesChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
@@ -26,10 +28,10 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({ libraryViewSettings, setLib
             const existingFeatures = libraryViewSettings?.Filters?.Features ?? [];
 
             const updatedFeatures = existingFeatures.includes(value)
-                ? existingFeatures.filter(filter => filter !== value)
+                ? existingFeatures.filter((filter) => filter !== value)
                 : [...existingFeatures, value];
 
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -43,7 +45,7 @@ const FiltersFeatures: FC<FiltersFeaturesProps> = ({ libraryViewSettings, setLib
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
-            {featuresOptions.map(filter => (
+            {featuresOptions.map((filter) => (
                 <Checkbox
                     key={filter.value}
                     checked={!!libraryViewSettings?.Filters?.Features?.includes(filter.value)}

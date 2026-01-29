@@ -10,9 +10,9 @@
  * ```
  */
 
-import { useEffect, useRef, useCallback } from 'react';
+import { createTimeStretcher, loadAudioWasm } from 'components/audioEngine';
+import { useCallback, useEffect, useRef } from 'react';
 import { useTimeStretchStore } from 'store/timeStretchStore';
-import { loadAudioWasm, createTimeStretcher } from 'components/audioEngine';
 import { logger } from 'utils/logger';
 
 interface TimeStretcher {
@@ -34,7 +34,8 @@ export function useTimeStretch() {
     const stretcherRef = useRef<TimeStretcher | null>(null);
     const isInitialized = useRef(false);
 
-    const { enabled, pauseDuration, resumeDuration, setIsTransitioning, setIsStopped } = useTimeStretchStore();
+    const { enabled, pauseDuration, resumeDuration, setIsTransitioning, setIsStopped } =
+        useTimeStretchStore();
 
     const initializeStretcher = useCallback(async () => {
         if (isInitialized.current) return;
@@ -43,9 +44,15 @@ export function useTimeStretch() {
             const wasm = await loadAudioWasm();
             stretcherRef.current = await createTimeStretcher(44100, 2, 1024);
             isInitialized.current = true;
-            logger.info('[useTimeStretch] Initialized time stretcher', { component: 'useTimeStretch' });
+            logger.info('[useTimeStretch] Initialized time stretcher', {
+                component: 'useTimeStretch'
+            });
         } catch (error) {
-            logger.warn('[useTimeStretch] Failed to initialize', { component: 'useTimeStretch' }, error as Error);
+            logger.warn(
+                '[useTimeStretch] Failed to initialize',
+                { component: 'useTimeStretch' },
+                error as Error
+            );
         }
     }, []);
 
@@ -68,7 +75,9 @@ export function useTimeStretch() {
             }
 
             setIsTransitioning(true);
-            logger.info(`[useTimeStretch] Pause transition: ${transitionDuration}s`, { component: 'useTimeStretch' });
+            logger.info(`[useTimeStretch] Pause transition: ${transitionDuration}s`, {
+                component: 'useTimeStretch'
+            });
         },
         [enabled, pauseDuration, initializeStretcher, setIsTransitioning]
     );
@@ -92,7 +101,9 @@ export function useTimeStretch() {
             }
 
             setIsTransitioning(true);
-            logger.info(`[useTimeStretch] Resume transition: ${transitionDuration}s`, { component: 'useTimeStretch' });
+            logger.info(`[useTimeStretch] Resume transition: ${transitionDuration}s`, {
+                component: 'useTimeStretch'
+            });
         },
         [enabled, resumeDuration, initializeStretcher, setIsTransitioning]
     );

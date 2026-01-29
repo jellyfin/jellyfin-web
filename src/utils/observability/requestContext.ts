@@ -1,5 +1,15 @@
-import { generateEventId, getEnvironmentContext, getCurrentUserId, getCurrentServerId } from './environment';
-import { type RequestContextData, type WideEvent, type CreateEventOptions, type JourneyContext } from './types';
+import {
+    generateEventId,
+    getCurrentServerId,
+    getCurrentUserId,
+    getEnvironmentContext
+} from './environment';
+import {
+    type CreateEventOptions,
+    type JourneyContext,
+    type RequestContextData,
+    type WideEvent
+} from './types';
 
 /**
  * RequestContext middleware for automatic context propagation
@@ -198,7 +208,11 @@ class RequestContextManager {
     /**
      * Performance measurement utility for sync functions
      */
-    static measureTime<T>(operation: string, fn: () => T, options?: Partial<CreateEventOptions>): T {
+    static measureTime<T>(
+        operation: string,
+        fn: () => T,
+        options?: Partial<CreateEventOptions>
+    ): T {
         const startTime = Date.now();
 
         try {

@@ -1,13 +1,11 @@
 import { getQuickConnectApi } from '@jellyfin/sdk/lib/utils/api/quick-connect-api';
-import React, { type FC, type FormEvent, useCallback, useState } from 'react';
 import { Link } from '@tanstack/react-router';
-
 import Page from 'components/Page';
-import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives';
-import { Button } from 'ui-primitives';
 import { useApi } from 'hooks/useApi';
 import { useSearchParams } from 'hooks/useSearchParams';
+import globalize from 'lib/globalize';
+import React, { type FC, type FormEvent, useCallback, useState } from 'react';
+import { Button, Input } from 'ui-primitives';
 
 import './quickConnect.scss';
 
@@ -72,7 +70,9 @@ const QuickConnectPage: FC = () => {
                         <div>{globalize.translate('QuickConnectDescription')}</div>
                         <br />
 
-                        {error && <div className="quickConnectError">{globalize.translate(error)}</div>}
+                        {error && (
+                            <div className="quickConnectError">{globalize.translate(error)}</div>
+                        )}
 
                         {success ? (
                             <div style={{ textAlign: 'center' }}>

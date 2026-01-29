@@ -9,10 +9,9 @@ import {
     PlusIcon
 } from '@radix-ui/react-icons';
 import { useLocation } from '@tanstack/react-router';
-import React, { type MouseEvent, useCallback, useState } from 'react';
-
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
+import React, { type MouseEvent, useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import {
     List,
@@ -61,13 +60,13 @@ function ServerDrawerSection(): React.ReactElement {
 
     return (
         <List
-            size='sm'
+            size="sm"
             style={{ '--list-item-radius': '8px', '--list-gap': '4px', '--list-padding': '8px' }}
         >
             <ListSubheader sticky>{globalize.translate('TabServer')}</ListSubheader>
 
             <ListItem>
-                <ListItemLink to='/dashboard'>
+                <ListItemLink to="/dashboard">
                     <ListItemDecorator>
                         <DashboardIcon />
                     </ListItemDecorator>
@@ -76,7 +75,7 @@ function ServerDrawerSection(): React.ReactElement {
             </ListItem>
 
             <ListItem>
-                <ListItemLink to='/dashboard/settings'>
+                <ListItemLink to="/dashboard/settings">
                     <ListItemDecorator>
                         <GearIcon />
                     </ListItemDecorator>
@@ -85,7 +84,7 @@ function ServerDrawerSection(): React.ReactElement {
             </ListItem>
 
             <ListItem>
-                <ListItemLink to='/dashboard/branding'>
+                <ListItemLink to="/dashboard/branding">
                     <ListItemDecorator>
                         <ColorWheelIcon />
                     </ListItemDecorator>
@@ -94,7 +93,7 @@ function ServerDrawerSection(): React.ReactElement {
             </ListItem>
 
             <ListItem>
-                <ListItemLink to='/dashboard/users'>
+                <ListItemLink to="/dashboard/users">
                     <ListItemDecorator>
                         <PersonIcon />
                     </ListItemDecorator>
@@ -114,7 +113,7 @@ function ServerDrawerSection(): React.ReactElement {
                     <List style={{ '--list-gap': '0px' }}>
                         <ListItem>
                             <ListItemLink
-                                to='/dashboard/libraries'
+                                to="/dashboard/libraries"
                                 style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
@@ -124,7 +123,7 @@ function ServerDrawerSection(): React.ReactElement {
                         </ListItem>
                         <ListItem>
                             <ListItemLink
-                                to='/dashboard/libraries/display'
+                                to="/dashboard/libraries/display"
                                 style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>{globalize.translate('Display')}</ListItemContent>
@@ -132,7 +131,7 @@ function ServerDrawerSection(): React.ReactElement {
                         </ListItem>
                         <ListItem>
                             <ListItemLink
-                                to='/dashboard/libraries/metadata'
+                                to="/dashboard/libraries/metadata"
                                 style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
@@ -142,7 +141,7 @@ function ServerDrawerSection(): React.ReactElement {
                         </ListItem>
                         <ListItem>
                             <ListItemLink
-                                to='/dashboard/libraries/nfo'
+                                to="/dashboard/libraries/nfo"
                                 style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
@@ -166,7 +165,7 @@ function ServerDrawerSection(): React.ReactElement {
                     <List style={{ '--list-gap': '0px' }}>
                         <ListItem>
                             <ListItemLink
-                                to='/dashboard/playback/transcoding'
+                                to="/dashboard/playback/transcoding"
                                 style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
@@ -176,7 +175,7 @@ function ServerDrawerSection(): React.ReactElement {
                         </ListItem>
                         <ListItem>
                             <ListItemLink
-                                to='/dashboard/playback/resume'
+                                to="/dashboard/playback/resume"
                                 style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
@@ -186,7 +185,7 @@ function ServerDrawerSection(): React.ReactElement {
                         </ListItem>
                         <ListItem>
                             <ListItemLink
-                                to='/dashboard/playback/streaming'
+                                to="/dashboard/playback/streaming"
                                 style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>
@@ -196,7 +195,7 @@ function ServerDrawerSection(): React.ReactElement {
                         </ListItem>
                         <ListItem>
                             <ListItemLink
-                                to='/dashboard/playback/trickplay'
+                                to="/dashboard/playback/trickplay"
                                 style={{ paddingLeft: vars.spacing['6'] }}
                             >
                                 <ListItemContent>

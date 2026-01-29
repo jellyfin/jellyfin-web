@@ -1,14 +1,14 @@
 import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
+import browser from '../../scripts/browser';
+import scrollHelper from '../../scripts/scrollHelper';
 import dom from '../../utils/dom';
-import loading from '../loading/loading';
 import { safeAppHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import imageLoader from '../images/imageLoader';
-import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
-import scrollHelper from '../../scripts/scrollHelper';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import loading from '../loading/loading';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
@@ -35,7 +35,11 @@ let browsableParentId;
 function getBaseRemoteOptions(page, forceCurrentItemId = false) {
     const options = {};
 
-    if (!forceCurrentItemId && page.querySelector('#chkShowParentImages').checked && browsableParentId) {
+    if (
+        !forceCurrentItemId &&
+        page.querySelector('#chkShowParentImages').checked &&
+        browsableParentId
+    ) {
         options.itemId = browsableParentId;
     } else {
         options.itemId = currentItemId;
@@ -61,7 +65,14 @@ function reloadBrowsableImages(page, apiClient) {
     }
 
     apiClient.getAvailableRemoteImages(options).then((result) => {
-        renderRemoteImages(page, apiClient, result, browsableImageType, options.startIndex, options.limit);
+        renderRemoteImages(
+            page,
+            apiClient,
+            result,
+            browsableImageType,
+            options.startIndex,
+            options.limit
+        );
 
         page.querySelector('#selectBrowsableImageType').value = browsableImageType;
 
@@ -70,7 +81,8 @@ function reloadBrowsableImages(page, apiClient) {
         });
 
         const selectImageProvider = page.querySelector('#selectImageProvider');
-        selectImageProvider.innerHTML = '<option value="">' + globalize.translate('All') + '</option>' + providersHtml;
+        selectImageProvider.innerHTML =
+            '<option value="">' + globalize.translate('All') + '</option>' + providersHtml;
         selectImageProvider.value = provider;
 
         loading.hide();
@@ -78,7 +90,11 @@ function reloadBrowsableImages(page, apiClient) {
 }
 
 function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex, limit) {
-    page.querySelector('.availableImagesPaging').innerHTML = getPagingHtml(startIndex, limit, imagesResult.TotalRecordCount);
+    page.querySelector('.availableImagesPaging').innerHTML = getPagingHtml(
+        startIndex,
+        limit,
+        imagesResult.TotalRecordCount
+    );
 
     let html = '';
 
@@ -126,10 +142,11 @@ function getPagingHtml(startIndex, limit, totalRecordCount) {
     html += '</span>';
 
     if (showControls) {
-        html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
+        html +=
+            '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
 
-        html += `<button is="paper-icon-button-light" title="${globalize.translate('Previous')}" class="btnPreviousPage autoSize" ${(startIndex ? '' : 'disabled')}><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
-        html += `<button is="paper-icon-button-light" title="${globalize.translate('Next')}" class="btnNextPage autoSize" ${(startIndex + limit >= totalRecordCount ? 'disabled' : '')}><span class="material-icons arrow_forward" aria-hidden="true"></span></button>`;
+        html += `<button is="paper-icon-button-light" title="${globalize.translate('Previous')}" class="btnPreviousPage autoSize" ${startIndex ? '' : 'disabled'}><span class="material-icons arrow_back" aria-hidden="true"></span></button>`;
+        html += `<button is="paper-icon-button-light" title="${globalize.translate('Next')}" class="btnNextPage autoSize" ${startIndex + limit >= totalRecordCount ? 'disabled' : ''}><span class="material-icons arrow_forward" aria-hidden="true"></span></button>`;
         html += '</div>';
     }
 
@@ -166,7 +183,12 @@ function getRemoteImageHtml(image, imageType) {
     const cardBoxCssClass = 'cardBox visualCardBox';
 
     let shape;
-    if (imageType === 'Backdrop' || imageType === 'Art' || imageType === 'Thumb' || imageType === 'Logo') {
+    if (
+        imageType === 'Backdrop' ||
+        imageType === 'Art' ||
+        imageType === 'Thumb' ||
+        imageType === 'Logo'
+    ) {
         shape = 'backdrop';
     } else if (imageType === 'Banner') {
         shape = 'banner';
@@ -197,19 +219,35 @@ function getRemoteImageHtml(image, imageType) {
         html += '<div class="' + cssClass + '"';
     }
 
-    html += ' data-imageprovider="' + image.ProviderName + '" data-imageurl="' + image.Url + '" data-imagetype="' + image.Type + '"';
+    html +=
+        ' data-imageprovider="' +
+        image.ProviderName +
+        '" data-imageurl="' +
+        image.Url +
+        '" data-imagetype="' +
+        image.Type +
+        '"';
 
     html += '>';
 
     html += '<div class="' + cardBoxCssClass + '">';
-    html += '<div class="cardScalable visualCardBox-cardScalable" style="background-color:transparent;">';
+    html +=
+        '<div class="cardScalable visualCardBox-cardScalable" style="background-color:transparent;">';
     html += '<div class="cardPadder-' + shape + '"></div>';
     html += '<div class="cardContent">';
 
     if (layoutManager.tv || !safeAppHost.supports(AppFeature.ExternalLinks)) {
-        html += '<div class="cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain;"></div>';
+        html +=
+            '<div class="cardImageContainer lazy" data-src="' +
+            image.Url +
+            '" style="background-position:center center;background-size:contain;"></div>';
     } else {
-        html += '<a is="emby-linkbutton" target="_blank" href="' + image.Url + '" class="button-link cardImageContainer lazy" data-src="' + image.Url + '" style="background-position:center center;background-size:contain"></a>';
+        html +=
+            '<a is="emby-linkbutton" target="_blank" href="' +
+            image.Url +
+            '" class="button-link cardImageContainer lazy" data-src="' +
+            image.Url +
+            '" style="background-position:center center;background-size:contain"></a>';
     }
 
     html += '</div>';
@@ -302,13 +340,25 @@ function initEditor(page, apiClient) {
         const btnDownloadRemoteImage = dom.parentWithClass(e.target, 'btnDownloadRemoteImage');
         if (btnDownloadRemoteImage) {
             const card = dom.parentWithClass(btnDownloadRemoteImage, 'card');
-            downloadRemoteImage(page, apiClient, card.getAttribute('data-imageurl'), card.getAttribute('data-imagetype'), card.getAttribute('data-imageprovider'));
+            downloadRemoteImage(
+                page,
+                apiClient,
+                card.getAttribute('data-imageurl'),
+                card.getAttribute('data-imagetype'),
+                card.getAttribute('data-imageprovider')
+            );
             return;
         }
 
         const btnImageCard = dom.parentWithClass(e.target, 'btnImageCard');
         if (btnImageCard) {
-            downloadRemoteImage(page, apiClient, btnImageCard.getAttribute('data-imageurl'), btnImageCard.getAttribute('data-imagetype'), btnImageCard.getAttribute('data-imageprovider'));
+            downloadRemoteImage(
+                page,
+                apiClient,
+                btnImageCard.getAttribute('data-imageurl'),
+                btnImageCard.getAttribute('data-imagetype'),
+                btnImageCard.getAttribute('data-imageprovider')
+            );
         }
     });
 }

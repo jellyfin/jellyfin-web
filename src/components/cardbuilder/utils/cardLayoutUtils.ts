@@ -1,7 +1,16 @@
 import layoutManager from '../../layoutManager';
 
-export function getImageWidth(shape: string, screenWidth: number, isOrientationLandscape: boolean): number {
-    const imagesPerRow = getPostersPerRow(shape, screenWidth, isOrientationLandscape, layoutManager.tv);
+export function getImageWidth(
+    shape: string,
+    screenWidth: number,
+    isOrientationLandscape: boolean
+): number {
+    const imagesPerRow = getPostersPerRow(
+        shape,
+        screenWidth,
+        isOrientationLandscape,
+        layoutManager.tv
+    );
     return Math.round(screenWidth / imagesPerRow);
 }
 

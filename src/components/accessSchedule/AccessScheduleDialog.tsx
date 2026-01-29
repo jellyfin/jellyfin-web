@@ -1,14 +1,25 @@
-import { vars } from 'styles/tokens.css.ts';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
 
 import React, { useState } from 'react';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Dialog, DialogPortal, DialogContentComponent, DialogClose } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogClose,
+    DialogContentComponent,
+    DialogPortal,
+    Flex,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from 'ui-primitives';
 import globalize from '../../lib/globalize';
 import datetime from '../../scripts/datetime';
-import './accessSchedule.css.ts';
+import type { AccessSchedule } from '@jellyfin/sdk/lib/generated-client/models/access-schedule';
+import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import {
     closeButtonStyle,
     errorStyle,
@@ -16,8 +27,6 @@ import {
     overlayStyle,
     selectContainerStyle
 } from './AccessScheduleDialog.css.ts';
-import type { AccessSchedule } from '@jellyfin/sdk/lib/generated-client/models/access-schedule';
-import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 
 export { closeButtonStyle, errorStyle, labelStyle, overlayStyle, selectContainerStyle };
 
@@ -57,7 +66,9 @@ const HOURS = Array.from({ length: 49 }, (_, i) => {
 });
 
 const AccessScheduleDialog: React.FC<AccessScheduleProps> = ({ schedule, onSubmit, onClose }) => {
-    const [dayOfWeek, setDayOfWeek] = useState<DynamicDayOfWeek>(schedule.DayOfWeek || DynamicDayOfWeek.Sunday);
+    const [dayOfWeek, setDayOfWeek] = useState<DynamicDayOfWeek>(
+        schedule.DayOfWeek || DynamicDayOfWeek.Sunday
+    );
     const [startHour, setStartHour] = useState(String(schedule.StartHour || 0));
     const [endHour, setEndHour] = useState(String(schedule.EndHour || 0));
     const [error, setError] = useState<string | null>(null);
@@ -80,7 +91,7 @@ const AccessScheduleDialog: React.FC<AccessScheduleProps> = ({ schedule, onSubmi
     };
 
     return (
-        <Dialog open={true} onOpenChange={open => !open && onClose()}>
+        <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
             <DialogPortal>
                 <DialogPrimitive.Overlay className={overlayStyle} />
                 <DialogContentComponent
@@ -92,12 +103,17 @@ const AccessScheduleDialog: React.FC<AccessScheduleProps> = ({ schedule, onSubmi
                             <label className={labelStyle} htmlFor="selectDay">
                                 {globalize.translate('LabelAccessDay')}
                             </label>
-                            <Select value={dayOfWeek} onValueChange={val => setDayOfWeek(val as DynamicDayOfWeek)}>
+                            <Select
+                                value={dayOfWeek}
+                                onValueChange={(val) => setDayOfWeek(val as DynamicDayOfWeek)}
+                            >
                                 <SelectTrigger id="selectDay" style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelAccessDay')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate('LabelAccessDay')}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {DAYS.map(day => (
+                                    {DAYS.map((day) => (
                                         <SelectItem key={day.value} value={day.value}>
                                             {day.label}
                                         </SelectItem>
@@ -114,7 +130,7 @@ const AccessScheduleDialog: React.FC<AccessScheduleProps> = ({ schedule, onSubmi
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {HOURS.map(hour => (
+                                    {HOURS.map((hour) => (
                                         <SelectItem key={hour.value} value={String(hour.value)}>
                                             {hour.label}
                                         </SelectItem>
@@ -131,7 +147,7 @@ const AccessScheduleDialog: React.FC<AccessScheduleProps> = ({ schedule, onSubmi
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {HOURS.map(hour => (
+                                    {HOURS.map((hour) => (
                                         <SelectItem key={hour.value} value={String(hour.value)}>
                                             {hour.label}
                                         </SelectItem>
@@ -140,7 +156,13 @@ const AccessScheduleDialog: React.FC<AccessScheduleProps> = ({ schedule, onSubmi
                             </Select>
                         </Box>
                         {error && <Box className={errorStyle}>{error}</Box>}
-                        <Flex style={{ gap: vars.spacing['2'], justifyContent: 'flex-end', marginTop: '24px' }}>
+                        <Flex
+                            style={{
+                                gap: vars.spacing['2'],
+                                justifyContent: 'flex-end',
+                                marginTop: '24px'
+                            }}
+                        >
                             <DialogClose asChild>
                                 <Button variant="ghost" type="button" onClick={onClose}>
                                     {globalize.translate('Cancel')}

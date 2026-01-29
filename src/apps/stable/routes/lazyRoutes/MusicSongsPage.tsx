@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { Grid } from 'ui-primitives';
-import { Card } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
+import React, { useEffect, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, CircularProgress, Grid, Heading, Text } from 'ui-primitives';
 
 const MusicSongsPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -49,10 +44,12 @@ const MusicSongsPage: React.FC = () => {
 
     return (
         <Box style={{ padding: vars.spacing['5'] }}>
-            <Heading.H2 style={{ marginBottom: vars.spacing['6'] }}>{globalize.translate('Songs')}</Heading.H2>
+            <Heading.H2 style={{ marginBottom: vars.spacing['6'] }}>
+                {globalize.translate('Songs')}
+            </Heading.H2>
 
             <Grid container spacing="md">
-                {songsData.map(item => (
+                {songsData.map((item) => (
                     <Grid key={item.id} xs={12} sm={6} md={4} lg={3}>
                         <Card style={{ border: `1px solid ${vars.colors.divider}` }}>
                             <Box

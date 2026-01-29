@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('components/visualizer/WaveSurfer', () => ({
     destroyWaveSurferInstance: vi.fn()
@@ -115,19 +115,19 @@ vi.mock('../../store/preferencesStore', () => ({
 }));
 
 import {
-    usePreferencesStore,
     getCrossfadeFadeOut,
+    isCrossfadeActive,
     isCrossfadeEnabled,
-    isCrossfadeActive
+    usePreferencesStore
 } from '../../store/preferencesStore';
 
-import { timeRunningOut, syncManager } from './crossfader.logic';
+import { syncManager, timeRunningOut } from './crossfader.logic';
 import {
-    initializeMasterAudio,
-    createGainNode,
-    removeAudioNodeBundle,
     audioNodeBus,
-    delayNodeBus
+    createGainNode,
+    delayNodeBus,
+    initializeMasterAudio,
+    removeAudioNodeBundle
 } from './master.logic';
 
 const createMockAudioContext = () => {

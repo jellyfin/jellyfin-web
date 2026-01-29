@@ -1,8 +1,7 @@
-import React, { type FC } from 'react';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Text } from 'ui-primitives';
 
 interface NoItemsMessageProps {
     message?: string;

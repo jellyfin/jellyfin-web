@@ -1,12 +1,11 @@
-import React, { type FC } from 'react';
-import { Box } from 'ui-primitives';
-import useCardText from './useCardText';
-import layoutManager from 'components/layoutManager';
-import MoreVertIconButton from 'components/common/MoreVertIconButton';
 import Image from 'components/common/Image';
-
+import MoreVertIconButton from 'components/common/MoreVertIconButton';
+import layoutManager from 'components/layoutManager';
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
+import { Box } from 'ui-primitives';
+import useCardText from './useCardText';
 
 const shouldShowDetailsMenu = (cardOptions: CardOptions, isOuterFooter: boolean) => {
     return (

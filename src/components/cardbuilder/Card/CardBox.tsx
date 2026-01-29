@@ -1,15 +1,13 @@
-import React, { type FC } from 'react';
-
 import layoutManager from 'components/layoutManager';
 import { ItemAction } from 'constants/itemAction';
-import { CardShape } from 'utils/card';
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
-
-import CardOverlayButtons from './CardOverlayButtons';
+import { CardShape } from 'utils/card';
+import CardContent from './CardContent';
 import CardHoverMenu from './CardHoverMenu';
 import CardOuterFooter from './CardOuterFooter';
-import CardContent from './CardContent';
+import CardOverlayButtons from './CardOverlayButtons';
 
 interface CardBoxProps {
     action: ItemAction;
@@ -49,7 +47,9 @@ const CardBox: FC<CardBoxProps> = ({
                     blurhash={blurhash}
                     forceName={forceName}
                 />
-                {layoutManager.mobile && <CardOverlayButtons item={item} cardOptions={cardOptions} />}
+                {layoutManager.mobile && (
+                    <CardOverlayButtons item={item} cardOptions={cardOptions} />
+                )}
 
                 {layoutManager.desktop && !cardOptions.disableHoverMenu && (
                     <CardHoverMenu action={action} item={item} cardOptions={cardOptions} />

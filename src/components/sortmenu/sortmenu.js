@@ -10,10 +10,10 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
@@ -33,7 +33,7 @@ function initEditor(context, settings) {
 }
 
 function centerFocus(elem, horiz, on) {
-    import('../../scripts/scrollHelper').then(scrollHelper => {
+    import('../../scripts/scrollHelper').then((scrollHelper) => {
         const fn = on ? 'on' : 'off';
         scrollHelper.centerFocus[fn](elem, horiz);
     });
@@ -43,14 +43,17 @@ function fillSortBy(context, options) {
     const selectSortBy = context.querySelector('.selectSortBy');
 
     selectSortBy.innerHTML = options
-        .map(o => {
+        .map((o) => {
             return '<option value="' + o.value + '">' + o.name + '</option>';
         })
         .join('');
 }
 
 function saveValues(context, settingsKey) {
-    userSettings.setFilter(settingsKey + '-sortorder', context.querySelector('.selectSortOrder').value);
+    userSettings.setFilter(
+        settingsKey + '-sortorder',
+        context.querySelector('.selectSortOrder').value
+    );
     userSettings.setFilter(settingsKey + '-sortby', context.querySelector('.selectSortBy').value);
 }
 

@@ -1,8 +1,8 @@
 import { playbackManager } from 'components/playback/playbackmanager';
+import type { ApiClient } from 'jellyfin-apiclient';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
 import { logger } from 'utils/logger';
-import type { ApiClient } from 'jellyfin-apiclient';
 
 export function enable(enabled: boolean): void {
     logger.debug('cast player', {
@@ -36,10 +36,10 @@ function onOpen(): void {
 
     logger.debug('initializing cast player', { playerId, component: 'autocast' });
 
-    playbackManager.getTargets().then(targets => {
+    playbackManager.getTargets().then((targets) => {
         logger.debug('playback targets', { targets, component: 'autocast' });
 
-        const player = targets.find(target => target.id === playerId);
+        const player = targets.find((target) => target.id === playerId);
         if (player) {
             logger.debug('found target player', { player, component: 'autocast' });
             playbackManager.trySetActivePlayer(player.playerName, player);
@@ -51,7 +51,7 @@ function onOpen(): void {
 
 export function initialize(): void {
     logger.debug('initializing connection listener', { component: 'autocast' });
-    ServerConnections.getApiClients().forEach(apiClient => {
+    ServerConnections.getApiClients().forEach((apiClient) => {
         Events.off(apiClient, 'websocketopen', onOpen);
         Events.on(apiClient, 'websocketopen', onOpen);
     });

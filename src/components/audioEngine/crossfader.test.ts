@@ -2,7 +2,7 @@
  * Crossfader Logic Tests
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock dependencies
 vi.mock('components/audioEngine/master.logic', () => ({
@@ -52,7 +52,7 @@ vi.mock('components/audioEngine/crossfader.logic', async () => {
 });
 
 // Import after mocks
-import { syncManager, cancelCrossfadeTimeouts } from './crossfader.logic';
+import { cancelCrossfadeTimeouts, syncManager } from './crossfader.logic';
 
 describe('crossfader - sync manager', () => {
     beforeEach(() => {

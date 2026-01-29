@@ -6,7 +6,13 @@ interface AspectRatioProps extends BoxProps {
     readonly children?: React.ReactNode;
 }
 
-export function AspectRatio({ ratio = 1, children, style, className, ...props }: AspectRatioProps): ReactElement {
+export function AspectRatio({
+    ratio = 1,
+    children,
+    style,
+    className,
+    ...props
+}: AspectRatioProps): ReactElement {
     const ratioValue = typeof ratio === 'string' ? parseFloat(ratio) : ratio;
 
     return (

@@ -1,6 +1,6 @@
-import { PluginType } from '../../types/plugin';
 import { audioDriver } from '../../audio-driver/AudioDriver';
 import { useMediaStore, useSettingsStore } from '../../store';
+import { PluginType } from '../../types/plugin';
 import { logger } from '../../utils/logger';
 
 interface PlayOptions {

@@ -2,9 +2,9 @@
  * WaveformCell - Waveform visualization for track progress
  */
 
-import { useEffect, useRef, useCallback, useMemo, type ReactElement } from 'react';
+import { type ReactElement, useCallback, useEffect, useMemo, useRef } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { container, emptyState, timeText, canvas } from './WaveformCell.css.ts';
+import { canvas, container, emptyState, timeText } from './WaveformCell.css.ts';
 
 export interface WaveformCellProps {
     readonly peaks?: readonly number[][];
@@ -76,7 +76,8 @@ export function WaveformCell({
             const totalBars = Math.floor(width / (barConfig.barWidth + barConfig.barGap));
             const samplesPerBar = Math.floor(peaks[0].length / totalBars);
 
-            const progress = duration !== undefined && duration > 0 ? currentTimeValue / duration : 0;
+            const progress =
+                duration !== undefined && duration > 0 ? currentTimeValue / duration : 0;
 
             for (let i = 0; i < totalBars; i++) {
                 const sampleStart = i * samplesPerBar;
@@ -128,7 +129,9 @@ export function WaveformCell({
     if (!shouldShowWaveform) {
         return (
             <div className={emptyState} style={{ height }}>
-                {duration !== undefined && duration > 0 && <span className={timeText}>{formatDuration(duration)}</span>}
+                {duration !== undefined && duration > 0 && (
+                    <span className={timeText}>{formatDuration(duration)}</span>
+                )}
             </div>
         );
     }

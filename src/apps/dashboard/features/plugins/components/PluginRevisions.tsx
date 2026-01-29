@@ -1,13 +1,10 @@
 import type { VersionInfo } from '@jellyfin/sdk/lib/generated-client';
-import React, { type FC } from 'react';
-
 import MarkdownBox from 'components/MarkdownBox';
-import { getDisplayDateTime } from 'scripts/datetime';
 import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
+import { getDisplayDateTime } from 'scripts/datetime';
 import { vars } from 'styles/tokens.css.ts';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Accordion, AccordionSummary, AccordionDetails } from 'ui-primitives';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Flex } from 'ui-primitives';
 
 import type { PluginDetails } from '../types/PluginDetails';
 
@@ -35,12 +32,16 @@ const ExpandMoreIcon = () => (
 );
 
 const PluginRevisions: FC<PluginRevisionsProps> = ({ pluginDetails, onInstall }) =>
-    pluginDetails?.versions?.map(version => (
+    pluginDetails?.versions?.map((version) => (
         <Accordion key={version.checksum}>
             <AccordionSummary>
-                <Flex style={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <Flex
+                    style={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}
+                >
                     <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
-                        <span style={{ fontWeight: vars.typography.fontWeightMedium }}>{version.version}</span>
+                        <span style={{ fontWeight: vars.typography.fontWeightMedium }}>
+                            {version.version}
+                        </span>
                         {version.timestamp && (
                             <>
                                 <span>&mdash;</span>
@@ -55,13 +56,20 @@ const PluginRevisions: FC<PluginRevisionsProps> = ({ pluginDetails, onInstall })
             </AccordionSummary>
             <AccordionDetails>
                 <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
-                    <MarkdownBox fallback={globalize.translate('LabelNoChangelog')} markdown={version.changelog} />
+                    <MarkdownBox
+                        fallback={globalize.translate('LabelNoChangelog')}
+                        markdown={version.changelog}
+                    />
                     {pluginDetails.status && version.version === pluginDetails.version?.version ? (
                         <Button variant="outlined" disabled startDecorator={<DownloadDoneIcon />}>
                             {globalize.translate('LabelInstalled')}
                         </Button>
                     ) : (
-                        <Button variant="outlined" startDecorator={<DownloadIcon />} onClick={onInstall(version)}>
+                        <Button
+                            variant="outlined"
+                            startDecorator={<DownloadIcon />}
+                            onClick={onInstall(version)}
+                        >
                             {globalize.translate('HeaderInstall')}
                         </Button>
                     )}

@@ -58,14 +58,18 @@ function hasChanged(
 
 export function initSettingsEventHandler(): void {
     if (isInitialized) {
-        logger.warn('[SettingsEventHandler] Already initialized', { component: 'SettingsEventHandler' });
+        logger.warn('[SettingsEventHandler] Already initialized', {
+            component: 'SettingsEventHandler'
+        });
         return;
     }
 
     isInitialized = true;
-    logger.info('[SettingsEventHandler] Initializing settings event delegation', { component: 'SettingsEventHandler' });
+    logger.info('[SettingsEventHandler] Initializing settings event delegation', {
+        component: 'SettingsEventHandler'
+    });
 
-    usePreferencesStore.subscribe(state => {
+    usePreferencesStore.subscribe((state) => {
         if (!previousState) {
             previousState = state;
             return;
@@ -147,7 +151,9 @@ export function initSettingsEventHandler(): void {
         }
 
         if (hasChanged(state, previousState, 'playback')) {
-            window.dispatchEvent(new CustomEvent('preferences:playback', { detail: state.playback }));
+            window.dispatchEvent(
+                new CustomEvent('preferences:playback', { detail: state.playback })
+            );
             logger.debug('[SettingsEventHandler] Dispatched playback preferences change', {
                 component: 'SettingsEventHandler'
             });
@@ -178,7 +184,9 @@ export function subscribeToPreferences<K extends string>(
 export function dispatchPreferencesUpdate(): void {
     const state = usePreferencesStore.getState();
     window.dispatchEvent(new CustomEvent('preferences:full', { detail: state }));
-    logger.debug('[SettingsEventHandler] Dispatched full preferences state', { component: 'SettingsEventHandler' });
+    logger.debug('[SettingsEventHandler] Dispatched full preferences state', {
+        component: 'SettingsEventHandler'
+    });
 }
 
 export function getCurrentPreferences(): ReturnType<typeof usePreferencesStore.getState> {

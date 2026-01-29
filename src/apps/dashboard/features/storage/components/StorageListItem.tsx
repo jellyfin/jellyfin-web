@@ -1,13 +1,8 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { FolderStorageDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { type FC } from 'react';
-import { Progress } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Skeleton } from 'ui-primitives';
-
 import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Flex, Progress, Skeleton, Text } from 'ui-primitives';
 import { getReadableSize } from 'utils/file';
 
 import { StorageType } from '../constants/StorageType';
@@ -38,7 +33,9 @@ const getStorageTypeText = (type?: string | null) => {
 
 const StorageListItem: FC<StorageListItemProps> = ({ label, folder }) => {
     const readableUsedSpace =
-        typeof folder?.UsedSpace === 'undefined' || folder.UsedSpace < 0 ? '?' : getReadableSize(folder.UsedSpace);
+        typeof folder?.UsedSpace === 'undefined' || folder.UsedSpace < 0
+            ? '?'
+            : getReadableSize(folder.UsedSpace);
     const totalSpace = calculateTotal(folder);
     const readableTotalSpace = totalSpace < 0 ? '?' : getReadableSize(totalSpace);
     const usedPercentage = calculateUsedPercentage(folder);
@@ -55,7 +52,12 @@ const StorageListItem: FC<StorageListItemProps> = ({ label, folder }) => {
                 </Text>
                 <Flex style={{ flexDirection: 'column', gap: vars.spacing['1'] }}>
                     {folder ? (
-                        <Text as="span" size="sm" color="secondary" style={{ lineBreak: 'anywhere' }}>
+                        <Text
+                            as="span"
+                            size="sm"
+                            color="secondary"
+                            style={{ lineBreak: 'anywhere' }}
+                        >
                             {folder.Path}
                         </Text>
                     ) : (

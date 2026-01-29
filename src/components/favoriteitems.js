@@ -1,6 +1,6 @@
-import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import dom from 'utils/dom';
 import { getParameterByName } from 'utils/url';
 
 import cardBuilder from './cardbuilder/cardBuilder';
@@ -136,7 +136,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
         promise = ApiClient.getItems(userId, options);
     }
 
-    return promise.then(result => {
+    return promise.then((result) => {
         let html = '';
 
         if (result.Items.length) {
@@ -145,7 +145,11 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
             if (!layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
                 html +=
                     '<a is="emby-linkbutton" href="' +
-                    ('#/list?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') +
+                    ('#/list?serverId=' +
+                        ApiClient.serverId() +
+                        '&type=' +
+                        section.types +
+                        '&IsFavorite=true') +
                     '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate(section.name);
@@ -153,7 +157,10 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
                 html += '<span class="material-icons chevron_right" aria-hidden="true"></span>';
                 html += '</a>';
             } else {
-                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate(section.name) + '</h2>';
+                html +=
+                    '<h2 class="sectionTitle sectionTitle-cards">' +
+                    globalize.translate(section.name) +
+                    '</h2>';
             }
 
             html += '</div>';
@@ -168,7 +175,8 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
                     scrollXClass +
                     ' padded-left padded-right">';
             } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+                html +=
+                    '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
             }
 
             // NOTE: Why is card layout always disabled?
@@ -204,13 +212,13 @@ export function loadSections(page, userId, topParentId, types) {
     const sectionid = getParameterByName('sectionid');
 
     if (sectionid) {
-        sections = sections.filter(s => {
+        sections = sections.filter((s) => {
             return s.id === sectionid;
         });
     }
 
     if (types) {
-        sections = sections.filter(s => {
+        sections = sections.filter((s) => {
             return types.indexOf(s.id) !== -1;
         });
     }

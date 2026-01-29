@@ -1,18 +1,22 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import React, { useCallback, useState } from 'react';
-import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import globalize from '../../../../lib/globalize';
-import { setSetting } from '../../core/Settings';
-import Events from '../../../../utils/events';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Button,
+    Checkbox,
+    Dialog,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogTitle,
+    Divider,
+    Flex,
+    Input,
+    Text
+} from 'ui-primitives';
 import { pluginManager } from '../../../../components/pluginManager';
+import globalize from '../../../../lib/globalize';
 import { PluginType } from '../../../../types/plugin';
+import Events from '../../../../utils/events';
+import { setSetting } from '../../core/Settings';
 
 interface SyncPlaySettingsDialogProps {
     open: boolean;
@@ -35,7 +39,7 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
     });
 
     const handleChange = (name: string, value: any) => {
-        setSettings(prev => ({ ...prev, [name]: value }));
+        setSettings((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSave = useCallback(() => {
@@ -48,7 +52,7 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
     }, [settings, manager, onClose]);
 
     return (
-        <Dialog open={open} onOpenChange={open => !open && onClose()}>
+        <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
             <DialogOverlayComponent />
             <DialogContentComponent
                 title={globalize.translate('HeaderSyncPlaySettings')}
@@ -60,7 +64,13 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
                     padding: vars.spacing['5']
                 }}
             >
-                <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'], marginTop: vars.spacing['2'] }}>
+                <Flex
+                    style={{
+                        flexDirection: 'column',
+                        gap: vars.spacing['5'],
+                        marginTop: vars.spacing['2']
+                    }}
+                >
                     <Text as="h4" size="lg" weight="bold">
                         {globalize.translate('HeaderSyncPlayPlaybackSettings')}
                     </Text>
@@ -68,7 +78,9 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
                     <Flex direction="column" gap={vars.spacing['2']}>
                         <Checkbox
                             checked={settings.enableSyncCorrection}
-                            onChange={(e: any) => handleChange('enableSyncCorrection', e.target.checked)}
+                            onChange={(e: any) =>
+                                handleChange('enableSyncCorrection', e.target.checked)
+                            }
                         >
                             {globalize.translate('LabelSyncPlaySettingsSyncCorrection')}
                         </Checkbox>
@@ -94,25 +106,37 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
                     <Input
                         type="number"
                         label={globalize.translate('LabelSyncPlaySettingsMinDelaySpeedToSync')}
-                        helperText={globalize.translate('LabelSyncPlaySettingsMinDelaySpeedToSyncHelp')}
+                        helperText={globalize.translate(
+                            'LabelSyncPlaySettingsMinDelaySpeedToSyncHelp'
+                        )}
                         value={settings.minDelaySpeedToSync}
-                        onChange={(e: any) => handleChange('minDelaySpeedToSync', parseInt(e.target.value, 10))}
+                        onChange={(e: any) =>
+                            handleChange('minDelaySpeedToSync', parseInt(e.target.value, 10))
+                        }
                     />
 
                     <Input
                         type="number"
                         label={globalize.translate('LabelSyncPlaySettingsMaxDelaySpeedToSync')}
-                        helperText={globalize.translate('LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp')}
+                        helperText={globalize.translate(
+                            'LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp'
+                        )}
                         value={settings.maxDelaySpeedToSync}
-                        onChange={(e: any) => handleChange('maxDelaySpeedToSync', parseInt(e.target.value, 10))}
+                        onChange={(e: any) =>
+                            handleChange('maxDelaySpeedToSync', parseInt(e.target.value, 10))
+                        }
                     />
 
                     <Input
                         type="number"
                         label={globalize.translate('LabelSyncPlaySettingsSpeedToSyncDuration')}
-                        helperText={globalize.translate('LabelSyncPlaySettingsSpeedToSyncDurationHelp')}
+                        helperText={globalize.translate(
+                            'LabelSyncPlaySettingsSpeedToSyncDurationHelp'
+                        )}
                         value={settings.speedToSyncDuration}
-                        onChange={(e: any) => handleChange('speedToSyncDuration', parseInt(e.target.value, 10))}
+                        onChange={(e: any) =>
+                            handleChange('speedToSyncDuration', parseInt(e.target.value, 10))
+                        }
                     />
 
                     <Divider />
@@ -132,9 +156,13 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
                     <Input
                         type="number"
                         label={globalize.translate('LabelSyncPlaySettingsMinDelaySkipToSync')}
-                        helperText={globalize.translate('LabelSyncPlaySettingsMinDelaySkipToSyncHelp')}
+                        helperText={globalize.translate(
+                            'LabelSyncPlaySettingsMinDelaySkipToSyncHelp'
+                        )}
                         value={settings.minDelaySkipToSync}
-                        onChange={(e: any) => handleChange('minDelaySkipToSync', parseInt(e.target.value, 10))}
+                        onChange={(e: any) =>
+                            handleChange('minDelaySkipToSync', parseInt(e.target.value, 10))
+                        }
                     />
 
                     <Text as="h4" size="lg" weight="bold">
@@ -146,11 +174,19 @@ const SyncPlaySettingsDialog: React.FC<SyncPlaySettingsDialogProps> = ({ open, o
                         label={globalize.translate('LabelSyncPlaySettingsExtraTimeOffset')}
                         helperText={globalize.translate('LabelSyncPlaySettingsExtraTimeOffsetHelp')}
                         value={settings.extraTimeOffset}
-                        onChange={(e: any) => handleChange('extraTimeOffset', parseInt(e.target.value, 10))}
+                        onChange={(e: any) =>
+                            handleChange('extraTimeOffset', parseInt(e.target.value, 10))
+                        }
                     />
                 </Flex>
 
-                <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['2'], marginTop: vars.spacing['5'] }}>
+                <Flex
+                    style={{
+                        justifyContent: 'flex-end',
+                        gap: vars.spacing['2'],
+                        marginTop: vars.spacing['5']
+                    }}
+                >
                     <Button onClick={handleSave}>{globalize.translate('Save')}</Button>
                     <Button variant="plain" color="neutral" onClick={onClose}>
                         {globalize.translate('ButtonCancel')}

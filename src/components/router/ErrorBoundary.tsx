@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
 import type { ErrorComponentProps } from '@tanstack/react-router';
-
-import { logger } from 'utils/logger';
 import loading from 'components/loading/loading';
+import { useEffect } from 'react';
+import { logger } from 'utils/logger';
 
 const ErrorBoundary = ({ error }: ErrorComponentProps) => {
     const normalizedError = error instanceof Error ? error : new Error('Unknown route error');

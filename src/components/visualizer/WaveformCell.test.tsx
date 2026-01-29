@@ -3,8 +3,8 @@
  * Tests waveform rendering logic without full React testing
  */
 
-import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, screen, cleanup } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { WaveformCell } from './WaveformCell';
 
 const renderWithTheme = (component: React.ReactElement) => {
@@ -49,7 +49,9 @@ describe('WaveformCell', () => {
         });
 
         it('does not render canvas when not current/next and no peaks', () => {
-            renderWithTheme(<WaveformCell itemId="test-id" isCurrentTrack={false} isNextTrack={false} />);
+            renderWithTheme(
+                <WaveformCell itemId="test-id" isCurrentTrack={false} isNextTrack={false} />
+            );
 
             const canvas = document.querySelector('canvas');
             expect(canvas).not.toBeInTheDocument();
@@ -125,7 +127,12 @@ describe('WaveformCell', () => {
 
         it('shows empty box for zero duration with no peaks', () => {
             const { container } = renderWithTheme(
-                <WaveformCell itemId="test-id" duration={0} isCurrentTrack={false} isNextTrack={false} />
+                <WaveformCell
+                    itemId="test-id"
+                    duration={0}
+                    isCurrentTrack={false}
+                    isNextTrack={false}
+                />
             );
 
             expect(container.firstChild).toBeEmptyDOMElement();
@@ -133,7 +140,12 @@ describe('WaveformCell', () => {
 
         it('shows empty box for undefined duration with no peaks', () => {
             const { container } = renderWithTheme(
-                <WaveformCell itemId="test-id" duration={undefined} isCurrentTrack={false} isNextTrack={false} />
+                <WaveformCell
+                    itemId="test-id"
+                    duration={undefined}
+                    isCurrentTrack={false}
+                    isNextTrack={false}
+                />
             );
 
             expect(container.firstChild).toBeEmptyDOMElement();

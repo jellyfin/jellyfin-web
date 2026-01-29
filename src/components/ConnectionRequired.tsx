@@ -1,14 +1,12 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import type { ApiClient, ConnectResponse } from 'jellyfin-apiclient';
-
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import { Box, Button, Text } from 'ui-primitives';
 import { useServerStore } from '../store/serverStore';
-
+import { logger } from '../utils/logger';
 import ConnectionErrorPage from './ConnectionErrorPage';
 import Loading from './loading/LoadingComponent';
-import { logger } from '../utils/logger';
-import { Box, Text, Button } from 'ui-primitives';
 
 /**
  * Connection timeout in milliseconds
@@ -38,13 +36,18 @@ type ConnectionRequiredProps = {
     children?: () => React.ReactElement;
 };
 
-const ERROR_STATES = [ConnectionState.ServerMismatch, ConnectionState.ServerUpdateNeeded, ConnectionState.Unavailable];
+const ERROR_STATES = [
+    ConnectionState.ServerMismatch,
+    ConnectionState.ServerUpdateNeeded,
+    ConnectionState.Unavailable
+];
 logger.debug('ConnectionRequired ERROR_STATES', { ERROR_STATES, component: 'ConnectionRequired' });
 
 const mapServerInfo = (server: any) => ({
     id: server.Id,
     name: server.Name,
-    address: server.Address || server.ManualAddress || server.LocalAddress || server.RemoteAddress || '',
+    address:
+        server.Address || server.ManualAddress || server.LocalAddress || server.RemoteAddress || '',
     localAddress: server.LocalAddress || '',
     remoteAddress: server.RemoteAddress || '',
     manualAddress: server.ManualAddress || '',
@@ -55,7 +58,9 @@ const mapServerInfo = (server: any) => ({
 });
 
 const fetchPublicSystemInfo = async (apiClient: ApiClient) => {
-    const infoResponse = await fetch(`${apiClient.serverAddress()}/System/Info/Public`, { cache: 'no-cache' });
+    const infoResponse = await fetch(`${apiClient.serverAddress()}/System/Info/Public`, {
+        cache: 'no-cache'
+    });
 
     if (!infoResponse.ok) {
         throw new Error('Public system info request failed');
@@ -109,8 +114,8 @@ const NoServerFoundFallback: FunctionComponent<{ onAddServer: () => void }> = ({
                 </Text>
 
                 <Text size="md" color="secondary" style={{ marginBottom: 24, lineHeight: 1.6 }}>
-                    Could not automatically discover a Jellyfin server on your network. Enter your server address
-                    manually to continue.
+                    Could not automatically discover a Jellyfin server on your network. Enter your
+                    server address manually to continue.
                 </Text>
 
                 <Button variant="primary" size="lg" onClick={onAddServer} fullWidth>
@@ -125,7 +130,10 @@ const NoServerFoundFallback: FunctionComponent<{ onAddServer: () => void }> = ({
     );
 };
 
-const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level = 'user', children }) => {
+const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
+    level = 'user',
+    children
+}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const { setCurrentServer } = useServerStore();
@@ -146,9 +154,12 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
         async (connectionResponse: ConnectResponse | null) => {
             // Handle null connection response
             if (!connectionResponse) {
-                logger.debug('ConnectionRequired bounce received null connectionResponse, redirecting to selectserver', {
-                    component: 'ConnectionRequired'
-                });
+                logger.debug(
+                    'ConnectionRequired bounce received null connectionResponse, redirecting to selectserver',
+                    {
+                        component: 'ConnectionRequired'
+                    }
+                );
                 navigateIfNotThere(BounceRoutes.SelectServer);
                 return;
             }
@@ -162,9 +173,12 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                     return;
                 case ConnectionState.ServerSignIn:
                     if (location.pathname === '/login') {
-                        logger.debug('ConnectionRequired bounce: ServerSignIn state, already on /login, setting loading false', {
-                            component: 'ConnectionRequired'
-                        });
+                        logger.debug(
+                            'ConnectionRequired bounce: ServerSignIn state, already on /login, setting loading false',
+                            {
+                                component: 'ConnectionRequired'
+                            }
+                        );
                         setIsLoading(false);
                     } else {
                         if (connectionResponse.Servers?.[0]) {
@@ -172,24 +186,35 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                         }
                         const search = typeof location.search === 'string' ? location.search : '';
                         const url = encodeURIComponent(location.pathname + search);
-                        logger.debug('ConnectionRequired bounce: ServerSignIn state, redirecting to /login', {
-                            component: 'ConnectionRequired'
+                        logger.debug(
+                            'ConnectionRequired bounce: ServerSignIn state, redirecting to /login',
+                            {
+                                component: 'ConnectionRequired'
+                            }
+                        );
+                        navigate({
+                            to: `/login?serverid=${connectionResponse.ApiClient.serverId()}&url=${url}`
                         });
-                        navigate({ to: `/login?serverid=${connectionResponse.ApiClient.serverId()}&url=${url}` });
                     }
                     return;
                 case ConnectionState.ServerSelection:
                     // When no servers are configured, show server selection
-                    logger.debug('ConnectionRequired bounce: ServerSelection state, redirecting to /selectserver', {
-                        component: 'ConnectionRequired'
-                    });
+                    logger.debug(
+                        'ConnectionRequired bounce: ServerSelection state, redirecting to /selectserver',
+                        {
+                            component: 'ConnectionRequired'
+                        }
+                    );
                     navigateIfNotThere(BounceRoutes.SelectServer);
                     return;
                 default:
-                    logger.warn('ConnectionRequired bounce: unknown state, redirecting to /selectserver', {
-                        state: connectionResponse.State,
-                        component: 'ConnectionRequired'
-                    });
+                    logger.warn(
+                        'ConnectionRequired bounce: unknown state, redirecting to /selectserver',
+                        {
+                            state: connectionResponse.State,
+                            component: 'ConnectionRequired'
+                        }
+                    );
                     navigateIfNotThere(BounceRoutes.SelectServer);
             }
         },
@@ -243,7 +268,10 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
     const validateUserAccess = useCallback(async () => {
         const client = ServerConnections.currentApiClient();
 
-        if ((level === AccessLevel.Admin || level === AccessLevel.User) && (!client || !client.isLoggedIn())) {
+        if (
+            (level === AccessLevel.Admin || level === AccessLevel.User) &&
+            (!client || !client.isLoggedIn())
+        ) {
             try {
                 bounce(await ServerConnections.connect()).catch(() => {});
             } catch (ex) {}
@@ -329,9 +357,12 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                 // UX Improvement: If we are on the root path and fail to connect,
                 // redirect to server selection instead of showing a scary error page.
                 if (location.pathname === '/') {
-                    logger.debug('ConnectionRequired root path failure, redirecting to selectserver', {
-                        component: 'ConnectionRequired'
-                    });
+                    logger.debug(
+                        'ConnectionRequired root path failure, redirecting to selectserver',
+                        {
+                            component: 'ConnectionRequired'
+                        }
+                    );
                     navigate({ to: '/selectserver' });
                     return;
                 }
@@ -342,26 +373,35 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                 setErrorState(state);
                 setIsLoading(false);
             } else if (level === AccessLevel.Wizard) {
-                logger.debug('ConnectionRequired calling handleWizard', { component: 'ConnectionRequired' });
+                logger.debug('ConnectionRequired calling handleWizard', {
+                    component: 'ConnectionRequired'
+                });
                 handleWizard(firstConnection).catch(() => {});
             } else if (
                 firstConnection &&
                 firstConnection.State !== ConnectionState.SignedIn &&
                 !ServerConnections.currentApiClient()?.isLoggedIn()
             ) {
-                logger.debug('ConnectionRequired calling handleIncompleteWizard', { component: 'ConnectionRequired' });
+                logger.debug('ConnectionRequired calling handleIncompleteWizard', {
+                    component: 'ConnectionRequired'
+                });
                 handleIncompleteWizard(firstConnection).catch(() => {});
             } else {
                 const client = ServerConnections.currentApiClient();
                 // If no client and no first connection, redirect to server selection
                 if (!client && !firstConnection) {
-                    logger.warn('ConnectionRequired: no client and no connection result, calling bounce with null', {
-                        component: 'ConnectionRequired'
-                    });
+                    logger.warn(
+                        'ConnectionRequired: no client and no connection result, calling bounce with null',
+                        {
+                            component: 'ConnectionRequired'
+                        }
+                    );
                     bounce(null).catch(() => {});
                     return;
                 }
-                logger.debug('ConnectionRequired calling validateUserAccess', { component: 'ConnectionRequired' });
+                logger.debug('ConnectionRequired calling validateUserAccess', {
+                    component: 'ConnectionRequired'
+                });
                 validateUserAccess().catch(() => {});
             }
         };
@@ -385,15 +425,20 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                  */
                 timeoutId = setTimeout(() => {
                     if (!isMounted.current) return;
-                    logger.debug('ConnectionRequired CONNECTION TIMEOUT REACHED, calling bounce with null', {
-                        component: 'ConnectionRequired'
-                    });
+                    logger.debug(
+                        'ConnectionRequired CONNECTION TIMEOUT REACHED, calling bounce with null',
+                        {
+                            component: 'ConnectionRequired'
+                        }
+                    );
                     // Instead of just showing error, try to bounce to server selection
                     handleConnectionResult(null);
                 }, CONNECTION_TIMEOUT_MS);
 
                 try {
-                    logger.debug('ConnectionRequired awaiting connectionPromise', { component: 'ConnectionRequired' });
+                    logger.debug('ConnectionRequired awaiting connectionPromise', {
+                        component: 'ConnectionRequired'
+                    });
                     const firstConnection = await connectionPromise;
                     clearTimeout(timeoutId);
                     logger.debug('ConnectionRequired connectionPromise RESOLVED', {
@@ -413,21 +458,34 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
                     setIsLoading(false);
                 }
             } else {
-                logger.debug('ConnectionRequired using cached firstConnection', { component: 'ConnectionRequired' });
+                logger.debug('ConnectionRequired using cached firstConnection', {
+                    component: 'ConnectionRequired'
+                });
                 handleConnectionResult(null);
             }
         };
 
-        logger.debug('ConnectionRequired useEffect scheduling checkConnection', { component: 'ConnectionRequired' });
+        logger.debug('ConnectionRequired useEffect scheduling checkConnection', {
+            component: 'ConnectionRequired'
+        });
         const timerId = setTimeout(checkConnection, 0);
 
         return () => {
-            logger.debug('ConnectionRequired useEffect cleanup', { component: 'ConnectionRequired' });
+            logger.debug('ConnectionRequired useEffect cleanup', {
+                component: 'ConnectionRequired'
+            });
             isMounted.current = false;
             clearTimeout(timeoutId);
             clearTimeout(timerId);
         };
-    }, [handleIncompleteWizard, handleWizard, level, validateUserAccess, errorState, hasConnectionError]);
+    }, [
+        handleIncompleteWizard,
+        handleWizard,
+        level,
+        validateUserAccess,
+        errorState,
+        hasConnectionError
+    ]);
 
     if (errorState) {
         logger.debug('ConnectionRequired RENDERING ConnectionErrorPage', {
@@ -438,7 +496,9 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({ level 
     }
 
     if (hasConnectionError) {
-        logger.debug('ConnectionRequired RENDERING NoServerFoundFallback', { component: 'ConnectionRequired' });
+        logger.debug('ConnectionRequired RENDERING NoServerFoundFallback', {
+            component: 'ConnectionRequired'
+        });
         return <NoServerFoundFallback onAddServer={handleAddServer} />;
     }
 

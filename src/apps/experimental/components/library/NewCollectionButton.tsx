@@ -1,8 +1,7 @@
-import React, { type FC, useCallback } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
-import { Button } from 'ui-primitives';
-
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import { Button } from 'ui-primitives';
 
 interface NewCollectionButtonProps {
     isTextVisible: boolean;
@@ -23,13 +22,17 @@ const NewCollectionButton: FC<NewCollectionButtonProps> = ({ isTextVisible }) =>
                         // closed collection editor
                     });
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error('[NewCollection] failed to load collection editor', err);
             });
     }, []);
 
     return (
-        <Button variant="primary" startIcon={isTextVisible ? <PlusIcon /> : undefined} onClick={showCollectionEditor}>
+        <Button
+            variant="primary"
+            startIcon={isTextVisible ? <PlusIcon /> : undefined}
+            onClick={showCollectionEditor}
+        >
             {isTextVisible ? globalize.translate('NewCollection') : <PlusIcon />}
         </Button>
     );

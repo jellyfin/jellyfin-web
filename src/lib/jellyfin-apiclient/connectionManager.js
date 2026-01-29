@@ -99,12 +99,14 @@ export default class ConnectionManager {
                 .credentials()
                 .Servers.filter(
                     (s) =>
-                        equalsIgnoreCase(s.ManualAddress, apiClient.serverAddress())
-                        || equalsIgnoreCase(s.LocalAddress, apiClient.serverAddress())
-                        || equalsIgnoreCase(s.RemoteAddress, apiClient.serverAddress())
+                        equalsIgnoreCase(s.ManualAddress, apiClient.serverAddress()) ||
+                        equalsIgnoreCase(s.LocalAddress, apiClient.serverAddress()) ||
+                        equalsIgnoreCase(s.RemoteAddress, apiClient.serverAddress())
                 );
 
-            const existingServer = existingServers.length ? existingServers[0] : apiClient.serverInfo();
+            const existingServer = existingServers.length
+                ? existingServers[0]
+                : apiClient.serverInfo();
             existingServer.DateLastAccessed = new Date().getTime();
             existingServer.LastConnectionMode = ConnectionMode.Manual;
             existingServer.ManualAddress = apiClient.serverAddress();
@@ -115,7 +117,8 @@ export default class ConnectionManager {
 
             apiClient.serverInfo(existingServer);
 
-            apiClient.onAuthenticated = (instance, result) => onAuthenticated(instance, result, {}, true);
+            apiClient.onAuthenticated = (instance, result) =>
+                onAuthenticated(instance, result, {}, true);
 
             if (!existingServers.length) {
                 const credentials = credentialProvider.credentials();
@@ -151,7 +154,9 @@ export default class ConnectionManager {
                 events.trigger(self, 'apiclientcreated', [apiClient]);
             }
 
-            logger.debug('ConnectionManager returning instance from getOrAddApiClient', { component: 'ConnectionManager' });
+            logger.debug('ConnectionManager returning instance from getOrAddApiClient', {
+                component: 'ConnectionManager'
+            });
             return apiClient;
         };
 
@@ -165,7 +170,10 @@ export default class ConnectionManager {
 
             const server = servers[0];
 
-            return self._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
+            return self._getOrAddApiClient(
+                server,
+                getServerAddress(server, server.LastConnectionMode)
+            );
         };
 
         function onAuthenticated(apiClient, result, options, saveCredentials) {
@@ -207,7 +215,9 @@ export default class ConnectionManager {
             apiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
 
             if (options.enableWebSocket !== false) {
-                logger.debug('ConnectionManager calling ensureWebSocket', { component: 'ConnectionManager' });
+                logger.debug('ConnectionManager calling ensureWebSocket', {
+                    component: 'ConnectionManager'
+                });
 
                 apiClient.ensureWebSocket();
             }
@@ -218,7 +228,9 @@ export default class ConnectionManager {
             self._getOrAddApiClient(server, serverUrl);
 
             // This allows the app to have a single hook that fires before any other
-            const promise = self.onLocalUserSignedIn ? self.onLocalUserSignedIn.call(self, user) : Promise.resolve();
+            const promise = self.onLocalUserSignedIn
+                ? self.onLocalUserSignedIn.call(self, user)
+                : Promise.resolve();
 
             return promise.then(() => {
                 events.trigger(self, 'localusersignedin', [user]);
@@ -356,14 +368,16 @@ export default class ConnectionManager {
         };
 
         self.getAvailableServers = () => {
-            logger.debug('ConnectionManager getAvailableServers starting', { component: 'ConnectionManager' });
+            logger.debug('ConnectionManager getAvailableServers starting', {
+                component: 'ConnectionManager'
+            });
 
             // Clone the array
             const credentials = credentialProvider.credentials();
 
-            return findServers().then(foundServers => {
+            return findServers().then((foundServers) => {
                 const servers = credentials.Servers.slice(0);
-                foundServers.forEach(server => {
+                foundServers.forEach((server) => {
                     credentialProvider.addOrUpdateServer(servers, server);
                 });
 
@@ -381,16 +395,24 @@ export default class ConnectionManager {
                     const servers = foundServers.map((foundServer) => {
                         const info = {
                             Id: foundServer.Id,
-                            LocalAddress: convertEndpointAddressToManualAddress(foundServer) || foundServer.Address,
+                            LocalAddress:
+                                convertEndpointAddressToManualAddress(foundServer) ||
+                                foundServer.Address,
                             Name: foundServer.Name
                         };
-                        info.LastConnectionMode = info.ManualAddress ? ConnectionMode.Manual : ConnectionMode.Local;
+                        info.LastConnectionMode = info.ManualAddress
+                            ? ConnectionMode.Manual
+                            : ConnectionMode.Local;
                         return info;
                     });
                     resolve(servers);
                 };
 
-                if (window && window.NativeShell && typeof window.NativeShell.findServers === 'function') {
+                if (
+                    window &&
+                    window.NativeShell &&
+                    typeof window.NativeShell.findServers === 'function'
+                ) {
                     window.NativeShell.findServers(1e3).then(onFinish, () => {
                         onFinish([]);
                     });
@@ -421,13 +443,19 @@ export default class ConnectionManager {
         }
 
         self.connectToServers = (servers, options) => {
-            logger.info('ConnectionManager connectToServers starting', { component: 'ConnectionManager', serverCount: servers.length });
+            logger.info('ConnectionManager connectToServers starting', {
+                component: 'ConnectionManager',
+                serverCount: servers.length
+            });
 
             const firstServer = servers.length ? servers[0] : null;
             // See if we have any saved credentials and can auto sign in
             if (firstServer) {
                 return self.connectToServer(firstServer, options).then((result) => {
-                    logger.debug('ConnectionManager connectToServers resolved', { component: 'ConnectionManager', state: result.State });
+                    logger.debug('ConnectionManager connectToServers resolved', {
+                        component: 'ConnectionManager',
+                        state: result.State
+                    });
                     return result;
                 });
             }
@@ -439,7 +467,10 @@ export default class ConnectionManager {
         };
 
         function getTryConnectPromise(url, connectionMode, state, resolve, reject) {
-            logger.debug('ConnectionManager getTryConnectPromise', { component: 'ConnectionManager', url });
+            logger.debug('ConnectionManager getTryConnectPromise', {
+                component: 'ConnectionManager',
+                url
+            });
 
             ajax({
                 url: `${url}/System/Info/Public`,
@@ -451,7 +482,10 @@ export default class ConnectionManager {
                     if (!state.resolved) {
                         state.resolved = true;
 
-                        logger.debug('ConnectionManager reconnect succeeded', { component: 'ConnectionManager', url });
+                        logger.debug('ConnectionManager reconnect succeeded', {
+                            component: 'ConnectionManager',
+                            url
+                        });
                         resolve({
                             url: url,
                             connectionMode: connectionMode,
@@ -460,7 +494,10 @@ export default class ConnectionManager {
                     }
                 },
                 () => {
-                    logger.debug('ConnectionManager reconnect failed', { component: 'ConnectionManager', url });
+                    logger.debug('ConnectionManager reconnect failed', {
+                        component: 'ConnectionManager',
+                        url
+                    });
 
                     if (!state.resolved) {
                         state.rejects++;
@@ -480,9 +517,9 @@ export default class ConnectionManager {
 
             // manualAddressOnly is used for the local web app that always connects to a fixed address
             if (
-                !serverInfo.manualAddressOnly
-                && serverInfo.LocalAddress
-                && addressesStrings.indexOf(serverInfo.LocalAddress) === -1
+                !serverInfo.manualAddressOnly &&
+                serverInfo.LocalAddress &&
+                addressesStrings.indexOf(serverInfo.LocalAddress) === -1
             ) {
                 addresses.push({
                     url: serverInfo.LocalAddress,
@@ -491,7 +528,10 @@ export default class ConnectionManager {
                 });
                 addressesStrings.push(addresses[addresses.length - 1].url);
             }
-            if (serverInfo.ManualAddress && addressesStrings.indexOf(serverInfo.ManualAddress) === -1) {
+            if (
+                serverInfo.ManualAddress &&
+                addressesStrings.indexOf(serverInfo.ManualAddress) === -1
+            ) {
                 addresses.push({
                     url: serverInfo.ManualAddress,
                     mode: ConnectionMode.Manual,
@@ -500,19 +540,22 @@ export default class ConnectionManager {
                 addressesStrings.push(addresses[addresses.length - 1].url);
             }
             if (
-                !serverInfo.manualAddressOnly
-                && serverInfo.RemoteAddress
-                && addressesStrings.indexOf(serverInfo.RemoteAddress) === -1
+                !serverInfo.manualAddressOnly &&
+                serverInfo.RemoteAddress &&
+                addressesStrings.indexOf(serverInfo.RemoteAddress) === -1
             ) {
                 addresses.push({
                     url: serverInfo.RemoteAddress,
                     mode: ConnectionMode.Remote,
                     timeout: 200
                 });
-            addressesStrings.push(addresses[addresses.length - 1].url);
-        }
+                addressesStrings.push(addresses[addresses.length - 1].url);
+            }
 
-        logger.info('ConnectionManager tryReconnect addresses', { component: 'ConnectionManager', addresses: addressesStrings });
+            logger.info('ConnectionManager tryReconnect addresses', {
+                component: 'ConnectionManager',
+                addresses: addressesStrings
+            });
 
             return new Promise((resolve, reject) => {
                 const state = {};
@@ -527,10 +570,12 @@ export default class ConnectionManager {
                     }, url.timeout);
                 });
             });
-        };
+        }
 
         self.connectToServer = (server, options) => {
-            logger.debug('ConnectionManager connectToServer starting', { component: 'ConnectionManager' });
+            logger.debug('ConnectionManager connectToServer starting', {
+                component: 'ConnectionManager'
+            });
 
             return new Promise((resolve) => {
                 options = options || {};
@@ -542,18 +587,31 @@ export default class ConnectionManager {
                         result = result.data;
 
                         if (compareVersions(self.minServerVersion(), result.Version) === 1) {
-                            logger.warn('ConnectionManager minServerVersion requirement not met', { component: 'ConnectionManager', serverVersion: result.Version });
+                            logger.warn('ConnectionManager minServerVersion requirement not met', {
+                                component: 'ConnectionManager',
+                                serverVersion: result.Version
+                            });
                             resolve({
                                 State: ConnectionState.ServerUpdateNeeded,
                                 Servers: [server]
                             });
                         } else if (server.Id && result.Id !== server.Id) {
-                            logger.warn('ConnectionManager server mismatch', { component: 'ConnectionManager' });
+                            logger.warn('ConnectionManager server mismatch', {
+                                component: 'ConnectionManager'
+                            });
                             resolve({
                                 State: ConnectionState.ServerMismatch
                             });
                         } else {
-                            onSuccessfulConnection(server, result, connectionMode, serverUrl, true, resolve, options);
+                            onSuccessfulConnection(
+                                server,
+                                result,
+                                connectionMode,
+                                serverUrl,
+                                true,
+                                resolve,
+                                options
+                            );
                         }
                     },
                     () => {
@@ -565,7 +623,15 @@ export default class ConnectionManager {
             });
         };
 
-        function onSuccessfulConnection(server, systemInfo, connectionMode, serverUrl, verifyLocalAuthentication, resolve, options = {}) {
+        function onSuccessfulConnection(
+            server,
+            systemInfo,
+            connectionMode,
+            serverUrl,
+            verifyLocalAuthentication,
+            resolve,
+            options = {}
+        ) {
             const credentials = credentialProvider.credentials();
 
             if (options.enableAutoLogin === false) {
@@ -573,7 +639,15 @@ export default class ConnectionManager {
                 server.AccessToken = null;
             } else if (server.AccessToken && verifyLocalAuthentication) {
                 void validateAuthentication(server, serverUrl).then(() => {
-                    onSuccessfulConnection(server, systemInfo, connectionMode, serverUrl, false, resolve, options);
+                    onSuccessfulConnection(
+                        server,
+                        systemInfo,
+                        connectionMode,
+                        serverUrl,
+                        false,
+                        resolve,
+                        options
+                    );
                 });
                 return;
             }
@@ -597,12 +671,16 @@ export default class ConnectionManager {
             result.ApiClient.setSystemInfo(systemInfo);
             result.SystemInfo = systemInfo;
 
-            result.State = server.AccessToken && options.enableAutoLogin !== false ? ConnectionState.SignedIn : ConnectionState.ServerSignIn;
+            result.State =
+                server.AccessToken && options.enableAutoLogin !== false
+                    ? ConnectionState.SignedIn
+                    : ConnectionState.ServerSignIn;
 
             result.Servers.push(server);
 
             // set this now before updating server info, otherwise it won't be set in time
-            result.ApiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
+            result.ApiClient.enableAutomaticBitrateDetection =
+                options.enableAutomaticBitrateDetection;
 
             result.ApiClient.updateServerInfo(server, serverUrl);
             result.ApiClient.setAuthenticationInfo(server.AccessToken, server.UserId);
@@ -673,7 +751,10 @@ export default class ConnectionManager {
             let i = 0;
 
             function onFail() {
-                logger.warn('ConnectionManager connectToAddress failed', { component: 'ConnectionManager', url: urls[i] });
+                logger.warn('ConnectionManager connectToAddress failed', {
+                    component: 'ConnectionManager',
+                    url: urls[i]
+                });
 
                 if (++i < urls.length) {
                     return tryConnectToAddress(urls[i], options).catch(onFail);
@@ -729,7 +810,10 @@ export default class ConnectionManager {
                     try {
                         msg.Data = JSON.parse(msg.Data);
                     } catch (err) {
-                        logger.warn('ConnectionManager unable to parse JSON content', { component: 'ConnectionManager', error: err.message });
+                        logger.warn('ConnectionManager unable to parse JSON content', {
+                            component: 'ConnectionManager',
+                            error: err.message
+                        });
                     }
                 }
 
@@ -744,7 +828,10 @@ export default class ConnectionManager {
         for (let i = 0, length = servers.length; i < length; i++) {
             const server = servers[i];
             if (server.Id) {
-                this._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
+                this._getOrAddApiClient(
+                    server,
+                    getServerAddress(server, server.LastConnectionMode)
+                );
             }
         }
 

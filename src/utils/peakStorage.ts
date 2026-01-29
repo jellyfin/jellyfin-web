@@ -9,7 +9,7 @@
  * NFO file format: <mediafilename>.peaks.nfo
  */
 
-import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
+import { type DBSchema, type IDBPDatabase, openDB } from 'idb';
 
 export interface PeakData {
     low: number[][]; // 500 samples
@@ -75,7 +75,7 @@ async function evictOldest(): Promise<void> {
     if (all.length >= MAX_SONGS) {
         const toRemove = all.slice(0, all.length - MAX_SONGS + 10);
         const tx = db.transaction('songs', 'readwrite');
-        await Promise.all(toRemove.map(song => tx.store.delete(song.itemId)));
+        await Promise.all(toRemove.map((song) => tx.store.delete(song.itemId)));
         await tx.done;
     }
 }
@@ -120,7 +120,11 @@ export async function clearAllAnalysis(): Promise<void> {
     await db.clear('songs');
 }
 
-export async function getCacheStats(): Promise<{ count: number; oldest: number | null; newest: number | null }> {
+export async function getCacheStats(): Promise<{
+    count: number;
+    oldest: number | null;
+    newest: number | null;
+}> {
     const db = await getDB();
     const all = await db.getAllFromIndex('songs', 'by-timestamp');
     return {

@@ -1,10 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Spacer } from '../..';
-import { Box } from '../..';
-import { Text } from '../..';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Spacer, Text } from '../..';
 
 const meta: Meta<typeof Spacer> = {
     title: 'UI Primitives/Spacer',
@@ -54,14 +51,23 @@ export const AllSizes: Story = {
 export const LayoutExample: Story = {
     decorators: [
         (_Story): ReactElement => (
-            <Box style={{ width: '300px', border: '1px solid #333', borderRadius: '8px', padding: '16px' }}>
+            <Box
+                style={{
+                    width: '300px',
+                    border: '1px solid #333',
+                    borderRadius: '8px',
+                    padding: '16px'
+                }}
+            >
                 <Text weight="bold">Header</Text>
                 <Spacer size="md" />
                 <Text color="secondary">Main content goes here.</Text>
                 <Spacer size="md" />
                 <Text color="secondary">More content...</Text>
                 <Spacer size="lg" />
-                <Box style={{ display: 'flex', justifyContent: 'flex-end', gap: vars.spacing['2'] }}>
+                <Box
+                    style={{ display: 'flex', justifyContent: 'flex-end', gap: vars.spacing['2'] }}
+                >
                     <Text as="span" size="sm" color="secondary">
                         Cancel
                     </Text>

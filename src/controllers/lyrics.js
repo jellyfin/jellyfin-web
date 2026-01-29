@@ -1,13 +1,12 @@
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
-import escapeHtml from 'escape-html';
-
 import { AutoScroll } from 'apps/stable/features/lyrics/constants/autoScroll';
 import autoFocuser from 'components/autoFocuser';
-import { appRouter } from 'components/router/appRouter';
+import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
 import { playbackManager } from 'components/playback/playbackmanager';
+import { appRouter } from 'components/router/appRouter';
 import scrollManager from 'components/scrollManager';
-import focusManager from 'components/focusManager';
+import escapeHtml from 'escape-html';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import keyboardNavigation from 'scripts/keyboardNavigation';
@@ -39,7 +38,7 @@ function lyricHtmlReducer(htmlAccumulator, lyric, index) {
 }
 
 function getLyricIndex(time, lyrics) {
-    return lyrics.findLastIndex(lyric => lyric.Start <= time);
+    return lyrics.findLastIndex((lyric) => lyric.Start <= time);
 }
 
 function getCurrentPlayTime() {
@@ -112,8 +111,10 @@ export default function (view) {
             const lyricLineArray = itemsContainer.querySelectorAll('.lyricsLine');
 
             // attaches click event listener to change playtime to lyric start
-            lyricLineArray.forEach(element => {
-                element.addEventListener('click', () => onLyricClick(element.getAttribute('data-lyrictime')));
+            lyricLineArray.forEach((element) => {
+                element.addEventListener('click', () =>
+                    onLyricClick(element.getAttribute('data-lyrictime'))
+                );
             });
 
             const currentIndex = getLyricIndex(getCurrentPlayTime(), lyrics);
@@ -135,13 +136,12 @@ export default function (view) {
         const apiClient = ServerConnections.getApiClient(serverId);
         const lyricsApi = getLyricsApi(toApi(apiClient));
 
-        return lyricsApi.getLyrics({ itemId })
-            .then(({ data }) => {
-                if (!data.Lyrics?.length) {
-                    throw new Error('No lyrics returned');
-                }
-                return data.Lyrics;
-            });
+        return lyricsApi.getLyrics({ itemId }).then(({ data }) => {
+            if (!data.Lyrics?.length) {
+                throw new Error('No lyrics returned');
+            }
+            return data.Lyrics;
+        });
     }
 
     function bindToPlayer(player) {

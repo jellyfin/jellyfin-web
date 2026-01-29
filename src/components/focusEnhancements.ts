@@ -7,8 +7,8 @@
 
 import { useFocusRing as ariaUseFocusRing } from '@react-aria/focus';
 import React from 'react';
-import { ariaUtils } from '../lib/accessibility/adapters';
 import { vars } from 'styles/tokens.css.ts';
+import { ariaUtils } from '../lib/accessibility/adapters';
 import focusManager from './focusManager';
 
 /**

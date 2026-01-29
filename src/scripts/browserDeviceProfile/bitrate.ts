@@ -16,7 +16,11 @@ export function getGlobalMaxVideoBitrate(): number | null {
             isTizenFhd = !isTizenUhd;
             logger.debug(`isTizenFhd = ${isTizenFhd}`, { component: 'BitrateProfile' });
         } catch (error: any) {
-            logger.error(`isUdPanelSupported() error code = ${error.code}`, { component: 'BitrateProfile' }, error);
+            logger.error(
+                `isUdPanelSupported() error code = ${error.code}`,
+                { component: 'BitrateProfile' },
+                error
+            );
         }
     }
 
@@ -51,7 +55,10 @@ export function getSpeakerCount(): number {
     return maxChannelCount;
 }
 
-export function getPhysicalAudioChannels(options: any, _videoTestElement: HTMLMediaElement): number {
+export function getPhysicalAudioChannels(
+    options: any,
+    _videoTestElement: HTMLMediaElement
+): number {
     const allowedAudioChannels = parseInt((userSettings as any).allowedAudioChannels(), 10);
 
     if (allowedAudioChannels > 0) {

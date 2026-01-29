@@ -1,8 +1,8 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { MainLayout } from '../MainLayout';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import browser from '../../../scripts/browser';
+import { MainLayout } from '../MainLayout';
 
 // Mock browser
 vi.mock('../../../scripts/browser', () => ({
@@ -71,7 +71,9 @@ describe('MainLayout', () => {
 
         expect(screen.getByTestId('mock-header')).toBeInTheDocument();
         expect(screen.getByTestId('mock-sidebar')).toBeInTheDocument();
-        expect(screen.getByTestId('mock-app-body')).toContainElement(screen.getByTestId('test-child'));
+        expect(screen.getByTestId('mock-app-body')).toContainElement(
+            screen.getByTestId('test-child')
+        );
     });
 
     it('should apply margin-left on desktop when drawer is open', () => {
@@ -85,64 +87,37 @@ describe('MainLayout', () => {
         expect(main).toHaveStyle('margin-left: 240px');
     });
 
-        it('should NOT apply margin-left on mobile', () => {
+    it('should NOT apply margin-left on mobile', () => {
+        (browser as any).mobile = true;
 
-            (browser as any).mobile = true;
+        render(
+            <MainLayout>
+                <div>Child</div>
+            </MainLayout>
+        );
 
-            render(
+        const main = screen.getByRole('main');
 
-                <MainLayout>
-
-                    <div>Child</div>
-
-                </MainLayout>
-
-            );
-
-    
-
-            const main = screen.getByRole('main');
-
-            expect(main).toHaveStyle('margin-left: 0');
-
-        });
-
-    
-
-        it('should auto-open drawer on desktop if initially closed', () => {
-
-            (browser as any).mobile = false;
-
-            
-
-            // Setup mock to return closed initially
-
-            mockUiStore.getState = () => ({
-
-                isDrawerOpen: false,
-
-                toggleDrawer: mockToggleDrawer
-
-            });
-
-    
-
-            render(
-
-                <MainLayout>
-
-                    <div>Child</div>
-
-                </MainLayout>
-
-            );
-
-    
-
-            expect(mockToggleDrawer).toHaveBeenCalledWith(true);
-
-        });
-
+        expect(main).toHaveStyle('margin-left: 0');
     });
 
-    
+    it('should auto-open drawer on desktop if initially closed', () => {
+        (browser as any).mobile = false;
+
+        // Setup mock to return closed initially
+
+        mockUiStore.getState = () => ({
+            isDrawerOpen: false,
+
+            toggleDrawer: mockToggleDrawer
+        });
+
+        render(
+            <MainLayout>
+                <div>Child</div>
+            </MainLayout>
+        );
+
+        expect(mockToggleDrawer).toHaveBeenCalledWith(true);
+    });
+});

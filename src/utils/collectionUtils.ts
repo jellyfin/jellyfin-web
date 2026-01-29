@@ -21,7 +21,10 @@ export function compact<T>(array: (T | null | undefined)[]): T[] {
 /**
  * Group array items by a key.
  */
-export function groupBy<T, K extends string | number | symbol>(array: T[], getKey: (item: T) => K): Record<K, T[]> {
+export function groupBy<T, K extends string | number | symbol>(
+    array: T[],
+    getKey: (item: T) => K
+): Record<K, T[]> {
     const result = {} as Record<K, T[]>;
 
     for (const item of array) {
@@ -152,7 +155,11 @@ export function flatten<T>(array: (T | T[])[]): T[] {
 /**
  * Flatten nested arrays to specified depth.
  */
-export function flatMapDepth<T, R>(array: T[], mapper: (item: T, index: number, array: T[]) => R[], depth = 1): R[] {
+export function flatMapDepth<T, R>(
+    array: T[],
+    mapper: (item: T, index: number, array: T[]) => R[],
+    depth = 1
+): R[] {
     return array.flatMap(mapper) as R[];
 }
 
@@ -202,7 +209,7 @@ export function isEqual<T>(a: T[], b: T[]): boolean {
  * Check if arrays have intersection.
  */
 export function intersects<T>(a: T[], b: T[]): boolean {
-    return a.some(item => b.includes(item));
+    return a.some((item) => b.includes(item));
 }
 
 /**
@@ -216,14 +223,14 @@ export function union<T>(...arrays: T[][]): T[] {
  * Get intersection of two arrays.
  */
 export function intersection<T>(a: T[], b: T[]): T[] {
-    return a.filter(item => b.includes(item));
+    return a.filter((item) => b.includes(item));
 }
 
 /**
  * Get difference of two arrays (items in a not in b).
  */
 export function difference<T>(a: T[], b: T[]): T[] {
-    return a.filter(item => !b.includes(item));
+    return a.filter((item) => !b.includes(item));
 }
 
 export const collectionUtils = {

@@ -99,10 +99,30 @@ export interface WideEventLogger {
      * Legacy compatibility methods (deprecated)
      * @deprecated Use emit() instead
      */
-    info(message: string, context?: Record<string, unknown>, error?: Error, ...args: unknown[]): void;
-    warn(message: string, context?: Record<string, unknown>, error?: Error, ...args: unknown[]): void;
-    error(message: string, context?: Record<string, unknown>, error?: Error, ...args: unknown[]): void;
-    debug(message: string, context?: Record<string, unknown>, error?: Error, ...args: unknown[]): void;
+    info(
+        message: string,
+        context?: Record<string, unknown>,
+        error?: Error,
+        ...args: unknown[]
+    ): void;
+    warn(
+        message: string,
+        context?: Record<string, unknown>,
+        error?: Error,
+        ...args: unknown[]
+    ): void;
+    error(
+        message: string,
+        context?: Record<string, unknown>,
+        error?: Error,
+        ...args: unknown[]
+    ): void;
+    debug(
+        message: string,
+        context?: Record<string, unknown>,
+        error?: Error,
+        ...args: unknown[]
+    ): void;
 }
 
 /**

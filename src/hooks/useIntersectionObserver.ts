@@ -4,7 +4,7 @@
  * Detects when an element enters or exits the viewport.
  */
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface IntersectionOptions {
     threshold?: number | number[];

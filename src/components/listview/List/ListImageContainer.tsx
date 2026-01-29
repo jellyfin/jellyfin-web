@@ -1,17 +1,15 @@
-import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives';
-
 import Media from 'components/common/Media';
 import PlayArrowIconButton from 'components/common/PlayArrowIconButton';
 import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
-
+import { Box } from 'ui-primitives';
+import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
 import useIndicator from '../../indicators/useIndicator';
 import layoutManager from '../../layoutManager';
-import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
 import { canResume, getChannelImageUrl, getImageUrl } from './listHelper';
 
 interface ListImageContainerProps {
@@ -65,11 +63,18 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
 
     return (
         <Box data-action={imageAction} className={imageClass}>
-            <Media item={item} imgUrl={imgUrl} blurhash={blurhash} defaultCardImageIcon={defaultCardImageIcon} />
+            <Media
+                item={item}
+                imgUrl={imgUrl}
+                blurhash={blurhash}
+                defaultCardImageIcon={defaultCardImageIcon}
+            />
 
             {disableIndicators !== true && mediaSourceIndicator}
 
-            {playedIndicator && <Box className="indicators listItemIndicators">{playedIndicator}</Box>}
+            {playedIndicator && (
+                <Box className="indicators listItemIndicators">{playedIndicator}</Box>
+            )}
 
             {playOnImageClick && (
                 <PlayArrowIconButton

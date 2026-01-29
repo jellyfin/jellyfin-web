@@ -7,8 +7,8 @@
 
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { PlayableItem, QueueItem, QueueState, RepeatMode, ShuffleMode } from './types';
 import { logger } from '../utils/logger';
+import type { PlayableItem, QueueItem, QueueState, RepeatMode, ShuffleMode } from './types';
 
 export interface QueueStoreState extends Omit<QueueState, 'shuffleMode' | 'repeatMode'> {
     // Queue state (extends base QueueState)
@@ -97,7 +97,11 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 persistedState = JSON.parse(stored);
             }
         } catch (e) {
-            logger.warn('Failed to load persisted queue state', { component: 'queueStore' }, e as Error);
+            logger.warn(
+                'Failed to load persisted queue state',
+                { component: 'queueStore' },
+                e as Error
+            );
         }
 
         const initialState = getInitialState();
@@ -149,15 +153,15 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 get().saveQueue();
             },
 
-            removeFromQueue: itemIds => {
+            removeFromQueue: (itemIds) => {
                 const { items, currentIndex } = get();
 
                 const toRemove = new Set(itemIds);
                 const removedAtOrBefore = items
                     .slice(0, currentIndex + 1)
-                    .filter(item => toRemove.has(item.item.id)).length;
+                    .filter((item) => toRemove.has(item.item.id)).length;
 
-                const filteredItems = items.filter(item => !toRemove.has(item.item.id));
+                const filteredItems = items.filter((item) => !toRemove.has(item.item.id));
 
                 const updatedItems = filteredItems.map((item, index) => ({
                     ...item,
@@ -190,7 +194,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 get().saveQueue();
             },
 
-            setCurrentIndex: index => {
+            setCurrentIndex: (index) => {
                 const { items } = get();
 
                 if (index >= 0 && index < items.length) {
@@ -236,9 +240,9 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 }
             },
 
-            playItem: itemId => {
+            playItem: (itemId) => {
                 const { items } = get();
-                const index = items.findIndex(item => item.item.id === itemId);
+                const index = items.findIndex((item) => item.item.id === itemId);
 
                 if (index !== -1) {
                     set({ currentIndex: index });
@@ -251,7 +255,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 if (items.length <= 2) return;
 
                 const currentItem = items[currentIndex];
-                const remainingItems = items.filter(item => item.id !== currentItem.id);
+                const remainingItems = items.filter((item) => item.id !== currentItem.id);
 
                 for (let i = remainingItems.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -280,7 +284,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 if (queueHistory.length === 0) return;
 
                 const restoredItems = queueHistory
-                    .map((id, index) => items.find(item => item.item.id === id) || items[index])
+                    .map((id, index) => items.find((item) => item.item.id === id) || items[index])
                     .filter(Boolean);
 
                 const updatedItems = restoredItems.map((item, index) => ({
@@ -302,7 +306,12 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
             moveItem: (fromIndex, toIndex) => {
                 const { items } = get();
 
-                if (fromIndex < 0 || fromIndex >= items.length || toIndex < 0 || toIndex >= items.length) {
+                if (
+                    fromIndex < 0 ||
+                    fromIndex >= items.length ||
+                    toIndex < 0 ||
+                    toIndex >= items.length
+                ) {
                     return;
                 }
 
@@ -323,12 +332,12 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 get().saveQueue();
             },
 
-            setRepeatMode: mode => {
+            setRepeatMode: (mode) => {
                 set({ repeatMode: mode });
                 get().saveQueue();
             },
 
-            setShuffleMode: mode => {
+            setShuffleMode: (mode) => {
                 const { isShuffled } = get();
 
                 set({ shuffleMode: mode });
@@ -342,7 +351,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 get().saveQueue();
             },
 
-            setStartPosition: position => {
+            setStartPosition: (position) => {
                 set({ startPosition: position });
             },
 
@@ -362,7 +371,7 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                 return 0;
             },
 
-            addToHistory: itemId => {
+            addToHistory: (itemId) => {
                 const { queueHistory, lastPlayedItemId } = get();
 
                 if (itemId === lastPlayedItemId) return;
@@ -385,11 +394,18 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
             },
 
             saveQueue: () => {
-                const { items, currentIndex, startPosition, shuffleMode, repeatMode, queueHistory } = get();
+                const {
+                    items,
+                    currentIndex,
+                    startPosition,
+                    shuffleMode,
+                    repeatMode,
+                    queueHistory
+                } = get();
 
                 try {
                     const stateToSave = {
-                        items: items.map(item => ({
+                        items: items.map((item) => ({
                             ...item,
                             addedAt: item.addedAt.toISOString()
                         })),
@@ -403,7 +419,11 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
 
                     localStorage.setItem(PERSISTENCE_KEY, JSON.stringify(stateToSave));
                 } catch (e) {
-                    logger.warn('Failed to save queue state', { component: 'queueStore' }, e as Error);
+                    logger.warn(
+                        'Failed to save queue state',
+                        { component: 'queueStore' },
+                        e as Error
+                    );
                 }
             },
 
@@ -424,7 +444,10 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                                 ...item,
                                 addedAt: new Date(item.addedAt)
                             })),
-                            currentIndex: Math.min(state.currentIndex || 0, (state.items?.length || 1) - 1),
+                            currentIndex: Math.min(
+                                state.currentIndex || 0,
+                                (state.items?.length || 1) - 1
+                            ),
                             startPosition: state.startPosition || 0,
                             shuffleMode: state.shuffleMode || 'Sorted',
                             repeatMode: state.repeatMode || 'RepeatNone',
@@ -433,7 +456,11 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
                         });
                     }
                 } catch (e) {
-                    logger.warn('Failed to load persisted queue state', { component: 'queueStore' }, e as Error);
+                    logger.warn(
+                        'Failed to load persisted queue state',
+                        { component: 'queueStore' },
+                        e as Error
+                    );
                 }
             }
         };
@@ -442,10 +469,12 @@ export const useQueueStore = create<QueueStoreState & QueueStoreActions>()(
 
 // Selectors
 export const selectQueueItems = (state: QueueStoreState & QueueStoreActions) => state.items;
-export const selectCurrentIndex = (state: QueueStoreState & QueueStoreActions) => state.currentIndex;
+export const selectCurrentIndex = (state: QueueStoreState & QueueStoreActions) =>
+    state.currentIndex;
 export const selectCurrentQueueItem = (state: QueueStoreState & QueueStoreActions) =>
     state.items[state.currentIndex] || null;
-export const selectIsEmpty = (state: QueueStoreState & QueueStoreActions) => state.items.length === 0;
+export const selectIsEmpty = (state: QueueStoreState & QueueStoreActions) =>
+    state.items.length === 0;
 export const selectQueueLength = (state: QueueStoreState & QueueStoreActions) => state.items.length;
 export const selectRepeatMode = (state: QueueStoreState & QueueStoreActions) => state.repeatMode;
 export const selectShuffleMode = (state: QueueStoreState & QueueStoreActions) => state.shuffleMode;

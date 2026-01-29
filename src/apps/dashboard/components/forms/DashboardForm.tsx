@@ -1,18 +1,25 @@
-import { vars } from 'styles/tokens.css.ts';
+import globalize from 'lib/globalize';
 
 import React from 'react';
-
-import globalize from 'lib/globalize';
-import { Alert } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Card, CardBody } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { FormControl, FormHelperText, FormLabel, Switch } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { SelectInput } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardBody,
+    Checkbox,
+    Divider,
+    Flex,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    SelectInput,
+    Switch,
+    Text
+} from 'ui-primitives';
 
 interface DashboardFormProps {
     onSubmit: (e: React.FormEvent) => Promise<void> | void;
@@ -35,7 +42,7 @@ export function DashboardForm({
                 {title}
             </Heading.H3>
             {description != null && (
-                <Text color='secondary' size='sm' style={{ marginBottom: vars.spacing['5'] }}>
+                <Text color="secondary" size="sm" style={{ marginBottom: vars.spacing['5'] }}>
                     {description}
                 </Text>
             )}
@@ -47,11 +54,11 @@ export function DashboardForm({
 
                 <Flex style={{ gap: vars.spacing['4'], justifyContent: 'flex-end' }}>
                     {onCancel && (
-                        <Button variant='ghost' onClick={onCancel}>
+                        <Button variant="ghost" onClick={onCancel}>
                             {globalize.translate('ButtonCancel')}
                         </Button>
                     )}
-                    <Button variant='primary' type='submit'>
+                    <Button variant="primary" type="submit">
                         {globalize.translate('Save')}
                     </Button>
                 </Flex>
@@ -136,7 +143,11 @@ export function FormSelectField({
                     {label}
                     {required && <span style={{ color: 'var(--error)' }}> *</span>}
                 </FormLabel>
-                <SelectInput value={value ?? ''} onChange={(e) => onChange?.(e.target.value)} style={{ width: '100%' }}>
+                <SelectInput
+                    value={value ?? ''}
+                    onChange={(e) => onChange?.(e.target.value)}
+                    style={{ width: '100%' }}
+                >
                     {options.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                             {opt.label}
@@ -197,7 +208,10 @@ export function FormSwitchField({
             <FormControl>
                 <Flex style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
-                    <Switch checked={checked ?? false} onChange={(e) => onChange?.(e.target.checked)} />
+                    <Switch
+                        checked={checked ?? false}
+                        onChange={(e) => onChange?.(e.target.checked)}
+                    />
                 </Flex>
                 {description != null && <FormHelperText>{description}</FormHelperText>}
             </FormControl>
@@ -222,7 +236,7 @@ export function FormSection({
                 {title}
             </Heading.H4>
             {description != null && (
-                <Text color='secondary' size='sm' style={{ marginBottom: vars.spacing['4'] }}>
+                <Text color="secondary" size="sm" style={{ marginBottom: vars.spacing['4'] }}>
                     {description}
                 </Text>
             )}
@@ -248,7 +262,7 @@ export function FormCard({ title, children, action }: Readonly<FormCardProps>): 
                         marginBottom: vars.spacing['4']
                     }}
                 >
-                    <Text weight='bold'>{title}</Text>
+                    <Text weight="bold">{title}</Text>
                     {action}
                 </Flex>
                 {children}

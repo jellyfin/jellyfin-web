@@ -3,7 +3,7 @@
  * Tests LRU caching, memory management, and instance lifecycle
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock the dependencies
 vi.mock('wavesurfer.js', () => ({

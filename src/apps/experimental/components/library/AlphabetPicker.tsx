@@ -1,10 +1,8 @@
-import React, { useCallback } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives';
-import { ToggleGroup, ToggleGroupItem } from 'ui-primitives';
+import React, { useCallback } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-
 import { type LibraryViewSettings } from 'types/library';
+import { Box, ToggleGroup, ToggleGroupItem } from 'ui-primitives';
 import 'components/alphaPicker/style.css.ts';
 
 interface AlphabetPickerProps {
@@ -13,10 +11,14 @@ interface AlphabetPickerProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const AlphabetPicker: React.FC<AlphabetPickerProps> = ({ className, libraryViewSettings, setLibraryViewSettings }) => {
+const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
+    className,
+    libraryViewSettings,
+    setLibraryViewSettings
+}) => {
     const handleValue = useCallback(
         (event: React.MouseEvent<HTMLElement>, newValue: string | null | undefined) => {
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Alphabet: newValue
@@ -71,7 +73,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({ className, libraryViewS
             <ToggleGroup
                 type="single"
                 value={libraryViewSettings.Alphabet ?? ''}
-                onValueChange={value => {
+                onValueChange={(value) => {
                     handleValue({} as React.MouseEvent<HTMLElement>, value || null);
                 }}
                 className="alphaPickerButtonGroup"
@@ -83,7 +85,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({ className, libraryViewS
                     borderRadius: vars.borderRadius.md
                 }}
             >
-                {letters.map(l => (
+                {letters.map((l) => (
                     <ToggleGroupItem key={l} value={l} className={btnClassName}>
                         {l}
                     </ToggleGroupItem>

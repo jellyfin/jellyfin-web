@@ -10,22 +10,18 @@
  */
 
 import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
-import { parseISO } from 'date-fns';
-import React, { useCallback, useMemo, useState } from 'react';
 import type { ColumnDef } from '@tanstack/react-table';
-
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage from 'apps/dashboard/components/table/TablePage';
 import { useApiKeys } from 'apps/dashboard/features/keys/api/useApiKeys';
-import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
 import { useCreateKey } from 'apps/dashboard/features/keys/api/useCreateKey';
-import globalize from 'lib/globalize';
-import InputDialog from 'components/InputDialog';
+import { useRevokeKey } from 'apps/dashboard/features/keys/api/useRevokeKey';
 import ConfirmDialog from 'components/ConfirmDialog';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
+import InputDialog from 'components/InputDialog';
+import { parseISO } from 'date-fns';
+import globalize from 'lib/globalize';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Button, Flex, IconButton, Tooltip } from 'ui-primitives';
 
 const AddIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -63,7 +59,7 @@ export const Component = () => {
             },
             {
                 id: 'DateIssued',
-                accessorFn: item => (item.DateCreated ? parseISO(item.DateCreated) : undefined),
+                accessorFn: (item) => (item.DateCreated ? parseISO(item.DateCreated) : undefined),
                 cell: DateTimeCell,
                 header: globalize.translate('HeaderDateIssued')
             }
@@ -75,7 +71,10 @@ export const Component = () => {
         return (
             <Flex style={{ display: 'flex' }}>
                 <Tooltip title={globalize.translate('ButtonRevoke')}>
-                    <IconButton color="danger" onClick={() => row.AccessToken && onRevokeKey(row.AccessToken)}>
+                    <IconButton
+                        color="danger"
+                        onClick={() => row.AccessToken && onRevokeKey(row.AccessToken)}
+                    >
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>

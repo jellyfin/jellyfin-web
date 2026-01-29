@@ -1,15 +1,14 @@
-import React, { type FC, type PropsWithChildren } from 'react';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 import classNames from 'classnames';
-import ItemsContainer, { type ItemsContainerProps } from '../items/ItemsContainer';
-import Scroller, { type ScrollerProps } from '../scroller/Scroller';
 import Cards from 'components/cardbuilder/Card/Cards';
 import Lists from 'components/listview/List/Lists';
+import React, { type FC, type PropsWithChildren } from 'react';
+import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
-import type { ItemDto } from 'types/base/models/item-dto';
+import { Box, Text } from 'ui-primitives';
+import ItemsContainer, { type ItemsContainerProps } from '../items/ItemsContainer';
+import Scroller, { type ScrollerProps } from '../scroller/Scroller';
 
 interface SectionHeaderProps {
     className?: string;
@@ -29,7 +28,12 @@ const SectionHeader: FC<SectionHeaderProps> = ({ title, className, itemsLength =
         <Box className={sectionHeaderClass}>
             {url && itemsLength > 5 ? (
                 <Box as="a" className="clearLink button-flat sectionTitleTextButton" href={url}>
-                    <Text as="h2" size="xxl" weight="bold" className="sectionTitle sectionTitle-cards">
+                    <Text
+                        as="h2"
+                        size="xxl"
+                        weight="bold"
+                        className="sectionTitle sectionTitle-cards"
+                    >
                         {title}
                     </Text>
                     <ChevronRightIcon style={{ paddingTop: '5px' }} />
@@ -96,7 +100,10 @@ const SectionContainer: FC<PropsWithChildren<SectionContainerProps>> = ({
         <Box className={sectionClass}>
             {sectionHeaderProps?.title && (
                 <SectionHeader
-                    className={classNames({ 'no-padding': noPadding }, sectionHeaderProps?.className)}
+                    className={classNames(
+                        { 'no-padding': noPadding },
+                        sectionHeaderProps?.className
+                    )}
                     itemsLength={items.length}
                     {...sectionHeaderProps}
                 />

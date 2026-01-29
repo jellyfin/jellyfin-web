@@ -122,7 +122,10 @@ export class SyncManager {
 
                 try {
                     const observer = new MutationObserver(() => {
-                        if (!element.parentNode || (document.body && !document.body.contains(element))) {
+                        if (
+                            !element.parentNode ||
+                            (document.body && !document.body.contains(element))
+                        ) {
                             observer.disconnect();
                             this.observers.delete(element);
                             cleanup();
@@ -131,7 +134,9 @@ export class SyncManager {
                     observer.observe(element.parentNode as Node, { childList: true });
                     this.observers.set(element, observer);
                 } catch {
-                    logger.debug('[SyncManager] MutationObserver setup failed', { component: 'SyncManager' });
+                    logger.debug('[SyncManager] MutationObserver setup failed', {
+                        component: 'SyncManager'
+                    });
                 }
             };
             setupObserver();
@@ -216,7 +221,11 @@ export class SyncManager {
                 this.correctDrift(tracked);
             }
         } catch (error) {
-            logger.warn('[SyncManager] Sync check failed', { component: 'SyncManager' }, error as Error);
+            logger.warn(
+                '[SyncManager] Sync check failed',
+                { component: 'SyncManager' },
+                error as Error
+            );
         }
     }
 
@@ -245,12 +254,18 @@ export class SyncManager {
                     targetTime
                 });
             } catch (error) {
-                logger.warn('[SyncManager] Seek failed', { component: 'SyncManager' }, error as Error);
+                logger.warn(
+                    '[SyncManager] Seek failed',
+                    { component: 'SyncManager' },
+                    error as Error
+                );
             }
         } else if (Math.abs(drift) <= this.seekThreshold) {
             if (Math.abs(element.playbackRate - 1.0) < this.maxPlaybackRateDeviation) {
                 const rateCorrection =
-                    drift > 0 ? 1.0 - this.maxPlaybackRateDeviation : 1.0 + this.maxPlaybackRateDeviation;
+                    drift > 0
+                        ? 1.0 - this.maxPlaybackRateDeviation
+                        : 1.0 + this.maxPlaybackRateDeviation;
                 element.playbackRate = rateCorrection;
 
                 setTimeout(() => {
@@ -265,7 +280,8 @@ export class SyncManager {
     private updateInterval(): void {
         if (!this.syncInterval) return;
 
-        const targetInterval = this.activeElementCount > 0 ? this.activeInterval : this.idleInterval;
+        const targetInterval =
+            this.activeElementCount > 0 ? this.activeInterval : this.idleInterval;
 
         if (targetInterval !== this.currentInterval) {
             this.currentInterval = targetInterval;
@@ -293,7 +309,7 @@ export class SyncManager {
     }
 
     clearAll(): void {
-        this.trackedElements.forEach(tracked => {
+        this.trackedElements.forEach((tracked) => {
             this.cleanupElement(tracked.element);
         });
         this.trackedElements.clear();

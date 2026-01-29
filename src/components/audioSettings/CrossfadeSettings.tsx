@@ -1,12 +1,8 @@
-import React from 'react';
 import { ClockIcon, ReloadIcon } from '@radix-ui/react-icons';
+import React from 'react';
 import { usePreferencesStore } from 'store/preferencesStore';
-import { Card } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Switch } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, Flex, Slider, Switch, Text } from 'ui-primitives';
 
 export const CrossfadeSettings: React.FC = () => {
     const {
@@ -43,7 +39,10 @@ export const CrossfadeSettings: React.FC = () => {
                             Smooth transitions between tracks
                         </Text>
                     </Box>
-                    <Switch checked={crossfadeEnabled} onChange={e => setCrossfadeEnabled(e.target.checked)} />
+                    <Switch
+                        checked={crossfadeEnabled}
+                        onChange={(e) => setCrossfadeEnabled(e.target.checked)}
+                    />
                 </Flex>
 
                 <Box>
@@ -52,7 +51,7 @@ export const CrossfadeSettings: React.FC = () => {
                     </Text>
                     <Slider
                         value={[crossfadeDuration]}
-                        onValueChange={v => setCrossfadeDuration(v[0])}
+                        onValueChange={(v) => setCrossfadeDuration(v[0])}
                         min={0}
                         max={30}
                         step={0.5}
@@ -71,12 +70,16 @@ export const CrossfadeSettings: React.FC = () => {
                     <Box>
                         <Text size="sm">Latency Mode</Text>
                         <Text size="xs" color="secondary">
-                            {networkLatencyMode === 'auto' ? 'Auto-detect network delay' : 'Manual offset'}
+                            {networkLatencyMode === 'auto'
+                                ? 'Auto-detect network delay'
+                                : 'Manual offset'}
                         </Text>
                     </Box>
                     <Switch
                         checked={networkLatencyMode === 'auto'}
-                        onChange={e => setNetworkLatencyMode(e.target.checked ? 'auto' : 'manual')}
+                        onChange={(e) =>
+                            setNetworkLatencyMode(e.target.checked ? 'auto' : 'manual')
+                        }
                     />
                 </Flex>
 
@@ -96,7 +99,7 @@ export const CrossfadeSettings: React.FC = () => {
                         </Text>
                         <Slider
                             value={[manualLatencyOffset]}
-                            onValueChange={v => setManualLatencyOffset(v[0])}
+                            onValueChange={(v) => setManualLatencyOffset(v[0])}
                             min={0}
                             max={5}
                             step={0.1}

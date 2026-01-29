@@ -1,6 +1,6 @@
-import React, { type ReactElement, type ReactNode, type CSSProperties } from 'react';
-import { paperStyles, paperElevation } from './Paper.css.ts';
+import React, { type CSSProperties, type ReactElement, type ReactNode } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { paperElevation, paperStyles } from './Paper.css.ts';
 
 export type PaperElevation = keyof typeof paperElevation;
 

@@ -185,9 +185,10 @@ export const useConnectionStore = create<ConnectionStore>()(
             // Calculate average connection time
             const successfulAttempts = recentAttempts.filter((a) => a.result === 'success');
             const avgTime =
-                successfulAttempts.length > 0 ?
-                    successfulAttempts.reduce((sum, a) => sum + a.duration, 0) / successfulAttempts.length :
-                    0;
+                successfulAttempts.length > 0
+                    ? successfulAttempts.reduce((sum, a) => sum + a.duration, 0) /
+                      successfulAttempts.length
+                    : 0;
 
             const newMetrics: ConnectionMetrics = {
                 totalAttempts,
@@ -281,9 +282,10 @@ export function createConnectionStore(initialValues?: Partial<ConnectionStore>) 
 
                 const successfulAttempts = newAttempts.filter((a) => a.result === 'success');
                 const avgTime =
-                    successfulAttempts.length > 0 ?
-                        successfulAttempts.reduce((sum, a) => sum + a.duration, 0) / successfulAttempts.length :
-                        0;
+                    successfulAttempts.length > 0
+                        ? successfulAttempts.reduce((sum, a) => sum + a.duration, 0) /
+                          successfulAttempts.length
+                        : 0;
 
                 set({
                     connectionAttempts: newAttempts,

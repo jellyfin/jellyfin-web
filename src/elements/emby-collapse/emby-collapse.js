@@ -81,7 +81,12 @@ EmbyButtonPrototype.attachedCallback = function () {
 
     const title = this.getAttribute('title');
 
-    const html = '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' + title + '">' + title + '</h3><span class="material-icons emby-collapse-expandIcon expand_more" aria-hidden="true"></span></button>';
+    const html =
+        '<button is="emby-button" type="button" on-click="toggleExpand" id="expandButton" class="emby-collapsible-button iconRight"><h3 class="emby-collapsible-title" title="' +
+        title +
+        '">' +
+        title +
+        '</h3><span class="material-icons emby-collapse-expandIcon expand_more" aria-hidden="true"></span></button>';
 
     this.insertAdjacentHTML('afterbegin', html);
 
@@ -98,4 +103,3 @@ document.registerElement('emby-collapse', {
     prototype: EmbyButtonPrototype,
     extends: 'div'
 });
-

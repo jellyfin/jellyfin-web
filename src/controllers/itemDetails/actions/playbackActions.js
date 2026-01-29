@@ -30,11 +30,13 @@ function playCurrentItem(button, mode, currentItem, playbackManager) {
     if (item.Type === 'Program') {
         import('lib/jellyfin-apiclient').then(({ ServerConnections }) => {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then((channel) => {
-                playbackManager.play({
-                    items: [channel]
+            apiClient
+                .getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId())
+                .then((channel) => {
+                    playbackManager.play({
+                        items: [channel]
+                    });
                 });
-            });
         });
         return;
     }

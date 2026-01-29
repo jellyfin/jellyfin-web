@@ -1,6 +1,6 @@
 import React, { type ReactNode } from 'react';
-import { Toast, toastViewport, toastViewportPosition, type ToastPosition } from './Toast';
 import { useToastStore } from '../../../store/toastStore';
+import { Toast, type ToastPosition, toastViewport, toastViewportPosition } from './Toast';
 
 // Re-export for compatibility
 export { useToastStore as useToast };
@@ -9,8 +9,8 @@ export const ToastProvider: React.FC<{ children: ReactNode; position?: ToastPosi
     children,
     position = 'top-right'
 }) => {
-    const toasts = useToastStore(state => state.toasts);
-    const dismiss = useToastStore(state => state.dismiss);
+    const toasts = useToastStore((state) => state.toasts);
+    const dismiss = useToastStore((state) => state.dismiss);
 
     return (
         <>
@@ -19,7 +19,7 @@ export const ToastProvider: React.FC<{ children: ReactNode; position?: ToastPosi
                 className={`${toastViewport} ${toastViewportPosition[position]}`}
                 data-state={toasts.length > 0 ? 'open' : 'closed'}
             >
-                {toasts.map(t => (
+                {toasts.map((t) => (
                     <Toast
                         key={t.id}
                         id={t.id}

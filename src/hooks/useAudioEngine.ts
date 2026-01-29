@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { useAudioStore } from '../store/audioStore';
 import { backspinHandler } from '../components/audioEngine/backspinHandler';
+import { useAudioStore } from '../store/audioStore';
 import { useBackspinStore } from '../store/backspinStore';
-import { RequestContext, getSessionId } from '../utils/observability';
+import { getSessionId, RequestContext } from '../utils/observability';
 
 export function useAudioEngine() {
-    const audioContext = useAudioStore(state => state.audioContext);
+    const audioContext = useAudioStore((state) => state.audioContext);
     const isInitialized = useRef(false);
     const [isReady, setIsReady] = useState(false);
-    const backspinAudioContext = useBackspinStore(state => state.audioContext);
+    const backspinAudioContext = useBackspinStore((state) => state.audioContext);
     const mediaElementRef = useRef<HTMLMediaElement | null>(null);
 
     const initializeWithMediaElement = useEffect(() => {

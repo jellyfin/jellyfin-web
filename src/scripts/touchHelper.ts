@@ -74,13 +74,19 @@ class TouchHelper {
                     Events.trigger(this, 'swiperight', [touchTarget]);
                 } else if (deltaX < 0 - swipeXThreshold && Math.abs(deltaY) < swipeXMaxY) {
                     Events.trigger(this, 'swipeleft', [touchTarget]);
-                } else if ((deltaY < 0 - swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+                } else if (
+                    (deltaY < 0 - swipeYThreshold || thresholdYMet) &&
+                    Math.abs(deltaX) < swipeXMaxY
+                ) {
                     thresholdYMet = true;
                     Events.trigger(this, 'swipeup', [
                         touchTarget,
                         { deltaY, deltaX, clientX, clientY, currentDeltaX, currentDeltaY }
                     ]);
-                } else if ((deltaY > swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+                } else if (
+                    (deltaY > swipeYThreshold || thresholdYMet) &&
+                    Math.abs(deltaX) < swipeXMaxY
+                ) {
                     thresholdYMet = true;
                     Events.trigger(this, 'swipedown', [
                         touchTarget,
@@ -101,20 +107,60 @@ class TouchHelper {
             }
         };
 
-        dom.addEventListener(elem, 'touchstart', this.touchStartHandler as any, { passive: true } as any);
+        dom.addEventListener(
+            elem,
+            'touchstart',
+            this.touchStartHandler as any,
+            { passive: true } as any
+        );
         if (options.triggerOnMove) {
-            dom.addEventListener(elem, 'touchmove', this.touchEndHandler as any, { passive: !options.preventDefaultOnMove } as any);
+            dom.addEventListener(
+                elem,
+                'touchmove',
+                this.touchEndHandler as any,
+                { passive: !options.preventDefaultOnMove } as any
+            );
         }
-        dom.addEventListener(elem, 'touchend', this.touchEndHandler as any, { passive: true } as any);
-        dom.addEventListener(elem, 'touchcancel', this.touchEndHandler as any, { passive: true } as any);
+        dom.addEventListener(
+            elem,
+            'touchend',
+            this.touchEndHandler as any,
+            { passive: true } as any
+        );
+        dom.addEventListener(
+            elem,
+            'touchcancel',
+            this.touchEndHandler as any,
+            { passive: true } as any
+        );
     }
 
     destroy(): void {
         if (this.elem) {
-            dom.removeEventListener(this.elem, 'touchstart', this.touchStartHandler as any, { passive: true } as any);
-            dom.removeEventListener(this.elem, 'touchmove', this.touchEndHandler as any, { passive: true } as any);
-            dom.removeEventListener(this.elem, 'touchend', this.touchEndHandler as any, { passive: true } as any);
-            dom.removeEventListener(this.elem, 'touchcancel', this.touchEndHandler as any, { passive: true } as any);
+            dom.removeEventListener(
+                this.elem,
+                'touchstart',
+                this.touchStartHandler as any,
+                { passive: true } as any
+            );
+            dom.removeEventListener(
+                this.elem,
+                'touchmove',
+                this.touchEndHandler as any,
+                { passive: true } as any
+            );
+            dom.removeEventListener(
+                this.elem,
+                'touchend',
+                this.touchEndHandler as any,
+                { passive: true } as any
+            );
+            dom.removeEventListener(
+                this.elem,
+                'touchcancel',
+                this.touchEndHandler as any,
+                { passive: true } as any
+            );
         }
         this.elem = null;
     }

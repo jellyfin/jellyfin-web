@@ -1,5 +1,5 @@
 /* eslint-disable */
-var addSorting = (function() {
+var addSorting = (function () {
     'use strict';
     var cols,
         currentSort = {
@@ -46,9 +46,7 @@ var addSorting = (function() {
                 isMatch = searchRegex.test(row.textContent);
             } else {
                 // Otherwise, fall back to the original plain text search
-                isMatch = row.textContent
-                    .toLowerCase()
-                    .includes(searchValue.toLowerCase());
+                isMatch = row.textContent.toLowerCase().includes(searchValue.toLowerCase());
             }
 
             row.style.display = isMatch ? '' : 'none';
@@ -81,8 +79,7 @@ var addSorting = (function() {
             cols.push(col);
             if (col.sortable) {
                 col.defaultDescSort = col.type === 'number';
-                colNode.innerHTML =
-                    colNode.innerHTML + '<span class="sorter"></span>';
+                colNode.innerHTML = colNode.innerHTML + '<span class="sorter"></span>';
             }
         }
         return cols;
@@ -119,7 +116,7 @@ var addSorting = (function() {
     // sorts the table using the data for the ith column
     function sortByIndex(index, desc) {
         var key = cols[index].key,
-            sorter = function(a, b) {
+            sorter = function (a, b) {
                 a = a.data[key];
                 b = b.data[key];
                 return a < b ? -1 : a > b ? 1 : 0;
@@ -131,7 +128,7 @@ var addSorting = (function() {
             i;
 
         if (desc) {
-            finalSorter = function(a, b) {
+            finalSorter = function (a, b) {
                 return -1 * sorter(a, b);
             };
         }
@@ -157,9 +154,7 @@ var addSorting = (function() {
     }
     // adds sort indicators for current column being sorted
     function addSortIndicators() {
-        getNthColumn(currentSort.index).className += currentSort.desc
-            ? ' sorted-desc'
-            : ' sorted';
+        getNthColumn(currentSort.index).className += currentSort.desc ? ' sorted-desc' : ' sorted';
     }
     // adds event listeners for all sorter widgets
     function enableUI() {
@@ -168,7 +163,7 @@ var addSorting = (function() {
             ithSorter = function ithSorter(i) {
                 var col = cols[i];
 
-                return function() {
+                return function () {
                     var desc = col.defaultDescSort;
 
                     if (currentSort.index === i) {
@@ -195,7 +190,7 @@ var addSorting = (function() {
         }
     }
     // adds sorting functionality to the UI
-    return function() {
+    return function () {
         if (!getTable()) {
             return;
         }

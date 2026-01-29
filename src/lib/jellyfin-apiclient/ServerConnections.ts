@@ -11,7 +11,12 @@ import type { Api } from '@jellyfin/sdk';
 import type { ApiClient } from 'jellyfin-apiclient';
 
 import { logger } from '../../utils/logger';
-import type { ConnectOptions, ConnectResponse, ServerInfo, CredentialProvider } from './types/connectionManager.types';
+import type {
+    ConnectOptions,
+    ConnectResponse,
+    CredentialProvider,
+    ServerInfo
+} from './types/connectionManager.types';
 
 /**
  * ServerConnections Wrapper
@@ -83,7 +88,11 @@ export function getServerConnections(): IServerConnections {
             const legacyModule = require('./ServerConnections.legacy.js');
             cachedServerConnections = legacyModule.default as IServerConnections;
         } catch (error) {
-            logger.error('Failed to load ServerConnections.legacy.js', { component: 'ServerConnections' }, error as Error);
+            logger.error(
+                'Failed to load ServerConnections.legacy.js',
+                { component: 'ServerConnections' },
+                error as Error
+            );
             throw error;
         }
     }
@@ -114,7 +123,10 @@ const handler = {
     }
 };
 
-export const ServerConnections = new Proxy(new LazyServerConnections(), handler) as unknown as IServerConnections;
+export const ServerConnections = new Proxy(
+    new LazyServerConnections(),
+    handler
+) as unknown as IServerConnections;
 
 // Also export as default for backward compatibility
 export default ServerConnections;

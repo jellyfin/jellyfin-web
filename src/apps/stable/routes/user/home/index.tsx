@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'hooks/useSearchParams';
-import { Box, Text } from 'ui-primitives';
-import Page from 'components/Page';
-import Loading from 'components/loading/LoadingComponent';
 import HomeScreenSettingsComponent from 'components/homeScreenSettings/HomeScreenSettingsComponent';
-import { useApi } from 'hooks/useApi';
-import { currentSettings } from 'scripts/settings/userSettings';
-import globalize from 'lib/globalize';
+import Loading from 'components/loading/LoadingComponent';
+import Page from 'components/Page';
 import toast from 'components/toast/toast';
+import { useApi } from 'hooks/useApi';
+import { useSearchParams } from 'hooks/useSearchParams';
+import globalize from 'lib/globalize';
+import React, { useEffect, useState } from 'react';
 import * as userSettings from 'scripts/settings/userSettings';
+import { currentSettings } from 'scripts/settings/userSettings';
+import { Box, Text } from 'ui-primitives';
 
 const UserHomeSettingsPage: React.FC = () => {
     const [searchParams] = useSearchParams();

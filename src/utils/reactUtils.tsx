@@ -3,13 +3,12 @@
  */
 
 import { QueryClientProvider } from '@tanstack/react-query';
-import * as React from 'react';
-import { createRoot } from 'react-dom/client';
-
 import { ThemeProvider } from 'components/themeProvider/ThemeProvider';
 import { ApiProvider } from 'hooks/useApi';
 import { UserSettingsProvider } from 'hooks/useUserSettings';
 import { WebConfigProvider } from 'hooks/useWebConfig';
+import * as React from 'react';
+import { createRoot } from 'react-dom/client';
 import { logger } from 'utils/logger';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -24,7 +23,11 @@ const getOrCreateRoot = (element: HTMLElement) => {
     return sharedRoot.current;
 };
 
-export const renderComponent = <P extends object>(Component: React.FC<P>, props: P, element: HTMLElement) => {
+export const renderComponent = <P extends object>(
+    Component: React.FC<P>,
+    props: P,
+    element: HTMLElement
+) => {
     const root = getOrCreateRoot(element);
     if (!root) {
         logger.error('[reactUtils] Failed to create React root', { component: 'reactUtils' });
@@ -39,7 +42,9 @@ export const renderComponent = <P extends object>(Component: React.FC<P>, props:
 
     return () => {
         if (element === rootContainer.current && sharedRoot.current) {
-            logger.debug('[reactUtils] Keeping shared React root alive', { component: 'reactUtils' });
+            logger.debug('[reactUtils] Keeping shared React root alive', {
+                component: 'reactUtils'
+            });
         }
     };
 };

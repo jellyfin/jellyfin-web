@@ -10,10 +10,10 @@
  * - Store subscriptions
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ConnectionState } from '../../lib/jellyfin-apiclient/connectionState';
-import { createConnectionStore, type ConnectionAttempt } from '../connectionStore';
+import { type ConnectionAttempt, createConnectionStore } from '../connectionStore';
 
 describe('Connection Store (Phase 2: Modern State Management)', () => {
     let store: ReturnType<typeof createConnectionStore>;

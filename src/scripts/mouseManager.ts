@@ -1,10 +1,10 @@
-import inputManager from './inputManager';
 import focusManager from '../components/focusManager';
-import browser from './browser';
 import layoutManager from '../components/layoutManager';
+import { scrollToActivePlaylistItem } from '../components/sitbackMode/sitback.logic';
 import dom from '../utils/dom';
 import Events from '../utils/events';
-import { scrollToActivePlaylistItem } from '../components/sitbackMode/sitback.logic';
+import browser from './browser';
+import inputManager from './inputManager';
 
 const self = {};
 let lastMouseInputTime = new Date().getTime();
@@ -59,7 +59,11 @@ function onPointerMove(e: MouseEvent | PointerEvent) {
         return;
     }
 
-    if (Math.abs(eventX - lastPointerMoveData.x) < 10 && Math.abs(eventY - lastPointerMoveData.y) < 10) return;
+    if (
+        Math.abs(eventX - lastPointerMoveData.x) < 10 &&
+        Math.abs(eventY - lastPointerMoveData.y) < 10
+    )
+        return;
 
     lastPointerMoveData.x = eventX;
     lastPointerMoveData.y = eventY;
@@ -108,10 +112,20 @@ function initMouse() {
     }
 
     const enterEvent = (window as any).PointerEvent ? 'pointerenter' : 'mouseenter';
-    dom.removeEventListener(document, enterEvent, onPointerEnter as any, { capture: true, passive: true } as any);
+    dom.removeEventListener(
+        document,
+        enterEvent,
+        onPointerEnter as any,
+        { capture: true, passive: true } as any
+    );
 
     if (enableFocusWithMouse()) {
-        dom.addEventListener(document, enterEvent, onPointerEnter as any, { capture: true, passive: true } as any);
+        dom.addEventListener(
+            document,
+            enterEvent,
+            onPointerEnter as any,
+            { capture: true, passive: true } as any
+        );
     }
 }
 

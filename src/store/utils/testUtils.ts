@@ -5,8 +5,8 @@
  * error injection, and state verification.
  */
 
-import { vi, beforeEach, afterEach, describe, it, expect } from 'vitest';
 import { logger } from 'utils/logger';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 export interface TestContext {
     startTime: number;
@@ -99,7 +99,9 @@ export function trackError(context: TestContext, error: Error, contextInfo?: str
  */
 export function verifyNoErrors(context: TestContext): void {
     if (context.errors.length > 0) {
-        const errorMessages = context.errors.map(e => `${e.message} (${e.context || 'unknown'})`).join(', ');
+        const errorMessages = context.errors
+            .map((e) => `${e.message} (${e.context || 'unknown'})`)
+            .join(', ');
         throw new Error(`Unexpected errors occurred: ${errorMessages}`);
     }
 }
@@ -155,7 +157,7 @@ export function createStoreMock<T extends object>(initialState: T) {
             const newPartial = typeof partial === 'function' ? partial(state) : partial;
             state = { ...state, ...newPartial };
 
-            subscribers.forEach(sub => {
+            subscribers.forEach((sub) => {
                 try {
                     sub(state, prevState);
                 } catch (error) {

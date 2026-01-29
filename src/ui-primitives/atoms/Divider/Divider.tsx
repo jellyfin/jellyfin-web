@@ -7,7 +7,11 @@ interface DividerProps {
     readonly style?: CSSProperties;
 }
 
-export function Divider({ orientation = 'horizontal', className, style }: DividerProps): ReactElement {
+export function Divider({
+    orientation = 'horizontal',
+    className,
+    style
+}: DividerProps): ReactElement {
     if (orientation === 'vertical') {
         return <span className={`${dividerVertical} ${className ?? ''}`} style={style} />;
     }

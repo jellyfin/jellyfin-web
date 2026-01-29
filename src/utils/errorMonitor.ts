@@ -3,8 +3,13 @@ import { logger } from './logger';
 class ErrorMonitor {
     private static instance: ErrorMonitor | null = null;
     private errorCount = 0;
-    private readonly errors: Array<{ id: number; message: string; stack?: string; timestamp: string; type: string }> =
-        [];
+    private readonly errors: Array<{
+        id: number;
+        message: string;
+        stack?: string;
+        timestamp: string;
+        type: string;
+    }> = [];
 
     private constructor() {
         this.setupGlobalListeners();
@@ -41,7 +46,10 @@ class ErrorMonitor {
             // Silently fail - error is already logged via logger
         });
 
-        logger.error(`[${type}] ${errorObj.message}`, { component: 'ErrorMonitor', error: errorObj });
+        logger.error(`[${type}] ${errorObj.message}`, {
+            component: 'ErrorMonitor',
+            error: errorObj
+        });
     }
 
     private setupGlobalListeners(): void {
@@ -57,12 +65,21 @@ class ErrorMonitor {
 
             window.addEventListener('unhandledrejection', (event: PromiseRejectionEvent) => {
                 const reason = event.reason;
-                this.captureError(reason instanceof Error ? reason : String(reason), 'UNHANDLED_REJECTION');
+                this.captureError(
+                    reason instanceof Error ? reason : String(reason),
+                    'UNHANDLED_REJECTION'
+                );
             });
         }
     }
 
-    getErrors(): Array<{ id: number; message: string; stack?: string; timestamp: string; type: string }> {
+    getErrors(): Array<{
+        id: number;
+        message: string;
+        stack?: string;
+        timestamp: string;
+        type: string;
+    }> {
         const stored = localStorage.getItem('_jellyfin_error_monitor');
         if (stored != null && stored.length > 0) {
             try {

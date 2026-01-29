@@ -70,7 +70,10 @@ export function getDirectPlayProfileForVideoContainer(
         case 'ts':
             supported = testCanPlayTs();
             videoCodecs.push('h264');
-            if (((browser as any).tizen || browser.web0s) && canPlayHevc(videoTestElement, options)) {
+            if (
+                ((browser as any).tizen || browser.web0s) &&
+                canPlayHevc(videoTestElement, options)
+            ) {
                 videoCodecs.push('hevc');
             }
             if (supportsVc1(videoTestElement)) {

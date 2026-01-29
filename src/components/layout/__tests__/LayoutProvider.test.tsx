@@ -1,7 +1,7 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LayoutProvider } from '../LayoutProvider';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 // Mock child components
 vi.mock('../../AppHeader', () => ({
@@ -44,7 +44,7 @@ describe('LayoutProvider', () => {
     });
 
     it('should render legacy layout when not in experimental or new path', () => {
-        mockUseLayoutMode.mockReturnValue({ 
+        mockUseLayoutMode.mockReturnValue({
             shouldHideLegacyHeader: false,
             isNewLayoutPath: false,
             isExperimentalLayout: false
@@ -64,7 +64,7 @@ describe('LayoutProvider', () => {
     });
 
     it('should render MainLayout when in experimental layout', () => {
-        mockUseLayoutMode.mockReturnValue({ 
+        mockUseLayoutMode.mockReturnValue({
             shouldHideLegacyHeader: true,
             isNewLayoutPath: false,
             isExperimentalLayout: true
@@ -79,18 +79,20 @@ describe('LayoutProvider', () => {
         const header = screen.getByTestId('app-header');
         expect(header).toBeInTheDocument();
         expect(header).toHaveAttribute('data-hidden', 'true');
-        
-        expect(screen.getByTestId('main-layout')).toContainElement(screen.getByTestId('test-child'));
+
+        expect(screen.getByTestId('main-layout')).toContainElement(
+            screen.getByTestId('test-child')
+        );
         // AppBody is likely inside MainLayout (but mocked MainLayout renders children directly, which is test-child).
         // The Provider itself does NOT wrap MainLayout in AppBody (MainLayout does it internally).
-        expect(screen.queryByTestId('app-body')).not.toBeInTheDocument(); 
+        expect(screen.queryByTestId('app-body')).not.toBeInTheDocument();
     });
 
     it('should render children directly when on new layout path (dashboard)', () => {
-        mockUseLayoutMode.mockReturnValue({ 
+        mockUseLayoutMode.mockReturnValue({
             shouldHideLegacyHeader: true,
             isNewLayoutPath: true,
-            isExperimentalLayout: false 
+            isExperimentalLayout: false
         });
 
         render(
@@ -105,6 +107,6 @@ describe('LayoutProvider', () => {
 
         expect(screen.getByTestId('test-child')).toBeInTheDocument();
         expect(screen.queryByTestId('main-layout')).not.toBeInTheDocument();
-        expect(screen.queryByTestId('app-body')).not.toBeInTheDocument(); 
+        expect(screen.queryByTestId('app-body')).not.toBeInTheDocument();
     });
 });

@@ -1,5 +1,5 @@
-import { type ReactElement, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { type ReactElement, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 const meta: Meta = {
@@ -37,7 +37,12 @@ function SeekSliderStory(): ReactElement {
                         marginBottom: vars.spacing['4']
                     }}
                 >
-                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
+                    <span
+                        style={{
+                            color: vars.colors.textSecondary,
+                            fontSize: vars.typography['3'].fontSize
+                        }}
+                    >
                         {formatTime(position)}
                     </span>
                     <div
@@ -81,7 +86,12 @@ function SeekSliderStory(): ReactElement {
                             }}
                         />
                     </div>
-                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
+                    <span
+                        style={{
+                            color: vars.colors.textSecondary,
+                            fontSize: vars.typography['3'].fontSize
+                        }}
+                    >
                         {formatTime(duration)}
                     </span>
                 </div>
@@ -119,7 +129,12 @@ function BufferedSeekSliderStory(): ReactElement {
                         marginBottom: vars.spacing['4']
                     }}
                 >
-                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
+                    <span
+                        style={{
+                            color: vars.colors.textSecondary,
+                            fontSize: vars.typography['3'].fontSize
+                        }}
+                    >
                         {formatTime(position)}
                     </span>
                     <div
@@ -175,7 +190,12 @@ function BufferedSeekSliderStory(): ReactElement {
                             }}
                         />
                     </div>
-                    <span style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
+                    <span
+                        style={{
+                            color: vars.colors.textSecondary,
+                            fontSize: vars.typography['3'].fontSize
+                        }}
+                    >
                         {formatTime(duration)}
                     </span>
                 </div>

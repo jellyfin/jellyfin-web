@@ -1,19 +1,16 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { type FC } from 'react';
 import { DragHandleDots2Icon } from '@radix-ui/react-icons';
-import { Box } from 'ui-primitives';
-
 import useIndicator from 'components/indicators/useIndicator';
 import { ItemAction } from 'constants/itemAction';
-
-import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
-import ListContentWrapper from './ListContentWrapper';
-import ListItemBody from './ListItemBody';
-import ListImageContainer from './ListImageContainer';
-import ListViewUserDataButtons from './ListViewUserDataButtons';
-
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
+import { Box } from 'ui-primitives';
+import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
+import ListContentWrapper from './ListContentWrapper';
+import ListImageContainer from './ListImageContainer';
+import ListItemBody from './ListItemBody';
+import ListViewUserDataButtons from './ListViewUserDataButtons';
 
 interface ListContentProps {
     item: ItemDto;
@@ -61,7 +58,9 @@ const ListContent: FC<ListContentProps> = ({
             )}
 
             {listOptions.showIndexNumberLeft && (
-                <Box className="listItem-indexnumberleft">{item.IndexNumber ?? <span>&nbsp;</span>}</Box>
+                <Box className="listItem-indexnumberleft">
+                    {item.IndexNumber ?? <span>&nbsp;</span>}
+                </Box>
             )}
 
             <ListItemBody

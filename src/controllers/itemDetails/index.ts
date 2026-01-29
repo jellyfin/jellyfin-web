@@ -1,10 +1,7 @@
 // @ts-nocheck
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
-import { intervalToDuration } from 'date-fns';
-import { escapeHtml } from 'utils/html';
-import { isEqual } from '../../utils/lodashUtils';
-
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { safeAppHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
@@ -13,29 +10,31 @@ import confirm from 'components/confirm/confirm';
 import imageLoader from 'components/images/imageLoader';
 import itemContextMenu from 'components/itemContextMenu';
 import itemHelper from 'components/itemHelper';
-import mediaInfo from 'components/mediainfo/mediainfo';
 import layoutManager from 'components/layoutManager';
 import listView from 'components/listview/listview';
 import loading from 'components/loading/loading';
+import mediaInfo from 'components/mediainfo/mediainfo';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import { AppFeature } from 'constants/appFeature';
 import { ItemAction } from 'constants/itemAction';
+import { intervalToDuration } from 'date-fns';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
-import dom from 'utils/dom';
 import { download } from 'scripts/fileDownloader';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { getPortraitShape, getSquareShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
+import dom from 'utils/dom';
 import Events from 'utils/events';
+import { escapeHtml } from 'utils/html';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { isEqual } from '../../utils/lodashUtils';
 import { logger } from '../../utils/logger';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -132,7 +131,7 @@ function getProgramScheduleHtml(items, action = 'none') {
 
 function getSelectedMediaSource(page, mediaSources) {
     const mediaSourceId = page.querySelector('.selectSource').value;
-    return mediaSources.filter(m => m.Id === mediaSourceId)[0];
+    return mediaSources.filter((m) => m.Id === mediaSourceId)[0];
 }
 
 function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
@@ -146,7 +145,7 @@ function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
             SeriesTimerId: seriesTimerId,
             Fields: 'ChannelInfo,ChannelImage'
         })
-        .then(result => {
+        .then((result) => {
             if (result.Items.length && result.Items[0].SeriesTimerId != seriesTimerId) {
                 result.Items = [];
             }
@@ -179,11 +178,13 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
     }
 
     if (user.Policy.EnableLiveTvManagement) {
-        import('../../components/recordingcreator/seriesrecordingeditor').then(({ default: seriesRecordingEditor }) => {
-            seriesRecordingEditor.embed(item, apiClient.serverId(), {
-                context: page.querySelector('.seriesRecordingEditor')
-            });
-        });
+        import('../../components/recordingcreator/seriesrecordingeditor').then(
+            ({ default: seriesRecordingEditor }) => {
+                seriesRecordingEditor.embed(item, apiClient.serverId(), {
+                    context: page.querySelector('.seriesRecordingEditor')
+                });
+            }
+        );
 
         page.querySelector('#seriesTimerScheduleSection').classList.remove('hide');
         hideAll(page, 'btnCancelSeriesTimer', true);
@@ -222,9 +223,11 @@ function renderTrackSelections(page, instance, item, forceReload) {
 
     const selectedId = mediaSources[0].Id;
     select.innerHTML = mediaSources
-        .map(v => {
+        .map((v) => {
             const selected = v.Id === selectedId ? ' selected' : '';
-            return '<option value="' + v.Id + '"' + selected + '>' + escapeHtml(v.Name) + '</option>';
+            return (
+                '<option value="' + v.Id + '"' + selected + '>' + escapeHtml(v.Name) + '</option>'
+            );
         })
         .join('');
 
@@ -244,7 +247,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
 function renderVideoSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter(m => {
+    const tracks = mediaSource.MediaStreams.filter((m) => {
         return m.Type === 'Video';
     });
 
@@ -252,7 +255,7 @@ function renderVideoSelections(page, mediaSources) {
     select.setLabel(globalize.translate('Video'));
     const selectedId = tracks.length ? tracks[0].Index : -1;
     select.innerHTML = tracks
-        .map(v => {
+        .map((v) => {
             const selected = v.Index === selectedId ? ' selected' : '';
             const titleParts = [];
             const resolutionText = mediaInfo.getResolutionText(v);
@@ -288,7 +291,7 @@ function renderVideoSelections(page, mediaSources) {
 function renderAudioSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter(m => {
+    const tracks = mediaSource.MediaStreams.filter((m) => {
         return m.Type === 'Audio';
     });
     tracks.sort(itemHelper.sortTracks);
@@ -296,9 +299,11 @@ function renderAudioSelections(page, mediaSources) {
     select.setLabel(globalize.translate('Audio'));
     const selectedId = mediaSource.DefaultAudioStreamIndex;
     select.innerHTML = tracks
-        .map(v => {
+        .map((v) => {
             const selected = v.Index === selectedId ? ' selected' : '';
-            return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+            return (
+                '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>'
+            );
         })
         .join('');
 
@@ -318,13 +323,16 @@ function renderAudioSelections(page, mediaSources) {
 function renderSubtitleSelections(page, mediaSources) {
     const mediaSource = getSelectedMediaSource(page, mediaSources);
 
-    const tracks = mediaSource.MediaStreams.filter(m => {
+    const tracks = mediaSource.MediaStreams.filter((m) => {
         return m.Type === 'Subtitle';
     });
     tracks.sort(itemHelper.sortTracks);
     const select = page.querySelector('.selectSubtitles');
     select.setLabel(globalize.translate('Subtitles'));
-    const selectedId = mediaSource.DefaultSubtitleStreamIndex == null ? -1 : mediaSource.DefaultSubtitleStreamIndex;
+    const selectedId =
+        mediaSource.DefaultSubtitleStreamIndex == null
+            ? -1
+            : mediaSource.DefaultSubtitleStreamIndex;
 
     let selected = selectedId === -1 ? ' selected' : '';
     select.innerHTML =
@@ -332,9 +340,17 @@ function renderSubtitleSelections(page, mediaSources) {
         globalize.translate('Off') +
         '</option>' +
         tracks
-            .map(v => {
+            .map((v) => {
                 selected = v.Index === selectedId ? ' selected' : '';
-                return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+                return (
+                    '<option value="' +
+                    v.Index +
+                    '" ' +
+                    selected +
+                    '>' +
+                    v.DisplayTitle +
+                    '</option>'
+                );
             })
             .join('');
 
@@ -372,9 +388,11 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle');
     } else if (playbackManager.canPlay(item)) {
         hideAll(page, 'btnPlay', true);
-        const enableInstantMix = ['Audio', 'MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
+        const enableInstantMix =
+            ['Audio', 'MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnInstantMix', enableInstantMix);
-        const enableShuffle = item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
+        const enableShuffle =
+            item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnShuffle', enableShuffle);
         canPlay = true;
 
@@ -493,7 +511,11 @@ function renderName(item, container, context) {
         );
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(escapeHtml(item.SeasonName || 'S' + item.ParentIndexNumber));
-    } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
+    } else if (
+        item.Album &&
+        item.AlbumId &&
+        (item.Type === 'MusicVideo' || item.Type === 'Audio')
+    ) {
         parentNameHtml.push(
             `<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${escapeHtml(item.Album)}</a>`
         );
@@ -510,10 +532,15 @@ function renderName(item, container, context) {
         if (parentNameLast) {
             // Music
             if (layoutManager.mobile) {
-                html = '<h3 class="parentName musicParentName">' + parentNameHtml.join('</br>') + '</h3>';
+                html =
+                    '<h3 class="parentName musicParentName">' +
+                    parentNameHtml.join('</br>') +
+                    '</h3>';
             } else {
                 html =
-                    '<h3 class="parentName musicParentName focuscontainer-x">' + parentNameHtml.join(' - ') + '</h3>';
+                    '<h3 class="parentName musicParentName focuscontainer-x">' +
+                    parentNameHtml.join(' - ') +
+                    '</h3>';
             }
         } else {
             html = '<h1 class="parentName focuscontainer-x"><bdi>' + tvShowHtml + '</bdi></h1>';
@@ -538,13 +565,20 @@ function renderName(item, container, context) {
             html += '<h3 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h3>';
         }
     } else if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-        html = '<h1 class="itemName infoText parentNameLast withOriginalTitle"><bdi>' + name + '</bdi></h1>' + html;
+        html =
+            '<h1 class="itemName infoText parentNameLast withOriginalTitle"><bdi>' +
+            name +
+            '</bdi></h1>' +
+            html;
     } else {
         html = '<h1 class="itemName infoText parentNameLast"><bdi>' + name + '</bdi></h1>' + html;
     }
 
     if (item.OriginalTitle && item.OriginalTitle != item.Name) {
-        html += '<h4 class="itemName infoText originalTitle">' + escapeHtml(item.OriginalTitle) + '</h4>';
+        html +=
+            '<h4 class="itemName infoText originalTitle">' +
+            escapeHtml(item.OriginalTitle) +
+            '</h4>';
     }
 
     container.innerHTML = html;
@@ -571,7 +605,10 @@ function renderBackdrop(page, item) {
     if (!layoutManager.mobile && dom.getWindowSize().innerWidth >= 1000) {
         const isBannerEnabled = !layoutManager.tv && userSettings.detailsBanner();
         // If backdrops are disabled, but the header banner is enabled, add a class to the page to disable the transparency
-        page.classList.toggle('noBackdropTransparency', isBannerEnabled && !userSettings.enableBackdrops());
+        page.classList.toggle(
+            'noBackdropTransparency',
+            isBannerEnabled && !userSettings.enableBackdrops()
+        );
 
         setBackdrops([item], null, isBannerEnabled);
     } else {
@@ -593,7 +630,12 @@ function renderHeaderBackdrop(page, item, apiClient) {
     let hasbackdrop = false;
     const itemBackdropElement = page.querySelector('#itemBackdrop');
 
-    const imgUrl = getItemBackdropImageUrl(apiClient, item, { maxWidth: dom.getScreenWidth() }, false);
+    const imgUrl = getItemBackdropImageUrl(
+        apiClient,
+        item,
+        { maxWidth: dom.getScreenWidth() },
+        false
+    );
 
     if (imgUrl) {
         imageLoader.lazyImage(itemBackdropElement, imgUrl);
@@ -641,7 +683,7 @@ function reloadFromItem(instance, page, params, item, user) {
     }
 
     showRecordingFields(instance, page, item, user);
-    const groupedVersions = (item.MediaSources || []).filter(g => {
+    const groupedVersions = (item.MediaSources || []).filter((g) => {
         return g.Type == 'Grouping';
     });
 
@@ -651,7 +693,7 @@ function reloadFromItem(instance, page, params, item, user) {
         page.querySelector('.btnSplitVersions').classList.add('hide');
     }
 
-    itemContextMenu.getCommands(getContextMenuOptions(item, user)).then(commands => {
+    itemContextMenu.getCommands(getContextMenuOptions(item, user)).then((commands) => {
         if (commands.length) {
             hideAll(page, 'btnMoreCommands', true);
         } else {
@@ -667,7 +709,10 @@ function reloadFromItem(instance, page, params, item, user) {
             const durationSinceBorn = intervalToDuration({ start: birthday, end: Date.now() });
             itemBirthday.classList.remove('hide');
             if (item.EndDate) {
-                itemBirthday.innerHTML = globalize.translate('BirthDateValue', birthday.toLocaleDateString());
+                itemBirthday.innerHTML = globalize.translate(
+                    'BirthDateValue',
+                    birthday.toLocaleDateString()
+                );
             } else {
                 itemBirthday.innerHTML = `${globalize.translate('BirthDateValue', birthday.toLocaleDateString())} ${globalize.translate('AgeValue', durationSinceBorn.years)}`;
             }
@@ -691,7 +736,10 @@ function reloadFromItem(instance, page, params, item, user) {
 
                 itemDeathDate.innerHTML = `${globalize.translate('DeathDateValue', deathday.toLocaleDateString())} ${globalize.translate('AgeValue', durationSinceBorn.years)}`;
             } else {
-                itemDeathDate.innerHTML = globalize.translate('DeathDateValue', deathday.toLocaleDateString());
+                itemDeathDate.innerHTML = globalize.translate(
+                    'DeathDateValue',
+                    deathday.toLocaleDateString()
+                );
             }
         } catch (err) {
             logger.error('Failed to parse death date', { component: 'itemDetails' }, err as Error);
@@ -747,10 +795,15 @@ const PRELOAD_LINK_PREFIX = 'pwa-preload-';
 const MAX_PRELOAD_LINKS = 10;
 
 function cleanupOldPreloadLinks() {
-    const existingLinks = document.querySelectorAll(`link[rel="preload"][id^="${PRELOAD_LINK_PREFIX}"]`);
+    const existingLinks = document.querySelectorAll(
+        `link[rel="preload"][id^="${PRELOAD_LINK_PREFIX}"]`
+    );
     if (existingLinks.length >= MAX_PRELOAD_LINKS) {
-        const linksToRemove = Array.from(existingLinks).slice(0, existingLinks.length - MAX_PRELOAD_LINKS + 1);
-        linksToRemove.forEach(link => link.remove());
+        const linksToRemove = Array.from(existingLinks).slice(
+            0,
+            existingLinks.length - MAX_PRELOAD_LINKS + 1
+        );
+        linksToRemove.forEach((link) => link.remove());
     }
 }
 
@@ -821,7 +874,7 @@ export function renderDiscImage(page, item, apiClient) {
     const userId = apiClient.getCurrentUserId();
     apiClient
         .getItem(userId, item.AlbumId)
-        .then(albumItem => {
+        .then((albumItem) => {
             const discTag = albumItem?.ImageTags?.Disc;
             if (!discTag) {
                 discImageElement.classList.add('hide');
@@ -842,14 +895,16 @@ function showRecordingFields(instance, page, item, user) {
         const recordingFieldsElement = page.querySelector('.recordingFields');
 
         if (item.Type == 'Program' && user.Policy.EnableLiveTvManagement) {
-            import('../../components/recordingcreator/recordingfields').then(({ default: RecordingFields }) => {
-                instance.currentRecordingFields = new RecordingFields({
-                    parent: recordingFieldsElement,
-                    programId: item.Id,
-                    serverId: item.ServerId
-                });
-                recordingFieldsElement.classList.remove('hide');
-            });
+            import('../../components/recordingcreator/recordingfields').then(
+                ({ default: RecordingFields }) => {
+                    instance.currentRecordingFields = new RecordingFields({
+                        parent: recordingFieldsElement,
+                        programId: item.Id,
+                        serverId: item.ServerId
+                    });
+                    recordingFieldsElement.classList.remove('hide');
+                }
+            );
         } else {
             recordingFieldsElement.classList.add('hide');
             recordingFieldsElement.innerHTML = '';
@@ -898,7 +953,7 @@ function renderDetailImage(apiClient, elem, item, loader) {
 }
 
 function renderImage(page, item, apiClient) {
-    page.querySelectorAll('.detailImageContainer').forEach(elem => {
+    page.querySelectorAll('.detailImageContainer').forEach((elem) => {
         renderDetailImage(apiClient, elem, item, imageLoader);
     });
 }
@@ -930,7 +985,7 @@ function renderNextUp(page, item, user) {
             UserId: user.Id,
             Fields: 'MediaSourceCount'
         })
-        .then(result => {
+        .then((result) => {
             if (result.Items.length) {
                 section.classList.remove('hide');
             } else {
@@ -999,7 +1054,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
 
     const cast = [];
     const guestCast = [];
-    (item.People || []).forEach(p => {
+    (item.People || []).forEach((p) => {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
         } else {
@@ -1082,7 +1137,7 @@ function renderGenres(page, item, context = inferContext(item)) {
     const type = context === 'music' ? 'MusicGenre' : 'Genre';
 
     const html = genres
-        .map(p => {
+        .map((p) => {
             return (
                 '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
                 appRouter.getRouteUrl(
@@ -1117,12 +1172,12 @@ function renderGenres(page, item, context = inferContext(item)) {
 }
 
 function renderWriter(page, item, context) {
-    const writers = (item.People || []).filter(person => {
+    const writers = (item.People || []).filter((person) => {
         return person.Type === 'Writer';
     });
 
     const html = writers
-        .map(person => {
+        .map((person) => {
             return (
                 '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
                 appRouter.getRouteUrl(
@@ -1157,12 +1212,12 @@ function renderWriter(page, item, context) {
 }
 
 function renderDirector(page, item, context) {
-    const directors = (item.People || []).filter(person => {
+    const directors = (item.People || []).filter((person) => {
         return person.Type === 'Director';
     });
 
     const html = directors
-        .map(person => {
+        .map((person) => {
             return (
                 '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
                 appRouter.getRouteUrl(
@@ -1203,7 +1258,7 @@ function renderStudio(page, item, context) {
     const studios = item.Studios || [];
 
     const html = studios
-        .map(studio => {
+        .map((studio) => {
             return (
                 '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
                 appRouter.getRouteUrl(
@@ -1318,7 +1373,7 @@ function renderLyricsContainer(view, item, apiClient) {
                 type: 'GET',
                 dataType: 'json'
             })
-            .then(response => {
+            .then((response) => {
                 if (!response.Lyrics) {
                     lyricContainer.classList.add('hide');
                     return;
@@ -1355,14 +1410,17 @@ function renderMoreFromSeason(view, item, apiClient) {
                 UserId: userId,
                 Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
             })
-            .then(result => {
+            .then((result) => {
                 if (result.Items.length < 2) {
                     section.classList.add('hide');
                     return;
                 }
 
                 section.classList.remove('hide');
-                section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.SeasonName);
+                section.querySelector('h2').innerText = globalize.translate(
+                    'MoreFromValue',
+                    item.SeasonName
+                );
                 const itemsContainer = section.querySelector('.itemsContainer');
                 cardBuilder.buildCards(result.Items, {
                     parentContainer: section,
@@ -1380,7 +1438,9 @@ function renderMoreFromSeason(view, item, apiClient) {
 
                 if (card) {
                     setTimeout(() => {
-                        section.querySelector('.emby-scroller').toStart(card.previousSibling || card, true);
+                        section
+                            .querySelector('.emby-scroller')
+                            .toStart(card.previousSibling || card, true);
                     }, 100);
                 }
             });
@@ -1411,10 +1471,10 @@ function renderMoreFromArtist(view, item, apiClient) {
         if (item.Type === 'MusicArtist') {
             query.ContributingArtistIds = item.Id;
         } else {
-            query.AlbumArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
+            query.AlbumArtistIds = item.AlbumArtists.map((artist) => artist.Id).join(',');
         }
 
-        apiClient.getItems(apiClient.getCurrentUserId(), query).then(result => {
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
             if (!result.Items.length) {
                 section.classList.add('hide');
                 return;
@@ -1425,7 +1485,10 @@ function renderMoreFromArtist(view, item, apiClient) {
             if (item.Type === 'MusicArtist') {
                 section.querySelector('h2').innerText = globalize.translate('HeaderAppearsOn');
             } else {
-                section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.AlbumArtists[0].Name);
+                section.querySelector('h2').innerText = globalize.translate(
+                    'MoreFromValue',
+                    item.AlbumArtists[0].Name
+                );
             }
 
             cardBuilder.buildCards(result.Items, {
@@ -1477,7 +1540,7 @@ function renderSimilarItems(page, item, context) {
             options.ExcludeArtistIds = item.AlbumArtists[0].Id;
         }
 
-        apiClient.getSimilarItems(item.Id, options).then(result => {
+        apiClient.getSimilarItems(item.Id, options).then((result) => {
             if (!result.Items.length) {
                 similarCollapsible.classList.add('hide');
                 return;
@@ -1517,7 +1580,7 @@ function renderSeriesAirTime(page, item) {
         if (item.AirDays.length == 7) {
             html += 'daily';
         } else {
-            html += item.AirDays.map(a => {
+            html += item.AirDays.map((a) => {
                 return a + 's';
             }).join(',');
         }
@@ -1543,12 +1606,14 @@ function renderTags(page, item) {
         tags = [];
     }
 
-    tags.forEach(tag => {
+    tags.forEach((tag) => {
         const href = appRouter.getRouteUrl('tag', {
             tag,
             serverId: item.ServerId
         });
-        tagElements.push(`<a href="${href}" class="button-link" is="emby-linkbutton">` + escapeHtml(tag) + '</a>');
+        tagElements.push(
+            `<a href="${href}" class="button-link" is="emby-linkbutton">` + escapeHtml(tag) + '</a>'
+        );
     });
 
     if (tagElements.length) {
@@ -1599,7 +1664,7 @@ function renderChildren(page, item) {
     }
 
     promise = promise || apiClient.getItems(apiClient.getCurrentUserId(), query);
-    promise.then(result => {
+    promise.then((result) => {
         let html = '';
         let scrollX = false;
         let isList = false;
@@ -1607,16 +1672,23 @@ function renderChildren(page, item) {
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
-                if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
+                if (
+                    !isEqual(
+                        track.ArtistItems.map((x) => x.Id).sort(),
+                        track.AlbumArtists.map((x) => x.Id).sort()
+                    )
+                ) {
                     showArtist = true;
                     break;
                 }
             }
-            const discNumbers = result.Items.map(x => x.ParentIndexNumber);
+            const discNumbers = result.Items.map((x) => x.ParentIndexNumber);
             html = listView.getListViewHtml({
                 items: result.Items,
                 smallIcon: true,
-                showIndex: new Set(discNumbers).size > 1 || (discNumbers.length >= 1 && discNumbers[0] > 1),
+                showIndex:
+                    new Set(discNumbers).size > 1 ||
+                    (discNumbers.length >= 1 && discNumbers[0] > 1),
                 index: 'disc',
                 showIndexNumberLeft: true,
                 playFromHere: true,
@@ -1745,7 +1817,7 @@ function renderChildren(page, item) {
     } else if (item.Type == 'MusicAlbum') {
         childrenTitle = globalize.translate('HeaderTracks');
     }
-    childrenCollapsible.querySelectorAll('.sectionTitle > span').forEach(el => {
+    childrenCollapsible.querySelectorAll('.sectionTitle > span').forEach((el) => {
         el.innerText = childrenTitle;
     });
 
@@ -1778,7 +1850,9 @@ function renderProgramsForChannel(page, result) {
         const item = result.Items[i];
         const itemStartDate = datetime.parseISO8601Date(item.StartDate);
 
-        if (!(currentStartDate && currentStartDate.toDateString() === itemStartDate.toDateString())) {
+        if (
+            !(currentStartDate && currentStartDate.toDateString() === itemStartDate.toDateString())
+        ) {
             if (currentItems.length) {
                 html += '<div class="verticalSection verticalDetailSection">';
                 html +=
@@ -1851,7 +1925,7 @@ function renderChannelGuide(page, apiClient, item) {
                 ImageTypeLimit: 0,
                 EnableUserData: false
             })
-            .then(result => {
+            .then((result) => {
                 renderProgramsForChannel(page, result);
             });
     }
@@ -1871,7 +1945,7 @@ function renderSeriesSchedule(page, item) {
             Fields: 'ChannelInfo,ChannelImage',
             LibrarySeriesId: item.Id
         })
-        .then(result => {
+        .then((result) => {
             if (result.Items.length) {
                 page.querySelector('#seriesScheduleSection').classList.remove('hide');
             } else {
@@ -1915,8 +1989,11 @@ function inferContext(item) {
 function filterItemsByCollectionItemType(items, typeInfo) {
     const filteredItems = [];
     const leftoverItems = [];
-    items.forEach(item => {
-        if ((typeInfo.mediaType && item.MediaType == typeInfo.mediaType) || item.Type == typeInfo.type) {
+    items.forEach((item) => {
+        if (
+            (typeInfo.mediaType && item.MediaType == typeInfo.mediaType) ||
+            item.Type == typeInfo.type
+        ) {
             filteredItems.push(item);
         } else {
             leftoverItems.push(item);
@@ -2034,7 +2111,7 @@ function renderMusicVideos(page, item, user) {
 
     ServerConnections.getApiClient(item.ServerId)
         .getItems(user.Id, request)
-        .then(result => {
+        .then((result) => {
             if (result.Items.length) {
                 page.querySelector('#musicVideosCollapsible').classList.remove('hide');
                 const musicVideosContent = page.querySelector('#musicVideosContent');
@@ -2049,7 +2126,7 @@ function renderMusicVideos(page, item, user) {
 function renderAdditionalParts(page, item, user) {
     ServerConnections.getApiClient(item.ServerId)
         .getAdditionalVideoParts(user.Id, item.Id)
-        .then(result => {
+        .then((result) => {
             if (result.Items.length) {
                 page.querySelector('#additionalPartsCollapsible').classList.remove('hide');
                 const additionalPartsContent = page.querySelector('#additionalPartsContent');
@@ -2072,14 +2149,16 @@ function renderScenes(page, item) {
         page.querySelector('#scenesCollapsible').classList.remove('hide');
         const scenesContent = page.querySelector('#scenesContent');
 
-        import('../../components/cardbuilder/chaptercardbuilder').then(({ default: chaptercardbuilder }) => {
-            chaptercardbuilder.buildChapterCards(item, chapters, {
-                itemsContainer: scenesContent,
-                backdropShape: 'overflowBackdrop',
-                squareShape: 'overflowSquare',
-                imageBlurhashes: item.ImageBlurHashes
-            });
-        });
+        import('../../components/cardbuilder/chaptercardbuilder').then(
+            ({ default: chaptercardbuilder }) => {
+                chaptercardbuilder.buildChapterCards(item, chapters, {
+                    itemsContainer: scenesContent,
+                    backdropShape: 'overflowBackdrop',
+                    squareShape: 'overflowSquare',
+                    imageBlurhashes: item.ImageBlurHashes
+                });
+            }
+        );
     } else {
         page.querySelector('#scenesCollapsible').classList.add('hide');
     }
@@ -2100,7 +2179,7 @@ function getVideosHtml(items) {
 function renderSpecials(page, item, user) {
     ServerConnections.getApiClient(item.ServerId)
         .getSpecialFeatures(user.Id, item.Id)
-        .then(specials => {
+        .then((specials) => {
             const specialsContent = page.querySelector('#specialsContent');
             specialsContent.innerHTML = getVideosHtml(specials);
             imageLoader.lazyChildren(specialsContent);
@@ -2116,15 +2195,17 @@ function renderCast(page, item, people) {
     page.querySelector('#castCollapsible').classList.remove('hide');
     const castContent = page.querySelector('#castContent');
 
-    import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
-        peoplecardbuilder.buildPeopleCards(people, {
-            itemsContainer: castContent,
-            coverImage: true,
-            serverId: item.ServerId,
-            shape: 'overflowPortrait',
-            imageBlurhashes: item.ImageBlurHashes
-        });
-    });
+    import('../../components/cardbuilder/peoplecardbuilder').then(
+        ({ default: peoplecardbuilder }) => {
+            peoplecardbuilder.buildPeopleCards(people, {
+                itemsContainer: castContent,
+                coverImage: true,
+                serverId: item.ServerId,
+                shape: 'overflowPortrait',
+                imageBlurhashes: item.ImageBlurHashes
+            });
+        }
+    );
 }
 
 function renderGuestCast(page, item, people) {
@@ -2136,15 +2217,17 @@ function renderGuestCast(page, item, people) {
     page.querySelector('#guestCastCollapsible').classList.remove('hide');
     const guestCastContent = page.querySelector('#guestCastContent');
 
-    import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
-        peoplecardbuilder.buildPeopleCards(people, {
-            itemsContainer: guestCastContent,
-            coverImage: true,
-            serverId: item.ServerId,
-            shape: 'overflowPortrait',
-            imageBlurhashes: item.ImageBlurHashes
-        });
-    });
+    import('../../components/cardbuilder/peoplecardbuilder').then(
+        ({ default: peoplecardbuilder }) => {
+            peoplecardbuilder.buildPeopleCards(people, {
+                itemsContainer: guestCastContent,
+                coverImage: true,
+                serverId: item.ServerId,
+                shape: 'overflowPortrait',
+                imageBlurhashes: item.ImageBlurHashes
+            });
+        }
+    );
 }
 
 function ItemDetailPage() {
@@ -2185,26 +2268,31 @@ export default function (view, params) {
                 currentItem = item;
                 reloadFromItem(instance, page, pageParams, item, user);
             })
-            .catch(error => {
-                logger.error('Failed to get item or current user', { component: 'itemDetails' }, error as Error);
+            .catch((error) => {
+                logger.error(
+                    'Failed to get item or current user',
+                    { component: 'itemDetails' },
+                    error as Error
+                );
             });
     }
 
     function splitVersions(instance, page, apiClient, pageParams) {
-        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(
-            () => {
-                loading.show();
-                apiClient
-                    .ajax({
-                        type: 'DELETE',
-                        url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
-                    })
-                    .then(() => {
-                        loading.hide();
-                        reload(instance, page, pageParams);
-                    });
-            }
-        );
+        confirm(
+            'Are you sure you wish to split the media sources into separate items?',
+            'Split Media Apart'
+        ).then(() => {
+            loading.show();
+            apiClient
+                .ajax({
+                    type: 'DELETE',
+                    url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
+                })
+                .then(() => {
+                    loading.hide();
+                    reload(instance, page, pageParams);
+                });
+        });
     }
 
     function getPlayOptions(startPosition) {
@@ -2232,15 +2320,20 @@ export default function (view, params) {
 
         if (item.Type === 'Program') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
-            apiClient.getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId()).then(channel => {
-                playbackManager.play({
-                    items: [channel]
+            apiClient
+                .getLiveTvChannel(item.ChannelId, apiClient.getCurrentUserId())
+                .then((channel) => {
+                    playbackManager.play({
+                        items: [channel]
+                    });
                 });
-            });
             return;
         }
 
-        playItem(item, item.UserData && mode === ItemAction.Resume ? item.UserData.PlaybackPositionTicks : 0);
+        playItem(
+            item,
+            item.UserData && mode === ItemAction.Resume ? item.UserData.PlaybackPositionTicks : 0
+        );
     }
 
     function onPlayClick() {
@@ -2264,21 +2357,30 @@ export default function (view, params) {
     }
 
     function onCancelSeriesTimerClick() {
-        import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(() => {
-                Dashboard.navigate('livetv');
-            });
-        });
+        import('../../components/recordingcreator/recordinghelper').then(
+            ({ default: recordingHelper }) => {
+                recordingHelper
+                    .cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId)
+                    .then(() => {
+                        Dashboard.navigate('livetv');
+                    });
+            }
+        );
     }
 
     function onCancelTimerClick() {
-        import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper
-                .cancelTimer(ServerConnections.getApiClient(currentItem.ServerId), currentItem.TimerId)
-                .then(() => {
-                    reload(self, view, params);
-                });
-        });
+        import('../../components/recordingcreator/recordinghelper').then(
+            ({ default: recordingHelper }) => {
+                recordingHelper
+                    .cancelTimer(
+                        ServerConnections.getApiClient(currentItem.ServerId),
+                        currentItem.TimerId
+                    )
+                    .then(() => {
+                        reload(self, view, params);
+                    });
+            }
+        );
     }
 
     function onPlayTrailerClick() {
@@ -2306,15 +2408,18 @@ export default function (view, params) {
 
         const apiClient = getApiClient();
 
-        apiClient.getItem(apiClient.getCurrentUserId(), selectedItem).then(item => {
+        apiClient.getItem(apiClient.getCurrentUserId(), selectedItem).then((item) => {
             selectedItem = item;
 
-            apiClient.getCurrentUser().then(user => {
+            apiClient.getCurrentUser().then((user) => {
                 itemContextMenu
                     .show(getContextMenuOptions(selectedItem, user, button))
-                    .then(result => {
+                    .then((result) => {
                         if (result.deleted) {
-                            const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
+                            const parentId =
+                                selectedItem.SeasonId ||
+                                selectedItem.SeriesId ||
+                                selectedItem.ParentId;
 
                             if (parentId) {
                                 appRouter.showItem(parentId, item.ServerId);
@@ -2341,9 +2446,13 @@ export default function (view, params) {
         const msg = data;
         const apiClient = getApiClient();
 
-        if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
+        if (
+            msg.MessageType === 'UserDataChanged' &&
+            currentItem &&
+            msg.Data.UserId == apiClient.getCurrentUserId()
+        ) {
             const key = currentItem.UserData.Key;
-            const userData = msg.Data.UserDataList.filter(u => {
+            const userData = msg.Data.UserDataList.filter((u) => {
                 return u.Key == key;
             })[0];
 

@@ -1,11 +1,8 @@
-import React, { type FunctionComponent } from 'react';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
-import Task from './Task';
-import { List } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
+import React, { type FunctionComponent } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, Heading, List, Paper } from 'ui-primitives';
+import Task from './Task';
 
 interface TasksProps {
     category: string;

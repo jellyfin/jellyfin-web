@@ -2,7 +2,7 @@
  * AlbumArt - Album artwork display with fallback
  */
 
-import { useState, useCallback, type ReactElement } from 'react';
+import { type ReactElement, useCallback, useState } from 'react';
 import { container, image, placeholder } from './AlbumArt.css.ts';
 
 export interface AlbumArtProps {

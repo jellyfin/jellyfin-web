@@ -5,9 +5,9 @@
  * This is the "Control Layer" that connects the reactive UI to the imperative player.
  */
 
-import { audioDriver } from '../AudioDriver';
 import { useMediaStore, useQueueStore, useSettingsStore } from '../../store';
 import { logger } from '../../utils/logger';
+import { audioDriver } from '../AudioDriver';
 
 export class StoreSync {
     private static instance: StoreSync;
@@ -30,7 +30,7 @@ export class StoreSync {
 
         // 1. Sync Playback Actions
         useMediaStore.subscribe(
-            state => state.status,
+            (state) => state.status,
             (status, prevStatus) => {
                 if (status === prevStatus) return;
 
@@ -50,7 +50,7 @@ export class StoreSync {
 
         // 3. Sync Item Changes (The "Next Track" trigger)
         useMediaStore.subscribe(
-            state => state.currentItem?.id,
+            (state) => state.currentItem?.id,
             (id, prevId) => {
                 if (!id || id === prevId) return;
 
@@ -58,7 +58,10 @@ export class StoreSync {
                 const streamInfo = useMediaStore.getState().streamInfo;
 
                 if (item && streamInfo?.url) {
-                    logger.debug('StoreSync: Loading new item', { component: 'StoreSync', itemId: id });
+                    logger.debug('StoreSync: Loading new item', {
+                        component: 'StoreSync',
+                        itemId: id
+                    });
                     audioDriver.loadAndPlay(streamInfo.url, item);
                 }
             }

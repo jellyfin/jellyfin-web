@@ -49,8 +49,12 @@ export function supportsAc3InHls(videoTestElement: HTMLMediaElement): string | b
 
     if (videoTestElement.canPlayType) {
         return (
-            videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '') ||
-            videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '')
+            videoTestElement
+                .canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"')
+                .replace(/no/, '') ||
+            videoTestElement
+                .canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"')
+                .replace(/no/, '')
         );
     }
 
@@ -60,7 +64,9 @@ export function supportsAc3InHls(videoTestElement: HTMLMediaElement): string | b
 export function supportsMp3InHls(videoTestElement: HTMLMediaElement): string | boolean {
     if (videoTestElement.canPlayType) {
         return (
-            videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"').replace(/no/, '') ||
+            videoTestElement
+                .canPlayType('application/x-mpegurl; codecs="avc1.64001E, mp4a.40.34"')
+                .replace(/no/, '') ||
             videoTestElement
                 .canPlayType('application/vnd.apple.mpegURL; codecs="avc1.64001E, mp4a.40.34"')
                 .replace(/no/, '')

@@ -4,10 +4,10 @@
  * Zustand store for managing Jellyfin API state and user.
  */
 
-import { create } from 'zustand';
-import { subscribeWithSelector } from 'zustand/middleware';
 import type { Api } from '@jellyfin/sdk';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { create } from 'zustand';
+import { subscribeWithSelector } from 'zustand/middleware';
 
 export interface JellyfinApiContext {
     __legacyApiClient__?: any; // ApiClient from jellyfin-apiclient
@@ -30,30 +30,30 @@ export interface ApiState {
 const initialContext: JellyfinApiContext = {};
 
 export const useApiStore = create<ApiState>()(
-    subscribeWithSelector(set => ({
+    subscribeWithSelector((set) => ({
         context: { ...initialContext },
         isLoading: false,
 
-        setLegacyApiClient: client =>
-            set(state => ({
+        setLegacyApiClient: (client) =>
+            set((state) => ({
                 context: { ...state.context, __legacyApiClient__: client }
             })),
 
-        setApi: api =>
-            set(state => ({
+        setApi: (api) =>
+            set((state) => ({
                 context: { ...state.context, api }
             })),
 
-        setUser: user =>
-            set(state => ({
+        setUser: (user) =>
+            set((state) => ({
                 context: { ...state.context, user }
             })),
 
-        setLoading: loading => set({ isLoading: loading }),
+        setLoading: (loading) => set({ isLoading: loading }),
 
         reset: () => set({ context: { ...initialContext }, isLoading: false })
     }))
 );
 
 // Hook for useApi
-export const useApi = () => useApiStore(state => state.context);
+export const useApi = () => useApiStore((state) => state.context);

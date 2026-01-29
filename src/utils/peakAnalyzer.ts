@@ -37,7 +37,12 @@ function getCachedPeaks(itemId: string | null, streamUrl: string | null): PeakCa
     return null;
 }
 
-function setCachedPeaks(itemId: string | null, streamUrl: string | null, peaks: number[][], duration: number): void {
+function setCachedPeaks(
+    itemId: string | null,
+    streamUrl: string | null,
+    peaks: number[][],
+    duration: number
+): void {
     const key = getCacheKey(itemId, streamUrl);
     if (!key) return;
 
@@ -52,7 +57,10 @@ function setCachedPeaks(itemId: string | null, streamUrl: string | null, peaks: 
         });
         if (oldestKey) {
             peakCache.delete(oldestKey);
-            logger.debug('[PeakAnalyzer] Evicted oldest cache entry', { component: 'PeakAnalyzer', key: oldestKey });
+            logger.debug('[PeakAnalyzer] Evicted oldest cache entry', {
+                component: 'PeakAnalyzer',
+                key: oldestKey
+            });
         }
     }
 
@@ -129,7 +137,7 @@ export async function extractPeaksForAnalysis(
                 wavesurfer.load(streamUrl);
             });
 
-            await new Promise<void>(resolve => {
+            await new Promise<void>((resolve) => {
                 const checkDecoded = () => {
                     if (wavesurfer.getDecodedData()) {
                         resolve();
@@ -160,7 +168,10 @@ export async function extractPeaksForAnalysis(
                 };
             }
 
-            logger.warn('[PeakAnalyzer] Failed to extract peaks - empty data', { component: 'PeakAnalyzer', itemId });
+            logger.warn('[PeakAnalyzer] Failed to extract peaks - empty data', {
+                component: 'PeakAnalyzer',
+                itemId
+            });
             return null;
         } finally {
             if (wavesurfer) {
@@ -202,7 +213,10 @@ export function hasPeakData(itemId: string | null, streamUrl: string | null): bo
     return getCachedPeaks(itemId, streamUrl) !== null;
 }
 
-export function getPeakData(itemId: string | null, streamUrl: string | null): PeakAnalysisResult | null {
+export function getPeakData(
+    itemId: string | null,
+    streamUrl: string | null
+): PeakAnalysisResult | null {
     const cached = getCachedPeaks(itemId, streamUrl);
     if (!cached) return null;
 
@@ -282,7 +296,11 @@ export async function extractPeaksWithOptions(
             document.body.removeChild(container);
         }
     } catch (error) {
-        logger.warn('[PeakAnalyzer] Extraction failed', { component: 'PeakAnalyzer', itemId }, error as Error);
+        logger.warn(
+            '[PeakAnalyzer] Extraction failed',
+            { component: 'PeakAnalyzer', itemId },
+            error as Error
+        );
         return null;
     }
 }
@@ -299,7 +317,10 @@ export function evictOldCacheEntries(maxAgeMs = 3600000): void {
     });
 
     if (evicted > 0) {
-        logger.debug('[PeakAnalyzer] Evicted old entries', { component: 'PeakAnalyzer', count: evicted });
+        logger.debug('[PeakAnalyzer] Evicted old entries', {
+            component: 'PeakAnalyzer',
+            count: evicted
+        });
     }
 }
 
@@ -312,7 +333,7 @@ export function getCacheStats(): { size: number; oldestAge: number; newestAge: n
     let oldestAge = 0;
     let newestAge = 0;
 
-    peakCache.forEach(entry => {
+    peakCache.forEach((entry) => {
         const age = now - entry.timestamp;
         if (age > oldestAge) oldestAge = age;
         if (age < newestAge || newestAge === 0) newestAge = age;

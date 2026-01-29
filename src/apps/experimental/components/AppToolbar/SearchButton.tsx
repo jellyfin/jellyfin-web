@@ -1,10 +1,9 @@
-import React, { type FC } from 'react';
-import { useLocation, useNavigate } from '@tanstack/react-router';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import globalize from 'lib/globalize';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useSearchParams } from 'hooks/useSearchParams';
+import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
+import { IconButton, Tooltip } from 'ui-primitives';
 
 const getUrlParams = (searchParams: URLSearchParams) => {
     const parentId = searchParams.get('parentId') || searchParams.get('topParentId');

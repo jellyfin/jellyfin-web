@@ -1,12 +1,9 @@
-import React, { useState, type FormEvent } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Input } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import globalize from 'lib/globalize';
+import React, { type FormEvent, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Flex, Input, Text } from 'ui-primitives';
 
 interface PromptDialogProps {
     isOpen: boolean;
@@ -74,13 +71,23 @@ export function PromptDialog({
     };
 
     return (
-        <DialogPrimitive.Root open={isOpen} onOpenChange={open => !open && onClose()}>
+        <DialogPrimitive.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
             <DialogPrimitive.Portal>
                 <DialogPrimitive.Overlay style={dialogOverlayStyle} />
                 <DialogPrimitive.Content style={dialogContentStyle}>
                     <Box style={{ padding: vars.spacing['5'] }}>
-                        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
-                            {title && <DialogPrimitive.Title style={dialogTitleStyle}>{title}</DialogPrimitive.Title>}
+                        <Flex
+                            style={{
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                marginBottom: vars.spacing['4']
+                            }}
+                        >
+                            {title && (
+                                <DialogPrimitive.Title style={dialogTitleStyle}>
+                                    {title}
+                                </DialogPrimitive.Title>
+                            )}
                             <DialogPrimitive.Close asChild>
                                 <button
                                     type="button"
@@ -108,7 +115,13 @@ export function PromptDialog({
                         )}
 
                         <form onSubmit={handleSubmit}>
-                            <Input id="txtInput" label={label} value={inputValue} onChange={handleChange} autoFocus />
+                            <Input
+                                id="txtInput"
+                                label={label}
+                                value={inputValue}
+                                onChange={handleChange}
+                                autoFocus
+                            />
 
                             <Flex style={{ marginTop: '24px', justifyContent: 'flex-end' }}>
                                 <Button type="submit" variant="primary">
@@ -136,7 +149,7 @@ export function usePrompt(options: UsePromptOptions = {}) {
     const [resolvePromise, setResolvePromise] = useState<((value: string) => void) | null>(null);
 
     const prompt = (): Promise<string> => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             setResolvePromise(() => resolve);
             setIsOpen(true);
         });

@@ -1,27 +1,37 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import { PlaystateCommand } from '@jellyfin/sdk/lib/generated-client/models/playstate-command';
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
-import { ChatBubbleIcon, InfoCircledIcon, PauseIcon, PlayIcon, StopIcon } from '@radix-ui/react-icons';
+import {
+    ChatBubbleIcon,
+    InfoCircledIcon,
+    PauseIcon,
+    PlayIcon,
+    StopIcon
+} from '@radix-ui/react-icons';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 import InputDialog from 'components/InputDialog';
 import playmethodhelper from 'components/playback/playmethodhelper';
-import globalize from 'lib/globalize';
-import getSessionNowPlayingStreamInfo from '../../sessions/utils/getSessionNowPlayingStreamInfo';
-import { useSendPlayStateCommand } from '../../sessions/api/usePlayPauseSession';
-import { PlaystateCommand } from '@jellyfin/sdk/lib/generated-client/models/playstate-command';
-import { useSendMessage } from '../../sessions/api/useSendMessage';
-import { Card } from 'ui-primitives';
-import { AspectRatio } from 'ui-primitives';
-import { Avatar } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Progress } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-import { getDeviceIcon } from 'utils/image';
-import getNowPlayingName from '../../sessions/utils/getNowPlayingName';
-import getSessionNowPlayingTime from '../../sessions/utils/getSessionNowPlayingTime';
-import getNowPlayingImageUrl from '../../sessions/utils/getNowPlayingImageUrl';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
 import SimpleAlert from 'components/SimpleAlert';
+import globalize from 'lib/globalize';
+import React, { useCallback, useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    AspectRatio,
+    Avatar,
+    Box,
+    Card,
+    Flex,
+    Heading,
+    IconButton,
+    Progress,
+    Text
+} from 'ui-primitives';
+import { getDeviceIcon } from 'utils/image';
+import { useSendPlayStateCommand } from '../../sessions/api/usePlayPauseSession';
+import { useSendMessage } from '../../sessions/api/useSendMessage';
+import getNowPlayingImageUrl from '../../sessions/utils/getNowPlayingImageUrl';
+import getNowPlayingName from '../../sessions/utils/getNowPlayingName';
+import getSessionNowPlayingStreamInfo from '../../sessions/utils/getSessionNowPlayingStreamInfo';
+import getSessionNowPlayingTime from '../../sessions/utils/getSessionNowPlayingTime';
 
 interface DeviceCardProps {
     device: SessionInfo;
@@ -87,12 +97,16 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
         switch (displayPlayMethod) {
             case 'Remux':
                 setPlaybackInfoTitle(globalize.translate('Remuxing'));
-                setPlaybackInfoDesc(globalize.translate('RemuxHelp1') + '\n' + globalize.translate('RemuxHelp2'));
+                setPlaybackInfoDesc(
+                    globalize.translate('RemuxHelp1') + '\n' + globalize.translate('RemuxHelp2')
+                );
                 break;
             case 'DirectStream':
                 setPlaybackInfoTitle(globalize.translate('DirectStreaming'));
                 setPlaybackInfoDesc(
-                    globalize.translate('DirectStreamHelp1') + '\n' + globalize.translate('DirectStreamHelp2')
+                    globalize.translate('DirectStreamHelp1') +
+                        '\n' +
+                        globalize.translate('DirectStreamHelp2')
                 );
                 break;
             case 'DirectPlay':
@@ -100,9 +114,13 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                 setPlaybackInfoDesc(globalize.translate('DirectPlayHelp'));
                 break;
             case 'Transcode': {
-                const transcodeReasons = device.TranscodingInfo?.TranscodeReasons as string[] | undefined;
+                const transcodeReasons = device.TranscodingInfo?.TranscodeReasons as
+                    | string[]
+                    | undefined;
                 const localizedTranscodeReasons =
-                    transcodeReasons?.map(transcodeReason => globalize.translate(transcodeReason)) || [];
+                    transcodeReasons?.map((transcodeReason) =>
+                        globalize.translate(transcodeReason)
+                    ) || [];
                 setPlaybackInfoTitle(globalize.translate('Transcoding'));
                 setPlaybackInfoDesc(
                     globalize.translate('MediaIsBeingConverted') +
@@ -168,7 +186,8 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        background: 'linear-gradient(rgba(0,0,0,0.8), transparent, rgba(0,0,0,0.8))',
+                        background:
+                            'linear-gradient(rgba(0,0,0,0.8), transparent, rgba(0,0,0,0.8))',
                         padding: vars.spacing['5'],
                         display: 'flex',
                         flexDirection: 'column',
@@ -176,15 +195,27 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                     }}
                 >
                     <Flex style={{ gap: vars.spacing['5'], alignItems: 'center' }}>
-                        <Avatar src={deviceIcon} variant="plain" style={{ width: '2.5rem', height: '2.5rem' }} />
+                        <Avatar
+                            src={deviceIcon}
+                            variant="plain"
+                            style={{ width: '2.5rem', height: '2.5rem' }}
+                        />
                         <Flex style={{ gap: vars.spacing['2'] }}>
-                            <Heading.H5 style={{ color: vars.colors.text }}>{device.DeviceName}</Heading.H5>
+                            <Heading.H5 style={{ color: vars.colors.text }}>
+                                {device.DeviceName}
+                            </Heading.H5>
                             <Text size="xs" style={{ color: vars.colors.textSecondary }}>
                                 {device.Client + ' ' + device.ApplicationVersion}
                             </Text>
                         </Flex>
                     </Flex>
-                    <Flex style={{ gap: vars.spacing['2'], alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                    <Flex
+                        style={{
+                            gap: vars.spacing['2'],
+                            alignItems: 'flex-end',
+                            justifyContent: 'space-between'
+                        }}
+                    >
                         <Flex style={{ gap: vars.spacing['2'] }}>
                             {nowPlayingName.image ? (
                                 <img
@@ -227,7 +258,9 @@ const DeviceCard = ({ device }: DeviceCardProps): React.ReactElement => {
                 </Box>
             </AspectRatio>
 
-            {isPlayingMedia && <Progress value={progressValue} style={{ height: '4px', borderRadius: 0 }} />}
+            {isPlayingMedia && (
+                <Progress value={progressValue} style={{ height: '4px', borderRadius: 0 }} />
+            )}
 
             <Flex
                 style={{

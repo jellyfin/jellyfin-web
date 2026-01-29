@@ -1,12 +1,8 @@
-import React, { type FC } from 'react';
-
 import { useLocale } from 'hooks/useLocale';
-import { toDecimalString } from 'utils/number';
-import { Card } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Skeleton } from 'ui-primitives';
+import React, { type FC } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, Flex, Skeleton, Text } from 'ui-primitives';
+import { toDecimalString } from 'utils/number';
 
 interface Metric {
     label: string;

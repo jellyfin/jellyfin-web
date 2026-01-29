@@ -15,7 +15,7 @@ export function show(
     serverId: string,
     options?: ShowOptions
 ): Promise<{ updated: boolean; deleted?: boolean }> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         const container = document.createElement('div');
         document.body.appendChild(container);
         const root = createRoot(container);
@@ -58,7 +58,12 @@ export function embed(itemId: string, serverId: string, options: EmbedOptions): 
     };
 
     root.render(
-        <SeriesRecordingEditorDialog itemId={itemId} serverId={serverId} enableCancel={false} onClose={handleClose} />
+        <SeriesRecordingEditorDialog
+            itemId={itemId}
+            serverId={serverId}
+            enableCancel={false}
+            onClose={handleClose}
+        />
     );
 }
 

@@ -4,7 +4,7 @@
  * Manages view style (List, Poster, etc.) persistence in localStorage.
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 
 type ViewStyle = 'List' | 'Poster' | 'PosterCard' | 'ThumbCard' | 'Banner' | 'Detail';
@@ -30,7 +30,10 @@ export const useViewStyle = (
     const { storageKey = 'jellyfin-view-style' } = options;
 
     const [viewStyle, setViewStyleState] = useState<ViewStyle>(defaultView);
-    const [storedValue, setStoredValue] = useLocalStorage<ViewStyle>(`${storageKey}-${componentKey}`, defaultView);
+    const [storedValue, setStoredValue] = useLocalStorage<ViewStyle>(
+        `${storageKey}-${componentKey}`,
+        defaultView
+    );
 
     useEffect(() => {
         if (storedValue) {

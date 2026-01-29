@@ -1,5 +1,5 @@
-import React, { type ReactNode, type ReactElement } from 'react';
-import { Provider, Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-tooltip';
+import { Arrow, Content, Portal, Provider, Root, Trigger } from '@radix-ui/react-tooltip';
+import React, { type ReactElement, type ReactNode } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import { tooltipContent } from './Tooltip.css.ts';
 
@@ -13,7 +13,12 @@ interface TooltipProps {
     readonly variant?: 'plain' | 'soft' | 'solid';
 }
 
-export function Tooltip({ title, children, className, placement = 'top' }: TooltipProps): ReactElement {
+export function Tooltip({
+    title,
+    children,
+    className,
+    placement = 'top'
+}: TooltipProps): ReactElement {
     return (
         <Provider>
             <Root>

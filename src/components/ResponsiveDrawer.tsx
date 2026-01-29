@@ -1,8 +1,7 @@
 import React, { type FC, type PropsWithChildren } from 'react';
 import browser from 'scripts/browser';
-import { Drawer } from 'ui-primitives';
-import { Box } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Drawer } from 'ui-primitives';
 
 export const DRAWER_WIDTH = 240;
 
@@ -12,7 +11,11 @@ export interface ResponsiveDrawerProps {
     onOpen: () => void;
 }
 
-const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({ children, open = false, onClose }) => {
+const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
+    children,
+    open = false,
+    onClose
+}) => {
     if (browser.mobile) {
         return (
             <Drawer

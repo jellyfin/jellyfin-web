@@ -1,13 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { Box, Flex } from '../../../ui-primitives';
-import { Text, Heading } from '../../../ui-primitives';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Button } from '../../../ui-primitives';
-import { IconButton } from '../../../ui-primitives';
-import { Toggle } from '../../../ui-primitives';
-import { Slider } from '../../../ui-primitives';
+import {
+    Box,
+    Button,
+    Flex,
+    Heading,
+    IconButton,
+    Slider,
+    Text,
+    Toggle
+} from '../../../ui-primitives';
 import { WaveformCell } from '../../../ui-primitives/organisms/WaveformCell';
 
 const meta: Meta = {
@@ -48,7 +52,7 @@ export const PlaybackWithVisualizer: Story = {
         React.useEffect(() => {
             if (!isPlaying) return;
             const interval = setInterval(() => {
-                setCurrentTime(t => {
+                setCurrentTime((t) => {
                     if (t >= duration) {
                         setIsPlaying(false);
                         return 0;
@@ -111,7 +115,11 @@ export const PlaybackWithVisualizer: Story = {
                                     justifyContent: 'center'
                                 }}
                             >
-                                <Text size="xl" weight="bold" style={{ color: vars.colors.primary }}>
+                                <Text
+                                    size="xl"
+                                    weight="bold"
+                                    style={{ color: vars.colors.primary }}
+                                >
                                     {formatDuration(currentTime)}
                                 </Text>
                             </Box>
@@ -135,7 +143,11 @@ export const PlaybackWithVisualizer: Story = {
                         />
                     </Box>
 
-                    <Flex align="center" gap={vars.spacing['5']} style={{ marginBottom: vars.spacing['5'] }}>
+                    <Flex
+                        align="center"
+                        gap={vars.spacing['5']}
+                        style={{ marginBottom: vars.spacing['5'] }}
+                    >
                         <IconButton
                             variant="ghost"
                             size="lg"
@@ -143,7 +155,11 @@ export const PlaybackWithVisualizer: Story = {
                         >
                             ↺10
                         </IconButton>
-                        <IconButton variant="soft" size="lg" onClick={() => setIsPlaying(!isPlaying)}>
+                        <IconButton
+                            variant="soft"
+                            size="lg"
+                            onClick={() => setIsPlaying(!isPlaying)}
+                        >
                             {isPlaying ? '⏸' : '▶'}
                         </IconButton>
                         <IconButton
@@ -154,7 +170,11 @@ export const PlaybackWithVisualizer: Story = {
                             ↻10
                         </IconButton>
                         <Box style={{ flex: 1 }} />
-                        <Text size="sm" color="secondary" style={{ width: '40px', textAlign: 'right' }}>
+                        <Text
+                            size="sm"
+                            color="secondary"
+                            style={{ width: '40px', textAlign: 'right' }}
+                        >
                             {Math.round(volume)}%
                         </Text>
                         <Box style={{ width: '100px' }}>
@@ -180,7 +200,9 @@ export const PlaybackWithVisualizer: Story = {
                                     width: '8px',
                                     height: '8px',
                                     borderRadius: '50%',
-                                    backgroundColor: isPlaying ? vars.colors.success : vars.colors.warning
+                                    backgroundColor: isPlaying
+                                        ? vars.colors.success
+                                        : vars.colors.warning
                                 }}
                             />
                             <Text size="sm" color="secondary">
@@ -205,10 +227,12 @@ export const VisualizerControlsDemo: Story = {
 
         return (
             <Box style={{ padding: vars.spacing['6'] }}>
-                <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>Visualizer Controls</Heading.H3>
+                <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>
+                    Visualizer Controls
+                </Heading.H3>
                 <Text color="secondary" style={{ marginBottom: vars.spacing['6'] }}>
-                    Control which visualizer components are active. Each visualizer renders in the visualizer container
-                    when enabled.
+                    Control which visualizer components are active. Each visualizer renders in the
+                    visualizer container when enabled.
                 </Text>
 
                 <Box
@@ -235,13 +259,16 @@ export const VisualizerControlsDemo: Story = {
                             </Text>
                             <Toggle
                                 pressed={settings.butterchurn}
-                                onPressedChange={pressed => setSettings(s => ({ ...s, butterchurn: pressed }))}
+                                onPressedChange={(pressed) =>
+                                    setSettings((s) => ({ ...s, butterchurn: pressed }))
+                                }
                             >
                                 {settings.butterchurn ? 'ON' : 'OFF'}
                             </Toggle>
                         </Flex>
                         <Text size="xs" color="secondary">
-                            MilkDrop-compatible audio reactive visualizer with presets and customization.
+                            MilkDrop-compatible audio reactive visualizer with presets and
+                            customization.
                         </Text>
                     </Box>
 
@@ -262,7 +289,9 @@ export const VisualizerControlsDemo: Story = {
                             </Text>
                             <Toggle
                                 pressed={settings.threeJs}
-                                onPressedChange={pressed => setSettings(s => ({ ...s, threeJs: pressed }))}
+                                onPressedChange={(pressed) =>
+                                    setSettings((s) => ({ ...s, threeJs: pressed }))
+                                }
                             >
                                 {settings.threeJs ? 'ON' : 'OFF'}
                             </Toggle>
@@ -289,13 +318,16 @@ export const VisualizerControlsDemo: Story = {
                             </Text>
                             <Toggle
                                 pressed={settings.frequencyAnalyzer}
-                                onPressedChange={pressed => setSettings(s => ({ ...s, frequencyAnalyzer: pressed }))}
+                                onPressedChange={(pressed) =>
+                                    setSettings((s) => ({ ...s, frequencyAnalyzer: pressed }))
+                                }
                             >
                                 {settings.frequencyAnalyzer ? 'ON' : 'OFF'}
                             </Toggle>
                         </Flex>
                         <Text size="xs" color="secondary">
-                            Real-time frequency data visualization using Web Audio API analyzer node.
+                            Real-time frequency data visualization using Web Audio API analyzer
+                            node.
                         </Text>
                     </Box>
 
@@ -316,7 +348,9 @@ export const VisualizerControlsDemo: Story = {
                             </Text>
                             <Toggle
                                 pressed={settings.waveSurfer}
-                                onPressedChange={pressed => setSettings(s => ({ ...s, waveSurfer: pressed }))}
+                                onPressedChange={(pressed) =>
+                                    setSettings((s) => ({ ...s, waveSurfer: pressed }))
+                                }
                             >
                                 {settings.waveSurfer ? 'ON' : 'OFF'}
                             </Toggle>
@@ -344,7 +378,11 @@ export const VisualizerControlsDemo: Story = {
                     >
                         {settings.frequencyAnalyzer && (
                             <Box style={{ margin: vars.spacing['5'] }}>
-                                <Flex gap={vars.spacing['2']} align="end" style={{ height: '80px' }}>
+                                <Flex
+                                    gap={vars.spacing['2']}
+                                    align="end"
+                                    style={{ height: '80px' }}
+                                >
                                     {Array.from({ length: 32 }, (_, i) => (
                                         <Box
                                             key={i}
@@ -385,7 +423,9 @@ export const VisualizerControlsDemo: Story = {
 export const AudioEngineIntegration: Story = {
     render: () => (
         <Box style={{ padding: vars.spacing['6'] }}>
-            <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>Audio Engine Integration</Heading.H3>
+            <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>
+                Audio Engine Integration
+            </Heading.H3>
 
             <Flex direction="column" gap={vars.spacing['6']}>
                 <Box
@@ -486,9 +526,12 @@ export const AudioEngineIntegration: Story = {
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Visualizer Connections</Heading.H4>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>
+                        Visualizer Connections
+                    </Heading.H4>
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
-                        Visualizers connect to the audio engine at specific points in the signal chain:
+                        Visualizers connect to the audio engine at specific points in the signal
+                        chain:
                     </Text>
                     <Flex direction="column" gap={vars.spacing['4']}>
                         <Flex align="center" gap={vars.spacing['4']}>
@@ -546,7 +589,9 @@ export const AudioEngineIntegration: Story = {
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Key Components</Heading.H4>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>
+                        Key Components
+                    </Heading.H4>
                     <Box
                         style={{
                             display: 'grid',
@@ -561,12 +606,16 @@ export const AudioEngineIntegration: Story = {
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing['2'] }}>
+                            <Text
+                                size="sm"
+                                weight="bold"
+                                style={{ marginBottom: vars.spacing['2'] }}
+                            >
                                 masterAudioOutput
                             </Text>
                             <Text size="xs" color="secondary">
-                                Central audio output manager that coordinates the audio chain and provides access to
-                                AudioContext, mixer node, and limiter.
+                                Central audio output manager that coordinates the audio chain and
+                                provides access to AudioContext, mixer node, and limiter.
                             </Text>
                         </Box>
                         <Box
@@ -576,11 +625,16 @@ export const AudioEngineIntegration: Story = {
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing['2'] }}>
+                            <Text
+                                size="sm"
+                                weight="bold"
+                                style={{ marginBottom: vars.spacing['2'] }}
+                            >
                                 audioStore
                             </Text>
                             <Text size="xs" color="secondary">
-                                Zustand store for audio playback state (playing, currentTime, volume, etc.)
+                                Zustand store for audio playback state (playing, currentTime,
+                                volume, etc.)
                             </Text>
                         </Box>
                         <Box
@@ -590,11 +644,16 @@ export const AudioEngineIntegration: Story = {
                                 borderRadius: vars.borderRadius.sm
                             }}
                         >
-                            <Text size="sm" weight="bold" style={{ marginBottom: vars.spacing['2'] }}>
+                            <Text
+                                size="sm"
+                                weight="bold"
+                                style={{ marginBottom: vars.spacing['2'] }}
+                            >
                                 visualizerSettings
                             </Text>
                             <Text size="xs" color="secondary">
-                                Global settings for visualizer enabled/disabled state and configuration.
+                                Global settings for visualizer enabled/disabled state and
+                                configuration.
                             </Text>
                         </Box>
                     </Box>
@@ -607,7 +666,9 @@ export const AudioEngineIntegration: Story = {
 export const PerformanceOptimization: Story = {
     render: () => (
         <Box style={{ padding: vars.spacing['6'] }}>
-            <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>Performance Optimization</Heading.H3>
+            <Heading.H3 style={{ marginBottom: vars.spacing['6'] }}>
+                Performance Optimization
+            </Heading.H3>
 
             <Flex direction="column" gap={vars.spacing['6']}>
                 <Box
@@ -617,10 +678,12 @@ export const PerformanceOptimization: Story = {
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Lazy Loading</Heading.H4>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>
+                        Lazy Loading
+                    </Heading.H4>
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
-                        Visualizer components use React.lazy() to reduce initial bundle size. They are only loaded when
-                        enabled in settings.
+                        Visualizer components use React.lazy() to reduce initial bundle size. They
+                        are only loaded when enabled in settings.
                     </Text>
                     <Box
                         style={{
@@ -647,9 +710,12 @@ export const PerformanceOptimization: Story = {
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Peak Caching</Heading.H4>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>
+                        Peak Caching
+                    </Heading.H4>
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
-                        WaveSurfer caches extracted audio peaks to avoid re-processing the same audio.
+                        WaveSurfer caches extracted audio peaks to avoid re-processing the same
+                        audio.
                     </Text>
                 </Box>
 
@@ -660,7 +726,9 @@ export const PerformanceOptimization: Story = {
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>Audio Processing</Heading.H4>
+                    <Heading.H4 style={{ marginBottom: vars.spacing['4'] }}>
+                        Audio Processing
+                    </Heading.H4>
                     <Text size="sm" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
                         Audio processing optimizations:
                     </Text>
@@ -679,7 +747,9 @@ export const PerformanceOptimization: Story = {
                             >
                                 <Text size="xs">✓</Text>
                             </Box>
-                            <Text size="sm">Sample rate: 6000 Hz for waveform, 3000 Hz for minimap</Text>
+                            <Text size="sm">
+                                Sample rate: 6000 Hz for waveform, 3000 Hz for minimap
+                            </Text>
                         </Flex>
                         <Flex gap={vars.spacing['4']}>
                             <Box

@@ -1,22 +1,21 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ChevronDownIcon, HeartFilledIcon } from '@radix-ui/react-icons';
-import React, { useMemo, useState } from 'react';
 import { Link, useLocation } from '@tanstack/react-router';
-import { useSearchParams } from 'hooks/useSearchParams';
-import { Button } from 'ui-primitives';
-import useMediaQuery from 'hooks/useMediaQuery';
-import { vars } from 'styles/tokens.css.ts';
-
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { MetaView } from 'apps/experimental/constants/metaView';
 import { isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import useCurrentTab from 'hooks/useCurrentTab';
+import useMediaQuery from 'hooks/useMediaQuery';
+import { useSearchParams } from 'hooks/useSearchParams';
 import { useUserViews } from 'hooks/useUserViews';
 import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'lib/globalize';
+import React, { useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Button } from 'ui-primitives';
 
 import UserViewsMenu from './UserViewsMenu';
 
@@ -81,7 +80,14 @@ const UserViewNav = () => {
     const [isOverflowMenuOpen, setIsOverflowMenuOpen] = useState(false);
 
     const currentUserView = useMemo(
-        () => getCurrentUserView(userViews?.Items, location.pathname, libraryId, collectionType, activeTab),
+        () =>
+            getCurrentUserView(
+                userViews?.Items,
+                location.pathname,
+                libraryId,
+                collectionType,
+                activeTab
+            ),
         [activeTab, collectionType, libraryId, location.pathname, userViews]
     );
 
@@ -95,13 +101,16 @@ const UserViewNav = () => {
                 component={Link}
                 to="/home?tab=1"
                 style={{
-                    color: currentUserView?.Id === MetaView.Favorites.Id ? vars.colors.primary : 'inherit'
+                    color:
+                        currentUserView?.Id === MetaView.Favorites.Id
+                            ? vars.colors.primary
+                            : 'inherit'
                 }}
             >
                 {globalize.translate(MetaView.Favorites.Name || '')}
             </Button>
 
-            {webConfig.menuLinks?.map(link => (
+            {webConfig.menuLinks?.map((link) => (
                 <Button
                     key={link.name}
                     variant="plain"
@@ -119,7 +128,7 @@ const UserViewNav = () => {
                 </Button>
             ))}
 
-            {primaryViews?.map(view => (
+            {primaryViews?.map((view) => (
                 <Button
                     key={view.Id}
                     variant="plain"

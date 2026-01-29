@@ -1,18 +1,16 @@
-import React, { type FC } from 'react';
 import { useLocation } from '@tanstack/react-router';
-import { Box, Flex } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-import { Text } from 'ui-primitives';
-
-import { selectCurrentPlayer, selectCurrentQueueItem, usePlayerStore, useQueueStore } from 'store';
-
 import { appRouter, PUBLIC_PATHS } from 'components/router/appRouter';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
+import React, { type FC } from 'react';
+
+import { selectCurrentPlayer, selectCurrentQueueItem, usePlayerStore, useQueueStore } from 'store';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, Text } from 'ui-primitives';
 
 import RemotePlayButton from './RemotePlayButton';
-import SyncPlayButton from './SyncPlayButton';
 import SearchButton from './SearchButton';
+import SyncPlayButton from './SyncPlayButton';
 import UserViewNav from './userViews/UserViewNav';
 
 interface AppToolbarProps {
@@ -21,7 +19,11 @@ interface AppToolbarProps {
     onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDrawerOpen, onDrawerButtonClick }) => {
+const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
+    isDrawerAvailable,
+    isDrawerOpen,
+    onDrawerButtonClick
+}) => {
     const location = useLocation();
     const currentQueueItem = useQueueStore(selectCurrentQueueItem);
     const currentPlayer = usePlayerStore(selectCurrentPlayer);
@@ -37,12 +39,15 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDraw
     const activeSegment = location.pathname.split('/')[1] || 'home';
     const formattedSegment = activeSegment
         .split('-')
-        .map(segment => segment.charAt(0).toUpperCase() + segment.slice(1))
+        .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
         .join(' ');
     const highlightLabel = formattedSegment || 'Home';
-    const highlightTone = location.pathname.includes('queue') ? vars.colors.secondary : vars.colors.primary;
+    const highlightTone = location.pathname.includes('queue')
+        ? vars.colors.secondary
+        : vars.colors.primary;
     const nowPlayingTitle = currentQueueItem?.item.name ?? 'Queue is empty';
-    const nowPlayingSubtitle = currentQueueItem?.item.artist ?? currentPlayer?.name ?? 'Local player';
+    const nowPlayingSubtitle =
+        currentQueueItem?.item.artist ?? currentPlayer?.name ?? 'Local player';
     const nowPlayingStatus = currentQueueItem ? 'Playing' : 'Queue idle';
 
     return (
@@ -103,7 +108,9 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({ isDrawerAvailable, isDraw
                 </AppToolbar>
 
                 {!isPublicPath && (
-                    <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
+                    <Box
+                        style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}
+                    >
                         <Box
                             style={{
                                 alignSelf: 'flex-start',

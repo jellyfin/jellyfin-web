@@ -1,7 +1,6 @@
 import { useLocation } from '@tanstack/react-router';
-import { useSearchParams } from './useSearchParams';
-
 import { getDefaultViewIndex } from 'apps/experimental/features/libraries/utils/path';
+import { useSearchParams } from './useSearchParams';
 
 const useCurrentTab = () => {
     const location = useLocation();
@@ -9,7 +8,9 @@ const useCurrentTab = () => {
     const searchParamsTab = searchParams.get('tab');
     const libraryId = location.pathname === '/livetv' ? 'livetv' : searchParams.get('topParentId');
     const activeTab: number =
-        searchParamsTab !== null ? parseInt(searchParamsTab, 10) : getDefaultViewIndex(location.pathname, libraryId);
+        searchParamsTab !== null
+            ? parseInt(searchParamsTab, 10)
+            : getDefaultViewIndex(location.pathname, libraryId);
 
     return {
         searchParams,

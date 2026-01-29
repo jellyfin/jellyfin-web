@@ -1,4 +1,4 @@
-import { style as vanillaStyle, keyframes } from '@vanilla-extract/css';
+import { keyframes, style as vanillaStyle } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css.ts';
 
 export const spin = keyframes({

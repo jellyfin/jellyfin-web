@@ -1,17 +1,16 @@
 import 'webcomponents.js/webcomponents-lite';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Sortable from 'sortablejs';
-
-import itemShortcuts from '../../components/shortcuts';
-import inputManager from '../../scripts/inputManager';
-import { playbackManager } from '../../components/playback/playbackmanager';
+import focusManager from '../../components/focusManager';
 import imageLoader from '../../components/images/imageLoader';
 import layoutManager from '../../components/layoutManager';
-import browser from '../../scripts/browser';
-import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
-import focusManager from '../../components/focusManager';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import itemShortcuts from '../../components/shortcuts';
+import browser from '../../scripts/browser';
+import inputManager from '../../scripts/inputManager';
 import serverNotifications from '../../scripts/serverNotifications';
+import dom from '../../utils/dom';
 import Events from '../../utils/events';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
@@ -88,15 +87,17 @@ function onDrop(evt, itemsContainer) {
 
     if (!playlistId) {
         const oldIndex = evt.oldIndex;
-        el.dispatchEvent(new CustomEvent('itemdrop', {
-            detail: {
-                oldIndex: oldIndex,
-                newIndex: newIndex,
-                playlistItemId: itemId
-            },
-            bubbles: true,
-            cancelable: false
-        }));
+        el.dispatchEvent(
+            new CustomEvent('itemdrop', {
+                detail: {
+                    oldIndex: oldIndex,
+                    newIndex: newIndex,
+                    playlistItemId: itemId
+                },
+                bubbles: true,
+                cancelable: false
+            })
+        );
         return;
     }
 
@@ -105,15 +106,22 @@ function onDrop(evt, itemsContainer) {
 
     loading.show();
 
-    apiClient.ajax({
-        url: apiClient.getUrl('Playlists/' + playlistId + '/Items/' + itemId + '/Move/' + newIndex),
-        type: 'POST'
-    }).then(() => {
-        loading.hide();
-    }, () => {
-        loading.hide();
-        itemsContainer.refreshItems();
-    });
+    apiClient
+        .ajax({
+            url: apiClient.getUrl(
+                'Playlists/' + playlistId + '/Items/' + itemId + '/Move/' + newIndex
+            ),
+            type: 'POST'
+        })
+        .then(
+            () => {
+                loading.hide();
+            },
+            () => {
+                loading.hide();
+                itemsContainer.refreshItems();
+            }
+        );
 }
 
 ItemsContainerPrototype.enableDragReordering = function (enabled) {
@@ -152,8 +160,9 @@ function onUserDataChanged(e, apiClient, userData) {
     const eventsToMonitor = getEventsToMonitor(itemsContainer);
 
     // TODO: Check user data change reason?
-    if (eventsToMonitor.indexOf('markfavorite') !== -1
-            || eventsToMonitor.indexOf('markplayed') !== -1
+    if (
+        eventsToMonitor.indexOf('markfavorite') !== -1 ||
+        eventsToMonitor.indexOf('markplayed') !== -1
     ) {
         itemsContainer.notifyRefreshNeeded();
     }
@@ -220,7 +229,10 @@ function onLibraryChanged(e, apiClient, data) {
     const itemsContainer = this;
 
     const eventsToMonitor = getEventsToMonitor(itemsContainer);
-    if (eventsToMonitor.indexOf('seriestimers') !== -1 || eventsToMonitor.indexOf('timers') !== -1) {
+    if (
+        eventsToMonitor.indexOf('seriestimers') !== -1 ||
+        eventsToMonitor.indexOf('timers') !== -1
+    ) {
         // yes this is an assumption
         return;
     }
@@ -237,7 +249,11 @@ function onLibraryChanged(e, apiClient, data) {
         const foldersRemovedFrom = data.FoldersRemovedFrom || [];
         const collectionFolders = data.CollectionFolders || [];
 
-        if (foldersAddedTo.indexOf(parentId) === -1 && foldersRemovedFrom.indexOf(parentId) === -1 && collectionFolders.indexOf(parentId) === -1) {
+        if (
+            foldersAddedTo.indexOf(parentId) === -1 &&
+            foldersRemovedFrom.indexOf(parentId) === -1 &&
+            collectionFolders.indexOf(parentId) === -1
+        ) {
             return;
         }
     }
@@ -255,7 +271,10 @@ function onPlaybackStopped(e, stopInfo) {
             itemsContainer.notifyRefreshNeeded(true);
             return;
         }
-    } else if (state.NowPlayingItem?.MediaType === 'Audio' && eventsToMonitor.indexOf('audioplayback') !== -1) {
+    } else if (
+        state.NowPlayingItem?.MediaType === 'Audio' &&
+        eventsToMonitor.indexOf('audioplayback') !== -1
+    ) {
         itemsContainer.notifyRefreshNeeded(true);
         return;
     }
@@ -290,7 +309,10 @@ ItemsContainerPrototype.attachedCallback = function () {
         this.addEventListener('contextmenu', onContextMenu);
     }
 
-    if (layoutManager.desktop || layoutManager.mobile && this.getAttribute('data-multiselect') !== 'false') {
+    if (
+        layoutManager.desktop ||
+        (layoutManager.mobile && this.getAttribute('data-multiselect') !== 'false')
+    ) {
         this.enableMultiSelect(true);
     }
 
@@ -356,7 +378,7 @@ ItemsContainerPrototype.resume = function (options) {
         }
     }
 
-    if (this.needsRefresh || (options?.refresh)) {
+    if (this.needsRefresh || options?.refresh) {
         return this.refreshItems();
     }
 
@@ -415,7 +437,10 @@ function resetRefreshInterval(itemsContainer, intervalMs) {
     }
 
     if (intervalMs) {
-        itemsContainer.refreshInterval = setInterval(itemsContainer.notifyRefreshNeeded.bind(itemsContainer), intervalMs);
+        itemsContainer.refreshInterval = setInterval(
+            itemsContainer.notifyRefreshNeeded.bind(itemsContainer),
+            intervalMs
+        );
         itemsContainer.refreshIntervalEndTime = new Date().getTime() + intervalMs;
     }
 }
@@ -476,4 +501,3 @@ document.registerElement('emby-itemscontainer', {
     prototype: ItemsContainerPrototype,
     extends: 'div'
 });
-

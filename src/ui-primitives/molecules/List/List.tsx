@@ -1,16 +1,21 @@
-import React, { type ReactElement, type ReactNode, type CSSProperties, type MouseEvent } from 'react';
+import React, {
+    type CSSProperties,
+    type MouseEvent,
+    type ReactElement,
+    type ReactNode
+} from 'react';
 import {
-    listStyles,
-    listSizes,
-    listNested,
-    listItemStyles,
+    listItemAvatarStyles,
+    listItemButtonStyles,
     listItemContentStyles,
     listItemDecorator,
-    listSubheaderStyles,
+    listItemStyles,
+    listItemTextStyles,
+    listNested,
+    listSizes,
+    listStyles,
     listSubheaderSticky,
-    listItemButtonStyles,
-    listItemAvatarStyles,
-    listItemTextStyles
+    listSubheaderStyles
 } from './List.css.ts';
 
 export interface ListProps {
@@ -31,7 +36,10 @@ export function List({
     subheader
 }: ListProps): ReactElement {
     return (
-        <ul className={`${listStyles} ${nested ? listNested : listSizes[size]} ${className ?? ''}`} style={listStyle}>
+        <ul
+            className={`${listStyles} ${nested ? listNested : listSizes[size]} ${className ?? ''}`}
+            style={listStyle}
+        >
             {subheader}
             {children}
         </ul>
@@ -68,8 +76,6 @@ export function ListItem({
         </li>
     );
 }
-
-
 
 export function ListItemContent({
     children,
@@ -137,9 +143,17 @@ export interface ListSubheaderProps {
     readonly id?: string;
 }
 
-export function ListSubheader({ children, className, sticky = false, id }: ListSubheaderProps): ReactElement {
+export function ListSubheader({
+    children,
+    className,
+    sticky = false,
+    id
+}: ListSubheaderProps): ReactElement {
     return (
-        <div className={`${listSubheaderStyles} ${sticky ? listSubheaderSticky : ''} ${className ?? ''}`} id={id}>
+        <div
+            className={`${listSubheaderStyles} ${sticky ? listSubheaderSticky : ''} ${className ?? ''}`}
+            id={id}
+        >
             {children}
         </div>
     );

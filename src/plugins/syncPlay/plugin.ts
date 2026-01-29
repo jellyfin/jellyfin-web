@@ -1,11 +1,11 @@
-import { playbackManager } from '../../components/playback/playbackmanager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import { Plugin, PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import SyncPlay from './core';
-import SyncPlayNoActivePlayer from './ui/players/NoActivePlayer';
-import SyncPlayHtmlVideoPlayer from './ui/players/HtmlVideoPlayer';
 import SyncPlayHtmlAudioPlayer from './ui/players/HtmlAudioPlayer';
-import { Plugin, PluginType } from '../../types/plugin';
+import SyncPlayHtmlVideoPlayer from './ui/players/HtmlVideoPlayer';
+import SyncPlayNoActivePlayer from './ui/players/NoActivePlayer';
 
 class SyncPlayPlugin implements Plugin {
     name: string;
@@ -43,7 +43,9 @@ class SyncPlayPlugin implements Plugin {
         if (apiClient) SyncPlay.Manager.init(apiClient);
 
         // FIXME: Multiple apiClients?
-        Events.on(ServerConnections, 'apiclientcreated', (_, newApiClient) => SyncPlay.Manager.init(newApiClient));
+        Events.on(ServerConnections, 'apiclientcreated', (_, newApiClient) =>
+            SyncPlay.Manager.init(newApiClient)
+        );
         Events.on(ServerConnections, 'localusersignedin', () =>
             SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient())
         );

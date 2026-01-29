@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import HomePage from './HomePage';
-import Events from 'utils/events';
+import { render, screen, waitFor } from '@testing-library/react';
 import mainTabsManager from 'components/maintabsmanager';
+import React from 'react';
+import Events from 'utils/events';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import HomePage from './HomePage';
 
 vi.mock('hooks/useSearchParams', () => ({
     useSearchParams: () => [new URLSearchParams('tab=0')]
@@ -16,7 +16,7 @@ vi.mock('lib/globalize', () => ({
     }
 }));
 
-vi.mock('components/backdrop/backdrop', async importOriginal => {
+vi.mock('components/backdrop/backdrop', async (importOriginal) => {
     const actual = await importOriginal<typeof import('components/backdrop/backdrop')>();
     return {
         ...actual,
@@ -30,7 +30,9 @@ vi.mock('components/layoutManager', () => ({
 }));
 
 vi.mock('components/Page', () => ({
-    default: ({ children }: { children: React.ReactNode }) => <div data-testid="page">{children}</div>
+    default: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="page">{children}</div>
+    )
 }));
 
 vi.mock('constants/eventType', () => ({

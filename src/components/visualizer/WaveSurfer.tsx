@@ -1,24 +1,24 @@
-import WaveSurfer from 'wavesurfer.js';
+import { masterAudioOutput } from 'components/audioEngine/master.logic';
+import { triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
+import type { ApiClient } from 'jellyfin-apiclient';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useEffect } from 'react';
+import WaveSurfer from 'wavesurfer.js';
+import MiniMapPlugin from 'wavesurfer.js/dist/plugins/minimap';
 import TimelinePlugin from 'wavesurfer.js/dist/plugins/timeline';
 import ZoomPlugin from 'wavesurfer.js/dist/plugins/zoom';
-import MiniMapPlugin from 'wavesurfer.js/dist/plugins/minimap';
+import { useMediaStore, usePreferencesStore, useQueueStore } from '../../store';
+import { useAudioStore } from '../../store/audioStore';
+import { usePlaybackActions, useQueueActions } from '../../store/hooks';
+import { logger } from '../../utils/logger';
+import { isVisible } from '../../utils/visibility';
 import {
     createWaveSurferChannelStyle,
     DEFAULT_WAVESURFER_COLORS,
     surferOptions,
-    waveSurferPluginOptions,
-    WaveSurferColorScheme
+    WaveSurferColorScheme,
+    waveSurferPluginOptions
 } from './WaveSurferOptions';
-import { usePlaybackActions, useQueueActions } from '../../store/hooks';
-import { useMediaStore, useQueueStore, usePreferencesStore } from '../../store';
-import { triggerSongInfoDisplay } from 'components/sitbackMode/sitback.logic';
-import { masterAudioOutput } from 'components/audioEngine/master.logic';
-import { useAudioStore } from '../../store/audioStore';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import type { ApiClient } from 'jellyfin-apiclient';
-import { isVisible } from '../../utils/visibility';
-import { logger } from '../../utils/logger';
 
 /** LRU cache for WaveSurfer peak data */
 interface PeakCacheEntry {
@@ -49,7 +49,12 @@ function getCachedPeaks(itemId: string | null, streamUrl: string | null): PeakCa
     return null;
 }
 
-function setCachedPeaks(itemId: string | null, streamUrl: string | null, peaks: number[][], duration: number): void {
+function setCachedPeaks(
+    itemId: string | null,
+    streamUrl: string | null,
+    peaks: number[][],
+    duration: number
+): void {
     const key = getCacheKey(itemId, streamUrl);
     if (!key) return;
 
@@ -147,7 +152,7 @@ function isCrossOriginUrl(url: string): boolean {
 }
 
 function loadImageElement(url: string, useCrossOrigin: boolean): Promise<HTMLImageElement | null> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         const img = new Image();
         if (useCrossOrigin) {
             img.crossOrigin = 'anonymous';
@@ -334,9 +339,15 @@ function applyWaveSurferPlugins(container: string) {
     if (lastPluginContainer === container && lastPluginColorKey === colorKey) return;
 
     clearWaveSurferPlugins();
-    timelinePlugin = waveSurferInstance.registerPlugin(TimelinePlugin.create(waveSurferPluginOptions.timelineOptions));
-    zoomPlugin = waveSurferInstance.registerPlugin(ZoomPlugin.create(waveSurferPluginOptions.zoomOptions));
-    minimapPlugin = waveSurferInstance.registerPlugin(MiniMapPlugin.create(waveSurferChannelStyle.map));
+    timelinePlugin = waveSurferInstance.registerPlugin(
+        TimelinePlugin.create(waveSurferPluginOptions.timelineOptions)
+    );
+    zoomPlugin = waveSurferInstance.registerPlugin(
+        ZoomPlugin.create(waveSurferPluginOptions.zoomOptions)
+    );
+    minimapPlugin = waveSurferInstance.registerPlugin(
+        MiniMapPlugin.create(waveSurferChannelStyle.map)
+    );
     lastPluginContainer = container;
     lastPluginColorKey = colorKey;
 }
@@ -462,7 +473,7 @@ function ensureWaveSurferInstance(container: string) {
         waveSurferInstance = WaveSurfer.create({ ...surferOptions, container });
         waveSurferContainer = container;
 
-        waveSurferInstance.on('zoom', minPxPerSec => {
+        waveSurferInstance.on('zoom', (minPxPerSec) => {
             if (mobileTouch) return;
             applyWaveSurferStyle(minPxPerSec);
             currentZoom = minPxPerSec;
@@ -472,16 +483,16 @@ function ensureWaveSurferInstance(container: string) {
             isDragging = true;
         });
 
-        waveSurferInstance.on('dragend', relativeX => {
+        waveSurferInstance.on('dragend', (relativeX) => {
             isDragging = false;
             seekFromWaveSurfer(relativeX);
         });
 
-        waveSurferInstance.on('click', relativeX => {
+        waveSurferInstance.on('click', (relativeX) => {
             seekFromWaveSurfer(relativeX);
         });
 
-        waveSurferInstance.on('ready', duration => {
+        waveSurferInstance.on('ready', (duration) => {
             waveSurferReady = true;
             savedDuration = duration;
             savedPeaks = waveSurferInstance?.exportPeaks();
@@ -526,7 +537,10 @@ async function loadWaveSurferAudio(apiClient: ApiClient, streamUrl: string, item
     // Check cache first
     const cached = getCachedPeaks(itemId, streamUrl);
     if (cached) {
-        logger.debug('[WaveSurfer] Using cached peaks', { component: 'WaveSurfer', itemId: itemId || streamUrl });
+        logger.debug('[WaveSurfer] Using cached peaks', {
+            component: 'WaveSurfer',
+            itemId: itemId || streamUrl
+        });
         waveSurferReady = false;
         lastLoadedItemId = itemId;
         lastLoadedStreamUrl = streamUrl;
@@ -562,7 +576,11 @@ async function loadWaveSurferAudio(apiClient: ApiClient, streamUrl: string, item
     }
 }
 
-async function waveSurferInitialization(container: string, _legacy: WaveSurferLegacy, newSongDuration = 0) {
+async function waveSurferInitialization(
+    container: string,
+    _legacy: WaveSurferLegacy,
+    newSongDuration = 0
+) {
     findElements();
 
     const { visualizer } = usePreferencesStore.getState();
@@ -696,7 +714,7 @@ export {
  * React wrapper for WaveSurfer visualizer
  */
 export const WaveSurferVisualizer: React.FC = () => {
-    const { waveSurfer: settings } = usePreferencesStore(state => state.visualizer);
+    const { waveSurfer: settings } = usePreferencesStore((state) => state.visualizer);
 
     useEffect(() => {
         const init = async () => {

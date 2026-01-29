@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, type ReactNode } from 'react';
-import { motion } from 'motion/react';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { motion } from 'motion/react';
+import { type ReactElement, type ReactNode } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import { Button } from '../..';
 
@@ -11,7 +11,11 @@ interface AnimatedTooltipProps {
     side?: 'top' | 'right' | 'bottom' | 'left';
 }
 
-function AnimatedTooltip({ content, children, side = 'top' }: Readonly<AnimatedTooltipProps>): ReactElement {
+function AnimatedTooltip({
+    content,
+    children,
+    side = 'top'
+}: Readonly<AnimatedTooltipProps>): ReactElement {
     return (
         <TooltipPrimitive.Provider>
             <TooltipPrimitive.Root delayDuration={200}>

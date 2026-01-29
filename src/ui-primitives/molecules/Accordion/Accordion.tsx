@@ -1,7 +1,12 @@
-import React, { useState, type ReactElement, useCallback } from 'react';
+import React, { type ReactElement, useCallback, useState } from 'react';
 import { Flex } from '../../atoms/Box';
 import { IconButton } from '../../atoms/IconButton';
-import { accordionRoot, accordionHeader, accordionExpanded, accordionContent } from './Accordion.css.ts';
+import {
+    accordionContent,
+    accordionExpanded,
+    accordionHeader,
+    accordionRoot
+} from './Accordion.css.ts';
 
 interface AccordionProps {
     readonly children: React.ReactNode;
@@ -21,7 +26,12 @@ interface AccordionDetailsProps {
     readonly className?: string;
 }
 
-export function Accordion({ children, expanded, onChange, className }: AccordionProps): ReactElement {
+export function Accordion({
+    children,
+    expanded,
+    onChange,
+    className
+}: AccordionProps): ReactElement {
     const [internalExpanded, setInternalExpanded] = useState(expanded ?? false);
     const isExpanded = expanded ?? internalExpanded;
 
@@ -45,9 +55,12 @@ export function Accordion({ children, expanded, onChange, className }: Accordion
     let header: React.ReactNode = null;
     let content: React.ReactNode = null;
 
-    React.Children.forEach(children, child => {
+    React.Children.forEach(children, (child) => {
         if (React.isValidElement(child)) {
-            const typedChild = child as unknown as { type: React.ElementType; props: { children?: React.ReactNode } };
+            const typedChild = child as unknown as {
+                type: React.ElementType;
+                props: { children?: React.ReactNode };
+            };
             if (typedChild.type === AccordionSummary) {
                 header = typedChild.props.children;
             } else if (typedChild.type === AccordionDetails) {
@@ -74,7 +87,10 @@ export function Accordion({ children, expanded, onChange, className }: Accordion
 
 export function AccordionSummary({ children, className }: AccordionSummaryProps): ReactElement {
     return (
-        <Flex style={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }} className={className}>
+        <Flex
+            style={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}
+            className={className}
+        >
             {children}
         </Flex>
     );
@@ -147,7 +163,10 @@ export function ExpandableAccordion({
                 <IconButton
                     variant="ghost"
                     size="sm"
-                    style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                    style={{
+                        transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.2s'
+                    }}
                 >
                     <ExpandMoreIcon />
                 </IconButton>

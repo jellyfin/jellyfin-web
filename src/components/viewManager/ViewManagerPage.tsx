@@ -1,12 +1,11 @@
-import { FunctionComponent, useEffect } from 'react';
-import { useRouterState, useRouter } from '@tanstack/react-router';
+import { useRouter, useRouterState } from '@tanstack/react-router';
+import { AppType } from 'constants/appType';
 
 import globalize from 'lib/globalize';
+import { FunctionComponent, useEffect } from 'react';
 import type { RestoreViewFailResponse } from 'types/viewManager';
-
-import viewManager from './viewManager';
-import { AppType } from 'constants/appType';
 import { logger } from 'utils/logger';
+import viewManager from './viewManager';
 
 export interface ViewManagerPageProps {
     appType?: AppType;
@@ -68,11 +67,18 @@ const importController = (appType: AppType, controller: string, view: string) =>
 
     return Promise.all([
         resolveModule(`../../${folder}/${controller}`),
-        resolveModule(`../../${folder}/${view}`).then((html: any) => globalize.translateHtml(html as string))
+        resolveModule(`../../${folder}/${view}`).then((html: any) =>
+            globalize.translateHtml(html as string)
+        )
     ]);
 };
 
-const loadView = async (appType: AppType, controller: string, view: string, viewOptions: ViewOptions) => {
+const loadView = async (
+    appType: AppType,
+    controller: string,
+    view: string,
+    viewOptions: ViewOptions
+) => {
     const [controllerFactory, viewHtml] = await importController(appType, controller, view);
 
     viewManager.loadView({
@@ -98,7 +104,7 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
 }) => {
     const router = useRouter();
     const { location, historyAction } = useRouterState({
-        select: state => ({
+        select: (state) => ({
             location: state.location,
             historyAction: (state as any).historyAction
         })
@@ -121,20 +127,28 @@ const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
                 };
 
                 if (historyAction !== 'POP') {
-                    logger.debug('[ViewManagerPage] loading view', { component: 'ViewManagerPage', view });
+                    logger.debug('[ViewManagerPage] loading view', {
+                        component: 'ViewManagerPage',
+                        view
+                    });
                     return loadView(appType, controller, view, viewOptions);
                 }
 
-                logger.debug('[ViewManagerPage] restoring view', { component: 'ViewManagerPage', view });
-                return viewManager.tryRestoreView(viewOptions).catch(async (result?: RestoreViewFailResponse) => {
-                    if (!result?.cancelled) {
-                        logger.debug('[ViewManagerPage] restore failed; loading view', {
-                            component: 'ViewManagerPage',
-                            view
-                        });
-                        return loadView(appType, controller, view, viewOptions);
-                    }
+                logger.debug('[ViewManagerPage] restoring view', {
+                    component: 'ViewManagerPage',
+                    view
                 });
+                return viewManager
+                    .tryRestoreView(viewOptions)
+                    .catch(async (result?: RestoreViewFailResponse) => {
+                        if (!result?.cancelled) {
+                            logger.debug('[ViewManagerPage] restore failed; loading view', {
+                                component: 'ViewManagerPage',
+                                view
+                            });
+                            return loadView(appType, controller, view, viewOptions);
+                        }
+                    });
             };
 
             loadPage();

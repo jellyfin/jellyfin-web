@@ -1,14 +1,14 @@
 import { escapeHtml } from 'utils/html';
 import { ItemAction } from '../../constants/itemAction';
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
-import itemHelper from '../itemHelper';
-import mediainfo from '../mediainfo/mediainfo';
-import indicators from '../indicators/indicators';
-import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from '../../lib/jellyfin-apiclient';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
+import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import indicators from '../indicators/indicators';
+import itemHelper from '../itemHelper';
+import layoutManager from '../layoutManager';
+import mediainfo from '../mediainfo/mediainfo';
 
 import './listview.scss';
 
@@ -52,7 +52,9 @@ export interface ListViewOptions {
 
 function getIndex(item: any, options: ListViewOptions): string {
     if (options.index === 'disc')
-        return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
+        return item.ParentIndexNumber == null
+            ? ''
+            : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
     const sortBy = (options.sortBy || '').toLowerCase();
     let name: string = '';
     if (sortBy.startsWith('sortname')) {
@@ -61,7 +63,8 @@ function getIndex(item: any, options: ListViewOptions): string {
         const code = name.charCodeAt(0);
         return code < 65 || code > 90 ? '#' : name;
     }
-    if (sortBy.startsWith('officialrating')) return item.OfficialRating || globalize.translate('Unrated');
+    if (sortBy.startsWith('officialrating'))
+        return item.OfficialRating || globalize.translate('Unrated');
     return '';
 }
 
@@ -75,7 +78,12 @@ function getImageUrl(item: any, size: number): string | null {
         itemId = item.AlbumId;
     }
     return tag
-        ? apiClient.getScaledImageUrl(itemId, { fillWidth: size, fillHeight: size, type: 'Primary', tag })
+        ? apiClient.getScaledImageUrl(itemId, {
+              fillWidth: size,
+              fillHeight: size,
+              type: 'Primary',
+              tag
+          })
         : null;
 }
 

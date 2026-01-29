@@ -1,10 +1,9 @@
-import { FunctionComponent, useEffect } from 'react';
 import { useLocation } from '@tanstack/react-router';
-
-import viewManager from './viewManager/viewManager';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { FunctionComponent, useEffect } from 'react';
 import type { RestoreViewFailResponse } from 'types/viewManager';
+import viewManager from './viewManager/viewManager';
 
 interface ServerContentPageProps {
     view: string;
@@ -30,21 +29,23 @@ const ServerContentPage: FunctionComponent<ServerContentPageProps> = ({ view }) 
                     }
                 };
 
-                viewManager.tryRestoreView(viewOptions).catch(async (result?: RestoreViewFailResponse) => {
-                    if (!result?.cancelled) {
-                        const apiClient = ServerConnections.currentApiClient();
+                viewManager
+                    .tryRestoreView(viewOptions)
+                    .catch(async (result?: RestoreViewFailResponse) => {
+                        if (!result?.cancelled) {
+                            const apiClient = ServerConnections.currentApiClient();
 
-                        // Fetch the view html from the server and translate it
-                        const viewHtml = await apiClient
-                            ?.get(apiClient.getUrl(view + location.search))
-                            .then((html: string) => globalize.translateHtml(html));
+                            // Fetch the view html from the server and translate it
+                            const viewHtml = await apiClient
+                                ?.get(apiClient.getUrl(view + location.search))
+                                .then((html: string) => globalize.translateHtml(html));
 
-                        viewManager.loadView({
-                            ...viewOptions,
-                            view: viewHtml
-                        });
-                    }
-                });
+                            viewManager.loadView({
+                                ...viewOptions,
+                                view: viewHtml
+                            });
+                        }
+                    });
             };
 
             loadPage();

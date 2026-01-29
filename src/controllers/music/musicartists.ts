@@ -1,12 +1,12 @@
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import imageLoader from '../../components/images/imageLoader';
+import listView from '../../components/listview/listview';
 import loading from '../../components/loading/loading';
 import libraryBrowser from '../../scripts/libraryBrowser';
-import imageLoader from '../../components/images/imageLoader';
-import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
-import listView from '../../components/listview/listview';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import * as userSettings from '../../scripts/settings/userSettings';
 import Events from '../../utils/events';
-import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import { scrollPageToTop } from 'components/sitbackMode/sitback.logic';
@@ -104,7 +104,7 @@ export default function (
                 ? apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query)
                 : apiClient.getArtists(apiClient.getCurrentUserId(), query);
 
-        promise.then(result => {
+        promise.then((result) => {
             const onNextPageClick = () => {
                 if (isLoading) return;
                 if (userSettings.libraryPageSize() > 0) {
@@ -163,21 +163,23 @@ export default function (
             }
 
             const pagingElems = tabContent.querySelectorAll('.paging');
-            pagingElems.forEach(el => {
+            pagingElems.forEach((el) => {
                 el.innerHTML = pagingHtml;
             });
 
             const btnNextPage = tabContent.querySelectorAll('.btnNextPage');
-            btnNextPage.forEach(el => {
+            btnNextPage.forEach((el) => {
                 el.addEventListener('click', onNextPageClick);
             });
 
             const btnPreviousPage = tabContent.querySelectorAll('.btnPreviousPage');
-            btnPreviousPage.forEach(el => {
+            btnPreviousPage.forEach((el) => {
                 el.addEventListener('click', onPreviousPageClick);
             });
 
-            const itemsContainer = tabContent.querySelector('.itemsContainer') as HTMLElement | null;
+            const itemsContainer = tabContent.querySelector(
+                '.itemsContainer'
+            ) as HTMLElement | null;
             if (itemsContainer) {
                 itemsContainer.innerHTML = html;
                 imageLoader.lazyChildren(itemsContainer);
@@ -248,7 +250,11 @@ export default function (
 
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView?.addEventListener('click', (e: any) => {
-            libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
+            libraryBrowser.showLayoutMenu(
+                e.target,
+                this.getCurrentViewStyle(),
+                'List,Poster,PosterCard'.split(',')
+            );
         });
 
         btnSelectView?.addEventListener('layoutchange', (e: any) => {

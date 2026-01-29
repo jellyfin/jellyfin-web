@@ -1,24 +1,24 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import type { VirtualFolderInfo } from '@jellyfin/sdk/lib/generated-client/models/virtual-folder-info';
-import BaseCard from 'components/cardbuilder/Card/BaseCard';
-import getCollectionTypeOptions from '../utils/collectionTypeOptions';
-import globalize from 'lib/globalize';
-import { getLibraryIcon } from 'utils/image';
-import MediaLibraryEditor from 'components/mediaLibraryEditor/mediaLibraryEditor';
-import { queryClient } from 'utils/query/queryClient';
-import { Menu, MenuItem } from 'ui-primitives';
-import imageeditor from 'components/imageeditor/imageeditor';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import InputDialog from 'components/InputDialog';
-import { useRenameVirtualFolder } from '../api/useRenameVirtualFolder';
-import RefreshDialog from 'components/refreshdialog/refreshdialog';
-import ConfirmDialog from 'components/ConfirmDialog';
-import { useRemoveVirtualFolder } from '../api/useRemoveVirtualFolder';
-import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
-import { useApi } from 'hooks/useApi';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import dom from 'utils/dom';
+import type { VirtualFolderInfo } from '@jellyfin/sdk/lib/generated-client/models/virtual-folder-info';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
+import ConfirmDialog from 'components/ConfirmDialog';
+import BaseCard from 'components/cardbuilder/Card/BaseCard';
+import InputDialog from 'components/InputDialog';
+import imageeditor from 'components/imageeditor/imageeditor';
+import MediaLibraryEditor from 'components/mediaLibraryEditor/mediaLibraryEditor';
+import RefreshDialog from 'components/refreshdialog/refreshdialog';
+import { useApi } from 'hooks/useApi';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useMemo, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Menu, MenuItem } from 'ui-primitives';
+import dom from 'utils/dom';
+import { getLibraryIcon } from 'utils/image';
+import { queryClient } from 'utils/query/queryClient';
+import { useRemoveVirtualFolder } from '../api/useRemoveVirtualFolder';
+import { useRenameVirtualFolder } from '../api/useRenameVirtualFolder';
+import getCollectionTypeOptions from '../utils/collectionTypeOptions';
 
 // Inline SVG icons
 const ImageIcon = () => (
@@ -84,7 +84,7 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
     }, [api, virtualFolder]);
 
     const typeName =
-        getCollectionTypeOptions().filter(t => {
+        getCollectionTypeOptions().filter((t) => {
             return t.value === virtualFolder.CollectionType;
         })[0]?.name || globalize.translate('Other');
 

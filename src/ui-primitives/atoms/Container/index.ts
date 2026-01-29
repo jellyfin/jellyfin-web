@@ -1,1 +1,1 @@
-export { containerStyles, containerMaxWidth, Container } from './Container';
+export { Container, containerMaxWidth, containerStyles } from './Container';

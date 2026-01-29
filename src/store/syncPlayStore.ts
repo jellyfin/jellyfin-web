@@ -38,7 +38,7 @@ export interface SyncPlayActions {
 }
 
 export const useSyncPlayStore = create<SyncPlayState & SyncPlayActions>()(
-    subscribeWithSelector(set => ({
+    subscribeWithSelector((set) => ({
         isEnabled: false,
         isReady: false,
         followingGroupPlayback: true,
@@ -53,20 +53,22 @@ export const useSyncPlayStore = create<SyncPlayState & SyncPlayActions>()(
                 groupInfo: groupInfo || null,
                 isReady: false // Reset ready state when toggling
             });
-            logger.info(`SyncPlay ${enabled ? 'enabled' : 'disabled'}`, { component: 'SyncPlayStore' });
+            logger.info(`SyncPlay ${enabled ? 'enabled' : 'disabled'}`, {
+                component: 'SyncPlayStore'
+            });
         },
 
-        setReady: isReady => set({ isReady }),
+        setReady: (isReady) => set({ isReady }),
 
-        setFollowing: followingGroupPlayback => set({ followingGroupPlayback }),
+        setFollowing: (followingGroupPlayback) => set({ followingGroupPlayback }),
 
-        setGroupInfo: groupInfo => set({ groupInfo }),
+        setGroupInfo: (groupInfo) => set({ groupInfo }),
 
-        setSyncMethod: syncMethod => set({ syncMethod }),
+        setSyncMethod: (syncMethod) => set({ syncMethod }),
 
-        setGroupState: groupState => set({ groupState }),
+        setGroupState: (groupState) => set({ groupState }),
 
-        processCommand: lastCommand => set({ lastCommand }),
+        processCommand: (lastCommand) => set({ lastCommand }),
 
         reset: () =>
             set({

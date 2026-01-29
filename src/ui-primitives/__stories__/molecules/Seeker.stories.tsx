@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback, type ComponentProps } from 'react';
+import { type ComponentProps, type ReactElement, useCallback, useState } from 'react';
 import { Seeker } from '../..';
 
 const meta: Meta<typeof Seeker> = {
@@ -43,7 +43,14 @@ function SeekerWithHooks(args: Readonly<Partial<SeekerProps>>): ReactElement {
     }, []);
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px', width: '300px' }}>
+        <div
+            style={{
+                padding: '20px',
+                backgroundColor: '#252525',
+                borderRadius: '8px',
+                width: '300px'
+            }}
+        >
             <Seeker {...args} currentTime={currentTime} duration={duration} onSeek={handleSeek} />
         </div>
     );
@@ -70,8 +77,21 @@ function WithBufferedStory(args: Readonly<SeekerProps>): ReactElement {
     }, []);
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px', width: '300px' }}>
-            <Seeker {...args} currentTime={currentTime} duration={duration} buffered={buffered} onSeek={handleSeek} />
+        <div
+            style={{
+                padding: '20px',
+                backgroundColor: '#252525',
+                borderRadius: '8px',
+                width: '300px'
+            }}
+        >
+            <Seeker
+                {...args}
+                currentTime={currentTime}
+                duration={duration}
+                buffered={buffered}
+                onSeek={handleSeek}
+            />
         </div>
     );
 }
@@ -94,7 +114,14 @@ function NoTimeStory(args: Readonly<SeekerProps>): ReactElement {
     }, []);
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px', width: '300px' }}>
+        <div
+            style={{
+                padding: '20px',
+                backgroundColor: '#252525',
+                borderRadius: '8px',
+                width: '300px'
+            }}
+        >
             <Seeker {...args} currentTime={currentTime} duration={duration} onSeek={handleSeek} />
         </div>
     );
@@ -117,7 +144,14 @@ function SpinOnSeekStory(args: Readonly<SeekerProps>): ReactElement {
     }, []);
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px', width: '300px' }}>
+        <div
+            style={{
+                padding: '20px',
+                backgroundColor: '#252525',
+                borderRadius: '8px',
+                width: '300px'
+            }}
+        >
             <Seeker {...args} currentTime={currentTime} duration={duration} onSeek={handleSeek} />
         </div>
     );
@@ -141,7 +175,14 @@ function WideStory(args: Readonly<SeekerProps>): ReactElement {
     }, []);
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px', width: '500px' }}>
+        <div
+            style={{
+                padding: '20px',
+                backgroundColor: '#252525',
+                borderRadius: '8px',
+                width: '500px'
+            }}
+        >
             <Seeker {...args} currentTime={currentTime} duration={duration} onSeek={handleSeek} />
         </div>
     );
@@ -164,7 +205,14 @@ function NearEndStory(args: Readonly<SeekerProps>): ReactElement {
     }, []);
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px', width: '300px' }}>
+        <div
+            style={{
+                padding: '20px',
+                backgroundColor: '#252525',
+                borderRadius: '8px',
+                width: '300px'
+            }}
+        >
             <Seeker {...args} currentTime={currentTime} duration={duration} onSeek={handleSeek} />
         </div>
     );
@@ -187,7 +235,14 @@ function ShortTrackStory(args: Readonly<SeekerProps>): ReactElement {
     }, []);
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#252525', borderRadius: '8px', width: '300px' }}>
+        <div
+            style={{
+                padding: '20px',
+                backgroundColor: '#252525',
+                borderRadius: '8px',
+                width: '300px'
+            }}
+        >
             <Seeker {...args} currentTime={currentTime} duration={duration} onSeek={handleSeek} />
         </div>
     );

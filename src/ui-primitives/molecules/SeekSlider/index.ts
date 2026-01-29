@@ -1,14 +1,14 @@
 export {
+    type BufferedRange,
+    SeekSlider,
+    type SeekSliderProps,
+    seekSliderBuffered,
     seekSliderContainer,
+    seekSliderProgress,
+    seekSliderThumb,
+    seekSliderThumbSpinning,
+    seekSliderThumbVisible,
     seekSliderTimeDisplay,
     seekSliderTrack,
-    seekSliderTrackInner,
-    seekSliderProgress,
-    seekSliderBuffered,
-    seekSliderThumb,
-    seekSliderThumbVisible,
-    seekSliderThumbSpinning,
-    type BufferedRange,
-    type SeekSliderProps,
-    SeekSlider
+    seekSliderTrackInner
 } from './SeekSlider';

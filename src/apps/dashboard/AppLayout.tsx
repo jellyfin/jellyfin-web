@@ -1,12 +1,11 @@
 import { Outlet, useLocation } from '@tanstack/react-router';
-import React, { StrictMode, useCallback, useEffect, useState } from 'react';
-
 import AppBody from 'components/AppBody';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
 import { appRouter } from 'components/router/appRouter';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
 import { useApi } from 'hooks/useApi';
+import React, { StrictMode, useCallback, useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import { Box, Flex } from 'ui-primitives';
 
@@ -22,7 +21,9 @@ export function Component(): React.ReactElement {
     const location = useLocation();
     const { user } = useApi();
 
-    const isMetadataManager = location.pathname.startsWith(`/${DASHBOARD_APP_PATHS.MetadataManager}`);
+    const isMetadataManager = location.pathname.startsWith(
+        `/${DASHBOARD_APP_PATHS.MetadataManager}`
+    );
     const isDrawerAvailable = Boolean(user) && !isMetadataManager;
     const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
@@ -42,7 +43,7 @@ export function Component(): React.ReactElement {
         <Flex style={{ minHeight: '100vh', display: 'flex' }}>
             <StrictMode>
                 <Box
-                    component='header'
+                    component="header"
                     style={{
                         position: 'fixed',
                         top: 0,
@@ -67,12 +68,16 @@ export function Component(): React.ReactElement {
                 </Box>
 
                 {isDrawerAvailable && (
-                    <AppDrawer open={isDrawerOpen} onClose={onToggleDrawer} onOpen={onToggleDrawer} />
+                    <AppDrawer
+                        open={isDrawerOpen}
+                        onClose={onToggleDrawer}
+                        onOpen={onToggleDrawer}
+                    />
                 )}
             </StrictMode>
 
             <Box
-                component='main'
+                component="main"
                 style={{
                     width: '100%',
                     flexGrow: 1,

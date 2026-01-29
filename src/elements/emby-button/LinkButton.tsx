@@ -1,16 +1,16 @@
 import classNames from 'classnames';
-import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
-
 import { safeAppHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
+import React, { AnchorHTMLAttributes, DetailedHTMLProps, MouseEvent, useCallback } from 'react';
 import shell from 'scripts/shell';
 import { deprecate } from '../../utils/deprecation';
 
 import './emby-button.scss';
 
-interface LinkButtonProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
+interface LinkButtonProps
+    extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
     className?: string;
     isAutoHideEnabled?: boolean;
     href?: string;
@@ -43,7 +43,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
                     }
                 } else {
                     e.preventDefault();
-                    appRouter.show(url).catch(err => {
+                    appRouter.show(url).catch((err) => {
                         console.error('[LinkButton] failed to show url', url, err);
                     });
                 }

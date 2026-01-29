@@ -1,19 +1,18 @@
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
-import { escapeHtml } from 'utils/html';
-
 import { AutoScroll } from 'apps/stable/features/lyrics/constants/autoScroll';
 import autoFocuser from 'components/autoFocuser';
-import { appRouter } from 'components/router/appRouter';
+import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
 import { playbackManager } from 'components/playback/playbackmanager';
-import { scrollIntoView } from 'utils/scroll';
-import focusManager from 'components/focusManager';
+import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import keyboardNavigation from 'scripts/keyboardNavigation';
 import LibraryMenu from 'scripts/libraryMenu';
 import Events from 'utils/events';
+import { escapeHtml } from 'utils/html';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { scrollIntoView } from 'utils/scroll';
 
 import '../styles/lyrics.scss';
 
@@ -39,7 +38,7 @@ function lyricHtmlReducer(htmlAccumulator: string, lyric: any, index: number) {
 }
 
 function getLyricIndex(time: number, lyrics: any[]) {
-    return lyrics.findLastIndex(lyric => lyric.Start <= time);
+    return lyrics.findLastIndex((lyric) => lyric.Start <= time);
 }
 
 function getCurrentPlayTime() {
@@ -71,7 +70,9 @@ export default function (view: HTMLElement) {
             lyric.classList.remove('pastLyric');
             lyric.classList.remove('futureLyric');
             if (autoScroll !== AutoScroll.NoScroll) {
-                scrollIntoView(lyric, { behavior: autoScroll === AutoScroll.Smooth ? 'smooth' : 'auto' });
+                scrollIntoView(lyric, {
+                    behavior: autoScroll === AutoScroll.Smooth ? 'smooth' : 'auto'
+                });
                 focusManager.focus(lyric);
                 autoScroll = AutoScroll.Smooth;
             }
@@ -106,8 +107,10 @@ export default function (view: HTMLElement) {
 
         if (isDynamicLyric && itemsContainer) {
             const lyricLineArray = itemsContainer.querySelectorAll('.lyricsLine');
-            lyricLineArray.forEach(element => {
-                element.addEventListener('click', () => onLyricClick(element.getAttribute('data-lyrictime')));
+            lyricLineArray.forEach((element) => {
+                element.addEventListener('click', () =>
+                    onLyricClick(element.getAttribute('data-lyrictime'))
+                );
             });
 
             const currentIndex = getLyricIndex(getCurrentPlayTime(), lyrics);
@@ -189,7 +192,9 @@ export default function (view: HTMLElement) {
             bindToPlayer(player);
             const state = playbackManager.getPlayerState(player);
             currentItem = state.NowPlayingItem;
-            getLyrics(currentItem.ServerId, currentItem.Id).then(updateLyrics).catch(renderNoLyricMessage);
+            getLyrics(currentItem.ServerId, currentItem.Id)
+                .then(updateLyrics)
+                .catch(renderNoLyricMessage);
         } else {
             appRouter.goHome();
         }

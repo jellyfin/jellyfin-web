@@ -1,10 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Container } from '../..';
-import { Box } from '../..';
-import { Text } from '../..';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Container, Text } from '../..';
 
 const meta: Meta<typeof Container> = {
     title: 'UI Primitives/Container',
@@ -32,7 +29,14 @@ export const Default: Story = {
     },
     decorators: [
         (Story): ReactElement => (
-            <div style={{ width: '100%', maxWidth: '1000px', margin: '0 auto', border: '1px dashed #444' }}>
+            <div
+                style={{
+                    width: '100%',
+                    maxWidth: '1000px',
+                    margin: '0 auto',
+                    border: '1px dashed #444'
+                }}
+            >
                 <Story />
             </div>
         )
@@ -60,13 +64,19 @@ export const NoMaxWidth: Story = {
 function AllSizesStory(): ReactElement {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            {(['xs', 'sm', 'md', 'lg', 'xl', 'none'] as const).map(size => (
+            {(['xs', 'sm', 'md', 'lg', 'xl', 'none'] as const).map((size) => (
                 <Box key={size}>
                     <Text as="small" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                         maxWidth=&quot;{size}&quot;
                     </Text>
                     <Container maxWidth={size}>
-                        <Box style={{ backgroundColor: '#252525', padding: '12px', borderRadius: '8px' }}>
+                        <Box
+                            style={{
+                                backgroundColor: '#252525',
+                                padding: '12px',
+                                borderRadius: '8px'
+                            }}
+                        >
                             <Text>Content container</Text>
                         </Box>
                     </Container>

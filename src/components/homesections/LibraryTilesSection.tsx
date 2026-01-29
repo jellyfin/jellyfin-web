@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { Heading } from 'ui-primitives';
-
 import globalize from 'lib/globalize';
+import React from 'react';
+import { Heading } from 'ui-primitives';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
 import * as styles from './LibraryTilesSection.css.ts';
@@ -23,7 +21,9 @@ const LibraryTilesSection: React.FC<LibraryTilesSectionProps> = ({ userViews }) 
 
     return (
         <div className={styles.container}>
-            <Heading.H3 className={styles.header}>{globalize.translate('HeaderMyMedia')}</Heading.H3>
+            <Heading.H3 className={styles.header}>
+                {globalize.translate('HeaderMyMedia')}
+            </Heading.H3>
             <CardBuilder items={userViews} options={cardOptions} />
         </div>
     );

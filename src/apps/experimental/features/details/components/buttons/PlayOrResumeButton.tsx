@@ -1,16 +1,16 @@
-import React, { type FC, useCallback, useMemo } from 'react';
-import { IconButton } from 'ui-primitives';
 import { PlayIcon, ResetIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
+import itemHelper from 'components/itemHelper';
+import { playbackManager } from 'components/playback/playbackmanager';
 
 import { ItemAction } from 'constants/itemAction';
-import { useApi } from 'hooks/useApi';
 import { getChannelQuery } from 'hooks/api/liveTvHooks/useGetChannel';
+import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import { playbackManager } from 'components/playback/playbackmanager';
+import React, { type FC, useCallback, useMemo } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import { ItemKind } from 'types/base/models/item-kind';
-import itemHelper from 'components/itemHelper';
+import { IconButton } from 'ui-primitives';
 
 interface PlayOrResumeButtonProps {
     item: ItemDto;
@@ -34,7 +34,8 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
         if (item && item.Id) {
             return itemHelper.supportsMediaSourceSelection(item as any)
                 ? {
-                      startPositionTicks: item.UserData && isResumable ? item.UserData.PlaybackPositionTicks : 0,
+                      startPositionTicks:
+                          item.UserData && isResumable ? item.UserData.PlaybackPositionTicks : 0,
                       mediaSourceId: selectedMediaSourceId,
                       audioStreamIndex: selectedAudioTrack || null,
                       subtitleStreamIndex: selectedSubtitleTrack

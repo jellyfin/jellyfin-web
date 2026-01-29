@@ -71,7 +71,11 @@ class AppSettings {
         return this.get(key);
     }
 
-    enableAutomaticBitrateDetection(isInNetwork: boolean, mediatype: string, value?: boolean): boolean {
+    enableAutomaticBitrateDetection(
+        isInNetwork: boolean,
+        mediatype: string,
+        value?: boolean
+    ): boolean {
         const key = `enableAutomaticBitrate-${isInNetwork ? 'inNetwork' : 'internet'}-${mediatype}`;
         if (value !== undefined) {
             this.set(key, value.toString());

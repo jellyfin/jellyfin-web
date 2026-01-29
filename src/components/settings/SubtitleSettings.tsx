@@ -1,19 +1,26 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { FormControl, FormLabel } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { UserConfiguration } from '@jellyfin/sdk/lib/generated-client';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Checkbox,
+    CircularProgress,
+    Divider,
+    Flex,
+    FormControl,
+    FormLabel,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Slider,
+    Text
+} from 'ui-primitives';
 import { logger } from 'utils/logger';
 
 interface SubtitleAppearanceSettings {
@@ -259,7 +266,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
             const appearanceSettings = userSettings.getSubtitleAppearanceSettings(appearanceKey);
             const cultures = (await apiClient.getCultures()) as Culture[];
 
-            setState(prev => ({
+            setState((prev) => ({
                 ...prev,
                 user,
                 cultures,
@@ -276,8 +283,11 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                 loading: false
             }));
         } catch (error) {
-            logger.error('Failed to load subtitle settings', { component: 'SubtitleSettings', error });
-            setState(prev => ({ ...prev, loading: false }));
+            logger.error('Failed to load subtitle settings', {
+                component: 'SubtitleSettings',
+                error
+            });
+            setState((prev) => ({ ...prev, loading: false }));
         }
     }, [userId, serverId, userSettings, appearanceKey]);
 
@@ -287,7 +297,7 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
 
     const handleSave = useCallback(async () => {
         try {
-            setState(prev => ({ ...prev, loading: true }));
+            setState((prev) => ({ ...prev, loading: true }));
 
             const apiClient = ServerConnections.getApiClient(serverId);
 
@@ -308,15 +318,21 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                 state.user.Configuration.SubtitleLanguagePreference = state.subtitleLanguage;
                 state.user.Configuration.SubtitleMode = state.subtitleMode as SubtitlePlaybackMode;
 
-                await apiClient.updateUserConfiguration(state.user.Id, state.user.Configuration as UserConfiguration);
+                await apiClient.updateUserConfiguration(
+                    state.user.Id,
+                    state.user.Configuration as UserConfiguration
+                );
             }
 
             logger.info('Subtitle settings saved', { component: 'SubtitleSettings' });
             onSave?.();
         } catch (error) {
-            logger.error('Failed to save subtitle settings', { component: 'SubtitleSettings', error });
+            logger.error('Failed to save subtitle settings', {
+                component: 'SubtitleSettings',
+                error
+            });
         } finally {
-            setState(prev => ({ ...prev, loading: false }));
+            setState((prev) => ({ ...prev, loading: false }));
         }
     }, [state, userSettings, serverId, appearanceKey, onSave]);
 
@@ -329,20 +345,27 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
             textBackground: state.textBackground,
             textColor: state.textColor
         });
-    }, [state.textSize, state.textWeight, state.dropShadow, state.font, state.textBackground, state.textColor]);
+    }, [
+        state.textSize,
+        state.textWeight,
+        state.dropShadow,
+        state.font,
+        state.textBackground,
+        state.textColor
+    ]);
 
     const showBurnInOptions = state.user?.Policy.EnableVideoPlaybackTranscoding;
 
     const handleTextColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState(prev => ({ ...prev, textColor: event.target.value }));
+        setState((prev) => ({ ...prev, textColor: event.target.value }));
     };
 
     const handleTextBackgroundChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState(prev => ({ ...prev, textBackground: event.target.value }));
+        setState((prev) => ({ ...prev, textBackground: event.target.value }));
     };
 
     const handleVerticalPositionChange = (value: number[]) => {
-        setState(prev => ({ ...prev, verticalPosition: value[0] ?? 0 }));
+        setState((prev) => ({ ...prev, verticalPosition: value[0] ?? 0 }));
     };
 
     if (state.loading && !state.user) {
@@ -364,14 +387,16 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                     <FormLabel>{globalize.translate('LabelPreferredSubtitleLanguage')}</FormLabel>
                     <Select
                         value={state.subtitleLanguage}
-                        onValueChange={value => setState(prev => ({ ...prev, subtitleLanguage: value }))}
+                        onValueChange={(value) =>
+                            setState((prev) => ({ ...prev, subtitleLanguage: value }))
+                        }
                     >
                         <SelectTrigger>
                             <SelectValue placeholder={globalize.translate('Default')} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="">{globalize.translate('Default')}</SelectItem>
-                            {state.cultures.map(culture => (
+                            {state.cultures.map((culture) => (
                                 <SelectItem
                                     key={culture.ThreeLetterISOLanguageName}
                                     value={culture.ThreeLetterISOLanguageName}
@@ -387,13 +412,15 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                     <FormLabel>{globalize.translate('LabelSubtitlePlaybackMode')}</FormLabel>
                     <Select
                         value={state.subtitleMode}
-                        onValueChange={value => setState(prev => ({ ...prev, subtitleMode: value || 'Default' }))}
+                        onValueChange={(value) =>
+                            setState((prev) => ({ ...prev, subtitleMode: value || 'Default' }))
+                        }
                     >
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                            {SUBTITLE_MODE_OPTIONS.map(option => (
+                            {SUBTITLE_MODE_OPTIONS.map((option) => (
                                 <SelectItem key={option.value} value={option.value}>
                                     {globalize.translate(option.label)}
                                 </SelectItem>
@@ -407,13 +434,15 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelBurnSubtitles')}</FormLabel>
                         <Select
                             value={state.subtitleBurnIn}
-                            onValueChange={value => setState(prev => ({ ...prev, subtitleBurnIn: value }))}
+                            onValueChange={(value) =>
+                                setState((prev) => ({ ...prev, subtitleBurnIn: value }))
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                {SUBTITLE_BURN_IN_OPTIONS.map(option => (
+                                {SUBTITLE_BURN_IN_OPTIONS.map((option) => (
                                     <SelectItem key={option.value} value={option.value}>
                                         {globalize.translate(option.label)}
                                     </SelectItem>
@@ -429,8 +458,8 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                 <FormControl>
                     <Checkbox
                         checked={state.alwaysBurnInWhenTranscoding}
-                        onChangeChecked={checked =>
-                            setState(prev => ({ ...prev, alwaysBurnInWhenTranscoding: checked }))
+                        onChangeChecked={(checked) =>
+                            setState((prev) => ({ ...prev, alwaysBurnInWhenTranscoding: checked }))
                         }
                     >
                         {globalize.translate('AlwaysBurnInSubtitleWhenTranscoding')}
@@ -474,15 +503,21 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelSubtitleStyling')}</FormLabel>
                         <Select
                             value={state.subtitleStyling}
-                            onValueChange={value => setState(prev => ({ ...prev, subtitleStyling: value || 'Auto' }))}
+                            onValueChange={(value) =>
+                                setState((prev) => ({ ...prev, subtitleStyling: value || 'Auto' }))
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="Auto">{globalize.translate('Auto')}</SelectItem>
-                                <SelectItem value="Custom">{globalize.translate('Custom')}</SelectItem>
-                                <SelectItem value="Native">{globalize.translate('Native')}</SelectItem>
+                                <SelectItem value="Custom">
+                                    {globalize.translate('Custom')}
+                                </SelectItem>
+                                <SelectItem value="Native">
+                                    {globalize.translate('Native')}
+                                </SelectItem>
                             </SelectContent>
                         </Select>
                     </FormControl>
@@ -491,13 +526,15 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelTextSize')}</FormLabel>
                         <Select
                             value={state.textSize}
-                            onValueChange={value => setState(prev => ({ ...prev, textSize: value || '' }))}
+                            onValueChange={(value) =>
+                                setState((prev) => ({ ...prev, textSize: value || '' }))
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                {TEXT_SIZE_OPTIONS.map(option => (
+                                {TEXT_SIZE_OPTIONS.map((option) => (
                                     <SelectItem key={option.value} value={option.value}>
                                         {globalize.translate(option.label)}
                                     </SelectItem>
@@ -510,13 +547,15 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelTextWeight')}</FormLabel>
                         <Select
                             value={state.textWeight}
-                            onValueChange={value => setState(prev => ({ ...prev, textWeight: value || 'normal' }))}
+                            onValueChange={(value) =>
+                                setState((prev) => ({ ...prev, textWeight: value || 'normal' }))
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                {TEXT_WEIGHT_OPTIONS.map(option => (
+                                {TEXT_WEIGHT_OPTIONS.map((option) => (
                                     <SelectItem key={option.value} value={option.value}>
                                         {globalize.translate(option.label)}
                                     </SelectItem>
@@ -529,13 +568,15 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelFont')}</FormLabel>
                         <Select
                             value={state.font}
-                            onValueChange={value => setState(prev => ({ ...prev, font: value || '' }))}
+                            onValueChange={(value) =>
+                                setState((prev) => ({ ...prev, font: value || '' }))
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                {FONT_OPTIONS.map(option => (
+                                {FONT_OPTIONS.map((option) => (
                                     <SelectItem key={option.value} value={option.value}>
                                         {globalize.translate(option.label)}
                                     </SelectItem>
@@ -547,10 +588,12 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                     <FormControl>
                         <FormLabel>{globalize.translate('LabelTextColor')}</FormLabel>
                         <Flex style={{ gap: vars.spacing['4'], flexWrap: 'wrap' }}>
-                            {TEXT_COLOR_OPTIONS.map(option => (
+                            {TEXT_COLOR_OPTIONS.map((option) => (
                                 <Box
                                     key={option.value}
-                                    onClick={() => setState(prev => ({ ...prev, textColor: option.value }))}
+                                    onClick={() =>
+                                        setState((prev) => ({ ...prev, textColor: option.value }))
+                                    }
                                     style={{
                                         width: 32,
                                         height: 32,
@@ -561,7 +604,10 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                                                 ? '2px solid #fff'
                                                 : '2px solid transparent',
                                         cursor: 'pointer',
-                                        boxShadow: state.textColor === option.value ? '0 0 0 2px #000' : 'none'
+                                        boxShadow:
+                                            state.textColor === option.value
+                                                ? '0 0 0 2px #000'
+                                                : 'none'
                                     }}
                                 />
                             ))}
@@ -589,13 +635,15 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                         <FormLabel>{globalize.translate('LabelDropShadow')}</FormLabel>
                         <Select
                             value={state.dropShadow}
-                            onValueChange={value => setState(prev => ({ ...prev, dropShadow: value || '' }))}
+                            onValueChange={(value) =>
+                                setState((prev) => ({ ...prev, dropShadow: value || '' }))
+                            }
                         >
                             <SelectTrigger>
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                {DROP_SHADOW_OPTIONS.map(option => (
+                                {DROP_SHADOW_OPTIONS.map((option) => (
                                     <SelectItem key={option.value} value={option.value}>
                                         {globalize.translate(option.label)}
                                     </SelectItem>
@@ -605,7 +653,9 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                     </FormControl>
 
                     <FormControl>
-                        <FormLabel>{globalize.translate('LabelSubtitleVerticalPosition')}</FormLabel>
+                        <FormLabel>
+                            {globalize.translate('LabelSubtitleVerticalPosition')}
+                        </FormLabel>
                         <Slider
                             value={[state.verticalPosition]}
                             onValueChange={handleVerticalPositionChange}
@@ -621,7 +671,9 @@ export const SubtitleSettings: React.FC<SubtitleSettingsProps> = ({
                     <FormControl>
                         <Checkbox
                             checked={state.previewEnabled}
-                            onChangeChecked={checked => setState(prev => ({ ...prev, previewEnabled: checked }))}
+                            onChangeChecked={(checked) =>
+                                setState((prev) => ({ ...prev, previewEnabled: checked }))
+                            }
                         >
                             {globalize.translate('Preview')}
                         </Checkbox>

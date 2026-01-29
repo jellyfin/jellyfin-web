@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
-
-import { Button } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import globalize from 'lib/globalize';
-import { Checkbox } from 'ui-primitives';
 import { useNavigate } from '@tanstack/react-router';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useState } from 'react';
+import { Button, Checkbox, Heading, Text } from 'ui-primitives';
 import Loading from '../../../components/loading/LoadingComponent';
 import * as styles from './WizardRemote.css.ts';
 
@@ -39,12 +35,17 @@ const WizardRemote = () => {
 
     return (
         <div className={styles.container}>
-            <Heading.H2 className={styles.title}>{globalize.translate('HeaderRemoteAccess')}</Heading.H2>
+            <Heading.H2 className={styles.title}>
+                {globalize.translate('HeaderRemoteAccess')}
+            </Heading.H2>
             <Text className={styles.helpText}>{globalize.translate('HeaderRemoteAccessHelp')}</Text>
 
             <form onSubmit={handleSubmit}>
                 <div className={styles.checkboxGroup}>
-                    <Checkbox checked={remoteAccess} onChange={e => setRemoteAccess(e.target.checked)}>
+                    <Checkbox
+                        checked={remoteAccess}
+                        onChange={(e) => setRemoteAccess(e.target.checked)}
+                    >
                         {globalize.translate('LabelEnableAutomaticPortMapping')}
                     </Checkbox>
                     <Button type="submit" size="lg" className={styles.submitButton}>

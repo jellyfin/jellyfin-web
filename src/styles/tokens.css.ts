@@ -578,13 +578,34 @@ export const tokens = {
         '7': vars.spacing['7'],
         '8': vars.spacing['8'],
         '9': vars.spacing['9'],
-        get xs() { console.warn('tokens.spacing.xs is deprecated, use tokens.spacing["2"]'); return vars.spacing['2']; },
-        get sm() { console.warn('tokens.spacing.sm is deprecated, use tokens.spacing["4"]'); return vars.spacing['4']; },
-        get md() { console.warn('tokens.spacing.md is deprecated, use tokens.spacing["5"]'); return vars.spacing['5']; },
-        get lg() { console.warn('tokens.spacing.lg is deprecated, use tokens.spacing["6"]'); return vars.spacing['6']; },
-        get xl() { console.warn('tokens.spacing.xl is deprecated, use tokens.spacing["7"]'); return vars.spacing['7']; },
-        get xxl() { console.warn('tokens.spacing.xxl is deprecated, use tokens.spacing["8"]'); return vars.spacing['8']; },
-        get xxxl() { console.warn('tokens.spacing.xxxl is deprecated, use tokens.spacing["9"]'); return vars.spacing['9']; }
+        get xs() {
+            console.warn('tokens.spacing.xs is deprecated, use tokens.spacing["2"]');
+            return vars.spacing['2'];
+        },
+        get sm() {
+            console.warn('tokens.spacing.sm is deprecated, use tokens.spacing["4"]');
+            return vars.spacing['4'];
+        },
+        get md() {
+            console.warn('tokens.spacing.md is deprecated, use tokens.spacing["5"]');
+            return vars.spacing['5'];
+        },
+        get lg() {
+            console.warn('tokens.spacing.lg is deprecated, use tokens.spacing["6"]');
+            return vars.spacing['6'];
+        },
+        get xl() {
+            console.warn('tokens.spacing.xl is deprecated, use tokens.spacing["7"]');
+            return vars.spacing['7'];
+        },
+        get xxl() {
+            console.warn('tokens.spacing.xxl is deprecated, use tokens.spacing["8"]');
+            return vars.spacing['8'];
+        },
+        get xxxl() {
+            console.warn('tokens.spacing.xxxl is deprecated, use tokens.spacing["9"]');
+            return vars.spacing['9'];
+        }
     },
     typography: {
         '1': vars.typography['1'],
@@ -596,11 +617,41 @@ export const tokens = {
         '7': vars.typography['7'],
         '8': vars.typography['8'],
         '9': vars.typography['9'],
-        get fontSizeXs() { console.warn('tokens.typography.fontSizeXs is deprecated, use tokens.typography["1"].fontSize'); return vars.typography['1'].fontSize; },
-        get fontSizeSm() { console.warn('tokens.typography.fontSizeSm is deprecated, use tokens.typography["3"].fontSize'); return vars.typography['3'].fontSize; },
-        get fontSizeMd() { console.warn('tokens.typography.fontSizeMd is deprecated, use tokens.typography["6"].fontSize'); return vars.typography['6'].fontSize; },
-        get fontSizeLg() { console.warn('tokens.typography.fontSizeLg is deprecated, use tokens.typography["7"].fontSize'); return vars.typography['7'].fontSize; },
-        get fontSizeXl() { console.warn('tokens.typography.fontSizeXl is deprecated, use tokens.typography["8"].fontSize'); return vars.typography['8'].fontSize; },
-        get fontSizeXxl() { console.warn('tokens.typography.fontSizeXxl is deprecated, use tokens.typography["9"].fontSize'); return vars.typography['9'].fontSize; }
+        get fontSizeXs() {
+            console.warn(
+                'tokens.typography.fontSizeXs is deprecated, use tokens.typography["1"].fontSize'
+            );
+            return vars.typography['1'].fontSize;
+        },
+        get fontSizeSm() {
+            console.warn(
+                'tokens.typography.fontSizeSm is deprecated, use tokens.typography["3"].fontSize'
+            );
+            return vars.typography['3'].fontSize;
+        },
+        get fontSizeMd() {
+            console.warn(
+                'tokens.typography.fontSizeMd is deprecated, use tokens.typography["6"].fontSize'
+            );
+            return vars.typography['6'].fontSize;
+        },
+        get fontSizeLg() {
+            console.warn(
+                'tokens.typography.fontSizeLg is deprecated, use tokens.typography["7"].fontSize'
+            );
+            return vars.typography['7'].fontSize;
+        },
+        get fontSizeXl() {
+            console.warn(
+                'tokens.typography.fontSizeXl is deprecated, use tokens.typography["8"].fontSize'
+            );
+            return vars.typography['8'].fontSize;
+        },
+        get fontSizeXxl() {
+            console.warn(
+                'tokens.typography.fontSizeXxl is deprecated, use tokens.typography["9"].fontSize'
+            );
+            return vars.typography['9'].fontSize;
+        }
     }
 };

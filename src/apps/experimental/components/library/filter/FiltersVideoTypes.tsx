@@ -1,10 +1,8 @@
 import { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-type';
 import React, { type FC, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
-
 import { type LibraryViewSettings, VideoBasicFilter } from 'types/library';
+import { Box, Checkbox } from 'ui-primitives';
 
 const videoBasicFilterOptions = [
     { label: 'SD', value: VideoBasicFilter.IsSD },
@@ -24,7 +22,10 @@ interface FiltersVideoTypesProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({ libraryViewSettings, setLibraryViewSettings }) => {
+const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({
+    libraryViewSettings,
+    setLibraryViewSettings
+}) => {
     const onFiltersvideoStandardChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
@@ -32,14 +33,16 @@ const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({ libraryViewSettings, se
             const existingVideoBasicFilter = libraryViewSettings?.Filters?.VideoBasicFilter ?? [];
 
             const updatedVideoBasicFilter = existingVideoBasicFilter.includes(value)
-                ? existingVideoBasicFilter.filter(filter => filter !== value)
+                ? existingVideoBasicFilter.filter((filter) => filter !== value)
                 : [...existingVideoBasicFilter, value];
 
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 Filters: {
                     ...prevState.Filters,
-                    VideoBasicFilter: updatedVideoBasicFilter.length ? updatedVideoBasicFilter : undefined
+                    VideoBasicFilter: updatedVideoBasicFilter.length
+                        ? updatedVideoBasicFilter
+                        : undefined
                 }
             }));
         },
@@ -53,10 +56,10 @@ const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({ libraryViewSettings, se
             const existingVideoTypes = libraryViewSettings?.Filters?.VideoTypes ?? [];
 
             const updatedVideoTypes = existingVideoTypes.includes(value)
-                ? existingVideoTypes.filter(filter => filter !== value)
+                ? existingVideoTypes.filter((filter) => filter !== value)
                 : [...existingVideoTypes, value];
 
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -70,17 +73,19 @@ const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({ libraryViewSettings, se
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
-            {videoBasicFilterOptions.map(filter => (
+            {videoBasicFilterOptions.map((filter) => (
                 <Checkbox
                     key={filter.value}
-                    checked={!!libraryViewSettings?.Filters?.VideoBasicFilter?.includes(filter.value)}
+                    checked={
+                        !!libraryViewSettings?.Filters?.VideoBasicFilter?.includes(filter.value)
+                    }
                     onChange={onFiltersvideoStandardChange}
                     value={filter.value}
                 >
                     {filter.label}
                 </Checkbox>
             ))}
-            {videoTypesOptions.map(filter => (
+            {videoTypesOptions.map((filter) => (
                 <Checkbox
                     key={filter.value}
                     checked={!!libraryViewSettings?.Filters?.VideoTypes?.includes(filter.value)}

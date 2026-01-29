@@ -1,5 +1,5 @@
-import { type ReactElement } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { type ReactElement } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 const meta: Meta = {
@@ -19,7 +19,12 @@ function CommandPaletteStory(): ReactElement {
             <p style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
                 Open Command Palette (Cmd+K)
             </p>
-            <p style={{ color: vars.colors.textSecondary, fontSize: vars.typography['3'].fontSize }}>
+            <p
+                style={{
+                    color: vars.colors.textSecondary,
+                    fontSize: vars.typography['3'].fontSize
+                }}
+            >
                 The Command Palette component provides a keyboard-accessible command interface.
             </p>
         </div>
@@ -84,7 +89,12 @@ function SearchableCommandStory(): ReactElement {
                             }}
                         >
                             <span style={{ color: vars.colors.text }}>{cmd.label}</span>
-                            <span style={{ color: vars.colors.textMuted, fontSize: vars.typography['1'].fontSize }}>
+                            <span
+                                style={{
+                                    color: vars.colors.textMuted,
+                                    fontSize: vars.typography['1'].fontSize
+                                }}
+                            >
                                 {cmd.shortcut}
                             </span>
                         </div>

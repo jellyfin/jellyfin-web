@@ -10,7 +10,8 @@ import { QueryKey } from './queryKey';
 export const useDisablePlugin = () => {
     const { api } = useApi();
     return useMutation({
-        mutationFn: (params: PluginsApiDisablePluginRequest) => getPluginsApi(api!).disablePlugin(params),
+        mutationFn: (params: PluginsApiDisablePluginRequest) =>
+            getPluginsApi(api!).disablePlugin(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
                 queryKey: [QueryKey.Plugins]

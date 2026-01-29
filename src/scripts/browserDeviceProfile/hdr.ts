@@ -14,10 +14,14 @@ export function supportsHdr10(options: HdrOptions): boolean {
             (browser as any).vidaa ||
             (browser as any).tizen ||
             browser.web0s ||
-            (browser.safari && ((browser.iOS && (browser as any).iOSVersion >= 11) || (browser as any).osx)) ||
+            (browser.safari &&
+                ((browser.iOS && (browser as any).iOSVersion >= 11) || (browser as any).osx)) ||
             (browser.edgeChromium && (browser as any).versionMajor >= 121) ||
             (browser.chrome && !browser.mobile) ||
-            (browser.firefox && (browser as any).osx && !browser.iOS && (browser as any).versionMajor >= 100))
+            (browser.firefox &&
+                (browser as any).osx &&
+                !browser.iOS &&
+                (browser as any).versionMajor >= 100))
     );
 }
 
@@ -28,7 +32,9 @@ export function supportsHlg(options: HdrOptions): boolean {
 export function supportsDolbyVision(options: HdrOptions): boolean {
     return (
         options.supportsDolbyVision ??
-        (false || (browser.safari && ((browser.iOS && (browser as any).iOSVersion >= 13) || (browser as any).osx)))
+        (false ||
+            (browser.safari &&
+                ((browser.iOS && (browser as any).iOSVersion >= 13) || (browser as any).osx)))
     );
 }
 
@@ -50,6 +56,8 @@ export function supportedDolbyVisionProfilesHevc(videoTestElement: HTMLMediaElem
     return supportedProfiles;
 }
 
-export function supportedDolbyVisionProfileAv1(videoTestElement: HTMLMediaElement): string | boolean {
+export function supportedDolbyVisionProfileAv1(
+    videoTestElement: HTMLMediaElement
+): string | boolean {
     return videoTestElement.canPlayType?.('video/mp4; codecs="dav1.10.06"').replace(/no/, '');
 }

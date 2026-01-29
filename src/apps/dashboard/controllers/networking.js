@@ -2,8 +2,8 @@ import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
 import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-select/emby-select';
-import Dashboard from 'utils/dashboard';
 import alert from 'components/alert';
+import Dashboard from 'utils/dashboard';
 
 function onSubmit(e) {
     const form = this;
@@ -19,34 +19,55 @@ function onSubmit(e) {
         validateHttps(form).then(() => {
             loading.show();
             ApiClient.getNamedConfiguration('network').then((config) => {
-                config.LocalNetworkSubnets = form.querySelector('#txtLanNetworks').value.split(',').map((s) => {
-                    return s.trim();
-                }).filter((s) => {
-                    return s.length > 0;
-                });
-                config.RemoteIPFilter = form.querySelector('#txtExternalAddressFilter').value.split(',').map((s) => {
-                    return s.trim();
-                }).filter((s) => {
-                    return s.length > 0;
-                });
-                config.KnownProxies = form.querySelector('#txtKnownProxies').value.split(',').map((s) => {
-                    return s.trim();
-                }).filter((s) => {
-                    return s.length > 0;
-                });
-                config.LocalNetworkAddresses = form.querySelector('#txtLocalAddress').value.split(',').map((s) => {
-                    return s.trim();
-                }).filter((s) => {
-                    return s.length > 0;
-                });
+                config.LocalNetworkSubnets = form
+                    .querySelector('#txtLanNetworks')
+                    .value.split(',')
+                    .map((s) => {
+                        return s.trim();
+                    })
+                    .filter((s) => {
+                        return s.length > 0;
+                    });
+                config.RemoteIPFilter = form
+                    .querySelector('#txtExternalAddressFilter')
+                    .value.split(',')
+                    .map((s) => {
+                        return s.trim();
+                    })
+                    .filter((s) => {
+                        return s.length > 0;
+                    });
+                config.KnownProxies = form
+                    .querySelector('#txtKnownProxies')
+                    .value.split(',')
+                    .map((s) => {
+                        return s.trim();
+                    })
+                    .filter((s) => {
+                        return s.length > 0;
+                    });
+                config.LocalNetworkAddresses = form
+                    .querySelector('#txtLocalAddress')
+                    .value.split(',')
+                    .map((s) => {
+                        return s.trim();
+                    })
+                    .filter((s) => {
+                        return s.length > 0;
+                    });
 
-                config.PublishedServerUriBySubnet = form.querySelector('#txtPublishedServer').value.split(',').map((s) => {
-                    return s.trim();
-                }).filter((s) => {
-                    return s.length > 0;
-                });
+                config.PublishedServerUriBySubnet = form
+                    .querySelector('#txtPublishedServer')
+                    .value.split(',')
+                    .map((s) => {
+                        return s.trim();
+                    })
+                    .filter((s) => {
+                        return s.length > 0;
+                    });
 
-                config.IsRemoteIPFilterBlacklist = form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
+                config.IsRemoteIPFilterBlacklist =
+                    form.querySelector('#selectExternalAddressFilterMode').value === 'blacklist';
                 config.PublicHttpPort = form.querySelector('#txtPublicHttpPort').value;
                 config.PublicHttpsPort = form.querySelector('#txtPublicHttpsPort').value;
                 config.InternalHttpPort = form.querySelector('#txtPortNumber').value;
@@ -60,7 +81,10 @@ function onSubmit(e) {
                 config.AutoDiscovery = form.querySelector('#chkAutodiscovery').checked;
                 config.EnableIPv6 = form.querySelector('#chkEnableIP6').checked;
                 config.EnableIPv4 = form.querySelector('#chkEnableIP4').checked;
-                ApiClient.updateNamedConfiguration('network', config).then(Dashboard.processServerConfigurationUpdateResult, Dashboard.processErrorResponse);
+                ApiClient.updateNamedConfiguration('network', config).then(
+                    Dashboard.processServerConfigurationUpdateResult,
+                    Dashboard.processErrorResponse
+                );
             });
         });
     });
@@ -73,7 +97,10 @@ function triggerChange(select) {
 }
 
 function getValidationAlert(form) {
-    if (form.querySelector('#txtPublicHttpPort').value === form.querySelector('#txtPublicHttpsPort').value) {
+    if (
+        form.querySelector('#txtPublicHttpPort').value ===
+        form.querySelector('#txtPublicHttpsPort').value
+    ) {
         return 'The public http and https ports must be different.';
     }
 
@@ -81,7 +108,10 @@ function getValidationAlert(form) {
         return 'The http and https ports must be different.';
     }
 
-    if (!form.querySelector('#chkEnableIP6').checked && !form.querySelector('#chkEnableIP4').checked) {
+    if (
+        !form.querySelector('#chkEnableIP6').checked &&
+        !form.querySelector('#chkEnableIP4').checked
+    ) {
         return 'Either IPv4 or IPv6 need to be checked.';
     }
 
@@ -124,12 +154,18 @@ export default function (view) {
         page.querySelector('#txtPortNumber').value = config.InternalHttpPort;
         page.querySelector('#txtPublicHttpPort').value = config.PublicHttpPort;
         page.querySelector('#txtPublicHttpsPort').value = config.PublicHttpsPort;
-        page.querySelector('#txtLocalAddress').value = (config.LocalNetworkAddresses || []).join(', ');
+        page.querySelector('#txtLocalAddress').value = (config.LocalNetworkAddresses || []).join(
+            ', '
+        );
         page.querySelector('#txtLanNetworks').value = (config.LocalNetworkSubnets || []).join(', ');
         page.querySelector('#txtKnownProxies').value = (config.KnownProxies || []).join(', ');
-        page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(', ');
-        page.querySelector('#selectExternalAddressFilterMode').value = config.IsRemoteIPFilterBlacklist ? 'blacklist' : 'whitelist';
-        page.querySelector('#chkRemoteAccess').checked = config.EnableRemoteAccess == null || config.EnableRemoteAccess;
+        page.querySelector('#txtExternalAddressFilter').value = (config.RemoteIPFilter || []).join(
+            ', '
+        );
+        page.querySelector('#selectExternalAddressFilterMode').value =
+            config.IsRemoteIPFilterBlacklist ? 'blacklist' : 'whitelist';
+        page.querySelector('#chkRemoteAccess').checked =
+            config.EnableRemoteAccess == null || config.EnableRemoteAccess;
         page.querySelector('#txtHttpsPort').value = config.InternalHttpsPort;
         page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
         page.querySelector('#chkRequireHttps').checked = config.RequireHttps;
@@ -141,7 +177,9 @@ export default function (view) {
         page.querySelector('#chkAutodiscovery').checked = config.AutoDiscovery;
         page.querySelector('#chkEnableIP6').checked = config.EnableIPv6;
         page.querySelector('#chkEnableIP4').checked = config.EnableIPv4;
-        page.querySelector('#txtPublishedServer').value = (config.PublishedServerUriBySubnet || []).join(', ');
+        page.querySelector('#txtPublishedServer').value = (
+            config.PublishedServerUriBySubnet || []
+        ).join(', ');
         loading.hide();
     }
 
@@ -159,21 +197,23 @@ export default function (view) {
         }
     });
     view.querySelector('#btnSelectCertPath').addEventListener('click', () => {
-        import('components/directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
-            const picker = new DirectoryBrowser();
-            picker.show({
-                includeFiles: true,
-                includeDirectories: true,
-                callback: function (path) {
-                    if (path) {
-                        view.querySelector('#txtCertificatePath').value = path;
-                    }
+        import('components/directorybrowser/directorybrowser').then(
+            ({ default: DirectoryBrowser }) => {
+                const picker = new DirectoryBrowser();
+                picker.show({
+                    includeFiles: true,
+                    includeDirectories: true,
+                    callback: function (path) {
+                        if (path) {
+                            view.querySelector('#txtCertificatePath').value = path;
+                        }
 
-                    picker.close();
-                },
-                header: globalize.translate('HeaderSelectCertificatePath')
-            });
-        });
+                        picker.close();
+                    },
+                    header: globalize.translate('HeaderSelectCertificatePath')
+                });
+            }
+        );
     });
     view.querySelector('.dashboardHostingForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', () => {
@@ -183,4 +223,3 @@ export default function (view) {
         });
     });
 }
-

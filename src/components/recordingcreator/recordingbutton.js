@@ -18,9 +18,11 @@ function onRecordingButtonClick() {
 
         const instance = this;
 
-        recordingHelper.toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId).then(() => {
-            instance.refresh(serverId, programId);
-        });
+        recordingHelper
+            .toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId)
+            .then(() => {
+                instance.refresh(serverId, programId);
+            });
     }
 }
 
@@ -56,7 +58,7 @@ class RecordingButton {
     refresh(serverId, itemId) {
         const apiClient = ServerConnections.getApiClient(serverId);
         const self = this;
-        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
             self.refreshItem(item);
         });
     }

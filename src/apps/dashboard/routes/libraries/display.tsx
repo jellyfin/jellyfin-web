@@ -9,25 +9,36 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import React, { useCallback, useState } from 'react';
+import type { MetadataConfiguration } from '@jellyfin/sdk/lib/generated-client/models/metadata-configuration';
+import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { QUERY_KEY as CONFIG_QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import { QUERY_KEY as NAMED_CONFIG_QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
+import {
+    QUERY_KEY as NAMED_CONFIG_QUERY_KEY,
+    useNamedConfiguration
+} from 'hooks/useNamedConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useState } from 'react';
 import { type ActionData } from 'types/actionData';
+import {
+    Alert,
+    Button,
+    Checkbox,
+    Flex,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 import { queryClient } from 'utils/query/queryClient';
-import type { MetadataConfiguration } from '@jellyfin/sdk/lib/generated-client/models/metadata-configuration';
-import { Alert } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
 
 const CONFIG_KEY = 'metadata';
 
@@ -61,14 +72,21 @@ export const Component = (): React.ReactElement => {
             };
 
             config.EnableFolderView = data.DisplayFolderView?.toString() === 'on';
-            config.DisplaySpecialsWithinSeasons = data.DisplaySpecialsWithinSeasons?.toString() === 'on';
-            config.EnableGroupingMoviesIntoCollections = data.GroupMoviesIntoCollections?.toString() === 'on';
-            config.EnableGroupingShowsIntoCollections = data.GroupShowsIntoCollections?.toString() === 'on';
-            config.EnableExternalContentInSuggestions = data.EnableExternalContentInSuggestions?.toString() === 'on';
+            config.DisplaySpecialsWithinSeasons =
+                data.DisplaySpecialsWithinSeasons?.toString() === 'on';
+            config.EnableGroupingMoviesIntoCollections =
+                data.GroupMoviesIntoCollections?.toString() === 'on';
+            config.EnableGroupingShowsIntoCollections =
+                data.GroupShowsIntoCollections?.toString() === 'on';
+            config.EnableExternalContentInSuggestions =
+                data.EnableExternalContentInSuggestions?.toString() === 'on';
 
             await getConfigurationApi(api).updateConfiguration({ serverConfiguration: config });
 
-            await getConfigurationApi(api).updateNamedConfiguration({ key: CONFIG_KEY, body: metadataConfig });
+            await getConfigurationApi(api).updateNamedConfiguration({
+                key: CONFIG_KEY,
+                body: metadataConfig
+            });
 
             void queryClient.invalidateQueries({
                 queryKey: [CONFIG_QUERY_KEY]
@@ -90,7 +108,11 @@ export const Component = (): React.ReactElement => {
     }
 
     return (
-        <Page id="libraryDisplayPage" title={globalize.translate('Display')} className="mainAnimatedPage type-interior">
+        <Page
+            id="libraryDisplayPage"
+            title={globalize.translate('Display')}
+            className="mainAnimatedPage type-interior"
+        >
             <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 {isConfigError || isNamedConfigError ? (
                     <Alert variant="error">{globalize.translate('DisplayLoadError')}</Alert>
@@ -98,7 +120,9 @@ export const Component = (): React.ReactElement => {
                     <form onSubmit={handleSubmit}>
                         <Flex style={{ flexDirection: 'column', gap: '24px' }}>
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
+                                <Alert variant="success">
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
                             )}
                             <Text as="h1" size="xl" weight="bold">
                                 {globalize.translate('Display')}
@@ -106,27 +130,38 @@ export const Component = (): React.ReactElement => {
 
                             <Select
                                 name="DateAddedBehavior"
-                                defaultValue={namedConfig.UseFileCreationTimeForDateAdded ? '1' : '0'}
+                                defaultValue={
+                                    namedConfig.UseFileCreationTimeForDateAdded ? '1' : '0'
+                                }
                             >
                                 <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelDateAddedBehavior')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate('LabelDateAddedBehavior')}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="0">
                                         {globalize.translate('OptionDateAddedImportTime')}
                                     </SelectItem>
-                                    <SelectItem value="1">{globalize.translate('OptionDateAddedFileTime')}</SelectItem>
+                                    <SelectItem value="1">
+                                        {globalize.translate('OptionDateAddedFileTime')}
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
 
                             <FormControl>
                                 <FormControlLabel
                                     control={
-                                        <Checkbox name="DisplayFolderView" defaultChecked={config.EnableFolderView} />
+                                        <Checkbox
+                                            name="DisplayFolderView"
+                                            defaultChecked={config.EnableFolderView}
+                                        />
                                     }
                                     label={globalize.translate('OptionDisplayFolderView')}
                                 />
-                                <FormHelperText>{globalize.translate('OptionDisplayFolderViewHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('OptionDisplayFolderViewHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
@@ -146,7 +181,9 @@ export const Component = (): React.ReactElement => {
                                     control={
                                         <Checkbox
                                             name="GroupMoviesIntoCollections"
-                                            defaultChecked={config.EnableGroupingMoviesIntoCollections}
+                                            defaultChecked={
+                                                config.EnableGroupingMoviesIntoCollections
+                                            }
                                         />
                                     }
                                     label={globalize.translate('LabelGroupMoviesIntoCollections')}
@@ -161,7 +198,9 @@ export const Component = (): React.ReactElement => {
                                     control={
                                         <Checkbox
                                             name="GroupShowsIntoCollections"
-                                            defaultChecked={config.EnableGroupingShowsIntoCollections}
+                                            defaultChecked={
+                                                config.EnableGroupingShowsIntoCollections
+                                            }
                                         />
                                     }
                                     label={globalize.translate('LabelGroupShowsIntoCollections')}
@@ -176,13 +215,19 @@ export const Component = (): React.ReactElement => {
                                     control={
                                         <Checkbox
                                             name="EnableExternalContentInSuggestions"
-                                            defaultChecked={config.EnableExternalContentInSuggestions}
+                                            defaultChecked={
+                                                config.EnableExternalContentInSuggestions
+                                            }
                                         />
                                     }
-                                    label={globalize.translate('OptionEnableExternalContentInSuggestions')}
+                                    label={globalize.translate(
+                                        'OptionEnableExternalContentInSuggestions'
+                                    )}
                                 />
                                 <FormHelperText>
-                                    {globalize.translate('OptionEnableExternalContentInSuggestionsHelp')}
+                                    {globalize.translate(
+                                        'OptionEnableExternalContentInSuggestionsHelp'
+                                    )}
                                 </FormHelperText>
                             </FormControl>
 

@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { useConnectionStore, createConnectionStore } from './connectionStore';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ConnectionState } from '../lib/jellyfin-apiclient/connectionState';
+import { createConnectionStore, useConnectionStore } from './connectionStore';
 
 describe('connectionStore', () => {
     beforeEach(() => {
@@ -359,9 +359,11 @@ describe('connectionStore', () => {
     describe('complex scenarios', () => {
         it('should handle connection lifecycle', () => {
             useConnectionStore.getState().setCurrentState(ConnectionState.ServerSelection);
-            useConnectionStore.getState().setAvailableServers([
-                { Id: 'srv1', Name: 'Server 1', Address: 'http://localhost' }
-            ] as any);
+            useConnectionStore
+                .getState()
+                .setAvailableServers([
+                    { Id: 'srv1', Name: 'Server 1', Address: 'http://localhost' }
+                ] as any);
 
             useConnectionStore.getState().setCurrentState(ConnectionState.SignedIn);
             useConnectionStore.getState().setCurrentServerId('srv1');

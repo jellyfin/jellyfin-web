@@ -1,33 +1,46 @@
-import React, { lazy, Suspense } from 'react';
-
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
+import React, { lazy, Suspense } from 'react';
 import { logger } from 'utils/logger';
 import { useAudioStore } from '../../store/audioStore';
-import { usePreferencesStore } from '../../store/preferencesStore';
+import { useVisualizerTypeState } from '../../store/visualizerSelectorStore';
 
 // Lazy load visualizer components to reduce initial bundle size
 const ButterchurnVisualizer = lazy(() =>
-    import('./Butterchurn').catch(error => {
-        logger.error('[Visualizers] Failed to load Butterchurn visualizer', { component: 'Visualizers' }, error);
+    import('./Butterchurn').catch((error) => {
+        logger.error(
+            '[Visualizers] Failed to load Butterchurn visualizer',
+            { component: 'Visualizers' },
+            error
+        );
         return { default: () => <div>Visualizer unavailable</div> };
     })
 );
 
 const FrequencyAnalyzer = lazy(() =>
-    import('./FrequencyAnalyzer').catch(error => {
-        logger.error('[Visualizers] Failed to load Frequency Analyzer', { component: 'Visualizers' }, error);
+    import('./FrequencyAnalyzer').catch((error) => {
+        logger.error(
+            '[Visualizers] Failed to load Frequency Analyzer',
+            { component: 'Visualizers' },
+            error
+        );
         return { default: () => <div>Frequency analyzer unavailable</div> };
     })
 );
 
 const ThreeDimensionVisualizer = lazy(() =>
-    import('./ThreeDimensionVisualizer').catch(error => {
-        logger.error('[Visualizers] Failed to load 3D Visualizer', { component: 'Visualizers' }, error);
+    import('./ThreeDimensionVisualizer').catch((error) => {
+        logger.error(
+            '[Visualizers] Failed to load 3D Visualizer',
+            { component: 'Visualizers' },
+            error
+        );
         return { default: () => <div>3D Visualizer unavailable</div> };
     })
 );
 
-const WaveformVisualizer = lazy(() => import('./WaveSurfer').then(m => ({ default: m.WaveSurferVisualizer })));
+const WaveformVisualizer = lazy(() =>
+    import('./WaveSurfer').then((m) => ({ default: m.WaveSurferVisualizer }))
+);
 
 // Loading fallback component
 function VisualizerLoading(): React.ReactElement {
@@ -53,13 +66,17 @@ function VisualizerLoading(): React.ReactElement {
 }
 
 export function Visualizers(): React.ReactElement | null {
-    const isReady = useAudioStore(state => state.isReady);
-    const enabled = usePreferencesStore(state => state.visualizer.enabled);
-    const type = usePreferencesStore(state => state.visualizer.type);
-    const showVisualizer = usePreferencesStore(state => state.ui.showVisualizer);
+    const isReady = useAudioStore((state) => state.isReady);
+    const { enabled, type, showVisualizer } = useVisualizerTypeState();
 
     // Only render if audio engine is ready and visualizer is enabled both globally and in UI
-    if (!isReady || !enabled || !showVisualizer || !masterAudioOutput.audioContext || !masterAudioOutput.mixerNode) {
+    if (
+        !isReady ||
+        !enabled ||
+        !showVisualizer ||
+        !masterAudioOutput.audioContext ||
+        !masterAudioOutput.mixerNode
+    ) {
         return null;
     }
 

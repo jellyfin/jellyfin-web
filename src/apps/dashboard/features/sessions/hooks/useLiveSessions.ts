@@ -5,8 +5,8 @@ import { type ApiClient } from 'jellyfin-apiclient';
 import { useCallback, useEffect } from 'react';
 import serverNotifications from 'scripts/serverNotifications';
 import Events, { type Event } from 'utils/events';
-import { QUERY_KEY, useSessions } from '../api/useSessions';
 import { queryClient } from 'utils/query/queryClient';
+import { QUERY_KEY, useSessions } from '../api/useSessions';
 import filterSessions from '../utils/filterSessions';
 
 const QUERY_PARAMS = {
@@ -20,12 +20,16 @@ const useLiveSessions = () => {
 
     const updateSessions = useCallback((sessions: SessionInfoDto[]) => {
         const newSessions = filterSessions(sessions);
-        const data = queryClient.getQueryData([QUERY_KEY, QUERY_PARAMS]) as SessionInfoDto[] | undefined;
+        const data = queryClient.getQueryData([QUERY_KEY, QUERY_PARAMS]) as
+            | SessionInfoDto[]
+            | undefined;
         if (data) {
             const currentSessions = [...data];
 
             for (const session of newSessions) {
-                const sessionIndex = currentSessions.findIndex(value => value.DeviceId === session.DeviceId);
+                const sessionIndex = currentSessions.findIndex(
+                    (value) => value.DeviceId === session.DeviceId
+                );
                 if (sessionIndex == -1) {
                     currentSessions.push(session);
                 } else {

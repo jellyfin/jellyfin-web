@@ -4,8 +4,8 @@
  * React-based playback settings page for user preferences.
  */
 
-import React from 'react';
 import { PlaybackSettings } from 'components/playbackSettings/playbackSettings';
+import React from 'react';
 import * as userSettings from 'scripts/settings/userSettings';
 import { useServerStore } from 'store/serverStore';
 

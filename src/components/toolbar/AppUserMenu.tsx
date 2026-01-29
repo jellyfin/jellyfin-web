@@ -10,17 +10,23 @@ import {
     ResetIcon,
     StackIcon
 } from '@radix-ui/react-icons';
-import { Divider } from 'ui-primitives';
-import { Menu, MenuTrigger, MenuPortal, MenuContent, MenuItem, MenuItemDecorator } from 'ui-primitives';
-import React, { FC, useCallback } from 'react';
 import { Link } from '@tanstack/react-router';
-
 import { safeAppHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
 import globalize from 'lib/globalize';
+import React, { FC, useCallback } from 'react';
 import shell from 'scripts/shell';
+import {
+    Divider,
+    Menu,
+    MenuContent,
+    MenuItem,
+    MenuItemDecorator,
+    MenuPortal,
+    MenuTrigger
+} from 'ui-primitives';
 import Dashboard from 'utils/dashboard';
 
 export const ID = 'app-user-menu';
@@ -61,13 +67,17 @@ const AppUserMenu: FC<AppUserMenuProps> = ({ anchorEl, open, onMenuClose }) => {
     }, [onMenuClose]);
 
     return (
-        <Menu open={open} onOpenChange={open => !open && onMenuClose()}>
+        <Menu open={open} onOpenChange={(open) => !open && onMenuClose()}>
             <MenuTrigger>
                 <div />
             </MenuTrigger>
             <MenuPortal>
                 <MenuContent style={{ minWidth: 200, zIndex: 1300 }}>
-                    <MenuItem component={Link} to={`/userprofile?userId=${user?.Id}`} onClick={onMenuClose}>
+                    <MenuItem
+                        component={Link}
+                        to={`/userprofile?userId=${user?.Id}`}
+                        onClick={onMenuClose}
+                    >
                         <MenuItemDecorator>
                             <PersonIcon />
                         </MenuItemDecorator>

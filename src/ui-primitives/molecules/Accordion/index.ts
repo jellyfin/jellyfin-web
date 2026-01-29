@@ -1,1 +1,1 @@
-export { Accordion, AccordionSummary, AccordionDetails, ExpandableAccordion } from './Accordion';
+export { Accordion, AccordionDetails, AccordionSummary, ExpandableAccordion } from './Accordion';

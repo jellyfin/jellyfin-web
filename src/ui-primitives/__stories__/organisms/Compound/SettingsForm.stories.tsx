@@ -1,14 +1,27 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
+import { type ChangeEvent, type ReactElement, useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { Box, Flex } from '../../../';
-import { Heading } from '../../../';
-import { Card, CardBody, CardFooter, CardHeader } from '../../../';
-import { Button } from '../../../';
-import { Input } from '../../../';
-import { Switch, FormControl, FormLabel, FormHelperText } from '../../../';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../../';
-import { Alert } from '../../../';
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Flex,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Switch
+} from '../../../';
 
 const meta: Meta = {
     title: 'UI Primitives/Compound/Settings Form',
@@ -55,27 +68,27 @@ function SettingsFormStory(): ReactElement {
     }, []);
 
     const handleDisplayNameChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-        setFormData(prev => ({ ...prev, displayName: e.target.value }));
+        setFormData((prev) => ({ ...prev, displayName: e.target.value }));
     }, []);
 
     const handleEmailChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-        setFormData(prev => ({ ...prev, email: e.target.value }));
+        setFormData((prev) => ({ ...prev, email: e.target.value }));
     }, []);
 
     const handleThemeChange = useCallback((value: string): void => {
-        setFormData(prev => ({ ...prev, theme: value as SettingsFormData['theme'] }));
+        setFormData((prev) => ({ ...prev, theme: value as SettingsFormData['theme'] }));
     }, []);
 
     const handleQualityChange = useCallback((value: string): void => {
-        setFormData(prev => ({ ...prev, quality: value as SettingsFormData['quality'] }));
+        setFormData((prev) => ({ ...prev, quality: value as SettingsFormData['quality'] }));
     }, []);
 
     const handleNotificationsChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-        setFormData(prev => ({ ...prev, enableNotifications: e.target.checked }));
+        setFormData((prev) => ({ ...prev, enableNotifications: e.target.checked }));
     }, []);
 
     const handleAutoPlayChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-        setFormData(prev => ({ ...prev, enableAutoPlay: e.target.checked }));
+        setFormData((prev) => ({ ...prev, enableAutoPlay: e.target.checked }));
     }, []);
 
     return (
@@ -134,20 +147,42 @@ function SettingsFormStory(): ReactElement {
                             </Select>
                         </FormControl>
 
-                        <Flex align="center" justify="space-between" style={{ padding: `${vars.spacing['4']} 0` }}>
+                        <Flex
+                            align="center"
+                            justify="space-between"
+                            style={{ padding: `${vars.spacing['4']} 0` }}
+                        >
                             <Box>
-                                <FormLabel style={{ marginBottom: vars.spacing['2'] }}>Enable Notifications</FormLabel>
-                                <FormHelperText style={{ margin: 0 }}>Receive push notifications</FormHelperText>
+                                <FormLabel style={{ marginBottom: vars.spacing['2'] }}>
+                                    Enable Notifications
+                                </FormLabel>
+                                <FormHelperText style={{ margin: 0 }}>
+                                    Receive push notifications
+                                </FormHelperText>
                             </Box>
-                            <Switch checked={formData.enableNotifications} onChange={handleNotificationsChange} />
+                            <Switch
+                                checked={formData.enableNotifications}
+                                onChange={handleNotificationsChange}
+                            />
                         </Flex>
 
-                        <Flex align="center" justify="space-between" style={{ padding: `${vars.spacing['4']} 0` }}>
+                        <Flex
+                            align="center"
+                            justify="space-between"
+                            style={{ padding: `${vars.spacing['4']} 0` }}
+                        >
                             <Box>
-                                <FormLabel style={{ marginBottom: vars.spacing['2'] }}>Auto-play Media</FormLabel>
-                                <FormHelperText style={{ margin: 0 }}>Automatically play next episode</FormHelperText>
+                                <FormLabel style={{ marginBottom: vars.spacing['2'] }}>
+                                    Auto-play Media
+                                </FormLabel>
+                                <FormHelperText style={{ margin: 0 }}>
+                                    Automatically play next episode
+                                </FormHelperText>
                             </Box>
-                            <Switch checked={formData.enableAutoPlay} onChange={handleAutoPlayChange} />
+                            <Switch
+                                checked={formData.enableAutoPlay}
+                                onChange={handleAutoPlayChange}
+                            />
                         </Flex>
 
                         {saved && (
@@ -192,7 +227,11 @@ function SettingsFormWithErrorsStory(): ReactElement {
                     <Flex direction="column" gap={vars.spacing['6']}>
                         <FormControl error>
                             <FormLabel>Display Name</FormLabel>
-                            <Input value="" onChange={(): void => {}} placeholder="Enter your name" />
+                            <Input
+                                value=""
+                                onChange={(): void => {}}
+                                placeholder="Enter your name"
+                            />
                             <FormHelperText>{errors.displayName}</FormHelperText>
                         </FormControl>
 

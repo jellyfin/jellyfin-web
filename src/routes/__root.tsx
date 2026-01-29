@@ -1,16 +1,16 @@
-import React, { lazy, Suspense } from 'react';
-import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { createRootRoute, Outlet } from '@tanstack/react-router';
+import React, { lazy, Suspense } from 'react';
+import { Box, Button, Text } from 'ui-primitives';
+import Backdrop from '../components/Backdrop';
+import CustomCss from '../components/CustomCss';
+import { LoadingOverlay } from '../components/feedback';
+import { LayoutProvider } from '../components/layout/LayoutProvider';
+import { OSDOverlay } from '../components/playback';
 import { ThemeProvider } from '../components/themeProvider/ThemeProvider';
 import browser from '../scripts/browser';
 import { queryClient } from '../utils/query/queryClient';
-import { OSDOverlay } from '../components/playback';
-import { LoadingOverlay } from '../components/feedback';
-import { LayoutProvider } from '../components/layout/LayoutProvider';
-import CustomCss from '../components/CustomCss';
-import Backdrop from '../components/Backdrop';
-import { Box, Text, Button } from 'ui-primitives';
 
 const Visualizers = lazy(() => import('../components/visualizer/Visualizers'));
 
@@ -53,7 +53,7 @@ function RootComponent() {
                     <Visualizers />
                 </Suspense>
                 <Backdrop />
-                
+
                 <LayoutProvider>
                     <Outlet />
                 </LayoutProvider>

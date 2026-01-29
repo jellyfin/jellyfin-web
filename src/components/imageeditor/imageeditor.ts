@@ -10,23 +10,21 @@
  */
 
 import type { ImageInfo, ImageProviderInfo } from '@jellyfin/sdk/lib/generated-client';
-import type { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-import type { ApiClient } from 'jellyfin-apiclient';
-import type { ConnectionManager } from 'jellyfin-apiclient';
-
+import type { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { AppFeature } from 'constants/appFeature';
-import dialogHelper, { DialogOptions } from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
-import dom from '../../utils/dom';
-import layoutManager from '../layoutManager';
-import focusManager from '../focusManager';
-import globalize from '../../lib/globalize';
+import type { ApiClient, ConnectionManager } from 'jellyfin-apiclient';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import scrollHelper from '../../scripts/scrollHelper';
-import imageLoader from '../images/imageLoader';
+import globalize from '../../lib/globalize';
 import browser from '../../scripts/browser';
+import scrollHelper from '../../scripts/scrollHelper';
+import dom from '../../utils/dom';
 import { safeAppHost } from '../apphost';
+import dialogHelper, { DialogOptions } from '../dialogHelper/dialogHelper';
+import focusManager from '../focusManager';
+import imageLoader from '../images/imageLoader';
+import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
 import '../cardbuilder/card.scss';
 import '../formdialog.scss';
 import '../../elements/emby-button/emby-button';
@@ -91,9 +89,11 @@ function reload(page: HTMLElement, item?: BaseItemDto, focusContext?: HTMLElemen
         reloadItem(page, item, apiClient, focusContext);
     } else if (currentItem) {
         apiClient = ServerConnections.getApiClient(currentItem.ServerId ?? '');
-        apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id ?? '').then(itemToReload => {
-            reloadItem(page, itemToReload, apiClient, focusContext);
-        });
+        apiClient
+            .getItem(apiClient.getCurrentUserId(), currentItem.Id ?? '')
+            .then((itemToReload) => {
+                reloadItem(page, itemToReload, apiClient, focusContext);
+            });
     }
 }
 
@@ -103,7 +103,7 @@ function addListeners(
     eventName: string,
     fn: (this: HTMLElement, e: Event) => void
 ): void {
-    container.addEventListener(eventName, e => {
+    container.addEventListener(eventName, (e) => {
         const elem = dom.parentWithClass(e.target as HTMLElement, className);
         if (elem) {
             fn.call(elem, e);
@@ -111,10 +111,15 @@ function addListeners(
     });
 }
 
-function reloadItem(page: HTMLElement, item: BaseItemDto, apiClient: ApiClient, focusContext?: HTMLElement): void {
+function reloadItem(
+    page: HTMLElement,
+    item: BaseItemDto,
+    apiClient: ApiClient,
+    focusContext?: HTMLElement
+): void {
     currentItem = item;
 
-    apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then(providers => {
+    apiClient.getRemoteImageProviders(getBaseRemoteOptions()).then((providers) => {
         const btnBrowseAllImages = page.querySelectorAll('.btnBrowseAllImages');
         for (let i = 0, length = btnBrowseAllImages.length; i < length; i++) {
             if (providers.length) {
@@ -124,7 +129,7 @@ function reloadItem(page: HTMLElement, item: BaseItemDto, apiClient: ApiClient, 
             }
         }
 
-        apiClient.getItemImageInfos(item.Id ?? '').then(imageInfos => {
+        apiClient.getItemImageInfos(item.Id ?? '').then((imageInfos) => {
             renderStandardImages(page, apiClient, item, imageInfos, providers);
             renderBackdrops(page, apiClient, item, imageInfos, providers);
             loading.hide();
@@ -217,14 +222,21 @@ function getCardHtml(image: ImageInfo, apiClient: ApiClient, options: ImageCardO
     html += '>';
 
     html += '<div class="' + cardBoxCssClass + '">';
-    html += '<div class="cardScalable visualCardBox-cardScalable" style="background-color:transparent;">';
+    html +=
+        '<div class="cardScalable visualCardBox-cardScalable" style="background-color:transparent;">';
     html += '<div class="cardPadder-backdrop"></div>';
 
     html += '<div class="cardContent">';
 
-    const imageUrl = getImageUrl(currentItem!, apiClient, image.ImageType ?? '', image.ImageIndex ?? 0, {
-        maxWidth: options.imageSize
-    });
+    const imageUrl = getImageUrl(
+        currentItem!,
+        apiClient,
+        image.ImageType ?? '',
+        image.ImageIndex ?? 0,
+        {
+            maxWidth: options.imageSize
+        }
+    );
 
     html +=
         '<div class="cardImageContainer" style="background-image:url(\'' +
@@ -406,7 +418,7 @@ function renderStandardImages(
     imageInfos: ImageInfo[],
     imageProviders: ImageProviderInfo[]
 ): void {
-    const images = imageInfos.filter(i => {
+    const images = imageInfos.filter((i) => {
         return i.ImageType !== 'Backdrop' && i.ImageType !== 'Chapter';
     });
 
@@ -424,7 +436,7 @@ function renderBackdrops(
     imageProviders: ImageProviderInfo[]
 ): void {
     const images = imageInfos
-        .filter(i => {
+        .filter((i) => {
             return i.ImageType === 'Backdrop';
         })
         .sort((a, b) => {
@@ -445,7 +457,7 @@ function renderBackdrops(
 }
 
 function showImageDownloader(page: HTMLElement, imageType: string): void {
-    import('../imageDownloader/imageDownloader').then(ImageDownloader => {
+    import('../imageDownloader/imageDownloader').then((ImageDownloader) => {
         const item = currentItem;
         if (!item) return;
 
@@ -512,7 +524,7 @@ function showActionSheet(context: HTMLElement, imageCard: HTMLElement): void {
                 items: commands,
                 positionTo: imageCard
             })
-            .then(id => {
+            .then((id) => {
                 switch (id) {
                     case 'delete':
                         deleteImage(context, itemId, type, index, apiClient, false);
@@ -574,7 +586,7 @@ function initEditor(context: HTMLElement, options: ImageEditorOptions): void {
                     itemId: item.Id ?? '',
                     serverId: item.ServerId ?? ''
                 })
-                .then(hasChanged => {
+                .then((hasChanged) => {
                     if (hasChanged) {
                         hasChanges = true;
                         reload(context);
@@ -597,7 +609,7 @@ function initEditor(context: HTMLElement, options: ImageEditorOptions): void {
 
     addListeners(context, 'btnDeleteImage', 'click', function () {
         const type = this.getAttribute('data-imagetype') ?? '';
-        let indexAttr = this.getAttribute('data-index');
+        const indexAttr = this.getAttribute('data-index');
         const index = indexAttr === 'null' ? null : parseInt(indexAttr ?? '0', 10);
         const apiClient = ServerConnections.getApiClient(currentItem?.ServerId ?? '');
         deleteImage(context, currentItem?.Id ?? '', type, index, apiClient, true);
@@ -633,7 +645,7 @@ function showEditor(
     loading.show();
 
     const apiClient = ServerConnections.getApiClient(serverId);
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         const dialogOptions: DialogOptions = {
             removeOnClose: true,
             size: layoutManager.tv ? 'fullscreen' : 'small'

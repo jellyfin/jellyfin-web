@@ -4,29 +4,30 @@
  * Displays recommended TV shows with continue watching, latest, and next up sections.
  */
 
-import React, { useState, useCallback } from 'react';
-import { useParams } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
-import { motion, AnimatePresence } from 'motion/react';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-import { ChevronLeftIcon, ChevronRightIcon, GridIcon, ListBulletIcon, PlayIcon } from '@radix-ui/react-icons';
-
-import { itemsApi } from 'lib/api/items';
-import { useViewStyle } from 'hooks/useViewStyle';
-import { usePagination } from 'hooks/usePagination';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { ErrorState } from 'components/ErrorState';
+import {
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    GridIcon,
+    ListBulletIcon,
+    PlayIcon
+} from '@radix-ui/react-icons';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 import { EmptyState } from 'components/EmptyState';
-import { logger } from 'utils/logger';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { ErrorState } from 'components/ErrorState';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 import { appRouter } from 'components/router/appRouter';
+import { usePagination } from 'hooks/usePagination';
+import { useViewStyle } from 'hooks/useViewStyle';
+import { itemsApi } from 'lib/api/items';
 import { toVideoItem } from 'lib/utils/playbackUtils';
-import { IconButton } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useCallback, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Chip, Divider, Flex, Heading, IconButton, Text } from 'ui-primitives';
+import { logger } from 'utils/logger';
 
 interface ShowCardProps {
     item: BaseItemDto;
@@ -97,7 +98,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ item, onPlay, onClick }) => {
                             <IconButton
                                 variant="solid"
                                 color="primary"
-                                onClick={e => {
+                                onClick={(e) => {
                                     e.stopPropagation();
                                     onPlay();
                                 }}
@@ -128,7 +129,10 @@ export const TVRecommended: React.FC = () => {
     const { data, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['tv-recommended', topParentId, { pageIndex, pageSize, sortBy, sortOrder }],
         queryFn: async () => {
-            logger.debug('Fetching TV recommendations', { component: 'TVRecommended', topParentId });
+            logger.debug('Fetching TV recommendations', {
+                component: 'TVRecommended',
+                topParentId
+            });
 
             return itemsApi.getItems(topParentId, {
                 startIndex: pageIndex * pageSize,
@@ -144,13 +148,13 @@ export const TVRecommended: React.FC = () => {
 
     const handleNextPage = useCallback(() => {
         if (hasNextPage) {
-            setPageIndex(prev => prev + 1);
+            setPageIndex((prev) => prev + 1);
         }
     }, [hasNextPage, setPageIndex]);
 
     const handlePreviousPage = useCallback(() => {
         if (hasPreviousPage && pageIndex > 0) {
-            setPageIndex(prev => prev - 1);
+            setPageIndex((prev) => prev - 1);
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
 
@@ -195,10 +199,19 @@ export const TVRecommended: React.FC = () => {
 
     return (
         <Box style={{ padding: vars.spacing['6'] }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['7'] }}>
+            <Flex
+                style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: vars.spacing['7']
+                }}
+            >
                 <Heading.H3>TV Shows</Heading.H3>
                 <Flex style={{ gap: vars.spacing['4'], alignItems: 'center' }}>
-                    <IconButton variant={viewStyle === 'List' ? 'solid' : 'plain'} onClick={() => setViewStyle('List')}>
+                    <IconButton
+                        variant={viewStyle === 'List' ? 'solid' : 'plain'}
+                        onClick={() => setViewStyle('List')}
+                    >
                         <ListBulletIcon />
                     </IconButton>
                     <IconButton
@@ -211,7 +224,9 @@ export const TVRecommended: React.FC = () => {
             </Flex>
 
             <Box style={{ marginBottom: vars.spacing['7'] }}>
-                <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>Continue Watching</Heading.H4>
+                <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>
+                    Continue Watching
+                </Heading.H4>
                 <Box
                     style={{
                         display: 'grid',
@@ -219,7 +234,7 @@ export const TVRecommended: React.FC = () => {
                         gap: vars.spacing['5']
                     }}
                 >
-                    {items.slice(0, 6).map(item => (
+                    {items.slice(0, 6).map((item) => (
                         <ShowCard
                             key={item.Id}
                             item={item}
@@ -233,7 +248,9 @@ export const TVRecommended: React.FC = () => {
             <Divider />
 
             <Box style={{ marginBottom: vars.spacing['7'] }}>
-                <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>Latest Additions</Heading.H4>
+                <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>
+                    Latest Additions
+                </Heading.H4>
                 <Box
                     style={{
                         display: 'grid',
@@ -241,7 +258,7 @@ export const TVRecommended: React.FC = () => {
                         gap: vars.spacing['5']
                     }}
                 >
-                    {items.slice(6, 12).map(item => (
+                    {items.slice(6, 12).map((item) => (
                         <ShowCard
                             key={item.Id}
                             item={item}
@@ -255,7 +272,13 @@ export const TVRecommended: React.FC = () => {
             <Divider />
 
             <Box>
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
+                <Flex
+                    style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: vars.spacing['5']
+                    }}
+                >
                     <Text size="sm" color="secondary">
                         {totalCount} show{totalCount !== 1 ? 's' : ''}
                     </Text>
@@ -282,7 +305,7 @@ export const TVRecommended: React.FC = () => {
                         gap: vars.spacing['5']
                     }}
                 >
-                    {items.map(item => (
+                    {items.map((item) => (
                         <ShowCard
                             key={item.Id}
                             item={item}

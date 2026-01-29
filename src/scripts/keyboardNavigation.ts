@@ -1,6 +1,6 @@
+import layoutManager from '../components/layoutManager';
 import browser from './browser';
 import inputManager from './inputManager';
-import layoutManager from '../components/layoutManager';
 import appSettings from './settings/appSettings';
 
 const KeyNames: Record<number, string> = {

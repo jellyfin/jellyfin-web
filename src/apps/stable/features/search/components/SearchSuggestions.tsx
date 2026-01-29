@@ -1,10 +1,9 @@
-import React, { type FunctionComponent } from 'react';
-
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
-import { useSearchSuggestions } from '../api/useSearchSuggestions';
 import globalize from 'lib/globalize';
+import React, { type FunctionComponent } from 'react';
 import { Button } from 'ui-primitives';
+import { useSearchSuggestions } from '../api/useSearchSuggestions';
 
 interface SearchSuggestionsProps {
     parentId?: string | null;
@@ -18,11 +17,13 @@ const SearchSuggestions: FunctionComponent<SearchSuggestionsProps> = ({ parentId
     return (
         <div className="verticalSection searchSuggestions" style={{ textAlign: 'center' }}>
             <div>
-                <h2 className="sectionTitle padded-left padded-right">{globalize.translate('Suggestions')}</h2>
+                <h2 className="sectionTitle padded-left padded-right">
+                    {globalize.translate('Suggestions')}
+                </h2>
             </div>
 
             <div className="searchSuggestionsList padded-left padded-right">
-                {suggestions?.map(item => (
+                {suggestions?.map((item) => (
                     <div key={item.Id}>
                         <Button
                             component="a"

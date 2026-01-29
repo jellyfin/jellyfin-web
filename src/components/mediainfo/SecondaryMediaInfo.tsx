@@ -1,12 +1,12 @@
-import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives';
-import useSecondaryMediaInfo from './useSecondaryMediaInfo';
 import useIndicator from 'components/indicators/useIndicator';
-import MediaInfoItem from './MediaInfoItem';
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import { MiscInfo } from 'types/mediaInfoItem';
+import { Box } from 'ui-primitives';
+import MediaInfoItem from './MediaInfoItem';
 import type { SecondaryInfoOpts } from './type';
+import useSecondaryMediaInfo from './useSecondaryMediaInfo';
 
 interface SecondaryMediaInfoProps extends SecondaryInfoOpts {
     className?: string;
@@ -49,7 +49,11 @@ const SecondaryMediaInfo: FC<SecondaryMediaInfoProps> = ({
     return (
         <Box className={cssClass}>
             {miscInfo.map((info, index) => (
-                <MediaInfoItem key={getInfoKey(info, index)} className={infoclass} miscInfo={info} />
+                <MediaInfoItem
+                    key={getInfoKey(info, index)}
+                    className={infoclass}
+                    miscInfo={info}
+                />
             ))}
 
             {showTimerIndicatorInfo !== false && indicator.getTimerIndicator()}

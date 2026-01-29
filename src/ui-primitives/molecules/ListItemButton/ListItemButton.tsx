@@ -1,12 +1,12 @@
 import React, {
-    type ReactElement,
-    type ReactNode,
+    type AnchorHTMLAttributes,
+    type ButtonHTMLAttributes,
     type CSSProperties,
     type ElementType,
     type HTMLAttributes,
-    type ButtonHTMLAttributes,
-    type AnchorHTMLAttributes,
-    type MouseEventHandler
+    type MouseEventHandler,
+    type ReactElement,
+    type ReactNode
 } from 'react';
 import {
     listItemButtonActive,
@@ -87,5 +87,3 @@ export function ListItemButton({
         </button>
     );
 }
-
-

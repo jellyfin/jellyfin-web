@@ -6,7 +6,7 @@
  */
 
 import { create } from 'zustand';
-import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';
+import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware';
 
 export interface AudioPreferences {
     volume: number;
@@ -376,33 +376,36 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
             (set, get) => ({
                 ...createInitialState(),
 
-                setVolume: volume => {
+                setVolume: (volume) => {
                     set({
                         audio: { ...get().audio, volume: Math.max(0, Math.min(100, volume)) }
                     });
                 },
 
-                setMuted: muted => {
+                setMuted: (muted) => {
                     set({
                         audio: { ...get().audio, muted }
                     });
                 },
 
-                setMakeupGain: gain => {
+                setMakeupGain: (gain) => {
                     set({
                         audio: { ...get().audio, makeupGain: Math.max(0.5, Math.min(2, gain)) }
                     });
                 },
 
-                setEnableNormalization: enabled => {
+                setEnableNormalization: (enabled) => {
                     set({
                         audio: { ...get().audio, enableNormalization: enabled }
                     });
                 },
 
-                setNormalizationPercent: percent => {
+                setNormalizationPercent: (percent) => {
                     set({
-                        audio: { ...get().audio, normalizationPercent: Math.max(70, Math.min(100, percent)) }
+                        audio: {
+                            ...get().audio,
+                            normalizationPercent: Math.max(70, Math.min(100, percent))
+                        }
                     });
                 },
 
@@ -412,19 +415,19 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setVisualizerEnabled: enabled => {
+                setVisualizerEnabled: (enabled) => {
                     set({
                         visualizer: { ...get().visualizer, enabled }
                     });
                 },
 
-                setVisualizerType: type => {
+                setVisualizerType: (type) => {
                     set({
                         visualizer: { ...get().visualizer, type }
                     });
                 },
 
-                setButterchurnPreset: preset => {
+                setButterchurnPreset: (preset) => {
                     set({
                         visualizer: {
                             ...get().visualizer,
@@ -463,7 +466,10 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                                         ? anyColors.gradient
                                         : anyColors;
 
-                                if (gradientPatch && (gradientPatch.low || gradientPatch.mid || gradientPatch.high)) {
+                                if (
+                                    gradientPatch &&
+                                    (gradientPatch.low || gradientPatch.mid || gradientPatch.high)
+                                ) {
                                     next.colors = {
                                         ...next.colors,
                                         gradient: {
@@ -496,31 +502,43 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     set({ visualizer });
                 },
 
-                setSensitivity: sensitivity => {
+                setSensitivity: (sensitivity) => {
                     set({
-                        visualizer: { ...get().visualizer, sensitivity: Math.max(1, Math.min(100, sensitivity)) }
+                        visualizer: {
+                            ...get().visualizer,
+                            sensitivity: Math.max(1, Math.min(100, sensitivity))
+                        }
                     });
                 },
 
-                setBarCount: count => {
+                setBarCount: (count) => {
                     set({
-                        visualizer: { ...get().visualizer, barCount: Math.max(8, Math.min(256, count)) }
+                        visualizer: {
+                            ...get().visualizer,
+                            barCount: Math.max(8, Math.min(256, count))
+                        }
                     });
                 },
 
-                setSmoothing: smoothing => {
+                setSmoothing: (smoothing) => {
                     set({
-                        visualizer: { ...get().visualizer, smoothing: Math.max(0, Math.min(1, smoothing)) }
+                        visualizer: {
+                            ...get().visualizer,
+                            smoothing: Math.max(0, Math.min(1, smoothing))
+                        }
                     });
                 },
 
-                setVisualizerOpacity: opacity => {
+                setVisualizerOpacity: (opacity) => {
                     const { type } = get().visualizer;
                     const visualizer = { ...get().visualizer };
                     const clamped = Math.max(0.1, Math.min(1.0, opacity));
 
                     if (type === 'frequency') {
-                        visualizer.frequencyAnalyzer = { ...visualizer.frequencyAnalyzer, opacity: clamped };
+                        visualizer.frequencyAnalyzer = {
+                            ...visualizer.frequencyAnalyzer,
+                            opacity: clamped
+                        };
                     } else if (type === 'waveform') {
                         visualizer.waveSurfer = { ...visualizer.waveSurfer, opacity: clamped };
                     } else if (type === 'butterchurn') {
@@ -530,7 +548,7 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     set({ visualizer });
                 },
 
-                setFftSize: fftSize => {
+                setFftSize: (fftSize) => {
                     set({
                         visualizer: {
                             ...get().visualizer,
@@ -545,7 +563,7 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setDefaultPlaybackRate: rate => {
+                setDefaultPlaybackRate: (rate) => {
                     const validRates = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
                     const closestRate = validRates.reduce((prev, curr) => {
                         return Math.abs(curr - rate) < Math.abs(prev - rate) ? curr : prev;
@@ -556,31 +574,37 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setAutoPlay: autoPlay => {
+                setAutoPlay: (autoPlay) => {
                     set({
                         playback: { ...get().playback, autoPlay }
                     });
                 },
 
-                setRememberPlaybackPosition: remember => {
+                setRememberPlaybackPosition: (remember) => {
                     set({
                         playback: { ...get().playback, rememberPlaybackPosition: remember }
                     });
                 },
 
-                setSkipForwardSeconds: seconds => {
+                setSkipForwardSeconds: (seconds) => {
                     set({
-                        playback: { ...get().playback, skipForwardSeconds: Math.max(5, Math.min(120, seconds)) }
+                        playback: {
+                            ...get().playback,
+                            skipForwardSeconds: Math.max(5, Math.min(120, seconds))
+                        }
                     });
                 },
 
-                setSkipBackSeconds: seconds => {
+                setSkipBackSeconds: (seconds) => {
                     set({
-                        playback: { ...get().playback, skipBackSeconds: Math.max(5, Math.min(60, seconds)) }
+                        playback: {
+                            ...get().playback,
+                            skipBackSeconds: Math.max(5, Math.min(60, seconds))
+                        }
                     });
                 },
 
-                setGaplessPlayback: enabled => {
+                setGaplessPlayback: (enabled) => {
                     set({
                         playback: { ...get().playback, gaplessPlayback: enabled }
                     });
@@ -592,7 +616,7 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setCrossfadeDuration: duration => {
+                setCrossfadeDuration: (duration) => {
                     const clamped = Math.max(0, Math.min(30, duration));
                     set({
                         crossfade: {
@@ -603,18 +627,20 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setCrossfadeEnabled: enabled => {
+                setCrossfadeEnabled: (enabled) => {
                     const current = get().crossfade;
                     set({
                         crossfade: {
                             ...current,
                             crossfadeEnabled: enabled,
-                            crossfadeDuration: enabled ? Math.max(1, current.crossfadeDuration ?? 5) : 0
+                            crossfadeDuration: enabled
+                                ? Math.max(1, current.crossfadeDuration ?? 5)
+                                : 0
                         }
                     });
                 },
 
-                setNetworkLatencyCompensation: seconds => {
+                setNetworkLatencyCompensation: (seconds) => {
                     set({
                         crossfade: {
                             ...get().crossfade,
@@ -623,13 +649,13 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setNetworkLatencyMode: mode => {
+                setNetworkLatencyMode: (mode) => {
                     set({
                         crossfade: { ...get().crossfade, networkLatencyMode: mode }
                     });
                 },
 
-                setManualLatencyOffset: seconds => {
+                setManualLatencyOffset: (seconds) => {
                     set({
                         crossfade: {
                             ...get().crossfade,
@@ -645,39 +671,42 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setAutoDJEnabled: enabled => {
+                setAutoDJEnabled: (enabled) => {
                     set({
                         autoDJ: { ...get().autoDJ, enabled }
                     });
                 },
 
-                setAutoDJDuration: duration => {
+                setAutoDJDuration: (duration) => {
                     set({
                         autoDJ: { ...get().autoDJ, duration: Math.max(4, Math.min(60, duration)) }
                     });
                 },
 
-                setPreferHarmonic: prefer => {
+                setPreferHarmonic: (prefer) => {
                     set({
                         autoDJ: { ...get().autoDJ, preferHarmonic: prefer }
                     });
                 },
 
-                setPreferEnergyMatch: prefer => {
+                setPreferEnergyMatch: (prefer) => {
                     set({
                         autoDJ: { ...get().autoDJ, preferEnergyMatch: prefer }
                     });
                 },
 
-                setUseNotchFilter: use => {
+                setUseNotchFilter: (use) => {
                     set({
                         autoDJ: { ...get().autoDJ, useNotchFilter: use }
                     });
                 },
 
-                setNotchFrequency: freq => {
+                setNotchFrequency: (freq) => {
                     set({
-                        autoDJ: { ...get().autoDJ, notchFrequency: Math.max(20, Math.min(200, freq)) }
+                        autoDJ: {
+                            ...get().autoDJ,
+                            notchFrequency: Math.max(20, Math.min(200, freq))
+                        }
                     });
                 },
 
@@ -694,7 +723,10 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     set({
                         autoDJ: {
                             ...currentAutoDJ,
-                            transitionHistory: [record, ...currentAutoDJ.transitionHistory].slice(0, 100)
+                            transitionHistory: [record, ...currentAutoDJ.transitionHistory].slice(
+                                0,
+                                100
+                            )
                         }
                     });
                 },
@@ -711,60 +743,60 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setTheme: theme => {
+                setTheme: (theme) => {
                     set({
                         ui: { ...get().ui, theme }
                     });
                 },
 
-                setCompactMode: compact => {
+                setCompactMode: (compact) => {
                     set({
                         ui: { ...get().ui, compactMode: compact }
                     });
                 },
 
-                setShowVisualizer: show => {
+                setShowVisualizer: (show) => {
                     set({
                         ui: { ...get().ui, showVisualizer: show }
                     });
                 },
 
-                setShowNowPlaying: show => {
+                setShowNowPlaying: (show) => {
                     set({
                         ui: { ...get().ui, showNowPlaying: show }
                     });
                 },
 
-                setAnimationsEnabled: enabled => {
+                setAnimationsEnabled: (enabled) => {
                     set({
                         ui: { ...get().ui, animationsEnabled: enabled }
                     });
                 },
 
-                setHighContrastMode: enabled => {
+                setHighContrastMode: (enabled) => {
                     set({
                         ui: { ...get().ui, highContrastMode: enabled }
                     });
                 },
-                setBrightness: brightness => {
+                setBrightness: (brightness) => {
                     set({
                         ui: { ...get().ui, brightness: Math.max(0, Math.min(100, brightness)) }
                     });
                 },
 
-                setReducedMotion: reduced => {
+                setReducedMotion: (reduced) => {
                     set({
                         ui: { ...get().ui, reducedMotion: reduced }
                     });
                 },
 
-                setShowBackdropImages: show => {
+                setShowBackdropImages: (show) => {
                     set({
                         ui: { ...get().ui, showBackdropImages: show }
                     });
                 },
 
-                setBackdropBlurAmount: amount => {
+                setBackdropBlurAmount: (amount) => {
                     set({
                         ui: { ...get().ui, backdropBlurAmount: Math.max(0, Math.min(10, amount)) }
                     });
@@ -776,19 +808,19 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                setCrossfadeBusy: busy => {
+                setCrossfadeBusy: (busy) => {
                     set({
                         _runtime: { ...get()._runtime, busy }
                     });
                 },
 
-                setCrossfadeTriggered: triggered => {
+                setCrossfadeTriggered: (triggered) => {
                     set({
                         _runtime: { ...get()._runtime, triggered }
                     });
                 },
 
-                setCrossfadeManualTrigger: triggered => {
+                setCrossfadeManualTrigger: (triggered) => {
                     set({
                         _runtime: { ...get()._runtime, manualTrigger: triggered }
                     });
@@ -811,7 +843,7 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
                     });
                 },
 
-                importPreferences: prefs => {
+                importPreferences: (prefs) => {
                     const current = get();
                     set({
                         audio: { ...current.audio, ...(prefs.audio ?? {}) },
@@ -846,7 +878,7 @@ export const usePreferencesStore = create<PreferencesState & PreferencesActions>
             {
                 name: PREFERENCES_STORAGE_KEY,
                 storage: createJSONStorage(() => localStorage),
-                partialize: state => ({
+                partialize: (state) => ({
                     audio: state.audio,
                     visualizer: state.visualizer,
                     playback: state.playback,

@@ -17,7 +17,12 @@ import { useConnectionStore } from '../../store/connectionStore';
 import logger from '../../utils/logger';
 
 import { ConnectionState } from './connectionState';
-import type { ConnectOptions, ConnectResponse, CredentialProvider, ServerInfo } from './types/connectionManager.types';
+import type {
+    ConnectOptions,
+    ConnectResponse,
+    CredentialProvider,
+    ServerInfo
+} from './types/connectionManager.types';
 
 /**
  * Internal reference to the legacy ConnectionManager class.
@@ -300,7 +305,10 @@ export class ConnectionManager {
     /**
      * Connect to a server address
      */
-    public async connectToAddress(address: string, options?: ConnectOptions): Promise<ConnectResponse> {
+    public async connectToAddress(
+        address: string,
+        options?: ConnectOptions
+    ): Promise<ConnectResponse> {
         this.connectionStartTime = Date.now();
 
         try {
@@ -326,7 +334,10 @@ export class ConnectionManager {
     /**
      * Connect to a specific server
      */
-    public async connectToServer(server: ServerInfo, options?: ConnectOptions): Promise<ConnectResponse> {
+    public async connectToServer(
+        server: ServerInfo,
+        options?: ConnectOptions
+    ): Promise<ConnectResponse> {
         this.connectionStartTime = Date.now();
 
         try {
@@ -365,7 +376,10 @@ export class ConnectionManager {
     /**
      * Connect to multiple servers
      */
-    public async connectToServers(servers: ServerInfo[], options?: ConnectOptions): Promise<ConnectResponse> {
+    public async connectToServers(
+        servers: ServerInfo[],
+        options?: ConnectOptions
+    ): Promise<ConnectResponse> {
         this.connectionStartTime = Date.now();
         const attemptedServer = servers[0];
 

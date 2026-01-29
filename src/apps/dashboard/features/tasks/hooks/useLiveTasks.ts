@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { useApi } from 'hooks/useApi';
-import { QUERY_KEY, useTasks } from '../api/useTasks';
 import type { ScheduledTasksApiGetTasksRequest } from '@jellyfin/sdk/lib/generated-client/api/scheduled-tasks-api';
-import { queryClient } from 'utils/query/queryClient';
-import { type ApiClient } from 'jellyfin-apiclient';
-import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
-import Events, { type Event } from 'utils/events';
-import serverNotifications from 'scripts/serverNotifications';
 import { SessionMessageType } from '@jellyfin/sdk/lib/generated-client/models/session-message-type';
+import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
+import { useApi } from 'hooks/useApi';
+import { type ApiClient } from 'jellyfin-apiclient';
+import { useEffect } from 'react';
+import serverNotifications from 'scripts/serverNotifications';
+import Events, { type Event } from 'utils/events';
+import { queryClient } from 'utils/query/queryClient';
+import { QUERY_KEY, useTasks } from '../api/useTasks';
 
 const FALLBACK_POLL_INTERVAL_MS = 10000;
 

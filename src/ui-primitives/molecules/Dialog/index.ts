@@ -1,17 +1,17 @@
 export {
     Dialog,
-    DialogTrigger,
-    DialogPortal,
-    DialogOverlayComponent,
-    DialogContentComponent,
-    DialogCloseButton,
-    DialogOverlay,
-    DialogContent,
-    DialogTitle,
-    DialogDescription,
     DialogClose,
+    DialogCloseButton,
     DialogCloseClass,
+    DialogContent,
     DialogContentClass,
+    DialogContentComponent,
+    DialogDescription,
+    DialogDescriptionClass,
+    DialogOverlay,
     DialogOverlayClass,
-    DialogDescriptionClass
+    DialogOverlayComponent,
+    DialogPortal,
+    DialogTitle,
+    DialogTrigger
 } from './Dialog';

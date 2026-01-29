@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
+import React, { useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import type { CardOptions } from 'types/cardOptions';
+import { Box, CircularProgress, Text } from 'ui-primitives';
+import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 
 interface FavoritesTabProps {
     autoFocus?: boolean;
@@ -145,7 +143,7 @@ const FavoritesTab: React.FC<FavoritesTabProps> = ({ autoFocus = false }) => {
             try {
                 const sections = getSections();
                 const data = await Promise.all(
-                    sections.map(async section => {
+                    sections.map(async (section) => {
                         const result = (await fetchSectionData(section)) as { Items?: unknown[] };
                         return {
                             section,
@@ -175,7 +173,11 @@ const FavoritesTab: React.FC<FavoritesTabProps> = ({ autoFocus = false }) => {
     return (
         <Box style={{ paddingBottom: '2rem' }}>
             {sectionData.map(({ section, items }) => (
-                <Box key={section.name} className="verticalSection" style={{ marginBottom: '1.5rem' }}>
+                <Box
+                    key={section.name}
+                    className="verticalSection"
+                    style={{ marginBottom: '1.5rem' }}
+                >
                     <Box className="sectionTitleContainer sectionTitleContainer-cards padded-left">
                         <Text
                             className="sectionTitle sectionTitle-cards"
@@ -199,7 +201,10 @@ const FavoritesTab: React.FC<FavoritesTabProps> = ({ autoFocus = false }) => {
                             dangerouslySetInnerHTML={{ __html: renderCards(items, section) }}
                         />
                     ) : (
-                        <Box className="padded-left" style={{ padding: '1rem', color: 'var(--text-secondary)' }}>
+                        <Box
+                            className="padded-left"
+                            style={{ padding: '1rem', color: 'var(--text-secondary)' }}
+                        >
                             <Text>No favorite {section.types.toLowerCase()}s yet</Text>
                         </Box>
                     )}

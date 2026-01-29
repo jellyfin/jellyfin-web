@@ -9,28 +9,28 @@
  * - Visualizers (WaveformCell, FrequencyAnalyzer, ButterchurnViz)
  */
 
-import { useEffect, useCallback, type ReactElement } from 'react';
-import { Backdrop } from '../../Backdrop';
-import { AlbumArt } from '../../AlbumArt';
-import { DiscImage } from '../../DiscImage';
-import { MetadataDisplay } from '../../MetadataDisplay';
-import { SeekSlider } from '../../../molecules/SeekSlider';
-import { WaveformCell } from '../../WaveformCell';
-import { FrequencyAnalyzer } from '../../FrequencyAnalyzer';
-import { ButterchurnViz } from '../../ButterchurnViz';
+import { type ReactElement, useCallback, useEffect } from 'react';
 import { useAudioStore } from 'store/audioStore';
 import { useUIStateStore } from 'store/uiStateStore';
 import { useVisualizerStore } from 'store/visualizerStore';
+import { SeekSlider } from '../../../molecules/SeekSlider';
+import { AlbumArt } from '../../AlbumArt';
+import { Backdrop } from '../../Backdrop';
+import { ButterchurnViz } from '../../ButterchurnViz';
+import { DiscImage } from '../../DiscImage';
+import { FrequencyAnalyzer } from '../../FrequencyAnalyzer';
+import { MetadataDisplay } from '../../MetadataDisplay';
+import { WaveformCell } from '../../WaveformCell';
 import {
-    pageContainer,
     artworkContainer,
-    metadataContainer,
-    seekerContainer,
-    visualizerContainer,
-    controlsContainer,
     controlButton,
+    controlsContainer,
+    icon,
+    metadataContainer,
+    pageContainer,
     playButton,
-    icon
+    seekerContainer,
+    visualizerContainer
 } from './NowPlayingPage.css.ts';
 
 export interface NowPlayingPageProps {
@@ -92,9 +92,15 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
         <>
             <div className={visualizerContainer}>
                 {visualizerState.type === 'waveform' && (
-                    <WaveformCell peaks={trackPeaks} duration={duration} currentTime={currentTime} />
+                    <WaveformCell
+                        peaks={trackPeaks}
+                        duration={duration}
+                        currentTime={currentTime}
+                    />
                 )}
-                {visualizerState.type === 'frequency' && <FrequencyAnalyzer colorScheme="spectrum" barCount={64} />}
+                {visualizerState.type === 'frequency' && (
+                    <FrequencyAnalyzer colorScheme="spectrum" barCount={64} />
+                )}
                 {visualizerState.type === 'butterchurn' && <ButterchurnViz preset="default" />}
             </div>
 
@@ -103,7 +109,11 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
             <div className={pageContainer}>
                 <div className={artworkContainer}>
                     {isPlaying ? (
-                        <DiscImage src={currentTrack?.imageUrl ?? null} isPlaying={isPlaying} size={300} />
+                        <DiscImage
+                            src={currentTrack?.imageUrl ?? null}
+                            isPlaying={isPlaying}
+                            size={300}
+                        />
                     ) : (
                         <AlbumArt src={currentTrack?.imageUrl ?? null} size={300} />
                     )}
@@ -119,16 +129,22 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
                 </div>
 
                 <div className={seekerContainer}>
-                    <SeekSlider
-                        value={currentTime}
-                        duration={duration}
-                        onSeek={handleSeek}
-                    />
+                    <SeekSlider value={currentTime} duration={duration} onSeek={handleSeek} />
                 </div>
 
                 <div className={controlsContainer}>
-                    <button type="button" className={controlButton} onClick={handlePrevious} aria-label="Previous">
-                        <svg className={icon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <button
+                        type="button"
+                        className={controlButton}
+                        onClick={handlePrevious}
+                        aria-label="Previous"
+                    >
+                        <svg
+                            className={icon}
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
                             <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
                         </svg>
                     </button>
@@ -139,13 +155,32 @@ export function NowPlayingPage({ isMobile = false }: NowPlayingPageProps): React
                         onClick={handlePlayPause}
                         aria-label={isPlaying ? 'Pause' : 'Play'}
                     >
-                        <svg className={icon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            {isPlaying ? <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /> : <path d="M8 5v14l11-7z" />}
+                        <svg
+                            className={icon}
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
+                            {isPlaying ? (
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                            ) : (
+                                <path d="M8 5v14l11-7z" />
+                            )}
                         </svg>
                     </button>
 
-                    <button type="button" className={controlButton} onClick={handleNext} aria-label="Next">
-                        <svg className={icon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <button
+                        type="button"
+                        className={controlButton}
+                        onClick={handleNext}
+                        aria-label="Next"
+                    >
+                        <svg
+                            className={icon}
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
                             <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
                         </svg>
                     </button>

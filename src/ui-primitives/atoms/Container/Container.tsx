@@ -16,7 +16,8 @@ export function Container({
     style: containerStyle,
     maxWidth: maxWidthProp = 'lg'
 }: ContainerProps): ReactElement {
-    const maxWidthClass = maxWidthProp === 'none' ? maxWidthStyles.none : maxWidthStyles[maxWidthProp];
+    const maxWidthClass =
+        maxWidthProp === 'none' ? maxWidthStyles.none : maxWidthStyles[maxWidthProp];
     return (
         <div className={`${container} ${maxWidthClass} ${className ?? ''}`} style={containerStyle}>
             {children}

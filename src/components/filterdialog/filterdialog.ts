@@ -12,17 +12,17 @@
 
 import type { ApiClient } from 'jellyfin-apiclient';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from '../../utils/dom';
-import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
-import { union } from '../../utils/lodashUtils';
+import dom from '../../utils/dom';
 import Events from '../../utils/events';
+import { union } from '../../utils/lodashUtils';
+import dialogHelper from '../dialogHelper/dialogHelper';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.css.ts';
+import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
 // @ts-ignore - template is a raw HTML string import
 import template from './filterdialog.template.html?raw';
-import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
 
 export type FilterMode =
     | 'livetvchannels'
@@ -43,7 +43,14 @@ export type StandardFilter =
     | 'IsMissing'
     | 'IsUnaired';
 
-export type VideoTypeFilter = 'Video' | 'AdultVideo' | 'MusicVideo' | 'Trailer' | 'Movie' | 'Episode' | 'Series';
+export type VideoTypeFilter =
+    | 'Video'
+    | 'AdultVideo'
+    | 'MusicVideo'
+    | 'Trailer'
+    | 'Movie'
+    | 'Episode'
+    | 'Series';
 
 export type SeriesStatusFilter = 'Continuing' | 'Ended' | 'Canceled';
 
@@ -110,7 +117,7 @@ function renderOptions(
     let html = '';
     html += '<div class="checkboxList">';
     html += items
-        .map(filter => {
+        .map((filter) => {
             let itemHtml = '';
             const checkedHtml = isCheckedFn(filter) ? 'checked' : '';
             itemHtml += '<label>';
@@ -125,32 +132,50 @@ function renderOptions(
 }
 
 function renderFilters(context: HTMLElement, result: FilterResult, query: ItemQuery): void {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', merge(result.Genres || [], query.Genres, '|'), i => {
-        const delimiter = '|';
-        return (delimiter + (query.Genres || '') + delimiter).includes(delimiter + i + delimiter);
-    });
+    renderOptions(
+        context,
+        '.genreFilters',
+        'chkGenreFilter',
+        merge(result.Genres || [], query.Genres, '|'),
+        (i) => {
+            const delimiter = '|';
+            return (delimiter + (query.Genres || '') + delimiter).includes(
+                delimiter + i + delimiter
+            );
+        }
+    );
     renderOptions(
         context,
         '.officialRatingFilters',
         'chkOfficialRatingFilter',
         merge(result.OfficialRatings || [], query.OfficialRatings, '|'),
-        i => {
+        (i) => {
             const delimiter = '|';
-            return (delimiter + (query.OfficialRatings || '') + delimiter).includes(delimiter + i + delimiter);
+            return (delimiter + (query.OfficialRatings || '') + delimiter).includes(
+                delimiter + i + delimiter
+            );
         }
     );
-    renderOptions(context, '.tagFilters', 'chkTagFilter', merge(result.Tags || [], query.Tags, '|'), i => {
-        const delimiter = '|';
-        return (delimiter + (query.Tags || '') + delimiter).includes(delimiter + i + delimiter);
-    });
+    renderOptions(
+        context,
+        '.tagFilters',
+        'chkTagFilter',
+        merge(result.Tags || [], query.Tags, '|'),
+        (i) => {
+            const delimiter = '|';
+            return (delimiter + (query.Tags || '') + delimiter).includes(delimiter + i + delimiter);
+        }
+    );
     renderOptions(
         context,
         '.yearFilters',
         'chkYearFilter',
         merge(result.Years?.map(String) || [], query.Years, ','),
-        i => {
+        (i) => {
             const delimiter = ',';
-            return (delimiter + (query.Years || '') + delimiter).includes(delimiter + i + delimiter);
+            return (delimiter + (query.Years || '') + delimiter).includes(
+                delimiter + i + delimiter
+            );
         }
     );
 }
@@ -183,7 +208,9 @@ function updateFilterControls(context: HTMLElement, options: FilterDialogOptions
             favoriteCheckbox.checked = query.IsFavorite === true;
         }
     } else {
-        const standardFilters = context.querySelectorAll('.chkStandardFilter') as NodeListOf<HTMLInputElement>;
+        const standardFilters = context.querySelectorAll(
+            '.chkStandardFilter'
+        ) as NodeListOf<HTMLInputElement>;
         for (const elem of standardFilters) {
             const filters = `,${query.Filters || ''}`;
             const filterName = elem.getAttribute('data-filter') || '';
@@ -191,7 +218,9 @@ function updateFilterControls(context: HTMLElement, options: FilterDialogOptions
         }
     }
 
-    const videoTypeFilters = context.querySelectorAll('.chkVideoTypeFilter') as NodeListOf<HTMLInputElement>;
+    const videoTypeFilters = context.querySelectorAll(
+        '.chkVideoTypeFilter'
+    ) as NodeListOf<HTMLInputElement>;
     for (const elem of videoTypeFilters) {
         const filters = `,${query.VideoTypes || ''}`;
         const filterName = elem.getAttribute('data-filter') || '';
@@ -358,18 +387,24 @@ class FilterDialog {
         const query = this.options.query;
 
         if (this.options.mode === 'livetvchannels') {
-            const favoriteElems = context.querySelectorAll('.chkFavorite') as NodeListOf<HTMLInputElement>;
+            const favoriteElems = context.querySelectorAll(
+                '.chkFavorite'
+            ) as NodeListOf<HTMLInputElement>;
             for (const elem of favoriteElems) {
                 elem.addEventListener('change', () => this.onFavoriteChange(elem));
             }
         } else {
-            const standardFilterElems = context.querySelectorAll('.chkStandardFilter') as NodeListOf<HTMLInputElement>;
+            const standardFilterElems = context.querySelectorAll(
+                '.chkStandardFilter'
+            ) as NodeListOf<HTMLInputElement>;
             for (const elem of standardFilterElems) {
                 elem.addEventListener('change', () => this.onStandardFilterChange(elem));
             }
         }
 
-        const videoTypeFilterElems = context.querySelectorAll('.chkVideoTypeFilter') as NodeListOf<HTMLInputElement>;
+        const videoTypeFilterElems = context.querySelectorAll(
+            '.chkVideoTypeFilter'
+        ) as NodeListOf<HTMLInputElement>;
         for (const elem of videoTypeFilterElems) {
             elem.addEventListener('change', () => this.onVideoTypeFilterChange(elem));
         }
@@ -478,7 +513,7 @@ class FilterDialog {
             Events.trigger(this, 'filterchange');
         });
 
-        context.addEventListener('change', e => {
+        context.addEventListener('change', (e) => {
             const target = e.target as HTMLElement;
             const chkGenreFilter = dom.parentWithClass(target, 'chkGenreFilter');
             if (chkGenreFilter) {
@@ -488,7 +523,7 @@ class FilterDialog {
                 const delimiter = '|';
                 filters = filters
                     .split(delimiter)
-                    .filter(f => f !== filterName)
+                    .filter((f) => f !== filterName)
                     .join(delimiter);
                 if (checkbox.checked) {
                     filters = filters ? filters + delimiter + filterName : filterName;
@@ -507,7 +542,7 @@ class FilterDialog {
                 const delimiter = '|';
                 filters = filters
                     .split(delimiter)
-                    .filter(f => f !== filterName)
+                    .filter((f) => f !== filterName)
                     .join(delimiter);
                 if (checkbox.checked) {
                     filters = filters ? filters + delimiter + filterName : filterName;
@@ -526,7 +561,7 @@ class FilterDialog {
                 const delimiter = ',';
                 filters = filters
                     .split(delimiter)
-                    .filter(f => f !== filterName)
+                    .filter((f) => f !== filterName)
                     .join(delimiter);
                 if (checkbox.checked) {
                     filters = filters ? filters + delimiter + filterName : filterName;
@@ -545,7 +580,7 @@ class FilterDialog {
                 const delimiter = '|';
                 filters = filters
                     .split(delimiter)
-                    .filter(f => f !== filterName)
+                    .filter((f) => f !== filterName)
                     .join(delimiter);
                 if (checkbox.checked) {
                     filters = filters ? filters + delimiter + filterName : filterName;
@@ -558,7 +593,7 @@ class FilterDialog {
     }
 
     show(): Promise<void> {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             const dlg = dialogHelper.createDialog({
                 removeOnClose: true,
                 modal: false
@@ -580,7 +615,12 @@ class FilterDialog {
                 dlg.classList.add('dynamicFilterDialog');
                 const apiClient = ServerConnections.getApiClient(this.options.serverId);
                 if (apiClient) {
-                    loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
+                    loadDynamicFilters(
+                        dlg,
+                        apiClient,
+                        apiClient.getCurrentUserId(),
+                        this.options.query
+                    );
                 }
             }
         });

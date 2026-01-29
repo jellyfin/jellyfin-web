@@ -1,10 +1,15 @@
-import { vars } from 'styles/tokens.css.ts';
+import globalize from 'lib/globalize';
 
 import React, { type FunctionComponent } from 'react';
-import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives';
-import { Progress } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import globalize from 'lib/globalize';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Dialog,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogTitle,
+    Flex,
+    Progress
+} from 'ui-primitives';
 
 interface IProps {
     open: boolean;

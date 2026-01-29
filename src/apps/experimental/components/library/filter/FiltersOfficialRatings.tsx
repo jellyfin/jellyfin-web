@@ -1,8 +1,7 @@
 import React, { type FC, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
 import { type LibraryViewSettings } from 'types/library';
+import { Box, Checkbox } from 'ui-primitives';
 
 interface FiltersOfficialRatingsProps {
     OfficialRatingsOptions: string[];
@@ -22,15 +21,17 @@ const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
             const existingOfficialRatings = libraryViewSettings?.Filters?.OfficialRatings ?? [];
 
             const updatedOfficialRatings = existingOfficialRatings.includes(value)
-                ? existingOfficialRatings.filter(filter => filter !== value)
+                ? existingOfficialRatings.filter((filter) => filter !== value)
                 : [...existingOfficialRatings, value];
 
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
-                    OfficialRatings: updatedOfficialRatings.length ? updatedOfficialRatings : undefined
+                    OfficialRatings: updatedOfficialRatings.length
+                        ? updatedOfficialRatings
+                        : undefined
                 }
             }));
         },
@@ -39,10 +40,12 @@ const FiltersOfficialRatings: FC<FiltersOfficialRatingsProps> = ({
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
-            {OfficialRatingsOptions.map(filter => (
+            {OfficialRatingsOptions.map((filter) => (
                 <Checkbox
                     key={filter}
-                    checked={!!libraryViewSettings?.Filters?.OfficialRatings?.includes(String(filter))}
+                    checked={
+                        !!libraryViewSettings?.Filters?.OfficialRatings?.includes(String(filter))
+                    }
                     onChange={onFiltersOfficialRatingsChange}
                     value={String(filter)}
                 >

@@ -1,9 +1,8 @@
 import { Link } from '@tanstack/react-router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-
 import { EventType } from 'constants/eventType';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { Tabs, TabList, Tab } from 'ui-primitives';
+import { Tab, TabList, Tabs } from 'ui-primitives';
 import Events from 'utils/events';
 
 import { debounce, isEqual } from '../../../utils/lodashUtils';
@@ -38,10 +37,16 @@ function AppTabs({ isDrawerOpen }: AppTabsParams): React.ReactElement | null {
     useEffect(() => {
         const doc = documentRef.current;
 
-        if (doc != null) Events.on(doc, EventType.SET_TABS, onTabsUpdate as Parameters<typeof Events.on>[2]);
+        if (doc != null)
+            Events.on(doc, EventType.SET_TABS, onTabsUpdate as Parameters<typeof Events.on>[2]);
 
         return () => {
-            if (doc != null) Events.off(doc, EventType.SET_TABS, onTabsUpdate as Parameters<typeof Events.off>[2]);
+            if (doc != null)
+                Events.off(
+                    doc,
+                    EventType.SET_TABS,
+                    onTabsUpdate as Parameters<typeof Events.off>[2]
+                );
         };
     }, [onTabsUpdate]);
 

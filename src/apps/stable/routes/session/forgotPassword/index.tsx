@@ -1,15 +1,13 @@
 import { ForgotPasswordAction } from '@jellyfin/sdk/lib/generated-client/models/forgot-password-action';
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import { useMutation } from '@tanstack/react-query';
-import React, { useCallback, useState } from 'react';
 import { useNavigate, useRouter } from '@tanstack/react-router';
-
 import alert from 'components/alert';
 import Page from 'components/Page';
-import { Button } from 'ui-primitives';
-import { Input } from 'ui-primitives';
 import globalize from 'lib/globalize';
 import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import React, { useCallback, useState } from 'react';
+import { Button, Input } from 'ui-primitives';
 
 export const ForgotPasswordPage = () => {
     const router = useRouter();
@@ -30,7 +28,7 @@ export const ForgotPasswordPage = () => {
 
             return response.data;
         },
-        onSuccess: result => {
+        onSuccess: (result) => {
             let msg = '';
             let callback: () => void | undefined = () => undefined;
 
@@ -82,7 +80,11 @@ export const ForgotPasswordPage = () => {
     }, []);
 
     return (
-        <Page id="forgotPasswordPage" className="standalonePage forgotPasswordPage mainAnimatedPage" shouldAutoFocus>
+        <Page
+            id="forgotPasswordPage"
+            className="standalonePage forgotPasswordPage mainAnimatedPage"
+            shouldAutoFocus
+        >
             <div className="padded-left padded-right padded-bottom-page">
                 <form
                     className="forgotPasswordForm"

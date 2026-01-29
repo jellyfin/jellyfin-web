@@ -1,9 +1,8 @@
-import React, { type FC } from 'react';
-import { IconButton } from 'ui-primitives';
 import { PlusIcon } from '@radix-ui/react-icons';
-
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
+import { IconButton } from 'ui-primitives';
 
 interface PlaylistAddIconButtonProps {
     className?: string;

@@ -1,14 +1,14 @@
 import React, { type FC } from 'react';
+import type { ParentId } from 'types/library';
+import { LibraryTab } from 'types/libraryTab';
+import type { LibraryTabContent } from 'types/libraryTabContent';
 import { Box } from 'ui-primitives';
-import SuggestionsSectionView from './SuggestionsSectionView';
-import UpcomingView from './UpcomingView';
 import GenresView from './GenresView';
 import ItemsView from './ItemsView';
-import ProgramsSectionView from './ProgramsSectionView';
-import { LibraryTab } from 'types/libraryTab';
-import type { ParentId } from 'types/library';
-import type { LibraryTabContent } from 'types/libraryTabContent';
 import LibraryViewMenu from './LibraryViewMenu';
+import ProgramsSectionView from './ProgramsSectionView';
+import SuggestionsSectionView from './SuggestionsSectionView';
+import UpcomingView from './UpcomingView';
 
 interface PageTabContentProps {
     parentId: ParentId;
@@ -46,7 +46,9 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
                 <ProgramsSectionView
                     parentId={parentId}
                     sectionType={currentTab.sectionsView?.programSections ?? []}
-                    isUpcomingRecordingsEnabled={currentTab.sectionsView?.isLiveTvUpcomingRecordings}
+                    isUpcomingRecordingsEnabled={
+                        currentTab.sectionsView?.isLiveTvUpcomingRecordings
+                    }
                 />
             </>
         );

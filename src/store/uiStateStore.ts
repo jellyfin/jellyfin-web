@@ -64,7 +64,7 @@ export const useUIStateStore = create<UIState>()(
         isIdle: false,
         idleTimeout: 5000,
         lastInteraction: Date.now(),
-        setIdle: isIdle => set({ isIdle }),
+        setIdle: (isIdle) => set({ isIdle }),
         resetIdleTimer: () => {
             set({
                 isIdle: false,
@@ -78,7 +78,9 @@ export const useUIStateStore = create<UIState>()(
         osdValue: 0,
         osdTimeoutId: null,
         showOSD: (type, value) => {
-            const { osdTimeoutId } = get() as UIState & { osdTimeoutId?: ReturnType<typeof setTimeout> };
+            const { osdTimeoutId } = get() as UIState & {
+                osdTimeoutId?: ReturnType<typeof setTimeout>;
+            };
             if (osdTimeoutId != null) clearTimeout(osdTimeoutId);
             set({
                 osdVisible: true,
@@ -95,7 +97,7 @@ export const useUIStateStore = create<UIState>()(
         controlsVisible: true,
         controlsType: 'none',
         controlsTimeoutId: null,
-        showControls: type => {
+        showControls: (type) => {
             const { controlsTimeoutId } = get();
             if (controlsTimeoutId) clearTimeout(controlsTimeoutId);
             set({
@@ -118,7 +120,7 @@ export const useUIStateStore = create<UIState>()(
         // Technical Info Panel
         technicalInfoVisible: false,
         toggleTechnicalInfo: () =>
-            set(state => ({
+            set((state) => ({
                 technicalInfoVisible: !state.technicalInfoVisible
             })),
 
@@ -126,7 +128,9 @@ export const useUIStateStore = create<UIState>()(
         songInfoVisible: false,
         songInfoTimeoutId: null as ReturnType<typeof setTimeout> | null,
         showSongInfo: (duration = 5000) => {
-            const { songInfoTimeoutId } = get() as UIState & { songInfoTimeoutId?: ReturnType<typeof setTimeout> };
+            const { songInfoTimeoutId } = get() as UIState & {
+                songInfoTimeoutId?: ReturnType<typeof setTimeout>;
+            };
             if (songInfoTimeoutId != null) clearTimeout(songInfoTimeoutId);
             set({
                 songInfoVisible: true,
@@ -136,7 +140,9 @@ export const useUIStateStore = create<UIState>()(
             });
         },
         hideSongInfo: () => {
-            const { songInfoTimeoutId } = get() as UIState & { songInfoTimeoutId?: ReturnType<typeof setTimeout> };
+            const { songInfoTimeoutId } = get() as UIState & {
+                songInfoTimeoutId?: ReturnType<typeof setTimeout>;
+            };
             if (songInfoTimeoutId != null) clearTimeout(songInfoTimeoutId);
             set({ songInfoVisible: false });
         },
@@ -144,25 +150,25 @@ export const useUIStateStore = create<UIState>()(
         // Queue Auto-scroll
         queueAutoScrollEnabled: true,
         toggleQueueAutoScroll: () =>
-            set(state => ({
+            set((state) => ({
                 queueAutoScrollEnabled: !state.queueAutoScrollEnabled
             }))
     }))
 );
 
 // Selectors for common use cases
-export const useIsIdle = () => useUIStateStore(state => state.isIdle);
+export const useIsIdle = () => useUIStateStore((state) => state.isIdle);
 export const useOSDVisibility = () =>
-    useUIStateStore(state => ({
+    useUIStateStore((state) => ({
         visible: state.osdVisible,
         type: state.osdType,
         value: state.osdValue
     }));
 export const useControlsVisibility = () =>
-    useUIStateStore(state => ({
+    useUIStateStore((state) => ({
         visible: state.controlsVisible,
         type: state.controlsType
     }));
-export const useTechnicalInfo = () => useUIStateStore(state => state.technicalInfoVisible);
-export const useSongInfoVisibility = () => useUIStateStore(state => state.songInfoVisible);
-export const useQueueAutoScroll = () => useUIStateStore(state => state.queueAutoScrollEnabled);
+export const useTechnicalInfo = () => useUIStateStore((state) => state.technicalInfoVisible);
+export const useSongInfoVisibility = () => useUIStateStore((state) => state.songInfoVisible);
+export const useQueueAutoScroll = () => useUIStateStore((state) => state.queueAutoScrollEnabled);

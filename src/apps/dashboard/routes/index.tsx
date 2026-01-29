@@ -1,9 +1,17 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { lazy, Suspense } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
-import { Box, Flex } from 'ui-primitives';
-import { Grid, gridContainer, gridGap, gridXs, gridMd, gridLg, gridXl } from 'ui-primitives';
+import React, { lazy, Suspense, useCallback, useMemo, useState } from 'react';
+import {
+    Box,
+    Flex,
+    Grid,
+    gridContainer,
+    gridGap,
+    gridLg,
+    gridMd,
+    gridXl,
+    gridXs
+} from 'ui-primitives';
 import ServerPathWidget from '../components/widgets/ServerPathWidget';
 
 // Lazy load widgets for code splitting
@@ -14,15 +22,21 @@ const RunningTasksWidget = lazy(() => import('../components/widgets/RunningTasks
 const DevicesWidget = lazy(() => import('../components/widgets/DevicesWidget'));
 const ItemCountsWidget = lazy(() => import('../components/widgets/ItemCountsWidget'));
 
-import useShutdownServer from '../features/system/api/useShutdownServer';
-import useRestartServer from '../features/system/api/useRestartServer';
-import ConfirmDialog from 'components/ConfirmDialog';
-import useLiveTasks from '../features/tasks/hooks/useLiveTasks';
-import { useStartTask } from '../features/tasks/api/useStartTask';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
+import ConfirmDialog from 'components/ConfirmDialog';
+import useRestartServer from '../features/system/api/useRestartServer';
+import useShutdownServer from '../features/system/api/useShutdownServer';
+import { useStartTask } from '../features/tasks/api/useStartTask';
+import useLiveTasks from '../features/tasks/hooks/useLiveTasks';
 
 const WidgetLoader = () => (
-    <Box style={{ height: 200, backgroundColor: 'var(--joy-palette-background-surface)', borderRadius: 8 }} />
+    <Box
+        style={{
+            height: 200,
+            backgroundColor: 'var(--joy-palette-background-surface)',
+            borderRadius: 8
+        }}
+    />
 );
 
 export const Component = () => {
@@ -34,7 +48,10 @@ export const Component = () => {
 
     const { data: tasks } = useLiveTasks({ isHidden: false });
 
-    const librariesTask = useMemo(() => tasks?.find(value => value.Key === 'RefreshLibrary'), [tasks]);
+    const librariesTask = useMemo(
+        () => tasks?.find((value) => value.Key === 'RefreshLibrary'),
+        [tasks]
+    );
 
     const promptRestart = useCallback(() => {
         setIsRestartConfirmDialogOpen(true);
@@ -53,7 +70,7 @@ export const Component = () => {
     }, []);
 
     const onScanLibraries = useCallback(() => {
-        const scanLibrariesTask = tasks?.find(value => value.Key === 'RefreshLibrary');
+        const scanLibrariesTask = tasks?.find((value) => value.Key === 'RefreshLibrary');
 
         if (scanLibrariesTask?.Id) {
             startTask.mutate({
@@ -73,7 +90,11 @@ export const Component = () => {
     }, [shutdownServer]);
 
     return (
-        <Page id="dashboardPage" title={globalize.translate('TabDashboard')} className="mainAnimatedPage type-interior">
+        <Page
+            id="dashboardPage"
+            title={globalize.translate('TabDashboard')}
+            className="mainAnimatedPage type-interior"
+        >
             <ConfirmDialog
                 open={isRestartConfirmDialogOpen}
                 title={globalize.translate('Restart')}

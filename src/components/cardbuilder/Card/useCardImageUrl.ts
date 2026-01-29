@@ -1,14 +1,14 @@
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { useApi } from 'hooks/useApi';
-import { getDesiredAspect } from '../cardBuilderUtils';
-import { CardShape } from 'utils/card';
+import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
+import { CardShape } from 'utils/card';
+import { getDesiredAspect } from '../cardBuilderUtils';
 
 function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
     let imgType;
@@ -24,7 +24,11 @@ function getPreferThumbInfo(item: ItemDto, cardOptions: CardOptions) {
         imgType = ImageType.Thumb;
         imgTag = item.SeriesThumbImageTag;
         itemId = item.SeriesId;
-    } else if (item.ParentThumbItemId && cardOptions.inheritThumb !== false && item.MediaType !== ItemMediaKind.Photo) {
+    } else if (
+        item.ParentThumbItemId &&
+        cardOptions.inheritThumb !== false &&
+        item.MediaType !== ItemMediaKind.Photo
+    ) {
         imgType = ImageType.Thumb;
         imgTag = item.ParentThumbImageTag;
         itemId = item.ParentThumbItemId;
@@ -68,7 +72,10 @@ function getPreferLogoInfo(item: ItemDto) {
     };
 }
 
-function getCalculatedHeight(itemWidth: NullableNumber, itemPrimaryImageAspectRatio: NullableNumber) {
+function getCalculatedHeight(
+    itemWidth: NullableNumber,
+    itemPrimaryImageAspectRatio: NullableNumber
+) {
     if (itemWidth && itemPrimaryImageAspectRatio) {
         return Math.round(itemWidth / itemPrimaryImageAspectRatio);
     }
@@ -94,23 +101,35 @@ function shouldShowPreferBanner(
     return (cardOptions.preferBanner || shape === CardShape.Banner) && Boolean(imageTagsBanner);
 }
 
-function shouldShowPreferDisc(imageTagsDisc: string | undefined, cardOptions: CardOptions): boolean {
+function shouldShowPreferDisc(
+    imageTagsDisc: string | undefined,
+    cardOptions: CardOptions
+): boolean {
     return cardOptions.preferDisc === true && Boolean(imageTagsDisc);
 }
 
 function shouldShowImageTagsPrimary(item: ItemDto): boolean {
-    return Boolean(item.ImageTags?.Primary) && (item.Type !== ItemKind.Episode || item.ChildCount !== 0);
+    return (
+        Boolean(item.ImageTags?.Primary) &&
+        (item.Type !== ItemKind.Episode || item.ChildCount !== 0)
+    );
 }
 
 function shouldShowImageTagsThumb(item: ItemDto): boolean {
     return item.Type === ItemKind.Season && Boolean(item.ImageTags?.Thumb);
 }
 
-function shouldShowSeriesThumbImageTag(itemSeriesThumbImageTag: NullableString, cardOptions: CardOptions): boolean {
+function shouldShowSeriesThumbImageTag(
+    itemSeriesThumbImageTag: NullableString,
+    cardOptions: CardOptions
+): boolean {
     return Boolean(itemSeriesThumbImageTag) && cardOptions.inheritThumb !== false;
 }
 
-function shouldShowParentThumbImageTag(itemParentThumbItemId: NullableString, cardOptions: CardOptions): boolean {
+function shouldShowParentThumbImageTag(
+    itemParentThumbItemId: NullableString,
+    cardOptions: CardOptions
+): boolean {
     return Boolean(itemParentThumbItemId) && Boolean(cardOptions.inheritThumb);
 }
 
@@ -119,7 +138,10 @@ function shouldShowAlbumPrimaryImageTag(item: ItemDto): boolean {
 }
 
 function shouldShowPreferThumb(itemType: ItemKind, cardOptions: CardOptions): boolean {
-    return Boolean(cardOptions.preferThumb) && !(itemType === ItemKind.Program || itemType === ItemKind.Episode);
+    return (
+        Boolean(cardOptions.preferThumb) &&
+        !(itemType === ItemKind.Program || itemType === ItemKind.Episode)
+    );
 }
 
 function getCardImageInfo(item: ItemDto, cardOptions: CardOptions, shape: CardShape | undefined) {

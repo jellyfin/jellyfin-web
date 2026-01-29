@@ -1,11 +1,11 @@
-import Events from '../../utils/events';
-import { toBoolean } from '../../utils/string';
-import { usePreferencesStore } from '../../store/preferencesStore';
-import browser from '../browser';
-import appSettings from './appSettings';
-import { logger } from 'utils/logger';
 import { useDevConfigStore } from 'store/devConfigStore';
 import { resolveApiBaseUrl } from 'utils/devConfig';
+import { logger } from 'utils/logger';
+import { usePreferencesStore } from '../../store/preferencesStore';
+import Events from '../../utils/events';
+import { toBoolean } from '../../utils/string';
+import browser from '../browser';
+import appSettings from './appSettings';
 
 interface SubtitleAppearanceSettings {
     verticalPosition: number;
@@ -24,7 +24,12 @@ interface SortValues {
 interface ApiClient {
     getUrl(path: string, params?: Record<string, string>): string;
     accessToken(): string;
-    updateDisplayPreferences(name: string, prefs: any, userId: string, client: string): Promise<void>;
+    updateDisplayPreferences(
+        name: string,
+        prefs: any,
+        userId: string,
+        client: string
+    ): Promise<void>;
     getDisplayPreferences(name: string, userId: string, client: string): Promise<any>;
     updateUserConfiguration(userId: string, config: any): Promise<void>;
     getUser(userId: string): Promise<any>;
@@ -88,7 +93,7 @@ function onSaveTimeout(this: UserSettings): void {
                     'X-Emby-Authorization': `MediaBrowser Client="Jellyfin Web", Device="Browser", DeviceId="", Version="1.0.0", Token="${apiClient.accessToken()}"`
                 },
                 body: JSON.stringify(self.displayPrefs)
-            }).catch(error => {
+            }).catch((error) => {
                 if (!displayPrefsBeaconWarningShown) {
                     displayPrefsBeaconWarningShown = true;
                     logger.warn(
@@ -101,7 +106,12 @@ function onSaveTimeout(this: UserSettings): void {
         }
         return;
     }
-    apiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+    apiClient.updateDisplayPreferences(
+        'usersettings',
+        self.displayPrefs,
+        self.currentUserId,
+        'emby'
+    );
 }
 
 function saveServerPreferences(instance: UserSettings): void {
@@ -138,9 +148,12 @@ const allowedFilterSettings = [
     'Years'
 ];
 
-function filterQuerySettings(query: Record<string, any>, allowedItems: string[]): Record<string, any> {
+function filterQuerySettings(
+    query: Record<string, any>,
+    allowedItems: string[]
+): Record<string, any> {
     return Object.keys(query)
-        .filter(field => allowedItems.includes(field))
+        .filter((field) => allowedItems.includes(field))
         .reduce((acc: Record<string, any>, field) => {
             acc[field] = query[field];
             return acc;
@@ -223,7 +236,11 @@ export class UserSettings implements UserSettingsInstance {
                 self.displayPrefs = result;
             })
             .catch((error: any) => {
-                logger.warn('[UserSettings] Failed to load server preferences', { component: 'UserSettings' }, error);
+                logger.warn(
+                    '[UserSettings] Failed to load server preferences',
+                    { component: 'UserSettings' },
+                    error
+                );
                 self.displayPrefs = { CustomPrefs: {} };
             });
     }
@@ -644,7 +661,10 @@ export class UserSettings implements UserSettingsInstance {
     }
 
     saveQuerySettings(key: string, query: Record<string, any>): void {
-        const filtered = filterQuerySettings(query, allowedSortSettings.concat(allowedFilterSettings));
+        const filtered = filterQuerySettings(
+            query,
+            allowedSortSettings.concat(allowedFilterSettings)
+        );
         this.set(key, JSON.stringify(filtered), false);
     }
 
@@ -698,7 +718,11 @@ export class UserSettings implements UserSettingsInstance {
             try {
                 return JSON.parse(value);
             } catch (error) {
-                logger.warn('[UserSettings] Failed to parse saved view', { component: 'UserSettings' }, error as Error);
+                logger.warn(
+                    '[UserSettings] Failed to parse saved view',
+                    { component: 'UserSettings' },
+                    error as Error
+                );
             }
         }
         return null;
@@ -715,7 +739,8 @@ export class UserSettings implements UserSettingsInstance {
     getSortValuesLegacy(key: string): SortValues {
         const defaultSortBy = 'SortName';
         const sortBy = this.getFilter(`${key}-sortby`) || defaultSortBy;
-        const sortOrder = this.getFilter(`${key}-sortorder`) === 'Descending' ? 'Descending' : 'Ascending';
+        const sortOrder =
+            this.getFilter(`${key}-sortorder`) === 'Descending' ? 'Descending' : 'Ascending';
         return {
             sortBy,
             sortOrder
@@ -736,11 +761,15 @@ export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(cu
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
-export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
+export const selectAudioNormalization =
+    currentSettings.selectAudioNormalization.bind(currentSettings);
 export const crossfadeDuration = currentSettings.crossfadeDuration.bind(currentSettings);
-export const visualizerConfiguration = currentSettings.visualizerConfiguration.bind(currentSettings);
-export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
-export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
+export const visualizerConfiguration =
+    currentSettings.visualizerConfiguration.bind(currentSettings);
+export const enableNextVideoInfoOverlay =
+    currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
+export const enableVideoRemainingTime =
+    currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
@@ -757,19 +786,25 @@ export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSetting
 export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
-export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
+export const backdropScreensaverInterval =
+    currentSettings.backdropScreensaverInterval.bind(currentSettings);
 export const slideshowInterval = currentSettings.slideshowInterval.bind(currentSettings);
 export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
-export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
+export const enableRewatchingInNextUp =
+    currentSettings.enableRewatchingInNextUp.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
-export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);
-export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
-export const getComicsPlayerSettings = currentSettings.getComicsPlayerSettings.bind(currentSettings);
-export const setComicsPlayerSettings = currentSettings.setComicsPlayerSettings.bind(currentSettings);
+export const getSubtitleAppearanceSettings =
+    currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);
+export const setSubtitleAppearanceSettings =
+    currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
+export const getComicsPlayerSettings =
+    currentSettings.getComicsPlayerSettings.bind(currentSettings);
+export const setComicsPlayerSettings =
+    currentSettings.setComicsPlayerSettings.bind(currentSettings);
 export const setFilter = currentSettings.setFilter.bind(currentSettings);
 export const getFilter = currentSettings.getFilter.bind(currentSettings);
 export const customCss = currentSettings.customCss.bind(currentSettings);

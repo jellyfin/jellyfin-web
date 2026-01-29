@@ -1,21 +1,23 @@
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { HeaderActions } from '../HeaderActions';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import inputManager from '../../../scripts/inputManager';
 import { playbackManager } from '../../playback/playbackmanager';
 import playerSelectionMenu from '../../playback/playerSelectionMenu';
-import inputManager from '../../../scripts/inputManager';
+import { HeaderActions } from '../HeaderActions';
 
 // Mock dependencies
 vi.mock('../../../store/uiStore', () => ({
-    useUiStore: vi.fn((selector) => selector({
-        toggleSearch: vi.fn()
-    }))
+    useUiStore: vi.fn((selector) =>
+        selector({
+            toggleSearch: vi.fn()
+        })
+    )
 }));
 
 vi.mock('../../playback/playbackmanager', () => ({
     playbackManager: {
-        getPlayerInfo: vi.fn(() => ({ isLocalPlayer: true })),
+        getPlayerInfo: vi.fn(() => ({ isLocalPlayer: true }))
     }
 }));
 
@@ -51,14 +53,14 @@ describe('HeaderActions', () => {
 
     it('should call search command when search clicked', () => {
         render(<HeaderActions />);
-        
+
         fireEvent.click(screen.getByLabelText('Search'));
         expect(inputManager.handleCommand).toHaveBeenCalledWith('search');
     });
 
     it('should call player selection menu when cast clicked', () => {
         render(<HeaderActions />);
-        
+
         fireEvent.click(screen.getByLabelText('ButtonCast'));
         expect(playerSelectionMenu.show).toHaveBeenCalled();
     });
@@ -66,7 +68,7 @@ describe('HeaderActions', () => {
     it('should show cast_connected icon when casting', () => {
         (playbackManager.getPlayerInfo as any).mockReturnValue({ isLocalPlayer: false });
         render(<HeaderActions />);
-        
+
         expect(screen.getByText('cast_connected')).toBeInTheDocument();
     });
 });

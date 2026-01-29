@@ -1,32 +1,39 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
-import Loading from 'components/loading/LoadingComponent';
-import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
-import { Alert } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { type ActionData } from 'types/actionData';
-import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import type { EncodingOptions } from '@jellyfin/sdk/lib/generated-client/models/encoding-options';
 import { HardwareAccelerationType } from '@jellyfin/sdk/lib/generated-client/models/hardware-acceleration-type';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import { queryClient } from 'utils/query/queryClient';
 import {
     CODECS,
     HEVC_REXT_DECODING_TYPES,
     HEVC_VP9_HW_DECODING_TYPES
 } from 'apps/dashboard/features/playback/constants/codecs';
+import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
+import Loading from 'components/loading/LoadingComponent';
+import Page from 'components/Page';
 import SimpleAlert from 'components/SimpleAlert';
+import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { type ActionData } from 'types/actionData';
+import {
+    Alert,
+    Button,
+    Checkbox,
+    Flex,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    IconButton,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
+import { queryClient } from 'utils/query/queryClient';
 
 const SearchIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -37,7 +44,11 @@ const SearchIcon = () => (
 const CONFIG_KEY = 'encoding';
 
 export const Component = (): React.ReactElement => {
-    const { data: initialConfig, isPending, isError } = useNamedConfiguration<EncodingOptions>(CONFIG_KEY);
+    const {
+        data: initialConfig,
+        isPending,
+        isError
+    } = useNamedConfiguration<EncodingOptions>(CONFIG_KEY);
     const [config, setConfig] = useState<EncodingOptions | null>(null);
     const [actionData, setActionData] = useState<ActionData | undefined>();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -80,7 +91,9 @@ export const Component = (): React.ReactElement => {
                 } else {
                     setConfig({
                         ...config,
-                        HardwareDecodingCodecs: config.HardwareDecodingCodecs.filter(v => v !== e.target.name)
+                        HardwareDecodingCodecs: config.HardwareDecodingCodecs.filter(
+                            (v) => v !== e.target.name
+                        )
                     });
                 }
             }
@@ -107,7 +120,10 @@ export const Component = (): React.ReactElement => {
                     throw new Error('No Api instance available');
                 }
 
-                await getConfigurationApi(api).updateNamedConfiguration({ key: CONFIG_KEY, body: config });
+                await getConfigurationApi(api).updateNamedConfiguration({
+                    key: CONFIG_KEY,
+                    body: config
+                });
 
                 void queryClient.invalidateQueries({
                     queryKey: [QUERY_KEY, CONFIG_KEY]
@@ -159,10 +175,12 @@ export const Component = (): React.ReactElement => {
     }, [config]);
 
     const hardwareAccelType = config?.HardwareAccelerationType || HardwareAccelerationType.None;
-    const isHwaSelected = ['amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox'].includes(hardwareAccelType);
+    const isHwaSelected = ['amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox'].includes(
+        hardwareAccelType
+    );
 
     const availableCodecs = useMemo(
-        () => CODECS.filter(codec => codec.types.includes(hardwareAccelType)),
+        () => CODECS.filter((codec) => codec.types.includes(hardwareAccelType)),
         [hardwareAccelType]
     );
 
@@ -191,19 +209,32 @@ export const Component = (): React.ReactElement => {
                             </Text>
 
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
+                                <Alert variant="success">
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
                             )}
 
-                            <Select name="HardwareAccelerationType" value={config.HardwareAccelerationType || 'none'}>
+                            <Select
+                                name="HardwareAccelerationType"
+                                value={config.HardwareAccelerationType || 'none'}
+                            >
                                 <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelHardwareAccelerationType')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate(
+                                            'LabelHardwareAccelerationType'
+                                        )}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="none">{globalize.translate('None')}</SelectItem>
+                                    <SelectItem value="none">
+                                        {globalize.translate('None')}
+                                    </SelectItem>
                                     <SelectItem value="amf">AMD AMF</SelectItem>
                                     <SelectItem value="nvenc">Nvidia NVENC</SelectItem>
                                     <SelectItem value="qsv">Intel Quicksync (QSV)</SelectItem>
-                                    <SelectItem value="vaapi">Video Acceleration API (VAAPI)</SelectItem>
+                                    <SelectItem value="vaapi">
+                                        Video Acceleration API (VAAPI)
+                                    </SelectItem>
                                     <SelectItem value="rkmpp">Rockchip MPP (RKMPP)</SelectItem>
                                     <SelectItem value="videotoolbox">Apple VideoToolBox</SelectItem>
                                     <SelectItem value="v4l2m2m">Video4Linux2 (V4L2)</SelectItem>
@@ -242,17 +273,19 @@ export const Component = (): React.ReactElement => {
                                     <Text as="h3" size="lg" weight="bold">
                                         {globalize.translate('LabelEnableHardwareDecodingFor')}
                                     </Text>
-                                    <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
-                                        {availableCodecs.map(codec => (
+                                    <Flex
+                                        style={{ flexDirection: 'column', gap: vars.spacing['2'] }}
+                                    >
+                                        {availableCodecs.map((codec) => (
                                             <FormControlLabel
                                                 key={codec.name}
                                                 label={codec.name}
                                                 control={
                                                     <Checkbox
                                                         name={codec.codec}
-                                                        checked={(config.HardwareDecodingCodecs || []).includes(
-                                                            codec.codec
-                                                        )}
+                                                        checked={(
+                                                            config.HardwareDecodingCodecs || []
+                                                        ).includes(codec.codec)}
                                                         onChange={onCodecChange}
                                                     />
                                                 }
@@ -265,7 +298,9 @@ export const Component = (): React.ReactElement => {
                                                 control={
                                                     <Checkbox
                                                         name={'EnableDecodingColorDepth10Hevc'}
-                                                        checked={config.EnableDecodingColorDepth10Hevc}
+                                                        checked={
+                                                            config.EnableDecodingColorDepth10Hevc
+                                                        }
                                                         onChange={onCheckboxChange}
                                                     />
                                                 }
@@ -278,7 +313,9 @@ export const Component = (): React.ReactElement => {
                                                 control={
                                                     <Checkbox
                                                         name={'EnableDecodingColorDepth10Vp9'}
-                                                        checked={config.EnableDecodingColorDepth10Vp9}
+                                                        checked={
+                                                            config.EnableDecodingColorDepth10Vp9
+                                                        }
                                                         onChange={onCheckboxChange}
                                                     />
                                                 }
@@ -291,7 +328,9 @@ export const Component = (): React.ReactElement => {
                                                 control={
                                                     <Checkbox
                                                         name={'EnableDecodingColorDepth10HevcRext'}
-                                                        checked={config.EnableDecodingColorDepth10HevcRext}
+                                                        checked={
+                                                            config.EnableDecodingColorDepth10HevcRext
+                                                        }
                                                         onChange={onCheckboxChange}
                                                     />
                                                 }
@@ -304,7 +343,9 @@ export const Component = (): React.ReactElement => {
                                                 control={
                                                     <Checkbox
                                                         name={'EnableDecodingColorDepth12HevcRext'}
-                                                        checked={config.EnableDecodingColorDepth12HevcRext}
+                                                        checked={
+                                                            config.EnableDecodingColorDepth12HevcRext
+                                                        }
                                                         onChange={onCheckboxChange}
                                                     />
                                                 }
@@ -362,24 +403,33 @@ export const Component = (): React.ReactElement => {
                                             />
                                         }
                                     />
-                                    {(hardwareAccelType === 'qsv' || hardwareAccelType === 'vaapi') && (
+                                    {(hardwareAccelType === 'qsv' ||
+                                        hardwareAccelType === 'vaapi') && (
                                         <>
                                             <FormControlLabel
-                                                label={globalize.translate('EnableIntelLowPowerH264HwEncoder')}
+                                                label={globalize.translate(
+                                                    'EnableIntelLowPowerH264HwEncoder'
+                                                )}
                                                 control={
                                                     <Checkbox
                                                         name="EnableIntelLowPowerH264HwEncoder"
-                                                        checked={config.EnableIntelLowPowerH264HwEncoder}
+                                                        checked={
+                                                            config.EnableIntelLowPowerH264HwEncoder
+                                                        }
                                                         onChange={onCheckboxChange}
                                                     />
                                                 }
                                             />
                                             <FormControlLabel
-                                                label={globalize.translate('EnableIntelLowPowerHevcHwEncoder')}
+                                                label={globalize.translate(
+                                                    'EnableIntelLowPowerHevcHwEncoder'
+                                                )}
                                                 control={
                                                     <Checkbox
                                                         name="EnableIntelLowPowerHevcHwEncoder"
-                                                        checked={config.EnableIntelLowPowerHevcHwEncoder}
+                                                        checked={
+                                                            config.EnableIntelLowPowerHevcHwEncoder
+                                                        }
                                                         onChange={onCheckboxChange}
                                                     />
                                                 }
@@ -495,14 +545,21 @@ export const Component = (): React.ReactElement => {
                                         </FormControl>
                                     )}
 
-                                    <Select name="TonemappingAlgorithm" value={config.TonemappingAlgorithm || 'none'}>
+                                    <Select
+                                        name="TonemappingAlgorithm"
+                                        value={config.TonemappingAlgorithm || 'none'}
+                                    >
                                         <SelectTrigger style={{ width: '100%' }}>
                                             <SelectValue
-                                                placeholder={globalize.translate('LabelTonemappingAlgorithm')}
+                                                placeholder={globalize.translate(
+                                                    'LabelTonemappingAlgorithm'
+                                                )}
                                             />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="none">{globalize.translate('None')}</SelectItem>
+                                            <SelectItem value="none">
+                                                {globalize.translate('None')}
+                                            </SelectItem>
                                             <SelectItem value="clip">Clip</SelectItem>
                                             <SelectItem value="linear">Linear</SelectItem>
                                             <SelectItem value="gamma">Gamma</SelectItem>
@@ -514,14 +571,21 @@ export const Component = (): React.ReactElement => {
                                     </Select>
 
                                     {isHwaSelected && (
-                                        <Select name="TonemappingMode" value={config.TonemappingMode || 'auto'}>
+                                        <Select
+                                            name="TonemappingMode"
+                                            value={config.TonemappingMode || 'auto'}
+                                        >
                                             <SelectTrigger style={{ width: '100%' }}>
                                                 <SelectValue
-                                                    placeholder={globalize.translate('LabelTonemappingMode')}
+                                                    placeholder={globalize.translate(
+                                                        'LabelTonemappingMode'
+                                                    )}
                                                 />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="auto">{globalize.translate('Auto')}</SelectItem>
+                                                <SelectItem value="auto">
+                                                    {globalize.translate('Auto')}
+                                                </SelectItem>
                                                 <SelectItem value="max">MAX</SelectItem>
                                                 <SelectItem value="rgb">RGB</SelectItem>
                                                 <SelectItem value="lum">LUM</SelectItem>
@@ -530,12 +594,21 @@ export const Component = (): React.ReactElement => {
                                         </Select>
                                     )}
 
-                                    <Select name="TonemappingRange" value={config.TonemappingRange || 'auto'}>
+                                    <Select
+                                        name="TonemappingRange"
+                                        value={config.TonemappingRange || 'auto'}
+                                    >
                                         <SelectTrigger style={{ width: '100%' }}>
-                                            <SelectValue placeholder={globalize.translate('LabelTonemappingRange')} />
+                                            <SelectValue
+                                                placeholder={globalize.translate(
+                                                    'LabelTonemappingRange'
+                                                )}
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="auto">{globalize.translate('Auto')}</SelectItem>
+                                            <SelectItem value="auto">
+                                                {globalize.translate('Auto')}
+                                            </SelectItem>
                                             <SelectItem value="tv">TV</SelectItem>
                                             <SelectItem value="pc">PC</SelectItem>
                                         </SelectContent>
@@ -573,18 +646,31 @@ export const Component = (): React.ReactElement => {
                                 </>
                             )}
 
-                            <Select name="EncodingThreadCount" value={config.EncodingThreadCount?.toString() || '-1'}>
+                            <Select
+                                name="EncodingThreadCount"
+                                value={config.EncodingThreadCount?.toString() || '-1'}
+                            >
                                 <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelTranscodingThreadCount')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate(
+                                            'LabelTranscodingThreadCount'
+                                        )}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="-1">{globalize.translate('Auto')}</SelectItem>
-                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(num => (
-                                        <SelectItem key={num} value={num.toString()}>
-                                            {num}
-                                        </SelectItem>
-                                    ))}
-                                    <SelectItem value="0">{globalize.translate('OptionMax')}</SelectItem>
+                                    <SelectItem value="-1">
+                                        {globalize.translate('Auto')}
+                                    </SelectItem>
+                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(
+                                        (num) => (
+                                            <SelectItem key={num} value={num.toString()}>
+                                                {num}
+                                            </SelectItem>
+                                        )
+                                    )}
+                                    <SelectItem value="0">
+                                        {globalize.translate('OptionMax')}
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
 
@@ -621,7 +707,9 @@ export const Component = (): React.ReactElement => {
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('EnableFallbackFontHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('EnableFallbackFontHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
@@ -635,7 +723,9 @@ export const Component = (): React.ReactElement => {
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('LabelEnableAudioVbrHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('LabelEnableAudioVbrHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <Input
@@ -650,14 +740,25 @@ export const Component = (): React.ReactElement => {
                                 required
                             />
 
-                            <Select name="DownMixStereoAlgorithm" value={config.DownMixStereoAlgorithm || 'None'}>
+                            <Select
+                                name="DownMixStereoAlgorithm"
+                                value={config.DownMixStereoAlgorithm || 'None'}
+                            >
                                 <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelStereoDownmixAlgorithm')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate(
+                                            'LabelStereoDownmixAlgorithm'
+                                        )}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="None">{globalize.translate('None')}</SelectItem>
+                                    <SelectItem value="None">
+                                        {globalize.translate('None')}
+                                    </SelectItem>
                                     <SelectItem value="Dave750">Dave750</SelectItem>
-                                    <SelectItem value="NightmodeDialogue">NightmodeDialogue</SelectItem>
+                                    <SelectItem value="NightmodeDialogue">
+                                        NightmodeDialogue
+                                    </SelectItem>
                                     <SelectItem value="Rfc7845">RFC7845</SelectItem>
                                     <SelectItem value="Ac4">AC-4</SelectItem>
                                 </SelectContent>
@@ -672,10 +773,14 @@ export const Component = (): React.ReactElement => {
 
                             <Select name="EncoderPreset" value={config.EncoderPreset || 'auto'}>
                                 <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelEncoderPreset')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate('LabelEncoderPreset')}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="auto">{globalize.translate('Auto')}</SelectItem>
+                                    <SelectItem value="auto">
+                                        {globalize.translate('Auto')}
+                                    </SelectItem>
                                     <SelectItem value="veryslow">veryslow</SelectItem>
                                     <SelectItem value="slower">slower</SelectItem>
                                     <SelectItem value="slow">slow</SelectItem>
@@ -710,13 +815,22 @@ export const Component = (): React.ReactElement => {
                                 step={1}
                             />
 
-                            <Select name="DeinterlaceMethod" value={config.DeinterlaceMethod || 'yadif'}>
+                            <Select
+                                name="DeinterlaceMethod"
+                                value={config.DeinterlaceMethod || 'yadif'}
+                            >
                                 <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelDeinterlaceMethod')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate('LabelDeinterlaceMethod')}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="yadif">{globalize.translate('Yadif')}</SelectItem>
-                                    <SelectItem value="bwdif">{globalize.translate('Bwdif')}</SelectItem>
+                                    <SelectItem value="yadif">
+                                        {globalize.translate('Yadif')}
+                                    </SelectItem>
+                                    <SelectItem value="bwdif">
+                                        {globalize.translate('Bwdif')}
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
 
@@ -731,7 +845,9 @@ export const Component = (): React.ReactElement => {
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('UseDoubleRateDeinterlacingHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('UseDoubleRateDeinterlacingHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
@@ -761,7 +877,9 @@ export const Component = (): React.ReactElement => {
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('AllowFfmpegThrottlingHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('AllowFfmpegThrottlingHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
@@ -775,7 +893,9 @@ export const Component = (): React.ReactElement => {
                                         />
                                     }
                                 />
-                                <FormHelperText>{globalize.translate('AllowSegmentDeletionHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('AllowSegmentDeletionHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <Input

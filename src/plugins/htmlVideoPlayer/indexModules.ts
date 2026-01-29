@@ -1,15 +1,17 @@
-export { resolveUrl, tryRemoveElement, zoomIn, normalizeTrackEventText } from './utils/domHelpers';
+export {
+    getSupportedAudioStreams,
+    isAudioStreamSupported,
+    setAudioStreamIndex
+} from './features/trackManagement';
 
 export {
-    isHls,
     enableNativeTrackSupport,
-    requireHlsPlayer,
-    getMediaStreamVideoTracks,
     getMediaStreamAudioTracks,
     getMediaStreamTextTracks,
-    getTextTrackUrl
+    getMediaStreamVideoTracks,
+    getTextTrackUrl,
+    isHls,
+    requireHlsPlayer
 } from './features/trackSupport';
-
-export { isAudioStreamSupported, getSupportedAudioStreams, setAudioStreamIndex } from './features/trackManagement';
-
 export { getDefaultProfile } from './stream/profileHelper';
+export { normalizeTrackEventText, resolveUrl, tryRemoveElement, zoomIn } from './utils/domHelpers';

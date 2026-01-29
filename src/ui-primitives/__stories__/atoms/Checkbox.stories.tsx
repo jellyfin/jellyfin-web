@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback } from 'react';
-import { motion } from 'motion/react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { motion } from 'motion/react';
+import { type ReactElement, useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 interface CheckboxProps {
@@ -11,7 +11,12 @@ interface CheckboxProps {
     disabled?: boolean;
 }
 
-function Checkbox({ label, checked, onCheckedChange, disabled }: Readonly<CheckboxProps>): ReactElement {
+function Checkbox({
+    label,
+    checked,
+    onCheckedChange,
+    disabled
+}: Readonly<CheckboxProps>): ReactElement {
     return (
         <label
             style={{
@@ -50,7 +55,9 @@ function Checkbox({ label, checked, onCheckedChange, disabled }: Readonly<Checkb
                 </CheckboxPrimitive.Indicator>
             </CheckboxPrimitive.Root>
             {label !== undefined && label !== '' && (
-                <span style={{ color: vars.colors.text, fontSize: vars.typography['6'].fontSize }}>{label}</span>
+                <span style={{ color: vars.colors.text, fontSize: vars.typography['6'].fontSize }}>
+                    {label}
+                </span>
             )}
         </label>
     );
@@ -68,7 +75,13 @@ type Story = StoryObj<typeof meta>;
 
 function DefaultStory(): ReactElement {
     const [checked, setChecked] = useState(false);
-    return <Checkbox label="Accept terms and conditions" checked={checked} onCheckedChange={setChecked} />;
+    return (
+        <Checkbox
+            label="Accept terms and conditions"
+            checked={checked}
+            onCheckedChange={setChecked}
+        />
+    );
 }
 
 export const Default: Story = {
@@ -94,24 +107,48 @@ export const Disabled: Story = {
 function GroupStory(): ReactElement {
     const [selected, setSelected] = useState<string[]>(['movies']);
     const toggleMovies = useCallback((): void => {
-        setSelected(prev => (prev.includes('movies') ? prev.filter(v => v !== 'movies') : [...prev, 'movies']));
+        setSelected((prev) =>
+            prev.includes('movies') ? prev.filter((v) => v !== 'movies') : [...prev, 'movies']
+        );
     }, []);
     const toggleTVShows = useCallback((): void => {
-        setSelected(prev => (prev.includes('tvshows') ? prev.filter(v => v !== 'tvshows') : [...prev, 'tvshows']));
+        setSelected((prev) =>
+            prev.includes('tvshows') ? prev.filter((v) => v !== 'tvshows') : [...prev, 'tvshows']
+        );
     }, []);
     const toggleMusic = useCallback((): void => {
-        setSelected(prev => (prev.includes('music') ? prev.filter(v => v !== 'music') : [...prev, 'music']));
+        setSelected((prev) =>
+            prev.includes('music') ? prev.filter((v) => v !== 'music') : [...prev, 'music']
+        );
     }, []);
     const togglePhotos = useCallback((): void => {
-        setSelected(prev => (prev.includes('photos') ? prev.filter(v => v !== 'photos') : [...prev, 'photos']));
+        setSelected((prev) =>
+            prev.includes('photos') ? prev.filter((v) => v !== 'photos') : [...prev, 'photos']
+        );
     }, []);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
-            <Checkbox label="Movies" checked={selected.includes('movies')} onCheckedChange={toggleMovies} />
-            <Checkbox label="TV Shows" checked={selected.includes('tvshows')} onCheckedChange={toggleTVShows} />
-            <Checkbox label="Music" checked={selected.includes('music')} onCheckedChange={toggleMusic} />
-            <Checkbox label="Photos" checked={selected.includes('photos')} onCheckedChange={togglePhotos} />
+            <Checkbox
+                label="Movies"
+                checked={selected.includes('movies')}
+                onCheckedChange={toggleMovies}
+            />
+            <Checkbox
+                label="TV Shows"
+                checked={selected.includes('tvshows')}
+                onCheckedChange={toggleTVShows}
+            />
+            <Checkbox
+                label="Music"
+                checked={selected.includes('music')}
+                onCheckedChange={toggleMusic}
+            />
+            <Checkbox
+                label="Photos"
+                checked={selected.includes('photos')}
+                onCheckedChange={togglePhotos}
+            />
         </div>
     );
 }

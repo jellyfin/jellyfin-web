@@ -1,9 +1,6 @@
-import { Button } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-import React, { type FC } from 'react';
-
 import globalize from 'lib/globalize';
-import { Box } from 'ui-primitives';
+import React, { type FC } from 'react';
+import { Box, Button, Heading } from 'ui-primitives';
 
 interface NoPluginResultsProps {
     isFiltered: boolean;
@@ -11,7 +8,11 @@ interface NoPluginResultsProps {
     query: string;
 }
 
-const NoPluginResults: FC<NoPluginResultsProps> = ({ isFiltered, onViewAll, query }): React.ReactElement => {
+const NoPluginResults: FC<NoPluginResultsProps> = ({
+    isFiltered,
+    onViewAll,
+    query
+}): React.ReactElement => {
     const hasQuery = query != null && query !== '';
 
     return (
@@ -34,7 +35,12 @@ const NoPluginResults: FC<NoPluginResultsProps> = ({ isFiltered, onViewAll, quer
             </Heading.H4>
 
             {isFiltered && (
-                <Button variant="plain" color="primary" onClick={onViewAll} style={{ marginTop: 8 }}>
+                <Button
+                    variant="plain"
+                    color="primary"
+                    onClick={onViewAll}
+                    style={{ marginTop: 8 }}
+                >
                     {globalize.translate('ViewAllPlugins')}
                 </Button>
             )}

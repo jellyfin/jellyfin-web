@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
-import { z } from 'zod';
 import { useForm } from '@tanstack/react-form';
-import { Box, Flex, FlexCol } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Alert } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormLabel, FormHelperText } from 'ui-primitives';
 import { safeAppHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 import { LayoutMode } from 'constants/layoutMode';
 import { useApi } from 'hooks/useApi';
 import { useThemes } from 'hooks/useThemes';
 import globalize from 'lib/globalize';
+import React, { useState } from 'react';
+import {
+    Alert,
+    Box,
+    Button,
+    Checkbox,
+    Divider,
+    Flex,
+    FlexCol,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
+import { z } from 'zod';
 
 import { useScreensavers } from '../hooks/useScreensavers';
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
@@ -78,7 +88,7 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
             )}
 
             <form
-                onSubmit={e => {
+                onSubmit={(e) => {
                     e.preventDefault();
                     form.handleSubmit();
                 }}
@@ -88,22 +98,29 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
 
                     {safeAppHost.supports(AppFeature.DisplayMode) && (
                         <form.Field name="layout">
-                            {field => (
+                            {(field) => (
                                 <Box>
                                     <FormLabel>{globalize.translate('LabelDisplayMode')}</FormLabel>
-                                    <Select value={field.state.value || ''} onValueChange={field.handleChange}>
+                                    <Select
+                                        value={field.state.value || ''}
+                                        onValueChange={field.handleChange}
+                                    >
                                         <SelectTrigger style={{ width: '100%' }}>
-                                            <SelectValue placeholder={globalize.translate('Auto')} />
+                                            <SelectValue
+                                                placeholder={globalize.translate('Auto')}
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {layoutOptions.map(option => (
+                                            {layoutOptions.map((option) => (
                                                 <SelectItem key={option.value} value={option.value}>
                                                     {option.label}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <FormHelperText>{globalize.translate('DisplayModeHelp')}</FormHelperText>
+                                    <FormHelperText>
+                                        {globalize.translate('DisplayModeHelp')}
+                                    </FormHelperText>
                                 </Box>
                             )}
                         </form.Field>
@@ -111,10 +128,13 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
 
                     {themes.length > 0 && (
                         <form.Field name="theme">
-                            {field => (
+                            {(field) => (
                                 <Box>
                                     <FormLabel>{globalize.translate('LabelTheme')}</FormLabel>
-                                    <Select value={field.state.value || ''} onValueChange={field.handleChange}>
+                                    <Select
+                                        value={field.state.value || ''}
+                                        onValueChange={field.handleChange}
+                                    >
                                         <SelectTrigger style={{ width: '100%' }}>
                                             <SelectValue placeholder="" />
                                         </SelectTrigger>
@@ -132,11 +152,11 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
                     )}
 
                     <form.Field name="disableCustomCss">
-                        {field => (
+                        {(field) => (
                             <Box>
                                 <Checkbox
                                     checked={field.state.value ?? false}
-                                    onChange={e => field.handleChange(e.target.checked)}
+                                    onChange={(e) => field.handleChange(e.target.checked)}
                                 >
                                     {globalize.translate('DisableCustomCss')}
                                 </Checkbox>
@@ -148,13 +168,13 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
                     </form.Field>
 
                     <form.Field name="customCss">
-                        {field => (
+                        {(field) => (
                             <Box>
                                 <FormLabel>{globalize.translate('LabelCustomCss')}</FormLabel>
                                 <Input
                                     as="textarea"
                                     value={field.state.value ?? ''}
-                                    onChange={e => field.handleChange(e.target.value)}
+                                    onChange={(e) => field.handleChange(e.target.value)}
                                     style={{ minHeight: '144px', fontFamily: 'monospace' }}
                                 />
                                 <Text size="sm" color="secondary" style={{ marginTop: 4 }}>
@@ -166,10 +186,15 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
 
                     {themes.length > 0 && user?.Policy?.IsAdministrator && (
                         <form.Field name="dashboardTheme">
-                            {field => (
+                            {(field) => (
                                 <Box>
-                                    <FormLabel>{globalize.translate('LabelDashboardTheme')}</FormLabel>
-                                    <Select value={field.state.value || ''} onValueChange={field.handleChange}>
+                                    <FormLabel>
+                                        {globalize.translate('LabelDashboardTheme')}
+                                    </FormLabel>
+                                    <Select
+                                        value={field.state.value || ''}
+                                        onValueChange={field.handleChange}
+                                    >
                                         <SelectTrigger style={{ width: '100%' }}>
                                             <SelectValue placeholder="" />
                                         </SelectTrigger>
@@ -191,10 +216,15 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
                             <Divider style={{ margin: '16px 0' }} />
 
                             <form.Field name="screensaver">
-                                {field => (
+                                {(field) => (
                                     <Box>
-                                        <FormLabel>{globalize.translate('LabelScreensaver')}</FormLabel>
-                                        <Select value={field.state.value || ''} onValueChange={field.handleChange}>
+                                        <FormLabel>
+                                            {globalize.translate('LabelScreensaver')}
+                                        </FormLabel>
+                                        <Select
+                                            value={field.state.value || ''}
+                                            onValueChange={field.handleChange}
+                                        >
                                             <SelectTrigger style={{ width: '100%' }}>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
@@ -211,18 +241,26 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
                             </form.Field>
 
                             <form.Field name="screensaverInterval">
-                                {field => (
+                                {(field) => (
                                     <Box>
-                                        <FormLabel>{globalize.translate('LabelBackdropScreensaverInterval')}</FormLabel>
+                                        <FormLabel>
+                                            {globalize.translate(
+                                                'LabelBackdropScreensaverInterval'
+                                            )}
+                                        </FormLabel>
                                         <Input
                                             type="number"
                                             value={field.state.value?.toString() || ''}
-                                            onChange={e => field.handleChange(parseFloat(e.target.value) || 0)}
+                                            onChange={(e) =>
+                                                field.handleChange(parseFloat(e.target.value) || 0)
+                                            }
                                             min={1}
                                             max={3600}
                                         />
                                         <Text size="sm" color="secondary" style={{ marginTop: 4 }}>
-                                            {globalize.translate('LabelBackdropScreensaverIntervalHelp')}
+                                            {globalize.translate(
+                                                'LabelBackdropScreensaverIntervalHelp'
+                                            )}
                                         </Text>
                                     </Box>
                                 )}
@@ -231,13 +269,17 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
                     )}
 
                     <form.Field name="slideshowInterval">
-                        {field => (
+                        {(field) => (
                             <Box>
-                                <FormLabel>{globalize.translate('LabelSlideshowInterval')}</FormLabel>
+                                <FormLabel>
+                                    {globalize.translate('LabelSlideshowInterval')}
+                                </FormLabel>
                                 <Input
                                     type="number"
                                     value={field.state.value?.toString() || ''}
-                                    onChange={e => field.handleChange(parseFloat(e.target.value) || 0)}
+                                    onChange={(e) =>
+                                        field.handleChange(parseFloat(e.target.value) || 0)
+                                    }
                                     min={1}
                                     max={3600}
                                 />
@@ -249,11 +291,11 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
                     </form.Field>
 
                     <form.Field name="enableFasterAnimation">
-                        {field => (
+                        {(field) => (
                             <Box>
                                 <Checkbox
                                     checked={field.state.value ?? false}
-                                    onChange={e => field.handleChange(e.target.checked)}
+                                    onChange={(e) => field.handleChange(e.target.checked)}
                                 >
                                     {globalize.translate('EnableFasterAnimations')}
                                 </Checkbox>
@@ -265,11 +307,11 @@ export function DisplayPreferences({ onSave, initialValues }: Readonly<DisplayPr
                     </form.Field>
 
                     <form.Field name="enableBlurHash">
-                        {field => (
+                        {(field) => (
                             <Box>
                                 <Checkbox
                                     checked={field.state.value ?? false}
-                                    onChange={e => field.handleChange(e.target.checked)}
+                                    onChange={(e) => field.handleChange(e.target.checked)}
                                 >
                                     {globalize.translate('EnableBlurHash')}
                                 </Checkbox>

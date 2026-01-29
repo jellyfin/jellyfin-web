@@ -1,5 +1,5 @@
-import { logger } from '../../utils/logger';
 import { PlaybackStatus } from '../../store/types';
+import { logger } from '../../utils/logger';
 import { HTML5Player, PlayerEvents } from './HTML5Player';
 
 export interface VideoPlayerEvents extends PlayerEvents {

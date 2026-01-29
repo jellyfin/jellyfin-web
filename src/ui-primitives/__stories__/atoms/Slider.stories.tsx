@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback } from 'react';
-import { motion } from 'motion/react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { motion } from 'motion/react';
+import { type ReactElement, useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 interface SliderProps {
@@ -94,7 +94,14 @@ function DefaultStory(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'], alignItems: 'center' }}>
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: vars.spacing['5'],
+                alignItems: 'center'
+            }}
+        >
             <Slider value={value} onValueChange={handleValueChange} />
             <span style={{ color: vars.colors.text }}>{value[0]}</span>
         </div>
@@ -112,7 +119,14 @@ function RangeStory(): ReactElement {
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'], alignItems: 'center' }}>
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: vars.spacing['5'],
+                alignItems: 'center'
+            }}
+        >
             <Slider value={value} onValueChange={handleValueChange} />
             <span style={{ color: vars.colors.text }}>
                 {value[0]} - {value[1]}

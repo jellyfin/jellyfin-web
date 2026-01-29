@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { Sidebar } from '../Sidebar';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Dashboard from '../../../utils/dashboard';
+import { Sidebar } from '../Sidebar';
 
 // Mock dependencies
 vi.mock('../../../hooks/useApi', () => ({
@@ -29,13 +29,19 @@ const { mockToggleDrawer } = vi.hoisted(() => ({
 }));
 
 vi.mock('../../../store/uiStore', () => ({
-    useUiStore: vi.fn((selector) => selector({
-        toggleDrawer: mockToggleDrawer
-    }))
+    useUiStore: vi.fn((selector) =>
+        selector({
+            toggleDrawer: mockToggleDrawer
+        })
+    )
 }));
 
 vi.mock('@tanstack/react-router', () => ({
-    Link: ({ children, to, activeProps, ...props }: any) => <a href={to} {...props}>{children}</a>
+    Link: ({ children, to, activeProps, ...props }: any) => (
+        <a href={to} {...props}>
+            {children}
+        </a>
+    )
 }));
 
 vi.mock('react-i18next', () => ({
@@ -85,9 +91,9 @@ describe('Sidebar', () => {
         queryClient = new QueryClient({
             defaultOptions: {
                 queries: {
-                    retry: false,
-                },
-            },
+                    retry: false
+                }
+            }
         });
     });
 

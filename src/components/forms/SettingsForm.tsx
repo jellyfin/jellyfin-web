@@ -1,11 +1,8 @@
 import React, { useCallback } from 'react';
-import { z } from 'zod';
-import { Input, Textarea, Switch, Select } from './index';
-import { Button } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Divider, Flex, Heading, Text } from 'ui-primitives';
+import { z } from 'zod';
+import { Input, Select, Switch, Textarea } from './index';
 
 const settingsSchema = z.object({
     appTitle: z.string().min(1, 'App title is required').max(100, 'Title too long'),
@@ -48,7 +45,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
 
     React.useEffect(() => {
         if (initialValues) {
-            setFormData(prev => {
+            setFormData((prev) => {
                 const updates: Record<string, FieldState> = { ...prev };
                 Object.entries(initialValues).forEach(([key, value]) => {
                     if (value !== undefined) {
@@ -75,7 +72,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
     }, []);
 
     const handleChange = (name: string, newValue: string | number | boolean) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             [name]: {
                 ...prev[name],
@@ -87,7 +84,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
     };
 
     const handleBlur = (name: string) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             [name]: {
                 ...prev[name],
@@ -108,7 +105,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
         });
 
         if (errors.length > 0) {
-            setFormData(prev => {
+            setFormData((prev) => {
                 const updates: Record<string, FieldState> = { ...prev };
                 errors.forEach(({ name, error }) => {
                     updates[name] = { ...updates[name], error, touched: true };
@@ -159,7 +156,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                 <Input
                     label="Application Title"
                     value={String(formData.appTitle.value)}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('appTitle', e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('appTitle', e.target.value)
+                    }
                     onBlur={() => handleBlur('appTitle')}
                     error={formData.appTitle.touched ? formData.appTitle.error : undefined}
                 />
@@ -172,7 +171,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                         handleChange('loginDisclaimer', e.target.value)
                     }
                     onBlur={() => handleBlur('loginDisclaimer')}
-                    error={formData.loginDisclaimer.touched ? formData.loginDisclaimer.error : undefined}
+                    error={
+                        formData.loginDisclaimer.touched
+                            ? formData.loginDisclaimer.error
+                            : undefined
+                    }
                 />
 
                 <Divider />
@@ -197,7 +200,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                         handleChange('maxConcurrentStreams', parseInt(e.target.value, 10) || 1)
                     }
                     onBlur={() => handleBlur('maxConcurrentStreams')}
-                    error={formData.maxConcurrentStreams.touched ? formData.maxConcurrentStreams.error : undefined}
+                    error={
+                        formData.maxConcurrentStreams.touched
+                            ? formData.maxConcurrentStreams.error
+                            : undefined
+                    }
                 />
 
                 <Divider />
@@ -215,7 +222,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                 <Switch
                     label="Enable DTS Pass-through"
                     checked={formData.enableDts.value as boolean}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange('enableDts', e.target.checked)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChange('enableDts', e.target.checked)
+                    }
                 />
 
                 <Switch
@@ -253,8 +262,19 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialValues, onSub
                 />
             </Flex>
 
-            <Flex style={{ marginTop: vars.spacing['7'], gap: vars.spacing['5'], justifyContent: 'flex-end' }}>
-                <Button variant="outlined" color="neutral" onClick={handleReset} disabled={isSubmitting}>
+            <Flex
+                style={{
+                    marginTop: vars.spacing['7'],
+                    gap: vars.spacing['5'],
+                    justifyContent: 'flex-end'
+                }}
+            >
+                <Button
+                    variant="outlined"
+                    color="neutral"
+                    onClick={handleReset}
+                    disabled={isSubmitting}
+                >
                     Reset
                 </Button>
                 <Button type="submit" variant="primary" color="primary" loading={isSubmitting}>

@@ -1,15 +1,20 @@
 import { type Api } from '@jellyfin/sdk';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
-import { addSection, isLivetv } from '../utils/search';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 import { CardShape } from 'utils/card';
+import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 import { type Section } from '../types';
+import { addSection, isLivetv } from '../utils/search';
 import { fetchItemsByType } from './fetchItemsByType';
 
-const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | undefined, signal: AbortSignal) => {
+const fetchLiveTv = (
+    api: Api,
+    userId: string | undefined,
+    searchTerm: string | undefined,
+    signal: AbortSignal
+) => {
     const sections: Section[] = [];
 
     // Movies row
@@ -22,7 +27,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             searchTerm
         },
         { signal }
-    ).then(moviesData => {
+    ).then((moviesData) => {
         addSection(sections, 'Movies', moviesData.Items, {
             ...LIVETV_CARD_OPTIONS,
             shape: CardShape.PortraitOverflow
@@ -43,7 +48,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             searchTerm
         },
         { signal }
-    ).then(episodesData => {
+    ).then((episodesData) => {
         addSection(sections, 'Episodes', episodesData.Items, {
             ...LIVETV_CARD_OPTIONS
         });
@@ -59,7 +64,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             searchTerm
         },
         { signal }
-    ).then(sportsData => {
+    ).then((sportsData) => {
         addSection(sections, 'Sports', sportsData.Items, {
             ...LIVETV_CARD_OPTIONS
         });
@@ -75,7 +80,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             searchTerm
         },
         { signal }
-    ).then(kidsData => {
+    ).then((kidsData) => {
         addSection(sections, 'Kids', kidsData.Items, {
             ...LIVETV_CARD_OPTIONS
         });
@@ -91,7 +96,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             searchTerm
         },
         { signal }
-    ).then(newsData => {
+    ).then((newsData) => {
         addSection(sections, 'News', newsData.Items, {
             ...LIVETV_CARD_OPTIONS
         });
@@ -111,7 +116,7 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             searchTerm
         },
         { signal }
-    ).then(programsData => {
+    ).then((programsData) => {
         addSection(sections, 'Programs', programsData.Items, {
             ...LIVETV_CARD_OPTIONS
         });
@@ -126,14 +131,20 @@ const fetchLiveTv = (api: Api, userId: string | undefined, searchTerm: string | 
             searchTerm
         },
         { signal }
-    ).then(channelsData => {
+    ).then((channelsData) => {
         addSection(sections, 'Channels', channelsData.Items);
     });
 
-    return Promise.all([movies, episodes, sports, kids, news, programs, channels]).then(() => sections);
+    return Promise.all([movies, episodes, sports, kids, news, programs, channels]).then(
+        () => sections
+    );
 };
 
-export const useLiveTvSearch = (parentId?: string, collectionType?: CollectionType, searchTerm?: string) => {
+export const useLiveTvSearch = (
+    parentId?: string,
+    collectionType?: CollectionType,
+    searchTerm?: string
+) => {
     const { api, user } = useApi();
     const userId = user?.Id;
 

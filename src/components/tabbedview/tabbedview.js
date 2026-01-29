@@ -11,8 +11,8 @@
  */
 
 import { clearBackdrop } from '../backdrop/backdrop';
-import * as mainTabsManager from '../maintabsmanager';
 import layoutManager from '../layoutManager';
+import * as mainTabsManager from '../maintabsmanager';
 import '../../elements/emby-tabs/emby-tabs';
 import LibraryMenu from '../../scripts/libraryMenu';
 
@@ -76,7 +76,8 @@ class TabbedView {
             const newIndex = parseInt(e.detail.selectedTabIndex, 10);
             const previousIndex = e.detail.previousIndex;
 
-            const previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];
+            const previousTabController =
+                previousIndex == null ? null : self.tabControllers[previousIndex];
             if (previousTabController?.onPause) {
                 previousTabController.onPause();
             }
@@ -87,7 +88,15 @@ class TabbedView {
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
         view.addEventListener('viewbeforeshow', () => {
-            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, null, onTabChange, false);
+            mainTabsManager.setTabs(
+                view,
+                currentTabIndex,
+                self.getTabs,
+                getTabContainers,
+                null,
+                onTabChange,
+                false
+            );
         });
 
         view.addEventListener('viewshow', (e) => {

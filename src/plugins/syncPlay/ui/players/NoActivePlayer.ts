@@ -1,6 +1,6 @@
 import { playbackManager } from '../../../../components/playback/playbackmanager';
-import QueueManager from './QueueManager';
 import GenericPlayer from '../../core/players/GenericPlayer';
+import QueueManager from './QueueManager';
 
 class NoActivePlayer extends GenericPlayer {
     static override type = 'default';
@@ -173,7 +173,11 @@ class NoActivePlayer extends GenericPlayer {
         return (playbackManager as any)._localRemoveFromPlaylist(playlistItemIds, this.player);
     }
     localMovePlaylistItem(playlistItemId: string, newIndex: number) {
-        return (playbackManager as any)._localMovePlaylistItem(playlistItemId, newIndex, this.player);
+        return (playbackManager as any)._localMovePlaylistItem(
+            playlistItemId,
+            newIndex,
+            this.player
+        );
     }
     localQueue(options: any) {
         return (playbackManager as any)._localQueue(options, this.player);

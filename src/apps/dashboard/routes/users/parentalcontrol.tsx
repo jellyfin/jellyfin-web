@@ -11,27 +11,26 @@
  */
 
 import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
-import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useSearchParams } from 'hooks/useSearchParams';
+import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
+import Toast from 'apps/dashboard/components/Toast';
 import escapeHTML from 'escape-html';
-
-import globalize from '../../../../lib/globalize';
+import { useSearchParams } from 'hooks/useSearchParams';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { logger } from 'utils/logger';
 import AccessScheduleDialog from '../../../../components/accessSchedule/AccessScheduleDialog';
 import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
-import TagList from '../../../../components/dashboard/users/TagList';
-import Button from '../../../../elements/emby-button/Button';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
+import TagList from '../../../../components/dashboard/users/TagList';
 import loading from '../../../../components/loading/loading';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 import { usePrompt } from '../../../../components/prompt/PromptDialog';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Toast from 'apps/dashboard/components/Toast';
-import { logger } from 'utils/logger';
+import CheckBoxElement from '../../../../elements/CheckBoxElement';
+import Button from '../../../../elements/emby-button/Button';
+import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
+import SelectElement from '../../../../elements/SelectElement';
+import globalize from '../../../../lib/globalize';
 
 interface NamedItem {
     name: string;
@@ -57,7 +56,9 @@ function handleSaveUser(
             throw new Error('Unexpected null user id or policy');
         }
 
-        const selectElement = page.querySelector('#selectMaxParentalRating') as HTMLSelectElement | null;
+        const selectElement = page.querySelector(
+            '#selectMaxParentalRating'
+        ) as HTMLSelectElement | null;
         const parentalRatingIndex = parseInt(selectElement?.value ?? '0', 10);
         const parentalRating = parentalRatingsRef.current[parentalRatingIndex] as ParentalRating;
         const score = parentalRating?.RatingScore?.score;
@@ -65,16 +66,19 @@ function handleSaveUser(
         userPolicy.MaxParentalRating = Number.isNaN(score) ? null : score;
         userPolicy.MaxParentalSubRating = Number.isNaN(subScore) ? null : subScore;
         userPolicy.BlockUnratedItems = Array.prototype.filter
-            .call(page.querySelectorAll('.chkUnratedItem'), (i: Element) => (i as HTMLInputElement).checked)
+            .call(
+                page.querySelectorAll('.chkUnratedItem'),
+                (i: Element) => (i as HTMLInputElement).checked
+            )
             .map((i: Element) => i.getAttribute('data-itemtype'))
             .filter((i): i is string => i !== null) as UnratedItem[];
         userPolicy.AccessSchedules = getSchedulesFromPage();
         userPolicy.AllowedTags = getAllowedTagsFromPage();
         userPolicy.BlockedTags = getBlockedTagsFromPage();
         ServerConnections.getCurrentApiClientAsync()
-            .then(apiClient => apiClient.updateUserPolicy(userId, userPolicy))
+            .then((apiClient) => apiClient.updateUserPolicy(userId, userPolicy))
             .then(() => onSaveComplete())
-            .catch(err => {
+            .catch((err) => {
                 logger.error('[userparentalcontrol] failed to update user policy', { error: err });
             });
     };
@@ -220,7 +224,10 @@ const UserParentalControl = () => {
                 // If no exact match found, fallback to score-only match
                 if (!ratingIndex) {
                     ratings.forEach((rating, index) => {
-                        if (rating.RatingScore?.score != null && rating.RatingScore.score <= userMaxRating) {
+                        if (
+                            rating.RatingScore?.score != null &&
+                            rating.RatingScore.score <= userMaxRating
+                        ) {
                             ratingIndex = `${index}`;
                         }
                     });
@@ -250,10 +257,10 @@ const UserParentalControl = () => {
         const promise1 = window.ApiClient.getUser(userId);
         const promise2 = window.ApiClient.getParentalRatings();
         Promise.all([promise1, promise2])
-            .then(responses => {
+            .then((responses) => {
                 loadUser(responses[0], responses[1]);
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error('[userparentalcontrol] failed to load data', err);
             });
     }, [loadUser, userId]);
@@ -261,7 +268,7 @@ const UserParentalControl = () => {
     const getSchedulesFromPage = useCallback(() => {
         const page = element.current;
         if (!page) return [];
-        return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), elem => {
+        return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), (elem) => {
             return {
                 DayOfWeek: elem.getAttribute('data-day'),
                 StartHour: elem.getAttribute('data-start'),
@@ -273,7 +280,7 @@ const UserParentalControl = () => {
     const getAllowedTagsFromPage = useCallback(() => {
         const page = element.current;
         if (!page) return [];
-        return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), elem => {
+        return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), (elem) => {
             return elem.getAttribute('data-tag');
         }) as string[];
     }, []);
@@ -281,7 +288,7 @@ const UserParentalControl = () => {
     const getBlockedTagsFromPage = useCallback(() => {
         const page = element.current;
         if (!page) return [];
-        return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), elem => {
+        return Array.prototype.map.call(page.querySelectorAll('.blockedTag'), (elem) => {
             return elem.getAttribute('data-tag');
         }) as string[];
     }, []);
@@ -305,7 +312,7 @@ const UserParentalControl = () => {
 
     const showAllowedTagPopup = useCallback(() => {
         prompt()
-            .then(value => {
+            .then((value) => {
                 const tags = getAllowedTagsFromPage();
 
                 if (tags.indexOf(value) == -1) {
@@ -320,7 +327,7 @@ const UserParentalControl = () => {
 
     const showBlockedTagPopup = useCallback(() => {
         prompt()
-            .then(value => {
+            .then((value) => {
                 const tags = getBlockedTagsFromPage();
 
                 if (tags.indexOf(value) == -1) {
@@ -368,7 +375,13 @@ const UserParentalControl = () => {
             e.stopPropagation();
             return false;
         },
-        [userId, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete]
+        [
+            userId,
+            getSchedulesFromPage,
+            getAllowedTagsFromPage,
+            getBlockedTagsFromPage,
+            onSaveComplete
+        ]
     );
 
     useEffect(() => {
@@ -393,15 +406,27 @@ const UserParentalControl = () => {
                 -1
             );
         };
-        page.querySelector('#btnAddSchedule')!.addEventListener('click', accessSchedulesPopupCallback);
+        page.querySelector('#btnAddSchedule')!.addEventListener(
+            'click',
+            accessSchedulesPopupCallback
+        );
         page.querySelector('#btnAddAllowedTag')!.addEventListener('click', showAllowedTagPopup);
         page.querySelector('#btnAddBlockedTag')!.addEventListener('click', showBlockedTagPopup);
         page.querySelector('.userParentalControlForm')!.addEventListener('submit', onSubmit);
 
         return () => {
-            page.querySelector('#btnAddSchedule')!.removeEventListener('click', accessSchedulesPopupCallback);
-            page.querySelector('#btnAddAllowedTag')!.removeEventListener('click', showAllowedTagPopup);
-            page.querySelector('#btnAddBlockedTag')!.removeEventListener('click', showBlockedTagPopup);
+            page.querySelector('#btnAddSchedule')!.removeEventListener(
+                'click',
+                accessSchedulesPopupCallback
+            );
+            page.querySelector('#btnAddAllowedTag')!.removeEventListener(
+                'click',
+                showAllowedTagPopup
+            );
+            page.querySelector('#btnAddBlockedTag')!.removeEventListener(
+                'click',
+                showBlockedTagPopup
+            );
             page.querySelector('.userParentalControlForm')!.removeEventListener('submit', onSubmit);
         };
     }, [loadData, showAllowedTagPopup, showBlockedTagPopup, onSubmit]);
@@ -414,7 +439,8 @@ const UserParentalControl = () => {
             return;
         }
 
-        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value = String(maxParentalRating);
+        (page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value =
+            String(maxParentalRating);
     }, [maxParentalRating, parentalRatings]);
 
     const optionMaxParentalRating = () => {
@@ -430,7 +456,7 @@ const UserParentalControl = () => {
 
     const removeAllowedTagsCallback = useCallback(
         (tag: string) => {
-            const newTags = allowedTags.filter(t => t !== tag);
+            const newTags = allowedTags.filter((t) => t !== tag);
             setAllowedTags(newTags);
         },
         [allowedTags]
@@ -438,7 +464,7 @@ const UserParentalControl = () => {
 
     const removeBlockedTagsTagsCallback = useCallback(
         (tag: string) => {
-            const newTags = blockedTags.filter(t => t !== tag);
+            const newTags = blockedTags.filter((t) => t !== tag);
             setBlockedTags(newTags);
         },
         [blockedTags]
@@ -476,13 +502,17 @@ const UserParentalControl = () => {
                         <SelectElement id="selectMaxParentalRating" label="LabelMaxParentalRating">
                             {optionMaxParentalRating()}
                         </SelectElement>
-                        <div className="fieldDescription">{globalize.translate('MaxParentalRatingHelp')}</div>
+                        <div className="fieldDescription">
+                            {globalize.translate('MaxParentalRatingHelp')}
+                        </div>
                     </div>
                     <div>
                         <div className="blockUnratedItems">
-                            <h3 className="checkboxListLabel">{globalize.translate('HeaderBlockItemsWithNoRating')}</h3>
+                            <h3 className="checkboxListLabel">
+                                {globalize.translate('HeaderBlockItemsWithNoRating')}
+                            </h3>
                             <div className="checkboxList paperList" style={{ padding: '.5em 1em' }}>
-                                {unratedItems.map(Item => {
+                                {unratedItems.map((Item) => {
                                     return (
                                         <CheckBoxElement
                                             key={Item.value}
@@ -507,9 +537,11 @@ const UserParentalControl = () => {
                             btnTitle="Add"
                             btnIcon="add"
                         />
-                        <div className="fieldDescription">{globalize.translate('AllowContentWithTagsHelp')}</div>
+                        <div className="fieldDescription">
+                            {globalize.translate('AllowContentWithTagsHelp')}
+                        </div>
                         <div className="allowedTags" style={{ marginTop: '.5em' }}>
-                            {allowedTags?.map(tag => {
+                            {allowedTags?.map((tag) => {
                                 return (
                                     <TagList
                                         key={tag}
@@ -531,9 +563,11 @@ const UserParentalControl = () => {
                             btnTitle="Add"
                             btnIcon="add"
                         />
-                        <div className="fieldDescription">{globalize.translate('BlockContentWithTagsHelp')}</div>
+                        <div className="fieldDescription">
+                            {globalize.translate('BlockContentWithTagsHelp')}
+                        </div>
                         <div className="blockedTags" style={{ marginTop: '.5em' }}>
-                            {blockedTags.map(tag => {
+                            {blockedTags.map((tag) => {
                                 return (
                                     <TagList
                                         key={tag}
@@ -545,7 +579,10 @@ const UserParentalControl = () => {
                             })}
                         </div>
                     </div>
-                    <div className="accessScheduleSection verticalSection" style={{ marginBottom: '2em' }}>
+                    <div
+                        className="accessScheduleSection verticalSection"
+                        style={{ marginBottom: '2em' }}
+                    >
                         <SectionTitleContainer
                             title={globalize.translate('HeaderAccessSchedule')}
                             isBtnVisible={true}

@@ -1,14 +1,9 @@
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { Link, type LinkProps } from '@tanstack/react-router';
-import React, { useCallback, useMemo } from 'react';
-
 import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import React, { useCallback, useMemo } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { AspectRatio } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Card } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
+import { AspectRatio, Box, Card, Flex, Heading, IconButton, Text } from 'ui-primitives';
 
 interface BaseCardProps {
     readonly title?: string;
@@ -49,11 +44,11 @@ export function BaseCard({
     const cardContent = (
         <>
             <AspectRatio
-                ratio='16/9'
+                ratio="16/9"
                 style={{ borderRadius: vars.borderRadius.sm, overflow: 'hidden' }}
             >
                 {image != null ? (
-                    <img src={image} loading='lazy' alt={title ?? ''} />
+                    <img src={image} loading="lazy" alt={title ?? ''} />
                 ) : (
                     <Box
                         className={getDefaultBackgroundClass(title ?? '')}
@@ -95,7 +90,7 @@ export function BaseCard({
                         </Heading.H5>
                         {text != null && text !== '' && (
                             <Text
-                                size='xs'
+                                size="xs"
                                 style={{
                                     wordBreak: 'break-all',
                                     marginTop: vars.spacing['2']
@@ -107,9 +102,9 @@ export function BaseCard({
                     </Box>
                     {action && (
                         <IconButton
-                            variant='plain'
-                            color='neutral'
-                            size='sm'
+                            variant="plain"
+                            color="neutral"
+                            size="sm"
                             ref={actionRef}
                             onClick={handleActionClick}
                         >

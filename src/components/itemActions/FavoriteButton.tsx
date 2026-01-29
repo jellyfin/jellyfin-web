@@ -1,12 +1,11 @@
-import React, { type FC, useCallback } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { IconButton } from 'ui-primitives';
 import { HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons';
-import { deprecate } from '../../utils/deprecation';
-
+import { useQueryClient } from '@tanstack/react-query';
 import { ItemAction } from 'constants/itemAction';
 import { useToggleFavoriteMutation } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives';
+import { deprecate } from '../../utils/deprecation';
 
 interface FavoriteButtonProps {
     className?: string;
@@ -15,7 +14,12 @@ interface FavoriteButtonProps {
     queryKey?: string[];
 }
 
-const FavoriteButton: FC<FavoriteButtonProps> = ({ className, isFavorite = false, itemId, queryKey }) => {
+const FavoriteButton: FC<FavoriteButtonProps> = ({
+    className,
+    isFavorite = false,
+    itemId,
+    queryKey
+}) => {
     deprecate(
         'emby-ratingbutton/FavoriteButton',
         'Direct ui-primitives/IconButton usage with custom favorite logic',
@@ -59,7 +63,9 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({ className, isFavorite = false
         <IconButton
             data-action={ItemAction.None}
             className={className}
-            title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
+            title={
+                isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')
+            }
             variant="plain"
             color={isFavorite ? 'danger' : 'neutral'}
             size="sm"

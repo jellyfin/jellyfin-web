@@ -9,20 +9,25 @@ import {
     TrackPreviousIcon
 } from '@radix-ui/react-icons';
 import { useRouter } from '@tanstack/react-router';
-import { AnimatePresence, motion } from 'motion/react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { Box, Flex } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Tab, TabList, TabPanel, Tabs } from 'ui-primitives';
-import { Text } from 'ui-primitives';
+import {
+    Box,
+    Chip,
+    CircularProgress,
+    Flex,
+    IconButton,
+    Paper,
+    Slider,
+    Tab,
+    TabList,
+    TabPanel,
+    Tabs,
+    Text
+} from 'ui-primitives';
 import Events, { type EventObject } from 'utils/events';
 
 import {
@@ -82,14 +87,15 @@ export function QueuePage(): React.ReactElement {
     const albumName = currentItem?.album ?? '';
     const imageUrl =
         currentItem?.imageUrl ??
-        currentItem?.artwork?.find(img => img.type === 'Primary')?.url ??
+        currentItem?.artwork?.find((img) => img.type === 'Primary')?.url ??
         currentItem?.artwork?.[0]?.url;
 
     // Next track info
     const nextItem = currentItem?.nextItem;
     const nextTrackName = nextItem?.name ?? nextItem?.title ?? '';
     const nextArtistName = nextItem?.artist ?? nextItem?.albumArtist ?? '';
-    const nextImageUrl = nextItem?.imageUrl ?? nextItem?.artwork?.find(img => img.type === 'Primary')?.url;
+    const nextImageUrl =
+        nextItem?.imageUrl ?? nextItem?.artwork?.find((img) => img.type === 'Primary')?.url;
 
     const loadQueue = useCallback(() => {
         try {
@@ -113,8 +119,8 @@ export function QueuePage(): React.ReactElement {
         }
     }, []);
 
-    const setVisualizerEnabled = usePreferencesStore(state => state.setVisualizerEnabled);
-    const setVisualizerType = usePreferencesStore(state => state.setVisualizerType);
+    const setVisualizerEnabled = usePreferencesStore((state) => state.setVisualizerEnabled);
+    const setVisualizerType = usePreferencesStore((state) => state.setVisualizerType);
     const originalEnabled = useRef(usePreferencesStore.getState().visualizer.enabled);
     const originalType = useRef(usePreferencesStore.getState().visualizer.type);
 
@@ -142,18 +148,50 @@ export function QueuePage(): React.ReactElement {
         const handlePlaybackStart = (): void => loadQueue();
         const handlePlaybackStop = (): void => loadQueue();
 
-        Events.on(playbackManager as unknown as EventObject, 'playlistitemremove', handlePlaylistChange);
-        Events.on(playbackManager as unknown as EventObject, 'playlistitemadd', handlePlaylistChange);
-        Events.on(playbackManager as unknown as EventObject, 'playlistitemchange', handlePlaylistChange);
+        Events.on(
+            playbackManager as unknown as EventObject,
+            'playlistitemremove',
+            handlePlaylistChange
+        );
+        Events.on(
+            playbackManager as unknown as EventObject,
+            'playlistitemadd',
+            handlePlaylistChange
+        );
+        Events.on(
+            playbackManager as unknown as EventObject,
+            'playlistitemchange',
+            handlePlaylistChange
+        );
         Events.on(playbackManager as unknown as EventObject, 'playbackstart', handlePlaybackStart);
         Events.on(playbackManager as unknown as EventObject, 'playbackstop', handlePlaybackStop);
 
         return () => {
-            Events.off(playbackManager as unknown as EventObject, 'playlistitemremove', handlePlaylistChange);
-            Events.off(playbackManager as unknown as EventObject, 'playlistitemadd', handlePlaylistChange);
-            Events.off(playbackManager as unknown as EventObject, 'playlistitemchange', handlePlaylistChange);
-            Events.off(playbackManager as unknown as EventObject, 'playbackstart', handlePlaybackStart);
-            Events.off(playbackManager as unknown as EventObject, 'playbackstop', handlePlaybackStop);
+            Events.off(
+                playbackManager as unknown as EventObject,
+                'playlistitemremove',
+                handlePlaylistChange
+            );
+            Events.off(
+                playbackManager as unknown as EventObject,
+                'playlistitemadd',
+                handlePlaylistChange
+            );
+            Events.off(
+                playbackManager as unknown as EventObject,
+                'playlistitemchange',
+                handlePlaylistChange
+            );
+            Events.off(
+                playbackManager as unknown as EventObject,
+                'playbackstart',
+                handlePlaybackStart
+            );
+            Events.off(
+                playbackManager as unknown as EventObject,
+                'playbackstop',
+                handlePlaybackStop
+            );
         };
     }, [loadQueue]);
 
@@ -200,7 +238,9 @@ export function QueuePage(): React.ReactElement {
         (item: QueueItem) => {
             const queueManager = (
                 playbackManager as {
-                    readonly _playQueueManager?: { readonly removeFromPlaylist: (ids: string[]) => void };
+                    readonly _playQueueManager?: {
+                        readonly removeFromPlaylist: (ids: string[]) => void;
+                    };
                 }
             )._playQueueManager;
             const playlistItemId = (item as { readonly PlaylistItemId?: string }).PlaylistItemId;
@@ -215,7 +255,9 @@ export function QueuePage(): React.ReactElement {
     const handleReorder = useCallback(
         (fromIndex: number, toIndex: number) => {
             const queueManager = (
-                playbackManager as { readonly _playQueueManager?: { readonly _playlist?: unknown[] } }
+                playbackManager as {
+                    readonly _playQueueManager?: { readonly _playlist?: unknown[] };
+                }
             )._playQueueManager;
             if (queueManager?._playlist != null) {
                 const playlist = queueManager._playlist;
@@ -228,7 +270,10 @@ export function QueuePage(): React.ReactElement {
     );
 
     const onBackClick = useCallback(() => router.history.back(), [router.history]);
-    const onInfoClick = useCallback(() => setShowTechnicalInfo(!showTechnicalInfo), [showTechnicalInfo]);
+    const onInfoClick = useCallback(
+        () => setShowTechnicalInfo(!showTechnicalInfo),
+        [showTechnicalInfo]
+    );
     const onTabsChange = useCallback((val: string) => setActiveTab(Number(val)), []);
 
     // Loading state
@@ -275,7 +320,12 @@ export function QueuePage(): React.ReactElement {
                     <ArrowLeftIcon />
                 </IconButton>
                 <DiscIcon
-                    style={{ width: 80, height: 80, color: vars.colors.textMuted, marginBottom: vars.spacing['5'] }}
+                    style={{
+                        width: 80,
+                        height: 80,
+                        color: vars.colors.textMuted,
+                        marginBottom: vars.spacing['5']
+                    }}
                 />
                 <Text size="xl" weight="bold" color="secondary">
                     {globalize.translate('MessageNoItemsAvailable')}
@@ -288,7 +338,13 @@ export function QueuePage(): React.ReactElement {
     }
 
     return (
-        <Box style={{ minHeight: '100vh', backgroundColor: vars.colors.background, position: 'relative' }}>
+        <Box
+            style={{
+                minHeight: '100vh',
+                backgroundColor: vars.colors.background,
+                position: 'relative'
+            }}
+        >
             {/* Background gradient */}
             <Box
                 style={{
@@ -313,14 +369,28 @@ export function QueuePage(): React.ReactElement {
                 <Text size="sm" color="secondary">
                     {albumName}
                 </Text>
-                <IconButton onClick={onInfoClick} variant="plain" color={showTechnicalInfo ? 'primary' : 'neutral'}>
+                <IconButton
+                    onClick={onInfoClick}
+                    variant="plain"
+                    color={showTechnicalInfo ? 'primary' : 'neutral'}
+                >
                     <InfoCircledIcon />
                 </IconButton>
             </Flex>
 
             {/* Tabs */}
-            <Tabs value={String(activeTab)} onValueChange={onTabsChange} style={{ position: 'relative', zIndex: 1 }}>
-                <TabList style={{ justifyContent: 'center', gap: vars.spacing['5'], backgroundColor: 'transparent' }}>
+            <Tabs
+                value={String(activeTab)}
+                onValueChange={onTabsChange}
+                style={{ position: 'relative', zIndex: 1 }}
+            >
+                <TabList
+                    style={{
+                        justifyContent: 'center',
+                        gap: vars.spacing['5'],
+                        backgroundColor: 'transparent'
+                    }}
+                >
                     <Tab value="0">
                         <DiscIcon style={{ marginRight: vars.spacing['2'] }} />
                         Now Playing
@@ -354,7 +424,11 @@ export function QueuePage(): React.ReactElement {
                                     }}
                                 >
                                     {imageUrl !== undefined ? (
-                                        <img src={imageUrl} alt={trackName} style={{ objectFit: 'cover' }} />
+                                        <img
+                                            src={imageUrl}
+                                            alt={trackName}
+                                            style={{ objectFit: 'cover' }}
+                                        />
                                     ) : (
                                         <Box
                                             style={{
@@ -364,7 +438,13 @@ export function QueuePage(): React.ReactElement {
                                                 backgroundColor: vars.colors.surfaceHover
                                             }}
                                         >
-                                            <DiscIcon style={{ width: 80, height: 80, color: vars.colors.textMuted }} />
+                                            <DiscIcon
+                                                style={{
+                                                    width: 80,
+                                                    height: 80,
+                                                    color: vars.colors.textMuted
+                                                }}
+                                            />
                                         </Box>
                                     )}
                                 </Box>
@@ -377,8 +457,16 @@ export function QueuePage(): React.ReactElement {
                             gap={vars.spacing['6']}
                             style={{ flex: '1 1 auto', maxWidth: 500, width: '100%' }}
                         >
-                            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                                <Text as="h2" size="xl" weight="bold" style={{ color: vars.colors.text }}>
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                            >
+                                <Text
+                                    as="h2"
+                                    size="xl"
+                                    weight="bold"
+                                    style={{ color: vars.colors.text }}
+                                >
                                     {trackName}
                                 </Text>
                                 <Text size="lg" color="secondary">
@@ -398,7 +486,11 @@ export function QueuePage(): React.ReactElement {
                                     onValueChange={handleSeekChange}
                                     onValueCommit={handleSeekEnd}
                                 />
-                                <Flex direction="row" justify="space-between" style={{ marginTop: vars.spacing['2'] }}>
+                                <Flex
+                                    direction="row"
+                                    justify="space-between"
+                                    style={{ marginTop: vars.spacing['2'] }}
+                                >
                                     <Text size="xs" color="muted">
                                         {currentTimeFormatted}
                                     </Text>
@@ -409,8 +501,18 @@ export function QueuePage(): React.ReactElement {
                             </Box>
 
                             {/* Playback Buttons */}
-                            <Flex direction="row" gap={vars.spacing['5']} justify="center" align="center">
-                                <IconButton onClick={handlePrevious} variant="plain" size="lg" color="neutral">
+                            <Flex
+                                direction="row"
+                                gap={vars.spacing['5']}
+                                justify="center"
+                                align="center"
+                            >
+                                <IconButton
+                                    onClick={handlePrevious}
+                                    variant="plain"
+                                    size="lg"
+                                    color="neutral"
+                                >
                                     <TrackPreviousIcon style={{ width: 40, height: 40 }} />
                                 </IconButton>
                                 <IconButton
@@ -425,7 +527,12 @@ export function QueuePage(): React.ReactElement {
                                         <PlayIcon style={{ width: 40, height: 40 }} />
                                     )}
                                 </IconButton>
-                                <IconButton onClick={next} variant="plain" size="lg" color="neutral">
+                                <IconButton
+                                    onClick={next}
+                                    variant="plain"
+                                    size="lg"
+                                    color="neutral"
+                                >
                                     <TrackNextIcon style={{ width: 40, height: 40 }} />
                                 </IconButton>
                             </Flex>
@@ -442,10 +549,18 @@ export function QueuePage(): React.ReactElement {
                                             backdropFilter: 'blur(10px)'
                                         }}
                                     >
-                                        <Chip size="sm" variant="soft" style={{ marginBottom: vars.spacing['2'] }}>
+                                        <Chip
+                                            size="sm"
+                                            variant="soft"
+                                            style={{ marginBottom: vars.spacing['2'] }}
+                                        >
                                             NEXT UP
                                         </Chip>
-                                        <Flex direction="row" gap={vars.spacing['5']} align="center">
+                                        <Flex
+                                            direction="row"
+                                            gap={vars.spacing['5']}
+                                            align="center"
+                                        >
                                             <Box
                                                 style={{
                                                     width: 48,
@@ -463,7 +578,8 @@ export function QueuePage(): React.ReactElement {
                                                 ) : (
                                                     <Box
                                                         style={{
-                                                            backgroundColor: vars.colors.surfaceHover,
+                                                            backgroundColor:
+                                                                vars.colors.surfaceHover,
                                                             display: 'flex',
                                                             alignItems: 'center',
                                                             justifyContent: 'center'
@@ -516,10 +632,12 @@ export function QueuePage(): React.ReactElement {
                 <TabPanel value="1" style={{ padding: 0 }}>
                     <Box style={{ padding: vars.spacing['6'], paddingBottom: vars.spacing['5'] }}>
                         <Text size="xl" weight="bold">
-                            {(globalize.translate('HeaderPlaybackQueue') as string) ?? 'Playback Queue'}
+                            {(globalize.translate('HeaderPlaybackQueue') as string) ??
+                                'Playback Queue'}
                         </Text>
                         <Text size="sm" color="muted" style={{ marginTop: vars.spacing['2'] }}>
-                            {queueData.length} {(globalize.translate('Items') as string).toLowerCase()}
+                            {queueData.length}{' '}
+                            {(globalize.translate('Items') as string).toLowerCase()}
                         </Text>
                     </Box>
                     <QueueTable

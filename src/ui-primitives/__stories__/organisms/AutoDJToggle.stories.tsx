@@ -5,13 +5,13 @@ const meta: Meta<typeof AutoDJToggle> = {
     title: 'Organisms/Playback/AutoDJToggle',
     component: AutoDJToggle,
     parameters: {
-        layout: 'centered',
-    },
+        layout: 'centered'
+    }
 };
 
 export default meta;
 type Story = StoryObj<typeof AutoDJToggle>;
 
 export const Default: Story = {
-    args: {},
+    args: {}
 };

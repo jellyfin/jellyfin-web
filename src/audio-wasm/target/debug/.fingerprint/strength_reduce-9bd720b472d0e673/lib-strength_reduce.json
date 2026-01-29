@@ -1,20 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[]",
-  "declared_features": "[]",
-  "target": 18201108893212764469,
-  "profile": 8276155916380437441,
-  "path": 7290196691878975439,
-  "deps": [],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "debug/.fingerprint/strength_reduce-9bd720b472d0e673/dep-lib-strength_reduce",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[]",
+    "declared_features": "[]",
+    "target": 18201108893212764469,
+    "profile": 8276155916380437441,
+    "path": 7290196691878975439,
+    "deps": [],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/strength_reduce-9bd720b472d0e673/dep-lib-strength_reduce",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

@@ -3,16 +3,16 @@
  * @module components/syncPlay/core/Manager
  */
 
-import * as Helper from './Helper';
-import TimeSyncCore from './timeSync/TimeSyncCore';
-import PlaybackCore from './PlaybackCore';
-import QueueCore from './QueueCore';
-import Controller from './Controller';
 import toast from '../../../components/toast/toast';
 import globalize from '../../../lib/globalize';
+import { SyncPlayState, useSyncPlayStore } from '../../../store/syncPlayStore';
 import Events from '../../../utils/events';
 import { logger } from '../../../utils/logger';
-import { useSyncPlayStore, SyncPlayState } from '../../../store/syncPlayStore';
+import Controller from './Controller';
+import * as Helper from './Helper';
+import PlaybackCore from './PlaybackCore';
+import QueueCore from './QueueCore';
+import TimeSyncCore from './timeSync/TimeSyncCore';
 
 /**
  * Class that manages the SyncPlay feature.
@@ -61,11 +61,15 @@ class Manager {
         this.queueCore.init(this);
         this.controller.init(this);
 
-        Events.on(this.timeSyncCore, 'time-sync-server-update', (_event: any, _timeOffset: number, ping: number) => {
-            if (this.isSyncPlayEnabled()) {
-                this.getApiClient().sendSyncPlayPing({ Ping: ping });
+        Events.on(
+            this.timeSyncCore,
+            'time-sync-server-update',
+            (_event: any, _timeOffset: number, ping: number) => {
+                if (this.isSyncPlayEnabled()) {
+                    this.getApiClient().sendSyncPlayPing({ Ping: ping });
+                }
             }
-        });
+        );
     }
 
     updateApiClient(apiClient: any) {
@@ -194,7 +198,8 @@ class Manager {
 
         if (!this.isSyncPlayEnabled()) return;
 
-        if (this.syncPlayEnabledAt && cmd.EmittedAt.getTime() < this.syncPlayEnabledAt.getTime()) return;
+        if (this.syncPlayEnabledAt && cmd.EmittedAt.getTime() < this.syncPlayEnabledAt.getTime())
+            return;
 
         if (!this.syncPlayReady) {
             this.queuedCommand = cmd;

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Flex } from 'ui-primitives';
-import { FormHelperText, FormLabel, Switch as UIPrimitiveSwitch } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Flex, FormHelperText, FormLabel, Switch as UIPrimitiveSwitch } from 'ui-primitives';
 
 export interface SwitchProps {
     label?: string;
@@ -15,11 +14,19 @@ export interface SwitchProps {
 export const Switch = (props: SwitchProps) => {
     const { label, helperText, error, ...rest } = props;
     return (
-        <Flex style={{ justifyContent: 'space-between', alignItems: 'center', gap: vars.spacing['4'] }}>
+        <Flex
+            style={{
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: vars.spacing['4']
+            }}
+        >
             <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
                 {label && <FormLabel>{label}</FormLabel>}
                 {helperText && <FormHelperText>{helperText}</FormHelperText>}
-                {error && <FormHelperText style={{ color: vars.colors.error }}>{error}</FormHelperText>}
+                {error && (
+                    <FormHelperText style={{ color: vars.colors.error }}>{error}</FormHelperText>
+                )}
             </Flex>
             <UIPrimitiveSwitch {...rest} />
         </Flex>

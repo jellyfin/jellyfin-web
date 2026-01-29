@@ -41,7 +41,8 @@ export class VinylScratchSynth {
             const noiseIndex = Math.floor(grainIndex) % this.noiseBuffer.length;
             const noiseSample = this.noiseBuffer[noiseIndex];
 
-            input[i] = input[i] * (1 - noiseAmount) * direction + noiseSample * noiseAmount * vinylTexture;
+            input[i] =
+                input[i] * (1 - noiseAmount) * direction + noiseSample * noiseAmount * vinylTexture;
         }
 
         return input;
@@ -63,7 +64,11 @@ export class VinylScratchSynth {
         }
     }
 
-    private getNoiseAmount(pressure: number, velocity: number, material: 'vinyl' | 'cd' | 'digital'): number {
+    private getNoiseAmount(
+        pressure: number,
+        velocity: number,
+        material: 'vinyl' | 'cd' | 'digital'
+    ): number {
         const baseNoise = 0.2;
         const pressureFactor = pressure * 0.4;
         const velocityFactor = (1 - velocity) * 0.2;

@@ -1,5 +1,5 @@
-import { motion } from 'motion/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { motion } from 'motion/react';
 import { type ReactElement, type ReactNode, useCallback } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
@@ -20,7 +20,12 @@ const variantColors: Record<ChipVariant, string> = {
     error: '#ef4444'
 };
 
-function Chip({ children, variant = 'default', onDelete, icon }: Readonly<ChipProps>): ReactElement {
+function Chip({
+    children,
+    variant = 'default',
+    onDelete,
+    icon
+}: Readonly<ChipProps>): ReactElement {
     return (
         <motion.span
             initial={{ scale: 0.9, opacity: 0 }}
@@ -32,14 +37,17 @@ function Chip({ children, variant = 'default', onDelete, icon }: Readonly<ChipPr
                 alignItems: 'center',
                 gap: vars.spacing['2'],
                 padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
-                backgroundColor: variant === 'default' ? vars.colors.surface : `${variantColors[variant]}33`,
+                backgroundColor:
+                    variant === 'default' ? vars.colors.surface : `${variantColors[variant]}33`,
                 border: `1px solid ${variantColors[variant]}`,
                 borderRadius: '9999px',
                 fontSize: vars.typography['3'].fontSize,
                 color: vars.colors.text
             }}
         >
-            {icon !== undefined && icon !== null && icon !== false && <span style={{ display: 'flex' }}>{icon}</span>}
+            {icon !== undefined && icon !== null && icon !== false && (
+                <span style={{ display: 'flex' }}>{icon}</span>
+            )}
             {children}
             {onDelete !== undefined && (
                 <button

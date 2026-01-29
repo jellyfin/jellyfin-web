@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Flex, Text, Button } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Flex, Text } from 'ui-primitives';
 
 interface EmptyStateProps {
     icon?: React.ReactNode;
@@ -24,9 +24,21 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ icon, title, description
                     textAlign: 'center'
                 }}
             >
-                <Flex style={{ flexDirection: 'column', alignItems: 'center', gap: vars.spacing['4'] }}>
+                <Flex
+                    style={{
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: vars.spacing['4']
+                    }}
+                >
                     {icon && (
-                        <Box style={{ fontSize: vars.typography.fontSizeDisplay, opacity: 0.3, marginBottom: vars.spacing['2'] }}>
+                        <Box
+                            style={{
+                                fontSize: vars.typography.fontSizeDisplay,
+                                opacity: 0.3,
+                                marginBottom: vars.spacing['2']
+                            }}
+                        >
                             {icon}
                         </Box>
                     )}

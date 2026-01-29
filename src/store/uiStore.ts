@@ -6,8 +6,7 @@
  */
 
 import { create } from 'zustand';
-import { subscribeWithSelector } from 'zustand/middleware';
-import { persist } from 'zustand/middleware';
+import { persist, subscribeWithSelector } from 'zustand/middleware';
 import { LayoutMode } from '../constants/layoutMode';
 import browser from '../scripts/browser';
 import { logger } from '../utils/logger';
@@ -64,32 +63,34 @@ export const useUiStore = create<UiState & UiActions>()(
                     height: typeof window !== 'undefined' ? window.innerHeight : 1080
                 },
                 orientation:
-                    typeof window !== 'undefined' && window.innerHeight > window.innerWidth ? 'portrait' : 'landscape',
+                    typeof window !== 'undefined' && window.innerHeight > window.innerWidth
+                        ? 'portrait'
+                        : 'landscape',
                 isDrawerOpen: false,
                 isSearchOpen: false,
                 isLoading: false,
 
-                setLayout: layout => {
+                setLayout: (layout) => {
                     const effective = getEffectiveLayout(layout);
                     set({ layout, effectiveLayout: effective });
                     updateHtmlClasses(effective);
                     logger.debug('Layout changed', { component: 'UiStore', layout, effective });
                 },
 
-                setViewport: viewport => {
+                setViewport: (viewport) => {
                     const orientation = viewport.height > viewport.width ? 'portrait' : 'landscape';
                     set({ viewport, orientation });
                 },
 
-                toggleDrawer: open => {
-                    set(state => ({ isDrawerOpen: open ?? !state.isDrawerOpen }));
+                toggleDrawer: (open) => {
+                    set((state) => ({ isDrawerOpen: open ?? !state.isDrawerOpen }));
                 },
 
-                toggleSearch: open => {
-                    set(state => ({ isSearchOpen: open ?? !state.isSearchOpen }));
+                toggleSearch: (open) => {
+                    set((state) => ({ isSearchOpen: open ?? !state.isSearchOpen }));
                 },
 
-                setIsLoading: isLoading => {
+                setIsLoading: (isLoading) => {
                     set({ isLoading });
                 },
 
@@ -104,9 +105,9 @@ export const useUiStore = create<UiState & UiActions>()(
             }),
             {
                 name: 'jellyfin-ui-store',
-                partialize: state => ({ layout: state.layout }),
-                onRehydrateStorage: state => {
-                    return rehydratedState => {
+                partialize: (state) => ({ layout: state.layout }),
+                onRehydrateStorage: (state) => {
+                    return (rehydratedState) => {
                         if (rehydratedState) {
                             rehydratedState.autoDetectLayout();
                         }

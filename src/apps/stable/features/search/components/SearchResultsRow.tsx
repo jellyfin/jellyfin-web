@@ -1,7 +1,6 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { type FC, useEffect, useRef } from 'react';
-
 import cardBuilder, { type CardOptions } from 'components/cardbuilder/cardBuilder';
+import React, { type FC, useEffect, useRef } from 'react';
 import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -33,7 +32,13 @@ const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, items = [], cardOp
         } as any);
     }, [cardOptions, items]);
 
-    return <div ref={element} className="verticalSection" dangerouslySetInnerHTML={createScroller({ title })} />;
+    return (
+        <div
+            ref={element}
+            className="verticalSection"
+            dangerouslySetInnerHTML={createScroller({ title })}
+        />
+    );
 };
 
 export default SearchResultsRow;

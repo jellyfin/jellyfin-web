@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
 import { ActivityLogIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
+import React, { useState } from 'react';
 import { usePreferencesStore } from 'store/preferencesStore';
-import { Card } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Switch } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, Flex, Slider, Switch, Text } from 'ui-primitives';
 
 export const VisualizerSettings: React.FC = () => {
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['basic']));
@@ -72,7 +68,7 @@ export const VisualizerSettings: React.FC = () => {
             <input
                 type="color"
                 value={value}
-                onChange={e => onChange(e.target.value)}
+                onChange={(e) => onChange(e.target.value)}
                 style={{
                     width: '40px',
                     height: '40px',
@@ -105,7 +101,14 @@ export const VisualizerSettings: React.FC = () => {
                         justifyContent: 'space-between'
                     }}
                 >
-                    <Text size="xs" style={{ fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    <Text
+                        size="xs"
+                        style={{
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em'
+                        }}
+                    >
                         {title}
                     </Text>
                     {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
@@ -133,7 +136,10 @@ export const VisualizerSettings: React.FC = () => {
                             Show music visualization during playback
                         </Text>
                     </Box>
-                    <Switch checked={enabled} onChange={e => setVisualizerEnabled(e.target.checked)} />
+                    <Switch
+                        checked={enabled}
+                        onChange={(e) => setVisualizerEnabled(e.target.checked)}
+                    />
                 </Flex>
 
                 {enabled && (
@@ -141,13 +147,19 @@ export const VisualizerSettings: React.FC = () => {
                         {/* Basic Settings */}
                         <SettingSection title="Basic Settings" section="basic" />
                         {expandedSections.has('basic') && (
-                            <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                            <Box
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: vars.spacing['4']
+                                }}
+                            >
                                 <Box>
                                     <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                         Visualizer Type
                                     </Text>
                                     <Flex style={{ gap: vars.spacing['2'], flexWrap: 'wrap' }}>
-                                        {visualizerTypes.map(t => (
+                                        {visualizerTypes.map((t) => (
                                             <Box
                                                 key={t.value}
                                                 onClick={() => setVisualizerType(t.value)}
@@ -155,8 +167,13 @@ export const VisualizerSettings: React.FC = () => {
                                                     padding: `${vars.spacing['2']} ${vars.spacing['4']}`,
                                                     borderRadius: vars.borderRadius.sm,
                                                     background:
-                                                        type === t.value ? vars.colors.primary : vars.colors.surfaceVariant,
-                                                    color: type === t.value ? 'white' : vars.colors.text,
+                                                        type === t.value
+                                                            ? vars.colors.primary
+                                                            : vars.colors.surfaceVariant,
+                                                    color:
+                                                        type === t.value
+                                                            ? 'white'
+                                                            : vars.colors.text,
                                                     cursor: 'pointer',
                                                     fontSize: vars.typography['1'].fontSize,
                                                     transition: 'all 0.2s ease'
@@ -174,7 +191,7 @@ export const VisualizerSettings: React.FC = () => {
                                     </Text>
                                     <Slider
                                         value={[currentOpacity * 100]}
-                                        onValueChange={v => setVisualizerOpacity(v[0] / 100)}
+                                        onValueChange={(v) => setVisualizerOpacity(v[0] / 100)}
                                         min={10}
                                         max={100}
                                         step={5}
@@ -187,7 +204,7 @@ export const VisualizerSettings: React.FC = () => {
                                     </Text>
                                     <Slider
                                         value={[sensitivity]}
-                                        onValueChange={v => setSensitivity(v[0])}
+                                        onValueChange={(v) => setSensitivity(v[0])}
                                         min={1}
                                         max={100}
                                         step={1}
@@ -200,7 +217,7 @@ export const VisualizerSettings: React.FC = () => {
                                     </Text>
                                     <Slider
                                         value={[smoothing * 100]}
-                                        onValueChange={v => setSmoothing(v[0] / 100)}
+                                        onValueChange={(v) => setSmoothing(v[0] / 100)}
                                         min={0}
                                         max={100}
                                         step={1}
@@ -212,16 +229,26 @@ export const VisualizerSettings: React.FC = () => {
                         {/* Advanced Settings */}
                         <SettingSection title="Advanced Audio" section="advanced" />
                         {expandedSections.has('advanced') && (
-                            <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                            <Box
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: vars.spacing['4']
+                                }}
+                            >
                                 <Box>
                                     <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                         FFT Size (Detail): {advanced.fftSize}
                                     </Text>
-                                    <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing['3'] }}>
+                                    <Text
+                                        size="xs"
+                                        color="secondary"
+                                        style={{ marginBottom: vars.spacing['3'] }}
+                                    >
                                         Higher = more frequency detail, lower = better performance
                                     </Text>
                                     <Flex style={{ gap: vars.spacing['2'] }}>
-                                        {[1024, 2048, 4096, 8192].map(size => (
+                                        {[1024, 2048, 4096, 8192].map((size) => (
                                             <Box
                                                 key={size}
                                                 onClick={() => setFftSize(size)}
@@ -233,7 +260,10 @@ export const VisualizerSettings: React.FC = () => {
                                                         advanced.fftSize === size
                                                             ? vars.colors.primary
                                                             : vars.colors.surfaceVariant,
-                                                    color: advanced.fftSize === size ? 'white' : vars.colors.text,
+                                                    color:
+                                                        advanced.fftSize === size
+                                                            ? 'white'
+                                                            : vars.colors.text,
                                                     cursor: 'pointer',
                                                     fontSize: '11px',
                                                     textAlign: 'center',
@@ -253,14 +283,23 @@ export const VisualizerSettings: React.FC = () => {
                             <>
                                 <SettingSection title="Frequency Bars" section="frequency" />
                                 {expandedSections.has('frequency') && (
-                                    <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                                    <Box
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: vars.spacing['4']
+                                        }}
+                                    >
                                         <Box>
-                                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
+                                            <Text
+                                                size="xs"
+                                                style={{ marginBottom: vars.spacing['2'] }}
+                                            >
                                                 Bar Count: {barCount}
                                             </Text>
                                             <Slider
                                                 value={[barCount]}
-                                                onValueChange={v => setBarCount(v[0])}
+                                                onValueChange={(v) => setBarCount(v[0])}
                                                 min={8}
                                                 max={256}
                                                 step={8}
@@ -268,48 +307,66 @@ export const VisualizerSettings: React.FC = () => {
                                         </Box>
 
                                         <Box>
-                                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
+                                            <Text
+                                                size="xs"
+                                                style={{ marginBottom: vars.spacing['2'] }}
+                                            >
                                                 Color Scheme
                                             </Text>
-                                            <Flex style={{ gap: vars.spacing['2'], flexWrap: 'wrap' }}>
-                                                {['spectrum', 'solid', 'gradient', 'albumArt'].map(scheme => (
-                                                    <Box
-                                                        key={scheme}
-                                                        onClick={() =>
-                                                            setVisualizerColorScheme(scheme as any)
-                                                        }
-                                                        style={{
-                                                            padding: `${vars.spacing['2']} ${vars.spacing['3']}`,
-                                                            borderRadius: vars.borderRadius.sm,
-                                                            background:
-                                                                frequencyAnalyzer.colorScheme === scheme
-                                                                    ? vars.colors.primary
-                                                                    : vars.colors.surfaceVariant,
-                                                            color:
-                                                                frequencyAnalyzer.colorScheme === scheme
-                                                                    ? 'white'
-                                                                    : vars.colors.text,
-                                                            cursor: 'pointer',
-                                                            fontSize: '11px',
-                                                            textTransform: 'capitalize',
-                                                            transition: 'all 0.2s ease'
-                                                        }}
-                                                    >
-                                                        {scheme}
-                                                    </Box>
-                                                ))}
+                                            <Flex
+                                                style={{ gap: vars.spacing['2'], flexWrap: 'wrap' }}
+                                            >
+                                                {['spectrum', 'solid', 'gradient', 'albumArt'].map(
+                                                    (scheme) => (
+                                                        <Box
+                                                            key={scheme}
+                                                            onClick={() =>
+                                                                setVisualizerColorScheme(
+                                                                    scheme as any
+                                                                )
+                                                            }
+                                                            style={{
+                                                                padding: `${vars.spacing['2']} ${vars.spacing['3']}`,
+                                                                borderRadius: vars.borderRadius.sm,
+                                                                background:
+                                                                    frequencyAnalyzer.colorScheme ===
+                                                                    scheme
+                                                                        ? vars.colors.primary
+                                                                        : vars.colors
+                                                                              .surfaceVariant,
+                                                                color:
+                                                                    frequencyAnalyzer.colorScheme ===
+                                                                    scheme
+                                                                        ? 'white'
+                                                                        : vars.colors.text,
+                                                                cursor: 'pointer',
+                                                                fontSize: '11px',
+                                                                textTransform: 'capitalize',
+                                                                transition: 'all 0.2s ease'
+                                                            }}
+                                                        >
+                                                            {scheme}
+                                                        </Box>
+                                                    )
+                                                )}
                                             </Flex>
                                         </Box>
 
                                         {frequencyAnalyzer.colorScheme === 'gradient' && (
-                                            <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['3'] }}>
+                                            <Box
+                                                style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    gap: vars.spacing['3']
+                                                }}
+                                            >
                                                 <Text size="xs" style={{ fontWeight: 'bold' }}>
                                                     Gradient Colors
                                                 </Text>
                                                 <ColorPickerPreset
                                                     label="Low"
                                                     value={frequencyAnalyzer.colors.gradient.low}
-                                                    onChange={low =>
+                                                    onChange={(low) =>
                                                         setVisualizerColorScheme('gradient', {
                                                             ...frequencyAnalyzer.colors.gradient,
                                                             low
@@ -319,7 +376,7 @@ export const VisualizerSettings: React.FC = () => {
                                                 <ColorPickerPreset
                                                     label="Mid"
                                                     value={frequencyAnalyzer.colors.gradient.mid}
-                                                    onChange={mid =>
+                                                    onChange={(mid) =>
                                                         setVisualizerColorScheme('gradient', {
                                                             ...frequencyAnalyzer.colors.gradient,
                                                             mid
@@ -329,7 +386,7 @@ export const VisualizerSettings: React.FC = () => {
                                                 <ColorPickerPreset
                                                     label="High"
                                                     value={frequencyAnalyzer.colors.gradient.high}
-                                                    onChange={high =>
+                                                    onChange={(high) =>
                                                         setVisualizerColorScheme('gradient', {
                                                             ...frequencyAnalyzer.colors.gradient,
                                                             high
@@ -343,8 +400,10 @@ export const VisualizerSettings: React.FC = () => {
                                             <ColorPickerPreset
                                                 label="Bar Color"
                                                 value={frequencyAnalyzer.colors.solid}
-                                                onChange={color =>
-                                                    setVisualizerColorScheme('solid', { solid: color })
+                                                onChange={(color) =>
+                                                    setVisualizerColorScheme('solid', {
+                                                        solid: color
+                                                    })
                                                 }
                                             />
                                         )}
@@ -358,50 +417,74 @@ export const VisualizerSettings: React.FC = () => {
                             <>
                                 <SettingSection title="Waveform" section="waveform" />
                                 {expandedSections.has('waveform') && (
-                                    <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                                    <Box
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: vars.spacing['4']
+                                        }}
+                                    >
                                         <Box>
-                                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
+                                            <Text
+                                                size="xs"
+                                                style={{ marginBottom: vars.spacing['2'] }}
+                                            >
                                                 Color Scheme
                                             </Text>
-                                            <Flex style={{ gap: vars.spacing['2'], flexWrap: 'wrap' }}>
-                                                {['albumArt', 'monochrome', 'stereo'].map(scheme => (
-                                                    <Box
-                                                        key={scheme}
-                                                        onClick={() =>
-                                                            setVisualizerColorScheme(scheme as any)
-                                                        }
-                                                        style={{
-                                                            padding: `${vars.spacing['2']} ${vars.spacing['3']}`,
-                                                            borderRadius: vars.borderRadius.sm,
-                                                            background:
-                                                                waveSurfer.colorScheme === scheme
-                                                                    ? vars.colors.primary
-                                                                    : vars.colors.surfaceVariant,
-                                                            color:
-                                                                waveSurfer.colorScheme === scheme
-                                                                    ? 'white'
-                                                                    : vars.colors.text,
-                                                            cursor: 'pointer',
-                                                            fontSize: '11px',
-                                                            textTransform: 'capitalize',
-                                                            transition: 'all 0.2s ease'
-                                                        }}
-                                                    >
-                                                        {scheme}
-                                                    </Box>
-                                                ))}
+                                            <Flex
+                                                style={{ gap: vars.spacing['2'], flexWrap: 'wrap' }}
+                                            >
+                                                {['albumArt', 'monochrome', 'stereo'].map(
+                                                    (scheme) => (
+                                                        <Box
+                                                            key={scheme}
+                                                            onClick={() =>
+                                                                setVisualizerColorScheme(
+                                                                    scheme as any
+                                                                )
+                                                            }
+                                                            style={{
+                                                                padding: `${vars.spacing['2']} ${vars.spacing['3']}`,
+                                                                borderRadius: vars.borderRadius.sm,
+                                                                background:
+                                                                    waveSurfer.colorScheme ===
+                                                                    scheme
+                                                                        ? vars.colors.primary
+                                                                        : vars.colors
+                                                                              .surfaceVariant,
+                                                                color:
+                                                                    waveSurfer.colorScheme ===
+                                                                    scheme
+                                                                        ? 'white'
+                                                                        : vars.colors.text,
+                                                                cursor: 'pointer',
+                                                                fontSize: '11px',
+                                                                textTransform: 'capitalize',
+                                                                transition: 'all 0.2s ease'
+                                                            }}
+                                                        >
+                                                            {scheme}
+                                                        </Box>
+                                                    )
+                                                )}
                                             </Flex>
                                         </Box>
 
                                         {waveSurfer.colorScheme === 'monochrome' && (
-                                            <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['3'] }}>
+                                            <Box
+                                                style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    gap: vars.spacing['3']
+                                                }}
+                                            >
                                                 <Text size="xs" style={{ fontWeight: 'bold' }}>
                                                     Monochrome Colors
                                                 </Text>
                                                 <ColorPickerPreset
                                                     label="Wave"
                                                     value={waveSurfer.colors.monochrome.wave}
-                                                    onChange={wave =>
+                                                    onChange={(wave) =>
                                                         setVisualizerColorScheme('monochrome', {
                                                             monochrome: {
                                                                 ...waveSurfer.colors.monochrome,
@@ -413,7 +496,7 @@ export const VisualizerSettings: React.FC = () => {
                                                 <ColorPickerPreset
                                                     label="Cursor"
                                                     value={waveSurfer.colors.monochrome.cursor}
-                                                    onChange={cursor =>
+                                                    onChange={(cursor) =>
                                                         setVisualizerColorScheme('monochrome', {
                                                             monochrome: {
                                                                 ...waveSurfer.colors.monochrome,
@@ -426,14 +509,20 @@ export const VisualizerSettings: React.FC = () => {
                                         )}
 
                                         {waveSurfer.colorScheme === 'stereo' && (
-                                            <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['3'] }}>
+                                            <Box
+                                                style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    gap: vars.spacing['3']
+                                                }}
+                                            >
                                                 <Text size="xs" style={{ fontWeight: 'bold' }}>
                                                     Stereo Colors
                                                 </Text>
                                                 <ColorPickerPreset
                                                     label="Left"
                                                     value={waveSurfer.colors.stereo.left}
-                                                    onChange={left =>
+                                                    onChange={(left) =>
                                                         setVisualizerColorScheme('stereo', {
                                                             stereo: {
                                                                 ...waveSurfer.colors.stereo,
@@ -445,7 +534,7 @@ export const VisualizerSettings: React.FC = () => {
                                                 <ColorPickerPreset
                                                     label="Right"
                                                     value={waveSurfer.colors.stereo.right}
-                                                    onChange={right =>
+                                                    onChange={(right) =>
                                                         setVisualizerColorScheme('stereo', {
                                                             stereo: {
                                                                 ...waveSurfer.colors.stereo,
@@ -457,7 +546,7 @@ export const VisualizerSettings: React.FC = () => {
                                                 <ColorPickerPreset
                                                     label="Cursor"
                                                     value={waveSurfer.colors.stereo.cursor}
-                                                    onChange={cursor =>
+                                                    onChange={(cursor) =>
                                                         setVisualizerColorScheme('stereo', {
                                                             stereo: {
                                                                 ...waveSurfer.colors.stereo,
@@ -478,14 +567,24 @@ export const VisualizerSettings: React.FC = () => {
                             <>
                                 <SettingSection title="Butterchurn" section="butterchurn" />
                                 {expandedSections.has('butterchurn') && (
-                                    <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                                    <Box
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: vars.spacing['4']
+                                        }}
+                                    >
                                         <Box>
-                                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
-                                                Preset Change Interval: {butterchurn.presetInterval}s
+                                            <Text
+                                                size="xs"
+                                                style={{ marginBottom: vars.spacing['2'] }}
+                                            >
+                                                Preset Change Interval: {butterchurn.presetInterval}
+                                                s
                                             </Text>
                                             <Slider
                                                 value={[butterchurn.presetInterval]}
-                                                onValueChange={v => {
+                                                onValueChange={(v) => {
                                                     // You'll need to add this setter to preferencesStore
                                                 }}
                                                 min={10}
@@ -495,12 +594,16 @@ export const VisualizerSettings: React.FC = () => {
                                         </Box>
 
                                         <Box>
-                                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
-                                                Transition Speed: {butterchurn.transitionSpeed.toFixed(1)}
+                                            <Text
+                                                size="xs"
+                                                style={{ marginBottom: vars.spacing['2'] }}
+                                            >
+                                                Transition Speed:{' '}
+                                                {butterchurn.transitionSpeed.toFixed(1)}
                                             </Text>
                                             <Slider
                                                 value={[butterchurn.transitionSpeed]}
-                                                onValueChange={v => {
+                                                onValueChange={(v) => {
                                                     // You'll need to add this setter to preferencesStore
                                                 }}
                                                 min={1}
@@ -510,7 +613,10 @@ export const VisualizerSettings: React.FC = () => {
                                         </Box>
 
                                         <Box>
-                                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
+                                            <Text
+                                                size="xs"
+                                                style={{ marginBottom: vars.spacing['2'] }}
+                                            >
                                                 Current Preset
                                             </Text>
                                             <Text
@@ -536,19 +642,32 @@ export const VisualizerSettings: React.FC = () => {
                             <>
                                 <SettingSection title="3D Geometric" section="threed" />
                                 {expandedSections.has('threed') && (
-                                    <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                                    <Box
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: vars.spacing['4']
+                                        }}
+                                    >
                                         <Box>
-                                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
+                                            <Text
+                                                size="xs"
+                                                style={{ marginBottom: vars.spacing['2'] }}
+                                            >
                                                 Visualization Info
                                             </Text>
                                             <Text size="xs" color="secondary">
-                                                Audio-reactive 3D wireframe sphere with bass-synchronized scaling and
-                                                hue rotation. Perfect for immersive music visualization.
+                                                Audio-reactive 3D wireframe sphere with
+                                                bass-synchronized scaling and hue rotation. Perfect
+                                                for immersive music visualization.
                                             </Text>
                                         </Box>
 
                                         <Box>
-                                            <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
+                                            <Text
+                                                size="xs"
+                                                style={{ marginBottom: vars.spacing['2'] }}
+                                            >
                                                 Features
                                             </Text>
                                             <Box as="ul" style={{ paddingLeft: vars.spacing['5'] }}>
@@ -559,7 +678,11 @@ export const VisualizerSettings: React.FC = () => {
                                                     'Starfield background with 5000+ stars',
                                                     'Orbit controls with auto-rotation'
                                                 ].map((feature, idx) => (
-                                                    <Box key={idx} as="li" style={{ marginBottom: vars.spacing['2'] }}>
+                                                    <Box
+                                                        key={idx}
+                                                        as="li"
+                                                        style={{ marginBottom: vars.spacing['2'] }}
+                                                    >
                                                         <Text as="span" size="xs" color="secondary">
                                                             {feature}
                                                         </Text>

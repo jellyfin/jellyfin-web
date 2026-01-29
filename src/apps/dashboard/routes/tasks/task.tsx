@@ -1,24 +1,18 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import Page from 'components/Page';
-import { useParams } from '@tanstack/react-router';
-import { MinusCircledIcon, PlusIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import Loading from 'components/loading/LoadingComponent';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
-import type { ColumnDef } from '@tanstack/react-table';
-import type { CellContext } from '@tanstack/react-table';
-import { vars } from 'styles/tokens.css.ts';
-import globalize from '../../../../lib/globalize';
+import { MinusCircledIcon, PlusIcon } from '@radix-ui/react-icons';
+import { useParams } from '@tanstack/react-router';
+import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import { useTask } from 'apps/dashboard/features/tasks/api/useTask';
 import { useUpdateTask } from 'apps/dashboard/features/tasks/api/useUpdateTask';
-import ConfirmDialog from 'components/ConfirmDialog';
-import TaskTriggerCell from 'apps/dashboard/features/tasks/components/TaskTriggerCell';
 import NewTriggerForm from 'apps/dashboard/features/tasks/components/NewTriggerForm';
-import { DataTable } from 'ui-primitives';
+import TaskTriggerCell from 'apps/dashboard/features/tasks/components/TaskTriggerCell';
+import ConfirmDialog from 'components/ConfirmDialog';
+import Loading from 'components/loading/LoadingComponent';
+import Page from 'components/Page';
+import React, { useCallback, useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, DataTable, Flex, Heading, IconButton, Text, Tooltip } from 'ui-primitives';
+import globalize from '../../../../lib/globalize';
 
 export const Component = (): React.ReactElement => {
     const { id: taskId } = useParams({ strict: false }) as { id?: string };
@@ -41,7 +35,9 @@ export const Component = (): React.ReactElement => {
     }, []);
 
     const onConfirmDelete = useCallback(() => {
-        const triggersRemaining = task?.Triggers?.filter(trigger => trigger != pendingDeleteTrigger);
+        const triggersRemaining = task?.Triggers?.filter(
+            (trigger) => trigger != pendingDeleteTrigger
+        );
 
         if (task?.Id && triggersRemaining) {
             updateTask.mutate({
@@ -79,7 +75,7 @@ export const Component = (): React.ReactElement => {
         () => [
             {
                 id: 'TriggerTime',
-                accessorFn: row => row,
+                accessorFn: (row) => row,
                 cell: (info: any) => <TaskTriggerCell {...info} />,
                 header: globalize.translate('LabelTime')
             }

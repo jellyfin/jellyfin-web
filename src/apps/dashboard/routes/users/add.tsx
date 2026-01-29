@@ -1,29 +1,28 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { BaseItemDto, CreateUserByName } from '@jellyfin/sdk/lib/generated-client';
+import { useNavigate } from '@tanstack/react-router';
+import Toast from 'apps/dashboard/components/Toast';
+import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
+import { useCreateUser } from 'apps/dashboard/features/users/api/useCreateUser';
+import { useLibraryMediaFolders } from 'apps/dashboard/features/users/api/useLibraryMediaFolders';
+import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import React, { useCallback, useEffect, useState } from 'react';
-
-import globalize from '../../../../lib/globalize';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Button,
+    Checkbox,
+    Divider,
+    Flex,
+    FormControl,
+    FormControlLabel,
+    Input,
+    Switch,
+    Text
+} from 'ui-primitives';
+import { logger } from 'utils/logger';
+import { z } from 'zod';
 import loading from '../../../../components/loading/loading';
 import Page from '../../../../components/Page';
-import Toast from 'apps/dashboard/components/Toast';
-
-import { useLibraryMediaFolders } from 'apps/dashboard/features/users/api/useLibraryMediaFolders';
-import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
-import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
-import { useCreateUser } from 'apps/dashboard/features/users/api/useCreateUser';
-import { useNavigate } from '@tanstack/react-router';
-import { logger } from 'utils/logger';
-
-import { Button } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { FormControl, FormControlLabel } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Switch } from 'ui-primitives';
-import { z } from 'zod';
+import globalize from '../../../../lib/globalize';
 
 interface ItemsArr {
     Name?: string | null;
@@ -72,7 +71,7 @@ const UserNew = (): React.ReactElement => {
     useEffect(() => {
         if (isMediaFoldersSuccess && mediaFolders?.Items) {
             setMediaFoldersItems(
-                mediaFolders.Items.map(item => ({
+                mediaFolders.Items.map((item) => ({
                     Id: item.Id,
                     Name: item.Name
                 }))
@@ -83,7 +82,7 @@ const UserNew = (): React.ReactElement => {
     useEffect(() => {
         if (isChannelsSuccess && channels?.Items) {
             setChannelsItems(
-                channels.Items.map(item => ({
+                channels.Items.map((item) => ({
                     Id: item.Id,
                     Name: item.Name
                 }))
@@ -141,7 +140,11 @@ const UserNew = (): React.ReactElement => {
 
             navigate({ to: `/dashboard/users/profile?userId=${user.Id}` });
         } catch (error) {
-            logger.error('[usernew] failed to create user', { component: 'UserNew' }, error as Error);
+            logger.error(
+                '[usernew] failed to create user',
+                { component: 'UserNew' },
+                error as Error
+            );
             setIsErrorToastOpen(true);
         } finally {
             setIsSubmitting(false);
@@ -154,26 +157,30 @@ const UserNew = (): React.ReactElement => {
     };
 
     const handleFolderToggle = (folderId: string) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             enabledFolders: prev.enabledFolders.includes(folderId)
-                ? prev.enabledFolders.filter(id => id !== folderId)
+                ? prev.enabledFolders.filter((id) => id !== folderId)
                 : [...prev.enabledFolders, folderId]
         }));
     };
 
     const handleChannelToggle = (channelId: string) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             enabledChannels: prev.enabledChannels.includes(channelId)
-                ? prev.enabledChannels.filter(id => id !== channelId)
+                ? prev.enabledChannels.filter((id) => id !== channelId)
                 : [...prev.enabledChannels, channelId]
         }));
     };
 
     return (
         <Page id="newUserPage" className="mainAnimatedPage type-interior">
-            <Toast open={isErrorToastOpen} onClose={handleToastClose} message={globalize.translate('ErrorDefault')} />
+            <Toast
+                open={isErrorToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('ErrorDefault')}
+            />
             <Flex className="content-primary" style={{ padding: vars.spacing['5'] }}>
                 <Flex className="verticalSection" style={{ marginBottom: vars.spacing['5'] }}>
                     <Text as="h1" size="xl" weight="bold">
@@ -187,13 +194,16 @@ const UserNew = (): React.ReactElement => {
                             label={globalize.translate('LabelName')}
                             value={formData.username}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                setFormData(prev => ({ ...prev, username: e.target.value }))
+                                setFormData((prev) => ({ ...prev, username: e.target.value }))
                             }
                             onBlur={() => {
                                 if (!formData.username.trim()) {
-                                    setErrors(prev => ({ ...prev, username: 'Username is required' }));
+                                    setErrors((prev) => ({
+                                        ...prev,
+                                        username: 'Username is required'
+                                    }));
                                 } else {
-                                    setErrors(prev => ({ ...prev, username: '' }));
+                                    setErrors((prev) => ({ ...prev, username: '' }));
                                 }
                             }}
                             helperText={errors.username}
@@ -206,7 +216,7 @@ const UserNew = (): React.ReactElement => {
                             label={globalize.translate('LabelPassword')}
                             value={formData.password}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                setFormData(prev => ({ ...prev, password: e.target.value }))
+                                setFormData((prev) => ({ ...prev, password: e.target.value }))
                             }
                             disabled={isSubmitting}
                         />
@@ -222,10 +232,12 @@ const UserNew = (): React.ReactElement => {
                                 <Switch
                                     checked={formData.enableAllFolders}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                        setFormData(prev => ({
+                                        setFormData((prev) => ({
                                             ...prev,
                                             enableAllFolders: e.target.checked,
-                                            enabledFolders: e.target.checked ? [] : prev.enabledFolders
+                                            enabledFolders: e.target.checked
+                                                ? []
+                                                : prev.enabledFolders
                                         }))
                                     }
                                 />
@@ -234,18 +246,28 @@ const UserNew = (): React.ReactElement => {
                         />
 
                         {!formData.enableAllFolders && (
-                            <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: vars.spacing['2'] }}>
+                            <Flex
+                                style={{
+                                    marginLeft: '16px',
+                                    flexDirection: 'column',
+                                    gap: vars.spacing['2']
+                                }}
+                            >
                                 <Text as="span" size="sm" color="secondary">
                                     {globalize.translate('HeaderLibraries')}
                                 </Text>
                                 <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
-                                    {mediaFoldersItems.map(Item => (
+                                    {mediaFoldersItems.map((Item) => (
                                         <FormControlLabel
                                             key={Item.Id}
                                             control={
                                                 <Checkbox
-                                                    checked={formData.enabledFolders.includes(Item.Id || '')}
-                                                    onChange={() => Item.Id && handleFolderToggle(Item.Id)}
+                                                    checked={formData.enabledFolders.includes(
+                                                        Item.Id || ''
+                                                    )}
+                                                    onChange={() =>
+                                                        Item.Id && handleFolderToggle(Item.Id)
+                                                    }
                                                 />
                                             }
                                             label={Item.Name}
@@ -266,10 +288,12 @@ const UserNew = (): React.ReactElement => {
                                 <Switch
                                     checked={formData.enableAllChannels}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                        setFormData(prev => ({
+                                        setFormData((prev) => ({
                                             ...prev,
                                             enableAllChannels: e.target.checked,
-                                            enabledChannels: e.target.checked ? [] : prev.enabledChannels
+                                            enabledChannels: e.target.checked
+                                                ? []
+                                                : prev.enabledChannels
                                         }))
                                     }
                                 />
@@ -278,18 +302,28 @@ const UserNew = (): React.ReactElement => {
                         />
 
                         {!formData.enableAllChannels && (
-                            <Flex style={{ marginLeft: '16px', flexDirection: 'column', gap: vars.spacing['2'] }}>
+                            <Flex
+                                style={{
+                                    marginLeft: '16px',
+                                    flexDirection: 'column',
+                                    gap: vars.spacing['2']
+                                }}
+                            >
                                 <Text as="span" size="sm" color="secondary">
                                     {globalize.translate('Channels')}
                                 </Text>
                                 <Flex style={{ flexDirection: 'column', gap: vars.spacing['2'] }}>
-                                    {channelsItems.map(Item => (
+                                    {channelsItems.map((Item) => (
                                         <FormControlLabel
                                             key={Item.Id}
                                             control={
                                                 <Checkbox
-                                                    checked={formData.enabledChannels.includes(Item.Id || '')}
-                                                    onChange={() => Item.Id && handleChannelToggle(Item.Id)}
+                                                    checked={formData.enabledChannels.includes(
+                                                        Item.Id || ''
+                                                    )}
+                                                    onChange={() =>
+                                                        Item.Id && handleChannelToggle(Item.Id)
+                                                    }
                                                 />
                                             }
                                             label={Item.Name}
@@ -301,9 +335,16 @@ const UserNew = (): React.ReactElement => {
 
                         <Flex style={{ marginTop: vars.spacing['4'], gap: vars.spacing['4'] }}>
                             <Button type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? globalize.translate('Loading') + '...' : globalize.translate('Save')}
+                                {isSubmitting
+                                    ? globalize.translate('Loading') + '...'
+                                    : globalize.translate('Save')}
                             </Button>
-                            <Button type="button" variant="outlined" onClick={handleCancel} disabled={isSubmitting}>
+                            <Button
+                                type="button"
+                                variant="outlined"
+                                onClick={handleCancel}
+                                disabled={isSubmitting}
+                            >
                                 {globalize.translate('ButtonCancel')}
                             </Button>
                         </Flex>

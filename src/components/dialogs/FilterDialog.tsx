@@ -4,18 +4,12 @@
  * Radix UI modal dialog for filtering media items with framer-motion animations.
  */
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { RadioGroup, RadioGroupItem } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useState } from 'react';
 import { useFilterStore } from 'store/filterStore';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Chip, Divider, Flex, RadioGroup, RadioGroupItem, Text } from 'ui-primitives';
 
 interface FilterDialogProps {
     open: boolean;
@@ -34,8 +28,17 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
     availableYears = [],
     availableStudios = []
 }) => {
-    const { genres, years, studios, genresMode, setGenres, setYears, setStudios, setGenresMode, clearFilters } =
-        useFilterStore();
+    const {
+        genres,
+        years,
+        studios,
+        genresMode,
+        setGenres,
+        setYears,
+        setStudios,
+        setGenresMode,
+        clearFilters
+    } = useFilterStore();
 
     const [localGenres, setLocalGenres] = useState(genres);
     const [localYears, setLocalYears] = useState(years);
@@ -59,15 +62,21 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
     };
 
     const toggleGenre = (genre: string) => {
-        setLocalGenres(prev => (prev.includes(genre) ? prev.filter(g => g !== genre) : [...prev, genre]));
+        setLocalGenres((prev) =>
+            prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre]
+        );
     };
 
     const toggleYear = (year: number) => {
-        setLocalYears(prev => (prev.includes(year) ? prev.filter(y => y !== year) : [...prev, year]));
+        setLocalYears((prev) =>
+            prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
+        );
     };
 
     const toggleStudio = (studio: string) => {
-        setLocalStudios(prev => (prev.includes(studio) ? prev.filter(s => s !== studio) : [...prev, studio]));
+        setLocalStudios((prev) =>
+            prev.includes(studio) ? prev.filter((s) => s !== studio) : [...prev, studio]
+        );
     };
 
     const overlayVariants = {
@@ -96,7 +105,7 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
     };
 
     return (
-        <DialogPrimitive.Root open={open} onOpenChange={isOpen => !isOpen && onClose()}>
+        <DialogPrimitive.Root open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
             <AnimatePresence>
                 {open && (
                     <DialogPrimitive.Portal>
@@ -136,7 +145,14 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     zIndex: 1001
                                 }}
                             >
-                                <Text size="xl" style={{ fontWeight: 600, marginBottom: vars.spacing['4'], color: vars.colors.text }}>
+                                <Text
+                                    size="xl"
+                                    style={{
+                                        fontWeight: 600,
+                                        marginBottom: vars.spacing['4'],
+                                        color: vars.colors.text
+                                    }}
+                                >
                                     Filter Options
                                 </Text>
                                 <DialogPrimitive.Close asChild>
@@ -159,36 +175,65 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                 </DialogPrimitive.Close>
 
                                 <Box style={{ paddingTop: vars.spacing['2'] }}>
-                                    <Text size="sm" style={{ fontWeight: 500, marginBottom: vars.spacing['2'], color: vars.colors.text }}>
+                                    <Text
+                                        size="sm"
+                                        style={{
+                                            fontWeight: 500,
+                                            marginBottom: vars.spacing['2'],
+                                            color: vars.colors.text
+                                        }}
+                                    >
                                         Genre Match
                                     </Text>
                                     <RadioGroup
                                         value={localGenresMode}
-                                        onValueChange={val => setLocalGenresMode(val as 'and' | 'or')}
+                                        onValueChange={(val) =>
+                                            setLocalGenresMode(val as 'and' | 'or')
+                                        }
                                     >
                                         <Flex style={{ gap: vars.spacing['4'] }}>
-                                            <RadioGroupItem value="and" id="genre-and" label="All (AND)" />
-                                            <RadioGroupItem value="or" id="genre-or" label="Any (OR)" />
+                                            <RadioGroupItem
+                                                value="and"
+                                                id="genre-and"
+                                                label="All (AND)"
+                                            />
+                                            <RadioGroupItem
+                                                value="or"
+                                                id="genre-or"
+                                                label="Any (OR)"
+                                            />
                                         </Flex>
                                     </RadioGroup>
                                 </Box>
 
-                                <Divider style={{ margin: `${vars.spacing['4']} 0`, borderColor: vars.colors.divider }} />
+                                <Divider
+                                    style={{
+                                        margin: `${vars.spacing['4']} 0`,
+                                        borderColor: vars.colors.divider
+                                    }}
+                                />
 
                                 {availableGenres.length > 0 && (
                                     <Box style={{ marginBottom: vars.spacing['4'] }}>
                                         <Text
                                             size="sm"
                                             color="secondary"
-                                            style={{ marginBottom: vars.spacing['2'], color: vars.colors.textSecondary }}
+                                            style={{
+                                                marginBottom: vars.spacing['2'],
+                                                color: vars.colors.textSecondary
+                                            }}
                                         >
                                             Genres
                                         </Text>
                                         <Flex style={{ flexWrap: 'wrap', gap: vars.spacing['1'] }}>
-                                            {availableGenres.slice(0, 10).map(genre => (
+                                            {availableGenres.slice(0, 10).map((genre) => (
                                                 <Chip
                                                     key={genre}
-                                                    variant={localGenres.includes(genre) ? 'primary' : 'neutral'}
+                                                    variant={
+                                                        localGenres.includes(genre)
+                                                            ? 'primary'
+                                                            : 'neutral'
+                                                    }
                                                     onClick={() => toggleGenre(genre)}
                                                     style={{ cursor: 'pointer' }}
                                                 >
@@ -204,15 +249,22 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                         <Text
                                             size="sm"
                                             color="secondary"
-                                            style={{ marginBottom: vars.spacing['2'], color: vars.colors.textSecondary }}
+                                            style={{
+                                                marginBottom: vars.spacing['2'],
+                                                color: vars.colors.textSecondary
+                                            }}
                                         >
                                             Years
                                         </Text>
                                         <Flex style={{ flexWrap: 'wrap', gap: vars.spacing['1'] }}>
-                                            {availableYears.slice(0, 10).map(year => (
+                                            {availableYears.slice(0, 10).map((year) => (
                                                 <Chip
                                                     key={year}
-                                                    variant={localYears.includes(year) ? 'primary' : 'neutral'}
+                                                    variant={
+                                                        localYears.includes(year)
+                                                            ? 'primary'
+                                                            : 'neutral'
+                                                    }
                                                     onClick={() => toggleYear(year)}
                                                     style={{ cursor: 'pointer' }}
                                                 >
@@ -228,15 +280,22 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                         <Text
                                             size="sm"
                                             color="secondary"
-                                            style={{ marginBottom: vars.spacing['2'], color: vars.colors.textSecondary }}
+                                            style={{
+                                                marginBottom: vars.spacing['2'],
+                                                color: vars.colors.textSecondary
+                                            }}
                                         >
                                             Studios
                                         </Text>
                                         <Flex style={{ flexWrap: 'wrap', gap: vars.spacing['1'] }}>
-                                            {availableStudios.slice(0, 10).map(studio => (
+                                            {availableStudios.slice(0, 10).map((studio) => (
                                                 <Chip
                                                     key={studio}
-                                                    variant={localStudios.includes(studio) ? 'primary' : 'neutral'}
+                                                    variant={
+                                                        localStudios.includes(studio)
+                                                            ? 'primary'
+                                                            : 'neutral'
+                                                    }
                                                     onClick={() => toggleStudio(studio)}
                                                     style={{ cursor: 'pointer' }}
                                                 >
@@ -247,9 +306,20 @@ export const FilterDialog: React.FC<FilterDialogProps> = ({
                                     </Box>
                                 )}
 
-                                <Divider style={{ margin: `${vars.spacing['4']} 0`, borderColor: vars.colors.divider }} />
+                                <Divider
+                                    style={{
+                                        margin: `${vars.spacing['4']} 0`,
+                                        borderColor: vars.colors.divider
+                                    }}
+                                />
 
-                                <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: vars.spacing['4'] }}>
+                                <Box
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        marginTop: vars.spacing['4']
+                                    }}
+                                >
                                     <Button variant="ghost" onClick={handleClear}>
                                         Clear All
                                     </Button>

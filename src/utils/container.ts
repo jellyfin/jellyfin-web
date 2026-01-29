@@ -5,7 +5,10 @@
  * @returns _true_ if the list includes any value from the search.
  * @remarks The list (string) can start with '-', in which case the logic is inverted.
  */
-export function includesAny(list: string | string[] | null | undefined, search: string | string[]): boolean {
+export function includesAny(
+    list: string | string[] | null | undefined,
+    search: string | string[]
+): boolean {
     if (!list) {
         return true;
     }
@@ -21,7 +24,7 @@ export function includesAny(list: string | string[] | null | undefined, search: 
         list = list.split(',');
     }
 
-    list = list.filter(i => i);
+    list = list.filter((i) => i);
 
     if (!list.length) {
         return true;
@@ -31,9 +34,9 @@ export function includesAny(list: string | string[] | null | undefined, search: 
         search = search.split(',');
     }
 
-    search = search.filter(i => i);
+    search = search.filter((i) => i);
 
-    if (search.some(s => list!.includes(s))) {
+    if (search.some((s) => list!.includes(s))) {
         return !inverseMatch;
     }
 

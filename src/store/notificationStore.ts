@@ -36,7 +36,7 @@ export interface NotificationActions {
 }
 
 export const useNotificationStore = create<NotificationState & NotificationActions>()(
-    subscribeWithSelector(set => ({
+    subscribeWithSelector((set) => ({
         lastUserDataUpdate: null,
         notifications: [],
 
@@ -52,7 +52,7 @@ export const useNotificationStore = create<NotificationState & NotificationActio
             set({ lastUserDataUpdate: update });
 
             // Still add to general notifications log
-            set(state => ({
+            set((state) => ({
                 notifications: [
                     {
                         type: 'UserDataChanged',
@@ -64,11 +64,14 @@ export const useNotificationStore = create<NotificationState & NotificationActio
                 ].slice(0, 50)
             }));
 
-            logger.debug('User data changed', { component: 'NotificationStore', itemId: update.itemId });
+            logger.debug('User data changed', {
+                component: 'NotificationStore',
+                itemId: update.itemId
+            });
         },
 
         addNotification: (serverId, type, data) => {
-            set(state => ({
+            set((state) => ({
                 notifications: [
                     {
                         type,

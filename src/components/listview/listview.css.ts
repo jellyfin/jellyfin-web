@@ -1,4 +1,4 @@
-import { style, globalStyle } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css.ts';
 
 export const listItem = style({
@@ -331,13 +331,16 @@ export const listItemBottomOverviewVisible = style({
 
 export const listItemHiddenMovieSeries = style({});
 
-globalStyle(`[data-type="Movie"] ${listItemHiddenMovieSeries}, [data-type="Series"] ${listItemHiddenMovieSeries}`, {
-    '@media': {
-        'all and (max-width: 40em)': {
-            display: 'none'
+globalStyle(
+    `[data-type="Movie"] ${listItemHiddenMovieSeries}, [data-type="Series"] ${listItemHiddenMovieSeries}`,
+    {
+        '@media': {
+            'all and (max-width: 40em)': {
+                display: 'none'
+            }
         }
     }
-});
+);
 
 export const listItemTextHiddenSmall = style({});
 

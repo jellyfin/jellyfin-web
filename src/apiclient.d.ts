@@ -70,7 +70,13 @@ declare module 'jellyfin-apiclient' {
     import type { ConnectionState } from 'lib/jellyfin-apiclient';
 
     class ApiClient {
-        constructor(serverAddress: string, appName: string, appVersion: string, deviceName: string, deviceId: string);
+        constructor(
+            serverAddress: string,
+            appName: string,
+            appVersion: string,
+            deviceName: string,
+            deviceId: string
+        );
 
         accessToken(): string;
         addMediaPath(
@@ -79,7 +85,12 @@ declare module 'jellyfin-apiclient' {
             networkSharePath: string,
             refreshLibrary?: boolean
         ): Promise<void>;
-        addVirtualFolder(name: string, type?: string, refreshLibrary?: boolean, libraryOptions?: any): Promise<void>;
+        addVirtualFolder(
+            name: string,
+            type?: string,
+            refreshLibrary?: boolean,
+            libraryOptions?: any
+        ): Promise<void>;
         ajax(request: any): Promise<any>;
         appName(): string;
         appVersion(): string;
@@ -128,7 +139,11 @@ declare module 'jellyfin-apiclient' {
         getDefaultImageQuality(imageType: ImageType): number;
         getDevicesOptions(): Promise<DeviceOptions>;
         getDirectoryContents(path: string, options?: any): Promise<FileSystemEntryInfo[]>;
-        getDisplayPreferences(id: string, userId: string, app: string): Promise<DisplayPreferencesDto>;
+        getDisplayPreferences(
+            id: string,
+            userId: string,
+            app: string
+        ): Promise<DisplayPreferencesDto>;
         getDownloadSpeed(byteSize: number): Promise<number>;
         getDrives(): Promise<FileSystemEntryInfo[]>;
         getEndpointInfo(): Promise<EndPointInfo>;
@@ -177,17 +192,28 @@ declare module 'jellyfin-apiclient' {
         getNotificationSummary(userId: string): Promise<NotificationsSummaryDto>;
         getNotifications(userId: string, options?: any): Promise<NotificationResultDto>;
         getPackageInfo(name: string, guid: string): Promise<PackageInfo>;
-        getPackageReviews(packageId: string, minRating?: string, maxRating?: string, limit?: string): Promise<any>;
+        getPackageReviews(
+            packageId: string,
+            minRating?: string,
+            maxRating?: string,
+            limit?: string
+        ): Promise<any>;
         getParentalRatings(): Promise<ParentalRating[]>;
         getParentPath(path: string): Promise<string>;
         getPeople(userId: string, options?: any): Promise<BaseItemDtoQueryResult>;
         getPerson(name: string, userId?: string): Promise<BaseItemDto>;
         getPhysicalPaths(): Promise<string[]>;
-        getPlaybackInfo(itemId: string, options: any, deviceProfile: any): Promise<PlaybackInfoResponse>;
+        getPlaybackInfo(
+            itemId: string,
+            options: any,
+            deviceProfile: any
+        ): Promise<PlaybackInfoResponse>;
         getPluginConfiguration(id: string): Promise<any>;
         getPublicSystemInfo(): Promise<PublicSystemInfo>;
         getPublicUsers(): Promise<UserDto[]>;
-        getQuickConnect(verb: string): Promise<void | boolean | number | QuickConnectResult | QuickConnectState>;
+        getQuickConnect(
+            verb: string
+        ): Promise<void | boolean | number | QuickConnectResult | QuickConnectState>;
         getReadySyncItems(deviceId: string): Promise<any>;
         getRecordingFolders(userId: string): Promise<BaseItemDtoQueryResult>;
         getRegistrationInfo(feature: string): Promise<any>;
@@ -210,7 +236,11 @@ declare module 'jellyfin-apiclient' {
         getSyncPlayGroups(): Promise<GroupInfoDto[]>;
         getSyncStatus(itemId: string): Promise<any>;
         getSystemInfo(): Promise<SystemInfo>;
-        getThemeMedia(userId?: string, itemId: string, inherit?: boolean): Promise<AllThemeMediaResult>;
+        getThemeMedia(
+            userId?: string,
+            itemId: string,
+            inherit?: boolean
+        ): Promise<AllThemeMediaResult>;
         getThumbImageUrl(item: BaseItemDto, options?: any): string;
         getUpcomingEpisodes(options?: any): Promise<BaseItemDtoQueryResult>;
         getUrl(name: string, params?: any, serverAddress?: string): string;
@@ -237,7 +267,11 @@ declare module 'jellyfin-apiclient' {
         openWebSocket(): void;
         quickConnect(secret: string): Promise<AuthenticationResult>;
         refreshItem(itemId: string, options?: any): Promise<void>;
-        removeMediaPath(virtualFolderName: string, mediaPath: string, refreshLibrary?: boolean): Promise<void>;
+        removeMediaPath(
+            virtualFolderName: string,
+            mediaPath: string,
+            refreshLibrary?: boolean
+        ): Promise<void>;
         removeVirtualFolder(name: string, refreshLibrary?: boolean): Promise<void>;
         renameVirtualFolder(name: string, newName: string, refreshLibrary?: boolean): Promise<void>;
         reportCapabilities(capabilities: ClientCapabilities): Promise<void>;
@@ -269,7 +303,11 @@ declare module 'jellyfin-apiclient' {
         sendMessageCommand(sessionId: string, options: GeneralCommand): Promise<void>;
         sendMessage(name: string, data: any): void;
         sendPlayCommand(sessionId: string, options: PlayCommand): Promise<void>;
-        sendPlayStateCommand(sessionId: string, command: PlaystateCommand, options?: any): Promise<void>;
+        sendPlayStateCommand(
+            sessionId: string,
+            command: PlaystateCommand,
+            options?: any
+        ): Promise<void>;
         sendSyncPlayPing(options?: PingRequestDto): Promise<void>;
         sendWebSocketMessage(name: string, data: any): void;
         serverAddress(val?: string): string;
@@ -285,10 +323,24 @@ declare module 'jellyfin-apiclient' {
         syncData(data: any): Promise<any>;
         uninstallPluginByVersion(id: string, version: string): Promise<void>;
         uninstallPlugin(id: string): Promise<void>;
-        updateDisplayPreferences(id: string, obj: DisplayPreferencesDto, userId: string, app: string): Promise<void>;
+        updateDisplayPreferences(
+            id: string,
+            obj: DisplayPreferencesDto,
+            userId: string,
+            app: string
+        ): Promise<void>;
         updateEasyPassword(userId: string, newPassword: string): Promise<void>;
-        updateFavoriteStatus(userId: string, itemId: string, isFavorite: boolean): Promise<UserItemDataDto>;
-        updateItemImageIndex(itemId: string, imageType: ImageType, imageIndex: number, newIndex: number): Promise<any>;
+        updateFavoriteStatus(
+            userId: string,
+            itemId: string,
+            isFavorite: boolean
+        ): Promise<UserItemDataDto>;
+        updateItemImageIndex(
+            itemId: string,
+            imageType: ImageType,
+            imageIndex: number,
+            newIndex: number
+        ): Promise<any>;
         updateItem(item: BaseItemDto): Promise<void>;
         updateLiveTvSeriesTimer(item: SeriesTimerInfoDto): Promise<void>;
         updateLiveTvTimer(item: TimerInfoDto): Promise<void>;
@@ -300,13 +352,26 @@ declare module 'jellyfin-apiclient' {
         updateServerConfiguration(configuration: ServerConfiguration): Promise<void>;
         updateServerInfo(server: any, serverUrl: string): void;
         updateUserConfiguration(userId: string, configuration: UserConfiguration): Promise<void>;
-        updateUserItemRating(userId: string, itemId: string, likes: boolean): Promise<UserItemDataDto>;
-        updateUserPassword(userId: string, currentPassword: string, newPassword: string): Promise<void>;
+        updateUserItemRating(
+            userId: string,
+            itemId: string,
+            likes: boolean
+        ): Promise<UserItemDataDto>;
+        updateUserPassword(
+            userId: string,
+            currentPassword: string,
+            newPassword: string
+        ): Promise<void>;
         updateUserPolicy(userId: string, policy: UserPolicy): Promise<void>;
         updateUser(user: UserDto): Promise<void>;
         updateVirtualFolderOptions(id: string, libraryOptions?: any): Promise<void>;
         uploadItemImage(itemId: string, imageType: ImageType, file: File): Promise<void>;
-        uploadItemSubtitle(itemId: string, language: string, isForced: boolean, file: File): Promise<void>;
+        uploadItemSubtitle(
+            itemId: string,
+            language: string,
+            isForced: boolean,
+            file: File
+        ): Promise<void>;
         uploadUserImage(userId: string, imageType: ImageType, file: File): Promise<void>;
     }
 

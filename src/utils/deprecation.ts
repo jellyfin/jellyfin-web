@@ -11,7 +11,11 @@ export function deprecate(componentName: string, replacement: string, filePath?:
     });
 }
 
-export function getDeprecationMessage(componentName: string, replacement: string, filePath?: string): string {
+export function getDeprecationMessage(
+    componentName: string,
+    replacement: string,
+    filePath?: string
+): string {
     const location = filePath ? ` in ${filePath}` : '';
     return `[DEPRECATION] ${componentName} is deprecated${location}. Please use ${replacement} instead. The emby-* components will be removed in a future version.`;
 }

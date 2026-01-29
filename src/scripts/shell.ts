@@ -56,7 +56,7 @@ const shell = {
             return true;
         }
         if (window.NativeShell?.downloadFile) {
-            items.forEach(item => {
+            items.forEach((item) => {
                 window.NativeShell?.downloadFile?.(item);
             });
             return true;

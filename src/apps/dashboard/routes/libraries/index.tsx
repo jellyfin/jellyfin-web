@@ -1,19 +1,17 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useCallback, useMemo } from 'react';
-import Page from 'components/Page';
-import globalize from 'lib/globalize';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
+import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
 import { useVirtualFolders } from 'apps/dashboard/features/libraries/api/useVirtualFolders';
-import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
+import LibraryCard from 'apps/dashboard/features/libraries/components/LibraryCard';
+import getCollectionTypeOptions from 'apps/dashboard/features/libraries/utils/collectionTypeOptions';
 import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
-import LibraryCard from 'apps/dashboard/features/libraries/components/LibraryCard';
+import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
 import Loading from 'components/loading/LoadingComponent';
 import MediaLibraryCreator from 'components/mediaLibraryCreator/mediaLibraryCreator';
-import getCollectionTypeOptions from 'apps/dashboard/features/libraries/utils/collectionTypeOptions';
+import Page from 'components/Page';
+import globalize from 'lib/globalize';
+import React, { useCallback, useMemo } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Button, Flex } from 'ui-primitives';
 import { queryClient } from 'utils/query/queryClient';
 
 const RefreshIcon = (): React.ReactElement => (
@@ -33,7 +31,10 @@ export const Component = (): React.ReactElement => {
     const startTask = useStartTask();
     const { data: tasks, isPending: isLiveTasksPending } = useLiveTasks({ isHidden: false });
 
-    const librariesTask = useMemo(() => tasks?.find(value => value.Key === 'RefreshLibrary'), [tasks]);
+    const librariesTask = useMemo(
+        () => tasks?.find((value) => value.Key === 'RefreshLibrary'),
+        [tasks]
+    );
 
     const showMediaLibraryCreator = useCallback(() => {
         const mediaLibraryCreator = new MediaLibraryCreator({
@@ -66,15 +67,24 @@ export const Component = (): React.ReactElement => {
             title={globalize.translate('HeaderLibraries')}
             className="mainAnimatedPage type-interior"
         >
-            <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px', marginTop: vars.spacing['4'] }}>
+            <Flex
+                className="content-primary"
+                style={{ flexDirection: 'column', gap: '24px', marginTop: vars.spacing['4'] }}
+            >
                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                     <Button startDecorator={<AddIcon />} onClick={showMediaLibraryCreator}>
                         {globalize.translate('ButtonAddMediaLibrary')}
                     </Button>
-                    <Button onClick={onScanLibraries} startDecorator={<RefreshIcon />} variant="outlined">
+                    <Button
+                        onClick={onScanLibraries}
+                        startDecorator={<RefreshIcon />}
+                        variant="outlined"
+                    >
                         {globalize.translate('ButtonScanAllLibraries')}
                     </Button>
-                    {librariesTask?.State == TaskState.Running && <TaskProgress task={librariesTask} />}
+                    {librariesTask?.State == TaskState.Running && (
+                        <TaskProgress task={librariesTask} />
+                    )}
                 </Flex>
 
                 <div
@@ -84,7 +94,7 @@ export const Component = (): React.ReactElement => {
                         gap: vars.spacing['4']
                     }}
                 >
-                    {virtualFolders?.map(virtualFolder => (
+                    {virtualFolders?.map((virtualFolder) => (
                         <LibraryCard key={virtualFolder?.ItemId} virtualFolder={virtualFolder} />
                     ))}
                 </div>

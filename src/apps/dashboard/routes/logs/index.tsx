@@ -1,21 +1,15 @@
-import React, { type ChangeEvent, useCallback, useEffect, useState } from 'react';
+import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
+import LogItemList from 'apps/dashboard/features/logs/components/LogItemList';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
+import { useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { Alert } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControlLabel } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { useServerLogs } from 'apps/dashboard/features/logs/api/useServerLogs';
-import { useConfiguration } from 'hooks/useConfiguration';
-import type { ServerConfiguration } from '@jellyfin/sdk/lib/generated-client/models/server-configuration';
+import React, { type ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { type ActionData } from 'types/actionData';
-import LogItemList from 'apps/dashboard/features/logs/components/LogItemList';
+import { Alert, Button, Checkbox, Flex, FormControlLabel, Input, Text } from 'ui-primitives';
 
 export const Component = (): React.ReactElement => {
     const [actionData, setActionData] = useState<ActionData | undefined>();
@@ -88,7 +82,11 @@ export const Component = (): React.ReactElement => {
     }
 
     return (
-        <Page id="logPage" title={globalize.translate('TabLogs')} className="mainAnimatedPage type-interior">
+        <Page
+            id="logPage"
+            title={globalize.translate('TabLogs')}
+            className="mainAnimatedPage type-interior"
+        >
             <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 <form onSubmit={handleSubmit}>
                     <Flex style={{ flexDirection: 'column', gap: '24px' }}>

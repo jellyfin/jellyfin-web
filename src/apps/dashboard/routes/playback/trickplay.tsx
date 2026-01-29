@@ -1,22 +1,30 @@
-import React, { useCallback, useState } from 'react';
+import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
+import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
+import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import Loading from 'components/loading/LoadingComponent';
+import Page from 'components/Page';
+import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import Page from 'components/Page';
-import Loading from 'components/loading/LoadingComponent';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
-import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
+import React, { useCallback, useState } from 'react';
 import { type ActionData } from 'types/actionData';
+import {
+    Alert,
+    Button,
+    Checkbox,
+    Flex,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 import { queryClient } from 'utils/query/queryClient';
-import { Alert } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
 
 export const Component = (): React.ReactElement => {
     const { data: defaultConfig, isPending } = useConfiguration();
@@ -46,7 +54,10 @@ export const Component = (): React.ReactElement => {
             options.ScanBehavior = data.ScanBehavior.toString() as TrickplayScanBehavior;
             options.ProcessPriority = data.ProcessPriority.toString() as ProcessPriorityClass;
             options.Interval = parseInt(data.ImageInterval.toString() || '10000', 10);
-            options.WidthResolutions = data.WidthResolutions.toString().replace(' ', '').split(',').map(Number);
+            options.WidthResolutions = data.WidthResolutions.toString()
+                .replace(' ', '')
+                .split(',')
+                .map(Number);
             options.TileWidth = parseInt(data.TileWidth.toString() || '10', 10);
             options.TileHeight = parseInt(data.TileHeight.toString() || '10', 10);
             options.Qscale = parseInt(data.Qscale.toString() || '4', 10);
@@ -93,7 +104,9 @@ export const Component = (): React.ReactElement => {
                                 control={
                                     <Checkbox
                                         name="HwAcceleration"
-                                        defaultChecked={defaultConfig.TrickplayOptions?.EnableHwAcceleration}
+                                        defaultChecked={
+                                            defaultConfig.TrickplayOptions?.EnableHwAcceleration
+                                        }
                                     />
                                 }
                                 label={globalize.translate('LabelTrickplayAccel')}
@@ -105,12 +118,16 @@ export const Component = (): React.ReactElement => {
                                 control={
                                     <Checkbox
                                         name="HwEncoding"
-                                        defaultChecked={defaultConfig.TrickplayOptions?.EnableHwEncoding}
+                                        defaultChecked={
+                                            defaultConfig.TrickplayOptions?.EnableHwEncoding
+                                        }
                                     />
                                 }
                                 label={globalize.translate('LabelTrickplayAccelEncoding')}
                             />
-                            <FormHelperText>{globalize.translate('LabelTrickplayAccelEncodingHelp')}</FormHelperText>
+                            <FormHelperText>
+                                {globalize.translate('LabelTrickplayAccelEncodingHelp')}
+                            </FormHelperText>
                         </FormControl>
 
                         <FormControl>
@@ -118,7 +135,10 @@ export const Component = (): React.ReactElement => {
                                 control={
                                     <Checkbox
                                         name="KeyFrameOnlyExtraction"
-                                        defaultChecked={defaultConfig.TrickplayOptions?.EnableKeyFrameOnlyExtraction}
+                                        defaultChecked={
+                                            defaultConfig.TrickplayOptions
+                                                ?.EnableKeyFrameOnlyExtraction
+                                        }
                                     />
                                 }
                                 label={globalize.translate('LabelTrickplayKeyFrameOnlyExtraction')}
@@ -128,9 +148,14 @@ export const Component = (): React.ReactElement => {
                             </FormHelperText>
                         </FormControl>
 
-                        <Select name="ScanBehavior" defaultValue={defaultConfig.TrickplayOptions?.ScanBehavior}>
+                        <Select
+                            name="ScanBehavior"
+                            defaultValue={defaultConfig.TrickplayOptions?.ScanBehavior}
+                        >
                             <SelectTrigger style={{ width: '100%' }}>
-                                <SelectValue placeholder={globalize.translate('LabelScanBehavior')} />
+                                <SelectValue
+                                    placeholder={globalize.translate('LabelScanBehavior')}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value={TrickplayScanBehavior.NonBlocking}>
@@ -142,9 +167,14 @@ export const Component = (): React.ReactElement => {
                             </SelectContent>
                         </Select>
 
-                        <Select name="ProcessPriority" defaultValue={defaultConfig.TrickplayOptions?.ProcessPriority}>
+                        <Select
+                            name="ProcessPriority"
+                            defaultValue={defaultConfig.TrickplayOptions?.ProcessPriority}
+                        >
                             <SelectTrigger style={{ width: '100%' }}>
-                                <SelectValue placeholder={globalize.translate('LabelProcessPriority')} />
+                                <SelectValue
+                                    placeholder={globalize.translate('LabelProcessPriority')}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value={ProcessPriorityClass.High}>
@@ -178,7 +208,9 @@ export const Component = (): React.ReactElement => {
                         <Input
                             label={globalize.translate('LabelWidthResolutions')}
                             name="WidthResolutions"
-                            defaultValue={defaultConfig.TrickplayOptions?.WidthResolutions?.join(',')}
+                            defaultValue={defaultConfig.TrickplayOptions?.WidthResolutions?.join(
+                                ','
+                            )}
                             pattern="[0-9,]*"
                         />
 

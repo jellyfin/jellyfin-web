@@ -1,13 +1,9 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { FilterSection } from './FilterSection';
-import { Checkbox } from 'ui-primitives';
-import { Box, Flex, FlexCol } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
+import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Checkbox, Flex, FlexCol, IconButton, Text } from 'ui-primitives';
+import { FilterSection } from './FilterSection';
 
 export interface FilterOption {
     value: string;
@@ -54,7 +50,7 @@ export function CheckboxFilterGroup({
 
     const handleToggle = (value: string) => {
         const newValues = selectedValues.includes(value)
-            ? selectedValues.filter(v => v !== value)
+            ? selectedValues.filter((v) => v !== value)
             : [...selectedValues, value];
         onChange(newValues);
     };
@@ -93,7 +89,7 @@ export function CheckboxFilterGroup({
                 </Text>
             ) : (
                 <FlexCol style={{ gap: vars.spacing['2'] }}>
-                    {visibleOptions?.map(option => (
+                    {visibleOptions?.map((option) => (
                         <Checkbox
                             key={option.value}
                             checked={selectedValues.includes(option.value)}

@@ -1,20 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"alloc\", \"result\"]",
-  "declared_features": "[\"alloc\", \"default\", \"rc\", \"result\", \"std\", \"unstable\"]",
-  "target": 6810695588070812737,
-  "profile": 8276155916380437441,
-  "path": 6965105414785552891,
-  "deps": [[11899261697793765154, "build_script_build", false, 14681785671137512483]],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "debug/.fingerprint/serde_core-21348f8f08741973/dep-lib-serde_core",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[\"alloc\", \"result\"]",
+    "declared_features": "[\"alloc\", \"default\", \"rc\", \"result\", \"std\", \"unstable\"]",
+    "target": 6810695588070812737,
+    "profile": 8276155916380437441,
+    "path": 6965105414785552891,
+    "deps": [[11899261697793765154, "build_script_build", false, 14681785671137512483]],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/serde_core-21348f8f08741973/dep-lib-serde_core",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

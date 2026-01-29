@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { useLegacyDrawerSync } from '../useLegacyDrawerSync';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useUiStore } from '../../../store/uiStore';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { useLegacyDrawerSync } from '../useLegacyDrawerSync';
 
 // Mock useLayoutMode
 vi.mock('../useLayoutMode', () => ({
@@ -44,7 +44,7 @@ describe('useLegacyDrawerSync', () => {
         renderHook(() => useLegacyDrawerSync());
 
         const drawer = document.querySelector('.mainDrawer') as HTMLElement;
-        
+
         // Simulate legacy drawer opening (e.g. by legacy script adding class)
         act(() => {
             drawer.classList.add('drawer-open');

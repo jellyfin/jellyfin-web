@@ -2,12 +2,12 @@
  * @vitest-environment jsdom
  */
 
-import React from 'react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, cleanup } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { FilterDialog } from '../FilterDialog';
+import React from 'react';
 import { useFilterStore } from 'store/filterStore';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { FilterDialog } from '../FilterDialog';
 
 vi.mock('store/filterStore');
 
@@ -80,7 +80,10 @@ describe('FilterDialog', () => {
         render(<FilterDialog {...defaultProps} />);
         expect(screen.getByLabelText('All (AND)')).toBeInTheDocument();
         expect(screen.getByLabelText('Any (OR)')).toBeInTheDocument();
-        expect(screen.getByRole('radio', { name: 'All (AND)' })).toHaveAttribute('data-state', 'checked');
+        expect(screen.getByRole('radio', { name: 'All (AND)' })).toHaveAttribute(
+            'data-state',
+            'checked'
+        );
     });
 
     it('toggles genre selection on click', async () => {
@@ -166,7 +169,14 @@ describe('FilterDialog', () => {
     });
 
     it('handles empty available props gracefully', () => {
-        render(<FilterDialog {...defaultProps} availableGenres={[]} availableYears={[]} availableStudios={[]} />);
+        render(
+            <FilterDialog
+                {...defaultProps}
+                availableGenres={[]}
+                availableYears={[]}
+                availableStudios={[]}
+            />
+        );
         expect(screen.queryByText('Genres')).not.toBeInTheDocument();
         expect(screen.queryByText('Years')).not.toBeInTheDocument();
         expect(screen.queryByText('Studios')).not.toBeInTheDocument();

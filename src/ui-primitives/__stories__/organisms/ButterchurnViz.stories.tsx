@@ -5,8 +5,8 @@ const meta: Meta<typeof ButterchurnViz> = {
     title: 'Organisms/ButterchurnViz',
     component: ButterchurnViz,
     parameters: {
-        layout: 'fullscreen',
-    },
+        layout: 'fullscreen'
+    }
 };
 
 export default meta;
@@ -14,6 +14,6 @@ type Story = StoryObj<typeof ButterchurnViz>;
 
 export const Default: Story = {
     args: {
-        preset: 'default',
-    },
+        preset: 'default'
+    }
 };

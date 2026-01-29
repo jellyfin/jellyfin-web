@@ -6,8 +6,8 @@
  * Stores per-connection-type history for smarter defaults.
  */
 
-import { logger } from './logger';
 import { usePreferencesStore } from '../store/preferencesStore';
+import { logger } from './logger';
 
 export interface LatencySample {
     timestamp: number;
@@ -104,7 +104,7 @@ export class NetworkLatencyMonitor {
 
         for (const sample of globalSamples) {
             const age = now - sample.timestamp;
-            const ageWeight = Math.pow(0.5, age / SAMPLE_HALF_LIFE_MS);
+            const ageWeight = 0.5 ** (age / SAMPLE_HALF_LIFE_MS);
             const statusWeight = sample.status === 'timeout' ? TIMEOUT_WEIGHT : 1.0;
             const weight = ageWeight * statusWeight;
 
@@ -132,7 +132,7 @@ export class NetworkLatencyMonitor {
 
         for (const sample of typeSamples.samples) {
             const age = now - sample.timestamp;
-            const ageWeight = Math.pow(0.5, age / SAMPLE_HALF_LIFE_MS);
+            const ageWeight = 0.5 ** (age / SAMPLE_HALF_LIFE_MS);
             const statusWeight = sample.status === 'timeout' ? TIMEOUT_WEIGHT : 1.0;
             const weight = ageWeight * statusWeight;
 
@@ -163,7 +163,7 @@ export class NetworkLatencyMonitor {
 
     getSuccessRate(): number {
         if (globalSamples.length === 0) return 1.0;
-        const successCount = globalSamples.filter(s => s.status === 'success').length;
+        const successCount = globalSamples.filter((s) => s.status === 'success').length;
         return successCount / globalSamples.length;
     }
 
@@ -188,7 +188,9 @@ export class NetworkLatencyMonitor {
 
     clear(): void {
         globalSamples = [];
-        logger.debug('[NetworkLatencyMonitor] Cleared all samples', { component: 'NetworkLatencyMonitor' });
+        logger.debug('[NetworkLatencyMonitor] Cleared all samples', {
+            component: 'NetworkLatencyMonitor'
+        });
     }
 
     clearForConnectionType(): void {
@@ -220,7 +222,10 @@ export class NetworkLatencyMonitor {
         };
     }
 
-    exportData(): { samples: LatencySample[]; connectionTypes: Record<string, ConnectionTypeSamples> } {
+    exportData(): {
+        samples: LatencySample[];
+        connectionTypes: Record<string, ConnectionTypeSamples>;
+    } {
         const connectionTypesRecord: Record<string, ConnectionTypeSamples> = {};
         connectionTypeSamples.forEach((value, key) => {
             connectionTypesRecord[key] = value;
@@ -231,7 +236,10 @@ export class NetworkLatencyMonitor {
         };
     }
 
-    importData(data: { samples: LatencySample[]; connectionTypes: Record<string, ConnectionTypeSamples> }): void {
+    importData(data: {
+        samples: LatencySample[];
+        connectionTypes: Record<string, ConnectionTypeSamples>;
+    }): void {
         globalSamples = data.samples || [];
 
         connectionTypeSamples.clear();

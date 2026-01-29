@@ -1,5 +1,5 @@
-import dom from '../utils/dom';
 import focusManager from '../components/focusManager';
+import dom from '../utils/dom';
 
 let inputDisplayElement;
 let currentDisplayText = '';
@@ -88,7 +88,7 @@ function selectByShortcutValue(container, value) {
     }
 
     if (!focusElem) {
-        focusElem = container.querySelector('*[data-prefix^=\'' + value + '\']');
+        focusElem = container.querySelector("*[data-prefix^='" + value + "']");
     }
 
     if (focusElem) {

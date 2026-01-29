@@ -7,7 +7,12 @@
 
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import { usePreferencesStore, getCrossfadeFadeOut, isCrossfadeEnabled, isCrossfadeActive } from './preferencesStore';
+import {
+    getCrossfadeFadeOut,
+    isCrossfadeActive,
+    isCrossfadeEnabled,
+    usePreferencesStore
+} from './preferencesStore';
 
 interface CrossfadeState {
     enabled: boolean;
@@ -49,30 +54,30 @@ export const useCrossfadeStore = create<CrossfadeState & CrossfadeActions>()(
 
         syncFromEngine: () => {
             const engine = getEngineState();
-            set(state => ({
+            set((state) => ({
                 ...state,
                 ...engine,
                 lastDuration: engine.duration > 0 ? engine.duration : state.lastDuration
             }));
         },
 
-        setDuration: duration => {
+        setDuration: (duration) => {
             const clamped = Math.max(0, Math.min(30, duration));
             usePreferencesStore.getState().setCrossfadeDuration(clamped);
             const engine = getEngineState();
-            set(state => ({
+            set((state) => ({
                 ...state,
                 ...engine,
                 lastDuration: clamped > 0 ? clamped : state.lastDuration
             }));
         },
 
-        setEnabled: enabled => {
+        setEnabled: (enabled) => {
             const { lastDuration } = get();
             const nextDuration = enabled ? Math.max(1, lastDuration || 5) : 0;
             usePreferencesStore.getState().setCrossfadeEnabled(enabled);
             const engine = getEngineState();
-            set(state => ({
+            set((state) => ({
                 ...state,
                 ...engine,
                 lastDuration: nextDuration > 0 ? nextDuration : state.lastDuration

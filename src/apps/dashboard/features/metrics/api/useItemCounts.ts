@@ -6,7 +6,11 @@ import type { AxiosRequestConfig } from 'axios';
 
 import { useApi } from 'hooks/useApi';
 
-const fetchItemCounts = async (api: Api, params?: LibraryApiGetItemCountsRequest, options?: AxiosRequestConfig) => {
+const fetchItemCounts = async (
+    api: Api,
+    params?: LibraryApiGetItemCountsRequest,
+    options?: AxiosRequestConfig
+) => {
     const response = await getLibraryApi(api).getItemCounts(params, options);
     return response.data;
 };

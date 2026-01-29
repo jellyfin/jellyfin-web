@@ -1,7 +1,7 @@
 import globalize from 'lib/globalize';
-import datetime from '../../../scripts/datetime';
-import { playbackManager } from '../../../components/playback/playbackmanager';
 import itemHelper from '../../../components/itemHelper';
+import { playbackManager } from '../../../components/playback/playbackmanager';
+import datetime from '../../../scripts/datetime';
 import { getSelectedMediaSource } from '../utils/trackHelpers';
 import { hideAll } from '../utils/viewHelpers';
 
@@ -11,7 +11,10 @@ export function reloadPlayButtons(page, item) {
     if (item.Type == 'Program') {
         const now = new Date();
 
-        if (now >= datetime.parseISO8601Date(item.StartDate, true) && now < datetime.parseISO8601Date(item.EndDate, true)) {
+        if (
+            now >= datetime.parseISO8601Date(item.StartDate, true) &&
+            now < datetime.parseISO8601Date(item.EndDate, true)
+        ) {
             hideAll(page, 'btnPlay', true);
             canPlay = true;
         } else {
@@ -23,9 +26,11 @@ export function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle');
     } else if (playbackManager.canPlay(item)) {
         hideAll(page, 'btnPlay', true);
-        const enableInstantMix = ['Audio', 'MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
+        const enableInstantMix =
+            ['Audio', 'MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnInstantMix', enableInstantMix);
-        const enableShuffle = item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
+        const enableShuffle =
+            item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnShuffle', enableShuffle);
         canPlay = true;
 
@@ -50,7 +55,10 @@ export function reloadPlayButtons(page, item) {
 }
 
 export function setTrailerButtonVisibility(page, item) {
-    if ((item.LocalTrailerCount || item.RemoteTrailers?.length) && playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1) {
+    if (
+        (item.LocalTrailerCount || item.RemoteTrailers?.length) &&
+        playbackManager.getSupportedCommands().indexOf('PlayTrailers') !== -1
+    ) {
         hideAll(page, 'btnPlayTrailer', true);
     } else {
         hideAll(page, 'btnPlayTrailer');

@@ -12,16 +12,16 @@
  * - Optional waveform background
  */
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-    seekerContainer,
-    seekerTimeDisplay,
-    seekerTrack,
-    seekerProgress,
     seekerBuffered,
+    seekerContainer,
+    seekerProgress,
     seekerThumb,
+    seekerThumbSpinning,
     seekerThumbVisible,
-    seekerThumbSpinning
+    seekerTimeDisplay,
+    seekerTrack
 } from './Seeker.css.ts';
 
 export interface BufferedRange {

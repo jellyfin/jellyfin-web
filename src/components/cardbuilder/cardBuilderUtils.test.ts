@@ -1,3 +1,4 @@
+import { ItemAction } from 'constants/itemAction';
 import { describe, expect, test } from 'vitest';
 import {
     getDefaultBackgroundClass,
@@ -12,7 +13,6 @@ import {
     resolveCardImageContainerCssClasses,
     resolveMixedShapeByAspectRatio
 } from './cardBuilderUtils';
-import { ItemAction } from 'constants/itemAction';
 
 describe('getDesiredAspect', () => {
     test('"portrait" (case insensitive)', () => {
@@ -49,7 +49,8 @@ describe('getPostersPerRow', () => {
         const postersPerRowForPortrait = (screenWidth: number, isTV: boolean) =>
             getPostersPerRow('portrait', screenWidth, false, isTV);
 
-        test('television', () => expect(postersPerRowForPortrait(0, true)).toEqual(100 / 16.66666667));
+        test('television', () =>
+            expect(postersPerRowForPortrait(0, true)).toEqual(100 / 16.66666667));
 
         test('screen width less than 500px', () => {
             expect(postersPerRowForPortrait(100, false)).toEqual(100 / 33.33333333);
@@ -101,7 +102,8 @@ describe('getPostersPerRow', () => {
         const postersPerRowForSquare = (screenWidth: number, isTV: boolean) =>
             getPostersPerRow('square', screenWidth, false, isTV);
 
-        test('television', () => expect(postersPerRowForSquare(0, true)).toEqual(100 / 16.66666667));
+        test('television', () =>
+            expect(postersPerRowForSquare(0, true)).toEqual(100 / 16.66666667));
 
         test('screen width less than 500px', () => {
             expect(postersPerRowForSquare(100, false)).toEqual(2);
@@ -150,7 +152,8 @@ describe('getPostersPerRow', () => {
     });
 
     describe('banner', () => {
-        const postersPerRowForBanner = (screenWidth: number) => getPostersPerRow('banner', screenWidth, false, false);
+        const postersPerRowForBanner = (screenWidth: number) =>
+            getPostersPerRow('banner', screenWidth, false, false);
 
         test('screen width less than 800px', () => expect(postersPerRowForBanner(799)).toEqual(1));
 
@@ -248,10 +251,14 @@ describe('getPostersPerRow', () => {
     });
 
     describe('overflow small backdrop', () => {
-        const postersPerRowForOverflowSmallBackdrop = (screenWidth: number, isLandscape = false, isTV = false) =>
-            getPostersPerRow('overflowSmallBackdrop', screenWidth, isLandscape, isTV);
+        const postersPerRowForOverflowSmallBackdrop = (
+            screenWidth: number,
+            isLandscape = false,
+            isTV = false
+        ) => getPostersPerRow('overflowSmallBackdrop', screenWidth, isLandscape, isTV);
 
-        test('television', () => expect(postersPerRowForOverflowSmallBackdrop(0, false, true)).toEqual(100 / 18.9));
+        test('television', () =>
+            expect(postersPerRowForOverflowSmallBackdrop(0, false, true)).toEqual(100 / 18.9));
 
         describe('non-landscape', () => {
             test('screen width greater or equal to 540px', () => {
@@ -279,10 +286,14 @@ describe('getPostersPerRow', () => {
     });
 
     describe('overflow portrait', () => {
-        const postersPerRowForOverflowPortrait = (screenWidth: number, isLandscape = false, isTV = false) =>
-            getPostersPerRow('overflowPortrait', screenWidth, isLandscape, isTV);
+        const postersPerRowForOverflowPortrait = (
+            screenWidth: number,
+            isLandscape = false,
+            isTV = false
+        ) => getPostersPerRow('overflowPortrait', screenWidth, isLandscape, isTV);
 
-        test('television', () => expect(postersPerRowForOverflowPortrait(0, false, true)).toEqual(100 / 15.5));
+        test('television', () =>
+            expect(postersPerRowForOverflowPortrait(0, false, true)).toEqual(100 / 15.5));
 
         describe('non-landscape', () => {
             test('screen width greater or equal to 1400px', () => {
@@ -325,10 +336,14 @@ describe('getPostersPerRow', () => {
     });
 
     describe('overflow square', () => {
-        const postersPerRowForOverflowSquare = (screenWidth: number, isLandscape = false, isTV = false) =>
-            getPostersPerRow('overflowSquare', screenWidth, isLandscape, isTV);
+        const postersPerRowForOverflowSquare = (
+            screenWidth: number,
+            isLandscape = false,
+            isTV = false
+        ) => getPostersPerRow('overflowSquare', screenWidth, isLandscape, isTV);
 
-        test('television', () => expect(postersPerRowForOverflowSquare(0, false, true)).toEqual(100 / 15.5));
+        test('television', () =>
+            expect(postersPerRowForOverflowSquare(0, false, true)).toEqual(100 / 15.5));
 
         describe('non-landscape', () => {
             test('screen width greater or equal to 1400px', () => {
@@ -371,10 +386,14 @@ describe('getPostersPerRow', () => {
     });
 
     describe('overflow backdrop', () => {
-        const postersPerRowForOverflowBackdrop = (screenWidth: number, isLandscape = false, isTV = false) =>
-            getPostersPerRow('overflowBackdrop', screenWidth, isLandscape, isTV);
+        const postersPerRowForOverflowBackdrop = (
+            screenWidth: number,
+            isLandscape = false,
+            isTV = false
+        ) => getPostersPerRow('overflowBackdrop', screenWidth, isLandscape, isTV);
 
-        test('television', () => expect(postersPerRowForOverflowBackdrop(0, false, true)).toEqual(100 / 23.3));
+        test('television', () =>
+            expect(postersPerRowForOverflowBackdrop(0, false, true)).toEqual(100 / 23.3));
 
         describe('non-landscape', () => {
             test('screen width greater or equal to 1800px', () => {
@@ -452,19 +471,19 @@ describe('isResizable', () => {
 
 describe('resolveAction', () => {
     test('default action', () =>
-        expect(resolveAction({ defaultAction: ItemAction.Link, isFolder: false, isPhoto: false })).toEqual(
-            ItemAction.Link
-        ));
+        expect(
+            resolveAction({ defaultAction: ItemAction.Link, isFolder: false, isPhoto: false })
+        ).toEqual(ItemAction.Link));
 
     test('photo', () =>
-        expect(resolveAction({ defaultAction: ItemAction.Link, isFolder: false, isPhoto: true })).toEqual(
-            ItemAction.Play
-        ));
+        expect(
+            resolveAction({ defaultAction: ItemAction.Link, isFolder: false, isPhoto: true })
+        ).toEqual(ItemAction.Play));
 
     test('default action is "play" and is folder', () =>
-        expect(resolveAction({ defaultAction: ItemAction.Play, isFolder: true, isPhoto: true })).toEqual(
-            ItemAction.Link
-        ));
+        expect(
+            resolveAction({ defaultAction: ItemAction.Play, isFolder: true, isPhoto: true })
+        ).toEqual(ItemAction.Link));
 });
 
 describe('resolveMixedShapeByAspectRatio', () => {
@@ -696,13 +715,17 @@ describe('resolveCardImageContainerCssClasses', () => {
                 itemName: 'Movie Name',
                 hasCoverImage: true
             })
-        ).toEqual('cardImageContainer coveredImage coveredImage-contain defaultCardBackground defaultCardBackground1');
+        ).toEqual(
+            'cardImageContainer coveredImage coveredImage-contain defaultCardBackground defaultCardBackground1'
+        );
     });
 });
 
 describe('resolveCardBoxCssClasses', () => {
     test('non-card layout', () =>
-        expect(resolveCardBoxCssClasses({ cardLayout: false, hasOuterCardFooter: false })).toEqual('cardBox'));
+        expect(resolveCardBoxCssClasses({ cardLayout: false, hasOuterCardFooter: false })).toEqual(
+            'cardBox'
+        ));
 
     test('card layout', () =>
         expect(resolveCardBoxCssClasses({ cardLayout: true, hasOuterCardFooter: false })).toEqual(

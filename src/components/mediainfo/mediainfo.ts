@@ -1,5 +1,5 @@
-import datetime from '../../scripts/datetime';
 import globalize from '../../lib/globalize';
+import datetime from '../../scripts/datetime';
 import itemHelper from '../itemHelper';
 
 export function getResolutionText(item: any): string | null {
@@ -22,7 +22,8 @@ export function getEndsAtFromPosition(
     playbackRate: number,
     includeText: boolean = true
 ): string {
-    let endDate = new Date().getTime() + (1 / playbackRate) * ((runtimeTicks - (positionTicks || 0)) / 10000);
+    const endDate =
+        new Date().getTime() + (1 / playbackRate) * ((runtimeTicks - (positionTicks || 0)) / 10000);
     const displayTime = datetime.getDisplayTime(new Date(endDate));
     return includeText ? globalize.translate('EndsAtValue', displayTime) : displayTime;
 }
@@ -35,7 +36,8 @@ export function getMediaInfoStats(item: any): any[] {
         (mediaSource.MediaStreams || []).find(
             (i: any) =>
                 i.Type === 'Audio' &&
-                (i.Index === mediaSource.DefaultAudioStreamIndex || mediaSource.DefaultAudioStreamIndex == null)
+                (i.Index === mediaSource.DefaultAudioStreamIndex ||
+                    mediaSource.DefaultAudioStreamIndex == null)
         ) || {};
 
     if (item.VideoType === 'Dvd') list.push({ type: 'mediainfo', text: 'Dvd' });

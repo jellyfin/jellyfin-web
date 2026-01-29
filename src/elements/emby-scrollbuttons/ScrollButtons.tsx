@@ -1,8 +1,8 @@
-import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
-import scrollerFactory from 'lib/scroller';
 import globalize from 'lib/globalize';
-import IconButton from '../emby-button/IconButton';
+import scrollerFactory from 'lib/scroller';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import { deprecate } from '../../utils/deprecation';
+import IconButton from '../emby-button/IconButton';
 import './emby-scrollbuttons.scss';
 import { ScrollDirection, scrollerItemSlideIntoView } from './utils';
 
@@ -36,8 +36,14 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
         [scrollState, scrollerFactoryRef]
     );
 
-    const triggerScrollLeft = useCallback(() => onScrollButtonClick(ScrollDirection.LEFT), [onScrollButtonClick]);
-    const triggerScrollRight = useCallback(() => onScrollButtonClick(ScrollDirection.RIGHT), [onScrollButtonClick]);
+    const triggerScrollLeft = useCallback(
+        () => onScrollButtonClick(ScrollDirection.LEFT),
+        [onScrollButtonClick]
+    );
+    const triggerScrollRight = useCallback(
+        () => onScrollButtonClick(ScrollDirection.RIGHT),
+        [onScrollButtonClick]
+    );
 
     useEffect(() => {
         const parent = scrollButtonsRef.current?.parentNode as HTMLDivElement;
@@ -66,7 +72,8 @@ const ScrollButtons: FC<ScrollButtonsProps> = ({ scrollerFactoryRef, scrollState
                 onClick={triggerScrollRight}
                 icon="chevron_right"
                 disabled={
-                    scrollState.scrollWidth > 0 && localeScrollPos + scrollState.scrollSize >= scrollState.scrollWidth
+                    scrollState.scrollWidth > 0 &&
+                    localeScrollPos + scrollState.scrollSize >= scrollState.scrollWidth
                 }
             />
         </div>

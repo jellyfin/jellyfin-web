@@ -2,7 +2,7 @@
  * FrequencyAnalyzer - Real-time frequency visualization
  */
 
-import { useEffect, useRef, useCallback, type ReactElement } from 'react';
+import { type ReactElement, useCallback, useEffect, useRef } from 'react';
 import { logger } from 'utils/logger';
 import { canvas } from './FrequencyAnalyzer.css.ts';
 
@@ -64,7 +64,10 @@ export function FrequencyAnalyzer({
         const canvasHeight = canvasElement.clientHeight;
         const dpr = window.devicePixelRatio ?? 1;
 
-        if (canvasElement.width !== canvasWidth * dpr || canvasElement.height !== canvasHeight * dpr) {
+        if (
+            canvasElement.width !== canvasWidth * dpr ||
+            canvasElement.height !== canvasHeight * dpr
+        ) {
             canvasElement.width = canvasWidth * dpr;
             canvasElement.height = canvasHeight * dpr;
             ctx.scale(dpr, dpr);
@@ -86,7 +89,7 @@ export function FrequencyAnalyzer({
 
         for (let i = 0; i < barCount; i++) {
             const normalizedPos = i / (barCount - 1);
-            const frequency = MIN_FREQUENCY * Math.pow(nyquist / MIN_FREQUENCY, normalizedPos);
+            const frequency = MIN_FREQUENCY * (nyquist / MIN_FREQUENCY) ** normalizedPos;
             const bin = Math.floor((frequency / nyquist) * (fftSize / 2));
             const safeBin = Math.max(0, Math.min(bin, fftSize / 2 - 1));
 

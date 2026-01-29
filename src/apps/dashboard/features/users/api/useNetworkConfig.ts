@@ -1,12 +1,15 @@
 import { type Api } from '@jellyfin/sdk';
-import { useQuery } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
-import type { AxiosRequestConfig } from 'axios';
 import type { NetworkConfiguration } from '@jellyfin/sdk/lib/generated-client/models/network-configuration';
+import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { useQuery } from '@tanstack/react-query';
+import type { AxiosRequestConfig } from 'axios';
+import { useApi } from 'hooks/useApi';
 
 const fetchNetworkConfig = async (api: Api, options?: AxiosRequestConfig) => {
-    const response = await getConfigurationApi(api).getNamedConfiguration({ key: 'network' }, options);
+    const response = await getConfigurationApi(api).getNamedConfiguration(
+        { key: 'network' },
+        options
+    );
 
     return response.data as NetworkConfiguration;
 };

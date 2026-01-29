@@ -29,7 +29,13 @@ export function show(programId: string, serverId: string): Promise<void> {
             }
         };
 
-        root.render(<RecordingCreatorDialog programId={programId} serverId={serverId} onClose={handleClose} />);
+        root.render(
+            <RecordingCreatorDialog
+                programId={programId}
+                serverId={serverId}
+                onClose={handleClose}
+            />
+        );
     });
 }
 

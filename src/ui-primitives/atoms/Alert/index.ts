@@ -1,1 +1,1 @@
-export { alertStyles, alertVariants, type AlertVariant, Alert } from './Alert';
+export { Alert, type AlertVariant, alertStyles, alertVariants } from './Alert';

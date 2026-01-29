@@ -4,35 +4,28 @@
  * @deprecated Components moved to organisms/ and playback/ subdirectories.
  */
 
-/**
- * @deprecated Use SeekSlider with showWaveform=true instead.
- */
-export { CrossfadeWaveSurfer } from '../../../deprecated/CrossfadeWaveSurfer';
-export type { CrossfadeWaveSurferProps, TrackState } from '../../../deprecated/CrossfadeWaveSurfer';
-
+export type { CrossfadeSeekerProps } from '../../../deprecated/CrossfadeSeeker';
 /**
  * @deprecated Use SeekSlider instead.
  */
 export { CrossfadeSeeker } from '../../../deprecated/CrossfadeSeeker';
-export type { CrossfadeSeekerProps } from '../../../deprecated/CrossfadeSeeker';
-
+export type { CrossfadeWaveSurferProps, TrackState } from '../../../deprecated/CrossfadeWaveSurfer';
+/**
+ * @deprecated Use SeekSlider with showWaveform=true instead.
+ */
+export { CrossfadeWaveSurfer } from '../../../deprecated/CrossfadeWaveSurfer';
+export type { MobileCrossfadeSeekerProps } from '../../../deprecated/MobileCrossfadeSeeker';
 /**
  * @deprecated Use MobileCrossfadeSeeker from deprecated/ instead.
  */
 export { MobileCrossfadeSeeker } from '../../../deprecated/MobileCrossfadeSeeker';
-export type { MobileCrossfadeSeekerProps } from '../../../deprecated/MobileCrossfadeSeeker';
-
-export { AlbumArt } from '../../AlbumArt';
 export type { AlbumArtProps } from '../../AlbumArt';
-
-export { DiscImage } from '../../DiscImage';
-export type { DiscImageProps } from '../../DiscImage';
-
-export { MetadataDisplay } from '../../MetadataDisplay';
-export type { MetadataDisplayProps } from '../../MetadataDisplay';
-
-export { Backdrop } from '../../Backdrop';
+export { AlbumArt } from '../../AlbumArt';
 export type { BackdropProps } from '../../Backdrop';
-
-export { NowPlayingPage } from '../NowPlayingPage';
+export { Backdrop } from '../../Backdrop';
+export type { DiscImageProps } from '../../DiscImage';
+export { DiscImage } from '../../DiscImage';
+export type { MetadataDisplayProps } from '../../MetadataDisplay';
+export { MetadataDisplay } from '../../MetadataDisplay';
 export type { NowPlayingPageProps } from '../NowPlayingPage';
+export { NowPlayingPage } from '../NowPlayingPage';

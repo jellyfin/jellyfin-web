@@ -50,11 +50,16 @@ async function loadWasmModule(): Promise<WasmModule> {
     try {
         // Use a require-based approach to avoid TypeScript module resolution issues
         // @ts-ignore - Dynamic module that may not exist at build time
-        const wasmModuleImport = await import('../../audio-wasm/pkg/jellyfin_audio_wasm').catch(() => null);
+        const wasmModuleImport = await import('../../audio-wasm/pkg/jellyfin_audio_wasm').catch(
+            () => null
+        );
 
         if (wasmModuleImport?.default) {
             wasmModule = wasmModuleImport.default as any;
-            logger.info('Audio WASM loaded', { component: 'audioWasm', version: wasmModule!.version() });
+            logger.info('Audio WASM loaded', {
+                component: 'audioWasm',
+                version: wasmModule!.version()
+            });
             return wasmModule!;
         } else {
             throw new Error('WASM module not available');
@@ -136,7 +141,7 @@ function createJSFallback(): WasmModule {
         }
 
         public shiftSemitones(samples: Float32Array, semitones: number): Float32Array {
-            const ratio = Math.pow(2, semitones / 12);
+            const ratio = 2 ** (semitones / 12);
             const samplesLength = samples.length;
             const outputFrames = Math.ceil(samplesLength / ratio / this.channels);
             const output = new Float32Array(outputFrames * this.channels);
@@ -150,7 +155,8 @@ function createJSFallback(): WasmModule {
                     const srcSampleIdx = srcIdx * this.channels + ch;
                     if (srcSampleIdx < samplesLength && srcSampleIdx >= 0) {
                         const s1 = samples[srcSampleIdx];
-                        const s2 = samples[Math.min(srcSampleIdx + this.channels, samplesLength - 1)];
+                        const s2 =
+                            samples[Math.min(srcSampleIdx + this.channels, samplesLength - 1)];
                         output[i * this.channels + ch] = s1 + (s2 - s1) * frac;
                     } else {
                         output[i * this.channels + ch] = 0;

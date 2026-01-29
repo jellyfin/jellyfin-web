@@ -1,8 +1,7 @@
 import React, { type FC, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
 import { type LibraryViewSettings } from 'types/library';
+import { Box, Checkbox } from 'ui-primitives';
 
 interface FiltersYearsProps {
     yearsOptions: number[];
@@ -10,7 +9,11 @@ interface FiltersYearsProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersYears: FC<FiltersYearsProps> = ({ yearsOptions, libraryViewSettings, setLibraryViewSettings }) => {
+const FiltersYears: FC<FiltersYearsProps> = ({
+    yearsOptions,
+    libraryViewSettings,
+    setLibraryViewSettings
+}) => {
     const onFiltersYearsChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
@@ -18,10 +21,10 @@ const FiltersYears: FC<FiltersYearsProps> = ({ yearsOptions, libraryViewSettings
             const existingYears = libraryViewSettings?.Filters?.Years ?? [];
 
             const updatedYears = existingYears.includes(value)
-                ? existingYears.filter(filter => filter !== value)
+                ? existingYears.filter((filter) => filter !== value)
                 : [...existingYears, value];
 
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -35,7 +38,7 @@ const FiltersYears: FC<FiltersYearsProps> = ({ yearsOptions, libraryViewSettings
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
-            {yearsOptions.map(filter => (
+            {yearsOptions.map((filter) => (
                 <Checkbox
                     key={filter}
                     checked={!!libraryViewSettings?.Filters?.Years?.includes(Number(filter))}

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { imagePreloader } from './imagePreloader';
 
@@ -158,7 +158,7 @@ describe('ImagePreloader', () => {
     describe('Single Image Preloading', () => {
         it('should cache status as loading initially', async () => {
             let resolvePromise: (value: string) => void;
-            const pendingPromise = new Promise<string>(resolve => {
+            const pendingPromise = new Promise<string>((resolve) => {
                 resolvePromise = resolve;
             });
             mockFetch.mockReturnValue(pendingPromise);
@@ -242,12 +242,14 @@ describe('ImagePreloader', () => {
 
         it('should track loading status', async () => {
             let resolvePromise: (value: string) => void;
-            const pendingPromise = new Promise<string>(resolve => {
+            const pendingPromise = new Promise<string>((resolve) => {
                 resolvePromise = resolve;
             });
             mockFetch.mockReturnValue(pendingPromise);
 
-            const preloadPromise = imagePreloader.preloadImage('https://example.com/image.jpg').catch(() => {});
+            const preloadPromise = imagePreloader
+                .preloadImage('https://example.com/image.jpg')
+                .catch(() => {});
             expect(imagePreloader.getCacheStatus('https://example.com/image.jpg')).toBe('loading');
 
             resolvePromise!('opaque');

@@ -23,10 +23,14 @@ class TimeSyncCore {
         this.manager = syncPlayManager;
         this.timeSyncServer = new (TimeSyncServer as any)(syncPlayManager);
 
-        Events.on(this.timeSyncServer, 'update', (_event: any, error: any, timeOffset: number, ping: number) => {
-            if (error) return;
-            Events.trigger(this, 'time-sync-server-update', [timeOffset, ping]);
-        });
+        Events.on(
+            this.timeSyncServer,
+            'update',
+            (_event: any, error: any, timeOffset: number, ping: number) => {
+                if (error) return;
+                Events.trigger(this, 'time-sync-server-update', [timeOffset, ping]);
+            }
+        );
 
         Events.on(appSettings, 'change', (_e: any, name: string) => {
             if (name === 'extraTimeOffset') {

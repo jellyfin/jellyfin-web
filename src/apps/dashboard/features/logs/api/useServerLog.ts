@@ -1,8 +1,8 @@
 import { type Api } from '@jellyfin/sdk';
 import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
+import { useApi } from 'hooks/useApi';
 
 const fetchServerLog = async (api: Api, name: string, options?: AxiosRequestConfig) => {
     const response = await getSystemApi(api).getLogFile({ name }, options);

@@ -1,10 +1,9 @@
-import escapeHtml from 'escape-html';
-
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import layoutManager from 'components/layoutManager';
 import lazyLoader from 'components/lazyLoader/lazyLoaderIntersectionObserver';
 import loading from 'components/loading/loading';
 import { appRouter } from 'components/router/appRouter';
+import escapeHtml from 'escape-html';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import { getBackdropShape, getPortraitShape } from 'utils/card';
@@ -68,7 +67,8 @@ export default function (view, params, tabContent) {
             limit = 10;
         }
 
-        const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
+        const enableImageTypes =
+            viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
         const query = {
             SortBy: 'Random',
             SortOrder: 'Ascending',
@@ -128,7 +128,9 @@ export default function (view, params, tabContent) {
                 });
             }
             if (result.Items.length >= query.Limit) {
-                tabContent.querySelector('.btnMoreFromGenre' + id + ' .material-icons').classList.remove('hide');
+                tabContent
+                    .querySelector('.btnMoreFromGenre' + id + ' .material-icons')
+                    .classList.remove('hide');
             }
         });
     };
@@ -144,27 +146,43 @@ export default function (view, params, tabContent) {
                 const item = items[i];
 
                 html += '<div class="verticalSection">';
-                html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
-                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item, {
-                    context: 'movies',
-                    parentId: params.topParentId
-                }) + '" class="more button-flat button-flat-mini sectionTitleTextButton btnMoreFromGenre' + item.Id + '">';
+                html +=
+                    '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
+                html +=
+                    '<a is="emby-linkbutton" href="' +
+                    appRouter.getRouteUrl(item, {
+                        context: 'movies',
+                        parentId: params.topParentId
+                    }) +
+                    '" class="more button-flat button-flat-mini sectionTitleTextButton btnMoreFromGenre' +
+                    item.Id +
+                    '">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += escapeHtml(item.Name);
                 html += '</h2>';
-                html += '<span class="material-icons hide chevron_right" aria-hidden="true"></span>';
+                html +=
+                    '<span class="material-icons hide chevron_right" aria-hidden="true"></span>';
                 html += '</a>';
                 html += '</div>';
                 if (enableScrollX()) {
                     let scrollXClass = 'scrollX hiddenScrollX';
 
                     if (layoutManager.tv) {
-                        scrollXClass += 'smoothScrollX padded-top-focusscale padded-bottom-focusscale';
+                        scrollXClass +=
+                            'smoothScrollX padded-top-focusscale padded-bottom-focusscale';
                     }
 
-                    html += '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' lazy padded-left padded-right" data-id="' + item.Id + '">';
+                    html +=
+                        '<div is="emby-itemscontainer" class="itemsContainer ' +
+                        scrollXClass +
+                        ' lazy padded-left padded-right" data-id="' +
+                        item.Id +
+                        '">';
                 } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap lazy padded-left padded-right" data-id="' + item.Id + '">';
+                    html +=
+                        '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap lazy padded-left padded-right" data-id="' +
+                        item.Id +
+                        '">';
                 }
 
                 html += '</div>';
@@ -219,4 +237,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent, promise);
     };
 }
-

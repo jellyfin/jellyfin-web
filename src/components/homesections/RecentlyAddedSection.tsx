@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-
-import { Heading } from 'ui-primitives';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import { Heading } from 'ui-primitives';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
 import * as styles from './RecentlyAddedSection.css.ts';
@@ -50,16 +48,22 @@ const RecentlyAddedLibrarySection: React.FC<RecentlyAddedLibrarySectionProps> = 
         shape,
         showTitle: library.CollectionType !== 'photos',
         showYear:
-            library.CollectionType === 'movies' || library.CollectionType === 'tvshows' || !library.CollectionType,
+            library.CollectionType === 'movies' ||
+            library.CollectionType === 'tvshows' ||
+            !library.CollectionType,
         showParentTitle:
-            library.CollectionType === 'music' || library.CollectionType === 'tvshows' || !library.CollectionType,
+            library.CollectionType === 'music' ||
+            library.CollectionType === 'tvshows' ||
+            !library.CollectionType,
         overlayPlayButton: library.CollectionType !== 'photos',
         lines: 2
     };
 
     return (
         <div className={styles.container}>
-            <Heading.H3 className={styles.header}>{globalize.translate('LatestFromLibrary', library.Name)}</Heading.H3>
+            <Heading.H3 className={styles.header}>
+                {globalize.translate('LatestFromLibrary', library.Name)}
+            </Heading.H3>
             <CardBuilder items={items} options={cardOptions} />
         </div>
     );
@@ -73,12 +77,13 @@ const RecentlyAddedSection: React.FC<RecentlyAddedSectionProps> = ({ userViews }
     const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels', 'folders'];
 
     const librariesToShow = userViews.filter(
-        item => item.Id && (!item.CollectionType || !excludeViewTypes.includes(item.CollectionType))
+        (item) =>
+            item.Id && (!item.CollectionType || !excludeViewTypes.includes(item.CollectionType))
     );
 
     return (
         <>
-            {librariesToShow.map(lib => (
+            {librariesToShow.map((lib) => (
                 <RecentlyAddedLibrarySection key={lib.Id} library={lib} />
             ))}
         </>

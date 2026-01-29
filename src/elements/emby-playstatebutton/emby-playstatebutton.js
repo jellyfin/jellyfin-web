@@ -1,8 +1,8 @@
-import serverNotifications from '../../scripts/serverNotifications';
-import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Events from '../../utils/events';
 import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
+import globalize from '../../lib/globalize';
+import serverNotifications from '../../scripts/serverNotifications';
+import Events from '../../utils/events';
 
 function addNotificationEvent(instance, name, handler) {
     const localHandler = handler.bind(instance);
@@ -148,4 +148,3 @@ document.registerElement('emby-playstatebutton', {
     prototype: EmbyPlaystateButtonPrototype,
     extends: 'button'
 });
-

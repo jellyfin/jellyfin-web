@@ -10,8 +10,8 @@
  */
 
 import React, { type FC, type PropsWithChildren } from 'react';
-import globalize from '../../../lib/globalize';
 import CheckBoxElement from '../../../elements/CheckBoxElement';
+import globalize from '../../../lib/globalize';
 
 interface AccessContainerProps {
     containerClassName?: string;
@@ -38,10 +38,16 @@ const AccessContainer: FC<PropsWithChildren<AccessContainerProps>> = ({
     return (
         <div className={containerClassName}>
             {headerTitle && <h2>{globalize.translate(headerTitle) || ''}</h2>}
-            <CheckBoxElement labelClassName="checkboxContainer" className={checkBoxClassName} title={checkBoxTitle} />
+            <CheckBoxElement
+                labelClassName="checkboxContainer"
+                className={checkBoxClassName}
+                title={checkBoxTitle}
+            />
             <div className={listContainerClassName}>
                 <div className={accessClassName}>
-                    {listTitle && <h3 className="checkboxListLabel">{globalize.translate(listTitle)}</h3>}
+                    {listTitle && (
+                        <h3 className="checkboxListLabel">{globalize.translate(listTitle)}</h3>
+                    )}
                     <div
                         className="checkboxList paperList"
                         style={{
@@ -51,7 +57,9 @@ const AccessContainer: FC<PropsWithChildren<AccessContainerProps>> = ({
                         {children}
                     </div>
                 </div>
-                {description && <div className="fieldDescription">{globalize.translate(description)}</div>}
+                {description && (
+                    <div className="fieldDescription">{globalize.translate(description)}</div>
+                )}
             </div>
         </div>
     );

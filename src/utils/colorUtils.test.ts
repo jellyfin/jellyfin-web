@@ -3,17 +3,17 @@
  * Tests hex/rgb conversion, validation, and WCAG accessibility checks
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
-    hexToRgb,
-    rgbToHex,
-    rgbToString,
-    parseRgbString,
-    isValidHex,
+    getColorBlindPalette,
     getContrastRatio,
     hasGoodContrast,
-    getColorBlindPalette
+    hexToRgb,
+    isValidHex,
+    parseRgbString,
+    rgbToHex,
+    rgbToString
 } from './colorUtils';
 
 beforeEach(() => {
@@ -363,7 +363,7 @@ describe('colorUtils - Integration Tests', () => {
     it('should validate all colors in color-blind palettes', () => {
         const palettes = ['protanopia', 'deuteranopia', 'tritanopia', 'highContrast'] as const;
 
-        palettes.forEach(paletteType => {
+        palettes.forEach((paletteType) => {
             const palette = getColorBlindPalette(paletteType);
             expect(isValidHex(palette.low)).toBe(true);
             expect(isValidHex(palette.mid)).toBe(true);

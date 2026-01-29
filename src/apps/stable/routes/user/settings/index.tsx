@@ -1,26 +1,26 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
-import React, { useEffect, useState, type FC } from 'react';
-import { useSearchParams } from 'hooks/useSearchParams';
-
 import { safeAppHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { AppFeature } from 'constants/appFeature';
-import { Button } from 'ui-primitives';
 import { useApi } from 'hooks/useApi';
 import { useQuickConnectEnabled } from 'hooks/useQuickConnect';
+import { useSearchParams } from 'hooks/useSearchParams';
 import { useUsers } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
+import React, { type FC, useEffect, useState } from 'react';
 import browser from 'scripts/browser';
-import Dashboard from 'utils/dashboard';
-import shell from 'scripts/shell';
 import keyboardNavigation from 'scripts/keyboardNavigation';
+import shell from 'scripts/shell';
+import { Button } from 'ui-primitives';
+import Dashboard from 'utils/dashboard';
 
 const UserSettingsPage: FC = () => {
     const { user: currentUser } = useApi();
     const [searchParams] = useSearchParams();
-    const { data: isQuickConnectEnabled, isPending: isQuickConnectEnabledPending } = useQuickConnectEnabled();
+    const { data: isQuickConnectEnabled, isPending: isQuickConnectEnabledPending } =
+        useQuickConnectEnabled();
     const { data: users } = useUsers();
     const [user, setUser] = useState<UserDto>();
 
@@ -81,7 +81,9 @@ const UserSettingsPage: FC = () => {
                                     aria-hidden="true"
                                 />
                                 <div className="listItemBody">
-                                    <div className="listItemBodyText">{globalize.translate('Profile')}</div>
+                                    <div className="listItemBodyText">
+                                        {globalize.translate('Profile')}
+                                    </div>
                                 </div>
                             </div>
                         </Button>
@@ -103,7 +105,9 @@ const UserSettingsPage: FC = () => {
                                         aria-hidden="true"
                                     />
                                     <div className="listItemBody">
-                                        <div className="listItemBodyText">{globalize.translate('QuickConnect')}</div>
+                                        <div className="listItemBodyText">
+                                            {globalize.translate('QuickConnect')}
+                                        </div>
                                     </div>
                                 </div>
                             </Button>
@@ -125,7 +129,9 @@ const UserSettingsPage: FC = () => {
                                     aria-hidden="true"
                                 />
                                 <div className="listItemBody">
-                                    <div className="listItemBodyText">{globalize.translate('Display')}</div>
+                                    <div className="listItemBodyText">
+                                        {globalize.translate('Display')}
+                                    </div>
                                 </div>
                             </div>
                         </Button>
@@ -146,7 +152,9 @@ const UserSettingsPage: FC = () => {
                                     aria-hidden="true"
                                 />
                                 <div className="listItemBody">
-                                    <div className="listItemBodyText">{globalize.translate('Home')}</div>
+                                    <div className="listItemBodyText">
+                                        {globalize.translate('Home')}
+                                    </div>
                                 </div>
                             </div>
                         </Button>
@@ -167,7 +175,9 @@ const UserSettingsPage: FC = () => {
                                     aria-hidden="true"
                                 />
                                 <div className="listItemBody">
-                                    <div className="listItemBodyText">{globalize.translate('TitlePlayback')}</div>
+                                    <div className="listItemBodyText">
+                                        {globalize.translate('TitlePlayback')}
+                                    </div>
                                 </div>
                             </div>
                         </Button>
@@ -188,7 +198,9 @@ const UserSettingsPage: FC = () => {
                                     aria-hidden="true"
                                 />
                                 <div className="listItemBody">
-                                    <div className="listItemBodyText">{globalize.translate('Subtitles')}</div>
+                                    <div className="listItemBodyText">
+                                        {globalize.translate('Subtitles')}
+                                    </div>
                                 </div>
                             </div>
                         </Button>
@@ -210,7 +222,9 @@ const UserSettingsPage: FC = () => {
                                         aria-hidden="true"
                                     />
                                     <div className="listItemBody">
-                                        <div className="listItemBodyText">{globalize.translate('DownloadManager')}</div>
+                                        <div className="listItemBodyText">
+                                            {globalize.translate('DownloadManager')}
+                                        </div>
                                     </div>
                                 </div>
                             </Button>
@@ -233,7 +247,9 @@ const UserSettingsPage: FC = () => {
                                         aria-hidden="true"
                                     />
                                     <div className="listItemBody">
-                                        <div className="listItemBodyText">{globalize.translate('ClientSettings')}</div>
+                                        <div className="listItemBodyText">
+                                            {globalize.translate('ClientSettings')}
+                                        </div>
                                     </div>
                                 </div>
                             </Button>
@@ -256,7 +272,9 @@ const UserSettingsPage: FC = () => {
                                         aria-hidden="true"
                                     />
                                     <div className="listItemBody">
-                                        <div className="listItemBodyText">{globalize.translate('Controls')}</div>
+                                        <div className="listItemBodyText">
+                                            {globalize.translate('Controls')}
+                                        </div>
                                     </div>
                                 </div>
                             </Button>
@@ -290,7 +308,9 @@ const UserSettingsPage: FC = () => {
                                         aria-hidden="true"
                                     />
                                     <div className="listItemBody">
-                                        <div className="listItemBodyText">{globalize.translate('TabDashboard')}</div>
+                                        <div className="listItemBodyText">
+                                            {globalize.translate('TabDashboard')}
+                                        </div>
                                     </div>
                                 </div>
                             </Button>
@@ -311,7 +331,9 @@ const UserSettingsPage: FC = () => {
                                         aria-hidden="true"
                                     />
                                     <div className="listItemBody">
-                                        <div className="listItemBodyText">{globalize.translate('MetadataManager')}</div>
+                                        <div className="listItemBodyText">
+                                            {globalize.translate('MetadataManager')}
+                                        </div>
                                     </div>
                                 </div>
                             </Button>
@@ -370,7 +392,9 @@ const UserSettingsPage: FC = () => {
                                         aria-hidden="true"
                                     />
                                     <div className="listItemBody">
-                                        <div className="listItemBodyText">{globalize.translate('ButtonSignOut')}</div>
+                                        <div className="listItemBodyText">
+                                            {globalize.translate('ButtonSignOut')}
+                                        </div>
                                     </div>
                                 </div>
                             </Button>

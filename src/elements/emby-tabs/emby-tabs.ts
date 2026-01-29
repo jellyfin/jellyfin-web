@@ -9,11 +9,11 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import dom from '../../utils/dom';
 import ScrollerFactory from 'lib/scroller';
-import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
 import layoutManager from '../../components/layoutManager';
+import browser from '../../scripts/browser';
+import dom from '../../utils/dom';
 import './emby-tabs.scss';
 
 interface Scroller {
@@ -112,7 +112,9 @@ function onClick(this: EmbyTabsInterface, e: Event): void {
             current.classList.remove(activeButtonClass);
         }
 
-        const previousIndex = current ? parseInt(current.getAttribute('data-index') || '0', 10) : null;
+        const previousIndex = current
+            ? parseInt(current.getAttribute('data-index') || '0', 10)
+            : null;
 
         setActiveTabButton(tabButton);
 
@@ -225,7 +227,9 @@ EmbyTabs.createdCallback = function (this: EmbyTabsInterface): void {
     this.addEventListener('click', onClick, { passive: true } as PassiveEventListenerOptions);
 
     if (layoutManager.tv) {
-        this.addEventListener('focusin', onFocusIn, { passive: true } as PassiveEventListenerOptions);
+        this.addEventListener('focusin', onFocusIn, {
+            passive: true
+        } as PassiveEventListenerOptions);
     }
 
     this.addEventListener('focusout', onFocusOut);
@@ -293,7 +297,11 @@ function getSelectedTabButton(elem: Element): Element | null {
     return elem.querySelector('.' + activeButtonClass);
 }
 
-EmbyTabs.selectedIndex = function (this: EmbyTabsInterface, selected?: number, triggerEvent?: boolean): number | void {
+EmbyTabs.selectedIndex = function (
+    this: EmbyTabsInterface,
+    selected?: number,
+    triggerEvent?: boolean
+): number | void {
     const tabs = this;
 
     if (selected == null) {

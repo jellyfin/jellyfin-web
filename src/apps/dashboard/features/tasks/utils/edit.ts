@@ -67,7 +67,10 @@ function localizeDayOfWeek(dayOfWeek: string | null | undefined, locale: Locale)
 export function getTriggerFriendlyName(trigger: TaskTriggerInfo, locale: Locale) {
     switch (trigger.Type) {
         case 'DailyTrigger':
-            return globalize.translate('DailyAt', getDisplayTime(trigger.TimeOfDayTicks || 0, locale));
+            return globalize.translate(
+                'DailyAt',
+                getDisplayTime(trigger.TimeOfDayTicks || 0, locale)
+            );
         case 'WeeklyTrigger':
             return globalize.translate(
                 'WeeklyAt',

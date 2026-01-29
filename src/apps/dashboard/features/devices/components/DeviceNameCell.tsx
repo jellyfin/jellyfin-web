@@ -1,6 +1,6 @@
-import React from 'react';
-import type { CellContext } from '@tanstack/react-table';
 import type { DeviceInfoDto } from '@jellyfin/sdk/lib/generated-client/models/device-info-dto';
+import type { CellContext } from '@tanstack/react-table';
+import React from 'react';
 import { getDeviceIcon } from 'utils/image';
 
 const DeviceNameCell = ({ row }: CellContext<DeviceInfoDto, unknown>) => (

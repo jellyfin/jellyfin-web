@@ -9,7 +9,8 @@ export const useUpdateUserPolicy = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: UserApiUpdateUserPolicyRequest) => getUserApi(api!).updateUserPolicy(params),
+        mutationFn: (params: UserApiUpdateUserPolicyRequest) =>
+            getUserApi(api!).updateUserPolicy(params),
         onSuccess: (_, params) => {
             void queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY, params.userId]

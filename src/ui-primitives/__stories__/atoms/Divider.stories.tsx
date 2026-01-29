@@ -1,10 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Divider } from '../..';
-import { Box } from '../..';
-import { Text } from '../..';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Divider, Text } from '../..';
 
 const meta: Meta<typeof Divider> = {
     title: 'UI Primitives/Divider',
@@ -53,7 +50,14 @@ export const Vertical: Story = {
 
 function InListStory(): ReactElement {
     return (
-        <Box style={{ width: '250px', border: '1px solid #333', borderRadius: '8px', padding: '8px' }}>
+        <Box
+            style={{
+                width: '250px',
+                border: '1px solid #333',
+                borderRadius: '8px',
+                padding: '8px'
+            }}
+        >
             <Text>Item 1</Text>
             <Divider />
             <Text>Item 2</Text>
@@ -72,7 +76,14 @@ export const InList: Story = {
 export const InCard: Story = {
     decorators: [
         (_Story): ReactElement => (
-            <Box style={{ width: '300px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
+            <Box
+                style={{
+                    width: '300px',
+                    border: '1px solid #333',
+                    borderRadius: '8px',
+                    overflow: 'hidden'
+                }}
+            >
                 <Box style={{ padding: '16px', backgroundColor: '#2a2a2a' }}>
                     <Text weight="bold">Card Header</Text>
                 </Box>
@@ -81,7 +92,14 @@ export const InCard: Story = {
                     <Text>Card content area with some text.</Text>
                 </Box>
                 <Divider />
-                <Box style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: vars.spacing['2'] }}>
+                <Box
+                    style={{
+                        padding: '16px',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: vars.spacing['2']
+                    }}
+                >
                     <Text as="span" size="sm" color="secondary">
                         Cancel
                     </Text>

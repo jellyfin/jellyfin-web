@@ -10,17 +10,17 @@
  */
 
 import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
 import browser from '../../scripts/browser';
+import dom from '../../utils/dom';
 import { safeAppHost } from '../apphost';
 import loading from '../loading/loading';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from '../../utils/dom';
 import './multiSelect.scss';
+import datetime from '../../scripts/datetime';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
-import datetime from '../../scripts/datetime';
 
 let selectedItems = [];
 let selectedElements = [];
@@ -68,7 +68,7 @@ function updateItemSelection(chkItemSelect, selected) {
     const id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
 
     if (selected) {
-        const current = selectedItems.filter(i => {
+        const current = selectedItems.filter((i) => {
             return i === id;
         });
 
@@ -77,10 +77,10 @@ function updateItemSelection(chkItemSelect, selected) {
             selectedElements.push(chkItemSelect);
         }
     } else {
-        selectedItems = selectedItems.filter(i => {
+        selectedItems = selectedItems.filter((i) => {
             return i !== id;
         });
-        selectedElements = selectedElements.filter(i => {
+        selectedElements = selectedElements.filter((i) => {
             return i !== chkItemSelect;
         });
     }
@@ -133,7 +133,8 @@ function showSelectionCommands() {
 
         let html = '';
 
-        html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close" aria-hidden="true"></span></button>';
+        html +=
+            '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><span class="material-icons close" aria-hidden="true"></span></button>';
         html += '<h1 class="itemSelectionCount"></h1>';
 
         const moreIcon = 'more_vert';
@@ -141,11 +142,17 @@ function showSelectionCommands() {
 
         selectionCommandsPanel.innerHTML = html;
 
-        selectionCommandsPanel.querySelector('.btnCloseSelectionPanel').addEventListener('click', hideSelections);
+        selectionCommandsPanel
+            .querySelector('.btnCloseSelectionPanel')
+            .addEventListener('click', hideSelections);
 
-        const btnSelectionPanelOptions = selectionCommandsPanel.querySelector('.btnSelectionPanelOptions');
+        const btnSelectionPanelOptions = selectionCommandsPanel.querySelector(
+            '.btnSelectionPanelOptions'
+        );
 
-        dom.addEventListener(btnSelectionPanelOptions, 'click', showMenuForSelectedItems, { passive: true });
+        dom.addEventListener(btnSelectionPanelOptions, 'click', showMenuForSelectedItems, {
+            passive: true
+        });
     }
 }
 
@@ -166,7 +173,7 @@ function deleteItems(apiClient, itemIds) {
         }
 
         confirm(msg, title).then(() => {
-            const promises = itemIds.map(itemId => apiClient.deleteItem(itemId));
+            const promises = itemIds.map((itemId) => apiClient.deleteItem(itemId));
 
             Promise.all(promises).then(resolve, () => {
                 alertText(globalize.translate('ErrorDeletingItem')).then(reject, reject);
@@ -178,9 +185,9 @@ function deleteItems(apiClient, itemIds) {
 function showMenuForSelectedItems(e) {
     const apiClient = ServerConnections.currentApiClient();
 
-    apiClient.getCurrentUser().then(user => {
+    apiClient.getCurrentUser().then((user) => {
         // get first selected item to perform metadata refresh permission check
-        apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then(firstItem => {
+        apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then((firstItem) => {
             const menuItems = [];
 
             menuItems.push({
@@ -210,7 +217,10 @@ function showMenuForSelectedItems(e) {
                 });
             }
 
-            if (user.Policy.EnableContentDownloading && safeAppHost.supports(AppFeature.FileDownload)) {
+            if (
+                user.Policy.EnableContentDownloading &&
+                safeAppHost.supports(AppFeature.FileDownload)
+            ) {
                 // Disabled because there is no callback for this item
             }
 
@@ -257,9 +267,15 @@ function showMenuForSelectedItems(e) {
                                 {
                                     const elems = document.querySelectorAll('.itemSelectionPanel');
                                     for (let i = 0, length = elems.length; i < length; i++) {
-                                        const chkItemSelect = elems[i].querySelector('.chkItemSelect');
+                                        const chkItemSelect =
+                                            elems[i].querySelector('.chkItemSelect');
 
-                                        if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
+                                        if (
+                                            chkItemSelect &&
+                                            !chkItemSelect.classList.contains('checkedInitial') &&
+                                            !chkItemSelect.checked &&
+                                            chkItemSelect.getBoundingClientRect().width != 0
+                                        ) {
                                             chkItemSelect.checked = true;
                                             updateItemSelection(chkItemSelect, true);
                                         }
@@ -267,28 +283,37 @@ function showMenuForSelectedItems(e) {
                                 }
                                 break;
                             case 'addtocollection':
-                                import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
-                                    const collectionEditor = new CollectionEditor();
-                                    collectionEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    });
-                                });
+                                import('../collectionEditor/collectionEditor').then(
+                                    ({ default: CollectionEditor }) => {
+                                        const collectionEditor = new CollectionEditor();
+                                        collectionEditor.show({
+                                            items: items,
+                                            serverId: serverId
+                                        });
+                                    }
+                                );
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
-                                import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                                    const playlistEditor = new PlaylistEditor();
-                                    playlistEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    }).catch(() => {
-                                        // Dialog closed
+                                import('../playlisteditor/playlisteditor')
+                                    .then(({ default: PlaylistEditor }) => {
+                                        const playlistEditor = new PlaylistEditor();
+                                        playlistEditor
+                                            .show({
+                                                items: items,
+                                                serverId: serverId
+                                            })
+                                            .catch(() => {
+                                                // Dialog closed
+                                            });
+                                    })
+                                    .catch((err) => {
+                                        console.error(
+                                            '[AddToPlaylist] failed to load playlist editor',
+                                            err
+                                        );
                                     });
-                                }).catch(err => {
-                                    console.error('[AddToPlaylist] failed to load playlist editor', err);
-                                });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
@@ -301,26 +326,28 @@ function showMenuForSelectedItems(e) {
                                 combineVersions(apiClient, items);
                                 break;
                             case 'markplayed':
-                                items.forEach(itemId => {
+                                items.forEach((itemId) => {
                                     apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'markunplayed':
-                                items.forEach(itemId => {
+                                items.forEach((itemId) => {
                                     apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
                             case 'refresh':
-                                import('../refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
-                                    new RefreshDialog({
-                                        itemIds: items,
-                                        serverId: serverId
-                                    }).show();
-                                });
+                                import('../refreshdialog/refreshdialog').then(
+                                    ({ default: RefreshDialog }) => {
+                                        new RefreshDialog({
+                                            itemIds: items,
+                                            serverId: serverId
+                                        }).show();
+                                    }
+                                );
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;
@@ -337,7 +364,7 @@ function showMenuForSelectedItems(e) {
 function dispatchNeedsRefresh() {
     const elems = [];
 
-    [].forEach.call(selectedElements, i => {
+    [].forEach.call(selectedElements, (i) => {
         const container = dom.parentWithAttribute(i, 'is', 'emby-itemscontainer');
 
         if (container && !elems.includes(container)) {
@@ -361,16 +388,16 @@ function combineVersions(apiClient, selection) {
 
     loading.show();
 
-    apiClient.ajax({
-
-        type: 'POST',
-        url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
-
-    }).then(() => {
-        loading.hide();
-        hideSelections();
-        dispatchNeedsRefresh();
-    });
+    apiClient
+        .ajax({
+            type: 'POST',
+            url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
+        })
+        .then(() => {
+            loading.hide();
+            hideSelections();
+            dispatchNeedsRefresh();
+        });
 }
 
 function showSelections(initialCard, addInitialCheck) {

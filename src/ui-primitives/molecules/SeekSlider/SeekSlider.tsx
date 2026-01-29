@@ -1,25 +1,25 @@
+import { Range, Root, Thumb, Track } from '@radix-ui/react-slider';
 import React, {
+    type CSSProperties,
+    type KeyboardEvent,
+    type MouseEvent,
+    type ReactElement,
     useCallback,
     useEffect,
     useRef,
-    useState,
-    type ReactElement,
-    type CSSProperties,
-    type MouseEvent,
-    type KeyboardEvent
+    useState
 } from 'react';
-import { Root, Track, Range, Thumb } from '@radix-ui/react-slider';
 import { Waveform, type WaveformTrackState } from '../../organisms/Waveform/Waveform';
 import {
+    seekSliderBuffered,
     seekSliderContainer,
+    seekSliderProgress,
+    seekSliderThumb,
+    seekSliderThumbSpinning,
+    seekSliderThumbVisible,
     seekSliderTimeDisplay,
     seekSliderTrack,
-    seekSliderTrackInner,
-    seekSliderProgress,
-    seekSliderBuffered,
-    seekSliderThumb,
-    seekSliderThumbVisible,
-    seekSliderThumbSpinning
+    seekSliderTrackInner
 } from './SeekSlider.css.ts';
 
 export interface BufferedRange {
@@ -349,7 +349,10 @@ export function SeekSlider({
                     style={{ height }}
                 >
                     <Track>
-                        <Range className={seekSliderProgress} style={{ width: `${localProgress * 100}%` }} />
+                        <Range
+                            className={seekSliderProgress}
+                            style={{ width: `${localProgress * 100}%` }}
+                        />
                     </Track>
 
                     {showBuffer && renderBuffered()}

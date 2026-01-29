@@ -1,18 +1,18 @@
 import { AppFeature } from 'constants/appFeature';
-import Events from '../../utils/events';
+import globalize from '../../lib/globalize';
+import { enable, isEnabled } from '../../scripts/autocast';
 import browser from '../../scripts/browser';
+import Events from '../../utils/events';
+import { safeAppHost } from '../apphost';
 import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
 import { appRouter } from '../router/appRouter';
-import globalize from '../../lib/globalize';
-import { safeAppHost } from '../apphost';
-import { enable, isEnabled } from '../../scripts/autocast';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
+import { logger } from '../../utils/logger';
 import dialog from '../dialog/dialog';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import { logger } from '../../utils/logger';
 
 interface PlaybackTarget {
     id: string;
@@ -122,7 +122,7 @@ export function show(button: HTMLElement): void {
             });
 
             import('../actionSheet/actionSheet')
-                .then(actionsheet => {
+                .then((actionsheet) => {
                     loading.hide();
 
                     const menuOptions = {
@@ -149,9 +149,11 @@ export function show(button: HTMLElement): void {
                         (plugin: any) => plugin.id === 'chromecast'
                     );
                     const isSecureContext = window.isSecureContext;
-                    const isAndroidApp = navigator.userAgent.includes('Android') && !!(window as any).Android;
+                    const isAndroidApp =
+                        navigator.userAgent.includes('Android') && !!(window as any).Android;
                     if (!isChromecastPluginLoaded || !isSecureContext || !isAndroidApp) {
-                        (menuOptions as any).text = `(${globalize.translate('GoogleCastUnsupported')})`;
+                        (menuOptions as any).text =
+                            `(${globalize.translate('GoogleCastUnsupported')})`;
                     }
 
                     (actionsheet as any)
@@ -168,11 +170,19 @@ export function show(button: HTMLElement): void {
                         });
                 })
                 .catch((err: any) => {
-                    logger.error('Failed to import action sheet', { component: 'PlayerSelectionMenu' }, err as Error);
+                    logger.error(
+                        'Failed to import action sheet',
+                        { component: 'PlayerSelectionMenu' },
+                        err as Error
+                    );
                 });
         })
         .catch((err: any) => {
-            logger.error('Failed to get playback targets', { component: 'PlayerSelectionMenu' }, err as Error);
+            logger.error(
+                'Failed to get playback targets',
+                { component: 'PlayerSelectionMenu' },
+                err as Error
+            );
         });
 }
 
@@ -244,7 +254,10 @@ function showActivePlayerMenuInternal(playerInfo: PlayerInfo): void {
 
     html += '<div>';
 
-    if (playerInfo.supportedCommands && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
+    if (
+        playerInfo.supportedCommands &&
+        playerInfo.supportedCommands.indexOf('DisplayContent') !== -1
+    ) {
         html += '<label class="checkboxContainer">';
         const checkedHtml = (playbackManager as any).enableDisplayMirroring() ? ' checked' : '';
         html += '<input type="checkbox" is="emby-checkbox" class="chkMirror"' + checkedHtml + '/>';

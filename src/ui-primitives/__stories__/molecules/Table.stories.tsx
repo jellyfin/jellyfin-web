@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../..';
 import { vars } from 'styles/tokens.css.ts';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../..';
 
 const meta: Meta<typeof Table> = {
     title: 'UI Primitives/Table',
@@ -71,10 +71,28 @@ function WithMultipleColumnsStory(): ReactElement {
             </TableHeader>
             <TableBody>
                 {[
-                    { id: 1, name: 'Alice Brown', email: 'alice@example.com', role: 'Admin', status: 'Active' },
-                    { id: 2, name: 'Charlie Wilson', email: 'charlie@example.com', role: 'Editor', status: 'Active' },
-                    { id: 3, name: 'Diana Ross', email: 'diana@example.com', role: 'Viewer', status: 'Inactive' }
-                ].map(row => (
+                    {
+                        id: 1,
+                        name: 'Alice Brown',
+                        email: 'alice@example.com',
+                        role: 'Admin',
+                        status: 'Active'
+                    },
+                    {
+                        id: 2,
+                        name: 'Charlie Wilson',
+                        email: 'charlie@example.com',
+                        role: 'Editor',
+                        status: 'Active'
+                    },
+                    {
+                        id: 3,
+                        name: 'Diana Ross',
+                        email: 'diana@example.com',
+                        role: 'Viewer',
+                        status: 'Inactive'
+                    }
+                ].map((row) => (
                     <TableRow key={row.id}>
                         <TableCell>{row.id}</TableCell>
                         <TableCell>{row.name}</TableCell>
@@ -114,7 +132,9 @@ function WithStyledCellsStory(): ReactElement {
                 <TableRow>
                     <TableCell>Inception</TableCell>
                     <TableCell>2010</TableCell>
-                    <TableCell style={{ color: '#4caf50', fontWeight: vars.typography.fontWeightMedium }}>
+                    <TableCell
+                        style={{ color: '#4caf50', fontWeight: vars.typography.fontWeightMedium }}
+                    >
                         8.8
                     </TableCell>
                     <TableCell>Sci-Fi</TableCell>
@@ -128,7 +148,9 @@ function WithStyledCellsStory(): ReactElement {
                 <TableRow>
                     <TableCell>Interstellar</TableCell>
                     <TableCell>2014</TableCell>
-                    <TableCell style={{ color: '#ff9800', fontWeight: vars.typography.fontWeightMedium }}>
+                    <TableCell
+                        style={{ color: '#ff9800', fontWeight: vars.typography.fontWeightMedium }}
+                    >
                         8.6
                     </TableCell>
                     <TableCell>Sci-Fi</TableCell>

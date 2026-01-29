@@ -1,6 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { fetchDevConfig, saveDevConfig, DEFAULT_DEV_CONFIG } from './devConfig';
+import { DEFAULT_DEV_CONFIG, fetchDevConfig, saveDevConfig } from './devConfig';
 
 describe('Production Mode Tests', () => {
     beforeEach(() => {
@@ -18,7 +18,9 @@ describe('Production Mode Tests', () => {
             ok: false
         });
 
-        await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow('Failed to save dev config');
+        await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow(
+            'Failed to save dev config'
+        );
     });
 });
 

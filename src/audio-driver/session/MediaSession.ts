@@ -1,5 +1,5 @@
-import { logger } from '../../utils/logger';
 import { PlayableItem } from '../../store/types';
+import { logger } from '../../utils/logger';
 
 export interface MediaSessionActions {
     onPlay?: () => void;
@@ -20,7 +20,10 @@ export class MediaSessionController {
     updateMetadata(item: PlayableItem | null) {
         if (!('mediaSession' in navigator) || !item) return;
 
-        logger.debug('Updating MediaSession metadata', { component: 'MediaSession', item: item.name });
+        logger.debug('Updating MediaSession metadata', {
+            component: 'MediaSession',
+            item: item.name
+        });
 
         navigator.mediaSession.metadata = new MediaMetadata({
             title: item.name,
@@ -45,7 +48,8 @@ export class MediaSessionController {
     }
 
     updatePositionState(currentTime: number, duration: number, playbackRate: number = 1) {
-        if (!('mediaSession' in navigator) || !('setPositionState' in navigator.mediaSession)) return;
+        if (!('mediaSession' in navigator) || !('setPositionState' in navigator.mediaSession))
+            return;
 
         try {
             if (duration > 0 && currentTime >= 0 && currentTime <= duration) {
@@ -56,7 +60,11 @@ export class MediaSessionController {
                 });
             }
         } catch (e) {
-            logger.warn('Failed to update MediaSession position state', { component: 'MediaSession' }, e as Error);
+            logger.warn(
+                'Failed to update MediaSession position state',
+                { component: 'MediaSession' },
+                e as Error
+            );
         }
     }
 
@@ -81,7 +89,7 @@ export class MediaSessionController {
 
         if (this.actions.onSeekTo) {
             try {
-                navigator.mediaSession.setActionHandler('seekto', details => {
+                navigator.mediaSession.setActionHandler('seekto', (details) => {
                     if (details.seekTime !== undefined) {
                         this.actions.onSeekTo?.(details.seekTime);
                     }

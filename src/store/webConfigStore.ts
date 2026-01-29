@@ -5,8 +5,7 @@
  */
 
 import { create } from 'zustand';
-import { subscribeWithSelector } from 'zustand/middleware';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware';
 import type { WebConfig } from '../types/webConfig';
 
 export interface WebConfigState {
@@ -60,21 +59,21 @@ const WEB_CONFIG_STORAGE_KEY = 'jellyfin-web-config';
 export const useWebConfigStore = create<WebConfigState>()(
     subscribeWithSelector(
         persist(
-            set => ({
+            (set) => ({
                 config: defaultConfig,
                 isLoading: false,
                 error: null,
 
-                setConfig: config => set({ config, error: null }),
+                setConfig: (config) => set({ config, error: null }),
 
-                setLoading: loading => set({ isLoading: loading }),
+                setLoading: (loading) => set({ isLoading: loading }),
 
-                setError: error => set({ error })
+                setError: (error) => set({ error })
             }),
             {
                 name: WEB_CONFIG_STORAGE_KEY,
                 storage: createJSONStorage(() => localStorage),
-                partialize: state => ({ config: state.config }),
+                partialize: (state) => ({ config: state.config }),
                 merge: (persisted, current) => ({
                     ...current,
                     config: { ...current.config, ...(persisted as any)?.config }
@@ -85,7 +84,7 @@ export const useWebConfigStore = create<WebConfigState>()(
 );
 
 // Hook for useWebConfig
-export const useWebConfig = () => useWebConfigStore(state => state.config);
+export const useWebConfig = () => useWebConfigStore((state) => state.config);
 
 // Function to load config
 export const loadWebConfig = async () => {

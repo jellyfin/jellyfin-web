@@ -11,7 +11,12 @@ class Measurement {
     private responseSent: number;
     private responseReceived: number;
 
-    constructor(requestSent: Date, requestReceived: Date, responseSent: Date, responseReceived: Date) {
+    constructor(
+        requestSent: Date,
+        requestReceived: Date,
+        responseSent: Date,
+        responseReceived: Date
+    ) {
         this.requestSent = requestSent.getTime();
         this.requestReceived = requestReceived.getTime();
         this.responseSent = responseSent.getTime();
@@ -19,10 +24,17 @@ class Measurement {
     }
 
     getOffset() {
-        return (this.requestReceived - this.requestSent + (this.responseSent - this.responseReceived)) / 2;
+        return (
+            (this.requestReceived -
+                this.requestSent +
+                (this.responseSent - this.responseReceived)) /
+            2
+        );
     }
     getDelay() {
-        return this.responseReceived - this.requestSent - (this.responseSent - this.requestReceived);
+        return (
+            this.responseReceived - this.requestSent - (this.responseSent - this.requestReceived)
+        );
     }
     getPing() {
         return this.getDelay() / 2;
@@ -68,8 +80,8 @@ class TimeSync {
             this.poller = setTimeout(() => {
                 this.poller = null;
                 this.requestPing()
-                    .then(res => this.onPingResponseCallback(res))
-                    .catch(err => this.onPingRequestErrorCallback(err))
+                    .then((res) => this.onPingResponseCallback(res))
+                    .catch((err) => this.onPingRequestErrorCallback(err))
                     .finally(() => this.internalRequestPing());
             }, this.pollingInterval);
         }

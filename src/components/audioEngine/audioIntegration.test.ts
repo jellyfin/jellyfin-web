@@ -1,6 +1,6 @@
 // AudioIntegration.test.ts - Integration tests for audio components
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock AudioContext and related APIs
 const mockAudioContext = {
@@ -61,7 +61,7 @@ Object.defineProperty(window, 'webkitAudioContext', {
 // Import after mocks are set up
 import { audioCapabilities } from './audioCapabilities';
 import audioErrorHandler from './audioErrorHandler';
-import { dBToLinear, linearToDB, clamp, safeConnect, normalizeVolume } from './audioUtils';
+import { clamp, dBToLinear, linearToDB, normalizeVolume, safeConnect } from './audioUtils';
 
 describe('Audio System Integration', () => {
     beforeEach(() => {
@@ -96,7 +96,9 @@ describe('Audio System Integration', () => {
         it('should handle Web Audio API failures gracefully', async () => {
             // Force detection to fail
             const spy = vi.spyOn(window, 'AudioContext', 'get').mockReturnValue(undefined as any);
-            const webkitSpy = vi.spyOn(window as any, 'webkitAudioContext', 'get').mockReturnValue(undefined as any);
+            const webkitSpy = vi
+                .spyOn(window as any, 'webkitAudioContext', 'get')
+                .mockReturnValue(undefined as any);
 
             const capabilities = await audioCapabilities.refreshCapabilities();
 
@@ -187,7 +189,7 @@ describe('Audio System Integration', () => {
 
             expect(result).toBe(false);
             const errors = audioErrorHandler.getRecentErrors();
-            expect(errors.some(e => e.type === 'AUDIO_NODE_CREATION_FAILED')).toBe(true);
+            expect(errors.some((e) => e.type === 'AUDIO_NODE_CREATION_FAILED')).toBe(true);
         });
     });
 
@@ -210,7 +212,7 @@ describe('Audio System Integration', () => {
 
             const errors = audioErrorHandler.getRecentErrors();
             if (!capabilities.webAudio) {
-                expect(errors.some(e => e.type === 'WEB_AUDIO_NOT_SUPPORTED')).toBe(true);
+                expect(errors.some((e) => e.type === 'WEB_AUDIO_NOT_SUPPORTED')).toBe(true);
             }
         });
     });

@@ -6,7 +6,7 @@
  */
 
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-import type { PlayableItem, MediaType } from 'store/types';
+import type { MediaType, PlayableItem } from 'store/types';
 
 /**
  * Detect media type from Jellyfin item type

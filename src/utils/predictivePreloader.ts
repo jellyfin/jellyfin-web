@@ -73,7 +73,7 @@ export class PredictivePreloader {
     }
 
     private queuePreload(resource: string, preloadFn: () => Promise<void>): Promise<void> {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             this.preloadRequestQueue.push({
                 resource,
                 promise: preloadFn().finally(() => {
@@ -117,7 +117,9 @@ export class PredictivePreloader {
             return;
         }
 
-        logger.debug(`Predictive preloading for: ${currentPath}`, { component: 'PredictivePreloader' });
+        logger.debug(`Predictive preloading for: ${currentPath}`, {
+            component: 'PredictivePreloader'
+        });
 
         // Update navigation history
         this.preloadHistory.push(currentPath);
@@ -139,7 +141,7 @@ export class PredictivePreloader {
         const preloadTime = performance.now() - startTime;
 
         // Record performance metrics
-        predictedPaths.forEach(path => {
+        predictedPaths.forEach((path) => {
             preloadPerformanceMonitor.recordPreload(path, preloadTime);
         });
 
@@ -161,7 +163,7 @@ export class PredictivePreloader {
 
         // History-based predictions (where user went after similar pages)
         const similarPages = this.findSimilarPages(currentPath);
-        similarPages.forEach(page => {
+        similarPages.forEach((page) => {
             const nextPages = this.userBehaviorPatterns.get(page) || [];
             predictions.push(...nextPages);
         });
@@ -172,7 +174,7 @@ export class PredictivePreloader {
         }
 
         // Remove duplicates and current path
-        return [...new Set(predictions)].filter(path => path !== currentPath).slice(0, 3);
+        return [...new Set(predictions)].filter((path) => path !== currentPath).slice(0, 3);
     }
 
     /**
@@ -184,7 +186,11 @@ export class PredictivePreloader {
         // Path-based component prediction
         if (currentPath.includes('music')) {
             components.push('audioEngine', 'visualizer', 'musicControls');
-        } else if (currentPath.includes('video') || currentPath.includes('movie') || currentPath.includes('tv')) {
+        } else if (
+            currentPath.includes('video') ||
+            currentPath.includes('movie') ||
+            currentPath.includes('tv')
+        ) {
             components.push('videoPlayer', 'videoOSD', 'videoUtils');
         } else if (currentPath.includes('dashboard')) {
             components.push('userManagement', 'serverControls');
@@ -202,13 +208,15 @@ export class PredictivePreloader {
      * Preload predicted routes
      */
     async preloadRoutes(paths: string[]): Promise<void> {
-        const preloadPromises = paths.map(async path => {
+        const preloadPromises = paths.map(async (path) => {
             try {
                 const importFunction = this.getRouteImportFunction(path);
                 if (importFunction) {
                     const resourceId = `route:${path}`;
                     if (this.preloadQueue.has(resourceId)) {
-                        logger.debug(`Route already preloaded: ${path}`, { component: 'PredictivePreloader' });
+                        logger.debug(`Route already preloaded: ${path}`, {
+                            component: 'PredictivePreloader'
+                        });
                         return;
                     }
                     logger.debug(`Preloading route: ${path}`, { component: 'PredictivePreloader' });
@@ -216,7 +224,11 @@ export class PredictivePreloader {
                     this.preloadQueue.add(resourceId);
                 }
             } catch (error) {
-                logger.warn(`Failed to preload route ${path}`, { component: 'PredictivePreloader' }, error as Error);
+                logger.warn(
+                    `Failed to preload route ${path}`,
+                    { component: 'PredictivePreloader' },
+                    error as Error
+                );
             }
         });
 
@@ -227,16 +239,20 @@ export class PredictivePreloader {
      * Preload predicted components
      */
     async preloadComponents(components: string[]): Promise<void> {
-        const preloadPromises = components.map(async component => {
+        const preloadPromises = components.map(async (component) => {
             try {
                 const importFunction = this.getComponentImportFunction(component);
                 if (importFunction) {
                     const resourceId = `component:${component}`;
                     if (this.preloadQueue.has(resourceId)) {
-                        logger.debug(`Component already preloaded: ${component}`, { component: 'PredictivePreloader' });
+                        logger.debug(`Component already preloaded: ${component}`, {
+                            component: 'PredictivePreloader'
+                        });
                         return;
                     }
-                    logger.debug(`Preloading component: ${component}`, { component: 'PredictivePreloader' });
+                    logger.debug(`Preloading component: ${component}`, {
+                        component: 'PredictivePreloader'
+                    });
                     await this.queuePreload(resourceId, importFunction);
                     this.preloadQueue.add(resourceId);
                 }
@@ -276,7 +292,8 @@ export class PredictivePreloader {
             '/musicalbums': () => import('../apps/stable/routes/lazyRoutes/MusicAlbumsPage'),
             '/musicartists': () => import('../apps/stable/routes/lazyRoutes/MusicArtistsPage'),
             '/movies': () => import('../apps/stable/routes/lazyRoutes/MoviesRecommendedPage'),
-            '/moviecollections': () => import('../apps/stable/routes/lazyRoutes/MovieCollectionsPage'),
+            '/moviecollections': () =>
+                import('../apps/stable/routes/lazyRoutes/MovieCollectionsPage'),
             '/tv': () => import('../apps/stable/routes/lazyRoutes/TVRecommendedPage'),
             '/tvshows': () => import('../apps/stable/routes/lazyRoutes/TVShowsPage'),
             '/episodes': () => import('../apps/stable/routes/lazyRoutes/EpisodesPage'),
@@ -316,7 +333,7 @@ export class PredictivePreloader {
         const similar: string[] = [];
 
         // Simple similarity based on path segments
-        this.preloadHistory.forEach(historyPath => {
+        this.preloadHistory.forEach((historyPath) => {
             if (this.calculatePathSimilarity(currentPath, historyPath) > 0.5) {
                 similar.push(historyPath);
             }
@@ -332,8 +349,8 @@ export class PredictivePreloader {
         const segments1 = path1.split('/').filter(Boolean);
         const segments2 = path2.split('/').filter(Boolean);
 
-        const commonSegments = segments1.filter(segment =>
-            segments2.some(s2 => s2.includes(segment) || segment.includes(s2))
+        const commonSegments = segments1.filter((segment) =>
+            segments2.some((s2) => s2.includes(segment) || segment.includes(s2))
         );
 
         return commonSegments.length / Math.max(segments1.length, segments2.length);
@@ -386,7 +403,9 @@ export class PredictivePreloader {
         // Extract item ID from path and preload related content
         const itemId = this.extractItemId(detailsPath);
         if (itemId) {
-            logger.debug(`Would preload related items for: ${itemId}`, { component: 'PredictivePreloader' });
+            logger.debug(`Would preload related items for: ${itemId}`, {
+                component: 'PredictivePreloader'
+            });
         }
     }
 

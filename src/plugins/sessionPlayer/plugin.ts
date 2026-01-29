@@ -1,5 +1,5 @@
-import { playbackManager } from '../../components/playback/playbackmanager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { playbackManager } from '../../components/playback/playbackmanager';
 import serverNotifications from '../../scripts/serverNotifications';
 import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
@@ -22,7 +22,8 @@ function sendPlayCommand(apiClient: any, options: any, playType: string) {
     if (options.startPositionTicks) remoteOptions.StartPositionTicks = options.startPositionTicks;
     if (options.mediaSourceId) remoteOptions.MediaSourceId = options.mediaSourceId;
     if (options.audioStreamIndex != null) remoteOptions.AudioStreamIndex = options.audioStreamIndex;
-    if (options.subtitleStreamIndex != null) remoteOptions.SubtitleStreamIndex = options.subtitleStreamIndex;
+    if (options.subtitleStreamIndex != null)
+        remoteOptions.SubtitleStreamIndex = options.subtitleStreamIndex;
     if (options.startIndex != null) remoteOptions.StartIndex = options.startIndex;
 
     return apiClient.sendPlayCommand(sessionId, remoteOptions);
@@ -126,7 +127,7 @@ class SessionPlayer {
 
     private processUpdatedSessions(sessions: any[], apiClient: any) {
         const currentTargetId = getActivePlayerId();
-        const session = sessions.find(s => s.Id === currentTargetId);
+        const session = sessions.find((s) => s.Id === currentTargetId);
 
         if (session) {
             normalizeImages(session, apiClient);
@@ -145,8 +146,8 @@ class SessionPlayer {
 
         return apiClient.getSessions(sessionQuery).then((sessions: any[]) => {
             return sessions
-                .filter(s => s.DeviceId !== apiClient.deviceId())
-                .map(s => ({
+                .filter((s) => s.DeviceId !== apiClient.deviceId())
+                .map((s) => ({
                     name: s.DeviceName,
                     deviceName: s.DeviceName,
                     deviceType: s.DeviceType,

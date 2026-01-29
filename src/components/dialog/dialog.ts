@@ -1,6 +1,6 @@
 import { escapeHtml } from 'utils/html';
-import dialogHelper, { DialogOptions } from '../dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
+import dialogHelper, { DialogOptions } from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 
 export interface DialogButton {
@@ -30,7 +30,7 @@ async function showDialog(options: ShowDialogOptions): Promise<string> {
     const dlg = dialogHelper.createDialog(dialogOptions);
     dlg.classList.add('formDialog', 'align-items-center', 'justify-content-center');
 
-    let html = `
+    const html = `
         <div class="formDialogHeader">
             <h3 class="formDialogHeaderTitle">${escapeHtml(options.title || '')}</h3>
         </div>
@@ -60,7 +60,9 @@ async function showDialog(options: ShowDialogOptions): Promise<string> {
         dialogHelper.close(dlg);
     };
 
-    dlg.querySelectorAll('.btnOption').forEach(btn => btn.addEventListener('click', onButtonClick));
+    dlg.querySelectorAll('.btnOption').forEach((btn) =>
+        btn.addEventListener('click', onButtonClick)
+    );
 
     await dialogHelper.open(dlg);
     if (result) return result;

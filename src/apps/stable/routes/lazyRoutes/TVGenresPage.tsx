@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Box } from 'ui-primitives';
-import { Card, CardBody } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
 import globalize from 'lib/globalize';
+import React, { useEffect, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, CardBody, CircularProgress, Text } from 'ui-primitives';
 
 const TVGenresPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -56,7 +53,7 @@ const TVGenresPage: React.FC = () => {
                     gap: vars.spacing['6']
                 }}
             >
-                {data.map(item => (
+                {data.map((item) => (
                     <Card key={item.id} style={{ height: '100%' }}>
                         <Box
                             style={{

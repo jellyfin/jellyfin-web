@@ -1,25 +1,25 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "",
-  "declared_features": "",
-  "target": 0,
-  "profile": 0,
-  "path": 0,
-  "deps": [[8265977775676642988, "build_script_build", false, 5896075766860496845]],
-  "local": [
-    {
-      "RerunIfChanged": {
-        "output": "debug/build/proc-macro2-e6acf1f4c5070ba5/output",
-        "paths": [
-          "src/probe/proc_macro_span.rs",
-          "src/probe/proc_macro_span_location.rs",
-          "src/probe/proc_macro_span_file.rs"
-        ]
-      }
-    },
-    { "RerunIfEnvChanged": { "var": "RUSTC_BOOTSTRAP", "val": null } }
-  ],
-  "rustflags": [],
-  "config": 0,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "",
+    "declared_features": "",
+    "target": 0,
+    "profile": 0,
+    "path": 0,
+    "deps": [[8265977775676642988, "build_script_build", false, 5896075766860496845]],
+    "local": [
+        {
+            "RerunIfChanged": {
+                "output": "debug/build/proc-macro2-e6acf1f4c5070ba5/output",
+                "paths": [
+                    "src/probe/proc_macro_span.rs",
+                    "src/probe/proc_macro_span_location.rs",
+                    "src/probe/proc_macro_span_file.rs"
+                ]
+            }
+        },
+        { "RerunIfEnvChanged": { "var": "RUSTC_BOOTSTRAP", "val": null } }
+    ],
+    "rustflags": [],
+    "config": 0,
+    "compile_kind": 0
 }

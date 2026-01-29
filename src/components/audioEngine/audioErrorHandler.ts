@@ -1,6 +1,6 @@
 // AudioErrorHandler.ts - Centralized error handling for audio components
 
-import { logger, LogLevel } from 'utils/logger';
+import { LogLevel, logger } from 'utils/logger';
 
 export enum AudioErrorType {
     WEB_AUDIO_NOT_SUPPORTED = 'WEB_AUDIO_NOT_SUPPORTED',
@@ -163,7 +163,9 @@ export class AudioErrorHandler {
     hasRecentError(type: AudioErrorType, withinMs = 30000): boolean {
         const now = Date.now();
         return this.errorHistory.some(
-            error => error.type === type && now - new Date(error.context?.timestamp || 0).getTime() < withinMs
+            (error) =>
+                error.type === type &&
+                now - new Date(error.context?.timestamp || 0).getTime() < withinMs
         );
     }
 

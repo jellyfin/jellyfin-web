@@ -1,1 +1,1 @@
-export { progressRoot, progressIndicator, progressStyles, Progress } from './Progress';
+export { Progress, progressIndicator, progressRoot, progressStyles } from './Progress';

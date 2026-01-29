@@ -1,13 +1,13 @@
-import loading from '../../components/loading/loading';
-import * as userSettings from '../../scripts/settings/userSettings';
-import libraryBrowser from '../../scripts/libraryBrowser';
-import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
-import listView from '../../components/listview/listview';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import globalize from '../../lib/globalize';
-import Events from '../../utils/events';
-import { playbackManager } from '../../components/playback/playbackmanager';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import listView from '../../components/listview/listview';
+import loading from '../../components/loading/loading';
+import { playbackManager } from '../../components/playback/playbackmanager';
+import globalize from '../../lib/globalize';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import * as userSettings from '../../scripts/settings/userSettings';
+import Events from '../../utils/events';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -41,15 +41,23 @@ export default function (view, params, tabContent, options) {
     function shuffle() {
         isLoading = true;
         loading.show();
-        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
-        return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
-            playbackManager.play({
-                items: Items,
-                autoplay: true
+        const newQuery = {
+            ...query,
+            SortBy: 'Random',
+            StartIndex: 0,
+            Limit: 300,
+            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay'
+        };
+        return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery)
+            .then(({ Items }) => {
+                playbackManager.play({
+                    items: Items,
+                    autoplay: true
+                });
+            })
+            .finally(() => {
+                isLoading = false;
             });
-        }).finally(() => {
-            isLoading = false;
-        });
     }
 
     const afterRefresh = (result) => {
@@ -101,8 +109,12 @@ export default function (view, params, tabContent, options) {
             elem.addEventListener('click', onPreviousPageClick);
         }
 
-        tabContent.querySelector('.btnPlayAll')?.classList.toggle('hide', result.TotalRecordCount < 1);
-        tabContent.querySelector('.btnShuffle')?.classList.toggle('hide', result.TotalRecordCount < 1);
+        tabContent
+            .querySelector('.btnPlayAll')
+            ?.classList.toggle('hide', result.TotalRecordCount < 1);
+        tabContent
+            .querySelector('.btnShuffle')
+            ?.classList.toggle('hide', result.TotalRecordCount < 1);
 
         isLoading = false;
         loading.hide();
@@ -221,37 +233,48 @@ export default function (view, params, tabContent, options) {
         if (btnSort) {
             btnSort.addEventListener('click', (e) => {
                 libraryBrowser.showSortMenu({
-                    items: [{
-                        name: globalize.translate('Name'),
-                        id: 'SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionRandom'),
-                        id: 'Random'
-                    }, {
-                        name: globalize.translate('OptionCommunityRating'),
-                        id: 'CommunityRating,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionCriticRating'),
-                        id: 'CriticRating,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionDateAdded'),
-                        id: 'DateCreated,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionDatePlayed'),
-                        id: 'DatePlayed,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionParentalRating'),
-                        id: 'OfficialRating,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionPlayCount'),
-                        id: 'PlayCount,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('OptionReleaseDate'),
-                        id: 'PremiereDate,SortName,ProductionYear'
-                    }, {
-                        name: globalize.translate('Runtime'),
-                        id: 'Runtime,SortName,ProductionYear'
-                    }],
+                    items: [
+                        {
+                            name: globalize.translate('Name'),
+                            id: 'SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionRandom'),
+                            id: 'Random'
+                        },
+                        {
+                            name: globalize.translate('OptionCommunityRating'),
+                            id: 'CommunityRating,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionCriticRating'),
+                            id: 'CriticRating,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionDateAdded'),
+                            id: 'DateCreated,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionDatePlayed'),
+                            id: 'DatePlayed,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionParentalRating'),
+                            id: 'OfficialRating,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionPlayCount'),
+                            id: 'PlayCount,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('OptionReleaseDate'),
+                            id: 'PremiereDate,SortName,ProductionYear'
+                        },
+                        {
+                            name: globalize.translate('Runtime'),
+                            id: 'Runtime,SortName,ProductionYear'
+                        }
+                    ],
                     callback: function () {
                         query.StartIndex = 0;
                         userSettings.saveQuerySettings(savedQueryKey, query);
@@ -264,7 +287,11 @@ export default function (view, params, tabContent, options) {
         }
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', (e) => {
-            libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+            libraryBrowser.showLayoutMenu(
+                e.target,
+                this.getCurrentViewStyle(),
+                'Banner,List,Poster,PosterCard,Thumb,ThumbCard'.split(',')
+            );
         });
         btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;

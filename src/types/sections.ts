@@ -69,11 +69,19 @@ export const MovieSuggestionsSectionsView: SectionsView = {
 };
 
 export const TvShowSuggestionsSectionsView: SectionsView = {
-    suggestionSections: [SectionType.ContinueWatchingEpisode, SectionType.LatestEpisode, SectionType.NextUp]
+    suggestionSections: [
+        SectionType.ContinueWatchingEpisode,
+        SectionType.LatestEpisode,
+        SectionType.NextUp
+    ]
 };
 
 export const MusicSuggestionsSectionsView: SectionsView = {
-    suggestionSections: [SectionType.LatestMusic, SectionType.FrequentlyPlayedMusic, SectionType.RecentlyPlayedMusic]
+    suggestionSections: [
+        SectionType.LatestMusic,
+        SectionType.FrequentlyPlayedMusic,
+        SectionType.RecentlyPlayedMusic
+    ]
 };
 
 export const ProgramSectionsView: SectionsView = {

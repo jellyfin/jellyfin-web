@@ -1,22 +1,34 @@
-import { HeartFilledIcon, HomeIcon, ListBulletIcon, PlayIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
-import React from 'react';
+import {
+    HeartFilledIcon,
+    HomeIcon,
+    ListBulletIcon,
+    PlayIcon,
+    SpeakerLoudIcon
+} from '@radix-ui/react-icons';
 import { useLocation } from '@tanstack/react-router';
-import { Divider } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { List, ListItem, ListItemContent, ListItemDecorator, ListSubheader } from 'ui-primitives';
-import { ListItemButton } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import ListItemLink from 'components/ListItemLink';
 import { appRouter } from 'components/router/appRouter';
-import RemotePlayButton from '../AppToolbar/RemotePlayButton';
-import SyncPlayButton from '../AppToolbar/SyncPlayButton';
 import { useApi } from 'hooks/useApi';
 import { useUserViews } from 'hooks/useUserViews';
 import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'lib/globalize';
+import React from 'react';
 import { selectCurrentPlayer, selectCurrentQueueItem, usePlayerStore, useQueueStore } from 'store';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Divider,
+    Flex,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemContent,
+    ListItemDecorator,
+    ListSubheader,
+    Text
+} from 'ui-primitives';
+import RemotePlayButton from '../AppToolbar/RemotePlayButton';
+import SyncPlayButton from '../AppToolbar/SyncPlayButton';
 
 import LibraryIcon from '../LibraryIcon';
 import DrawerHeaderLink from './DrawerHeaderLink';
@@ -55,7 +67,8 @@ const MainDrawerContent = ({ isOpen }: MainDrawerContentProps) => {
         transitionDelay: `${index * 40}ms`
     });
 
-    const isHomeSelected = location.pathname === '/home' && (!location.search || location.search === '?tab=0');
+    const isHomeSelected =
+        location.pathname === '/home' && (!location.search || location.search === '?tab=0');
 
     return (
         <>
@@ -91,7 +104,7 @@ const MainDrawerContent = ({ isOpen }: MainDrawerContentProps) => {
                 <>
                     <Divider />
                     <List>
-                        {webConfig.menuLinks.map(menuLink => (
+                        {webConfig.menuLinks.map((menuLink) => (
                             <ListItem key={`${menuLink.name}_${menuLink.url}`} disablePadding>
                                 <ListItemButton
                                     component="a"
@@ -100,7 +113,9 @@ const MainDrawerContent = ({ isOpen }: MainDrawerContentProps) => {
                                     rel="noopener noreferrer"
                                 >
                                     <ListItemDecorator>
-                                        <span className="material-icons">{menuLink.icon ?? 'link'}</span>
+                                        <span className="material-icons">
+                                            {menuLink.icon ?? 'link'}
+                                        </span>
                                     </ListItemDecorator>
                                     <ListItemContent>
                                         <Text>{menuLink.name}</Text>
@@ -121,7 +136,10 @@ const MainDrawerContent = ({ isOpen }: MainDrawerContentProps) => {
 
                     return (
                         <ListItem key={link.path} disablePadding style={getRowStyle(index)}>
-                            <ListItemLink to={link.path.substring(1)} selected={location.pathname === link.path}>
+                            <ListItemLink
+                                to={link.path.substring(1)}
+                                selected={location.pathname === link.path}
+                            >
                                 <ListItemDecorator>
                                     <Icon />
                                 </ListItemDecorator>
@@ -148,7 +166,9 @@ const MainDrawerContent = ({ isOpen }: MainDrawerContentProps) => {
                         <ListItemContent>
                             <Text weight="medium">{currentPlayer?.name || 'Local player'}</Text>
                             <Text size="sm" color="muted">
-                                {currentQueueItem?.item.artist || currentQueueItem?.item.name || 'Idle'}
+                                {currentQueueItem?.item.artist ||
+                                    currentQueueItem?.item.name ||
+                                    'Idle'}
                             </Text>
                         </ListItemContent>
                     </Box>
@@ -184,10 +204,12 @@ const MainDrawerContent = ({ isOpen }: MainDrawerContentProps) => {
                             </ListSubheader>
                         }
                     >
-                        {userViews.map(view => (
+                        {userViews.map((view) => (
                             <ListItem key={view.Id} disablePadding>
                                 <ListItemLink
-                                    to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
+                                    to={appRouter
+                                        .getRouteUrl(view, { context: view.CollectionType })
+                                        .substring(1)}
                                 >
                                     <ListItemDecorator>
                                         <LibraryIcon item={view} />

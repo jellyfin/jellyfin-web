@@ -4,25 +4,26 @@
  * Main artists browser displaying all music artists.
  */
 
-import React, { useState, useCallback } from 'react';
-import { useParams } from '@tanstack/react-router';
+import {
+    CaretSortIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    GridIcon,
+    ListBulletIcon
+} from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
-
-import { itemsApi } from 'lib/api/items';
-import { useViewStyle } from 'hooks/useViewStyle';
-import { usePagination } from 'hooks/usePagination';
-import { MediaGrid } from 'components/media/MediaGrid';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { ErrorState } from 'components/ErrorState';
+import { useParams } from '@tanstack/react-router';
 import { EmptyState } from 'components/EmptyState';
-import { Text, Heading } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-
-import { CaretSortIcon, ChevronLeftIcon, ChevronRightIcon, GridIcon, ListBulletIcon } from '@radix-ui/react-icons';
-
-import { logger } from 'utils/logger';
+import { ErrorState } from 'components/ErrorState';
+import { LoadingSpinner } from 'components/LoadingSpinner';
+import { MediaGrid } from 'components/media/MediaGrid';
+import { usePagination } from 'hooks/usePagination';
+import { useViewStyle } from 'hooks/useViewStyle';
+import { itemsApi } from 'lib/api/items';
+import React, { useCallback, useState } from 'react';
+import { Chip, Heading, IconButton, Text } from 'ui-primitives';
 import { formatArtistName } from 'utils/formatUtils';
+import { logger } from 'utils/logger';
 import * as styles from './Artists.css.ts';
 
 type ViewStyle = 'List' | 'Poster';
@@ -59,13 +60,13 @@ export const Artists: React.FC = () => {
 
     const handleNextPage = useCallback(() => {
         if (hasNextPage) {
-            setPageIndex(prev => prev + 1);
+            setPageIndex((prev) => prev + 1);
         }
     }, [hasNextPage, setPageIndex]);
 
     const handlePreviousPage = useCallback(() => {
         if (hasPreviousPage && pageIndex > 0) {
-            setPageIndex(prev => prev - 1);
+            setPageIndex((prev) => prev - 1);
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
 
@@ -75,7 +76,10 @@ export const Artists: React.FC = () => {
 
     if (isError) {
         return (
-            <ErrorState message={error instanceof Error ? error.message : 'Failed to load artists'} onRetry={refetch} />
+            <ErrorState
+                message={error instanceof Error ? error.message : 'Failed to load artists'}
+                onRetry={refetch}
+            />
         );
     }
 
@@ -83,7 +87,12 @@ export const Artists: React.FC = () => {
     const totalCount = data?.TotalRecordCount || 0;
 
     if (artists.length === 0) {
-        return <EmptyState title="No Artists" description="Add music to your library to see artists here." />;
+        return (
+            <EmptyState
+                title="No Artists"
+                description="Add music to your library to see artists here."
+            />
+        );
     }
 
     return (
@@ -95,7 +104,7 @@ export const Artists: React.FC = () => {
                         <CaretSortIcon />
                         <select
                             value={sortBy}
-                            onChange={e => {
+                            onChange={(e) => {
                                 setSortBy(e.target.value as SortOption);
                                 setPageIndex(0);
                             }}

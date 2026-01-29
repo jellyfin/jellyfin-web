@@ -1,1 +1,1 @@
-export { paperStyles, paperElevation, type PaperElevation, Paper } from './Paper';
+export { Paper, type PaperElevation, paperElevation, paperStyles } from './Paper';

@@ -1,5 +1,5 @@
-import { useCallback, useMemo } from 'react';
 import { useNavigate, useRouterState } from '@tanstack/react-router';
+import { useCallback, useMemo } from 'react';
 
 export interface SetSearchParamsOptions {
     replace?: boolean;
@@ -34,16 +34,19 @@ const buildSearchParams = (
 export const useSearchParams = (): [URLSearchParams, SetSearchParams] => {
     const navigate = useNavigate();
     const pathname = useRouterState({
-        select: state => state.location.pathname
+        select: (state) => state.location.pathname
     });
     const search = useRouterState({
-        select: state => state.location.search
+        select: (state) => state.location.search
     });
 
     const searchParams = useMemo(() => new URLSearchParams(search), [search]);
 
     const setSearchParams = useCallback(
-        (nextInit: URLSearchParams | string | Record<string, string | undefined>, options?: SetSearchParamsOptions) => {
+        (
+            nextInit: URLSearchParams | string | Record<string, string | undefined>,
+            options?: SetSearchParamsOptions
+        ) => {
             const nextParams = buildSearchParams(nextInit);
             const nextSearch = nextParams.toString();
             const to = nextSearch ? `${pathname}?${nextSearch}` : pathname;

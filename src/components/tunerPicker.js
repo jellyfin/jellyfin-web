@@ -1,11 +1,11 @@
-import dialogHelper from './dialogHelper/dialogHelper';
-import dom from '../utils/dom';
-import layoutManager from './layoutManager';
 import globalize from '../lib/globalize';
-import loading from './loading/loading';
 import browser from '../scripts/browser';
-import focusManager from './focusManager';
 import scrollHelper from '../scripts/scrollHelper';
+import dom from '../utils/dom';
+import dialogHelper from './dialogHelper/dialogHelper';
+import focusManager from './focusManager';
+import layoutManager from './layoutManager';
+import loading from './loading/loading';
 import './formdialog.scss';
 import '../elements/emby-button/emby-button';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
@@ -49,7 +49,11 @@ function getDeviceHtml(device) {
     }
 
     html +=
-        '<button type="button" class="' + cssClass + '" data-id="' + device.DeviceId + '" style="min-width:33.3333%;">';
+        '<button type="button" class="' +
+        cssClass +
+        '" data-id="' +
+        device.DeviceId +
+        '" style="min-width:33.3333%;">';
     html += '<div class="' + cardBoxCssClass + '">';
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="' + padderClass + '"></div>';
@@ -60,7 +64,10 @@ function getDeviceHtml(device) {
     html += '</div>';
     html += '<div class="cardFooter visualCardBox-cardFooter">';
     html += '<div class="cardText cardTextCentered">' + getTunerName(device.Type) + '</div>';
-    html += '<div class="cardText cardTextCentered cardText-secondary">' + device.FriendlyName + '</div>';
+    html +=
+        '<div class="cardText cardTextCentered cardText-secondary">' +
+        device.FriendlyName +
+        '</div>';
     html += '<div class="cardText cardText-secondary cardTextCentered">';
     html += device.Url || '&nbsp;';
     html += '</div>';
@@ -118,7 +125,7 @@ function discoverDevices(view) {
         ApiClient.getUrl('LiveTv/Tuners/Discover', {
             NewDevicesOnly: true
         })
-    ).then(devices => {
+    ).then((devices) => {
         currentDevices = devices;
         renderDevices(view, devices);
         view.querySelector('.loadingContent').classList.add('hide');
@@ -154,12 +161,12 @@ function TunerPicker() {
             dialogHelper.close(dlg);
         });
         let deviceResult;
-        dlg.querySelector('.results').addEventListener('click', e => {
+        dlg.querySelector('.results').addEventListener('click', (e) => {
             const tunerCard = dom.parentWithClass(e.target, 'card');
 
             if (tunerCard) {
                 const deviceId = tunerCard.getAttribute('data-id');
-                deviceResult = currentDevices.filter(d => {
+                deviceResult = currentDevices.filter((d) => {
                     return d.DeviceId === deviceId;
                 })[0];
                 dialogHelper.close(dlg);

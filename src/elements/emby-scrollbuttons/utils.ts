@@ -1,5 +1,5 @@
-import ScrollerFactory from 'lib/scroller';
 import globalize from 'lib/globalize';
+import ScrollerFactory from 'lib/scroller';
 
 export enum ScrollDirection {
     RIGHT = 'right',
@@ -23,7 +23,11 @@ interface ScrollToWindowProps {
     direction: ScrollDirection;
 }
 
-export function scrollerItemSlideIntoView({ direction, scroller, scrollState }: ScrollerItemSlideIntoViewProps) {
+export function scrollerItemSlideIntoView({
+    direction,
+    scroller,
+    scrollState
+}: ScrollerItemSlideIntoViewProps) {
     if (!scroller) {
         return;
     }
@@ -64,7 +68,12 @@ function getFirstAndLastVisible(
     return [firstVisibleIndex, lastVisibleIndex];
 }
 
-function scrollToWindow({ scroller, items, scrollState, direction = ScrollDirection.RIGHT }: ScrollToWindowProps) {
+function scrollToWindow({
+    scroller,
+    items,
+    scrollState,
+    direction = ScrollDirection.RIGHT
+}: ScrollToWindowProps) {
     // When we're rendering RTL, scrolling toward the end of the container is toward the left so all of our scroll
     // positions need to be negative.
     const isRTL = globalize.getIsRTL();
@@ -95,7 +104,8 @@ function scrollToWindow({ scroller, items, scrollState, direction = ScrollDirect
         // `firstVisibleIndex`. The total width of these items is the amount that we need to adjust the scroll position by
         // to anchor item at `firstVisibleIndex` to the end of the view window.
         const offsetAdjustment =
-            (Math.floor(frame.offsetWidth / previousItem.offsetWidth) - 1) * previousItem.offsetWidth;
+            (Math.floor(frame.offsetWidth / previousItem.offsetWidth) - 1) *
+            previousItem.offsetWidth;
 
         // This will be the position to anchor the item at `firstVisibleIndex` to the end of the view window.
         scrollToPosition = (previousItemScrollOffset - offsetAdjustment) * localeModifier;

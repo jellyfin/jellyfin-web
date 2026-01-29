@@ -25,12 +25,12 @@ export async function getLocale(locale: LocaleCode): Promise<TranslationDict> {
     const file = getLocaleFile(locale).replace('_', '-').toLowerCase();
 
     const loadPromise = loadLocaleFile(file)
-        .then(translations => {
+        .then((translations) => {
             localeCache.set(locale, translations);
             loadingPromises.delete(locale);
             return translations;
         })
-        .catch(error => {
+        .catch((error) => {
             loadingPromises.delete(locale);
             throw error;
         });

@@ -1,8 +1,8 @@
 import { Theme } from '@radix-ui/themes';
 import { useEffect, useMemo } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import { useUserTheme } from '../../hooks/useUserTheme';
 import themeManager from '../../scripts/themeManager';
-import { vars } from 'styles/tokens.css.ts';
 
 type RadixTheme = 'light' | 'dark';
 
@@ -66,26 +66,28 @@ export function ThemeProvider({ children }: ThemeProviderProps): React.ReactElem
             grayColor="sage"
             radius="medium"
             scaling={scaling}
-            style={{
-                '--space-1': vars.spacing['1'],
-                '--space-2': vars.spacing['2'],
-                '--space-3': vars.spacing['3'],
-                '--space-4': vars.spacing['4'],
-                '--space-5': vars.spacing['5'],
-                '--space-6': vars.spacing['6'],
-                '--space-7': vars.spacing['7'],
-                '--space-8': vars.spacing['8'],
-                '--space-9': vars.spacing['9'],
-                '--font-size-1': vars.typography['1'].fontSize,
-                '--font-size-2': vars.typography['2'].fontSize,
-                '--font-size-3': vars.typography['3'].fontSize,
-                '--font-size-4': vars.typography['4'].fontSize,
-                '--font-size-5': vars.typography['5'].fontSize,
-                '--font-size-6': vars.typography['6'].fontSize,
-                '--font-size-7': vars.typography['7'].fontSize,
-                '--font-size-8': vars.typography['8'].fontSize,
-                '--font-size-9': vars.typography['9'].fontSize
-            } as React.CSSProperties}
+            style={
+                {
+                    '--space-1': vars.spacing['1'],
+                    '--space-2': vars.spacing['2'],
+                    '--space-3': vars.spacing['3'],
+                    '--space-4': vars.spacing['4'],
+                    '--space-5': vars.spacing['5'],
+                    '--space-6': vars.spacing['6'],
+                    '--space-7': vars.spacing['7'],
+                    '--space-8': vars.spacing['8'],
+                    '--space-9': vars.spacing['9'],
+                    '--font-size-1': vars.typography['1'].fontSize,
+                    '--font-size-2': vars.typography['2'].fontSize,
+                    '--font-size-3': vars.typography['3'].fontSize,
+                    '--font-size-4': vars.typography['4'].fontSize,
+                    '--font-size-5': vars.typography['5'].fontSize,
+                    '--font-size-6': vars.typography['6'].fontSize,
+                    '--font-size-7': vars.typography['7'].fontSize,
+                    '--font-size-8': vars.typography['8'].fontSize,
+                    '--font-size-9': vars.typography['9'].fontSize
+                } as React.CSSProperties
+            }
         >
             {children}
         </Theme>

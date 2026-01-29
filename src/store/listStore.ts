@@ -37,20 +37,20 @@ const initialState = {
     error: null as string | null
 };
 
-export const useListStore = create<ListState>(set => ({
+export const useListStore = create<ListState>((set) => ({
     ...initialState,
 
-    setViewMode: mode => set({ viewMode: mode }),
+    setViewMode: (mode) => set({ viewMode: mode }),
 
-    setParentId: id => set({ parentId: id }),
+    setParentId: (id) => set({ parentId: id }),
 
-    setCollectionType: type => set({ collectionType: type }),
+    setCollectionType: (type) => set({ collectionType: type }),
 
     setSort: (by, order) => set({ sortBy: by, sortOrder: order }),
 
-    setLoading: loading => set({ isLoading: loading }),
+    setLoading: (loading) => set({ isLoading: loading }),
 
-    setError: error => set({ error }),
+    setError: (error) => set({ error }),
 
     reset: () => set(initialState)
 }));

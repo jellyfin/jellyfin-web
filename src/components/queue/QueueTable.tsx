@@ -1,34 +1,40 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { DiscIcon, DragHandleDots2Icon, PlayIcon, TrashIcon } from '@radix-ui/react-icons';
-
 import {
-    DndContext,
-    DragOverlay,
     closestCenter,
+    DndContext,
+    type DragEndEvent,
+    DragOverlay,
+    type DragStartEvent,
+    defaultDropAnimationSideEffects,
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors,
-    defaultDropAnimationSideEffects,
-    type DragEndEvent,
-    type DragStartEvent
+    useSensors
 } from '@dnd-kit/core';
 import {
     arrayMove,
     SortableContext,
     sortableKeyboardCoordinates,
-    verticalListSortingStrategy,
-    useSortable
+    useSortable,
+    verticalListSortingStrategy
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { DiscIcon, DragHandleDots2Icon, PlayIcon, TrashIcon } from '@radix-ui/react-icons';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import type { QueueItem } from 'store/types';
-import { List, ListItem, ListItemButton, ListItemAvatar, ListItemText } from 'ui-primitives';
-import { Avatar } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Avatar,
+    Box,
+    Flex,
+    IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemButton,
+    ListItemText,
+    Text
+} from 'ui-primitives';
 
 export interface QueueTableProps {
     items: QueueItem[];
@@ -69,7 +75,9 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
     onRemove,
     onSelect
 }) => {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id: item.id
+    });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -143,12 +151,16 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({
                             >
                                 {item.item.name}
                             </Text>
-                            {isPlaying && <PlayIcon style={{ fontSize: 14, color: vars.colors.primary }} />}
+                            {isPlaying && (
+                                <PlayIcon style={{ fontSize: 14, color: vars.colors.primary }} />
+                            )}
                         </Flex>
                     }
                     secondary={
                         <Text size="xs" color="secondary">
-                            {item.item.artist || item.item.album || formatDuration(item.item.runtimeTicks)}
+                            {item.item.artist ||
+                                item.item.album ||
+                                formatDuration(item.item.runtimeTicks)}
                         </Text>
                     }
                 />
@@ -184,7 +196,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         })
     );
 
-    const itemIds = useMemo(() => items.map(item => item.id), [items]);
+    const itemIds = useMemo(() => items.map((item) => item.id), [items]);
 
     const handleDragStart = useCallback((event: DragStartEvent) => {
         setActiveId(event.active.id as string);
@@ -196,8 +208,8 @@ export const QueueTable: React.FC<QueueTableProps> = ({
             setActiveId(null);
 
             if (over && active.id !== over.id) {
-                const oldIndex = items.findIndex(item => item.id === active.id);
-                const newIndex = items.findIndex(item => item.id === over.id);
+                const oldIndex = items.findIndex((item) => item.id === active.id);
+                const newIndex = items.findIndex((item) => item.id === over.id);
                 if (oldIndex !== -1 && newIndex !== -1) {
                     onReorder(oldIndex, newIndex);
                 }
@@ -206,7 +218,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
         [items, onReorder]
     );
 
-    const activeItem = activeId ? items.find(item => item.id === activeId) : null;
+    const activeItem = activeId ? items.find((item) => item.id === activeId) : null;
 
     const dropAnimation = {
         sideEffects: defaultDropAnimationSideEffects({
@@ -219,7 +231,10 @@ export const QueueTable: React.FC<QueueTableProps> = ({
     };
 
     return (
-        <Box className="playlist itemsContainer vertical-list nowPlayingPlaylist" style={{ width: '100%' }}>
+        <Box
+            className="playlist itemsContainer vertical-list nowPlayingPlaylist"
+            style={{ width: '100%' }}
+        >
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
@@ -252,7 +267,10 @@ export const QueueTable: React.FC<QueueTableProps> = ({
                             }}
                         >
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
-                                <Avatar src={activeItem.item.imageUrl || undefined} style={{ width: 40, height: 40 }}>
+                                <Avatar
+                                    src={activeItem.item.imageUrl || undefined}
+                                    style={{ width: 40, height: 40 }}
+                                >
                                     <DiscIcon />
                                 </Avatar>
                                 <Text size="sm">{activeItem.item.name}</Text>

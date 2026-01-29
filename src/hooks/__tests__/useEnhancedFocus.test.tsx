@@ -52,12 +52,7 @@ const TestInput = (props: any) => {
     });
 
     return (
-        <input 
-            {...props}
-            {...focusProps} 
-            style={{ ...focusRingStyles }} 
-            data-focused={isFocused} 
-        />
+        <input {...props} {...focusProps} style={{ ...focusRingStyles }} data-focused={isFocused} />
     );
 };
 
@@ -107,7 +102,7 @@ describe('React Aria Enhanced Focus Management', () => {
 
             // Mouse focus should not show focus ring initially (depends on React Aria defaults)
             await user.click(button);
-            
+
             // isFocused should be true, but isFocusVisible might be false
             expect(button).toHaveAttribute('data-focused', 'true');
 
@@ -115,7 +110,7 @@ describe('React Aria Enhanced Focus Management', () => {
             await user.tab(); // Cycle focus back or to next
             render(<TestButton>Other Button</TestButton>);
             await user.tab();
-            
+
             expect(button).toHaveAttribute('data-focused', 'true');
         });
     });

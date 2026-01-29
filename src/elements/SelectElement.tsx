@@ -1,6 +1,5 @@
-import React, { FunctionComponent } from 'react';
-
 import globalize from 'lib/globalize';
+import React, { FunctionComponent } from 'react';
 
 const createSelectElement = ({
     name,
@@ -34,7 +33,13 @@ type IProps = {
     children?: React.ReactNode;
 };
 
-const SelectElement: FunctionComponent<IProps> = ({ name, id, required, label, children }: IProps) => {
+const SelectElement: FunctionComponent<IProps> = ({
+    name,
+    id,
+    required,
+    label,
+    children
+}: IProps) => {
     return (
         <div
             dangerouslySetInnerHTML={createSelectElement({

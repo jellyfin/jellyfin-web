@@ -1,1 +1,6 @@
-export { type DatePickerProps, DatePicker, type DateRangePickerProps, DateRangePicker } from './DatePicker';
+export {
+    DatePicker,
+    type DatePickerProps,
+    DateRangePicker,
+    type DateRangePickerProps
+} from './DatePicker';

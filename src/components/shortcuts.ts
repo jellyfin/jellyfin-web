@@ -18,16 +18,15 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { ItemAction } from 'constants/itemAction';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
-
-import { playbackManager } from './playback/playbackmanager';
-import inputManager from '../scripts/inputManager';
-import { appRouter } from './router/appRouter';
 import globalize from '../lib/globalize';
-import dom from '../utils/dom';
-import recordingHelper from './recordingcreator/recordinghelper';
-import toast from './toast/toast';
+import inputManager from '../scripts/inputManager';
 import * as userSettings from '../scripts/settings/userSettings';
+import dom from '../utils/dom';
 import { logger } from '../utils/logger';
+import { playbackManager } from './playback/playbackmanager';
+import recordingHelper from './recordingcreator/recordinghelper';
+import { appRouter } from './router/appRouter';
+import toast from './toast/toast';
 
 interface ShortcutItemInfo {
     Type: string | null;
@@ -68,7 +67,11 @@ interface SortValues {
     sortOrder: string;
 }
 
-function playAllFromHere(card: HTMLElement, serverId: string, queue?: boolean): Promise<void> | undefined {
+function playAllFromHere(
+    card: HTMLElement,
+    serverId: string,
+    queue?: boolean
+): Promise<void> | undefined {
     const parent = card.parentNode as HTMLElement;
     const className = card.classList.length ? `.${card.classList[0]}` : '';
     const cards = parent.querySelectorAll<HTMLElement>(`${className}[data-id]`);
@@ -95,7 +98,7 @@ function playAllFromHere(card: HTMLElement, serverId: string, queue?: boolean): 
     if (itemsContainer?.fetchData) {
         const queryOptions = queue ? { StartIndex: startIndex } : {};
 
-        return itemsContainer.fetchData(queryOptions).then(result => {
+        return itemsContainer.fetchData(queryOptions).then((result) => {
             if (queue) {
                 return playbackManager.queue({
                     items: result.Items
@@ -171,7 +174,7 @@ function notifyRefreshNeeded(
 }
 
 function showContextMenu(card: HTMLElement, options: ShowContextMenuOptions = {}): void {
-    getItem(card).then(item => {
+    getItem(card).then((item) => {
         const playlistId = card.getAttribute('data-playlistid');
         const collectionId = card.getAttribute('data-collectionid');
 
@@ -180,7 +183,11 @@ function showContextMenu(card: HTMLElement, options: ShowContextMenuOptions = {}
             const elem = dom.parentWithAttribute(card, 'data-playlistitemid') as HTMLElement;
             itemWithData.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
 
-            const itemsContainer = dom.parentWithAttribute(card, 'is', 'emby-itemscontainer') as HTMLElement;
+            const itemsContainer = dom.parentWithAttribute(
+                card,
+                'is',
+                'emby-itemscontainer'
+            ) as HTMLElement;
             if (itemsContainer) {
                 let index = 0;
                 for (const listItem of itemsContainer.querySelectorAll('.listItem')) {
@@ -208,7 +215,7 @@ function showContextMenu(card: HTMLElement, options: ShowContextMenuOptions = {}
                           userId: apiClient.getCurrentUserId()
                       })
                       .then(({ data }) => data)
-                      .catch(err => {
+                      .catch((err) => {
                           console.info('[Shortcuts] Failed to fetch playlist permissions', err);
                           return { CanEdit: false };
                       })
@@ -234,7 +241,7 @@ function showContextMenu(card: HTMLElement, options: ShowContextMenuOptions = {}
                     ...options
                 });
             })
-            .then(result => {
+            .then((result) => {
                 if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                     executeAction(card, options.positionTo, result.command);
                 } else if (result.updated || result.deleted) {
@@ -270,8 +277,12 @@ function getItemInfoFromCard(card: HTMLElement): ShortcutItemInfo {
 function showPlayMenu(card: HTMLElement, target: HTMLElement): void {
     const item = getItemInfoFromCard(card);
 
-    import('./playmenu').then(playMenu => {
-        (playMenu as { show: (options: { item: ShortcutItemInfo; positionTo: HTMLElement }) => void }).show({
+    import('./playmenu').then((playMenu) => {
+        (
+            playMenu as {
+                show: (options: { item: ShortcutItemInfo; positionTo: HTMLElement }) => void;
+            }
+        ).show({
             item: item,
             positionTo: target
         });
@@ -291,7 +302,7 @@ function addToPlaylist(item: { Id: string; ServerId: string }): void {
                     // Dialog closed
                 });
         })
-        .catch(err => {
+        .catch((err) => {
             logger.error('Failed to load playlist editor', { component: 'Shortcuts' }, err);
         });
 }
@@ -299,31 +310,46 @@ function addToPlaylist(item: { Id: string; ServerId: string }): void {
 function playTrailer(item: { Id: string; ServerId: string }): void {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(trailers => {
+    apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then((trailers) => {
         playbackManager.play({ items: trailers });
     });
 }
 
-function editItem(item: { Type: string; ProgramId?: string; Id: string }, serverId: string): Promise<any> {
+function editItem(
+    item: { Type: string; ProgramId?: string; Id: string },
+    serverId: string
+): Promise<any> {
     const apiClient = ServerConnections.getApiClient(serverId);
 
     return new Promise<any>((resolve, reject) => {
-        const serverInfo = (apiClient as unknown as { serverInfo: () => { Id: string } }).serverInfo();
+        const serverInfo = (
+            apiClient as unknown as { serverInfo: () => { Id: string } }
+        ).serverInfo();
         const currentServerId = serverInfo.Id;
 
         if (item.Type === 'Timer') {
             if (item.ProgramId) {
-                import('./recordingcreator/recordingcreator').then(({ default: recordingCreator }) => {
-                    recordingCreator.show(item.ProgramId || '', currentServerId).then(resolve, reject);
-                });
+                import('./recordingcreator/recordingcreator').then(
+                    ({ default: recordingCreator }) => {
+                        recordingCreator
+                            .show(item.ProgramId || '', currentServerId)
+                            .then(resolve, reject);
+                    }
+                );
             } else {
-                import('./recordingcreator/recordingeditor').then(({ default: recordingEditor }) => {
-                    recordingEditor.show(item.Id, currentServerId).then(resolve, reject);
-                });
+                import('./recordingcreator/recordingeditor').then(
+                    ({ default: recordingEditor }) => {
+                        recordingEditor.show(item.Id, currentServerId).then(resolve, reject);
+                    }
+                );
             }
         } else {
             import('./metadataEditor/MetadataEditorWrapper').then(({ default: metadataEditor }) => {
-                (metadataEditor as unknown as { show: (id: string, serverId: string) => Promise<void> })
+                (
+                    metadataEditor as unknown as {
+                        show: (id: string, serverId: string) => Promise<void>;
+                    }
+                )
                     .show(item.Id, currentServerId)
                     .then(resolve, reject);
             });
@@ -366,7 +392,9 @@ function executeAction(card: HTMLElement, target: HTMLElement | undefined, actio
     };
 
     const sortParentId =
-        'items-' + (item.IsFolder ? item.Id : itemsContainer?.getAttribute('data-parentid')) + '-Folder';
+        'items-' +
+        (item.IsFolder ? item.Id : itemsContainer?.getAttribute('data-parentid')) +
+        '-Folder';
 
     const serverId = item.ServerId;
     const type = item.Type;
@@ -383,7 +411,9 @@ function executeAction(card: HTMLElement, target: HTMLElement | undefined, actio
                 context?: string;
                 parentId?: string;
             }
-            (appRouter as unknown as { showItem: (item: unknown, options: RouteOptions) => void }).showItem(item, {
+            (
+                appRouter as unknown as { showItem: (item: unknown, options: RouteOptions) => void }
+            ).showItem(item, {
                 context: card.getAttribute('data-context') || undefined,
                 parentId: card.getAttribute('data-parentid') || undefined
             });
@@ -435,7 +465,7 @@ function executeAction(card: HTMLElement, target: HTMLElement | undefined, actio
         case ItemAction.PlayAllFromHere: {
             const playResult = playAllFromHere(card, serverId || '');
             if (playResult) {
-                playResult.catch(error => {
+                playResult.catch((error) => {
                     import('../utils/logger').then(({ logger: moduleLogger }) => {
                         moduleLogger.error(
                             'Play all from here failed',
@@ -450,16 +480,16 @@ function executeAction(card: HTMLElement, target: HTMLElement | undefined, actio
         case ItemAction.QueueAllFromHere: {
             const queueResult = playAllFromHere(card, serverId || '', true);
             if (queueResult) {
-                queueResult.catch(error => {
+                queueResult.catch((error) => {
                     logger.error('Queue all from here failed', { component: 'Shortcuts' }, error);
                 });
             }
             break;
         }
         case ItemAction.SetPlaylistIndex:
-            (playbackManager as unknown as { setCurrentPlaylistItem: (id: string) => void }).setCurrentPlaylistItem(
-                card.getAttribute('data-playlistitemid') || ''
-            );
+            (
+                playbackManager as unknown as { setCurrentPlaylistItem: (id: string) => void }
+            ).setCurrentPlaylistItem(card.getAttribute('data-playlistitemid') || '');
             break;
         case ItemAction.Record:
             onRecordCommand(
@@ -492,17 +522,20 @@ function executeAction(card: HTMLElement, target: HTMLElement | undefined, actio
             showPlayMenu(card, target);
             break;
         case ItemAction.Edit:
-            getItem(target).then(itemToEdit => {
-                editItem(itemToEdit as { Type: string; ProgramId?: string; Id: string }, serverId || '');
+            getItem(target).then((itemToEdit) => {
+                editItem(
+                    itemToEdit as { Type: string; ProgramId?: string; Id: string },
+                    serverId || ''
+                );
             });
             break;
         case ItemAction.PlayTrailer:
-            getItem(target).then(item => {
+            getItem(target).then((item) => {
                 playTrailer(item as { Id: string; ServerId: string });
             });
             break;
         case ItemAction.AddToPlaylist:
-            getItem(target).then(item => {
+            getItem(target).then((item) => {
                 addToPlaylist(item as { Id: string; ServerId: string });
             });
             break;
@@ -530,7 +563,10 @@ export function onClick(e: MouseEvent): boolean | undefined {
         let action = actionElement.getAttribute('data-action');
 
         if (!action) {
-            actionElement = dom.parentWithAttribute(actionElement, 'data-action') as HTMLElement | null;
+            actionElement = dom.parentWithAttribute(
+                actionElement,
+                'data-action'
+            ) as HTMLElement | null;
             if (actionElement) {
                 action = actionElement.getAttribute('data-action');
             }
@@ -553,9 +589,16 @@ interface CommandEventDetail {
 function onCommand(e: CustomEvent<CommandEventDetail>): void {
     const cmd = e.detail.command;
 
-    if (cmd === 'play' || cmd === 'resume' || cmd === 'record' || cmd === 'menu' || cmd === 'info') {
+    if (
+        cmd === 'play' ||
+        cmd === 'resume' ||
+        cmd === 'record' ||
+        cmd === 'menu' ||
+        cmd === 'info'
+    ) {
         const target = e.target as HTMLElement;
-        const card = dom.parentWithClass(target, 'itemAction') || dom.parentWithAttribute(target, 'data-id');
+        const card =
+            dom.parentWithClass(target, 'itemAction') || dom.parentWithAttribute(target, 'data-id');
 
         if (card) {
             e.preventDefault();

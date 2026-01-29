@@ -10,11 +10,11 @@
  */
 
 import 'webcomponents.js/webcomponents-lite';
-import dom from '../../utils/dom';
 import ScrollerFactory from 'lib/scroller';
-import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';
 import layoutManager from '../../components/layoutManager';
+import browser from '../../scripts/browser';
+import dom from '../../utils/dom';
 import './emby-tabs.scss';
 
 const EmbyTabs = Object.create(HTMLDivElement.prototype);

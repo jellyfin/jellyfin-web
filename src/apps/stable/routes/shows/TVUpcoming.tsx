@@ -1,18 +1,15 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
 import { PlayIcon } from '@radix-ui/react-icons';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-
-import { useServerStore } from 'store/serverStore';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { LoadingView } from 'components/feedback/LoadingView';
 import { appRouter } from 'components/router/appRouter';
 import { toVideoItem } from 'lib/utils/playbackUtils';
-import { LoadingView } from 'components/feedback/LoadingView';
-import { logger } from 'utils/logger';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { useServerStore } from 'store/serverStore';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, Heading, IconButton, Text } from 'ui-primitives';
+import { logger } from 'utils/logger';
 
 interface TVUpcomingParams {
     topParentId?: string;
@@ -25,7 +22,12 @@ interface EpisodeCardProps {
     getImageUrl: (item: any) => string;
 }
 
-const UpcomingEpisodeCard: React.FC<EpisodeCardProps> = ({ item, onPlay, onClick, getImageUrl }) => {
+const UpcomingEpisodeCard: React.FC<EpisodeCardProps> = ({
+    item,
+    onPlay,
+    onClick,
+    getImageUrl
+}) => {
     const [isHovering, setIsHovering] = useState(false);
     const imageUrl = getImageUrl(item);
 
@@ -83,7 +85,7 @@ const UpcomingEpisodeCard: React.FC<EpisodeCardProps> = ({ item, onPlay, onClick
                                 <IconButton
                                     variant="solid"
                                     color="primary"
-                                    onClick={e => {
+                                    onClick={(e) => {
                                         e.stopPropagation();
                                         onPlay();
                                     }}
@@ -196,7 +198,7 @@ export function TVUpcoming() {
             });
         };
 
-        upcoming.forEach(item => {
+        upcoming.forEach((item) => {
             let dateText = '';
             if (item.PremiereDate) {
                 const date = parseDate(item.PremiereDate);
@@ -283,9 +285,14 @@ export function TVUpcoming() {
                 </Box>
             ) : (
                 <Box>
-                    {groupedItems.map(group => (
+                    {groupedItems.map((group) => (
                         <Box key={group.name} style={{ marginBottom: vars.spacing['7'] }}>
-                            <Heading.H3 style={{ marginBottom: vars.spacing['5'], paddingLeft: vars.spacing['4'] }}>
+                            <Heading.H3
+                                style={{
+                                    marginBottom: vars.spacing['5'],
+                                    paddingLeft: vars.spacing['4']
+                                }}
+                            >
                                 {group.name}
                             </Heading.H3>
 
@@ -298,7 +305,7 @@ export function TVUpcoming() {
                                     paddingRight: vars.spacing['4']
                                 }}
                             >
-                                {group.items.map(item => (
+                                {group.items.map((item) => (
                                     <UpcomingEpisodeCard
                                         key={item.Id}
                                         item={item}

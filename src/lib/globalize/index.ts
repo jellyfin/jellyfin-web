@@ -1,7 +1,7 @@
-import { isEmpty } from '../../utils/lodashUtils';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
-import Events from 'utils/events';
 import { updateLocale } from 'utils/dateFnsLocale';
+import Events from 'utils/events';
+import { isEmpty } from '../../utils/lodashUtils';
 import { logger } from '../../utils/logger';
 
 const Direction = {
@@ -131,7 +131,7 @@ function ensureTranslation(translationInfo: TranslationInfo, culture: string): P
         return Promise.resolve();
     }
 
-    return loadTranslation(translationInfo.translations, culture).then(dictionary => {
+    return loadTranslation(translationInfo.translations, culture).then((dictionary) => {
         translationInfo.dictionaries[culture] = dictionary || {};
     });
 }
@@ -162,7 +162,9 @@ export function register(options: { name: string; strings?: any[]; translations?
     };
 }
 
-export function loadStrings(options: string | { name: string; strings?: any[]; translations?: any[] }): Promise<any> {
+export function loadStrings(
+    options: string | { name: string; strings?: any[]; translations?: any[] }
+): Promise<any> {
     const locale = getCurrentLocale();
     const promises = [];
     let optionsName: string;
@@ -187,19 +189,19 @@ function loadTranslation(
 ): Promise<Record<string, string> | undefined> {
     lang = normalizeLocaleName(lang);
 
-    let filtered = translations.filter(t => {
+    let filtered = translations.filter((t) => {
         return normalizeLocaleName(t.lang) === lang;
     });
 
     if (!filtered.length) {
         lang = lang.replace(/-.*/, '');
 
-        filtered = translations.filter(t => {
+        filtered = translations.filter((t) => {
             return normalizeLocaleName(t.lang) === lang;
         });
 
         if (!filtered.length) {
-            filtered = translations.filter(t => {
+            filtered = translations.filter((t) => {
                 return normalizeLocaleName(t.lang) === FALLBACK_CULTURE;
             });
         }
@@ -251,7 +253,9 @@ function translateKeyFromModule(key: string, module: string | undefined): string
     if (!dictionary || isEmpty(dictionary)) {
         logger.warn('Translation dictionary is empty', { component: 'globalize' });
     } else {
-        logger.error(`Translation key is missing from dictionary: ${key}`, { component: 'globalize' });
+        logger.error(`Translation key is missing from dictionary: ${key}`, {
+            component: 'globalize'
+        });
     }
 
     return key;

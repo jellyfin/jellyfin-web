@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import { TrackNextIcon } from '@radix-ui/react-icons';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Text } from 'ui-primitives';
 
 export interface SkipSegmentButtonProps {
     segmentLabel: string;
@@ -59,7 +56,7 @@ export const SkipSegmentButton: React.FC<SkipSegmentButtonProps> = ({
             setCountdown(hideAfter / 1000);
 
             intervalRef.current = setInterval(() => {
-                setCountdown(prev => Math.max(0, prev - 1));
+                setCountdown((prev) => Math.max(0, prev - 1));
             }, 1000);
 
             timeoutRef.current = setTimeout(() => {

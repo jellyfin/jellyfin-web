@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import globalize from 'lib/globalize';
-import { useNavigate } from '@tanstack/react-router';
-import Loading from '../../../components/loading/LoadingComponent';
 import { PlusIcon } from '@radix-ui/react-icons';
+import { useNavigate } from '@tanstack/react-router';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import { Button, Heading, Text } from 'ui-primitives';
 import BaseCard from '../../../components/cardbuilder/Card/BaseCard';
+import Loading from '../../../components/loading/LoadingComponent';
 import imageHelper from '../../../utils/image';
 import * as styles from './WizardLibrary.css.ts';
 
@@ -52,8 +51,12 @@ const WizardLibrary = () => {
 
     return (
         <div className={styles.container}>
-            <Heading.H2 className={styles.header}>{globalize.translate('HeaderSetupLibraries')}</Heading.H2>
-            <Text className={styles.helpText}>{globalize.translate('HeaderSetupLibrariesHelp')}</Text>
+            <Heading.H2 className={styles.header}>
+                {globalize.translate('HeaderSetupLibraries')}
+            </Heading.H2>
+            <Text className={styles.helpText}>
+                {globalize.translate('HeaderSetupLibrariesHelp')}
+            </Text>
 
             <div className={styles.grid}>
                 <div>
@@ -63,7 +66,7 @@ const WizardLibrary = () => {
                         icon={<PlusIcon style={{ width: 48, height: 48 }} />}
                     />
                 </div>
-                {libraries.map(lib => (
+                {libraries.map((lib) => (
                     <div key={lib.ItemId}>
                         <BaseCard
                             title={lib.Name}

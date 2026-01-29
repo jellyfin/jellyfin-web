@@ -1,12 +1,7 @@
 import React from 'react';
-import { type FullTrackAnalysis } from './autoDJ';
-import { Chip } from 'ui-primitives';
-import { Progress } from 'ui-primitives';
-import { Card } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, Chip, Flex, Progress, Text, Tooltip } from 'ui-primitives';
+import { type FullTrackAnalysis } from './autoDJ';
 
 interface AnalysisDisplayProps {
     analysis: FullTrackAnalysis | null;
@@ -62,11 +57,20 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
 
                 <Box style={{ display: 'grid', gap: vars.spacing['4'] }}>
                     <Box>
-                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                        <Flex
+                            style={{
+                                justifyContent: 'space-between',
+                                marginBottom: vars.spacing['2']
+                            }}
+                        >
                             <Text size="xs" color="secondary">
                                 BPM
                             </Text>
-                            <Text size="xs" style={{ fontWeight: 'bold' }} color={normalizedBpmColor}>
+                            <Text
+                                size="xs"
+                                style={{ fontWeight: 'bold' }}
+                                color={normalizedBpmColor}
+                            >
                                 {analysis.bpm.toFixed(1)}
                             </Text>
                         </Flex>
@@ -74,7 +78,12 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
                     </Box>
 
                     <Box>
-                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                        <Flex
+                            style={{
+                                justifyContent: 'space-between',
+                                marginBottom: vars.spacing['2']
+                            }}
+                        >
                             <Text size="xs" color="secondary">
                                 Key
                             </Text>
@@ -88,14 +97,25 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
                     </Box>
 
                     <Box>
-                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                        <Flex
+                            style={{
+                                justifyContent: 'space-between',
+                                marginBottom: vars.spacing['2']
+                            }}
+                        >
                             <Text size="xs" color="secondary">
                                 Energy
                             </Text>
                             <Text
                                 size="xs"
                                 style={{ fontWeight: 'bold' }}
-                                color={energyPercent > 60 ? 'error' : energyPercent > 30 ? 'warning' : 'success'}
+                                color={
+                                    energyPercent > 60
+                                        ? 'error'
+                                        : energyPercent > 30
+                                          ? 'warning'
+                                          : 'success'
+                                }
                             >
                                 {energyPercent}%
                             </Text>
@@ -104,7 +124,12 @@ export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ analysis, comp
                     </Box>
 
                     <Box>
-                        <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                        <Flex
+                            style={{
+                                justifyContent: 'space-between',
+                                marginBottom: vars.spacing['2']
+                            }}
+                        >
                             <Text size="xs" color="secondary">
                                 Brightness
                             </Text>

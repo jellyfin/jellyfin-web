@@ -1,14 +1,9 @@
-import React from 'react';
 import { ExitIcon, ReloadIcon, ResetIcon } from '@radix-ui/react-icons';
-
 import { useSystemInfo } from 'hooks/useSystemInfo';
 import globalize from 'lib/globalize';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-import { Skeleton } from 'ui-primitives';
-import { Text } from 'ui-primitives';
+import React from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Button, Flex, Paper, Skeleton, Text } from 'ui-primitives';
 import Widget from './Widget';
 
 interface ServerInfoWidgetProps {
@@ -38,7 +33,13 @@ const ServerInfoWidget = ({
                     }}
                 >
                     <Flex style={{ flexDirection: 'row', gap: vars.spacing['5'] }}>
-                        <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'], minWidth: 140 }}>
+                        <Flex
+                            style={{
+                                flexDirection: 'column',
+                                gap: vars.spacing['4'],
+                                minWidth: 140
+                            }}
+                        >
                             <Text size="sm" style={{ fontWeight: vars.typography.fontWeightBold }}>
                                 {globalize.translate('LabelServerName')}
                             </Text>
@@ -52,7 +53,9 @@ const ServerInfoWidget = ({
                                 {globalize.translate('LabelBuildVersion')}
                             </Text>
                         </Flex>
-                        <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'], flexGrow: 1 }}>
+                        <Flex
+                            style={{ flexDirection: 'column', gap: vars.spacing['4'], flexGrow: 1 }}
+                        >
                             {isPending ? (
                                 <>
                                     <Skeleton variant="text" width="80%" />

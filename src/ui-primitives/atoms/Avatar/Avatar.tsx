@@ -1,5 +1,5 @@
 import React, { type ReactElement } from 'react';
-import { avatarStyles, avatarVariants, avatarColors, avatarImage } from './Avatar.css.ts';
+import { avatarColors, avatarImage, avatarStyles, avatarVariants } from './Avatar.css.ts';
 
 interface AvatarProps {
     readonly src?: string;
@@ -30,7 +30,11 @@ export function Avatar({
             ].join(' ')}
             style={avatarStyle}
         >
-            {src !== undefined && src !== '' ? <img src={src} alt={alt} className={avatarImage} /> : children}
+            {src !== undefined && src !== '' ? (
+                <img src={src} alt={alt} className={avatarImage} />
+            ) : (
+                children
+            )}
         </div>
     );
 }

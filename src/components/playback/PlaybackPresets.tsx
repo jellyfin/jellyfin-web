@@ -4,15 +4,21 @@
  * Allows users to save and load queue configurations with playback settings.
  */
 
-import React, { useState, useCallback } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Dialog, DialogContent, DialogTitle } from 'ui-primitives';
 import { TrashIcon } from '@radix-ui/react-icons';
+import React, { useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Flex,
+    Heading,
+    IconButton,
+    Input,
+    Text
+} from 'ui-primitives';
 import { logger } from 'utils/logger';
 
 export interface PlaybackPreset {
@@ -102,7 +108,12 @@ export const PlaybackPresets: React.FC<PlaybackPresetsProps> = ({
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent style={{ maxWidth: '500px' }}>
-                <Box style={{ paddingBottom: vars.spacing['4'], borderBottom: `1px solid rgba(255, 255, 255, 0.1)` }}>
+                <Box
+                    style={{
+                        paddingBottom: vars.spacing['4'],
+                        borderBottom: `1px solid rgba(255, 255, 255, 0.1)`
+                    }}
+                >
                     <DialogTitle>Playback Presets</DialogTitle>
                 </Box>
 
@@ -134,7 +145,11 @@ export const PlaybackPresets: React.FC<PlaybackPresetsProps> = ({
                             <Button
                                 onClick={handleSavePreset}
                                 disabled={isSaving || !presetName.trim()}
-                                style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['2'] }}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: vars.spacing['2']
+                                }}
                             >
                                 {isSaving ? 'Saving...' : 'Save'}
                             </Button>
@@ -147,11 +162,21 @@ export const PlaybackPresets: React.FC<PlaybackPresetsProps> = ({
                             Saved Presets ({presets.length})
                         </Heading.H4>
                         {presets.length === 0 ? (
-                            <Text size="sm" color="secondary" style={{ textAlign: 'center', padding: vars.spacing['4'] }}>
+                            <Text
+                                size="sm"
+                                color="secondary"
+                                style={{ textAlign: 'center', padding: vars.spacing['4'] }}
+                            >
                                 No presets saved yet
                             </Text>
                         ) : (
-                            <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
+                            <Box
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: vars.spacing['2']
+                                }}
+                            >
                                 {presets.map((preset) => (
                                     <div
                                         key={preset.id}
@@ -169,11 +194,21 @@ export const PlaybackPresets: React.FC<PlaybackPresetsProps> = ({
                                             <Text weight="medium" size="sm">
                                                 {preset.name}
                                             </Text>
-                                            <Text size="xs" color="secondary" style={{ marginTop: 4 }}>
-                                                {preset.queueItemCount} items • {formatDate(preset.timestamp)}
+                                            <Text
+                                                size="xs"
+                                                color="secondary"
+                                                style={{ marginTop: 4 }}
+                                            >
+                                                {preset.queueItemCount} items •{' '}
+                                                {formatDate(preset.timestamp)}
                                             </Text>
-                                            <Text size="xs" color="secondary" style={{ marginTop: 2 }}>
-                                                Shuffle: {preset.shuffleMode} | Repeat: {preset.repeatMode}
+                                            <Text
+                                                size="xs"
+                                                color="secondary"
+                                                style={{ marginTop: 2 }}
+                                            >
+                                                Shuffle: {preset.shuffleMode} | Repeat:{' '}
+                                                {preset.repeatMode}
                                             </Text>
                                         </Box>
                                         <Flex style={{ gap: vars.spacing['2'] }}>
@@ -181,9 +216,15 @@ export const PlaybackPresets: React.FC<PlaybackPresetsProps> = ({
                                                 size="sm"
                                                 onClick={() => handleLoadPreset(preset.id)}
                                                 disabled={loadingPresetId !== null}
-                                                style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['1'] }}
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: vars.spacing['1']
+                                                }}
                                             >
-                                                {loadingPresetId === preset.id ? 'Loading...' : 'Load'}
+                                                {loadingPresetId === preset.id
+                                                    ? 'Loading...'
+                                                    : 'Load'}
                                             </Button>
                                             <IconButton
                                                 size="sm"

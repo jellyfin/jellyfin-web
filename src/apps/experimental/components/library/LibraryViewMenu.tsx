@@ -1,15 +1,12 @@
 import { ChevronDownIcon } from '@radix-ui/react-icons';
-import React, { type FC, useState } from 'react';
 import { useLocation } from '@tanstack/react-router';
-import { useSearchParams } from 'hooks/useSearchParams';
-import { Button } from 'ui-primitives';
-import { Menu, MenuItem } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import { LibraryRoutes } from 'apps/experimental/features/libraries/constants/libraryRoutes';
 import useCurrentTab from 'hooks/useCurrentTab';
+import { useSearchParams } from 'hooks/useSearchParams';
 import globalize from 'lib/globalize';
+import React, { type FC, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Button, Menu, MenuItem, Text } from 'ui-primitives';
 
 const LIBRARY_VIEW_MENU_ID = 'library-view-menu';
 
@@ -43,7 +40,7 @@ const LibraryViewMenu: FC = () => {
                 </Button>
             }
         >
-            {currentRoute?.views.map(tab => (
+            {currentRoute?.views.map((tab) => (
                 <MenuItem
                     key={tab.view}
                     // eslint-disable-next-line react/jsx-no-bind

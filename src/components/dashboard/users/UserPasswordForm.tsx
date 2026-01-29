@@ -9,16 +9,16 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import React, { type FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import Dashboard from '../../../utils/dashboard';
+import React, { type FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
+import Button from '../../../elements/emby-button/Button';
+import Input from '../../../elements/emby-input/Input';
 import globalize from '../../../lib/globalize';
+import Dashboard from '../../../utils/dashboard';
+import { logger } from '../../../utils/logger';
 import confirm from '../../confirm/confirm';
 import loading from '../../loading/loading';
 import toast from '../../toast/toast';
-import Button from '../../../elements/emby-button/Button';
-import Input from '../../../elements/emby-input/Input';
-import { logger } from '../../../utils/logger';
 
 interface UserPasswordFormProps {
     user: UserDto;
@@ -68,7 +68,8 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
             setShowCurrentPassword(false);
         }
 
-        const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
+        const canChangePassword =
+            loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
         setShowPasswordSection(Boolean(canChangePassword));
 
         // Auto-focus
@@ -76,15 +77,19 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
             .then(({ default: autoFocuser }) => {
                 autoFocuser.autoFocus(page);
             })
-            .catch(err => {
-                logger.error('Failed to load autofocuser', { component: 'UserPasswordForm' }, err as Error);
+            .catch((err) => {
+                logger.error(
+                    'Failed to load autofocuser',
+                    { component: 'UserPasswordForm' },
+                    err as Error
+                );
             });
 
         clearForm();
     }, [user, clearForm]);
 
     useEffect(() => {
-        loadUser().catch(err => {
+        loadUser().catch((err) => {
             logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
         });
     }, [loadUser]);
@@ -102,8 +107,12 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
             () => {
                 loading.hide();
                 toast(globalize.translate('PasswordSaved'));
-                loadUser().catch(err => {
-                    logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
+                loadUser().catch((err) => {
+                    logger.error(
+                        'Failed to load user',
+                        { component: 'UserPasswordForm' },
+                        err as Error
+                    );
                 });
             },
             () => {
@@ -145,8 +154,12 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
                                 message: globalize.translate('PasswordResetComplete'),
                                 title: globalize.translate('ResetPassword')
                             });
-                            loadUser().catch(err => {
-                                logger.error('Failed to load user', { component: 'UserPasswordForm' }, err as Error);
+                            loadUser().catch((err) => {
+                                logger.error(
+                                    'Failed to load user',
+                                    { component: 'UserPasswordForm' },
+                                    err as Error
+                                );
                             });
                         })
                         .catch((err: unknown) => {
@@ -178,7 +191,9 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
                             label={globalize.translate('LabelCurrentPassword')}
                             autoComplete="off"
                             value={currentPassword}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPassword(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setCurrentPassword(e.target.value)
+                            }
                         />
                     </div>
                     <div className="inputContainer">
@@ -188,7 +203,9 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
                             label={globalize.translate('LabelNewPassword')}
                             autoComplete="off"
                             value={newPassword}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setNewPassword(e.target.value)
+                            }
                         />
                     </div>
                     <div className="inputContainer">
@@ -198,7 +215,9 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
                             label={globalize.translate('LabelNewPasswordConfirm')}
                             autoComplete="off"
                             value={newPasswordConfirm}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPasswordConfirm(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setNewPasswordConfirm(e.target.value)
+                            }
                         />
                     </div>
                     <br />

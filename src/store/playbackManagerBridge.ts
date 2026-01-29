@@ -6,10 +6,23 @@
  * of commonly used PlaybackManager methods.
  */
 
-import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, usePreferencesStore } from './index';
-import type { PlayableItem, PlaybackProgress, PlaybackStatus, RepeatMode, ShuffleMode, PlayerInfo } from './types';
-import type { ControlSource } from './controlsStore';
 import { playbackManager } from '../components/playback/playbackmanager';
+import type { ControlSource } from './controlsStore';
+import {
+    useControlsStore,
+    useMediaStore,
+    usePlayerStore,
+    usePreferencesStore,
+    useQueueStore
+} from './index';
+import type {
+    PlayableItem,
+    PlaybackProgress,
+    PlaybackStatus,
+    PlayerInfo,
+    RepeatMode,
+    ShuffleMode
+} from './types';
 
 class PlaybackManagerBridge {
     private static instance: PlaybackManagerBridge;
@@ -96,7 +109,7 @@ class PlaybackManagerBridge {
 
     getPlaylistItems(): PlayableItem[] {
         const queueStore = useQueueStore.getState();
-        return queueStore.items.map(qi => qi.item);
+        return queueStore.items.map((qi) => qi.item);
     }
 
     getQueueSize(): number {

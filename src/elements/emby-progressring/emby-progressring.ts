@@ -10,9 +10,9 @@
  */
 
 import './emby-progressring.scss';
-import template from './emby-progressring.template.html?raw';
 import { getCurrentDateTimeLocale } from '../../lib/globalize';
 import { toPercentString } from '../../utils/number';
+import template from './emby-progressring.template.html?raw';
 
 interface EmbyProgressRingElement extends HTMLDivElement {
     observer: MutationObserver | undefined;
@@ -25,7 +25,9 @@ type EmbyProgressRingPrototype = {
     detachedCallback: (this: EmbyProgressRingElement) => void;
 } & HTMLElement;
 
-const EmbyProgressRing = Object.create(HTMLDivElement.prototype) as unknown as EmbyProgressRingPrototype;
+const EmbyProgressRing = Object.create(
+    HTMLDivElement.prototype
+) as unknown as EmbyProgressRingPrototype;
 
 EmbyProgressRing.createdCallback = function (this: EmbyProgressRingElement): void {
     this.classList.add('progressring');
@@ -44,7 +46,11 @@ EmbyProgressRing.createdCallback = function (this: EmbyProgressRingElement): voi
             });
         });
 
-        const config: MutationObserverInit = { attributes: true, childList: false, characterData: false };
+        const config: MutationObserverInit = {
+            attributes: true,
+            childList: false,
+            characterData: false
+        };
 
         observer.observe(instance, config);
 
@@ -65,7 +71,8 @@ EmbyProgressRing.setProgress = function (this: EmbyProgressRingElement, progress
     if (progress < 25) {
         angle = -90 + (progress / 100) * 360;
 
-        (this.querySelector('.animate-0-25-b') as HTMLElement).style.transform = 'rotate(' + angle + 'deg)';
+        (this.querySelector('.animate-0-25-b') as HTMLElement).style.transform =
+            'rotate(' + angle + 'deg)';
 
         (this.querySelector('.animate-25-50-b') as HTMLElement).style.transform = 'rotate(-90deg)';
         (this.querySelector('.animate-50-75-b') as HTMLElement).style.transform = 'rotate(-90deg)';
@@ -74,7 +81,8 @@ EmbyProgressRing.setProgress = function (this: EmbyProgressRingElement, progress
         angle = -90 + ((progress - 25) / 100) * 360;
 
         (this.querySelector('.animate-0-25-b') as HTMLElement).style.transform = 'none';
-        (this.querySelector('.animate-25-50-b') as HTMLElement).style.transform = 'rotate(' + angle + 'deg)';
+        (this.querySelector('.animate-25-50-b') as HTMLElement).style.transform =
+            'rotate(' + angle + 'deg)';
 
         (this.querySelector('.animate-50-75-b') as HTMLElement).style.transform = 'rotate(-90deg)';
         (this.querySelector('.animate-75-100-b') as HTMLElement).style.transform = 'rotate(-90deg)';
@@ -83,7 +91,8 @@ EmbyProgressRing.setProgress = function (this: EmbyProgressRingElement, progress
 
         (this.querySelector('.animate-0-25-b') as HTMLElement).style.transform = 'none';
         (this.querySelector('.animate-25-50-b') as HTMLElement).style.transform = 'none';
-        (this.querySelector('.animate-50-75-b') as HTMLElement).style.transform = 'rotate(' + angle + 'deg)';
+        (this.querySelector('.animate-50-75-b') as HTMLElement).style.transform =
+            'rotate(' + angle + 'deg)';
 
         (this.querySelector('.animate-75-100-b') as HTMLElement).style.transform = 'rotate(-90deg)';
     } else if (progress >= 75 && progress <= 100) {
@@ -92,7 +101,8 @@ EmbyProgressRing.setProgress = function (this: EmbyProgressRingElement, progress
         (this.querySelector('.animate-0-25-b') as HTMLElement).style.transform = 'none';
         (this.querySelector('.animate-25-50-b') as HTMLElement).style.transform = 'none';
         (this.querySelector('.animate-50-75-b') as HTMLElement).style.transform = 'none';
-        (this.querySelector('.animate-75-100-b') as HTMLElement).style.transform = 'rotate(' + angle + 'deg)';
+        (this.querySelector('.animate-75-100-b') as HTMLElement).style.transform =
+            'rotate(' + angle + 'deg)';
     }
 
     (this.querySelector('.progressring-text') as HTMLElement).innerHTML = toPercentString(

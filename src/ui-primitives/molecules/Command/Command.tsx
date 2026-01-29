@@ -1,5 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback, type ReactNode, type ReactElement } from 'react';
 import { Command } from 'cmdk';
+import React, {
+    type ReactElement,
+    type ReactNode,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import {
     commandContent,
     commandDialogOverlay,
@@ -111,7 +118,9 @@ export function CommandPalette({
         const items = containerRef.current?.querySelectorAll('[data-cmdk-item]');
         if (items === undefined || items.length === 0) return;
 
-        const selected = containerRef.current?.querySelector('[data-selected="true"]') as HTMLElement | null;
+        const selected = containerRef.current?.querySelector(
+            '[data-selected="true"]'
+        ) as HTMLElement | null;
         const selectedIndex = selected !== null ? Array.from(items).indexOf(selected) : 0;
         let newIndex = selectedIndex;
 
@@ -211,7 +220,9 @@ export function CommandGroup({
 }): ReactElement {
     return (
         <div className={commandGroup}>
-            {heading !== undefined && heading !== '' && <div className={commandGroupLabel}>{heading}</div>}
+            {heading !== undefined && heading !== '' && (
+                <div className={commandGroupLabel}>{heading}</div>
+            )}
             {children}
         </div>
     );
@@ -235,10 +246,17 @@ export function CommandItem({
     }, [onSelect]);
 
     return (
-        <Command.Item value={value} onSelect={handleItemSelect} disabled={disabled} className={commandItem}>
+        <Command.Item
+            value={value}
+            onSelect={handleItemSelect}
+            disabled={disabled}
+            className={commandItem}
+        >
             <span className={commandItemIndicator} />
             {children}
-            {shortcut !== undefined && shortcut !== '' && <span className={commandShortcut}>{shortcut}</span>}
+            {shortcut !== undefined && shortcut !== '' && (
+                <span className={commandShortcut}>{shortcut}</span>
+            )}
         </Command.Item>
     );
 }

@@ -1,6 +1,6 @@
+import layoutManager from 'components/layoutManager';
 import escapeHTML from 'escape-html';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import layoutManager from 'components/layoutManager';
 
 export default class TableOfContents {
     constructor(bookPlayer) {
@@ -26,14 +26,21 @@ export default class TableOfContents {
         const elem = this.elem;
 
         elem.addEventListener('close', this.onDialogClosed, { once: true });
-        elem.querySelector('.btnBookplayerTocClose').addEventListener('click', this.onDialogClosed, { once: true });
+        elem.querySelector('.btnBookplayerTocClose').addEventListener(
+            'click',
+            this.onDialogClosed,
+            { once: true }
+        );
     }
 
     unbindEvents() {
         const elem = this.elem;
 
         elem.removeEventListener('close', this.onDialogClosed);
-        elem.querySelector('.btnBookplayerTocClose').removeEventListener('click', this.onDialogClosed);
+        elem.querySelector('.btnBookplayerTocClose').removeEventListener(
+            'click',
+            this.onDialogClosed
+        );
     }
 
     onDialogClosed() {
@@ -84,7 +91,8 @@ export default class TableOfContents {
         elem.id = 'dialogToc';
 
         let tocHtml = '<div class="topRightActionButtons">';
-        tocHtml += '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close" aria-hidden="true"></span></button>';
+        tocHtml +=
+            '<button is="paper-icon-button-light" class="autoSize bookplayerButton btnBookplayerTocClose hide-mouse-idle-tv" tabindex="-1"><span class="material-icons bookplayerButtonIcon close" aria-hidden="true"></span></button>';
         tocHtml += '</div>';
         tocHtml += `<ul style="background-color: ${layoutManager.mobile ? this.bookPlayer.THEMES[this.bookPlayer.theme].body.background : 'inherit'}" class="toc">`;
         rendition.book.navigation.forEach((chapter) => {

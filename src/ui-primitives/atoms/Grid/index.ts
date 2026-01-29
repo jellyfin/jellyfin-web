@@ -1,1 +1,13 @@
-export { gridContainer, gridGap, gridColumns, gridXs, gridSm, gridMd, gridLg, gridXl, gridDisplay, gridOrder, Grid } from './Grid';
+export {
+    Grid,
+    gridColumns,
+    gridContainer,
+    gridDisplay,
+    gridGap,
+    gridLg,
+    gridMd,
+    gridOrder,
+    gridSm,
+    gridXl,
+    gridXs
+} from './Grid';

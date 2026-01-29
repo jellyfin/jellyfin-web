@@ -1,9 +1,13 @@
-import { lazy } from 'react';
 import { createRoute } from '@tanstack/react-router';
+import { lazy } from 'react';
 import { Route } from './__root';
 
-const MoviesRecommendedPage = lazy(() => import('../apps/stable/routes/lazyRoutes/MoviesRecommendedPage'));
-const MovieCollectionsPage = lazy(() => import('../apps/stable/routes/lazyRoutes/MovieCollectionsPage'));
+const MoviesRecommendedPage = lazy(
+    () => import('../apps/stable/routes/lazyRoutes/MoviesRecommendedPage')
+);
+const MovieCollectionsPage = lazy(
+    () => import('../apps/stable/routes/lazyRoutes/MovieCollectionsPage')
+);
 const MovieGenresPage = lazy(() => import('../apps/stable/routes/lazyRoutes/MovieGenresPage'));
 
 export const moviesRecommendedRoute = createRoute({

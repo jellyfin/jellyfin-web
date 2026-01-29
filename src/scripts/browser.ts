@@ -36,7 +36,17 @@ function isWeb0s(userAgent: string): boolean {
 }
 
 function isMobile(userAgent: string): boolean {
-    const terms = ['mobi', 'ipad', 'iphone', 'ipod', 'silk', 'gt-p1000', 'nexus 7', 'kindle fire', 'opera mini'];
+    const terms = [
+        'mobi',
+        'ipad',
+        'iphone',
+        'ipod',
+        'silk',
+        'gt-p1000',
+        'nexus 7',
+        'kindle fire',
+        'opera mini'
+    ];
 
     for (const term of terms) {
         if (userAgent.includes(term)) {

@@ -1,10 +1,10 @@
 import React, { FC, PropsWithChildren } from 'react';
-import AppHeader from '../AppHeader';
 import AppBody from '../AppBody';
-import { useLayoutMode } from './useLayoutMode';
-import { useDrawerGestures } from './useDrawerGestures';
-import { useLegacyDrawerSync } from './useLegacyDrawerSync';
+import AppHeader from '../AppHeader';
 import { MainLayout } from './MainLayout';
+import { useDrawerGestures } from './useDrawerGestures';
+import { useLayoutMode } from './useLayoutMode';
+import { useLegacyDrawerSync } from './useLegacyDrawerSync';
 
 export const LayoutProvider: FC<PropsWithChildren> = ({ children }) => {
     const { shouldHideLegacyHeader, isNewLayoutPath, isExperimentalLayout } = useLayoutMode();
@@ -14,17 +14,13 @@ export const LayoutProvider: FC<PropsWithChildren> = ({ children }) => {
     return (
         <>
             <AppHeader isHidden={shouldHideLegacyHeader} />
-            
+
             {isNewLayoutPath ? (
                 children
             ) : isExperimentalLayout ? (
-                <MainLayout>
-                    {children}
-                </MainLayout>
+                <MainLayout>{children}</MainLayout>
             ) : (
-                <AppBody>
-                    {children}
-                </AppBody>
+                <AppBody>{children}</AppBody>
             )}
         </>
     );

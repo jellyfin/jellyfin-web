@@ -1,4 +1,3 @@
-
 const ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
 function onAutoTimeProgress() {
@@ -37,4 +36,3 @@ document.registerElement('emby-progressbar', {
     prototype: ProgressBarPrototype,
     extends: 'div'
 });
-

@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
 import { masterAudioOutput } from 'components/audioEngine/master.logic';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { usePreferencesStore } from '../../store/preferencesStore';
-import { isVisible, onVisibilityChange } from '../../utils/visibility';
 import { logger } from '../../utils/logger';
+import { isVisible, onVisibilityChange } from '../../utils/visibility';
 
 type FrequencyAnalyzersProps = {
     audioContext?: AudioContext;
@@ -146,7 +146,7 @@ function drawAmplitudeLabels(
     ctx.textBaseline = 'middle';
 
     const amplitudeDecibels = [-90, -80, -70, -60, -50, -40, -30];
-    amplitudeDecibels.forEach(decibel => {
+    amplitudeDecibels.forEach((decibel) => {
         const value = ((decibel - minDecibels) / (maxDecibels - minDecibels)) * 255;
         let y = canvasHeight - (value / 255) * canvasHeight;
         y = Math.min(Math.max(y, fontSize / 2), canvasHeight - fontSize / 2);
@@ -180,7 +180,7 @@ function drawFrequencyLabels(
     ctx.textBaseline = 'top';
 
     const commonFrequencies = [100, 200, 500, 1000, 2000, 5000, 10000, 20000];
-    commonFrequencies.forEach(freq => {
+    commonFrequencies.forEach((freq) => {
         const percent = (Math.log(freq) - logMinFreq) / (logMaxFreq - logMinFreq);
         let x = percent * canvasWidth;
         x = Math.min(Math.max(x, fontSize / 2), canvasWidth - fontSize / 2);
@@ -209,7 +209,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
     const previousBarHeightsRef = useRef<Float32Array | null>(null);
     const pinkNoiseReferenceRef = useRef<Float32Array | null>(null);
 
-    const { visualizer } = usePreferencesStore(state => state);
+    const { visualizer } = usePreferencesStore((state) => state);
     const { advanced, frequencyAnalyzer, smoothing } = visualizer as any;
     const { fftSize, limiterThreshold: maxDecibels } = advanced;
     const smoothingTimeConstant = smoothing;
@@ -259,17 +259,30 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
 
             const maxBars = 96;
             const minBars = 16;
-            const numberOfBars = Math.max(minBars, Math.min(maxBars, Math.floor(canvasWidth / (minBarWidth + barGap))));
+            const numberOfBars = Math.max(
+                minBars,
+                Math.min(maxBars, Math.floor(canvasWidth / (minBarWidth + barGap)))
+            );
 
             // Calculate bar positions
-            const { frequencies, xPositions } = calculateBarPositions(alpha, canvasWidth, numberOfBars);
+            const { frequencies, xPositions } = calculateBarPositions(
+                alpha,
+                canvasWidth,
+                numberOfBars
+            );
 
             // Initialize arrays if needed
-            if (!previousBarHeightsRef.current || previousBarHeightsRef.current.length !== numberOfBars) {
+            if (
+                !previousBarHeightsRef.current ||
+                previousBarHeightsRef.current.length !== numberOfBars
+            ) {
                 previousBarHeightsRef.current = new Float32Array(numberOfBars);
             }
 
-            if (!pinkNoiseReferenceRef.current || pinkNoiseReferenceRef.current.length !== fftSize / 2) {
+            if (
+                !pinkNoiseReferenceRef.current ||
+                pinkNoiseReferenceRef.current.length !== fftSize / 2
+            ) {
                 pinkNoiseReferenceRef.current = new Float32Array(fftSize / 2);
                 const nyquist = 44100 / 2; // Default sample rate
                 for (let i = 0; i < fftSize / 2; i++) {
@@ -297,7 +310,9 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
                 barWidth = Math.max(0, barWidth);
                 const x = xLeft + barGap / 2;
 
-                const bin = Math.floor(((frequencies[i] - MIN_FREQUENCY) / (nyquist - MIN_FREQUENCY)) * (fftSize / 2));
+                const bin = Math.floor(
+                    ((frequencies[i] - MIN_FREQUENCY) / (nyquist - MIN_FREQUENCY)) * (fftSize / 2)
+                );
                 const safeBin = Math.max(0, Math.min(bin, fftSize / 2 - 1));
 
                 const value = frequencyData[safeBin];
@@ -308,13 +323,19 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
                 previousBarHeights[i] = barHeight;
 
                 const actualDecibel = minDecibels + (value / 255) * (maxDecibels - minDecibels);
-                const fillColor = getBarColor(actualDecibel, minDecibels, maxDecibels, pinkNoiseReference[safeBin], {
-                    scheme: colorScheme,
-                    solid: colorSolid,
-                    low: colorLow,
-                    mid: colorMid,
-                    high: colorHigh
-                });
+                const fillColor = getBarColor(
+                    actualDecibel,
+                    minDecibels,
+                    maxDecibels,
+                    pinkNoiseReference[safeBin],
+                    {
+                        scheme: colorScheme,
+                        solid: colorSolid,
+                        low: colorLow,
+                        mid: colorMid,
+                        high: colorHigh
+                    }
+                );
 
                 ctx.fillStyle = fillColor;
                 ctx.fillRect(x, canvasHeight - barHeight, barWidth, barHeight);
@@ -386,7 +407,11 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
                 isAnalyserConnected = true;
             } catch (error) {
                 const err = error instanceof Error ? error : new Error(String(error));
-                logger.error('[FrequencyAnalyzer] Failed to connect analyser to mixer', { component: 'FrequencyAnalyzer' }, err);
+                logger.error(
+                    '[FrequencyAnalyzer] Failed to connect analyser to mixer',
+                    { component: 'FrequencyAnalyzer' },
+                    err
+                );
             }
         }
 
@@ -401,7 +426,7 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
         }
 
         // Subscribe to visibility changes
-        const unsubscribe = onVisibilityChange(visible => {
+        const unsubscribe = onVisibilityChange((visible) => {
             if (visible) {
                 startLoop(analyser);
             } else {
@@ -422,7 +447,16 @@ const FrequencyAnalyzer: React.FC<FrequencyAnalyzersProps> = ({
                 }
             }
         };
-    }, [audioContext, mixerNode, fftSize, smoothingTimeConstant, minDecibels, maxDecibels, startLoop, stopLoop]);
+    }, [
+        audioContext,
+        mixerNode,
+        fftSize,
+        smoothingTimeConstant,
+        minDecibels,
+        maxDecibels,
+        startLoop,
+        stopLoop
+    ]);
 
     useEffect(() => {
         const resizeCanvas = () => {

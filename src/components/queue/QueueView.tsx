@@ -1,18 +1,12 @@
-import React, { useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import { BookmarkIcon, DotsVerticalIcon, StackIcon } from '@radix-ui/react-icons';
-
-import { useQueue } from './useQueue';
-import { QueueNowPlaying } from './QueueNowPlaying';
-import { QueueControls } from './QueueControls';
-import { QueueTable } from './QueueTable';
-
+import React, { useCallback } from 'react';
 import type { PlayableItem } from 'store/types';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, IconButton, Text, Tooltip } from 'ui-primitives';
+import { QueueControls } from './QueueControls';
+import { QueueNowPlaying } from './QueueNowPlaying';
+import { QueueTable } from './QueueTable';
+import { useQueue } from './useQueue';
 
 export interface QueueViewProps {
     onNavigateToItem?: (itemId: string) => void;
@@ -20,7 +14,11 @@ export interface QueueViewProps {
     onSavePlaylist?: () => void;
 }
 
-export const QueueView: React.FC<QueueViewProps> = ({ onNavigateToItem, onShowPlaylistMenu, onSavePlaylist }) => {
+export const QueueView: React.FC<QueueViewProps> = ({
+    onNavigateToItem,
+    onShowPlaylistMenu,
+    onSavePlaylist
+}) => {
     const {
         items,
         currentIndex,
@@ -40,7 +38,7 @@ export const QueueView: React.FC<QueueViewProps> = ({ onNavigateToItem, onShowPl
 
     const handlePlayItem = useCallback(
         (itemId: string) => {
-            const index = items.findIndex(item => item.id === itemId);
+            const index = items.findIndex((item) => item.id === itemId);
             if (index !== -1) {
                 setCurrentIndex(index);
             }
@@ -217,7 +215,11 @@ export const QueueView: React.FC<QueueViewProps> = ({ onNavigateToItem, onShowPl
                         ) : (
                             <Box style={{ textAlign: 'center', padding: vars.spacing['7'] }}>
                                 <Text color="secondary">No tracks in queue</Text>
-                                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['2'] }}>
+                                <Text
+                                    size="sm"
+                                    color="secondary"
+                                    style={{ marginTop: vars.spacing['2'] }}
+                                >
                                     Add some music to get started
                                 </Text>
                             </Box>

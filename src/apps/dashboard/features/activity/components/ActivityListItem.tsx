@@ -1,15 +1,21 @@
-import React, { useMemo } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
-import { BellIcon } from '@radix-ui/react-icons';
-import { formatRelative } from 'date-fns';
-import { getLocale } from 'utils/dateFnsLocale';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
+import { BellIcon } from '@radix-ui/react-icons';
 import ListItemLink from 'components/ListItemLink';
-import { List, ListItem, ListItemDecorator, ListItemContent } from 'ui-primitives';
-import { Avatar } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
+import { formatRelative } from 'date-fns';
+import React, { useMemo } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Avatar,
+    Box,
+    Flex,
+    List,
+    ListItem,
+    ListItemContent,
+    ListItemDecorator,
+    Text
+} from 'ui-primitives';
+import { getLocale } from 'utils/dateFnsLocale';
 
 interface ActivityListItemProps {
     item: ActivityLogEntry;
@@ -31,7 +37,12 @@ const ActivityListItem = ({ item, displayShortOverview, to }: ActivityListItemPr
     }, [item.Date]);
 
     const severity = item.Severity || LogLevel.Information;
-    const color = severity === LogLevel.Error ? 'danger' : severity === LogLevel.Warning ? 'warning' : 'primary';
+    const color =
+        severity === LogLevel.Error
+            ? 'danger'
+            : severity === LogLevel.Warning
+              ? 'warning'
+              : 'primary';
 
     return (
         <ListItem style={{ padding: 0 }}>
@@ -70,7 +81,11 @@ const ActivityListItem = ({ item, displayShortOverview, to }: ActivityListItemPr
                             <Text
                                 size="xs"
                                 color="secondary"
-                                style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                style={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap'
+                                }}
                             >
                                 {item.ShortOverview}
                             </Text>

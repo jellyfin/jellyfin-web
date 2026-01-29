@@ -154,7 +154,9 @@ export function handleCommand(commandName: string, options?: CommandOptions): vo
     if (action !== undefined) {
         action();
     } else {
-        logger.debug(`Tried to process command with no action assigned: ${commandName}`, { component: 'inputManager' });
+        logger.debug(`Tried to process command with no action assigned: ${commandName}`, {
+            component: 'inputManager'
+        });
     }
 }
 

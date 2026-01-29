@@ -1,5 +1,5 @@
-import NoActivePlayer from './NoActivePlayer';
 import Events from '../../../../utils/events';
+import NoActivePlayer from './NoActivePlayer';
 
 class HtmlVideoPlayer extends NoActivePlayer {
     static override type = 'htmlvideoplayer';

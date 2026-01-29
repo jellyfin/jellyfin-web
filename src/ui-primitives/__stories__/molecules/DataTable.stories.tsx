@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useCallback } from 'react';
-import { DataTable } from '../..';
 import { type ColumnDef } from '@tanstack/react-table';
+import { type ReactElement, useCallback } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { DataTable } from '../..';
 
 interface User {
     id: number;
@@ -47,7 +47,11 @@ const columns: ColumnDef<User>[] = [
         cell: ({ getValue }) => {
             const status = getValue() as string;
             const color = status === 'active' ? '#4caf50' : '#f44336';
-            return <span style={{ color, fontWeight: vars.typography.fontWeightMedium }}>{status}</span>;
+            return (
+                <span style={{ color, fontWeight: vars.typography.fontWeightMedium }}>
+                    {status}
+                </span>
+            );
         }
     }
 ];
@@ -57,7 +61,13 @@ const mockData: User[] = [
     { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Editor', status: 'active' },
     { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Viewer', status: 'inactive' },
     { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Admin', status: 'active' },
-    { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', role: 'Editor', status: 'active' }
+    {
+        id: 5,
+        name: 'Charlie Wilson',
+        email: 'charlie@example.com',
+        role: 'Editor',
+        status: 'active'
+    }
 ];
 
 export const Default: Story = {

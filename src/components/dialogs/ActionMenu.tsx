@@ -1,10 +1,8 @@
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import classNames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import classNames from 'classnames';
-import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { menuStyles } from 'ui-primitives';
+import { Box, menuStyles, Text } from 'ui-primitives';
 import * as styles from './ActionMenu.css.ts';
 
 export interface ActionMenuItem {
@@ -159,7 +157,9 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                         </Box>
                     )}
 
-                    {(title || text) && <DropdownMenuPrimitive.Separator className={menuStyles.separator} />}
+                    {(title || text) && (
+                        <DropdownMenuPrimitive.Separator className={menuStyles.separator} />
+                    )}
 
                     {items.map((item, index) => {
                         if (item.divider) {
@@ -184,13 +184,15 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                                 key={itemKey}
                                 className={itemClassName}
                                 data-selected={item.selected ? 'true' : undefined}
-                                onSelect={event => {
+                                onSelect={(event) => {
                                     event.preventDefault();
                                     handleItemClick(item);
                                 }}
                             >
                                 {(item.icon || item.selected) && (
-                                    <span className={styles.iconSlot}>{renderIcon(item.icon, !!item.selected)}</span>
+                                    <span className={styles.iconSlot}>
+                                        {renderIcon(item.icon, !!item.selected)}
+                                    </span>
                                 )}
                                 <div className={styles.itemContent}>
                                     <Text size="md">{itemText}</Text>
@@ -213,8 +215,11 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                         <>
                             <DropdownMenuPrimitive.Separator className={menuStyles.separator} />
                             <DropdownMenuPrimitive.Item
-                                className={classNames(menuStyles.item, menuStyles.itemVariant.danger)}
-                                onSelect={event => {
+                                className={classNames(
+                                    menuStyles.item,
+                                    menuStyles.itemVariant.danger
+                                )}
+                                onSelect={(event) => {
                                     event.preventDefault();
                                     handleCancel();
                                 }}

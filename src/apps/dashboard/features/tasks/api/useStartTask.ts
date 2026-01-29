@@ -9,7 +9,8 @@ export const useStartTask = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: ScheduledTasksApiStartTaskRequest) => getScheduledTasksApi(api!).startTask(params),
+        mutationFn: (params: ScheduledTasksApiStartTaskRequest) =>
+            getScheduledTasksApi(api!).startTask(params),
         onSuccess: () => {
             void queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY]

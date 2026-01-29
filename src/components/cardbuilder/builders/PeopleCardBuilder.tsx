@@ -1,6 +1,6 @@
 import React from 'react';
-import CardBuilder from './CardBuilder';
 import { CardOptions } from '../cardBuilder';
+import CardBuilder from './CardBuilder';
 
 interface PeopleCardBuilderProps {
     items: any[];
@@ -8,7 +8,11 @@ interface PeopleCardBuilderProps {
     onItemClick?: (item: any) => void;
 }
 
-const PeopleCardBuilder: React.FC<PeopleCardBuilderProps> = ({ items, options = {}, onItemClick }) => {
+const PeopleCardBuilder: React.FC<PeopleCardBuilderProps> = ({
+    items,
+    options = {},
+    onItemClick
+}) => {
     const peopleOptions: CardOptions = {
         ...options,
         cardLayout: false,

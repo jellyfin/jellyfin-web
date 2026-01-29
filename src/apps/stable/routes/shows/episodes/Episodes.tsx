@@ -4,24 +4,19 @@
  * React-based episodes browsing view with TanStack Query and ui-primitives.
  */
 
-import React, { useCallback, useState } from 'react';
-import { PlayIcon } from '@radix-ui/react-icons';
-import { motion, AnimatePresence } from 'motion/react';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-
+import { PlayIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
-
+import { appRouter } from 'components/router/appRouter';
 import { getItems } from 'lib/api/items';
 import { queryKeys } from 'lib/queryKeys';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
-import { appRouter } from 'components/router/appRouter';
 import { toVideoItem } from 'lib/utils/playbackUtils';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useCallback, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Flex, Heading, IconButton, Text } from 'ui-primitives';
 
 interface EpisodeCardWithPlayProps {
     item: BaseItemDto;
@@ -91,7 +86,7 @@ const EpisodeCardWithPlay: React.FC<EpisodeCardWithPlayProps> = ({ item, onPlay,
                                 <IconButton
                                     variant="solid"
                                     color="primary"
-                                    onClick={e => {
+                                    onClick={(e) => {
                                         e.stopPropagation();
                                         onPlay();
                                     }}
@@ -116,7 +111,10 @@ const EpisodeCardWithPlay: React.FC<EpisodeCardWithPlayProps> = ({ item, onPlay,
 };
 
 export const Episodes: React.FC = () => {
-    const { seriesId, seasonId } = useParams({ strict: false }) as { seriesId?: string; seasonId?: string };
+    const { seriesId, seasonId } = useParams({ strict: false }) as {
+        seriesId?: string;
+        seasonId?: string;
+    };
 
     const { data, isLoading, error } = useQuery({
         queryKey: queryKeys.episodes(seriesId, seasonId),
@@ -166,7 +164,12 @@ export const Episodes: React.FC = () => {
 
     return (
         <Box className="view-content">
-            <Box style={{ padding: vars.spacing['5'], borderBottom: `1px solid ${vars.colors.divider}` }}>
+            <Box
+                style={{
+                    padding: vars.spacing['5'],
+                    borderBottom: `1px solid ${vars.colors.divider}`
+                }}
+            >
                 <Flex
                     style={{
                         flexDirection: 'row',
@@ -176,7 +179,11 @@ export const Episodes: React.FC = () => {
                     }}
                 >
                     <Heading.H4>Episodes</Heading.H4>
-                    <Button variant="primary" onClick={handlePlayAll} disabled={!data?.Items?.length}>
+                    <Button
+                        variant="primary"
+                        onClick={handlePlayAll}
+                        disabled={!data?.Items?.length}
+                    >
                         <PlayIcon style={{ marginRight: vars.spacing['2'] }} /> Play All
                     </Button>
                 </Flex>
@@ -190,7 +197,7 @@ export const Episodes: React.FC = () => {
                         gap: vars.spacing['5']
                     }}
                 >
-                    {data?.Items?.map(item => (
+                    {data?.Items?.map((item) => (
                         <EpisodeCardWithPlay
                             key={item.Id}
                             item={item}

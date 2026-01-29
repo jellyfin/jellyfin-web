@@ -1,13 +1,19 @@
 // Native blurhash implementation - no external worker needed
-import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
+
 import * as userSettings from '../../scripts/settings/userSettings';
 import { logger } from '../../utils/logger';
+import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import './style.scss';
 
 // Native blurhash implementation - target dictionary for canvas rendering
 const targetDic: Record<string, HTMLElement[]> = {};
 
-function drawBlurhash(target: HTMLElement, pixels: Uint8ClampedArray, width: number, height: number) {
+function drawBlurhash(
+    target: HTMLElement,
+    pixels: Uint8ClampedArray,
+    width: number,
+    height: number
+) {
     const canvas = document.createElement('canvas');
     canvas.setAttribute('aria-hidden', 'true');
     canvas.width = width;
@@ -98,7 +104,8 @@ function fillImageElement(elem: HTMLElement, url: string, priority = false) {
             }
             elem.removeAttribute('data-src');
 
-            if ((userSettings as any).enableFastFadein?.()) elem.classList.add('lazy-image-fadein-fast');
+            if ((userSettings as any).enableFastFadein?.())
+                elem.classList.add('lazy-image-fadein-fast');
             else elem.classList.add('lazy-image-fadein');
 
             elem.classList.remove('lazy-hidden');

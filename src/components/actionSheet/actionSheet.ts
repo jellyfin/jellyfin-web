@@ -1,9 +1,9 @@
 import escapeHtml from 'escape-html';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import dom from '../../utils/dom';
 import { logger } from '../../utils/logger';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import layoutManager from '../layoutManager';
 import '../../elements/emby-button/emby-button';
 
 interface OptionItem {
@@ -126,11 +126,11 @@ function getPosition(positionTo: Element, options: Options, dlg: HTMLElement) {
 
 function centerFocus(elem: Element, horiz: boolean, on: boolean) {
     import('../../scripts/scrollHelper')
-        .then(scrollHelper => {
+        .then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem as HTMLElement, horiz);
         })
-        .catch(e => {
+        .catch((e) => {
             logger.warn('Error in centerFocus', { component: 'ActionSheet' }, e as Error);
         });
 }
@@ -206,7 +206,8 @@ export function show(options: Options) {
     }
 
     // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
-    const center = options.title && !renderIcon; /*|| itemsWithIcons.length != options.items.length*/
+    const center =
+        options.title && !renderIcon; /*|| itemsWithIcons.length != options.items.length*/
 
     if (center || layoutManager.tv) {
         html += '<div class="actionSheetContent actionSheetContent-centered">';
@@ -330,8 +331,11 @@ export function show(options: Options) {
     return new Promise((resolve, reject) => {
         let isResolved = false;
 
-        dlg.addEventListener('click', e => {
-            const actionSheetMenuItem = dom.parentWithClass(e.target as HTMLElement, 'actionSheetMenuItem');
+        dlg.addEventListener('click', (e) => {
+            const actionSheetMenuItem = dom.parentWithClass(
+                e.target as HTMLElement,
+                'actionSheetMenuItem'
+            );
 
             if (actionSheetMenuItem) {
                 selectedId = actionSheetMenuItem.getAttribute('data-id');
@@ -378,7 +382,7 @@ export function show(options: Options) {
             }
         });
 
-        dialogHelper.open(dlg).catch(e => {
+        dialogHelper.open(dlg).catch((e) => {
             logger.warn('DialogHelper.open error', { component: 'ActionSheet' }, e as Error);
         });
 

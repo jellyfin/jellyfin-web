@@ -2,7 +2,7 @@
 /* eslint-disable sonarjs/no-all-duplicated-branches */
 /* eslint-disable sonarjs/assertions-in-tests */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('components/visualizer/WaveSurfer', () => ({
     destroyWaveSurferInstance: vi.fn(() => Promise.resolve())
@@ -117,22 +117,22 @@ vi.mock('../../store/preferencesStore', () => ({
 }));
 
 import {
-    usePreferencesStore,
     getCrossfadeFadeOut,
+    isCrossfadeActive,
     isCrossfadeEnabled,
-    isCrossfadeActive
+    usePreferencesStore
 } from '../../store/preferencesStore';
 
-import { preloadNextTrack, startCrossfade, resetPreloadedTrack } from './crossfadeController';
-import { timeRunningOut, cancelCrossfadeTimeouts, syncManager } from './crossfader.logic';
+import { preloadNextTrack, resetPreloadedTrack, startCrossfade } from './crossfadeController';
+import { cancelCrossfadeTimeouts, syncManager, timeRunningOut } from './crossfader.logic';
 import {
-    initializeMasterAudio,
-    createGainNode,
-    removeAudioNodeBundle,
-    ensureAudioNodeBundle,
     audioNodeBus,
+    createGainNode,
     delayNodeBus,
-    masterAudioOutput
+    ensureAudioNodeBundle,
+    initializeMasterAudio,
+    masterAudioOutput,
+    removeAudioNodeBundle
 } from './master.logic';
 
 const createMockAudioContext = () => {
@@ -148,15 +148,15 @@ const createMockAudioContext = () => {
             set value(v) {
                 value = v;
             },
-            setValueAtTime: vi.fn(v => {
+            setValueAtTime: vi.fn((v) => {
                 value = v;
                 return value;
             }),
-            linearRampToValueAtTime: vi.fn(v => {
+            linearRampToValueAtTime: vi.fn((v) => {
                 value = v;
                 return value;
             }),
-            exponentialRampToValueAtTime: vi.fn(v => {
+            exponentialRampToValueAtTime: vi.fn((v) => {
                 value = v;
                 return value;
             }),
@@ -209,7 +209,9 @@ const createMockAudioContext = () => {
 };
 
 const createMockMediaElement = (id: string) => {
-    const element = document.createElement('audio') as unknown as HTMLAudioElement & { _mockData?: any };
+    const element = document.createElement('audio') as unknown as HTMLAudioElement & {
+        _mockData?: any;
+    };
     element.id = id;
     element.src = '';
     element.preload = 'none';
@@ -461,7 +463,9 @@ describe('Crossfade Lifecycle Integration Tests', () => {
                 ensureAudioNodeBundle(element, { registerInBus: true });
                 usePreferencesStore.getState().setCrossfadeDuration(3);
                 if (i > 0) {
-                    removeAudioNodeBundle(document.getElementById(`skip-${i - 1}`) as unknown as HTMLAudioElement);
+                    removeAudioNodeBundle(
+                        document.getElementById(`skip-${i - 1}`) as unknown as HTMLAudioElement
+                    );
                 }
             }
         });
@@ -594,7 +598,9 @@ describe('Player Lifecycle Integration Tests', () => {
                 document.body.appendChild(element);
                 createGainNode(element);
                 if (i > 0) {
-                    removeAudioNodeBundle(document.getElementById(`track-${i - 1}`) as unknown as HTMLAudioElement);
+                    removeAudioNodeBundle(
+                        document.getElementById(`track-${i - 1}`) as unknown as HTMLAudioElement
+                    );
                 }
             }
         });

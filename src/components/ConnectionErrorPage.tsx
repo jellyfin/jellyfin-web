@@ -1,14 +1,13 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-
 import { safeAppHost } from 'components/apphost';
 import Page from 'components/Page';
 import ReactMarkdownBox from 'components/ReactMarkdownBox';
 import toast from 'components/toast/toast';
 import { AppFeature } from 'constants/appFeature';
-import { Button } from 'ui-primitives';
 import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { Button } from 'ui-primitives';
 
 interface ConnectionErrorPageProps {
     state: ConnectionState;
@@ -67,7 +66,11 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({ state }) => {
     if (!title) return;
 
     return (
-        <Page id="connectionErrorPage" className="mainAnimatedPage standalonePage" isBackButtonEnabled={false}>
+        <Page
+            id="connectionErrorPage"
+            className="mainAnimatedPage standalonePage"
+            isBackButtonEnabled={false}
+        >
             <div className="padded-left padded-right">
                 <h1>{title}</h1>
                 {htmlMessage && (
@@ -84,7 +87,10 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({ state }) => {
                 )}
 
                 {state === ConnectionState.ServerMismatch && (
-                    <Button onClick={onForceConnect} style={isConnectDisabled ? { pointerEvents: 'none' } : undefined}>
+                    <Button
+                        onClick={onForceConnect}
+                        style={isConnectDisabled ? { pointerEvents: 'none' } : undefined}
+                    >
                         {globalize.translate('ConnectAnyway')}
                     </Button>
                 )}

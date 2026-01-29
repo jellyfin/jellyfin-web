@@ -28,7 +28,7 @@ export interface BookActions {
 }
 
 export const useBookStore = create<BookState & BookActions>()(
-    subscribeWithSelector(set => ({
+    subscribeWithSelector((set) => ({
         currentItemId: null,
         currentPage: 1,
         totalPages: 0,
@@ -46,15 +46,15 @@ export const useBookStore = create<BookState & BookActions>()(
             logger.info('Book selected', { component: 'BookStore', itemId });
         },
 
-        setPage: currentPage => set({ currentPage }),
+        setPage: (currentPage) => set({ currentPage }),
 
-        setTotalPages: totalPages => set({ totalPages }),
+        setTotalPages: (totalPages) => set({ totalPages }),
 
-        setLoaded: isLoaded => set({ isLoaded }),
+        setLoaded: (isLoaded) => set({ isLoaded }),
 
-        setFontSize: fontSize => set({ fontSize }),
+        setFontSize: (fontSize) => set({ fontSize }),
 
-        setTheme: theme => set({ theme }),
+        setTheme: (theme) => set({ theme }),
 
         reset: () =>
             set({

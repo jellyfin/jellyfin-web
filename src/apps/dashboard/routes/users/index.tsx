@@ -1,18 +1,28 @@
-import React, { useCallback, useState } from 'react';
-import globalize from '../../../../lib/globalize';
-import { Box, Flex } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Grid, gridContainer, gridGap, gridXs, gridSm, gridMd, gridLg } from 'ui-primitives';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { useUsers } from 'hooks/useUsers';
-import Loading from 'components/loading/LoadingComponent';
 import { useDeleteUser } from 'apps/dashboard/features/users/api/useDeleteUser';
-import Page from 'components/Page';
-import UserCardBox from 'components/dashboard/users/UserCardBox';
 import ConfirmDialog from 'components/ConfirmDialog';
+import UserCardBox from 'components/dashboard/users/UserCardBox';
 import ActionMenu, { type ActionMenuItem } from 'components/dialogs/ActionMenu';
+import Loading from 'components/loading/LoadingComponent';
+import Page from 'components/Page';
+import { useUsers } from 'hooks/useUsers';
+import React, { useCallback, useState } from 'react';
+import {
+    Box,
+    Button,
+    Flex,
+    Grid,
+    gridContainer,
+    gridGap,
+    gridLg,
+    gridMd,
+    gridSm,
+    gridXs,
+    Heading,
+    Text
+} from 'ui-primitives';
+import globalize from '../../../../lib/globalize';
 
 const UserProfiles = (): React.ReactElement => {
     const location = useLocation();
@@ -21,7 +31,9 @@ const UserProfiles = (): React.ReactElement => {
     const deleteUser = useDeleteUser();
 
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<{ id: string; name?: string | null } | null>(null);
+    const [selectedUser, setSelectedUser] = useState<{ id: string; name?: string | null } | null>(
+        null
+    );
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
@@ -57,7 +69,7 @@ const UserProfiles = (): React.ReactElement => {
                     navigate({ to: `/dashboard/users/parentalcontrol?userId=${activeUser}` });
                     break;
                 case 'delete': {
-                    const user = users?.find(u => u.Id === activeUser);
+                    const user = users?.find((u) => u.Id === activeUser);
                     setSelectedUser({ id: activeUser, name: user?.Name });
                     setDeleteConfirmOpen(true);
                     break;
@@ -82,7 +94,11 @@ const UserProfiles = (): React.ReactElement => {
     const menuItems: ActionMenuItem[] = [
         { name: globalize.translate('ButtonEditUser'), id: 'open', icon: 'mode_edit' },
         { name: globalize.translate('ButtonLibraryAccess'), id: 'access', icon: 'lock' },
-        { name: globalize.translate('ButtonParentalControl'), id: 'parentalcontrol', icon: 'person' },
+        {
+            name: globalize.translate('ButtonParentalControl'),
+            id: 'parentalcontrol',
+            icon: 'person'
+        },
         { divider: true },
         { name: globalize.translate('Delete'), id: 'delete', icon: 'delete' }
     ];
@@ -121,16 +137,24 @@ const UserProfiles = (): React.ReactElement => {
                         className={`${Flex} ${Flex.row}`}
                         style={{ justifyContent: 'space-between', alignItems: 'center' }}
                     >
-                        <Heading.H2 style={{ margin: 0 }}>{globalize.translate('HeaderUsers')}</Heading.H2>
+                        <Heading.H2 style={{ margin: 0 }}>
+                            {globalize.translate('HeaderUsers')}
+                        </Heading.H2>
                         <Button startDecorator={<PlusIcon />} onClick={onAddUserClick}>
                             {globalize.translate('ButtonAddUser')}
                         </Button>
                     </Box>
 
                     <Grid className={`${gridContainer} ${gridGap.lg}`}>
-                        {users?.map(user => (
-                            <Grid key={user.Id} className={`${gridXs[12]} ${gridSm[6]} ${gridMd[4]} ${gridLg[3]}`}>
-                                <UserCardBox user={user} onMenuClick={e => handleMenuOpen(e, user.Id!)} />
+                        {users?.map((user) => (
+                            <Grid
+                                key={user.Id}
+                                className={`${gridXs[12]} ${gridSm[6]} ${gridMd[4]} ${gridLg[3]}`}
+                            >
+                                <UserCardBox
+                                    user={user}
+                                    onMenuClick={(e) => handleMenuOpen(e, user.Id!)}
+                                />
                             </Grid>
                         ))}
                     </Grid>

@@ -10,9 +10,11 @@ function onKeyDown(e) {
 
         this.checked = !this.checked;
 
-        this.dispatchEvent(new CustomEvent('change', {
-            bubbles: true
-        }));
+        this.dispatchEvent(
+            new CustomEvent('change', {
+                bubbles: true
+            })
+        );
 
         return false;
     }
@@ -33,7 +35,10 @@ EmbyTogglePrototype.attachedCallback = function () {
 
     const labelTextElement = labelElement.querySelector('span');
 
-    labelElement.insertAdjacentHTML('beforeend', '<div class="mdl-switch__trackContainer"><div class="mdl-switch__track"></div><div class="mdl-switch__thumb"><span class="mdl-switch__focus-helper"></span></div></div>');
+    labelElement.insertAdjacentHTML(
+        'beforeend',
+        '<div class="mdl-switch__trackContainer"><div class="mdl-switch__track"></div><div class="mdl-switch__thumb"><span class="mdl-switch__focus-helper"></span></div></div>'
+    );
 
     labelTextElement.classList.add('toggleButtonLabel');
     labelTextElement.classList.add('mdl-switch__label');
@@ -45,4 +50,3 @@ document.registerElement('emby-toggle', {
     prototype: EmbyTogglePrototype,
     extends: 'input'
 });
-

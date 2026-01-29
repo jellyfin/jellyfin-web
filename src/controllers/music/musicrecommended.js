@@ -3,21 +3,20 @@ import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import * as mainTabsManager from 'components/maintabsmanager';
-import browser from 'scripts/browser';
-import dom from 'utils/dom';
 import globalize from 'lib/globalize';
+import browser from 'scripts/browser';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
-import Dashboard from 'utils/dashboard';
 import { getSquareShape } from 'utils/card';
+import Dashboard from 'utils/dashboard';
+import dom from 'utils/dom';
 import { logger } from 'utils/logger';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-tabs/emby-tabs';
 import 'elements/emby-button/emby-button';
-
 
 function itemsPerRow() {
     const screenWidth = dom.getWindowSize().innerWidth;
@@ -53,29 +52,31 @@ function loadLatest(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(items => {
-        const elem = page.querySelector('#recentlyAddedSongs');
-        elem.innerHTML = cardBuilder.getCardsHtml({
-            items: items,
-            showUnplayedIndicator: false,
-            showLatestItemsPopup: false,
-            shape: getSquareShape(enableScrollX()),
-            showTitle: true,
-            showParentTitle: true,
-            lazy: true,
-            centerText: true,
-            overlayPlayButton: true,
-            allowBottomPadding: !enableScrollX(),
-            cardLayout: false,
-            coverImage: true
-        });
-        imageLoader.lazyChildren(elem);
-        loading.hide();
+    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(
+        (items) => {
+            const elem = page.querySelector('#recentlyAddedSongs');
+            elem.innerHTML = cardBuilder.getCardsHtml({
+                items: items,
+                showUnplayedIndicator: false,
+                showLatestItemsPopup: false,
+                shape: getSquareShape(enableScrollX()),
+                showTitle: true,
+                showParentTitle: true,
+                lazy: true,
+                centerText: true,
+                overlayPlayButton: true,
+                allowBottomPadding: !enableScrollX(),
+                cardLayout: false,
+                coverImage: true
+            });
+            imageLoader.lazyChildren(elem);
+            loading.hide();
 
-        import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(page);
-        });
-    });
+            import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
+                autoFocuser.autoFocus(page);
+            });
+        }
+    );
 }
 
 function loadRecentlyPlayed(page, parentId) {
@@ -92,7 +93,7 @@ function loadRecentlyPlayed(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(result => {
+    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then((result) => {
         const elem = page.querySelector('#recentlyPlayed');
 
         if (result.Items.length) {
@@ -134,7 +135,7 @@ function loadFrequentlyPlayed(page, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(result => {
+    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then((result) => {
         const elem = page.querySelector('#topPlayed');
 
         if (result.Items.length) {
@@ -231,7 +232,9 @@ function getDefaultTabIndex(folderId) {
 export default function (view, params) {
     function reload() {
         loading.show();
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         loadSuggestionsTab(view, tabContent, params.topParentId);
     }
 
@@ -266,7 +269,14 @@ export default function (view, params) {
     }
 
     function initTabs() {
-        mainTabsManager.setTabs(view, currentTabIndex, getTabs, getTabContainers, onBeforeTabChange, onTabChange);
+        mainTabsManager.setTabs(
+            view,
+            currentTabIndex,
+            getTabs,
+            getTabContainers,
+            onBeforeTabChange,
+            onTabChange
+        );
     }
 
     function getMode(index) {
@@ -339,7 +349,7 @@ export default function (view, params) {
     };
 
     function preLoadTab(page, index) {
-        getTabController(page, index, controller => {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1 && controller.preRender) {
                 controller.preRender();
             }
@@ -348,7 +358,7 @@ export default function (view, params) {
 
     function loadTab(page, index) {
         currentTabIndex = index;
-        getTabController(page, index, controller => {
+        getTabController(page, index, (controller) => {
             if (renderedTabs.indexOf(index) == -1) {
                 renderedTabs.push(index);
                 controller.renderTab();
@@ -367,7 +377,9 @@ export default function (view, params) {
     const suggestionsTabIndex = 1;
 
     this.initTab = function () {
-        const tabContent = view.querySelector(".pageTabContent[data-index='" + suggestionsTabIndex + "']");
+        const tabContent = view.querySelector(
+            ".pageTabContent[data-index='" + suggestionsTabIndex + "']"
+        );
         const containers = tabContent.querySelectorAll('.itemsContainer');
 
         for (let i = 0, length = containers.length; i < length; i++) {
@@ -387,7 +399,7 @@ export default function (view, params) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(item => {
+                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then((item) => {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });
@@ -403,7 +415,7 @@ export default function (view, params) {
         inputManager.off(window, onInputCommand);
     });
     view.addEventListener('viewdestroy', () => {
-        tabControllers.forEach(t => {
+        tabControllers.forEach((t) => {
             if (t.destroy) {
                 t.destroy();
             }

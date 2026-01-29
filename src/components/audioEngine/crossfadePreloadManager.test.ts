@@ -57,7 +57,9 @@ describe('crossfadePreloadManager', () => {
 
     describe('handleManualSkip with strategy selection', () => {
         it('uses full strategy for queue items', async () => {
-            const { handleManualSkip, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleManualSkip, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'queue-item' } }, { item: { id: 'other-item' } }]
@@ -83,7 +85,9 @@ describe('crossfadePreloadManager', () => {
         });
 
         it('uses streaming strategy for non-queue items', async () => {
-            const { handleManualSkip, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleManualSkip, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'queue-item' } }]
@@ -109,7 +113,9 @@ describe('crossfadePreloadManager', () => {
         });
 
         it('preloads all image types for queue items', async () => {
-            const { handleManualSkip, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleManualSkip, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'queue-item' } }]
@@ -130,14 +136,24 @@ describe('crossfadePreloadManager', () => {
 
             await handleManualSkip(trackInfo);
 
-            expect(mocks.imagePreloader.preloadImage).toHaveBeenCalledWith('https://example.com/art.jpg');
-            expect(mocks.imagePreloader.preloadImage).toHaveBeenCalledWith('https://example.com/backdrop.jpg');
-            expect(mocks.imagePreloader.preloadImage).toHaveBeenCalledWith('https://example.com/logo.png');
-            expect(mocks.imagePreloader.preloadImage).toHaveBeenCalledWith('https://example.com/disc.png');
+            expect(mocks.imagePreloader.preloadImage).toHaveBeenCalledWith(
+                'https://example.com/art.jpg'
+            );
+            expect(mocks.imagePreloader.preloadImage).toHaveBeenCalledWith(
+                'https://example.com/backdrop.jpg'
+            );
+            expect(mocks.imagePreloader.preloadImage).toHaveBeenCalledWith(
+                'https://example.com/logo.png'
+            );
+            expect(mocks.imagePreloader.preloadImage).toHaveBeenCalledWith(
+                'https://example.com/disc.png'
+            );
         });
 
         it('skips all image preloading for non-queue items', async () => {
-            const { handleManualSkip, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleManualSkip, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'queue-item' } }]
@@ -162,7 +178,9 @@ describe('crossfadePreloadManager', () => {
         it('returns false when preload fails', async () => {
             mocks.preloadNextTrack.mockResolvedValue(false);
 
-            const { handleManualSkip, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleManualSkip, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'queue-item' } }]
@@ -185,7 +203,9 @@ describe('crossfadePreloadManager', () => {
 
     describe('handleTrackStart with peak extraction', () => {
         it('extracts peaks for next track when in queue', async () => {
-            const { handleTrackStart, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleTrackStart, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'current' } }, { item: { id: 'next-in-queue' } }],
@@ -210,11 +230,16 @@ describe('crossfadePreloadManager', () => {
 
             await handleTrackStart(currentTrack, getNextTrack);
 
-            expect(mocks.extractPeaksForAnalysis).toHaveBeenCalledWith('next-in-queue', 'https://example.com/next.mp3');
+            expect(mocks.extractPeaksForAnalysis).toHaveBeenCalledWith(
+                'next-in-queue',
+                'https://example.com/next.mp3'
+            );
         });
 
         it('skips peak extraction for next track not in queue', async () => {
-            const { handleTrackStart, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleTrackStart, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'current' } }],
@@ -245,7 +270,9 @@ describe('crossfadePreloadManager', () => {
         it('does not extract peaks when visualizer is disabled', async () => {
             mocks.isVisualizerEnabled.mockReturnValue(false);
 
-            const { handleTrackStart, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleTrackStart, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'current' } }, { item: { id: 'next-in-queue' } }],
@@ -277,7 +304,9 @@ describe('crossfadePreloadManager', () => {
             mocks.isCrossfadeEnabled.mockReturnValue(false);
             mocks.isVisualizerEnabled.mockReturnValue(false);
 
-            const { handleTrackStart, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleTrackStart, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'current' } }, { item: { id: 'next-in-queue' } }],
@@ -306,7 +335,9 @@ describe('crossfadePreloadManager', () => {
         });
 
         it('preloads next track audio when crossfade is enabled', async () => {
-            const { handleTrackStart, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleTrackStart, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'current' } }, { item: { id: 'next-in-queue' } }],
@@ -342,7 +373,9 @@ describe('crossfadePreloadManager', () => {
         it('skips audio preload when crossfade is disabled', async () => {
             mocks.isCrossfadeEnabled.mockReturnValue(false);
 
-            const { handleTrackStart, resetPreloadState } = await import('./crossfadePreloadManager');
+            const { handleTrackStart, resetPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             mocks.getState.mockReturnValue({
                 items: [{ item: { id: 'current' } }, { item: { id: 'next-in-queue' } }],
@@ -373,7 +406,9 @@ describe('crossfadePreloadManager', () => {
 
     describe('resetPreloadState', () => {
         it('resets preload state for new track', async () => {
-            const { resetPreloadState, getCurrentPreloadState } = await import('./crossfadePreloadManager');
+            const { resetPreloadState, getCurrentPreloadState } = await import(
+                './crossfadePreloadManager'
+            );
 
             resetPreloadState();
             const state = getCurrentPreloadState();

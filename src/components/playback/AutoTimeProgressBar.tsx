@@ -1,9 +1,8 @@
-import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import type { ProgressOptions } from 'types/progressOptions';
 import { Progress } from 'ui-primitives';
 import { deprecate } from '../../utils/deprecation';
-
-import type { ProgressOptions } from 'types/progressOptions';
 
 interface AutoTimeProgressBarProps {
     pct: number;

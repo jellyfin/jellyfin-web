@@ -1,6 +1,5 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { vars } from 'styles/tokens.css.ts';
 import { Skeleton } from '../..';
 
 const meta: Meta<typeof Skeleton> = {
@@ -44,7 +43,14 @@ export const TextVariant: Story = {
 
 export const AllVariants: Story = {
     render: () => (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['4'], width: '300px' }}>
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: vars.spacing['4'],
+                width: '300px'
+            }}
+        >
             <Skeleton variant="rectangular" width="100%" height={80} />
             <Skeleton variant="rectangular" width="100%" height={80} />
             <Skeleton variant="circular" width={50} height={50} style={{ alignSelf: 'center' }} />
@@ -57,11 +63,28 @@ export const AllVariants: Story = {
 
 export const CardSkeleton: Story = {
     render: () => (
-        <div style={{ width: '280px', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
+        <div
+            style={{
+                width: '280px',
+                border: '1px solid #333',
+                borderRadius: '8px',
+                overflow: 'hidden'
+            }}
+        >
             <Skeleton variant="rectangular" width="100%" height={120} />
             <div style={{ padding: '16px' }}>
-                <Skeleton variant="text" width="80%" height={24} style={{ marginBottom: vars.spacing['2'] }} />
-                <Skeleton variant="text" width="60%" height={16} style={{ marginBottom: vars.spacing['4'] }} />
+                <Skeleton
+                    variant="text"
+                    width="80%"
+                    height={24}
+                    style={{ marginBottom: vars.spacing['2'] }}
+                />
+                <Skeleton
+                    variant="text"
+                    width="60%"
+                    height={16}
+                    style={{ marginBottom: vars.spacing['4'] }}
+                />
                 <div style={{ display: 'flex', gap: vars.spacing['2'] }}>
                     <Skeleton variant="rectangular" width={80} height={32} />
                     <Skeleton variant="rectangular" width={80} height={32} />
@@ -75,10 +98,23 @@ export const AvatarList: Story = {
     render: () => (
         <div style={{ width: '250px' }}>
             {Array.from({ length: 4 }, (_, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['3'], marginBottom: vars.spacing['4'] }}>
+                <div
+                    key={i}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: vars.spacing['3'],
+                        marginBottom: vars.spacing['4']
+                    }}
+                >
                     <Skeleton variant="circular" width={40} height={40} />
                     <div style={{ flex: 1 }}>
-                        <Skeleton variant="text" width="70%" height={16} style={{ marginBottom: '4px' }} />
+                        <Skeleton
+                            variant="text"
+                            width="70%"
+                            height={16}
+                            style={{ marginBottom: '4px' }}
+                        />
                         <Skeleton variant="text" width="50%" height={12} />
                     </div>
                 </div>
@@ -90,18 +126,42 @@ export const AvatarList: Story = {
 export const TableRow: Story = {
     render: () => (
         <div style={{ width: '400px' }}>
-            <div style={{ display: 'flex', gap: vars.spacing['3'], padding: '12px 0', borderBottom: '1px solid #333' }}>
+            <div
+                style={{
+                    display: 'flex',
+                    gap: vars.spacing['3'],
+                    padding: '12px 0',
+                    borderBottom: '1px solid #333'
+                }}
+            >
                 <Skeleton variant="circular" width={36} height={36} />
                 <div style={{ flex: 1 }}>
-                    <Skeleton variant="text" width="40%" height={16} style={{ marginBottom: '4px' }} />
+                    <Skeleton
+                        variant="text"
+                        width="40%"
+                        height={16}
+                        style={{ marginBottom: '4px' }}
+                    />
                     <Skeleton variant="text" width="60%" height={14} />
                 </div>
                 <Skeleton variant="text" width={80} height={16} />
             </div>
-            <div style={{ display: 'flex', gap: vars.spacing['3'], padding: '12px 0', borderBottom: '1px solid #333' }}>
+            <div
+                style={{
+                    display: 'flex',
+                    gap: vars.spacing['3'],
+                    padding: '12px 0',
+                    borderBottom: '1px solid #333'
+                }}
+            >
                 <Skeleton variant="circular" width={36} height={36} />
                 <div style={{ flex: 1 }}>
-                    <Skeleton variant="text" width="50%" height={16} style={{ marginBottom: '4px' }} />
+                    <Skeleton
+                        variant="text"
+                        width="50%"
+                        height={16}
+                        style={{ marginBottom: '4px' }}
+                    />
                     <Skeleton variant="text" width="70%" height={14} />
                 </div>
                 <Skeleton variant="text" width={80} height={16} />
@@ -109,7 +169,12 @@ export const TableRow: Story = {
             <div style={{ display: 'flex', gap: vars.spacing['3'], padding: '12px 0' }}>
                 <Skeleton variant="circular" width={36} height={36} />
                 <div style={{ flex: 1 }}>
-                    <Skeleton variant="text" width="35%" height={16} style={{ marginBottom: '4px' }} />
+                    <Skeleton
+                        variant="text"
+                        width="35%"
+                        height={16}
+                        style={{ marginBottom: '4px' }}
+                    />
                     <Skeleton variant="text" width="55%" height={14} />
                 </div>
                 <Skeleton variant="text" width={80} height={16} />

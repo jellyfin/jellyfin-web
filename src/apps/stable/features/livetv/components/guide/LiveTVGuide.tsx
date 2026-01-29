@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CircularProgress } from 'ui-primitives';
 import ChannelHeader from './ChannelHeader';
+import * as styles from './LiveTVGuide.css.ts';
 import ProgramCell from './ProgramCell';
 import TimeslotHeader from './TimeslotHeader';
-import * as styles from './LiveTVGuide.css.ts';
 
 const LiveTVGuide: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -78,7 +78,7 @@ const LiveTVGuide: React.FC = () => {
 
             <div className={styles.gridBody}>
                 <div ref={channelScrollRef} className={styles.channelColumn}>
-                    {channels.map(channel => (
+                    {channels.map((channel) => (
                         <ChannelHeader key={channel.Id} channel={channel} />
                     ))}
                 </div>
@@ -86,14 +86,20 @@ const LiveTVGuide: React.FC = () => {
                 <div ref={gridScrollRef} className={styles.programGrid} onScroll={handleGridScroll}>
                     <div className={styles.gridContent} style={{ height: channels.length * 80 }}>
                         {channels.map((channel, rowIndex) => (
-                            <div key={channel.Id} className={styles.channelRow} style={{ top: rowIndex * 80 }}>
+                            <div
+                                key={channel.Id}
+                                className={styles.channelRow}
+                                style={{ top: rowIndex * 80 }}
+                            >
                                 {programs
-                                    .filter(p => p.ChannelId === channel.Id)
-                                    .map(program => {
+                                    .filter((p) => p.ChannelId === channel.Id)
+                                    .map((program) => {
                                         const startMs = new Date(program.StartDate).getTime();
                                         const endMs = new Date(program.EndDate).getTime();
-                                        const startPct = Math.max(0, (startMs - dayStartMs) / msPerDay) * 100;
-                                        const endPct = Math.min(1, (endMs - dayStartMs) / msPerDay) * 100;
+                                        const startPct =
+                                            Math.max(0, (startMs - dayStartMs) / msPerDay) * 100;
+                                        const endPct =
+                                            Math.min(1, (endMs - dayStartMs) / msPerDay) * 100;
                                         const widthPct = endPct - startPct;
 
                                         return (

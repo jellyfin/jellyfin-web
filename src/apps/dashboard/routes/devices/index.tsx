@@ -9,11 +9,7 @@
  */
 
 import type { DeviceInfoDto } from '@jellyfin/sdk/lib/generated-client/models/device-info-dto';
-import { parseISO } from 'date-fns';
-import React, { useCallback, useMemo, useState } from 'react';
-import { vars } from 'styles/tokens.css.ts';
-import type { CellContext } from '@tanstack/react-table';
-
+import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage from 'apps/dashboard/components/table/TablePage';
 import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
@@ -22,14 +18,13 @@ import { useDevices } from 'apps/dashboard/features/devices/api/useDevices';
 import { useUpdateDevice } from 'apps/dashboard/features/devices/api/useUpdateDevice';
 import DeviceNameCell from 'apps/dashboard/features/devices/components/DeviceNameCell';
 import ConfirmDialog from 'components/ConfirmDialog';
+import { parseISO } from 'date-fns';
 import { useApi } from 'hooks/useApi';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import type { ColumnDef } from '@tanstack/react-table';
+import React, { useCallback, useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Button, Flex, IconButton, Tooltip } from 'ui-primitives';
 
 const DeleteIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -109,14 +104,14 @@ export const Component = () => {
     const onConfirmDeleteAll = useCallback(() => {
         if (devices) {
             Promise.all(
-                devices.map(item => {
+                devices.map((item) => {
                     if (api && item.Id && api.deviceInfo.id === item.Id) {
                         return deleteDevice.mutateAsync({ id: item.Id });
                     }
                     return Promise.resolve();
                 })
             )
-                .catch(err => {
+                .catch((err) => {
                     console.error('[DevicesPage] failed deleting all devices', err);
                 })
                 .finally(() => {
@@ -131,7 +126,8 @@ export const Component = () => {
         () => [
             {
                 id: 'DateLastActivity',
-                accessorFn: row => (row.DateLastActivity ? parseISO(row.DateLastActivity) : undefined),
+                accessorFn: (row) =>
+                    row.DateLastActivity ? parseISO(row.DateLastActivity) : undefined,
                 header: globalize.translate('LastActive'),
                 size: 160,
                 cell: DateTimeCell,
@@ -139,14 +135,14 @@ export const Component = () => {
             },
             {
                 id: 'Name',
-                accessorFn: row => row.CustomName || row.Name,
+                accessorFn: (row) => row.CustomName || row.Name,
                 header: globalize.translate('LabelDevice'),
                 size: 200,
                 cell: DeviceNameCell
             },
             {
                 id: 'App',
-                accessorFn: row => [row.AppName, row.AppVersion].filter(v => !!v).join(' '),
+                accessorFn: (row) => [row.AppName, row.AppVersion].filter((v) => !!v).join(' '),
                 header: globalize.translate('LabelAppName'),
                 size: 200,
                 enableResizing: false
@@ -177,7 +173,10 @@ export const Component = () => {
                         <IconButton
                             onClick={() => {
                                 const customName = row.CustomName || row.Name || '';
-                                const newName = window.prompt(globalize.translate('LabelDevice'), customName);
+                                const newName = window.prompt(
+                                    globalize.translate('LabelDevice'),
+                                    customName
+                                );
                                 const deviceId = row.Id;
                                 if (newName && newName !== customName && deviceId) {
                                     updateDevice.mutate({
@@ -192,7 +191,10 @@ export const Component = () => {
                     </Tooltip>
                     {isDeletable ? (
                         <Tooltip title={globalize.translate('Delete')}>
-                            <IconButton color="danger" onClick={onDeleteDevice(row.Id || undefined)}>
+                            <IconButton
+                                color="danger"
+                                onClick={onDeleteDevice(row.Id || undefined)}
+                            >
                                 <DeleteIcon />
                             </IconButton>
                         </Tooltip>

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { logger } from './logger';
 
 /**
@@ -65,7 +65,11 @@ describe('Logger Standardization', () => {
             const errorSpy = vi.spyOn(console, 'groupCollapsed').mockImplementation(() => {});
 
             const error = new Error('Invalid date format');
-            logger.error('Error parsing date', { component: 'PrimaryMediaInfo', date: '2024-01-01' }, error);
+            logger.error(
+                'Error parsing date',
+                { component: 'PrimaryMediaInfo', date: '2024-01-01' },
+                error
+            );
 
             expect(errorSpy).toHaveBeenCalled();
         });
@@ -74,7 +78,11 @@ describe('Logger Standardization', () => {
             const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
             const error = new Error('Permissions check failed');
-            logger.warn('Failed to fetch playlist permissions', { component: 'PlaylistEditor' }, error);
+            logger.warn(
+                'Failed to fetch playlist permissions',
+                { component: 'PlaylistEditor' },
+                error
+            );
 
             expect(warnSpy).toHaveBeenCalled();
         });
@@ -93,7 +101,11 @@ describe('Logger Standardization', () => {
             const errorSpy = vi.spyOn(console, 'groupCollapsed').mockImplementation(() => {});
 
             const error = new Error('Panel support check failed');
-            logger.error('isUdPanelSupported() error code = -1', { component: 'BitrateProfile' }, error);
+            logger.error(
+                'isUdPanelSupported() error code = -1',
+                { component: 'BitrateProfile' },
+                error
+            );
 
             expect(errorSpy).toHaveBeenCalled();
         });
@@ -102,7 +114,11 @@ describe('Logger Standardization', () => {
             const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
             const error = new Error('User not authorized');
-            logger.warn('Failed to fetch playlist permissions', { component: 'PlaylistViewer' }, error);
+            logger.warn(
+                'Failed to fetch playlist permissions',
+                { component: 'PlaylistViewer' },
+                error
+            );
 
             expect(warnSpy).toHaveBeenCalled();
         });
@@ -132,7 +148,11 @@ describe('Logger Standardization', () => {
             const errorSpy = vi.spyOn(console, 'groupCollapsed').mockImplementation(() => {});
 
             const error = new TypeError('Cannot read property of undefined');
-            logger.error('Failed to process item', { component: 'ItemProcessor', itemId: '12345' }, error);
+            logger.error(
+                'Failed to process item',
+                { component: 'ItemProcessor', itemId: '12345' },
+                error
+            );
 
             expect(errorSpy).toHaveBeenCalled();
         });

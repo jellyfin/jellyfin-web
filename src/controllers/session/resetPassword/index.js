@@ -42,4 +42,3 @@ export default function (view) {
 
     view.querySelector('#txtPin').focus();
 }
-

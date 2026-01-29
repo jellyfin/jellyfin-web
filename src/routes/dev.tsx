@@ -1,18 +1,29 @@
-import { useState } from 'react';
+import { useForm } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
 import { createRoute } from '@tanstack/react-router';
-import { useForm } from '@tanstack/react-form';
-import { z } from 'zod';
-import { Box, Button, Flex, Text, Input, Alert, Card, CardBody, CardHeader, Heading } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
 import Page from 'components/Page';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { useServerStore } from 'store/serverStore';
+import { useState } from 'react';
 import { useDevConfigStore } from 'store/devConfigStore';
-import { queryClient } from 'utils/query/queryClient';
+import { useServerStore } from 'store/serverStore';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Checkbox,
+    Flex,
+    Heading,
+    Input,
+    Text
+} from 'ui-primitives';
 import { normalizeServerBaseUrl, resolveApiBaseUrl, saveDevConfig } from 'utils/devConfig';
 import { resetServiceWorkerAndCaches } from 'utils/devServiceWorker';
+import { queryClient } from 'utils/query/queryClient';
+import { z } from 'zod';
 import { Route } from './__root';
 
 declare const __DEV_SERVER_PROXY_TARGET__: string;
@@ -22,7 +33,7 @@ const devConfigSchema = z.object({
         .string()
         .trim()
         .optional()
-        .refine(value => {
+        .refine((value) => {
             if (!value) return true;
             try {
                 normalizeServerBaseUrl(value);
@@ -75,7 +86,7 @@ const DevSettingsPage = () => {
         onSuccess: () => {
             setSaveMessage('Settings saved. Reload to apply changes.');
         },
-        onError: error => {
+        onError: (error) => {
             setSaveMessage(error instanceof Error ? error.message : 'Failed to save settings');
         }
     });
@@ -146,7 +157,12 @@ const DevSettingsPage = () => {
     );
 
     return (
-        <Page id="devSettingsPage" title="Dev Settings" isBackButtonEnabled isMenuButtonEnabled={false}>
+        <Page
+            id="devSettingsPage"
+            title="Dev Settings"
+            isBackButtonEnabled
+            isMenuButtonEnabled={false}
+        >
             <Box style={{ padding: vars.spacing['6'], maxWidth: '48rem', margin: '0 auto' }}>
                 <Card>
                     <CardHeader>
@@ -157,7 +173,7 @@ const DevSettingsPage = () => {
                     </CardHeader>
                     <CardBody>
                         <form
-                            onSubmit={event => {
+                            onSubmit={(event) => {
                                 event.preventDefault();
                                 void form.handleSubmit();
                             }}
@@ -167,14 +183,18 @@ const DevSettingsPage = () => {
                                     label="Jellyfin Server URL"
                                     placeholder="https://server:8096 or server:8096"
                                     value={form.state.values.serverBaseUrl}
-                                    onChange={event => form.setFieldValue('serverBaseUrl', event.target.value)}
+                                    onChange={(event) =>
+                                        form.setFieldValue('serverBaseUrl', event.target.value)
+                                    }
                                     helperText="Real server address (stored locally for dev)."
                                 />
 
                                 <Flex align="center" gap={vars.spacing['4']}>
                                     <Checkbox
                                         checked={form.state.values.useProxy}
-                                        onChangeChecked={checked => form.setFieldValue('useProxy', checked)}
+                                        onChangeChecked={(checked) =>
+                                            form.setFieldValue('useProxy', checked)
+                                        }
                                     >
                                         Use dev proxy (same-origin)
                                     </Checkbox>
@@ -182,7 +202,8 @@ const DevSettingsPage = () => {
 
                                 {form.state.values.useProxy && !__DEV_SERVER_PROXY_TARGET__ && (
                                     <Alert variant="warning">
-                                        Set `VITE_DEV_JELLYFIN_TARGET` in `.env.local` and restart the dev server.
+                                        Set `VITE_DEV_JELLYFIN_TARGET` in `.env.local` and restart
+                                        the dev server.
                                     </Alert>
                                 )}
 
@@ -202,7 +223,11 @@ const DevSettingsPage = () => {
                                     <Button type="submit" variant="primary">
                                         Save Settings
                                     </Button>
-                                    <Button type="button" variant="secondary" onClick={() => window.location.reload()}>
+                                    <Button
+                                        type="button"
+                                        variant="secondary"
+                                        onClick={() => window.location.reload()}
+                                    >
                                         Reload
                                     </Button>
                                     <Button
@@ -211,7 +236,9 @@ const DevSettingsPage = () => {
                                         onClick={() => testConnectionMutation.mutate()}
                                         disabled={testConnectionMutation.isPending}
                                     >
-                                        {testConnectionMutation.isPending ? 'Testing...' : 'Test Connection'}
+                                        {testConnectionMutation.isPending
+                                            ? 'Testing...'
+                                            : 'Test Connection'}
                                     </Button>
                                 </Flex>
                             </Flex>
@@ -225,7 +252,10 @@ const DevSettingsPage = () => {
 
                         {testConnectionMutation.isError && (
                             <Alert variant="error" style={{ marginTop: vars.spacing['5'] }}>
-                                {classifyConnectionError(testConnectionMutation.error, form.state.values.useProxy)}
+                                {classifyConnectionError(
+                                    testConnectionMutation.error,
+                                    form.state.values.useProxy
+                                )}
                             </Alert>
                         )}
 
@@ -249,10 +279,13 @@ const DevSettingsPage = () => {
                                 onClick={() => resetSwMutation.mutate()}
                                 disabled={resetSwMutation.isPending}
                             >
-                                {resetSwMutation.isPending ? 'Resetting...' : 'Reset Service Worker & Caches'}
+                                {resetSwMutation.isPending
+                                    ? 'Resetting...'
+                                    : 'Reset Service Worker & Caches'}
                             </Button>
                             <Text size="sm" color="secondary">
-                                Clears stale service workers and cache entries to avoid stale assets in dev.
+                                Clears stale service workers and cache entries to avoid stale assets
+                                in dev.
                             </Text>
 
                             <Button
@@ -261,7 +294,9 @@ const DevSettingsPage = () => {
                                 onClick={() => resetAppMutation.mutate()}
                                 disabled={resetAppMutation.isPending}
                             >
-                                {resetAppMutation.isPending ? 'Resetting...' : 'Clear Auth / Reset App State'}
+                                {resetAppMutation.isPending
+                                    ? 'Resetting...'
+                                    : 'Clear Auth / Reset App State'}
                             </Button>
                         </Flex>
                     </CardBody>

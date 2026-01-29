@@ -1,5 +1,5 @@
-import { type ReactElement, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { type ReactElement, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 const meta: Meta = {
@@ -59,7 +59,14 @@ function DrawerStory(): ReactElement {
                         }}
                     >
                         <div style={{ padding: vars.spacing['5'] }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    marginBottom: vars.spacing['5']
+                                }}
+                            >
                                 <h2 style={{ color: vars.colors.text, margin: 0 }}>Drawer Title</h2>
                                 <button
                                     onClick={() => setIsOpen(false)}
@@ -135,7 +142,14 @@ function RightDrawerStory(): ReactElement {
                         }}
                     >
                         <div style={{ padding: vars.spacing['5'] }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    marginBottom: vars.spacing['5']
+                                }}
+                            >
                                 <h2 style={{ color: vars.colors.text, margin: 0 }}>Side Panel</h2>
                                 <button
                                     onClick={() => setIsOpen(false)}

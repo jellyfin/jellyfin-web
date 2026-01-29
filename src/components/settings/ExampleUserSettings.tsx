@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { useAlert } from 'components/dialog/AlertDialog';
 import {
-    ModernSettingsForm,
-    SettingsSection,
-    SettingsCard,
-    SettingsAlert,
-    FormSelect,
     FormCheckbox,
+    FormSelect,
+    ModernSettingsForm,
+    SettingsAlert,
+    SettingsCard,
+    SettingsSection,
     ToggleSection
 } from 'components/settings/SettingsForm';
-import { useAlert } from 'components/dialog/AlertDialog';
 import globalize from 'lib/globalize';
+import React, { useState } from 'react';
 import { Box } from 'ui-primitives';
 
 interface ExampleUserSettings {
@@ -36,7 +36,7 @@ export function ExampleUserSettingsPage() {
     const handleSave = async () => {
         setIsSaving(true);
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             console.log('Saved settings:', settings);
             alert('Your settings have been saved successfully.');
         } catch (error) {
@@ -74,7 +74,9 @@ export function ExampleUserSettingsPage() {
     return (
         <>
             <ModernSettingsForm onSave={handleSave} onCancel={handleCancel} isSaving={isSaving}>
-                <SettingsAlert variant="info">{globalize.translate('SettingsApplyToAllDevices')}</SettingsAlert>
+                <SettingsAlert variant="info">
+                    {globalize.translate('SettingsApplyToAllDevices')}
+                </SettingsAlert>
 
                 <SettingsSection
                     title={globalize.translate('HeaderNotifications')}
@@ -86,14 +88,18 @@ export function ExampleUserSettingsPage() {
                             <FormCheckbox
                                 label=""
                                 checked={settings.enableNotifications}
-                                onChange={checked => setSettings(s => ({ ...s, enableNotifications: checked }))}
+                                onChange={(checked) =>
+                                    setSettings((s) => ({ ...s, enableNotifications: checked }))
+                                }
                             />
                         }
                     >
                         <FormSelect
                             label={globalize.translate('EmailFrequency')}
                             value={settings.emailFrequency}
-                            onChange={value => setSettings(s => ({ ...s, emailFrequency: value }))}
+                            onChange={(value) =>
+                                setSettings((s) => ({ ...s, emailFrequency: value }))
+                            }
                             options={frequencyOptions}
                         />
                     </SettingsCard>
@@ -102,37 +108,45 @@ export function ExampleUserSettingsPage() {
                         <FormCheckbox
                             label={globalize.translate('EnableAnalytics')}
                             checked={settings.enableAnalytics}
-                            onChange={checked => setSettings(s => ({ ...s, enableAnalytics: checked }))}
+                            onChange={(checked) =>
+                                setSettings((s) => ({ ...s, enableAnalytics: checked }))
+                            }
                             description={globalize.translate('AnalyticsHelp')}
                         />
                     </SettingsCard>
                 </SettingsSection>
 
-                <Box component="hr" style={{ margin: '24px 0', border: 'none', borderTop: '1px solid #e0e0e0' }} />
+                <Box
+                    component="hr"
+                    style={{ margin: '24px 0', border: 'none', borderTop: '1px solid #e0e0e0' }}
+                />
 
                 <SettingsSection title={globalize.translate('HeaderPlayback')}>
                     <ToggleSection
                         title={globalize.translate('AutoPlayNextEpisode')}
                         checked={settings.autoPlay}
-                        onToggle={checked => setSettings(s => ({ ...s, autoPlay: checked }))}
+                        onToggle={(checked) => setSettings((s) => ({ ...s, autoPlay: checked }))}
                     >
                         <FormSelect
                             label={globalize.translate('DefaultQuality')}
                             value={settings.quality}
-                            onChange={value => setSettings(s => ({ ...s, quality: value }))}
+                            onChange={(value) => setSettings((s) => ({ ...s, quality: value }))}
                             options={qualityOptions}
                             description={globalize.translate('QualityDescription')}
                         />
                     </ToggleSection>
                 </SettingsSection>
 
-                <Box component="hr" style={{ margin: '24px 0', border: 'none', borderTop: '1px solid #e0e0e0' }} />
+                <Box
+                    component="hr"
+                    style={{ margin: '24px 0', border: 'none', borderTop: '1px solid #e0e0e0' }}
+                />
 
                 <SettingsSection title={globalize.translate('HeaderAppearance')}>
                     <FormSelect
                         label={globalize.translate('Theme')}
                         value={settings.theme}
-                        onChange={value => setSettings(s => ({ ...s, theme: value }))}
+                        onChange={(value) => setSettings((s) => ({ ...s, theme: value }))}
                         options={themeOptions}
                     />
                 </SettingsSection>

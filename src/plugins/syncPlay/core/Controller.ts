@@ -28,7 +28,7 @@ class Controller {
     play(options: any) {
         const apiClient = this.manager.getApiClient();
         const sendPlayRequest = (items: any[]) => {
-            const queue = items.map(item => item.Id);
+            const queue = items.map((item) => item.Id);
             return apiClient.requestSyncPlaySetNewQueue({
                 PlayingQueue: queue,
                 PlayingItemPosition: options.startIndex || 0,
@@ -37,43 +37,62 @@ class Controller {
         };
 
         if (options.items)
-            return Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendPlayRequest);
-        return Helper.getItemsForPlayback(apiClient, { Ids: options.ids.join(',') }).then((result: any) =>
-            Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendPlayRequest)
+            return Helper.translateItemsForPlayback(apiClient, options.items, options).then(
+                sendPlayRequest
+            );
+        return Helper.getItemsForPlayback(apiClient, { Ids: options.ids.join(',') }).then(
+            (result: any) =>
+                Helper.translateItemsForPlayback(apiClient, result.Items, options).then(
+                    sendPlayRequest
+                )
         );
     }
 
     setCurrentPlaylistItem(playlistItemId: string) {
-        this.manager.getApiClient().requestSyncPlaySetPlaylistItem({ PlaylistItemId: playlistItemId });
+        this.manager
+            .getApiClient()
+            .requestSyncPlaySetPlaylistItem({ PlaylistItemId: playlistItemId });
     }
 
     clearPlaylist(clearPlayingItem = false) {
         this.manager
             .getApiClient()
-            .requestSyncPlayRemoveFromPlaylist({ ClearPlaylist: true, ClearPlayingItem: clearPlayingItem });
+            .requestSyncPlayRemoveFromPlaylist({
+                ClearPlaylist: true,
+                ClearPlayingItem: clearPlayingItem
+            });
     }
 
     removeFromPlaylist(playlistItemIds: string[]) {
-        this.manager.getApiClient().requestSyncPlayRemoveFromPlaylist({ PlaylistItemIds: playlistItemIds });
+        this.manager
+            .getApiClient()
+            .requestSyncPlayRemoveFromPlaylist({ PlaylistItemIds: playlistItemIds });
     }
 
     movePlaylistItem(playlistItemId: string, newIndex: number) {
         this.manager
             .getApiClient()
-            .requestSyncPlayMovePlaylistItem({ PlaylistItemId: playlistItemId, NewIndex: newIndex });
+            .requestSyncPlayMovePlaylistItem({
+                PlaylistItemId: playlistItemId,
+                NewIndex: newIndex
+            });
     }
 
     queue(options: any, mode: string = 'Queue') {
         const apiClient = this.manager.getApiClient();
         const sendQueue = (items: any[]) => {
-            const itemIds = items.map(item => item.Id);
+            const itemIds = items.map((item) => item.Id);
             apiClient.requestSyncPlayQueue({ ItemIds: itemIds, Mode: mode });
         };
 
-        if (options.items) Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendQueue);
+        if (options.items)
+            Helper.translateItemsForPlayback(apiClient, options.items, options).then(sendQueue);
         else
-            Helper.getItemsForPlayback(apiClient, { Ids: options.ids.join(',') }).then((result: any) =>
-                Helper.translateItemsForPlayback(apiClient, result.Items, options).then(sendQueue)
+            Helper.getItemsForPlayback(apiClient, { Ids: options.ids.join(',') }).then(
+                (result: any) =>
+                    Helper.translateItemsForPlayback(apiClient, result.Items, options).then(
+                        sendQueue
+                    )
             );
     }
 
@@ -84,13 +103,17 @@ class Controller {
     nextItem() {
         this.manager
             .getApiClient()
-            .requestSyncPlayNextItem({ PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId() });
+            .requestSyncPlayNextItem({
+                PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
+            });
     }
 
     previousItem() {
         this.manager
             .getApiClient()
-            .requestSyncPlayPreviousItem({ PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId() });
+            .requestSyncPlayPreviousItem({
+                PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
+            });
     }
 
     setRepeatMode(mode: string) {

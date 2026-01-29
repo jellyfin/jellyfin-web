@@ -1,15 +1,15 @@
-import React, { type ReactElement, type ReactNode, type CSSProperties } from 'react';
+import React, { type CSSProperties, type ReactElement, type ReactNode } from 'react';
 import {
-    gridContainer,
-    gridGap,
     gridColumns,
-    gridXs,
-    gridSm,
-    gridMd,
-    gridLg,
-    gridXl,
+    gridContainer,
     gridDisplay,
-    gridOrder
+    gridGap,
+    gridLg,
+    gridMd,
+    gridOrder,
+    gridSm,
+    gridXl,
+    gridXs
 } from './Grid.css.ts';
 
 type GridSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
@@ -30,7 +30,10 @@ interface GridProps {
     readonly order?: number | 'initial' | 'first' | 'last';
 }
 
-function getGridClass(value: GridSize | string | undefined, gridMap: Record<string, string>): string {
+function getGridClass(
+    value: GridSize | string | undefined,
+    gridMap: Record<string, string>
+): string {
     if (value === undefined) return '';
     const key = String(value);
     return Object.prototype.hasOwnProperty.call(gridMap, key) ? gridMap[key] : '';
@@ -88,4 +91,15 @@ export function Grid({
     );
 }
 
-export { gridContainer, gridGap, gridColumns, gridXs, gridSm, gridMd, gridLg, gridXl, gridDisplay, gridOrder };
+export {
+    gridContainer,
+    gridGap,
+    gridColumns,
+    gridXs,
+    gridSm,
+    gridMd,
+    gridLg,
+    gridXl,
+    gridDisplay,
+    gridOrder
+};

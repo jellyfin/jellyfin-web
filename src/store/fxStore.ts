@@ -73,7 +73,7 @@ interface FXStoreState {
 
 export const useFXStore = create<FXStoreState>()(
     persist(
-        set => ({
+        (set) => ({
             // Deck gains
             deckAGain: 1,
             deckBGain: 1,
@@ -110,39 +110,46 @@ export const useFXStore = create<FXStoreState>()(
             rubberBandingIntensity: 0.5,
 
             // Deck gain setters
-            setDeckAGain: gain => set({ deckAGain: Math.max(0, Math.min(1, gain)) }),
-            setDeckBGain: gain => set({ deckBGain: Math.max(0, Math.min(1, gain)) }),
+            setDeckAGain: (gain) => set({ deckAGain: Math.max(0, Math.min(1, gain)) }),
+            setDeckBGain: (gain) => set({ deckBGain: Math.max(0, Math.min(1, gain)) }),
 
             // Deck FX send setters
-            setDeckAFXSend1: level => set({ deckAFXSend1: Math.max(0, Math.min(1, level)) }),
-            setDeckAFXSend2: level => set({ deckAFXSend2: Math.max(0, Math.min(1, level)) }),
-            setDeckBFXSend1: level => set({ deckBFXSend1: Math.max(0, Math.min(1, level)) }),
-            setDeckBFXSend2: level => set({ deckBFXSend2: Math.max(0, Math.min(1, level)) }),
+            setDeckAFXSend1: (level) => set({ deckAFXSend1: Math.max(0, Math.min(1, level)) }),
+            setDeckAFXSend2: (level) => set({ deckAFXSend2: Math.max(0, Math.min(1, level)) }),
+            setDeckBFXSend1: (level) => set({ deckBFXSend1: Math.max(0, Math.min(1, level)) }),
+            setDeckBFXSend2: (level) => set({ deckBFXSend2: Math.max(0, Math.min(1, level)) }),
 
             // EQ setters
-            setEQLow: value => set({ eqLow: Math.max(-6, Math.min(6, value)) }),
-            setEQMid: value => set({ eqMid: Math.max(-6, Math.min(6, value)) }),
-            setEQHigh: value => set({ eqHigh: Math.max(-6, Math.min(6, value)) }),
+            setEQLow: (value) => set({ eqLow: Math.max(-6, Math.min(6, value)) }),
+            setEQMid: (value) => set({ eqMid: Math.max(-6, Math.min(6, value)) }),
+            setEQHigh: (value) => set({ eqHigh: Math.max(-6, Math.min(6, value)) }),
 
             // Crossfader setters
-            setCrossfaderPosition: position => set({ crossfaderPosition: Math.max(0, Math.min(1, position)) }),
-            setCrossfaderCurve: curve => set({ crossfaderCurve: curve }),
+            setCrossfaderPosition: (position) =>
+                set({ crossfaderPosition: Math.max(0, Math.min(1, position)) }),
+            setCrossfaderCurve: (curve) => set({ crossfaderCurve: curve }),
 
             // Master gain setter
-            setMasterGain: gain => set({ masterGain: Math.max(0, Math.min(1, gain)) }),
+            setMasterGain: (gain) => set({ masterGain: Math.max(0, Math.min(1, gain)) }),
 
-            setNotchEnabled: enabled => set({ notchEnabled: enabled }),
-            setNotchFrequency: frequency => set({ notchFrequency: Math.max(20, Math.min(20000, frequency)) }),
-            setNotchResonance: resonance => set({ notchResonance: Math.max(0.1, Math.min(20, resonance)) }),
+            setNotchEnabled: (enabled) => set({ notchEnabled: enabled }),
+            setNotchFrequency: (frequency) =>
+                set({ notchFrequency: Math.max(20, Math.min(20000, frequency)) }),
+            setNotchResonance: (resonance) =>
+                set({ notchResonance: Math.max(0.1, Math.min(20, resonance)) }),
 
-            setFXBus1WetMix: mix => set({ fxBus1WetMix: Math.max(0, Math.min(1, mix)) }),
-            setFXBus2WetMix: mix => set({ fxBus2WetMix: Math.max(0, Math.min(1, mix)) }),
-            setFXBus1ReturnLevel: level => set({ fxBus1ReturnLevel: Math.max(0, Math.min(1, level)) }),
-            setFXBus2ReturnLevel: level => set({ fxBus2ReturnLevel: Math.max(0, Math.min(1, level)) }),
+            setFXBus1WetMix: (mix) => set({ fxBus1WetMix: Math.max(0, Math.min(1, mix)) }),
+            setFXBus2WetMix: (mix) => set({ fxBus2WetMix: Math.max(0, Math.min(1, mix)) }),
+            setFXBus1ReturnLevel: (level) =>
+                set({ fxBus1ReturnLevel: Math.max(0, Math.min(1, level)) }),
+            setFXBus2ReturnLevel: (level) =>
+                set({ fxBus2ReturnLevel: Math.max(0, Math.min(1, level)) }),
 
-            setRubberBandingEnabled: enabled => set({ rubberBandingEnabled: enabled }),
-            setRubberBandingRate: rate => set({ rubberBandingRate: Math.max(0.5, Math.min(10, rate)) }),
-            setRubberBandingIntensity: intensity => set({ rubberBandingIntensity: Math.max(0, Math.min(1, intensity)) })
+            setRubberBandingEnabled: (enabled) => set({ rubberBandingEnabled: enabled }),
+            setRubberBandingRate: (rate) =>
+                set({ rubberBandingRate: Math.max(0.5, Math.min(10, rate)) }),
+            setRubberBandingIntensity: (intensity) =>
+                set({ rubberBandingIntensity: Math.max(0, Math.min(1, intensity)) })
         }),
         {
             name: 'jellyfin-fx-store'

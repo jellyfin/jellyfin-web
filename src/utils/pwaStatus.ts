@@ -197,7 +197,7 @@ class PWAStatusDashboard {
 
 // Add keyboard shortcut for status dashboard (Ctrl+Shift+P)
 if (typeof document !== 'undefined') {
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.shiftKey && e.key === 'P') {
             e.preventDefault();
             PWAStatusDashboard.show();

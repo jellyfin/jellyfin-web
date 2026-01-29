@@ -1,10 +1,9 @@
-import React, { type FC, useCallback } from 'react';
-import { IconButton } from 'ui-primitives';
 import { ShuffleIcon } from '@radix-ui/react-icons';
-
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { IconButton } from 'ui-primitives';
 
 interface ShuffleButtonProps {
     item: ItemDto;
@@ -16,7 +15,11 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({ item }) => {
     }, [item]);
 
     return (
-        <IconButton title={globalize.translate('Shuffle')} className="button-flat btnShuffle" onClick={shuffle}>
+        <IconButton
+            title={globalize.translate('Shuffle')}
+            className="button-flat btnShuffle"
+            onClick={shuffle}
+        >
             <ShuffleIcon />
         </IconButton>
     );

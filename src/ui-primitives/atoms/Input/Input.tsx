@@ -1,11 +1,18 @@
 import React, {
-    forwardRef,
-    type ReactElement,
-    type ReactNode,
     type CSSProperties,
-    type InputHTMLAttributes
+    forwardRef,
+    type InputHTMLAttributes,
+    type ReactElement,
+    type ReactNode
 } from 'react';
-import { inputStyles, textareaStyles, inputLabel, inputContainer, inputHelperText, formGroup } from './Input.css.ts';
+import {
+    formGroup,
+    inputContainer,
+    inputHelperText,
+    inputLabel,
+    inputStyles,
+    textareaStyles
+} from './Input.css.ts';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
     readonly label?: string;
@@ -19,7 +26,17 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement | HTMLT
 
 export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
     (
-        { label, helperText, containerClass, id, className, as: Component = 'input', style, endDecorator, ...props },
+        {
+            label,
+            helperText,
+            containerClass,
+            id,
+            className,
+            as: Component = 'input',
+            style,
+            endDecorator,
+            ...props
+        },
         ref
     ): ReactElement => {
         const isTextarea = Component === 'textarea';

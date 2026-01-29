@@ -4,7 +4,7 @@
  * Tracks which keys are currently pressed.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type KeyPressMap = Record<string, boolean>;
 
@@ -46,11 +46,11 @@ export function useMultipleKeysPress(): KeyPressMap {
 
     const downHandler = useCallback((event: KeyboardEvent) => {
         if (event.repeat) return;
-        setKeysPressed(prev => ({ ...prev, [event.key]: true }));
+        setKeysPressed((prev) => ({ ...prev, [event.key]: true }));
     }, []);
 
     const upHandler = useCallback((event: KeyboardEvent) => {
-        setKeysPressed(prev => {
+        setKeysPressed((prev) => {
             const next = { ...prev };
             delete next[event.key];
             return next;

@@ -1,20 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"default\", \"std\"]",
-  "declared_features": "[\"default\", \"i128\", \"std\"]",
-  "target": 8344828840634961491,
-  "profile": 8276155916380437441,
-  "path": 3617032225869693100,
-  "deps": [],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "debug/.fingerprint/byteorder-7d93e3d33d7bcbbb/dep-lib-byteorder",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[\"default\", \"std\"]",
+    "declared_features": "[\"default\", \"i128\", \"std\"]",
+    "target": 8344828840634961491,
+    "profile": 8276155916380437441,
+    "path": 3617032225869693100,
+    "deps": [],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/byteorder-7d93e3d33d7bcbbb/dep-lib-byteorder",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

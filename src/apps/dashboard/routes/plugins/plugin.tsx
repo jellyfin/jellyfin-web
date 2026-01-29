@@ -1,18 +1,7 @@
 import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-status';
 import type { VersionInfo } from '@jellyfin/sdk/lib/generated-client/models/version-info';
 import { Component2Icon, DownloadIcon, GearIcon, TrashIcon } from '@radix-ui/react-icons';
-import React, { type FC, useState, useCallback, useMemo } from 'react';
 import { Link as RouterLink, useParams } from '@tanstack/react-router';
-import { useSearchParams } from 'hooks/useSearchParams';
-import { Alert } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Container } from 'ui-primitives';
-import { FormControlLabel, Switch } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { Skeleton } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import { findBestConfigurationPage } from 'apps/dashboard/features/plugins/api/configurationPage';
 import { findBestPluginInfo } from 'apps/dashboard/features/plugins/api/pluginInfo';
 import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
@@ -25,12 +14,26 @@ import { useUninstallPlugin } from 'apps/dashboard/features/plugins/api/useUnins
 import PluginDetailsTable from 'apps/dashboard/features/plugins/components/PluginDetailsTable';
 import PluginRevisions from 'apps/dashboard/features/plugins/components/PluginRevisions';
 import type { PluginDetails } from 'apps/dashboard/features/plugins/types/PluginDetails';
-
 import ConfirmDialog from 'components/ConfirmDialog';
 import Image from 'components/Image';
 import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
+import { useSearchParams } from 'hooks/useSearchParams';
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback, useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Alert,
+    Box,
+    Button,
+    Container,
+    Flex,
+    FormControlLabel,
+    Heading,
+    Skeleton,
+    Switch,
+    Text
+} from 'ui-primitives';
 import { getPluginUrl } from 'utils/dashboard';
 
 interface AlertMessage {
@@ -88,7 +91,9 @@ const PluginPage: FC = () => {
             let version;
             if (pluginInfo) {
                 // Find the installed version
-                const repoVersion = packageInfo?.versions?.find(v => v.version === pluginInfo.Version);
+                const repoVersion = packageInfo?.versions?.find(
+                    (v) => v.version === pluginInfo.Version
+                );
                 version = repoVersion || {
                     version: pluginInfo.Version,
                     VersionNumber: pluginInfo.Version
@@ -105,7 +110,8 @@ const PluginPage: FC = () => {
 
             return {
                 canUninstall: !!pluginInfo?.CanUninstall,
-                description: pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
+                description:
+                    pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
                 id: pluginId,
                 imageUrl: imageUrl || packageInfo?.imageUrl || undefined,
                 isEnabled:
@@ -195,7 +201,11 @@ const PluginPage: FC = () => {
     const toggleEnabled = useCallback(() => {
         if (!pluginDetails?.version?.version) return;
 
-        console.debug('[PluginPage] %s plugin', pluginDetails.isEnabled ? 'disabling' : 'enabling', pluginDetails);
+        console.debug(
+            '[PluginPage] %s plugin',
+            pluginDetails.isEnabled ? 'disabling' : 'enabling',
+            pluginDetails
+        );
 
         if (pluginDetails.isEnabled) {
             disablePlugin.mutate(
@@ -320,10 +330,18 @@ const PluginPage: FC = () => {
     }, []);
 
     return (
-        <Page id="addPluginPage" title={pluginDetails?.name || pluginName} className="mainAnimatedPage type-interior">
+        <Page
+            id="addPluginPage"
+            title={pluginDetails?.name || pluginName}
+            className="mainAnimatedPage type-interior"
+        >
             <Container className="content-primary">
                 {alertMessages.map(({ severity = 'error', messageKey }) => (
-                    <Alert key={messageKey} severity={severity} style={{ marginBottom: vars.spacing['5'] }}>
+                    <Alert
+                        key={messageKey}
+                        severity={severity}
+                        style={{ marginBottom: vars.spacing['5'] }}
+                    >
                         {globalize.translate(messageKey)}
                     </Alert>
                 ))}
@@ -367,7 +385,9 @@ const PluginPage: FC = () => {
                                 {!isLoading && !pluginDetails?.status && (
                                     <>
                                         <Alert severity="info">
-                                            {globalize.translate('ServerRestartNeededAfterPluginInstall')}
+                                            {globalize.translate(
+                                                'ServerRestartNeededAfterPluginInstall'
+                                            )}
                                         </Alert>
 
                                         <Button
@@ -387,7 +407,10 @@ const PluginPage: FC = () => {
                                                 <Switch
                                                     checked={pluginDetails.isEnabled}
                                                     onChange={toggleEnabled}
-                                                    disabled={pluginDetails.status === PluginStatus.Restart}
+                                                    disabled={
+                                                        pluginDetails.status ===
+                                                        PluginStatus.Restart
+                                                    }
                                                 />
                                             }
                                             label={globalize.translate('LabelEnablePlugin')}

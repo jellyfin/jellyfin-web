@@ -2,29 +2,43 @@ import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/medi
 import { GearIcon, PlayIcon, SpeakerLoudIcon, VideoIcon } from '@radix-ui/react-icons';
 import { useForm } from '@tanstack/react-form';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+    FormSection,
+    FormSelectField,
+    FormSwitchField
+} from 'apps/dashboard/components/forms/DashboardForm';
 import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
-import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
+import {
+    getId,
+    getMediaSegmentAction
+} from 'apps/stable/features/playback/utils/mediaSegmentSettings';
 import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { Alert } from 'ui-primitives';
-import { Box, Flex, FlexCol } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Tab, TabList, TabPanel, Tabs } from 'ui-primitives';
-import { Text } from 'ui-primitives';
+import {
+    Alert,
+    Box,
+    Button,
+    CircularProgress,
+    Flex,
+    FlexCol,
+    Slider,
+    Tab,
+    TabList,
+    TabPanel,
+    Tabs,
+    Text
+} from 'ui-primitives';
 import { z } from 'zod';
-import { FormSection, FormSelectField, FormSwitchField } from 'apps/dashboard/components/forms/DashboardForm';
 import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
+import { safeAppHost } from '../apphost';
 import loading from '../loading/loading';
 import qualityoptions from '../qualityOptions';
 import toast from '../toast/toast';
-import { safeAppHost } from '../apphost';
 
 const playbackSettingsSchema = z.object({
     allowedAudioChannels: z.string(),
@@ -155,7 +169,13 @@ function FormSliderField({
 
     return (
         <Box style={{ marginBottom: vars.spacing['4'] }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['2'] }}>
+            <Flex
+                style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: vars.spacing['2']
+                }}
+            >
                 <Text size="sm" weight="medium">
                     {label}
                 </Text>
@@ -261,7 +281,8 @@ export function PlaybackSettings({
             enableSystemExternalPlayers: appSettings.enableSystemExternalPlayers() || false,
             limitSupportedVideoResolution: appSettings.limitSupportedVideoResolution() || false,
             preferredTranscodeVideoCodec: appSettings.preferredTranscodeVideoCodec() || '',
-            preferredTranscodeVideoAudioCodec: appSettings.preferredTranscodeVideoAudioCodec() || '',
+            preferredTranscodeVideoAudioCodec:
+                appSettings.preferredTranscodeVideoAudioCodec() || '',
             disableVbrAudioEncoding: appSettings.disableVbrAudio() || false,
             alwaysRemuxFlac: appSettings.alwaysRemuxFlac() || false,
             alwaysRemuxMp3: appSettings.alwaysRemuxMp3() || false,
@@ -293,7 +314,9 @@ export function PlaybackSettings({
                 appSettings.maxVideoWidth(value.maxVideoWidth);
                 appSettings.limitSupportedVideoResolution(value.limitSupportedVideoResolution);
                 appSettings.preferredTranscodeVideoCodec(value.preferredTranscodeVideoCodec);
-                appSettings.preferredTranscodeVideoAudioCodec(value.preferredTranscodeVideoAudioCodec);
+                appSettings.preferredTranscodeVideoAudioCodec(
+                    value.preferredTranscodeVideoAudioCodec
+                );
                 appSettings.enableDts(value.enableDts);
                 appSettings.enableTrueHd(value.enableTrueHd);
                 if (browser.safari && value.enableHi10p !== undefined) {
@@ -318,7 +341,8 @@ export function PlaybackSettings({
                     user.Configuration.PlayDefaultAudioTrack = value.playDefaultAudioTrack;
                     user.Configuration.EnableNextEpisodeAutoPlay = value.enableNextEpisodeAutoPlay;
                     user.Configuration.RememberAudioSelections = value.rememberAudioSelections;
-                    user.Configuration.RememberSubtitleSelections = value.rememberSubtitleSelections;
+                    user.Configuration.RememberSubtitleSelections =
+                        value.rememberSubtitleSelections;
                     user.Configuration.CastReceiverId = value.castReceiverId;
 
                     if (user.Id) {
@@ -329,7 +353,11 @@ export function PlaybackSettings({
                 toast(globalize.translate('SettingsSaved'));
                 onSave?.();
             } catch (error) {
-                setSaveError(error instanceof Error ? error.message : (globalize.translate('ErrorDefault') as string));
+                setSaveError(
+                    error instanceof Error
+                        ? error.message
+                        : (globalize.translate('ErrorDefault') as string)
+                );
             } finally {
                 loading.hide();
             }
@@ -342,7 +370,9 @@ export function PlaybackSettings({
         return (
             <Box style={{ padding: vars.spacing['6'], textAlign: 'center' }}>
                 <CircularProgress size="lg" />
-                <Text style={{ marginTop: vars.spacing['4'] }}>{globalize.translate('Loading')}</Text>
+                <Text style={{ marginTop: vars.spacing['4'] }}>
+                    {globalize.translate('Loading')}
+                </Text>
             </Box>
         );
     }
@@ -351,10 +381,13 @@ export function PlaybackSettings({
         return null;
     }
 
-    const mediaSegmentActions = MEDIA_SEGMENT_TYPES.map(type => ({
+    const mediaSegmentActions = MEDIA_SEGMENT_TYPES.map((type) => ({
         type,
         id: getId(type),
-        label: globalize.translate('LabelMediaSegmentsType', globalize.translate(`MediaSegmentType.${type}`)),
+        label: globalize.translate(
+            'LabelMediaSegmentsType',
+            globalize.translate(`MediaSegmentType.${type}`)
+        ),
         value: getMediaSegmentAction(userSettings, type)
     }));
 
@@ -367,7 +400,7 @@ export function PlaybackSettings({
             )}
 
             <form
-                onSubmit={e => {
+                onSubmit={(e) => {
                     e.preventDefault();
                     void form.handleSubmit();
                 }}
@@ -375,19 +408,27 @@ export function PlaybackSettings({
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabList>
                         <Tab value="audio">
-                            <SpeakerLoudIcon style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }} />
+                            <SpeakerLoudIcon
+                                style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }}
+                            />
                             {globalize.translate('Audio')}
                         </Tab>
                         <Tab value="video">
-                            <VideoIcon style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }} />
+                            <VideoIcon
+                                style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }}
+                            />
                             {globalize.translate('Video')}
                         </Tab>
                         <Tab value="playback">
-                            <PlayIcon style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }} />
+                            <PlayIcon
+                                style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }}
+                            />
                             {globalize.translate('Playback')}
                         </Tab>
                         <Tab value="advanced">
-                            <GearIcon style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }} />
+                            <GearIcon
+                                style={{ marginRight: vars.spacing['2'], width: 20, height: 20 }}
+                            />
                             {globalize.translate('TabAdvanced')}
                         </Tab>
                     </TabList>
@@ -398,14 +439,18 @@ export function PlaybackSettings({
                                 <FormSelectField
                                     label={globalize.translate('LabelAllowedAudioChannels')}
                                     value={form.state.values.allowedAudioChannels}
-                                    onChange={val => form.setFieldValue('allowedAudioChannels', val)}
+                                    onChange={(val) =>
+                                        form.setFieldValue('allowedAudioChannels', val)
+                                    }
                                     options={AUDIO_CHANNELS_OPTIONS}
                                 />
 
                                 <FormSelectField
                                     label={globalize.translate('LabelAudioLanguagePreference')}
                                     value={form.state.values.audioLanguagePreference}
-                                    onChange={val => form.setFieldValue('audioLanguagePreference', val)}
+                                    onChange={(val) =>
+                                        form.setFieldValue('audioLanguagePreference', val)
+                                    }
                                     options={[
                                         { value: '', label: globalize.translate('AnyLanguage') },
                                         ...(cultures?.map((c: any) => ({
@@ -418,13 +463,15 @@ export function PlaybackSettings({
                                 <FormSwitchField
                                     label={globalize.translate('LabelPlayDefaultAudioTrack')}
                                     checked={form.state.values.playDefaultAudioTrack}
-                                    onChange={checked => form.setFieldValue('playDefaultAudioTrack', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('playDefaultAudioTrack', checked)
+                                    }
                                 />
 
                                 <FormSliderField
                                     label={globalize.translate('CrossfadeDuration')}
                                     value={form.state.values.crossfadeDuration}
-                                    onChange={val => form.setFieldValue('crossfadeDuration', val)}
+                                    onChange={(val) => form.setFieldValue('crossfadeDuration', val)}
                                     min={0}
                                     max={6}
                                     step={0.01}
@@ -440,14 +487,18 @@ export function PlaybackSettings({
                                 <FormSwitchField
                                     label={globalize.translate('EnableButterchurn')}
                                     checked={form.state.values.butterchurnEnabled}
-                                    onChange={checked => form.setFieldValue('butterchurnEnabled', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('butterchurnEnabled', checked)
+                                    }
                                 />
 
                                 {form.state.values.butterchurnEnabled && (
                                     <FormSliderField
                                         label={globalize.translate('ButterchurnPresetInterval')}
                                         value={form.state.values.butterchurnPresetInterval}
-                                        onChange={val => form.setFieldValue('butterchurnPresetInterval', val)}
+                                        onChange={(val) =>
+                                            form.setFieldValue('butterchurnPresetInterval', val)
+                                        }
                                         min={10}
                                         max={120}
                                         step={1}
@@ -457,21 +508,29 @@ export function PlaybackSettings({
                                 )}
 
                                 <FormSwitchField
-                                    label={globalize.translate('Enable 3D Visualizer (Experimental)')}
+                                    label={globalize.translate(
+                                        'Enable 3D Visualizer (Experimental)'
+                                    )}
                                     checked={form.state.values.threeJsEnabled}
-                                    onChange={checked => form.setFieldValue('threeJsEnabled', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('threeJsEnabled', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('EnableFrequencyAnalyzer')}
                                     checked={form.state.values.frequencyAnalyzerEnabled}
-                                    onChange={checked => form.setFieldValue('frequencyAnalyzerEnabled', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('frequencyAnalyzerEnabled', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('EnableWavesurfer')}
                                     checked={form.state.values.waveSurferEnabled}
-                                    onChange={checked => form.setFieldValue('waveSurferEnabled', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('waveSurferEnabled', checked)
+                                    }
                                 />
                             </FlexCol>
                         </FormSection>
@@ -481,26 +540,34 @@ export function PlaybackSettings({
                                 <FormSelectField
                                     label={globalize.translate('LabelSelectAudioNormalization')}
                                     value={form.state.values.selectAudioNormalization}
-                                    onChange={val => form.setFieldValue('selectAudioNormalization', val)}
+                                    onChange={(val) =>
+                                        form.setFieldValue('selectAudioNormalization', val)
+                                    }
                                     options={AUDIO_NORMALIZATION_OPTIONS}
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('LabelAlwaysRemuxFlacAudioFiles')}
                                     checked={form.state.values.alwaysRemuxFlac}
-                                    onChange={checked => form.setFieldValue('alwaysRemuxFlac', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('alwaysRemuxFlac', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('LabelAlwaysRemuxMp3AudioFiles')}
                                     checked={form.state.values.alwaysRemuxMp3}
-                                    onChange={checked => form.setFieldValue('alwaysRemuxMp3', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('alwaysRemuxMp3', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('LabelDisableVbrAudioEncoding')}
                                     checked={form.state.values.disableVbrAudioEncoding}
-                                    onChange={checked => form.setFieldValue('disableVbrAudioEncoding', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('disableVbrAudioEncoding', checked)
+                                    }
                                 />
                             </FlexCol>
                         </FormSection>
@@ -514,15 +581,19 @@ export function PlaybackSettings({
                                         <FormSelectField
                                             label={globalize.translate('LabelHomeNetworkQuality')}
                                             value={form.state.values.maxInNetworkBitrate}
-                                            onChange={val => form.setFieldValue('maxInNetworkBitrate', val)}
+                                            onChange={(val) =>
+                                                form.setFieldValue('maxInNetworkBitrate', val)
+                                            }
                                             options={[
                                                 { value: '', label: globalize.translate('Auto') },
                                                 ...qualityoptions
                                                     .getVideoQualityOptions({
-                                                        currentMaxBitrate: Number(appSettings.maxStreamingBitrate(
-                                                            true,
-                                                            'Video'
-                                                        )),
+                                                        currentMaxBitrate: Number(
+                                                            appSettings.maxStreamingBitrate(
+                                                                true,
+                                                                'Video'
+                                                            )
+                                                        ),
                                                         isAutomaticBitrateEnabled:
                                                             appSettings.enableAutomaticBitrateDetection(
                                                                 true,
@@ -542,15 +613,19 @@ export function PlaybackSettings({
                                         <FormSelectField
                                             label={globalize.translate('LabelInternetQuality')}
                                             value={form.state.values.maxInternetBitrate}
-                                            onChange={val => form.setFieldValue('maxInternetBitrate', val)}
+                                            onChange={(val) =>
+                                                form.setFieldValue('maxInternetBitrate', val)
+                                            }
                                             options={[
                                                 { value: '', label: globalize.translate('Auto') },
                                                 ...qualityoptions
                                                     .getVideoQualityOptions({
-                                                        currentMaxBitrate: Number(appSettings.maxStreamingBitrate(
-                                                            false,
-                                                            'Video'
-                                                        )),
+                                                        currentMaxBitrate: Number(
+                                                            appSettings.maxStreamingBitrate(
+                                                                false,
+                                                                'Video'
+                                                            )
+                                                        ),
                                                         isAutomaticBitrateEnabled:
                                                             appSettings.enableAutomaticBitrateDetection(
                                                                 false,
@@ -570,17 +645,26 @@ export function PlaybackSettings({
                                         safeAppHost.supports(AppFeature.Chromecast) &&
                                         (user.Policy?.EnableVideoPlaybackTranscoding ?? false) && (
                                             <FormSelectField
-                                                label={globalize.translate('LabelMaxChromecastBitrate')}
+                                                label={globalize.translate(
+                                                    'LabelMaxChromecastBitrate'
+                                                )}
                                                 value={form.state.values.maxChromecastBitrate}
-                                                onChange={val => form.setFieldValue('maxChromecastBitrate', val)}
+                                                onChange={(val) =>
+                                                    form.setFieldValue('maxChromecastBitrate', val)
+                                                }
                                                 options={[
-                                                    { value: '', label: globalize.translate('Auto') },
+                                                    {
+                                                        value: '',
+                                                        label: globalize.translate('Auto')
+                                                    },
                                                     ...qualityoptions
                                                         .getVideoQualityOptions({
-                                                            currentMaxBitrate:
-                                                                Number(appSettings.maxChromecastBitrate()),
-                                                            isAutomaticBitrateEnabled:
-                                                                !Number(appSettings.maxChromecastBitrate()),
+                                                            currentMaxBitrate: Number(
+                                                                appSettings.maxChromecastBitrate()
+                                                            ),
+                                                            isAutomaticBitrateEnabled: !Number(
+                                                                appSettings.maxChromecastBitrate()
+                                                            ),
                                                             enableAuto: true
                                                         })
                                                         .map((opt: any) => ({
@@ -594,69 +678,82 @@ export function PlaybackSettings({
                                     <FormSelectField
                                         label={globalize.translate('LabelMaxVideoResolution')}
                                         value={form.state.values.maxVideoWidth}
-                                        onChange={val => form.setFieldValue('maxVideoWidth', val)}
+                                        onChange={(val) => form.setFieldValue('maxVideoWidth', val)}
                                         options={VIDEO_QUALITY_OPTIONS}
                                     />
 
                                     <FormSwitchField
                                         label={globalize.translate('LimitSupportedVideoResolution')}
                                         checked={form.state.values.limitSupportedVideoResolution}
-                                        onChange={checked =>
-                                            form.setFieldValue('limitSupportedVideoResolution', checked)
+                                        onChange={(checked) =>
+                                            form.setFieldValue(
+                                                'limitSupportedVideoResolution',
+                                                checked
+                                            )
                                         }
                                     />
                                 </FlexCol>
                             )}
                         </FormSection>
 
-                        {showInternetQuality && (user.Policy?.EnableAudioPlaybackTranscoding ?? false) && (
-                            <FormSection title={globalize.translate('HeaderMusicQuality')}>
-                                <FormSelectField
-                                    label={globalize.translate('LabelInternetQuality')}
-                                    value={form.state.values.maxMusicBitrate}
-                                    onChange={val => form.setFieldValue('maxMusicBitrate', val)}
-                                    options={[
-                                        { value: '', label: globalize.translate('Auto') },
-                                        ...qualityoptions
-                                            .getAudioQualityOptions({
-                                                currentMaxBitrate: Number(appSettings.maxStreamingBitrate(
-                                                    false,
-                                                    'Audio'
-                                                )),
-                                                isAutomaticBitrateEnabled: appSettings.enableAutomaticBitrateDetection(
-                                                    false,
-                                                    'Audio'
-                                                ) as boolean,
-                                                enableAuto: true
-                                            })
-                                            .map((opt: any) => ({
-                                                value: String(opt.bitrate || ''),
-                                                label: opt.name as string
-                                            }))
-                                    ]}
-                                />
-                            </FormSection>
-                        )}
+                        {showInternetQuality &&
+                            (user.Policy?.EnableAudioPlaybackTranscoding ?? false) && (
+                                <FormSection title={globalize.translate('HeaderMusicQuality')}>
+                                    <FormSelectField
+                                        label={globalize.translate('LabelInternetQuality')}
+                                        value={form.state.values.maxMusicBitrate}
+                                        onChange={(val) =>
+                                            form.setFieldValue('maxMusicBitrate', val)
+                                        }
+                                        options={[
+                                            { value: '', label: globalize.translate('Auto') },
+                                            ...qualityoptions
+                                                .getAudioQualityOptions({
+                                                    currentMaxBitrate: Number(
+                                                        appSettings.maxStreamingBitrate(
+                                                            false,
+                                                            'Audio'
+                                                        )
+                                                    ),
+                                                    isAutomaticBitrateEnabled:
+                                                        appSettings.enableAutomaticBitrateDetection(
+                                                            false,
+                                                            'Audio'
+                                                        ) as boolean,
+                                                    enableAuto: true
+                                                })
+                                                .map((opt: any) => ({
+                                                    value: String(opt.bitrate || ''),
+                                                    label: opt.name as string
+                                                }))
+                                        ]}
+                                    />
+                                </FormSection>
+                            )}
 
                         <FormSection title={globalize.translate('HeaderVideoAdvanced')}>
                             <FlexCol style={{ gap: 16 }}>
                                 <FormSwitchField
                                     label={globalize.translate('EnableDts')}
                                     checked={form.state.values.enableDts}
-                                    onChange={checked => form.setFieldValue('enableDts', checked)}
+                                    onChange={(checked) => form.setFieldValue('enableDts', checked)}
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('EnableTrueHd')}
                                     checked={form.state.values.enableTrueHd}
-                                    onChange={checked => form.setFieldValue('enableTrueHd', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('enableTrueHd', checked)
+                                    }
                                 />
 
                                 {browser.safari && (
                                     <FormSwitchField
                                         label={globalize.translate('EnableHi10p')}
                                         checked={form.state.values.enableHi10p || false}
-                                        onChange={checked => form.setFieldValue('enableHi10p', checked)}
+                                        onChange={(checked) =>
+                                            form.setFieldValue('enableHi10p', checked)
+                                        }
                                     />
                                 )}
 
@@ -664,21 +761,31 @@ export function PlaybackSettings({
                                     <FormSwitchField
                                         label={globalize.translate('LimitSegmentLength')}
                                         checked={form.state.values.limitSegmentLength}
-                                        onChange={checked => form.setFieldValue('limitSegmentLength', checked)}
+                                        onChange={(checked) =>
+                                            form.setFieldValue('limitSegmentLength', checked)
+                                        }
                                     />
                                 )}
 
                                 <FormSelectField
-                                    label={globalize.translate('LabelSelectPreferredTranscodeVideoCodec')}
+                                    label={globalize.translate(
+                                        'LabelSelectPreferredTranscodeVideoCodec'
+                                    )}
                                     value={form.state.values.preferredTranscodeVideoCodec}
-                                    onChange={val => form.setFieldValue('preferredTranscodeVideoCodec', val)}
+                                    onChange={(val) =>
+                                        form.setFieldValue('preferredTranscodeVideoCodec', val)
+                                    }
                                     options={TRANSCODE_VIDEO_CODEC_OPTIONS}
                                 />
 
                                 <FormSelectField
-                                    label={globalize.translate('LabelSelectPreferredTranscodeVideoAudioCodec')}
+                                    label={globalize.translate(
+                                        'LabelSelectPreferredTranscodeVideoAudioCodec'
+                                    )}
                                     value={form.state.values.preferredTranscodeVideoAudioCodec}
-                                    onChange={val => form.setFieldValue('preferredTranscodeVideoAudioCodec', val)}
+                                    onChange={(val) =>
+                                        form.setFieldValue('preferredTranscodeVideoAudioCodec', val)
+                                    }
                                     options={TRANSCODE_AUDIO_CODEC_OPTIONS}
                                 />
                             </FlexCol>
@@ -691,44 +798,61 @@ export function PlaybackSettings({
                                 <FormSwitchField
                                     label={globalize.translate('PreferFmp4HlsContainer')}
                                     checked={form.state.values.preferFmp4HlsContainer}
-                                    onChange={checked => form.setFieldValue('preferFmp4HlsContainer', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('preferFmp4HlsContainer', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('EnableCinemaMode')}
                                     checked={form.state.values.enableCinemaMode}
-                                    onChange={checked => form.setFieldValue('enableCinemaMode', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('enableCinemaMode', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('PlayNextEpisodeAutomatically')}
                                     checked={form.state.values.enableNextEpisodeAutoPlay}
-                                    onChange={checked => form.setFieldValue('enableNextEpisodeAutoPlay', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('enableNextEpisodeAutoPlay', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('RememberAudioSelections')}
                                     checked={form.state.values.rememberAudioSelections}
-                                    onChange={checked => form.setFieldValue('rememberAudioSelections', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('rememberAudioSelections', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('RememberSubtitleSelections')}
                                     checked={form.state.values.rememberSubtitleSelections}
-                                    onChange={checked => form.setFieldValue('rememberSubtitleSelections', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('rememberSubtitleSelections', checked)
+                                    }
                                 />
 
                                 <FormSwitchField
                                     label={globalize.translate('EnableNextVideoInfoOverlay')}
                                     checked={form.state.values.enableNextVideoInfoOverlay}
-                                    onChange={checked => form.setFieldValue('enableNextVideoInfoOverlay', checked)}
+                                    onChange={(checked) =>
+                                        form.setFieldValue('enableNextVideoInfoOverlay', checked)
+                                    }
                                 />
 
                                 <FormSelectField
                                     label={globalize.translate('LabelSkipForwardLength')}
                                     value={String(form.state.values.skipForwardLength * 1000)}
-                                    onChange={val => form.setFieldValue('skipForwardLength', parseInt(val) / 1000)}
-                                    options={SKIP_LENGTHS.map(len => ({
+                                    onChange={(val) =>
+                                        form.setFieldValue(
+                                            'skipForwardLength',
+                                            parseInt(val) / 1000
+                                        )
+                                    }
+                                    options={SKIP_LENGTHS.map((len) => ({
                                         value: String(len * 1000),
                                         label: globalize.translate('ValueSeconds', len)
                                     }))}
@@ -737,8 +861,10 @@ export function PlaybackSettings({
                                 <FormSelectField
                                     label={globalize.translate('LabelSkipBackLength')}
                                     value={String(form.state.values.skipBackLength * 1000)}
-                                    onChange={val => form.setFieldValue('skipBackLength', parseInt(val) / 1000)}
-                                    options={SKIP_LENGTHS.map(len => ({
+                                    onChange={(val) =>
+                                        form.setFieldValue('skipBackLength', parseInt(val) / 1000)
+                                    }
+                                    options={SKIP_LENGTHS.map((len) => ({
                                         value: String(len * 1000),
                                         label: globalize.translate('ValueSeconds', len)
                                     }))}
@@ -748,13 +874,13 @@ export function PlaybackSettings({
 
                         <FormSection title={globalize.translate('HeaderMediaSegmentActions')}>
                             <FlexCol style={{ gap: 16 }}>
-                                {mediaSegmentActions.map(action => (
+                                {mediaSegmentActions.map((action) => (
                                     <FormSelectField
                                         key={action.id}
                                         label={action.label}
                                         value={action.value as string}
-                                        onChange={val => userSettings.set(action.id, val, false)}
-                                        options={Object.values(MediaSegmentAction).map(act => ({
+                                        onChange={(val) => userSettings.set(action.id, val, false)}
+                                        options={Object.values(MediaSegmentAction).map((act) => ({
                                             value: act,
                                             label: globalize.translate(`MediaSegmentAction.${act}`)
                                         }))}
@@ -764,34 +890,48 @@ export function PlaybackSettings({
                         </FormSection>
 
                         <FormSection title={globalize.translate('HeaderExternalPlayers')}>
-                            {safeAppHost.supports(AppFeature.ExternalPlayerIntent) && isLocalUser && (
-                                <FormSwitchField
-                                    label={globalize.translate('EnableExternalVideoPlayers')}
-                                    checked={form.state.values.enableSystemExternalPlayers}
-                                    onChange={checked => form.setFieldValue('enableSystemExternalPlayers', checked)}
-                                />
-                            )}
+                            {safeAppHost.supports(AppFeature.ExternalPlayerIntent) &&
+                                isLocalUser && (
+                                    <FormSwitchField
+                                        label={globalize.translate('EnableExternalVideoPlayers')}
+                                        checked={form.state.values.enableSystemExternalPlayers}
+                                        onChange={(checked) =>
+                                            form.setFieldValue(
+                                                'enableSystemExternalPlayers',
+                                                checked
+                                            )
+                                        }
+                                    />
+                                )}
 
                             <FormSelectField
                                 label={globalize.translate('LabelChromecastVersion')}
                                 value={form.state.values.castReceiverId}
-                                onChange={val => form.setFieldValue('castReceiverId', val)}
-                                options={(systemInfo.CastReceiverApplications || []).map((app: any) => ({
-                                    value: app.Id as string,
-                                    label: app.Name as string
-                                }))}
+                                onChange={(val) => form.setFieldValue('castReceiverId', val)}
+                                options={(systemInfo.CastReceiverApplications || []).map(
+                                    (app: any) => ({
+                                        value: app.Id as string,
+                                        label: app.Name as string
+                                    })
+                                )}
                             />
                         </FormSection>
                     </TabPanel>
 
                     <TabPanel value="advanced">
                         <Box style={{ textAlign: 'center', padding: vars.spacing['6'] }}>
-                            <Text color="secondary">{globalize.translate('AdvancedSettingsComingSoon')}</Text>
+                            <Text color="secondary">
+                                {globalize.translate('AdvancedSettingsComingSoon')}
+                            </Text>
                         </Box>
                     </TabPanel>
                 </Tabs>
 
-                <Flex justify="flex-end" gap={vars.spacing['3']} style={{ marginTop: vars.spacing['5'] }}>
+                <Flex
+                    justify="flex-end"
+                    gap={vars.spacing['3']}
+                    style={{ marginTop: vars.spacing['5'] }}
+                >
                     <Button type="submit" variant="primary" loading={isLoading}>
                         {globalize.translate('Save')}
                     </Button>

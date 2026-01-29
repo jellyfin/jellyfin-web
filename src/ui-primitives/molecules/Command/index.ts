@@ -1,4 +1,12 @@
 export {
+    CommandEmpty,
+    CommandGroup,
+    CommandItem,
+    CommandLoading,
+    CommandPalette,
+    type CommandPosition,
+    type CommandProps,
+    CommandSeparator,
     commandContent,
     commandDialogOverlay,
     commandEmpty,
@@ -14,13 +22,5 @@ export {
     commandLoading,
     commandSearchIcon,
     commandSeparator,
-    commandShortcut,
-    type CommandPosition,
-    type CommandProps,
-    CommandPalette,
-    CommandGroup,
-    CommandItem,
-    CommandSeparator,
-    CommandEmpty,
-    CommandLoading
+    commandShortcut
 } from './Command';

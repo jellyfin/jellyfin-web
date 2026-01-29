@@ -1,18 +1,23 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"default\", \"std\"]",
-  "declared_features": "[\"default\", \"std\"]",
-  "target": 4913466754190795764,
-  "profile": 17658830978783425241,
-  "path": 8793136576976023066,
-  "deps": [
-    [3722963349756955755, "once_cell", false, 11428261543458938970],
-    [10782246454719507279, "wasm_bindgen", false, 738200528519918020]
-  ],
-  "local": [
-    { "CheckDepInfo": { "dep_info": "debug/.fingerprint/js-sys-edcfb8b6f9ec8b9c/dep-lib-js_sys", "checksum": false } }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[\"default\", \"std\"]",
+    "declared_features": "[\"default\", \"std\"]",
+    "target": 4913466754190795764,
+    "profile": 17658830978783425241,
+    "path": 8793136576976023066,
+    "deps": [
+        [3722963349756955755, "once_cell", false, 11428261543458938970],
+        [10782246454719507279, "wasm_bindgen", false, 738200528519918020]
+    ],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/js-sys-edcfb8b6f9ec8b9c/dep-lib-js_sys",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

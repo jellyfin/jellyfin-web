@@ -35,7 +35,10 @@ export function DiscImage({
     }
 
     return (
-        <div className={`${discContainer} ${isPlaying ? spinning : ''} ${className ?? ''}`} style={containerStyle}>
+        <div
+            className={`${discContainer} ${isPlaying ? spinning : ''} ${className ?? ''}`}
+            style={containerStyle}
+        >
             <AlbumArt src={src} alt={alt} size="100%" priority={priority} />
 
             <div className={discGroove} />

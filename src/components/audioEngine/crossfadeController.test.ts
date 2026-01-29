@@ -39,10 +39,17 @@ vi.mock('./master.logic', () => ({
     removeAudioNodeBundle: mocks.removeAudioNodeBundle
 }));
 
-import { consumePreloadedTrack, preloadNextTrack, resetPreloadedTrack, startCrossfade } from './crossfadeController';
+import {
+    consumePreloadedTrack,
+    preloadNextTrack,
+    resetPreloadedTrack,
+    startCrossfade
+} from './crossfadeController';
 
 function getPreloadedElement() {
-    return document.querySelector('audio[data-crossfade-preload="true"]') as HTMLAudioElement | null;
+    return document.querySelector(
+        'audio[data-crossfade-preload="true"]'
+    ) as HTMLAudioElement | null;
 }
 
 describe('crossfadeController', () => {
@@ -114,9 +121,14 @@ describe('crossfadeController', () => {
         const ready = await preloadPromise;
         expect(ready).toBe(true);
 
-        const consumed = consumePreloadedTrack({ itemId: '1', url: 'https://example.com/test.mp3' });
+        const consumed = consumePreloadedTrack({
+            itemId: '1',
+            url: 'https://example.com/test.mp3'
+        });
         expect(consumed).toBe(element);
-        expect(consumePreloadedTrack({ itemId: '1', url: 'https://example.com/test.mp3' })).toBeNull();
+        expect(
+            consumePreloadedTrack({ itemId: '1', url: 'https://example.com/test.mp3' })
+        ).toBeNull();
     });
 
     it.skip('starts a crossfade and schedules gain ramps', async () => {
@@ -140,7 +152,10 @@ describe('crossfadeController', () => {
         });
 
         const mockPlay = vi.fn().mockReturnValue(Promise.resolve());
-        Object.defineProperty(HTMLAudioElement.prototype, 'play', { value: mockPlay, writable: true });
+        Object.defineProperty(HTMLAudioElement.prototype, 'play', {
+            value: mockPlay,
+            writable: true
+        });
 
         const preloadPromise = preloadNextTrack({
             itemId: '1',
@@ -160,8 +175,14 @@ describe('crossfadeController', () => {
 
         expect(started).toBe(true);
         expect(mocks.audioParam.cancelScheduledValues).toHaveBeenCalled();
-        expect(mocks.audioParam.linearRampToValueAtTime).toHaveBeenCalledWith(0.001, expect.any(Number));
-        expect(mocks.audioParam.linearRampToValueAtTime).toHaveBeenCalledWith(1, expect.any(Number));
+        expect(mocks.audioParam.linearRampToValueAtTime).toHaveBeenCalledWith(
+            0.001,
+            expect.any(Number)
+        );
+        expect(mocks.audioParam.linearRampToValueAtTime).toHaveBeenCalledWith(
+            1,
+            expect.any(Number)
+        );
 
         fromElement.dispatchEvent(new Event('ended'));
         expect(mocks.removeAudioNodeBundle).toHaveBeenCalledWith(fromElement);

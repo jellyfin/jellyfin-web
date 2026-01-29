@@ -2,7 +2,7 @@
  * Random Sort Cache Utility Test Suite
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { getCachedRandomItems, getPaginatedRandomItems } from './randomSortCache';
 
@@ -56,7 +56,11 @@ describe('randomSortCache', () => {
             const cachedItems = [{ id: '3' }, { id: '1' }, { id: '2' }];
             const fetchAllItems = vi.fn();
 
-            const cacheData = { items: cachedItems, timestamp: Date.now(), totalCount: cachedItems.length };
+            const cacheData = {
+                items: cachedItems,
+                timestamp: Date.now(),
+                totalCount: cachedItems.length
+            };
             mockSessionStorage.getItem.mockReturnValue(JSON.stringify(cacheData));
 
             const result = await getCachedRandomItems(cacheKey, fetchAllItems);
@@ -72,7 +76,11 @@ describe('randomSortCache', () => {
             const fetchAllItems = vi.fn().mockResolvedValue(newItems);
 
             const expiredTimestamp = Date.now() - 2 * 60 * 60 * 1000; // 2 hours ago
-            const cacheData = { items: oldItems, timestamp: expiredTimestamp, totalCount: oldItems.length };
+            const cacheData = {
+                items: oldItems,
+                timestamp: expiredTimestamp,
+                totalCount: oldItems.length
+            };
             mockSessionStorage.getItem.mockReturnValue(JSON.stringify(cacheData));
 
             const result = await getCachedRandomItems(cacheKey, fetchAllItems);
@@ -112,7 +120,9 @@ describe('randomSortCache', () => {
             const result = await getPaginatedRandomItems(cacheKey, fetchAllItems, 1, 2);
 
             expect(result).toHaveLength(2);
-            expect(allItems.map(i => i.id)).toEqual(expect.arrayContaining(result.map(i => i.id)));
+            expect(allItems.map((i) => i.id)).toEqual(
+                expect.arrayContaining(result.map((i) => i.id))
+            );
         });
 
         it('should handle empty results', async () => {

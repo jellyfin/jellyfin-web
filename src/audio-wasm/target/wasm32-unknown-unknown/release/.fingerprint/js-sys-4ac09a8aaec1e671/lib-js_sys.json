@@ -1,23 +1,23 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"default\", \"std\"]",
-  "declared_features": "[\"default\", \"std\"]",
-  "target": 4913466754190795764,
-  "profile": 12368773568440439331,
-  "path": 8793136576976023066,
-  "deps": [
-    [3722963349756955755, "once_cell", false, 11804206164945562240],
-    [10782246454719507279, "wasm_bindgen", false, 7760067805079537504]
-  ],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "wasm32-unknown-unknown/release/.fingerprint/js-sys-4ac09a8aaec1e671/dep-lib-js_sys",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 14682669768258224367
+    "rustc": 4996801173321332248,
+    "features": "[\"default\", \"std\"]",
+    "declared_features": "[\"default\", \"std\"]",
+    "target": 4913466754190795764,
+    "profile": 12368773568440439331,
+    "path": 8793136576976023066,
+    "deps": [
+        [3722963349756955755, "once_cell", false, 11804206164945562240],
+        [10782246454719507279, "wasm_bindgen", false, 7760067805079537504]
+    ],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "wasm32-unknown-unknown/release/.fingerprint/js-sys-4ac09a8aaec1e671/dep-lib-js_sys",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 14682669768258224367
 }

@@ -1,13 +1,12 @@
-import React, { type FC, useCallback } from 'react';
-import { IconButton } from 'ui-primitives';
 import { ColumnsIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
-
-import { useDeleteAlternateSources } from 'hooks/api/videosHooks';
-import globalize from 'lib/globalize';
 import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
+import { useDeleteAlternateSources } from 'hooks/api/videosHooks';
+import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import { IconButton } from 'ui-primitives';
 
 interface SplitVersionsButtonProps {
     paramId: string;

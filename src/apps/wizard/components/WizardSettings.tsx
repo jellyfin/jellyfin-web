@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
-
-import { Button } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import globalize from 'lib/globalize';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { FormControl, FormLabel } from 'ui-primitives';
 import { useNavigate } from '@tanstack/react-router';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import {
+    Button,
+    FormControl,
+    FormLabel,
+    Heading,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 import Loading from '../../../components/loading/LoadingComponent';
 import * as styles from './WizardSettings.css.ts';
 
@@ -27,7 +33,9 @@ const WizardSettings = () => {
             return;
         }
         Promise.all([
-            client.ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json()),
+            client
+                .ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' })
+                .then((r: any) => r.json()),
             client.getCultures(),
             client.getCountries()
         ]).then(([config, cultureList, countryList]) => {
@@ -66,20 +74,33 @@ const WizardSettings = () => {
 
     return (
         <div className={styles.container}>
-            <Heading.H2 className={styles.title}>{globalize.translate('HeaderMetadataSettings')}</Heading.H2>
-            <Text className={styles.helpText}>{globalize.translate('HeaderMetadataSettingsHelp')}</Text>
+            <Heading.H2 className={styles.title}>
+                {globalize.translate('HeaderMetadataSettings')}
+            </Heading.H2>
+            <Text className={styles.helpText}>
+                {globalize.translate('HeaderMetadataSettingsHelp')}
+            </Text>
 
             <form onSubmit={handleSubmit}>
                 <div className={styles.formStack}>
                     <FormControl>
-                        <FormLabel>{globalize.translate('LabelPreferredMetadataLanguage')}</FormLabel>
+                        <FormLabel>
+                            {globalize.translate('LabelPreferredMetadataLanguage')}
+                        </FormLabel>
                         <Select value={language} onValueChange={setLanguage}>
                             <SelectTrigger>
-                                <SelectValue placeholder={globalize.translate('LabelPreferredMetadataLanguage')} />
+                                <SelectValue
+                                    placeholder={globalize.translate(
+                                        'LabelPreferredMetadataLanguage'
+                                    )}
+                                />
                             </SelectTrigger>
                             <SelectContent>
-                                {languages.map(l => (
-                                    <SelectItem key={l.TwoLetterISOLanguageName} value={l.TwoLetterISOLanguageName}>
+                                {languages.map((l) => (
+                                    <SelectItem
+                                        key={l.TwoLetterISOLanguageName}
+                                        value={l.TwoLetterISOLanguageName}
+                                    >
                                         {l.DisplayName}
                                     </SelectItem>
                                 ))}
@@ -93,8 +114,11 @@ const WizardSettings = () => {
                                 <SelectValue placeholder={globalize.translate('LabelCountry')} />
                             </SelectTrigger>
                             <SelectContent>
-                                {countries.map(c => (
-                                    <SelectItem key={c.TwoLetterISORegionName} value={c.TwoLetterISORegionName}>
+                                {countries.map((c) => (
+                                    <SelectItem
+                                        key={c.TwoLetterISORegionName}
+                                        value={c.TwoLetterISORegionName}
+                                    >
                                         {c.DisplayName}
                                     </SelectItem>
                                 ))}

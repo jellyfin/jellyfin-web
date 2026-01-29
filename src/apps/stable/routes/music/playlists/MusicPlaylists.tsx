@@ -4,28 +4,23 @@
  * Displays music playlists with filtering and sorting options.
  */
 
-import React, { useState, useCallback } from 'react';
-import { useParams } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-
-import { Text, Heading } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-
 import { ChevronLeftIcon, ChevronRightIcon, GridIcon, ListBulletIcon } from '@radix-ui/react-icons';
-
-import { itemsApi } from 'lib/api/items';
-import { useViewStyle } from 'hooks/useViewStyle';
-import { usePagination } from 'hooks/usePagination';
-import { MediaGrid } from 'components/media/MediaGrid';
-import { MediaCard } from 'components/media/MediaCard';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { ErrorState } from 'components/ErrorState';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 import { EmptyState } from 'components/EmptyState';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { ErrorState } from 'components/ErrorState';
+import { LoadingSpinner } from 'components/LoadingSpinner';
+import { MediaCard } from 'components/media/MediaCard';
+import { MediaGrid } from 'components/media/MediaGrid';
 import { appRouter } from 'components/router/appRouter';
+import { usePagination } from 'hooks/usePagination';
+import { useViewStyle } from 'hooks/useViewStyle';
+import { itemsApi } from 'lib/api/items';
 import { toPlayableItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { Chip, Heading, IconButton, Text } from 'ui-primitives';
 
 import { logger } from 'utils/logger';
 import * as styles from './MusicPlaylists.css.ts';
@@ -61,13 +56,13 @@ export const MusicPlaylists: React.FC = () => {
 
     const handleNextPage = useCallback(() => {
         if (hasNextPage) {
-            setPageIndex(prev => prev + 1);
+            setPageIndex((prev) => prev + 1);
         }
     }, [hasNextPage, setPageIndex]);
 
     const handlePreviousPage = useCallback(() => {
         if (hasPreviousPage && pageIndex > 0) {
-            setPageIndex(prev => prev - 1);
+            setPageIndex((prev) => prev - 1);
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
 
@@ -115,7 +110,10 @@ export const MusicPlaylists: React.FC = () => {
             <div className={styles.headerRow}>
                 <Heading.H3>Playlists</Heading.H3>
                 <div className={styles.headerControls}>
-                    <IconButton variant={viewStyle === 'List' ? 'solid' : 'plain'} onClick={() => setViewStyle('List')}>
+                    <IconButton
+                        variant={viewStyle === 'List' ? 'solid' : 'plain'}
+                        onClick={() => setViewStyle('List')}
+                    >
                         <ListBulletIcon />
                     </IconButton>
                     <IconButton

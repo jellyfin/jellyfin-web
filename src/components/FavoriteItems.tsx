@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-
-import { useServerStore } from '../store/serverStore';
-import { LoadingView } from './feedback';
+import React, { useCallback, useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Text } from 'ui-primitives';
+import { useServerStore } from '../store/serverStore';
 import { logger } from '../utils/logger';
+import { LoadingView } from './feedback';
 
 interface FavoriteItemsProps {
     serverId?: string;
@@ -27,7 +25,15 @@ const SECTIONS: SectionConfig[] = [
     { name: 'Songs', types: ['Audio'], id: 'favoriteSongs' }
 ];
 
-function FavoriteSection({ section, serverId, userId }: { section: SectionConfig; serverId: string; userId: string }) {
+function FavoriteSection({
+    section,
+    serverId,
+    userId
+}: {
+    section: SectionConfig;
+    serverId: string;
+    userId: string;
+}) {
     const [items, setItems] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -76,7 +82,14 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
     if (isLoading) {
         return (
             <Box className="verticalSection">
-                <Box style={{ display: 'flex', gap: vars.spacing['4'], overflowX: 'auto', paddingTop: '16px' }}>
+                <Box
+                    style={{
+                        display: 'flex',
+                        gap: vars.spacing['4'],
+                        overflowX: 'auto',
+                        paddingTop: '16px'
+                    }}
+                >
                     {Array.from({ length: 6 }).map((_, i) => (
                         <Box
                             key={i}
@@ -124,7 +137,7 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
                     paddingBottom: 16
                 }}
             >
-                {items.map(item => (
+                {items.map((item) => (
                     <a
                         key={item.Id}
                         href={`/details.html?serverId=${serverId}&id=${item.Id}`}
@@ -169,7 +182,10 @@ function FavoriteSection({ section, serverId, userId }: { section: SectionConfig
     );
 }
 
-export function FavoriteItems({ serverId: propsServerId, userId: propsUserId }: FavoriteItemsProps) {
+export function FavoriteItems({
+    serverId: propsServerId,
+    userId: propsUserId
+}: FavoriteItemsProps) {
     const { currentServer } = useServerStore();
     const serverId = propsServerId || currentServer?.id || '';
     const userId = propsUserId || currentServer?.userId || '';
@@ -181,8 +197,13 @@ export function FavoriteItems({ serverId: propsServerId, userId: propsUserId }: 
     return (
         <Box className="favoriteItemsPage libraryPage" style={{ padding: 16 }}>
             <Box className="sections">
-                {SECTIONS.map(section => (
-                    <FavoriteSection key={section.id} section={section} serverId={serverId} userId={userId} />
+                {SECTIONS.map((section) => (
+                    <FavoriteSection
+                        key={section.id}
+                        section={section}
+                        serverId={serverId}
+                        userId={userId}
+                    />
                 ))}
             </Box>
         </Box>

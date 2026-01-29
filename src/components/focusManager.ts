@@ -1,6 +1,6 @@
 import dom from '../utils/dom';
-import layoutManager from './layoutManager';
 import { logger } from '../utils/logger';
+import layoutManager from './layoutManager';
 
 const scopes: HTMLElement[] = [];
 
@@ -29,7 +29,7 @@ const focusableTagNames = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
 const focusableContainerTagNames = ['BODY', 'DIALOG'];
 const focusableQuery =
     focusableTagNames
-        .map(t => {
+        .map((t) => {
             if (t === 'INPUT') {
                 t += ':not([type="range"]):not([type="file"])';
             }
@@ -83,7 +83,11 @@ function getDefaultScope(): HTMLElement {
     return scopes[0] || document.body;
 }
 
-export function getFocusableElements(parent: HTMLElement | null, limit?: number, excludeClass?: string): HTMLElement[] {
+export function getFocusableElements(
+    parent: HTMLElement | null,
+    limit?: number,
+    excludeClass?: string
+): HTMLElement[] {
     const root = parent || getDefaultScope();
     const elems = root.querySelectorAll(focusableQuery);
     const focusableElements: HTMLElement[] = [];
@@ -164,7 +168,8 @@ function getOffset(elem: HTMLElement) {
 }
 
 function intersects(a1: number, a2: number, b1: number, b2: number): boolean {
-    const i = (a: number, b: number, c: number, d: number) => (c >= a && c <= b) || (d >= a && d <= b);
+    const i = (a: number, b: number, c: number, d: number) =>
+        (c >= a && c <= b) || (d >= a && d <= b);
     return i(a1, a2, b1, b2) || i(b1, b2, a1, a2);
 }
 
@@ -177,7 +182,8 @@ function nav(
     const currentActive = activeElement || (document.activeElement as HTMLElement | null);
     const resolvedActive = focusableParent(currentActive);
     const resolvedContainer =
-        container || (resolvedActive ? getFocusContainer(resolvedActive, direction) : getDefaultScope());
+        container ||
+        (resolvedActive ? getFocusContainer(resolvedActive, direction) : getDefaultScope());
 
     if (!resolvedActive || resolvedActive === document.body) {
         autoFocus(resolvedContainer, true, false);
@@ -190,7 +196,8 @@ function nav(
     const sourceMidY = rect.top + rect.height / 2;
 
     const focusable =
-        focusableElements || (Array.from(resolvedContainer.querySelectorAll(focusableQuery)) as HTMLElement[]);
+        focusableElements ||
+        (Array.from(resolvedContainer.querySelectorAll(focusableQuery)) as HTMLElement[]);
     let minDistance = Infinity;
     let nearestElement: HTMLElement | null = null;
 
@@ -234,7 +241,11 @@ function nav(
 
     if (nearestElement) {
         const nearestParent = dom.parentWithClass(nearestElement, 'focusable');
-        if (nearestParent && nearestParent !== nearestElement && focusableContainer !== nearestParent) {
+        if (
+            nearestParent &&
+            nearestParent !== nearestElement &&
+            focusableContainer !== nearestParent
+        ) {
             nearestElement = nearestParent;
         }
         focus(nearestElement);
@@ -257,20 +268,22 @@ const focusManager = {
     pushScope,
     popScope,
     focusFirst: (c: HTMLElement, s: string) => {
-        const el = Array.from(c.querySelectorAll(s)).find(e => isCurrentlyFocusableInternal(e as HTMLElement));
+        const el = Array.from(c.querySelectorAll(s)).find((e) =>
+            isCurrentlyFocusableInternal(e as HTMLElement)
+        );
         if (el) focus(el as HTMLElement);
     },
     focusLast: (c: HTMLElement, s: string) => {
         const el = Array.from(c.querySelectorAll(s))
             .reverse()
-            .find(e => isCurrentlyFocusableInternal(e as HTMLElement));
+            .find((e) => isCurrentlyFocusableInternal(e as HTMLElement));
         if (el) focus(el as HTMLElement);
     },
     moveFocus: (s: HTMLElement, c: HTMLElement, sel: string, offset: number) => {
-        const list = Array.from(c.querySelectorAll(sel)).filter(e =>
+        const list = Array.from(c.querySelectorAll(sel)).filter((e) =>
             isCurrentlyFocusableInternal(e as HTMLElement)
         ) as HTMLElement[];
-        const idx = list.findIndex(e => s === e || e.contains(s));
+        const idx = list.findIndex((e) => s === e || e.contains(s));
         if (idx !== -1) {
             const next = list[Math.min(Math.max(idx + offset, 0), list.length - 1)];
             if (next) focus(next);

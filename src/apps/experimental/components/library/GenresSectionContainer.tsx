@@ -1,19 +1,18 @@
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
-import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { type BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import React, { type FC } from 'react';
-
-import { useApi } from 'hooks/useApi';
-import { useGetItems } from 'hooks/useFetchItems';
+import SectionContainer from 'components/common/SectionContainer';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
-import SectionContainer from 'components/common/SectionContainer';
-import { CardShape } from 'utils/card';
-import type { ParentId } from 'types/library';
+import { useApi } from 'hooks/useApi';
+import { useGetItems } from 'hooks/useFetchItems';
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
+import type { ParentId } from 'types/library';
+import { CardShape } from 'utils/card';
 
 interface GenresSectionContainerProps {
     parentId: ParentId;
@@ -22,7 +21,12 @@ interface GenresSectionContainerProps {
     genre: ItemDto;
 }
 
-const GenresSectionContainer: FC<GenresSectionContainerProps> = ({ parentId, collectionType, itemType, genre }) => {
+const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
+    parentId,
+    collectionType,
+    itemType,
+    genre
+}) => {
     const { __legacyApiClient__ } = useApi();
     const getParametersOptions = () => {
         return {
@@ -67,7 +71,10 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({ parentId, col
                 showTitle: true,
                 centerText: true,
                 cardLayout: false,
-                shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
+                shape:
+                    collectionType === CollectionType.Music
+                        ? CardShape.SquareOverflow
+                        : CardShape.PortraitOverflow,
                 showParentTitle: collectionType === CollectionType.Music,
                 showYear: collectionType !== CollectionType.Music,
                 serverId: __legacyApiClient__?.serverId()

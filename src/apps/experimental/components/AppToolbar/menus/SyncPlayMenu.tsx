@@ -10,18 +10,15 @@ import {
     PlayIcon,
     StopIcon
 } from '@radix-ui/react-icons';
-import type { ApiClient } from 'jellyfin-apiclient';
-import React, { type FC, useCallback, useEffect, useState } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { Menu, MenuItem, MenuLabel, MenuSeparator } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';
 import { useSyncPlayGroups } from 'hooks/useSyncPlayGroups';
+import type { ApiClient } from 'jellyfin-apiclient';
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback, useEffect, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import { PluginType } from 'types/plugin';
+import { Box, Flex, Menu, MenuItem, MenuLabel, MenuSeparator, Text } from 'ui-primitives';
 import Events, { type Event, type EventObject } from 'utils/events';
 
 export const ID = 'app-sync-play-menu';
@@ -63,7 +60,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
                         GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.Name)
                     }
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.error('[SyncPlayMenu] failed to create a SyncPlay group', err);
                 });
 
@@ -75,7 +72,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
         if (api) {
             getSyncPlayApi(api)
                 .syncPlayLeaveGroup()
-                .catch(err => {
+                .catch((err) => {
                     console.error('[SyncPlayMenu] failed to leave SyncPlay group', err);
                 });
 
@@ -92,7 +89,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
                             GroupId
                         }
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         console.error('[SyncPlayMenu] failed to join SyncPlay group', err);
                     });
 
@@ -106,13 +103,14 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
         if (!syncPlay) return;
 
         // TODO: Rewrite settings UI
-        const SyncPlaySettingsEditor = (await import('../../../../../plugins/syncPlay/ui/settings/SettingsEditor'))
-            .default;
+        const SyncPlaySettingsEditor = (
+            await import('../../../../../plugins/syncPlay/ui/settings/SettingsEditor')
+        ).default;
         new SyncPlaySettingsEditor(__legacyApiClient__, syncPlay.Manager.getTimeSyncCore(), {
             groupInfo: currentGroup
         })
             .embed()
-            .catch(err => {
+            .catch((err) => {
                 if (err) {
                     console.error('[SyncPlayMenu] Error creating SyncPlay settings editor', err);
                 }
@@ -137,7 +135,9 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
 
     const renderMenuItemContent = (icon: React.ReactNode, primary: string, secondary?: string) => (
         <Flex align="center" gap={vars.spacing['4']}>
-            <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>{icon}</Box>
+            <Box style={{ width: vars.spacing['6'], display: 'flex', justifyContent: 'center' }}>
+                {icon}
+            </Box>
             <Box style={{ display: 'flex', flexDirection: 'column' }}>
                 <Text size="md">{primary}</Text>
                 {secondary && (
@@ -176,13 +176,19 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
         if (!syncPlay?.Manager.isPlaylistEmpty() && !syncPlay?.Manager.isPlaybackActive()) {
             menuItems.push(
                 <MenuItem key="sync-play-start-playback" onClick={onStartGroupPlaybackClick}>
-                    {renderMenuItemContent(<PlayIcon />, globalize.translate('LabelSyncPlayResumePlayback'))}
+                    {renderMenuItemContent(
+                        <PlayIcon />,
+                        globalize.translate('LabelSyncPlayResumePlayback')
+                    )}
                 </MenuItem>
             );
         } else if (syncPlay?.Manager.isPlaybackActive()) {
             menuItems.push(
                 <MenuItem key="sync-play-stop-playback" onClick={onStopGroupPlaybackClick}>
-                    {renderMenuItemContent(<StopIcon />, globalize.translate('LabelSyncPlayHaltPlayback'))}
+                    {renderMenuItemContent(
+                        <StopIcon />,
+                        globalize.translate('LabelSyncPlayHaltPlayback')
+                    )}
                 </MenuItem>
             );
         }
@@ -197,18 +203,27 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
 
         menuItems.push(
             <MenuItem key="sync-play-exit" onClick={onGroupLeaveClick}>
-                {renderMenuItemContent(<MinusIcon />, globalize.translate('LabelSyncPlayLeaveGroup'))}
+                {renderMenuItemContent(
+                    <MinusIcon />,
+                    globalize.translate('LabelSyncPlayLeaveGroup')
+                )}
             </MenuItem>
         );
-    } else if (!groups?.length && user?.Policy?.SyncPlayAccess !== SyncPlayUserAccessType.CreateAndJoinGroups) {
+    } else if (
+        !groups?.length &&
+        user?.Policy?.SyncPlayAccess !== SyncPlayUserAccessType.CreateAndJoinGroups
+    ) {
         menuItems.push(
             <MenuItem key="sync-play-unavailable" disabled>
-                {renderMenuItemContent(<Cross2Icon />, globalize.translate('LabelSyncPlayNoGroups'))}
+                {renderMenuItemContent(
+                    <Cross2Icon />,
+                    globalize.translate('LabelSyncPlayNoGroups')
+                )}
             </MenuItem>
         );
     } else {
         if (Array.isArray(groups) && groups.length > 0) {
-            groups.forEach(group => {
+            groups.forEach((group) => {
                 menuItems.push(
                     <MenuItem
                         key={group.GroupId}
@@ -216,7 +231,11 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
                         // eslint-disable-next-line react/jsx-no-bind
                         onClick={() => group.GroupId && onGroupJoinClick(group.GroupId)}
                     >
-                        {renderMenuItemContent(<PersonIcon />, group.GroupName ?? '', group.Participants?.join(', '))}
+                        {renderMenuItemContent(
+                            <PersonIcon />,
+                            group.GroupName ?? '',
+                            group.Participants?.join(', ')
+                        )}
                     </MenuItem>
                 );
             });
@@ -227,7 +246,10 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
         if (user?.Policy?.SyncPlayAccess === SyncPlayUserAccessType.CreateAndJoinGroups) {
             menuItems.push(
                 <MenuItem key="sync-play-new-group" onClick={onGroupAddClick}>
-                    {renderMenuItemContent(<GroupIcon />, globalize.translate('LabelSyncPlayNewGroupDescription'))}
+                    {renderMenuItemContent(
+                        <GroupIcon />,
+                        globalize.translate('LabelSyncPlayNewGroupDescription')
+                    )}
                 </MenuItem>
             );
         }
@@ -235,7 +257,9 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({ open, onOpenChange, trigger }) =>
 
     return (
         <Menu open={open} onOpenChange={onOpenChange} trigger={trigger} align="end" id={ID}>
-            {isSyncPlayEnabled && currentGroup?.GroupName && <MenuLabel>{currentGroup.GroupName}</MenuLabel>}
+            {isSyncPlayEnabled && currentGroup?.GroupName && (
+                <MenuLabel>{currentGroup.GroupName}</MenuLabel>
+            )}
             {menuItems}
         </Menu>
     );

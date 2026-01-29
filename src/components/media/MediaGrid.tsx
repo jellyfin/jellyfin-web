@@ -4,13 +4,10 @@
  * Responsive grid for displaying media cards with framer-motion animations.
  */
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
+import { AnimatePresence, motion } from 'motion/react';
+import React, { useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-import { Grid } from 'ui-primitives';
-import { Skeleton } from 'ui-primitives';
+import { Box, Flex, Grid, Skeleton, Text } from 'ui-primitives';
 import { MediaCard, MediaCardProps } from './MediaCard';
 
 export interface MediaGridProps {
@@ -94,7 +91,9 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
     loading = false,
     emptyMessage = 'No items found'
 }) => {
-    const [viewportWidth, setViewportWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+    const [viewportWidth, setViewportWidth] = useState(
+        typeof window !== 'undefined' ? window.innerWidth : 1200
+    );
 
     useEffect(() => {
         const handleResize = () => {
@@ -122,11 +121,13 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
                         gridTemplateColumns: `repeat(${columns}, 1fr)`
                     }}
                 >
-                    {skeletonItems.map(i => (
+                    {skeletonItems.map((i) => (
                         <motion.div key={`skeleton-${i}`} variants={skeletonItemVariants}>
                             <Skeleton
                                 width={cardWidth}
-                                height={cardSize === 'small' ? 180 : cardSize === 'medium' ? 270 : 360}
+                                height={
+                                    cardSize === 'small' ? 180 : cardSize === 'medium' ? 270 : 360
+                                }
                                 variant="rectangular"
                                 style={{ borderRadius: '12px' }}
                             />

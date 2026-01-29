@@ -1,6 +1,9 @@
 import { lazyRouteComponent } from '@tanstack/react-router';
 
-export const SettingsPage = lazyRouteComponent(() => import('apps/stable/routes/user/settings/index'), 'default');
+export const SettingsPage = lazyRouteComponent(
+    () => import('apps/stable/routes/user/settings/index'),
+    'default'
+);
 
 export function UserProfilePage() {
     return <div>User Profile Page</div>;

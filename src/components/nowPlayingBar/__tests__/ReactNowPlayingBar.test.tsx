@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { NowPlayingBar } from '../ReactNowPlayingBar';
 
 const {
@@ -141,8 +141,9 @@ describe('NowPlayingBar', () => {
             currentTimeFormatted: '0:30',
             durationFormatted: '3:00'
         });
-        mockUseCrossfadeStore.mockImplementation((selector: (state: typeof mockCrossfadeState) => unknown) =>
-            selector(mockCrossfadeState)
+        mockUseCrossfadeStore.mockImplementation(
+            (selector: (state: typeof mockCrossfadeState) => unknown) =>
+                selector(mockCrossfadeState)
         );
 
         mockUsePlaybackActions.mockReturnValue(mockPlaybackActions);

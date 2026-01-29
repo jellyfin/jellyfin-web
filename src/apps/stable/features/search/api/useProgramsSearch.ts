@@ -1,10 +1,10 @@
 import { type Api } from '@jellyfin/sdk';
+import { type ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { useQuery } from '@tanstack/react-query';
 import { type AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { type ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
 import { fetchItemsByType } from './fetchItemsByType';
 
 const fetchPrograms = async (
@@ -26,7 +26,11 @@ const fetchPrograms = async (
     return response;
 };
 
-export const useProgramsSearch = (parentId?: string, collectionType?: CollectionType, searchTerm?: string) => {
+export const useProgramsSearch = (
+    parentId?: string,
+    collectionType?: CollectionType,
+    searchTerm?: string
+) => {
     const { api, user } = useApi();
     const userId = user?.Id;
 

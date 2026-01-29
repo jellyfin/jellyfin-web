@@ -1,5 +1,5 @@
-import React from 'react';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React from 'react';
 import { Text } from 'ui-primitives';
 import * as styles from './ChannelHeader.css.ts';
 
@@ -24,7 +24,9 @@ const ChannelHeader: React.FC<ChannelHeaderProps> = ({ channel }) => {
             ) : (
                 <Text size="xs">{channel.Name}</Text>
             )}
-            {channel.ChannelNumber && <div className={styles.channelNumber}>{channel.ChannelNumber}</div>}
+            {channel.ChannelNumber && (
+                <div className={styles.channelNumber}>{channel.ChannelNumber}</div>
+            )}
         </div>
     );
 };

@@ -1,10 +1,8 @@
 import classNames from 'classnames';
-import React, { type FC, type PropsWithChildren } from 'react';
-import { Box } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-
 import { ItemAction } from 'constants/itemAction';
+import React, { type FC, type PropsWithChildren } from 'react';
 import type { DataAttributes } from 'types/dataAttributes';
+import { Box, Button } from 'ui-primitives';
 
 import layoutManager from '../../layoutManager';
 

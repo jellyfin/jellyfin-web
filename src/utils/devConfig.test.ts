@@ -1,13 +1,13 @@
-import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
-    normalizeServerBaseUrl,
-    resolveApiBaseUrl,
-    fetchDevConfig,
-    saveDevConfig,
     DEFAULT_DEV_CONFIG,
     DEFAULT_DEV_PROXY_BASE_PATH,
-    type DevConfig
+    type DevConfig,
+    fetchDevConfig,
+    normalizeServerBaseUrl,
+    resolveApiBaseUrl,
+    saveDevConfig
 } from './devConfig';
 
 describe('fetchDevConfig', () => {
@@ -93,7 +93,9 @@ describe('saveDevConfig', () => {
             ok: false
         });
 
-        await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow('Failed to save dev config');
+        await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow(
+            'Failed to save dev config'
+        );
     });
 
     it('handles malformed JSON response during save', async () => {
@@ -122,7 +124,9 @@ describe('Production Mode Tests', () => {
             ok: false
         });
 
-        await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow('Failed to save dev config');
+        await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow(
+            'Failed to save dev config'
+        );
     });
 });
 
@@ -184,7 +188,9 @@ describe('Production Mode Tests for saveDevConfig', () => {
             ok: false
         });
 
-        await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow('Failed to save dev config');
+        await expect(saveDevConfig({ serverBaseUrl: 'https://test.com' })).rejects.toThrow(
+            'Failed to save dev config'
+        );
     });
 });
 
@@ -196,15 +202,21 @@ describe('normalizeServerBaseUrl - Edge Cases', () => {
     });
 
     it('removes hash and search parameters', () => {
-        expect(normalizeServerBaseUrl('https://example.com/path?query=value#hash')).toBe('https://example.com/path');
+        expect(normalizeServerBaseUrl('https://example.com/path?query=value#hash')).toBe(
+            'https://example.com/path'
+        );
         expect(normalizeServerBaseUrl('https://example.com/path?query=value&other=test')).toBe(
             'https://example.com/path'
         );
-        expect(normalizeServerBaseUrl('https://example.com/path#hash')).toBe('https://example.com/path');
+        expect(normalizeServerBaseUrl('https://example.com/path#hash')).toBe(
+            'https://example.com/path'
+        );
     });
 
     it('handles edge cases with path normalization', () => {
-        expect(normalizeServerBaseUrl('https://example.com//path/')).toBe('https://example.com//path');
+        expect(normalizeServerBaseUrl('https://example.com//path/')).toBe(
+            'https://example.com//path'
+        );
         expect(normalizeServerBaseUrl('https://example.com/')).toBe('https://example.com');
     });
 

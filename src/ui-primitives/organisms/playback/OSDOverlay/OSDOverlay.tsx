@@ -4,17 +4,16 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { usePreferencesStore } from 'store/preferencesStore';
 import { vars } from 'styles/tokens.css.ts';
-import { Flex } from 'ui-primitives';
-import { Progress } from 'ui-primitives';
+import { Flex, Progress } from 'ui-primitives';
 
 import * as styles from './OSDOverlay.css.ts';
 
 type OSDType = 'volume' | 'brightness' | null;
 
 export function OSDOverlay(): React.ReactElement {
-    const volume = usePreferencesStore(state => state.audio.volume);
-    const muted = usePreferencesStore(state => state.audio.muted);
-    const brightness = usePreferencesStore(state => state.ui.brightness);
+    const volume = usePreferencesStore((state) => state.audio.volume);
+    const muted = usePreferencesStore((state) => state.audio.muted);
+    const brightness = usePreferencesStore((state) => state.ui.brightness);
     const [activeOSD, setActiveOSD] = useState<OSDType>(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -46,7 +45,7 @@ export function OSDOverlay(): React.ReactElement {
     useEffect(() => {
         // Show volume OSD on volume change
         const unsubVolume = usePreferencesStore.subscribe(
-            state => state.audio.volume,
+            (state) => state.audio.volume,
             () => {
                 triggerShow('volume');
             },
@@ -55,7 +54,7 @@ export function OSDOverlay(): React.ReactElement {
 
         // Show muted OSD on mute change
         const unsubMuted = usePreferencesStore.subscribe(
-            state => state.audio.muted,
+            (state) => state.audio.muted,
             () => {
                 triggerShow('volume');
             },
@@ -71,7 +70,7 @@ export function OSDOverlay(): React.ReactElement {
     useEffect(() => {
         // Handle brightness control
         const unsub = usePreferencesStore.subscribe(
-            state => state.ui.brightness,
+            (state) => state.ui.brightness,
             () => {
                 triggerShow('brightness');
             },
@@ -104,7 +103,9 @@ export function OSDOverlay(): React.ReactElement {
                         {activeOSD === 'volume' ? getVolumeIcon() : getBrightnessIcon()}
                         <Progress
                             value={activeOSD === 'volume' ? volume : brightness}
-                            className={activeOSD === 'brightness' ? styles.warningProgress : undefined}
+                            className={
+                                activeOSD === 'brightness' ? styles.warningProgress : undefined
+                            }
                             style={{ width: '100%' }}
                         />
                     </Flex>

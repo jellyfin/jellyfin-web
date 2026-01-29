@@ -1,20 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"runtime\"]",
-  "declared_features": "[\"__cli\", \"__testing_only_extra_assertions\", \"__testing_only_libclang_16\", \"__testing_only_libclang_9\", \"default\", \"experimental\", \"logging\", \"prettyplease\", \"runtime\", \"static\"]",
-  "target": 5408242616063297496,
-  "profile": 11008053072323979732,
-  "path": 5776235036577363377,
-  "deps": [],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "debug/.fingerprint/bindgen-6b89911af9166c7a/dep-build-script-build-script-build",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[\"runtime\"]",
+    "declared_features": "[\"__cli\", \"__testing_only_extra_assertions\", \"__testing_only_libclang_16\", \"__testing_only_libclang_9\", \"default\", \"experimental\", \"logging\", \"prettyplease\", \"runtime\", \"static\"]",
+    "target": 5408242616063297496,
+    "profile": 11008053072323979732,
+    "path": 5776235036577363377,
+    "deps": [],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/bindgen-6b89911af9166c7a/dep-build-script-build-script-build",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

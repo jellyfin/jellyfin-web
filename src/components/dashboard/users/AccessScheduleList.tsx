@@ -10,9 +10,9 @@
  */
 
 import React, { FunctionComponent, useCallback } from 'react';
-import datetime from '../../../scripts/datetime';
-import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
+import globalize from '../../../lib/globalize';
+import datetime from '../../../scripts/datetime';
 
 type AccessScheduleListProps = {
     index?: number;
@@ -41,12 +41,21 @@ const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({
     removeScheduleCallback
 }: AccessScheduleListProps) => {
     const onClick = useCallback(() => {
-        index !== undefined && removeScheduleCallback !== undefined && removeScheduleCallback(index);
+        index !== undefined &&
+            removeScheduleCallback !== undefined &&
+            removeScheduleCallback(index);
     }, [index, removeScheduleCallback]);
     return (
-        <div className="liSchedule listItem" data-day={DayOfWeek} data-start={StartHour} data-end={EndHour}>
+        <div
+            className="liSchedule listItem"
+            data-day={DayOfWeek}
+            data-start={StartHour}
+            data-end={EndHour}
+        >
             <div className="listItemBody two-line">
-                <h3 className="listItemBodyText">{DayOfWeek ? globalize.translate(DayOfWeek) : ''}</h3>
+                <h3 className="listItemBodyText">
+                    {DayOfWeek ? globalize.translate(DayOfWeek) : ''}
+                </h3>
                 <div className="listItemBodyText secondary">
                     {getDisplayTime(StartHour) + ' - ' + getDisplayTime(EndHour)}
                 </div>

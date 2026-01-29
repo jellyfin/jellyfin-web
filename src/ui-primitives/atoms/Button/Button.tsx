@@ -1,8 +1,16 @@
-import React, { forwardRef, type ReactElement, type ElementType } from 'react';
-import { buttonStyles, buttonVariants, buttonSizes, buttonFullWidth } from './Button.css.ts';
+import React, { type ElementType, forwardRef, type ReactElement } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { buttonFullWidth, buttonSizes, buttonStyles, buttonVariants } from './Button.css.ts';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'error' | 'outlined' | 'plain' | 'soft';
+export type ButtonVariant =
+    | 'primary'
+    | 'secondary'
+    | 'ghost'
+    | 'danger'
+    | 'error'
+    | 'outlined'
+    | 'plain'
+    | 'soft';
 export type ButtonSize = keyof typeof buttonSizes;
 export type ButtonColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
 
@@ -88,7 +96,10 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(
                 style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: effectiveStartDecorator !== undefined || effectiveEndDecorator !== undefined ? '8px' : 0
+                    gap:
+                        effectiveStartDecorator !== undefined || effectiveEndDecorator !== undefined
+                            ? '8px'
+                            : 0
                 }}
             >
                 {effectiveStartDecorator}

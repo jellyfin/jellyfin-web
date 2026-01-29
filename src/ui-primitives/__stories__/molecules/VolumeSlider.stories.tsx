@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback, type ComponentProps } from 'react';
+import { type ComponentProps, type ReactElement, useCallback, useState } from 'react';
 import { VolumeSlider } from '../..';
 
 const meta: Meta<typeof VolumeSlider> = {
@@ -40,7 +40,7 @@ function VolumeSliderWithHooks(): ReactElement {
     }, []);
 
     const handleMuteToggle = useCallback((): void => {
-        setMuted(prev => !prev);
+        setMuted((prev) => !prev);
     }, []);
 
     return (
@@ -73,7 +73,7 @@ function SmallStory(args: Readonly<VolumeSliderProps>): ReactElement {
         setVolume(newVolume);
     }, []);
     const handleMuteToggle = useCallback((): void => {
-        setMuted(prev => !prev);
+        setMuted((prev) => !prev);
     }, []);
 
     return (
@@ -104,7 +104,7 @@ function LargeStory(args: Readonly<VolumeSliderProps>): ReactElement {
         setVolume(newVolume);
     }, []);
     const handleMuteToggle = useCallback((): void => {
-        setMuted(prev => !prev);
+        setMuted((prev) => !prev);
     }, []);
 
     return (
@@ -135,7 +135,7 @@ function MutedStory(args: Readonly<VolumeSliderProps>): ReactElement {
         setVolume(newVolume);
     }, []);
     const handleMuteToggle = useCallback((): void => {
-        setMuted(prev => !prev);
+        setMuted((prev) => !prev);
     }, []);
 
     return (
@@ -166,7 +166,7 @@ function SliderOnlyStory(args: Readonly<VolumeSliderProps>): ReactElement {
         setVolume(newVolume);
     }, []);
     const handleMuteToggle = useCallback((): void => {
-        setMuted(prev => !prev);
+        setMuted((prev) => !prev);
     }, []);
 
     return (
@@ -199,7 +199,7 @@ function WideSliderStory(args: Readonly<VolumeSliderProps>): ReactElement {
         setVolume(newVolume);
     }, []);
     const handleMuteToggle = useCallback((): void => {
-        setMuted(prev => !prev);
+        setMuted((prev) => !prev);
     }, []);
 
     return (

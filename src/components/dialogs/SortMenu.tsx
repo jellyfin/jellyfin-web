@@ -4,17 +4,12 @@
  * Radix UI component for sort options with framer-motion animations.
  */
 
-import { vars } from 'styles/tokens.css.ts';
+import { AnimatePresence, motion } from 'motion/react';
 
 import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { List, ListItem } from 'ui-primitives';
-import { RadioGroup, RadioGroupItem } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-
 import { useSortStore } from 'store/sortStore';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, List, ListItem, Paper, RadioGroup, RadioGroupItem, Text } from 'ui-primitives';
 
 interface SortMenuProps {
     open: boolean;
@@ -62,7 +57,13 @@ export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
                     animate="visible"
                     exit="hidden"
                     variants={menuVariants}
-                    style={{ position: 'absolute', top: '100%', right: 0, marginTop: vars.spacing['2'], zIndex: 1000 }}
+                    style={{
+                        position: 'absolute',
+                        top: '100%',
+                        right: 0,
+                        marginTop: vars.spacing['2'],
+                        zIndex: 1000
+                    }}
                 >
                     <Paper
                         style={{
@@ -83,7 +84,7 @@ export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
                             </Text>
                             <RadioGroup value={sortBy} onValueChange={setSortBy}>
                                 <List style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                                    {SORT_OPTIONS.map(sort => (
+                                    {SORT_OPTIONS.map((sort) => (
                                         <ListItem key={sort.value} style={{ padding: 0 }}>
                                             <div
                                                 style={{
@@ -120,17 +121,37 @@ export const SortMenu: React.FC<SortMenuProps> = ({ open, onClose }) => {
                                 <Text
                                     size="xs"
                                     color="secondary"
-                                    style={{ padding: '4px 8px', display: 'block', color: '#b0b0b0' }}
+                                    style={{
+                                        padding: '4px 8px',
+                                        display: 'block',
+                                        color: '#b0b0b0'
+                                    }}
                                 >
                                     Order
                                 </Text>
                                 <RadioGroup
                                     value={sortOrder}
-                                    onValueChange={val => setSortOrder(val as 'Ascending' | 'Descending')}
+                                    onValueChange={(val) =>
+                                        setSortOrder(val as 'Ascending' | 'Descending')
+                                    }
                                 >
-                                    <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], padding: '0 8px' }}>
-                                        <RadioGroupItem value="Ascending" id="order-asc" label="Ascending" />
-                                        <RadioGroupItem value="Descending" id="order-desc" label="Descending" />
+                                    <Flex
+                                        style={{
+                                            flexDirection: 'row',
+                                            gap: vars.spacing['4'],
+                                            padding: '0 8px'
+                                        }}
+                                    >
+                                        <RadioGroupItem
+                                            value="Ascending"
+                                            id="order-asc"
+                                            label="Ascending"
+                                        />
+                                        <RadioGroupItem
+                                            value="Descending"
+                                            id="order-desc"
+                                            label="Descending"
+                                        />
                                     </Flex>
                                 </RadioGroup>
                             </Box>

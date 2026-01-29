@@ -1,15 +1,21 @@
+import { act, render, screen } from '@testing-library/react';
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import { Tabs } from '../Tabs';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
-import Events from '../../../utils/events';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { EventType } from '../../../constants/eventType';
+import Events from '../../../utils/events';
+import { Tabs } from '../Tabs';
 
 // Mock dependencies
 vi.mock('ui-primitives', () => {
-    const Tabs = ({ children, value }: any) => <div data-testid="tabs-root" data-value={value}>{children}</div>;
+    const Tabs = ({ children, value }: any) => (
+        <div data-testid="tabs-root" data-value={value}>
+            {children}
+        </div>
+    );
     const TabList = ({ children }: any) => <div>{children}</div>;
-    const Tab = ({ children, value }: any) => <button data-testid={`tab-${value}`}>{children}</button>;
+    const Tab = ({ children, value }: any) => (
+        <button data-testid={`tab-${value}`}>{children}</button>
+    );
     const Box = ({ children }: any) => <div>{children}</div>;
     return { Tabs, TabList, Tab, Box };
 });
@@ -49,7 +55,7 @@ describe('Tabs', () => {
 
     it('should render tabs when EventType.SET_TABS is triggered', () => {
         render(<Tabs />);
-        
+
         expect(screen.queryByTestId('tabs-root')).not.toBeInTheDocument();
 
         act(() => {
@@ -70,7 +76,7 @@ describe('Tabs', () => {
 
     it('should update selected tab when EventType.SET_TABS is triggered with new index', () => {
         render(<Tabs />);
-        
+
         act(() => {
             Events.trigger(document, EventType.SET_TABS, [
                 'test',

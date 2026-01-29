@@ -62,7 +62,7 @@ export class FXBus {
         for (let channel = 0; channel < 2; channel++) {
             const data = impulse.getChannelData(channel);
             for (let i = 0; i < length; i++) {
-                const amplitude = Math.pow(1 - i / length, 2);
+                const amplitude = (1 - i / length) ** 2;
                 data[i] = (Math.random() * 2 - 1) * amplitude;
             }
         }
@@ -180,7 +180,7 @@ export class FXBus {
         this.dryGain.disconnect();
         this.returnGain.disconnect();
         this.stopRubberBanding();
-        this.effects.forEach(effect => {
+        this.effects.forEach((effect) => {
             effect.disconnect();
         });
         this.effects.length = 0;

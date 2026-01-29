@@ -1,5 +1,5 @@
+import { type LocaleCode, supportedLocales, useTranslation } from 'hooks/useTranslation';
 import { useMemo } from 'react';
-import { useTranslation, supportedLocales, type LocaleCode } from 'hooks/useTranslation';
 import { vars } from 'styles/tokens.css.ts';
 
 export interface LanguageSelectorProps {
@@ -9,7 +9,12 @@ export interface LanguageSelectorProps {
     showAll?: boolean;
 }
 
-export function LanguageSelector({ value, onChange, className, showAll = false }: LanguageSelectorProps) {
+export function LanguageSelector({
+    value,
+    onChange,
+    className,
+    showAll = false
+}: LanguageSelectorProps) {
     const { currentLanguage, setLanguage, isLoading, t } = useTranslation();
 
     const displayValue = value ?? currentLanguage;
@@ -42,7 +47,7 @@ export function LanguageSelector({ value, onChange, className, showAll = false }
                 }}
                 aria-label={t('Language')}
             >
-                {sortedLocales.map(locale => (
+                {sortedLocales.map((locale) => (
                     <option key={locale.code} value={locale.code}>
                         {locale.name}
                     </option>

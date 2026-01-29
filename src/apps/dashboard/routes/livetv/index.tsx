@@ -1,25 +1,27 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import type { LiveTvOptions } from '@jellyfin/sdk/lib/generated-client/models/live-tv-options';
+import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
+import Provider from 'apps/dashboard/features/livetv/components/Provider';
+import TunerDeviceCard from 'apps/dashboard/features/livetv/components/TunerDeviceCard';
+import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
+import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
+import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { useNamedConfiguration } from 'hooks/useNamedConfiguration';
-import type { LiveTvOptions } from '@jellyfin/sdk/lib/generated-client/models/live-tv-options';
 import globalize from 'lib/globalize';
-import Loading from 'components/loading/LoadingComponent';
-import TunerDeviceCard from 'apps/dashboard/features/livetv/components/TunerDeviceCard';
-import Provider from 'apps/dashboard/features/livetv/components/Provider';
-import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
-import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
-import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import { Menu, MenuTrigger, MenuContent, MenuItem } from 'ui-primitives';
-import { Alert } from 'ui-primitives';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Alert, Button, Flex, Menu, MenuContent, MenuItem, MenuTrigger, Text } from 'ui-primitives';
 
 const RefreshIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label="Refresh">
+    <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        role="img"
+        aria-label="Refresh"
+    >
         <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
     </svg>
 );
@@ -38,7 +40,11 @@ export const Component = (): React.ReactElement => {
         isPending: isConfigPending,
         isError: isConfigError
     } = useNamedConfiguration<LiveTvOptions>(CONFIG_KEY);
-    const { data: tasks, isPending: isTasksPending, isError: isTasksError } = useLiveTasks({ isHidden: false });
+    const {
+        data: tasks,
+        isPending: isTasksPending,
+        isError: isTasksError
+    } = useLiveTasks({ isHidden: false });
     const providerButtonRef = useRef<HTMLButtonElement | null>(null);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,7 +68,10 @@ export const Component = (): React.ReactElement => {
         setIsMenuOpen(false);
     }, []);
 
-    const refreshGuideTask = useMemo(() => tasks?.find(value => value.Key === 'RefreshGuide'), [tasks]);
+    const refreshGuideTask = useMemo(
+        () => tasks?.find((value) => value.Key === 'RefreshGuide'),
+        [tasks]
+    );
 
     const refreshGuideData = useCallback(() => {
         if (refreshGuideTask?.Id) {
@@ -75,7 +84,11 @@ export const Component = (): React.ReactElement => {
     if (isConfigPending || isTasksPending) return <Loading />;
 
     return (
-        <Page id="liveTvStatusPage" title={globalize.translate('LiveTV')} className="mainAnimatedPage type-interior">
+        <Page
+            id="liveTvStatusPage"
+            title={globalize.translate('LiveTV')}
+            className="mainAnimatedPage type-interior"
+        >
             <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                 {isConfigError || isTasksError ? (
                     <Alert variant="error">{globalize.translate('HeaderError')}</Alert>
@@ -102,7 +115,7 @@ export const Component = (): React.ReactElement => {
                                 gap: vars.spacing['4']
                             }}
                         >
-                            {config.TunerHosts?.map(tunerHost => (
+                            {config.TunerHosts?.map((tunerHost) => (
                                 <TunerDeviceCard key={tunerHost.Id} tunerHost={tunerHost} />
                             ))}
                         </div>
@@ -111,7 +124,13 @@ export const Component = (): React.ReactElement => {
                             {globalize.translate('HeaderGuideProviders')}
                         </Text>
 
-                        <Flex style={{ alignSelf: 'flex-start', flexDirection: 'column', gap: vars.spacing['4'] }}>
+                        <Flex
+                            style={{
+                                alignSelf: 'flex-start',
+                                flexDirection: 'column',
+                                gap: vars.spacing['4']
+                            }}
+                        >
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Button
                                     style={{ alignSelf: 'flex-start' }}
@@ -131,31 +150,37 @@ export const Component = (): React.ReactElement => {
                                 </Button>
                             </Flex>
 
-                            {refreshGuideTask?.State === TaskState.Running && <TaskProgress task={refreshGuideTask} />}
+                            {refreshGuideTask?.State === TaskState.Running && (
+                                <TaskProgress task={refreshGuideTask} />
+                            )}
                         </Flex>
 
                         <Menu
                             open={isMenuOpen}
-                            onOpenChange={open => !open && onMenuClose()}
+                            onOpenChange={(open) => !open && onMenuClose()}
                             trigger={
                                 <MenuTrigger>
                                     <button
                                         type="button"
-                                        ref={providerButtonRef as React.RefObject<HTMLButtonElement>}
+                                        ref={
+                                            providerButtonRef as React.RefObject<HTMLButtonElement>
+                                        }
                                         style={{ display: 'none' }}
                                     />
                                 </MenuTrigger>
                             }
                         >
                             <MenuContent>
-                                <MenuItem onClick={navigateToSchedulesDirect}>Schedules Direct</MenuItem>
+                                <MenuItem onClick={navigateToSchedulesDirect}>
+                                    Schedules Direct
+                                </MenuItem>
                                 <MenuItem onClick={navigateToXMLTV}>XMLTV</MenuItem>
                             </MenuContent>
                         </Menu>
 
                         {config.ListingProviders && config.ListingProviders?.length > 0 && (
                             <div style={{ backgroundColor: 'var(--colors-surface)' }}>
-                                {config.ListingProviders?.map(provider => (
+                                {config.ListingProviders?.map((provider) => (
                                     <Provider key={provider.Id} provider={provider} />
                                 ))}
                             </div>

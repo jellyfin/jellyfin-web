@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { AppType } from 'constants/appType';
+import React from 'react';
 import { LazyRouteWrapper } from './LazyRouteWrapper';
 
 type RouteObject = {
@@ -56,7 +55,11 @@ const importRoute = (page: string, type: AppType) => {
     return loader() as Promise<any>;
 };
 
-export const toAsyncPageRoute = ({ path, page, type = AppType.Stable }: AsyncRoute): RouteObject => {
+export const toAsyncPageRoute = ({
+    path,
+    page,
+    type = AppType.Stable
+}: AsyncRoute): RouteObject => {
     return {
         path,
         lazy: async () => {

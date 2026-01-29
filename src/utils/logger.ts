@@ -3,7 +3,7 @@
 // Now supports wide events for observability
 
 // Import wide event types
-import type { WideEvent, WideEventLogger, EventOutcome } from './observability/types';
+import type { EventOutcome, WideEvent, WideEventLogger } from './observability/types';
 
 export enum LogLevel {
     DEBUG = 'debug',
@@ -132,7 +132,13 @@ class Logger implements WideEventLogger {
         return logData;
     }
 
-    private log(level: LogLevel, message: string, context?: LogContext, error?: Error, ...args: unknown[]): void {
+    private log(
+        level: LogLevel,
+        message: string,
+        context?: LogContext,
+        error?: Error,
+        ...args: unknown[]
+    ): void {
         if (!this.isDev && level === LogLevel.DEBUG) {
             return;
         }
@@ -149,7 +155,10 @@ class Logger implements WideEventLogger {
                 : `${this.prefix} [${level.toUpperCase()}]: ${message}`;
 
             if (level === LogLevel.ERROR) {
-                console.groupCollapsed(`%c${groupLabel}`, 'color: #DC2626; font-weight: 600; font-size: 12px;');
+                console.groupCollapsed(
+                    `%c${groupLabel}`,
+                    'color: #DC2626; font-weight: 600; font-size: 12px;'
+                );
             } else if (level === LogLevel.WARN) {
                 console.group(`%c${groupLabel}`, ConsoleStyles.main[level]);
             } else if (level === LogLevel.INFO) {
@@ -284,7 +293,10 @@ class Logger implements WideEventLogger {
     /**
      * Format wide event for browser console display
      */
-    private formatWideEventForConsole(wideEvent: WideEvent, level: LogLevel): { cssString: string; args: unknown[] } {
+    private formatWideEventForConsole(
+        wideEvent: WideEvent,
+        level: LogLevel
+    ): { cssString: string; args: unknown[] } {
         const now = new Date();
         const timestamp = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`;
 
@@ -312,7 +324,9 @@ class Logger implements WideEventLogger {
         // Add outcome
         parts.push('%c%s');
         const outcomeColor =
-            wideEvent.outcome === 'error' ? ConsoleStyles.main[LogLevel.ERROR] : ConsoleStyles.main[LogLevel.INFO];
+            wideEvent.outcome === 'error'
+                ? ConsoleStyles.main[LogLevel.ERROR]
+                : ConsoleStyles.main[LogLevel.INFO];
         args.push(
             outcomeColor,
             `${wideEvent.outcome.toUpperCase()}${wideEvent.duration ? ` (${wideEvent.duration}ms)` : ''}`
@@ -342,7 +356,10 @@ class Logger implements WideEventLogger {
         if (wideEvent.outcome === 'error' && wideEvent.error) {
             try {
                 const { errorMonitor } = require('./errorMonitor');
-                errorMonitor.captureError(wideEvent.error.message, `WideEvent:${wideEvent.operation}`);
+                errorMonitor.captureError(
+                    wideEvent.error.message,
+                    `WideEvent:${wideEvent.operation}`
+                );
             } catch {
                 // Silently fail if errorMonitor not available
             }

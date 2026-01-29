@@ -6,14 +6,14 @@
  */
 
 import WavesurferPlayer from '@wavesurfer/react';
-import type WaveSurfer from 'wavesurfer.js';
-import { useEffect, useRef, useCallback, type ReactElement } from 'react';
+import { type ReactElement, useCallback, useEffect, useRef } from 'react';
 import { useVisualizerStore } from 'store/visualizerStore';
 import { vars } from 'styles/tokens.css.ts';
+import type WaveSurfer from 'wavesurfer.js';
 import {
-    container,
     bufferedOverlay,
     bufferedSegment,
+    container,
     crossfadingOverlay,
     crossfadingText
 } from './CrossfadeWaveSurfer.css.ts';
@@ -55,7 +55,8 @@ export function CrossfadeWaveSurfer({
 
     const { crossfadeZoomLevel, userZoomLevel, showCrossfadeOverlap } = useVisualizerStore();
 
-    const effectiveZoom = isCrossfading && showCrossfadeOverlap ? crossfadeZoomLevel : userZoomLevel;
+    const effectiveZoom =
+        isCrossfading && showCrossfadeOverlap ? crossfadeZoomLevel : userZoomLevel;
 
     useEffect(() => {
         if (wsRef.current === null) return;
@@ -97,7 +98,7 @@ export function CrossfadeWaveSurfer({
     );
 
     const renderBuffered = (): ReactElement[] => {
-        return buffered.map(range => {
+        return buffered.map((range) => {
             const startPercent = (range.start / duration) * 100;
             const widthPercent = ((range.end - range.start) / duration) * 100;
             return (
@@ -116,7 +117,11 @@ export function CrossfadeWaveSurfer({
     return (
         <div className={`${container} ${className ?? ''}`} style={{ height }}>
             <div className={bufferedOverlay}>{renderBuffered()}</div>
-            <div id="ws-crossfade-overlay" ref={containerRef} style={{ position: 'relative', zIndex: 1 }}>
+            <div
+                id="ws-crossfade-overlay"
+                ref={containerRef}
+                style={{ position: 'relative', zIndex: 1 }}
+            >
                 <WavesurferPlayer
                     url={currentTrack.url}
                     height={height}

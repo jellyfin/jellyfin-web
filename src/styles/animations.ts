@@ -1,4 +1,4 @@
-import { motion, Variants, Easing } from 'motion/react';
+import { Easing, motion, Variants } from 'motion/react';
 
 export const fadeInVariants: Variants = {
     hidden: { opacity: 0 },

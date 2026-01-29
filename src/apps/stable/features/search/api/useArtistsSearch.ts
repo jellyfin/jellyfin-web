@@ -25,7 +25,11 @@ const fetchArtists = async (
     return response.data;
 };
 
-export const useArtistsSearch = (parentId?: string, collectionType?: CollectionType, searchTerm?: string) => {
+export const useArtistsSearch = (
+    parentId?: string,
+    collectionType?: CollectionType,
+    searchTerm?: string
+) => {
     const { api, user } = useApi();
     const userId = user?.Id;
 

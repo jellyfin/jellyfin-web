@@ -1,1 +1,8 @@
-export { sliderRoot, sliderTrack, sliderRange, sliderThumb, type SliderProps, Slider } from './Slider';
+export {
+    Slider,
+    type SliderProps,
+    sliderRange,
+    sliderRoot,
+    sliderThumb,
+    sliderTrack
+} from './Slider';

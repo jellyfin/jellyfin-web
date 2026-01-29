@@ -1,15 +1,13 @@
-import React, { type FC, useCallback, useEffect, useState } from 'react';
-import Events, { Event } from 'utils/events';
-import serverNotifications from 'scripts/serverNotifications';
 import classNames from 'classnames';
-import { deprecate } from '../../utils/deprecation';
-
-import { Box } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-import { toPercentString } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'lib/globalize';
+import React, { type FC, useCallback, useEffect, useState } from 'react';
+import serverNotifications from 'scripts/serverNotifications';
+import { vars } from 'styles/tokens.css.ts';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { Box, Text } from 'ui-primitives';
+import Events, { Event } from 'utils/events';
+import { toPercentString } from 'utils/number';
+import { deprecate } from '../../utils/deprecation';
 
 function CircularProgressWithLabel(props: { value: number }) {
     const size = 40;
@@ -75,11 +73,17 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
         'src/elements/emby-itemrefreshindicator/RefreshIndicator.tsx'
     );
 
-    const [showProgressBar, setShowProgressBar] = useState(item.RefreshProgress !== undefined && item.RefreshProgress !== null);
+    const [showProgressBar, setShowProgressBar] = useState(
+        item.RefreshProgress !== undefined && item.RefreshProgress !== null
+    );
     const [progress, setProgress] = useState(item.RefreshProgress ?? 0);
 
     const onRefreshProgress = useCallback(
-        (_e: Event, _apiClient: unknown, info: { ItemId: string | null | undefined; Progress: string }) => {
+        (
+            _e: Event,
+            _apiClient: unknown,
+            info: { ItemId: string | null | undefined; Progress: string }
+        ) => {
             if (info.ItemId === item?.Id) {
                 const pct = parseFloat(info.Progress);
 

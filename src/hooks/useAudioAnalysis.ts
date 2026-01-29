@@ -10,9 +10,14 @@
  * ```
  */
 
+import {
+    AudioAnalysisResult,
+    AudioFeatures,
+    loadAudioAnalyzer,
+    TransitionSuggestion
+} from 'components/audioAnalysis';
 import { useCallback, useRef, useState } from 'react';
-import { loadAudioAnalyzer, AudioAnalysisResult, AudioFeatures, TransitionSuggestion } from 'components/audioAnalysis';
-import { useAnalysisStore, TrackAnalysis } from 'store/analysisStore';
+import { TrackAnalysis, useAnalysisStore } from 'store/analysisStore';
 
 interface UseAudioAnalysisReturn {
     analyze: (trackId: string, audioBuffer: AudioBuffer) => Promise<AudioAnalysisResult>;
@@ -69,9 +74,15 @@ interface WasmStructure {
 }
 
 interface WasmAnalyzer {
-    AudioAnalyzer: new (fftSize?: number) => {
+    AudioAnalyzer: new (
+        fftSize?: number
+    ) => {
         analyze(samples: Float32Array, sampleRate: number): WasmFeatures;
-        analyzeStructure(samples: Float32Array, sampleRate: number, features: WasmFeatures): WasmStructure;
+        analyzeStructure(
+            samples: Float32Array,
+            sampleRate: number,
+            features: WasmFeatures
+        ): WasmStructure;
         classifyGenre(features: WasmFeatures): {
             primary_genre: string;
             genre_confidence: number;
@@ -221,7 +232,12 @@ export function useAudioAnalysis(): UseAudioAnalysisReturn {
     const analyze = useCallback(
         async (trackId: string, audioBuffer: AudioBuffer): Promise<AudioAnalysisResult> => {
             const channelData = audioBuffer.getChannelData(0);
-            return analyzeFromSamples(trackId, channelData, audioBuffer.sampleRate, audioBuffer.duration);
+            return analyzeFromSamples(
+                trackId,
+                channelData,
+                audioBuffer.sampleRate,
+                audioBuffer.duration
+            );
         },
         [analyzeFromSamples]
     );
@@ -283,7 +299,11 @@ export function useAudioAnalysis(): UseAudioAnalysisReturn {
                   };
 
             const nextFeatures = analyzer.analyze(nextSamples, nextAudioBuffer.sampleRate);
-            const nextStructure = analyzer.analyzeStructure(nextSamples, nextAudioBuffer.sampleRate, nextFeatures);
+            const nextStructure = analyzer.analyzeStructure(
+                nextSamples,
+                nextAudioBuffer.sampleRate,
+                nextFeatures
+            );
 
             const currentStructure = currentAnalysis?.structure
                 ? {
@@ -309,7 +329,11 @@ export function useAudioAnalysis(): UseAudioAnalysisReturn {
                       section_count: 3
                   };
 
-            const suggestion = analyzer.suggestTransition(currentFeatures, nextFeatures, nextStructure);
+            const suggestion = analyzer.suggestTransition(
+                currentFeatures,
+                nextFeatures,
+                nextStructure
+            );
 
             const transition: TransitionSuggestion = {
                 transitionType: suggestion.transition_type,

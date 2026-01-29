@@ -1,18 +1,24 @@
-import React, { useCallback, useState } from 'react';
 import type { ListingsProviderInfo } from '@jellyfin/sdk/lib/generated-client/models/listings-provider-info';
-import { Avatar } from 'ui-primitives';
-import { List, ListItem, ListItemContent, ListItemDecorator } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Menu, MenuItem } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
+import ConfirmDialog from 'components/ConfirmDialog';
+import ChannelMapper from 'components/channelMapper/channelMapper';
 import ListItemLink from 'components/ListItemLink';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useState } from 'react';
+import {
+    Avatar,
+    IconButton,
+    List,
+    ListItem,
+    ListItemContent,
+    ListItemDecorator,
+    Menu,
+    MenuItem,
+    Text
+} from 'ui-primitives';
+import { useDeleteProvider } from '../api/useDeleteProvider';
 import getProviderConfigurationUrl from '../utils/getProviderConfigurationUrl';
 import getProviderName from '../utils/getProviderName';
-import ConfirmDialog from 'components/ConfirmDialog';
-import globalize from 'lib/globalize';
-import ChannelMapper from 'components/channelMapper/channelMapper';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { useDeleteProvider } from '../api/useDeleteProvider';
 
 // Inline SVG icons
 const DvrIcon = () => (
@@ -109,7 +115,9 @@ const Provider = ({ provider }: ProviderProps) => {
                         </IconButton>
                     }
                 >
-                    <ListItemLink to={getProviderConfigurationUrl(provider.Type || '') + '&id=' + provider.Id}>
+                    <ListItemLink
+                        to={getProviderConfigurationUrl(provider.Type || '') + '&id=' + provider.Id}
+                    >
                         <ListItemDecorator>
                             <Avatar color="primary">
                                 <DvrIcon />

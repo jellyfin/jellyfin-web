@@ -1,11 +1,11 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import React, { type FC } from 'react';
-import { useGetGenres } from 'hooks/useFetchItems';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import Loading from 'components/loading/LoadingComponent';
-import GenresSectionContainer from './GenresSectionContainer';
+import { useGetGenres } from 'hooks/useFetchItems';
+import React, { type FC } from 'react';
 import type { ParentId } from 'types/library';
+import GenresSectionContainer from './GenresSectionContainer';
 
 interface GenresItemsContainerProps {
     parentId: ParentId;
@@ -29,7 +29,7 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
         return <NoItemsMessage message="MessageNoGenresAvailable" />;
     }
 
-    return genresResult.Items.map(genre => (
+    return genresResult.Items.map((genre) => (
         <GenresSectionContainer
             key={genre.Id}
             collectionType={collectionType}

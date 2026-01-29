@@ -1,6 +1,6 @@
+import React, { type FC } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import React, { type FC } from 'react';
 import { Box } from 'ui-primitives';
 import { container } from './ReactMarkdownBox.css.ts';
 

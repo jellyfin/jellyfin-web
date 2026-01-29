@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, type HTMLAttributes, type ReactNode } from 'react';
+import { type HTMLAttributes, type ReactElement, type ReactNode } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 
 interface BoxProps extends HTMLAttributes<HTMLDivElement> {
@@ -125,7 +125,11 @@ function FlexCenteredStory(): ReactElement {
         <Flex
             align="center"
             justify="center"
-            style={{ height: '200px', backgroundColor: vars.colors.surface, borderRadius: vars.borderRadius.md }}
+            style={{
+                height: '200px',
+                backgroundColor: vars.colors.surface,
+                borderRadius: vars.borderRadius.md
+            }}
         >
             <DemoBox label="Centered" />
         </Flex>

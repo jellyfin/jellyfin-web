@@ -1,10 +1,10 @@
 import escapeHtml from 'escape-html';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
 import dom from '../../utils/dom';
+import actionsheet from '../actionSheet/actionSheet';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import actionsheet from '../actionSheet/actionSheet';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-button/emby-button';
@@ -28,7 +28,7 @@ export default class ChannelMapper {
                     contentType: 'application/json',
                     dataType: 'json'
                 })
-                .then(mapping => {
+                .then((mapping) => {
                     const listItem = dom.parentWithClass(button, 'listItem');
                     button.setAttribute('data-providerid', mapping.ProviderChannelId);
                     listItem.querySelector('.secondary').innerText = getMappingSecondaryName(
@@ -45,7 +45,7 @@ export default class ChannelMapper {
             if (btnMap) {
                 const channelId = btnMap.getAttribute('data-id');
                 const providerChannelId = btnMap.getAttribute('data-providerid');
-                const menuItems = currentMappingOptions.ProviderChannels.map(m => {
+                const menuItems = currentMappingOptions.ProviderChannels.map((m) => {
                     return {
                         name: m.Name,
                         id: m.Id,
@@ -59,7 +59,7 @@ export default class ChannelMapper {
                         positionTo: btnMap,
                         items: menuItems
                     })
-                    .then(newChannelId => {
+                    .then((newChannelId) => {
                         mapChannel(btnMap, channelId, newChannelId);
                     });
             }
@@ -114,14 +114,16 @@ export default class ChannelMapper {
         }
 
         function initEditor(dlg, initOptions) {
-            getChannelMappingOptions(initOptions.serverId, initOptions.providerId).then(result => {
-                currentMappingOptions = result;
-                const channelsElement = dlg.querySelector('.channels');
-                channelsElement.innerHTML = result.TunerChannels.map(channel => {
-                    return getTunerChannelHtml(channel, result.ProviderName);
-                }).join('');
-                channelsElement.addEventListener('click', onChannelsElementClick);
-            });
+            getChannelMappingOptions(initOptions.serverId, initOptions.providerId).then(
+                (result) => {
+                    currentMappingOptions = result;
+                    const channelsElement = dlg.querySelector('.channels');
+                    channelsElement.innerHTML = result.TunerChannels.map((channel) => {
+                        return getTunerChannelHtml(channel, result.ProviderName);
+                    }).join('');
+                    channelsElement.addEventListener('click', onChannelsElementClick);
+                }
+            );
         }
 
         let currentMappingOptions;
@@ -149,7 +151,7 @@ export default class ChannelMapper {
             dlg.querySelector('.btnCancel').addEventListener('click', () => {
                 dialogHelper.close(dlg);
             });
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 dlg.addEventListener('close', resolve);
                 dialogHelper.open(dlg);
             });

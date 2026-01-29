@@ -10,16 +10,13 @@
  */
 
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { FunctionComponent } from 'react';
-import { formatDistanceToNow } from 'date-fns';
-import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
-import globalize from '../../../lib/globalize';
-import { Card, CardBody } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Avatar } from 'ui-primitives';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { Link } from '@tanstack/react-router';
+import { formatDistanceToNow } from 'date-fns';
+import React, { FunctionComponent } from 'react';
+import { Avatar, Card, CardBody, Heading, IconButton, Text } from 'ui-primitives';
+import globalize from '../../../lib/globalize';
+import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import * as styles from './UserCardBox.css.ts';
 
 type IProps = {
@@ -68,7 +65,9 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {}, onMenuClick }: IPro
                 </div>
                 {isDisabled && (
                     <div className={styles.disabledOverlay}>
-                        <Text className={styles.disabledText}>{globalize.translate('LabelDisabled')}</Text>
+                        <Text className={styles.disabledText}>
+                            {globalize.translate('LabelDisabled')}
+                        </Text>
                     </div>
                 )}
             </div>

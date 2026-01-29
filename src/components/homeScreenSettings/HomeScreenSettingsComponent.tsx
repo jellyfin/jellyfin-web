@@ -1,13 +1,8 @@
+import React, { useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-
-import React, { useState, useEffect } from 'react';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControl, FormLabel } from 'ui-primitives';
+import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Text } from 'ui-primitives';
 import { logger } from 'utils/logger';
-import { getEnvironmentContext, generateEventId } from 'utils/observability';
+import { generateEventId, getEnvironmentContext } from 'utils/observability';
 
 interface HomeScreenSettingsProps {
     isTv?: boolean;
@@ -33,10 +28,15 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
     const [enableSaveButton, setEnableSaveButton] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const [landingScreenOptions, setLandingScreenOptions] = useState<Record<string, LandingScreenOption[]>>({});
+    const [landingScreenOptions, setLandingScreenOptions] = useState<
+        Record<string, LandingScreenOption[]>
+    >({});
     const [views, setViews] = useState<CollectionView[]>([]);
 
-    const sectionLabels = Array.from({ length: numConfigurableSections }, (_, i) => `Home Screen Section ${i + 1}`);
+    const sectionLabels = Array.from(
+        { length: numConfigurableSections },
+        (_, i) => `Home Screen Section ${i + 1}`
+    );
 
     useEffect(() => {
         logger.emit({
@@ -80,7 +80,7 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
             });
 
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
 
             logger.emit({
                 operation: 'HomeScreenSettings.SaveCompleted',
@@ -92,7 +92,8 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
                 userId: globalThis.localStorage?.getItem('userId') || 'anonymous',
                 businessContext: {
                     success: true,
-                    settingsCount: Object.keys(homeSectionsOrder).length + Object.keys(landingScreens).length
+                    settingsCount:
+                        Object.keys(homeSectionsOrder).length + Object.keys(landingScreens).length
                 }
             });
         } catch (error) {
@@ -128,7 +129,7 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
     };
 
     const handleLandingScreenChange = (viewId: string, value: string) => {
-        setLandingScreens(prev => ({
+        setLandingScreens((prev) => ({
             ...prev,
             [viewId]: value
         }));
@@ -136,7 +137,7 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
     };
 
     const handleSectionOrderChange = (sectionIndex: number, value: string) => {
-        setHomeSectionsOrder(prev => {
+        setHomeSectionsOrder((prev) => {
             const newOrder = { ...prev };
             newOrder[sectionIndex] = value;
             return newOrder;
@@ -147,7 +148,7 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
     return (
         <Box>
             <form
-                onSubmit={e => {
+                onSubmit={(e) => {
                     e.preventDefault();
                     handleSave();
                 }}
@@ -163,13 +164,21 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
                                 <FormLabel>TV Home Screen</FormLabel>
                                 <select
                                     value={tvHomeScreen}
-                                    onChange={e => setTvHomeScreen(e.target.value)}
-                                    style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                                    onChange={(e) => setTvHomeScreen(e.target.value)}
+                                    style={{
+                                        padding: '8px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc'
+                                    }}
                                 >
                                     <option value="horizontal">Horizontal</option>
                                     <option value="vertical">Vertical</option>
                                 </select>
-                                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['1'] }}>
+                                <Text
+                                    size="sm"
+                                    color="secondary"
+                                    style={{ marginTop: vars.spacing['1'] }}
+                                >
                                     Please restart
                                 </Text>
                             </FormControl>
@@ -197,7 +206,7 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
                                     <FormLabel>{sectionLabels[sectionIndex]}</FormLabel>
                                     <select
                                         value={homeSectionsOrder[sectionIndex] || ''}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                             handleSectionOrderChange(sectionIndex, e.target.value);
                                         }}
                                         style={{
@@ -220,19 +229,23 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
 
                     <Box style={{ height: '24px' }} />
 
-                    {views.map(view => (
+                    {views.map((view) => (
                         <Box key={view.Id} style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{view.Name} Landing Screen</FormLabel>
                                 <select
                                     value={
                                         landingScreens[
-                                            view.CollectionType === 'livetv' ? view.CollectionType : view.Id
+                                            view.CollectionType === 'livetv'
+                                                ? view.CollectionType
+                                                : view.Id
                                         ] || ''
                                     }
-                                    onChange={e =>
+                                    onChange={(e) =>
                                         handleLandingScreenChange(
-                                            view.CollectionType === 'livetv' ? view.CollectionType : view.Id,
+                                            view.CollectionType === 'livetv'
+                                                ? view.CollectionType
+                                                : view.Id,
                                             e.target.value
                                         )
                                     }
@@ -244,11 +257,13 @@ const HomeScreenSettingsComponent: React.FC<HomeScreenSettingsProps> = ({ isTv =
                                     }}
                                 >
                                     <option value="">Default</option>
-                                    {(landingScreenOptions[view.CollectionType || ''] || []).map(opt => (
-                                        <option key={opt.value} value={opt.value}>
-                                            {opt.name}
-                                        </option>
-                                    ))}
+                                    {(landingScreenOptions[view.CollectionType || ''] || []).map(
+                                        (opt) => (
+                                            <option key={opt.value} value={opt.value}>
+                                                {opt.name}
+                                            </option>
+                                        )
+                                    )}
                                 </select>
                             </FormControl>
                         </Box>

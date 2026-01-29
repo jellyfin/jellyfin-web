@@ -1,1 +1,10 @@
-export { toggleRoot, toggleVariant, toggleSizes, toggleGroupRoot, toggleGroupItem, Toggle, ToggleGroup, ToggleGroupItem } from './Toggle';
+export {
+    Toggle,
+    ToggleGroup,
+    ToggleGroupItem,
+    toggleGroupItem,
+    toggleGroupRoot,
+    toggleRoot,
+    toggleSizes,
+    toggleVariant
+} from './Toggle';

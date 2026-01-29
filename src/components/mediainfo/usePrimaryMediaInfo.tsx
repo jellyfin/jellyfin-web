@@ -1,15 +1,15 @@
-import * as userSettings from 'scripts/settings/userSettings';
-import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
-import itemHelper from '../itemHelper';
-import { logger } from 'utils/logger';
+import datetime from 'scripts/datetime';
+import * as userSettings from 'scripts/settings/userSettings';
+import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import { ItemStatus } from 'types/base/models/item-status';
-import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
+import { logger } from 'utils/logger';
+import itemHelper from '../itemHelper';
 import { PrimaryInfoOpts } from './type';
 
 function shouldShowFolderRuntime(
@@ -47,7 +47,10 @@ function addTrackCountOrItemCount(
                 text: datetime.getDisplayDuration(itemRunTimeTicks)
             });
         }
-    } else if (showItemCountInfo && (itemType === ItemKind.PhotoAlbum || itemType === ItemKind.BoxSet)) {
+    } else if (
+        showItemCountInfo &&
+        (itemType === ItemKind.PhotoAlbum || itemType === ItemKind.BoxSet)
+    ) {
         const count = itemChildCount;
         if (count) {
             addMiscInfo({ text: globalize.translate('ItemCount', count) });
@@ -72,7 +75,10 @@ function addOriginalAirDateInfo(
             const date = datetime.parseISO8601Date(itemPremiereDate, itemType !== ItemKind.Episode);
             addMiscInfo({ text: datetime.toLocaleDateString(date) });
         } catch {
-            logger.error('Error parsing date', { component: 'PrimaryMediaInfo', date: itemPremiereDate });
+            logger.error('Error parsing date', {
+                component: 'PrimaryMediaInfo',
+                date: itemPremiereDate
+            });
         }
     }
 }
@@ -103,7 +109,10 @@ function addSeriesTimerInfo(
     }
 }
 
-function addProgramIndicatorInfo(program: ItemDto | undefined, addMiscInfo: (val: MiscInfo) => void): void {
+function addProgramIndicatorInfo(
+    program: ItemDto | undefined,
+    addMiscInfo: (val: MiscInfo) => void
+): void {
     if (program?.IsLive && userSettings.get('guide-indicator-live') === 'true') {
         addMiscInfo({
             text: globalize.translate('Live'),
@@ -114,12 +123,20 @@ function addProgramIndicatorInfo(program: ItemDto | undefined, addMiscInfo: (val
             text: globalize.translate('Premiere'),
             cssClass: 'mediaInfoProgramAttribute premiereTvProgram'
         });
-    } else if (program?.IsSeries && !program?.IsRepeat && userSettings.get('guide-indicator-new') === 'true') {
+    } else if (
+        program?.IsSeries &&
+        !program?.IsRepeat &&
+        userSettings.get('guide-indicator-new') === 'true'
+    ) {
         addMiscInfo({
             text: globalize.translate('New'),
             cssClass: 'mediaInfoProgramAttribute newTvProgram'
         });
-    } else if (program?.IsSeries && program?.IsRepeat && userSettings.get('guide-indicator-repeat') === 'true') {
+    } else if (
+        program?.IsSeries &&
+        program?.IsRepeat &&
+        userSettings.get('guide-indicator-repeat') === 'true'
+    ) {
         addMiscInfo({
             text: globalize.translate('Repeat'),
             cssClass: 'mediaInfoProgramAttribute repeatTvProgram'
@@ -173,15 +190,24 @@ function addProgramTextInfo(
         if (text) {
             addMiscInfo({ text: text });
         }
-    } else if (((showOriginalAirDateInfo && program.IsMovie) || showYearInfo) && program.ProductionYear) {
+    } else if (
+        ((showOriginalAirDateInfo && program.IsMovie) || showYearInfo) &&
+        program.ProductionYear
+    ) {
         addMiscInfo({ text: program.ProductionYear });
     } else if (showOriginalAirDateInfo && program.PremiereDate) {
         try {
             const date = datetime.parseISO8601Date(program.PremiereDate);
-            const text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
+            const text = globalize.translate(
+                'OriginalAirDateValue',
+                datetime.toLocaleDateString(date)
+            );
             addMiscInfo({ text: text });
         } catch {
-            logger.error('Error parsing premiere date', { component: 'PrimaryMediaInfo', date: program.PremiereDate });
+            logger.error('Error parsing premiere date', {
+                component: 'PrimaryMediaInfo',
+                date: program.PremiereDate
+            });
         }
     }
 }
@@ -207,7 +233,10 @@ function addStartDateInfo(
                 addMiscInfo({ text: datetime.getDisplayTime(date) });
             }
         } catch {
-            logger.error('Error parsing start date', { component: 'PrimaryMediaInfo', date: itemStartDate });
+            logger.error('Error parsing start date', {
+                component: 'PrimaryMediaInfo',
+                date: itemStartDate
+            });
         }
     }
 }
@@ -246,7 +275,10 @@ function addproductionYearWithEndDate(
                 productionYear += `-${endYear}`;
             }
         } catch {
-            logger.error('Error parsing end date', { component: 'PrimaryMediaInfo', date: itemEndDate });
+            logger.error('Error parsing end date', {
+                component: 'PrimaryMediaInfo',
+                date: itemEndDate
+            });
         }
     }
     addMiscInfo({ text: productionYear });
@@ -276,7 +308,10 @@ function addYearInfo(
                 const text = String(datetime.parseISO8601Date(itemPremiereDate).getFullYear());
                 addMiscInfo({ text: text });
             } catch {
-                logger.error('Error parsing premiere date for year', { component: 'PrimaryMediaInfo', date: itemPremiereDate });
+                logger.error('Error parsing premiere date for year', {
+                    component: 'PrimaryMediaInfo',
+                    date: itemPremiereDate
+                });
             }
         }
     }
@@ -326,7 +361,12 @@ function addOfficialRatingInfo(
     itemType: ItemKind,
     addMiscInfo: (val: MiscInfo) => void
 ): void {
-    if (showOfficialRatingInfo && itemOfficialRating && itemType !== ItemKind.Season && itemType !== ItemKind.Episode) {
+    if (
+        showOfficialRatingInfo &&
+        itemOfficialRating &&
+        itemType !== ItemKind.Season &&
+        itemType !== ItemKind.Episode
+    ) {
         addMiscInfo({
             text: itemOfficialRating,
             cssClass: 'mediaInfoText mediaInfoOfficialRating'
@@ -423,7 +463,15 @@ function usePrimaryMediaInfo({
 
     addOriginalAirDateInfo(showOriginalAirDateInfo, Type, MediaType, PremiereDate, addMiscInfo);
 
-    addSeriesTimerInfo(showSeriesTimerInfo, Type, RecordAnyTime, StartDate, RecordAnyChannel, ChannelName, addMiscInfo);
+    addSeriesTimerInfo(
+        showSeriesTimerInfo,
+        Type,
+        RecordAnyTime,
+        StartDate,
+        RecordAnyChannel,
+        ChannelName,
+        addMiscInfo
+    );
 
     addStartDateInfo(showStartDateInfo, StartDate, Type, addMiscInfo);
 

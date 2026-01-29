@@ -1,23 +1,11 @@
-import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react';
-
-import { Box } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Avatar } from 'ui-primitives';
-import { Menu, MenuItem } from 'ui-primitives';
-
-// Material Icons
-import { DiscIcon, DotsVerticalIcon, DragHandleDots2Icon, PlayIcon, TrashIcon } from '@radix-ui/react-icons';
-
-import { useVirtualizer } from '@tanstack/react-virtual';
 import {
-    DndContext,
     closestCenter,
+    DndContext,
+    type DragEndEvent,
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors,
-    type DragEndEvent
+    useSensors
 } from '@dnd-kit/core';
 import {
     SortableContext,
@@ -26,12 +14,23 @@ import {
     verticalListSortingStrategy
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+// Material Icons
+import {
+    DiscIcon,
+    DotsVerticalIcon,
+    DragHandleDots2Icon,
+    PlayIcon,
+    TrashIcon
+} from '@radix-ui/react-icons';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { playbackManager } from 'components/playback/playbackmanager';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { WaveformCell } from 'components/visualizer/WaveformCell';
 import { getCachedPeaks } from 'components/visualizer/WaveSurfer';
-import Events, { type EventObject } from 'utils/events';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Avatar, Box, IconButton, Menu, MenuItem, Text } from 'ui-primitives';
+import Events, { type EventObject } from 'utils/events';
 import {
     dragHandle,
     headerRow,
@@ -90,7 +89,9 @@ const SortableRow: React.FC<SortableRowProps> = ({
     onRemove
 }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.Id });
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id: item.Id
+    });
 
     const style: React.CSSProperties = {
         transform: CSS.Transform.toString(transform),
@@ -102,7 +103,11 @@ const SortableRow: React.FC<SortableRowProps> = ({
     const peaks = getWaveformPeaks(item);
 
     return (
-        <div ref={setNodeRef} className={`${tableRow} ${isDragging ? rowDragging : ''}`} style={style}>
+        <div
+            ref={setNodeRef}
+            className={`${tableRow} ${isDragging ? rowDragging : ''}`}
+            style={style}
+        >
             {/* Drag Handle */}
             <Box style={{ width: 40, flexShrink: 0 }} {...attributes} {...listeners}>
                 <IconButton variant="plain" size="sm" color="neutral" className={dragHandle}>
@@ -173,7 +178,14 @@ const SortableRow: React.FC<SortableRowProps> = ({
             </Box>
 
             {/* Duration */}
-            <Box style={{ width: 60, flexShrink: 0, textAlign: 'right', paddingRight: vars.spacing['2'] }}>
+            <Box
+                style={{
+                    width: 60,
+                    flexShrink: 0,
+                    textAlign: 'right',
+                    paddingRight: vars.spacing['2']
+                }}
+            >
                 <Text as="span" size="xs" color="muted">
                     {formatDuration(item.RunTimeTicks)}
                 </Text>
@@ -205,7 +217,13 @@ const SortableRow: React.FC<SortableRowProps> = ({
     );
 };
 
-export const QueueTable: React.FC<QueueTableProps> = ({ queueData, currentIndex, onReorder, onRemove, onPlay }) => {
+export const QueueTable: React.FC<QueueTableProps> = ({
+    queueData,
+    currentIndex,
+    onReorder,
+    onRemove,
+    onPlay
+}) => {
     const [playbackTime, setPlaybackTime] = useState(0);
     const parentRef = useRef<HTMLDivElement>(null);
     const previousIndexRef = useRef(currentIndex);
@@ -222,8 +240,8 @@ export const QueueTable: React.FC<QueueTableProps> = ({ queueData, currentIndex,
             const { active, over } = event;
 
             if (over && active.id !== over.id) {
-                const oldIndex = queueData.findIndex(item => item.Id === active.id);
-                const newIndex = queueData.findIndex(item => item.Id === over.id);
+                const oldIndex = queueData.findIndex((item) => item.Id === active.id);
+                const newIndex = queueData.findIndex((item) => item.Id === over.id);
                 if (oldIndex !== -1 && newIndex !== -1) {
                     onReorder(oldIndex, newIndex);
                 }
@@ -310,7 +328,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({ queueData, currentIndex,
         };
     }, []);
 
-    const sortableIds = useMemo(() => queueData.map(item => item.Id), [queueData]);
+    const sortableIds = useMemo(() => queueData.map((item) => item.Id), [queueData]);
 
     return (
         <div className={tableContainer}>
@@ -318,18 +336,33 @@ export const QueueTable: React.FC<QueueTableProps> = ({ queueData, currentIndex,
             <div className={headerRow}>
                 <Box style={{ width: 40 }} />
                 <Box style={{ width: 50 }}>
-                    <Text as="span" size="xs" color="muted" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                    <Text
+                        as="span"
+                        size="xs"
+                        color="muted"
+                        style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+                    >
                         #
                     </Text>
                 </Box>
                 <Box style={{ flex: '1 1 auto', padding: `0 ${vars.spacing['5']}` }}>
-                    <Text as="span" size="xs" color="muted" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                    <Text
+                        as="span"
+                        size="xs"
+                        color="muted"
+                        style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+                    >
                         Title
                     </Text>
                 </Box>
                 <Box style={{ width: 150 }} className={hideOnSmall} />
                 <Box style={{ width: 60, textAlign: 'right', paddingRight: vars.spacing['2'] }}>
-                    <Text as="span" size="xs" color="muted" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
+                    <Text
+                        as="span"
+                        size="xs"
+                        color="muted"
+                        style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+                    >
                         Time
                     </Text>
                 </Box>
@@ -337,11 +370,18 @@ export const QueueTable: React.FC<QueueTableProps> = ({ queueData, currentIndex,
             </div>
 
             {/* Virtualized List */}
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+            >
                 <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
                     <div ref={parentRef} className={scrollContainer}>
-                        <div className={virtualList} style={{ height: rowVirtualizer.getTotalSize() }}>
-                            {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                        <div
+                            className={virtualList}
+                            style={{ height: rowVirtualizer.getTotalSize() }}
+                        >
+                            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                                 const item = queueData[virtualRow.index];
                                 const isCurrent = virtualRow.index === currentIndex;
                                 const isNext = virtualRow.index === currentIndex + 1;

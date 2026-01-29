@@ -101,7 +101,10 @@ export class BackspinHandler {
         this.triggerHaptic('click', hapticEnabled);
     }
 
-    private handlePausedWithCompensation(compensationSeconds: number, hapticEnabled: boolean): void {
+    private handlePausedWithCompensation(
+        compensationSeconds: number,
+        hapticEnabled: boolean
+    ): void {
         if (this.mediaElement) {
             const position = this.mediaElement.currentTime;
             const safePosition = Math.max(0, position - compensationSeconds);
@@ -183,17 +186,23 @@ export class BackspinHandler {
 
     private canPause(): boolean {
         const state = useBackspinStore.getState().state;
-        return state === 'LOCKED_PLAYING' || state === 'RESUMING_SPINUP' || state === 'SCRATCH_DRAG';
+        return (
+            state === 'LOCKED_PLAYING' || state === 'RESUMING_SPINUP' || state === 'SCRATCH_DRAG'
+        );
     }
 
     private canPlay(): boolean {
         const state = useBackspinStore.getState().state;
-        return state === 'PAUSED_HELD' || state === 'PAUSING_SLOWDOWN' || state === 'STOPPING_BRAKE';
+        return (
+            state === 'PAUSED_HELD' || state === 'PAUSING_SLOWDOWN' || state === 'STOPPING_BRAKE'
+        );
     }
 
     private canStop(): boolean {
         const state = useBackspinStore.getState().state;
-        return state === 'LOCKED_PLAYING' || state === 'RESUMING_SPINUP' || state === 'SCRATCH_DRAG';
+        return (
+            state === 'LOCKED_PLAYING' || state === 'RESUMING_SPINUP' || state === 'SCRATCH_DRAG'
+        );
     }
 
     destroy(): void {

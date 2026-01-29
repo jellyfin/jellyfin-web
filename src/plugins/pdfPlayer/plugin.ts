@@ -1,15 +1,14 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-
-import loading from '../../components/loading/loading';
-import keyboardnavigation from '../../scripts/keyboardNavigation';
-import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
-import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin';
-import Events from '../../utils/events';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import dialogHelper from '../../components/dialogHelper/dialogHelper';
+import loading from '../../components/loading/loading';
+import { appRouter } from '../../components/router/appRouter';
+import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { useBookStore } from '../../store/bookStore';
+import { PluginType } from '../../types/plugin';
+import dom from '../../utils/dom';
+import Events from '../../utils/events';
 
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -122,7 +121,9 @@ export class PdfPlayer {
     bindEvents() {
         const elem = this.mediaElement;
         elem.addEventListener('close', this.onDialogClosed, { once: true });
-        elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
+        elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, {
+            once: true
+        });
 
         document.addEventListener('keydown', this.onWindowKeyDown);
         document.addEventListener('touchstart', this.onTouchStart);
@@ -170,7 +171,8 @@ export class PdfPlayer {
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }: any) => {
             const api = toApi(ServerConnections.getApiClient(item.ServerId));
             const libraryApi = getLibraryApi(api) as any;
-            const downloadHref = (libraryApi.getDownloadUrl?.({ itemId: item.Id }) || libraryApi.getDownload?.({ itemId: item.Id })) as string;
+            const downloadHref = (libraryApi.getDownloadUrl?.({ itemId: item.Id }) ||
+                libraryApi.getDownload?.({ itemId: item.Id })) as string;
 
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
@@ -254,7 +256,8 @@ export class PdfPlayer {
         this.book.getPage(number).then((page: any) => {
             const original = page.getViewport({ scale: 1 });
             const scale =
-                Math.min(window.innerHeight / original.height, window.innerWidth / original.width) * devicePixelRatio;
+                Math.min(window.innerHeight / original.height, window.innerWidth / original.width) *
+                devicePixelRatio;
             const viewport = page.getViewport({ scale });
 
             canvas.width = viewport.width;

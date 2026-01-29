@@ -1,15 +1,15 @@
 {
-  "Albums": "Albamyo",
-  "All": "Dhamaan",
-  "Actor": "Jile",
-  "Add": "Kudar",
-  "AddedOnValue": "Lagu Daray {0}",
-  "AddToCollection": "Ururka kudar",
-  "AgeValue": "({0} sanuu jiraa)",
-  "AirDate": "Taariikhda baafinta",
-  "Aired": "Labaafiyay",
-  "Album": "Albam",
-  "AlbumArtist": "Fannaanka Albamka",
-  "Alerts": "Wargelin",
-  "AllChannels": "Giddi kannaalada"
+    "Albums": "Albamyo",
+    "All": "Dhamaan",
+    "Actor": "Jile",
+    "Add": "Kudar",
+    "AddedOnValue": "Lagu Daray {0}",
+    "AddToCollection": "Ururka kudar",
+    "AgeValue": "({0} sanuu jiraa)",
+    "AirDate": "Taariikhda baafinta",
+    "Aired": "Labaafiyay",
+    "Album": "Albam",
+    "AlbumArtist": "Fannaanka Albamka",
+    "Alerts": "Wargelin",
+    "AllChannels": "Giddi kannaalada"
 }

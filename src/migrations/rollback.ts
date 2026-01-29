@@ -6,9 +6,9 @@
  */
 
 import { exec } from 'child_process';
-import { promisify } from 'util';
-import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs';
 import { join } from 'path';
+import { promisify } from 'util';
 import { logger } from 'utils/logger';
 
 const execAsync = promisify(exec);
@@ -133,7 +133,10 @@ export async function createRollbackPoint(
 /**
  * Rollback to a specific rollback point
  */
-export async function rollbackToPoint(tagName: string, options: RollbackOptions = {}): Promise<RollbackResult> {
+export async function rollbackToPoint(
+    tagName: string,
+    options: RollbackOptions = {}
+): Promise<RollbackResult> {
     const startTime = Date.now();
 
     logger.warn('Initiating rollback', {
@@ -144,7 +147,9 @@ export async function rollbackToPoint(tagName: string, options: RollbackOptions 
 
     try {
         // Verify tag exists
-        const { stdout: tagExists } = await execAsync(`git tag -l "${tagName}"`, { cwd: process.cwd() });
+        const { stdout: tagExists } = await execAsync(`git tag -l "${tagName}"`, {
+            cwd: process.cwd()
+        });
 
         if (!tagExists.trim()) {
             throw new Error(`Rollback point "${tagName}" not found`);
@@ -245,7 +250,9 @@ export async function listRollbackPoints(): Promise<RollbackPoint[]> {
             const phaseName = phaseNameMatch ? phaseNameMatch[1] : tagName;
 
             // Get commit hash
-            const { stdout: hashOutput } = await execAsync(`git rev-parse ${tagName}^{commit}`, { cwd: process.cwd() });
+            const { stdout: hashOutput } = await execAsync(`git rev-parse ${tagName}^{commit}`, {
+                cwd: process.cwd()
+            });
 
             points.push({
                 phaseName,
@@ -348,8 +355,8 @@ function getLastRollbackPoint(): RollbackPoint | null {
     }
 
     const files = readdirSync(dir)
-        .filter(f => f.endsWith('.json'))
-        .map(f => ({
+        .filter((f) => f.endsWith('.json'))
+        .map((f) => ({
             path: join(dir, f),
             timestamp: statSync(join(dir, f)).mtimeMs
         }))
@@ -529,13 +536,15 @@ export async function verifyRollbackSystem(): Promise<{
         await execAsync(`git tag -d "${testTag}"`, { cwd: process.cwd() });
 
         // Check checkout (on current branch)
-        const { stdout: currentBranch } = await execAsync('git rev-parse --abbrev-ref HEAD', { cwd: process.cwd() });
+        const { stdout: currentBranch } = await execAsync('git rev-parse --abbrev-ref HEAD', {
+            cwd: process.cwd()
+        });
         details.canCheckout = !!currentBranch.trim();
 
         logger.info('Rollback system verification complete', details);
 
         return {
-            working: Object.values(details).every(v => v),
+            working: Object.values(details).every((v) => v),
             details
         };
     } catch (error) {

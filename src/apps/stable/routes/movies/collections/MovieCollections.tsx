@@ -1,17 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
 import { PlayIcon } from '@radix-ui/react-icons';
-
-import { useServerStore } from 'store/serverStore';
 import { LoadingView } from 'components/feedback/LoadingView';
-import { vars } from 'styles/tokens.css.ts';
-import { itemsApi } from 'lib/api/items';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { appRouter } from 'components/router/appRouter';
+import { itemsApi } from 'lib/api/items';
 import { toVideoItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useEffect, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { useServerStore } from 'store/serverStore';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Flex, Heading, IconButton, Text } from 'ui-primitives';
 import { logger } from 'utils/logger';
 
 export function MovieCollections() {
@@ -53,7 +49,7 @@ export function MovieCollections() {
                     if (reset) {
                         setCollections(newItems);
                     } else {
-                        setCollections(prev => [...prev, ...newItems]);
+                        setCollections((prev) => [...prev, ...newItems]);
                     }
                     setStartIndex(index + limit);
                     setHasMore(newItems.length >= limit);
@@ -88,7 +84,9 @@ export function MovieCollections() {
                 });
 
                 if (!items.Items || items.Items.length === 0) {
-                    logger.warn('[MovieCollections] No movies found in collection', { collectionId });
+                    logger.warn('[MovieCollections] No movies found in collection', {
+                        collectionId
+                    });
                     setPlayingCollectionId(null);
                     return;
                 }
@@ -99,7 +97,10 @@ export function MovieCollections() {
                 await playbackManagerBridge.play();
                 setPlayingCollectionId(null);
             } catch (err) {
-                logger.error('[MovieCollections] Failed to play collection', { collectionId, error: err });
+                logger.error('[MovieCollections] Failed to play collection', {
+                    collectionId,
+                    error: err
+                });
                 setPlayingCollectionId(null);
             }
         },
@@ -154,7 +155,7 @@ export function MovieCollections() {
             </Box>
 
             <Box style={{ display: 'flex', flexWrap: 'wrap', gap: vars.spacing['5'] }}>
-                {collections.map(collection => (
+                {collections.map((collection) => (
                     <Box
                         key={collection.Id}
                         style={{

@@ -94,7 +94,9 @@ export interface TransitionSuggestion {
 }
 
 let wasmModule: {
-    AutoDJAnalyzer: new (fftSize?: number) => {
+    AutoDJAnalyzer: new (
+        fftSize?: number
+    ) => {
         analyzeFull: (samples: Float32Array, sampleRate: number) => string;
         suggestTransition: (currentJson: string, nextJson: string) => string;
         version: () => string;
@@ -112,7 +114,10 @@ async function loadWasmModule() {
         logger.info('AutoDJ WASM module loaded successfully', { component: 'AutoDJ' });
         return wasmModule;
     } catch (error) {
-        logger.warn('AutoDJ WASM not available, using JS fallback', { component: 'AutoDJ', error: String(error) });
+        logger.warn('AutoDJ WASM not available, using JS fallback', {
+            component: 'AutoDJ',
+            error: String(error)
+        });
         wasmModule = createJSFallback() as never;
         return wasmModule;
     }
@@ -141,7 +146,10 @@ function createJSFallback() {
             for (let i = 1; i < samples.length; i++) {
                 sumSq += samples[i] * samples[i];
                 peak = Math.max(peak, Math.abs(samples[i]));
-                if ((samples[i] >= 0 && samples[i - 1] < 0) || (samples[i] < 0 && samples[i - 1] >= 0)) {
+                if (
+                    (samples[i] >= 0 && samples[i - 1] < 0) ||
+                    (samples[i] < 0 && samples[i - 1] >= 0)
+                ) {
                     zcr++;
                 }
             }
@@ -208,7 +216,10 @@ function createJSFallback() {
             try {
                 current = JSON.parse(currentJson);
             } catch {
-                return JSON.stringify({ transitionType: 'Standard Crossfade', compatibilityScore: 0.5 });
+                return JSON.stringify({
+                    transitionType: 'Standard Crossfade',
+                    compatibilityScore: 0.5
+                });
             }
 
             const energyMatch = 1 - Math.abs(0.3 - current.energy);
@@ -239,14 +250,17 @@ function createJSFallback() {
 }
 
 export function loadAutoDJAnalyzer() {
-    return loadWasmModule().then(module => ({
+    return loadWasmModule().then((module) => ({
         AutoDJAnalyzer: module.AutoDJAnalyzer,
         analyzeTrack: (samples: Float32Array, sampleRate: number): FullTrackAnalysis => {
             const analyzer = new module.AutoDJAnalyzer(2048);
             const json = analyzer.analyzeFull(samples, sampleRate);
             return JSON.parse(json);
         },
-        suggestTransition: (current: FullTrackAnalysis, next: FullTrackAnalysis): TransitionSuggestion => {
+        suggestTransition: (
+            current: FullTrackAnalysis,
+            next: FullTrackAnalysis
+        ): TransitionSuggestion => {
             const analyzer = new module.AutoDJAnalyzer(2048);
             const currentJson = JSON.stringify(current);
             const nextJson = JSON.stringify(next);

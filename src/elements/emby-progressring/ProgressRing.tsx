@@ -1,9 +1,7 @@
-import React from 'react';
-import { CircularProgress } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Box } from 'ui-primitives';
-import { toPercentString } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'lib/globalize';
+import React from 'react';
+import { Box, CircularProgress, Text } from 'ui-primitives';
+import { toPercentString } from 'utils/number';
 import { deprecate } from '../../utils/deprecation';
 import './emby-progressring.scss';
 
@@ -46,7 +44,9 @@ const ProgressRing: React.FC<ProgressRingProps> = ({ progress, size = 'md', show
                         justifyContent: 'center'
                     }}
                 >
-                    <Text size="xs">{toPercentString(progressValue / 100, getCurrentDateTimeLocale())}</Text>
+                    <Text size="xs">
+                        {toPercentString(progressValue / 100, getCurrentDateTimeLocale())}
+                    </Text>
                 </Box>
             )}
         </Box>

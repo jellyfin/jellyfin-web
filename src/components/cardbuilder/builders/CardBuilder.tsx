@@ -1,10 +1,10 @@
-import React from 'react';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import BaseCard from '../Card/BaseCard';
-import { CardOptions, setCardData, getCardImageUrl } from '../cardBuilder';
-import imageHelper from '../../../utils/image';
-import { Grid } from 'ui-primitives';
+import React from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Grid } from 'ui-primitives';
+import imageHelper from '../../../utils/image';
+import BaseCard from '../Card/BaseCard';
+import { CardOptions, getCardImageUrl, setCardData } from '../cardBuilder';
 
 interface CardBuilderProps {
     items: any[];
@@ -19,7 +19,9 @@ const CardBuilder: React.FC<CardBuilderProps> = ({ items, options = {}, onItemCl
     return (
         <Grid container spacing="md">
             {items.map((item, index) => {
-                const apiClient = ServerConnections.getApiClient(item.ServerId || normalizedOptions.serverId);
+                const apiClient = ServerConnections.getApiClient(
+                    item.ServerId || normalizedOptions.serverId
+                );
                 const imgInfo = getCardImageUrl(
                     item,
                     apiClient,

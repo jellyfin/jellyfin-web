@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input as UIPrimitiveInput, type InputProps as InputPrimitiveProps } from 'ui-primitives';
+import { type InputProps as InputPrimitiveProps, Input as UIPrimitiveInput } from 'ui-primitives';
 import { FormField } from './FormField';
 
 export interface TextareaProps extends Omit<InputPrimitiveProps, 'as' | 'type'> {

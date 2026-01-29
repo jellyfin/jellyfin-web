@@ -1,15 +1,12 @@
 import { ArrowLeftIcon, HamburgerMenuIcon } from '@radix-ui/react-icons';
-import React, { type FC, type PropsWithChildren, ReactNode } from 'react';
-
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import UserMenuButton from './UserMenuButton';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
+import React, { type FC, type PropsWithChildren, ReactNode } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, IconButton, Tooltip } from 'ui-primitives';
 import { logger } from 'utils/logger';
+import UserMenuButton from './UserMenuButton';
 
 interface AppToolbarProps {
     buttons?: ReactNode;
@@ -21,7 +18,7 @@ interface AppToolbarProps {
 }
 
 const onBackButtonClick = () => {
-    appRouter.back().catch(err => {
+    appRouter.back().catch((err) => {
         logger.error('Error calling appRouter.back', { component: 'AppToolbar' }, err as Error);
     });
 };
@@ -53,7 +50,10 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
             }}
         >
             {isUserLoggedIn && isDrawerAvailable && (
-                <Tooltip title={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')} variant="soft">
+                <Tooltip
+                    title={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}
+                    variant="soft"
+                >
                     <IconButton
                         variant="plain"
                         color="neutral"
@@ -78,7 +78,9 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                 </Tooltip>
             )}
 
-            <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['4'] }}>{children}</Box>
+            <Box style={{ display: 'flex', alignItems: 'center', gap: vars.spacing['4'] }}>
+                {children}
+            </Box>
 
             <Box style={{ flexGrow: 1 }} />
 

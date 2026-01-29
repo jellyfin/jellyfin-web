@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePreferencesStore } from '../../store/preferencesStore';
 
 describe('visualizerSettings - Data Structure in Store', () => {
@@ -52,7 +52,9 @@ describe('visualizerSettings - Data Structure in Store', () => {
             store.setVisualizerType('frequency');
             store.setVisualizerColorScheme('gradient');
 
-            expect(usePreferencesStore.getState().visualizer.frequencyAnalyzer.colorScheme).toBe('gradient');
+            expect(usePreferencesStore.getState().visualizer.frequencyAnalyzer.colorScheme).toBe(
+                'gradient'
+            );
         });
 
         it('should handle import of legacy-like structures', () => {

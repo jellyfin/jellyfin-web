@@ -1,16 +1,14 @@
 import React, { type FC } from 'react';
-import { Box } from 'ui-primitives';
-
-import itemHelper from '../../itemHelper';
-import PlayedButton from '../../itemActions/PlayedButton';
-import FavoriteButton from '../../itemActions/FavoriteButton';
-import PlaylistAddIconButton from '../../common/PlaylistAddIconButton';
-import InfoIconButton from '../../common/InfoIconButton';
-import RightIconButtons from '../../common/RightIconButtons';
-import MoreVertIconButton from '../../common/MoreVertIconButton';
-
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
+import { Box } from 'ui-primitives';
+import InfoIconButton from '../../common/InfoIconButton';
+import MoreVertIconButton from '../../common/MoreVertIconButton';
+import PlaylistAddIconButton from '../../common/PlaylistAddIconButton';
+import RightIconButtons from '../../common/RightIconButtons';
+import FavoriteButton from '../../itemActions/FavoriteButton';
+import PlayedButton from '../../itemActions/PlayedButton';
+import itemHelper from '../../itemHelper';
 
 interface ListViewUserDataButtonsProps {
     item: ItemDto;
@@ -38,7 +36,9 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({ item = {}, 
             {listOptions.addToListButton && (
                 <PlaylistAddIconButton className="paper-icon-button-light listItemButton itemAction" />
             )}
-            {listOptions.infoButton && <InfoIconButton className="paper-icon-button-light listItemButton itemAction" />}
+            {listOptions.infoButton && (
+                <InfoIconButton className="paper-icon-button-light listItemButton itemAction" />
+            )}
 
             {listOptions.rightButtons && renderRightButtons()}
 
@@ -54,7 +54,11 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({ item = {}, 
                     )}
 
                     {itemHelper.canRate(item) && listOptions.enableRatingButton !== false && (
-                        <FavoriteButton className="listItemButton" isFavorite={IsFavorite} itemId={item.Id} />
+                        <FavoriteButton
+                            className="listItemButton"
+                            isFavorite={IsFavorite}
+                            itemId={item.Id}
+                        />
                     )}
                 </>
             )}

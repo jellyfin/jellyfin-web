@@ -1,5 +1,10 @@
-import React, { type CSSProperties, type KeyboardEvent, type ReactNode, type ReactElement } from 'react';
-import { chipStyles, chipVariants, chipSizes } from './Chip.css.ts';
+import React, {
+    type CSSProperties,
+    type KeyboardEvent,
+    type ReactElement,
+    type ReactNode
+} from 'react';
+import { chipSizes, chipStyles, chipVariants } from './Chip.css.ts';
 
 export type ChipVariant = keyof typeof chipVariants;
 export type ChipSize = keyof typeof chipSizes;
@@ -55,4 +60,4 @@ export function Chip({
     );
 }
 
-export { chipStyles, chipVariants, chipSizes } from './Chip.css.ts';
+export { chipSizes, chipStyles, chipVariants } from './Chip.css.ts';

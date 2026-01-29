@@ -1,22 +1,30 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import type { LiveTvOptions } from '@jellyfin/sdk/lib/generated-client/models/live-tv-options';
+import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import globalize from 'lib/globalize';
-import { type ActionData } from 'types/actionData';
-import type { LiveTvOptions } from '@jellyfin/sdk/lib/generated-client/models/live-tv-options';
-import Loading from 'components/loading/LoadingComponent';
-import { Alert } from 'ui-primitives';
-import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
-import { Button } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { FormControl, FormControlLabel, FormHelperText } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import React, { useCallback, useEffect, useState } from 'react';
+import { type ActionData } from 'types/actionData';
+import {
+    Alert,
+    Button,
+    Checkbox,
+    Flex,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    IconButton,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 import { queryClient } from 'utils/query/queryClient';
 
 const SearchIcon = () => (
@@ -29,7 +37,11 @@ const CONFIG_KEY = 'livetv';
 
 export const Component = (): React.ReactElement => {
     const [actionData, setActionData] = useState<ActionData | undefined>();
-    const { data: initialConfig, isPending, isError } = useNamedConfiguration<LiveTvOptions>(CONFIG_KEY);
+    const {
+        data: initialConfig,
+        isPending,
+        isError
+    } = useNamedConfiguration<LiveTvOptions>(CONFIG_KEY);
     const [config, setConfig] = useState<LiveTvOptions | null>(null);
     const [prePaddingMinutes, setPrePaddingMinutes] = useState('');
     const [postPaddingMinutes, setPostPaddingMinutes] = useState('');
@@ -175,7 +187,10 @@ export const Component = (): React.ReactElement => {
                     throw new Error('No Api instance available');
                 }
 
-                await getConfigurationApi(api).updateNamedConfiguration({ key: CONFIG_KEY, body: config });
+                await getConfigurationApi(api).updateNamedConfiguration({
+                    key: CONFIG_KEY,
+                    body: config
+                });
 
                 void queryClient.invalidateQueries({
                     queryKey: [QUERY_KEY, CONFIG_KEY]
@@ -212,16 +227,23 @@ export const Component = (): React.ReactElement => {
                             </Text>
 
                             {!isSubmitting && actionData?.isSaved && (
-                                <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
+                                <Alert variant="success">
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
                             )}
 
-                            <Select name="GuideDays" defaultValue={config.GuideDays?.toString() || ''}>
+                            <Select
+                                name="GuideDays"
+                                defaultValue={config.GuideDays?.toString() || ''}
+                            >
                                 <SelectTrigger style={{ width: '100%' }}>
-                                    <SelectValue placeholder={globalize.translate('LabelNumberOfGuideDays')} />
+                                    <SelectValue
+                                        placeholder={globalize.translate('LabelNumberOfGuideDays')}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="">{globalize.translate('Auto')}</SelectItem>
-                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(num => (
+                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((num) => (
                                         <SelectItem key={num} value={num.toString()}>
                                             {num}
                                         </SelectItem>
@@ -299,7 +321,9 @@ export const Component = (): React.ReactElement => {
                                     }
                                     label={globalize.translate('SaveRecordingNFO')}
                                 />
-                                <FormHelperText>{globalize.translate('SaveRecordingNFOHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('SaveRecordingNFOHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <FormControl>
@@ -313,7 +337,9 @@ export const Component = (): React.ReactElement => {
                                     }
                                     label={globalize.translate('SaveRecordingImages')}
                                 />
-                                <FormHelperText>{globalize.translate('SaveRecordingImagesHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('SaveRecordingImagesHelp')}
+                                </FormHelperText>
                             </FormControl>
 
                             <Button type="submit">{globalize.translate('Save')}</Button>

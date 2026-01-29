@@ -4,7 +4,7 @@ import type { DeviceInfo } from '@jellyfin/sdk/lib/generated-client/models/devic
 import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
 import { describe, expect, it } from 'vitest';
 
-import { getItemTypeIcon, getLibraryIcon, getDeviceIcon } from './image';
+import { getDeviceIcon, getItemTypeIcon, getLibraryIcon } from './image';
 
 const ITEM_ICON_MAP: Record<string, string | undefined> = {
     AggregateFolder: undefined,
@@ -99,17 +99,27 @@ describe('getLibraryIcon()', () => {
 
 describe('getDeviceIcon()', () => {
     it('should return correct icon for common devices', () => {
-        expect(getDeviceIcon({ AppName: 'Samsung Smart TV' } as DeviceInfo)).toBe('assets/img/devices/samsungtv.svg');
-        expect(getDeviceIcon({ AppName: 'Kodi' } as DeviceInfo)).toBe('assets/img/devices/kodi.svg');
-        expect(getDeviceIcon({ AppName: 'Jellyfin Roku' } as DeviceInfo)).toBe('assets/img/devices/roku.svg');
+        expect(getDeviceIcon({ AppName: 'Samsung Smart TV' } as DeviceInfo)).toBe(
+            'assets/img/devices/samsungtv.svg'
+        );
+        expect(getDeviceIcon({ AppName: 'Kodi' } as DeviceInfo)).toBe(
+            'assets/img/devices/kodi.svg'
+        );
+        expect(getDeviceIcon({ AppName: 'Jellyfin Roku' } as DeviceInfo)).toBe(
+            'assets/img/devices/roku.svg'
+        );
     });
 
     it('should handle session info as device info', () => {
-        expect(getDeviceIcon({ Client: 'Jellyfin Web' } as SessionInfo)).toBe('assets/img/devices/html5.svg');
+        expect(getDeviceIcon({ Client: 'Jellyfin Web' } as SessionInfo)).toBe(
+            'assets/img/devices/html5.svg'
+        );
     });
 
     it('should handle unknown device', () => {
-        expect(getDeviceIcon({ Name: 'Unknown Device' } as DeviceInfo)).toBe('assets/img/devices/other.svg');
+        expect(getDeviceIcon({ Name: 'Unknown Device' } as DeviceInfo)).toBe(
+            'assets/img/devices/other.svg'
+        );
     });
 
     it('should use IconUrl from capabilities when available', () => {

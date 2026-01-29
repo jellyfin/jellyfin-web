@@ -3,12 +3,12 @@
  * @module components/syncPlay/core/PlaybackCore
  */
 
+import { useSyncPlayStore } from '../../../store/syncPlayStore';
 import Events from '../../../utils/events';
+import { logger } from '../../../utils/logger';
 import { toBoolean, toFloat } from '../../../utils/string';
 import * as Helper from './Helper';
 import { getSetting } from './Settings';
-import { logger } from '../../../utils/logger';
-import { useSyncPlayStore } from '../../../store/syncPlayStore';
 
 /**
  * Class that manages the playback of SyncPlay.
@@ -140,12 +140,18 @@ class PlaybackCore {
             this.lastCommand.Command === command.Command &&
             this.lastCommand.PlaylistItemId === command.PlaylistItemId
         ) {
-            logger.debug('SyncPlay applyCommand: duplicate command received', { component: 'SyncPlay', command });
+            logger.debug('SyncPlay applyCommand: duplicate command received', {
+                component: 'SyncPlay',
+                command
+            });
 
             const currentTime = new Date();
             const whenLocal = this.timeSyncCore.remoteDateToLocal(command.When);
             if (whenLocal > currentTime) {
-                logger.debug('SyncPlay applyCommand: command already scheduled', { component: 'SyncPlay', command });
+                logger.debug('SyncPlay applyCommand: command already scheduled', {
+                    component: 'SyncPlay',
+                    command
+                });
                 return;
             } else {
                 const playerWrapper = this.manager.getPlayerWrapper();
@@ -177,13 +183,20 @@ class PlaybackCore {
                             const rangeWidth = 100; // In milliseconds.
                             // eslint-disable-next-line sonarjs/pseudo-random
                             const randomOffsetTicks =
-                                Math.round((Math.random() - 0.5) * rangeWidth) * Helper.TicksPerMillisecond;
-                            this.scheduleSeek(command.When, command.PositionTicks + randomOffsetTicks);
-                            logger.debug('SyncPlay applyCommand: adding random offset to force seek', {
-                                component: 'SyncPlay',
-                                randomOffsetTicks,
-                                command
-                            });
+                                Math.round((Math.random() - 0.5) * rangeWidth) *
+                                Helper.TicksPerMillisecond;
+                            this.scheduleSeek(
+                                command.When,
+                                command.PositionTicks + randomOffsetTicks
+                            );
+                            logger.debug(
+                                'SyncPlay applyCommand: adding random offset to force seek',
+                                {
+                                    component: 'SyncPlay',
+                                    randomOffsetTicks,
+                                    command
+                                }
+                            );
                         } else {
                             this.sendBufferingRequest(false);
                         }
@@ -219,7 +232,10 @@ class PlaybackCore {
                 this.scheduleSeek(command.When, command.PositionTicks);
                 break;
             default:
-                logger.error('SyncPlay applyCommand: command not recognised', { component: 'SyncPlay', command });
+                logger.error('SyncPlay applyCommand: command not recognised', {
+                    component: 'SyncPlay',
+                    command
+                });
                 break;
         }
     }
@@ -232,13 +248,17 @@ class PlaybackCore {
 
         const playerWrapper = this.manager.getPlayerWrapper();
         const currentPositionTicks =
-            (playerWrapper.currentTimeAsync ? await playerWrapper.currentTimeAsync() : playerWrapper.currentTime()) *
-            Helper.TicksPerMillisecond;
+            (playerWrapper.currentTimeAsync
+                ? await playerWrapper.currentTimeAsync()
+                : playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
 
         if (playAtTimeLocal > currentTime) {
             const playTimeout = playAtTimeLocal.getTime() - currentTime.getTime();
 
-            if (currentPositionTicks - positionTicks > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
+            if (
+                currentPositionTicks - positionTicks >
+                this.minDelaySkipToSync * Helper.TicksPerMillisecond
+            ) {
                 this.localSeek(positionTicks);
             }
 
@@ -251,7 +271,10 @@ class PlaybackCore {
                 }, enableSyncTimeout);
             }, playTimeout);
 
-            logger.debug('SyncPlay scheduled unpause', { component: 'SyncPlay', timeoutSeconds: playTimeout / 1000.0 });
+            logger.debug('SyncPlay scheduled unpause', {
+                component: 'SyncPlay',
+                timeoutSeconds: playTimeout / 1000.0
+            });
         } else {
             const serverPositionTicks = this.estimateCurrentTicks(positionTicks, playAtTime);
             Helper.waitForEventOnce(this.manager, 'unpause').then(() => {
@@ -294,7 +317,10 @@ class PlaybackCore {
             const pauseTimeout = pauseAtTimeLocal.getTime() - currentTime.getTime();
             this.scheduledCommandTimeout = setTimeout(callback, pauseTimeout);
 
-            logger.debug('SyncPlay scheduled pause', { component: 'SyncPlay', timeoutSeconds: pauseTimeout / 1000.0 });
+            logger.debug('SyncPlay scheduled pause', {
+                component: 'SyncPlay',
+                timeoutSeconds: pauseTimeout / 1000.0
+            });
         } else {
             callback();
             logger.debug('SyncPlay schedulePause: now', { component: 'SyncPlay' });
@@ -314,7 +340,10 @@ class PlaybackCore {
             const stopTimeout = stopAtTimeLocal.getTime() - currentTime.getTime();
             this.scheduledCommandTimeout = setTimeout(callback, stopTimeout);
 
-            logger.debug('SyncPlay scheduled stop', { component: 'SyncPlay', timeoutSeconds: stopTimeout / 1000.0 });
+            logger.debug('SyncPlay scheduled stop', {
+                component: 'SyncPlay',
+                timeoutSeconds: stopTimeout / 1000.0
+            });
         } else {
             callback();
             logger.debug('SyncPlay scheduleStop: now', { component: 'SyncPlay' });
@@ -349,7 +378,10 @@ class PlaybackCore {
             const seekTimeout = seekAtTimeLocal.getTime() - currentTime.getTime();
             this.scheduledCommandTimeout = setTimeout(callback, seekTimeout);
 
-            logger.debug('SyncPlay scheduled seek', { component: 'SyncPlay', timeoutSeconds: seekTimeout / 1000.0 });
+            logger.debug('SyncPlay scheduled seek', {
+                component: 'SyncPlay',
+                timeoutSeconds: seekTimeout / 1000.0
+            });
         } else {
             callback();
             logger.debug('SyncPlay scheduleSeek: now', { component: 'SyncPlay' });
@@ -413,8 +445,13 @@ class PlaybackCore {
 
         const { currentTime, currentPosition } = timeUpdateData;
         const currentPositionTicks = currentPosition * Helper.TicksPerMillisecond;
-        const serverPositionTicks = this.estimateCurrentTicks(lastCommand.PositionTicks, lastCommand.When, currentTime);
-        const diffMillis = (serverPositionTicks - currentPositionTicks) / Helper.TicksPerMillisecond;
+        const serverPositionTicks = this.estimateCurrentTicks(
+            lastCommand.PositionTicks,
+            lastCommand.When,
+            currentTime
+        );
+        const diffMillis =
+            (serverPositionTicks - currentPositionTicks) / Helper.TicksPerMillisecond;
 
         this.playbackDiffMillis = diffMillis;
         Events.trigger(this.manager, 'playback-diff', [this.playbackDiffMillis]);

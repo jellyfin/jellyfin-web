@@ -1,14 +1,13 @@
-import React, { type FC } from 'react';
-import { Box } from 'ui-primitives';
 import classNames from 'classnames';
 import useIndicator from 'components/indicators/useIndicator';
-import RefreshIndicator from '../../library/RefreshIndicator';
-import Media from '../../common/Media';
-import CardInnerFooter from './CardInnerFooter';
-
-import { ItemKind } from 'types/base/models/item-kind';
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { ItemKind } from 'types/base/models/item-kind';
 import type { CardOptions } from 'types/cardOptions';
+import { Box } from 'ui-primitives';
+import Media from '../../common/Media';
+import RefreshIndicator from '../../library/RefreshIndicator';
+import CardInnerFooter from './CardInnerFooter';
 
 interface CardImageContainerProps {
     item: ItemDto;
@@ -59,7 +58,12 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                 </Box>
             )}
 
-            <Media item={item} imgUrl={imgUrl} blurhash={blurhash} imageType={cardOptions.imageType} />
+            <Media
+                item={item}
+                imgUrl={imgUrl}
+                blurhash={blurhash}
+                imageType={cardOptions.imageType}
+            />
 
             {overlayText && (
                 <CardInnerFooter

@@ -1,17 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
+import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useState } from 'react';
 import { type ActionData } from 'types/actionData';
-import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
-import Loading from 'components/loading/LoadingComponent';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { Alert, Button, Flex, Input, Text } from 'ui-primitives';
 import { queryClient } from 'utils/query/queryClient';
-import { Alert } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 
 export const Component = (): React.ReactElement => {
     const [actionData, setActionData] = useState<ActionData | undefined>();
@@ -39,11 +35,16 @@ export const Component = (): React.ReactElement => {
 
             if (minResumePercentage) currentConfig.MinResumePct = parseInt(minResumePercentage, 10);
             if (maxResumePercentage) currentConfig.MaxResumePct = parseInt(maxResumePercentage, 10);
-            if (minAudiobookResume) currentConfig.MinAudiobookResume = parseInt(minAudiobookResume, 10);
-            if (maxAudiobookResume) currentConfig.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
-            if (minResumeDuration) currentConfig.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
+            if (minAudiobookResume)
+                currentConfig.MinAudiobookResume = parseInt(minAudiobookResume, 10);
+            if (maxAudiobookResume)
+                currentConfig.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
+            if (minResumeDuration)
+                currentConfig.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
 
-            await getConfigurationApi(api).updateConfiguration({ serverConfiguration: currentConfig });
+            await getConfigurationApi(api).updateConfiguration({
+                serverConfiguration: currentConfig
+            });
 
             void queryClient.invalidateQueries({
                 queryKey: [QUERY_KEY]

@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback } from 'react';
-import { Calendar } from '../..';
-import { DatePicker, DateRangePicker } from '../..';
-import { vars } from 'styles/tokens.css.ts';
+import { type ReactElement, useCallback, useState } from 'react';
 import type { DateRange } from 'react-day-picker';
+import { vars } from 'styles/tokens.css.ts';
+import { Calendar, DatePicker, DateRangePicker } from '../..';
 
 const meta: Meta<typeof Calendar> = {
     title: 'UI Primitives/Calendar',
@@ -12,7 +11,8 @@ const meta: Meta<typeof Calendar> = {
         layout: 'centered',
         docs: {
             description: {
-                component: 'A full-featured calendar component built on react-day-picker with vanilla-extract styling.'
+                component:
+                    'A full-featured calendar component built on react-day-picker with vanilla-extract styling.'
             }
         }
     },
@@ -78,7 +78,9 @@ function RangeSelectStory(): ReactElement {
         <div>
             <Calendar mode="range" selected={range} onSelect={handleSelect} />
             <p style={{ marginTop: 16, color: vars.colors.textSecondary }}>
-                {range.from !== undefined ? `From: ${range.from.toDateString()}` : 'Start date: None'}
+                {range.from !== undefined
+                    ? `From: ${range.from.toDateString()}`
+                    : 'Start date: None'}
                 {range.to !== undefined ? ` - To: ${range.to.toDateString()}` : ''}
             </p>
         </div>
@@ -104,7 +106,8 @@ function MultipleSelectStory(): ReactElement {
         <div>
             <Calendar mode="multiple" selected={selected} onSelect={handleSelect} />
             <p style={{ marginTop: 16, color: vars.colors.textSecondary }}>
-                Selected: {selected.length > 0 ? selected.map(d => d.toDateString()).join(', ') : 'None'}
+                Selected:{' '}
+                {selected.length > 0 ? selected.map((d) => d.toDateString()).join(', ') : 'None'}
             </p>
         </div>
     );
@@ -135,8 +138,19 @@ function WithDisabledDatesStory(): ReactElement {
 
     return (
         <div>
-            <Calendar mode="single" selected={selected} onSelect={handleSelect} disabled={isDisabled} />
-            <p style={{ marginTop: 16, fontSize: vars.typography['3'].fontSize, color: vars.colors.textSecondary }}>
+            <Calendar
+                mode="single"
+                selected={selected}
+                onSelect={handleSelect}
+                disabled={isDisabled}
+            />
+            <p
+                style={{
+                    marginTop: 16,
+                    fontSize: vars.typography['3'].fontSize,
+                    color: vars.colors.textSecondary
+                }}
+            >
                 Past dates and Sundays are disabled
             </p>
         </div>
@@ -174,9 +188,12 @@ function DateRangePickerStoryComponent(): ReactElement {
         to: undefined
     });
 
-    const handleChange = useCallback((newRange: { from: Date | undefined; to: Date | undefined }): void => {
-        setRange(newRange);
-    }, []);
+    const handleChange = useCallback(
+        (newRange: { from: Date | undefined; to: Date | undefined }): void => {
+            setRange(newRange);
+        },
+        []
+    );
 
     return (
         <div>

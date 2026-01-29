@@ -1,13 +1,11 @@
 import { SyncPlayUserAccessType } from '@jellyfin/sdk/lib/generated-client/models/sync-play-user-access-type';
 import { GroupIcon } from '@radix-ui/react-icons';
-import React, { useCallback, useState } from 'react';
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-
 import { pluginManager } from 'components/pluginManager';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
+import React, { useCallback, useState } from 'react';
 import { PluginType } from 'types/plugin';
+import { IconButton, Tooltip } from 'ui-primitives';
 import SyncPlayGroupMenu from '../../../../plugins/syncPlay/ui/SyncPlayGroupMenu';
 
 const SyncPlayButton = () => {

@@ -5,8 +5,8 @@
  * Supports migration from older localStorage keys and formats.
  */
 
-import type { SettingsState } from './settingsStore';
 import { logger } from '../utils/logger';
+import type { SettingsState } from './settingsStore';
 
 const LEGACY_STORAGE_KEYS = {
     volume: 'jellyfin_volume',
@@ -48,22 +48,32 @@ interface MigrationResult {
 export function getLegacySettings(): LegacySettings {
     try {
         return {
-            volume: parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.volume) || '0') || undefined,
+            volume:
+                parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.volume) || '0') || undefined,
             muted: localStorage.getItem(LEGACY_STORAGE_KEYS.muted) === 'true',
-            theme: (localStorage.getItem(LEGACY_STORAGE_KEYS.theme) as 'dark' | 'light' | 'system') || undefined,
+            theme:
+                (localStorage.getItem(LEGACY_STORAGE_KEYS.theme) as 'dark' | 'light' | 'system') ||
+                undefined,
             autoPlay: localStorage.getItem(LEGACY_STORAGE_KEYS.autoPlay) === 'true',
             crossfade: localStorage.getItem(LEGACY_STORAGE_KEYS.crossfade) === 'true',
             crossfadeDuration:
-                parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.crossfadeDuration) || '0') || undefined,
-            visualizerEnabled: localStorage.getItem(LEGACY_STORAGE_KEYS.visualizerEnabled) === 'true',
-            visualizerType:
-                (localStorage.getItem(LEGACY_STORAGE_KEYS.visualizerType) as LegacySettings['visualizerType']) ||
+                parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.crossfadeDuration) || '0') ||
                 undefined,
-            sensitivity: parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.sensitivity) || '0') || undefined,
+            visualizerEnabled:
+                localStorage.getItem(LEGACY_STORAGE_KEYS.visualizerEnabled) === 'true',
+            visualizerType:
+                (localStorage.getItem(
+                    LEGACY_STORAGE_KEYS.visualizerType
+                ) as LegacySettings['visualizerType']) || undefined,
+            sensitivity:
+                parseFloat(localStorage.getItem(LEGACY_STORAGE_KEYS.sensitivity) || '0') ||
+                undefined,
             playbackPosition: localStorage.getItem(LEGACY_STORAGE_KEYS.playbackPosition) === 'true',
             queueShuffle: localStorage.getItem(LEGACY_STORAGE_KEYS.queueShuffle) === 'true',
             queueRepeat:
-                (localStorage.getItem(LEGACY_STORAGE_KEYS.queueRepeat) as LegacySettings['queueRepeat']) || undefined
+                (localStorage.getItem(
+                    LEGACY_STORAGE_KEYS.queueRepeat
+                ) as LegacySettings['queueRepeat']) || undefined
         };
     } catch {
         return {};
@@ -81,7 +91,7 @@ export function migrateLegacySettings(): MigrationResult {
     try {
         const legacy = getLegacySettings();
 
-        const hasLegacySettings = Object.values(legacy).some(v => v !== undefined);
+        const hasLegacySettings = Object.values(legacy).some((v) => v !== undefined);
 
         if (!hasLegacySettings) {
             return result;
@@ -151,7 +161,11 @@ export function migrateLegacySettings(): MigrationResult {
         });
     } catch (error) {
         result.errors.push(String(error));
-        logger.error('[SettingsMigration] Migration failed', { component: 'SettingsMigration' }, error as Error);
+        logger.error(
+            '[SettingsMigration] Migration failed',
+            { component: 'SettingsMigration' },
+            error as Error
+        );
     }
 
     return result;
@@ -159,7 +173,7 @@ export function migrateLegacySettings(): MigrationResult {
 
 export function cleanupLegacySettings(): void {
     try {
-        Object.values(LEGACY_STORAGE_KEYS).forEach(key => {
+        Object.values(LEGACY_STORAGE_KEYS).forEach((key) => {
             localStorage.removeItem(key);
         });
 
@@ -180,9 +194,15 @@ export function cleanupLegacySettings(): void {
             }
         }
 
-        logger.info('[SettingsMigration] Cleaned up legacy storage keys', { component: 'SettingsMigration' });
+        logger.info('[SettingsMigration] Cleaned up legacy storage keys', {
+            component: 'SettingsMigration'
+        });
     } catch (error) {
-        logger.error('[SettingsMigration] Cleanup failed', { component: 'SettingsMigration' }, error as Error);
+        logger.error(
+            '[SettingsMigration] Cleanup failed',
+            { component: 'SettingsMigration' },
+            error as Error
+        );
     }
 }
 
@@ -201,7 +221,11 @@ export function setSettingsVersion(version: number): void {
         const versionKey = 'jellyfin-settings-version';
         localStorage.setItem(versionKey, String(version));
     } catch (error) {
-        logger.error('[SettingsMigration] Failed to set version', { component: 'SettingsMigration' }, error as Error);
+        logger.error(
+            '[SettingsMigration] Failed to set version',
+            { component: 'SettingsMigration' },
+            error as Error
+        );
     }
 }
 

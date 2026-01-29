@@ -1,4 +1,3 @@
-
 /**
  * Module for image Options Editor.
  * @module components/imageOptionsEditor/imageOptionsEditor
@@ -21,13 +20,17 @@ function getDefaultImageConfig(itemType, type) {
 }
 
 function findImageOptions(imageOptions, type) {
-    return imageOptions.filter(i => {
+    return imageOptions.filter((i) => {
         return i.Type == type;
     })[0];
 }
 
 function getImageConfig(options, availableOptions, imageType, itemType) {
-    return findImageOptions(options.ImageOptions || [], imageType) || findImageOptions(availableOptions.DefaultImageOptions || [], imageType) || getDefaultImageConfig(itemType, imageType);
+    return (
+        findImageOptions(options.ImageOptions || [], imageType) ||
+        findImageOptions(availableOptions.DefaultImageOptions || [], imageType) ||
+        getDefaultImageConfig(itemType, imageType)
+    );
 }
 
 function setVisibilityOfBackdrops(elem, visible) {
@@ -43,8 +46,11 @@ function setVisibilityOfBackdrops(elem, visible) {
 
 function loadValues(context, itemType, options, availableOptions) {
     const supportedImageTypes = availableOptions.SupportedImageTypes || [];
-    setVisibilityOfBackdrops(context.querySelector('.backdropFields'), supportedImageTypes.includes('Backdrop'));
-    Array.prototype.forEach.call(context.querySelectorAll('.imageType'), i => {
+    setVisibilityOfBackdrops(
+        context.querySelector('.backdropFields'),
+        supportedImageTypes.includes('Backdrop')
+    );
+    Array.prototype.forEach.call(context.querySelectorAll('.imageType'), (i) => {
         const imageType = i.getAttribute('data-imagetype');
         const container = dom.parentWithTag(i, 'LABEL');
 
@@ -66,13 +72,16 @@ function loadValues(context, itemType, options, availableOptions) {
 }
 
 function saveValues(context, options) {
-    options.ImageOptions = Array.prototype.map.call(context.querySelectorAll('.imageType:not(.hide)'), c => {
-        return {
-            Type: c.getAttribute('data-imagetype'),
-            Limit: c.checked ? 1 : 0,
-            MinWidth: 0
-        };
-    });
+    options.ImageOptions = Array.prototype.map.call(
+        context.querySelectorAll('.imageType:not(.hide)'),
+        (c) => {
+            return {
+                Type: c.getAttribute('data-imagetype'),
+                Limit: c.checked ? 1 : 0,
+                MinWidth: 0
+            };
+        }
+    );
     options.ImageOptions.push({
         Type: 'Backdrop',
         Limit: context.querySelector('#txtMaxBackdrops').value,
@@ -93,11 +102,14 @@ class ImageOptionsEditor {
             saveValues(dlg, options);
         });
         loadValues(dlg, itemType, options, availableOptions);
-        dialogHelper.open(dlg).then(() => {
-            return;
-        }).catch(() => {
-            return;
-        });
+        dialogHelper
+            .open(dlg)
+            .then(() => {
+                return;
+            })
+            .catch(() => {
+                return;
+            });
         dlg.querySelector('.btnCancel').addEventListener('click', () => {
             dialogHelper.close(dlg);
         });

@@ -13,10 +13,14 @@
  * and error handling. Compatible with legacy event system through dual-write.
  */
 
-import { useMutation, useQuery, useQueryClient, queryOptions } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { ServerConnections } from '../lib/jellyfin-apiclient';
-import type { ServerInfo, ConnectResponse, ConnectOptions } from '../lib/jellyfin-apiclient/types/connectionManager.types';
+import type {
+    ConnectOptions,
+    ConnectResponse,
+    ServerInfo
+} from '../lib/jellyfin-apiclient/types/connectionManager.types';
 import { useConnectionStore } from '../store/connectionStore';
 import logger from '../utils/logger';
 
@@ -28,7 +32,8 @@ export const connectionQueryKeys = {
     servers: () => [...connectionQueryKeys.all, 'servers'] as const,
     availableServers: () => [...connectionQueryKeys.servers(), 'available'] as const,
     savedServers: () => [...connectionQueryKeys.servers(), 'saved'] as const,
-    publicSystemInfo: (serverId: string) => [...connectionQueryKeys.all, 'publicSystemInfo', serverId] as const,
+    publicSystemInfo: (serverId: string) =>
+        [...connectionQueryKeys.all, 'publicSystemInfo', serverId] as const,
     status: () => [...connectionQueryKeys.all, 'status'] as const
 } as const;
 
@@ -154,7 +159,9 @@ export const useConnectToServer = () => {
             });
 
             // Invalidate related queries
-            void queryClient.invalidateQueries({ queryKey: connectionQueryKeys.availableServers() });
+            void queryClient.invalidateQueries({
+                queryKey: connectionQueryKeys.availableServers()
+            });
             void queryClient.invalidateQueries({ queryKey: connectionQueryKeys.savedServers() });
             void queryClient.invalidateQueries({ queryKey: connectionQueryKeys.status() });
 
@@ -209,7 +216,9 @@ export const useConnectToAddress = () => {
             });
 
             // Invalidate related queries
-            void queryClient.invalidateQueries({ queryKey: connectionQueryKeys.availableServers() });
+            void queryClient.invalidateQueries({
+                queryKey: connectionQueryKeys.availableServers()
+            });
             void queryClient.invalidateQueries({ queryKey: connectionQueryKeys.status() });
 
             // Update store
@@ -289,18 +298,16 @@ export const useLogout = () => {
  */
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const useConnectionStatus = () => {
-    return useConnectionStore(
-        (state) => ({
-            currentState: state.currentState,
-            webSocketState: state.webSocketState,
-            currentServerId: state.currentServerId,
-            currentApiClient: state.currentApiClient,
-            currentUserId: state.currentUserId,
-            metrics: state.metrics,
-            lastError: state.lastError,
-            availableServers: state.availableServers
-        })
-    );
+    return useConnectionStore((state) => ({
+        currentState: state.currentState,
+        webSocketState: state.webSocketState,
+        currentServerId: state.currentServerId,
+        currentApiClient: state.currentApiClient,
+        currentUserId: state.currentUserId,
+        metrics: state.metrics,
+        lastError: state.lastError,
+        availableServers: state.availableServers
+    }));
 };
 
 /**

@@ -27,7 +27,7 @@ class PerformanceMonitor {
         let clsValue = 0;
 
         try {
-            new PerformanceObserver(entryList => {
+            new PerformanceObserver((entryList) => {
                 for (const entry of entryList.getEntries() as any[]) {
                     if (!entry.hadRecentInput) {
                         clsValue += entry.value;
@@ -43,10 +43,14 @@ class PerformanceMonitor {
 
     static measureFID() {
         try {
-            new PerformanceObserver(entryList => {
+            new PerformanceObserver((entryList) => {
                 for (const entry of entryList.getEntries() as any[]) {
                     const fid = entry.processingStart - entry.startTime;
-                    logger.debug('FID metric', { component: 'PerformanceMonitor', value: fid, unit: 'ms' });
+                    logger.debug('FID metric', {
+                        component: 'PerformanceMonitor',
+                        value: fid,
+                        unit: 'ms'
+                    });
                 }
             }).observe({ type: 'first-input', buffered: true });
         } catch (e) {
@@ -56,10 +60,14 @@ class PerformanceMonitor {
 
     static measureLCP() {
         try {
-            new PerformanceObserver(entryList => {
+            new PerformanceObserver((entryList) => {
                 const entries = entryList.getEntries();
                 const lastEntry = entries[entries.length - 1];
-                logger.debug('LCP metric', { component: 'PerformanceMonitor', value: lastEntry.startTime, unit: 'ms' });
+                logger.debug('LCP metric', {
+                    component: 'PerformanceMonitor',
+                    value: lastEntry.startTime,
+                    unit: 'ms'
+                });
             }).observe({ type: 'largest-contentful-paint', buffered: true });
         } catch (e) {
             // Not supported
@@ -68,10 +76,14 @@ class PerformanceMonitor {
 
     static measureTTFB() {
         try {
-            new PerformanceObserver(entryList => {
+            new PerformanceObserver((entryList) => {
                 for (const entry of entryList.getEntries() as any[]) {
                     const ttfb = entry.responseStart - entry.requestStart;
-                    logger.debug('TTFB metric', { component: 'PerformanceMonitor', value: ttfb, unit: 'ms' });
+                    logger.debug('TTFB metric', {
+                        component: 'PerformanceMonitor',
+                        value: ttfb,
+                        unit: 'ms'
+                    });
                 }
             }).observe({ type: 'navigation', buffered: true });
         } catch (e) {
@@ -82,10 +94,14 @@ class PerformanceMonitor {
     static measureBundleLoad() {
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-                const bundles = resources.filter(r => r.name.includes('.js') && !r.name.includes('libraries/'));
+                const resources = performance.getEntriesByType(
+                    'resource'
+                ) as PerformanceResourceTiming[];
+                const bundles = resources.filter(
+                    (r) => r.name.includes('.js') && !r.name.includes('libraries/')
+                );
 
-                const bundleInfo = bundles.map(bundle => ({
+                const bundleInfo = bundles.map((bundle) => ({
                     name: bundle.name,
                     duration: bundle.duration.toFixed(1)
                 }));
@@ -106,8 +122,11 @@ class PerformanceMonitor {
 
     static measurePWAMetrics() {
         if ('getInstalledRelatedApps' in navigator && navigator.getInstalledRelatedApps) {
-            navigator.getInstalledRelatedApps().then(apps => {
-                logger.debug('Related apps installed', { component: 'PerformanceMonitor', count: apps.length });
+            navigator.getInstalledRelatedApps().then((apps) => {
+                logger.debug('Related apps installed', {
+                    component: 'PerformanceMonitor',
+                    count: apps.length
+                });
             });
         }
 
@@ -144,7 +163,7 @@ class PerformanceMonitor {
 
     static measureServiceWorker() {
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.ready.then(registration => {
+            navigator.serviceWorker.ready.then((registration) => {
                 logger.debug('Service Worker ready', {
                     component: 'PerformanceMonitor',
                     state: registration.active?.state,
@@ -155,7 +174,10 @@ class PerformanceMonitor {
                 if ((window as any).ServiceWorkerCacheManager) {
                     (window as any).ServiceWorkerCacheManager.getCacheStatus()
                         .then((status: any) => {
-                            logger.debug('Cache status', { component: 'PerformanceMonitor', status });
+                            logger.debug('Cache status', {
+                                component: 'PerformanceMonitor',
+                                status
+                            });
                         })
                         .catch((error: any) => {
                             logger.error('Cache status check failed', {
@@ -171,17 +193,21 @@ class PerformanceMonitor {
     static reportMetrics() {
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+                const navigation = performance.getEntriesByType(
+                    'navigation'
+                )[0] as PerformanceNavigationTiming;
                 if (!navigation) return;
 
                 const paintEntries = performance.getEntriesByType('paint');
-                const firstPaint = paintEntries.find(p => p.name === 'first-paint')?.startTime || 0;
+                const firstPaint =
+                    paintEntries.find((p) => p.name === 'first-paint')?.startTime || 0;
                 const firstContentfulPaint =
-                    paintEntries.find(p => p.name === 'first-contentful-paint')?.startTime || 0;
+                    paintEntries.find((p) => p.name === 'first-contentful-paint')?.startTime || 0;
 
                 const metrics = {
                     loadTime: navigation.loadEventEnd - navigation.loadEventStart,
-                    domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
+                    domContentLoaded:
+                        navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
                     firstPaint,
                     firstContentfulPaint
                 };

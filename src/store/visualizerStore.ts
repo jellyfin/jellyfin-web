@@ -52,34 +52,34 @@ export const useVisualizerStore = create<VisualizerState>()(
             userZoomLevel: 100,
 
             // Actions
-            setEnabled: enabled => set({ enabled }),
-            setType: type => set({ type }),
-            setSensitivity: sensitivity =>
+            setEnabled: (enabled) => set({ enabled }),
+            setType: (type) => set({ type }),
+            setSensitivity: (sensitivity) =>
                 set({
                     sensitivity: Math.max(0, Math.min(100, sensitivity))
                 }),
-            setColorScheme: colorScheme => set({ colorScheme }),
-            setCrossfadeZoomLevel: crossfadeZoomLevel =>
+            setColorScheme: (colorScheme) => set({ colorScheme }),
+            setCrossfadeZoomLevel: (crossfadeZoomLevel) =>
                 set({
                     crossfadeZoomLevel: Math.max(20, Math.min(200, crossfadeZoomLevel))
                 }),
-            setShowCrossfadeOverlap: showCrossfadeOverlap =>
+            setShowCrossfadeOverlap: (showCrossfadeOverlap) =>
                 set({
                     showCrossfadeOverlap: showCrossfadeOverlap
                 }),
-            setMobileZoomLevel: mobileZoomLevel =>
+            setMobileZoomLevel: (mobileZoomLevel) =>
                 set({
                     mobileZoomLevel: Math.max(10, Math.min(200, mobileZoomLevel))
                 }),
-            setUserZoomLevel: userZoomLevel =>
+            setUserZoomLevel: (userZoomLevel) =>
                 set({
                     userZoomLevel: Math.max(10, Math.min(500, userZoomLevel))
                 }),
-            toggleEnabled: () => set(state => ({ enabled: !state.enabled }))
+            toggleEnabled: () => set((state) => ({ enabled: !state.enabled }))
         }),
         {
             name: 'jellyfin-visualizer-store',
-            partialize: state => ({
+            partialize: (state) => ({
                 type: state.type,
                 sensitivity: state.sensitivity,
                 colorScheme: state.colorScheme,

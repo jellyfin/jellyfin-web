@@ -1,5 +1,3 @@
-import React, { type FC } from 'react';
-
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
 import Loading from 'components/loading/LoadingComponent';
@@ -8,6 +6,7 @@ import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
 import { CardShape } from 'utils/card';
@@ -24,9 +23,14 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     isUpcomingRecordingsEnabled = false
 }) => {
     const { __legacyApiClient__ } = useApi();
-    const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
-    const { isLoading: isUpcomingRecordingsLoading, data: upcomingRecordings } =
-        useGetTimers(isUpcomingRecordingsEnabled);
+    const {
+        isLoading,
+        data: sectionsWithItems,
+        refetch
+    } = useGetProgramsSectionsWithItems(parentId, sectionType);
+    const { isLoading: isUpcomingRecordingsLoading, data: upcomingRecordings } = useGetTimers(
+        isUpcomingRecordingsEnabled
+    );
 
     if (isLoading || isUpcomingRecordingsLoading) {
         return <Loading />;
@@ -71,7 +75,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                 />
             ))}
 
-            {upcomingRecordings?.map(group => (
+            {upcomingRecordings?.map((group) => (
                 <SectionContainer
                     key={group.name}
                     sectionHeaderProps={{

@@ -1,12 +1,11 @@
-import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives';
-import useMediaInfoStats from './useMediaInfoStats';
-
-import MediaInfoItem from './MediaInfoItem';
+import React, { type FC } from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { MiscInfo } from 'types/mediaInfoItem';
+import { Box } from 'ui-primitives';
+import MediaInfoItem from './MediaInfoItem';
 import type { MediaInfoStatsOpts } from './type';
+import useMediaInfoStats from './useMediaInfoStats';
 
 interface MediaInfoStatsProps extends MediaInfoStatsOpts {
     className?: string;
@@ -45,7 +44,11 @@ const MediaInfoStats: FC<MediaInfoStatsProps> = ({
     return (
         <Box className={cssClass}>
             {mediaInfoStats.map((info, index) => (
-                <MediaInfoItem key={getInfoKey(info, index)} className={infoclass} miscInfo={info} />
+                <MediaInfoItem
+                    key={getInfoKey(info, index)}
+                    className={infoclass}
+                    miscInfo={info}
+                />
             ))}
         </Box>
     );

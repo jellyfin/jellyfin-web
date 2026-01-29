@@ -1,4 +1,4 @@
-export { NotchFilterNode } from './notchFilter';
-export { CrossfadeWithFXSends } from './fxSend';
 export { FXBus } from './fxBus';
+export { CrossfadeWithFXSends } from './fxSend';
+export { NotchFilterNode } from './notchFilter';
 export type * from './types';

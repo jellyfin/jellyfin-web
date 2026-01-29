@@ -1,4 +1,5 @@
 export {
+    DataTable,
     dataTableActionsCellStyles,
     dataTableBodyStyles,
     dataTableCellPinnedLeftStyles,
@@ -20,6 +21,5 @@ export {
     dataTableRowPinnedStyles,
     dataTableRowStyles,
     dataTableStyles,
-    dataTableToolbarStyles,
-    DataTable
+    dataTableToolbarStyles
 } from './DataTable';

@@ -1,14 +1,25 @@
-import React from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { FormControl, FormHelperText, FormLabel } from 'ui-primitives';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-
-import { DATE_LOCALE_OPTIONS, LANGUAGE_OPTIONS } from 'apps/experimental/features/preferences/constants/locales';
+import {
+    DATE_LOCALE_OPTIONS,
+    LANGUAGE_OPTIONS
+} from 'apps/experimental/features/preferences/constants/locales';
 import { safeAppHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 import globalize from 'lib/globalize';
+import React from 'react';
 import datetime from 'scripts/datetime';
+import {
+    Box,
+    Flex,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from 'ui-primitives';
 
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
@@ -17,7 +28,10 @@ interface LocalizationPreferencesProps {
     values: DisplaySettingsValues;
 }
 
-export function LocalizationPreferences({ onChange, values }: Readonly<LocalizationPreferencesProps>) {
+export function LocalizationPreferences({
+    onChange,
+    values
+}: Readonly<LocalizationPreferencesProps>) {
     if (!safeAppHost.supports(AppFeature.DisplayLanguage) && !datetime.supportsLocalization()) {
         return null;
     }
@@ -35,9 +49,14 @@ export function LocalizationPreferences({ onChange, values }: Readonly<Localizat
             {safeAppHost.supports(AppFeature.DisplayLanguage) && (
                 <FormControl>
                     <FormLabel>{globalize.translate('LabelDisplayLanguage')}</FormLabel>
-                    <Select value={values.language || ''} onValueChange={handleSelectChange('language')}>
+                    <Select
+                        value={values.language || ''}
+                        onValueChange={handleSelectChange('language')}
+                    >
                         <SelectTrigger>
-                            <SelectValue placeholder={globalize.translate('LabelDisplayLanguage')} />
+                            <SelectValue
+                                placeholder={globalize.translate('LabelDisplayLanguage')}
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {LANGUAGE_OPTIONS.map(({ value, label }) => (
@@ -67,7 +86,10 @@ export function LocalizationPreferences({ onChange, values }: Readonly<Localizat
             {datetime.supportsLocalization() && (
                 <FormControl>
                     <FormLabel>{globalize.translate('LabelDateTimeLocale')}</FormLabel>
-                    <Select value={values.dateTimeLocale || ''} onValueChange={handleSelectChange('dateTimeLocale')}>
+                    <Select
+                        value={values.dateTimeLocale || ''}
+                        onValueChange={handleSelectChange('dateTimeLocale')}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder={globalize.translate('LabelDateTimeLocale')} />
                         </SelectTrigger>

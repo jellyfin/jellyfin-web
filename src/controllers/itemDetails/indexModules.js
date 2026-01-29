@@ -1,53 +1,37 @@
 export {
-    renderBackdrop
-} from './renderers/backdropRenderer';
-
-export {
-    renderHeaderBackdrop
-} from './renderers/headerRenderer';
-
+    onInstantMixClick,
+    onPlayClick,
+    onShuffleClick,
+    playTrailer
+} from './actions/playbackActions';
+export { renderBackdrop } from './renderers/backdropRenderer';
+export { renderHeaderBackdrop } from './renderers/headerRenderer';
 export {
     renderLogo,
     renderYear
 } from './renderers/imageRenderer';
-
 export {
-    renderVideoSelections,
     renderAudioSelections,
-    renderSubtitleSelections
+    renderSubtitleSelections,
+    renderVideoSelections
 } from './renderers/mediaSelectionRenderer';
-
 export {
-    reloadPlayButtons
-} from './renderers/playbackButtonRenderer';
-
-export {
-    renderOverview
-} from './renderers/overviewRenderer';
-
-export {
-    renderGenres,
-    renderWriter,
     renderDirector,
+    renderGenres,
     renderStudio,
-    renderTagline
+    renderTagline,
+    renderWriter
 } from './renderers/metadataRenderer';
-
-export {
-    getPromise,
-    hideAll,
-    autoFocus,
-    enableScrollX
-} from './utils/viewHelpers';
+export { renderOverview } from './renderers/overviewRenderer';
+export { reloadPlayButtons } from './renderers/playbackButtonRenderer';
 
 export {
     getSelectedMediaSource,
     onTrackSelectionsSubmit
 } from './utils/trackHelpers';
-
 export {
-    onPlayClick,
-    onInstantMixClick,
-    onShuffleClick,
-    playTrailer
-} from './actions/playbackActions';
+    autoFocus,
+    enableScrollX,
+    getPromise,
+    hideAll
+} from './utils/viewHelpers';

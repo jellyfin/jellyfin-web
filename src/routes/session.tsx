@@ -1,10 +1,10 @@
 import { createRoute } from '@tanstack/react-router';
+import { Login } from 'apps/stable/routes/session/login/Login';
+import { SelectServer } from 'apps/stable/routes/session/selectServer/SelectServer';
 import ConnectionRequired from 'components/ConnectionRequired';
 import ServerSelection from 'components/ServerSelection';
-import { SelectServer } from 'apps/stable/routes/session/selectServer/SelectServer';
-import { Login } from 'apps/stable/routes/session/login/Login';
-import { Route } from './__root';
 import { Box, Text } from 'ui-primitives';
+import { Route } from './__root';
 
 export const testRoute = createRoute({
     getParentRoute: () => Route,

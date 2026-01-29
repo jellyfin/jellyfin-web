@@ -1,7 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { useBackspinStore } from '../../../../../store/backspinStore';
+import { useCallback, useRef, useState } from 'react';
 import { backspinHandler } from '../../../../../components/audioEngine/backspinHandler';
+import { useBackspinStore } from '../../../../../store/backspinStore';
 import { HAPTIC_PATTERNS } from '../../../../../types/transport';
 
 export interface DiscImageProps {
@@ -50,7 +50,13 @@ export function DiscImage({
     const isBraking = state === 'PAUSING_SLOWDOWN' || state === 'STOPPING_BRAKE';
     const isSpinning = state === 'SEEK_END';
 
-    const displayState = isPlaying ? 'playing' : isBraking ? 'braking' : isSpinning ? 'spinning' : 'paused';
+    const displayState = isPlaying
+        ? 'playing'
+        : isBraking
+          ? 'braking'
+          : isSpinning
+            ? 'spinning'
+            : 'paused';
 
     const sizeMap = {
         sm: 48,

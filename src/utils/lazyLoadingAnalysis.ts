@@ -40,10 +40,14 @@ class BundleOptimizationAnalyzer {
 
     static analyzeTreeShakingOpportunities() {
         logger.info('Tree Shaking Opportunities', { component: 'BundleAnalyzer' });
-        logger.info('Lodash-es: Replace with lodash-es/individual methods', { component: 'BundleAnalyzer' });
+        logger.info('Lodash-es: Replace with lodash-es/individual methods', {
+            component: 'BundleAnalyzer'
+        });
         logger.info('Material-UI: Import only used components', { component: 'BundleAnalyzer' });
         logger.info('Date-fns: Import specific functions only', { component: 'BundleAnalyzer' });
-        logger.warn('Potential unused: epubjs, jstree, swiper, sortablejs', { component: 'BundleAnalyzer' });
+        logger.warn('Potential unused: epubjs, jstree, swiper, sortablejs', {
+            component: 'BundleAnalyzer'
+        });
     }
 
     static calculatePotentialSavings() {
@@ -56,19 +60,28 @@ class BundleOptimizationAnalyzer {
             'Tree Shaking: Lodash (500KB-2MB), MUI (2-3MB), Date-fns (200-500KB), Unused deps (1-2MB) - Total 3-7MB (10-25%)',
             { component: 'BundleAnalyzer' }
         );
-        logger.info('Combined Impact: 15-27MB reduction (55-80%), 70-85% faster load, 60-75% TTI improvement', {
-            component: 'BundleAnalyzer'
-        });
+        logger.info(
+            'Combined Impact: 15-27MB reduction (55-80%), 70-85% faster load, 60-75% TTI improvement',
+            {
+                component: 'BundleAnalyzer'
+            }
+        );
     }
 
     static generateImplementationPlan() {
         logger.info('Implementation Plan', { component: 'BundleAnalyzer' });
-        logger.info('Phase 1 (1-2 days): Convert routes to async, implement lazy loading, optimize lodash', {
-            component: 'BundleAnalyzer'
-        });
-        logger.info('Phase 2 (3-5 days): Tree shake MUI, optimize date-fns, remove unused deps, add feature flags', {
-            component: 'BundleAnalyzer'
-        });
+        logger.info(
+            'Phase 1 (1-2 days): Convert routes to async, implement lazy loading, optimize lodash',
+            {
+                component: 'BundleAnalyzer'
+            }
+        );
+        logger.info(
+            'Phase 2 (3-5 days): Tree shake MUI, optimize date-fns, remove unused deps, add feature flags',
+            {
+                component: 'BundleAnalyzer'
+            }
+        );
         logger.info(
             'Phase 3 (1-2 weeks): Code splitting by permissions, dynamic imports by preferences, predictive loading, SW pre-caching',
             { component: 'BundleAnalyzer' }
@@ -94,7 +107,11 @@ class BundleOptimizationAnalyzer {
             { item: 'Tree shake MUI imports', effort: 'Medium', impact: 'High' },
             { item: 'Optimize date-fns imports', effort: 'Low', impact: 'Low' },
             { item: 'Remove unused dependencies', effort: 'Medium', impact: 'Low' },
-            { item: 'Add feature flags for optional components', effort: 'Medium', impact: 'Medium' }
+            {
+                item: 'Add feature flags for optional components',
+                effort: 'Medium',
+                impact: 'Medium'
+            }
         ];
         logger.info('Optimization Checklist', { component: 'BundleAnalyzer', checklist });
     }

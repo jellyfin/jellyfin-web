@@ -61,8 +61,8 @@ async function getConfig() {
 
 export function getIncludeCorsCredentials() {
     return getConfig()
-        .then(config => !!config.includeCorsCredentials)
-        .catch(error => {
+        .then((config) => !!config.includeCorsCredentials)
+        .catch((error) => {
             logger.warn('Cannot get web config', { component: 'webSettings' }, error);
             return false;
         });
@@ -75,10 +75,10 @@ export function getMultiServer() {
     }
 
     return getConfig()
-        .then(config => {
+        .then((config) => {
             return !!config.multiserver;
         })
-        .catch(error => {
+        .catch((error) => {
             logger.warn('Cannot get web config', { component: 'webSettings' }, error);
             return false;
         });
@@ -86,10 +86,10 @@ export function getMultiServer() {
 
 export function getServers() {
     return getConfig()
-        .then(config => {
+        .then((config) => {
             return config.Servers || [];
         })
-        .catch(error => {
+        .catch((error) => {
             logger.warn('Cannot get web config', { component: 'webSettings' }, error);
             return [];
         });
@@ -103,9 +103,9 @@ const baseDefaultTheme = {
 
 let internalDefaultTheme = baseDefaultTheme;
 
-const checkDefaultTheme = themes => {
+const checkDefaultTheme = (themes) => {
     if (themes) {
-        const defaultTheme = themes.find(theme => theme.default);
+        const defaultTheme = themes.find((theme) => theme.default);
 
         if (defaultTheme) {
             internalDefaultTheme = defaultTheme;
@@ -118,7 +118,7 @@ const checkDefaultTheme = themes => {
 
 export function getThemes() {
     return getConfig()
-        .then(config => {
+        .then((config) => {
             if (!Array.isArray(config.themes)) {
                 logger.error('Web config is invalid, missing themes', { component: 'webSettings' });
             }
@@ -126,7 +126,7 @@ export function getThemes() {
             checkDefaultTheme(themes);
             return themes;
         })
-        .catch(error => {
+        .catch((error) => {
             logger.warn('Cannot get web config', { component: 'webSettings' }, error);
             checkDefaultTheme();
             return DefaultConfig.themes;
@@ -137,13 +137,15 @@ export const getDefaultTheme = () => internalDefaultTheme;
 
 export function getMenuLinks() {
     return getConfig()
-        .then(config => {
+        .then((config) => {
             if (!config.menuLinks) {
-                logger.error('Web config is invalid, missing menuLinks', { component: 'webSettings' });
+                logger.error('Web config is invalid, missing menuLinks', {
+                    component: 'webSettings'
+                });
             }
             return config.menuLinks || [];
         })
-        .catch(error => {
+        .catch((error) => {
             logger.warn('Cannot get web config', { component: 'webSettings' }, error);
             return [];
         });
@@ -151,13 +153,15 @@ export function getMenuLinks() {
 
 export function getPlugins() {
     return getConfig()
-        .then(config => {
+        .then((config) => {
             if (!config.plugins) {
-                logger.error('Web config is invalid, missing plugins', { component: 'webSettings' });
+                logger.error('Web config is invalid, missing plugins', {
+                    component: 'webSettings'
+                });
             }
             return config.plugins || DefaultConfig.plugins;
         })
-        .catch(error => {
+        .catch((error) => {
             logger.warn('Cannot get web config', { component: 'webSettings' }, error);
             return DefaultConfig.plugins;
         });

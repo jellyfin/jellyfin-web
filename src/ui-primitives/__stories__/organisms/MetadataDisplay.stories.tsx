@@ -5,8 +5,8 @@ const meta: Meta<typeof MetadataDisplay> = {
     title: 'Organisms/MetadataDisplay',
     component: MetadataDisplay,
     parameters: {
-        layout: 'centered',
-    },
+        layout: 'centered'
+    }
 };
 
 export default meta;
@@ -17,8 +17,8 @@ export const Default: Story = {
         title: 'Better Now',
         artist: 'Post Malone',
         album: 'beerbongs & bentleys',
-        size: 'md',
-    },
+        size: 'md'
+    }
 };
 
 export const Large: Story = {
@@ -26,6 +26,6 @@ export const Large: Story = {
         title: 'Better Now',
         artist: 'Post Malone',
         album: 'beerbongs & bentleys',
-        size: 'lg',
-    },
+        size: 'lg'
+    }
 };

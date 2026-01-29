@@ -1,35 +1,39 @@
-import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
-import { merge } from '../../utils/lodashUtils';
-import fullscreen from '../../utils/fullscreen';
-import Events from '../../utils/events';
-import datetime from '../../scripts/datetime';
-import appSettings from '../../scripts/settings/appSettings';
-import itemHelper from '../itemHelper';
-import { pluginManager } from '../pluginManager';
-import PlayQueueManager from './playqueuemanager';
-import * as userSettings from '../../scripts/settings/userSettings';
-import globalize from 'lib/globalize';
-import loading from '../loading/loading';
-import { safeAppHost } from '../apphost';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import type { ApiClient } from 'jellyfin-apiclient';
-import alert from '../alert';
-import { PluginType } from '../../types/plugin';
-import { includesAny } from '../../utils/container';
-import { getItems } from '../../utils/jellyfin-apiclient/getItems';
-import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { MediaError } from 'types/mediaError';
-import { getMediaError } from 'utils/mediaError';
-import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
-import { timeRunningOut, getCrossfadeDuration, cancelCrossfadeTimeouts } from 'components/audioEngine/crossfader.logic';
+import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code.js';
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
-import { bindSkipSegment } from './skipsegment';
+import {
+    cancelCrossfadeTimeouts,
+    getCrossfadeDuration,
+    timeRunningOut
+} from 'components/audioEngine/crossfader.logic';
+import { destroyWaveSurferInstance } from 'components/visualizer/WaveSurfer';
+import type { ApiClient } from 'jellyfin-apiclient';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { MediaError } from 'types/mediaError';
+import { getMediaError } from 'utils/mediaError';
+import datetime from '../../scripts/datetime';
+import appSettings from '../../scripts/settings/appSettings';
+import * as userSettings from '../../scripts/settings/userSettings';
 import { useMediaStore } from '../../store/mediaStore';
 import { usePlayerStore } from '../../store/playerStore';
+import { PluginType } from '../../types/plugin';
+import { includesAny } from '../../utils/container';
+import Events from '../../utils/events';
+import fullscreen from '../../utils/fullscreen';
+import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
+import { getItems } from '../../utils/jellyfin-apiclient/getItems';
+import { merge } from '../../utils/lodashUtils';
 import logger from '../../utils/logger';
+import alert from '../alert';
+import { safeAppHost } from '../apphost';
+import itemHelper from '../itemHelper';
+import loading from '../loading/loading';
+import { pluginManager } from '../pluginManager';
+import PlayQueueManager from './playqueuemanager';
+import { bindSkipSegment } from './skipsegment';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -83,14 +87,20 @@ function triggerPlayerChange(
             id: newPlayer.id,
             name: newPlayer.name,
             isLocalPlayer: newPlayer.isLocalPlayer,
-            supportedCommands: newPlayer.getSupportedCommands ? newPlayer.getSupportedCommands() : [],
+            supportedCommands: newPlayer.getSupportedCommands
+                ? newPlayer.getSupportedCommands()
+                : [],
             canPlayMediaTypes: ['Audio', 'Video'] // Fallback or detect
         });
     } else {
         usePlayerStore.getState().setCurrentPlayer(null);
     }
 
-    Events.trigger(_playbackManagerInstance, 'playerchange', [newPlayer, _newTarget, previousPlayer]);
+    Events.trigger(_playbackManagerInstance, 'playerchange', [
+        newPlayer,
+        _newTarget,
+        previousPlayer
+    ]);
 }
 
 function reportPlayback(
@@ -299,11 +309,20 @@ function getAudioMaxValues(deviceProfile: any) {
     deviceProfile.CodecProfiles.forEach((codecProfile: any) => {
         if (codecProfile.Type === 'Audio') {
             (codecProfile.Conditions || []).forEach((condition: any) => {
-                if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitDepth') {
+                if (
+                    condition.Condition === 'LessThanEqual' &&
+                    condition.Property === 'AudioBitDepth'
+                ) {
                     maxAudioBitDepth = condition.Value;
-                } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
+                } else if (
+                    condition.Condition === 'LessThanEqual' &&
+                    condition.Property === 'AudioSampleRate'
+                ) {
                     maxAudioSampleRate = condition.Value;
-                } else if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitrate') {
+                } else if (
+                    condition.Condition === 'LessThanEqual' &&
+                    condition.Property === 'AudioBitrate'
+                ) {
                     maxAudioBitrate = condition.Value;
                 }
             });
@@ -422,10 +441,17 @@ function getAudioStreamUrlFromDeviceProfile(
 
     const maxValues = getAudioMaxValues(deviceProfile);
 
-    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, {
-        maxBitrate,
-        ...maxValues
-    });
+    return getAudioStreamUrl(
+        item,
+        transcodingProfile,
+        directPlayContainers,
+        apiClient,
+        startPosition,
+        {
+            maxBitrate,
+            ...maxValues
+        }
+    );
 }
 
 function getStreamUrls(
@@ -491,21 +517,23 @@ function setStreamUrls(
     apiClient: ApiClient,
     startPosition: number
 ) {
-    return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(streamUrls => {
-        for (let i = 0, length = items.length; i < length; i++) {
-            const item = items[i];
-            const streamUrl = streamUrls[i];
+    return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(
+        (streamUrls) => {
+            for (let i = 0, length = items.length; i < length; i++) {
+                const item = items[i];
+                const streamUrl = streamUrls[i];
 
-            if (streamUrl) {
-                item.PresetMediaSource = {
-                    StreamUrl: streamUrl,
-                    Id: item.Id,
-                    MediaStreams: [],
-                    RunTimeTicks: item.RunTimeTicks
-                };
+                if (streamUrl) {
+                    item.PresetMediaSource = {
+                        StreamUrl: streamUrl,
+                        Id: item.Id,
+                        MediaStreams: [],
+                        RunTimeTicks: item.RunTimeTicks
+                    };
+                }
             }
         }
-    });
+    );
 }
 
 function getPlaybackInfo(
@@ -517,7 +545,11 @@ function getPlaybackInfo(
     liveStreamId: string,
     options: any
 ) {
-    if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
+    if (
+        !itemHelper.isLocalItem(item) &&
+        item.MediaType === 'Audio' &&
+        !player.useServerPlaybackInfoForAudio
+    ) {
         return Promise.resolve({
             MediaSources: [
                 {
@@ -715,7 +747,9 @@ function isHostReachable(mediaSource: any, apiClient: ApiClient) {
 function supportsDirectPlay(apiClient: ApiClient, item: any, mediaSource: any) {
     // folder rip hacks due to not yet being supported by the stream building engine
     const isFolderRip =
-        mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
+        mediaSource.VideoType === 'BluRay' ||
+        mediaSource.VideoType === 'Dvd' ||
+        mediaSource.VideoType === 'HdDvd';
 
     if (mediaSource.SupportsDirectPlay || isFolderRip) {
         if (mediaSource.IsRemote && !supportsAppFeature('remotevideo')) {
@@ -954,12 +988,14 @@ export class PlaybackManager {
     getTargets(): Promise<any[]> {
         // Return available playback targets
         return Promise.resolve(
-            this.players.map(player => ({
+            this.players.map((player) => ({
                 name: player.name,
                 playerName: player.name,
                 id: player.id,
                 deviceName: (player as any).deviceName,
-                playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'].map(player.canPlayMediaType),
+                playableMediaTypes: ['Audio', 'Video', 'Photo', 'Book'].map(
+                    player.canPlayMediaType
+                ),
                 isLocalPlayer: player.isLocalPlayer,
                 supportedCommands: this.getSupportedCommands(player)
             }))
@@ -1084,7 +1120,10 @@ export class PlaybackManager {
     }
 
     setActivePlayer(player: Player | string, targetInfo: any): void {
-        if (player === 'localplayer' || (typeof player === 'object' && player.name === 'localplayer')) {
+        if (
+            player === 'localplayer' ||
+            (typeof player === 'object' && player.name === 'localplayer')
+        ) {
             if (this._currentPlayer?.isLocalPlayer) {
                 return;
             }
@@ -1106,7 +1145,10 @@ export class PlaybackManager {
     trySetActivePlayer(player: Player | string | undefined, targetInfo: any): void {
         if (!player) return;
 
-        if (player === 'localplayer' || (typeof player === 'object' && (player as Player).name === 'localplayer')) {
+        if (
+            player === 'localplayer' ||
+            (typeof player === 'object' && (player as Player).name === 'localplayer')
+        ) {
             if (this._currentPlayer?.isLocalPlayer) {
                 return;
             }
@@ -1157,7 +1199,10 @@ export class PlaybackManager {
             try {
                 (player as any).stop();
             } catch (e) {
-                logger.error('Error stopping previous player', { component: 'PlaybackManager', error: e as Error });
+                logger.error('Error stopping previous player', {
+                    component: 'PlaybackManager',
+                    error: e as Error
+                });
             }
         }
     }
@@ -1237,7 +1282,8 @@ export class PlaybackManager {
 
         const startPosition = options.startPositionTicks || 0;
         const playbackOptions = {
-            maxBitrate: options.maxBitrate || this.getMaxStreamingBitrate(apiClient, item.MediaType),
+            maxBitrate:
+                options.maxBitrate || this.getMaxStreamingBitrate(apiClient, item.MediaType),
             startPosition: startPosition,
             isPlayback: true,
             audioStreamIndex: options.audioStreamIndex ?? null,
@@ -1302,7 +1348,12 @@ export class PlaybackManager {
             });
     }
 
-    private onPlaybackStarted(player: Player, playOptions: any, streamInfo: any, mediaSource?: any): void {
+    private onPlaybackStarted(
+        player: Player,
+        playOptions: any,
+        streamInfo: any,
+        mediaSource?: any
+    ): void {
         const playerData = this.getPlayerData(player);
         playerData.streamInfo = streamInfo;
 
@@ -1357,7 +1408,9 @@ export class PlaybackManager {
         // Default to 10 Mbps for audio, use user settings when available
         if (mediaType === 'Audio') {
             const bitrate = appSettings.maxStreamingBitrate?.(apiClient, mediaType);
-            return (typeof bitrate === 'number' ? bitrate : parseInt(String(bitrate), 10)) || 10000000;
+            return (
+                (typeof bitrate === 'number' ? bitrate : parseInt(String(bitrate), 10)) || 10000000
+            );
         }
         const bitrate = appSettings.maxStreamingBitrate?.(apiClient, mediaType);
         return (typeof bitrate === 'number' ? bitrate : parseInt(String(bitrate), 10)) || 40000000;
@@ -1416,7 +1469,10 @@ export class PlaybackManager {
                 }
 
                 const prefix = type === 'Video' ? 'Videos' : 'Audio';
-                mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
+                mediaUrl = apiClient.getUrl(
+                    prefix + '/' + item.Id + '/stream.' + mediaSourceContainer,
+                    directOptions
+                );
 
                 playMethod = mediaSource.SupportsDirectPlay ? 'DirectPlay' : 'DirectStream';
             } else if (mediaSource.SupportsTranscoding) {
@@ -1527,7 +1583,9 @@ export class PlaybackManager {
 
     isPlayingMediaType(mediaType: string, player?: Player): boolean {
         const targetPlayer = player || this._currentPlayer;
-        return targetPlayer?.isPlayingMediaType ? targetPlayer.isPlayingMediaType(mediaType) : false;
+        return targetPlayer?.isPlayingMediaType
+            ? targetPlayer.isPlayingMediaType(mediaType)
+            : false;
     }
 
     isPlayingVideo(player?: Player): boolean {
@@ -1920,7 +1978,9 @@ export class PlaybackManager {
 
             const apiClient = ServerConnections.getApiClient(options.serverId);
             const user = await apiClient.getCurrentUser();
-            const result = await getItems(apiClient, (user as any).Id, { Ids: options.ids.join(',') });
+            const result = await getItems(apiClient, (user as any).Id, {
+                Ids: options.ids.join(',')
+            });
             const items = await this.translateItemsForPlayback(result.Items || [], options);
             const allItems = await this.getAdditionalParts(items);
             const flattened = allItems.flat();
@@ -2001,10 +2061,17 @@ export class PlaybackManager {
     private async getAdditionalParts(items: any[]): Promise<any[]> {
         const getOneAdditionalPart = async (item: any) => {
             let retVal = [item];
-            if (item.PartCount && item.PartCount > 1 && (item.Type === 'Movie' || item.Type === 'Episode')) {
+            if (
+                item.PartCount &&
+                item.PartCount > 1 &&
+                (item.Type === 'Movie' || item.Type === 'Episode')
+            ) {
                 const client = ServerConnections.getApiClient(item.ServerId);
                 const user = await client.getCurrentUser();
-                const additionalParts = await (client as any).getAdditionalVideoParts(user.Id, item.Id);
+                const additionalParts = await (client as any).getAdditionalVideoParts(
+                    user.Id,
+                    item.Id
+                );
                 if (additionalParts.Items.length) {
                     retVal = [item, ...additionalParts.Items];
                 }
@@ -2012,7 +2079,7 @@ export class PlaybackManager {
             return retVal;
         };
 
-        return Promise.all(items.flatMap(item => getOneAdditionalPart(item)));
+        return Promise.all(items.flatMap((item) => getOneAdditionalPart(item)));
     }
 
     private sortItemsIfNeeded(items: any[], options: any): void {

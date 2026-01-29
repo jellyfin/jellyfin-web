@@ -1,11 +1,8 @@
-import React, { useState, useCallback } from 'react';
-
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { IconButton, Tooltip } from 'ui-primitives';
 import { logger } from 'utils/logger';
 
 export interface UserDataButtonsProps {
@@ -69,7 +66,11 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
             const apiClient = ServerConnections.getApiClient(item.ServerId);
             const newFavoriteState = !isFavorite;
 
-            await apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), item.Id, newFavoriteState);
+            await apiClient.updateFavoriteStatus(
+                apiClient.getCurrentUserId(),
+                item.Id,
+                newFavoriteState
+            );
 
             setIsFavorite(newFavoriteState);
             onUpdate?.({ Played: isPlayed, IsFavorite: newFavoriteState });
@@ -79,7 +80,10 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
                 itemId: item.Id
             });
         } catch (error) {
-            logger.error('Failed to update favorite status', { component: 'UserDataButtons', error });
+            logger.error('Failed to update favorite status', {
+                component: 'UserDataButtons',
+                error
+            });
         } finally {
             setLoading(null);
         }
@@ -124,7 +128,9 @@ export const UserDataButtons: React.FC<UserDataButtonsProps> = ({
                             })
                         }}
                     >
-                        <span className={`material-icons ${iconCssClass || ''}`}>{isPlayed ? 'check' : 'add'}</span>
+                        <span className={`material-icons ${iconCssClass || ''}`}>
+                            {isPlayed ? 'check' : 'add'}
+                        </span>
                     </IconButton>
                 </Tooltip>
             )}

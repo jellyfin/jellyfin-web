@@ -2,10 +2,17 @@ import React, {
     type CSSProperties,
     type KeyboardEvent,
     type MouseEventHandler,
-    type ReactNode,
-    type ReactElement
+    type ReactElement,
+    type ReactNode
 } from 'react';
-import { cardStyles, cardPadding, cardInteractive, cardHeader, cardBody, cardFooter } from './Card.css.ts';
+import {
+    cardBody,
+    cardFooter,
+    cardHeader,
+    cardInteractive,
+    cardPadding,
+    cardStyles
+} from './Card.css.ts';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
     readonly children: ReactNode;
@@ -50,7 +57,12 @@ export function Card({
 
     return (
         <div
-            className={[cardStyles, cardPadding, isInteractive ? cardInteractive : '', className ?? ''].join(' ')}
+            className={[
+                cardStyles,
+                cardPadding,
+                isInteractive ? cardInteractive : '',
+                className ?? ''
+            ].join(' ')}
             style={style}
             {...interactiveProps}
             {...props}

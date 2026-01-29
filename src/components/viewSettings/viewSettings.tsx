@@ -1,11 +1,8 @@
+import * as DialogPrimitive from '@radix-ui/react-dialog';
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { vars } from 'styles/tokens.css.ts';
-import { Button } from 'ui-primitives';
-import { SelectInput } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
+import { Button, Checkbox, Flex, SelectInput } from 'ui-primitives';
 import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import * as styles from './viewSettings.css.ts';
@@ -20,11 +17,18 @@ interface ViewSettingsDialogProps extends ViewSettingsOptions {
     onClose: (saved: boolean) => void;
 }
 
-function ViewSettingsDialogContent({ settingsKey, settings, visibleSettings, onClose }: ViewSettingsDialogProps) {
+function ViewSettingsDialogContent({
+    settingsKey,
+    settings,
+    visibleSettings,
+    onClose
+}: ViewSettingsDialogProps) {
     const [imageType, setImageType] = useState((settings.imageType as string) || 'primary');
     const [showTitle, setShowTitle] = useState((settings.showTitle as boolean) || false);
     const [showYear, setShowYear] = useState((settings.showYear as boolean) || false);
-    const [groupBySeries, setGroupBySeries] = useState((settings.groupBySeries as boolean) || false);
+    const [groupBySeries, setGroupBySeries] = useState(
+        (settings.groupBySeries as boolean) || false
+    );
 
     const showDetails = imageType !== 'list' && imageType !== 'banner';
 
@@ -58,7 +62,7 @@ function ViewSettingsDialogContent({ settingsKey, settings, visibleSettings, onC
                             <SelectInput
                                 label={globalize.translate('LabelImageType')}
                                 value={imageType}
-                                onChange={e => setImageType(e.target.value)}
+                                onChange={(e) => setImageType(e.target.value)}
                             >
                                 <option value="primary">{globalize.translate('Primary')}</option>
                                 <option value="banner">{globalize.translate('Banner')}</option>
@@ -70,19 +74,28 @@ function ViewSettingsDialogContent({ settingsKey, settings, visibleSettings, onC
                         )}
 
                         {visibleSettings.includes('showTitle') && showDetails && (
-                            <Checkbox checked={showTitle} onChange={e => setShowTitle(e.target.checked)}>
+                            <Checkbox
+                                checked={showTitle}
+                                onChange={(e) => setShowTitle(e.target.checked)}
+                            >
                                 {globalize.translate('ShowTitle')}
                             </Checkbox>
                         )}
 
                         {visibleSettings.includes('showYear') && showDetails && (
-                            <Checkbox checked={showYear} onChange={e => setShowYear(e.target.checked)}>
+                            <Checkbox
+                                checked={showYear}
+                                onChange={(e) => setShowYear(e.target.checked)}
+                            >
                                 {globalize.translate('ShowYear')}
                             </Checkbox>
                         )}
 
                         {visibleSettings.includes('groupBySeries') && (
-                            <Checkbox checked={groupBySeries} onChange={e => setGroupBySeries(e.target.checked)}>
+                            <Checkbox
+                                checked={groupBySeries}
+                                onChange={(e) => setGroupBySeries(e.target.checked)}
+                            >
                                 {globalize.translate('GroupBySeries')}
                             </Checkbox>
                         )}
@@ -102,7 +115,7 @@ function ViewSettingsDialogContent({ settingsKey, settings, visibleSettings, onC
 
 class ViewSettings {
     show(options: ViewSettingsOptions): Promise<void> {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             const container = document.createElement('div');
             container.id = 'viewSettingsDialogContainer';
             document.body.appendChild(container);

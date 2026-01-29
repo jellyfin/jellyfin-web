@@ -5,23 +5,34 @@
  * IMPACT: 2-4MB bundle reduction by splitting audio features
  */
 
+export { synchronizeVolumeUI } from './audioUtils';
+export {
+    destroyCrossfadePreloadHandler,
+    initializeCrossfadePreloadHandler
+} from './crossfadePreloadHandler';
+// Image preloading (ALWAYS loaded - critical for UX)
+export {
+    handleManualSkip,
+    handlePlaybackTimeUpdate,
+    handleTrackStart
+} from './crossfadePreloadManager';
+export {
+    cancelCrossfadeTimeouts,
+    getCrossfadeDuration,
+    syncManager,
+    timeRunningOut
+} from './crossfader.logic';
 // Core audio engine (ALWAYS loaded - critical for playback)
 export {
-    masterAudioOutput,
-    initializeMasterAudio,
-    rampPlaybackGain,
-    createGainNode,
-    ensureAudioNodeBundle,
-    removeAudioNodeBundle,
     audioNodeBus,
-    delayNodeBus
+    createGainNode,
+    delayNodeBus,
+    ensureAudioNodeBundle,
+    initializeMasterAudio,
+    masterAudioOutput,
+    rampPlaybackGain,
+    removeAudioNodeBundle
 } from './master.logic';
-export { getCrossfadeDuration, cancelCrossfadeTimeouts, timeRunningOut, syncManager } from './crossfader.logic';
-export { synchronizeVolumeUI } from './audioUtils';
-
-// Image preloading (ALWAYS loaded - critical for UX)
-export { handleTrackStart, handlePlaybackTimeUpdate, handleManualSkip } from './crossfadePreloadManager';
-export { initializeCrossfadePreloadHandler, destroyCrossfadePreloadHandler } from './crossfadePreloadHandler';
 
 // AudioWorklets (LAZY loaded - only when advanced audio features needed)
 export const loadAudioWorklets = () => import('./audioWorklets');
@@ -41,10 +52,10 @@ export const loadCrossfadeImageIntegration = () => import('./crossfadeImageInteg
 
 // FX Module (LAZY loaded - only when DJ-style effects needed)
 export const loadFXModule = () => import('./fx');
-export { NotchFilterNode, CrossfadeWithFXSends, FXBus } from './fx';
 
 // Audio WASM (LAZY loaded)
-export { loadAudioWasm, createTimeStretcher } from './audioWasm';
+export { createTimeStretcher, loadAudioWasm } from './audioWasm';
+export { CrossfadeWithFXSends, FXBus, NotchFilterNode } from './fx';
 
 // Bundle all worklets together for efficient loading
 export const audioWorklets = {

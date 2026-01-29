@@ -1,6 +1,6 @@
-import { handleTrackStart, handlePlaybackTimeUpdate } from './crossfadePreloadManager';
-import { logger } from '../../utils/logger';
 import { useMediaStore, usePlayerStore, useQueueStore } from '../../store';
+import { logger } from '../../utils/logger';
+import { handlePlaybackTimeUpdate, handleTrackStart } from './crossfadePreloadManager';
 
 let currentTimeCheckInterval: ReturnType<typeof setInterval> | null = null;
 const TIME_UPDATE_INTERVAL = 500;
@@ -125,8 +125,8 @@ function stopProgressTracking() {
 export function initializeCrossfadePreloadHandler(): void {
     // 1. Listen for status changes (Start/Stop)
     const unsubStatus = useMediaStore.subscribe(
-        state => state.status,
-        status => {
+        (state) => state.status,
+        (status) => {
             if (status === 'playing') {
                 const trackInfo = getCurrentTrackInfo();
                 if (trackInfo) {
@@ -141,7 +141,7 @@ export function initializeCrossfadePreloadHandler(): void {
 
     // 2. Listen for player changes
     const unsubPlayer = usePlayerStore.subscribe(
-        state => state.currentPlayer?.id,
+        (state) => state.currentPlayer?.id,
         () => {
             stopProgressTracking();
         }
@@ -149,7 +149,9 @@ export function initializeCrossfadePreloadHandler(): void {
 
     unsubs.push(unsubStatus, unsubPlayer);
 
-    logger.debug('[CrossfadePreloadHandler] Initialized via Store', { component: 'CrossfadePreloadHandler' });
+    logger.debug('[CrossfadePreloadHandler] Initialized via Store', {
+        component: 'CrossfadePreloadHandler'
+    });
 }
 
 export function destroyCrossfadePreloadHandler(): void {

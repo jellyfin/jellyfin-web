@@ -30,11 +30,15 @@ export function onVisibilityChange(callback: VisibilityCallback): () => void {
 if (typeof document !== 'undefined') {
     document.addEventListener('visibilitychange', () => {
         const visible = !document.hidden;
-        visibilityCallbacks.forEach(cb => {
+        visibilityCallbacks.forEach((cb) => {
             try {
                 cb(visible);
             } catch (err) {
-                logger.warn('[Visibility] Callback error', { component: 'Visibility' }, err as Error);
+                logger.warn(
+                    '[Visibility] Callback error',
+                    { component: 'Visibility' },
+                    err as Error
+                );
             }
         });
     });

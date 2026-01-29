@@ -1,8 +1,7 @@
 import type { Locale } from 'date-fns';
 import { enUS } from 'date-fns/locale';
-import { useEffect, useMemo, useState } from 'react';
-
 import { getDefaultLanguage, normalizeLocaleName } from 'lib/globalize';
+import { useEffect, useMemo, useState } from 'react';
 import { fetchLocale, normalizeLocale } from 'utils/dateFnsLocale';
 import { logger } from 'utils/logger';
 
@@ -12,7 +11,10 @@ export function useLocale() {
     const { dateTimeLocale: dateTimeSetting, language } = useUserSettings();
     const [dateFnsLocale, setDateFnsLocale] = useState<Locale>(enUS);
 
-    const locale: string = useMemo(() => normalizeLocaleName(language || getDefaultLanguage()), [language]);
+    const locale: string = useMemo(
+        () => normalizeLocaleName(language || getDefaultLanguage()),
+        [language]
+    );
 
     const dateTimeLocale: string = useMemo(
         () => (dateTimeSetting ? normalizeLocaleName(dateTimeSetting) : locale),

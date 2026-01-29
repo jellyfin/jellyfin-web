@@ -1,5 +1,5 @@
-import React, { type FC } from 'react';
 import classNames from 'classnames';
+import React, { type FC } from 'react';
 import { Box } from 'ui-primitives';
 
 interface CriticRatingMediaInfoProps {

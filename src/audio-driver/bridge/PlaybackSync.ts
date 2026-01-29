@@ -1,5 +1,5 @@
-import { usePlayerStore, useMediaStore, useUiStore } from '../../store';
 import { playbackManager } from '../../components/playback/playbackmanager';
+import { useMediaStore, usePlayerStore, useUiStore } from '../../store';
 import { logger } from '../../utils/logger';
 
 /**
@@ -29,8 +29,8 @@ export class PlaybackSync {
     private setupPlayerTransfer() {
         // Migration of remotecontrolautoplay.js logic
         usePlayerStore.subscribe(
-            state => state.playerChanged,
-            change => {
+            (state) => state.playerChanged,
+            (change) => {
                 if (!change) return;
                 const { from: oldPlayer, to: newPlayer } = change;
 
@@ -70,19 +70,27 @@ export class PlaybackSync {
                 mediaSourceId: state?.PlayState?.mediaSourceId
             });
         } catch (err) {
-            logger.error('Failed to transfer playback', { component: 'PlaybackSync' }, err as Error);
+            logger.error(
+                'Failed to transfer playback',
+                { component: 'PlaybackSync' },
+                err as Error
+            );
         }
     }
 
     private setupOrientationManagement() {
         // Migration of playbackorientation.js logic
         useMediaStore.subscribe(
-            state => state.status,
-            status => {
+            (state) => state.status,
+            (status) => {
                 const { effectiveLayout } = useUiStore.getState();
                 const { currentPlayer } = usePlayerStore.getState();
 
-                if (status === 'playing' && effectiveLayout === 'mobile' && currentPlayer?.isLocalPlayer) {
+                if (
+                    status === 'playing' &&
+                    effectiveLayout === 'mobile' &&
+                    currentPlayer?.isLocalPlayer
+                ) {
                     this.lockOrientation();
                 } else if (status === 'idle') {
                     this.unlockOrientation();
@@ -107,14 +115,22 @@ export class PlaybackSync {
                         .then(() => {
                             this.orientationLocked = true;
                         })
-                        .catch(err => {
-                            logger.error('Error locking orientation', { component: 'PlaybackSync' }, err);
+                        .catch((err) => {
+                            logger.error(
+                                'Error locking orientation',
+                                { component: 'PlaybackSync' },
+                                err
+                            );
                         });
                 } else {
                     this.orientationLocked = !!promise;
                 }
             } catch (err) {
-                logger.error('Exception locking orientation', { component: 'PlaybackSync' }, err as Error);
+                logger.error(
+                    'Exception locking orientation',
+                    { component: 'PlaybackSync' },
+                    err as Error
+                );
             }
         }
     }
@@ -134,7 +150,11 @@ export class PlaybackSync {
                 unlockOrientation();
                 this.orientationLocked = false;
             } catch (err) {
-                logger.error('Error unlocking orientation', { component: 'PlaybackSync' }, err as Error);
+                logger.error(
+                    'Error unlocking orientation',
+                    { component: 'PlaybackSync' },
+                    err as Error
+                );
             }
         }
     }

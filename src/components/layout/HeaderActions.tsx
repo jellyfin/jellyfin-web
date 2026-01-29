@@ -1,13 +1,13 @@
-import React, { useEffect, useState, type FC } from 'react';
-import { IconButton, Tooltip, Flex } from 'ui-primitives';
-import globalize from '../../lib/globalize';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { useUiStore } from '../../store/uiStore';
+import React, { type FC, useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Flex, IconButton, Tooltip } from 'ui-primitives';
+import globalize from '../../lib/globalize';
 import inputManager from '../../scripts/inputManager';
+import { useUiStore } from '../../store/uiStore';
+import Events from '../../utils/events';
 import { playbackManager } from '../playback/playbackmanager';
 import playerSelectionMenu from '../playback/playerSelectionMenu';
-import Events from '../../utils/events';
 
 export const HeaderActions: FC = () => {
     const toggleSearch = useUiStore((state) => state.toggleSearch);
@@ -53,9 +53,7 @@ export const HeaderActions: FC = () => {
                     aria-label={globalize.translate('ButtonCast')}
                     onClick={handleCastClick}
                 >
-                    <span className="material-icons">
-                        {isCasting ? 'cast_connected' : 'cast'}
-                    </span>
+                    <span className="material-icons">{isCasting ? 'cast_connected' : 'cast'}</span>
                 </IconButton>
             </Tooltip>
         </Flex>

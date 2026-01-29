@@ -1,26 +1,27 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import React, { type FunctionComponent, useEffect, useRef, useCallback } from 'react';
+import { useUser } from 'apps/dashboard/features/users/api/useUser';
+import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
+import Loading from 'components/loading/LoadingComponent';
+import loading from 'components/loading/loading';
+import Page from 'components/Page';
 import { useSearchParams } from 'hooks/useSearchParams';
+import React, { type FunctionComponent, useCallback, useEffect, useRef } from 'react';
 import { vars } from 'styles/tokens.css.ts';
-
-import Dashboard from '../../../../utils/dashboard';
-import globalize from '../../../../lib/globalize';
+import { Button } from 'ui-primitives';
+import { queryClient } from 'utils/query/queryClient';
 import { safeAppHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
 import toast from '../../../../components/toast/toast';
-import { useUser } from 'apps/dashboard/features/users/api/useUser';
-import loading from 'components/loading/loading';
-import { queryClient } from 'utils/query/queryClient';
-import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
-import Page from 'components/Page';
-import Loading from 'components/loading/LoadingComponent';
-import { Button } from 'ui-primitives';
+import globalize from '../../../../lib/globalize';
+import Dashboard from '../../../../utils/dashboard';
 
 const UserProfile: FunctionComponent = () => {
     const [searchParams] = useSearchParams();
     const userId = searchParams.get('userId');
-    const { data: user, isPending: isUserPending } = useUser(userId ? { userId: userId } : undefined);
+    const { data: user, isPending: isUserPending } = useUser(
+        userId ? { userId: userId } : undefined
+    );
     const libraryMenuPromise = useRef(import('../../../../scripts/libraryMenu'));
 
     const element = useRef<HTMLDivElement>(null);
@@ -64,7 +65,8 @@ const UserProfile: FunctionComponent = () => {
                     page.querySelector('#btnDeleteImage')!.classList.remove('hide');
                 } else if (
                     safeAppHost.supports('fileinput') &&
-                    (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)
+                    (loggedInUser?.Policy?.IsAdministrator ||
+                        user.Policy.EnableUserPreferenceAccess)
                 ) {
                     page.querySelector('#btnDeleteImage')!.classList.add('hide');
                     page.querySelector('#btnAddImage')!.classList.remove('hide');
@@ -145,7 +147,10 @@ const UserProfile: FunctionComponent = () => {
                 return;
             }
 
-            confirm(globalize.translate('DeleteImageConfirmation'), globalize.translate('DeleteImage'))
+            confirm(
+                globalize.translate('DeleteImageConfirmation'),
+                globalize.translate('DeleteImage')
+            )
                 .then(() => {
                     loading.show();
                     window.ApiClient.deleteUserImage(userId, ImageType.Primary)
@@ -247,7 +252,10 @@ const UserProfile: FunctionComponent = () => {
                             alignItems: 'center'
                         }}
                     >
-                        <h2 className="username" style={{ margin: 0, fontSize: vars.typography['8'].fontSize }}>
+                        <h2
+                            className="username"
+                            style={{ margin: 0, fontSize: vars.typography['8'].fontSize }}
+                        >
                             {user?.Name}
                         </h2>
                         <br />

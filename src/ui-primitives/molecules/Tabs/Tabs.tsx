@@ -1,6 +1,6 @@
-import React, { type ReactNode, type ReactElement, type CSSProperties } from 'react';
-import { Root, List, Trigger, Content } from '@radix-ui/react-tabs';
-import { tabsList, tabTrigger, tabContent } from './Tabs.css.ts';
+import { Content, List, Root, Trigger } from '@radix-ui/react-tabs';
+import React, { type CSSProperties, type ReactElement, type ReactNode } from 'react';
+import { tabContent, tabsList, tabTrigger } from './Tabs.css.ts';
 
 interface TabsProps {
     readonly value: string;
@@ -10,7 +10,13 @@ interface TabsProps {
     readonly style?: CSSProperties;
 }
 
-export function Tabs({ value, onValueChange, children, className, style }: TabsProps): ReactElement {
+export function Tabs({
+    value,
+    onValueChange,
+    children,
+    className,
+    style
+}: TabsProps): ReactElement {
     return (
         <Root value={value} onValueChange={onValueChange} className={className} style={style}>
             {children}
@@ -40,9 +46,20 @@ interface TabProps {
     readonly asChild?: boolean;
 }
 
-export function Tab({ value, children, className, style: tabStyle, asChild = false }: TabProps): ReactElement {
+export function Tab({
+    value,
+    children,
+    className,
+    style: tabStyle,
+    asChild = false
+}: TabProps): ReactElement {
     return (
-        <Trigger value={value} className={`${tabTrigger} ${className ?? ''}`} style={tabStyle} asChild={asChild}>
+        <Trigger
+            value={value}
+            className={`${tabTrigger} ${className ?? ''}`}
+            style={tabStyle}
+            asChild={asChild}
+        >
             {children}
         </Trigger>
     );

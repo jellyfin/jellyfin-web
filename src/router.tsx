@@ -1,53 +1,59 @@
-import { createRouter } from '@tanstack/react-router';
-import { createHashHistory } from '@tanstack/react-router';
+import { createHashHistory, createRouter } from '@tanstack/react-router';
 import { Route } from './routes/__root';
-import { indexRoute } from './routes/index';
-import { homeRoute } from './routes/home';
-import { listRoute } from './routes/list';
+import { dashboardRoute } from './routes/dashboard';
 import { detailsRoute } from './routes/details';
-import { videoRoute } from './routes/video';
-import { queueRoute } from './routes/queue';
-import { nowplayingRoute } from './routes/nowplaying';
+import { devRoute } from './routes/dev';
+import { homeRoute } from './routes/home';
 import { homeVideosRoute } from './routes/homevideos';
+import { indexRoute } from './routes/index';
+import { listRoute } from './routes/list';
 import {
-    musicRecommendedRoute,
-    musicSongsRoute,
-    musicAlbumsRoute,
-    musicArtistsRoute,
-    musicGenresRoute,
-    musicPlaylistsRoute
-} from './routes/music';
-import { moviesRecommendedRoute, movieCollectionsRoute, movieGenresRoute } from './routes/movies';
-import {
-    tvRecommendedRoute,
-    tvShowsRoute,
-    tvUpcomingRoute,
-    tvGenresRoute,
-    tvStudiosRoute,
-    episodesRoute
-} from './routes/tv';
-import {
-    livetvRoute,
     livetvChannelsRoute,
     livetvGuideRoute,
     livetvRecordingsRoute,
+    livetvRoute,
     livetvScheduleRoute,
     livetvSeriesTimersRoute
 } from './routes/livetv';
-import { settingsRoute, userprofileRoute, searchRoute, quickconnectRoute } from './routes/user';
 import { lyricsRoute } from './routes/lyrics';
 import { metadataRoute } from './routes/metadata';
-import { loginRoute, selectServerRoute, testRoute, forgotPasswordPinRoute } from './routes/session';
-import { devRoute } from './routes/dev';
+import { movieCollectionsRoute, movieGenresRoute, moviesRecommendedRoute } from './routes/movies';
 import {
-    userDisplaySettingsRoute,
+    musicAlbumsRoute,
+    musicArtistsRoute,
+    musicGenresRoute,
+    musicPlaylistsRoute,
+    musicRecommendedRoute,
+    musicSongsRoute
+} from './routes/music';
+import { nowplayingRoute } from './routes/nowplaying';
+import { queueRoute } from './routes/queue';
+import { forgotPasswordPinRoute, loginRoute, selectServerRoute, testRoute } from './routes/session';
+import {
+    episodesRoute,
+    tvGenresRoute,
+    tvRecommendedRoute,
+    tvShowsRoute,
+    tvStudiosRoute,
+    tvUpcomingRoute
+} from './routes/tv';
+import { quickconnectRoute, searchRoute, settingsRoute, userprofileRoute } from './routes/user';
+import {
     userControlsSettingsRoute,
+    userDisplaySettingsRoute,
+    userHomeSettingsRoute,
     userPlaybackSettingsRoute,
-    userSubtitleSettingsRoute,
-    userHomeSettingsRoute
+    userSubtitleSettingsRoute
 } from './routes/userPreferences';
-import { wizardStartRoute, wizardUserRoute, wizardLibraryRoute, wizardSettingsRoute, wizardRemoteRoute, wizardFinishRoute } from './routes/wizard';
-import { dashboardRoute } from './routes/dashboard';
+import { videoRoute } from './routes/video';
+import {
+    wizardFinishRoute,
+    wizardLibraryRoute,
+    wizardRemoteRoute,
+    wizardSettingsRoute,
+    wizardStartRoute,
+    wizardUserRoute
+} from './routes/wizard';
 
 const routeTree = Route.addChildren([
     indexRoute,

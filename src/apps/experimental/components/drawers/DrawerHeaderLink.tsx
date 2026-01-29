@@ -1,12 +1,8 @@
-import React from 'react';
-import { Box } from 'ui-primitives';
-import { ListItemContent, ListItemDecorator } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-
-import { useSystemInfo } from 'hooks/useSystemInfo';
-import ListItemLink from 'components/ListItemLink';
-
 import appIcon from '@jellyfin/ux-web/icon-transparent.png';
+import ListItemLink from 'components/ListItemLink';
+import { useSystemInfo } from 'hooks/useSystemInfo';
+import React from 'react';
+import { Box, ListItemContent, ListItemDecorator, Text } from 'ui-primitives';
 
 const DrawerHeaderLink = () => {
     const { data: systemInfo } = useSystemInfo();

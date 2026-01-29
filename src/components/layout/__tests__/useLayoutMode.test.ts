@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { useLayoutMode } from '../useLayoutMode';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LayoutMode } from '../../../constants/layoutMode';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { useLayoutMode } from '../useLayoutMode';
 
 // Mock dependencies
 const mockUseLocation = vi.fn();
@@ -74,7 +74,7 @@ describe('useLayoutMode', () => {
         // Even if legacy desktop is set
         localStorage.setItem('layout', LayoutMode.Desktop);
         mockUseLocation.mockReturnValue({ pathname: '/dashboard' });
-        
+
         const { result } = renderHook(() => useLayoutMode());
 
         expect(result.current.isNewLayoutPath).toBe(true);

@@ -4,7 +4,8 @@
  * @param str2 The second string.
  * @returns True if the strings are equal ignoring case.
  */
-export const equalsIgnoreCase = (str1 = '', str2 = ''): boolean => str1.toLowerCase() === str2.toLowerCase();
+export const equalsIgnoreCase = (str1 = '', str2 = ''): boolean =>
+    str1.toLowerCase() === str2.toLowerCase();
 
 /**
  * Checks if a string is empty or contains only whitespace.

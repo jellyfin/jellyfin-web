@@ -1,4 +1,4 @@
-import React, { type ReactElement, type CSSProperties } from 'react';
+import React, { type CSSProperties, type ReactElement } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import { circularProgressRoot, circularProgressSizes } from './CircularProgress.css.ts';
 

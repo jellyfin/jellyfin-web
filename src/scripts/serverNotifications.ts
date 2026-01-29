@@ -6,9 +6,9 @@ import { appRouter } from '../components/router/appRouter';
 import toast from '../components/toast/toast';
 import { ServerConnections } from '../lib/jellyfin-apiclient';
 import inputManager from '../scripts/inputManager';
-import Events from '../utils/events';
-import { PluginType } from '../types/plugin';
 import { useNotificationStore } from '../store/notificationStore';
+import { PluginType } from '../types/plugin';
+import Events from '../utils/events';
 
 const serverNotifications = {};
 
@@ -131,8 +131,10 @@ function onMessageReceived(this: any, _e: any, msg: any) {
     if (msg.MessageType === 'Play') {
         notifyApp();
         const serverId = apiClient.serverInfo().Id;
-        if (msg.Data.PlayCommand === 'PlayNext') playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId });
-        else if (msg.Data.PlayCommand === 'PlayLast') playbackManager.queue({ ids: msg.Data.ItemIds, serverId });
+        if (msg.Data.PlayCommand === 'PlayNext')
+            playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId });
+        else if (msg.Data.PlayCommand === 'PlayLast')
+            playbackManager.queue({ ids: msg.Data.ItemIds, serverId });
         else
             playbackManager.play({
                 ids: msg.Data.ItemIds,
@@ -179,7 +181,9 @@ function bindEvents(apiClient: any) {
 }
 
 ServerConnections.getApiClients().forEach(bindEvents);
-Events.on(ServerConnections, 'apiclientcreated', (_e: any, newApiClient: any) => bindEvents(newApiClient));
+Events.on(ServerConnections, 'apiclientcreated', (_e: any, newApiClient: any) =>
+    bindEvents(newApiClient)
+);
 
 (window as any).ServerNotifications = serverNotifications;
 export default serverNotifications;

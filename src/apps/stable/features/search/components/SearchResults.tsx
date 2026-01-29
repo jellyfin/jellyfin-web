@@ -1,12 +1,12 @@
-import React, { type FC } from 'react';
-import { useSearchItems } from '../api/useSearchItems';
-import globalize from 'lib/globalize';
-import Loading from 'components/loading/LoadingComponent';
-import SearchResultsRow from './SearchResultsRow';
-import { CardShape } from 'utils/card';
 import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { type Section } from '../types';
 import type { CardOptions } from 'components/cardbuilder/cardBuilder';
+import Loading from 'components/loading/LoadingComponent';
+import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
+import { CardShape } from 'utils/card';
+import { useSearchItems } from '../api/useSearchItems';
+import { type Section } from '../types';
+import SearchResultsRow from './SearchResultsRow';
 
 interface SearchResultsProps {
     parentId?: string;
@@ -28,7 +28,10 @@ const SearchResults: FC<SearchResultsProps> = ({ parentId, collectionType, query
                 {globalize.translate('SearchResultsEmpty', query)}
                 {collectionType && (
                     <div>
-                        <a className="emby-button" href={`/search?query=${encodeURIComponent(query || '')}`}>
+                        <a
+                            className="emby-button"
+                            href={`/search?query=${encodeURIComponent(query || '')}`}
+                        >
                             {globalize.translate('RetryWithGlobalSearch')}
                         </a>
                     </div>

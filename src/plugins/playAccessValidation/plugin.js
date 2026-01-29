@@ -4,10 +4,9 @@ import { PluginType } from 'types/plugin';
 import { logger } from 'utils/logger';
 
 function showErrorMessage() {
-    logger.warn(
-        globalize.translate('MessagePlayAccessRestricted'),
-        { component: 'PlayAccessValidation' }
-    );
+    logger.warn(globalize.translate('MessagePlayAccessRestricted'), {
+        component: 'PlayAccessValidation'
+    });
 }
 
 class PlayAccessValidation {
@@ -28,19 +27,20 @@ class PlayAccessValidation {
             return Promise.resolve();
         }
 
-        return ServerConnections.getApiClient(serverId).getCurrentUser().then((user) => {
-            if (user.Policy.EnableMediaPlayback) {
-                return Promise.resolve();
-            }
+        return ServerConnections.getApiClient(serverId)
+            .getCurrentUser()
+            .then((user) => {
+                if (user.Policy.EnableMediaPlayback) {
+                    return Promise.resolve();
+                }
 
-            // reject but don't show an error message
-            if (!options.fullscreen) {
-                return Promise.reject();
-            }
+                // reject but don't show an error message
+                if (!options.fullscreen) {
+                    return Promise.reject();
+                }
 
-            return showErrorMessage()
-                .finally(() => Promise.reject());
-        });
+                return showErrorMessage().finally(() => Promise.reject());
+            });
     }
 }
 

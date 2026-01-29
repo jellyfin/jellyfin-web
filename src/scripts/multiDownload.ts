@@ -47,7 +47,7 @@ export default function multiDownload(urls: string[]): void {
     }
 
     let delay = 0;
-    urls.forEach(url => {
+    urls.forEach((url) => {
         setTimeout(() => download(url), 100 * ++delay);
     });
 }

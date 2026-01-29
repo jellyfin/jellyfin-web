@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
-import { Box } from 'ui-primitives';
-import { Dialog, DialogContentComponent, DialogOverlayComponent, DialogPortal } from 'ui-primitives';
-import { List, ListItem, ListItemButton, ListItemContent } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { CheckIcon, ChevronRightIcon } from '@radix-ui/react-icons';
-import { useMediaStore, useQueueStore } from '../../store';
-import globalize from '../../lib/globalize';
+import React, { useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Dialog,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogPortal,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemContent,
+    Text
+} from 'ui-primitives';
+import globalize from '../../lib/globalize';
+import { useMediaStore, useQueueStore } from '../../store';
 
 interface PlayerSettingsMenuProps {
     open: boolean;
@@ -17,7 +25,7 @@ type MenuPage = 'main' | 'quality' | 'playback-rate' | 'aspect-ratio' | 'repeat-
 
 export const PlayerSettingsMenu: React.FC<PlayerSettingsMenuProps> = ({ open, onClose }) => {
     const [page, setPage] = useState<MenuPage>('main');
-    const playbackRate = useMediaStore(state => state.playbackRate);
+    const playbackRate = useMediaStore((state) => state.playbackRate);
     // TODO: Fix usePlaybackActions import issue
     // const playbackActions = usePlaybackActions();
     // const setPlaybackRate = playbackActions.setPlaybackRate;
@@ -63,7 +71,7 @@ export const PlayerSettingsMenu: React.FC<PlayerSettingsMenuProps> = ({ open, on
                     {globalize.translate('PlaybackRate')}
                 </Text>
                 <List>
-                    {rates.map(rate => (
+                    {rates.map((rate) => (
                         <ListItem key={rate}>
                             <ListItemButton
                                 onClick={() => {
@@ -88,7 +96,7 @@ export const PlayerSettingsMenu: React.FC<PlayerSettingsMenuProps> = ({ open, on
     return (
         <Dialog
             open={open}
-            onOpenChange={nextOpen => {
+            onOpenChange={(nextOpen) => {
                 if (!nextOpen) {
                     setPage('main');
                     onClose();

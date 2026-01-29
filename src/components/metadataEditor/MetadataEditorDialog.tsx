@@ -1,30 +1,36 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import { z } from 'zod';
-import { useForm } from '@tanstack/react-form';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useCallback, useState } from 'react';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { FormLabel, FormHelperText } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Alert } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import {
-    Dialog,
-    DialogPortal,
-    DialogOverlayComponent,
-    DialogContentComponent,
-    DialogCloseButton
-} from 'ui-primitives';
-import { PersonEditorDialog } from './PersonEditorDialog';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
+import { useForm } from '@tanstack/react-form';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Alert,
+    Box,
+    Button,
+    CircularProgress,
+    Dialog,
+    DialogCloseButton,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogPortal,
+    Divider,
+    Flex,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
+import { z } from 'zod';
 import toast from '../toast/toast';
+import { PersonEditorDialog } from './PersonEditorDialog';
 
 const metadataSchema = z.object({
     Name: z.string().min(1, globalize.translate('NameIsRequired')),
@@ -51,9 +57,11 @@ interface MetadataEditorConfig {
 function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialogProps) {
     const [open, setOpen] = useState(true);
     const [personDialogOpen, setPersonDialogOpen] = useState(false);
-    const [editingPerson, setEditingPerson] = useState<{ Name: string; Type: PersonKind; Role?: string | null } | null>(
-        null
-    );
+    const [editingPerson, setEditingPerson] = useState<{
+        Name: string;
+        Type: PersonKind;
+        Role?: string | null;
+    } | null>(null);
     const [editingPersonIndex, setEditingPersonIndex] = useState(-1);
     const [saveError, setSaveError] = useState<string | null>(null);
     const [overview, setOverview] = useState('');
@@ -88,8 +96,10 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
             queryClient.invalidateQueries({ queryKey: ['item', itemId] });
             handleClose();
         },
-        onError: error => {
-            setSaveError(error instanceof Error ? error.message : globalize.translate('ErrorDefault'));
+        onError: (error) => {
+            setSaveError(
+                error instanceof Error ? error.message : globalize.translate('ErrorDefault')
+            );
         }
     });
 
@@ -187,9 +197,13 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
             <Dialog open={open} onOpenChange={handleOpenChange}>
                 <DialogPortal>
                     <DialogOverlayComponent />
-                    <DialogContentComponent style={{ padding: vars.spacing['6'], textAlign: 'center' }}>
+                    <DialogContentComponent
+                        style={{ padding: vars.spacing['6'], textAlign: 'center' }}
+                    >
                         <CircularProgress size="lg" />
-                        <Text style={{ marginTop: vars.spacing['4'] }}>{globalize.translate('Loading')}</Text>
+                        <Text style={{ marginTop: vars.spacing['4'] }}>
+                            {globalize.translate('Loading')}
+                        </Text>
                     </DialogContentComponent>
                 </DialogPortal>
             </Dialog>
@@ -216,7 +230,11 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                         overflow: 'auto'
                     }}
                 >
-                    <Flex align="center" justify="space-between" style={{ marginBottom: vars.spacing['5'] }}>
+                    <Flex
+                        align="center"
+                        justify="space-between"
+                        style={{ marginBottom: vars.spacing['5'] }}
+                    >
                         <Heading.H3>{globalize.translate('HeaderEditMetadata')}</Heading.H3>
                         <DialogCloseButton onClick={() => setOpen(false)} />
                     </Flex>
@@ -228,19 +246,19 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                     )}
 
                     <form
-                        onSubmit={e => {
+                        onSubmit={(e) => {
                             e.preventDefault();
                             form.handleSubmit();
                         }}
                     >
                         <Flex direction="column" style={{ gap: '24px' }}>
                             <form.Field name="Name">
-                                {field => (
+                                {(field) => (
                                     <Box>
                                         <Input
                                             label={globalize.translate('LabelName')}
                                             value={field.state.value}
-                                            onChange={e => field.handleChange(e.target.value)}
+                                            onChange={(e) => field.handleChange(e.target.value)}
                                             required
                                         />
                                         {field.state.meta.errors[0] && (
@@ -253,11 +271,11 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                             </form.Field>
 
                             <form.Field name="ForcedSortName">
-                                {field => (
+                                {(field) => (
                                     <Input
                                         label={globalize.translate('LabelSortName')}
                                         value={field.state.value}
-                                        onChange={e => field.handleChange(e.target.value)}
+                                        onChange={(e) => field.handleChange(e.target.value)}
                                     />
                                 )}
                             </form.Field>
@@ -266,7 +284,7 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                                 <FormLabel>{globalize.translate('LabelOverview')}</FormLabel>
                                 <textarea
                                     value={overview}
-                                    onChange={e => setOverview(e.target.value)}
+                                    onChange={(e) => setOverview(e.target.value)}
                                     rows={4}
                                     style={{
                                         width: '100%',
@@ -283,12 +301,14 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
 
                             <Flex gap="16px" wrap="wrap">
                                 <form.Field name="ProductionYear">
-                                    {field => (
+                                    {(field) => (
                                         <Input
                                             label={globalize.translate('LabelYear')}
                                             type="number"
                                             value={field.state.value?.toString() || ''}
-                                            onChange={e => field.handleChange(parseInt(e.target.value) || null)}
+                                            onChange={(e) =>
+                                                field.handleChange(parseInt(e.target.value) || null)
+                                            }
                                             min={1800}
                                             max={2100}
                                             style={{ width: '120px' }}
@@ -297,12 +317,16 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                                 </form.Field>
 
                                 <form.Field name="CommunityRating">
-                                    {field => (
+                                    {(field) => (
                                         <Input
                                             label={globalize.translate('LabelCommunityRating')}
                                             type="number"
                                             value={field.state.value?.toString() || ''}
-                                            onChange={e => field.handleChange(parseFloat(e.target.value) || null)}
+                                            onChange={(e) =>
+                                                field.handleChange(
+                                                    parseFloat(e.target.value) || null
+                                                )
+                                            }
                                             step={0.1}
                                             min={0}
                                             max={10}
@@ -312,16 +336,20 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                                 </form.Field>
 
                                 <Box style={{ minWidth: '150px' }}>
-                                    <FormLabel>{globalize.translate('LabelOfficialRating')}</FormLabel>
+                                    <FormLabel>
+                                        {globalize.translate('LabelOfficialRating')}
+                                    </FormLabel>
                                     <Select
                                         value={form.state.values.OfficialRating || ''}
-                                        onValueChange={val => form.setFieldValue('OfficialRating', val || null)}
+                                        onValueChange={(val) =>
+                                            form.setFieldValue('OfficialRating', val || null)
+                                        }
                                     >
                                         <SelectTrigger style={{ width: '100%' }}>
                                             <SelectValue placeholder="" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {config.ParentalRatingOptions.map(option => (
+                                            {config.ParentalRatingOptions.map((option) => (
                                                 <SelectItem key={option.Name} value={option.Name}>
                                                     {option.Name}
                                                 </SelectItem>
@@ -336,13 +364,16 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                             <Heading.H4>{globalize.translate('HeaderExternalIds')}</Heading.H4>
 
                             <Flex gap="16px" wrap="wrap">
-                                {config.ExternalIdInfos.map(idInfo => (
+                                {config.ExternalIdInfos.map((idInfo) => (
                                     <Input
                                         key={idInfo.Key}
                                         label={idInfo.Name}
                                         value={providerIds[idInfo.Key] || ''}
-                                        onChange={e => {
-                                            const newIds = { ...providerIds, [idInfo.Key]: e.target.value };
+                                        onChange={(e) => {
+                                            const newIds = {
+                                                ...providerIds,
+                                                [idInfo.Key]: e.target.value
+                                            };
                                             item.ProviderIds = newIds;
                                         }}
                                         style={{ width: '200px' }}
@@ -379,7 +410,9 @@ function MetadataEditorDialog({ itemId, serverId, onClose }: MetadataEditorDialo
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        onClick={() => handlePersonEdit(person, index)}
+                                                        onClick={() =>
+                                                            handlePersonEdit(person, index)
+                                                        }
                                                     >
                                                         {globalize.translate('Edit')}
                                                     </Button>

@@ -1,15 +1,4 @@
-export {
-    normalizeName
-} from './nameUtils';
-
-export {
-    getItemsForPlayback
-} from './itemQuery';
-
-export {
-    createStreamInfoFromUrlItem
-} from './streamInfoBuilder';
-
-export {
-    mergePlaybackQueries
-} from './queryUtils';
+export { getItemsForPlayback } from './itemQuery';
+export { normalizeName } from './nameUtils';
+export { mergePlaybackQueries } from './queryUtils';
+export { createStreamInfoFromUrlItem } from './streamInfoBuilder';

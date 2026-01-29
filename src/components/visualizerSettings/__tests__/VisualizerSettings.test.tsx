@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { VisualizerSettings } from '../VisualizerSettings';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePreferencesStore } from '../../../store/preferencesStore';
+import { VisualizerSettings } from '../VisualizerSettings';
 
 // Mock store
 const { mockState } = vi.hoisted(() => ({
@@ -29,10 +29,13 @@ const { mockState } = vi.hoisted(() => ({
 }));
 
 vi.mock('../../../store/preferencesStore', () => ({
-    usePreferencesStore: Object.assign((selector?: any) => (selector ? selector(mockState) : mockState), {
-        getState: () => mockState,
-        ...mockState
-    })
+    usePreferencesStore: Object.assign(
+        (selector?: any) => (selector ? selector(mockState) : mockState),
+        {
+            getState: () => mockState,
+            ...mockState
+        }
+    )
 }));
 
 vi.mock('../../../styles/tokens.css.ts', () => ({

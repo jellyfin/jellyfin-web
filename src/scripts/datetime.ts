@@ -1,5 +1,5 @@
+import { addDays, format, isToday, isTomorrow, isYesterday, parseISO } from 'date-fns';
 import globalize from '../lib/globalize';
-import { parseISO, format, isYesterday, isToday, isTomorrow, addDays } from 'date-fns';
 
 export function parseISO8601Date(s: string, _toLocal?: boolean): Date {
     return parseISO(s);
@@ -28,13 +28,13 @@ export function getDisplayRunningTime(ticks: number): string {
     const parts: string[] = [];
     let remainingTicks = ticks;
 
-    let hours = Math.floor(remainingTicks / ticksPerHour);
+    const hours = Math.floor(remainingTicks / ticksPerHour);
     if (hours > 0) {
         parts.push(hours.toLocaleString(globalize.getCurrentDateTimeLocale()));
         remainingTicks -= hours * ticksPerHour;
     }
 
-    let minutes = Math.floor(remainingTicks / ticksPerMinute);
+    const minutes = Math.floor(remainingTicks / ticksPerMinute);
     remainingTicks -= minutes * ticksPerMinute;
 
     if (minutes < 10 && hours > 0) {
@@ -43,7 +43,7 @@ export function getDisplayRunningTime(ticks: number): string {
         parts.push(minutes.toLocaleString(globalize.getCurrentDateTimeLocale()));
     }
 
-    let seconds = Math.floor(remainingTicks / ticksPerSecond);
+    const seconds = Math.floor(remainingTicks / ticksPerSecond);
     if (seconds < 10) {
         parts.push('0' + seconds.toLocaleString(globalize.getCurrentDateTimeLocale()));
     } else {

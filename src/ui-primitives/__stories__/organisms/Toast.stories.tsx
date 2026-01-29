@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useCallback } from 'react';
-import { Button } from '../..';
-import { ToastProvider, useToast, type ToastVariant } from '../..';
-import { Flex } from '../..';
+import { Button, Flex, ToastProvider, type ToastVariant, useToast } from '../..';
 
 const meta: Meta<typeof ToastProvider> = {
     title: 'UI Primitives/Toast',
@@ -35,7 +33,10 @@ function ToastDemo(): ReactElement {
     const handleShowToast = useCallback(
         (variant: ToastVariant): void => {
             toast({
-                title: variant === 'default' ? 'Notification' : variant.charAt(0).toUpperCase() + variant.slice(1),
+                title:
+                    variant === 'default'
+                        ? 'Notification'
+                        : variant.charAt(0).toUpperCase() + variant.slice(1),
                 description: 'This is a toast notification with some description text.',
                 variant,
                 duration: 5000

@@ -9,24 +9,22 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import { parseISO } from 'date-fns/parseISO';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
-import { ToggleGroup, ToggleGroupItem } from 'ui-primitives';
-import type { ColumnDef } from '@tanstack/react-table';
-import type { CellContext } from '@tanstack/react-table';
-import { useSearchParams } from 'hooks/useSearchParams';
-
+import type { CellContext, ColumnDef } from '@tanstack/react-table';
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage from 'apps/dashboard/components/table/TablePage';
+import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 import ActionsCell from 'apps/dashboard/features/activity/components/ActionsCell';
 import LogLevelCell from 'apps/dashboard/features/activity/components/LogLevelCell';
 import OverviewCell from 'apps/dashboard/features/activity/components/OverviewCell';
-import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
+import { parseISO } from 'date-fns/parseISO';
+import { useSearchParams } from 'hooks/useSearchParams';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { ToggleGroup, ToggleGroupItem } from 'ui-primitives';
 import { toBoolean } from 'utils/string';
 
 const DEFAULT_PAGE_SIZE = 25;
@@ -46,7 +44,11 @@ const getActivityView = (param: string | null) => {
 
 const getUserCell = (users: UsersRecords) =>
     function UserCell({ row }: CellContext<ActivityLogEntry, unknown>) {
-        return <UserAvatarButton user={(row.original.UserId && users[row.original.UserId]) || undefined} />;
+        return (
+            <UserAvatarButton
+                user={(row.original.UserId && users[row.original.UserId]) || undefined}
+            />
+        );
     };
 
 export const Component = () => {
@@ -67,7 +69,8 @@ export const Component = () => {
         () => ({
             startIndex: pagination.pageIndex * pagination.pageSize,
             limit: pagination.pageSize,
-            hasUserId: activityView !== ActivityView.All ? activityView === ActivityView.User : undefined
+            hasUserId:
+                activityView !== ActivityView.All ? activityView === ActivityView.User : undefined
         }),
         [activityView, pagination.pageIndex, pagination.pageSize]
     );
@@ -85,7 +88,7 @@ export const Component = () => {
                 : [
                       {
                           id: 'User',
-                          accessorFn: row => row.UserId && users[row.UserId]?.Name,
+                          accessorFn: (row) => row.UserId && users[row.UserId]?.Name,
                           header: globalize.translate('LabelUser'),
                           size: 75,
                           cell: UserCell,
@@ -99,7 +102,7 @@ export const Component = () => {
         () => [
             {
                 id: 'Date',
-                accessorFn: row => (row.Date ? parseISO(row.Date) : undefined),
+                accessorFn: (row) => (row.Date ? parseISO(row.Date) : undefined),
                 header: globalize.translate('LabelTime'),
                 size: 160,
                 cell: DateTimeCell
@@ -119,7 +122,7 @@ export const Component = () => {
             },
             {
                 id: 'Overview',
-                accessorFn: row => row.ShortOverview || row.Overview,
+                accessorFn: (row) => row.ShortOverview || row.Overview,
                 header: globalize.translate('LabelOverview'),
                 size: 170,
                 cell: OverviewCell
@@ -131,7 +134,7 @@ export const Component = () => {
             },
             {
                 id: 'Actions',
-                accessorFn: row => row.ItemId,
+                accessorFn: (row) => row.ItemId,
                 header: '',
                 size: 60,
                 cell: ActionsCell,
@@ -159,13 +162,19 @@ export const Component = () => {
             <ToggleGroup
                 type="single"
                 value={activityView}
-                onValueChange={value => {
+                onValueChange={(value) => {
                     if (value) setActivityView(value as ActivityView);
                 }}
             >
-                <ToggleGroupItem value={ActivityView.All}>{globalize.translate('All')}</ToggleGroupItem>
-                <ToggleGroupItem value={ActivityView.User}>{globalize.translate('LabelUser')}</ToggleGroupItem>
-                <ToggleGroupItem value={ActivityView.System}>{globalize.translate('LabelSystem')}</ToggleGroupItem>
+                <ToggleGroupItem value={ActivityView.All}>
+                    {globalize.translate('All')}
+                </ToggleGroupItem>
+                <ToggleGroupItem value={ActivityView.User}>
+                    {globalize.translate('LabelUser')}
+                </ToggleGroupItem>
+                <ToggleGroupItem value={ActivityView.System}>
+                    {globalize.translate('LabelSystem')}
+                </ToggleGroupItem>
             </ToggleGroup>
         ),
         [activityView]

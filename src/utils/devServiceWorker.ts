@@ -10,7 +10,7 @@ export const resetServiceWorkerAndCaches = async (): Promise<ServiceWorkerResetR
     if ('serviceWorker' in navigator) {
         const registrations = await navigator.serviceWorker.getRegistrations();
         await Promise.all(
-            registrations.map(async registration => {
+            registrations.map(async (registration) => {
                 const success = await registration.unregister();
                 if (success) {
                     unregisteredCount += 1;
@@ -22,7 +22,7 @@ export const resetServiceWorkerAndCaches = async (): Promise<ServiceWorkerResetR
     if ('caches' in window) {
         const cacheNames = await caches.keys();
         await Promise.all(
-            cacheNames.map(async cacheName => {
+            cacheNames.map(async (cacheName) => {
                 const deleted = await caches.delete(cacheName);
                 if (deleted) {
                     deletedCaches.push(cacheName);

@@ -41,12 +41,12 @@ loadManifest();
 
 // Install event - cache static assets
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
     console.log('[ServiceWorker] Install');
 
     event.waitUntil(
         Promise.all([
-            caches.open(STATIC_CACHE).then(cache => {
+            caches.open(STATIC_CACHE).then((cache) => {
                 console.log('[ServiceWorker] Caching static assets');
                 return cache.addAll(STATIC_ASSETS);
             })
@@ -59,25 +59,29 @@ self.addEventListener('install', event => {
 
 // Activate event - clean old caches and claim clients
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
     console.log(`[ServiceWorker] Activate (build: ${BUILD_ID})`);
 
     event.waitUntil(
         Promise.all([
             // Clean old caches (anything not matching current version prefix)
-            caches.keys().then(cacheNames => {
-                return Promise.all(
-                    cacheNames.map(cacheName => {
-                        const isCurrentCache =
-                            cacheName === STATIC_CACHE || cacheName === API_CACHE || cacheName === IMAGE_CACHE;
-                        if (!isCurrentCache) {
-                            console.log('[ServiceWorker] Deleting old cache:', cacheName);
-                            return caches.delete(cacheName);
-                        }
-                        return Promise.resolve();
-                    })
-                );
-            }),
+            caches
+                .keys()
+                .then((cacheNames) => {
+                    return Promise.all(
+                        cacheNames.map((cacheName) => {
+                            const isCurrentCache =
+                                cacheName === STATIC_CACHE ||
+                                cacheName === API_CACHE ||
+                                cacheName === IMAGE_CACHE;
+                            if (!isCurrentCache) {
+                                console.log('[ServiceWorker] Deleting old cache:', cacheName);
+                                return caches.delete(cacheName);
+                            }
+                            return Promise.resolve();
+                        })
+                    );
+                }),
             self.clients.claim()
         ]).then(() => {
             console.log('[ServiceWorker] Activate completed');
@@ -99,7 +103,9 @@ function isOkResponse(response) {
 // Helper: Check if Vite dev server URL
 function isViteDevServer(url) {
     const path = url.pathname;
-    return path.includes('/node_modules/.vite/deps/') || path.includes('@fs/') || url.port === '5173';
+    return (
+        path.includes('/node_modules/.vite/deps/') || path.includes('@fs/') || url.port === '5173'
+    );
 }
 
 // Helper: Check if static asset
@@ -107,8 +113,10 @@ function isStaticAsset(url) {
     const staticExtensions = ['.js', '.css', '.woff', '.woff2', '.ttf', '.eot', '.map'];
     const path = url.pathname;
 
-    const hasStaticExtension = staticExtensions.some(ext => path.endsWith(ext));
-    const isRuntimeStatic = RUNTIME_STATIC_ASSETS.some(asset => path.includes(asset) || path.endsWith(asset));
+    const hasStaticExtension = staticExtensions.some((ext) => path.endsWith(ext));
+    const isRuntimeStatic = RUNTIME_STATIC_ASSETS.some(
+        (asset) => path.includes(asset) || path.endsWith(asset)
+    );
 
     return hasStaticExtension || isRuntimeStatic;
 }
@@ -142,7 +150,7 @@ function isImageRequest(url) {
 
 // Fetch event - implement caching strategies
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
 
@@ -175,7 +183,7 @@ async function enforceCacheLimit(cacheName) {
     const keys = await cache.keys();
     let totalSize = 0;
 
-    const sizePromises = keys.map(async request => {
+    const sizePromises = keys.map(async (request) => {
         try {
             const response = await cache.match(request);
             if (response) {
@@ -207,17 +215,19 @@ async function enforceCacheLimit(cacheName) {
 function cacheFirst(request, cacheName) {
     const cacheKey = getCacheKey(request);
 
-    return caches.match(cacheKey).then(cachedResponse => {
+    return caches.match(cacheKey).then((cachedResponse) => {
         if (cachedResponse) {
             console.log(`[ServiceWorker] Cache hit for: ${request.url}`);
             return cachedResponse;
         }
 
         return fetch(request)
-            .then(response => {
+            .then((response) => {
                 // NEVER cache error responses or non-OK status
                 if (!isOkResponse(response)) {
-                    console.warn(`[ServiceWorker] Not caching error response: ${response.status} ${request.url}`);
+                    console.warn(
+                        `[ServiceWorker] Not caching error response: ${response.status} ${request.url}`
+                    );
                     return response;
                 }
 
@@ -225,7 +235,7 @@ function cacheFirst(request, cacheName) {
                     const responseClone = response.clone();
                     caches
                         .open(cacheName)
-                        .then(async cache => {
+                        .then(async (cache) => {
                             // Store with path-only key to avoid query param duplicates
                             const cacheRequest = new Request(request.url, {
                                 method: request.method,
@@ -237,13 +247,13 @@ function cacheFirst(request, cacheName) {
                             await cache.put(cacheRequest, responseClone);
                             await enforceCacheLimit(cacheName);
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             console.warn('[ServiceWorker] Failed to cache response:', error);
                         });
                 }
                 return response;
             })
-            .catch(error => {
+            .catch((error) => {
                 console.warn('[ServiceWorker] Fetch failed:', error);
 
                 if (request.destination === 'document') {
@@ -260,16 +270,20 @@ function networkFirst(request, cacheName) {
     const cacheKey = getCacheKey(request);
 
     return fetch(request)
-        .then(response => {
+        .then((response) => {
             // NEVER cache error responses or non-OK status
             if (!isOkResponse(response)) {
-                console.warn(`[ServiceWorker] Not caching error response: ${response.status} ${request.url}`);
+                console.warn(
+                    `[ServiceWorker] Not caching error response: ${response.status} ${request.url}`
+                );
 
                 // For 504 errors, try to return cached version if available
                 if (response.status === 504) {
-                    return caches.match(cacheKey).then(cachedResponse => {
+                    return caches.match(cacheKey).then((cachedResponse) => {
                         if (cachedResponse) {
-                            console.log(`[ServiceWorker] Cache fallback for Vite 504: ${request.url}`);
+                            console.log(
+                                `[ServiceWorker] Cache fallback for Vite 504: ${request.url}`
+                            );
                             return cachedResponse;
                         }
                         throw new Error('HTTP 504: Vite dev server timeout');
@@ -283,7 +297,7 @@ function networkFirst(request, cacheName) {
                 const responseClone = response.clone();
                 caches
                     .open(cacheName)
-                    .then(async cache => {
+                    .then(async (cache) => {
                         const cacheRequest = new Request(request.url, {
                             method: request.method,
                             headers: request.headers,
@@ -294,16 +308,16 @@ function networkFirst(request, cacheName) {
                         await cache.put(cacheRequest, responseClone);
                         await enforceCacheLimit(cacheName);
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.warn('[ServiceWorker] Failed to cache response:', error);
                     });
             }
             return response;
         })
-        .catch(error => {
+        .catch((error) => {
             console.warn('[ServiceWorker] Network failed, trying cache:', error);
 
-            return caches.match(cacheKey).then(cachedResponse => {
+            return caches.match(cacheKey).then((cachedResponse) => {
                 if (cachedResponse) {
                     console.log(`[ServiceWorker] Cache fallback for: ${request.url}`);
                     return cachedResponse;
@@ -320,7 +334,7 @@ function networkFirst(request, cacheName) {
 
 // Message event - handle commands from main thread
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
-self.addEventListener('message', event => {
+self.addEventListener('message', (event) => {
     const { type, data } = event.data || {};
 
     switch (type) {
@@ -373,7 +387,7 @@ async function handleClearCache(event, data) {
             await caches.delete(cacheName);
         } else {
             const cacheNames = await caches.keys();
-            await Promise.all(cacheNames.map(name => caches.delete(name)));
+            await Promise.all(cacheNames.map((name) => caches.delete(name)));
         }
 
         event.ports[0].postMessage({
@@ -413,7 +427,7 @@ async function estimateCacheSize(cache) {
 /* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
 self.addEventListener(
     'notificationclick',
-    event => {
+    (event) => {
         const notification = event.notification;
         notification.close();
 
@@ -437,7 +451,7 @@ function getApiClient(serverId) {
 }
 
 function executeAction(action, data, serverId) {
-    return getApiClient(serverId).then(apiClient => {
+    return getApiClient(serverId).then((apiClient) => {
         switch (action) {
             case 'cancel-install':
                 return apiClient.cancelPackageInstallation(data.id);

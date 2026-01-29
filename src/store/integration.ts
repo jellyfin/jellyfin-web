@@ -5,10 +5,23 @@
  * Provides type guards, hooks, and integration helpers.
  */
 
-import type { PlayableItem, PlaybackProgress, RepeatMode, ShuffleMode, PlayerInfo, QueueItem } from './types';
 import type { ControlSource } from './controlsStore';
+import {
+    useControlsStore,
+    useMediaStore,
+    usePlayerStore,
+    usePreferencesStore,
+    useQueueStore
+} from './index';
 import type { UiSettings, VisualizerSettings } from './settingsStore';
-import { useMediaStore, useQueueStore, usePlayerStore, useControlsStore, usePreferencesStore } from './index';
+import type {
+    PlayableItem,
+    PlaybackProgress,
+    PlayerInfo,
+    QueueItem,
+    RepeatMode,
+    ShuffleMode
+} from './types';
 
 // Type Guards
 export function isPlaybackActive(state: ReturnType<typeof useMediaStore.getState>): boolean {
@@ -61,7 +74,9 @@ export function hasPendingTransfer(state: ReturnType<typeof useControlsStore.get
     return state.pendingTransfer !== null;
 }
 
-export function isVisualizerEnabled(state: ReturnType<typeof usePreferencesStore.getState>): boolean {
+export function isVisualizerEnabled(
+    state: ReturnType<typeof usePreferencesStore.getState>
+): boolean {
     return state.visualizer.enabled && state.ui.showVisualizer;
 }
 
@@ -78,7 +93,9 @@ export function selectPlaybackStatus(state: ReturnType<typeof useMediaStore.getS
     return state.status;
 }
 
-export function selectCurrentItem(state: ReturnType<typeof useMediaStore.getState>): PlayableItem | null {
+export function selectCurrentItem(
+    state: ReturnType<typeof useMediaStore.getState>
+): PlayableItem | null {
     return state.currentItem;
 }
 
@@ -90,7 +107,9 @@ export function selectQueueItems(state: ReturnType<typeof useQueueStore.getState
     return state.items;
 }
 
-export function selectCurrentQueueItem(state: ReturnType<typeof useQueueStore.getState>): QueueItem | null {
+export function selectCurrentQueueItem(
+    state: ReturnType<typeof useQueueStore.getState>
+): QueueItem | null {
     return state.items[state.currentIndex] ?? null;
 }
 
@@ -102,11 +121,15 @@ export function selectShuffleMode(state: ReturnType<typeof useQueueStore.getStat
     return state.shuffleMode;
 }
 
-export function selectActiveControlSource(state: ReturnType<typeof useControlsStore.getState>): ControlSource {
+export function selectActiveControlSource(
+    state: ReturnType<typeof useControlsStore.getState>
+): ControlSource {
     return state.activeControlSource;
 }
 
-export function selectActivePlayer(state: ReturnType<typeof usePlayerStore.getState>): PlayerInfo | null {
+export function selectActivePlayer(
+    state: ReturnType<typeof usePlayerStore.getState>
+): PlayerInfo | null {
     return state.currentPlayer;
 }
 
@@ -118,11 +141,15 @@ export function selectIsMuted(state: ReturnType<typeof usePreferencesStore.getSt
     return state.audio.muted;
 }
 
-export function selectTheme(state: ReturnType<typeof usePreferencesStore.getState>): UiSettings['theme'] {
+export function selectTheme(
+    state: ReturnType<typeof usePreferencesStore.getState>
+): UiSettings['theme'] {
     return state.ui.theme;
 }
 
-export function selectVisualizerEnabled(state: ReturnType<typeof usePreferencesStore.getState>): boolean {
+export function selectVisualizerEnabled(
+    state: ReturnType<typeof usePreferencesStore.getState>
+): boolean {
     return state.visualizer.enabled && state.ui.showVisualizer;
 }
 
@@ -297,7 +324,9 @@ export function getPlayerDisplayName(player: PlayerInfo | null): string {
     return player.name;
 }
 
-export function getActiveSourceDisplayName(state: ReturnType<typeof useControlsStore.getState>): string {
+export function getActiveSourceDisplayName(
+    state: ReturnType<typeof useControlsStore.getState>
+): string {
     switch (state.activeControlSource) {
         case 'local':
             return 'Local';

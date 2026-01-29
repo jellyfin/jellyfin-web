@@ -1,11 +1,10 @@
-import React, { type FC, useCallback } from 'react';
-import { IconButton } from 'ui-primitives';
 import { DownloadIcon } from '@radix-ui/react-icons';
-
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
 import { download } from 'scripts/fileDownloader';
 import type { NullableString } from 'types/base/common/shared/types';
+import { IconButton } from 'ui-primitives';
 
 interface DownloadButtonProps {
     itemId: string;

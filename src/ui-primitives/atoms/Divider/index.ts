@@ -1,1 +1,1 @@
-export { dividerStyles, dividerVertical, Divider } from './Divider';
+export { Divider, dividerStyles, dividerVertical } from './Divider';

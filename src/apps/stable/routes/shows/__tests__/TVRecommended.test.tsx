@@ -4,9 +4,9 @@
  * Integration tests for TV show recommendations with playback functionality.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('TVRecommended integration', () => {
     describe('TV show recommendations conversion', () => {
@@ -37,7 +37,7 @@ describe('TVRecommended integration', () => {
             const playables = toVideoItems(shows);
 
             expect(playables).toHaveLength(3);
-            playables.forEach(p => expect(p.mediaType).toBe('Video'));
+            playables.forEach((p) => expect(p.mediaType).toBe('Video'));
         });
 
         it('creates valid playback queue from recommended shows', () => {
@@ -195,9 +195,27 @@ describe('TVRecommended integration', () => {
 
         it('displays latest additions in reverse chronological order', () => {
             const shows: BaseItemDto[] = [
-                { Id: 'show-3', Name: 'Show 3', Type: 'Series' as const, ServerId: 'server-1', ProductionYear: 2022 },
-                { Id: 'show-1', Name: 'Show 1', Type: 'Series' as const, ServerId: 'server-1', ProductionYear: 2024 },
-                { Id: 'show-2', Name: 'Show 2', Type: 'Series' as const, ServerId: 'server-1', ProductionYear: 2023 }
+                {
+                    Id: 'show-3',
+                    Name: 'Show 3',
+                    Type: 'Series' as const,
+                    ServerId: 'server-1',
+                    ProductionYear: 2022
+                },
+                {
+                    Id: 'show-1',
+                    Name: 'Show 1',
+                    Type: 'Series' as const,
+                    ServerId: 'server-1',
+                    ProductionYear: 2024
+                },
+                {
+                    Id: 'show-2',
+                    Name: 'Show 2',
+                    Type: 'Series' as const,
+                    ServerId: 'server-1',
+                    ProductionYear: 2023
+                }
             ];
 
             const queue = toVideoItems(shows);
@@ -248,11 +266,11 @@ describe('TVRecommended integration', () => {
                 { Id: 'show-2', Name: 'Show 2', Type: 'Series', ServerId: 'server-1' }
             ];
 
-            const shows = items.filter(i => i.Type === 'Series');
+            const shows = items.filter((i) => i.Type === 'Series');
             const queue = toVideoItems(shows);
 
             expect(queue).toHaveLength(2);
-            queue.forEach(item => {
+            queue.forEach((item) => {
                 expect(item.id).toMatch(/^show-/);
             });
         });

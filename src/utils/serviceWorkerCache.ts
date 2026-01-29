@@ -22,7 +22,7 @@ export class ServiceWorkerCacheManager {
         return new Promise((resolve, reject) => {
             const messageChannel = new MessageChannel();
 
-            messageChannel.port1.onmessage = event => {
+            messageChannel.port1.onmessage = (event) => {
                 const { success, cacheInfo, limits, error } = event.data;
                 if (success) {
                     resolve({ cacheInfo, limits });
@@ -35,7 +35,9 @@ export class ServiceWorkerCacheManager {
                 reject(new Error('Failed to communicate with service worker'));
             };
 
-            navigator.serviceWorker.controller?.postMessage({ type: 'CACHE_STATUS' }, [messageChannel.port2]);
+            navigator.serviceWorker.controller?.postMessage({ type: 'CACHE_STATUS' }, [
+                messageChannel.port2
+            ]);
         });
     }
 
@@ -47,7 +49,7 @@ export class ServiceWorkerCacheManager {
         return new Promise((resolve, reject) => {
             const messageChannel = new MessageChannel();
 
-            messageChannel.port1.onmessage = event => {
+            messageChannel.port1.onmessage = (event) => {
                 const { success, cleared, error } = event.data;
                 if (success) {
                     resolve(cleared);
@@ -60,9 +62,10 @@ export class ServiceWorkerCacheManager {
                 reject(new Error('Failed to communicate with service worker'));
             };
 
-            navigator.serviceWorker.controller?.postMessage({ type: 'CLEAR_CACHE', data: { cacheName } }, [
-                messageChannel.port2
-            ]);
+            navigator.serviceWorker.controller?.postMessage(
+                { type: 'CLEAR_CACHE', data: { cacheName } },
+                [messageChannel.port2]
+            );
         });
     }
 
@@ -75,7 +78,7 @@ export class ServiceWorkerCacheManager {
         const k = 1024;
         const sizes = ['B', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        return parseFloat((bytes / k ** i).toFixed(1)) + ' ' + sizes[i];
     }
 
     static async getFormattedCacheStatus(): Promise<Record<string, any>> {

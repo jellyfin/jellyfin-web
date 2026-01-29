@@ -1,12 +1,12 @@
-import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
-import layoutManager from '../layoutManager';
 import inputManager from '../../scripts/inputManager';
-import { toBoolean } from '../../utils/string';
-import { hide } from '../loading/loading';
 import dom from '../../utils/dom';
-import { logger } from '../../utils/logger';
 import { simpleHistory } from '../../utils/history';
+import { logger } from '../../utils/logger';
+import { toBoolean } from '../../utils/string';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
+import { hide } from '../loading/loading';
 
 import './dialoghelper.css.ts';
 
@@ -35,9 +35,10 @@ function enableAnimation(): boolean {
 function removeCenterFocus(dlg: HTMLElement): void {
     if (layoutManager.tv) {
         const fn = 'off';
-        import('../../scripts/scrollHelper').then(scrollHelper => {
+        import('../../scripts/scrollHelper').then((scrollHelper) => {
             if (dlg.classList.contains('scrollX')) scrollHelper.default.centerFocus[fn](dlg, true);
-            else if (dlg.classList.contains('smoothScrollY')) scrollHelper.default.centerFocus[fn](dlg, false);
+            else if (dlg.classList.contains('smoothScrollY'))
+                scrollHelper.default.centerFocus[fn](dlg, false);
         });
     }
 }
@@ -85,7 +86,8 @@ class DialogHashHandler {
             if (removeScrollLockOnClose) document.body.classList.remove('noScroll');
 
             if (historyEnabled) {
-                const state = (simpleHistory.location.state as Record<string, unknown> | null) || {};
+                const state =
+                    (simpleHistory.location.state as Record<string, unknown> | null) || {};
                 const dialogs = (state.dialogs as string[]) || [];
                 if (dialogs[dialogs.length - 1] === hash) {
                     this.unlisten = simpleHistory.listen(() => finishClose());
@@ -137,7 +139,7 @@ class DialogHashHandler {
         dom.addEventListener(
             dlg.dialogContainer || backdrop,
             'click',
-            e => {
+            (e) => {
                 if (e.target === dlg.dialogContainer) close(dlg);
             },
             { passive: true }
@@ -146,7 +148,10 @@ class DialogHashHandler {
         dlg.classList.add('opened');
         dlg.dispatchEvent(new CustomEvent('open'));
 
-        if (dlg.getAttribute('data-lockscroll') === 'true' && !document.body.classList.contains('noScroll')) {
+        if (
+            dlg.getAttribute('data-lockscroll') === 'true' &&
+            !document.body.classList.contains('noScroll')
+        ) {
             document.body.classList.add('noScroll');
             removeScrollLockOnClose = true;
         }
@@ -159,13 +164,17 @@ class DialogHashHandler {
                 (document.activeElement as HTMLElement).blur();
         };
 
-        if (enableAnimation()) dom.addEventListener(dlg, dom.whichAnimationEvent(), onOpenAnimFinish, { once: true });
+        if (enableAnimation())
+            dom.addEventListener(dlg, dom.whichAnimationEvent(), onOpenAnimFinish, { once: true });
         else onOpenAnimFinish();
 
         if (historyEnabled) {
             const state = (simpleHistory.location.state as Record<string, unknown> | null) || {};
             const dialogs = [...((state.dialogs as string[]) || []), hash];
-            simpleHistory.push(simpleHistory.location.pathname + simpleHistory.location.search, { ...state, dialogs });
+            simpleHistory.push(simpleHistory.location.pathname + simpleHistory.location.search, {
+                ...state,
+                dialogs
+            });
             this.unlisten = simpleHistory.listen(({ location }) => {
                 const locState = (location.state as Record<string, unknown> | null) || {};
                 if (!((locState.dialogs as string[]) || []).includes(hash)) close(dlg);
@@ -182,7 +191,7 @@ export function open(dlg: HTMLElement): Promise<any> {
     container.appendChild(dlg);
     (dlg as any).dialogContainer = container;
     document.body.appendChild(container);
-    return new Promise(resolve => new DialogHashHandler(dlg, `dlg${Date.now()}`, resolve));
+    return new Promise((resolve) => new DialogHashHandler(dlg, `dlg${Date.now()}`, resolve));
 }
 
 export function close(dlg: HTMLElement): void {
@@ -206,13 +215,16 @@ export function createDialog(options: DialogOptions = {}): HTMLElement {
     if (options.id) dlg.id = options.id;
     dlg.classList.add('focuscontainer', 'hide', 'dialog');
 
-    if (options.size === 'fullscreen' || options.lockScroll) dlg.setAttribute('data-lockscroll', 'true');
+    if (options.size === 'fullscreen' || options.lockScroll)
+        dlg.setAttribute('data-lockscroll', 'true');
     if (options.enableHistory !== false) dlg.setAttribute('data-history', 'true');
     if (options.modal !== false) dlg.setAttribute('modal', 'modal');
     if (options.autoFocus !== false) dlg.setAttribute('data-autofocus', 'true');
 
-    const durationEntry = options.entryAnimationDuration || (options.size !== 'fullscreen' ? 180 : 280);
-    const durationExit = options.exitAnimationDuration || (options.size !== 'fullscreen' ? 120 : 220);
+    const durationEntry =
+        options.entryAnimationDuration || (options.size !== 'fullscreen' ? 180 : 280);
+    const durationExit =
+        options.exitAnimationDuration || (options.size !== 'fullscreen' ? 120 : 220);
 
     dlg.animationConfig = {
         entry: { name: options.entryAnimation || 'scaleup', timing: { duration: durationEntry } },

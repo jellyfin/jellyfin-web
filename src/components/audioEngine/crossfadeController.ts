@@ -6,11 +6,16 @@
  * Supports streaming (metadata-only) and full preload modes.
  */
 
-import * as htmlMediaHelper from '../htmlMediaHelper';
-import { ensureAudioNodeBundle, getAudioNodeBundle, masterAudioOutput, removeAudioNodeBundle } from './master.logic';
-import { recordNetworkLatency } from '../../utils/networkLatencyMonitor';
 import { getEffectiveLatency } from '../../store/preferencesStore';
 import { logger } from '../../utils/logger';
+import { recordNetworkLatency } from '../../utils/networkLatencyMonitor';
+import * as htmlMediaHelper from '../htmlMediaHelper';
+import {
+    ensureAudioNodeBundle,
+    getAudioNodeBundle,
+    masterAudioOutput,
+    removeAudioNodeBundle
+} from './master.logic';
 
 export type PreloadStrategy = 'streaming' | 'full';
 
@@ -62,12 +67,21 @@ function safeCleanupElement(element: HTMLMediaElement): void {
         removeAudioNodeBundle(element);
         element.remove();
     } catch (error) {
-        logger.warn('[Crossfade] Error during element cleanup', { component: 'CrossfadeController' }, error as Error);
+        logger.warn(
+            '[Crossfade] Error during element cleanup',
+            { component: 'CrossfadeController' },
+            error as Error
+        );
     }
 }
 
-function waitForReady(element: HTMLMediaElement, timeoutMs: number, token: number, abortSignal?: AbortSignal) {
-    return new Promise<boolean>(resolve => {
+function waitForReady(
+    element: HTMLMediaElement,
+    timeoutMs: number,
+    token: number,
+    abortSignal?: AbortSignal
+) {
+    return new Promise<boolean>((resolve) => {
         let settled = false;
         let timeoutId: ReturnType<typeof setTimeout>;
         const cleanup = () => {
@@ -183,7 +197,9 @@ export async function preloadNextTrack(options: PreloadOptions) {
     };
 
     if (options.purpose === 'crossfade') {
-        const targetGain = options.normalizationGainDb ? Math.pow(10, options.normalizationGainDb / 20) : 1;
+        const targetGain = options.normalizationGainDb
+            ? 10 ** (options.normalizationGainDb / 20)
+            : 1;
         const bundle = ensureAudioNodeBundle(element, { initialNormalizationGain: 0 });
 
         if (!bundle) {
@@ -218,7 +234,7 @@ export async function preloadNextTrack(options: PreloadOptions) {
     element.load();
 
     preloadPromise = waitForReady(element, effectiveTimeoutMs, token, abortController.signal)
-        .then(ready => {
+        .then((ready) => {
             clearNetworkTimeout();
 
             if (!preloadState || preloadState.token !== token) {
@@ -238,7 +254,7 @@ export async function preloadNextTrack(options: PreloadOptions) {
 
             return ready;
         })
-        .catch(err => {
+        .catch((err) => {
             clearNetworkTimeout();
 
             if (abortController.signal.aborted) {
@@ -265,7 +281,10 @@ export async function preloadNextTrack(options: PreloadOptions) {
     return preloadPromise;
 }
 
-export function startCrossfade(options: { fromElement: HTMLMediaElement; durationSeconds?: number }) {
+export function startCrossfade(options: {
+    fromElement: HTMLMediaElement;
+    durationSeconds?: number;
+}) {
     if (!preloadState || !preloadState.ready || preloadState.purpose !== 'crossfade') {
         return Promise.resolve(false);
     }
@@ -290,15 +309,22 @@ export function startCrossfade(options: { fromElement: HTMLMediaElement; duratio
     return audioCtx
         .resume()
         .catch((err: unknown) => {
-            logger.warn('[Crossfade] AudioContext.resume() failed', { component: 'CrossfadeController' }, err as Error);
+            logger.warn(
+                '[Crossfade] AudioContext.resume() failed',
+                { component: 'CrossfadeController' },
+                err as Error
+            );
             clearPreloadedElement();
             return Promise.reject(err);
         })
         .then(() => {
             if (audioCtx.state !== 'running') {
-                logger.warn(`[Crossfade] AudioContext not running after resume, state: ${audioCtx.state}`, {
-                    component: 'CrossfadeController'
-                });
+                logger.warn(
+                    `[Crossfade] AudioContext not running after resume, state: ${audioCtx.state}`,
+                    {
+                        component: 'CrossfadeController'
+                    }
+                );
                 clearPreloadedElement();
                 return Promise.reject(new Error('AudioContext not running'));
             }
@@ -361,14 +387,22 @@ export function startCrossfade(options: { fromElement: HTMLMediaElement; duratio
 
             return true;
         })
-        .catch(err => {
-            logger.error('[Crossfade] crossfade error', { component: 'CrossfadeController' }, err as Error);
+        .catch((err) => {
+            logger.error(
+                '[Crossfade] crossfade error',
+                { component: 'CrossfadeController' },
+                err as Error
+            );
             clearPreloadedElement();
             return false;
         });
 }
 
-export function consumePreloadedTrack(options: { itemId?: string; url?: string; purpose?: PreloadPurpose }) {
+export function consumePreloadedTrack(options: {
+    itemId?: string;
+    url?: string;
+    purpose?: PreloadPurpose;
+}) {
     if (!preloadState) return null;
 
     if (options.itemId && preloadState.itemId !== options.itemId) {

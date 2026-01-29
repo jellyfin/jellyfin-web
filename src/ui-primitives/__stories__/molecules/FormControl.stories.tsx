@@ -1,8 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
-import { FormControl, FormLabel, FormHelperText, Switch, FormControlLabel } from '../..';
+import { type ChangeEvent, type ReactElement, useCallback, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { FormControl, FormControlLabel, FormHelperText, FormLabel, Switch } from '../..';
 
 const meta: Meta<typeof FormControl> = {
     title: 'UI Primitives/FormControl',
@@ -127,7 +126,9 @@ function WithErrorStory(): ReactElement {
                         color: '#fff'
                     }}
                 />
-                <FormHelperText style={{ color: '#f44336' }}>Please enter a valid email address</FormHelperText>
+                <FormHelperText style={{ color: '#f44336' }}>
+                    Please enter a valid email address
+                </FormHelperText>
             </FormControl>
         </div>
     );

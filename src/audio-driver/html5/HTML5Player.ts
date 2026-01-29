@@ -1,5 +1,5 @@
-import { logger } from '../../utils/logger';
 import { PlaybackStatus } from '../../store/types';
+import { logger } from '../../utils/logger';
 
 export interface PlayerEvents {
     onTimeUpdate?: (currentTime: number) => void;
@@ -35,7 +35,7 @@ export class HTML5Player {
     }
 
     play() {
-        return this.element?.play().catch(err => {
+        return this.element?.play().catch((err) => {
             logger.error('HTML5Player play failed', { component: 'HTML5Player' }, err);
             throw err;
         });

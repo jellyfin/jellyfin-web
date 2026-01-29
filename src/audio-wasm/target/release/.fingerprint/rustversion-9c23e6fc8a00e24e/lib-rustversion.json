@@ -1,20 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[]",
-  "declared_features": "[]",
-  "target": 179193587114931863,
-  "profile": 17257705230225558938,
-  "path": 16819810565786596022,
-  "deps": [[14156967978702956262, "build_script_build", false, 9699372683443042573]],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "release/.fingerprint/rustversion-9c23e6fc8a00e24e/dep-lib-rustversion",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[]",
+    "declared_features": "[]",
+    "target": 179193587114931863,
+    "profile": 17257705230225558938,
+    "path": 16819810565786596022,
+    "deps": [[14156967978702956262, "build_script_build", false, 9699372683443042573]],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "release/.fingerprint/rustversion-9c23e6fc8a00e24e/dep-lib-rustversion",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

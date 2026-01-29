@@ -1,9 +1,8 @@
 import icon from '@jellyfin/ux-web/icon-transparent.png';
-import React, { FC } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Button } from 'ui-primitives';
-
 import { useSystemInfo } from 'hooks/useSystemInfo';
+import React, { FC } from 'react';
+import { Button } from 'ui-primitives';
 
 const ServerButton: FC = () => {
     const { data: systemInfo, isPending } = useSystemInfo();

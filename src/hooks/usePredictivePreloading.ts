@@ -3,10 +3,10 @@
  * Integrates with the predictive preloader system
  */
 
-import { useEffect, useCallback } from 'react';
 import { useLocation } from '@tanstack/react-router';
-import { predictivePreloader } from '../utils/predictivePreloader';
+import { useCallback, useEffect } from 'react';
 import { logger } from '../utils/logger';
+import { predictivePreloader } from '../utils/predictivePreloader';
 
 interface UserContext {
     lastPlayedType?: string;
@@ -24,7 +24,11 @@ export const usePredictivePreloading = (userContext?: UserContext) => {
             try {
                 await predictivePreloader.preload(location.pathname, userContext);
             } catch (error) {
-                logger.warn('Predictive preloading failed', { component: 'UsePredictivePreloading' }, error as Error);
+                logger.warn(
+                    'Predictive preloading failed',
+                    { component: 'UsePredictivePreloading' },
+                    error as Error
+                );
             }
         };
 
@@ -42,10 +46,17 @@ export const usePredictivePreloading = (userContext?: UserContext) => {
 
                 // Update context if provided
                 if (context) {
-                    await predictivePreloader.preload(location.pathname, { ...userContext, ...context });
+                    await predictivePreloader.preload(location.pathname, {
+                        ...userContext,
+                        ...context
+                    });
                 }
             } catch (error) {
-                logger.warn('Manual preloading failed', { component: 'UsePredictivePreloading' }, error as Error);
+                logger.warn(
+                    'Manual preloading failed',
+                    { component: 'UsePredictivePreloading' },
+                    error as Error
+                );
             }
         },
         [location.pathname, userContext]
@@ -63,17 +74,24 @@ export const usePredictivePreloading = (userContext?: UserContext) => {
  * Preloads routes/components when user hovers over navigation elements
  */
 export const useHoverPreloading = () => {
-    const preloadOnHover = useCallback(async (resource: string, type: 'route' | 'component' = 'route') => {
-        try {
-            if (type === 'route') {
-                await predictivePreloader.preloadRoutes([resource]);
-            } else {
-                await predictivePreloader.preloadComponents([resource]);
+    const preloadOnHover = useCallback(
+        async (resource: string, type: 'route' | 'component' = 'route') => {
+            try {
+                if (type === 'route') {
+                    await predictivePreloader.preloadRoutes([resource]);
+                } else {
+                    await predictivePreloader.preloadComponents([resource]);
+                }
+            } catch (error) {
+                logger.warn(
+                    `Hover preloading failed for ${resource}`,
+                    { component: 'UseHoverPreloading' },
+                    error as Error
+                );
             }
-        } catch (error) {
-            logger.warn(`Hover preloading failed for ${resource}`, { component: 'UseHoverPreloading' }, error as Error);
-        }
-    }, []);
+        },
+        []
+    );
 
     return { preloadOnHover };
 };
@@ -83,21 +101,24 @@ export const useHoverPreloading = () => {
  * Preloads content when it comes into viewport
  */
 export const useIntersectionPreloading = () => {
-    const preloadOnVisible = useCallback(async (resource: string, type: 'route' | 'component' = 'route') => {
-        try {
-            if (type === 'route') {
-                await predictivePreloader.preloadRoutes([resource]);
-            } else {
-                await predictivePreloader.preloadComponents([resource]);
+    const preloadOnVisible = useCallback(
+        async (resource: string, type: 'route' | 'component' = 'route') => {
+            try {
+                if (type === 'route') {
+                    await predictivePreloader.preloadRoutes([resource]);
+                } else {
+                    await predictivePreloader.preloadComponents([resource]);
+                }
+            } catch (error) {
+                logger.warn(
+                    `Intersection preloading failed for ${resource}`,
+                    { component: 'UseIntersectionPreloading' },
+                    error as Error
+                );
             }
-        } catch (error) {
-            logger.warn(
-                `Intersection preloading failed for ${resource}`,
-                { component: 'UseIntersectionPreloading' },
-                error as Error
-            );
-        }
-    }, []);
+        },
+        []
+    );
 
     return { preloadOnVisible };
 };

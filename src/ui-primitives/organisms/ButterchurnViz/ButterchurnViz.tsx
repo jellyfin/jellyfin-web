@@ -2,7 +2,7 @@
  * ButterchurnViz - Liquid visualizer using butterchurn
  */
 
-import { useEffect, useRef, type ReactElement } from 'react';
+import { type ReactElement, useEffect, useRef } from 'react';
 import { logger } from 'utils/logger';
 import { canvas } from './ButterchurnViz.css.ts';
 
@@ -34,25 +34,29 @@ export function ButterchurnViz({ preset = 'default' }: ButterchurnVizProps): Rea
                 const presetsModule = await import('butterchurn-presets');
 
                 const audioContext = new AudioContext();
-                const instance = (butterchurnModule as unknown as ButterchurnModule).createVisualizer(
-                    canvasRef.current,
-                    audioContext,
-                    {
-                        width: window.innerWidth,
-                        height: window.innerHeight,
-                        textureRatio: 1
-                    }
-                );
+                const instance = (
+                    butterchurnModule as unknown as ButterchurnModule
+                ).createVisualizer(canvasRef.current, audioContext, {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    textureRatio: 1
+                });
 
                 visualizerRef.current = instance;
 
                 const presets = (
-                    presetsModule as unknown as { readonly getPresets: () => Record<string, unknown> }
+                    presetsModule as unknown as {
+                        readonly getPresets: () => Record<string, unknown>;
+                    }
                 ).getPresets();
                 const selectedPreset = presets[preset] ?? presets['default'];
                 instance.setPreset(selectedPreset, 2);
             } catch (error) {
-                logger.error('Failed to initialize Butterchurn', { component: 'ButterchurnViz' }, error as Error);
+                logger.error(
+                    'Failed to initialize Butterchurn',
+                    { component: 'ButterchurnViz' },
+                    error as Error
+                );
             }
         };
 
@@ -79,5 +83,12 @@ export function ButterchurnViz({ preset = 'default' }: ButterchurnVizProps): Rea
         };
     }, [preset]);
 
-    return <canvas ref={canvasRef} className={canvas} width={window.innerWidth} height={window.innerHeight} />;
+    return (
+        <canvas
+            ref={canvasRef}
+            className={canvas}
+            width={window.innerWidth}
+            height={window.innerHeight}
+        />
+    );
 }

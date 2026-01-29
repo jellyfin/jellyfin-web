@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
-
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
+import React, { useEffect } from 'react';
 import { Button } from 'ui-primitives';
 
 const FallbackRoute = () => {

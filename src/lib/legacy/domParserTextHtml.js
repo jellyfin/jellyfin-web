@@ -18,11 +18,13 @@
     // Firefox/Opera/IE throw errors on unsupported types
     try {
         // WebKit returns null on unsupported types
-        if ((new DOMParser).parseFromString('', 'text/html')) {
+        if (new DOMParser().parseFromString('', 'text/html')) {
             // text/html parsing is natively supported
             return;
         }
-    } catch { /* noop */ }
+    } catch {
+        /* noop */
+    }
 
     DOMParserPrototype.parseFromString = function (markup, type) {
         if (/^\s*text\/html\s*(?:;|$)/i.test(type)) {
@@ -33,4 +35,4 @@
             return realParseFromString.apply(this, arguments);
         }
     };
-}(DOMParser));
+})(DOMParser);

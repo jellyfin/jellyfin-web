@@ -1,25 +1,29 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-    Dialog,
-    DialogPortal,
-    DialogOverlayComponent,
-    DialogContentComponent,
-    DialogCloseButton
-} from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
+import type { SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import type { SeriesTimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Checkbox,
+    Dialog,
+    DialogCloseButton,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogPortal,
+    Flex,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
+import datetime from '../../scripts/datetime';
 import loading from '../loading/loading';
 import toast from '../toast/toast';
-import datetime from '../../scripts/datetime';
 
 interface SeriesRecordingEditorDialogProps {
     itemId: string;
@@ -37,7 +41,12 @@ const KEEP_UP_TO_OPTIONS = [
     }))
 ];
 
-function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: SeriesRecordingEditorDialogProps) {
+function SeriesRecordingEditorDialog({
+    itemId,
+    serverId,
+    enableCancel,
+    onClose
+}: SeriesRecordingEditorDialogProps) {
     const [open, setOpen] = useState(true);
     const [timer, setTimer] = useState<SeriesTimerInfoDto | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -76,11 +85,13 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                     const apiClient = ServerConnections.getApiClient(serverId);
                     if (apiClient) {
                         const prePadding = parseInt(
-                            (form.elements.namedItem('prePadding') as HTMLInputElement)?.value || '0',
+                            (form.elements.namedItem('prePadding') as HTMLInputElement)?.value ||
+                                '0',
                             10
                         );
                         const postPadding = parseInt(
-                            (form.elements.namedItem('postPadding') as HTMLInputElement)?.value || '0',
+                            (form.elements.namedItem('postPadding') as HTMLInputElement)?.value ||
+                                '0',
                             10
                         );
 
@@ -91,23 +102,33 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                                 PrePaddingSeconds: prePadding * 60,
                                 PostPaddingSeconds: postPadding * 60,
                                 RecordAnyChannel:
-                                    (form.elements.namedItem('recordAnyChannel') as HTMLInputElement)?.checked ?? false,
+                                    (
+                                        form.elements.namedItem(
+                                            'recordAnyChannel'
+                                        ) as HTMLInputElement
+                                    )?.checked ?? false,
                                 RecordAnyTime:
-                                    (form.elements.namedItem('recordAnyTime') as HTMLInputElement)?.checked ?? false,
+                                    (form.elements.namedItem('recordAnyTime') as HTMLInputElement)
+                                        ?.checked ?? false,
                                 RecordNewOnly:
-                                    (form.elements.namedItem('recordNewOnly') as HTMLInputElement)?.checked ?? false,
+                                    (form.elements.namedItem('recordNewOnly') as HTMLInputElement)
+                                        ?.checked ?? false,
                                 SkipEpisodesInLibrary:
-                                    (form.elements.namedItem('skipEpisodesInLibrary') as HTMLInputElement)?.checked ??
-                                    false,
+                                    (
+                                        form.elements.namedItem(
+                                            'skipEpisodesInLibrary'
+                                        ) as HTMLInputElement
+                                    )?.checked ?? false,
                                 KeepUpTo: parseInt(
-                                    (form.elements.namedItem('keepUpTo') as HTMLSelectElement)?.value || '0',
+                                    (form.elements.namedItem('keepUpTo') as HTMLSelectElement)
+                                        ?.value || '0',
                                     10
                                 )
                             })
                             .then(() => {
                                 handleClose();
                             })
-                            .catch(error => {
+                            .catch((error) => {
                                 console.error('Failed to auto-save series timer:', error);
                                 loading.hide();
                             });
@@ -130,7 +151,10 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
             const apiClient = ServerConnections.getApiClient(serverId);
             if (!apiClient) return;
 
-            const prePadding = parseInt((form.elements.namedItem('prePadding') as HTMLInputElement)?.value || '0', 10);
+            const prePadding = parseInt(
+                (form.elements.namedItem('prePadding') as HTMLInputElement)?.value || '0',
+                10
+            );
             const postPadding = parseInt(
                 (form.elements.namedItem('postPadding') as HTMLInputElement)?.value || '0',
                 10
@@ -143,17 +167,26 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                     PrePaddingSeconds: prePadding * 60,
                     PostPaddingSeconds: postPadding * 60,
                     RecordAnyChannel:
-                        (form.elements.namedItem('recordAnyChannel') as HTMLInputElement)?.checked ?? false,
-                    RecordAnyTime: (form.elements.namedItem('recordAnyTime') as HTMLInputElement)?.checked ?? false,
-                    RecordNewOnly: (form.elements.namedItem('recordNewOnly') as HTMLInputElement)?.checked ?? false,
+                        (form.elements.namedItem('recordAnyChannel') as HTMLInputElement)
+                            ?.checked ?? false,
+                    RecordAnyTime:
+                        (form.elements.namedItem('recordAnyTime') as HTMLInputElement)?.checked ??
+                        false,
+                    RecordNewOnly:
+                        (form.elements.namedItem('recordNewOnly') as HTMLInputElement)?.checked ??
+                        false,
                     SkipEpisodesInLibrary:
-                        (form.elements.namedItem('skipEpisodesInLibrary') as HTMLInputElement)?.checked ?? false,
-                    KeepUpTo: parseInt((form.elements.namedItem('keepUpTo') as HTMLSelectElement)?.value || '0', 10)
+                        (form.elements.namedItem('skipEpisodesInLibrary') as HTMLInputElement)
+                            ?.checked ?? false,
+                    KeepUpTo: parseInt(
+                        (form.elements.namedItem('keepUpTo') as HTMLSelectElement)?.value || '0',
+                        10
+                    )
                 })
                 .then(() => {
                     onClose({ updated: true });
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error('Failed to update series timer:', error);
                     loading.hide();
                 });
@@ -186,7 +219,10 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
         : globalize.translate('OneChannel');
 
     const aroundTime = timer?.StartDate
-        ? globalize.translate('AroundTime', datetime.getDisplayTime(datetime.parseISO8601Date(timer.StartDate)))
+        ? globalize.translate(
+              'AroundTime',
+              datetime.getDisplayTime(datetime.parseISO8601Date(timer.StartDate))
+          )
         : '';
 
     return (
@@ -201,7 +237,11 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                         borderRadius: '16px'
                     }}
                 >
-                    <Flex align="center" justify="space-between" style={{ marginBottom: vars.spacing['5'] }}>
+                    <Flex
+                        align="center"
+                        justify="space-between"
+                        style={{ marginBottom: vars.spacing['5'] }}
+                    >
                         <Text as="h3" size="lg" weight="bold">
                             {globalize.translate('SeriesSettings')}
                         </Text>
@@ -239,33 +279,57 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                             </Box>
 
                             <Box style={{ marginBottom: vars.spacing['4'] }}>
-                                <Text size="sm" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
+                                <Text
+                                    size="sm"
+                                    style={{
+                                        marginBottom: vars.spacing['2'],
+                                        color: 'var(--text-secondary)'
+                                    }}
+                                >
                                     {globalize.translate('Channel')}
                                 </Text>
                                 <Text size="md">{channelInfo}</Text>
                             </Box>
 
                             <Box style={{ marginBottom: vars.spacing['4'] }}>
-                                <Text size="sm" style={{ marginBottom: vars.spacing['2'], color: 'var(--text-secondary)' }}>
+                                <Text
+                                    size="sm"
+                                    style={{
+                                        marginBottom: vars.spacing['2'],
+                                        color: 'var(--text-secondary)'
+                                    }}
+                                >
                                     {globalize.translate('AirTime')}
                                 </Text>
                                 <Text size="md">{aroundTime}</Text>
                             </Box>
 
                             <Box style={{ marginBottom: vars.spacing['5'] }}>
-                                <Select name="recordAnyChannel" defaultValue={timer?.RecordAnyChannel ? 'all' : 'one'}>
+                                <Select
+                                    name="recordAnyChannel"
+                                    defaultValue={timer?.RecordAnyChannel ? 'all' : 'one'}
+                                >
                                     <SelectTrigger style={{ width: '100%' }}>
-                                        <SelectValue placeholder={globalize.translate('RecordAnyChannel')} />
+                                        <SelectValue
+                                            placeholder={globalize.translate('RecordAnyChannel')}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="one">{globalize.translate('OneChannel')}</SelectItem>
-                                        <SelectItem value="all">{globalize.translate('AllChannels')}</SelectItem>
+                                        <SelectItem value="one">
+                                            {globalize.translate('OneChannel')}
+                                        </SelectItem>
+                                        <SelectItem value="all">
+                                            {globalize.translate('AllChannels')}
+                                        </SelectItem>
                                     </SelectContent>
                                 </Select>
                             </Box>
 
                             <Box style={{ marginBottom: vars.spacing['5'] }}>
-                                <Select name="recordAnyTime" defaultValue={timer?.RecordAnyTime ? 'any' : 'original'}>
+                                <Select
+                                    name="recordAnyTime"
+                                    defaultValue={timer?.RecordAnyTime ? 'any' : 'original'}
+                                >
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue placeholder={globalize.translate('AirTime')} />
                                     </SelectTrigger>
@@ -273,25 +337,39 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                                         <SelectItem value="original">
                                             {globalize.translate('OriginalAirDate')}
                                         </SelectItem>
-                                        <SelectItem value="any">{globalize.translate('AnyTime')}</SelectItem>
+                                        <SelectItem value="any">
+                                            {globalize.translate('AnyTime')}
+                                        </SelectItem>
                                     </SelectContent>
                                 </Select>
                             </Box>
 
                             <Box style={{ marginBottom: vars.spacing['5'] }}>
-                                <Select name="recordNewOnly" defaultValue={timer?.RecordNewOnly ? 'new' : 'all'}>
+                                <Select
+                                    name="recordNewOnly"
+                                    defaultValue={timer?.RecordNewOnly ? 'new' : 'all'}
+                                >
                                     <SelectTrigger style={{ width: '100%' }}>
-                                        <SelectValue placeholder={globalize.translate('RecordNewOnly')} />
+                                        <SelectValue
+                                            placeholder={globalize.translate('RecordNewOnly')}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="all">{globalize.translate('AllEpisodes')}</SelectItem>
-                                        <SelectItem value="new">{globalize.translate('NewEpisodesOnly')}</SelectItem>
+                                        <SelectItem value="all">
+                                            {globalize.translate('AllEpisodes')}
+                                        </SelectItem>
+                                        <SelectItem value="new">
+                                            {globalize.translate('NewEpisodesOnly')}
+                                        </SelectItem>
                                     </SelectContent>
                                 </Select>
                             </Box>
 
                             <Box style={{ marginBottom: vars.spacing['5'] }}>
-                                <Checkbox name="skipEpisodesInLibrary" defaultChecked={timer?.SkipEpisodesInLibrary}>
+                                <Checkbox
+                                    name="skipEpisodesInLibrary"
+                                    defaultChecked={timer?.SkipEpisodesInLibrary}
+                                >
                                     {globalize.translate('SkipEpisodesInLibrary')}
                                 </Checkbox>
                             </Box>
@@ -299,10 +377,12 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                             <Box style={{ marginBottom: vars.spacing['5'] }}>
                                 <Select name="keepUpTo" defaultValue={String(timer?.KeepUpTo || 0)}>
                                     <SelectTrigger style={{ width: '100%' }}>
-                                        <SelectValue placeholder={globalize.translate('KeepUpTo')} />
+                                        <SelectValue
+                                            placeholder={globalize.translate('KeepUpTo')}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {KEEP_UP_TO_OPTIONS.map(opt => (
+                                        {KEEP_UP_TO_OPTIONS.map((opt) => (
                                             <SelectItem key={opt.value} value={opt.value}>
                                                 {opt.label}
                                             </SelectItem>
@@ -311,7 +391,11 @@ function SeriesRecordingEditorDialog({ itemId, serverId, enableCancel, onClose }
                                 </Select>
                             </Box>
 
-                            <Flex justify="space-between" align="center" style={{ marginTop: '32px' }}>
+                            <Flex
+                                justify="space-between"
+                                align="center"
+                                style={{ marginTop: '32px' }}
+                            >
                                 <Button variant="ghost" color="danger" onClick={handleDelete}>
                                     {globalize.translate('DeleteSeries')}
                                 </Button>

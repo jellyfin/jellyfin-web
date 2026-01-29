@@ -2,7 +2,7 @@
  * Item Details Rendering Tests
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock imageLoader
 vi.mock('components/images/imageLoader', () => ({

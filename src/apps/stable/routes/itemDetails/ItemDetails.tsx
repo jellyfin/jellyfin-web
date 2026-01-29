@@ -4,25 +4,27 @@
  * React-based item details page with TanStack Query and ui-primitives.
  */
 
-import React, { useState } from 'react';
-import { DotsVerticalIcon, HeartFilledIcon, HeartIcon, PlayIcon, PlusIcon, ShuffleIcon } from '@radix-ui/react-icons';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import {
+    DotsVerticalIcon,
+    HeartFilledIcon,
+    HeartIcon,
+    PlayIcon,
+    PlusIcon,
+    ShuffleIcon
+} from '@radix-ui/react-icons';
 
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
 
 import { getItems, itemsApi } from 'lib/api/items';
-import { queryKeys } from 'lib/queryKeys';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { queryKeys } from 'lib/queryKeys';
+import React, { useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
 import type { MediaType, PlayableItem } from 'store/types';
-import { Button } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Chip, Divider, Flex, Heading, IconButton, Text } from 'ui-primitives';
 
 const formatRuntime = (ticks: number | undefined): string => {
     if (!ticks) return '';
@@ -116,7 +118,7 @@ export const ItemDetails: React.FC = () => {
 
     const handleShuffle = async () => {
         if (!similarItems?.Items?.length) return;
-        const queueItems = similarItems.Items.map(similarItem => toPlayableItem(similarItem));
+        const queueItems = similarItems.Items.map((similarItem) => toPlayableItem(similarItem));
         await playbackManagerBridge.setQueue(queueItems, 0);
         await playbackManagerBridge.setShuffleMode('Shuffle');
         await playbackManagerBridge.play();
@@ -155,7 +157,9 @@ export const ItemDetails: React.FC = () => {
                 style={{
                     position: 'relative',
                     minHeight: 400,
-                    background: backdropUrl ? `url(${backdropUrl}) center/cover` : vars.colors.surface,
+                    background: backdropUrl
+                        ? `url(${backdropUrl}) center/cover`
+                        : vars.colors.surface,
                     borderRadius: vars.borderRadius.lg,
                     overflow: 'hidden',
                     marginBottom: vars.spacing['7']
@@ -195,7 +199,11 @@ export const ItemDetails: React.FC = () => {
             </Box>
 
             <Box
-                style={{ paddingLeft: vars.spacing['7'], paddingRight: vars.spacing['7'], paddingBottom: vars.spacing['7'] }}
+                style={{
+                    paddingLeft: vars.spacing['7'],
+                    paddingRight: vars.spacing['7'],
+                    paddingBottom: vars.spacing['7']
+                }}
             >
                 <Flex style={{ flexDirection: 'column', gap: vars.spacing['6'] }}>
                     <Box>
@@ -207,16 +215,26 @@ export const ItemDetails: React.FC = () => {
                         )}
                     </Box>
 
-                    <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}>
+                    <Flex
+                        style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}
+                    >
                         {item.ProductionYear && <Chip>{item.ProductionYear}</Chip>}
                         {item.OfficialRating && <Chip>{item.OfficialRating}</Chip>}
                         {runtimeLabel && <Chip>{runtimeLabel}</Chip>}
-                        {item.CommunityRating && <Chip>Rating: {item.CommunityRating.toFixed(1)}</Chip>}
+                        {item.CommunityRating && (
+                            <Chip>Rating: {item.CommunityRating.toFixed(1)}</Chip>
+                        )}
                     </Flex>
 
                     {item.Genres && item.Genres.length > 0 && (
-                        <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}>
-                            {item.Genres.map(genre => (
+                        <Flex
+                            style={{
+                                flexDirection: 'row',
+                                gap: vars.spacing['4'],
+                                flexWrap: 'wrap'
+                            }}
+                        >
+                            {item.Genres.map((genre) => (
                                 <Chip key={genre}>{genre}</Chip>
                             ))}
                         </Flex>
@@ -225,15 +243,25 @@ export const ItemDetails: React.FC = () => {
                     {item.Overview && (
                         <Box>
                             <Heading.H4>Overview</Heading.H4>
-                            <Text style={{ marginTop: vars.spacing['4'], whiteSpace: 'pre-wrap' }}>{item.Overview}</Text>
+                            <Text style={{ marginTop: vars.spacing['4'], whiteSpace: 'pre-wrap' }}>
+                                {item.Overview}
+                            </Text>
                         </Box>
                     )}
 
                     {item.People && item.People.length > 0 && (
                         <Box>
-                            <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>Cast & Crew</Heading.H4>
-                            <Flex style={{ flexDirection: 'row', gap: vars.spacing['4'], flexWrap: 'wrap' }}>
-                                {item.People.slice(0, 10).map(person => (
+                            <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>
+                                Cast & Crew
+                            </Heading.H4>
+                            <Flex
+                                style={{
+                                    flexDirection: 'row',
+                                    gap: vars.spacing['4'],
+                                    flexWrap: 'wrap'
+                                }}
+                            >
+                                {item.People.slice(0, 10).map((person) => (
                                     <Chip key={person.Id}>
                                         {person.Name}
                                         {person.Role && ` as ${person.Role}`}
@@ -247,7 +275,9 @@ export const ItemDetails: React.FC = () => {
 
                     {similarItems?.Items && similarItems.Items.length > 0 && (
                         <Box>
-                            <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>Similar Items</Heading.H4>
+                            <Heading.H4 style={{ marginBottom: vars.spacing['5'] }}>
+                                Similar Items
+                            </Heading.H4>
                             <Box
                                 style={{
                                     display: 'grid',
@@ -255,8 +285,10 @@ export const ItemDetails: React.FC = () => {
                                     gap: vars.spacing['5']
                                 }}
                             >
-                                {similarItems.Items.map(similarItem => {
-                                    const imageTag = similarItem.ImageTags?.Primary ?? similarItem.AlbumPrimaryImageTag;
+                                {similarItems.Items.map((similarItem) => {
+                                    const imageTag =
+                                        similarItem.ImageTags?.Primary ??
+                                        similarItem.AlbumPrimaryImageTag;
                                     return (
                                         <Box key={similarItem.Id} style={{ cursor: 'pointer' }}>
                                             <Box
@@ -271,7 +303,11 @@ export const ItemDetails: React.FC = () => {
                                                     <img
                                                         src={`/api/Items/${similarItem.Id}/Images/Primary?tag=${imageTag}&maxWidth=400`}
                                                         alt={similarItem.Name || ''}
-                                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover'
+                                                        }}
                                                     />
                                                 )}
                                             </Box>

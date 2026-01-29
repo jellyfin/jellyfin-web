@@ -1,11 +1,9 @@
 import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
-import React, { type FC, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import { type LibraryViewSettings } from 'types/library';
+import { Box, Checkbox } from 'ui-primitives';
 
 const statusFiltersOptions = [
     { label: 'Continuing', value: SeriesStatus.Continuing },
@@ -18,7 +16,10 @@ interface FiltersSeriesStatusProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({ libraryViewSettings, setLibraryViewSettings }) => {
+const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({
+    libraryViewSettings,
+    setLibraryViewSettings
+}) => {
     const onFiltersSeriesStatusChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
@@ -26,10 +27,10 @@ const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({ libraryViewSettings
             const existingSeriesStatus = libraryViewSettings?.Filters?.SeriesStatus ?? [];
 
             const updatedSeriesStatus = existingSeriesStatus.includes(value)
-                ? existingSeriesStatus.filter(filter => filter !== value)
+                ? existingSeriesStatus.filter((filter) => filter !== value)
                 : [...existingSeriesStatus, value];
 
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -43,7 +44,7 @@ const FiltersSeriesStatus: FC<FiltersSeriesStatusProps> = ({ libraryViewSettings
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
-            {statusFiltersOptions.map(filter => (
+            {statusFiltersOptions.map((filter) => (
                 <Checkbox
                     key={filter.value}
                     checked={!!libraryViewSettings?.Filters?.SeriesStatus?.includes(filter.value)}

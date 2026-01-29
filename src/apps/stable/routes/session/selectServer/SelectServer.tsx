@@ -1,14 +1,13 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Text, Button, Input, Alert, Checkbox } from 'ui-primitives';
+import { useNavigate } from '@tanstack/react-router';
 import { LoadingView } from 'components/feedback/LoadingView';
 import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
-import { useServerStore, type ServerInfo } from 'store/serverStore';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDevConfigStore } from 'store/devConfigStore';
-import { saveDevConfig, normalizeServerBaseUrl } from 'utils/devConfig';
-import { useNavigate } from '@tanstack/react-router';
+import { type ServerInfo, useServerStore } from 'store/serverStore';
+import { vars } from 'styles/tokens.css.ts';
+import { Alert, Box, Button, Checkbox, Input, Text } from 'ui-primitives';
+import { normalizeServerBaseUrl, saveDevConfig } from 'utils/devConfig';
 import { logger } from 'utils/logger';
 
 interface SelectServerProps {
@@ -41,14 +40,20 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
     const [serverConnecting, setServerConnecting] = useState<string | null>(null);
 
     const mapServerInfo = useCallback((server: LegacyServerInfo): ServerInfo => {
-        const lastAccessed = typeof server.DateLastAccessed === 'string' 
-            ? new Date(server.DateLastAccessed).getTime() 
-            : (server.DateLastAccessed ?? Date.now());
+        const lastAccessed =
+            typeof server.DateLastAccessed === 'string'
+                ? new Date(server.DateLastAccessed).getTime()
+                : (server.DateLastAccessed ?? Date.now());
 
         return {
             id: server.Id,
             name: server.Name,
-            address: server.Address ?? server.ManualAddress ?? server.LocalAddress ?? server.RemoteAddress ?? '',
+            address:
+                server.Address ??
+                server.ManualAddress ??
+                server.LocalAddress ??
+                server.RemoteAddress ??
+                '',
             localAddress: server.LocalAddress ?? '',
             remoteAddress: server.RemoteAddress ?? '',
             manualAddress: server.ManualAddress ?? '',
@@ -80,67 +85,73 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
     }, [loadServers]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleConnectionResult = useCallback((result: any, isNewServer: boolean = false) => {
-        switch (result.State) {
-            case ConnectionState.SignedIn: {
-                const updatedServer = {
-                    ...mapServerInfo(result.Servers[0]),
-                    userId: result.ApiClient.getCurrentUserId(),
-                    accessToken: result.ApiClient.accessToken()
-                };
-                if (isNewServer) {
-                    addServer(updatedServer);
-                }
-                setCurrentServer(updatedServer);
-                setShowAddDialog(false);
-                setManualUrl('');
-                void navigate({ to: '/home' });
-                break;
-            }
-            case ConnectionState.ServerSignIn: {
-                const server = mapServerInfo(result.Servers[0]);
-                if (isNewServer) {
-                    addServer(server);
-                }
-                setCurrentServer(server);
-                setShowAddDialog(false);
-                setManualUrl('');
-                void navigate({ to: '/login', search: { serverid: result.Servers[0].Id } });
-                break;
-            }
-            case ConnectionState.ServerSelection: {
-                if (isNewServer) {
-                    const server = mapServerInfo(result.Servers[0]);
-                    addServer(server);
+    const handleConnectionResult = useCallback(
+        (result: any, isNewServer: boolean = false) => {
+            switch (result.State) {
+                case ConnectionState.SignedIn: {
+                    const updatedServer = {
+                        ...mapServerInfo(result.Servers[0]),
+                        userId: result.ApiClient.getCurrentUserId(),
+                        accessToken: result.ApiClient.accessToken()
+                    };
+                    if (isNewServer) {
+                        addServer(updatedServer);
+                    }
+                    setCurrentServer(updatedServer);
                     setShowAddDialog(false);
                     setManualUrl('');
+                    void navigate({ to: '/home' });
+                    break;
                 }
-                break;
+                case ConnectionState.ServerSignIn: {
+                    const server = mapServerInfo(result.Servers[0]);
+                    if (isNewServer) {
+                        addServer(server);
+                    }
+                    setCurrentServer(server);
+                    setShowAddDialog(false);
+                    setManualUrl('');
+                    void navigate({ to: '/login', search: { serverid: result.Servers[0].Id } });
+                    break;
+                }
+                case ConnectionState.ServerSelection: {
+                    if (isNewServer) {
+                        const server = mapServerInfo(result.Servers[0]);
+                        addServer(server);
+                        setShowAddDialog(false);
+                        setManualUrl('');
+                    }
+                    break;
+                }
+                case ConnectionState.ServerUpdateNeeded:
+                    setError('Server update needed. Please update your Jellyfin server.');
+                    break;
+                case ConnectionState.Unavailable:
+                    setError('No server found at this address');
+                    break;
+                default:
+                    setError('Unable to connect to server');
             }
-            case ConnectionState.ServerUpdateNeeded:
-                setError('Server update needed. Please update your Jellyfin server.');
-                break;
-            case ConnectionState.Unavailable:
-                setError('No server found at this address');
-                break;
-            default:
-                setError('Unable to connect to server');
-        }
-    }, [mapServerInfo, setCurrentServer, addServer, navigate]);
+        },
+        [mapServerInfo, setCurrentServer, addServer, navigate]
+    );
 
-    const connectToServer = useCallback(async (server: ServerInfo) => {
-        setServerConnecting(server.id);
-        setError(null);
-        try {
-            const result = await ServerConnections.connectToAddress(server.address);
-            handleConnectionResult(result);
-        } catch (err) {
-            setError('Failed to connect to server');
-            logger.error('Connect error', { component: 'SelectServer', error: err });
-        } finally {
-            setServerConnecting(null);
-        }
-    }, [handleConnectionResult]);
+    const connectToServer = useCallback(
+        async (server: ServerInfo) => {
+            setServerConnecting(server.id);
+            setError(null);
+            try {
+                const result = await ServerConnections.connectToAddress(server.address);
+                handleConnectionResult(result);
+            } catch (err) {
+                setError('Failed to connect to server');
+                logger.error('Connect error', { component: 'SelectServer', error: err });
+            } finally {
+                setServerConnecting(null);
+            }
+        },
+        [handleConnectionResult]
+    );
 
     const handleAddServer = useCallback(async () => {
         if (!manualUrl) return;
@@ -180,9 +191,12 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
         localStorage.setItem('enable-service-worker', String(checked));
     };
 
-    const onConnectClick = useCallback((server: ServerInfo) => {
-        void connectToServer(server);
-    }, [connectToServer]);
+    const onConnectClick = useCallback(
+        (server: ServerInfo) => {
+            void connectToServer(server);
+        },
+        [connectToServer]
+    );
 
     const onAddServerSubmit = useCallback(() => {
         void handleAddServer();
@@ -199,9 +213,17 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
     const pageClass = showUser ? 'libraryPage noSecondaryNavPage' : 'standalonePage';
 
     return (
-        <div className={`${pageClass} selectServerPage`} style={{ minHeight: '100vh', padding: 16 }}>
+        <div
+            className={`${pageClass} selectServerPage`}
+            style={{ minHeight: '100vh', padding: 16 }}
+        >
             <Box style={{ maxWidth: 800, margin: '0 auto' }}>
-                <Text as="h2" size="xl" weight="bold" style={{ marginBottom: vars.spacing['2'], textAlign: 'center' }}>
+                <Text
+                    as="h2"
+                    size="xl"
+                    weight="bold"
+                    style={{ marginBottom: vars.spacing['2'], textAlign: 'center' }}
+                >
                     {globalize.translate('SelectServer')}
                 </Text>
 
@@ -231,7 +253,11 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
 
                 {servers.length === 0 ? (
                     <Box style={{ textAlign: 'center', padding: '32px 0' }}>
-                        <Text size="md" color="secondary" style={{ marginBottom: vars.spacing['5'] }}>
+                        <Text
+                            size="md"
+                            color="secondary"
+                            style={{ marginBottom: vars.spacing['5'] }}
+                        >
                             {globalize.translate('MessageNoServersAvailable')}
                         </Text>
                         <Button variant="primary" onClick={onShowAddDialog}>
@@ -250,7 +276,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 margin: '24px 0'
                             }}
                         >
-                            {servers.map(server => (
+                            {servers.map((server) => (
                                 <button
                                     key={server.id}
                                     type="button"
@@ -261,7 +287,8 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                         height: 200,
                                         border: 'none',
                                         background: 'transparent',
-                                        cursor: serverConnecting === server.id ? 'default' : 'pointer',
+                                        cursor:
+                                            serverConnecting === server.id ? 'default' : 'pointer',
                                         display: 'flex',
                                         flexDirection: 'column',
                                         alignItems: 'center',
@@ -283,7 +310,10 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                     >
                                         <span
                                             className="material-icons"
-                                            style={{ fontSize: 40, color: 'var(--joy-palette-primary-600)' }}
+                                            style={{
+                                                fontSize: 40,
+                                                color: 'var(--joy-palette-primary-600)'
+                                            }}
                                         >
                                             storage
                                         </span>
@@ -391,11 +421,22 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 <Text color="error">{error}</Text>
                             </Alert>
                         )}
-                        <Box style={{ marginTop: '24px', display: 'flex', gap: vars.spacing['2'], justifyContent: 'flex-end' }}>
+                        <Box
+                            style={{
+                                marginTop: '24px',
+                                display: 'flex',
+                                gap: vars.spacing['2'],
+                                justifyContent: 'flex-end'
+                            }}
+                        >
                             <Button variant="secondary" onClick={onDismissAddDialog}>
                                 {globalize.translate('Cancel')}
                             </Button>
-                            <Button variant="primary" onClick={onAddServerSubmit} disabled={isLoading}>
+                            <Button
+                                variant="primary"
+                                onClick={onAddServerSubmit}
+                                disabled={isLoading}
+                            >
                                 {isLoading ? 'Connecting...' : globalize.translate('Connect')}
                             </Button>
                         </Box>
@@ -448,7 +489,7 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                 <Checkbox
                                     id="use-proxy"
                                     checked={devConfig.useProxy}
-                                    onChangeChecked={checked => devConfig.setUseProxy(checked)}
+                                    onChangeChecked={(checked) => devConfig.setUseProxy(checked)}
                                 />
                                 <label htmlFor="use-proxy">
                                     <Text>Use Dev Proxy</Text>
@@ -458,8 +499,10 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                             <Box style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                 <Checkbox
                                     id="enable-sw"
-                                    checked={localStorage.getItem('enable-service-worker') === 'true'}
-                                    onChangeChecked={checked => onSWToggle(checked)}
+                                    checked={
+                                        localStorage.getItem('enable-service-worker') === 'true'
+                                    }
+                                    onChangeChecked={(checked) => onSWToggle(checked)}
                                 />
                                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                                 <label htmlFor="enable-sw">
@@ -472,20 +515,27 @@ export function SelectServer({ showUser = false }: SelectServerProps) {
                                     <Input
                                         label="Server Base URL (Target)"
                                         value={devConfig.serverBaseUrl}
-                                        onChange={e => devConfig.setServerBaseUrl(e.target.value)}
+                                        onChange={(e) => devConfig.setServerBaseUrl(e.target.value)}
                                         placeholder="https://demo.jellyfin.org"
                                     />
                                     <Input
                                         label="Proxy Base Path"
                                         value={devConfig.proxyBasePath}
-                                        onChange={e => devConfig.setProxyBasePath(e.target.value)}
+                                        onChange={(e) => devConfig.setProxyBasePath(e.target.value)}
                                         placeholder="/__proxy__/jellyfin"
                                     />
                                 </>
                             )}
                         </Box>
 
-                        <Box style={{ marginTop: '24px', display: 'flex', gap: vars.spacing['2'], justifyContent: 'flex-end' }}>
+                        <Box
+                            style={{
+                                marginTop: '24px',
+                                display: 'flex',
+                                gap: vars.spacing['2'],
+                                justifyContent: 'flex-end'
+                            }}
+                        >
                             <Button variant="secondary" onClick={onDismissDevSettings}>
                                 Cancel
                             </Button>

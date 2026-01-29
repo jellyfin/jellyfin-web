@@ -5,13 +5,13 @@ const meta: Meta<typeof OSDOverlay> = {
     title: 'Organisms/Playback/OSDOverlay',
     component: OSDOverlay,
     parameters: {
-        layout: 'fullscreen',
-    },
+        layout: 'fullscreen'
+    }
 };
 
 export default meta;
 type Story = StoryObj<typeof OSDOverlay>;
 
 export const Default: Story = {
-    args: {},
+    args: {}
 };

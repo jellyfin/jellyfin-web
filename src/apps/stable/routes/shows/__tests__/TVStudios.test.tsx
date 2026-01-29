@@ -4,9 +4,9 @@
  * Integration tests for TV studio browser with playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('TVStudios integration', () => {
     describe('studio show conversion', () => {
@@ -36,7 +36,7 @@ describe('TVStudios integration', () => {
             const queue = toVideoItems(shows);
 
             expect(queue).toHaveLength(3);
-            queue.forEach(item => expect(item.mediaType).toBe('Video'));
+            queue.forEach((item) => expect(item.mediaType).toBe('Video'));
         });
 
         it('converts multiple shows from single studio for playback', () => {
@@ -51,7 +51,7 @@ describe('TVStudios integration', () => {
             const playables = toVideoItems(studioShows);
 
             expect(playables).toHaveLength(10);
-            playables.forEach(p => expect(p.mediaType).toBe('Video'));
+            playables.forEach((p) => expect(p.mediaType).toBe('Video'));
         });
     });
 
@@ -123,7 +123,7 @@ describe('TVStudios integration', () => {
             const queue = toVideoItems(shuffled);
 
             expect(queue).toHaveLength(50);
-            queue.forEach(item => {
+            queue.forEach((item) => {
                 expect(item.mediaType).toBe('Video');
             });
         });
@@ -229,9 +229,27 @@ describe('TVStudios integration', () => {
             ];
 
             const shows: BaseItemDto[] = [
-                { Id: 'show-1', Name: 'Show 1', Type: 'Series', ServerId: 'server-1', Studios: [studios[0]] },
-                { Id: 'show-2', Name: 'Show 2', Type: 'Series', ServerId: 'server-1', Studios: [studios[1]] },
-                { Id: 'show-3', Name: 'Show 3', Type: 'Series', ServerId: 'server-1', Studios: [studios[0]] }
+                {
+                    Id: 'show-1',
+                    Name: 'Show 1',
+                    Type: 'Series',
+                    ServerId: 'server-1',
+                    Studios: [studios[0]]
+                },
+                {
+                    Id: 'show-2',
+                    Name: 'Show 2',
+                    Type: 'Series',
+                    ServerId: 'server-1',
+                    Studios: [studios[1]]
+                },
+                {
+                    Id: 'show-3',
+                    Name: 'Show 3',
+                    Type: 'Series',
+                    ServerId: 'server-1',
+                    Studios: [studios[0]]
+                }
             ];
 
             const queue = toVideoItems(shows);
@@ -254,14 +272,32 @@ describe('TVStudios integration', () => {
             const queue = toVideoItems(shows);
 
             expect(queue).toHaveLength(20);
-            queue.forEach(item => expect(item.mediaType).toBe('Video'));
+            queue.forEach((item) => expect(item.mediaType).toBe('Video'));
         });
 
         it('supports sorting studio shows', () => {
             const shows: BaseItemDto[] = [
-                { Id: 'show-3', Name: 'Show C', Type: 'Series', ServerId: 'server-1', ProductionYear: 2021 },
-                { Id: 'show-1', Name: 'Show A', Type: 'Series', ServerId: 'server-1', ProductionYear: 2023 },
-                { Id: 'show-2', Name: 'Show B', Type: 'Series', ServerId: 'server-1', ProductionYear: 2022 }
+                {
+                    Id: 'show-3',
+                    Name: 'Show C',
+                    Type: 'Series',
+                    ServerId: 'server-1',
+                    ProductionYear: 2021
+                },
+                {
+                    Id: 'show-1',
+                    Name: 'Show A',
+                    Type: 'Series',
+                    ServerId: 'server-1',
+                    ProductionYear: 2023
+                },
+                {
+                    Id: 'show-2',
+                    Name: 'Show B',
+                    Type: 'Series',
+                    ServerId: 'server-1',
+                    ProductionYear: 2022
+                }
             ];
 
             const queue = toVideoItems(shows);

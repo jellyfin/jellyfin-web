@@ -1,4 +1,4 @@
-import { style, styleVariants, createVar } from '@vanilla-extract/css';
+import { createVar, style, styleVariants } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css.ts';
 
 export const listGap = createVar();

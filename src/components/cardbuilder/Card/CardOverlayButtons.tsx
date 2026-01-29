@@ -1,23 +1,23 @@
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
-import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { Box } from 'ui-primitives';
-
 import { appRouter } from 'components/router/appRouter';
 import { ItemAction } from 'constants/itemAction';
+import React, { type FC } from 'react';
+import type { ItemDto } from 'types/base/models/item-dto';
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
-
-import PlayArrowIconButton from '../../common/PlayArrowIconButton';
+import { Box } from 'ui-primitives';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
+import PlayArrowIconButton from '../../common/PlayArrowIconButton';
 
 const sholudShowOverlayPlayButton = (overlayPlayButton: boolean | undefined, item: ItemDto) => {
     return (
         overlayPlayButton &&
         !item.IsPlaceHolder &&
-        (item.LocationType !== LocationType.Virtual || !item.MediaType || item.Type === ItemKind.Program) &&
+        (item.LocationType !== LocationType.Virtual ||
+            !item.MediaType ||
+            item.Type === ItemKind.Program) &&
         item.Type !== ItemKind.Person
     );
 };
@@ -62,12 +62,20 @@ const CardOverlayButtons: FC<CardOverlayButtonsProps> = ({ item, cardOptions }) 
             }}
         >
             {cardOptions.centerPlayButton && (
-                <PlayArrowIconButton className={centerPlayButtonClass} action={ItemAction.Play} title="Play" />
+                <PlayArrowIconButton
+                    className={centerPlayButtonClass}
+                    action={ItemAction.Play}
+                    title="Play"
+                />
             )}
 
             <Box className="cardOverlayButton-br">
                 {sholudShowOverlayPlayButton(overlayPlayButton, item) && (
-                    <PlayArrowIconButton className={btnCssClass} action={ItemAction.Play} title="Play" />
+                    <PlayArrowIconButton
+                        className={btnCssClass}
+                        action={ItemAction.Play}
+                        title="Play"
+                    />
                 )}
 
                 {cardOptions.overlayMoreButton && <MoreVertIconButton className={btnCssClass} />}

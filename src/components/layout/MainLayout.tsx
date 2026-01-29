@@ -1,12 +1,12 @@
 import React, { type FC, type PropsWithChildren, useEffect } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box } from 'ui-primitives';
+import browser from '../../scripts/browser';
+import { useUiStore } from '../../store/uiStore';
+import AppBody from '../AppBody';
+import ResponsiveDrawer, { DRAWER_WIDTH } from '../ResponsiveDrawer';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
-import ResponsiveDrawer, { DRAWER_WIDTH } from '../ResponsiveDrawer';
-import AppBody from '../AppBody';
-import { useUiStore } from '../../store/uiStore';
-import browser from '../../scripts/browser';
-import { Box } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
 
 export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     const isDrawerOpen = useUiStore((state) => state.isDrawerOpen);
@@ -19,7 +19,7 @@ export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
             // Check if we should auto-open (maybe check local storage or just default true)
             // For now, default to true for desktop
             if (!useUiStore.getState().isDrawerOpen) {
-                 toggleDrawer(true);
+                toggleDrawer(true);
             }
         }
     }, [isDesktop, toggleDrawer]);
@@ -33,16 +33,16 @@ export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     return (
         <>
             <Header />
-            
+
             {/* 
                 ResponsiveDrawer on desktop currently ignores 'open' prop and renders always if mounted.
                 So we conditionally render it on desktop based on isDrawerOpen.
                 On mobile, it handles the 'open' prop for the overlay.
             */}
             {(isDesktop ? isDrawerOpen : true) && (
-                <ResponsiveDrawer 
-                    open={isDrawerOpen} 
-                    onClose={handleDrawerClose} 
+                <ResponsiveDrawer
+                    open={isDrawerOpen}
+                    onClose={handleDrawerClose}
                     onOpen={handleDrawerOpen}
                 >
                     <Sidebar />
@@ -59,9 +59,7 @@ export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
                     transition: 'margin-left 0.2s ease-out'
                 }}
             >
-                <AppBody>
-                    {children}
-                </AppBody>
+                <AppBody>{children}</AppBody>
             </Box>
         </>
     );

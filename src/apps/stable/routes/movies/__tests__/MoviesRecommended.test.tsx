@@ -4,9 +4,9 @@
  * Integration tests for movie playback functionality in the recommended view.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('MoviesRecommended integration', () => {
     describe('movie playback conversion', () => {
@@ -54,7 +54,7 @@ describe('MoviesRecommended integration', () => {
             const playables = toVideoItems(movies);
 
             expect(playables).toHaveLength(3);
-            playables.forEach(playable => {
+            playables.forEach((playable) => {
                 expect(playable.mediaType).toBe('Video');
             });
         });

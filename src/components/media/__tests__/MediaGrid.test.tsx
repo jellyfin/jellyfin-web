@@ -4,9 +4,9 @@
  * Tests for the MediaGrid component.
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MediaGrid } from '../MediaGrid';
 
 // Mock window.ApiClient

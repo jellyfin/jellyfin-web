@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from './useSearchParams';
-
 import { usePrevious } from './usePrevious';
+import { useSearchParams } from './useSearchParams';
 
 /**
  * A hook for getting and setting a URL search parameter value that automatically handles updates to/from the URL.

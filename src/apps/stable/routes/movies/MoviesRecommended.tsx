@@ -4,29 +4,22 @@
  * Displays movie recommendations with sections for latest, resume, and suggested.
  */
 
-import React, { useState, useCallback } from 'react';
-import { useParams } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-
-import { Box, Flex } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
-import { itemsApi } from 'lib/api/items';
-import { useViewStyle } from 'hooks/useViewStyle';
-import { usePagination } from 'hooks/usePagination';
-import { MediaGrid } from 'components/media/MediaGrid';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { ErrorState } from 'components/ErrorState';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
 import { EmptyState } from 'components/EmptyState';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { ErrorState } from 'components/ErrorState';
+import { LoadingSpinner } from 'components/LoadingSpinner';
+import { MediaGrid } from 'components/media/MediaGrid';
 import { appRouter } from 'components/router/appRouter';
+import { usePagination } from 'hooks/usePagination';
+import { useViewStyle } from 'hooks/useViewStyle';
+import { itemsApi } from 'lib/api/items';
 import { toVideoItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, Chip, Divider, Flex, Heading, IconButton, Text } from 'ui-primitives';
 
 import { logger } from 'utils/logger';
 
@@ -86,7 +79,10 @@ export const MoviesRecommended: React.FC = () => {
     const { data, isLoading, isError, error, refetch } = useQuery({
         queryKey: ['movies-recommended', topParentId, pageIndex],
         queryFn: async () => {
-            logger.debug('Fetching movie recommendations', { component: 'MoviesRecommended', topParentId });
+            logger.debug('Fetching movie recommendations', {
+                component: 'MoviesRecommended',
+                topParentId
+            });
 
             return itemsApi.getItems(topParentId, {
                 startIndex: pageIndex * pageSize,
@@ -101,13 +97,13 @@ export const MoviesRecommended: React.FC = () => {
 
     const handleNextPage = useCallback(() => {
         if (hasNextPage) {
-            setPageIndex(prev => prev + 1);
+            setPageIndex((prev) => prev + 1);
         }
     }, [hasNextPage, setPageIndex]);
 
     const handlePreviousPage = useCallback(() => {
         if (hasPreviousPage && pageIndex > 0) {
-            setPageIndex(prev => prev - 1);
+            setPageIndex((prev) => prev - 1);
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
 
@@ -131,7 +127,10 @@ export const MoviesRecommended: React.FC = () => {
 
     if (isError) {
         return (
-            <ErrorState message={error instanceof Error ? error.message : 'Failed to load movies'} onRetry={refetch} />
+            <ErrorState
+                message={error instanceof Error ? error.message : 'Failed to load movies'}
+                onRetry={refetch}
+            />
         );
     }
 
@@ -139,18 +138,32 @@ export const MoviesRecommended: React.FC = () => {
     const totalCount = data?.TotalRecordCount || 0;
 
     if (movies.length === 0) {
-        return <EmptyState title="No Movies" description="Add movies to your library to see them here." />;
+        return (
+            <EmptyState
+                title="No Movies"
+                description="Add movies to your library to see them here."
+            />
+        );
     }
 
     return (
         <Box style={{ padding: vars.spacing['5'] }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['5'] }}>
+            <Flex
+                style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: vars.spacing['5']
+                }}
+            >
                 <Heading.H3>Movies</Heading.H3>
                 <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
                     <Button variant="secondary" startDecorator={<PlayArrowIcon />} size="sm">
                         Shuffle Play
                     </Button>
-                    <IconButton variant={viewStyle === 'List' ? 'solid' : 'plain'} onClick={() => setViewStyle('List')}>
+                    <IconButton
+                        variant={viewStyle === 'List' ? 'solid' : 'plain'}
+                        onClick={() => setViewStyle('List')}
+                    >
                         <ViewListIcon />
                     </IconButton>
                     <IconButton
@@ -163,7 +176,13 @@ export const MoviesRecommended: React.FC = () => {
             </Flex>
 
             <Box style={{ marginBottom: vars.spacing['6'] }}>
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
+                <Flex
+                    style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: vars.spacing['4']
+                    }}
+                >
                     <Text weight="bold" size="lg">
                         Continue Watching
                     </Text>
@@ -171,13 +190,24 @@ export const MoviesRecommended: React.FC = () => {
                         View All
                     </Button>
                 </Flex>
-                <MediaGrid items={movies.slice(0, 6)} showPlayButtons onItemClick={handleItemClick} onItemPlay={handleItemPlay} />
+                <MediaGrid
+                    items={movies.slice(0, 6)}
+                    showPlayButtons
+                    onItemClick={handleItemClick}
+                    onItemPlay={handleItemPlay}
+                />
             </Box>
 
             <Divider style={{ margin: '24px 0' }} />
 
             <Box style={{ marginBottom: vars.spacing['6'] }}>
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
+                <Flex
+                    style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: vars.spacing['4']
+                    }}
+                >
                     <Text weight="bold" size="lg">
                         Latest Additions
                     </Text>
@@ -185,13 +215,24 @@ export const MoviesRecommended: React.FC = () => {
                         View All
                     </Button>
                 </Flex>
-                <MediaGrid items={movies.slice(6, 12)} showPlayButtons onItemClick={handleItemClick} onItemPlay={handleItemPlay} />
+                <MediaGrid
+                    items={movies.slice(6, 12)}
+                    showPlayButtons
+                    onItemClick={handleItemClick}
+                    onItemPlay={handleItemPlay}
+                />
             </Box>
 
             <Divider style={{ margin: '24px 0' }} />
 
             <Box style={{ marginBottom: vars.spacing['6'] }}>
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
+                <Flex
+                    style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: vars.spacing['4']
+                    }}
+                >
                     <Text weight="bold" size="lg">
                         Suggestions For You
                     </Text>
@@ -199,13 +240,24 @@ export const MoviesRecommended: React.FC = () => {
                         View All
                     </Button>
                 </Flex>
-                <MediaGrid items={movies.slice(12, 18)} showPlayButtons onItemClick={handleItemClick} onItemPlay={handleItemPlay} />
+                <MediaGrid
+                    items={movies.slice(12, 18)}
+                    showPlayButtons
+                    onItemClick={handleItemClick}
+                    onItemPlay={handleItemPlay}
+                />
             </Box>
 
             <Divider style={{ margin: '24px 0' }} />
 
             <Box>
-                <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
+                <Flex
+                    style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: vars.spacing['4']
+                    }}
+                >
                     <Text weight="bold" size="lg">
                         All Movies
                     </Text>
@@ -223,14 +275,23 @@ export const MoviesRecommended: React.FC = () => {
                                     <NavigateBeforeIcon />
                                 </IconButton>
                                 <Chip size="sm">{pageIndex + 1}</Chip>
-                                <IconButton size="sm" onClick={handleNextPage} disabled={!hasNextPage}>
+                                <IconButton
+                                    size="sm"
+                                    onClick={handleNextPage}
+                                    disabled={!hasNextPage}
+                                >
                                     <NavigateNextIcon />
                                 </IconButton>
                             </Flex>
                         )}
                     </Flex>
                 </Flex>
-                <MediaGrid items={movies} showPlayButtons onItemClick={handleItemClick} onItemPlay={handleItemPlay} />
+                <MediaGrid
+                    items={movies}
+                    showPlayButtons
+                    onItemClick={handleItemClick}
+                    onItemPlay={handleItemPlay}
+                />
             </Box>
         </Box>
     );

@@ -2,8 +2,7 @@ import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
 import { vars } from 'styles/tokens.css.ts';
-import { Box } from 'ui-primitives';
-import { inputStyles } from 'ui-primitives';
+import { Box, inputStyles } from 'ui-primitives';
 
 interface SearchInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     readonly label?: string;

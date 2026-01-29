@@ -16,7 +16,7 @@ export class LazyLoader {
 
         this.observer = new IntersectionObserver(
             (entries, observer) => {
-                entries.forEach(entry => callback(entry, observer));
+                entries.forEach((entry) => callback(entry, observer));
             },
             {
                 rootMargin: '50%',
@@ -28,7 +28,7 @@ export class LazyLoader {
     addElements(elements: HTMLCollectionOf<Element> | Element[]): void {
         if (!this.observer) this.createObserver();
         if (this.observer) {
-            Array.from(elements).forEach(element => this.observer!.observe(element));
+            Array.from(elements).forEach((element) => this.observer!.observe(element));
         }
     }
 

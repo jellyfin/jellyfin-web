@@ -5,15 +5,15 @@
  * This component will be removed in a future version.
  */
 
-import { useRef, useState, useCallback, useEffect, type ReactElement } from 'react';
+import { type ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { CrossfadeWaveSurfer, type TrackState } from '../CrossfadeWaveSurfer';
 import {
-    seekerContainer,
-    timeDisplay,
-    progressBar,
-    progressFill,
     buffered as bufferedStyle,
     handle,
+    progressBar,
+    progressFill,
+    seekerContainer,
+    timeDisplay,
     waveformContainer
 } from './CrossfadeSeeker.css.ts';
 
@@ -159,7 +159,7 @@ export function CrossfadeSeeker({
     );
 
     const renderBuffered = (): ReactElement[] => {
-        return buffered.map(range => {
+        return buffered.map((range) => {
             const startPercent = (range.start / duration) * 100;
             const widthPercent = ((range.end - range.start) / duration) * 100;
             return (

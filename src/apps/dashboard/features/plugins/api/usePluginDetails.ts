@@ -1,7 +1,6 @@
 import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-status';
-import { useMemo } from 'react';
-
 import { useApi } from 'hooks/useApi';
+import { useMemo } from 'react';
 
 import { PluginCategory } from '../constants/pluginCategory';
 import type { PluginDetails } from '../types/PluginDetails';
@@ -21,7 +20,11 @@ export const usePluginDetails = () => {
         isPending: isConfigurationPagesPending
     } = useConfigurationPages();
 
-    const { data: packages, isError: isPackagesError, isPending: isPackagesPending } = usePackages();
+    const {
+        data: packages,
+        isError: isPackagesError,
+        isPending: isPackagesPending
+    } = usePackages();
 
     const { data: plugins, isError: isPluginsError, isPending: isPluginsPending } = usePlugins();
 
@@ -36,14 +39,16 @@ export const usePluginDetails = () => {
             });
 
             return Array.from(pluginIds)
-                .map(id => {
-                    const packageInfo = packages?.find(pkg => pkg.guid === id);
+                .map((id) => {
+                    const packageInfo = packages?.find((pkg) => pkg.guid === id);
                     const pluginInfo = findBestPluginInfo(id, plugins);
 
                     let version;
                     if (pluginInfo) {
                         // Find the installed version
-                        const repoVersion = packageInfo?.versions?.find(v => v.version === pluginInfo.Version);
+                        const repoVersion = packageInfo?.versions?.find(
+                            (v) => v.version === pluginInfo.Version
+                        );
                         version = repoVersion || {
                             version: pluginInfo.Version,
                             VersionNumber: pluginInfo.Version
@@ -55,7 +60,9 @@ export const usePluginDetails = () => {
 
                     let imageUrl;
                     if (pluginInfo?.HasImage) {
-                        imageUrl = api?.getUri(`/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`);
+                        imageUrl = api?.getUri(
+                            `/Plugins/${pluginInfo.Id}/${pluginInfo.Version}/Image`
+                        );
                     }
 
                     let category = packageInfo?.category;
@@ -77,7 +84,10 @@ export const usePluginDetails = () => {
                     return {
                         canUninstall: !!pluginInfo?.CanUninstall,
                         category,
-                        description: pluginInfo?.Description || packageInfo?.description || packageInfo?.overview,
+                        description:
+                            pluginInfo?.Description ||
+                            packageInfo?.description ||
+                            packageInfo?.overview,
                         id,
                         imageUrl: imageUrl || packageInfo?.imageUrl || undefined,
                         isEnabled: pluginInfo?.Status !== PluginStatus.Disabled,
@@ -89,7 +99,9 @@ export const usePluginDetails = () => {
                         versions: packageInfo?.versions || []
                     };
                 })
-                .sort(({ name: nameA }, { name: nameB }) => (nameA || '').localeCompare(nameB || ''));
+                .sort(({ name: nameA }, { name: nameB }) =>
+                    (nameA || '').localeCompare(nameB || '')
+                );
         }
 
         return [];

@@ -1,7 +1,6 @@
 import { type LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
-import React, { useMemo } from 'react';
-
 import globalize from 'lib/globalize';
+import React, { useMemo } from 'react';
 import { Chip } from 'ui-primitives';
 import getLogLevelColor from '../utils/getLogLevelColor';
 

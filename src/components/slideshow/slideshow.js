@@ -3,20 +3,18 @@
  * @module components/slideshow/slideshow
  */
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import fullscreen from '../../utils/fullscreen';
-
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { randomInt } from 'utils/number';
-
-import dialogHelper from '../dialogHelper/dialogHelper';
-import inputManager from '../../scripts/inputManager';
-import layoutManager from '../layoutManager';
-import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
-import { appHost, safeAppHost } from '../apphost';
+import inputManager from '../../scripts/inputManager';
 import dom from '../../utils/dom';
+import fullscreen from '../../utils/fullscreen';
+import { appHost, safeAppHost } from '../apphost';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
 
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -186,8 +184,16 @@ export default function (options) {
         if (slideshowOptions.interactive && !layoutManager.tv) {
             const actionButtonsOnTop = layoutManager.mobile;
 
-            html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv', false);
-            html += getIcon('keyboard_arrow_right', 'btnSlideshowNext slideshowButton hide-mouse-idle-tv', false);
+            html += getIcon(
+                'keyboard_arrow_left',
+                'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv',
+                false
+            );
+            html += getIcon(
+                'keyboard_arrow_right',
+                'btnSlideshowNext slideshowButton hide-mouse-idle-tv',
+                false
+            );
 
             html += '<div class="topActionButtons">';
             if (actionButtonsOnTop) {
@@ -241,8 +247,12 @@ export default function (options) {
                 dialogHelper.close(dialog);
             });
 
-            dialog.querySelector('.btnSlideshowPrevious')?.addEventListener('click', getClickHandler(null));
-            dialog.querySelector('.btnSlideshowNext')?.addEventListener('click', getClickHandler(null));
+            dialog
+                .querySelector('.btnSlideshowPrevious')
+                ?.addEventListener('click', getClickHandler(null));
+            dialog
+                .querySelector('.btnSlideshowNext')
+                ?.addEventListener('click', getClickHandler(null));
 
             const btnPause = dialog.querySelector('.btnSlideshowPause');
             if (btnPause) {
@@ -341,7 +351,9 @@ export default function (options) {
 
                         // Swiper set 'transition-duration: 300ms' for auto zoom
                         // and 'transition-duration: 0s' for touch zoom
-                        const transitionDuration = parseFloat(imageEl.style.transitionDuration.replace(/[a-z]/i, ''));
+                        const transitionDuration = parseFloat(
+                            imageEl.style.transitionDuration.replace(/[a-z]/i, '')
+                        );
 
                         if (transitionDuration > 0) {
                             imageEl.addEventListener(transitionEndEventName, callback);
@@ -512,7 +524,7 @@ export default function (options) {
     function download() {
         const imageInfo = getCurrentImageInfo();
 
-        import('../../scripts/fileDownloader').then(fileDownloader => {
+        import('../../scripts/fileDownloader').then((fileDownloader) => {
             fileDownloader.download([imageInfo]);
         });
     }
@@ -581,7 +593,9 @@ export default function (options) {
      * Toggles the autoplay feature of the Swiper instance.
      */
     function playPause() {
-        const paused = !dialog.querySelector('.btnSlideshowPause .material-icons').classList.contains('pause');
+        const paused = !dialog
+            .querySelector('.btnSlideshowPause .material-icons')
+            .classList.contains('pause');
         if (paused) {
             play();
         } else {
@@ -604,7 +618,10 @@ export default function (options) {
 
         inputManager.off(window, onInputCommand);
         /* eslint-disable-next-line compat/compat */
-        document.removeEventListener(window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove);
+        document.removeEventListener(
+            window.PointerEvent ? 'pointermove' : 'mousemove',
+            onPointerMove
+        );
     }
 
     /**
@@ -678,10 +695,14 @@ export default function (options) {
 
         if (hiddenPosition === 'up' || hiddenPosition === 'down') {
             invisible['transform'] =
-                'translate3d(0,' + element.offsetHeight * (hiddenPosition === 'down' ? 1 : -1) + 'px,0)';
+                'translate3d(0,' +
+                element.offsetHeight * (hiddenPosition === 'down' ? 1 : -1) +
+                'px,0)';
         } else if (hiddenPosition === 'left' || hiddenPosition === 'right') {
             invisible['transform'] =
-                'translate3d(' + element.offsetWidth * (hiddenPosition === 'right' ? 1 : -1) + 'px,0,0)';
+                'translate3d(' +
+                element.offsetWidth * (hiddenPosition === 'right' ? 1 : -1) +
+                'px,0,0)';
         }
 
         return fadingOut ? [visible, invisible] : [invisible, visible];
@@ -805,7 +826,7 @@ export default function (options) {
      * @param {function|null|undefined} callback - Click event handler.
      */
     function getClickHandler(callback) {
-        return e => {
+        return (e) => {
             showOsd();
             callback?.(e);
         };

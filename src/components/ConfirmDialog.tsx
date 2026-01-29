@@ -1,9 +1,15 @@
-import React, { type FC } from 'react';
 import globalize from 'lib/globalize';
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogCloseButton } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
+import React, { type FC } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Button,
+    Dialog,
+    DialogCloseButton,
+    DialogContent,
+    DialogDescription,
+    DialogTitle,
+    Flex
+} from 'ui-primitives';
 
 export interface ConfirmDialogProps {
     open: boolean;
@@ -31,8 +37,13 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
     isDestructive
 }) => {
     const effectiveText = text || message || '';
-    const effectiveConfirmText = confirmButtonText || confirmText || globalize.translate('ButtonOk');
-    const effectiveColor = isDestructive ? 'danger' : confirmButtonColor === 'error' ? 'danger' : confirmButtonColor;
+    const effectiveConfirmText =
+        confirmButtonText || confirmText || globalize.translate('ButtonOk');
+    const effectiveColor = isDestructive
+        ? 'danger'
+        : confirmButtonColor === 'error'
+          ? 'danger'
+          : confirmButtonColor;
 
     return (
         <Dialog open={open} onOpenChange={onCancel}>
@@ -40,7 +51,11 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>{effectiveText}</DialogDescription>
                 <Flex style={{ gap: vars.spacing['4'], marginTop: vars.spacing['5'] }}>
-                    <Button variant="primary" color={effectiveColor as 'primary' | 'danger'} onClick={onConfirm}>
+                    <Button
+                        variant="primary"
+                        color={effectiveColor as 'primary' | 'danger'}
+                        onClick={onConfirm}
+                    >
                         {effectiveConfirmText}
                     </Button>
                     <Button variant="plain" color="neutral" onClick={onCancel}>

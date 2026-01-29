@@ -22,9 +22,7 @@ var jumpToCode = (function init() {
     var currentIndex;
 
     function toggleClass(index) {
-        missingCoverageElements
-            .item(currentIndex)
-            .classList.remove('highlighted');
+        missingCoverageElements.item(currentIndex).classList.remove('highlighted');
         missingCoverageElements.item(index).classList.add('highlighted');
     }
 
@@ -52,10 +50,7 @@ var jumpToCode = (function init() {
     function goToNext() {
         var nextIndex = 0;
 
-        if (
-            typeof currentIndex === 'number' &&
-            currentIndex < missingCoverageElements.length - 1
-        ) {
+        if (typeof currentIndex === 'number' && currentIndex < missingCoverageElements.length - 1) {
             nextIndex = currentIndex + 1;
         }
 

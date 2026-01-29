@@ -1,13 +1,13 @@
-import loading from '../../components/loading/loading';
-import libraryBrowser from '../../scripts/libraryBrowser';
+import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import * as userSettings from '../../scripts/settings/userSettings';
+import loading from '../../components/loading/loading';
 import globalize from '../../lib/globalize';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import * as userSettings from '../../scripts/settings/userSettings';
 import Dashboard from '../../utils/dashboard';
 import Events from '../../utils/events';
-import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -192,31 +192,40 @@ export default function (view, params, tabContent) {
         });
         tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
-                items: [{
-                    name: globalize.translate('Name'),
-                    id: 'SeriesSortName,SortName'
-                }, {
-                    name: globalize.translate('OptionTvdbRating'),
-                    id: 'CommunityRating,SeriesSortName,SortName'
-                }, {
-                    name: globalize.translate('OptionDateAdded'),
-                    id: 'DateCreated,SeriesSortName,SortName'
-                }, {
-                    name: globalize.translate('OptionPremiereDate'),
-                    id: 'PremiereDate,SeriesSortName,SortName'
-                }, {
-                    name: globalize.translate('OptionDatePlayed'),
-                    id: 'DatePlayed,SeriesSortName,SortName'
-                }, {
-                    name: globalize.translate('OptionParentalRating'),
-                    id: 'OfficialRating,SeriesSortName,SortName'
-                }, {
-                    name: globalize.translate('OptionPlayCount'),
-                    id: 'PlayCount,SeriesSortName,SortName'
-                }, {
-                    name: globalize.translate('Runtime'),
-                    id: 'Runtime,SeriesSortName,SortName'
-                }],
+                items: [
+                    {
+                        name: globalize.translate('Name'),
+                        id: 'SeriesSortName,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionTvdbRating'),
+                        id: 'CommunityRating,SeriesSortName,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SeriesSortName,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionPremiereDate'),
+                        id: 'PremiereDate,SeriesSortName,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionDatePlayed'),
+                        id: 'DatePlayed,SeriesSortName,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionParentalRating'),
+                        id: 'OfficialRating,SeriesSortName,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionPlayCount'),
+                        id: 'PlayCount,SeriesSortName,SortName'
+                    },
+                    {
+                        name: globalize.translate('Runtime'),
+                        id: 'Runtime,SeriesSortName,SortName'
+                    }
+                ],
                 callback: function () {
                     reloadItems(tabElement);
                 },
@@ -226,7 +235,11 @@ export default function (view, params, tabContent) {
         });
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', (e) => {
-            libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
+            libraryBrowser.showLayoutMenu(
+                e.target,
+                self.getCurrentViewStyle(),
+                'List,Poster,PosterCard'.split(',')
+            );
         });
         btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
@@ -244,4 +257,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent);
     };
 }
-

@@ -4,9 +4,9 @@
  * Integration tests for episode playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Episodes integration', () => {
     describe('episode playback conversion', () => {
@@ -46,15 +46,33 @@ describe('Episodes integration', () => {
 
         it('converts season episodes for sequential playback', () => {
             const episodes: BaseItemDto[] = [
-                { Id: 'ep-1', Name: 'Pilot', Type: 'Episode', ServerId: 'server-1', IndexNumber: 1 },
-                { Id: 'ep-2', Name: 'Episode 2', Type: 'Episode', ServerId: 'server-1', IndexNumber: 2 },
-                { Id: 'ep-3', Name: 'Episode 3', Type: 'Episode', ServerId: 'server-1', IndexNumber: 3 }
+                {
+                    Id: 'ep-1',
+                    Name: 'Pilot',
+                    Type: 'Episode',
+                    ServerId: 'server-1',
+                    IndexNumber: 1
+                },
+                {
+                    Id: 'ep-2',
+                    Name: 'Episode 2',
+                    Type: 'Episode',
+                    ServerId: 'server-1',
+                    IndexNumber: 2
+                },
+                {
+                    Id: 'ep-3',
+                    Name: 'Episode 3',
+                    Type: 'Episode',
+                    ServerId: 'server-1',
+                    IndexNumber: 3
+                }
             ];
 
             const playables = toVideoItems(episodes);
 
             expect(playables).toHaveLength(3);
-            playables.forEach(p => expect(p.mediaType).toBe('Video'));
+            playables.forEach((p) => expect(p.mediaType).toBe('Video'));
         });
     });
 

@@ -1,5 +1,15 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { useQueueStore, selectQueueItems, selectCurrentIndex, selectCurrentQueueItem, selectIsEmpty, selectQueueLength, selectRepeatMode, selectShuffleMode, selectIsShuffled } from './queueStore';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+    selectCurrentIndex,
+    selectCurrentQueueItem,
+    selectIsEmpty,
+    selectIsShuffled,
+    selectQueueItems,
+    selectQueueLength,
+    selectRepeatMode,
+    selectShuffleMode,
+    useQueueStore
+} from './queueStore';
 import type { PlayableItem, QueueItem } from './types';
 
 // Mock localStorage
@@ -79,10 +89,7 @@ describe('queueStore', () => {
 
     describe('setQueue', () => {
         it('should set queue with items', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
 
             useQueueStore.getState().setQueue(items);
 
@@ -93,11 +100,7 @@ describe('queueStore', () => {
         });
 
         it('should set currentIndex from startIndex parameter', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
 
             useQueueStore.getState().setQueue(items, 2);
 
@@ -106,9 +109,7 @@ describe('queueStore', () => {
         });
 
         it('should clamp startIndex to valid range', () => {
-            const items: PlayableItem[] = [
-                makeItem('1')
-            ];
+            const items: PlayableItem[] = [makeItem('1')];
 
             useQueueStore.getState().setQueue(items, 10);
 
@@ -117,9 +118,7 @@ describe('queueStore', () => {
         });
 
         it('should reset isShuffled flag', () => {
-            const items: PlayableItem[] = [
-                makeItem('1')
-            ];
+            const items: PlayableItem[] = [makeItem('1')];
 
             useQueueStore.getState().setQueue(items);
 
@@ -128,9 +127,7 @@ describe('queueStore', () => {
         });
 
         it('should reset queueHistory', () => {
-            const items: PlayableItem[] = [
-                makeItem('1')
-            ];
+            const items: PlayableItem[] = [makeItem('1')];
 
             useQueueStore.getState().setQueue(items);
 
@@ -153,10 +150,7 @@ describe('queueStore', () => {
         });
 
         it('should add items at specific position', () => {
-            const initial: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('3')
-            ];
+            const initial: PlayableItem[] = [makeItem('1'), makeItem('3')];
             useQueueStore.getState().setQueue(initial);
 
             const newItems: PlayableItem[] = [makeItem('2')];
@@ -168,10 +162,7 @@ describe('queueStore', () => {
         });
 
         it('should preserve current index after adding', () => {
-            const initial: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const initial: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(initial, 1);
 
             const newItems: PlayableItem[] = [makeItem('3')];
@@ -184,26 +175,18 @@ describe('queueStore', () => {
 
     describe('removeFromQueue', () => {
         it('should remove items by id', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().removeFromQueue(['2']);
 
             const state = useQueueStore.getState();
             expect(state.items).toHaveLength(2);
-            expect(state.items.map(q => q.item.id)).toEqual(['1', '3']);
+            expect(state.items.map((q) => q.item.id)).toEqual(['1', '3']);
         });
 
         it('should adjust currentIndex when removing before current', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items, 2);
 
             useQueueStore.getState().removeFromQueue(['1']);
@@ -213,11 +196,7 @@ describe('queueStore', () => {
         });
 
         it('should adjust currentIndex when removing current item', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items, 1);
 
             useQueueStore.getState().removeFromQueue(['2']);
@@ -229,10 +208,7 @@ describe('queueStore', () => {
 
     describe('clearQueue', () => {
         it('should clear all items', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().clearQueue();
@@ -258,10 +234,7 @@ describe('queueStore', () => {
 
     describe('setCurrentIndex', () => {
         it('should set valid currentIndex', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().setCurrentIndex(1);
@@ -281,11 +254,7 @@ describe('queueStore', () => {
 
     describe('next', () => {
         it('should move to next item with RepeatNone', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().next();
@@ -294,10 +263,7 @@ describe('queueStore', () => {
         });
 
         it('should wrap to start with RepeatAll', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items);
             useQueueStore.getState().setRepeatMode('RepeatAll');
             useQueueStore.getState().next();
@@ -307,10 +273,7 @@ describe('queueStore', () => {
         });
 
         it('should stay on same item with RepeatOne', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items, 1);
             useQueueStore.getState().setRepeatMode('RepeatOne');
 
@@ -322,11 +285,7 @@ describe('queueStore', () => {
 
     describe('prev', () => {
         it('should move to previous item', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items, 2);
 
             useQueueStore.getState().prev();
@@ -346,11 +305,7 @@ describe('queueStore', () => {
 
     describe('playItem', () => {
         it('should play item by id', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().playItem('3');
@@ -370,11 +325,7 @@ describe('queueStore', () => {
 
     describe('shuffle', () => {
         it('should shuffle queue', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().shuffle();
@@ -387,10 +338,7 @@ describe('queueStore', () => {
         });
 
         it('should not shuffle queue with less than 3 items', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().shuffle();
@@ -402,11 +350,7 @@ describe('queueStore', () => {
 
     describe('moveItem', () => {
         it('should move item to new position', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items);
 
             useQueueStore.getState().moveItem(2, 0);
@@ -479,10 +423,7 @@ describe('queueStore', () => {
 
     describe('persistence', () => {
         it('should save and load queue state', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items, 1);
 
             const stored = localStorageMock.getItem('jellyfin-queue-state');
@@ -504,10 +445,7 @@ describe('queueStore', () => {
 
     describe('selectors', () => {
         it('should select queue items', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items);
 
             const state = useQueueStore.getState();
@@ -515,10 +453,7 @@ describe('queueStore', () => {
         });
 
         it('should select current index', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items, 1);
 
             const state = useQueueStore.getState();
@@ -526,10 +461,7 @@ describe('queueStore', () => {
         });
 
         it('should select current queue item', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2')];
             useQueueStore.getState().setQueue(items, 1);
 
             const state = useQueueStore.getState();
@@ -549,11 +481,7 @@ describe('queueStore', () => {
         });
 
         it('should select queue length', () => {
-            const items: PlayableItem[] = [
-                makeItem('1'),
-                makeItem('2'),
-                makeItem('3')
-            ];
+            const items: PlayableItem[] = [makeItem('1'), makeItem('2'), makeItem('3')];
             useQueueStore.getState().setQueue(items);
 
             const state = useQueueStore.getState();

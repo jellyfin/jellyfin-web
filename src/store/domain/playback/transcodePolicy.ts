@@ -139,7 +139,8 @@ function makeTranscodeDecision(
         return {
             shouldTranscode: false,
             reason: TranscodeDecisionReason.POLICY_FORBIDDEN,
-            errorMessage: 'Audio transcoding is not supported. Please use a supported audio format.',
+            errorMessage:
+                'Audio transcoding is not supported. Please use a supported audio format.',
             fallbackAvailable: false
         };
     }
@@ -162,7 +163,11 @@ function makeTranscodeDecision(
             };
         }
 
-        if (policy.maxTranscodeBitrate && streamInfo.bitrate && streamInfo.bitrate > policy.maxTranscodeBitrate) {
+        if (
+            policy.maxTranscodeBitrate &&
+            streamInfo.bitrate &&
+            streamInfo.bitrate > policy.maxTranscodeBitrate
+        ) {
             return {
                 shouldTranscode: false,
                 reason: TranscodeDecisionReason.BITRATE_EXCEEDED,
@@ -217,7 +222,8 @@ export function handlePlaybackError(
         },
         () => {
             const policy = TRANSCODE_POLICIES[mediaType];
-            const isTranscodeError = error.message.includes('transcode') || error.message.includes('codec');
+            const isTranscodeError =
+                error.message.includes('transcode') || error.message.includes('codec');
 
             // Audio: No fallback available
             if (mediaType === 'Audio') {

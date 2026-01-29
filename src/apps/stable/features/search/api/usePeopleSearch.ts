@@ -1,12 +1,12 @@
 import { type Api } from '@jellyfin/sdk';
+import { type PersonsApiGetPersonsRequest } from '@jellyfin/sdk/lib/generated-client/api/persons-api';
 import { type CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 import { useQuery } from '@tanstack/react-query';
 import { type AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
 import { QUERY_OPTIONS } from '../constants/queryOptions';
 import { isMovies, isTVShows } from '../utils/search';
-import { type PersonsApiGetPersonsRequest } from '@jellyfin/sdk/lib/generated-client/api/persons-api';
-import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 
 const fetchPeople = async (
     api: Api,
@@ -25,11 +25,16 @@ const fetchPeople = async (
     return response.data;
 };
 
-export const usePeopleSearch = (parentId?: string, collectionType?: CollectionType, searchTerm?: string) => {
+export const usePeopleSearch = (
+    parentId?: string,
+    collectionType?: CollectionType,
+    searchTerm?: string
+) => {
     const { api, user } = useApi();
     const userId = user?.Id;
 
-    const isPeopleEnabled = !collectionType || isMovies(collectionType) || isTVShows(collectionType);
+    const isPeopleEnabled =
+        !collectionType || isMovies(collectionType) || isTVShows(collectionType);
 
     return useQuery({
         queryKey: ['Search', 'People', collectionType, parentId, searchTerm],

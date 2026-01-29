@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { CrossfadeSettings } from '../CrossfadeSettings';
 import { usePreferencesStore } from 'store/preferencesStore';
+import { CrossfadeSettings } from '../CrossfadeSettings';
 
 const meta: Meta<typeof CrossfadeSettings> = {
     title: 'Audio/Crossfade Settings',

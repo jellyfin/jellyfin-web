@@ -1,20 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"default\", \"proc-macro\"]",
-  "declared_features": "[\"default\", \"proc-macro\"]",
-  "target": 5408242616063297496,
-  "profile": 17257705230225558938,
-  "path": 16681541418347365536,
-  "deps": [],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "release/.fingerprint/quote-8207d2fbecec0e33/dep-build-script-build-script-build",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[\"default\", \"proc-macro\"]",
+    "declared_features": "[\"default\", \"proc-macro\"]",
+    "target": 5408242616063297496,
+    "profile": 17257705230225558938,
+    "path": 16681541418347365536,
+    "deps": [],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "release/.fingerprint/quote-8207d2fbecec0e33/dep-build-script-build-script-build",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

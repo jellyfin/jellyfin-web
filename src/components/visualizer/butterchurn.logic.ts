@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import logger from 'utils/logger';
+
 // @ts-ignore
 import butterchurn from 'butterchurn';
 // @ts-ignore
-import butterchurnPresets from 'butterchurn-presets';
-import { usePreferencesStore, getCrossfadeFadeOut } from '../../store/preferencesStore';
-import { useAudioStore } from '../../store/audioStore';
-import { masterAudioOutput } from 'components/audioEngine/master.logic';
-// @ts-ignore
 import isButterchurnSupported from 'butterchurn/lib/isSupported.min';
+// @ts-ignore
+import butterchurnPresets from 'butterchurn-presets';
+import { masterAudioOutput } from 'components/audioEngine/master.logic';
+import logger from 'utils/logger';
+import { useAudioStore } from '../../store/audioStore';
+import { getCrossfadeFadeOut, usePreferencesStore } from '../../store/preferencesStore';
 import { isVisible } from '../../utils/visibility';
 
 interface AudioCapabilities {
@@ -32,8 +33,10 @@ async function loadAudioCapabilities(): Promise<AudioCapabilities> {
 let presetSwitchInterval: NodeJS.Timeout;
 let animationFrameId: number | null = null;
 let isAnimationRunning = false;
+let isPresetSwitchActive = false; // Track preset interval state
 let visibilityHandler: (() => void) | null = null;
 let animateFrame: (() => void) | null = null;
+let loadNextPresetRef: (() => void) | null = null; // Keep reference to loadNextPreset function
 
 export interface ButterchurnVisualizer {
     setRendererSize(width: number, height: number): void;
@@ -84,14 +87,18 @@ async function validateButterchurnPrerequisites(): Promise<boolean> {
     }
 
     if (!isButterchurnSupported()) {
-        logger.warn('Butterchurn not supported in this browser - cannot initialize', { component: 'Butterchurn' });
+        logger.warn('Butterchurn not supported in this browser - cannot initialize', {
+            component: 'Butterchurn'
+        });
         return false;
     }
 
     const audioCaps = await loadAudioCapabilities();
     const capabilities = await audioCaps.getCapabilities();
     if (!capabilities.visualizers.butterchurn) {
-        logger.warn('Butterchurn disabled by capabilities check - cannot initialize', { component: 'Butterchurn' });
+        logger.warn('Butterchurn disabled by capabilities check - cannot initialize', {
+            component: 'Butterchurn'
+        });
         return false;
     }
 
@@ -150,6 +157,7 @@ function setupPresetsAndAnimation() {
         if (!butterchurnInstance.visualizer) return;
 
         clearInterval(presetSwitchInterval);
+        isPresetSwitchActive = false;
 
         try {
             const randomIndex = Math.floor(Math.random() * presetNames.length);
@@ -159,21 +167,29 @@ function setupPresetsAndAnimation() {
                 // @ts-ignore
                 butterchurnInstance.visualizer.loadPreset(
                     nextPreset,
-                    getCrossfadeFadeOut(usePreferencesStore.getState().crossfade.crossfadeDuration) || 0
+                    getCrossfadeFadeOut(
+                        usePreferencesStore.getState().crossfade.crossfadeDuration
+                    ) || 0
                 );
                 logger.debug(`Loaded preset: ${nextPresetName}`, { component: 'Butterchurn' });
             }
         } catch (error) {
-            logger.error('Failed to load preset', { component: 'Butterchurn', error: error as Error });
+            logger.error('Failed to load preset', {
+                component: 'Butterchurn',
+                error: error as Error
+            });
         }
 
+        // Only resume preset switching if tab is visible
         const { butterchurn } = usePreferencesStore.getState().visualizer;
-        if (butterchurn.presetInterval > 10) {
+        if (butterchurn.presetInterval > 10 && isVisible()) {
             presetSwitchInterval = setInterval(loadNextPreset, butterchurn.presetInterval * 1000);
+            isPresetSwitchActive = true;
         }
     };
 
     loadNextPreset();
+    loadNextPresetRef = loadNextPreset;
     butterchurnInstance.nextPreset = loadNextPreset;
 
     animateFrame = () => {
@@ -199,24 +215,59 @@ function setupPresetsAndAnimation() {
     };
 
     butterchurnInstance.destroy = () => {
-        clearInterval(presetSwitchInterval);
+        // Clean up preset interval
+        if (isPresetSwitchActive) {
+            clearInterval(presetSwitchInterval);
+            isPresetSwitchActive = false;
+        }
+
+        // Clean up animation frame
         if (animationFrameId !== null) {
             cancelAnimationFrame(animationFrameId);
             animationFrameId = null;
         }
         isAnimationRunning = false;
+
+        // Clean up visibility handler
         if (visibilityHandler) {
             document.removeEventListener('visibilitychange', visibilityHandler);
             visibilityHandler = null;
         }
+
+        // Clean up references
+        loadNextPresetRef = null;
+
+        // Disconnect audio
         // @ts-ignore
         butterchurnInstance.visualizer.disconnectAudio(masterAudioOutput.mixerNode);
     };
 
     visibilityHandler = () => {
+        // Handle animation frame visibility
         if (isVisible() && !isAnimationRunning && butterchurnInstance.visualizer && animateFrame) {
             isAnimationRunning = true;
             animationFrameId = requestAnimationFrame(animateFrame);
+        }
+
+        // Handle preset switching visibility
+        if (isVisible()) {
+            // Resume preset switching when tab becomes visible
+            const { butterchurn } = usePreferencesStore.getState().visualizer;
+            if (butterchurn.presetInterval > 10 && !isPresetSwitchActive && loadNextPresetRef) {
+                presetSwitchInterval = setInterval(
+                    loadNextPresetRef,
+                    butterchurn.presetInterval * 1000
+                );
+                isPresetSwitchActive = true;
+                logger.debug('Preset switching resumed (tab visible)', { component: 'Butterchurn' });
+            }
+        } else {
+            // Pause preset switching when tab becomes hidden
+            if (isPresetSwitchActive) {
+                clearInterval(presetSwitchInterval);
+                isPresetSwitchActive = false;
+                logger.debug('Preset switching paused (tab hidden)', { component: 'Butterchurn' });
+            }
         }
     };
 
@@ -243,12 +294,17 @@ export async function initializeButterChurn(canvas: HTMLCanvasElement) {
             window.location.protocol === 'file:');
 
     if (isDevelopment) {
-        logger.info('Skipping AudioWorklet loading in development environment. Using fallback rendering.', {
-            component: 'Butterchurn'
-        });
+        logger.info(
+            'Skipping AudioWorklet loading in development environment. Using fallback rendering.',
+            {
+                component: 'Butterchurn'
+            }
+        );
     }
 
-    logger.info('AudioContext and support check passed, proceeding with initialization', { component: 'Butterchurn' });
+    logger.info('AudioContext and support check passed, proceeding with initialization', {
+        component: 'Butterchurn'
+    });
 
     const options = createVisualizerOptions();
 
@@ -266,7 +322,10 @@ export async function initializeButterChurn(canvas: HTMLCanvasElement) {
         butterchurnInstance.visualizer.connectAudio(masterAudioOutput.mixerNode);
         logger.info('Audio connection established', { component: 'Butterchurn' });
     } catch (error) {
-        logger.error('Failed to connect audio', { component: 'Butterchurn', error: error as Error });
+        logger.error('Failed to connect audio', {
+            component: 'Butterchurn',
+            error: error as Error
+        });
         return;
     }
 

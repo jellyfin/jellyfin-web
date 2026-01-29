@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react';
-
-import { CircularProgress } from 'ui-primitives';
-
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import { CircularProgress } from 'ui-primitives';
 import { getUserViewsQuery } from '../../hooks/useUserViews';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { DEFAULT_SECTIONS, HomeSectionType } from '../../types/homeSectionType';
 import { toApi } from '../../utils/jellyfin-apiclient/compat';
 import { queryClient } from '../../utils/query/queryClient';
-import { HomeSectionType, DEFAULT_SECTIONS } from '../../types/homeSectionType';
-import * as userSettings from '../../scripts/settings/userSettings';
-
-import ResumeSection from './ResumeSection';
+import * as styles from './HomeSections.css.ts';
+import LibraryTilesSection from './LibraryTilesSection';
 import NextUpSection from './NextUpSection';
 import RecentlyAddedSection from './RecentlyAddedSection';
-import LibraryTilesSection from './LibraryTilesSection';
-import * as styles from './HomeSections.css.ts';
+import ResumeSection from './ResumeSection';
 
 const HomeSections: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -25,12 +22,14 @@ const HomeSections: React.FC = () => {
         if (!apiClient) return;
         const userId = apiClient.getCurrentUserId();
 
-        queryClient.fetchQuery(getUserViewsQuery(toApi(apiClient), userId)).then(result => {
+        queryClient.fetchQuery(getUserViewsQuery(toApi(apiClient), userId)).then((result) => {
             setUserViews(result.Items || []);
 
             const userSections: HomeSectionType[] = [];
             for (let i = 0; i < 7; i++) {
-                let section = ((userSettings as any).get('homesection' + i) as HomeSectionType) || DEFAULT_SECTIONS[i];
+                const section =
+                    ((userSettings as any).get('homesection' + i) as HomeSectionType) ||
+                    DEFAULT_SECTIONS[i];
                 if (section && section !== HomeSectionType.None) {
                     userSections.push(section);
                 }
@@ -55,11 +54,29 @@ const HomeSections: React.FC = () => {
                     case HomeSectionType.SmallLibraryTiles:
                         return <LibraryTilesSection key={index} userViews={userViews} />;
                     case HomeSectionType.Resume:
-                        return <ResumeSection key={index} mediaType="Video" titleLabel="HeaderContinueWatching" />;
+                        return (
+                            <ResumeSection
+                                key={index}
+                                mediaType="Video"
+                                titleLabel="HeaderContinueWatching"
+                            />
+                        );
                     case HomeSectionType.ResumeAudio:
-                        return <ResumeSection key={index} mediaType="Audio" titleLabel="HeaderContinueListening" />;
+                        return (
+                            <ResumeSection
+                                key={index}
+                                mediaType="Audio"
+                                titleLabel="HeaderContinueListening"
+                            />
+                        );
                     case HomeSectionType.ResumeBook:
-                        return <ResumeSection key={index} mediaType="Book" titleLabel="HeaderContinueReading" />;
+                        return (
+                            <ResumeSection
+                                key={index}
+                                mediaType="Book"
+                                titleLabel="HeaderContinueReading"
+                            />
+                        );
                     case HomeSectionType.NextUp:
                         return <NextUpSection key={index} />;
                     case HomeSectionType.LatestMedia:

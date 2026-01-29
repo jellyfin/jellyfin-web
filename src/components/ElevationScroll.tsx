@@ -19,7 +19,13 @@ const useScrollTrigger = () => {
     return trigger;
 };
 
-const ElevationScroll = ({ children, elevate = false }: { children: ReactElement; elevate?: boolean }) => {
+const ElevationScroll = ({
+    children,
+    elevate = false
+}: {
+    children: ReactElement;
+    elevate?: boolean;
+}) => {
     const trigger = useScrollTrigger();
 
     const isElevated = elevate || trigger;

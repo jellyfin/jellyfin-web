@@ -2,15 +2,14 @@ import classNames from 'classnames';
 
 import layoutManager from 'components/layoutManager';
 import { ItemAction } from 'constants/itemAction';
+import type { ItemDto } from 'types/base/models/item-dto';
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
 import { getDataAttributes } from 'utils/items';
-
-import useCardImageUrl from './useCardImageUrl';
 import { resolveAction, resolveMixedShapeByAspectRatio } from '../cardBuilderUtils';
+import useCardImageUrl from './useCardImageUrl';
 
 interface UseCardProps {
     item: ItemDto;
@@ -79,7 +78,9 @@ function useCard({ item, cardOptions }: UseCardProps) {
         { groupedCard: cardOptions.showChildCountIndicator && item.ChildCount },
         {
             'card-withuserdata':
-                item.Type !== ItemKind.MusicAlbum && item.Type !== ItemKind.MusicArtist && item.Type !== ItemKind.Audio
+                item.Type !== ItemKind.MusicAlbum &&
+                item.Type !== ItemKind.MusicArtist &&
+                item.Type !== ItemKind.Audio
         },
         { itemAction: layoutManager.tv }
     );

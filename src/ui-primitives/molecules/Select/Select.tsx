@@ -1,37 +1,42 @@
-import React, { forwardRef, type ReactElement, type ReactNode, type SelectHTMLAttributes } from 'react';
 import {
-    Root,
-    Trigger,
-    Value,
     Content,
-    Portal,
-    ScrollUpButton,
-    Viewport,
-    ScrollDownButton,
+    Group,
+    Icon,
     Item,
     ItemIndicator,
     ItemText,
-    Group,
     Label,
-    Separator,
-    Icon,
-    type SelectTriggerProps,
+    Portal,
+    Root,
+    ScrollDownButton,
+    ScrollUpButton,
     type SelectContentProps,
-    type SelectItemProps
+    type SelectItemProps,
+    type SelectTriggerProps,
+    Separator,
+    Trigger,
+    Value,
+    Viewport
 } from '@radix-ui/react-select';
+import React, {
+    forwardRef,
+    type ReactElement,
+    type ReactNode,
+    type SelectHTMLAttributes
+} from 'react';
 import {
-    selectTrigger,
     selectContent,
-    selectViewport,
+    selectInputContainer,
+    selectInputHelper,
+    selectInputLabel,
+    selectInputStyles,
     selectItem,
     selectItemIndicator,
     selectLabel,
-    selectSeparator,
     selectScrollButton,
-    selectInputStyles,
-    selectInputContainer,
-    selectInputLabel,
-    selectInputHelper
+    selectSeparator,
+    selectTrigger,
+    selectViewport
 } from './Select.css.ts';
 
 export const selectStyles = {
@@ -47,18 +52,19 @@ export const selectStyles = {
 
 export const Select = Root;
 
-export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps & { readonly className?: string }>(
-    ({ children, className, ...props }, ref): ReactElement => {
-        return (
-            <Trigger ref={ref} className={`${selectTrigger} ${className ?? ''}`} {...props}>
-                {children}
-                <Icon style={{ display: 'flex' }}>
-                    <ChevronDownIcon />
-                </Icon>
-            </Trigger>
-        );
-    }
-);
+export const SelectTrigger = forwardRef<
+    HTMLButtonElement,
+    SelectTriggerProps & { readonly className?: string }
+>(({ children, className, ...props }, ref): ReactElement => {
+    return (
+        <Trigger ref={ref} className={`${selectTrigger} ${className ?? ''}`} {...props}>
+            {children}
+            <Icon style={{ display: 'flex' }}>
+                <ChevronDownIcon />
+            </Icon>
+        </Trigger>
+    );
+});
 
 SelectTrigger.displayName = 'SelectTrigger';
 
@@ -77,10 +83,17 @@ export function SelectContent({
     className,
     position = 'popper',
     ...props
-}: SelectContentProps & { readonly className?: string; readonly position?: 'popper' | 'item-aligned' }): ReactElement {
+}: SelectContentProps & {
+    readonly className?: string;
+    readonly position?: 'popper' | 'item-aligned';
+}): ReactElement {
     return (
         <Portal>
-            <Content className={`${selectContent} ${className ?? ''}`} position={position} {...props}>
+            <Content
+                className={`${selectContent} ${className ?? ''}`}
+                position={position}
+                {...props}
+            >
                 <ScrollUpButton className={selectScrollButton}>
                     <ChevronUpIcon />
                 </ScrollUpButton>
@@ -156,7 +169,12 @@ export function SelectInput({
                     {label}
                 </label>
             )}
-            <select id={id} className={`${selectInputStyles} ${className ?? ''}`} style={selectStyle} {...props}>
+            <select
+                id={id}
+                className={`${selectInputStyles} ${className ?? ''}`}
+                style={selectStyle}
+                {...props}
+            >
                 {placeholder !== undefined && placeholder !== '' && (
                     <option value="" disabled>
                         {placeholder}
@@ -236,16 +254,16 @@ function CheckIcon(): ReactElement {
 }
 
 export {
-    selectTrigger,
     selectContent,
-    selectViewport,
+    selectInputContainer,
+    selectInputHelper,
+    selectInputLabel,
+    selectInputStyles,
     selectItem,
     selectItemIndicator,
     selectLabel,
-    selectSeparator,
     selectScrollButton,
-    selectInputStyles,
-    selectInputContainer,
-    selectInputLabel,
-    selectInputHelper
+    selectSeparator,
+    selectTrigger,
+    selectViewport
 } from './Select.css.ts';

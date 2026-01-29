@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-
-import { Button } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useState } from 'react';
+import { Button, Heading, Text } from 'ui-primitives';
 import Loading from '../../../components/loading/LoadingComponent';
 import * as styles from './WizardFinish.css.ts';
 

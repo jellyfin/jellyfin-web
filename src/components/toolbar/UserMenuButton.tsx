@@ -1,10 +1,8 @@
-import { IconButton } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import React, { useCallback, useState } from 'react';
-
 import UserAvatar from 'components/UserAvatar';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
+import React, { useCallback, useState } from 'react';
+import { IconButton, Tooltip } from 'ui-primitives';
 
 import AppUserMenu, { ID } from './AppUserMenu';
 
@@ -41,7 +39,11 @@ const UserMenuButton = () => {
                 </IconButton>
             </Tooltip>
 
-            <AppUserMenu open={isUserMenuOpen} anchorEl={userMenuAnchorEl} onMenuClose={onUserMenuClose} />
+            <AppUserMenu
+                open={isUserMenuOpen}
+                anchorEl={userMenuAnchorEl}
+                onMenuClose={onUserMenuClose}
+            />
         </>
     );
 };

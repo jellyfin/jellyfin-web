@@ -12,7 +12,9 @@ describe('getReadableSize()', () => {
         expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024)).toBe('1.0 PiB');
         expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toBe('1.0 EiB');
         expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toBe('1.0 ZiB');
-        expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toBe('1.0 YiB');
+        expect(getReadableSize(1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toBe(
+            '1.0 YiB'
+        );
     });
 
     it('should return correct precision', () => {

@@ -2,8 +2,8 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
-import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
+import datetime from 'scripts/datetime';
 import { getBackdropShape } from 'utils/card';
 import { logger } from 'utils/logger';
 
@@ -24,7 +24,7 @@ function getUpcomingPromise(context, params) {
 }
 
 function loadUpcoming(context, params, promise) {
-    promise.then(result => {
+    promise.then((result) => {
         const items = result.Items;
 
         if (items.length) {
@@ -62,7 +62,11 @@ function renderUpcoming(elem, items) {
                           day: 'numeric'
                       });
             } catch (err) {
-                logger.error('Error parsing timestamp for upcoming TV shows', { component: 'TVUpcoming' }, err);
+                logger.error(
+                    'Error parsing timestamp for upcoming TV shows',
+                    { component: 'TVUpcoming' },
+                    err
+                );
             }
         }
 
@@ -96,9 +100,12 @@ function renderUpcoming(elem, items) {
             }
 
             html +=
-                '<div is="emby-itemscontainer" class="itemsContainer ' + scrollXClass + ' padded-left padded-right">';
+                '<div is="emby-itemscontainer" class="itemsContainer ' +
+                scrollXClass +
+                ' padded-left padded-right">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
+            html +=
+                '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">';
         }
 
         html += cardBuilder.getCardsHtml({

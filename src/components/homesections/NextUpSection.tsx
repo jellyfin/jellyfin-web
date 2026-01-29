@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-
-import { Heading } from 'ui-primitives';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import { Heading } from 'ui-primitives';
+import * as userSettings from '../../scripts/settings/userSettings';
 import { CardBuilder } from '../cardbuilder/builders';
 import { CardOptions } from '../cardbuilder/cardBuilder';
-import * as userSettings from '../../scripts/settings/userSettings';
 import * as styles from './NextUpSection.css.ts';
 
 const NextUpSection: React.FC = () => {
@@ -18,7 +16,9 @@ const NextUpSection: React.FC = () => {
     useEffect(() => {
         if (!apiClient) return;
         const oldestDateForNextUp = new Date();
-        oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - (userSettings as any).maxDaysForNextUp());
+        oldestDateForNextUp.setDate(
+            oldestDateForNextUp.getDate() - (userSettings as any).maxDaysForNextUp()
+        );
 
         const options = {
             Limit: 24,

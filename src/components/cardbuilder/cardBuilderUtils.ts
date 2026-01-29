@@ -23,7 +23,11 @@ export const isUsingLiveTvNaming = (itemType: string | null | undefined): boolea
  * Resolves Card action to display
  * @param opts options to determine the action to return
  */
-export const resolveAction = (opts: { defaultAction: ItemAction; isFolder: boolean; isPhoto: boolean }): ItemAction => {
+export const resolveAction = (opts: {
+    defaultAction: ItemAction;
+    isFolder: boolean;
+    isPhoto: boolean;
+}): ItemAction => {
     if (opts.defaultAction === ItemAction.Play && opts.isFolder) {
         // If this hard-coding is ever removed make sure to test nested photo albums
         return ItemAction.Link;
@@ -56,7 +60,9 @@ export const isResizable = (windowWidth: number): boolean => {
  * Resolves mixed shape based on aspect ratio
  * @param primaryImageAspectRatio image aspect ratio that determines mixed shape
  */
-export const resolveMixedShapeByAspectRatio = (primaryImageAspectRatio: number | null | undefined) => {
+export const resolveMixedShapeByAspectRatio = (
+    primaryImageAspectRatio: number | null | undefined
+) => {
     if (primaryImageAspectRatio === undefined || primaryImageAspectRatio === null) {
         return CardShape.MixedSquare;
     }
@@ -124,7 +130,10 @@ export const resolveCardImageContainerCssClasses = (opts: {
  * Resolves applicable Card Box CSS classes
  * @param opts options for determining which CSS classes are applicable
  */
-export const resolveCardBoxCssClasses = (opts: { cardLayout: boolean; hasOuterCardFooter: boolean }): string => {
+export const resolveCardBoxCssClasses = (opts: {
+    cardLayout: boolean;
+    hasOuterCardFooter: boolean;
+}): string => {
     return classNames({
         cardBox: true,
         visualCardBox: opts.cardLayout,
@@ -324,7 +333,11 @@ const postersPerRowSmallBackdrop = (screenWidth: number) => {
     }
 };
 
-const postersPerRowOverflowSmallBackdrop = (screenWidth: number, isLandscape: boolean, isTV: boolean) => {
+const postersPerRowOverflowSmallBackdrop = (
+    screenWidth: number,
+    isLandscape: boolean,
+    isTV: boolean
+) => {
     switch (true) {
         case isTV:
             return 100 / 18.9;
@@ -339,7 +352,11 @@ const postersPerRowOverflowSmallBackdrop = (screenWidth: number, isLandscape: bo
     }
 };
 
-const postersPerRowOverflowPortrait = (screenWidth: number, isLandscape: boolean, isTV: boolean) => {
+const postersPerRowOverflowPortrait = (
+    screenWidth: number,
+    isLandscape: boolean,
+    isTV: boolean
+) => {
     switch (true) {
         case isTV:
             return 100 / 15.5;
@@ -381,7 +398,11 @@ const postersPerRowOverflowSquare = (screenWidth: number, isLandscape: boolean, 
     }
 };
 
-const postersPerRowOverflowBackdrop = (screenWidth: number, isLandscape: boolean, isTV: boolean) => {
+const postersPerRowOverflowBackdrop = (
+    screenWidth: number,
+    isLandscape: boolean,
+    isTV: boolean
+) => {
     switch (true) {
         case isTV:
             return 100 / 23.3;

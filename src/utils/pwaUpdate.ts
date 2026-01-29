@@ -14,21 +14,28 @@ class PWAUpdateManager {
     static init() {
         // Skip service worker in development to avoid issues with dev server
         if (import.meta.env.DEV) {
-            logger.info('[PWA] Service worker registration skipped in development', { component: 'pwaUpdate' });
+            logger.info('[PWA] Service worker registration skipped in development', {
+                component: 'pwaUpdate'
+            });
             return;
         }
 
         const isEnabled = localStorage.getItem('enable-service-worker') === 'true';
         if (!isEnabled) {
-            logger.info('[PWA] Service worker registration disabled by default. Enable via Developer Settings.', {
-                component: 'pwaUpdate'
-            });
+            logger.info(
+                '[PWA] Service worker registration disabled by default. Enable via Developer Settings.',
+                {
+                    component: 'pwaUpdate'
+                }
+            );
             // Unregister if exists
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(registrations => {
+                navigator.serviceWorker.getRegistrations().then((registrations) => {
                     for (const registration of registrations) {
                         registration.unregister();
-                        logger.info('[PWA] Unregistered existing service worker', { component: 'pwaUpdate' });
+                        logger.info('[PWA] Unregistered existing service worker', {
+                            component: 'pwaUpdate'
+                        });
                     }
                 });
             }
@@ -42,13 +49,17 @@ class PWAUpdateManager {
         ) {
             navigator.serviceWorker
                 .register('/serviceworker.js')
-                .then(registration => {
+                .then((registration) => {
                     this.registration = registration;
                     this.setupUpdateListener();
                     this.checkForUpdates();
                 })
-                .catch(err => {
-                    logger.error('[PWA] Service worker registration failed', { component: 'pwaUpdate' }, err);
+                .catch((err) => {
+                    logger.error(
+                        '[PWA] Service worker registration failed',
+                        { component: 'pwaUpdate' },
+                        err
+                    );
                 });
         }
     }
@@ -76,7 +87,7 @@ class PWAUpdateManager {
             .then(() => {
                 logger.info('[PWA] Checked for updates', { component: 'pwaUpdate' });
             })
-            .catch(err => {
+            .catch((err) => {
                 logger.error('[PWA] Update check failed', { component: 'pwaUpdate' }, err);
             });
     }

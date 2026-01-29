@@ -1,12 +1,11 @@
-import React, { StrictMode, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from '@tanstack/react-router';
-import { Box } from 'ui-primitives';
-import useMediaQuery from 'hooks/useMediaQuery';
-
 import AppBody from 'components/AppBody';
 import CustomCss from 'components/CustomCss';
 import { useApi } from 'hooks/useApi';
+import useMediaQuery from 'hooks/useMediaQuery';
+import React, { StrictMode, useCallback, useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box } from 'ui-primitives';
 
 import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
@@ -61,7 +60,11 @@ export const Component = () => {
                     </Box>
 
                     {isDrawerAvailable && (
-                        <AppDrawer open={isDrawerOpen} onClose={onToggleDrawer} onOpen={onToggleDrawer} />
+                        <AppDrawer
+                            open={isDrawerOpen}
+                            onClose={onToggleDrawer}
+                            onOpen={onToggleDrawer}
+                        />
                     )}
                 </StrictMode>
 

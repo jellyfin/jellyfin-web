@@ -1,1 +1,7 @@
-export { separatorHorizontal, separatorRoot, separatorStyles, separatorVertical, Separator } from './Separator';
+export {
+    Separator,
+    separatorHorizontal,
+    separatorRoot,
+    separatorStyles,
+    separatorVertical
+} from './Separator';

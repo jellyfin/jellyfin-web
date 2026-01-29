@@ -1,12 +1,17 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Dialog, DialogContent, DialogOverlay, DialogContentClass } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import globalize from 'lib/globalize';
+import React from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogContentClass,
+    DialogOverlay,
+    Flex,
+    Text
+} from 'ui-primitives';
 
 interface ConfirmDialogProps {
     isOpen: boolean;
@@ -30,19 +35,30 @@ export function ConfirmDialog({
     isDestructive = false
 }: ConfirmDialogProps) {
     return (
-        <Dialog open={isOpen} onOpenChange={open => !open && onCancel()}>
+        <Dialog open={isOpen} onOpenChange={(open) => !open && onCancel()}>
             <DialogPrimitive.Portal>
                 <DialogOverlay />
                 <DialogPrimitive.Content className={DialogContentClass}>
                     <Box style={{ padding: vars.spacing['5'], maxWidth: '400px' }}>
                         <DialogPrimitive.Title>{title}</DialogPrimitive.Title>
-                        {message && <DialogPrimitive.Description>{message}</DialogPrimitive.Description>}
+                        {message && (
+                            <DialogPrimitive.Description>{message}</DialogPrimitive.Description>
+                        )}
 
-                        <Flex style={{ gap: vars.spacing['3'], justifyContent: 'flex-end', marginTop: '24px' }}>
+                        <Flex
+                            style={{
+                                gap: vars.spacing['3'],
+                                justifyContent: 'flex-end',
+                                marginTop: '24px'
+                            }}
+                        >
                             <Button variant="ghost" onClick={onCancel}>
                                 {cancelText || globalize.translate('ButtonCancel')}
                             </Button>
-                            <Button variant={isDestructive ? 'danger' : 'primary'} onClick={onConfirm}>
+                            <Button
+                                variant={isDestructive ? 'danger' : 'primary'}
+                                onClick={onConfirm}
+                            >
                                 {confirmText || globalize.translate('ButtonOk')}
                             </Button>
                         </Flex>
@@ -63,10 +79,12 @@ interface UseConfirmOptions {
 
 export function useConfirm(options: UseConfirmOptions) {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [resolvePromise, setResolvePromise] = React.useState<((value: boolean) => void) | null>(null);
+    const [resolvePromise, setResolvePromise] = React.useState<((value: boolean) => void) | null>(
+        null
+    );
 
     const confirm = (): Promise<boolean> => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             setResolvePromise(() => resolve);
             setIsOpen(true);
         });
@@ -86,7 +104,14 @@ export function useConfirm(options: UseConfirmOptions) {
         }
     };
 
-    const dialog = <ConfirmDialog isOpen={isOpen} onConfirm={handleConfirm} onCancel={handleCancel} {...options} />;
+    const dialog = (
+        <ConfirmDialog
+            isOpen={isOpen}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+            {...options}
+        />
+    );
 
     return { confirm, dialog };
 }

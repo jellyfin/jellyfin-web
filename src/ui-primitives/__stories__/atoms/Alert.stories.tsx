@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { motion, AnimatePresence } from 'motion/react';
-import { type ReactElement, useState, useCallback } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { type ReactElement, useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import { Button } from '../..';
 
@@ -50,7 +50,12 @@ function AnimatedAlert({
             <span style={{ fontSize: vars.typography['6'].fontSize }}>{styles.icon}</span>
             <div style={{ flex: 1 }}>
                 {title !== undefined && title !== '' && (
-                    <div style={{ fontWeight: vars.typography.fontWeightMedium, marginBottom: vars.spacing['2'] }}>
+                    <div
+                        style={{
+                            fontWeight: vars.typography.fontWeightMedium,
+                            marginBottom: vars.spacing['2']
+                        }}
+                    >
                         {title}
                     </div>
                 )}
@@ -134,7 +139,12 @@ function DismissibleAlert(): ReactElement {
         <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'] }}>
             <AnimatePresence>
                 {visible && (
-                    <AnimatedAlert variant="info" title="Dismissible Alert" dismissible onDismiss={handleDismiss}>
+                    <AnimatedAlert
+                        variant="info"
+                        title="Dismissible Alert"
+                        dismissible
+                        onDismiss={handleDismiss}
+                    >
                         Click the X to dismiss this alert.
                     </AnimatedAlert>
                 )}

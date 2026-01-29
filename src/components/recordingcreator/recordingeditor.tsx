@@ -11,7 +11,7 @@ export function show(
     serverId: string,
     options?: ShowOptions
 ): Promise<{ updated: boolean; deleted?: boolean }> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         const container = document.createElement('div');
         document.body.appendChild(container);
         const root = createRoot(container);

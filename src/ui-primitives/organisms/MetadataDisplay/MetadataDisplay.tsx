@@ -5,11 +5,11 @@
 import { type ReactElement } from 'react';
 import { Text } from 'ui-primitives';
 import {
-    container,
-    title as titleStyle,
-    artist as artistStyle,
     album as albumStyle,
-    link
+    artist as artistStyle,
+    container,
+    link,
+    title as titleStyle
 } from './MetadataDisplay.css.ts';
 
 export interface MetadataDisplayProps {

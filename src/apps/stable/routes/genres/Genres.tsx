@@ -4,25 +4,20 @@
  * Displays all genres with item counts and navigation.
  */
 
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useState, useCallback } from 'react';
-import { useParams } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models';
-
-import { itemsApi } from 'lib/api/items';
-import { usePagination } from 'hooks/usePagination';
-import { LoadingSpinner } from 'components/LoadingSpinner';
-import { ErrorState } from 'components/ErrorState';
-import { EmptyState } from 'components/EmptyState';
-import { Card, CardBody } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Chip } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
 import { ChevronLeftIcon, ChevronRightIcon, PlayIcon } from '@radix-ui/react-icons';
-import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from '@tanstack/react-router';
+import { EmptyState } from 'components/EmptyState';
+import { ErrorState } from 'components/ErrorState';
+import { LoadingSpinner } from 'components/LoadingSpinner';
+import { usePagination } from 'hooks/usePagination';
+import { itemsApi } from 'lib/api/items';
 import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
+import React, { useCallback, useState } from 'react';
+import { playbackManagerBridge } from 'store/playbackManagerBridge';
+import { vars } from 'styles/tokens.css.ts';
+import { Card, CardBody, Chip, Heading, IconButton, Text } from 'ui-primitives';
 
 import { logger } from 'utils/logger';
 import * as styles from './Genres.css.ts';
@@ -65,13 +60,13 @@ export const Genres: React.FC = () => {
 
     const handleNextPage = useCallback(() => {
         if (hasNextPage) {
-            setPageIndex(prev => prev + 1);
+            setPageIndex((prev) => prev + 1);
         }
     }, [hasNextPage, setPageIndex]);
 
     const handlePreviousPage = useCallback(() => {
         if (hasPreviousPage && pageIndex > 0) {
-            setPageIndex(prev => prev - 1);
+            setPageIndex((prev) => prev - 1);
         }
     }, [hasPreviousPage, pageIndex, setPageIndex]);
 
@@ -86,7 +81,12 @@ export const Genres: React.FC = () => {
                 // Fetch items in the genre
                 const items = await itemsApi.getItems(topParentId, {
                     recursive: true,
-                    includeTypes: genreType === 'music' ? ['Audio'] : genreType === 'tv' ? ['Series', 'Episode'] : ['Movie'],
+                    includeTypes:
+                        genreType === 'music'
+                            ? ['Audio']
+                            : genreType === 'tv'
+                              ? ['Series', 'Episode']
+                              : ['Movie'],
                     genres: [genreName],
                     limit: 100
                 });
@@ -119,11 +119,14 @@ export const Genres: React.FC = () => {
 
     if (isError) {
         return (
-            <ErrorState message={error instanceof Error ? error.message : 'Failed to load genres'} onRetry={refetch} />
+            <ErrorState
+                message={error instanceof Error ? error.message : 'Failed to load genres'}
+                onRetry={refetch}
+            />
         );
     }
 
-    const genres: GenreItem[] = (data?.Items || []).map(item => ({
+    const genres: GenreItem[] = (data?.Items || []).map((item) => ({
         Name: item.Name || 'Unknown',
         ItemCount: item.ChildCount || 0,
         ImageTags: item.ImageTags || undefined,
@@ -175,8 +178,14 @@ export const Genres: React.FC = () => {
                 )}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: vars.spacing['4'] }}>
-                {genres.map(genre => (
+            <div
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                    gap: vars.spacing['4']
+                }}
+            >
+                {genres.map((genre) => (
                     <div
                         key={genre.Name}
                         style={{ position: 'relative' }}
@@ -235,7 +244,10 @@ export const Genres: React.FC = () => {
             <div className={styles.bottomPaginationContainer}>
                 {(hasPreviousPage || hasNextPage) && (
                     <div className={styles.paginationControls}>
-                        <IconButton onClick={handlePreviousPage} disabled={!hasPreviousPage || pageIndex === 0}>
+                        <IconButton
+                            onClick={handlePreviousPage}
+                            disabled={!hasPreviousPage || pageIndex === 0}
+                        >
                             <ChevronLeftIcon />
                         </IconButton>
                         <Chip>{pageIndex + 1}</Chip>

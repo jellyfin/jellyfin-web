@@ -1,4 +1,4 @@
-import { style, styleVariants, keyframes, globalStyle } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style, styleVariants } from '@vanilla-extract/css';
 import { vars } from './tokens.css.ts';
 
 export const iconButton = style({

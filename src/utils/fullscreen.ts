@@ -43,7 +43,7 @@ class FullscreenManager {
                 target: document.fullscreenElement
             };
 
-            this.listeners.forEach(callback => {
+            this.listeners.forEach((callback) => {
                 callback(event);
             });
         };

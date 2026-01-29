@@ -1,7 +1,6 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback, type ChangeEvent } from 'react';
+import { type ChangeEvent, type ReactElement, useCallback, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import { Input } from '../..';
 
 const meta: Meta<typeof Input> = {
@@ -60,7 +59,14 @@ export const WithHelperText: Story = {
 
 function AllStatesStory(): ReactElement {
     return (
-        <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+        <div
+            style={{
+                width: '300px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: vars.spacing['4']
+            }}
+        >
             <Input label="Default" placeholder="Enter text..." />
             <Input label="With Value" defaultValue="Some text" />
             <Input label="Disabled" placeholder="Disabled" disabled />
@@ -129,7 +135,14 @@ export const FormExample: Story = {
 
 function TypesStory(): ReactElement {
     return (
-        <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: vars.spacing['4'] }}>
+        <div
+            style={{
+                width: '300px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: vars.spacing['4']
+            }}
+        >
             <Input label="Text" type="text" placeholder="Text input" />
             <Input label="Email" type="email" placeholder="Email input" />
             <Input label="Password" type="password" placeholder="Password input" />

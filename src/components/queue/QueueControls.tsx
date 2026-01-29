@@ -1,10 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Tooltip } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import {
     DoubleArrowLeftIcon,
     DoubleArrowRightIcon,
@@ -16,11 +9,10 @@ import {
     TrackNextIcon,
     TrackPreviousIcon
 } from '@radix-ui/react-icons';
-
-import { VolumeSlider } from 'ui-primitives';
-import { SeekSlider } from 'ui-primitives';
-
+import React, { useEffect, useState } from 'react';
 import type { RepeatMode, ShuffleMode } from 'store/types';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, IconButton, SeekSlider, Text, Tooltip, VolumeSlider } from 'ui-primitives';
 
 export interface QueueControlsProps {
     isPlaying: boolean;
@@ -120,7 +112,13 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
             data-testid="queue-controls"
             style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['5'] }}
         >
-            <Flex style={{ alignItems: 'center', gap: vars.spacing['4'], marginBottom: vars.spacing['4'] }}>
+            <Flex
+                style={{
+                    alignItems: 'center',
+                    gap: vars.spacing['4'],
+                    marginBottom: vars.spacing['4']
+                }}
+            >
                 <Box className="positionTime" style={{ minWidth: 45, textAlign: 'right' }}>
                     <Text size="xs" color="secondary">
                         {formatTime(progress)}
@@ -135,7 +133,10 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
                         style={{
                             position: 'absolute',
                             top: '50%',
-                            left: bufferedRanges.length > 0 ? `${(bufferedRanges[0].start / duration) * 100}%` : '0%',
+                            left:
+                                bufferedRanges.length > 0
+                                    ? `${(bufferedRanges[0].start / duration) * 100}%`
+                                    : '0%',
                             right:
                                 bufferedRanges.length > 0
                                     ? `${100 - (bufferedRanges[0].end / duration) * 100}%`
@@ -153,7 +154,7 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
                         duration={duration}
                         onSeek={onSeek}
                         onSeekStart={() => setIsSeeking(true)}
-                        onSeekEnd={time => {
+                        onSeekEnd={(time) => {
                             setIsSeeking(false);
                             onSeekEnd?.(time);
                         }}
@@ -231,7 +232,13 @@ export const QueueControls: React.FC<QueueControlsProps> = ({
                     </Tooltip>
 
                     <Tooltip title="Stop">
-                        <IconButton className="btnStop" size="md" variant="plain" onClick={onStop} color="neutral">
+                        <IconButton
+                            className="btnStop"
+                            size="md"
+                            variant="plain"
+                            onClick={onStop}
+                            color="neutral"
+                        >
                             <StopIcon />
                         </IconButton>
                     </Tooltip>

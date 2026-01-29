@@ -34,7 +34,7 @@ function getScreensaverPlugin(isLoggedIn: boolean): any {
     }
 
     const plugins = pluginManager.ofType(PluginType.Screensaver);
-    return plugins.find(p => p.id === option) || null;
+    return plugins.find((p) => p.id === option) || null;
 }
 
 class ScreenSaverManager {
@@ -53,7 +53,8 @@ class ScreenSaverManager {
 
         const hideHandler = () => this.hide();
         if (screensaver.hideOnClick !== false) window.addEventListener('click', hideHandler, true);
-        if (screensaver.hideOnMouse !== false) window.addEventListener('mousemove', hideHandler, true);
+        if (screensaver.hideOnMouse !== false)
+            window.addEventListener('mousemove', hideHandler, true);
         if (screensaver.hideOnKey !== false) window.addEventListener('keydown', hideHandler, true);
     }
 

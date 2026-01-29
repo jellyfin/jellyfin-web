@@ -1,7 +1,11 @@
 import { includesAny } from '../../../utils/container';
 import { getMediaStreamAudioTracks } from './trackSupport';
 
-export function isAudioStreamSupported(stream: any, deviceProfile: any, container: string): boolean {
+export function isAudioStreamSupported(
+    stream: any,
+    deviceProfile: any,
+    container: string
+): boolean {
     const codec = (stream.Codec || '').toLowerCase();
     if (!codec) return true;
     if (!deviceProfile) return true;
@@ -16,7 +20,11 @@ export function isAudioStreamSupported(stream: any, deviceProfile: any, containe
     });
 }
 
-export function getSupportedAudioStreams(mediaSource: any, _mediaElement: any, lastProfile: any): any[] {
+export function getSupportedAudioStreams(
+    mediaSource: any,
+    _mediaElement: any,
+    lastProfile: any
+): any[] {
     const profile = lastProfile;
     const container = (mediaSource.Container || '').toLowerCase();
 

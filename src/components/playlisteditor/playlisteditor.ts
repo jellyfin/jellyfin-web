@@ -3,20 +3,19 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
-import { escapeHtml } from 'utils/html';
-
 import toast from 'components/toast/toast';
-import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { PluginType } from 'types/plugin';
+import dom from 'utils/dom';
+import { escapeHtml } from 'utils/html';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { isBlank } from 'utils/string';
 
 import dialogHelper from '../dialogHelper/dialogHelper';
-import loading from '../loading/loading';
 import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
 import { playbackManager } from '../playback/playbackmanager';
 import { pluginManager } from '../pluginManager';
 import { appRouter } from '../router/appRouter';
@@ -55,7 +54,7 @@ function onSubmit(this: HTMLElement, e: Event) {
         if (playlistId) {
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
             addToPlaylist(panel, playlistId)
-                .catch(err => {
+                .catch((err) => {
                     logger.error(
                         `Failed to add to playlist ${playlistId}`,
                         { component: 'PlaylistEditor' },
@@ -66,7 +65,7 @@ function onSubmit(this: HTMLElement, e: Event) {
                 .finally(loading.hide);
         } else if (panel.playlistId) {
             updatePlaylist(panel)
-                .catch(err => {
+                .catch((err) => {
                     logger.error(
                         `Failed to update to playlist ${panel.playlistId}`,
                         { component: 'PlaylistEditor' },
@@ -77,8 +76,12 @@ function onSubmit(this: HTMLElement, e: Event) {
                 .finally(loading.hide);
         } else {
             createPlaylist(panel)
-                .catch(err => {
-                    logger.error('Failed to create playlist', { component: 'PlaylistEditor' }, err as Error);
+                .catch((err) => {
+                    logger.error(
+                        'Failed to create playlist',
+                        { component: 'PlaylistEditor' },
+                        err as Error
+                    );
                     toast(globalize.translate('PlaylistError.CreateFailed'));
                 })
                 .finally(loading.hide);
@@ -109,7 +112,7 @@ function createPlaylist(dlg: DialogElement) {
                 UserId: apiClient.getCurrentUserId()
             }
         })
-        .then(result => {
+        .then((result) => {
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
@@ -156,7 +159,11 @@ function addToPlaylist(dlg: DialogElement, id: string) {
                 ids: itemIds.split(',')
             })
             .catch((err: unknown) => {
-                logger.error('Failed to add to queue', { component: 'PlaylistEditor' }, err as Error);
+                logger.error(
+                    'Failed to add to queue',
+                    { component: 'PlaylistEditor' },
+                    err as Error
+                );
             });
         dlg.submitted = true;
         dialogHelper.close(dlg);
@@ -203,7 +210,7 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
         })
         .then(({ data }) => {
             return Promise.all(
-                (data.Items || []).map(item => {
+                (data.Items || []).map((item) => {
                     const playlist = {
                         item,
                         permissions: undefined
@@ -220,16 +227,20 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
                             ...playlist,
                             permissions
                         }))
-                        .catch(err => {
+                        .catch((err) => {
                             // If a user doesn't have access, then the request will 404 and throw
-                            logger.warn('Failed to fetch playlist permissions', { component: 'PlaylistEditor' }, err);
+                            logger.warn(
+                                'Failed to fetch playlist permissions',
+                                { component: 'PlaylistEditor' },
+                                err
+                            );
 
                             return playlist;
                         });
                 })
             );
         })
-        .then(playlists => {
+        .then((playlists) => {
             let html = '';
 
             if (
@@ -311,15 +322,17 @@ function getEditorHtml(items: string[], options: PlaylistEditorOptions) {
 }
 
 function initEditor(content: DialogElement, options: PlaylistEditorOptions, items: string[]) {
-    content.querySelector('#selectPlaylistToAddTo')?.addEventListener('change', function (this: HTMLSelectElement) {
-        if (this.value) {
-            content.querySelector('.newPlaylistInfo')?.classList.add('hide');
-            content.querySelector('#txtNewPlaylistName')?.removeAttribute('required');
-        } else {
-            content.querySelector('.newPlaylistInfo')?.classList.remove('hide');
-            content.querySelector('#txtNewPlaylistName')?.setAttribute('required', 'required');
-        }
-    });
+    content
+        .querySelector('#selectPlaylistToAddTo')
+        ?.addEventListener('change', function (this: HTMLSelectElement) {
+            if (this.value) {
+                content.querySelector('.newPlaylistInfo')?.classList.add('hide');
+                content.querySelector('#txtNewPlaylistName')?.removeAttribute('required');
+            } else {
+                content.querySelector('.newPlaylistInfo')?.classList.remove('hide');
+                content.querySelector('#txtNewPlaylistName')?.setAttribute('required', 'required');
+            }
+        });
 
     content.querySelector('form')?.addEventListener('submit', onSubmit);
 
@@ -331,7 +344,7 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
     if (items.length) {
         content.querySelector('.fldSelectPlaylist')?.classList.remove('hide');
         populatePlaylists(options, content)
-            .catch(err => {
+            .catch((err) => {
                 logger.error('Failed to populate playlists', { component: 'PlaylistEditor' }, err);
             })
             .finally(loading.hide);
@@ -358,13 +371,18 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
                 const publicField = panel.querySelector<HTMLInputElement>('#chkPlaylistPublic');
                 if (publicField) publicField.checked = !!playlist.OpenAccess;
             })
-            .catch(err => {
-                logger.error('Failed to get playlist details', { component: 'PlaylistEditor' }, err);
+            .catch((err) => {
+                logger.error(
+                    'Failed to get playlist details',
+                    { component: 'PlaylistEditor' },
+                    err
+                );
             });
     } else {
         content.querySelector('.fldSelectPlaylist')?.classList.add('hide');
 
-        const selectPlaylistToAddTo = content.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
+        const selectPlaylistToAddTo =
+            content.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
         if (selectPlaylistToAddTo) {
             selectPlaylistToAddTo.innerHTML = '';
             selectPlaylistToAddTo.value = '';
@@ -380,11 +398,11 @@ function centerFocus(elem: HTMLDivElement | null, horiz: boolean, on: boolean) {
     }
 
     import('../../scripts/scrollHelper')
-        .then(scrollHelper => {
+        .then((scrollHelper) => {
             const fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         })
-        .catch(err => {
+        .catch((err) => {
             logger.error('Failed to load scroll helper', { component: 'PlaylistEditor' }, err);
         });
 }

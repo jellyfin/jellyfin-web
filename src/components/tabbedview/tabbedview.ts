@@ -11,8 +11,8 @@
  */
 
 import { clearBackdrop } from '../backdrop/backdrop';
-import * as mainTabsManager from '../maintabsmanager';
 import layoutManager from '../layoutManager';
+import * as mainTabsManager from '../maintabsmanager';
 import '../../elements/emby-tabs/emby-tabs';
 import LibraryMenu from '../../scripts/libraryMenu';
 
@@ -88,11 +88,10 @@ class TabbedView {
 
         const self = this;
 
-        const defaultTabIndex = this.getDefaultTabIndex ? this.getDefaultTabIndex(params.parentId) : 0;
-        let currentTabIndex = parseInt(
-            params.tab || defaultTabIndex.toString(),
-            10
-        );
+        const defaultTabIndex = this.getDefaultTabIndex
+            ? this.getDefaultTabIndex(params.parentId)
+            : 0;
+        let currentTabIndex = parseInt(params.tab || defaultTabIndex.toString(), 10);
         this.initialTabIndex = currentTabIndex;
 
         const validateTabLoad = (index: number): Promise<void> => {
@@ -128,7 +127,8 @@ class TabbedView {
             const newIndex = parseInt(detail.selectedTabIndex, 10);
             const previousIndex = detail.previousIndex;
 
-            const previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];
+            const previousTabController =
+                previousIndex == null ? null : self.tabControllers[previousIndex];
             if (previousTabController?.onPause) {
                 previousTabController.onPause();
             }

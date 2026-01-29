@@ -1,16 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { DesktopIcon, Link2Icon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css.ts';
-import { Box } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
+import React, { useCallback, useEffect, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Button, IconButton } from 'ui-primitives';
 import Events, { type EventObject } from 'utils/events';
-
-import RemotePlayMenu, { ID } from './menus/RemotePlayMenu';
 import RemotePlayActiveMenu, { ID as ACTIVE_ID } from './menus/RemotePlayActiveMenu';
+import RemotePlayMenu, { ID } from './menus/RemotePlayMenu';
 
 const RemotePlayButton = () => {
     const [playerInfo, setPlayerInfo] = useState(playbackManager.getPlayerInfo());

@@ -1,31 +1,38 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Box } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormLabel, FormHelperText, FormControl } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Alert } from 'ui-primitives';
-import { useApi } from 'hooks/useApi';
-import { useThemes } from 'hooks/useThemes';
-import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
-import { useUiStore } from 'store/uiStore';
+import type { DisplaySettingsValues } from 'apps/experimental/features/preferences/types/displaySettingsValues';
 import LoadingComponent from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
+import { useApi } from 'hooks/useApi';
+import { useThemes } from 'hooks/useThemes';
 import globalize from 'lib/globalize';
+import React, { useCallback, useEffect, useState } from 'react';
+import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
+import { useUiStore } from 'store/uiStore';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Alert,
+    Box,
+    Button,
+    Checkbox,
+    Divider,
+    Flex,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from 'ui-primitives';
 import { LayoutMode } from '../../../../../constants/layoutMode';
-import type { DisplaySettingsValues } from 'apps/experimental/features/preferences/types/displaySettingsValues';
 
 export default function UserDisplayPreferences() {
     const { __legacyApiClient__: apiClient, user: currentUser } = useApi();
     const { themes, defaultTheme } = useThemes();
     const userId = currentUser?.Id || '';
-    const savedLayout = useUiStore(state => state.layout);
+    const savedLayout = useUiStore((state) => state.layout);
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -129,8 +136,11 @@ export default function UserDisplayPreferences() {
         }
     };
 
-    const handleFieldChange = (field: keyof DisplaySettingsValues, value: string | boolean | number) => {
-        setValues(prev => (prev ? { ...prev, [field]: value } : null));
+    const handleFieldChange = (
+        field: keyof DisplaySettingsValues,
+        value: string | boolean | number
+    ) => {
+        setValues((prev) => (prev ? { ...prev, [field]: value } : null));
     };
 
     if (loading || !values) {
@@ -165,19 +175,25 @@ export default function UserDisplayPreferences() {
 
                 <Box style={{ maxWidth: '800px', margin: '0 auto' }}>
                     <Box style={{ marginBottom: vars.spacing['6'] }}>
-                        <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>{globalize.translate('Localization')}</Heading.H3>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>
+                            {globalize.translate('Localization')}
+                        </Heading.H3>
 
                         <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelDisplayLanguage')}</FormLabel>
                                 <Select
                                     value={values.language}
-                                    onValueChange={(value: string) => handleFieldChange('language', value)}
+                                    onValueChange={(value: string) =>
+                                        handleFieldChange('language', value)
+                                    }
                                 >
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue />
                                         <SelectContent>
-                                            <SelectItem value="auto">{globalize.translate('Auto')}</SelectItem>
+                                            <SelectItem value="auto">
+                                                {globalize.translate('Auto')}
+                                            </SelectItem>
                                             <SelectItem value="en">English</SelectItem>
                                             <SelectItem value="es">Español</SelectItem>
                                             <SelectItem value="fr">Français</SelectItem>
@@ -192,19 +208,23 @@ export default function UserDisplayPreferences() {
                     <Divider style={{ margin: '24px 0' }} />
 
                     <Box style={{ marginBottom: vars.spacing['6'] }}>
-                        <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>{globalize.translate('Display')}</Heading.H3>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['2'] }}>
+                            {globalize.translate('Display')}
+                        </Heading.H3>
 
                         <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelDisplayMode')}</FormLabel>
                                 <Select
                                     value={values.layout}
-                                    onValueChange={(value: string) => handleFieldChange('layout', value)}
+                                    onValueChange={(value: string) =>
+                                        handleFieldChange('layout', value)
+                                    }
                                 >
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue />
                                         <SelectContent>
-                                            {displayModeOptions.map(opt => (
+                                            {displayModeOptions.map((opt) => (
                                                 <SelectItem key={opt.value} value={opt.value}>
                                                     {opt.label}
                                                 </SelectItem>
@@ -213,7 +233,9 @@ export default function UserDisplayPreferences() {
                                     </SelectTrigger>
                                 </Select>
                             </FormControl>
-                            <FormHelperText>{globalize.translate('DisplayModeHelp')}</FormHelperText>
+                            <FormHelperText>
+                                {globalize.translate('DisplayModeHelp')}
+                            </FormHelperText>
                         </Box>
 
                         <Box style={{ marginBottom: vars.spacing['4'] }}>
@@ -221,13 +243,17 @@ export default function UserDisplayPreferences() {
                                 <FormLabel>{globalize.translate('LabelTheme')}</FormLabel>
                                 <Select
                                     value={values.theme}
-                                    onValueChange={(value: string) => handleFieldChange('theme', value)}
+                                    onValueChange={(value: string) =>
+                                        handleFieldChange('theme', value)
+                                    }
                                 >
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue placeholder={globalize.translate('Auto')} />
                                         <SelectContent>
-                                            <SelectItem value="default">{globalize.translate('Auto')}</SelectItem>
-                                            {themes.map(opt => (
+                                            <SelectItem value="default">
+                                                {globalize.translate('Auto')}
+                                            </SelectItem>
+                                            {themes.map((opt) => (
                                                 <SelectItem key={opt.id} value={opt.id}>
                                                     {opt.name}
                                                 </SelectItem>
@@ -243,7 +269,9 @@ export default function UserDisplayPreferences() {
                                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.disableCustomCss}
-                                        onChange={e => handleFieldChange('disableCustomCss', e.target.checked)}
+                                        onChange={(e) =>
+                                            handleFieldChange('disableCustomCss', e.target.checked)
+                                        }
                                     />
                                     <FormLabel style={{ marginBottom: 0 }}>
                                         {globalize.translate('DisableCustomCss')}
@@ -258,7 +286,7 @@ export default function UserDisplayPreferences() {
                                 <Input
                                     as="textarea"
                                     value={values.customCss}
-                                    onChange={e => handleFieldChange('customCss', e.target.value)}
+                                    onChange={(e) => handleFieldChange('customCss', e.target.value)}
                                     style={{ minHeight: '100px', fontFamily: 'monospace' }}
                                 />
                             </FormControl>
@@ -277,7 +305,12 @@ export default function UserDisplayPreferences() {
                                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableLibraryBackdrops}
-                                        onChange={e => handleFieldChange('enableLibraryBackdrops', e.target.checked)}
+                                        onChange={(e) =>
+                                            handleFieldChange(
+                                                'enableLibraryBackdrops',
+                                                e.target.checked
+                                            )
+                                        }
                                     />
                                     <FormLabel style={{ marginBottom: 0 }}>
                                         {globalize.translate('Backdrops')}
@@ -291,7 +324,12 @@ export default function UserDisplayPreferences() {
                                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableLibraryThemeSongs}
-                                        onChange={e => handleFieldChange('enableLibraryThemeSongs', e.target.checked)}
+                                        onChange={(e) =>
+                                            handleFieldChange(
+                                                'enableLibraryThemeSongs',
+                                                e.target.checked
+                                            )
+                                        }
                                     />
                                     <FormLabel style={{ marginBottom: 0 }}>
                                         {globalize.translate('ThemeSongs')}
@@ -305,7 +343,12 @@ export default function UserDisplayPreferences() {
                                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableLibraryThemeVideos}
-                                        onChange={e => handleFieldChange('enableLibraryThemeVideos', e.target.checked)}
+                                        onChange={(e) =>
+                                            handleFieldChange(
+                                                'enableLibraryThemeVideos',
+                                                e.target.checked
+                                            )
+                                        }
                                     />
                                     <FormLabel style={{ marginBottom: 0 }}>
                                         {globalize.translate('ThemeVideos')}
@@ -318,16 +361,23 @@ export default function UserDisplayPreferences() {
                     <Divider style={{ margin: '24px 0' }} />
 
                     <Box style={{ marginBottom: vars.spacing['6'] }}>
-                        <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('NextUp')}</Heading.H3>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>
+                            {globalize.translate('NextUp')}
+                        </Heading.H3>
 
                         <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
-                                <FormLabel>{globalize.translate('LabelMaxDaysForNextUp')}</FormLabel>
+                                <FormLabel>
+                                    {globalize.translate('LabelMaxDaysForNextUp')}
+                                </FormLabel>
                                 <Input
                                     type="number"
                                     value={values.maxDaysForNextUp}
-                                    onChange={e =>
-                                        handleFieldChange('maxDaysForNextUp', parseFloat(e.target.value) || 0)
+                                    onChange={(e) =>
+                                        handleFieldChange(
+                                            'maxDaysForNextUp',
+                                            parseFloat(e.target.value) || 0
+                                        )
                                     }
                                     min={0}
                                     max={1000}
@@ -340,7 +390,12 @@ export default function UserDisplayPreferences() {
                                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableRewatchingInNextUp}
-                                        onChange={e => handleFieldChange('enableRewatchingInNextUp', e.target.checked)}
+                                        onChange={(e) =>
+                                            handleFieldChange(
+                                                'enableRewatchingInNextUp',
+                                                e.target.checked
+                                            )
+                                        }
                                     />
                                     <FormLabel style={{ marginBottom: 0 }}>
                                         {globalize.translate('EnableRewatchingNextUp')}
@@ -354,7 +409,12 @@ export default function UserDisplayPreferences() {
                                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.episodeImagesInNextUp}
-                                        onChange={e => handleFieldChange('episodeImagesInNextUp', e.target.checked)}
+                                        onChange={(e) =>
+                                            handleFieldChange(
+                                                'episodeImagesInNextUp',
+                                                e.target.checked
+                                            )
+                                        }
                                     />
                                     <FormLabel style={{ marginBottom: 0 }}>
                                         {globalize.translate('UseEpisodeImagesInNextUp')}
@@ -367,14 +427,21 @@ export default function UserDisplayPreferences() {
                     <Divider style={{ margin: '24px 0' }} />
 
                     <Box style={{ marginBottom: vars.spacing['6'] }}>
-                        <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('ItemDetails')}</Heading.H3>
+                        <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>
+                            {globalize.translate('ItemDetails')}
+                        </Heading.H3>
 
                         <Box style={{ marginBottom: vars.spacing['4'] }}>
                             <FormControl>
                                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                     <Checkbox
                                         checked={values.enableItemDetailsBanner}
-                                        onChange={e => handleFieldChange('enableItemDetailsBanner', e.target.checked)}
+                                        onChange={(e) =>
+                                            handleFieldChange(
+                                                'enableItemDetailsBanner',
+                                                e.target.checked
+                                            )
+                                        }
                                     />
                                     <FormLabel style={{ marginBottom: 0 }}>
                                         {globalize.translate('EnableDetailsBanner')}

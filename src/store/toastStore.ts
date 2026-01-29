@@ -39,7 +39,7 @@ export const useToastStore = create<ToastState>()(
     subscribeWithSelector((set, get) => ({
         toasts: [],
 
-        toast: data => {
+        toast: (data) => {
             const id = generateId();
             const toast: ToastData = {
                 id,
@@ -47,7 +47,7 @@ export const useToastStore = create<ToastState>()(
                 createdAt: Date.now()
             };
 
-            set(state => {
+            set((state) => {
                 const newToasts = [...state.toasts, toast];
                 if (newToasts.length > TOAST_LIMIT) {
                     return { toasts: newToasts.slice(-TOAST_LIMIT) };
@@ -65,15 +65,15 @@ export const useToastStore = create<ToastState>()(
             return id;
         },
 
-        dismiss: id => {
-            set(state => ({
-                toasts: state.toasts.filter(t => t.id !== id)
+        dismiss: (id) => {
+            set((state) => ({
+                toasts: state.toasts.filter((t) => t.id !== id)
             }));
         },
 
         update: (id, data) => {
-            set(state => ({
-                toasts: state.toasts.map(t => (t.id === id ? { ...t, ...data } : t))
+            set((state) => ({
+                toasts: state.toasts.map((t) => (t.id === id ? { ...t, ...data } : t))
             }));
         }
     }))
@@ -81,7 +81,7 @@ export const useToastStore = create<ToastState>()(
 
 // Hooks for compatibility
 export const useToast = () =>
-    useToastStore(state => ({
+    useToastStore((state) => ({
         toast: state.toast,
         dismiss: state.dismiss,
         update: state.update,

@@ -4,10 +4,10 @@
  * Basic integration tests for the Songs view playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toPlayableItem, toPlayableItems } from 'lib/utils/playbackUtils';
-import { createMockSongs, createMockSong } from 'test/factories/mediaItems';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toPlayableItem, toPlayableItems } from 'lib/utils/playbackUtils';
+import { createMockSong, createMockSongs } from 'test/factories/mediaItems';
+import { describe, expect, it } from 'vitest';
 
 describe('Songs integration', () => {
     describe('single song playback', () => {
@@ -154,7 +154,7 @@ describe('Songs integration', () => {
             const queue = toPlayableItems(songs);
 
             expect(queue.length).toBe(25);
-            queue.forEach(item => {
+            queue.forEach((item) => {
                 expect(item.mediaType).toBe('Audio');
                 expect(item.id).toBeTruthy();
             });

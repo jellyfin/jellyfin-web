@@ -1,20 +1,20 @@
-import globalize from '../lib/globalize';
-import listView from '../components/listview/listview';
-import * as userSettings from '../scripts/settings/userSettings';
-import focusManager from '../components/focusManager';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import AlphaPicker from '../components/alphaPicker/alphaPicker';
 import cardBuilder from '../components/cardbuilder/cardBuilder';
+import focusManager from '../components/focusManager';
+import listView from '../components/listview/listview';
 import loading from '../components/loading/loading';
+import { playbackManager } from '../components/playback/playbackmanager';
+import globalize from '../lib/globalize';
 import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
 import libraryBrowser from '../scripts/libraryBrowser';
-import { playbackManager } from '../components/playback/playbackmanager';
-import AlphaPicker from '../components/alphaPicker/alphaPicker';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import * as userSettings from '../scripts/settings/userSettings';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
-import LibraryMenu from '../scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { stopMultiSelect } from 'components/multiSelect/multiSelect';
+import LibraryMenu from '../scripts/libraryMenu';
 import { logger } from '../utils/logger';
 
 function getInitialLiveTvQuery(instance, params, startIndex = 0, limit = 300) {
@@ -82,7 +82,9 @@ function modifyQueryWithFilters(instance, query) {
         query.SortOrder = sortValues.sortOrder;
     }
 
-    query.Fields = query.Fields ? query.Fields + ',PrimaryImageAspectRatio' : 'PrimaryImageAspectRatio';
+    query.Fields = query.Fields
+        ? query.Fields + ',PrimaryImageAspectRatio'
+        : 'PrimaryImageAspectRatio';
     query.ImageTypeLimit = 1;
     let hasFilters;
     const queryFilters = [];
@@ -204,7 +206,10 @@ function updateSortText(instance) {
         const btnSortIcon = instance.btnSortIcon;
 
         if (btnSortIcon) {
-            setSortButtonIcon(btnSortIcon, values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward');
+            setSortButtonIcon(
+                btnSortIcon,
+                values.sortOrder === 'Descending' ? 'arrow_downward' : 'arrow_upward'
+            );
         }
     }
 }
@@ -242,28 +247,36 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 
     instance.queryRecursive = false;
     if (params.type === 'Recordings') {
-        return apiClient.getLiveTvRecordings(getInitialLiveTvQuery(instance, params, startIndex, limit));
+        return apiClient.getLiveTvRecordings(
+            getInitialLiveTvQuery(instance, params, startIndex, limit)
+        );
     }
 
     if (params.type === 'Programs') {
         if (params.IsAiring === 'true') {
-            return apiClient.getLiveTvRecommendedPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
+            return apiClient.getLiveTvRecommendedPrograms(
+                getInitialLiveTvQuery(instance, params, startIndex, limit)
+            );
         }
 
-        return apiClient.getLiveTvPrograms(getInitialLiveTvQuery(instance, params, startIndex, limit));
+        return apiClient.getLiveTvPrograms(
+            getInitialLiveTvQuery(instance, params, startIndex, limit)
+        );
     }
 
     if (params.type === 'nextup') {
-        return apiClient.getNextUpEpisodes(modifyQueryWithFilters(instance, {
-            Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount,Chapters,Trickplay',
-            UserId: apiClient.getCurrentUserId(),
-            ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Backdrop,Thumb',
-            EnableTotalRecordCount: false,
-            SortBy: sortBy,
-            EnableRewatching: userSettings.enableRewatchingInNextUp()
-        }));
+        return apiClient.getNextUpEpisodes(
+            modifyQueryWithFilters(instance, {
+                Limit: limit,
+                Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount,Chapters,Trickplay',
+                UserId: apiClient.getCurrentUserId(),
+                ImageTypeLimit: 1,
+                EnableImageTypes: 'Primary,Backdrop,Thumb',
+                EnableTotalRecordCount: false,
+                SortBy: sortBy,
+                EnableRewatching: userSettings.enableRewatchingInNextUp()
+            })
+        );
     }
 
     if (!item) {
@@ -276,21 +289,30 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             method = 'getPeople';
         }
 
-        return apiClient[method](apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
-            StartIndex: startIndex,
-            Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,SortName,Chapters,Trickplay',
-            ImageTypeLimit: 1,
-            IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
-            Recursive: true,
-            IsFavorite: params.IsFavorite === 'true' || null,
-            ArtistIds: params.artistId || null,
-            SortBy: sortBy,
-            Tags: params.tag || null
-        }));
+        return apiClient[method](
+            apiClient.getCurrentUserId(),
+            modifyQueryWithFilters(instance, {
+                StartIndex: startIndex,
+                Limit: limit,
+                Fields: 'PrimaryImageAspectRatio,SortName,Chapters,Trickplay',
+                ImageTypeLimit: 1,
+                IncludeItemTypes:
+                    params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
+                Recursive: true,
+                IsFavorite: params.IsFavorite === 'true' || null,
+                ArtistIds: params.artistId || null,
+                SortBy: sortBy,
+                Tags: params.tag || null
+            })
+        );
     }
 
-    if (item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'Studio' || item.Type === 'Person') {
+    if (
+        item.Type === 'Genre' ||
+        item.Type === 'MusicGenre' ||
+        item.Type === 'Studio' ||
+        item.Type === 'Person'
+    ) {
         instance.queryRecursive = true;
         const query = {
             StartIndex: startIndex,
@@ -321,7 +343,10 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             query.IncludeItemTypes = params.type;
         }
 
-        return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
+        return apiClient.getItems(
+            apiClient.getCurrentUserId(),
+            modifyQueryWithFilters(instance, query)
+        );
     }
 
     const query = {
@@ -339,16 +364,24 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         query.Recursive = true;
     }
 
-    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
+    return apiClient.getItems(
+        apiClient.getCurrentUserId(),
+        modifyQueryWithFilters(instance, query)
+    );
 }
 
 function getItem(params) {
-    if ([ 'Recordings', 'Programs', 'nextup', 'tag' ].includes(params.type)) {
+    if (['Recordings', 'Programs', 'nextup', 'tag'].includes(params.type)) {
         return Promise.resolve(null);
     }
 
     const apiClient = ServerConnections.getApiClient(params.serverId);
-    const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
+    const itemId =
+        params.genreId ||
+        params.musicGenreId ||
+        params.studioId ||
+        params.personId ||
+        params.parentId;
 
     if (itemId) {
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -361,14 +394,16 @@ function showViewSettingsMenu() {
     const instance = this;
 
     import('../components/viewSettings/viewSettings').then(({ default: ViewSettings }) => {
-        new ViewSettings().show({
-            settingsKey: instance.getSettingsKey(),
-            settings: instance.getViewSettings(),
-            visibleSettings: instance.getVisibleViewSettings()
-        }).then(() => {
-            updateItemsContainerForViewType(instance);
-            instance.itemsContainer.refreshItems();
-        });
+        new ViewSettings()
+            .show({
+                settingsKey: instance.getSettingsKey(),
+                settings: instance.getViewSettings(),
+                visibleSettings: instance.getVisibleViewSettings()
+            })
+            .then(() => {
+                updateItemsContainerForViewType(instance);
+                instance.itemsContainer.refreshItems();
+            });
     });
 }
 
@@ -376,18 +411,20 @@ function showFilterMenu() {
     const instance = this;
 
     import('../components/filtermenu/filtermenu').then(({ default: FilterMenu }) => {
-        new FilterMenu().show({
-            settingsKey: instance.getSettingsKey(),
-            settings: instance.getFilters(),
-            visibleSettings: instance.getVisibleFilters(),
-            onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
-            parentId: instance.params.parentId,
-            itemTypes: instance.getItemTypes(),
-            serverId: instance.params.serverId,
-            filterMenuOptions: instance.getFilterMenuOptions()
-        }).then(() => {
-            instance.itemsContainer.refreshItems();
-        });
+        new FilterMenu()
+            .show({
+                settingsKey: instance.getSettingsKey(),
+                settings: instance.getFilters(),
+                visibleSettings: instance.getVisibleFilters(),
+                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
+                parentId: instance.params.parentId,
+                itemTypes: instance.getItemTypes(),
+                serverId: instance.params.serverId,
+                filterMenuOptions: instance.getFilterMenuOptions()
+            })
+            .then(() => {
+                instance.itemsContainer.refreshItems();
+            });
     });
 }
 
@@ -395,34 +432,40 @@ function showSortMenu() {
     const instance = this;
 
     import('../components/sortmenu/sortmenu').then(({ default: SortMenu }) => {
-        new SortMenu().show({
-            settingsKey: instance.getSettingsKey(),
-            settings: instance.getSortValues(),
-            onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
-            serverId: instance.params.serverId,
-            sortOptions: instance.getSortMenuOptions()
-        }).then(() => {
-            updateSortText(instance);
-            updateAlphaPickerState(instance);
-            instance.itemsContainer.refreshItems();
-        });
+        new SortMenu()
+            .show({
+                settingsKey: instance.getSettingsKey(),
+                settings: instance.getSortValues(),
+                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
+                serverId: instance.params.serverId,
+                sortOptions: instance.getSortMenuOptions()
+            })
+            .then(() => {
+                updateSortText(instance);
+                updateAlphaPickerState(instance);
+                instance.itemsContainer.refreshItems();
+            });
     });
 }
 
 function onNewItemClick() {
     const instance = this;
 
-    import('../components/playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-        const playlistEditor = new PlaylistEditor();
-        playlistEditor.show({
-            items: [],
-            serverId: instance.params.serverId
-        }).catch(() => {
-            // Dialog closed
+    import('../components/playlisteditor/playlisteditor')
+        .then(({ default: PlaylistEditor }) => {
+            const playlistEditor = new PlaylistEditor();
+            playlistEditor
+                .show({
+                    items: [],
+                    serverId: instance.params.serverId
+                })
+                .catch(() => {
+                    // Dialog closed
+                });
+        })
+        .catch((err) => {
+            logger.error('Failed to load playlist editor', { component: 'ListController' }, err);
         });
-    }).catch(err => {
-        logger.error('Failed to load playlist editor', { component: 'ListController' }, err);
-    });
 }
 
 function hideOrShowAll(elems, hide) {
@@ -500,17 +543,19 @@ class ItemsView {
         function fetchData() {
             isLoading = true;
 
-            return getItems(self, params, self.currentItem, null, query.StartIndex, query.Limit).then((result) => {
-                if (self.totalItemCount == null) {
-                    self.totalItemCount = result.Items ? result.Items.length : result.length;
-                }
+            return getItems(self, params, self.currentItem, null, query.StartIndex, query.Limit)
+                .then((result) => {
+                    if (self.totalItemCount == null) {
+                        self.totalItemCount = result.Items ? result.Items.length : result.length;
+                    }
 
-                updateAlphaPickerState(self);
-                updatePaging(result.StartIndex, result.TotalRecordCount, query.Limit);
-                return result;
-            }).finally(() => {
-                isLoading = false;
-            });
+                    updateAlphaPickerState(self);
+                    updatePaging(result.StartIndex, result.TotalRecordCount, query.Limit);
+                    return result;
+                })
+                .finally(() => {
+                    isLoading = false;
+                });
         }
 
         function getItemsHtml(items) {
@@ -597,7 +642,8 @@ class ItemsView {
                     lines++;
                 }
 
-                const showYear = settings.showTitle && params.IsMovie === 'true' && params.type === 'Recordings';
+                const showYear =
+                    settings.showTitle && params.IsMovie === 'true' && params.type === 'Recordings';
 
                 if (showYear) {
                     lines++;
@@ -869,15 +915,17 @@ class ItemsView {
 
                 self.currentItem = item;
                 const refresh = !isRestored;
-                self.itemsContainer.resume({
-                    refresh: refresh
-                }).then(() => {
-                    loading.hide();
+                self.itemsContainer
+                    .resume({
+                        refresh: refresh
+                    })
+                    .then(() => {
+                        loading.hide();
 
-                    if (refresh) {
-                        focusManager.autoFocus(self.itemsContainer);
-                    }
-                });
+                        if (refresh) {
+                            focusManager.autoFocus(self.itemsContainer);
+                        }
+                    });
 
                 if (!isRestored && item && item.Type !== 'PhotoAlbum') {
                     initAlphaPicker();
@@ -885,11 +933,17 @@ class ItemsView {
 
                 const itemType = item ? item.Type : null;
 
-                if ((itemType === 'MusicGenre' || params.type !== 'Programs' && itemType !== 'Channel')
+                if (
+                    (itemType === 'MusicGenre' ||
+                        (params.type !== 'Programs' && itemType !== 'Channel')) &&
                     // Folder, Playlist views
-                    && itemType !== 'UserView'
+                    itemType !== 'UserView' &&
                     // Only Photo (homevideos) and Music Video CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
+                    !(
+                        itemType === 'CollectionFolder' &&
+                        item?.CollectionType !== CollectionType.Homevideos &&
+                        item?.CollectionType !== CollectionType.Musicvideos
+                    )
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -898,11 +952,19 @@ class ItemsView {
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), true);
                 }
 
-                if ((itemType === 'MusicGenre' || params.type !== 'Programs' && params.type !== 'nextup' && itemType !== 'Channel')
+                if (
+                    (itemType === 'MusicGenre' ||
+                        (params.type !== 'Programs' &&
+                            params.type !== 'nextup' &&
+                            itemType !== 'Channel')) &&
                     // Folder, Playlist views
-                    && itemType !== 'UserView'
+                    itemType !== 'UserView' &&
                     // Only Photo (homevideos) and Music Video CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
+                    !(
+                        itemType === 'CollectionFolder' &&
+                        item?.CollectionType !== CollectionType.Homevideos &&
+                        item?.CollectionType !== CollectionType.Musicvideos
+                    )
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);
@@ -1063,7 +1125,9 @@ class ItemsView {
 
         sortBy.push({
             name: globalize.translate('ReleaseDate'),
-            value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName].join(',')
+            value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName].join(
+                ','
+            )
         });
         sortBy.push({
             name: globalize.translate('Runtime'),
@@ -1170,7 +1234,10 @@ class ItemsView {
                         continue;
                     }
 
-                    btnFilter.insertAdjacentHTML('afterbegin', '<div class="filterButtonBubble">!</div>');
+                    btnFilter.insertAdjacentHTML(
+                        'afterbegin',
+                        '<div class="filterButtonBubble">!</div>'
+                    );
                     btnFilter.classList.add('btnFilterWithBubble');
                     bubble = btnFilter.querySelector('.filterButtonBubble');
                 }
@@ -1201,7 +1268,7 @@ class ItemsView {
         const item = this.currentItem;
         const fields = ['showTitle'];
 
-        if (!item || item.Type !== 'PhotoAlbum' && item.Type !== 'ChannelFolderItem') {
+        if (!item || (item.Type !== 'PhotoAlbum' && item.Type !== 'ChannelFolderItem')) {
             fields.push('imageType');
         }
 
@@ -1219,7 +1286,18 @@ class ItemsView {
             showTitle = true;
         } else if (showTitle === 'false') {
             showTitle = false;
-        } else if ([ 'Audio', 'MusicAlbum', 'MusicArtist', 'Person', 'Programs', 'Recordings', 'nextup', 'tag' ].includes(params.type)) {
+        } else if (
+            [
+                'Audio',
+                'MusicAlbum',
+                'MusicArtist',
+                'Person',
+                'Programs',
+                'Recordings',
+                'nextup',
+                'tag'
+            ].includes(params.type)
+        ) {
             showTitle = true;
         } else if (item && item.Type !== 'PhotoAlbum') {
             showTitle = true;

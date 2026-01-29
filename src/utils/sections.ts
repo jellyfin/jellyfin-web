@@ -7,7 +7,7 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 
 import { ItemAction } from 'constants/itemAction';
 import * as userSettings from 'scripts/settings/userSettings';
-import { type Section, SectionType, SectionApiMethod } from 'types/sections';
+import { type Section, SectionApiMethod, SectionType } from 'types/sections';
 import { CardShape } from 'utils/card';
 
 export const getSuggestionSections = (): Section[] => {

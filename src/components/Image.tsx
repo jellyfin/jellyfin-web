@@ -1,7 +1,6 @@
-import React, { type FC } from 'react';
-import { Box } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
 import { ImageIcon } from '@radix-ui/react-icons';
+import React, { type FC } from 'react';
+import { Box, Paper } from 'ui-primitives';
 
 import { LoadingSkeleton } from './LoadingSkeleton';
 
@@ -13,7 +12,13 @@ interface ImageProps {
     FallbackIcon?: React.ComponentType<{ style?: React.CSSProperties }>;
 }
 
-const Image: FC<ImageProps> = ({ isLoading, alt, url, aspectRatio = 16 / 9, FallbackIcon = ImageIcon }) => (
+const Image: FC<ImageProps> = ({
+    isLoading,
+    alt,
+    url,
+    aspectRatio = 16 / 9,
+    FallbackIcon = ImageIcon
+}) => (
     <Paper
         style={{
             display: 'flex',

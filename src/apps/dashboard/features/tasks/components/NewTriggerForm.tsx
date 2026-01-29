@@ -1,18 +1,26 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { type FunctionComponent, useCallback, useMemo, useState } from 'react';
-import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
+import { DayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/day-of-week';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import { TaskTriggerInfoType } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info-type';
-import { DayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/day-of-week';
-import globalize from 'lib/globalize';
-import { getIntervalOptions, getTimeOfDayOptions } from '../utils/edit';
 import { useLocale } from 'hooks/useLocale';
+import globalize from 'lib/globalize';
+import React, { type FunctionComponent, useCallback, useMemo, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Button,
+    Dialog,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogTitle,
+    Flex,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
+import { getIntervalOptions, getTimeOfDayOptions } from '../utils/edit';
 
 interface IProps {
     open: boolean;
@@ -23,7 +31,9 @@ interface IProps {
 
 const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd }: IProps) => {
     const { dateFnsLocale } = useLocale();
-    const [triggerType, setTriggerType] = useState<TaskTriggerInfoType>(TaskTriggerInfoType.DailyTrigger);
+    const [triggerType, setTriggerType] = useState<TaskTriggerInfoType>(
+        TaskTriggerInfoType.DailyTrigger
+    );
 
     const timeOfDayOptions = useMemo(() => getTimeOfDayOptions(dateFnsLocale), [dateFnsLocale]);
     const intervalOptions = useMemo(() => getIntervalOptions(dateFnsLocale), [dateFnsLocale]);
@@ -46,7 +56,10 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                 trigger.DayOfWeek = data.DayOfWeek.toString() as DayOfWeek;
             }
 
-            if (trigger.Type == TaskTriggerInfoType.DailyTrigger || trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
+            if (
+                trigger.Type == TaskTriggerInfoType.DailyTrigger ||
+                trigger.Type == TaskTriggerInfoType.WeeklyTrigger
+            ) {
                 trigger.TimeOfDayTicks = parseInt(data.TimeOfDay.toString(), 10);
             }
 
@@ -66,7 +79,7 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
     );
 
     return (
-        <Dialog open={open} onOpenChange={open => !open && onClose?.()}>
+        <Dialog open={open} onOpenChange={(open) => !open && onClose?.()}>
             <DialogOverlayComponent />
             <DialogContentComponent title={title}>
                 <form onSubmit={onSubmit}>
@@ -76,7 +89,9 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                                 style={{ width: '100%' }}
                                 aria-label={globalize.translate('LabelTriggerType')}
                             >
-                                <SelectValue placeholder={globalize.translate('LabelTriggerType')} />
+                                <SelectValue
+                                    placeholder={globalize.translate('LabelTriggerType')}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value={TaskTriggerInfoType.DailyTrigger.toString()}>
@@ -132,8 +147,11 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {timeOfDayOptions.map(option => (
-                                        <SelectItem key={String(option.value)} value={String(option.value)}>
+                                    {timeOfDayOptions.map((option) => (
+                                        <SelectItem
+                                            key={String(option.value)}
+                                            value={String(option.value)}
+                                        >
                                             {option.name}
                                         </SelectItem>
                                     ))}
@@ -142,13 +160,19 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         )}
 
                         {triggerType == TaskTriggerInfoType.IntervalTrigger && (
-                            <Select name="Interval" defaultValue={String(intervalOptions[0]?.value ?? '')}>
+                            <Select
+                                name="Interval"
+                                defaultValue={String(intervalOptions[0]?.value ?? '')}
+                            >
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    {intervalOptions.map(option => (
-                                        <SelectItem key={String(option.value)} value={String(option.value)}>
+                                    {intervalOptions.map((option) => (
+                                        <SelectItem
+                                            key={String(option.value)}
+                                            value={String(option.value)}
+                                        >
                                             {option.name}
                                         </SelectItem>
                                     ))}
@@ -166,7 +190,13 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
                         />
                     </Flex>
 
-                    <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['2'], marginTop: '24px' }}>
+                    <Flex
+                        style={{
+                            justifyContent: 'flex-end',
+                            gap: vars.spacing['2'],
+                            marginTop: '24px'
+                        }}
+                    >
                         <Button variant="ghost" onClick={onClose}>
                             {globalize.translate('ButtonCancel')}
                         </Button>

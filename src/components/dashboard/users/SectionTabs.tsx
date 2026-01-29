@@ -9,11 +9,10 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import React, { FunctionComponent } from 'react';
-
 import globalize from 'lib/globalize';
-import { navigate } from '../../../utils/dashboard';
+import React, { FunctionComponent } from 'react';
 import LinkButton from '../../../elements/emby-button/LinkButton';
+import { navigate } from '../../../utils/dashboard';
 import { logger } from '../../../utils/logger';
 
 type IProps = {
@@ -22,8 +21,12 @@ type IProps = {
 
 function useNavigate(url: string): () => void {
     return React.useCallback(() => {
-        navigate(url, true).catch(err => {
-            logger.warn('Error navigating to dashboard url', { component: 'SectionTabs' }, err as Error);
+        navigate(url, true).catch((err) => {
+            logger.warn(
+                'Error navigating to dashboard url',
+                { component: 'SectionTabs' },
+                err as Error
+            );
         });
     }, [url]);
 }

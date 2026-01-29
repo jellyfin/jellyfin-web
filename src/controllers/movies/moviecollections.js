@@ -1,11 +1,11 @@
-import loading from '../../components/loading/loading';
-import libraryBrowser from '../../scripts/libraryBrowser';
 import { AlphaPicker } from '../../components/alphaPicker/alphaPicker';
+import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
-import cardBuilder from '../../components/cardbuilder/cardBuilder';
-import * as userSettings from '../../scripts/settings/userSettings';
+import loading from '../../components/loading/loading';
 import globalize from '../../lib/globalize';
+import libraryBrowser from '../../scripts/libraryBrowser';
+import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
@@ -204,22 +204,28 @@ export default function (view, params, tabContent) {
     const initPage = (tabElement) => {
         tabElement.querySelector('.btnSort').addEventListener('click', (e) => {
             libraryBrowser.showSortMenu({
-                items: [{
-                    name: globalize.translate('Name'),
-                    id: 'SortName'
-                }, {
-                    name: globalize.translate('OptionCommunityRating'),
-                    id: 'CommunityRating,SortName'
-                }, {
-                    name: globalize.translate('OptionDateAdded'),
-                    id: 'DateCreated,SortName'
-                }, {
-                    name: globalize.translate('OptionParentalRating'),
-                    id: 'OfficialRating,SortName'
-                }, {
-                    name: globalize.translate('OptionReleaseDate'),
-                    id: 'PremiereDate,SortName'
-                }],
+                items: [
+                    {
+                        name: globalize.translate('Name'),
+                        id: 'SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionCommunityRating'),
+                        id: 'CommunityRating,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionDateAdded'),
+                        id: 'DateCreated,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionParentalRating'),
+                        id: 'OfficialRating,SortName'
+                    },
+                    {
+                        name: globalize.translate('OptionReleaseDate'),
+                        id: 'PremiereDate,SortName'
+                    }
+                ],
                 callback: function () {
                     getQuery().StartIndex = 0;
                     reloadItems(tabElement);
@@ -230,7 +236,11 @@ export default function (view, params, tabContent) {
         });
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', (e) => {
-            libraryBrowser.showLayoutMenu(e.target, this.getCurrentViewStyle(), 'List,Poster,PosterCard,Thumb,ThumbCard'.split(','));
+            libraryBrowser.showLayoutMenu(
+                e.target,
+                this.getCurrentViewStyle(),
+                'List,Poster,PosterCard,Thumb,ThumbCard'.split(',')
+            );
         });
         btnSelectView.addEventListener('layoutchange', (e) => {
             const viewStyle = e.detail.viewStyle;
@@ -241,14 +251,16 @@ export default function (view, params, tabContent) {
             reloadItems(tabElement);
         });
         tabElement.querySelector('.btnNewCollection').addEventListener('click', () => {
-            import('../../components/collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
-                const serverId = ApiClient.serverInfo().Id;
-                const collectionEditor = new CollectionEditor();
-                collectionEditor.show({
-                    items: [],
-                    serverId: serverId
-                });
-            });
+            import('../../components/collectionEditor/collectionEditor').then(
+                ({ default: CollectionEditor }) => {
+                    const serverId = ApiClient.serverInfo().Id;
+                    const collectionEditor = new CollectionEditor();
+                    collectionEditor.show({
+                        items: [],
+                        serverId: serverId
+                    });
+                }
+            );
         });
 
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
@@ -274,7 +286,9 @@ export default function (view, params, tabContent) {
 
             tabElement.querySelector('.alphaPicker').classList.add('alphabetPicker-right');
             alphaPickerElement.classList.add('alphaPicker-fixed-right');
-            tabElement.querySelector('.itemsContainer').classList.add('padded-right-withalphapicker');
+            tabElement
+                .querySelector('.itemsContainer')
+                .classList.add('padded-right-withalphapicker');
         }
     };
 
@@ -286,4 +300,3 @@ export default function (view, params, tabContent) {
         this.alphaPicker?.updateControls(getQuery());
     };
 }
-

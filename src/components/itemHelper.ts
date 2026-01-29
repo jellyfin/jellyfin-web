@@ -25,7 +25,7 @@ export const itemHelper = {
         if (item.Type === 'Episode') {
             const seriesName = item.SeriesName || '';
             const episodeName = item.Name || '';
-            
+
             if (options.includeIndexNumber) {
                 return `${seriesName} - S${item.ParentIndexNumber?.toString().padStart(2, '0') || '00'}E${item.IndexNumber?.toString().padStart(2, '0') || '00'}${episodeName ? ` - ${episodeName}` : ''}`;
             }

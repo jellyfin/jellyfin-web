@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { AspectRatio } from '../..';
-import { Box } from '../..';
 import { vars } from 'styles/tokens.css.ts';
+import { AspectRatio, Box } from '../..';
 
 const meta: Meta<typeof AspectRatio> = {
     title: 'UI Primitives/AspectRatio',
@@ -33,12 +32,14 @@ export const Default: Story = {
                     borderRadius: '8px'
                 }}
             >
-                <span style={{ color: 'white', fontWeight: vars.typography.fontWeightBold }}>16:9 Content</span>
+                <span style={{ color: 'white', fontWeight: vars.typography.fontWeightBold }}>
+                    16:9 Content
+                </span>
             </Box>
         )
     },
     decorators: [
-        Story => (
+        (Story) => (
             <div style={{ width: '400px' }}>
                 <Story />
             </div>
@@ -61,12 +62,14 @@ export const Square: Story = {
                     borderRadius: '8px'
                 }}
             >
-                <span style={{ color: 'white', fontWeight: vars.typography.fontWeightBold }}>1:1 Square</span>
+                <span style={{ color: 'white', fontWeight: vars.typography.fontWeightBold }}>
+                    1:1 Square
+                </span>
             </Box>
         )
     },
     decorators: [
-        Story => (
+        (Story) => (
             <div style={{ width: '200px' }}>
                 <Story />
             </div>
@@ -89,12 +92,14 @@ export const Portrait: Story = {
                     borderRadius: '8px'
                 }}
             >
-                <span style={{ color: 'white', fontWeight: vars.typography.fontWeightBold }}>3:4 Portrait</span>
+                <span style={{ color: 'white', fontWeight: vars.typography.fontWeightBold }}>
+                    3:4 Portrait
+                </span>
             </Box>
         )
     },
     decorators: [
-        Story => (
+        (Story) => (
             <div style={{ width: '200px' }}>
                 <Story />
             </div>
@@ -117,12 +122,14 @@ export const Wide: Story = {
                     borderRadius: '8px'
                 }}
             >
-                <span style={{ color: 'white', fontWeight: vars.typography.fontWeightBold }}>21:9 Ultra Wide</span>
+                <span style={{ color: 'white', fontWeight: vars.typography.fontWeightBold }}>
+                    21:9 Ultra Wide
+                </span>
             </Box>
         )
     },
     decorators: [
-        Story => (
+        (Story) => (
             <div style={{ width: '500px' }}>
                 <Story />
             </div>

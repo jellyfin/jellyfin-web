@@ -117,7 +117,10 @@ class AudioCapabilitiesService {
                 }
 
                 // Test AudioWorklet support
-                if (audioContext.audioWorklet && typeof audioContext.audioWorklet.addModule === 'function') {
+                if (
+                    audioContext.audioWorklet &&
+                    typeof audioContext.audioWorklet.addModule === 'function'
+                ) {
                     capabilities.audioWorklet = true;
                 }
 
@@ -127,13 +130,16 @@ class AudioCapabilitiesService {
                 }
             }
         } catch (error) {
-            logger.debug(`Web Audio API not supported: ${error}`, { component: 'AudioCapabilities' });
+            logger.debug(`Web Audio API not supported: ${error}`, {
+                component: 'AudioCapabilities'
+            });
         }
 
         // Detect visualizer support
         capabilities.visualizers.butterchurn = this.detectButterchurnSupport(capabilities);
         capabilities.visualizers.waveSurfer = this.detectWaveSurferSupport(capabilities);
-        capabilities.visualizers.frequencyAnalyzer = this.detectFrequencyAnalyzerSupport(capabilities);
+        capabilities.visualizers.frequencyAnalyzer =
+            this.detectFrequencyAnalyzerSupport(capabilities);
 
         // Determine fallback level
         if (capabilities.webAudio && capabilities.audioWorklet) {
@@ -144,14 +150,19 @@ class AudioCapabilitiesService {
             capabilities.fallbacks.level = 'minimal';
         }
 
-        logger.debug('Audio capabilities detected', { component: 'AudioCapabilities', capabilities });
+        logger.debug('Audio capabilities detected', {
+            component: 'AudioCapabilities',
+            capabilities
+        });
         return capabilities;
     }
 
     private detectButterchurnSupport(capabilities: AudioCapabilities): boolean {
         // Butterchurn requires Web Audio and canvas support
         return (
-            capabilities.webAudio && typeof document.createElement('canvas').getContext === 'function' && !browser.tv
+            capabilities.webAudio &&
+            typeof document.createElement('canvas').getContext === 'function' &&
+            !browser.tv
         ); // Often too slow on TVs
     }
 
@@ -162,7 +173,10 @@ class AudioCapabilitiesService {
 
     private detectFrequencyAnalyzerSupport(capabilities: AudioCapabilities): boolean {
         // Requires Web Audio API for analyzer nodes
-        return capabilities.webAudio && typeof document.createElement('canvas').getContext === 'function';
+        return (
+            capabilities.webAudio &&
+            typeof document.createElement('canvas').getContext === 'function'
+        );
     }
 }
 

@@ -4,9 +4,9 @@
  * Integration tests for playlists with playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toPlayableItem } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toPlayableItem } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Playlists integration', () => {
     describe('playlist item playback conversion', () => {
@@ -56,9 +56,24 @@ describe('Playlists integration', () => {
     describe('playlist collection types', () => {
         it('handles playlists from all sources', () => {
             const playlists: BaseItemDto[] = [
-                { Id: 'auto-playlist-1', Name: 'Recently Added', Type: 'Playlist', ServerId: 'server-1' },
-                { Id: 'user-playlist-1', Name: 'Liked Songs', Type: 'Playlist', ServerId: 'server-1' },
-                { Id: 'smart-playlist-1', Name: 'Top Rated', Type: 'Playlist', ServerId: 'server-1' }
+                {
+                    Id: 'auto-playlist-1',
+                    Name: 'Recently Added',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'user-playlist-1',
+                    Name: 'Liked Songs',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'smart-playlist-1',
+                    Name: 'Top Rated',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                }
             ];
 
             playlists.forEach((item, index) => {
@@ -357,11 +372,51 @@ describe('Playlists integration', () => {
 
         it('handles playlists with different sort options', () => {
             const sortOptions = [
-                { name: 'By Name', playlists: Array.from({ length: 3 }, (_, i) => ({ Id: `name-${i}`, Name: `Playlist ${i}`, Type: 'Playlist' as const, ServerId: 'server-1' })) },
-                { name: 'By Date Created', playlists: Array.from({ length: 3 }, (_, i) => ({ Id: `date-created-${i}`, Name: `Playlist ${i}`, Type: 'Playlist' as const, ServerId: 'server-1' })) },
-                { name: 'By Date Modified', playlists: Array.from({ length: 3 }, (_, i) => ({ Id: `date-mod-${i}`, Name: `Playlist ${i}`, Type: 'Playlist' as const, ServerId: 'server-1' })) },
-                { name: 'By Song Count', playlists: Array.from({ length: 3 }, (_, i) => ({ Id: `song-count-${i}`, Name: `Playlist ${i}`, Type: 'Playlist' as const, ServerId: 'server-1' })) },
-                { name: 'By Play Count', playlists: Array.from({ length: 3 }, (_, i) => ({ Id: `play-count-${i}`, Name: `Playlist ${i}`, Type: 'Playlist' as const, ServerId: 'server-1' })) }
+                {
+                    name: 'By Name',
+                    playlists: Array.from({ length: 3 }, (_, i) => ({
+                        Id: `name-${i}`,
+                        Name: `Playlist ${i}`,
+                        Type: 'Playlist' as const,
+                        ServerId: 'server-1'
+                    }))
+                },
+                {
+                    name: 'By Date Created',
+                    playlists: Array.from({ length: 3 }, (_, i) => ({
+                        Id: `date-created-${i}`,
+                        Name: `Playlist ${i}`,
+                        Type: 'Playlist' as const,
+                        ServerId: 'server-1'
+                    }))
+                },
+                {
+                    name: 'By Date Modified',
+                    playlists: Array.from({ length: 3 }, (_, i) => ({
+                        Id: `date-mod-${i}`,
+                        Name: `Playlist ${i}`,
+                        Type: 'Playlist' as const,
+                        ServerId: 'server-1'
+                    }))
+                },
+                {
+                    name: 'By Song Count',
+                    playlists: Array.from({ length: 3 }, (_, i) => ({
+                        Id: `song-count-${i}`,
+                        Name: `Playlist ${i}`,
+                        Type: 'Playlist' as const,
+                        ServerId: 'server-1'
+                    }))
+                },
+                {
+                    name: 'By Play Count',
+                    playlists: Array.from({ length: 3 }, (_, i) => ({
+                        Id: `play-count-${i}`,
+                        Name: `Playlist ${i}`,
+                        Type: 'Playlist' as const,
+                        ServerId: 'server-1'
+                    }))
+                }
             ];
 
             sortOptions.forEach((option) => {

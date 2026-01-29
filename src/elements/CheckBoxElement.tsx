@@ -1,7 +1,6 @@
 import escapeHTML from 'escape-html';
-import React, { type FC } from 'react';
-
 import globalize from 'lib/globalize';
+import React, { type FC } from 'react';
 
 const createCheckBoxElement = ({
     labelClassName,

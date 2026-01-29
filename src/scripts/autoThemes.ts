@@ -1,10 +1,12 @@
-import * as userSettings from './settings/userSettings';
-import themeManager from './themeManager';
 import { ServerConnections } from '../lib/jellyfin-apiclient';
 import { pageClassOn } from '../utils/dashboard';
 import Events from '../utils/events';
+import * as userSettings from './settings/userSettings';
+import themeManager from './themeManager';
 
-themeManager.setTheme((userSettings as any).theme()).then(() => document.body.classList.add('force-scroll'));
+themeManager
+    .setTheme((userSettings as any).theme())
+    .then(() => document.body.classList.add('force-scroll'));
 
 Events.on(ServerConnections, 'localusersignedin', () => {
     themeManager.setTheme((userSettings as any).theme());

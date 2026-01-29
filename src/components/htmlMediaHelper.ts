@@ -1,7 +1,7 @@
-import appSettings from '../scripts/settings/appSettings';
-import browser from '../scripts/browser';
-import Events from '../utils/events';
 import { MediaError } from 'types/mediaError';
+import browser from '../scripts/browser';
+import appSettings from '../scripts/settings/appSettings';
+import Events from '../utils/events';
 import { logger } from '../utils/logger';
 
 export interface MediaSource {
@@ -73,7 +73,7 @@ function canPlayNativeHls(): boolean {
 
 export function enableHlsJsPlayerForCodecs(mediaSource: MediaSource, mediaType: string): boolean {
     // Workaround for VP9 HLS support on desktop Safari
-    if (!browser.iOS && browser.safari && mediaSource.MediaStreams.some(x => x.Codec === 'vp9')) {
+    if (!browser.iOS && browser.safari && mediaSource.MediaStreams.some((x) => x.Codec === 'vp9')) {
         return true;
     }
     return enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType);
@@ -116,7 +116,10 @@ export function enableHlsJsPlayer(runTimeTicks: number | undefined, mediaType: s
 let recoverDecodingErrorDate: number;
 let recoverSwapAudioCodecDate: number;
 
-export function handleHlsJsMediaError(instance: PlayerInstance, reject?: (error?: any) => void): void {
+export function handleHlsJsMediaError(
+    instance: PlayerInstance,
+    reject?: (error?: any) => void
+): void {
     const hlsPlayer = instance._hlsPlayer;
 
     if (!hlsPlayer) {
@@ -135,11 +138,15 @@ export function handleHlsJsMediaError(instance: PlayerInstance, reject?: (error?
         hlsPlayer.recoverMediaError();
     } else if (!recoverSwapAudioCodecDate || now - recoverSwapAudioCodecDate > 3000) {
         recoverSwapAudioCodecDate = now;
-        logger.debug('Trying to swap audio codec and recover media error', { component: 'HtmlMediaHelper' });
+        logger.debug('Trying to swap audio codec and recover media error', {
+            component: 'HtmlMediaHelper'
+        });
         hlsPlayer.swapAudioCodec();
         hlsPlayer.recoverMediaError();
     } else {
-        logger.error('Cannot recover, last media error recovery failed', { component: 'HtmlMediaHelper' });
+        logger.error('Cannot recover, last media error recovery failed', {
+            component: 'HtmlMediaHelper'
+        });
 
         if (reject) {
             reject();
@@ -188,15 +195,17 @@ export function seekOnPlaybackStart(
             const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
             const onMediaChange = function (e: Event) {
                 if (element.currentTime === 0 && element.duration >= seconds) {
-                    logger.debug(`Seeking to ${seconds} on ${e.type} event`, { component: 'HtmlMediaHelper' });
+                    logger.debug(`Seeking to ${seconds} on ${e.type} event`, {
+                        component: 'HtmlMediaHelper'
+                    });
                     setCurrentTimeIfNeeded(element, seconds);
-                    events.forEach(name => {
+                    events.forEach((name) => {
                         element.removeEventListener(name, onMediaChange);
                     });
                     if (onMediaReady) onMediaReady();
                 }
             };
-            events.forEach(name => {
+            events.forEach((name) => {
                 element.addEventListener(name, onMediaChange);
             });
         }
@@ -206,15 +215,20 @@ export function seekOnPlaybackStart(
 export function applySrc(elem: HTMLMediaElement, src: string, options: PlayOptions): Promise<void> {
     const windowAny = window as any;
     if (windowAny.Windows && options.mediaSource?.IsLocal) {
-        return windowAny.Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then((file: any) => {
-            const playlist = new windowAny.Windows.Media.Playback.MediaPlaybackList();
+        return windowAny.Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(
+            (file: any) => {
+                const playlist = new windowAny.Windows.Media.Playback.MediaPlaybackList();
 
-            const source1 = windowAny.Windows.Media.Core.MediaSource.createFromStorageFile(file);
-            const startTime = (options.playerStartPositionTicks || 0) / 10000;
-            playlist.items.append(new windowAny.Windows.Media.Playback.MediaPlaybackItem(source1, startTime));
-            elem.src = URL.createObjectURL(playlist);
-            return Promise.resolve();
-        });
+                const source1 =
+                    windowAny.Windows.Media.Core.MediaSource.createFromStorageFile(file);
+                const startTime = (options.playerStartPositionTicks || 0) / 10000;
+                playlist.items.append(
+                    new windowAny.Windows.Media.Playback.MediaPlaybackItem(source1, startTime)
+                );
+                elem.src = URL.createObjectURL(playlist);
+                return Promise.resolve();
+            }
+        );
     } else {
         elem.src = src;
     }
@@ -232,7 +246,10 @@ function onSuccessfulPlay(elem: HTMLMediaElement, onErrorFn: (e: Event) => void)
     elem.addEventListener('error', onErrorFn);
 }
 
-export async function playWithPromise(elem: HTMLMediaElement, onErrorFn: (e: Event) => void): Promise<void> {
+export async function playWithPromise(
+    elem: HTMLMediaElement,
+    onErrorFn: (e: Event) => void
+): Promise<void> {
     try {
         try {
             const { masterAudioOutput } = await import('./audioEngine/master.logic');
@@ -251,7 +268,7 @@ export async function playWithPromise(elem: HTMLMediaElement, onErrorFn: (e: Eve
 
         return elem
             .play()
-            .catch(e => {
+            .catch((e) => {
                 const errorName = (e.name || '').toLowerCase();
                 if (errorName === 'notallowederror' || errorName === 'aborterror') {
                     logger.debug(`Playback interrupted (likely autoplay policy): ${errorName}`, {
@@ -278,7 +295,11 @@ export function destroyCastPlayer(instance: PlayerInstance): void {
         try {
             player.unload();
         } catch (err) {
-            logger.error('Error destroying Cast player', { component: 'HtmlMediaHelper' }, err as Error);
+            logger.error(
+                'Error destroying Cast player',
+                { component: 'HtmlMediaHelper' },
+                err as Error
+            );
         }
 
         instance._castPlayer = null;
@@ -291,7 +312,11 @@ export function destroyHlsPlayer(instance: PlayerInstance): void {
         try {
             player.destroy();
         } catch (err) {
-            logger.error('Error destroying HLS player', { component: 'HtmlMediaHelper' }, err as Error);
+            logger.error(
+                'Error destroying HLS player',
+                { component: 'HtmlMediaHelper' },
+                err as Error
+            );
         }
 
         instance._hlsPlayer = null;
@@ -306,7 +331,11 @@ export function destroyFlvPlayer(instance: PlayerInstance): void {
             player.detachMediaElement();
             player.destroy();
         } catch (err) {
-            logger.error('Error destroying FLV player', { component: 'HtmlMediaHelper' }, err as Error);
+            logger.error(
+                'Error destroying FLV player',
+                { component: 'HtmlMediaHelper' },
+                err as Error
+            );
         }
 
         instance._flvPlayer = null;
@@ -330,9 +359,12 @@ export function bindEventsToHlsPlayer(
     });
 
     hls.on(Hls.Events.ERROR, (event: any, data: any) => {
-        logger.error(`HLS Error: Type: ${data.type} Details: ${data.details || ''} Fatal: ${data.fatal || false}`, {
-            component: 'HtmlMediaHelper'
-        });
+        logger.error(
+            `HLS Error: Type: ${data.type} Details: ${data.details || ''} Fatal: ${data.fatal || false}`,
+            {
+                component: 'HtmlMediaHelper'
+            }
+        );
         const isLoadFailure = [
             'manifestLoadError',
             'levelLoadError',
@@ -341,7 +373,8 @@ export function bindEventsToHlsPlayer(
             'keyLoadError'
         ].includes(data.details);
         const isNetworkDown =
-            data.type === Hls.ErrorTypes.NETWORK_ERROR && (!data.response || data.response.code === 0);
+            data.type === Hls.ErrorTypes.NETWORK_ERROR &&
+            (!data.response || data.response.code === 0);
 
         if (data.fatal && isNetworkDown && isLoadFailure) {
             hls.destroy();
@@ -353,7 +386,11 @@ export function bindEventsToHlsPlayer(
             return;
         }
 
-        if (data.type === Hls.ErrorTypes.NETWORK_ERROR && data.response?.code && data.response.code >= 400) {
+        if (
+            data.type === Hls.ErrorTypes.NETWORK_ERROR &&
+            data.response?.code &&
+            data.response.code >= 400
+        ) {
             hls.destroy();
 
             if (reject) {
@@ -385,7 +422,9 @@ export function bindEventsToHlsPlayer(
                 default:
                     hls.destroy();
                     if (reject) {
-                        const error = new Error(`Fatal HLS error: ${data.type} - ${data.details || 'unknown'}`);
+                        const error = new Error(
+                            `Fatal HLS error: ${data.type} - ${data.details || 'unknown'}`
+                        );
                         reject(error);
                     } else {
                         onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
@@ -396,7 +435,11 @@ export function bindEventsToHlsPlayer(
     });
 }
 
-export function onEndedInternal(instance: PlayerInstance, elem: HTMLMediaElement, onErrorFn: (e: Event) => void): void {
+export function onEndedInternal(
+    instance: PlayerInstance,
+    elem: HTMLMediaElement,
+    onErrorFn: (e: Event) => void
+): void {
     elem.removeEventListener('error', onErrorFn);
 
     resetSrc(elem);
@@ -416,7 +459,10 @@ export function onEndedInternal(instance: PlayerInstance, elem: HTMLMediaElement
     instance._currentPlayOptions = null;
 }
 
-export function getBufferedRanges(instance: PlayerInstance, elem: HTMLMediaElement): { start: number; end: number }[] {
+export function getBufferedRanges(
+    instance: PlayerInstance,
+    elem: HTMLMediaElement
+): { start: number; end: number }[] {
     const ranges = [];
     const seekable = elem.buffered;
 
@@ -430,7 +476,7 @@ export function getBufferedRanges(instance: PlayerInstance, elem: HTMLMediaEleme
 
     for (let i = 0, length = seekable.length; i < length; i++) {
         let start = seekable.start(i);
-        let end = seekable.end(i);
+        const end = seekable.end(i);
 
         if (!isValidDuration(start)) {
             start = 0;

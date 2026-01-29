@@ -1,4 +1,4 @@
-import { style, keyframes, styleVariants } from '@vanilla-extract/css';
+import { keyframes, style, styleVariants } from '@vanilla-extract/css';
 import { vars } from 'styles/tokens.css.ts';
 
 const scaleIn = keyframes({

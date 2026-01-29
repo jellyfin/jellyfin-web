@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
 import { StopwatchIcon, TimerIcon } from '@radix-ui/react-icons';
+import React, { useState } from 'react';
 import { useTimeStretchStore } from 'store/timeStretchStore';
-import { Slider } from 'ui-primitives';
-import { Switch } from 'ui-primitives';
-import { RadioGroup, Radio } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Progress } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Card } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Card,
+    Divider,
+    Flex,
+    Progress,
+    Radio,
+    RadioGroup,
+    Slider,
+    Switch,
+    Text
+} from 'ui-primitives';
 
 export const TimeStretchSettings: React.FC = () => {
     const {
@@ -51,7 +55,7 @@ export const TimeStretchSettings: React.FC = () => {
                 <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
                     <Flex style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text>Enable Time Stretching</Text>
-                        <Switch checked={enabled} onChange={e => setEnabled(e.target.checked)} />
+                        <Switch checked={enabled} onChange={(e) => setEnabled(e.target.checked)} />
                     </Flex>
 
                     <Divider />
@@ -62,13 +66,15 @@ export const TimeStretchSettings: React.FC = () => {
                     <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                         Smoothly slow playback when pausing, like a DJ bringing the beat to a stop
                     </Text>
-                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                    <Box
+                        style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}
+                    >
                         <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Pause Duration: {pauseDuration.toFixed(1)}s
                         </Text>
                         <Slider
                             value={[pauseDuration]}
-                            onValueChange={v => setPauseDuration(v[0])}
+                            onValueChange={(v) => setPauseDuration(v[0])}
                             min={0.5}
                             max={5}
                             step={0.1}
@@ -84,13 +90,15 @@ export const TimeStretchSettings: React.FC = () => {
                     <Text size="xs" color="secondary" style={{ marginBottom: vars.spacing['2'] }}>
                         Smoothly accelerate back to normal speed when resuming
                     </Text>
-                    <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                    <Box
+                        style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}
+                    >
                         <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                             Resume Duration: {resumeDuration.toFixed(1)}s
                         </Text>
                         <Slider
                             value={[resumeDuration]}
-                            onValueChange={v => setResumeDuration(v[0])}
+                            onValueChange={(v) => setResumeDuration(v[0])}
                             min={0.1}
                             max={2}
                             step={0.1}
@@ -112,16 +120,29 @@ export const TimeStretchSettings: React.FC = () => {
                         <>
                             <Divider />
 
-                            <Text size="md" weight="medium" style={{ marginBottom: vars.spacing['2'] }}>
+                            <Text
+                                size="md"
+                                weight="medium"
+                                style={{ marginBottom: vars.spacing['2'] }}
+                            >
                                 Current Status
                             </Text>
-                            <Box style={{ paddingLeft: vars.spacing['5'], paddingRight: vars.spacing['5'] }}>
+                            <Box
+                                style={{
+                                    paddingLeft: vars.spacing['5'],
+                                    paddingRight: vars.spacing['5']
+                                }}
+                            >
                                 <Text size="xs" style={{ marginBottom: vars.spacing['2'] }}>
                                     Tempo: {(currentTempo * 100).toFixed(0)}%
                                 </Text>
                                 <Progress value={currentTempo * 100} />
                                 <Flex
-                                    style={{ gap: vars.spacing['4'], alignItems: 'center', marginTop: vars.spacing['4'] }}
+                                    style={{
+                                        gap: vars.spacing['4'],
+                                        alignItems: 'center',
+                                        marginTop: vars.spacing['4']
+                                    }}
                                 >
                                     <TimerIcon />
                                     <Text size="xs">

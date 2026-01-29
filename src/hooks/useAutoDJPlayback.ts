@@ -5,9 +5,13 @@
  * Provides methods to analyze and execute transitions.
  */
 
+import {
+    type FullTrackAnalysis,
+    loadAutoDJAnalyzer,
+    type TransitionSuggestion
+} from 'components/audioAnalysis/autoDJ';
 import { useCallback, useRef, useState } from 'react';
 import { logger } from 'utils/logger';
-import { loadAutoDJAnalyzer, type FullTrackAnalysis, type TransitionSuggestion } from 'components/audioAnalysis/autoDJ';
 
 interface TransitionRecord {
     trackId: string;
@@ -37,7 +41,10 @@ export function useAutoDJPlayback() {
             logger.info('AutoDJ playback analyzer initialized', { component: 'AutoDJPlayback' });
             return analyzer;
         } catch (error) {
-            logger.error('Failed to initialize AutoDJ analyzer', { component: 'AutoDJPlayback', error: String(error) });
+            logger.error('Failed to initialize AutoDJ analyzer', {
+                component: 'AutoDJPlayback',
+                error: String(error)
+            });
             throw error;
         }
     }, []);
@@ -80,7 +87,10 @@ export function useAutoDJPlayback() {
 
                 return suggestion;
             } catch (error) {
-                logger.error('Transition analysis failed', { component: 'AutoDJPlayback', error: String(error) });
+                logger.error('Transition analysis failed', {
+                    component: 'AutoDJPlayback',
+                    error: String(error)
+                });
                 return null;
             } finally {
                 transitionInProgress.current = false;
@@ -111,13 +121,16 @@ export function useAutoDJPlayback() {
                     fxApplied: currentTransition.fxRecommendation?.split(', ') || []
                 };
 
-                setTransitionHistory(prev => [record, ...prev].slice(0, 100));
+                setTransitionHistory((prev) => [record, ...prev].slice(0, 100));
                 setCurrentTransition(null);
 
                 logger.info('Auto-DJ transition executed', { component: 'AutoDJPlayback' });
                 return true;
             } catch (error) {
-                logger.error('Transition execution failed', { component: 'AutoDJPlayback', error: String(error) });
+                logger.error('Transition execution failed', {
+                    component: 'AutoDJPlayback',
+                    error: String(error)
+                });
                 setCurrentTransition(null);
                 return false;
             }
@@ -143,13 +156,16 @@ export function useAutoDJPlayback() {
             };
         }
 
-        const harmonicMixes = history.filter(r => r.transitionType === 'Harmonic Mix').length;
-        const energyMixes = history.filter(r => r.transitionType === 'Energy Mix').length;
-        const tempoChanges = history.filter(r => r.transitionType === 'Tempo Change').length;
-        const standardMixes = history.filter(r => r.transitionType === 'Standard Crossfade').length;
-        const avgCompatibility = history.reduce((sum, r) => sum + r.compatibilityScore, 0) / history.length;
+        const harmonicMixes = history.filter((r) => r.transitionType === 'Harmonic Mix').length;
+        const energyMixes = history.filter((r) => r.transitionType === 'Energy Mix').length;
+        const tempoChanges = history.filter((r) => r.transitionType === 'Tempo Change').length;
+        const standardMixes = history.filter(
+            (r) => r.transitionType === 'Standard Crossfade'
+        ).length;
+        const avgCompatibility =
+            history.reduce((sum, r) => sum + r.compatibilityScore, 0) / history.length;
 
-        const recentTypes = history.slice(0, 10).map(r => r.transitionType);
+        const recentTypes = history.slice(0, 10).map((r) => r.transitionType);
         const uniqueTypes = new Set(recentTypes).size;
         const varietyScore = recentTypes.length > 0 ? uniqueTypes / recentTypes.length : 1.0;
 

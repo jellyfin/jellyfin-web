@@ -1,12 +1,11 @@
-import React, { useMemo } from 'react';
-import globalize from 'lib/globalize';
-import Widget from './Widget';
+import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
 import ActivityListItem from 'apps/dashboard/features/activity/components/ActivityListItem';
 import { subSeconds } from 'date-fns';
-import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
-import { List } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
+import globalize from 'lib/globalize';
+import React, { useMemo } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { List, Paper } from 'ui-primitives';
+import Widget from './Widget';
 
 const AlertsLogWidget = (): React.ReactElement | null => {
     const weekBefore = useMemo(() => subSeconds(new Date(), 7 * 24 * 60 * 60).toISOString(), []);
@@ -22,7 +21,10 @@ const AlertsLogWidget = (): React.ReactElement | null => {
 
     return (
         <Widget title={globalize.translate('Alerts')} href="/dashboard/activity?useractivity=false">
-            <Paper variant="outlined" style={{ borderRadius: vars.borderRadius.md, overflow: 'hidden' }}>
+            <Paper
+                variant="outlined"
+                style={{ borderRadius: vars.borderRadius.md, overflow: 'hidden' }}
+            >
                 <List style={{ '--list-item-padding-y': '8px', '--list-item-padding-x': '12px' }}>
                     {alerts.Items.map((entry, index) => (
                         <React.Fragment key={entry.Id}>

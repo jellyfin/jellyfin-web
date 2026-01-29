@@ -1,11 +1,11 @@
-import { clearBackdrop, setBackdropImages, setBackdrops } from '../components/backdrop/backdrop';
-import * as userSettings from './settings/userSettings';
-import libraryMenu from './libraryMenu';
-import { pageClassOn } from '../utils/dashboard';
-import { queryClient } from '../utils/query/queryClient';
 import { getBrandingOptionsQuery } from '../apps/dashboard/features/branding/api/useBrandingOptions';
+import { clearBackdrop, setBackdropImages, setBackdrops } from '../components/backdrop/backdrop';
 import { SPLASHSCREEN_URL } from '../constants/branding';
 import { ServerConnections } from '../lib/jellyfin-apiclient';
+import { pageClassOn } from '../utils/dashboard';
+import { queryClient } from '../utils/query/queryClient';
+import libraryMenu from './libraryMenu';
+import * as userSettings from './settings/userSettings';
 
 const cache: Record<string, string> = {};
 
@@ -13,7 +13,12 @@ function enabled(): boolean {
     return (userSettings as any).enableBackdrops();
 }
 
-function getBackdropItemIds(apiClient: any, _userId: string, types?: string, parentId?: string): Promise<any[]> {
+function getBackdropItemIds(
+    apiClient: any,
+    _userId: string,
+    types?: string,
+    parentId?: string
+): Promise<any[]> {
     const key = `backdrops2_${apiClient.getCurrentUserId() + (types || '') + (parentId || '')}`;
     const cachedData = cache[key];
 
@@ -46,18 +51,20 @@ function getBackdropItemIds(apiClient: any, _userId: string, types?: string, par
 function showBackdrop(type?: string, parentId?: string) {
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
-        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then(images => {
-            if (images.length) {
-                setBackdrops(
-                    images.map((i: any) => {
-                        i.BackdropImageTags = [i.tag];
-                        return i;
-                    })
-                );
-            } else {
-                clearBackdrop();
+        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then(
+            (images) => {
+                if (images.length) {
+                    setBackdrops(
+                        images.map((i: any) => {
+                            i.BackdropImageTags = [i.tag];
+                            return i;
+                        })
+                    );
+                } else {
+                    clearBackdrop();
+                }
             }
-        });
+        );
     }
 }
 

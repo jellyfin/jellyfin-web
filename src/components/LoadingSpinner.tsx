@@ -5,9 +5,7 @@
  */
 
 import React from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { Text } from 'ui-primitives';
+import { Box, CircularProgress, Flex, Text } from 'ui-primitives';
 
 interface LoadingSpinnerProps {
     size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -15,7 +13,11 @@ interface LoadingSpinnerProps {
     message?: string;
 }
 
-export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = 'lg', overlay = false, message }) => {
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+    size = 'lg',
+    overlay = false,
+    message
+}) => {
     const spinner = (
         <Flex style={{ flexDirection: 'column', alignItems: 'center', gap: 8 }}>
             <CircularProgress size={size} />

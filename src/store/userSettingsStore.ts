@@ -7,8 +7,7 @@
 
 import React from 'react';
 import { create } from 'zustand';
-import { subscribeWithSelector } from 'zustand/middleware';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware';
 
 interface UserSettings {
     customCss?: string;
@@ -47,33 +46,33 @@ export const useUserSettingsStore = create<UserSettingsState>()(
                 settings: { ...defaultSettings },
                 isLoading: false,
 
-                setCustomCss: css =>
-                    set(state => ({
+                setCustomCss: (css) =>
+                    set((state) => ({
                         settings: { ...state.settings, customCss: css }
                     })),
 
-                setDisableCustomCss: disabled =>
-                    set(state => ({
+                setDisableCustomCss: (disabled) =>
+                    set((state) => ({
                         settings: { ...state.settings, disableCustomCss: disabled }
                     })),
 
-                setTheme: theme =>
-                    set(state => ({
+                setTheme: (theme) =>
+                    set((state) => ({
                         settings: { ...state.settings, theme }
                     })),
 
-                setDashboardTheme: theme =>
-                    set(state => ({
+                setDashboardTheme: (theme) =>
+                    set((state) => ({
                         settings: { ...state.settings, dashboardTheme: theme }
                     })),
 
-                setDateTimeLocale: locale =>
-                    set(state => ({
+                setDateTimeLocale: (locale) =>
+                    set((state) => ({
                         settings: { ...state.settings, dateTimeLocale: locale }
                     })),
 
-                setLanguage: language =>
-                    set(state => ({
+                setLanguage: (language) =>
+                    set((state) => ({
                         settings: { ...state.settings, language }
                     })),
 
@@ -81,7 +80,7 @@ export const useUserSettingsStore = create<UserSettingsState>()(
                     // Import legacy userSettings dynamically to avoid circular deps
                     import('scripts/settings/userSettings')
                         .then(({ currentSettings: userSettings }) => {
-                            set(state => ({
+                            set((state) => ({
                                 settings: {
                                     ...state.settings,
                                     customCss: userSettings.customCss() ?? undefined,
@@ -93,7 +92,7 @@ export const useUserSettingsStore = create<UserSettingsState>()(
                                 }
                             }));
                         })
-                        .catch(err => {
+                        .catch((err) => {
                             console.warn('[UserSettingsStore] Failed to load legacy settings', err);
                         });
                 },
@@ -103,7 +102,7 @@ export const useUserSettingsStore = create<UserSettingsState>()(
             {
                 name: USER_SETTINGS_STORAGE_KEY,
                 storage: createJSONStorage(() => localStorage),
-                partialize: state => ({ settings: state.settings }),
+                partialize: (state) => ({ settings: state.settings }),
                 merge: (persisted, current) => ({
                     ...current,
                     settings: { ...current.settings, ...(persisted as any)?.settings }
@@ -114,4 +113,4 @@ export const useUserSettingsStore = create<UserSettingsState>()(
 );
 
 // Hook for useUserSettings
-export const useUserSettings = () => useUserSettingsStore(state => state.settings);
+export const useUserSettings = () => useUserSettingsStore((state) => state.settings);

@@ -96,7 +96,9 @@ export interface ControlActions {
     togglePlayPause: () => boolean;
 
     // Capability queries
-    canControl: (action: 'play' | 'pause' | 'stop' | 'seek' | 'volume' | 'next' | 'prev') => boolean;
+    canControl: (
+        action: 'play' | 'pause' | 'stop' | 'seek' | 'volume' | 'next' | 'prev'
+    ) => boolean;
     getControlSourceForAction: (action: string) => ControlSource;
 
     // UI actions
@@ -144,7 +146,7 @@ export const useControlsStore = create<ControlState & ControlActions>()(
     subscribeWithSelector((set, get) => ({
         ...initialState,
 
-        setActiveControlSource: source => {
+        setActiveControlSource: (source) => {
             set({ activeControlSource: source });
         },
 
@@ -177,7 +179,7 @@ export const useControlsStore = create<ControlState & ControlActions>()(
             return Date.now() - remoteLastActivity < idleTimeout;
         },
 
-        setServerPlaybackState: state => {
+        setServerPlaybackState: (state) => {
             set({
                 serverPlaybackState: state,
                 activeControlSource: state ? 'server' : 'local'
@@ -276,7 +278,7 @@ export const useControlsStore = create<ControlState & ControlActions>()(
             get().cancelTransfer();
         },
 
-        play: item => {
+        play: (item) => {
             const { activeControlSource, controlCapabilities } = get();
 
             for (const source of CONTROL_PRIORITY) {
@@ -324,7 +326,7 @@ export const useControlsStore = create<ControlState & ControlActions>()(
             return false;
         },
 
-        seek: time => {
+        seek: (time) => {
             const { activeControlSource, controlCapabilities } = get();
 
             for (const source of CONTROL_PRIORITY) {
@@ -340,7 +342,7 @@ export const useControlsStore = create<ControlState & ControlActions>()(
             return false;
         },
 
-        setVolume: volume => {
+        setVolume: (volume) => {
             const { activeControlSource, controlCapabilities } = get();
 
             for (const source of CONTROL_PRIORITY) {
@@ -408,7 +410,7 @@ export const useControlsStore = create<ControlState & ControlActions>()(
             return get().pause() || get().play();
         },
 
-        canControl: action => {
+        canControl: (action) => {
             const { activeControlSource, controlCapabilities } = get();
 
             for (const source of CONTROL_PRIORITY) {
@@ -438,7 +440,7 @@ export const useControlsStore = create<ControlState & ControlActions>()(
             return false;
         },
 
-        getControlSourceForAction: action => {
+        getControlSourceForAction: (action) => {
             const { activeControlSource, controlCapabilities } = get();
 
             for (const source of CONTROL_PRIORITY) {
@@ -468,11 +470,11 @@ export const useControlsStore = create<ControlState & ControlActions>()(
             return 'local';
         },
 
-        setShowTransferDialog: show => {
+        setShowTransferDialog: (show) => {
             set({ showTransferDialog: show });
         },
 
-        setTransferCountdown: countdown => {
+        setTransferCountdown: (countdown) => {
             set({ transferCountdown: countdown });
         },
 
@@ -483,13 +485,20 @@ export const useControlsStore = create<ControlState & ControlActions>()(
 );
 
 // Selectors
-export const selectActiveControlSource = (state: ControlState & ControlActions) => state.activeControlSource;
-export const selectIsRemoteActive = (state: ControlState & ControlActions) => state.isRemoteActive();
-export const selectPendingTransfer = (state: ControlState & ControlActions) => state.pendingTransfer;
-export const selectShowTransferDialog = (state: ControlState & ControlActions) => state.showTransferDialog;
-export const selectTransferCountdown = (state: ControlState & ControlActions) => state.transferCountdown;
-export const selectRemoteConnected = (state: ControlState & ControlActions) => state.remoteConnected;
-export const selectRemoteClientName = (state: ControlState & ControlActions) => state.remoteClientName;
+export const selectActiveControlSource = (state: ControlState & ControlActions) =>
+    state.activeControlSource;
+export const selectIsRemoteActive = (state: ControlState & ControlActions) =>
+    state.isRemoteActive();
+export const selectPendingTransfer = (state: ControlState & ControlActions) =>
+    state.pendingTransfer;
+export const selectShowTransferDialog = (state: ControlState & ControlActions) =>
+    state.showTransferDialog;
+export const selectTransferCountdown = (state: ControlState & ControlActions) =>
+    state.transferCountdown;
+export const selectRemoteConnected = (state: ControlState & ControlActions) =>
+    state.remoteConnected;
+export const selectRemoteClientName = (state: ControlState & ControlActions) =>
+    state.remoteClientName;
 export const selectCanControl =
     (state: ControlState & ControlActions) =>
     (action: 'play' | 'pause' | 'stop' | 'seek' | 'volume' | 'next' | 'prev') =>

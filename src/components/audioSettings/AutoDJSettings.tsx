@@ -1,21 +1,22 @@
-import React from 'react';
 import { CounterClockwiseClockIcon, MagicWandIcon } from '@radix-ui/react-icons';
+import React from 'react';
 import { useAutoDJStore } from 'store/autoDJStore';
 import { usePreferencesStore } from 'store/preferencesStore';
-import { Card } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Switch } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Progress } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Card, Divider, Flex, Progress, Slider, Switch, Text } from 'ui-primitives';
 
 export const AutoDJSettings: React.FC = () => {
     const { getTransitionStats } = useAutoDJStore();
 
     const {
-        autoDJ: { enabled: prefEnabled, duration, preferHarmonic, preferEnergyMatch, useNotchFilter, notchFrequency },
+        autoDJ: {
+            enabled: prefEnabled,
+            duration,
+            preferHarmonic,
+            preferEnergyMatch,
+            useNotchFilter,
+            notchFrequency
+        },
         setAutoDJEnabled: setPrefEnabled,
         setAutoDJDuration,
         setPreferHarmonic,
@@ -47,7 +48,10 @@ export const AutoDJSettings: React.FC = () => {
                                     Automatically manage track transitions with smart mixing
                                 </Text>
                             </Box>
-                            <Switch checked={prefEnabled} onChange={e => setPrefEnabled(e.target.checked)} />
+                            <Switch
+                                checked={prefEnabled}
+                                onChange={(e) => setPrefEnabled(e.target.checked)}
+                            />
                         </Flex>
 
                         <Divider />
@@ -58,7 +62,7 @@ export const AutoDJSettings: React.FC = () => {
                             </Text>
                             <Slider
                                 value={[duration]}
-                                onValueChange={v => setAutoDJDuration(v[0])}
+                                onValueChange={(v) => setAutoDJDuration(v[0])}
                                 min={4}
                                 max={60}
                                 step={2}
@@ -74,7 +78,7 @@ export const AutoDJSettings: React.FC = () => {
                             </Text>
                             <Switch
                                 checked={preferHarmonic}
-                                onChange={e => setPreferHarmonic(e.target.checked)}
+                                onChange={(e) => setPreferHarmonic(e.target.checked)}
                                 disabled={!prefEnabled}
                             />
                         </Box>
@@ -85,7 +89,7 @@ export const AutoDJSettings: React.FC = () => {
                             </Text>
                             <Switch
                                 checked={preferEnergyMatch}
-                                onChange={e => setPreferEnergyMatch(e.target.checked)}
+                                onChange={(e) => setPreferEnergyMatch(e.target.checked)}
                                 disabled={!prefEnabled}
                             />
                         </Box>
@@ -96,7 +100,7 @@ export const AutoDJSettings: React.FC = () => {
                             </Text>
                             <Switch
                                 checked={useNotchFilter}
-                                onChange={e => setUseNotchFilter(e.target.checked)}
+                                onChange={(e) => setUseNotchFilter(e.target.checked)}
                                 disabled={!prefEnabled}
                             />
                         </Box>
@@ -108,7 +112,7 @@ export const AutoDJSettings: React.FC = () => {
                                 </Text>
                                 <Slider
                                     value={[notchFrequency]}
-                                    onValueChange={v => setNotchFrequency(v[0])}
+                                    onValueChange={(v) => setNotchFrequency(v[0])}
                                     min={20}
                                     max={200}
                                     step={5}
@@ -130,7 +134,12 @@ export const AutoDJSettings: React.FC = () => {
 
                         <Box style={{ display: 'grid', gap: vars.spacing['4'] }}>
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                                <Flex
+                                    style={{
+                                        justifyContent: 'space-between',
+                                        marginBottom: vars.spacing['2']
+                                    }}
+                                >
                                     <Text size="xs" color="secondary">
                                         Total Transitions
                                     </Text>
@@ -150,7 +159,12 @@ export const AutoDJSettings: React.FC = () => {
                             <Divider />
 
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                                <Flex
+                                    style={{
+                                        justifyContent: 'space-between',
+                                        marginBottom: vars.spacing['2']
+                                    }}
+                                >
                                     <Text size="xs" color="secondary">
                                         Avg Compatibility
                                     </Text>
@@ -162,7 +176,12 @@ export const AutoDJSettings: React.FC = () => {
                             </Box>
 
                             <Box>
-                                <Flex style={{ justifyContent: 'space-between', marginBottom: vars.spacing['2'] }}>
+                                <Flex
+                                    style={{
+                                        justifyContent: 'space-between',
+                                        marginBottom: vars.spacing['2']
+                                    }}
+                                >
                                     <Text size="xs" color="secondary">
                                         Variety Score
                                     </Text>

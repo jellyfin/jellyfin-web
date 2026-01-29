@@ -1,8 +1,8 @@
-import itemHelper from '../../itemHelper';
 import datetime from 'scripts/datetime';
 import type { ItemDto } from 'types/base/models/item-dto';
-import type { TextLine, TextLineOpts } from './types';
 import { ItemKind } from 'types/base/models/item-kind';
+import itemHelper from '../../itemHelper';
+import type { TextLine, TextLineOpts } from './types';
 
 function getParentTitle(
     item: ItemDto,
@@ -71,20 +71,25 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
 
     const addProgramDateTime = () => {
         if (showProgramDateTime) {
-            const programDateTime = datetime.toLocaleString(datetime.parseISO8601Date(item.StartDate || ''), {
-                weekday: 'long',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit'
-            });
+            const programDateTime = datetime.toLocaleString(
+                datetime.parseISO8601Date(item.StartDate || ''),
+                {
+                    weekday: 'long',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit'
+                }
+            );
             addTextLine({ title: programDateTime });
         }
     };
 
     const addProgramTime = () => {
         if (showProgramTime) {
-            const programTime = datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate || ''));
+            const programTime = datetime.getDisplayTime(
+                datetime.parseISO8601Date(item.StartDate || '')
+            );
             addTextLine({ title: programTime });
         }
     };
@@ -95,7 +100,12 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
         }
     };
 
-    const displayName = getNameOrIndexWithName(item, showIndexNumber, includeParentInfoInTitle, includeIndexNumber);
+    const displayName = getNameOrIndexWithName(
+        item,
+        showIndexNumber,
+        includeParentInfoInTitle,
+        includeIndexNumber
+    );
 
     const parentTitle = getParentTitle(item, showParentTitle, parentTitleWithTitle, displayName);
 
@@ -119,14 +129,18 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
         } else if (showArtist) {
             const artistItems = item.ArtistItems;
             if (artistItems && item.Type !== ItemKind.MusicAlbum) {
-                const artists = artistItems.map(a => a.Name).join(', ');
+                const artists = artistItems.map((a) => a.Name).join(', ');
                 addTextLine({ title: artists });
             }
         }
     };
 
     const addCurrentProgram = () => {
-        if (item.Type === ItemKind.TvChannel && item.CurrentProgram && showCurrentProgram !== false) {
+        if (
+            item.Type === ItemKind.TvChannel &&
+            item.CurrentProgram &&
+            showCurrentProgram !== false
+        ) {
             const currentProgram = itemHelper.getDisplayName(item.CurrentProgram as any);
 
             addTextLine({ title: currentProgram });

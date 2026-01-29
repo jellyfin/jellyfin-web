@@ -12,9 +12,13 @@
  * - useAvailableServersWithStatus() hook
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { connectionQueryKeys, getAvailableServersQuery, getSavedServersQuery } from '../useConnection';
+import {
+    connectionQueryKeys,
+    getAvailableServersQuery,
+    getSavedServersQuery
+} from '../useConnection';
 
 describe('Connection Hooks - Query Keys', () => {
     describe('Query Key Structure', () => {
@@ -121,8 +125,7 @@ describe('Connection Hooks - Hook Logic (Conceptual)', () => {
             // Attempt 2: 1000ms * 2^1 = 2000ms
             // Both capped at 10000ms
 
-            const getDelay = (attemptIndex: number) =>
-                Math.min(1000 * 2 ** attemptIndex, 10000);
+            const getDelay = (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 10000);
 
             expect(getDelay(0)).toBe(1000);
             expect(getDelay(1)).toBe(2000);
@@ -347,7 +350,12 @@ describe('Connection Hooks - Shallow Comparison', () => {
             // - clearHistory (function)
             // - addAttempt (function)
 
-            const selectedProperties = ['metrics', 'connectionAttempts', 'clearHistory', 'addAttempt'];
+            const selectedProperties = [
+                'metrics',
+                'connectionAttempts',
+                'clearHistory',
+                'addAttempt'
+            ];
 
             expect(selectedProperties).toHaveLength(4);
         });

@@ -4,7 +4,7 @@
 export function readFileAsBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
             // Split by a comma to remove the url: prefix
             const data = (e.target?.result as string)?.split?.(',')[1];
             resolve(data);
@@ -20,7 +20,7 @@ export function readFileAsBase64(file: File): Promise<string> {
 export function readFileAsText(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
             const data = e.target?.result as string;
             resolve(data);
         };
@@ -33,5 +33,5 @@ export function readFileAsText(file: File): Promise<string> {
 export function getReadableSize(value: number, precision = 1) {
     let d = (Math.log(value) / Math.log(1024)) | 0;
 
-    return (value / Math.pow(1024, d)).toFixed(precision) + ' ' + (d ? 'KMGTPEZY'[--d] + 'iB' : 'Bytes');
+    return (value / 1024 ** d).toFixed(precision) + ' ' + (d ? 'KMGTPEZY'[--d] + 'iB' : 'Bytes');
 }

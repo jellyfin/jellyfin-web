@@ -1,7 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import listView, { type ListViewOptions } from 'components/listview/listview';
 import cardBuilder, { type CardOptions } from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
+import listView, { type ListViewOptions } from 'components/listview/listview';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
@@ -73,7 +73,7 @@ function renderItems(page: HTMLElement, item: any): void {
     if (!elem) return;
 
     elem.innerHTML = sections
-        .map(section => {
+        .map((section) => {
             let html = '';
             let sectionClass = 'verticalSection';
 
@@ -323,43 +323,51 @@ function renderSection(item: any, element: HTMLElement, type: string): void {
     }
 }
 
-function loadItems(element: HTMLElement, item: any, type: string, queryOptions: any, listOptions: any): void {
+function loadItems(
+    element: HTMLElement,
+    item: any,
+    type: string,
+    queryOptions: any,
+    listOptions: any
+): void {
     const query = getQuery(queryOptions, item);
-    getItemsFunction(query, item)(query.StartIndex || 0, query.Limit || 100, query.Fields).then((result: any) => {
-        // If results are empty, hide the section
-        if (!result.Items?.length) {
-            element.classList.add('hide');
-            return;
-        }
-
-        if (query.Limit && result.TotalRecordCount > query.Limit) {
-            const link = element.querySelector('a');
-            if (link) {
-                link.classList.remove('hide');
-                link.setAttribute('href', getMoreItemsHref(item, type));
+    getItemsFunction(query, item)(query.StartIndex || 0, query.Limit || 100, query.Fields).then(
+        (result: any) => {
+            // If results are empty, hide the section
+            if (!result.Items?.length) {
+                element.classList.add('hide');
+                return;
             }
-        } else {
-            element.querySelector('a')?.classList.add('hide');
+
+            if (query.Limit && result.TotalRecordCount > query.Limit) {
+                const link = element.querySelector('a');
+                if (link) {
+                    link.classList.remove('hide');
+                    link.setAttribute('href', getMoreItemsHref(item, type));
+                }
+            } else {
+                element.querySelector('a')?.classList.add('hide');
+            }
+
+            listOptions.items = result.Items;
+            const itemsContainer = element.querySelector('.itemsContainer') as HTMLElement;
+            if (!itemsContainer) return;
+
+            let html = '';
+            if (type === 'Audio') {
+                html = listView.getListViewHtml(listOptions as ListViewOptions);
+                itemsContainer.classList.remove('vertical-wrap');
+                itemsContainer.classList.add('vertical-list');
+            } else {
+                html = cardBuilder.getCardsHtml(result.Items, listOptions as CardOptions);
+                itemsContainer.classList.add('vertical-wrap');
+                itemsContainer.classList.remove('vertical-list');
+            }
+
+            itemsContainer.innerHTML = html;
+            imageLoader.lazyChildren(itemsContainer);
         }
-
-        listOptions.items = result.Items;
-        const itemsContainer = element.querySelector('.itemsContainer') as HTMLElement;
-        if (!itemsContainer) return;
-
-        let html = '';
-        if (type === 'Audio') {
-            html = listView.getListViewHtml(listOptions as ListViewOptions);
-            itemsContainer.classList.remove('vertical-wrap');
-            itemsContainer.classList.add('vertical-list');
-        } else {
-            html = cardBuilder.getCardsHtml(result.Items, listOptions as CardOptions);
-            itemsContainer.classList.add('vertical-wrap');
-            itemsContainer.classList.remove('vertical-list');
-        }
-
-        itemsContainer.innerHTML = html;
-        imageLoader.lazyChildren(itemsContainer);
-    });
+    );
 }
 
 function getMoreItemsHref(item: any, type: string): string {

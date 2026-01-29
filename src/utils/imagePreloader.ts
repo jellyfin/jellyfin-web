@@ -21,7 +21,8 @@ class ImagePreloader {
 
     private readonly activeRequests = new Set<string>();
 
-    private readonly requestQueue: Array<{ url: string; resolve: (status: CacheStatus) => void }> = [];
+    private readonly requestQueue: Array<{ url: string; resolve: (status: CacheStatus) => void }> =
+        [];
 
     public async init(): Promise<void> {
         if ('serviceWorker' in navigator) {
@@ -59,7 +60,7 @@ class ImagePreloader {
     }
 
     private queueImage(url: string): Promise<CacheStatus> {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             this.requestQueue.push({ url, resolve });
             this.tryProcessQueue();
         });
@@ -79,7 +80,7 @@ class ImagePreloader {
             if (item.discImageUrl) imageUrls.push(item.discImageUrl);
         }
 
-        await Promise.all(imageUrls.map(url => this.preloadImage(url)));
+        await Promise.all(imageUrls.map((url) => this.preloadImage(url)));
     }
 
     public async preloadBackdropImages(imageUrls: string[]): Promise<void> {
@@ -88,10 +89,13 @@ class ImagePreloader {
         const urls = imageUrls.filter((url): url is string => url != null && url.length > 0);
         if (urls.length === 0) return;
 
-        await Promise.all(urls.map(url => this.preloadImage(url)));
+        await Promise.all(urls.map((url) => this.preloadImage(url)));
     }
 
-    public async preloadImage(url?: string, priority: 'high' | 'low' = 'low'): Promise<CacheStatus> {
+    public async preloadImage(
+        url?: string,
+        priority: 'high' | 'low' = 'low'
+    ): Promise<CacheStatus> {
         if (url == null || url === '') return 'error';
 
         const cachedStatus = this.cacheStatus.get(url);

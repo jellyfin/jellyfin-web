@@ -58,7 +58,7 @@ export function remove(element: Element): void {
  * Remove all children matching selector
  */
 export function removeAll(selector: string, context: Element | Document = document): void {
-    $$(selector, context).forEach(el => el.remove());
+    $$(selector, context).forEach((el) => el.remove());
 }
 
 /**

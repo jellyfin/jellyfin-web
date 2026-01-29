@@ -1,9 +1,9 @@
-import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
 import { BackupApi } from '@jellyfin/sdk/lib/generated-client/api/backup-api';
+import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
-import { QUERY_KEY } from './useBackups';
 import { queryClient } from 'utils/query/queryClient';
+import { QUERY_KEY } from './useBackups';
 
 export const useCreateBackup = () => {
     const { api } = useApi();

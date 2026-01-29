@@ -1,7 +1,7 @@
-import React, { type FC } from 'react';
+import { useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
 
 import { useUserSettings } from 'hooks/useUserSettings';
-import { useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
+import React, { type FC } from 'react';
 
 const CustomCss: FC = () => {
     const { data: brandingOptions } = useBrandingOptions();
@@ -9,7 +9,9 @@ const CustomCss: FC = () => {
 
     return (
         <>
-            {!disableCustomCss && brandingOptions?.CustomCss && <style>{brandingOptions.CustomCss}</style>}
+            {!disableCustomCss && brandingOptions?.CustomCss && (
+                <style>{brandingOptions.CustomCss}</style>
+            )}
             {userCustomCss && <style>{userCustomCss}</style>}
         </>
     );

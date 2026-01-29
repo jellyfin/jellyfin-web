@@ -79,9 +79,14 @@ class PlayQueueManager {
     removeFromPlaylist(playlistItemIds: string[]): void {
         const currentItem = this.getCurrentPlaylistItem();
 
-        this._playlist = this._playlist.filter(item => !playlistItemIds.includes(item.PlaylistItemId!));
+        this._playlist = this._playlist.filter(
+            (item) => !playlistItemIds.includes(item.PlaylistItemId!)
+        );
 
-        if (currentItem && !this._playlist.find(item => item.PlaylistItemId === currentItem.PlaylistItemId)) {
+        if (
+            currentItem &&
+            !this._playlist.find((item) => item.PlaylistItemId === currentItem.PlaylistItemId)
+        ) {
             // Current item was removed, clear it
             this._currentPlaylistItemId = null;
         }
@@ -172,7 +177,8 @@ class PlayQueueManager {
 
     getNextItem(): PlaylistItem | null {
         // Use the appropriate playlist based on shuffle mode
-        const activePlaylist = this._shuffleMode === 'Shuffle' ? this._sortedPlaylist : this._playlist;
+        const activePlaylist =
+            this._shuffleMode === 'Shuffle' ? this._sortedPlaylist : this._playlist;
 
         // Find current item's index in the active playlist
         const currentIndex = this._currentPlaylistItemId
@@ -202,7 +208,8 @@ class PlayQueueManager {
 
     getPreviousItem(): PlaylistItem | null {
         // Use the appropriate playlist based on shuffle mode
-        const activePlaylist = this._shuffleMode === 'Shuffle' ? this._sortedPlaylist : this._playlist;
+        const activePlaylist =
+            this._shuffleMode === 'Shuffle' ? this._sortedPlaylist : this._playlist;
 
         // Find current item's index in the active playlist
         const currentIndex = this._currentPlaylistItemId

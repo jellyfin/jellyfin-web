@@ -4,9 +4,9 @@
  * Integration tests for live TV with playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toVideoItem } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Live TV integration', () => {
     describe('channel playback conversion', () => {
@@ -191,8 +191,18 @@ describe('Live TV integration', () => {
     describe('recording categories', () => {
         it('handles movie recordings', () => {
             const movieRecordings: BaseItemDto[] = [
-                { Id: 'movie-rec-1', Name: 'Movie Recording 1', Type: 'Recording', ServerId: 'livetv' },
-                { Id: 'movie-rec-2', Name: 'Movie Recording 2', Type: 'Recording', ServerId: 'livetv' }
+                {
+                    Id: 'movie-rec-1',
+                    Name: 'Movie Recording 1',
+                    Type: 'Recording',
+                    ServerId: 'livetv'
+                },
+                {
+                    Id: 'movie-rec-2',
+                    Name: 'Movie Recording 2',
+                    Type: 'Recording',
+                    ServerId: 'livetv'
+                }
             ];
 
             const queue = movieRecordings.map(toVideoItem);
@@ -201,8 +211,18 @@ describe('Live TV integration', () => {
 
         it('handles TV show recordings', () => {
             const showRecordings: BaseItemDto[] = [
-                { Id: 'show-rec-1', Name: 'Show Recording 1', Type: 'Recording', ServerId: 'livetv' },
-                { Id: 'show-rec-2', Name: 'Show Recording 2', Type: 'Recording', ServerId: 'livetv' }
+                {
+                    Id: 'show-rec-1',
+                    Name: 'Show Recording 1',
+                    Type: 'Recording',
+                    ServerId: 'livetv'
+                },
+                {
+                    Id: 'show-rec-2',
+                    Name: 'Show Recording 2',
+                    Type: 'Recording',
+                    ServerId: 'livetv'
+                }
             ];
 
             const queue = showRecordings.map(toVideoItem);
@@ -211,8 +231,18 @@ describe('Live TV integration', () => {
 
         it('handles sports recordings', () => {
             const sportsRecordings: BaseItemDto[] = [
-                { Id: 'sports-rec-1', Name: 'Sports Recording 1', Type: 'Recording', ServerId: 'livetv' },
-                { Id: 'sports-rec-2', Name: 'Sports Recording 2', Type: 'Recording', ServerId: 'livetv' }
+                {
+                    Id: 'sports-rec-1',
+                    Name: 'Sports Recording 1',
+                    Type: 'Recording',
+                    ServerId: 'livetv'
+                },
+                {
+                    Id: 'sports-rec-2',
+                    Name: 'Sports Recording 2',
+                    Type: 'Recording',
+                    ServerId: 'livetv'
+                }
             ];
 
             const queue = sportsRecordings.map(toVideoItem);

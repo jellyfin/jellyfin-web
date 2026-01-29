@@ -16,7 +16,13 @@ export function getProgressHtml(pct: number, options?: any): string {
     return `<div class="${containerClass}"><div class="itemProgressBarForeground" style="width:${pct}%;"></div></div>`;
 }
 
-function getAutoTimeProgressHtml(pct: number, options: any, isRecording: boolean, start: number, end: number): string {
+function getAutoTimeProgressHtml(
+    pct: number,
+    options: any,
+    isRecording: boolean,
+    start: number,
+    end: number
+): string {
     let containerClass = 'itemProgressBar';
     if (options?.containerClass) containerClass += ' ' + options.containerClass;
     let foregroundClass = 'itemProgressBarForeground';

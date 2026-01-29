@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SkipSegmentButton } from '../SkipSegmentButton';
 
 describe('SkipSegmentButton', () => {
@@ -37,17 +37,32 @@ describe('SkipSegmentButton', () => {
     });
 
     it('calls onDismiss when dismiss callback is provided', () => {
-        render(<SkipSegmentButton segmentLabel="Skip Intro" onSkip={mockOnSkip} onDismiss={mockOnDismiss} />);
+        render(
+            <SkipSegmentButton
+                segmentLabel="Skip Intro"
+                onSkip={mockOnSkip}
+                onDismiss={mockOnDismiss}
+            />
+        );
         expect(screen.getByText('Skip Intro')).toBeInTheDocument();
     });
 
     it('does not show countdown when autoHide is disabled', () => {
-        render(<SkipSegmentButton segmentLabel="Skip" onSkip={mockOnSkip} autoHide={false} hideAfter={8000} />);
+        render(
+            <SkipSegmentButton
+                segmentLabel="Skip"
+                onSkip={mockOnSkip}
+                autoHide={false}
+                hideAfter={8000}
+            />
+        );
         expect(screen.queryByText(/^\d+$/)).not.toBeInTheDocument();
     });
 
     it('accepts endTime prop', () => {
-        expect(() => render(<SkipSegmentButton segmentLabel="Skip" onSkip={mockOnSkip} endTime={120} />)).not.toThrow();
+        expect(() =>
+            render(<SkipSegmentButton segmentLabel="Skip" onSkip={mockOnSkip} endTime={120} />)
+        ).not.toThrow();
     });
 
     it('applies correct styling classes', () => {
@@ -58,7 +73,9 @@ describe('SkipSegmentButton', () => {
     });
 
     it('handles rapid visibility changes', () => {
-        const { rerender } = render(<SkipSegmentButton segmentLabel="Skip" onSkip={mockOnSkip} visible={true} />);
+        const { rerender } = render(
+            <SkipSegmentButton segmentLabel="Skip" onSkip={mockOnSkip} visible={true} />
+        );
 
         expect(screen.getByText('Skip')).toBeInTheDocument();
 
@@ -74,7 +91,14 @@ describe('SkipSegmentButton', () => {
     });
 
     it('supports custom hideAfter duration without countdown', () => {
-        render(<SkipSegmentButton segmentLabel="Custom" onSkip={mockOnSkip} autoHide={false} hideAfter={15000} />);
+        render(
+            <SkipSegmentButton
+                segmentLabel="Custom"
+                onSkip={mockOnSkip}
+                autoHide={false}
+                hideAfter={15000}
+            />
+        );
 
         expect(screen.getByText('Custom')).toBeInTheDocument();
     });
@@ -85,7 +109,9 @@ describe('SkipSegmentButton', () => {
     });
 
     it('handles empty segment label', () => {
-        expect(() => render(<SkipSegmentButton segmentLabel="Skip" onSkip={mockOnSkip} />)).not.toThrow();
+        expect(() =>
+            render(<SkipSegmentButton segmentLabel="Skip" onSkip={mockOnSkip} />)
+        ).not.toThrow();
     });
 
     it('does not crash when onDismiss is undefined', async () => {

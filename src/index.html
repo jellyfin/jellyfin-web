@@ -217,7 +217,7 @@
             if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.getRegistrations().then(function (registrations) {
-                        for (let registration of registrations) {
+                        for (const registration of registrations) {
                             registration.unregister();
                             console.log('[PWA] Unregistered stale service worker');
                         }

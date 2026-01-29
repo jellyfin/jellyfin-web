@@ -1,13 +1,19 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { type FunctionComponent, useCallback } from 'react';
-import globalize from 'lib/globalize';
 import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
-import { Dialog, DialogOverlayComponent, DialogContentComponent, DialogTitle } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControl, FormControlLabel, FormLabel } from 'ui-primitives';
+import globalize from 'lib/globalize';
+import React, { type FunctionComponent, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Button,
+    Checkbox,
+    Dialog,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogTitle,
+    Flex,
+    FormControl,
+    FormControlLabel,
+    FormLabel
+} from 'ui-primitives';
 
 interface IProps {
     open: boolean;
@@ -36,7 +42,7 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
     );
 
     return (
-        <Dialog open={open} onOpenChange={open => !open && onClose?.()}>
+        <Dialog open={open} onOpenChange={(open) => !open && onClose?.()}>
             <DialogOverlayComponent />
             <DialogContentComponent
                 title={globalize.translate('ButtonCreateBackup')}
@@ -46,7 +52,9 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
                     <Flex style={{ flexDirection: 'column', gap: vars.spacing['4'] }}>
                         <FormControl>
                             <FormControlLabel
-                                control={<Checkbox name="Database" defaultChecked={true} disabled />}
+                                control={
+                                    <Checkbox name="Database" defaultChecked={true} disabled />
+                                }
                                 label={globalize.translate('LabelDatabase')}
                             />
                         </FormControl>
@@ -73,7 +81,13 @@ const CreateBackupForm: FunctionComponent<IProps> = ({ open, onClose, onCreate }
                         </FormControl>
                     </Flex>
 
-                    <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['2'], marginTop: '24px' }}>
+                    <Flex
+                        style={{
+                            justifyContent: 'flex-end',
+                            gap: vars.spacing['2'],
+                            marginTop: '24px'
+                        }}
+                    >
                         <Button variant="ghost" onClick={onClose}>
                             {globalize.translate('ButtonCancel')}
                         </Button>

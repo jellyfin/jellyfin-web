@@ -52,7 +52,7 @@ class PWAAudit {
             const manifest = await response.json();
 
             const required: (keyof any)[] = ['name', 'short_name', 'start_url', 'display', 'icons'];
-            required.forEach(field => {
+            required.forEach((field) => {
                 if (manifest[field as string]) {
                     result.score += 10;
                 } else {
@@ -78,8 +78,12 @@ class PWAAudit {
             }
 
             if (manifest.icons && manifest.icons.length > 0) {
-                const hasMaskable = manifest.icons.some((icon: any) => icon.purpose?.includes('maskable'));
-                const hasLargeIcon = manifest.icons.some((icon: any) => parseInt(icon.sizes) >= 512);
+                const hasMaskable = manifest.icons.some((icon: any) =>
+                    icon.purpose?.includes('maskable')
+                );
+                const hasLargeIcon = manifest.icons.some(
+                    (icon: any) => parseInt(icon.sizes) >= 512
+                );
 
                 if (hasMaskable) result.score += 10;
                 if (hasLargeIcon) result.score += 10;
@@ -238,7 +242,10 @@ class PWAAudit {
     static auditBackgroundSync(): AuditResult {
         const result: AuditResult = { score: 0, maxScore: 15, issues: [], recommendations: [] };
 
-        if ('serviceWorker' in navigator && 'sync' in (window as any).ServiceWorkerRegistration.prototype) {
+        if (
+            'serviceWorker' in navigator &&
+            'sync' in (window as any).ServiceWorkerRegistration.prototype
+        ) {
             result.score += 15;
             result.recommendations.push('Background sync supported');
         } else {

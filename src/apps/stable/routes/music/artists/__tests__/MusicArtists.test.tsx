@@ -4,10 +4,10 @@
  * Basic integration tests for the MusicArtists view playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toPlayableItem, toPlayableItems } from 'lib/utils/playbackUtils';
-import { createMockArtist, createMockSongs, createMockArtists } from 'test/factories/mediaItems';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toPlayableItem, toPlayableItems } from 'lib/utils/playbackUtils';
+import { createMockArtist, createMockArtists, createMockSongs } from 'test/factories/mediaItems';
+import { describe, expect, it } from 'vitest';
 
 describe('MusicArtists integration', () => {
     describe('artist playback', () => {
@@ -57,7 +57,7 @@ describe('MusicArtists integration', () => {
             const queue = toPlayableItems(tracks);
 
             expect(queue).toHaveLength(100);
-            queue.forEach(item => {
+            queue.forEach((item) => {
                 expect(item.mediaType).toBe('Audio');
             });
         });
@@ -142,7 +142,7 @@ describe('MusicArtists integration', () => {
             const queue = toPlayableItems(shuffled);
 
             expect(queue).toHaveLength(10);
-            queue.forEach(item => {
+            queue.forEach((item) => {
                 expect(item.id).toBeTruthy();
                 expect(item.mediaType).toBe('Audio');
             });
@@ -155,8 +155,8 @@ describe('MusicArtists integration', () => {
 
             expect(queue).toHaveLength(25);
             // All data should be preserved despite shuffle
-            const ids = queue.map(q => q.id);
-            expect(ids.filter(id => id).length).toBe(25);
+            const ids = queue.map((q) => q.id);
+            expect(ids.filter((id) => id).length).toBe(25);
         });
     });
 

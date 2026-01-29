@@ -1,13 +1,13 @@
 import React, { type FC } from 'react';
-import AppToolbar from '../toolbar/AppToolbar';
-import { useUiStore } from '../../store/uiStore';
-import { Box } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
-import { DRAWER_WIDTH } from '../ResponsiveDrawer';
+import { Box } from 'ui-primitives';
 import browser from '../../scripts/browser';
-import { Tabs } from './Tabs';
-import { HeaderActions } from './HeaderActions';
+import { useUiStore } from '../../store/uiStore';
+import { DRAWER_WIDTH } from '../ResponsiveDrawer';
 import { appRouter } from '../router/appRouter';
+import AppToolbar from '../toolbar/AppToolbar';
+import { HeaderActions } from './HeaderActions';
+import { Tabs } from './Tabs';
 
 export const Header: FC = () => {
     const isDrawerOpen = useUiStore((state) => state.isDrawerOpen);

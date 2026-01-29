@@ -9,36 +9,34 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import { escapeHtml } from 'utils/html';
-import type { ApiClient } from 'jellyfin-apiclient';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
-
 import { AppFeature } from 'constants/appFeature';
+import { EventType } from 'constants/eventType';
 import { getUserViewsQuery } from 'hooks/useUserViews';
+import type { ApiClient } from 'jellyfin-apiclient';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { EventType } from 'constants/eventType';
+import { escapeHtml } from 'utils/html';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { logger } from 'utils/logger';
 import { queryClient } from 'utils/query/queryClient';
-
-import dom from '../utils/dom';
-import layoutManager from '../components/layoutManager';
-import inputManager from './inputManager';
-import viewManager from '../components/viewManager/viewManager';
-import { appRouter } from '../components/router/appRouter';
 import { safeAppHost } from '../components/apphost';
+import layoutManager from '../components/layoutManager';
 import { playbackManager } from '../components/playback/playbackmanager';
 import { pluginManager } from '../components/pluginManager';
+import { appRouter } from '../components/router/appRouter';
+import viewManager from '../components/viewManager/viewManager';
 import groupSelectionMenu from '../plugins/syncPlay/ui/groupSelectionMenu';
-import browser from './browser';
-import imageHelper from '../utils/image';
-import { getMenuLinks } from '../scripts/settings/webSettings';
-import Dashboard, { pageClassOn } from '../utils/dashboard';
-import { PluginType } from '../types/plugin';
-import Events from '../utils/events';
-import { getParameterByName } from '../utils/url';
 import datetime from '../scripts/datetime';
+import { getMenuLinks } from '../scripts/settings/webSettings';
+import { PluginType } from '../types/plugin';
+import Dashboard, { pageClassOn } from '../utils/dashboard';
+import dom from '../utils/dom';
+import Events from '../utils/events';
+import imageHelper from '../utils/image';
+import { getParameterByName } from '../utils/url';
+import browser from './browser';
+import inputManager from './inputManager';
 
 import '../elements/emby-button/paper-icon-button-light';
 
@@ -110,7 +108,7 @@ function getCurrentApiClient(): ApiClient {
 }
 
 function lazyLoadViewMenuBarImages(): void {
-    import('../components/images/imageLoader').then(imageLoader => {
+    import('../components/images/imageLoader').then((imageLoader) => {
         if (skinHeader) {
             imageLoader.default.lazyChildren(skinHeader);
         }
@@ -227,7 +225,8 @@ function updateHeaderUserButton(src: string | null): void {
             '\");"></div>';
     } else {
         headerUserButton.classList.remove('headerUserButtonRound');
-        headerUserButton.innerHTML = '<span class="material-icons person" aria-hidden="true"></span>';
+        headerUserButton.innerHTML =
+            '<span class="material-icons person" aria-hidden="true"></span>';
     }
 }
 
@@ -304,7 +303,7 @@ function onPlaybackStop(_e: any, stopInfo: any): void {
 function onCastButtonClicked(this: HTMLElement): void {
     const btn = this;
 
-    import('../components/playback/playerSelectionMenu').then(playerSelectionMenu => {
+    import('../components/playback/playerSelectionMenu').then((playerSelectionMenu) => {
         playerSelectionMenu.default.show(btn);
     });
 }
@@ -429,7 +428,7 @@ interface ExtendedBaseItemDto extends BaseItemDto {
 }
 
 function getUserViews(apiClient: ApiClient, userId: string): Promise<ExtendedBaseItemDto[]> {
-    return queryClient.fetchQuery(getUserViewsQuery(toApi(apiClient), userId)).then(result => {
+    return queryClient.fetchQuery(getUserViewsQuery(toApi(apiClient), userId)).then((result) => {
         const items = result.Items || [];
         const list: ExtendedBaseItemDto[] = [];
 
@@ -475,7 +474,7 @@ function updateLibraryMenu(user?: any): void {
 
     const customMenuOptions = document.querySelector<HTMLElement>('.customMenuOptions');
     if (customMenuOptions) {
-        getMenuLinks().then(links => {
+        getMenuLinks().then((links) => {
             links.forEach((link: any) => {
                 const option = document.createElement('a');
                 option.setAttribute('is', 'emby-linkbutton');
@@ -502,11 +501,11 @@ function updateLibraryMenu(user?: any): void {
     const libraryMenuOptions = document.querySelector<HTMLElement>('.libraryMenuOptions');
 
     if (libraryMenuOptions) {
-        getUserViews(apiClient, userId).then(result => {
+        getUserViews(apiClient, userId).then((result) => {
             const items = result;
             let html = `<h3 class="sidebarHeader">${globalize.translate('HeaderMedia')}</h3>`;
             html += items
-                .map(i => {
+                .map((i) => {
                     const icon = i.icon || imageHelper.getLibraryIcon(i.CollectionType);
                     const itemId = i.Id;
 
@@ -586,7 +585,11 @@ function updateLibraryNavLinks(page: HTMLElement): void {
     const isEditorPage = page.classList.contains('metadataEditorPage');
     const isMySyncPage = page.classList.contains('mySyncPage');
     const id =
-        isLiveTvPage || isChannelsPage || isEditorPage || isMySyncPage || page.classList.contains('allLibraryPage')
+        isLiveTvPage ||
+        isChannelsPage ||
+        isEditorPage ||
+        isMySyncPage ||
+        page.classList.contains('allLibraryPage')
             ? ''
             : getTopParentId() || '';
     const elems = document.getElementsByClassName('lnkMediaFolder');
@@ -696,7 +699,7 @@ function refreshLibraryDrawer(user?: any): void {
     if (user) {
         Promise.resolve(user);
     } else {
-        ServerConnections.user(getCurrentApiClient()).then(userResult => {
+        ServerConnections.user(getCurrentApiClient()).then((userResult) => {
             refreshLibraryInfoInDrawer(userResult);
             updateLibraryMenu(userResult.localUser);
         });
@@ -722,7 +725,7 @@ function loadNavDrawer(): Promise<any> {
     navDrawerElement = document.querySelector<HTMLElement>('.mainDrawer')!;
     navDrawerScrollContainer = navDrawerElement.querySelector<HTMLElement>('.scrollContainer')!;
     navDrawerScrollContainer.addEventListener('click', onMainDrawerClick as EventListener);
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         import('../lib/navdrawer/navdrawer').then(({ default: NavDrawer }) => {
             navDrawerInstance = new NavDrawer(getNavDrawerOptions());
 
@@ -759,7 +762,7 @@ let requiresUserRefresh = true;
 function setTabs(type: string | null, selectedIndex: number, builder: () => any): void {
     Events.trigger(document, EventType.SET_TABS, type ? [type, selectedIndex, builder()] : []);
 
-    import('../components/maintabsmanager').then(mainTabsManager => {
+    import('../components/maintabsmanager').then((mainTabsManager) => {
         if (type) {
             mainTabsManager.setTabs(viewManager.currentView(), selectedIndex, builder, () => {
                 return [];
@@ -781,7 +784,7 @@ const fetchServerName = (_apiClient?: ApiClient): void => {
             documentTitle = ServerName || documentTitle;
             document.title = documentTitle;
         })
-        .catch(err => {
+        .catch((err) => {
             logger.error('failed to fetch system info', { err, component: 'LibraryMenu' });
         });
 };
@@ -888,7 +891,7 @@ Events.on(ServerConnections, 'localusersignedin', (_e: any, user: any) => {
 
     loadNavDrawer();
 
-    ServerConnections.user(currentApiClient).then(userResult => {
+    ServerConnections.user(currentApiClient).then((userResult) => {
         currentUser = userResult;
         updateUserInHeader(userResult);
     });

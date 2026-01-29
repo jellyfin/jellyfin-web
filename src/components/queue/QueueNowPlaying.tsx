@@ -1,11 +1,8 @@
-import React from 'react';
-import { Avatar } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
 import { DiscIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icons';
-import { vars } from 'styles/tokens.css.ts';
-
+import React from 'react';
 import type { PlayableItem } from 'store/types';
+import { vars } from 'styles/tokens.css.ts';
+import { Avatar, Heading, IconButton, Text } from 'ui-primitives';
 
 export interface QueueNowPlayingProps {
     currentItem: PlayableItem | null;
@@ -46,29 +43,45 @@ export const QueueNowPlaying: React.FC<QueueNowPlayingProps> = ({
                         borderRadius: vars.borderRadius.md
                     }}
                 >
-                    {!imageUrl && <DiscIcon style={{ fontSize: 64, color: vars.colors.textSecondary }} />}
+                    {!imageUrl && (
+                        <DiscIcon style={{ fontSize: 64, color: vars.colors.textSecondary }} />
+                    )}
                 </Avatar>
             </div>
             <div
                 className="nowPlayingInfoControls"
-                style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
+                }}
             >
                 <div className="infoContainer flex" style={{ marginBottom: vars.spacing['5'] }}>
                     <div className="nowPlayingInfoContainerMedia">
                         <Heading.H2 style={{ fontWeight: 'bold', marginBottom: vars.spacing['2'] }}>
                             {currentItem?.name || 'No track playing'}
                         </Heading.H2>
-                        <Text style={{ fontWeight: 'bold', marginBottom: '4px' }}>{currentItem?.artist || ''}</Text>
+                        <Text style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                            {currentItem?.artist || ''}
+                        </Text>
                         <Text size="md" color="secondary">
                             {currentItem?.album || ''}
                         </Text>
                     </div>
                     {onFavoriteClick && (
-                        <div className="nowPlayingPageUserDataButtonsTitle" style={{ marginLeft: 'auto' }}>
+                        <div
+                            className="nowPlayingPageUserDataButtonsTitle"
+                            style={{ marginLeft: 'auto' }}
+                        >
                             <IconButton
                                 variant="plain"
                                 onClick={onFavoriteClick}
-                                style={{ color: isFavorite ? vars.colors.error : vars.colors.textSecondary }}
+                                style={{
+                                    color: isFavorite
+                                        ? vars.colors.error
+                                        : vars.colors.textSecondary
+                                }}
                             >
                                 {isFavorite ? <HeartFilledIcon /> : <HeartIcon />}
                             </IconButton>

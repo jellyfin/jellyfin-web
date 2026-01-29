@@ -4,9 +4,9 @@
  * Integration tests for favorites with playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toPlayableItem } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toPlayableItem } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Favorites integration', () => {
     describe('favorite item playback conversion', () => {
@@ -176,7 +176,7 @@ describe('Favorites integration', () => {
             const queue = shuffled.map(toPlayableItem);
 
             expect(queue).toHaveLength(3);
-            queue.forEach(item => {
+            queue.forEach((item) => {
                 expect(item.title).toMatch(/^Artist \d+$/);
             });
         });
@@ -287,8 +287,20 @@ describe('Favorites integration', () => {
 
         it('handles album favorites section', () => {
             const albums: BaseItemDto[] = [
-                { Id: 'a-1', Name: 'Album 1', Type: 'MusicAlbum', ServerId: 'server-1', AlbumArtist: 'Artist A' },
-                { Id: 'a-2', Name: 'Album 2', Type: 'MusicAlbum', ServerId: 'server-1', AlbumArtist: 'Artist B' }
+                {
+                    Id: 'a-1',
+                    Name: 'Album 1',
+                    Type: 'MusicAlbum',
+                    ServerId: 'server-1',
+                    AlbumArtist: 'Artist A'
+                },
+                {
+                    Id: 'a-2',
+                    Name: 'Album 2',
+                    Type: 'MusicAlbum',
+                    ServerId: 'server-1',
+                    AlbumArtist: 'Artist B'
+                }
             ];
 
             const queue = albums.map(toPlayableItem);
@@ -333,9 +345,24 @@ describe('Favorites integration', () => {
             const favorites: BaseItemDto[] = [
                 { Id: 'fav-movie', Name: 'Favorite Movie', Type: 'Movie', ServerId: 'server-1' },
                 { Id: 'fav-series', Name: 'Favorite Series', Type: 'Series', ServerId: 'server-1' },
-                { Id: 'fav-album', Name: 'Favorite Album', Type: 'MusicAlbum', ServerId: 'server-1' },
-                { Id: 'fav-artist', Name: 'Favorite Artist', Type: 'MusicArtist', ServerId: 'server-1' },
-                { Id: 'fav-playlist', Name: 'Favorite Playlist', Type: 'Playlist', ServerId: 'server-1' },
+                {
+                    Id: 'fav-album',
+                    Name: 'Favorite Album',
+                    Type: 'MusicAlbum',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'fav-artist',
+                    Name: 'Favorite Artist',
+                    Type: 'MusicArtist',
+                    ServerId: 'server-1'
+                },
+                {
+                    Id: 'fav-playlist',
+                    Name: 'Favorite Playlist',
+                    Type: 'Playlist',
+                    ServerId: 'server-1'
+                },
                 { Id: 'fav-boxset', Name: 'Favorite BoxSet', Type: 'BoxSet', ServerId: 'server-1' },
                 { Id: 'fav-audio', Name: 'Favorite Audio', Type: 'Audio', ServerId: 'server-1' }
             ];

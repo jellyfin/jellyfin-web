@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-
-import { Box, Text, Button, Input, Alert } from 'ui-primitives';
 import { LoadingView } from 'components/feedback/LoadingView';
-import { useServerStore } from 'store/serverStore';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuthStore } from 'store/authStore';
 import type { ServerInfo } from 'store/serverStore';
+import { useServerStore } from 'store/serverStore';
+import { Alert, Box, Button, Input, Text } from 'ui-primitives';
 import { RequestContext } from 'utils/observability';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 interface User {
     Id: string;
@@ -90,7 +89,7 @@ export function Login() {
             setIsAuthenticating(true);
             setError(null);
         },
-        onSuccess: result => {
+        onSuccess: (result) => {
             if (!result?.User) return;
             updateServerFromAuth(result);
             RequestContext.emit({
@@ -144,7 +143,7 @@ export function Login() {
             setIsAuthenticating(true);
             setError(null);
         },
-        onSuccess: result => {
+        onSuccess: (result) => {
             if (!result?.User) return;
             updateServerFromAuth(result);
             RequestContext.emit({
@@ -183,7 +182,7 @@ export function Login() {
         }
     });
 
-    const form = useForm({
+    const loginForm = useForm({
         defaultValues: {
             username: '',
             password: ''
@@ -195,11 +194,14 @@ export function Login() {
             }
 
             try {
-                await loginWithCredentialsMutation.mutateAsync({ user: value.username, pass: value.password });
+                await loginWithCredentialsMutation.mutateAsync({
+                    user: value.username,
+                    pass: value.password
+                });
             } catch {
                 // Error state is handled by the mutation callbacks.
             } finally {
-                form.setFieldValue('password', '');
+                loginForm.setFieldValue('password', '');
             }
         }
     });
@@ -214,7 +216,7 @@ export function Login() {
     };
 
     const handleManualLogin = () => {
-        void form.handleSubmit();
+        void loginForm.handleSubmit();
     };
 
     /**
@@ -246,14 +248,29 @@ export function Login() {
                 </Text>
             </Box>
 
-            <Box className="loginContainer" style={{ maxWidth: 400, margin: '0 auto', padding: 16, width: '100%' }}>
+            <Box
+                className="loginContainer"
+                style={{ maxWidth: 400, margin: '0 auto', padding: 16, width: '100%' }}
+            >
                 {!manualMode ? (
                     <Box>
-                        <Text as="h4" size="lg" weight="bold" style={{ marginBottom: 24, textAlign: 'center' }}>
+                        <Text
+                            as="h4"
+                            size="lg"
+                            weight="bold"
+                            style={{ marginBottom: 24, textAlign: 'center' }}
+                        >
                             Who is watching?
                         </Text>
 
-                        <Box style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center' }}>
+                        <Box
+                            style={{
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                gap: 16,
+                                justifyContent: 'center'
+                            }}
+                        >
                             {users.map((user: any) => (
                                 <button
                                     key={user.Id}
@@ -261,8 +278,8 @@ export function Login() {
                                     onClick={() => {
                                         if (user.HasPassword) {
                                             setManualMode(true);
-                                            form.setFieldValue('username', user.Name);
-                                            form.setFieldValue('password', '');
+                                            loginForm.setFieldValue('username', user.Name);
+                                            loginForm.setFieldValue('password', '');
                                             return;
                                         }
                                         loginWithUserIdMutation.mutate(user.Id);
@@ -298,7 +315,10 @@ export function Login() {
                                         }}
                                     >
                                         {!user.PrimaryImageTag && (
-                                            <span className="material-icons" style={{ fontSize: 40, color: '#666' }}>
+                                            <span
+                                                className="material-icons"
+                                                style={{ fontSize: 40, color: '#666' }}
+                                            >
                                                 person
                                             </span>
                                         )}
@@ -330,7 +350,12 @@ export function Login() {
                     </Box>
                 ) : (
                     <Box>
-                        <Text as="h4" size="lg" weight="bold" style={{ marginBottom: 24, textAlign: 'center' }}>
+                        <Text
+                            as="h4"
+                            size="lg"
+                            weight="bold"
+                            style={{ marginBottom: 24, textAlign: 'center' }}
+                        >
                             Sign in
                         </Text>
 
@@ -342,40 +367,61 @@ export function Login() {
 
                         <form
                             onSubmit={(e) => {
+                                // TanStack React Form recommends preventing the native submit
+                                // and delegating to `handleSubmit()`.
                                 e.preventDefault();
+                                e.stopPropagation();
                                 handleManualLogin();
+                            }}
+                            onKeyDownCapture={(e) => {
+                                // Ensure Enter submits from inputs (some global handlers can swallow it).
+                                // Avoid interfering with IME composition.
+                                if ((e as any).nativeEvent?.isComposing) return;
+
+                                const target = e.target as HTMLElement | null;
+                                const isTextArea = target?.tagName === 'TEXTAREA';
+
+                                if (!isTextArea && e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleManualLogin();
+                                }
                             }}
                             style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
                         >
-                            <form.Field name="username">
-                                {field => (
+                            <loginForm.Field name="username">
+                                {(field) => (
                                     <Input
                                         ref={usernameInputRef}
                                         id="username"
                                         label="Username"
                                         value={field.state.value ?? ''}
-                                        onChange={event => field.handleChange(event.target.value)}
+                                        onChange={(event) => field.handleChange(event.target.value)}
                                         onBlur={field.handleBlur}
                                         autoComplete="username"
                                     />
                                 )}
-                            </form.Field>
+                            </loginForm.Field>
 
-                            <form.Field name="password">
-                                {field => (
+                            <loginForm.Field name="password">
+                                {(field) => (
                                     <Input
                                         id="password"
                                         type="password"
                                         label="Password"
                                         value={field.state.value ?? ''}
-                                        onChange={event => field.handleChange(event.target.value)}
+                                        onChange={(event) => field.handleChange(event.target.value)}
                                         onBlur={field.handleBlur}
                                         autoComplete="current-password"
                                     />
                                 )}
-                            </form.Field>
+                            </loginForm.Field>
 
-                            <Button variant="primary" fullWidth type="submit" disabled={isAuthenticating}>
+                            <Button
+                                variant="primary"
+                                fullWidth
+                                type="submit"
+                                disabled={isAuthenticating}
+                            >
                                 {isAuthenticating ? 'Signing in...' : 'Sign in'}
                             </Button>
                             <Button

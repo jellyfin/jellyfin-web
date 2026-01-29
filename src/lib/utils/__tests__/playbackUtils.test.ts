@@ -2,16 +2,16 @@
  * Playback Utilities Tests
  */
 
-import { describe, it, expect } from 'vitest';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { describe, expect, it } from 'vitest';
 import {
-    toPlayableItem,
-    toPlayableItems,
     toAudioItem,
     toAudioItems,
+    toPlayableItem,
+    toPlayableItems,
     toVideoItem,
     toVideoItems
 } from '../playbackUtils';
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 
 describe('playbackUtils', () => {
     describe('toPlayableItem', () => {
@@ -266,7 +266,7 @@ describe('playbackUtils', () => {
             const playables = toVideoItems(videos);
 
             expect(playables).toHaveLength(3);
-            playables.forEach(playable => {
+            playables.forEach((playable) => {
                 expect(playable.mediaType).toBe('Video');
             });
         });
@@ -319,7 +319,7 @@ describe('playbackUtils', () => {
             const playables = toAudioItems(songs);
 
             expect(playables).toHaveLength(2);
-            playables.forEach(p => expect(p.mediaType).toBe('Audio'));
+            playables.forEach((p) => expect(p.mediaType).toBe('Audio'));
         });
 
         it('defaults to Audio when type is not specified', () => {

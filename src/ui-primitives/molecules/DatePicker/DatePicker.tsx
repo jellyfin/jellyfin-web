@@ -1,14 +1,21 @@
-import React, { useState, useRef, useEffect, type ReactNode, type ReactElement, useCallback } from 'react';
 import { format } from 'date-fns';
+import React, {
+    type ReactElement,
+    type ReactNode,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import type { DateRange } from 'react-day-picker';
+import { type ButtonSize, type ButtonVariant } from '../../atoms/Button';
 import { Calendar } from '../../organisms/Calendar';
-import { Popover, PopoverTrigger, PopoverContent, PopoverArrow } from '../Popover';
-import { type ButtonVariant, type ButtonSize } from '../../atoms/Button';
+import { Popover, PopoverArrow, PopoverContent, PopoverTrigger } from '../Popover';
 import {
     datePickerContainer,
+    datePickerIcon,
     datePickerTrigger,
     datePickerTriggerActive,
-    datePickerIcon,
     datePickerValue
 } from './DatePicker.css.ts';
 
@@ -100,7 +107,8 @@ export function DatePicker({
         [onChange]
     );
 
-    const displayValue = value !== null && value !== undefined ? format(value, formatString) : placeholder;
+    const displayValue =
+        value !== null && value !== undefined ? format(value, formatString) : placeholder;
 
     useEffect(() => {
         if (open && buttonRef.current !== null) {
@@ -124,7 +132,9 @@ export function DatePicker({
                         <span className={datePickerIcon}>
                             <CalendarIcon />
                         </span>
-                        <span className={datePickerValue}>{isSelected ? displayValue : placeholder}</span>
+                        <span className={datePickerValue}>
+                            {isSelected ? displayValue : placeholder}
+                        </span>
                         {isSelected && !disabled && (
                             <button
                                 type="button"
@@ -148,7 +158,9 @@ export function DatePicker({
                     <Calendar
                         mode="single"
                         selected={value ?? undefined}
-                        onSelect={handleSelect as (date: Date | Date[] | DateRange | undefined) => void}
+                        onSelect={
+                            handleSelect as (date: Date | Date[] | DateRange | undefined) => void
+                        }
                         showOutsideDays={showOutsideDays}
                     />
                     <PopoverArrow />
@@ -266,7 +278,9 @@ export function DateRangePicker({
                     <Calendar
                         mode="range"
                         selected={value as DateRange}
-                        onSelect={handleSelect as (date: Date | Date[] | DateRange | undefined) => void}
+                        onSelect={
+                            handleSelect as (date: Date | Date[] | DateRange | undefined) => void
+                        }
                         showOutsideDays={showOutsideDays}
                     />
                     <PopoverArrow />

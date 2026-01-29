@@ -1,17 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Flex } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getUserViewsQuery } from 'hooks/useUserViews';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { queryClient } from 'utils/query/queryClient';
-import { HomeSectionType, DEFAULT_SECTIONS } from 'types/homeSectionType';
-import * as userSettings from 'scripts/settings/userSettings';
-import ResumeSection from 'components/homesections/ResumeSection';
+import * as styles from 'components/homesections/HomeSections.css.ts';
+import LibraryTilesSection from 'components/homesections/LibraryTilesSection';
 import NextUpSection from 'components/homesections/NextUpSection';
 import RecentlyAddedSection from 'components/homesections/RecentlyAddedSection';
-import LibraryTilesSection from 'components/homesections/LibraryTilesSection';
-import * as styles from 'components/homesections/HomeSections.css.ts';
+import ResumeSection from 'components/homesections/ResumeSection';
+import { getUserViewsQuery } from 'hooks/useUserViews';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useEffect, useState } from 'react';
+import * as userSettings from 'scripts/settings/userSettings';
+import { DEFAULT_SECTIONS, HomeSectionType } from 'types/homeSectionType';
+import { Box, CircularProgress, Flex } from 'ui-primitives';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
 
 interface HomeTabProps {
     autoFocus?: boolean;
@@ -32,13 +31,15 @@ const HomeTab: React.FC<HomeTabProps> = ({ autoFocus = false }) => {
 
         queryClient
             .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
-            .then(result => {
+            .then((result) => {
                 setUserViews(result.Items || []);
 
                 const userSections: HomeSectionType[] = [];
                 for (let i = 0; i < 7; i++) {
-                    const settingValue = userSettings.get('homesection' + i) as HomeSectionType | undefined;
-                    let section = settingValue || DEFAULT_SECTIONS[i];
+                    const settingValue = userSettings.get('homesection' + i) as
+                        | HomeSectionType
+                        | undefined;
+                    const section = settingValue || DEFAULT_SECTIONS[i];
                     if (section && section !== HomeSectionType.None) {
                         userSections.push(section);
                     }
@@ -65,16 +66,34 @@ const HomeTab: React.FC<HomeTabProps> = ({ autoFocus = false }) => {
 
     return (
         <Box className={styles.container} style={{ paddingBottom: '2rem' }}>
-            {sections.map(section => {
+            {sections.map((section) => {
                 switch (section) {
                     case HomeSectionType.SmallLibraryTiles:
                         return <LibraryTilesSection key={section} userViews={userViews} />;
                     case HomeSectionType.Resume:
-                        return <ResumeSection key={section} mediaType="Video" titleLabel="HeaderContinueWatching" />;
+                        return (
+                            <ResumeSection
+                                key={section}
+                                mediaType="Video"
+                                titleLabel="HeaderContinueWatching"
+                            />
+                        );
                     case HomeSectionType.ResumeAudio:
-                        return <ResumeSection key={section} mediaType="Audio" titleLabel="HeaderContinueListening" />;
+                        return (
+                            <ResumeSection
+                                key={section}
+                                mediaType="Audio"
+                                titleLabel="HeaderContinueListening"
+                            />
+                        );
                     case HomeSectionType.ResumeBook:
-                        return <ResumeSection key={section} mediaType="Book" titleLabel="HeaderContinueReading" />;
+                        return (
+                            <ResumeSection
+                                key={section}
+                                mediaType="Book"
+                                titleLabel="HeaderContinueReading"
+                            />
+                        );
                     case HomeSectionType.NextUp:
                         return <NextUpSection key={section} />;
                     case HomeSectionType.LatestMedia:

@@ -1,10 +1,10 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React from 'react';
-import useCurrentTab from 'hooks/useCurrentTab';
-import Page from 'components/Page';
-import PageTabContent from 'apps/experimental/components/library/PageTabContent';
-import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import PageTabContent from 'apps/experimental/components/library/PageTabContent';
+import Page from 'components/Page';
+import useCurrentTab from 'hooks/useCurrentTab';
+import React from 'react';
+import { LibraryTab } from 'types/libraryTab';
 import { type LibraryTabContent, type LibraryTabMapping } from 'types/libraryTabContent';
 import { MusicSuggestionsSectionsView } from 'types/sections';
 

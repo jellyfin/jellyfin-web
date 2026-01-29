@@ -1,21 +1,32 @@
-import { appRouter } from '../../../components/router/appRouter';
 import globalize from 'lib/globalize';
+import { appRouter } from '../../../components/router/appRouter';
 import { hideAll } from '../utils/viewHelpers';
 
 export function renderGenres(page, item, context) {
     const genres = item.GenreItems || [];
     const type = context === 'music' ? 'MusicGenre' : 'Genre';
 
-    const html = genres.map((p) => {
-        return '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
-            Name: p.Name,
-            Type: type,
-            ServerId: item.ServerId,
-            Id: p.Id
-        }, {
-            context: context
-        }) + '">' + escapeHtml(p.Name) + '</a>';
-    }).join(', ');
+    const html = genres
+        .map((p) => {
+            return (
+                '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' +
+                appRouter.getRouteUrl(
+                    {
+                        Name: p.Name,
+                        Type: type,
+                        ServerId: item.ServerId,
+                        Id: p.Id
+                    },
+                    {
+                        context: context
+                    }
+                ) +
+                '">' +
+                escapeHtml(p.Name) +
+                '</a>'
+            );
+        })
+        .join(', ');
 
     const genresLabel = page.querySelector('.genresLabel');
     genresLabel.innerHTML = globalize.translate(genres.length > 1 ? 'Genres' : 'Genre');
@@ -36,9 +47,11 @@ export function renderWriter(page, item, context) {
     });
 
     if (writers.length) {
-        const html = writers.map((person) => {
-            return `<a class="textlink" href="${person.Url}" is="emby-linkbutton">${escapeHtml(person.Name)}</a>`;
-        }).join(', ');
+        const html = writers
+            .map((person) => {
+                return `<a class="textlink" href="${person.Url}" is="emby-linkbutton">${escapeHtml(person.Name)}</a>`;
+            })
+            .join(', ');
 
         page.querySelector('.writersLabel').innerHTML = globalize.translate('Writers');
         page.querySelector('.writers').innerHTML = html;
@@ -54,9 +67,11 @@ export function renderDirector(page, item, context) {
     });
 
     if (directors.length) {
-        const html = directors.map((person) => {
-            return `<a class="textlink" href="${person.Url}" is="emby-linkbutton">${escapeHtml(person.Name)}</a>`;
-        }).join(', ');
+        const html = directors
+            .map((person) => {
+                return `<a class="textlink" href="${person.Url}" is="emby-linkbutton">${escapeHtml(person.Name)}</a>`;
+            })
+            .join(', ');
 
         page.querySelector('.directorLabel').innerHTML = globalize.translate('Director');
         page.querySelector('.director').innerHTML = html;

@@ -1,5 +1,6 @@
 // PWA Offline Manager
 import { logger } from './logger';
+
 class PWAOfflineManager {
     private static online = true;
 
@@ -34,7 +35,10 @@ class PWAOfflineManager {
         this.hideOfflineBanner();
 
         // Trigger background sync if available
-        if ('serviceWorker' in navigator && 'sync' in (window as any).ServiceWorkerRegistration.prototype) {
+        if (
+            'serviceWorker' in navigator &&
+            'sync' in (window as any).ServiceWorkerRegistration.prototype
+        ) {
             navigator.serviceWorker.ready.then((registration: any) => {
                 registration.sync.register('background-sync');
             });
@@ -68,7 +72,7 @@ class PWAOfflineManager {
                 }
                 logger.timeEnd('Connectivity Check');
             })
-            .catch(error => {
+            .catch((error) => {
                 logger.warn(
                     'Connectivity check failed',
                     {
@@ -89,7 +93,9 @@ class PWAOfflineManager {
         document.documentElement.classList.toggle('online', this.online);
 
         // Update meta theme color based on connection status
-        const themeMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement | null;
+        const themeMeta = document.querySelector(
+            'meta[name="theme-color"]'
+        ) as HTMLMetaElement | null;
         if (themeMeta) {
             themeMeta.content = this.online ? '#101010' : '#ff6b35';
         }

@@ -1,7 +1,6 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-
 import { DEFAULT_DEV_CONFIG, type DevConfig } from 'utils/devConfig';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 export interface DevConfigState extends DevConfig {
     setServerBaseUrl: (serverBaseUrl: string) => void;
@@ -15,12 +14,12 @@ const storage = createJSONStorage(() => localStorage);
 
 export const useDevConfigStore = create<DevConfigState>()(
     persist(
-        set => ({
+        (set) => ({
             ...DEFAULT_DEV_CONFIG,
-            setServerBaseUrl: serverBaseUrl => set({ serverBaseUrl }),
-            setUseProxy: useProxy => set({ useProxy }),
-            setProxyBasePath: proxyBasePath => set({ proxyBasePath }),
-            hydrate: config => set({ ...DEFAULT_DEV_CONFIG, ...config }),
+            setServerBaseUrl: (serverBaseUrl) => set({ serverBaseUrl }),
+            setUseProxy: (useProxy) => set({ useProxy }),
+            setProxyBasePath: (proxyBasePath) => set({ proxyBasePath }),
+            hydrate: (config) => set({ ...DEFAULT_DEV_CONFIG, ...config }),
             reset: () => set({ ...DEFAULT_DEV_CONFIG })
         }),
         {

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useCallback, useState, type ReactElement } from 'react';
 import WavesurferPlayer from '@wavesurfer/react';
-import type WaveSurfer from 'wavesurfer.js';
+import React, { type ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import type WaveSurfer from 'wavesurfer.js';
 import { useVisualizerStore } from '../../../store/visualizerStore';
-import { waveformContainerStyle, waveformOverlayStyle } from './Waveform.css.ts';
 import { logger } from '../../../utils/logger';
+import { waveformContainerStyle, waveformOverlayStyle } from './Waveform.css.ts';
 
 export interface WaveformTrackState {
     readonly id: string;
@@ -48,7 +48,8 @@ export function Waveform({
 
     const { crossfadeZoomLevel, userZoomLevel, showCrossfadeOverlap } = useVisualizerStore();
 
-    const effectiveZoom = isCrossfading && showCrossfadeOverlap ? crossfadeZoomLevel : userZoomLevel;
+    const effectiveZoom =
+        isCrossfading && showCrossfadeOverlap ? crossfadeZoomLevel : userZoomLevel;
 
     useEffect((): void => {
         const wavesurfer = wsRef.current;
@@ -89,7 +90,11 @@ export function Waveform({
                     await wavesurfer.load(nextTrack.url);
                 }
             } catch (error) {
-                logger.error('Failed to load next track waveform:', { component: 'Waveform' }, error as Error);
+                logger.error(
+                    'Failed to load next track waveform:',
+                    { component: 'Waveform' },
+                    error as Error
+                );
             }
         };
 
@@ -115,7 +120,8 @@ export function Waveform({
     const onClick = useCallback(
         (waveform: WaveSurfer): void => {
             const waveDuration = waveform.getDuration();
-            const relativeSeekPosition = waveDuration > 0 ? waveform.getCurrentTime() / waveDuration : 0;
+            const relativeSeekPosition =
+                waveDuration > 0 ? waveform.getCurrentTime() / waveDuration : 0;
             const seekTime = Math.min(duration, relativeSeekPosition * duration);
             onSeek(seekTime);
         },
@@ -177,7 +183,7 @@ export function Waveform({
 
             {buffered.length > 0 && (
                 <div className={waveformOverlayStyle}>
-                    {buffered.map(range => {
+                    {buffered.map((range) => {
                         const startPercent = (range.start / duration) * 100;
                         const widthPercent = ((range.end - range.start) / duration) * 100;
                         return (

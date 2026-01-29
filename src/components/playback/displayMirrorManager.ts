@@ -9,7 +9,11 @@ async function mirrorIfEnabled(serverId: string, itemId: string) {
     if (playbackManager.enableDisplayMirroring()) {
         const playerInfo = playbackManager.getPlayerInfo();
 
-        if (playerInfo && !playerInfo.isLocalPlayer && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
+        if (
+            playerInfo &&
+            !playerInfo.isLocalPlayer &&
+            playerInfo.supportedCommands.indexOf('DisplayContent') !== -1
+        ) {
             const apiClient = ServerConnections.getApiClient(serverId);
             const api = toApi(apiClient);
             const userId = apiClient.getCurrentUserId();
@@ -29,7 +33,7 @@ async function mirrorIfEnabled(serverId: string, itemId: string) {
     }
 }
 
-document.addEventListener('viewshow', e => {
+document.addEventListener('viewshow', (e) => {
     const { serverId, id } = e.detail?.params || {};
     if (serverId && id) {
         void mirrorIfEnabled(serverId, id);

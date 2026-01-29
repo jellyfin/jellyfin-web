@@ -1,9 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { type ReactElement, useState, useCallback } from 'react';
-import { Text } from '../..';
-import { RadioGroup, RadioGroupItem } from '../..';
+import { type ReactElement, useCallback, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { RadioGroup, RadioGroupItem, Text } from '../..';
 
 const meta: Meta<typeof RadioGroup> = {
     title: 'UI Primitives/RadioGroup',

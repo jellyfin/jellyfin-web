@@ -1,17 +1,25 @@
-import { Portal, Content, Arrow, Close, Root, Trigger } from '@radix-ui/react-popover';
-import React, { type ReactNode, type ReactElement } from 'react';
+import { Arrow, Close, Content, Portal, Root, Trigger } from '@radix-ui/react-popover';
+import React, { type ReactElement, type ReactNode } from 'react';
 import {
+    alignVariants,
+    popoverArrow,
+    popoverClose,
+    popoverContent,
+    popoverDescription,
+    popoverFooter,
+    popoverHeader,
+    popoverTitle
+} from './Popover.css.ts';
+
+export {
     popoverContent,
     popoverArrow,
     popoverClose,
     popoverHeader,
     popoverTitle,
     popoverDescription,
-    popoverFooter,
-    alignVariants
-} from './Popover.css.ts';
-
-export { popoverContent, popoverArrow, popoverClose, popoverHeader, popoverTitle, popoverDescription, popoverFooter };
+    popoverFooter
+};
 
 export type PopoverAlign = keyof typeof alignVariants;
 

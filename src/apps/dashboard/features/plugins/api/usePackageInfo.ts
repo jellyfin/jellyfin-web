@@ -1,18 +1,20 @@
-import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { Api } from '@jellyfin/sdk';
 import type { PackageApiGetPackageInfoRequest } from '@jellyfin/sdk/lib/generated-client/api/package-api';
-import { getPackageApi } from '@jellyfin/sdk/lib/utils/api/package-api';
-import type { AxiosRequestConfig } from 'axios';
-
-import { useApi } from 'hooks/useApi';
-
-import { QueryKey } from './queryKey';
-import { queryClient } from 'utils/query/queryClient';
 import type { PackageInfo } from '@jellyfin/sdk/lib/generated-client/models/package-info';
+import { getPackageApi } from '@jellyfin/sdk/lib/utils/api/package-api';
+import { queryOptions, useQuery } from '@tanstack/react-query';
+import type { AxiosRequestConfig } from 'axios';
+import { useApi } from 'hooks/useApi';
+import { queryClient } from 'utils/query/queryClient';
+import { QueryKey } from './queryKey';
 
 type PackagesData = PackageInfo[];
 
-const fetchPackageInfo = async (api: Api, params: PackageApiGetPackageInfoRequest, options?: AxiosRequestConfig) => {
+const fetchPackageInfo = async (
+    api: Api,
+    params: PackageApiGetPackageInfoRequest,
+    options?: AxiosRequestConfig
+) => {
     const packagesData = queryClient.getQueryData([QueryKey.Packages]) as PackagesData | undefined;
     if (packagesData && params.assemblyGuid) {
         const pkg = packagesData.find?.((v: { guid?: string }) => v.guid === params.assemblyGuid);

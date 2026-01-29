@@ -1,12 +1,12 @@
 import type { ItemCounts } from '@jellyfin/sdk/lib/generated-client/models/item-counts';
 import { DesktopIcon, DiscIcon, ReaderIcon, StackIcon, VideoIcon } from '@radix-ui/react-icons';
-import React, { useMemo } from 'react';
-
 import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
-import MetricCard, { type MetricCardProps } from 'apps/dashboard/features/metrics/components/MetricCard';
+import MetricCard, {
+    type MetricCardProps
+} from 'apps/dashboard/features/metrics/components/MetricCard';
 import globalize from 'lib/globalize';
-import { Grid } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
+import React, { useMemo } from 'react';
+import { Flex, Grid } from 'ui-primitives';
 
 interface MetricDefinition {
     key: keyof ItemCounts;
@@ -55,15 +55,15 @@ const ItemCountsWidget = (): React.ReactElement => {
     const { data: counts, isPending } = useItemCounts();
 
     const cards: MetricCardProps[] = useMemo(() => {
-        return CARD_DEFINITIONS.filter(def => isPending || def.metrics.some(({ key }) => counts?.[key] != null)).map(
-            ({ Icon, metrics }) => ({
-                Icon,
-                metrics: metrics.map(({ i18n, key }) => ({
-                    label: globalize.translate(i18n),
-                    value: counts?.[key]
-                }))
-            })
-        );
+        return CARD_DEFINITIONS.filter(
+            (def) => isPending || def.metrics.some(({ key }) => counts?.[key] != null)
+        ).map(({ Icon, metrics }) => ({
+            Icon,
+            metrics: metrics.map(({ i18n, key }) => ({
+                label: globalize.translate(i18n),
+                value: counts?.[key]
+            }))
+        }));
     }, [counts, isPending]);
 
     return (
@@ -75,8 +75,13 @@ const ItemCountsWidget = (): React.ReactElement => {
                     alignItems: 'stretch'
                 }}
             >
-                {cards.map(card => (
-                    <Grid key={card.metrics.map(metric => metric.label).join('-')} xs={12} sm={6} lg={4}>
+                {cards.map((card) => (
+                    <Grid
+                        key={card.metrics.map((metric) => metric.label).join('-')}
+                        xs={12}
+                        sm={6}
+                        lg={4}
+                    >
                         <MetricCard {...card} />
                     </Grid>
                 ))}

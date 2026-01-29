@@ -1,11 +1,8 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useState } from 'react';
 import * as Collapsible from '@radix-ui/react-collapsible';
-import { Box, Flex, FlexCol } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
+import React, { useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, FlexCol, IconButton, Text } from 'ui-primitives';
 
 interface FilterSectionProps {
     title: string;
@@ -49,7 +46,7 @@ export function FilterSection({
                     {onClear && hasActiveFilters && (
                         <Box
                             style={{ cursor: 'pointer' }}
-                            onClick={e => {
+                            onClick={(e) => {
                                 e.stopPropagation();
                                 onClear();
                             }}
@@ -63,7 +60,7 @@ export function FilterSection({
                         <IconButton
                             variant="ghost"
                             size="sm"
-                            onClick={e => {
+                            onClick={(e) => {
                                 e.stopPropagation();
                                 setIsOpen(!isOpen);
                             }}

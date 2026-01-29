@@ -4,9 +4,9 @@
  * Integration tests for upcoming TV episodes with playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('TVUpcoming integration', () => {
     describe('upcoming episode conversion', () => {
@@ -31,15 +31,33 @@ describe('TVUpcoming integration', () => {
 
         it('creates queue from upcoming episodes', () => {
             const episodes: BaseItemDto[] = [
-                { Id: 'ep-1', Name: 'Episode 1', Type: 'Episode', ServerId: 'server-1', PremiereDate: '2024-02-01' },
-                { Id: 'ep-2', Name: 'Episode 2', Type: 'Episode', ServerId: 'server-1', PremiereDate: '2024-02-08' },
-                { Id: 'ep-3', Name: 'Episode 3', Type: 'Episode', ServerId: 'server-1', PremiereDate: '2024-02-15' }
+                {
+                    Id: 'ep-1',
+                    Name: 'Episode 1',
+                    Type: 'Episode',
+                    ServerId: 'server-1',
+                    PremiereDate: '2024-02-01'
+                },
+                {
+                    Id: 'ep-2',
+                    Name: 'Episode 2',
+                    Type: 'Episode',
+                    ServerId: 'server-1',
+                    PremiereDate: '2024-02-08'
+                },
+                {
+                    Id: 'ep-3',
+                    Name: 'Episode 3',
+                    Type: 'Episode',
+                    ServerId: 'server-1',
+                    PremiereDate: '2024-02-15'
+                }
             ];
 
             const queue = toVideoItems(episodes);
 
             expect(queue).toHaveLength(3);
-            queue.forEach(item => expect(item.mediaType).toBe('Video'));
+            queue.forEach((item) => expect(item.mediaType).toBe('Video'));
         });
 
         it('converts multiple upcoming episodes for grouping by date', () => {
@@ -55,7 +73,7 @@ describe('TVUpcoming integration', () => {
             const playables = toVideoItems(episodes);
 
             expect(playables).toHaveLength(12);
-            playables.forEach(p => expect(p.mediaType).toBe('Video'));
+            playables.forEach((p) => expect(p.mediaType).toBe('Video'));
         });
     });
 
@@ -105,9 +123,27 @@ describe('TVUpcoming integration', () => {
             nextWeek.setDate(nextWeek.getDate() + 7);
 
             const episodes: BaseItemDto[] = [
-                { Id: 'ep-1', Name: 'Today', Type: 'Episode' as const, ServerId: 'server-1', PremiereDate: today.toISOString() },
-                { Id: 'ep-2', Name: 'Tomorrow', Type: 'Episode' as const, ServerId: 'server-1', PremiereDate: tomorrow.toISOString() },
-                { Id: 'ep-3', Name: 'Next Week', Type: 'Episode' as const, ServerId: 'server-1', PremiereDate: nextWeek.toISOString() }
+                {
+                    Id: 'ep-1',
+                    Name: 'Today',
+                    Type: 'Episode' as const,
+                    ServerId: 'server-1',
+                    PremiereDate: today.toISOString()
+                },
+                {
+                    Id: 'ep-2',
+                    Name: 'Tomorrow',
+                    Type: 'Episode' as const,
+                    ServerId: 'server-1',
+                    PremiereDate: tomorrow.toISOString()
+                },
+                {
+                    Id: 'ep-3',
+                    Name: 'Next Week',
+                    Type: 'Episode' as const,
+                    ServerId: 'server-1',
+                    PremiereDate: nextWeek.toISOString()
+                }
             ];
 
             const queue = toVideoItems(episodes);
@@ -194,9 +230,30 @@ describe('TVUpcoming integration', () => {
         it('handles multiple episodes on same premiere date', () => {
             const premiereDate = '2024-02-14T20:00:00Z';
             const episodes: BaseItemDto[] = [
-                { Id: 'ep-1', Name: 'Show 1 Ep', Type: 'Episode' as const, ServerId: 'server-1', SeriesName: 'Show 1', PremiereDate: premiereDate },
-                { Id: 'ep-2', Name: 'Show 2 Ep', Type: 'Episode' as const, ServerId: 'server-1', SeriesName: 'Show 2', PremiereDate: premiereDate },
-                { Id: 'ep-3', Name: 'Show 3 Ep', Type: 'Episode' as const, ServerId: 'server-1', SeriesName: 'Show 3', PremiereDate: premiereDate }
+                {
+                    Id: 'ep-1',
+                    Name: 'Show 1 Ep',
+                    Type: 'Episode' as const,
+                    ServerId: 'server-1',
+                    SeriesName: 'Show 1',
+                    PremiereDate: premiereDate
+                },
+                {
+                    Id: 'ep-2',
+                    Name: 'Show 2 Ep',
+                    Type: 'Episode' as const,
+                    ServerId: 'server-1',
+                    SeriesName: 'Show 2',
+                    PremiereDate: premiereDate
+                },
+                {
+                    Id: 'ep-3',
+                    Name: 'Show 3 Ep',
+                    Type: 'Episode' as const,
+                    ServerId: 'server-1',
+                    SeriesName: 'Show 3',
+                    PremiereDate: premiereDate
+                }
             ];
 
             const queue = toVideoItems(episodes);

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { usePreferencesStore } from '../preferencesStore';
 
 describe('preferencesStore - Visualizer', () => {
@@ -33,7 +33,9 @@ describe('preferencesStore - Visualizer', () => {
         // Test frequency analyzer color scheme
         usePreferencesStore.getState().setVisualizerType('frequency');
         usePreferencesStore.getState().setVisualizerColorScheme('gradient');
-        expect(usePreferencesStore.getState().visualizer.frequencyAnalyzer.colorScheme).toBe('gradient');
+        expect(usePreferencesStore.getState().visualizer.frequencyAnalyzer.colorScheme).toBe(
+            'gradient'
+        );
 
         // Test wave surfer color scheme
         usePreferencesStore.getState().setVisualizerType('waveform');

@@ -1,28 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { z } from 'zod';
-import { useForm, useField } from '@tanstack/react-form';
+import { useField, useForm } from '@tanstack/react-form';
 import { useQuery } from '@tanstack/react-query';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import globalize from 'lib/globalize';
 import { AppFeature } from 'constants/appFeature';
-import { safeAppHost } from '../apphost';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Alert,
+    Box,
+    Button,
+    Checkbox,
+    CircularProgress,
+    Divider,
+    Flex,
+    FlexCol,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Slider,
+    Text
+} from 'ui-primitives';
+import { z } from 'zod';
 import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
+import { safeAppHost } from '../apphost';
 import layoutManager from '../layoutManager';
 import toast from '../toast/toast';
-import { vars } from 'styles/tokens.css.ts';
-
-import { Box, Flex, FlexCol } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { FormControl, FormLabel, FormHelperText } from 'ui-primitives';
-import { Slider } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Alert } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
 
 const subtitleSettingsSchema = z.object({
     subtitleLanguage: z.string(),
@@ -115,7 +125,12 @@ const SUBTITLE_STYLING_OPTIONS = [
     { value: 'Native', label: globalize.translate('Native') }
 ];
 
-export function SubtitleSettings({ userId, serverId, userSettings, onSave }: SubtitleSettingsProps) {
+export function SubtitleSettings({
+    userId,
+    serverId,
+    userSettings,
+    onSave
+}: SubtitleSettingsProps) {
     const [saveError, setSaveError] = useState<string | null>(null);
     const [showAppearanceSection, setShowAppearanceSection] = useState(false);
 
@@ -140,14 +155,19 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
     ];
 
     const canShowBurnIn =
-        safeAppHost.supports(AppFeature.SubtitleBurnIn) && user?.Policy?.EnableVideoPlaybackTranscoding;
+        safeAppHost.supports(AppFeature.SubtitleBurnIn) &&
+        user?.Policy?.EnableVideoPlaybackTranscoding;
 
     const form = useForm({
         defaultValues: {
             subtitleLanguage: user?.Configuration?.SubtitleLanguagePreference || '',
             subtitlePlaybackMode:
-                (user?.Configuration?.SubtitleMode as 'Default' | 'Smart' | 'OnlyForced' | 'Always' | 'None') ||
-                'Default',
+                (user?.Configuration?.SubtitleMode as
+                    | 'Default'
+                    | 'Smart'
+                    | 'OnlyForced'
+                    | 'Always'
+                    | 'None') || 'Default',
             subtitleBurnIn: '',
             renderPgsSubtitle: false,
             alwaysBurnInSubtitleWhenTranscoding: false,
@@ -185,7 +205,9 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                 toast(globalize.translate('SettingsSaved'));
                 onSave?.();
             } catch (error) {
-                setSaveError(error instanceof Error ? error.message : globalize.translate('ErrorDefault'));
+                setSaveError(
+                    error instanceof Error ? error.message : globalize.translate('ErrorDefault')
+                );
             }
         }
     });
@@ -196,7 +218,9 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
         return (
             <Box style={{ padding: vars.spacing['6'], textAlign: 'center' }}>
                 <CircularProgress size="lg" />
-                <Text style={{ marginTop: vars.spacing['4'] }}>{globalize.translate('Loading')}</Text>
+                <Text style={{ marginTop: vars.spacing['4'] }}>
+                    {globalize.translate('Loading')}
+                </Text>
             </Box>
         );
     }
@@ -210,25 +234,31 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
             )}
 
             <form
-                onSubmit={e => {
+                onSubmit={(e) => {
                     e.preventDefault();
                     form.handleSubmit();
                 }}
             >
                 <Box style={{ marginBottom: vars.spacing['6'] }}>
-                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>{globalize.translate('Subtitles')}</Heading.H3>
+                    <Heading.H3 style={{ marginBottom: vars.spacing['4'] }}>
+                        {globalize.translate('Subtitles')}
+                    </Heading.H3>
 
                     <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
-                            <FormLabel>{globalize.translate('LabelPreferredSubtitleLanguage')}</FormLabel>
+                            <FormLabel>
+                                {globalize.translate('LabelPreferredSubtitleLanguage')}
+                            </FormLabel>
                             <Select
                                 value={form.state.values.subtitleLanguage}
-                                onValueChange={(value: string) => form.setFieldValue('subtitleLanguage', value)}
+                                onValueChange={(value: string) =>
+                                    form.setFieldValue('subtitleLanguage', value)
+                                }
                             >
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue placeholder={globalize.translate('Auto')} />
                                     <SelectContent>
-                                        {languageOptions.map(opt => (
+                                        {languageOptions.map((opt) => (
                                             <SelectItem key={opt.value} value={opt.value}>
                                                 {opt.label}
                                             </SelectItem>
@@ -241,17 +271,19 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
 
                     <Box style={{ marginBottom: vars.spacing['4'] }}>
                         <FormControl>
-                            <FormLabel>{globalize.translate('LabelSubtitlePlaybackMode')}</FormLabel>
+                            <FormLabel>
+                                {globalize.translate('LabelSubtitlePlaybackMode')}
+                            </FormLabel>
                             <Select
                                 value={form.state.values.subtitlePlaybackMode}
-                                onValueChange={(value: 'Default' | 'Smart' | 'OnlyForced' | 'Always' | 'None') =>
-                                    form.setFieldValue('subtitlePlaybackMode', value)
-                                }
+                                onValueChange={(
+                                    value: 'Default' | 'Smart' | 'OnlyForced' | 'Always' | 'None'
+                                ) => form.setFieldValue('subtitlePlaybackMode', value)}
                             >
                                 <SelectTrigger style={{ width: '100%' }}>
                                     <SelectValue />
                                     <SelectContent>
-                                        {SUBTITLE_PLAYBACK_MODE_OPTIONS.map(opt => (
+                                        {SUBTITLE_PLAYBACK_MODE_OPTIONS.map((opt) => (
                                             <SelectItem key={opt.value} value={opt.value}>
                                                 {opt.label}
                                             </SelectItem>
@@ -280,12 +312,14 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                 <FormLabel>{globalize.translate('LabelBurnSubtitles')}</FormLabel>
                                 <Select
                                     value={form.state.values.subtitleBurnIn}
-                                    onValueChange={(value: string) => form.setFieldValue('subtitleBurnIn', value)}
+                                    onValueChange={(value: string) =>
+                                        form.setFieldValue('subtitleBurnIn', value)
+                                    }
                                 >
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue placeholder={globalize.translate('Auto')} />
                                         <SelectContent>
-                                            {SUBTITLE_BURN_IN_OPTIONS.map(opt => (
+                                            {SUBTITLE_BURN_IN_OPTIONS.map((opt) => (
                                                 <SelectItem key={opt.value} value={opt.value}>
                                                     {opt.label}
                                                 </SelectItem>
@@ -294,7 +328,9 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                     </SelectTrigger>
                                 </Select>
                             </FormControl>
-                            <FormHelperText>{globalize.translate('BurnSubtitlesHelp')}</FormHelperText>
+                            <FormHelperText>
+                                {globalize.translate('BurnSubtitlesHelp')}
+                            </FormHelperText>
                         </Box>
                     )}
 
@@ -303,8 +339,11 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                             <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
                                 <Checkbox
                                     checked={form.state.values.alwaysBurnInSubtitleWhenTranscoding}
-                                    onChange={e =>
-                                        form.setFieldValue('alwaysBurnInSubtitleWhenTranscoding', e.target.checked)
+                                    onChange={(e) =>
+                                        form.setFieldValue(
+                                            'alwaysBurnInSubtitleWhenTranscoding',
+                                            e.target.checked
+                                        )
                                     }
                                 />
                                 <FormLabel style={{ marginBottom: 0 }}>
@@ -321,7 +360,13 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                 <Divider style={{ margin: `${vars.spacing['5']} 0` }} />
 
                 <Box style={{ marginBottom: vars.spacing['6'] }}>
-                    <Flex style={{ alignItems: 'center', justifyContent: 'space-between', marginBottom: vars.spacing['4'] }}>
+                    <Flex
+                        style={{
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            marginBottom: vars.spacing['4']
+                        }}
+                    >
                         <Heading.H3 style={{ marginBottom: 0 }}>
                             {globalize.translate('HeaderSubtitleAppearance')}
                         </Heading.H3>
@@ -330,7 +375,9 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                             size="sm"
                             onClick={() => setShowAppearanceSection(!showAppearanceSection)}
                         >
-                            {showAppearanceSection ? globalize.translate('Hide') : globalize.translate('Show')}
+                            {showAppearanceSection
+                                ? globalize.translate('Hide')
+                                : globalize.translate('Show')}
                         </Button>
                     </Flex>
 
@@ -355,20 +402,30 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                             fontSize: vars.typography['2'].fontSize
                                         }}
                                     >
-                                        {globalize.translate('TheseSettingsAffectSubtitlesOnThisDevice')}
+                                        {globalize.translate(
+                                            'TheseSettingsAffectSubtitlesOnThisDevice'
+                                        )}
                                     </Box>
                                 </Box>
                                 <Text size="sm" color="secondary">
                                     {globalize.translate('SubtitleAppearanceSettingsDisclaimer')}
                                 </Text>
-                                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['1'] }}>
-                                    {globalize.translate('SubtitleAppearanceSettingsAlsoPassedToCastDevices')}
+                                <Text
+                                    size="sm"
+                                    color="secondary"
+                                    style={{ marginTop: vars.spacing['1'] }}
+                                >
+                                    {globalize.translate(
+                                        'SubtitleAppearanceSettingsAlsoPassedToCastDevices'
+                                    )}
                                 </Text>
                             </Box>
 
                             <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
-                                    <FormLabel>{globalize.translate('LabelSubtitleStyling')}</FormLabel>
+                                    <FormLabel>
+                                        {globalize.translate('LabelSubtitleStyling')}
+                                    </FormLabel>
                                     <Select
                                         value={form.state.values.subtitleStyling}
                                         onValueChange={(value: 'Auto' | 'Custom' | 'Native') =>
@@ -378,7 +435,7 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                         <SelectTrigger style={{ width: '100%' }}>
                                             <SelectValue />
                                             <SelectContent>
-                                                {SUBTITLE_STYLING_OPTIONS.map(opt => (
+                                                {SUBTITLE_STYLING_OPTIONS.map((opt) => (
                                                     <SelectItem key={opt.value} value={opt.value}>
                                                         {opt.label}
                                                     </SelectItem>
@@ -409,7 +466,7 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                         <SelectTrigger style={{ width: '100%' }}>
                                             <SelectValue />
                                             <SelectContent>
-                                                {TEXT_SIZE_OPTIONS.map(opt => (
+                                                {TEXT_SIZE_OPTIONS.map((opt) => (
                                                     <SelectItem key={opt.value} value={opt.value}>
                                                         {opt.label}
                                                     </SelectItem>
@@ -425,14 +482,14 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                     <FormLabel>{globalize.translate('LabelTextWeight')}</FormLabel>
                                     <Select
                                         value={form.state.values.textWeight}
-                                        onValueChange={(value: typeof form.state.values.textWeight) =>
-                                            form.setFieldValue('textWeight', value)
-                                        }
+                                        onValueChange={(
+                                            value: typeof form.state.values.textWeight
+                                        ) => form.setFieldValue('textWeight', value)}
                                     >
                                         <SelectTrigger style={{ width: '100%' }}>
                                             <SelectValue />
                                             <SelectContent>
-                                                {TEXT_WEIGHT_OPTIONS.map(opt => (
+                                                {TEXT_WEIGHT_OPTIONS.map((opt) => (
                                                     <SelectItem key={opt.value} value={opt.value}>
                                                         {opt.label}
                                                     </SelectItem>
@@ -448,12 +505,16 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                     <FormLabel>{globalize.translate('LabelFont')}</FormLabel>
                                     <Select
                                         value={form.state.values.font}
-                                        onValueChange={(value: string) => form.setFieldValue('font', value)}
+                                        onValueChange={(value: string) =>
+                                            form.setFieldValue('font', value)
+                                        }
                                     >
                                         <SelectTrigger style={{ width: '100%' }}>
-                                            <SelectValue placeholder={globalize.translate('Default')} />
+                                            <SelectValue
+                                                placeholder={globalize.translate('Default')}
+                                            />
                                             <SelectContent>
-                                                {FONT_OPTIONS.map(opt => (
+                                                {FONT_OPTIONS.map((opt) => (
                                                     <SelectItem key={opt.value} value={opt.value}>
                                                         {opt.label}
                                                     </SelectItem>
@@ -470,13 +531,18 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                     {layoutManager.tv ? (
                                         <Select
                                             value={form.state.values.textColor}
-                                            onValueChange={(value: string) => form.setFieldValue('textColor', value)}
+                                            onValueChange={(value: string) =>
+                                                form.setFieldValue('textColor', value)
+                                            }
                                         >
                                             <SelectTrigger style={{ width: '100%' }}>
                                                 <SelectValue />
                                                 <SelectContent>
-                                                    {TEXT_COLOR_OPTIONS.map(opt => (
-                                                        <SelectItem key={opt.value} value={opt.value}>
+                                                    {TEXT_COLOR_OPTIONS.map((opt) => (
+                                                        <SelectItem
+                                                            key={opt.value}
+                                                            value={opt.value}
+                                                        >
                                                             {opt.label}
                                                         </SelectItem>
                                                     ))}
@@ -487,8 +553,14 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                         <Input
                                             type="color"
                                             value={form.state.values.textColor}
-                                            onChange={e => form.setFieldValue('textColor', e.target.value)}
-                                            style={{ width: '100%', height: '48px', padding: vars.spacing['1'] }}
+                                            onChange={(e) =>
+                                                form.setFieldValue('textColor', e.target.value)
+                                            }
+                                            style={{
+                                                width: '100%',
+                                                height: '48px',
+                                                padding: vars.spacing['1']
+                                            }}
                                         />
                                     )}
                                 </FormControl>
@@ -499,14 +571,14 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                     <FormLabel>{globalize.translate('LabelDropShadow')}</FormLabel>
                                     <Select
                                         value={form.state.values.dropShadow}
-                                        onValueChange={(value: typeof form.state.values.dropShadow) =>
-                                            form.setFieldValue('dropShadow', value)
-                                        }
+                                        onValueChange={(
+                                            value: typeof form.state.values.dropShadow
+                                        ) => form.setFieldValue('dropShadow', value)}
                                     >
                                         <SelectTrigger style={{ width: '100%' }}>
                                             <SelectValue />
                                             <SelectContent>
-                                                {DROP_SHADOW_OPTIONS.map(opt => (
+                                                {DROP_SHADOW_OPTIONS.map((opt) => (
                                                     <SelectItem key={opt.value} value={opt.value}>
                                                         {opt.label}
                                                     </SelectItem>
@@ -519,7 +591,9 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
 
                             <Box style={{ marginBottom: vars.spacing['4'] }}>
                                 <FormControl>
-                                    <FormLabel>{globalize.translate('LabelSubtitleVerticalPosition')}</FormLabel>
+                                    <FormLabel>
+                                        {globalize.translate('LabelSubtitleVerticalPosition')}
+                                    </FormLabel>
                                     <Flex style={{ alignItems: 'center', gap: vars.spacing['4'] }}>
                                         <Slider
                                             value={[form.state.values.verticalPosition]}
@@ -531,12 +605,17 @@ export function SubtitleSettings({ userId, serverId, userSettings, onSave }: Sub
                                             step={1}
                                             style={{ flex: 1 }}
                                         />
-                                        <Text size="sm" style={{ minWidth: '40px', textAlign: 'right' }}>
+                                        <Text
+                                            size="sm"
+                                            style={{ minWidth: '40px', textAlign: 'right' }}
+                                        >
                                             {form.state.values.verticalPosition}
                                         </Text>
                                     </Flex>
                                 </FormControl>
-                                <FormHelperText>{globalize.translate('SubtitleVerticalPositionHelp')}</FormHelperText>
+                                <FormHelperText>
+                                    {globalize.translate('SubtitleVerticalPositionHelp')}
+                                </FormHelperText>
                             </Box>
 
                             <Box style={{ marginBottom: vars.spacing['4'] }}>

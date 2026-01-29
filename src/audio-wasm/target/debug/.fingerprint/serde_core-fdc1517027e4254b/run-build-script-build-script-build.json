@@ -1,15 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "",
-  "declared_features": "",
-  "target": 0,
-  "profile": 0,
-  "path": 0,
-  "deps": [[11899261697793765154, "build_script_build", false, 2357847458786415391]],
-  "local": [
-    { "RerunIfChanged": { "output": "debug/build/serde_core-fdc1517027e4254b/output", "paths": ["build.rs"] } }
-  ],
-  "rustflags": [],
-  "config": 0,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "",
+    "declared_features": "",
+    "target": 0,
+    "profile": 0,
+    "path": 0,
+    "deps": [[11899261697793765154, "build_script_build", false, 2357847458786415391]],
+    "local": [
+        {
+            "RerunIfChanged": {
+                "output": "debug/build/serde_core-fdc1517027e4254b/output",
+                "paths": ["build.rs"]
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 0,
+    "compile_kind": 0
 }

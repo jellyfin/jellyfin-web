@@ -1,11 +1,17 @@
-import React, { useCallback, useState } from 'react';
 import globalize from 'lib/globalize';
-import { Dialog, DialogContent, DialogTitle } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { FormControl, FormLabel, FormHelperText } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
+import React, { useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Flex,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Input
+} from 'ui-primitives';
 
 interface InputDialogProps {
     open: boolean;

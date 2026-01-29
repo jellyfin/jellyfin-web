@@ -11,20 +11,19 @@
  */
 
 import type { BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useSearchParams } from 'hooks/useSearchParams';
+import Toast from 'apps/dashboard/components/Toast';
 import escapeHTML from 'escape-html';
-
-import loading from '../../../../components/loading/loading';
-import globalize from '../../../../lib/globalize';
+import { useSearchParams } from 'hooks/useSearchParams';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { logger } from 'utils/logger';
+import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
+import loading from '../../../../components/loading/loading';
+import Page from '../../../../components/Page';
+import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Button from '../../../../elements/emby-button/Button';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import Page from '../../../../components/Page';
-import Toast from 'apps/dashboard/components/Toast';
-import { logger } from 'utils/logger';
+import globalize from '../../../../lib/globalize';
 
 interface ItemsArr {
     Name?: string | null;
@@ -67,7 +66,8 @@ const UserLibraryAccess = () => {
 
         for (const folder of mediaFolders) {
             const isChecked =
-                user.Policy?.EnableAllFolders || user.Policy?.EnabledFolders?.indexOf(folder.Id || '') != -1;
+                user.Policy?.EnableAllFolders ||
+                user.Policy?.EnabledFolders?.indexOf(folder.Id || '') != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: folder.Id,
@@ -78,7 +78,9 @@ const UserLibraryAccess = () => {
 
         setMediaFoldersItems(itemsArr);
 
-        const chkEnableAllFolders = page.querySelector('.chkEnableAllFolders') as HTMLInputElement | null;
+        const chkEnableAllFolders = page.querySelector(
+            '.chkEnableAllFolders'
+        ) as HTMLInputElement | null;
         if (chkEnableAllFolders) {
             chkEnableAllFolders.checked = Boolean(user.Policy?.EnableAllFolders);
             triggerChange(chkEnableAllFolders);
@@ -97,7 +99,8 @@ const UserLibraryAccess = () => {
 
         for (const folder of channels) {
             const isChecked =
-                user.Policy?.EnableAllChannels || user.Policy?.EnabledChannels?.indexOf(folder.Id || '') != -1;
+                user.Policy?.EnableAllChannels ||
+                user.Policy?.EnabledChannels?.indexOf(folder.Id || '') != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: folder.Id,
@@ -114,7 +117,9 @@ const UserLibraryAccess = () => {
             page.querySelector('.channelAccessContainer')!.classList.add('hide');
         }
 
-        const chkEnableAllChannels = page.querySelector('.chkEnableAllChannels') as HTMLInputElement | null;
+        const chkEnableAllChannels = page.querySelector(
+            '.chkEnableAllChannels'
+        ) as HTMLInputElement | null;
         if (chkEnableAllChannels) {
             chkEnableAllChannels.checked = Boolean(user.Policy?.EnableAllChannels);
             triggerChange(chkEnableAllChannels);
@@ -133,7 +138,8 @@ const UserLibraryAccess = () => {
 
         for (const device of devices) {
             const isChecked =
-                user.Policy?.EnableAllDevices || user.Policy?.EnabledDevices?.indexOf(device.Id || '') != -1;
+                user.Policy?.EnableAllDevices ||
+                user.Policy?.EnabledDevices?.indexOf(device.Id || '') != -1;
             const checkedAttribute = isChecked ? ' checked="checked"' : '';
             itemsArr.push({
                 Id: device.Id,
@@ -146,7 +152,9 @@ const UserLibraryAccess = () => {
 
         setDevicesItems(itemsArr);
 
-        const chkEnableAllDevices = page.querySelector('.chkEnableAllDevices') as HTMLInputElement | null;
+        const chkEnableAllDevices = page.querySelector(
+            '.chkEnableAllDevices'
+        ) as HTMLInputElement | null;
         if (chkEnableAllDevices) {
             chkEnableAllDevices.checked = Boolean(user.Policy?.EnableAllDevices);
             triggerChange(chkEnableAllDevices);
@@ -160,7 +168,12 @@ const UserLibraryAccess = () => {
     }, []);
 
     const loadUser = useCallback(
-        (user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfoDto[]) => {
+        (
+            user: UserDto,
+            mediaFolders: BaseItemDto[],
+            channels: BaseItemDto[],
+            devices: DeviceInfoDto[]
+        ) => {
             setUserName(user.Name || '');
             void libraryMenuPromise.current.then((menu: any) => menu.default.setTitle(user.Name));
             loadChannels(user, channels);
@@ -173,7 +186,9 @@ const UserLibraryAccess = () => {
 
     const loadData = useCallback(() => {
         loading.show();
-        const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
+        const promise1 = userId
+            ? window.ApiClient.getUser(userId)
+            : Promise.resolve({ Configuration: {} });
         const promise2 = window.ApiClient.getJSON(
             window.ApiClient.getUrl('Library/MediaFolders', {
                 IsHidden: false
@@ -182,7 +197,7 @@ const UserLibraryAccess = () => {
         const promise3 = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
         const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
         Promise.all([promise1, promise2, promise3, promise4])
-            .then(responses => {
+            .then((responses) => {
                 loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
             })
             .catch((err: any) => {
@@ -228,7 +243,9 @@ const UserLibraryAccess = () => {
                 throw new Error('Unexpected null user.Policy');
             }
 
-            const chkEnableAllFolders = page.querySelector('.chkEnableAllFolders') as HTMLInputElement | null;
+            const chkEnableAllFolders = page.querySelector(
+                '.chkEnableAllFolders'
+            ) as HTMLInputElement | null;
             user.Policy.EnableAllFolders = chkEnableAllFolders?.checked ?? false;
             user.Policy.EnabledFolders = user.Policy.EnableAllFolders
                 ? []
@@ -240,7 +257,9 @@ const UserLibraryAccess = () => {
                           return c.getAttribute('data-id');
                       })
                       .filter((id): id is string => id !== null);
-            const chkEnableAllChannels = page.querySelector('.chkEnableAllChannels') as HTMLInputElement | null;
+            const chkEnableAllChannels = page.querySelector(
+                '.chkEnableAllChannels'
+            ) as HTMLInputElement | null;
             user.Policy.EnableAllChannels = chkEnableAllChannels?.checked ?? false;
             user.Policy.EnabledChannels = user.Policy.EnableAllChannels
                 ? []
@@ -252,7 +271,9 @@ const UserLibraryAccess = () => {
                           return c.getAttribute('data-id');
                       })
                       .filter((id): id is string => id !== null);
-            const chkEnableAllDevices = page.querySelector('.chkEnableAllDevices') as HTMLInputElement | null;
+            const chkEnableAllDevices = page.querySelector(
+                '.chkEnableAllDevices'
+            ) as HTMLInputElement | null;
             user.Policy.EnableAllDevices = chkEnableAllDevices?.checked ?? false;
             user.Policy.EnabledDevices = user.Policy.EnableAllDevices
                 ? []
@@ -271,7 +292,9 @@ const UserLibraryAccess = () => {
                     onSaveComplete();
                 })
                 .catch((err: any) => {
-                    logger.error('[userlibraryaccess] failed to update user policy', { error: err });
+                    logger.error('[userlibraryaccess] failed to update user policy', {
+                        error: err
+                    });
                 });
         };
 
@@ -280,17 +303,35 @@ const UserLibraryAccess = () => {
             setIsSettingsSavedToastOpen(true);
         };
 
-        page.querySelector('.chkEnableAllDevices')!.addEventListener('change', function (this: HTMLInputElement) {
-            page.querySelector('.deviceAccessListContainer')!.classList.toggle('hide', this.checked);
-        });
+        page.querySelector('.chkEnableAllDevices')!.addEventListener(
+            'change',
+            function (this: HTMLInputElement) {
+                page.querySelector('.deviceAccessListContainer')!.classList.toggle(
+                    'hide',
+                    this.checked
+                );
+            }
+        );
 
-        page.querySelector('.chkEnableAllChannels')!.addEventListener('change', function (this: HTMLInputElement) {
-            page.querySelector('.channelAccessListContainer')!.classList.toggle('hide', this.checked);
-        });
+        page.querySelector('.chkEnableAllChannels')!.addEventListener(
+            'change',
+            function (this: HTMLInputElement) {
+                page.querySelector('.channelAccessListContainer')!.classList.toggle(
+                    'hide',
+                    this.checked
+                );
+            }
+        );
 
-        page.querySelector('.chkEnableAllFolders')!.addEventListener('change', function (this: HTMLInputElement) {
-            page.querySelector('.folderAccessListContainer')!.classList.toggle('hide', this.checked);
-        });
+        page.querySelector('.chkEnableAllFolders')!.addEventListener(
+            'change',
+            function (this: HTMLInputElement) {
+                page.querySelector('.folderAccessListContainer')!.classList.toggle(
+                    'hide',
+                    this.checked
+                );
+            }
+        );
 
         page.querySelector('.userLibraryAccessForm')!.addEventListener('submit', onSubmit);
     }, [loadData]);
@@ -318,7 +359,7 @@ const UserLibraryAccess = () => {
                         listTitle="HeaderLibraries"
                         description="LibraryAccessHelp"
                     >
-                        {mediaFoldersItems.map(Item => (
+                        {mediaFoldersItems.map((Item) => (
                             <CheckBoxElement
                                 key={Item.Id}
                                 className="chkFolder"
@@ -339,7 +380,7 @@ const UserLibraryAccess = () => {
                         listTitle="Channels"
                         description="ChannelAccessHelp"
                     >
-                        {channelsItems.map(Item => (
+                        {channelsItems.map((Item) => (
                             <CheckBoxElement
                                 key={Item.Id}
                                 className="chkChannel"
@@ -360,7 +401,7 @@ const UserLibraryAccess = () => {
                         listTitle="HeaderDevices"
                         description="DeviceAccessHelp"
                     >
-                        {devicesItems.map(Item => (
+                        {devicesItems.map((Item) => (
                             <CheckBoxElement
                                 key={Item.Id}
                                 className="chkDevice"

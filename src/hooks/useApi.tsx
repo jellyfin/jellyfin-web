@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
-
-import { useApiStore, useApi } from '../store/apiStore';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { useEffect } from 'react';
 import events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { logger } from 'utils/logger';
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { useApi, useApiStore } from '../store/apiStore';
 
 // Re-export for compatibility
 export { useApi };
@@ -17,9 +16,12 @@ export const ApiProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         ServerConnections.currentApiClient()
             ?.getCurrentUser()
-            .then(newUser => updateApiUser(undefined, newUser))
-            .catch(err => {
-                logger.info('[ApiProvider] Could not get current user', { err, component: 'ApiProvider' });
+            .then((newUser) => updateApiUser(undefined, newUser))
+            .catch((err) => {
+                logger.info('[ApiProvider] Could not get current user', {
+                    err,
+                    component: 'ApiProvider'
+                });
             });
 
         const updateApiUser = (_e: any, newUser: UserDto) => {

@@ -1,18 +1,23 @@
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import React, { type FC, useCallback } from 'react';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { Box } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Menu } from 'ui-primitives';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import { type LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+import {
+    Box,
+    Button,
+    Divider,
+    Menu,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 
 interface SortOption {
     label: string;
@@ -121,12 +126,16 @@ interface SortButtonProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const SortButton: FC<SortButtonProps> = ({ viewType, libraryViewSettings, setLibraryViewSettings }) => {
+const SortButton: FC<SortButtonProps> = ({
+    viewType,
+    libraryViewSettings,
+    setLibraryViewSettings
+}) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const onSortByChange = useCallback(
         (value: string) => {
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 SortBy: value as ItemSortBy
@@ -137,7 +146,7 @@ const SortButton: FC<SortButtonProps> = ({ viewType, libraryViewSettings, setLib
 
     const onSortOrderChange = useCallback(
         (value: string) => {
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 SortOrder: value as SortOrder
@@ -169,7 +178,7 @@ const SortButton: FC<SortButtonProps> = ({ viewType, libraryViewSettings, setLib
                         <SelectValue placeholder={globalize.translate('LabelSortBy')} />
                     </SelectTrigger>
                     <SelectContent>
-                        {sortMenuOptions.map(option => (
+                        {sortMenuOptions.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
                                 {globalize.translate(option.label)}
                             </SelectItem>
@@ -189,7 +198,7 @@ const SortButton: FC<SortButtonProps> = ({ viewType, libraryViewSettings, setLib
                         <SelectValue placeholder={globalize.translate('LabelSortOrder')} />
                     </SelectTrigger>
                     <SelectContent>
-                        {sortOrderMenuOptions.map(option => (
+                        {sortOrderMenuOptions.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
                                 {option.label}
                             </SelectItem>

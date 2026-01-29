@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { QueueTable } from '../QueueTable';
-import { QueueNowPlaying } from '../QueueNowPlaying';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { QueueControls } from '../QueueControls';
+import { QueueNowPlaying } from '../QueueNowPlaying';
+import { QueueTable } from '../QueueTable';
 
 describe('QueueTable', () => {
     const mockItems = [

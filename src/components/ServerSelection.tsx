@@ -1,12 +1,23 @@
-import React, { useCallback, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
-import { z } from 'zod';
 import { useNavigate } from '@tanstack/react-router';
-import { ServerConnections, ConnectionState } from 'lib/jellyfin-apiclient';
-import { Box, Button, Input, Text, Alert, Flex, Card, CardHeader, CardBody, Heading } from 'ui-primitives';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useCallback, useState } from 'react';
 import { useDevConfigStore } from 'store/devConfigStore';
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Flex,
+    Heading,
+    Input,
+    Text
+} from 'ui-primitives';
 import { normalizeServerBaseUrl, saveDevConfig } from 'utils/devConfig';
+import { z } from 'zod';
 import { logger } from '../utils/logger';
 
 interface ServerSelectionProps {
@@ -24,7 +35,7 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
             .string()
             .trim()
             .min(1, 'Server address is required')
-            .refine(value => {
+            .refine((value) => {
                 try {
                     normalizeServerBaseUrl(value);
                     return true;
@@ -36,14 +47,20 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
 
     const connectMutation = useMutation({
         mutationFn: async (address: string) => {
-            logger.info('Attempting to connect to server', { component: 'ServerSelection', address });
+            logger.info('Attempting to connect to server', {
+                component: 'ServerSelection',
+                address
+            });
 
             return ServerConnections.connectToAddress(address, {
                 enableAutoLogin: false
             });
         },
-        onSuccess: result => {
-            logger.debug('Server connection result', { component: 'ServerSelection', state: result.State });
+        onSuccess: (result) => {
+            logger.debug('Server connection result', {
+                component: 'ServerSelection',
+                state: result.State
+            });
 
             if (result.State === ConnectionState.SignedIn) {
                 setSuccess('Successfully connected to server!');
@@ -64,25 +81,33 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
             }
 
             if (result.State === ConnectionState.Unavailable) {
-                setError('Server is unavailable. Please check that the server is running and accessible.');
+                setError(
+                    'Server is unavailable. Please check that the server is running and accessible.'
+                );
                 return;
             }
 
             if (result.State === ConnectionState.ServerMismatch) {
-                setError('Server ID mismatch. The server may have been reinstalled or the configuration changed.');
+                setError(
+                    'Server ID mismatch. The server may have been reinstalled or the configuration changed.'
+                );
                 return;
             }
 
             if (result.State === ConnectionState.ServerUpdateNeeded) {
-                setError('Server update required. Please update your Jellyfin server to a compatible version.');
+                setError(
+                    'Server update required. Please update your Jellyfin server to a compatible version.'
+                );
                 return;
             }
 
             setError('Unable to connect to server. Please check the address and try again.');
         },
-        onError: err => {
+        onError: (err) => {
             logger.error('Server connection failed', { component: 'ServerSelection', error: err });
-            setError('Failed to connect to server. Please check the address and ensure the server is running.');
+            setError(
+                'Failed to connect to server. Please check the address and ensure the server is running.'
+            );
         }
     });
 
@@ -141,12 +166,19 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
         >
             <Card style={{ maxWidth: 500, width: '100%' }}>
                 <CardHeader>
-                    <Heading.H1 style={{ textAlign: 'center' }}>Connect to Jellyfin Server</Heading.H1>
+                    <Heading.H1 style={{ textAlign: 'center' }}>
+                        Connect to Jellyfin Server
+                    </Heading.H1>
                 </CardHeader>
                 <CardBody>
                     <Box style={{ marginBottom: 24 }}>
-                        <Text size="md" color="secondary" style={{ textAlign: 'center', lineHeight: 1.6 }}>
-                            Enter your Jellyfin server address to connect. This can be an IP address, hostname, or URL.
+                        <Text
+                            size="md"
+                            color="secondary"
+                            style={{ textAlign: 'center', lineHeight: 1.6 }}
+                        >
+                            Enter your Jellyfin server address to connect. This can be an IP
+                            address, hostname, or URL.
                         </Text>
                     </Box>
 
@@ -155,7 +187,7 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
                             label="Server Address"
                             placeholder="https://demo.jellyfin.org or 192.168.1.100:8096"
                             value={form.state.values.serverAddress}
-                            onChange={e => form.setFieldValue('serverAddress', e.target.value)}
+                            onChange={(e) => form.setFieldValue('serverAddress', e.target.value)}
                             onKeyPress={handleKeyPress}
                             disabled={connectMutation.isPending}
                             helperText="Include http:// or https:// for URLs, or just the hostname/IP for automatic protocol detection"
@@ -179,7 +211,9 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
                             variant="primary"
                             size="lg"
                             onClick={() => form.handleSubmit()}
-                            disabled={connectMutation.isPending || !form.state.values.serverAddress.trim()}
+                            disabled={
+                                connectMutation.isPending || !form.state.values.serverAddress.trim()
+                            }
                             fullWidth
                         >
                             {connectMutation.isPending ? 'Connecting...' : 'Connect'}
@@ -188,7 +222,8 @@ const ServerSelection: React.FC<ServerSelectionProps> = ({ onServerSelected }) =
 
                     <Box style={{ marginTop: 24, textAlign: 'center' }}>
                         <Text size="sm" color="muted">
-                            Make sure your Jellyfin server is running and accessible from this device.
+                            Make sure your Jellyfin server is running and accessible from this
+                            device.
                         </Text>
                     </Box>
                 </CardBody>

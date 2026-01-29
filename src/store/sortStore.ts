@@ -42,19 +42,19 @@ const initialState = {
     availableSorts: SORT_OPTIONS
 };
 
-export const useSortStore = create<SortState>(set => ({
+export const useSortStore = create<SortState>((set) => ({
     ...initialState,
 
-    setSortBy: by => set({ sortBy: by }),
+    setSortBy: (by) => set({ sortBy: by }),
 
-    setSortOrder: order => set({ sortOrder: order }),
+    setSortOrder: (order) => set({ sortOrder: order }),
 
     toggleSortOrder: () =>
-        set(state => ({
+        set((state) => ({
             sortOrder: state.sortOrder === 'Ascending' ? 'Descending' : 'Ascending'
         })),
 
-    setAvailableSorts: sorts => set({ availableSorts: sorts }),
+    setAvailableSorts: (sorts) => set({ availableSorts: sorts }),
 
     reset: () => set(initialState)
 }));

@@ -1,4 +1,4 @@
-import React, { type ReactElement, type ReactNode, type CSSProperties } from 'react';
+import React, { type CSSProperties, type ReactElement, type ReactNode } from 'react';
 import { tableCell, tableContainer, tableHeader, tableRow, tableStyles } from './Table.css.ts';
 
 export { tableCell, tableContainer, tableHeader, tableRow, tableStyles };
@@ -26,7 +26,11 @@ export function TableHeader({
     readonly className?: string;
     readonly style?: CSSProperties;
 }): ReactElement {
-    return <thead className={className} style={style}>{children}</thead>;
+    return (
+        <thead className={className} style={style}>
+            {children}
+        </thead>
+    );
 }
 
 export function TableBody({
@@ -38,7 +42,11 @@ export function TableBody({
     readonly className?: string;
     readonly style?: CSSProperties;
 }): ReactElement {
-    return <tbody className={className} style={style}>{children}</tbody>;
+    return (
+        <tbody className={className} style={style}>
+            {children}
+        </tbody>
+    );
 }
 
 export function TableRow({
@@ -50,7 +58,11 @@ export function TableRow({
     readonly className?: string;
     readonly style?: CSSProperties;
 }): ReactElement {
-    return <tr className={`${tableRow} ${className ?? ''}`} style={style}>{children}</tr>;
+    return (
+        <tr className={`${tableRow} ${className ?? ''}`} style={style}>
+            {children}
+        </tr>
+    );
 }
 
 export function TableHead({
@@ -62,7 +74,11 @@ export function TableHead({
     readonly className?: string;
     readonly style?: CSSProperties;
 }): ReactElement {
-    return <th className={`${tableHeader} ${className ?? ''}`} style={style}>{children}</th>;
+    return (
+        <th className={`${tableHeader} ${className ?? ''}`} style={style}>
+            {children}
+        </th>
+    );
 }
 
 export function TableCell({
@@ -74,5 +90,9 @@ export function TableCell({
     readonly className?: string;
     readonly style?: CSSProperties;
 }): ReactElement {
-    return <td className={`${tableCell} ${className ?? ''}`} style={style}>{children}</td>;
+    return (
+        <td className={`${tableCell} ${className ?? ''}`} style={style}>
+            {children}
+        </td>
+    );
 }

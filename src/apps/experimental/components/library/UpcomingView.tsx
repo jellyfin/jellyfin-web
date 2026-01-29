@@ -1,12 +1,11 @@
-import React, { type FC } from 'react';
-
-import { useApi } from 'hooks/useApi';
-import { useGetGroupsUpcomingEpisodes } from 'hooks/useFetchItems';
-import Loading from 'components/loading/LoadingComponent';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
-import { CardShape } from 'utils/card';
+import Loading from 'components/loading/LoadingComponent';
+import { useApi } from 'hooks/useApi';
+import { useGetGroupsUpcomingEpisodes } from 'hooks/useFetchItems';
+import React, { type FC } from 'react';
 import type { LibraryViewProps } from 'types/library';
+import { CardShape } from 'utils/card';
 
 // eslint-disable-next-line sonarjs/function-return-type
 const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
@@ -19,7 +18,7 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
         return <NoItemsMessage message="MessagePleaseEnsureInternetMetadata" />;
     }
 
-    return groupsUpcomingEpisodes?.map(group => (
+    return groupsUpcomingEpisodes?.map((group) => (
         <SectionContainer
             key={group.name}
             sectionHeaderProps={{

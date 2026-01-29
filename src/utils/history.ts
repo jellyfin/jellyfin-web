@@ -28,7 +28,7 @@ export function createSimpleHistory(): SimpleHistory {
 
     const notify = (action: string) => {
         const event = { action, location: currentLocation };
-        listeners.forEach(listener => listener(event));
+        listeners.forEach((listener) => listener(event));
     };
 
     return {

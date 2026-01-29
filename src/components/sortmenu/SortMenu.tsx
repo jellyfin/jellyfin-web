@@ -1,16 +1,26 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useState, useEffect } from 'react';
+import { ArrowLeftIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 import globalize from 'lib/globalize';
+import React, { useEffect, useState } from 'react';
 import * as userSettings from 'scripts/settings/userSettings';
-import { ArrowLeftIcon, ChevronUpIcon, ChevronDownIcon } from '@radix-ui/react-icons';
-
-import { Box, Flex } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Dialog, DialogPortal, DialogOverlayComponent, DialogContentComponent } from 'ui-primitives';
-import { FormControl, FormLabel } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogPortal,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 
 interface SortOption {
     value: string;
@@ -54,19 +64,25 @@ export function SortMenu({ open, onClose, onChange, options }: SortMenuProps) {
     };
 
     return (
-        <Dialog open={open} onOpenChange={isOpen => !isOpen && handleClose()}>
+        <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
             <DialogPortal>
                 <DialogOverlayComponent />
-                <DialogContentComponent title={globalize.translate('Sort')} style={{ maxWidth: '400px' }}>
+                <DialogContentComponent
+                    title={globalize.translate('Sort')}
+                    style={{ maxWidth: '400px' }}
+                >
                     <Box style={{ padding: vars.spacing['5'] }}>
                         <Box style={{ marginBottom: vars.spacing['5'] }}>
                             <FormControl>
                                 <FormLabel>{globalize.translate('LabelSortBy')}</FormLabel>
-                                <Select value={sortBy} onValueChange={(value: string) => setSortBy(value)}>
+                                <Select
+                                    value={sortBy}
+                                    onValueChange={(value: string) => setSortBy(value)}
+                                >
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue />
                                         <SelectContent>
-                                            {options.sortOptions.map(opt => (
+                                            {options.sortOptions.map((opt) => (
                                                 <SelectItem key={opt.value} value={opt.value}>
                                                     {opt.name}
                                                 </SelectItem>
@@ -82,19 +98,31 @@ export function SortMenu({ open, onClose, onChange, options }: SortMenuProps) {
                                 <FormLabel>{globalize.translate('LabelSortOrder')}</FormLabel>
                                 <Select
                                     value={sortOrder}
-                                    onValueChange={(value: 'Ascending' | 'Descending') => setSortOrder(value)}
+                                    onValueChange={(value: 'Ascending' | 'Descending') =>
+                                        setSortOrder(value)
+                                    }
                                 >
                                     <SelectTrigger style={{ width: '100%' }}>
                                         <SelectValue />
                                         <SelectContent>
                                             <SelectItem value="Ascending">
-                                                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
+                                                <Flex
+                                                    style={{
+                                                        alignItems: 'center',
+                                                        gap: vars.spacing['2']
+                                                    }}
+                                                >
                                                     <ChevronUpIcon />
                                                     {globalize.translate('Ascending')}
                                                 </Flex>
                                             </SelectItem>
                                             <SelectItem value="Descending">
-                                                <Flex style={{ alignItems: 'center', gap: vars.spacing['2'] }}>
+                                                <Flex
+                                                    style={{
+                                                        alignItems: 'center',
+                                                        gap: vars.spacing['2']
+                                                    }}
+                                                >
                                                     <ChevronDownIcon />
                                                     {globalize.translate('Descending')}
                                                 </Flex>
@@ -105,7 +133,13 @@ export function SortMenu({ open, onClose, onChange, options }: SortMenuProps) {
                             </FormControl>
                         </Box>
 
-                        <Flex style={{ justifyContent: 'flex-end', gap: vars.spacing['3'], marginTop: '24px' }}>
+                        <Flex
+                            style={{
+                                justifyContent: 'flex-end',
+                                gap: vars.spacing['3'],
+                                marginTop: '24px'
+                            }}
+                        >
                             <Button variant="ghost" onClick={handleClose}>
                                 {globalize.translate('ButtonBack')}
                             </Button>
@@ -134,7 +168,9 @@ export function useSortMenu() {
             ...opts,
             sortBy: userSettings.getFilter(opts.settingsKey + '-sortby') || '',
             sortOrder:
-                (userSettings.getFilter(opts.settingsKey + '-sortorder') as 'Ascending' | 'Descending') || 'Ascending'
+                (userSettings.getFilter(opts.settingsKey + '-sortorder') as
+                    | 'Ascending'
+                    | 'Descending') || 'Ascending'
         });
         setIsOpen(true);
     };

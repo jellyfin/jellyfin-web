@@ -69,7 +69,11 @@ export function useEventListener(
  * @param eventName - Event name to listen for
  * @param handler - Event handler function
  */
-export function useCustomEvent(target: unknown, eventName: string, handler: CustomEventHandler): void {
+export function useCustomEvent(
+    target: unknown,
+    eventName: string,
+    handler: CustomEventHandler
+): void {
     const savedHandler = useRef(handler);
 
     useEffect(() => {

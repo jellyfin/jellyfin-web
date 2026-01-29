@@ -27,7 +27,7 @@ export class PreloadPerformanceMonitor {
 
     private setupPerformanceObserver() {
         if (typeof PerformanceObserver !== 'undefined') {
-            const navObserver = new PerformanceObserver(list => {
+            const navObserver = new PerformanceObserver((list) => {
                 list.getEntries().forEach((entry: any) => {
                     if (entry.entryType === 'navigation') {
                         this.trackRouteAccess(entry.name, entry.loadEventEnd);
@@ -36,7 +36,7 @@ export class PreloadPerformanceMonitor {
             });
             navObserver.observe({ entryTypes: ['navigation'] });
 
-            const resourceObserver = new PerformanceObserver(list => {
+            const resourceObserver = new PerformanceObserver((list) => {
                 list.getEntries().forEach((entry: any) => {
                     if (entry.name.includes('lazyRoutes') || entry.name.includes('components')) {
                         this.trackResourceLoad(entry.name, entry.responseEnd - entry.requestStart);
@@ -50,7 +50,7 @@ export class PreloadPerformanceMonitor {
     trackRouteAccess(route: string, accessTime: number) {
         this.routeAccessTimes.set(route, accessTime);
 
-        const metric = this.metrics.find(m => m.route === route);
+        const metric = this.metrics.find((m) => m.route === route);
         if (metric) {
             metric.accessTime = accessTime;
             metric.timeToInteractive = accessTime - metric.preloadTime;
@@ -58,7 +58,11 @@ export class PreloadPerformanceMonitor {
     }
 
     trackResourceLoad(resource: string, loadTime: number) {
-        logger.debug('Resource loaded', { component: 'PreloadMonitor', resource, loadTimeMs: loadTime });
+        logger.debug('Resource loaded', {
+            component: 'PreloadMonitor',
+            resource,
+            loadTimeMs: loadTime
+        });
     }
 
     recordPreload(route: string, preloadTime: number) {
@@ -76,22 +80,25 @@ export class PreloadPerformanceMonitor {
     }
 
     getStats() {
-        const preloadedRoutes = this.metrics.filter(m => m.wasPreloaded);
-        const accessedRoutes = this.metrics.filter(m => m.accessTime);
+        const preloadedRoutes = this.metrics.filter((m) => m.wasPreloaded);
+        const accessedRoutes = this.metrics.filter((m) => m.accessTime);
 
         const avgPreloadTime =
             preloadedRoutes.length > 0
-                ? preloadedRoutes.reduce((sum, m) => sum + m.preloadTime, 0) / preloadedRoutes.length
+                ? preloadedRoutes.reduce((sum, m) => sum + m.preloadTime, 0) /
+                  preloadedRoutes.length
                 : 0;
 
         const avgTimeToInteractive =
             accessedRoutes.length > 0
-                ? accessedRoutes.reduce((sum, m) => sum + (m.timeToInteractive || 0), 0) / accessedRoutes.length
+                ? accessedRoutes.reduce((sum, m) => sum + (m.timeToInteractive || 0), 0) /
+                  accessedRoutes.length
                 : 0;
 
         const hitRate =
             accessedRoutes.length > 0
-                ? (accessedRoutes.filter(m => m.wasPreloaded).length / accessedRoutes.length) * 100
+                ? (accessedRoutes.filter((m) => m.wasPreloaded).length / accessedRoutes.length) *
+                  100
                 : 0;
 
         return {

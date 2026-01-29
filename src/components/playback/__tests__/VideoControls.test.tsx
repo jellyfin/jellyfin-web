@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VideoControls } from '../VideoControls';
 
 describe('VideoControls', () => {

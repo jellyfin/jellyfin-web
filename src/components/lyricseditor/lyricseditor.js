@@ -1,24 +1,23 @@
-import escapeHtml from 'escape-html';
-
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import layoutManager from '../layoutManager';
+import escapeHtml from 'escape-html';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import loading from '../loading/loading';
-import focusManager from '../focusManager';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 import dom from '../../utils/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import focusManager from '../focusManager';
+import layoutManager from '../layoutManager';
+import loading from '../loading/loading';
 import '../../elements/emby-select/emby-select';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../formdialog.scss';
 import './lyricseditor.scss';
 import '../../elements/emby-button/emby-button';
+import { deleteLyrics } from '../../scripts/deleteHelper';
 import toast from '../toast/toast';
 import template from './lyricseditor.template.html?raw';
 import templatePreview from './lyricspreview.template.html';
-import { deleteLyrics } from '../../scripts/deleteHelper';
 
 let currentItem;
 let hasChanges;
@@ -89,7 +88,9 @@ function renderSearchResults(context, results) {
         }
 
         const tagName = layoutManager.tv ? 'button' : 'div';
-        let className = layoutManager.tv ? 'listItem listItem-border btnOptions' : 'listItem listItem-border';
+        let className = layoutManager.tv
+            ? 'listItem listItem-border btnOptions'
+            : 'listItem listItem-border';
         if (layoutManager.tv) {
             className += ' listItem-focusscale listItem-button';
         }
@@ -100,7 +101,10 @@ function renderSearchResults(context, results) {
 
         html += '<div class="listItemBody three-line">';
 
-        html += '<div>' + escapeHtml(metadata.Artist + ' - ' + metadata.Album + ' - ' + metadata.Title) + '</div>';
+        html +=
+            '<div>' +
+            escapeHtml(metadata.Artist + ' - ' + metadata.Album + ' - ' + metadata.Title) +
+            '</div>';
 
         const minutes = Math.floor(metadata.Length / 600000000);
         const seconds = Math.floor((metadata.Length % 600000000) / 10000000);
@@ -159,7 +163,7 @@ function searchForLyrics(context) {
         .searchRemoteLyrics({
             itemId: currentItem.Id
         })
-        .then(results => {
+        .then((results) => {
             renderSearchResults(context, results.data);
         });
 }
@@ -273,13 +277,13 @@ function showOptions(button, context, lyricsId, lyrics) {
         }
     );
 
-    import('../actionSheet/actionSheet').then(actionsheet => {
+    import('../actionSheet/actionSheet').then((actionsheet) => {
         actionsheet
             .show({
                 items: items,
                 positionTo: button
             })
-            .then(id => {
+            .then((id) => {
                 if (id === 'download') {
                     downloadRemoteLyrics(context, lyricsId);
                 }
@@ -307,7 +311,7 @@ function onOpenUploadMenu(e) {
                 itemId: currentItem.Id,
                 serverId: currentItem.ServerId
             })
-            .then(hasChanged => {
+            .then((hasChanged) => {
                 if (hasChanged) {
                     hasChanges = true;
                     reload(dialog, apiClient, currentItem.Id);
@@ -336,7 +340,7 @@ function fillCurrentLyrics(context, apiClient, item) {
         .getLyrics({
             itemId: item.Id
         })
-        .then(response => {
+        .then((response) => {
             if (!response.data.Lyrics) {
                 context.querySelector('.currentLyrics').innerHTML = '';
             } else {
@@ -356,7 +360,7 @@ function fillCurrentLyrics(context, apiClient, item) {
 function showEditorInternal(itemId, serverId) {
     hasChanges = false;
     const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then((item) => {
         const dialogOptions = {
             removeOnClose: true,
             scrollY: false

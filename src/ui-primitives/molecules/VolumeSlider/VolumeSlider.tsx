@@ -1,15 +1,22 @@
-import React, { useCallback, useEffect, useRef, useState, type ReactElement, type CSSProperties } from 'react';
-import { Root, Track, Range, Thumb } from '@radix-ui/react-slider';
 import { SpeakerLoudIcon, SpeakerOffIcon } from '@radix-ui/react-icons';
+import { Range, Root, Thumb, Track } from '@radix-ui/react-slider';
+import React, {
+    type CSSProperties,
+    type ReactElement,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import {
     volumeSliderContainer,
-    volumeSliderTrack,
-    volumeSliderTrackInner,
+    volumeSliderMuteButton,
+    volumeSliderMuteButtonSpinning,
     volumeSliderRange,
     volumeSliderThumb,
-    volumeSliderMuteButton,
-    volumeSliderMuteButtonSpinning
+    volumeSliderTrack,
+    volumeSliderTrackInner
 } from './VolumeSlider.css.ts';
 
 export interface VolumeSliderProps {
@@ -114,7 +121,10 @@ export function VolumeSlider({
         [volume, onVolumeChange, triggerMuteToggle]
     );
 
-    const sizeStyles: Record<'sm' | 'md' | 'lg', { readonly width: string; readonly height: string }> = {
+    const sizeStyles: Record<
+        'sm' | 'md' | 'lg',
+        { readonly width: string; readonly height: string }
+    > = {
         sm: { width: '28px', height: '28px' },
         md: { width: '36px', height: '36px' },
         lg: { width: '44px', height: '44px' }

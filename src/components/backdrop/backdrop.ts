@@ -1,11 +1,11 @@
-import { isEqual } from '../../utils/lodashUtils';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from '../../scripts/browser';
-import { playbackManager } from '../playback/playbackmanager';
-import dom from '../../utils/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { isVisible } from '../../utils/visibility';
+import dom from '../../utils/dom';
 import { imagePreloader } from '../../utils/imagePreloader';
+import { isEqual } from '../../utils/lodashUtils';
+import { isVisible } from '../../utils/visibility';
+import { playbackManager } from '../playback/playbackmanager';
 
 import './backdrop.css.ts';
 
@@ -27,7 +27,11 @@ class Backdrop {
             if (this.isDestroyed) return;
 
             const backdropImage = document.createElement('div');
-            backdropImage.classList.add('backdropImage', 'displayingBackdropImage', 'backdropImageFadeIn');
+            backdropImage.classList.add(
+                'backdropImage',
+                'displayingBackdropImage',
+                'backdropImageFadeIn'
+            );
             backdropImage.style.backgroundImage = `url('${url}')`;
             backdropImage.setAttribute('data-url', url);
             parent.appendChild(backdropImage);
@@ -39,8 +43,13 @@ class Backdrop {
             }
 
             const onAnimationComplete = () => {
-                dom.removeEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete);
-                if (backdropImage === this.currentAnimatingElement) this.currentAnimatingElement = null;
+                dom.removeEventListener(
+                    backdropImage,
+                    dom.whichAnimationEvent(),
+                    onAnimationComplete
+                );
+                if (backdropImage === this.currentAnimatingElement)
+                    this.currentAnimatingElement = null;
                 existingBackdropImage?.parentNode?.removeChild(existingBackdropImage);
             };
 
@@ -88,12 +97,16 @@ export function clearBackdrop(clearAll?: boolean): void {
 
 let backgroundContainer: HTMLElement | null = null;
 function getBackgroundContainer(): HTMLElement {
-    if (!backgroundContainer) backgroundContainer = document.querySelector('.backgroundContainer') || document.body;
+    if (!backgroundContainer)
+        backgroundContainer = document.querySelector('.backgroundContainer') || document.body;
     return backgroundContainer;
 }
 
 function setBackgroundContainerBackgroundEnabled(): void {
-    getBackgroundContainer().classList.toggle('withBackdrop', !!(hasInternalBackdrop || hasExternalBackdrop));
+    getBackgroundContainer().classList.toggle(
+        'withBackdrop',
+        !!(hasInternalBackdrop || hasExternalBackdrop)
+    );
 }
 
 let hasInternalBackdrop: boolean = false;
@@ -152,7 +165,7 @@ function getItemImageUrls(item: any, imageOptions: any = {}): string[] {
 }
 
 function getImageUrls(items: any[], imageOptions: any): string[] {
-    return items.flatMap(item => getItemImageUrls(item, imageOptions));
+    return items.flatMap((item) => getItemImageUrls(item, imageOptions));
 }
 
 let rotationInterval: any = null;

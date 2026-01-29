@@ -1,21 +1,21 @@
 import {
-    Root,
-    Trigger,
-    Portal,
-    Overlay,
-    Content,
-    Title,
-    Description,
     Close,
-    type DialogCloseProps as RadixDialogCloseProps
+    Content,
+    Description,
+    Overlay,
+    Portal,
+    type DialogCloseProps as RadixDialogCloseProps,
+    Root,
+    Title,
+    Trigger
 } from '@radix-ui/react-dialog';
-import React, { type ReactNode, type ReactElement, type CSSProperties } from 'react';
+import React, { type CSSProperties, type ReactElement, type ReactNode } from 'react';
 import {
-    DialogOverlay as dialogOverlayStyle,
+    DialogClose as dialogCloseStyle,
     DialogContent as dialogContentStyle,
-    dialogTitleStyles,
     DialogDescription as dialogDescriptionStyle,
-    DialogClose as dialogCloseStyle
+    DialogOverlay as dialogOverlayStyle,
+    dialogTitleStyles
 } from './Dialog.css.ts';
 
 interface DialogProps {
@@ -61,7 +61,9 @@ export function DialogContentComponent({
 }: DialogContentProps): ReactElement {
     return (
         <Content className={dialogContentStyle} style={customStyle}>
-            {title !== undefined && title !== '' && <Title className={dialogTitleStyles}>{title}</Title>}
+            {title !== undefined && title !== '' && (
+                <Title className={dialogTitleStyles}>{title}</Title>
+            )}
             {description !== undefined && description !== '' && (
                 <Description className={dialogDescriptionStyle}>{description}</Description>
             )}
@@ -83,7 +85,11 @@ interface DialogDescriptionProps {
     readonly style?: CSSProperties;
 }
 
-export function DialogDescription({ children, className, style }: DialogDescriptionProps): ReactElement {
+export function DialogDescription({
+    children,
+    className,
+    style
+}: DialogDescriptionProps): ReactElement {
     return (
         <Description className={`${dialogDescriptionStyle} ${className ?? ''}`} style={style}>
             {children}
@@ -122,7 +128,11 @@ interface DialogTitleProps {
     readonly style?: CSSProperties;
 }
 
-export function DialogTitleComponent({ children, className, style }: DialogTitleProps): ReactElement {
+export function DialogTitleComponent({
+    children,
+    className,
+    style
+}: DialogTitleProps): ReactElement {
     return (
         <Title className={`${dialogTitleStyles} ${className ?? ''}`} style={style}>
             {children}

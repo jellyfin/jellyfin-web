@@ -1,10 +1,10 @@
-import React, { type ChangeEvent, type FC, useCallback, useRef } from 'react';
 import AlphaPicker from 'components/alphaPicker/AlphaPickerComponent';
-import { Input } from 'ui-primitives';
-import globalize from 'lib/globalize';
 import layoutManager from 'components/layoutManager';
+import globalize from 'lib/globalize';
+import React, { type ChangeEvent, type FC, useCallback, useRef } from 'react';
 import browser from 'scripts/browser';
 import * as layoutStyles from 'styles/layout.css.ts';
+import { Input } from 'ui-primitives';
 import * as styles from './searchfields.css.ts';
 
 interface SearchFieldsProps {
@@ -46,7 +46,10 @@ const SearchFields: FC<SearchFieldsProps> = ({
             <div
                 className={`${styles.searchFieldsInner} ${layoutStyles.display.flex} ${layoutStyles.alignItems.center} ${layoutStyles.justifyContent.center}`}
             >
-                <span className={`${styles.searchFieldsIcon} material-icons search`} aria-hidden="true" />
+                <span
+                    className={`${styles.searchFieldsIcon} material-icons search`}
+                    aria-hidden="true"
+                />
                 <div className={`${layoutStyles.flexGrow}`} style={{ marginBottom: 0 }}>
                     <Input
                         ref={inputRef}

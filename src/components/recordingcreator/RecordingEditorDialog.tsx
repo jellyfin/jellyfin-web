@@ -1,20 +1,20 @@
-import { vars } from 'styles/tokens.css.ts';
-
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-    Dialog,
-    DialogPortal,
-    DialogOverlayComponent,
-    DialogContentComponent,
-    DialogCloseButton
-} from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Input } from 'ui-primitives';
+import type { TimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import type { TimerInfoDto } from '@jellyfin/sdk/lib/generated-client';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogCloseButton,
+    DialogContentComponent,
+    DialogOverlayComponent,
+    DialogPortal,
+    Flex,
+    Input,
+    Text
+} from 'ui-primitives';
 import loading from '../loading/loading';
 
 interface RecordingEditorDialogProps {
@@ -24,7 +24,12 @@ interface RecordingEditorDialogProps {
     onClose: (result: { updated: boolean; deleted?: boolean }) => void;
 }
 
-function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: RecordingEditorDialogProps) {
+function RecordingEditorDialog({
+    itemId,
+    serverId,
+    enableCancel,
+    onClose
+}: RecordingEditorDialogProps) {
     const [open, setOpen] = useState(true);
     const [timer, setTimer] = useState<TimerInfoDto | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -60,8 +65,12 @@ function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: Reco
             if (!next) {
                 if (enableCancel === false && formRef.current) {
                     const form = formRef.current;
-                    const prePaddingInput = form.elements.namedItem('prePadding') as HTMLInputElement;
-                    const postPaddingInput = form.elements.namedItem('postPadding') as HTMLInputElement;
+                    const prePaddingInput = form.elements.namedItem(
+                        'prePadding'
+                    ) as HTMLInputElement;
+                    const postPaddingInput = form.elements.namedItem(
+                        'postPadding'
+                    ) as HTMLInputElement;
                     const prePadding = parseInt(prePaddingInput?.value || '0', 10);
                     const postPadding = parseInt(postPaddingInput?.value || '0', 10);
 
@@ -77,7 +86,7 @@ function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: Reco
                             .then(() => {
                                 handleClose();
                             })
-                            .catch(error => {
+                            .catch((error) => {
                                 console.error('Failed to auto-save timer:', error);
                                 loading.hide();
                             });
@@ -115,7 +124,7 @@ function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: Reco
                 .then(() => {
                     onClose({ updated: true });
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error('Failed to update timer:', error);
                     loading.hide();
                 });
@@ -155,7 +164,11 @@ function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: Reco
                         borderRadius: '16px'
                     }}
                 >
-                    <Flex align="center" justify="space-between" style={{ marginBottom: vars.spacing['5'] }}>
+                    <Flex
+                        align="center"
+                        justify="space-between"
+                        style={{ marginBottom: vars.spacing['5'] }}
+                    >
                         <Text as="h3" size="lg" weight="bold">
                             {globalize.translate('RecordingSettings')}
                         </Text>
@@ -192,7 +205,11 @@ function RecordingEditorDialog({ itemId, serverId, enableCancel, onClose }: Reco
                                 />
                             </Box>
 
-                            <Flex justify="space-between" align="center" style={{ marginTop: '32px' }}>
+                            <Flex
+                                justify="space-between"
+                                align="center"
+                                style={{ marginTop: '32px' }}
+                            >
                                 <Button variant="ghost" color="danger" onClick={handleDelete}>
                                     {globalize.translate('DeleteRecording')}
                                 </Button>

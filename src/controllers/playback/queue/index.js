@@ -1,5 +1,5 @@
-import RemoteControl from '../../../components/remotecontrol/remotecontrol';
 import { playbackManager } from '../../../components/playback/playbackmanager';
+import RemoteControl from '../../../components/remotecontrol/remotecontrol';
 import libraryMenu from '../../../scripts/libraryMenu';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-button/paper-icon-button-light';

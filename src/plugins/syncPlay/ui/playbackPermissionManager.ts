@@ -1,6 +1,6 @@
-import browser from '../../../scripts/browser';
 import alert from '../../../components/alert';
 import globalize from '../../../lib/globalize';
+import browser from '../../../scripts/browser';
 
 class PlaybackPermissionManager {
     private checkPromise?: Promise<void>;

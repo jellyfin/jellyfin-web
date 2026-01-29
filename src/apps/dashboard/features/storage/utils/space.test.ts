@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { calculateUsedPercentage, calculateTotal } from './space';
+import { calculateTotal, calculateUsedPercentage } from './space';
 
 describe('calculateTotal()', () => {
     it('should return the total', () => {

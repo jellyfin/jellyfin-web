@@ -1,6 +1,12 @@
-import React, { forwardRef, type ReactElement, type ReactNode, type HTMLAttributes } from 'react';
 import { motion } from 'motion/react';
-import { rotaryContainer, discArt, discGroove, discLabel, centerHole } from '../playback/styles.css.ts';
+import React, { forwardRef, type HTMLAttributes, type ReactElement, type ReactNode } from 'react';
+import {
+    centerHole,
+    discArt,
+    discGroove,
+    discLabel,
+    rotaryContainer
+} from '../playback/styles.css.ts';
 
 export interface RotaryProps extends HTMLAttributes<HTMLDivElement> {
     readonly children?: ReactNode;

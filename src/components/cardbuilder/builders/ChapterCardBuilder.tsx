@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import BaseCard from '../Card/BaseCard';
+import React from 'react';
 import datetime from '../../../scripts/datetime';
+import BaseCard from '../Card/BaseCard';
 import * as styles from './ChapterCardBuilder.css.ts';
 
 interface ChapterCardBuilderProps {
@@ -11,7 +10,11 @@ interface ChapterCardBuilderProps {
     onChapterClick?: (chapter: any) => void;
 }
 
-const ChapterCardBuilder: React.FC<ChapterCardBuilderProps> = ({ item, chapters, onChapterClick }) => {
+const ChapterCardBuilder: React.FC<ChapterCardBuilderProps> = ({
+    item,
+    chapters,
+    onChapterClick
+}) => {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
     return (
@@ -32,7 +35,12 @@ const ChapterCardBuilder: React.FC<ChapterCardBuilderProps> = ({ item, chapters,
                             title={chapter.Name}
                             text={datetime.getDisplayRunningTime(chapter.StartPositionTicks)}
                             image={imgUrl}
-                            icon={<span className="material-icons local_movies" style={{ fontSize: 48 }} />}
+                            icon={
+                                <span
+                                    className="material-icons local_movies"
+                                    style={{ fontSize: 48 }}
+                                />
+                            }
                             onClick={() => onChapterClick?.(chapter)}
                         />
                     </div>

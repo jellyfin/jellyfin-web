@@ -7,15 +7,15 @@
  */
 
 import {
-    useVisualizerEnabled,
-    useVisualizerType,
-    useVolume,
+    useCurrentTime,
+    useDuration,
     useIsMuted,
     usePlaybackStatus,
-    useCurrentTime,
-    useDuration
+    useVisualizerEnabled,
+    useVisualizerType,
+    useVolume
 } from './hooks';
-import { useSettingsStore, useMediaStore } from './index';
+import { useMediaStore, useSettingsStore } from './index';
 import type { VisualizerSettings } from './settingsStore';
 
 export interface VisualizerState {
@@ -62,7 +62,11 @@ class VisualizerIntegration {
         return VisualizerIntegration.instance;
     }
 
-    initialize(audioContext: AudioContext, analyserNode: AnalyserNode, sourceNode: MediaElementAudioSourceNode): void {
+    initialize(
+        audioContext: AudioContext,
+        analyserNode: AnalyserNode,
+        sourceNode: MediaElementAudioSourceNode
+    ): void {
         this.audioData.audioContext = audioContext;
         this.audioData.analyserNode = analyserNode;
         this.audioData.sourceNode = sourceNode;
@@ -95,12 +99,12 @@ class VisualizerIntegration {
         if (analyserNode) {
             const freqData = this.audioData.frequencyData as unknown as Uint8Array;
             const timeData = this.audioData.timeDomainData as unknown as Uint8Array;
-            (analyserNode as unknown as { getByteFrequencyData(data: Uint8Array): void }).getByteFrequencyData(
-                freqData
-            );
-            (analyserNode as unknown as { getByteTimeDomainData(data: Uint8Array): void }).getByteTimeDomainData(
-                timeData
-            );
+            (
+                analyserNode as unknown as { getByteFrequencyData(data: Uint8Array): void }
+            ).getByteFrequencyData(freqData);
+            (
+                analyserNode as unknown as { getByteTimeDomainData(data: Uint8Array): void }
+            ).getByteTimeDomainData(timeData);
 
             for (const listener of this.listeners) {
                 listener(this.audioData);
@@ -220,7 +224,10 @@ export function getAudioEngineState() {
         isBuffering: mediaStore.status === 'buffering',
         currentTime: mediaStore.progress.currentTime,
         duration: mediaStore.progress.duration,
-        progress: mediaStore.progress.duration > 0 ? mediaStore.progress.currentTime / mediaStore.progress.duration : 0
+        progress:
+            mediaStore.progress.duration > 0
+                ? mediaStore.progress.currentTime / mediaStore.progress.duration
+                : 0
     };
 }
 

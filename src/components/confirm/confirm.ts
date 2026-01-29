@@ -37,7 +37,7 @@ async function confirm(options: string | ConfirmOptions, title: string = '') {
 
     await appRouter.ready();
 
-    return dialog.show(options as any).then(result => {
+    return dialog.show(options as any).then((result) => {
         if (result === 'ok') {
             return Promise.resolve();
         }

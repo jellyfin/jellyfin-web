@@ -1,46 +1,46 @@
 {
-  "includeCorsCredentials": false,
-  "multiserver": true,
-  "themes": [
-    {
-      "name": "Blue Radiance",
-      "id": "blueradiance",
-      "color": "#011432"
-    },
-    {
-      "name": "Dark",
-      "id": "dark",
-      "color": "#202020",
-      "default": true
-    },
-    {
-      "name": "Purple Haze",
-      "id": "purplehaze",
-      "color": "#000420"
-    }
-  ],
-  "menuLinks": [],
-  "Servers": [
-    {
-      "Id": "2activedesign",
-      "Name": "Jellyfin Server",
-      "ManualAddress": "https://2activedesign.com",
-      "LocalAddress": "https://2activedesign.com",
-      "RemoteAddress": "",
-      "LastConnectionMode": 1,
-      "DateLastAccessed": 1737500000000,
-      "UserId": null,
-      "AccessToken": null
-    }
-  ],
-  "plugins": [
-    "playAccessValidation/plugin",
-    "experimentalWarnings/plugin",
-    "htmlAudioPlayer/plugin",
-    "htmlVideoPlayer/plugin",
-    "photoPlayer/plugin",
-    "sessionPlayer/plugin",
-    "chromecastPlayer/plugin",
-    "syncPlay/plugin"
-  ]
+    "includeCorsCredentials": false,
+    "multiserver": true,
+    "themes": [
+        {
+            "name": "Blue Radiance",
+            "id": "blueradiance",
+            "color": "#011432"
+        },
+        {
+            "name": "Dark",
+            "id": "dark",
+            "color": "#202020",
+            "default": true
+        },
+        {
+            "name": "Purple Haze",
+            "id": "purplehaze",
+            "color": "#000420"
+        }
+    ],
+    "menuLinks": [],
+    "Servers": [
+        {
+            "Id": "2activedesign",
+            "Name": "Jellyfin Server",
+            "ManualAddress": "https://2activedesign.com",
+            "LocalAddress": "https://2activedesign.com",
+            "RemoteAddress": "",
+            "LastConnectionMode": 1,
+            "DateLastAccessed": 1737500000000,
+            "UserId": null,
+            "AccessToken": null
+        }
+    ],
+    "plugins": [
+        "playAccessValidation/plugin",
+        "experimentalWarnings/plugin",
+        "htmlAudioPlayer/plugin",
+        "htmlVideoPlayer/plugin",
+        "photoPlayer/plugin",
+        "sessionPlayer/plugin",
+        "chromecastPlayer/plugin",
+        "syncPlay/plugin"
+    ]
 }

@@ -1,5 +1,5 @@
-import { getLibraryStructureApi } from '@jellyfin/sdk/lib/utils/api/library-structure-api';
 import { type LibraryStructureApiRemoveVirtualFolderRequest } from '@jellyfin/sdk/lib/generated-client/api/library-structure-api';
+import { getLibraryStructureApi } from '@jellyfin/sdk/lib/utils/api/library-structure-api';
 import { useMutation } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';

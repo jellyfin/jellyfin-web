@@ -1,5 +1,5 @@
-import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
+import loading from '../loading/loading';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../listview/listview.scss';
@@ -32,7 +32,12 @@ function refreshTunerDevices(page, providerInfo, devices) {
         const enabledTuners = providerInfo.EnabledTuners || [];
         const isChecked = providerInfo.EnableAllTuners || enabledTuners.indexOf(device.Id) !== -1;
         const checkedAttribute = isChecked ? ' checked' : '';
-        html += '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" data-id="' + device.Id + '" class="chkTuner" ' + checkedAttribute + '/><span></span></label>';
+        html +=
+            '<label class="checkboxContainer listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" data-id="' +
+            device.Id +
+            '" class="chkTuner" ' +
+            checkedAttribute +
+            '/><span></span></label>';
         html += '<div class="listItemBody two-line">';
         html += '<div class="listItemBodyText">';
         html += device.FriendlyName || getTunerName(device.Type);
@@ -51,9 +56,10 @@ export default function (page, providerId, options) {
     function reload() {
         loading.show();
         ApiClient.getNamedConfiguration('livetv').then((config) => {
-            const info = config.ListingProviders.filter((i) => {
-                return i.Id === providerId;
-            })[0] || {};
+            const info =
+                config.ListingProviders.filter((i) => {
+                    return i.Id === providerId;
+                })[0] || {};
             listingsId = info.ListingsId;
             page.querySelector('#selectListing').value = info.ListingsId || '';
             page.querySelector('.txtUser').value = info.Username || '';
@@ -80,46 +86,54 @@ export default function (page, providerId, options) {
     }
 
     function setCountry(info) {
-        ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then((result) => {
-            let i;
-            let length;
-            const countryList = [];
+        ApiClient.getJSON(
+            ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')
+        ).then(
+            (result) => {
+                let i;
+                let length;
+                const countryList = [];
 
-            for (const region in result) {
-                const countries = result[region];
+                for (const region in result) {
+                    const countries = result[region];
 
-                if (countries.length && region !== 'ZZZ') {
-                    for (i = 0, length = countries.length; i < length; i++) {
-                        countryList.push({
-                            name: countries[i].fullName,
-                            value: countries[i].shortName
-                        });
+                    if (countries.length && region !== 'ZZZ') {
+                        for (i = 0, length = countries.length; i < length; i++) {
+                            countryList.push({
+                                name: countries[i].fullName,
+                                value: countries[i].shortName
+                            });
+                        }
                     }
                 }
+
+                countryList.sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+
+                    return 0;
+                });
+                const selectCountry = page.querySelector('#selectCountry');
+                selectCountry.innerHTML = countryList
+                    .map((c) => {
+                        return '<option value="' + c.value + '">' + c.name + '</option>';
+                    })
+                    .join('');
+                selectCountry.value = info.Country || '';
+                page.querySelector('.txtZipCode').dispatchEvent(new Event('change'));
+            },
+            () => {
+                // ApiClient.getJSON() error handler
+                Dashboard.alert({
+                    message: globalize.translate('ErrorGettingTvLineups')
+                });
             }
-
-            countryList.sort((a, b) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
-
-                if (a.name < b.name) {
-                    return -1;
-                }
-
-                return 0;
-            });
-            const selectCountry = page.querySelector('#selectCountry');
-            selectCountry.innerHTML = countryList.map((c) => {
-                return '<option value="' + c.value + '">' + c.name + '</option>';
-            }).join('');
-            selectCountry.value = info.Country || '';
-            page.querySelector('.txtZipCode').dispatchEvent(new Event('change'));
-        }, () => { // ApiClient.getJSON() error handler
-            Dashboard.alert({
-                message: globalize.translate('ErrorGettingTvLineups')
-            });
-        });
+        );
         loading.hide();
     }
 
@@ -145,15 +159,18 @@ export default function (page, providerId, options) {
             data: JSON.stringify(info),
             contentType: 'application/json',
             dataType: 'json'
-        }).then((result) => {
-            Dashboard.processServerConfigurationUpdateResult();
-            providerId = result.Id;
-            reload();
-        }, () => {
-            Dashboard.alert({
-                message: globalize.translate('ErrorSavingTvProvider')
-            });
-        });
+        }).then(
+            (result) => {
+                Dashboard.processServerConfigurationUpdateResult();
+                providerId = result.Id;
+                reload();
+            },
+            () => {
+                Dashboard.alert({
+                    message: globalize.translate('ErrorSavingTvProvider')
+                });
+            }
+        );
     }
 
     function submitListingsForm() {
@@ -176,9 +193,11 @@ export default function (page, providerId, options) {
             info.Country = page.querySelector('#selectCountry').value;
             info.ListingsId = selectedListingsId;
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-            info.EnabledTuners = info.EnableAllTuners ? [] : Array.from(page.querySelectorAll('.chkTuner'))
-                .filter((i) => i.checked)
-                .map((i) => i.getAttribute('data-id'));
+            info.EnabledTuners = info.EnableAllTuners
+                ? []
+                : Array.from(page.querySelectorAll('.chkTuner'))
+                      .filter((i) => i.checked)
+                      .map((i) => i.getAttribute('data-id'));
             ApiClient.ajax({
                 type: 'POST',
                 url: ApiClient.getUrl('LiveTv/ListingProviders', {
@@ -186,20 +205,23 @@ export default function (page, providerId, options) {
                 }),
                 data: JSON.stringify(info),
                 contentType: 'application/json'
-            }).then(() => {
-                loading.hide();
+            }).then(
+                () => {
+                    loading.hide();
 
-                if (options.showConfirmation) {
-                    Dashboard.processServerConfigurationUpdateResult();
+                    if (options.showConfirmation) {
+                        Dashboard.processServerConfigurationUpdateResult();
+                    }
+
+                    Events.trigger(self, 'submitted');
+                },
+                () => {
+                    loading.hide();
+                    Dashboard.alert({
+                        message: globalize.translate('ErrorAddingListingsToSchedulesDirect')
+                    });
                 }
-
-                Events.trigger(self, 'submitted');
-            }, () => {
-                loading.hide();
-                Dashboard.alert({
-                    message: globalize.translate('ErrorAddingListingsToSchedulesDirect')
-                });
-            });
+            );
         });
     }
 
@@ -218,23 +240,28 @@ export default function (page, providerId, options) {
                 Country: page.querySelector('#selectCountry').value
             }),
             dataType: 'json'
-        }).then((result) => {
-            page.querySelector('#selectListing').innerHTML = result.map((o) => {
-                return '<option value="' + o.Id + '">' + o.Name + '</option>';
-            }).join('');
+        }).then(
+            (result) => {
+                page.querySelector('#selectListing').innerHTML = result
+                    .map((o) => {
+                        return '<option value="' + o.Id + '">' + o.Name + '</option>';
+                    })
+                    .join('');
 
-            if (listingsId) {
-                page.querySelector('#selectListing').value = listingsId;
+                if (listingsId) {
+                    page.querySelector('#selectListing').value = listingsId;
+                }
+
+                loading.hide();
+            },
+            () => {
+                Dashboard.alert({
+                    message: globalize.translate('ErrorGettingTvLineups')
+                });
+                refreshListings('');
+                loading.hide();
             }
-
-            loading.hide();
-        }, () => {
-            Dashboard.alert({
-                message: globalize.translate('ErrorGettingTvLineups')
-            });
-            refreshListings('');
-            loading.hide();
-        });
+        );
     }
 
     let listingsId;
@@ -275,7 +302,10 @@ export default function (page, providerId, options) {
                 page.querySelector('.selectTunersSection').classList.remove('hide');
             }
         });
-        page.querySelector('.createAccountHelp').innerHTML = globalize.translate('MessageCreateAccountAt', '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>');
+        page.querySelector('.createAccountHelp').innerHTML = globalize.translate(
+            'MessageCreateAccountAt',
+            '<a is="emby-linkbutton" class="button-link" href="http://www.schedulesdirect.org" target="_blank">http://www.schedulesdirect.org</a>'
+        );
         reload();
     };
 }

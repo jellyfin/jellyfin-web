@@ -1,8 +1,6 @@
 import React, { Component, ReactNode, Suspense } from 'react';
-import { Box } from 'ui-primitives';
-import { CircularProgress } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, CircularProgress, Text } from 'ui-primitives';
 
 import { logger } from 'utils/logger';
 
@@ -34,7 +32,10 @@ interface ErrorBoundaryState {
     hasError: boolean;
 }
 
-class LazyRouteErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, ErrorBoundaryState> {
+class LazyRouteErrorBoundary extends Component<
+    { children: ReactNode; fallback?: ReactNode },
+    ErrorBoundaryState
+> {
     constructor(props: { children: ReactNode; fallback?: ReactNode }) {
         super(props);
         this.state = { hasError: false };
@@ -83,8 +84,9 @@ export const LazyRouteWrapper: React.FC<LazyRouteWrapperProps> = ({
 /**
  * Convenience wrapper for lazy-loaded routes with default UX
  */
-export const withLazyRouteWrapper = (LazyComponent: React.LazyExoticComponent<React.ComponentType<any>>) => () => (
-    <LazyRouteWrapper>
-        <LazyComponent />
-    </LazyRouteWrapper>
-);
+export const withLazyRouteWrapper =
+    (LazyComponent: React.LazyExoticComponent<React.ComponentType<any>>) => () => (
+        <LazyRouteWrapper>
+            <LazyComponent />
+        </LazyRouteWrapper>
+    );

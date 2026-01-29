@@ -1,19 +1,17 @@
-import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { IconButton } from 'ui-primitives';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
 import { useQueryClient } from '@tanstack/react-query';
-
-import { useApi } from 'hooks/useApi';
-import { useGetItemByType } from '../../hooks/api/useGetItemByType';
-import globalize from 'lib/globalize';
 import itemContextMenu from 'components/itemContextMenu';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
-import { logger } from 'utils/logger';
-
-import { ItemKind } from 'types/base/models/item-kind';
+import { useApi } from 'hooks/useApi';
+import globalize from 'lib/globalize';
+import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
 import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { ItemKind } from 'types/base/models/item-kind';
+import { IconButton } from 'ui-primitives';
+import { logger } from 'utils/logger';
+import { useGetItemByType } from '../../hooks/api/useGetItemByType';
 
 interface PlayAllFromHereOptions {
     item: ItemDto;
@@ -130,7 +128,9 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
 
             if (items?.length) {
                 PlaylistItemCount = items.length;
-                PlaylistIndex = items.findIndex(listItem => listItem.PlaylistItemId === PlaylistItemId);
+                PlaylistIndex = items.findIndex(
+                    (listItem) => listItem.PlaylistItemId === PlaylistItemId
+                );
             }
         }
         return { PlaylistItemId, PlaylistIndex, PlaylistItemCount };
@@ -161,16 +161,25 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                     ...defaultMenuOptions,
                     positionTo: e.currentTarget
                 })
-                .then(async result => {
+                .then(async (result) => {
                     if (!result) return;
                     if (result.command === 'playallfromhere') {
-                        logger.debug('Handling playallfromhere', { component: 'MoreCommandsButton', item, items: items || [], serverId: item?.ServerId });
+                        logger.debug('Handling playallfromhere', {
+                            component: 'MoreCommandsButton',
+                            item,
+                            items: items || [],
+                            serverId: item?.ServerId
+                        });
                         playAllFromHere({
                             item: (item as any) || {},
                             items: (items as any) || [],
                             serverId: item?.ServerId
                         }).catch((err: unknown) => {
-                            logger.error('Failed to play items', { component: 'MoreCommandsButton' }, err as Error);
+                            logger.error(
+                                'Failed to play items',
+                                { component: 'MoreCommandsButton' },
+                                err as Error
+                            );
                         });
                     } else if (result.command === 'queueallfromhere') {
                         playAllFromHere({
@@ -179,7 +188,11 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             serverId: item?.ServerId,
                             queue: true
                         }).catch((err: unknown) => {
-                            logger.error('Failed to queue items', { component: 'MoreCommandsButton' }, err as Error);
+                            logger.error(
+                                'Failed to queue items',
+                                { component: 'MoreCommandsButton' },
+                                err as Error
+                            );
                         });
                     } else if (result.deleted) {
                         // Assuming if result.deleted is true, the item being managed by this button is deleted

@@ -1,12 +1,11 @@
-import React from 'react';
-import { Box } from 'ui-primitives';
 import classNames from 'classnames';
 import layoutManager from 'components/layoutManager';
-import CardText from './CardText';
-import { getCardTextLines } from './cardHelper';
-
+import React from 'react';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
+import { Box } from 'ui-primitives';
+import CardText from './CardText';
+import { getCardTextLines } from './cardHelper';
 
 const enableRightMargin = (
     isOuterFooter: boolean,
@@ -14,7 +13,13 @@ const enableRightMargin = (
     centerText: boolean | undefined,
     cardFooterAside: string | undefined
 ) => {
-    return isOuterFooter && cardLayout && !centerText && cardFooterAside !== 'none' && layoutManager.mobile;
+    return (
+        isOuterFooter &&
+        cardLayout &&
+        !centerText &&
+        cardFooterAside !== 'none' &&
+        layoutManager.mobile
+    );
 };
 
 interface UseCardTextProps {
@@ -70,7 +75,9 @@ function useCardText({
             );
 
             if (textLine) {
-                components.push(<CardText key={valid} className={currentCssClass} textLine={textLine} />);
+                components.push(
+                    <CardText key={valid} className={currentCssClass} textLine={textLine} />
+                );
 
                 valid++;
                 if (maxLines && valid >= maxLines) {
@@ -80,7 +87,8 @@ function useCardText({
         }
 
         if (forceLines) {
-            const linesLength = maxLines ?? Math.min(textLines.length, maxLines ?? textLines.length);
+            const linesLength =
+                maxLines ?? Math.min(textLines.length, maxLines ?? textLines.length);
             while (valid < linesLength) {
                 components.push(
                     <Box key={valid} className={cssClass}>

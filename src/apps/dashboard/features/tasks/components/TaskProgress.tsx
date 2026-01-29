@@ -1,9 +1,7 @@
 import React, { type FunctionComponent } from 'react';
-import { type TaskProps } from '../types/taskProps';
-import { Progress } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, Progress, Text } from 'ui-primitives';
+import { type TaskProps } from '../types/taskProps';
 
 const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const progress = task.CurrentProgressPercentage;
@@ -20,7 +18,10 @@ const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
         >
             {progress != null ? (
                 <>
-                    <Progress value={progress} style={{ flex: 1, borderRadius: vars.borderRadius.sm }} />
+                    <Progress
+                        value={progress}
+                        style={{ flex: 1, borderRadius: vars.borderRadius.sm }}
+                    />
                     <Text size="xs" style={{ fontWeight: vars.typography.fontWeightBold }}>
                         {`${Math.round(progress)}%`}
                     </Text>

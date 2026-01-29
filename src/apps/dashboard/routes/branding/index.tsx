@@ -2,30 +2,37 @@ import type { BrandingOptions } from '@jellyfin/sdk/lib/generated-client/models/
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { TrashIcon, UploadIcon } from '@radix-ui/react-icons';
-import React, { useCallback, useEffect, useState } from 'react';
-
 import {
     getBrandingOptionsQuery,
     QUERY_KEY,
     useBrandingOptions
 } from 'apps/dashboard/features/branding/api/useBrandingOptions';
-import Loading from 'components/loading/LoadingComponent';
 import Image from 'components/Image';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { SPLASHSCREEN_URL } from 'constants/branding';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { queryClient } from 'utils/query/queryClient';
-import { type ActionData } from 'types/actionData';
-import { Alert } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
-import { Switch, FormControlLabel, FormControl, FormLabel, FormHelperText } from 'ui-primitives';
-import { Input } from 'ui-primitives';
+import React, { useCallback, useEffect, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { type ActionData } from 'types/actionData';
+import {
+    Alert,
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
+    Heading,
+    Input,
+    Switch,
+    Text
+} from 'ui-primitives';
 import { logger } from 'utils/logger';
+import { queryClient } from 'utils/query/queryClient';
 
 const BRANDING_CONFIG_KEY = 'branding';
 const BrandingOption = {
@@ -48,7 +55,9 @@ export const Component = () => {
 
     const [error, setError] = useState<string>();
 
-    const [isSplashscreenEnabled, setIsSplashscreenEnabled] = useState(brandingOptions.SplashscreenEnabled ?? false);
+    const [isSplashscreenEnabled, setIsSplashscreenEnabled] = useState(
+        brandingOptions.SplashscreenEnabled ?? false
+    );
     const [splashscreenUrl, setSplashscreenUrl] = useState<string>();
 
     useEffect(() => {
@@ -65,7 +74,7 @@ export const Component = () => {
             .then(() => {
                 setSplashscreenUrl(api.getUri(SPLASHSCREEN_URL, { t: Date.now() }));
             })
-            .catch(e => {
+            .catch((e) => {
                 logger.error('[BrandingPage] error deleting image', { error: e });
                 setError('ImageDeleteFailed');
             });
@@ -79,7 +88,7 @@ export const Component = () => {
 
             const file = files[0];
             const reader = new FileReader();
-            reader.onerror = e => {
+            reader.onerror = (e) => {
                 logger.error('[BrandingPage] error reading file', { error: e });
                 setError('ImageUploadFailed');
             };
@@ -88,11 +97,14 @@ export const Component = () => {
                 const dataUrl = reader.result as string;
                 const body = dataUrl.split(',')[1] as never;
                 getImageApi(api)
-                    .uploadCustomSplashscreen({ body }, { headers: { ['Content-Type']: file.type } })
+                    .uploadCustomSplashscreen(
+                        { body },
+                        { headers: { ['Content-Type']: file.type } }
+                    )
                     .then(() => {
                         setSplashscreenUrl(dataUrl);
                     })
-                    .catch(e => {
+                    .catch((e) => {
                         logger.error('[BrandingPage] error uploading splashscreen', { error: e });
                         setError('ImageUploadFailed');
                     });
@@ -193,21 +205,30 @@ export const Component = () => {
                             }}
                         >
                             <Box style={{ flex: 1, width: '100%', maxWidth: 300 }}>
-                                <Image isLoading={false} url={isSplashscreenEnabled ? splashscreenUrl : undefined} />
+                                <Image
+                                    isLoading={false}
+                                    url={isSplashscreenEnabled ? splashscreenUrl : undefined}
+                                />
                             </Box>
 
-                            <Flex style={{ flex: 1, flexDirection: 'column', gap: vars.spacing['5'] }}>
+                            <Flex
+                                style={{ flex: 1, flexDirection: 'column', gap: vars.spacing['5'] }}
+                            >
                                 <FormControlLabel
                                     control={
                                         <Switch
                                             checked={isSplashscreenEnabled}
-                                            onChange={e => handleSplashscreenToggle(e.target.checked)}
+                                            onChange={(e) =>
+                                                handleSplashscreenToggle(e.target.checked)
+                                            }
                                         />
                                     }
                                     label={globalize.translate('EnableSplashScreen')}
                                 />
 
-                                <Text size="sm">{globalize.translate('CustomSplashScreenSize')}</Text>
+                                <Text size="sm">
+                                    {globalize.translate('CustomSplashScreenSize')}
+                                </Text>
 
                                 <Button
                                     component="label"
@@ -216,7 +237,12 @@ export const Component = () => {
                                     startDecorator={<UploadIcon />}
                                     disabled={!isSplashscreenEnabled}
                                 >
-                                    <input type="file" accept="image/*" hidden onChange={onSplashscreenUpload} />
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        hidden
+                                        onChange={onSplashscreenUpload}
+                                    />
                                     {globalize.translate('UploadCustomImage')}
                                 </Button>
 

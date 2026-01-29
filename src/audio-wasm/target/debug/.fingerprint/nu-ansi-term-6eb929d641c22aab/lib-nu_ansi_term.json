@@ -1,20 +1,20 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[]",
-  "declared_features": "[\"default\", \"derive_serde_style\", \"gnu_legacy\", \"serde\", \"std\"]",
-  "target": 5239985456149308223,
-  "profile": 8276155916380437441,
-  "path": 11193696418200231275,
-  "deps": [],
-  "local": [
-    {
-      "CheckDepInfo": {
-        "dep_info": "debug/.fingerprint/nu-ansi-term-6eb929d641c22aab/dep-lib-nu_ansi_term",
-        "checksum": false
-      }
-    }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[]",
+    "declared_features": "[\"default\", \"derive_serde_style\", \"gnu_legacy\", \"serde\", \"std\"]",
+    "target": 5239985456149308223,
+    "profile": 8276155916380437441,
+    "path": 11193696418200231275,
+    "deps": [],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/nu-ansi-term-6eb929d641c22aab/dep-lib-nu_ansi_term",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

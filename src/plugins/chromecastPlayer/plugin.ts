@@ -1,13 +1,13 @@
-import appSettings from '../../scripts/settings/appSettings';
-import * as userSettings from '../../scripts/settings/userSettings';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import globalize from '../../lib/globalize';
-import CastSenderApi from './castSenderApi';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import appSettings from '../../scripts/settings/appSettings';
+import * as userSettings from '../../scripts/settings/userSettings';
 import { PluginType } from '../../types/plugin';
 import Events from '../../utils/events';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems';
 import { logger } from '../../utils/logger';
+import CastSenderApi from './castSenderApi';
 
 const PlayerName = 'Google Cast';
 
@@ -70,7 +70,9 @@ class CastPlayer {
     initializeCastPlayer() {
         const chrome = window.chrome;
         if (!chrome) {
-            logger.warn('Not initializing chromecast: chrome object is missing', { component: 'ChromecastPlayer' });
+            logger.warn('Not initializing chromecast: chrome object is missing', {
+                component: 'ChromecastPlayer'
+            });
             return;
         }
 
@@ -99,7 +101,10 @@ class CastPlayer {
                 this.receiverListener.bind(this)
             );
 
-            logger.debug('chromecast.initialize', { component: 'ChromecastPlayer', applicationId: applicationID });
+            logger.debug('chromecast.initialize', {
+                component: 'ChromecastPlayer',
+                applicationId: applicationID
+            });
             chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
         });
     }
@@ -130,7 +135,9 @@ class CastPlayer {
 
         if (message.type === 'playbackerror') {
             const errorCode = message.data;
-            logger.error(`Chromecast playback error: ${errorCode}`, { component: 'ChromecastPlayer' });
+            logger.error(`Chromecast playback error: ${errorCode}`, {
+                component: 'ChromecastPlayer'
+            });
         } else if (message.type === 'connectionerror') {
             logger.error(`Chromecast connection error`, { component: 'ChromecastPlayer' });
         } else if (message.type) {
@@ -150,7 +157,9 @@ class CastPlayer {
 
     sessionUpdateListener(isAlive: boolean) {
         if (isAlive) {
-            logger.debug('ChromecastPlayer sessionUpdateListener: already alive', { component: 'ChromecastPlayer' });
+            logger.debug('ChromecastPlayer sessionUpdateListener: already alive', {
+                component: 'ChromecastPlayer'
+            });
         } else {
             this.session = null;
             this.deviceState = DEVICE_STATE.IDLE;
@@ -162,11 +171,17 @@ class CastPlayer {
 
     launchApp() {
         logger.debug('ChromecastPlayer launching app', { component: 'ChromecastPlayer' });
-        window.chrome.cast.requestSession(this.onRequestSessionSuccess.bind(this), this.onLaunchError.bind(this));
+        window.chrome.cast.requestSession(
+            this.onRequestSessionSuccess.bind(this),
+            this.onLaunchError.bind(this)
+        );
     }
 
     onRequestSessionSuccess(e: any) {
-        logger.debug('ChromecastPlayer session success', { component: 'ChromecastPlayer', sessionId: e.sessionId });
+        logger.debug('ChromecastPlayer session success', {
+            component: 'ChromecastPlayer',
+            sessionId: e.sessionId
+        });
         this.onSessionConnected(e);
     }
 
@@ -198,7 +213,10 @@ class CastPlayer {
 
     stopApp() {
         if (this.session) {
-            this.session.stop(this.onStopAppSuccess.bind(this, 'Session stopped'), this.errorHandler);
+            this.session.stop(
+                this.onStopAppSuccess.bind(this, 'Session stopped'),
+                this.errorHandler
+            );
         }
     }
 
@@ -248,8 +266,11 @@ class CastPlayer {
 
         const serverAddress = apiClient.serverAddress();
         const hostname = new URL(serverAddress).hostname;
-        const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
-        const serverLocalAddress = isLocalhost ? (apiClient as any).serverInfo().LocalAddress : serverAddress;
+        const isLocalhost =
+            hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
+        const serverLocalAddress = isLocalhost
+            ? (apiClient as any).serverInfo().LocalAddress
+            : serverAddress;
 
         message = {
             ...message,
@@ -277,7 +298,12 @@ class CastPlayer {
 
     sendMessageInternal(message: any): Promise<void> {
         const payload = JSON.stringify(message);
-        this.session.sendMessage(messageNamespace, payload, this.onPlayCommandSuccess.bind(this), this.errorHandler);
+        this.session.sendMessage(
+            messageNamespace,
+            payload,
+            this.onPlayCommandSuccess.bind(this),
+            this.errorHandler
+        );
         return Promise.resolve();
     }
 
@@ -320,7 +346,11 @@ class CastPlayer {
                 this.errorHandler
             );
         } else {
-            this.session.setReceiverMuted(true, this.mediaCommandSuccessCallback.bind(this), this.errorHandler);
+            this.session.setReceiverMuted(
+                true,
+                this.mediaCommandSuccessCallback.bind(this),
+                this.errorHandler
+            );
         }
     }
 
@@ -387,7 +417,7 @@ class ChromecastPlayer {
         });
 
         Events.on(this._castPlayer, 'playbackstop', (_e: any, data: any) => {
-            let state = this.getPlayerStateInternal(data);
+            const state = this.getPlayerStateInternal(data);
             if (!this._playNextAfterEnded) {
                 state.nextItem = null;
                 state.NextMediaType = null;
@@ -408,7 +438,10 @@ class ChromecastPlayer {
     }
 
     tryPair() {
-        if (this._castPlayer?.deviceState !== DEVICE_STATE.ACTIVE && this._castPlayer?.isInitialized) {
+        if (
+            this._castPlayer?.deviceState !== DEVICE_STATE.ACTIVE &&
+            this._castPlayer?.isInitialized
+        ) {
             return new Promise<void>((resolve, reject) => {
                 _currentResolve = resolve;
                 _currentReject = reject;
@@ -480,12 +513,12 @@ class ChromecastPlayer {
     }
 
     volumeUp() {
-        let vol = this._castPlayer?.session?.receiver?.volume?.level ?? 0.5;
+        const vol = this._castPlayer?.session?.receiver?.volume?.level ?? 0.5;
         this._castPlayer?.session?.setReceiverVolumeLevel(Math.min(vol + 0.05, 1));
     }
 
     volumeDown() {
-        let vol = this._castPlayer?.session?.receiver?.volume?.level ?? 0.5;
+        const vol = this._castPlayer?.session?.receiver?.volume?.level ?? 0.5;
         this._castPlayer?.session?.setReceiverVolumeLevel(Math.max(vol - 0.05, 0));
     }
 
@@ -514,18 +547,20 @@ class ChromecastPlayer {
             return this.playWithCommand(options, 'PlayNow');
         } else {
             const apiClient = ServerConnections.getApiClient(options.serverId);
-            return getItems(apiClient, apiClient.getCurrentUserId(), { Ids: options.ids.join(',') }).then(
-                (result: any) => {
-                    options.items = result.Items;
-                    return this.playWithCommand(options, 'PlayNow');
-                }
-            );
+            return getItems(apiClient, apiClient.getCurrentUserId(), {
+                Ids: options.ids.join(',')
+            }).then((result: any) => {
+                options.items = result.Items;
+                return this.playWithCommand(options, 'PlayNow');
+            });
         }
     }
 
     private playWithCommand(options: any, command: string): Promise<void> {
         if (options.items.length > 1 && options.ids) {
-            options.items.sort((a: any, b: any) => options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id));
+            options.items.sort(
+                (a: any, b: any) => options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id)
+            );
         }
         return this._castPlayer?.loadMedia(options, command) || Promise.resolve();
     }

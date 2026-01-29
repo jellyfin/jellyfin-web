@@ -1,12 +1,15 @@
-import { MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
 import useResizeObserver from '@react-hook/resize-observer';
+import { MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
 
 interface Size {
     width: number;
     height: number;
 }
 
-export default function useElementSize<T extends HTMLElement = HTMLDivElement>(): [MutableRefObject<T | null>, Size] {
+export default function useElementSize<T extends HTMLElement = HTMLDivElement>(): [
+    MutableRefObject<T | null>,
+    Size
+] {
     const target = useRef<T | null>(null);
     const [size, setSize] = useState<Size>({
         width: 0,
@@ -17,7 +20,7 @@ export default function useElementSize<T extends HTMLElement = HTMLDivElement>()
         target.current && setSize(target.current.getBoundingClientRect());
     }, [target]);
 
-    useResizeObserver(target, entry => setSize(entry.contentRect));
+    useResizeObserver(target, (entry) => setSize(entry.contentRect));
 
     return [target, size];
 }

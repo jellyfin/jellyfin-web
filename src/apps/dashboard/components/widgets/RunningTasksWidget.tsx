@@ -1,13 +1,11 @@
-import React, { useMemo } from 'react';
-import globalize from 'lib/globalize';
-import Widget from './Widget';
 import type { TaskInfo } from '@jellyfin/sdk/lib/generated-client/models/task-info';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
-import { Paper } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
+import globalize from 'lib/globalize';
+import React, { useMemo } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import { Box, Flex, Paper, Text } from 'ui-primitives';
+import Widget from './Widget';
 
 interface RunningTasksWidgetProps {
     tasks?: TaskInfo[];
@@ -15,7 +13,7 @@ interface RunningTasksWidgetProps {
 
 const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps): React.ReactElement | null => {
     const runningTasks = useMemo(() => {
-        return tasks?.filter(v => v.State === TaskState.Running) ?? [];
+        return tasks?.filter((v) => v.State === TaskState.Running) ?? [];
     }, [tasks]);
 
     if (runningTasks.length === 0) return null;
@@ -31,11 +29,14 @@ const RunningTasksWidget = ({ tasks }: RunningTasksWidgetProps): React.ReactElem
                 }}
             >
                 <Flex style={{ flexDirection: 'column', gap: vars.spacing['5'] }}>
-                    {runningTasks.map(task => (
+                    {runningTasks.map((task) => (
                         <Box key={task.Id}>
                             <Text
                                 size="sm"
-                                style={{ fontWeight: vars.typography.fontWeightBold, marginBottom: vars.spacing['2'] }}
+                                style={{
+                                    fontWeight: vars.typography.fontWeightBold,
+                                    marginBottom: vars.spacing['2']
+                                }}
                             >
                                 {task.Name}
                             </Text>

@@ -68,14 +68,18 @@ function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number):
         };
 
         fetch(url, requestOptions).then(
-            response => {
+            (response) => {
                 clearTimeout(timeout);
-                logger.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`, { component: 'Fetch' });
+                logger.debug(`fetchWithTimeout: succeeded connecting to url: ${url}`, {
+                    component: 'Fetch'
+                });
                 resolve(response);
             },
-            error => {
+            (error) => {
                 clearTimeout(timeout);
-                logger.debug(`fetchWithTimeout: failed connecting to url: ${url}`, { component: 'Fetch' });
+                logger.debug(`fetchWithTimeout: failed connecting to url: ${url}`, {
+                    component: 'Fetch'
+                });
                 reject(error);
             }
         );
@@ -101,14 +105,18 @@ export function ajax(request: AjaxOptions): Promise<any> {
     logger.debug(`requesting url: ${request.url}`, { component: 'Fetch' });
 
     return getFetchPromise(request).then(
-        response => {
-            logger.debug(`response status: ${response.status}, url: ${request.url}`, { component: 'Fetch' });
+        (response) => {
+            logger.debug(`response status: ${response.status}, url: ${request.url}`, {
+                component: 'Fetch'
+            });
 
             if (response.status < 400) {
                 if (
                     request.dataType === 'json' ||
                     request.headers?.accept === 'application/json' ||
-                    (response.headers.get('Content-Type') || '').toLowerCase().includes('application/json')
+                    (response.headers.get('Content-Type') || '')
+                        .toLowerCase()
+                        .includes('application/json')
                 ) {
                     return response.json();
                 } else if (
@@ -125,7 +133,7 @@ export function ajax(request: AjaxOptions): Promise<any> {
                 return Promise.reject(response);
             }
         },
-        err => {
+        (err) => {
             logger.error(`request failed to url: ${request.url}`, { component: 'Fetch' }, err);
             throw err;
         }

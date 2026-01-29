@@ -1,5 +1,5 @@
-import loading from '../../components/loading/loading';
 import cardBuilder from '../../components/cardbuilder/cardBuilder';
+import loading from '../../components/loading/loading';
 
 function getQuery(params) {
     const key = getSavedQueryKey(params);
@@ -67,4 +67,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent, params, promise);
     };
 }
-

@@ -1,11 +1,11 @@
-import { useCallback } from 'react';
 import { motion } from 'motion/react';
+import { useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import { backspinHandler } from '../../../../../components/audioEngine/backspinHandler';
+import { useBackspinStore } from '../../../../../store/backspinStore';
+import { HAPTIC_PATTERNS } from '../../../../../types/transport';
 import { DiscImage } from './DiscImage';
 import { VinylSeekBar } from './VinylSeekBar';
-import { useBackspinStore } from '../../../../../store/backspinStore';
-import { backspinHandler } from '../../../../../components/audioEngine/backspinHandler';
-import { HAPTIC_PATTERNS } from '../../../../../types/transport';
-import { vars } from 'styles/tokens.css.ts';
 
 export interface TransportControlsProps {
     artSrc?: string;
@@ -132,7 +132,13 @@ export function TransportControls({
                     aria-label="Previous track"
                     title="Previous track"
                 >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
                         <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
                     </svg>
                 </motion.button>
@@ -168,7 +174,13 @@ export function TransportControls({
                     aria-label="Next track"
                     title="Next track"
                 >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
                         <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
                     </svg>
                 </motion.button>
@@ -212,11 +224,23 @@ export function TransportControls({
                     title={isPlaying ? 'Pause' : 'Play'}
                 >
                     {isPlaying ? (
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
                             <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                         </svg>
                     ) : (
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
                             <path d="M8 5v14l11-7z" />
                         </svg>
                     )}

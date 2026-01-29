@@ -1,18 +1,18 @@
-import { PlaybackManager } from './playbackmanager';
-import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
-import type { PlaybackStopInfo } from 'types/playbackStopInfo';
-import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
 import { isInSegment } from 'apps/stable/features/playback/utils/mediaSegments';
+import { PlaybackSubscriber } from 'apps/stable/features/playback/utils/playbackSubscriber';
+import { EventType } from 'constants/eventType';
+import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
+import type { PlaybackStopInfo } from 'types/playbackStopInfo';
 import Events, { type Event } from 'utils/events';
 import type { Player } from './playbackmanager';
-import { EventType } from 'constants/eventType';
+import { PlaybackManager } from './playbackmanager';
 import './skipbutton.scss';
-import dom from 'utils/dom';
-import globalize from 'lib/globalize';
-import * as userSettings from 'scripts/settings/userSettings';
 import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
+import globalize from 'lib/globalize';
+import * as userSettings from 'scripts/settings/userSettings';
+import dom from 'utils/dom';
 
 interface ShowOptions {
     animate?: boolean;
@@ -57,11 +57,14 @@ class SkipSegment extends PlaybackSubscriber {
 
             document.body.insertAdjacentHTML('beforeend', buttonHtml);
 
-            this.skipElement = document.body.querySelector('.skip-button') as HTMLButtonElement | null;
+            this.skipElement = document.body.querySelector(
+                '.skip-button'
+            ) as HTMLButtonElement | null;
             if (this.skipElement) {
                 this.skipElement.addEventListener('click', () => {
                     const time =
-                        this.playbackManager.currentTime(this.player as unknown as Player) * TICKS_PER_MILLISECOND;
+                        this.playbackManager.currentTime(this.player as unknown as Player) *
+                        TICKS_PER_MILLISECOND;
                     if (this.currentSegment?.EndTicks) {
                         if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
                             this.playbackManager.seek(this.currentSegment.EndTicks);
@@ -80,7 +83,8 @@ class SkipSegment extends PlaybackSubscriber {
                 'MediaSegmentSkipPrompt',
                 globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`)
             );
-            this.skipElement.innerHTML += '<span class="material-icons skip_next" aria-hidden="true"></span>';
+            this.skipElement.innerHTML +=
+                '<span class="material-icons skip_next" aria-hidden="true"></span>';
         }
     }
 
@@ -99,7 +103,9 @@ class SkipSegment extends PlaybackSubscriber {
             // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
-            const hasFocus = document.activeElement && focusManager.isCurrentlyFocusable(document.activeElement as HTMLElement);
+            const hasFocus =
+                document.activeElement &&
+                focusManager.isCurrentlyFocusable(document.activeElement as HTMLElement);
             if (options.focus && !hasFocus) {
                 focusManager.focus(elem);
             }
@@ -156,7 +162,8 @@ class SkipSegment extends PlaybackSubscriber {
         if (
             this.player &&
             segment.EndTicks != null &&
-            segment.EndTicks >= this.playbackManager.currentItem(this.player as unknown as Player).RunTimeTicks &&
+            segment.EndTicks >=
+                this.playbackManager.currentItem(this.player as unknown as Player).RunTimeTicks &&
             this.playbackManager.getNextItem() &&
             userSettings.enableNextVideoInfoOverlay()
         ) {
@@ -179,7 +186,9 @@ class SkipSegment extends PlaybackSubscriber {
 
     onPlayerTimeUpdate() {
         if (this.currentSegment) {
-            const time = this.playbackManager.currentTime(this.player as unknown as Player) * TICKS_PER_MILLISECOND;
+            const time =
+                this.playbackManager.currentTime(this.player as unknown as Player) *
+                TICKS_PER_MILLISECOND;
 
             if (!isInSegment(this.currentSegment, time)) {
                 this.currentSegment = null;
@@ -204,4 +213,5 @@ class SkipSegment extends PlaybackSubscriber {
     }
 }
 
-export const bindSkipSegment = (playbackManager: PlaybackManager) => new SkipSegment(playbackManager);
+export const bindSkipSegment = (playbackManager: PlaybackManager) =>
+    new SkipSegment(playbackManager);

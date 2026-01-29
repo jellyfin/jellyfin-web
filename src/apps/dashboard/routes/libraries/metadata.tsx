@@ -14,6 +14,7 @@ import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-a
 import { useCountries } from 'apps/dashboard/features/libraries/api/useCountries';
 import { useCultures } from 'apps/dashboard/features/libraries/api/useCultures';
 import { getImageResolutionOptions } from 'apps/dashboard/features/libraries/utils/metadataOptions';
+import { PageContainer } from 'components/layout/PageContainer';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
@@ -21,20 +22,32 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useState } from 'react';
 import { type ActionData } from 'types/actionData';
+import {
+    Alert,
+    Button,
+    Flex,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 import { queryClient } from 'utils/query/queryClient';
-import { Alert } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Input } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-
-import { PageContainer } from 'components/layout/PageContainer';
 
 export const Component = (): React.ReactElement => {
     const { data: config, isPending: isConfigPending, isError: isConfigError } = useConfiguration();
-    const { data: cultures, isPending: isCulturesPending, isError: isCulturesError } = useCultures();
-    const { data: countries, isPending: isCountriesPending, isError: isCountriesError } = useCountries();
+    const {
+        data: cultures,
+        isPending: isCulturesPending,
+        isError: isCulturesError
+    } = useCultures();
+    const {
+        data: countries,
+        isPending: isCountriesPending,
+        isError: isCountriesError
+    } = useCountries();
 
     const [actionData, setActionData] = useState<ActionData | undefined>();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,7 +69,8 @@ export const Component = (): React.ReactElement => {
             config.PreferredMetadataLanguage = data.Language.toString();
             config.MetadataCountryCode = data.Country.toString();
             config.DummyChapterDuration = parseInt(data.DummyChapterDuration.toString(), 10);
-            config.ChapterImageResolution = data.ChapterImageResolution.toString() as ImageResolution;
+            config.ChapterImageResolution =
+                data.ChapterImageResolution.toString() as ImageResolution;
 
             await getConfigurationApi(api).updateConfiguration({ serverConfiguration: config });
 
@@ -87,24 +101,35 @@ export const Component = (): React.ReactElement => {
             <PageContainer>
                 <Flex className="content-primary" style={{ flexDirection: 'column', gap: '24px' }}>
                     {isConfigError || isCulturesError || isCountriesError ? (
-                        <Alert variant="error">{globalize.translate('MetadataImagesLoadError')}</Alert>
+                        <Alert variant="error">
+                            {globalize.translate('MetadataImagesLoadError')}
+                        </Alert>
                     ) : (
                         <form onSubmit={handleSubmit}>
                             <Flex style={{ flexDirection: 'column', gap: '24px' }}>
                                 {!isSubmitting && actionData?.isSaved && (
-                                    <Alert variant="success">{globalize.translate('SettingsSaved')}</Alert>
+                                    <Alert variant="success">
+                                        {globalize.translate('SettingsSaved')}
+                                    </Alert>
                                 )}
                                 <Text as="h2" size="lg" weight="bold">
                                     {globalize.translate('HeaderPreferredMetadataLanguage')}
                                 </Text>
-                                <Text as="p">{globalize.translate('DefaultMetadataLangaugeDescription')}</Text>
+                                <Text as="p">
+                                    {globalize.translate('DefaultMetadataLangaugeDescription')}
+                                </Text>
 
-                                <Select name="Language" defaultValue={config.PreferredMetadataLanguage}>
+                                <Select
+                                    name="Language"
+                                    defaultValue={config.PreferredMetadataLanguage}
+                                >
                                     <SelectTrigger style={{ width: '100%' }}>
-                                        <SelectValue placeholder={globalize.translate('LabelLanguage')} />
+                                        <SelectValue
+                                            placeholder={globalize.translate('LabelLanguage')}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {cultures.map(culture => (
+                                        {cultures.map((culture) => (
                                             <SelectItem
                                                 key={culture.TwoLetterISOLanguageName ?? ''}
                                                 value={culture.TwoLetterISOLanguageName ?? ''}
@@ -117,12 +142,17 @@ export const Component = (): React.ReactElement => {
 
                                 <Select name="Country" defaultValue={config.MetadataCountryCode}>
                                     <SelectTrigger style={{ width: '100%' }}>
-                                        <SelectValue placeholder={globalize.translate('LabelCountry')} />
+                                        <SelectValue
+                                            placeholder={globalize.translate('LabelCountry')}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {countries.map(country => (
+                                        {countries.map((country) => (
                                             <SelectItem
-                                                key={country.TwoLetterISORegionName || country.DisplayName}
+                                                key={
+                                                    country.TwoLetterISORegionName ||
+                                                    country.DisplayName
+                                                }
                                                 value={country.TwoLetterISORegionName || ''}
                                             >
                                                 {country.DisplayName}
@@ -144,13 +174,23 @@ export const Component = (): React.ReactElement => {
                                     required
                                 />
 
-                                <Select name="ChapterImageResolution" defaultValue={config.ChapterImageResolution}>
+                                <Select
+                                    name="ChapterImageResolution"
+                                    defaultValue={config.ChapterImageResolution}
+                                >
                                     <SelectTrigger style={{ width: '100%' }}>
-                                        <SelectValue placeholder={globalize.translate('LabelChapterImageResolution')} />
+                                        <SelectValue
+                                            placeholder={globalize.translate(
+                                                'LabelChapterImageResolution'
+                                            )}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {imageResolutions.map(resolution => (
-                                            <SelectItem key={resolution.name} value={resolution.value}>
+                                        {imageResolutions.map((resolution) => (
+                                            <SelectItem
+                                                key={resolution.name}
+                                                value={resolution.value}
+                                            >
                                                 {resolution.name}
                                             </SelectItem>
                                         ))}

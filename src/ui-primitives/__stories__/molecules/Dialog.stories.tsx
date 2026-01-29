@@ -1,7 +1,7 @@
-import { type ReactElement, type ReactNode, useState, useCallback } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { AnimatePresence, motion } from 'motion/react';
+import { type ReactElement, type ReactNode, useCallback, useState } from 'react';
 import { vars } from 'styles/tokens.css.ts';
 import { Button } from '../..';
 
@@ -157,7 +157,9 @@ function DefaultStory(): ReactElement {
                 <p style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
                     Dialog content goes here. This dialog uses Framer Motion for smooth animations.
                 </p>
-                <div style={{ display: 'flex', gap: vars.spacing['4'], justifyContent: 'flex-end' }}>
+                <div
+                    style={{ display: 'flex', gap: vars.spacing['4'], justifyContent: 'flex-end' }}
+                >
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
@@ -309,22 +311,25 @@ function LargeContentStory(): ReactElement {
                     }}
                 >
                     <p style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat.
                     </p>
                     <p style={{ color: vars.colors.text, marginBottom: vars.spacing['5'] }}>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                        mollit anim id est laborum.
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                        eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                        sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
                     <p style={{ color: vars.colors.text }}>
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                        laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                        beatae vitae dicta sunt explicabo.
+                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+                        veritatis et quasi architecto beatae vitae dicta sunt explicabo.
                     </p>
                 </div>
-                <div style={{ display: 'flex', gap: vars.spacing['4'], justifyContent: 'flex-end' }}>
+                <div
+                    style={{ display: 'flex', gap: vars.spacing['4'], justifyContent: 'flex-end' }}
+                >
                     <Button variant="secondary" onClick={handleClose}>
                         Decline
                     </Button>

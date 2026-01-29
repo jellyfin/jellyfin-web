@@ -1,13 +1,18 @@
-import { vars } from 'styles/tokens.css.ts';
+import globalize from 'lib/globalize';
 
 import React, { type FC } from 'react';
-import { Paper } from 'ui-primitives';
-import { Table, TableBody, TableRow, TableCell, TableHead } from 'ui-primitives';
-import { Skeleton } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-
-import globalize from 'lib/globalize';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Flex,
+    Paper,
+    Skeleton,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    Text
+} from 'ui-primitives';
 import type { PluginDetails } from '../types/PluginDetails';
 
 const getStatusText = (pluginDetails?: PluginDetails): string => {
@@ -24,7 +29,9 @@ const getOwnerText = (pluginDetails?: PluginDetails): string => {
     return pluginDetails?.owner ?? globalize.translate('Unknown');
 };
 
-const getRepositoryText = (pluginDetails?: PluginDetails): { text: string; url?: string; isBundled: boolean } => {
+const getRepositoryText = (
+    pluginDetails?: PluginDetails
+): { text: string; url?: string; isBundled: boolean } => {
     if (pluginDetails == null) return { text: globalize.translate('Unknown'), isBundled: false };
 
     if (pluginDetails.status != null && pluginDetails.canUninstall === false) {
@@ -119,9 +126,17 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                                             href={repo.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            style={{ color: 'var(--colors-primary)', textDecoration: 'none' }}
+                                            style={{
+                                                color: 'var(--colors-primary)',
+                                                textDecoration: 'none'
+                                            }}
                                         >
-                                            <Flex style={{ alignItems: 'center', gap: vars.spacing['1'] }}>
+                                            <Flex
+                                                style={{
+                                                    alignItems: 'center',
+                                                    gap: vars.spacing['1']
+                                                }}
+                                            >
                                                 <Text as="span">{repo.text}</Text>
                                             </Flex>
                                         </a>

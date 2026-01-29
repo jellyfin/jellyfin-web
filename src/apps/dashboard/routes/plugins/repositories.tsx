@@ -1,19 +1,14 @@
-import { Box, Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
+import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
 import { PlusIcon } from '@radix-ui/react-icons';
+import { useRepositories } from 'apps/dashboard/features/plugins/api/useRepositories';
+import { useSetRepositories } from 'apps/dashboard/features/plugins/api/useSetRepositories';
+import NewRepositoryForm from 'apps/dashboard/features/plugins/components/NewRepositoryForm';
+import RepositoryListItem from 'apps/dashboard/features/plugins/components/RepositoryListItem';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import React, { useCallback, useState } from 'react';
-import { Alert } from 'ui-primitives';
-import { List } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-import RepositoryListItem from 'apps/dashboard/features/plugins/components/RepositoryListItem';
-import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
-import { useRepositories } from 'apps/dashboard/features/plugins/api/useRepositories';
-import Loading from 'components/loading/LoadingComponent';
-import { useSetRepositories } from 'apps/dashboard/features/plugins/api/useSetRepositories';
-import NewRepositoryForm from 'apps/dashboard/features/plugins/components/NewRepositoryForm';
+import { Alert, Box, Button, Flex, Heading, List, Paper, Text } from 'ui-primitives';
 
 export const Component = (): React.ReactElement => {
     const { data: repositories, isPending, isError } = useRepositories();
@@ -24,7 +19,9 @@ export const Component = (): React.ReactElement => {
         (repository: RepositoryInfo) => {
             if (repositories) {
                 setRepositories.mutate({
-                    repositoryInfo: repositories.filter(currentRepo => currentRepo.Url !== repository.Url)
+                    repositoryInfo: repositories.filter(
+                        (currentRepo) => currentRepo.Url !== repository.Url
+                    )
                 });
             }
         },
@@ -67,24 +64,35 @@ export const Component = (): React.ReactElement => {
             title={globalize.translate('TabRepositories')}
             className="type-interior mainAnimatedPage"
         >
-            <NewRepositoryForm open={isRepositoryFormOpen} onClose={onRepositoryFormClose} onAdd={onRepositoryAdd} />
+            <NewRepositoryForm
+                open={isRepositoryFormOpen}
+                onClose={onRepositoryFormClose}
+                onAdd={onRepositoryAdd}
+            />
             <Box style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
                 {isError ? (
-                    <Alert variant="error">{globalize.translate('RepositoriesPageLoadError')}</Alert>
+                    <Alert variant="error">
+                        {globalize.translate('RepositoriesPageLoadError')}
+                    </Alert>
                 ) : (
                     <Box className={`${Flex} ${Flex.col}`} style={{ gap: 32 }}>
                         <Box
                             className={`${Flex} ${Flex.row}`}
                             style={{ justifyContent: 'space-between', alignItems: 'center' }}
                         >
-                            <Heading.H2 style={{ margin: 0 }}>{globalize.translate('TabRepositories')}</Heading.H2>
+                            <Heading.H2 style={{ margin: 0 }}>
+                                {globalize.translate('TabRepositories')}
+                            </Heading.H2>
                             <Button startDecorator={<PlusIcon />} onClick={openRepositoryForm}>
                                 {globalize.translate('HeaderNewRepository')}
                             </Button>
                         </Box>
 
                         {repositories && repositories.length > 0 ? (
-                            <Paper variant="outlined" style={{ borderRadius: '8px', overflow: 'hidden' }}>
+                            <Paper
+                                variant="outlined"
+                                style={{ borderRadius: '8px', overflow: 'hidden' }}
+                            >
                                 <List
                                     style={
                                         {
@@ -95,10 +103,17 @@ export const Component = (): React.ReactElement => {
                                 >
                                     {repositories.map((repository, index) => (
                                         <React.Fragment key={repository.Url}>
-                                            <RepositoryListItem repository={repository} onDelete={onDelete} />
+                                            <RepositoryListItem
+                                                repository={repository}
+                                                onDelete={onDelete}
+                                            />
                                             {index < repositories.length - 1 && (
                                                 <div
-                                                    style={{ height: 1, backgroundColor: 'var(--joy-palette-divider)' }}
+                                                    style={{
+                                                        height: 1,
+                                                        backgroundColor:
+                                                            'var(--joy-palette-divider)'
+                                                    }}
                                                 />
                                             )}
                                         </React.Fragment>

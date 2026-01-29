@@ -1,11 +1,11 @@
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { CardShape } from 'utils/card';
-import { type Section } from '../types';
 import { type CardOptions } from 'types/cardOptions';
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { CardShape } from 'utils/card';
 import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 import { SEARCH_SECTIONS_SORT_ORDER } from '../constants/sectionSortOrder';
+import { type Section } from '../types';
 
 export const isMovies = (collectionType: string) => collectionType === CollectionType.Movies;
 

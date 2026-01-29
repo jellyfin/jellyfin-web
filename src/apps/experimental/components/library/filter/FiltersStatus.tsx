@@ -1,12 +1,10 @@
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
-import React, { type FC, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
-
 import globalize from 'lib/globalize';
+import React, { type FC, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
 import { type LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+import { Box, Checkbox } from 'ui-primitives';
 
 const statusFiltersOptions = [
     { label: 'Played', value: ItemFilter.IsPlayed },
@@ -21,7 +19,11 @@ interface FiltersStatusProps {
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersStatus: FC<FiltersStatusProps> = ({ viewType, libraryViewSettings, setLibraryViewSettings }) => {
+const FiltersStatus: FC<FiltersStatusProps> = ({
+    viewType,
+    libraryViewSettings,
+    setLibraryViewSettings
+}) => {
     const onFiltersStatusChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
@@ -29,10 +31,10 @@ const FiltersStatus: FC<FiltersStatusProps> = ({ viewType, libraryViewSettings, 
             const existingStatus = libraryViewSettings?.Filters?.Status ?? [];
 
             const updatedStatus = existingStatus.includes(value)
-                ? existingStatus.filter(filter => filter !== value)
+                ? existingStatus.filter((filter) => filter !== value)
                 : [...existingStatus, value];
 
-            setLibraryViewSettings(prevState => ({
+            setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
@@ -67,8 +69,8 @@ const FiltersStatus: FC<FiltersStatusProps> = ({ viewType, libraryViewSettings, 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'] }}>
             {statusFiltersOptions
-                .filter(filter => getVisibleFiltersStatus().includes(filter.value))
-                .map(filter => (
+                .filter((filter) => getVisibleFiltersStatus().includes(filter.value))
+                .map((filter) => (
                     <Checkbox
                         key={filter.value}
                         checked={!!libraryViewSettings?.Filters?.Status?.includes(filter.value)}

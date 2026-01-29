@@ -1,11 +1,17 @@
 import { Root as ToggleRoot } from '@radix-ui/react-toggle';
 import {
-    Root as ToggleGroupRoot,
     Item as ToggleGroupItemPrimitive,
+    Root as ToggleGroupRoot,
     type ToggleGroupSingleProps
 } from '@radix-ui/react-toggle-group';
 import type { ReactElement, ReactNode } from 'react';
-import { toggleRoot, toggleVariant, toggleSizes, toggleGroupRoot, toggleGroupItem } from './Toggle.css.ts';
+import {
+    toggleGroupItem,
+    toggleGroupRoot,
+    toggleRoot,
+    toggleSizes,
+    toggleVariant
+} from './Toggle.css.ts';
 
 interface ToggleProps {
     readonly children: ReactNode;
@@ -68,9 +74,18 @@ export function ToggleGroup({
     );
 }
 
-export function ToggleGroupItem({ children, value, disabled, className }: ToggleGroupItemProps): ReactElement {
+export function ToggleGroupItem({
+    children,
+    value,
+    disabled,
+    className
+}: ToggleGroupItemProps): ReactElement {
     return (
-        <ToggleGroupItemPrimitive className={`${toggleGroupItem} ${className ?? ''}`} value={value} disabled={disabled}>
+        <ToggleGroupItemPrimitive
+            className={`${toggleGroupItem} ${className ?? ''}`}
+            value={value}
+            disabled={disabled}
+        >
             {children}
         </ToggleGroupItemPrimitive>
     );

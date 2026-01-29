@@ -171,7 +171,7 @@ class PerformanceCollector {
         for (const [operation, samples] of this.samples) {
             if (samples.length === 0) continue;
 
-            const durations = samples.map(s => s.durationMs);
+            const durations = samples.map((s) => s.durationMs);
             const baseline = this.calculateBaseline(operation, durations);
             baselines.push(baseline);
 
@@ -207,7 +207,7 @@ class PerformanceCollector {
         const percentile95 = sorted[percentile95Index] || max;
 
         // Standard deviation
-        const squaredDiffs = samples.map(val => Math.pow(val - average, 2));
+        const squaredDiffs = samples.map((val) => (val - average) ** 2);
         const avgSquaredDiff = squaredDiffs.reduce((a, b) => a + b, 0) / samples.length;
         const standardDeviation = Math.sqrt(avgSquaredDiff);
 
@@ -313,7 +313,7 @@ export async function measureStorePerformance(): Promise<PerformanceReport> {
     performanceCollector.startCollection(operations);
 
     // Wait for collection period
-    await new Promise(resolve => setTimeout(resolve, COLLECTION_DURATION_MS));
+    await new Promise((resolve) => setTimeout(resolve, COLLECTION_DURATION_MS));
 
     const report = performanceCollector.stopCollection();
 
@@ -336,14 +336,15 @@ export function comparePerformanceReports(
     const degraded: string[] = [];
     const unchanged: string[] = [];
 
-    const baselineMap = new Map(baseline.baselines.map(b => [b.operation, b]));
-    const currentMap = new Map(current.baselines.map(b => [b.operation, b]));
+    const baselineMap = new Map(baseline.baselines.map((b) => [b.operation, b]));
+    const currentMap = new Map(current.baselines.map((b) => [b.operation, b]));
 
     for (const [operation, baselineData] of baselineMap) {
         const currentData = currentMap.get(operation);
         if (!currentData) continue;
 
-        const percentChange = ((currentData.averageMs - baselineData.averageMs) / baselineData.averageMs) * 100;
+        const percentChange =
+            ((currentData.averageMs - baselineData.averageMs) / baselineData.averageMs) * 100;
 
         if (percentChange < -5) {
             improved.push(`${operation}: ${percentChange.toFixed(1)}% faster`);

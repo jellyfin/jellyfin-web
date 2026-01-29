@@ -1,12 +1,12 @@
-import appSettings from '../scripts/settings/appSettings';
-import browser from '../scripts/browser';
-import Events from '../utils/events';
-import * as htmlMediaHelper from '../components/htmlMediaHelper';
-import * as webSettings from '../scripts/settings/webSettings';
-import globalize from '../lib/globalize';
-import profileBuilder from '../scripts/browserDeviceProfile';
 import { AppFeature } from 'constants/appFeature';
 import { LayoutMode } from 'constants/layoutMode';
+import * as htmlMediaHelper from '../components/htmlMediaHelper';
+import globalize from '../lib/globalize';
+import browser from '../scripts/browser';
+import profileBuilder from '../scripts/browserDeviceProfile';
+import appSettings from '../scripts/settings/appSettings';
+import * as webSettings from '../scripts/settings/webSettings';
+import Events from '../utils/events';
 import { logger } from '../utils/logger';
 import alert from './alert';
 
@@ -51,7 +51,7 @@ function getBaseProfileOptions(item: any) {
 }
 
 function getDeviceProfile(item: any): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         let profile: any;
 
         if (window.NativeShell?.AppHost?.getDeviceProfile) {
@@ -65,7 +65,8 @@ function getDeviceProfile(item: any): Promise<any> {
         }
 
         const maxVideoWidth = parseInt(appSettings.maxVideoWidth() || '0', 10);
-        const maxTranscodingVideoWidth = maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
+        const maxTranscodingVideoWidth =
+            maxVideoWidth < 0 ? appHost.screen()?.maxAllowedWidth : maxVideoWidth;
 
         if (maxTranscodingVideoWidth) {
             const conditionWidth = {
@@ -84,9 +85,11 @@ function getDeviceProfile(item: any): Promise<any> {
 
             profile.TranscodingProfiles.forEach((transcodingProfile: any) => {
                 if (transcodingProfile.Type === 'Video') {
-                    transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter((condition: any) => {
-                        return condition.Property !== 'Width';
-                    });
+                    transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter(
+                        (condition: any) => {
+                            return condition.Property !== 'Width';
+                        }
+                    );
 
                     transcodingProfile.Conditions.push(conditionWidth);
                 }
@@ -258,7 +261,12 @@ const supportedFeatures = (function () {
         features.push(AppFeature.Sharing);
     }
 
-    if (!(browser as any).edgeUwp && !browser.tv && !(browser as any).xboxOne && !(browser as any).ps4) {
+    if (
+        !(browser as any).edgeUwp &&
+        !browser.tv &&
+        !(browser as any).xboxOne &&
+        !(browser as any).ps4
+    ) {
         features.push(AppFeature.FileDownload);
     }
 
@@ -285,7 +293,13 @@ const supportedFeatures = (function () {
         features.push(AppFeature.Fullscreen);
     }
 
-    if (browser.tv || (browser as any).xboxOne || (browser as any).ps4 || browser.mobile || (browser as any).ipad) {
+    if (
+        browser.tv ||
+        (browser as any).xboxOne ||
+        (browser as any).ps4 ||
+        browser.mobile ||
+        (browser as any).ipad
+    ) {
         features.push(AppFeature.PhysicalVolumeControl);
     }
 
@@ -308,11 +322,14 @@ const supportedFeatures = (function () {
     features.push(AppFeature.TargetBlank);
     features.push(AppFeature.Screensaver);
 
-    webSettings.getMultiServer().then(enabled => {
+    webSettings.getMultiServer().then((enabled) => {
         if (enabled) features.push(AppFeature.MultiServer);
     });
 
-    if (!(browser as any).orsay && (browser.firefox || (browser as any).ps4 || browser.edge || supportsCue())) {
+    if (
+        !(browser as any).orsay &&
+        (browser.firefox || (browser as any).ps4 || browser.edge || supportsCue())
+    ) {
         features.push(AppFeature.SubtitleAppearance);
     }
 
@@ -360,7 +377,7 @@ function askForExit() {
         return;
     }
 
-    import('../components/actionSheet/actionSheet').then(actionsheet => {
+    import('../components/actionSheet/actionSheet').then((actionsheet) => {
         exitPromise = (actionsheet.default as any)
             .show({
                 title: globalize.translate('MessageConfirmAppExit'),
@@ -424,13 +441,19 @@ export const appHost = {
         };
     },
     deviceName: function () {
-        return window.NativeShell?.AppHost?.deviceName ? window.NativeShell.AppHost.deviceName() : getDeviceName();
+        return window.NativeShell?.AppHost?.deviceName
+            ? window.NativeShell.AppHost.deviceName()
+            : getDeviceName();
     },
     deviceId: function () {
-        return window.NativeShell?.AppHost?.deviceId ? window.NativeShell.AppHost.deviceId() : getDeviceId();
+        return window.NativeShell?.AppHost?.deviceId
+            ? window.NativeShell.AppHost.deviceId()
+            : getDeviceId();
     },
     appName: function () {
-        return window.NativeShell?.AppHost?.appName ? window.NativeShell.AppHost.appName() : appName;
+        return window.NativeShell?.AppHost?.appName
+            ? window.NativeShell.AppHost.appName()
+            : appName;
     },
     appVersion: function () {
         return window.NativeShell?.AppHost?.appVersion

@@ -101,7 +101,12 @@ export default class LogoScreensaver {
 
     private rotateIn(elem: HTMLElement, iterations: number) {
         const keyframes = [
-            { transform: 'rotate3d(0, 0, 1, -200deg)', opacity: '0', transformOrigin: 'center', offset: 0 },
+            {
+                transform: 'rotate3d(0, 0, 1, -200deg)',
+                opacity: '0',
+                transformOrigin: 'center',
+                offset: 0
+            },
             { transform: 'none', opacity: '1', transformOrigin: 'center', offset: 1 }
         ];
         return elem.animate(keyframes, { duration: 900, iterations });
@@ -110,7 +115,12 @@ export default class LogoScreensaver {
     private rotateOut(elem: HTMLElement, iterations: number) {
         const keyframes = [
             { transform: 'none', opacity: '1', transformOrigin: 'center', offset: 0 },
-            { transform: 'rotate3d(0, 0, 1, 200deg)', opacity: '0', transformOrigin: 'center', offset: 1 }
+            {
+                transform: 'rotate3d(0, 0, 1, 200deg)',
+                opacity: '0',
+                transformOrigin: 'center',
+                offset: 1
+            }
         ];
         return elem.animate(keyframes, { duration: 900, iterations });
     }
@@ -148,7 +158,7 @@ export default class LogoScreensaver {
         this.stopInterval();
         const elem = document.querySelector('.logoScreenSaver') as HTMLElement;
         if (elem) {
-            return new Promise<void>(resolve => {
+            return new Promise<void>((resolve) => {
                 if (typeof elem.animate === 'function') {
                     const animation = this.fadeOut(elem, 1);
                     animation.onfinish = () => {

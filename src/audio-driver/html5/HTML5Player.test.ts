@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { HTML5Player, type PlayerEvents } from './HTML5Player';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { PlaybackStatus } from '../../store/types';
+import { HTML5Player, type PlayerEvents } from './HTML5Player';
 
 // Mock HTMLAudioElement and HTMLVideoElement
 const mockElement = {
@@ -100,7 +100,7 @@ describe('HTML5Player', () => {
 
         it('should handle play errors', async () => {
             vi.mocked(mockElement.play).mockRejectedValueOnce(new Error('Play failed'));
-            
+
             await expect(player.play()).rejects.toThrow('Play failed');
         });
     });

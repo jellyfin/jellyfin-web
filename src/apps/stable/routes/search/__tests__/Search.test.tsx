@@ -4,9 +4,9 @@
  * Integration tests for search with mixed media type playback.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toPlayableItem, toVideoItem } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Search integration', () => {
     describe('search result playback conversion - audio', () => {
@@ -108,7 +108,10 @@ describe('Search integration', () => {
             ];
 
             results.forEach((item) => {
-                const isAudio = item.Type === 'Audio' || item.Type === 'MusicArtist' || item.Type === 'MusicAlbum';
+                const isAudio =
+                    item.Type === 'Audio' ||
+                    item.Type === 'MusicArtist' ||
+                    item.Type === 'MusicAlbum';
                 const playable = isAudio ? toPlayableItem(item) : toVideoItem(item);
                 expect(playable.id).toBeDefined();
                 expect(playable.title).toBeDefined();
@@ -122,7 +125,10 @@ describe('Search integration', () => {
             ];
 
             results.forEach((item) => {
-                const isAudio = item.Type === 'Audio' || item.Type === 'MusicArtist' || item.Type === 'MusicAlbum';
+                const isAudio =
+                    item.Type === 'Audio' ||
+                    item.Type === 'MusicArtist' ||
+                    item.Type === 'MusicAlbum';
                 const playable = isAudio ? toPlayableItem(item) : toVideoItem(item);
                 expect(playable.id).toBeDefined();
             });
@@ -135,7 +141,10 @@ describe('Search integration', () => {
             ];
 
             results.forEach((item) => {
-                const isAudio = item.Type === 'Audio' || item.Type === 'MusicArtist' || item.Type === 'MusicAlbum';
+                const isAudio =
+                    item.Type === 'Audio' ||
+                    item.Type === 'MusicArtist' ||
+                    item.Type === 'MusicAlbum';
                 const playable = isAudio ? toPlayableItem(item) : toVideoItem(item);
                 expect(playable.id).toBeDefined();
             });
@@ -143,14 +152,37 @@ describe('Search integration', () => {
 
         it('handles large mixed media search results', () => {
             const results: BaseItemDto[] = [
-                ...Array.from({ length: 10 }, (_, i) => ({ Id: `movie-${i}`, Name: `Movie ${i}`, Type: 'Movie' as const, ServerId: 'server-1' })),
-                ...Array.from({ length: 10 }, (_, i) => ({ Id: `song-${i}`, Name: `Song ${i}`, Type: 'Audio' as const, ServerId: 'server-1' })),
-                ...Array.from({ length: 10 }, (_, i) => ({ Id: `show-${i}`, Name: `Show ${i}`, Type: 'Series' as const, ServerId: 'server-1' })),
-                ...Array.from({ length: 10 }, (_, i) => ({ Id: `album-${i}`, Name: `Album ${i}`, Type: 'MusicAlbum' as const, ServerId: 'server-1' }))
+                ...Array.from({ length: 10 }, (_, i) => ({
+                    Id: `movie-${i}`,
+                    Name: `Movie ${i}`,
+                    Type: 'Movie' as const,
+                    ServerId: 'server-1'
+                })),
+                ...Array.from({ length: 10 }, (_, i) => ({
+                    Id: `song-${i}`,
+                    Name: `Song ${i}`,
+                    Type: 'Audio' as const,
+                    ServerId: 'server-1'
+                })),
+                ...Array.from({ length: 10 }, (_, i) => ({
+                    Id: `show-${i}`,
+                    Name: `Show ${i}`,
+                    Type: 'Series' as const,
+                    ServerId: 'server-1'
+                })),
+                ...Array.from({ length: 10 }, (_, i) => ({
+                    Id: `album-${i}`,
+                    Name: `Album ${i}`,
+                    Type: 'MusicAlbum' as const,
+                    ServerId: 'server-1'
+                }))
             ];
 
             const playables = results.map((item) => {
-                const isAudio = item.Type === 'Audio' || item.Type === 'MusicArtist' || item.Type === 'MusicAlbum';
+                const isAudio =
+                    item.Type === 'Audio' ||
+                    item.Type === 'MusicArtist' ||
+                    item.Type === 'MusicAlbum';
                 return isAudio ? toPlayableItem(item) : toVideoItem(item);
             });
 
@@ -166,7 +198,7 @@ describe('Search integration', () => {
                 { Id: 'show-1', Name: 'Show', Type: 'Series', ServerId: 'server-1' }
             ];
 
-            const movieResults = allResults.filter(item => item.Type === 'Movie');
+            const movieResults = allResults.filter((item) => item.Type === 'Movie');
 
             expect(movieResults).toHaveLength(1);
             expect(movieResults[0].Type).toBe('Movie');
@@ -180,8 +212,11 @@ describe('Search integration', () => {
                 { Id: 'artist-1', Name: 'Artist', Type: 'MusicArtist', ServerId: 'server-1' }
             ];
 
-            const audioResults = allResults.filter(item =>
-                item.Type === 'Audio' || item.Type === 'MusicAlbum' || item.Type === 'MusicArtist'
+            const audioResults = allResults.filter(
+                (item) =>
+                    item.Type === 'Audio' ||
+                    item.Type === 'MusicAlbum' ||
+                    item.Type === 'MusicArtist'
             );
 
             expect(audioResults).toHaveLength(3);
@@ -195,8 +230,8 @@ describe('Search integration', () => {
                 { Id: 'episode-1', Name: 'Episode', Type: 'Episode', ServerId: 'server-1' }
             ];
 
-            const videoResults = allResults.filter(item =>
-                item.Type === 'Movie' || item.Type === 'Series' || item.Type === 'Episode'
+            const videoResults = allResults.filter(
+                (item) => item.Type === 'Movie' || item.Type === 'Series' || item.Type === 'Episode'
             );
 
             expect(videoResults).toHaveLength(3);
@@ -330,7 +365,10 @@ describe('Search integration', () => {
             }));
 
             audioItems.forEach((item) => {
-                const isAudio = item.Type === 'Audio' || item.Type === 'MusicArtist' || item.Type === 'MusicAlbum';
+                const isAudio =
+                    item.Type === 'Audio' ||
+                    item.Type === 'MusicArtist' ||
+                    item.Type === 'MusicAlbum';
                 expect(isAudio).toBe(true);
                 const playable = toPlayableItem(item);
                 expect(playable.id).toBeDefined();
@@ -347,7 +385,10 @@ describe('Search integration', () => {
             }));
 
             videoItems.forEach((item) => {
-                const isAudio = item.Type === 'Audio' || item.Type === 'MusicArtist' || item.Type === 'MusicAlbum';
+                const isAudio =
+                    item.Type === 'Audio' ||
+                    item.Type === 'MusicArtist' ||
+                    item.Type === 'MusicAlbum';
                 expect(isAudio).toBe(false);
                 const playable = toVideoItem(item);
                 expect(playable.mediaType).toBe('Video');

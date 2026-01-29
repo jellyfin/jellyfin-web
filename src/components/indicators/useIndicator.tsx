@@ -1,22 +1,26 @@
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
-import React from 'react';
-import { Box } from 'ui-primitives';
-import { Progress } from 'ui-primitives';
-import { CheckIcon, DotFilledIcon, DotIcon, FileIcon, ImageIcon, VideoIcon, ViewGridIcon } from '@radix-ui/react-icons';
+import {
+    CheckIcon,
+    DotFilledIcon,
+    DotIcon,
+    FileIcon,
+    ImageIcon,
+    VideoIcon,
+    ViewGridIcon
+} from '@radix-ui/react-icons';
 import classNames from 'classnames';
-import * as styles from './useIndicator.css.ts';
-
-import datetime from 'scripts/datetime';
 import itemHelper from 'components/itemHelper';
-import AutoTimeProgressBar from '../playback/AutoTimeProgressBar';
-
+import React from 'react';
+import datetime from 'scripts/datetime';
+import type { NullableString } from 'types/base/common/shared/types';
+import type { ItemDto } from 'types/base/models/item-dto';
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import { ItemStatus } from 'types/base/models/item-status';
-
-import type { NullableString } from 'types/base/common/shared/types';
-import type { ItemDto } from 'types/base/models/item-dto';
 import type { ProgressOptions } from 'types/progressOptions';
+import { Box, Progress } from 'ui-primitives';
+import AutoTimeProgressBar from '../playback/AutoTimeProgressBar';
+import * as styles from './useIndicator.css.ts';
 
 const TypeIcon = {
     Video: <VideoIcon className="indicatorIcon" />,
@@ -43,7 +47,9 @@ const enableAutoTimeProgressIndicator = (
     itemEndDate: NullableString
 ) => {
     return (
-        (itemType === ItemKind.Program || itemType === ItemKind.Timer || itemType === ItemKind.Recording) &&
+        (itemType === ItemKind.Program ||
+            itemType === ItemKind.Timer ||
+            itemType === ItemKind.Recording) &&
         Boolean(itemStartDate) &&
         Boolean(itemEndDate)
     );
@@ -126,7 +132,9 @@ const useIndicator = (item: ItemDto) => {
 
         if (childCount > 1) {
             return (
-                <Box className="countIndicator indicator childCountIndicator">{formatCountIndicator(childCount)}</Box>
+                <Box className="countIndicator indicator childCountIndicator">
+                    {formatCountIndicator(childCount)}
+                </Box>
             );
         }
 
@@ -144,7 +152,10 @@ const useIndicator = (item: ItemDto) => {
                 );
             }
 
-            if ((userData.PlayedPercentage && userData.PlayedPercentage >= 100) || userData.Played) {
+            if (
+                (userData.PlayedPercentage && userData.PlayedPercentage >= 100) ||
+                userData.Played
+            ) {
                 return (
                     <Box className="playedIndicator indicator">
                         <CheckIcon className="indicatorIcon" />
@@ -157,13 +168,20 @@ const useIndicator = (item: ItemDto) => {
     };
 
     const getProgress = (pct: number, progressOptions?: ProgressOptions) => {
-        const progressBarClass = classNames('itemLinearProgress', progressOptions?.containerClass, styles.progressBar);
+        const progressBarClass = classNames(
+            'itemLinearProgress',
+            progressOptions?.containerClass,
+            styles.progressBar
+        );
 
         return <Progress className={progressBarClass} value={pct} />;
     };
 
     const getProgressBar = (progressOptions?: ProgressOptions) => {
-        if (enableProgressIndicator(item.Type, item.MediaType) && item.Type !== ItemKind.Recording) {
+        if (
+            enableProgressIndicator(item.Type, item.MediaType) &&
+            item.Type !== ItemKind.Recording
+        ) {
             const playedPercentage = progressOptions?.userData?.PlayedPercentage
                 ? progressOptions.userData.PlayedPercentage
                 : item?.UserData?.PlayedPercentage;
@@ -189,7 +207,9 @@ const useIndicator = (item: ItemDto) => {
 
             if (pct > 0 && pct < 100) {
                 const isRecording =
-                    item.Type === ItemKind.Timer || item.Type === ItemKind.Recording || Boolean(item.TimerId);
+                    item.Type === ItemKind.Timer ||
+                    item.Type === ItemKind.Recording ||
+                    Boolean(item.TimerId);
                 return (
                     <AutoTimeProgressBar
                         pct={pct}

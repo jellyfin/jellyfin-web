@@ -1,11 +1,11 @@
-import { logger } from '../../utils/logger';
 import {
-    usePreferencesStore,
     getCrossfadeFadeOut,
     getEffectiveLatency,
+    isCrossfadeActive,
     isCrossfadeEnabled,
-    isCrossfadeActive
+    usePreferencesStore
 } from '../../store/preferencesStore';
+import { logger } from '../../utils/logger';
 
 /**
  * Gets the crossfade duration from user settings.
@@ -99,14 +99,14 @@ export class SyncManager {
             }
 
             try {
-                const observer = new MutationObserver(mutations => {
+                const observer = new MutationObserver((mutations) => {
                     try {
                         // Check each mutation for removed nodes
                         for (const mutation of mutations) {
                             if (mutation.type === 'childList') {
                                 const removedNodes = Array.from(mutation.removedNodes);
                                 // Check if our element is in the removed nodes
-                                if (removedNodes.some(node => node === element)) {
+                                if (removedNodes.some((node) => node === element)) {
                                     observer.disconnect();
                                     this.observers.delete(element);
                                     cleanup();
@@ -114,7 +114,7 @@ export class SyncManager {
                                 }
                                 // Also check if a parent of our element was removed
                                 if (
-                                    removedNodes.some(node => {
+                                    removedNodes.some((node) => {
                                         try {
                                             return node.contains?.(element);
                                         } catch {
@@ -140,7 +140,9 @@ export class SyncManager {
                 observer.observe(element.parentNode, { childList: true, subtree: false });
                 this.observers.set(element, observer);
             } catch (error) {
-                logger.debug(`[SyncManager] MutationObserver setup failed: ${error}`, { component: 'SyncManager' });
+                logger.debug(`[SyncManager] MutationObserver setup failed: ${error}`, {
+                    component: 'SyncManager'
+                });
                 // MutationObserver will be handled by checkSync fallback
             }
         };
@@ -188,7 +190,8 @@ export class SyncManager {
     private updateSyncInterval(): void {
         if (!this.syncInterval) return;
 
-        const targetInterval = this.activeElementCount > 0 ? this.activeInterval : this.idleInterval;
+        const targetInterval =
+            this.activeElementCount > 0 ? this.activeInterval : this.idleInterval;
         if (targetInterval !== this.currentInterval) {
             this.currentInterval = targetInterval;
             // Restart interval with new timing
@@ -276,7 +279,11 @@ export class SyncManager {
                 }
             }
         } catch (error) {
-            logger.warn('[SyncManager] Error in checkSync', { component: 'SyncManager' }, error as Error);
+            logger.warn(
+                '[SyncManager] Error in checkSync',
+                { component: 'SyncManager' },
+                error as Error
+            );
         }
     }
 

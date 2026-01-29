@@ -1,6 +1,6 @@
-import Events from '../utils/events';
 import { EventType } from '../constants/eventType';
-import { getDefaultTheme, getThemes as getConfiguredThemes } from './settings/webSettings';
+import Events from '../utils/events';
+import { getThemes as getConfiguredThemes, getDefaultTheme } from './settings/webSettings';
 
 let currentThemeId: string | undefined;
 
@@ -16,22 +16,22 @@ export function getThemes(): Promise<ThemeInfo[]> {
 }
 
 function getThemeStylesheetInfo(id?: string): Promise<ThemeInfo> {
-    return getThemes().then(themes => {
+    return getThemes().then((themes) => {
         let theme: ThemeInfo | undefined;
-        if (id) theme = themes.find(t => t.id === id);
+        if (id) theme = themes.find((t) => t.id === id);
         if (!theme) theme = getDefaultTheme();
         return theme!;
     });
 }
 
 export function setTheme(id: string): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         if (currentThemeId === id) {
             resolve();
             return;
         }
 
-        getThemeStylesheetInfo(id).then(info => {
+        getThemeStylesheetInfo(id).then((info) => {
             if (currentThemeId === info.id) {
                 resolve();
                 return;

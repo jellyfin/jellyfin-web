@@ -2,8 +2,7 @@ import { Cross1Icon } from '@radix-ui/react-icons';
 import React, { useCallback, useEffect } from 'react';
 
 import { vars } from 'styles/tokens.css.ts';
-import { Alert } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
+import { Alert, IconButton } from 'ui-primitives';
 
 interface ToastProps {
     readonly open: boolean;
@@ -36,9 +35,9 @@ export function Toast({
 
     return (
         <Alert
-            variant='info'
+            variant="info"
             action={
-                <IconButton variant='plain' size='sm' color='neutral' onClick={onCloseClick}>
+                <IconButton variant="plain" size="sm" color="neutral" onClick={onCloseClick}>
                     <Cross1Icon />
                 </IconButton>
             }

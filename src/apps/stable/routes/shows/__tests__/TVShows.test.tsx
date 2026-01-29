@@ -4,9 +4,9 @@
  * Integration tests for TV show playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem, toVideoItems } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('TVShows integration', () => {
     describe('TV show playback conversion', () => {
@@ -51,7 +51,7 @@ describe('TVShows integration', () => {
             const playables = toVideoItems(shows);
 
             expect(playables).toHaveLength(3);
-            playables.forEach(p => expect(p.mediaType).toBe('Video'));
+            playables.forEach((p) => expect(p.mediaType).toBe('Video'));
         });
     });
 
@@ -109,7 +109,7 @@ describe('TVShows integration', () => {
             const queue = toVideoItems(shuffled);
 
             expect(queue).toHaveLength(10);
-            queue.forEach(item => {
+            queue.forEach((item) => {
                 expect(item.mediaType).toBe('Video');
             });
         });

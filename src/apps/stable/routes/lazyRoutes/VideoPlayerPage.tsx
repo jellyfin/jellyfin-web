@@ -1,13 +1,12 @@
-import React, { useRef, type FC, useEffect, useState, useCallback } from 'react';
-import { Box } from 'ui-primitives';
-
 import RemotePlayButton from 'apps/experimental/components/AppToolbar/RemotePlayButton';
 import SyncPlayButton from 'apps/experimental/components/AppToolbar/SyncPlayButton';
+import { VideoControls } from 'components/playback/VideoControls';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ViewManagerPage from 'components/viewManager/ViewManagerPage';
 import { EventType } from 'constants/eventType';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import { Box } from 'ui-primitives';
 import Events, { type Event } from 'utils/events';
-import { VideoControls } from 'components/playback/VideoControls';
 
 const VideoPlayerPage: FC = () => {
     const documentRef = useRef<Document>(document);

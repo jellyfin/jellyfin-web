@@ -3,24 +3,22 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import type { BaseItemPerson } from '@jellyfin/sdk/lib/generated-client/models/base-item-person';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
-
-import { appRouter } from 'components/router/appRouter';
-import layoutManager from 'components/layoutManager';
+import type { BaseItem as HelperBaseItem } from 'components/itemHelper';
 import itemHelper from 'components/itemHelper';
+import layoutManager from 'components/layoutManager';
+import { appRouter } from 'components/router/appRouter';
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import datetime from 'scripts/datetime';
-import { isUsingLiveTvNaming } from '../cardBuilderUtils';
-import { getDataAttributes } from 'utils/items';
-import { ItemKind } from 'types/base/models/item-kind';
-import type { BaseItem as HelperBaseItem } from 'components/itemHelper';
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import { ensureArray } from 'utils/array';
-
 import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { ItemKind } from 'types/base/models/item-kind';
+import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import type { CardOptions } from 'types/cardOptions';
 import type { DataAttributes } from 'types/dataAttributes';
+import { ensureArray } from 'utils/array';
+import { getDataAttributes } from 'utils/items';
+import { isUsingLiveTvNaming } from '../cardBuilderUtils';
 
 export function getCardLogoUrl(item: ItemDto, api: Api | undefined, cardOptions: CardOptions) {
     let imgType: ImageType | undefined;
@@ -83,7 +81,11 @@ export interface TextLine {
     titleAction?: TextAction | TextAction[];
 }
 
-export function getTextActionButton(item: ItemDto, text?: NullableString, serverId?: NullableString): TextLine {
+export function getTextActionButton(
+    item: ItemDto,
+    text?: NullableString,
+    serverId?: NullableString
+): TextLine {
     const title = text || itemHelper.getDisplayName(item as HelperBaseItem);
 
     if (layoutManager.tv) {
@@ -211,7 +213,7 @@ function getRecursiveItemCount(itemRecursiveItemCount: NullableNumber) {
 
 function getParentTitle(isOuterFooter: boolean, serverId: NullableString, item: ItemDto) {
     if (isOuterFooter && item.AlbumArtists?.length) {
-        return item.AlbumArtists.map(artist => {
+        return item.AlbumArtists.map((artist) => {
             const artistItem: ItemDto = {
                 ...artist,
                 Type: BaseItemKind.MusicArtist,
@@ -293,7 +295,11 @@ export function shouldShowOtherText(isOuterFooter: boolean, overlayText: boolean
 }
 
 export function shouldShowParentTitleUnderneath(itemType: ItemKind) {
-    return itemType === ItemKind.MusicAlbum || itemType === ItemKind.Audio || itemType === ItemKind.MusicVideo;
+    return (
+        itemType === ItemKind.MusicAlbum ||
+        itemType === ItemKind.Audio ||
+        itemType === ItemKind.MusicVideo
+    );
 }
 
 function shouldShowMediaTitle(
@@ -303,7 +309,8 @@ function shouldShowMediaTitle(
     cardOptions: CardOptions,
     textLines: TextLine[]
 ) {
-    let showMediaTitle = (showTitle && !titleAdded) || (cardOptions.showParentTitleOrTitle && !textLines.length);
+    let showMediaTitle =
+        (showTitle && !titleAdded) || (cardOptions.showParentTitleOrTitle && !textLines.length);
     if (!showMediaTitle && !titleAdded && (showTitle || forceName)) {
         showMediaTitle = true;
     }
@@ -314,7 +321,10 @@ function shouldShowExtraType(itemExtraType: NullableString) {
     return !!(itemExtraType && itemExtraType !== 'Unknown');
 }
 
-function shouldShowSeriesYearOrYear(showYear: string | boolean | undefined, showSeriesYear: boolean | undefined) {
+function shouldShowSeriesYearOrYear(
+    showYear: string | boolean | undefined,
+    showSeriesYear: boolean | undefined
+) {
     return Boolean(showYear) || showSeriesYear;
 }
 
@@ -322,7 +332,10 @@ function shouldShowCurrentProgram(showCurrentProgram: boolean | undefined, itemT
     return showCurrentProgram && itemType === ItemKind.TvChannel;
 }
 
-function shouldShowCurrentProgramTime(showCurrentProgramTime: boolean | undefined, itemType: ItemKind) {
+function shouldShowCurrentProgramTime(
+    showCurrentProgramTime: boolean | undefined,
+    itemType: ItemKind
+) {
     return showCurrentProgramTime && itemType === ItemKind.TvChannel;
 }
 
@@ -330,7 +343,10 @@ function shouldShowPersonRoleOrType(showPersonRoleOrType: boolean | undefined, i
     return !!(showPersonRoleOrType && (item as BaseItemPerson).Role);
 }
 
-function shouldShowParentTitle(showParentTitle: boolean | undefined, parentTitleUnderneath: boolean) {
+function shouldShowParentTitle(
+    showParentTitle: boolean | undefined,
+    parentTitleUnderneath: boolean
+) {
     return showParentTitle && parentTitleUnderneath;
 }
 
@@ -564,7 +580,14 @@ interface TextLinesOpts {
     imgUrl: string | undefined;
 }
 
-export function getCardTextLines({ isOuterFooter, overlayText, forceName, item, cardOptions, imgUrl }: TextLinesOpts) {
+export function getCardTextLines({
+    isOuterFooter,
+    overlayText,
+    forceName,
+    item,
+    cardOptions,
+    imgUrl
+}: TextLinesOpts) {
     const showTitle = shouldShowTitle(cardOptions.showTitle, item.Type);
     const showOtherText = shouldShowOtherText(isOuterFooter, overlayText);
     const serverId = item.ServerId || cardOptions.serverId;
@@ -588,14 +611,27 @@ export function getCardTextLines({ isOuterFooter, overlayText, forceName, item, 
         addTextLine(getParentTitleOrTitle(isOuterFooter, item, setTitleAdded, showTitle));
     }
 
-    const showMediaTitle = shouldShowMediaTitle(titleAdded, showTitle, forceName, cardOptions, textLines);
+    const showMediaTitle = shouldShowMediaTitle(
+        titleAdded,
+        showTitle,
+        forceName,
+        cardOptions,
+        textLines
+    );
 
     if (showMediaTitle) {
         addTextLine(getMediaTitle(cardOptions, item));
     }
 
     if (showOtherText) {
-        addOtherText(cardOptions, parentTitleUnderneath, isOuterFooter, item, addTextLine, serverId);
+        addOtherText(
+            cardOptions,
+            parentTitleUnderneath,
+            isOuterFooter,
+            item,
+            addTextLine,
+            serverId
+        );
     }
 
     if ((showTitle || !imgUrl) && forceName && overlayText && textLines.length === 1) {

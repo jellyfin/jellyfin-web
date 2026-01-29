@@ -1,13 +1,22 @@
-import React, { useCallback } from 'react';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Dialog, DialogPortal, DialogOverlayComponent, DialogContentClass } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex, FlexRow, FlexCol } from 'ui-primitives';
 import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives';
-import { DialogContent, DialogOverlay } from 'ui-primitives';
+import React, { useCallback } from 'react';
 import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogContentClass,
+    DialogOverlay,
+    DialogOverlayComponent,
+    DialogPortal,
+    Flex,
+    FlexCol,
+    FlexRow,
+    Input
+} from 'ui-primitives';
 
 interface IProps {
     open: boolean;
@@ -35,12 +44,18 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
     );
 
     return (
-        <Dialog open={open} onOpenChange={open => !open && onClose()}>
+        <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
             <DialogPrimitive.Portal>
                 <DialogOverlay />
                 <DialogPrimitive.Content className={DialogContentClass} style={{ minWidth: 400 }}>
                     <Box style={{ padding: vars.spacing['5'] }}>
-                        <FlexRow style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                        <FlexRow
+                            style={{
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                marginBottom: 16
+                            }}
+                        >
                             <span
                                 style={{
                                     fontSize: vars.typography['6'].fontSize,
@@ -83,7 +98,9 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
                                     required
                                 />
 
-                                <FlexRow style={{ gap: 8, justifyContent: 'flex-end', marginTop: 16 }}>
+                                <FlexRow
+                                    style={{ gap: 8, justifyContent: 'flex-end', marginTop: 16 }}
+                                >
                                     <Button type="submit">{globalize.translate('Add')}</Button>
                                     <Button onClick={onClose} variant="ghost">
                                         {globalize.translate('ButtonCancel')}

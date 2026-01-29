@@ -4,9 +4,9 @@
  * Integration tests for collections with playback functionality.
  */
 
-import { describe, it, expect } from 'vitest';
-import { toVideoItem } from 'lib/utils/playbackUtils';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import { toVideoItem } from 'lib/utils/playbackUtils';
+import { describe, expect, it } from 'vitest';
 
 describe('Movie Collections integration', () => {
     describe('collection item playback conversion', () => {
@@ -249,7 +249,12 @@ describe('Movie Collections integration', () => {
     describe('collection browsing', () => {
         it('handles multiple collection types in view', () => {
             const collections: BaseItemDto[] = [
-                { Id: 'franchise-1', Name: 'Avengers Franchise', Type: 'BoxSet', ServerId: 'server-1' },
+                {
+                    Id: 'franchise-1',
+                    Name: 'Avengers Franchise',
+                    Type: 'BoxSet',
+                    ServerId: 'server-1'
+                },
                 { Id: 'director-1', Name: 'Tarantino Films', Type: 'BoxSet', ServerId: 'server-1' },
                 { Id: 'era-1', Name: '80s Action', Type: 'BoxSet', ServerId: 'server-1' }
             ];
@@ -328,9 +333,27 @@ describe('Movie Collections integration', () => {
     describe('collection movie details', () => {
         it('handles movies with various ratings', () => {
             const movies: BaseItemDto[] = [
-                { Id: 'm-1', Name: 'G Movie', Type: 'Movie', ServerId: 'server-1', OfficialRating: 'G' },
-                { Id: 'm-2', Name: 'PG Movie', Type: 'Movie', ServerId: 'server-1', OfficialRating: 'PG' },
-                { Id: 'm-3', Name: 'R Movie', Type: 'Movie', ServerId: 'server-1', OfficialRating: 'R' }
+                {
+                    Id: 'm-1',
+                    Name: 'G Movie',
+                    Type: 'Movie',
+                    ServerId: 'server-1',
+                    OfficialRating: 'G'
+                },
+                {
+                    Id: 'm-2',
+                    Name: 'PG Movie',
+                    Type: 'Movie',
+                    ServerId: 'server-1',
+                    OfficialRating: 'PG'
+                },
+                {
+                    Id: 'm-3',
+                    Name: 'R Movie',
+                    Type: 'Movie',
+                    ServerId: 'server-1',
+                    OfficialRating: 'R'
+                }
             ];
 
             const queue = movies.map(toVideoItem);
@@ -343,9 +366,27 @@ describe('Movie Collections integration', () => {
 
         it('handles movies with various release years', () => {
             const movies: BaseItemDto[] = [
-                { Id: 'year-1', Name: '1980s Movie', Type: 'Movie', ServerId: 'server-1', ProductionYear: 1985 },
-                { Id: 'year-2', Name: '2000s Movie', Type: 'Movie', ServerId: 'server-1', ProductionYear: 2005 },
-                { Id: 'year-3', Name: '2020s Movie', Type: 'Movie', ServerId: 'server-1', ProductionYear: 2023 }
+                {
+                    Id: 'year-1',
+                    Name: '1980s Movie',
+                    Type: 'Movie',
+                    ServerId: 'server-1',
+                    ProductionYear: 1985
+                },
+                {
+                    Id: 'year-2',
+                    Name: '2000s Movie',
+                    Type: 'Movie',
+                    ServerId: 'server-1',
+                    ProductionYear: 2005
+                },
+                {
+                    Id: 'year-3',
+                    Name: '2020s Movie',
+                    Type: 'Movie',
+                    ServerId: 'server-1',
+                    ProductionYear: 2023
+                }
             ];
 
             const queue = movies.map(toVideoItem);

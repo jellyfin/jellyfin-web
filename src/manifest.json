@@ -1,101 +1,101 @@
 {
-  "name": "Jellyfin",
-  "description": "The Free Software Media System",
-  "lang": "en-US",
-  "short_name": "Jellyfin",
-  "start_url": "index.html#/home",
-  "theme_color": "#101010",
-  "id": "Jellyfin",
-  "background_color": "#101010",
-  "display_override": ["standalone", "fullscreen"],
-  "display": "standalone",
-  "orientation": "any",
-  "categories": ["entertainment", "multimedia", "music", "video"],
-  "screenshots": [
-    {
-      "src": "favicons/touchicon512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "form_factor": "wide"
+    "name": "Jellyfin",
+    "description": "The Free Software Media System",
+    "lang": "en-US",
+    "short_name": "Jellyfin",
+    "start_url": "index.html#/home",
+    "theme_color": "#101010",
+    "id": "Jellyfin",
+    "background_color": "#101010",
+    "display_override": ["standalone", "fullscreen"],
+    "display": "standalone",
+    "orientation": "any",
+    "categories": ["entertainment", "multimedia", "music", "video"],
+    "screenshots": [
+        {
+            "src": "favicons/touchicon512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Home",
+            "short_name": "Home",
+            "description": "Go to home dashboard",
+            "url": "index.html#/home",
+            "icons": [
+                {
+                    "src": "favicons/touchicon72.png",
+                    "sizes": "72x72"
+                }
+            ]
+        },
+        {
+            "name": "Movies",
+            "short_name": "Movies",
+            "description": "Browse movie library",
+            "url": "index.html#/movies",
+            "icons": [
+                {
+                    "src": "favicons/touchicon72.png",
+                    "sizes": "72x72"
+                }
+            ]
+        },
+        {
+            "name": "TV Shows",
+            "short_name": "TV Shows",
+            "description": "Browse TV show library",
+            "url": "index.html#/tv",
+            "icons": [
+                {
+                    "src": "favicons/touchicon72.png",
+                    "sizes": "72x72"
+                }
+            ]
+        },
+        {
+            "name": "Music",
+            "short_name": "Music",
+            "description": "Browse music library",
+            "url": "index.html#/music",
+            "icons": [
+                {
+                    "src": "favicons/touchicon72.png",
+                    "sizes": "72x72"
+                }
+            ]
+        }
+    ],
+    "icons": [
+        {
+            "src": "favicons/touchicon72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "favicons/touchicon114.png",
+            "sizes": "114x114",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "favicons/touchicon144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "favicons/touchicon512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "edge_side_panel": {
+        "preferred_width": 400
     }
-  ],
-  "shortcuts": [
-    {
-      "name": "Home",
-      "short_name": "Home",
-      "description": "Go to home dashboard",
-      "url": "index.html#/home",
-      "icons": [
-        {
-          "src": "favicons/touchicon72.png",
-          "sizes": "72x72"
-        }
-      ]
-    },
-    {
-      "name": "Movies",
-      "short_name": "Movies",
-      "description": "Browse movie library",
-      "url": "index.html#/movies",
-      "icons": [
-        {
-          "src": "favicons/touchicon72.png",
-          "sizes": "72x72"
-        }
-      ]
-    },
-    {
-      "name": "TV Shows",
-      "short_name": "TV Shows",
-      "description": "Browse TV show library",
-      "url": "index.html#/tv",
-      "icons": [
-        {
-          "src": "favicons/touchicon72.png",
-          "sizes": "72x72"
-        }
-      ]
-    },
-    {
-      "name": "Music",
-      "short_name": "Music",
-      "description": "Browse music library",
-      "url": "index.html#/music",
-      "icons": [
-        {
-          "src": "favicons/touchicon72.png",
-          "sizes": "72x72"
-        }
-      ]
-    }
-  ],
-  "icons": [
-    {
-      "src": "favicons/touchicon72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "favicons/touchicon114.png",
-      "sizes": "114x114",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "favicons/touchicon144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "favicons/touchicon512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "edge_side_panel": {
-    "preferred_width": 400
-  }
 }

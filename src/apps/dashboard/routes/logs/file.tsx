@@ -1,19 +1,13 @@
-import { vars } from 'styles/tokens.css.ts';
-
+import { useParams } from '@tanstack/react-router';
+import Toast from 'apps/dashboard/components/Toast';
+import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import React, { useCallback, useState } from 'react';
-import { useParams } from '@tanstack/react-router';
-import { useServerLog } from 'apps/dashboard/features/logs/api/useServerLog';
-import { Alert } from 'ui-primitives';
-import { Flex } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Container } from 'ui-primitives';
-import Toast from 'apps/dashboard/components/Toast';
 import globalize from 'lib/globalize';
+import React, { useCallback, useState } from 'react';
 import { copy } from 'scripts/clipboard';
+import { vars } from 'styles/tokens.css.ts';
+import { Alert, Button, Container, Flex, Paper, Text } from 'ui-primitives';
 
 const ContentCopyIcon = (): React.ReactElement => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -89,10 +83,16 @@ export const Component = (): React.ReactElement => {
                     {!error && !loading && (
                         <>
                             <Flex style={{ gap: vars.spacing['2'], marginTop: vars.spacing['4'] }}>
-                                <Button startDecorator={<ContentCopyIcon />} onClick={copyToClipboard}>
+                                <Button
+                                    startDecorator={<ContentCopyIcon />}
+                                    onClick={copyToClipboard}
+                                >
                                     {globalize.translate('Copy')}
                                 </Button>
-                                <Button startDecorator={<FileDownloadIcon />} onClick={downloadFile}>
+                                <Button
+                                    startDecorator={<FileDownloadIcon />}
+                                    onClick={downloadFile}
+                                >
                                     {globalize.translate('Download')}
                                 </Button>
                             </Flex>

@@ -1,1 +1,1 @@
-export { spacerSizes, type SpacerSize, Spacer } from './Spacer';
+export { Spacer, type SpacerSize, spacerSizes } from './Spacer';

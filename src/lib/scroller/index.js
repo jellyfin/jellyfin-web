@@ -3,10 +3,10 @@
  * It is a legacy library that should be replaced at some point.
  */
 
-import browser from '../../scripts/browser';
-import layoutManager from '../../components/layoutManager';
-import dom from '../../utils/dom';
 import focusManager from '../../components/focusManager';
+import layoutManager from '../../components/layoutManager';
+import browser from '../../scripts/browser';
+import dom from '../../utils/dom';
 import globalize from '../globalize';
 
 /**
@@ -76,7 +76,9 @@ function within(number, num1, num2) {
 // Other global values
 const dragMouseEvents = ['mousemove', 'mouseup'];
 const dragTouchEvents = ['touchmove', 'touchend'];
-const wheelEvent = document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel';
+const wheelEvent = document.implementation.hasFeature('Event.wheel', '3.0')
+    ? 'wheel'
+    : 'mousewheel';
 const interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
 
 const scrollerFactory = function (frame, options) {
@@ -111,7 +113,10 @@ const scrollerFactory = function (frame, options) {
     // in cases with firefox, if the smooth scroll api is supported then use that because their implementation is very good
     if (options.allowNativeScroll === false) {
         options.enableNativeScroll = false;
-    } else if (isSmoothScrollSupported && ((browser.firefox && !layoutManager.tv) || options.allowNativeSmoothScroll)) {
+    } else if (
+        isSmoothScrollSupported &&
+        ((browser.firefox && !layoutManager.tv) || options.allowNativeSmoothScroll)
+    ) {
         // native smooth scroll
         options.enableNativeScroll = true;
     } else if (options.requireAnimation && (browser.animate || browser.supportsCssAnimation())) {
@@ -347,9 +352,19 @@ const scrollerFactory = function (frame, options) {
         }
 
         if (o.horizontal) {
-            setStyleProperty(slideeElement, 'transform', 'translateX(' + -Math.round(toPosition) + 'px)', speed);
+            setStyleProperty(
+                slideeElement,
+                'transform',
+                'translateX(' + -Math.round(toPosition) + 'px)',
+                speed
+            );
         } else {
-            setStyleProperty(slideeElement, 'transform', 'translateY(' + -Math.round(toPosition) + 'px)', speed);
+            setStyleProperty(
+                slideeElement,
+                'transform',
+                'translateY(' + -Math.round(toPosition) + 'px)',
+                speed
+            );
         }
         self._pos.cur = toPosition;
 
@@ -409,10 +424,13 @@ const scrollerFactory = function (frame, options) {
             currentEnd = currentStart - frameSize;
         }
 
-        console.debug('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
+        console.debug(
+            'offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd
+        );
         const isVisible =
             offset >= Math.min(currentStart, currentEnd) &&
-            (globalize.getIsRTL() ? offset - size : offset + size) <= Math.max(currentStart, currentEnd);
+            (globalize.getIsRTL() ? offset - size : offset + size) <=
+                Math.max(currentStart, currentEnd);
 
         return {
             start: offset,
@@ -469,13 +487,13 @@ const scrollerFactory = function (frame, options) {
         // Bind dragging events
         if (transform) {
             if (isTouch) {
-                dragTouchEvents.forEach(eventName => {
+                dragTouchEvents.forEach((eventName) => {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
                     });
                 });
             } else {
-                dragMouseEvents.forEach(eventName => {
+                dragMouseEvents.forEach((eventName) => {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
                     });
@@ -497,7 +515,7 @@ const scrollerFactory = function (frame, options) {
         const pointer = dragging.touch ? event[eventName][0] : event;
         dragging.pathX = pointer.pageX - dragging.initX;
         dragging.pathY = pointer.pageY - dragging.initY;
-        dragging.path = Math.sqrt(Math.pow(dragging.pathX, 2) + Math.pow(dragging.pathY, 2));
+        dragging.path = Math.sqrt(dragging.pathX ** 2 + dragging.pathY ** 2);
         dragging.delta = o.horizontal ? dragging.pathX : dragging.pathY;
 
         if (!dragging.released && dragging.path < 1) {
@@ -546,13 +564,13 @@ const scrollerFactory = function (frame, options) {
     function dragEnd() {
         dragging.released = true;
 
-        dragTouchEvents.forEach(eventName => {
+        dragTouchEvents.forEach((eventName) => {
             dom.removeEventListener(document, eventName, dragHandler, {
                 passive: true
             });
         });
 
-        dragMouseEvents.forEach(eventName => {
+        dragMouseEvents.forEach((eventName) => {
             dom.removeEventListener(document, eventName, dragHandler, {
                 passive: true
             });

@@ -1,11 +1,11 @@
 export {
-    type VolumeSliderProps,
     VolumeSlider,
+    type VolumeSliderProps,
     volumeSliderContainer,
-    volumeSliderTrack,
-    volumeSliderTrackInner,
+    volumeSliderMuteButton,
+    volumeSliderMuteButtonSpinning,
     volumeSliderRange,
     volumeSliderThumb,
-    volumeSliderMuteButton,
-    volumeSliderMuteButtonSpinning
+    volumeSliderTrack,
+    volumeSliderTrackInner
 } from './VolumeSlider';

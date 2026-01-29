@@ -61,7 +61,13 @@ export class BackspinProcessor extends AudioWorkletProcessor {
         this.ringBufferR = new Float32Array(bufferSize);
 
         this.port.onmessage = (event: MessageEvent<Message>) => {
-            const { type, durationMs = 300, velocity = 0, position = 0, compensationSeconds = 0 } = event.data;
+            const {
+                type,
+                durationMs = 300,
+                velocity = 0,
+                position = 0,
+                compensationSeconds = 0
+            } = event.data;
 
             switch (type) {
                 case 'pause_engage':
@@ -83,7 +89,10 @@ export class BackspinProcessor extends AudioWorkletProcessor {
                     this.port.postMessage({ type: 'paused', compensationSeconds });
                     break;
                 case 'do_pause_with_compensation':
-                    this.port.postMessage({ type: 'paused_with_compensation', compensationSeconds });
+                    this.port.postMessage({
+                        type: 'paused_with_compensation',
+                        compensationSeconds
+                    });
                     break;
                 case 'do_play':
                     this.port.postMessage({ type: 'playing' });
@@ -123,7 +132,11 @@ export class BackspinProcessor extends AudioWorkletProcessor {
         this.startRamp(BackspinProcessor.STATES.SEEK_END, durationMs, null);
     }
 
-    private startRamp(nextState: TransportState, durationMs: number, action: typeof this.pendingAction): void {
+    private startRamp(
+        nextState: TransportState,
+        durationMs: number,
+        action: typeof this.pendingAction
+    ): void {
         this.state = nextState;
         const samples = Math.max(1, Math.floor((durationMs / 1000) * sampleRate));
         this.env = { i: 0, n: samples };
@@ -132,7 +145,7 @@ export class BackspinProcessor extends AudioWorkletProcessor {
 
     private rateForState(t: number): number {
         if (this.state === BackspinProcessor.STATES.PAUSING_SLOWDOWN) {
-            return Math.max(0, Math.pow(1 - t, 2));
+            return Math.max(0, (1 - t) ** 2);
         }
         if (this.state === BackspinProcessor.STATES.STOPPING_BRAKE) {
             return Math.max(0, 1 - t);
@@ -215,7 +228,10 @@ export class BackspinProcessor extends AudioWorkletProcessor {
                         this.rate = 0;
                         this.state = BackspinProcessor.STATES.PAUSED_HELD;
                         if (this.pendingAction === 'pause') {
-                            this.port.postMessage({ type: 'do_pause', compensationSeconds: this.readDelaySeconds });
+                            this.port.postMessage({
+                                type: 'do_pause',
+                                compensationSeconds: this.readDelaySeconds
+                            });
                         } else if (this.pendingAction === 'stop_reset') {
                             this.port.postMessage({
                                 type: 'do_stop_reset',
@@ -252,7 +268,10 @@ export class BackspinProcessor extends AudioWorkletProcessor {
                 outputR[i] = 0;
             }
 
-            this.effectiveReadPos = this.normalizeReadPos(this.effectiveReadPos + this.rate, bufferLen);
+            this.effectiveReadPos = this.normalizeReadPos(
+                this.effectiveReadPos + this.rate,
+                bufferLen
+            );
         }
 
         if (!isPaused) {

@@ -20,7 +20,8 @@ function WaveformStory(): ReactElement {
                 Waveform Component
             </h2>
             <p style={{ color: vars.colors.textSecondary, marginBottom: vars.spacing['5'] }}>
-                The Waveform component is used to display audio waveforms for music playback visualization.
+                The Waveform component is used to display audio waveforms for music playback
+                visualization.
             </p>
             <div
                 style={{

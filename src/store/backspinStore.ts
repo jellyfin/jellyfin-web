@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import type {
-    TransportState,
-    TransportAction,
+    DEFAULT_CONFIG,
     GestureType,
     ScratchParams,
     SeekParams,
+    TransportAction,
     TransportConfig,
-    DEFAULT_CONFIG
+    TransportState
 } from '../types/transport';
 
 interface BackspinState {
@@ -64,13 +64,13 @@ const initialState = {
 export const useBackspinStore = create<BackspinState>((set, get) => ({
     ...initialState,
 
-    setState: state => set({ state, lastAction: mapStateToAction(state) }),
+    setState: (state) => set({ state, lastAction: mapStateToAction(state) }),
 
-    setRate: rate => set({ rate }),
+    setRate: (rate) => set({ rate }),
 
-    setPosition: position => set({ position }),
+    setPosition: (position) => set({ position }),
 
-    setDuration: duration => set({ duration }),
+    setDuration: (duration) => set({ duration }),
 
     setScratching: (isScratching, velocity = 0) =>
         set({
@@ -79,18 +79,18 @@ export const useBackspinStore = create<BackspinState>((set, get) => ({
             state: isScratching ? 'SCRATCH_DRAG' : get().state
         }),
 
-    setLastAction: action => set({ lastAction: action }),
+    setLastAction: (action) => set({ lastAction: action }),
 
-    setLastGesture: gesture => set({ lastGesture: gesture }),
+    setLastGesture: (gesture) => set({ lastGesture: gesture }),
 
-    setExpanded: expanded => set({ isExpanded: expanded }),
+    setExpanded: (expanded) => set({ isExpanded: expanded }),
 
-    setMediaElement: element => set({ mediaElement: element }),
+    setMediaElement: (element) => set({ mediaElement: element }),
 
-    setAudioContext: ctx => set({ audioContext: ctx }),
+    setAudioContext: (ctx) => set({ audioContext: ctx }),
 
-    updateConfig: updates =>
-        set(state => ({
+    updateConfig: (updates) =>
+        set((state) => ({
             config: { ...state.config, ...updates }
         })),
 

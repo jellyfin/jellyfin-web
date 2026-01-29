@@ -16,7 +16,11 @@ const fetchUserViews = async (
     return response.data;
 };
 
-export const getUserViewsQuery = (api?: Api, userId?: string, params?: UserViewsApiGetUserViewsRequest) =>
+export const getUserViewsQuery = (
+    api?: Api,
+    userId?: string,
+    params?: UserViewsApiGetUserViewsRequest
+) =>
     queryOptions({
         queryKey: ['User', userId, 'Views', params],
         queryFn: ({ signal }) => fetchUserViews(api!, userId!, params, { signal }),

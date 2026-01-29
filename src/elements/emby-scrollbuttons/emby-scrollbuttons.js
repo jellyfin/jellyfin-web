@@ -13,7 +13,8 @@ EmbyScrollButtonsPrototype.createdCallback = function () {
 function getScrollButtonHtml(direction) {
     let html = '';
     const icon = direction === 'left' ? 'chevron_left' : 'chevron_right';
-    const title = direction === 'left' ? globalize.translate('Previous') : globalize.translate('Next') ;
+    const title =
+        direction === 'left' ? globalize.translate('Previous') : globalize.translate('Next');
 
     html += `<button type="button" is="paper-icon-button-light" data-ripple="false" data-direction="${direction}" title="${title}" class="emby-scrollbuttons-button">`;
     html += '<span class="material-icons ' + icon + '" aria-hidden="true"></span>';
@@ -185,4 +186,3 @@ document.registerElement('emby-scrollbuttons', {
     prototype: EmbyScrollButtonsPrototype,
     extends: 'div'
 });
-

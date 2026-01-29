@@ -1,9 +1,9 @@
-import serverNotifications from '../../scripts/serverNotifications';
-import { playbackManager } from '../playback/playbackmanager';
-import Events from '../../utils/events';
-import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import globalize from '../../lib/globalize';
+import serverNotifications from '../../scripts/serverNotifications';
+import Events from '../../utils/events';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems';
+import { playbackManager } from '../playback/playbackmanager';
 
 import NotificationIcon from './notificationicon.png';
 
@@ -27,7 +27,8 @@ function registerOneDocumentClickHandler() {
 function initPermissionRequest() {
     const apiClient = ServerConnections.currentApiClient();
     if (apiClient) {
-        apiClient.getCurrentUser()
+        apiClient
+            .getCurrentUser()
             .then(() => registerOneDocumentClickHandler())
             .catch(() => {
                 Events.on(ServerConnections, 'localusersignedin', registerOneDocumentClickHandler);
@@ -151,7 +152,6 @@ function onLibraryChanged(data, apiClient) {
     }
 
     getItems(apiClient, apiClient.getCurrentUserId(), {
-
         Recursive: true,
         Limit: 3,
         Filters: 'IsNotFolder',
@@ -160,7 +160,6 @@ function onLibraryChanged(data, apiClient) {
         Ids: newItems.join(','),
         MediaTypes: 'Audio,Video',
         EnableTotalRecordCount: false
-
     }).then((result) => {
         const items = result.Items;
 
@@ -182,24 +181,39 @@ function showPackageInstallNotification(apiClient, installation, status) {
         };
 
         if (status === 'completed') {
-            notification.title = globalize.translate('PackageInstallCompleted', installation.Name, installation.Version);
+            notification.title = globalize.translate(
+                'PackageInstallCompleted',
+                installation.Name,
+                installation.Version
+            );
             notification.vibrate = true;
         } else if (status === 'cancelled') {
-            notification.title = globalize.translate('PackageInstallCancelled', installation.Name, installation.Version);
+            notification.title = globalize.translate(
+                'PackageInstallCancelled',
+                installation.Name,
+                installation.Version
+            );
         } else if (status === 'failed') {
-            notification.title = globalize.translate('PackageInstallFailed', installation.Name, installation.Version);
+            notification.title = globalize.translate(
+                'PackageInstallFailed',
+                installation.Name,
+                installation.Version
+            );
             notification.vibrate = true;
         } else if (status === 'progress') {
-            notification.title = globalize.translate('InstallingPackage', installation.Name, installation.Version);
+            notification.title = globalize.translate(
+                'InstallingPackage',
+                installation.Name,
+                installation.Version
+            );
 
-            notification.actions =
-                [
-                    {
-                        action: 'cancel-install',
-                        title: globalize.translate('ButtonCancel'),
-                        icon: NotificationIcon
-                    }
-                ];
+            notification.actions = [
+                {
+                    action: 'cancel-install',
+                    title: globalize.translate('ButtonCancel'),
+                    icon: NotificationIcon
+                }
+            ];
 
             notification.data.id = installation.id;
         }
@@ -261,15 +275,13 @@ Events.on(serverNotifications, 'RestartRequired', (e, apiClient) => {
         title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
     };
 
-    notification.actions =
-        [
-            {
-                action: 'restart',
-                title: globalize.translate('Restart'),
-                icon: NotificationIcon
-            }
-        ];
+    notification.actions = [
+        {
+            action: 'restart',
+            title: globalize.translate('Restart'),
+            icon: NotificationIcon
+        }
+    ];
 
     showNotification(notification, 0, apiClient);
 });
-

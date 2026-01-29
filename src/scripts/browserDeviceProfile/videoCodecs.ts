@@ -1,7 +1,9 @@
 import browser from 'scripts/browser';
 
 export function canPlayH264(videoTestElement: HTMLMediaElement): boolean {
-    return !!videoTestElement.canPlayType?.('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, '');
+    return !!videoTestElement
+        .canPlayType?.('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')
+        .replace(/no/, '');
 }
 
 export function canPlayHevc(videoTestElement: HTMLMediaElement, options: any): boolean {
@@ -17,7 +19,9 @@ export function canPlayHevc(videoTestElement: HTMLMediaElement, options: any): b
         videoTestElement.canPlayType &&
             (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L120"').replace(/no/, '') ||
                 videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L120"').replace(/no/, '') ||
-                videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.0.L120"').replace(/no/, '') ||
+                videoTestElement
+                    .canPlayType('video/mp4; codecs="hvc1.1.0.L120"')
+                    .replace(/no/, '') ||
                 videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''))
     );
 }

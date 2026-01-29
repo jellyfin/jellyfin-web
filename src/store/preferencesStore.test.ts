@@ -1,5 +1,24 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { usePreferencesStore, getCrossfadeSustain, getCrossfadeFadeOut, getEffectiveLatency, getEffectiveCrossfadeDuration, isCrossfadeActive, isCrossfadeEnabled, isAutoDJEnabled, isVisualizerEnabled, getVolume, isMuted, getTheme, getSkipLengths, getAutoPlay, getRememberPlaybackPosition, getNormalizationEnabled, getNormalizationPercent, getMakeupGain } from './preferencesStore';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import {
+    getAutoPlay,
+    getCrossfadeFadeOut,
+    getCrossfadeSustain,
+    getEffectiveCrossfadeDuration,
+    getEffectiveLatency,
+    getMakeupGain,
+    getNormalizationEnabled,
+    getNormalizationPercent,
+    getRememberPlaybackPosition,
+    getSkipLengths,
+    getTheme,
+    getVolume,
+    isAutoDJEnabled,
+    isCrossfadeActive,
+    isCrossfadeEnabled,
+    isMuted,
+    isVisualizerEnabled,
+    usePreferencesStore
+} from './preferencesStore';
 
 const localStorageMock = (() => {
     let store: Record<string, string> = {};

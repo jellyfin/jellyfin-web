@@ -1,12 +1,18 @@
-import { vars } from 'styles/tokens.css.ts';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
 
 import React from 'react';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Dialog, DialogContent, DialogOverlay, DialogContentClass } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Text } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogContentClass,
+    DialogOverlay,
+    Flex,
+    Heading,
+    Text
+} from 'ui-primitives';
 
 export interface DialogButton {
     id: string;
@@ -24,17 +30,26 @@ interface AlertDialogProps {
     buttons: DialogButton[];
 }
 
-export function AlertDialog({ isOpen, onButtonClick, title, text, html, buttons }: AlertDialogProps) {
+export function AlertDialog({
+    isOpen,
+    onButtonClick,
+    title,
+    text,
+    html,
+    buttons
+}: AlertDialogProps) {
     const handleButtonClick = (buttonId: string) => {
         onButtonClick(buttonId);
     };
 
-    const getButtonVariant = (button: DialogButton): 'primary' | 'secondary' | 'danger' | 'ghost' => {
+    const getButtonVariant = (
+        button: DialogButton
+    ): 'primary' | 'secondary' | 'danger' | 'ghost' => {
         return (button.type as 'primary' | 'secondary' | 'danger' | 'ghost') || 'primary';
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={open => !open && onButtonClick('cancel')}>
+        <Dialog open={isOpen} onOpenChange={(open) => !open && onButtonClick('cancel')}>
             <DialogPrimitive.Portal>
                 <DialogOverlay />
                 <DialogPrimitive.Content className={DialogContentClass}>
@@ -50,7 +65,9 @@ export function AlertDialog({ isOpen, onButtonClick, title, text, html, buttons 
                             </Box>
                         )}
 
-                        <Flex style={{ marginTop: '24px', gap: vars.spacing['3'], flexWrap: 'wrap' }}>
+                        <Flex
+                            style={{ marginTop: '24px', gap: vars.spacing['3'], flexWrap: 'wrap' }}
+                        >
                             {buttons.map((button, index) => (
                                 <Button
                                     key={button.id}
@@ -77,11 +94,18 @@ interface UseAlertOptions {
 
 export function useAlert(options: UseAlertOptions = {}) {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [resolvePromise, setResolvePromise] = React.useState<((value: string) => void) | null>(null);
+    const [resolvePromise, setResolvePromise] = React.useState<((value: string) => void) | null>(
+        null
+    );
 
-    const defaultButtons: DialogButton[] = options.buttons || [{ id: 'ok', name: 'OK', type: 'primary' as const }];
+    const defaultButtons: DialogButton[] = options.buttons || [
+        { id: 'ok', name: 'OK', type: 'primary' as const }
+    ];
 
-    const alert = (textOrOptions?: string | UseAlertOptions, titleOrUndefined?: string): Promise<string> => {
+    const alert = (
+        textOrOptions?: string | UseAlertOptions,
+        titleOrUndefined?: string
+    ): Promise<string> => {
         let text = '';
         let title = '';
 
@@ -93,7 +117,7 @@ export function useAlert(options: UseAlertOptions = {}) {
             title = options.title || '';
         }
 
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             setResolvePromise(() => resolve);
             setIsOpen(true);
         });

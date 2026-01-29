@@ -1,19 +1,24 @@
 {
-  "rustc": 4996801173321332248,
-  "features": "[\"default\", \"ogg\"]",
-  "declared_features": "[\"async_ogg\", \"default\", \"futures\", \"ogg\", \"tokio-io\"]",
-  "target": 8002247970228360904,
-  "profile": 8276155916380437441,
-  "path": 4590059869581700090,
-  "deps": [
-    [3712811570531045576, "byteorder", false, 3588243488621749634],
-    [11541387457094881777, "tinyvec", false, 8173757933759868760],
-    [12066096297563756586, "ogg", false, 9375707623156326572]
-  ],
-  "local": [
-    { "CheckDepInfo": { "dep_info": "debug/.fingerprint/lewton-2b2dd29294dbc9bd/dep-lib-lewton", "checksum": false } }
-  ],
-  "rustflags": [],
-  "config": 2069994364910194474,
-  "compile_kind": 0
+    "rustc": 4996801173321332248,
+    "features": "[\"default\", \"ogg\"]",
+    "declared_features": "[\"async_ogg\", \"default\", \"futures\", \"ogg\", \"tokio-io\"]",
+    "target": 8002247970228360904,
+    "profile": 8276155916380437441,
+    "path": 4590059869581700090,
+    "deps": [
+        [3712811570531045576, "byteorder", false, 3588243488621749634],
+        [11541387457094881777, "tinyvec", false, 8173757933759868760],
+        [12066096297563756586, "ogg", false, 9375707623156326572]
+    ],
+    "local": [
+        {
+            "CheckDepInfo": {
+                "dep_info": "debug/.fingerprint/lewton-2b2dd29294dbc9bd/dep-lib-lewton",
+                "checksum": false
+            }
+        }
+    ],
+    "rustflags": [],
+    "config": 2069994364910194474,
+    "compile_kind": 0
 }

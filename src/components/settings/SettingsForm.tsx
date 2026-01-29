@@ -1,16 +1,29 @@
-import { vars } from 'styles/tokens.css.ts';
+import globalize from 'lib/globalize';
 
 import React, { useState } from 'react';
-import { Box, Flex, FlexCol } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Card, CardBody, CardHeader } from 'ui-primitives';
-import { Switch, FormControl, FormLabel } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { Checkbox } from 'ui-primitives';
-import { Divider } from 'ui-primitives';
-import { Alert } from 'ui-primitives';
-import globalize from 'lib/globalize';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Alert,
+    Box,
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Checkbox,
+    Divider,
+    Flex,
+    FlexCol,
+    FormControl,
+    FormLabel,
+    Heading,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Switch,
+    Text
+} from 'ui-primitives';
 
 interface SettingsSectionProps {
     title: string;
@@ -47,10 +60,12 @@ export function FormSelect({ label, value, onChange, options, description }: For
                 <FormLabel>{label}</FormLabel>
                 <Select value={value} onValueChange={onChange}>
                     <SelectTrigger>
-                        <SelectValue placeholder={options.find(o => o.value === value)?.label || ''} />
+                        <SelectValue
+                            placeholder={options.find((o) => o.value === value)?.label || ''}
+                        />
                     </SelectTrigger>
                     <SelectContent>
-                        {options.map(opt => (
+                        {options.map((opt) => (
                             <SelectItem key={opt.value} value={opt.value}>
                                 {opt.label}
                             </SelectItem>
@@ -79,12 +94,16 @@ export function FormCheckbox({ label, checked, onChange, description }: FormChec
         <Box style={{ marginBottom: vars.spacing['4'] }}>
             <FormControl>
                 <Flex style={{ alignItems: 'center', gap: vars.spacing['3'] }}>
-                    <Checkbox checked={checked} onChange={e => onChange(e.target.checked)} />
+                    <Checkbox checked={checked} onChange={(e) => onChange(e.target.checked)} />
                     <FormLabel style={{ marginBottom: 0 }}>{label}</FormLabel>
                 </Flex>
             </FormControl>
             {description && (
-                <Text size="sm" color="secondary" style={{ marginTop: vars.spacing['1'], marginLeft: '36px' }}>
+                <Text
+                    size="sm"
+                    color="secondary"
+                    style={{ marginTop: vars.spacing['1'], marginLeft: '36px' }}
+                >
                     {description}
                 </Text>
             )}
@@ -99,11 +118,16 @@ interface ModernSettingsFormProps {
     children: React.ReactNode;
 }
 
-export function ModernSettingsForm({ onSave, onCancel, isSaving, children }: ModernSettingsFormProps) {
+export function ModernSettingsForm({
+    onSave,
+    onCancel,
+    isSaving,
+    children
+}: ModernSettingsFormProps) {
     return (
         <Box style={{ maxWidth: '800px', margin: '0 auto', padding: vars.spacing['5'] }}>
             <form
-                onSubmit={e => {
+                onSubmit={(e) => {
                     e.preventDefault();
                     onSave();
                 }}
@@ -135,11 +159,21 @@ interface ToggleSectionProps {
 export function ToggleSection({ title, checked, onToggle, children }: ToggleSectionProps) {
     return (
         <Box style={{ marginBottom: vars.spacing['5'] }}>
-            <Flex style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: vars.spacing['4'] }}>
+            <Flex
+                style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: vars.spacing['4']
+                }}
+            >
                 <Text weight="medium">{title}</Text>
-                <Switch checked={checked} onChange={e => onToggle(e.target.checked)} />
+                <Switch checked={checked} onChange={(e) => onToggle(e.target.checked)} />
             </Flex>
-            {checked && <Box style={{ paddingLeft: '16px', borderLeft: `2px solid var(--divider)` }}>{children}</Box>}
+            {checked && (
+                <Box style={{ paddingLeft: '16px', borderLeft: `2px solid var(--divider)` }}>
+                    {children}
+                </Box>
+            )}
         </Box>
     );
 }

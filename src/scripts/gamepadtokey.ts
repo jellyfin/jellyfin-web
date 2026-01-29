@@ -169,7 +169,7 @@ function runLoop() {
 }
 
 function isConnected() {
-    return Array.from(navigator.getGamepads()).some(g => g?.connected);
+    return Array.from(navigator.getGamepads()).some((g) => g?.connected);
 }
 
 function onFocusOrAttach() {
@@ -189,4 +189,5 @@ window.addEventListener('blur', onBlurOrDetach);
 window.addEventListener('focus', onFocusOrAttach);
 
 onFocusOrAttach();
-if ((navigator as any).gamepadInputEmulation === 'string') (navigator as any).gamepadInputEmulation = 'gamepad';
+if ((navigator as any).gamepadInputEmulation === 'string')
+    (navigator as any).gamepadInputEmulation = 'gamepad';

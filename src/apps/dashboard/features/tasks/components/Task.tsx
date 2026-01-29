@@ -1,20 +1,22 @@
-import React, { type FunctionComponent, useCallback } from 'react';
 import { ClockIcon, PlayIcon, StopIcon } from '@radix-ui/react-icons';
-import { type TaskProps } from '../types/taskProps';
-import TaskProgress from './TaskProgress';
-import TaskLastRan from './TaskLastRan';
+import ListItemLink from 'components/ListItemLink';
+import React, { type FunctionComponent, useCallback } from 'react';
+import { vars } from 'styles/tokens.css.ts';
+import {
+    Avatar,
+    Box,
+    Heading,
+    IconButton,
+    ListItem,
+    ListItemButton,
+    ListItemContent,
+    ListItemDecorator
+} from 'ui-primitives';
 import { useStartTask } from '../api/useStartTask';
 import { useStopTask } from '../api/useStopTask';
-import ListItemLink from 'components/ListItemLink';
-import { ListItem } from 'ui-primitives';
-import { ListItemButton } from 'ui-primitives';
-import { ListItemDecorator } from 'ui-primitives';
-import { ListItemContent } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Avatar } from 'ui-primitives';
-import { Heading } from 'ui-primitives';
-import { Box } from 'ui-primitives';
-import { vars } from 'styles/tokens.css.ts';
+import { type TaskProps } from '../types/taskProps';
+import TaskLastRan from './TaskLastRan';
+import TaskProgress from './TaskProgress';
 
 const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const startTask = useStartTask();
@@ -74,7 +76,9 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
                 </ListItemDecorator>
                 <ListItemContent>
                     <Heading.H5>{task.Name}</Heading.H5>
-                    <Box component="div">{isRunning ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}</Box>
+                    <Box component="div">
+                        {isRunning ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}
+                    </Box>
                 </ListItemContent>
             </ListItemLink>
         </ListItem>

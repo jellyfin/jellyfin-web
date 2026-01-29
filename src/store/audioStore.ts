@@ -58,7 +58,7 @@ interface AudioState {
 }
 
 export const useAudioStore = create<AudioState>()(
-    subscribeWithSelector(set => ({
+    subscribeWithSelector((set) => ({
         volume: 100,
         muted: false,
         makeupGain: 1,
@@ -71,17 +71,17 @@ export const useAudioStore = create<AudioState>()(
         currentTime: 0,
         duration: 0,
 
-        setVolume: volume => set({ volume: Math.max(0, Math.min(100, volume)) }),
-        setMuted: muted => set({ muted }),
-        setMakeupGain: makeupGain => set({ makeupGain: Math.max(0.5, Math.min(2, makeupGain)) }),
-        setIsReady: isReady => set({ isReady }),
-        setAudioContext: ctx => set({ audioContext: ctx, sampleRate: ctx?.sampleRate ?? null }),
-        setIsPlaying: isPlaying => set({ isPlaying }),
-        setCurrentTrack: currentTrack => set({ currentTrack }),
-        setCurrentTime: currentTime => set({ currentTime }),
-        setDuration: duration => set({ duration }),
+        setVolume: (volume) => set({ volume: Math.max(0, Math.min(100, volume)) }),
+        setMuted: (muted) => set({ muted }),
+        setMakeupGain: (makeupGain) => set({ makeupGain: Math.max(0.5, Math.min(2, makeupGain)) }),
+        setIsReady: (isReady) => set({ isReady }),
+        setAudioContext: (ctx) => set({ audioContext: ctx, sampleRate: ctx?.sampleRate ?? null }),
+        setIsPlaying: (isPlaying) => set({ isPlaying }),
+        setCurrentTrack: (currentTrack) => set({ currentTrack }),
+        setCurrentTime: (currentTime) => set({ currentTime }),
+        setDuration: (duration) => set({ duration }),
 
-        syncWithMediaStore: mediaState => {
+        syncWithMediaStore: (mediaState) => {
             set({
                 volume: mediaState.volume,
                 muted: mediaState.isMuted,

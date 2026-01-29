@@ -1,14 +1,14 @@
 import React, { FC, PropsWithChildren } from 'react';
-import { Box } from 'ui-primitives';
 import { vars } from 'styles/tokens.css.ts';
+import { Box } from 'ui-primitives';
 
 interface PageContainerProps {
     padding?: boolean;
     maxWidth?: number | string;
 }
 
-export const PageContainer: FC<PropsWithChildren<PageContainerProps>> = ({ 
-    children, 
+export const PageContainer: FC<PropsWithChildren<PageContainerProps>> = ({
+    children,
     padding = true,
     maxWidth
 }) => {

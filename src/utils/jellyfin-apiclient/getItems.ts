@@ -40,7 +40,10 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 
     for (const result of results) {
         if (!result.Items) {
-            logger.warn('[getItems] Retrieved Items array is invalid', { component: 'GetItems', items: result.Items });
+            logger.warn('[getItems] Retrieved Items array is invalid', {
+                component: 'GetItems',
+                items: result.Items
+            });
             continue;
         }
         if (!result.TotalRecordCount) {

@@ -7,26 +7,20 @@
 
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import { ArrowRightIcon, PlayIcon } from '@radix-ui/react-icons';
-import { motion, AnimatePresence } from 'motion/react';
-
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+import { appRouter } from 'components/router/appRouter';
 
 import { getItems, itemsApi } from 'lib/api/items';
 import { ConnectionState } from 'lib/jellyfin-apiclient/connectionState';
 import { queryKeys } from 'lib/queryKeys';
+import { toVideoItem } from 'lib/utils/playbackUtils';
+import { AnimatePresence, motion } from 'motion/react';
 import React, { useCallback, useState } from 'react';
 import { useConnectionStore } from 'store/connectionStore';
 import { playbackManagerBridge } from 'store/playbackManagerBridge';
-import { appRouter } from 'components/router/appRouter';
-import { toVideoItem } from 'lib/utils/playbackUtils';
 import { vars } from 'styles/tokens.css.ts';
-import { AspectRatio } from 'ui-primitives';
-import { Box, Flex } from 'ui-primitives';
-import { Card } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import { Skeleton } from 'ui-primitives';
-import { Heading, Text } from 'ui-primitives';
+import { AspectRatio, Box, Card, Flex, Heading, IconButton, Skeleton, Text } from 'ui-primitives';
 
 interface HomeSectionProps {
     title: string;
@@ -203,7 +197,7 @@ const RecentlyAddedCard: React.FC<RecentlyAddedCardProps> = ({ item, onPlay, onC
                             <IconButton
                                 variant="solid"
                                 color="primary"
-                                onClick={e => {
+                                onClick={(e) => {
                                     e.stopPropagation();
                                     onPlay();
                                 }}

@@ -11,11 +11,13 @@ export const queryKeys = {
 
     item: (id: string) => ['item', id] as const,
 
-    itemsByName: (name: string, parentId?: string) => ['items', 'byName', name, parentId].filter(Boolean),
+    itemsByName: (name: string, parentId?: string) =>
+        ['items', 'byName', name, parentId].filter(Boolean),
 
     resumeItems: (type?: string) => ['resume', type].filter(Boolean),
 
-    recentItems: (parentId?: string, type?: string, limit = 10) => ['recent', parentId, type, limit].filter(Boolean),
+    recentItems: (parentId?: string, type?: string, limit = 10) =>
+        ['recent', parentId, type, limit].filter(Boolean),
 
     latestItems: (parentId?: string, type?: string) => ['latest', parentId, type].filter(Boolean),
 
@@ -29,33 +31,40 @@ export const queryKeys = {
     genres: (type: string, parentId?: string) => ['genres', type, parentId].filter(Boolean),
 
     // Artists (music)
-    artists: (params?: Record<string, unknown>) => ['artists', JSON.stringify(params)].filter(Boolean),
+    artists: (params?: Record<string, unknown>) =>
+        ['artists', JSON.stringify(params)].filter(Boolean),
 
     artist: (id: string) => ['artist', id] as const,
     artistAlbums: (id: string) => ['artist', id, 'albums'] as const,
 
     // Albums (music)
-    albums: (params?: Record<string, unknown>) => ['albums', JSON.stringify(params)].filter(Boolean),
+    albums: (params?: Record<string, unknown>) =>
+        ['albums', JSON.stringify(params)].filter(Boolean),
 
     // Songs (music)
     songs: (params?: Record<string, unknown>) => ['songs', JSON.stringify(params)].filter(Boolean),
 
     // Movies
-    movies: (params?: Record<string, unknown>) => ['movies', JSON.stringify(params)].filter(Boolean),
+    movies: (params?: Record<string, unknown>) =>
+        ['movies', JSON.stringify(params)].filter(Boolean),
 
     movieRecommendations: (id?: string) => ['movieRecommendations', id].filter(Boolean),
 
     recommendedMovies: (parentId?: string) => ['recommendedMovies', parentId].filter(Boolean),
 
     // TV Shows
-    tvShows: (params?: Record<string, unknown>) => ['tvShows', JSON.stringify(params)].filter(Boolean),
+    tvShows: (params?: Record<string, unknown>) =>
+        ['tvShows', JSON.stringify(params)].filter(Boolean),
 
-    nextUp: (params?: Record<string, unknown>) => ['nextUp', JSON.stringify(params)].filter(Boolean),
+    nextUp: (params?: Record<string, unknown>) =>
+        ['nextUp', JSON.stringify(params)].filter(Boolean),
 
-    episodes: (seriesId?: string, seasonId?: string) => ['episodes', seriesId, seasonId].filter(Boolean),
+    episodes: (seriesId?: string, seasonId?: string) =>
+        ['episodes', seriesId, seasonId].filter(Boolean),
 
     seasons: (seriesId: string) => ['seasons', seriesId] as const,
-    seasonEpisodes: (seriesId: string, seasonId: string) => ['seasons', seriesId, seasonId, 'episodes'] as const,
+    seasonEpisodes: (seriesId: string, seasonId: string) =>
+        ['seasons', seriesId, seasonId, 'episodes'] as const,
 
     // User
     userViews: ['user', 'views'] as const,
@@ -67,25 +76,29 @@ export const queryKeys = {
     serverConfig: (id: string) => ['server', id] as const,
 
     // Filters
-    filterOptions: (params: Record<string, unknown>) => ['filterOptions', JSON.stringify(params)].filter(Boolean),
+    filterOptions: (params: Record<string, unknown>) =>
+        ['filterOptions', JSON.stringify(params)].filter(Boolean),
 
     // People
     person: (id: string) => ['person', id] as const,
     personItems: (id: string, type?: string) => ['person', id, type].filter(Boolean),
 
     // Studios
-    studios: (params?: Record<string, unknown>) => ['studios', JSON.stringify(params)].filter(Boolean),
+    studios: (params?: Record<string, unknown>) =>
+        ['studios', JSON.stringify(params)].filter(Boolean),
     studio: (id: string) => ['studio', id] as const,
     studioItems: (id: string) => ['studio', id, 'items'] as const,
 
     // Playlists
-    playlists: (params?: Record<string, unknown>) => ['playlists', JSON.stringify(params)].filter(Boolean),
+    playlists: (params?: Record<string, unknown>) =>
+        ['playlists', JSON.stringify(params)].filter(Boolean),
     playlistItems: (id: string) => ['playlist', id, 'items'] as const,
 
     // Live TV
     liveTvChannels: (params?: Record<string, unknown>) =>
         ['liveTv', 'channels', JSON.stringify(params)].filter(Boolean),
-    liveTvPrograms: (params: Record<string, unknown>) => ['liveTv', 'programs', JSON.stringify(params)].filter(Boolean),
+    liveTvPrograms: (params: Record<string, unknown>) =>
+        ['liveTv', 'programs', JSON.stringify(params)].filter(Boolean),
     liveTvGuide: ['liveTv', 'guide'] as const
 };
 

@@ -1,18 +1,17 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement, useState } from 'react';
-import { Button } from '../..';
+import { vars } from 'styles/tokens.css.ts';
 import {
+    Button,
     Popover,
-    PopoverTrigger,
+    PopoverArrow,
+    PopoverClose,
     PopoverContent,
-    PopoverHeader,
-    PopoverTitle,
     PopoverDescription,
     PopoverFooter,
-    PopoverClose,
-    PopoverArrow
+    PopoverHeader,
+    PopoverTitle,
+    PopoverTrigger
 } from '../..';
 
 const meta: Meta<typeof Popover> = {
@@ -48,7 +47,14 @@ function DefaultStory(): ReactElement {
                         Make changes to your profile here. Click save when you&apos;re done.
                     </PopoverDescription>
                 </PopoverHeader>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: vars.spacing['2'], marginTop: vars.spacing['4'] }}>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: vars.spacing['2'],
+                        marginTop: vars.spacing['4']
+                    }}
+                >
                     <input
                         type="text"
                         placeholder="Enter your name"
@@ -235,7 +241,9 @@ function SimpleContentStory(): ReactElement {
             <PopoverContent>
                 <PopoverClose />
                 <PopoverTitle>Simple Title</PopoverTitle>
-                <PopoverDescription>This is a simple popover with just a title and description.</PopoverDescription>
+                <PopoverDescription>
+                    This is a simple popover with just a title and description.
+                </PopoverDescription>
             </PopoverContent>
         </Popover>
     );

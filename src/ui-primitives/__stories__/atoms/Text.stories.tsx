@@ -1,8 +1,7 @@
-import { vars } from 'styles/tokens.css.ts';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ReactElement } from 'react';
-import { Text, Heading } from '../..';
+import { vars } from 'styles/tokens.css.ts';
+import { Heading, Text } from '../..';
 
 const meta: Meta<typeof Text> = {
     title: 'UI Primitives/Text',
@@ -12,13 +11,32 @@ const meta: Meta<typeof Text> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        size: { control: 'select', options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'display'] },
+        size: {
+            control: 'select',
+            options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'display']
+        },
         weight: { control: 'select', options: ['normal', 'medium', 'bold'] },
-        color: { control: 'select', options: ['primary', 'secondary', 'muted', 'error', 'success', 'warning', 'info'] },
+        color: {
+            control: 'select',
+            options: ['primary', 'secondary', 'muted', 'error', 'success', 'warning', 'info']
+        },
         align: { control: 'select', options: ['left', 'center', 'right'] },
         as: {
             control: 'select',
-            options: ['p', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'small', 'strong', 'em']
+            options: [
+                'p',
+                'span',
+                'div',
+                'h1',
+                'h2',
+                'h3',
+                'h4',
+                'h5',
+                'h6',
+                'small',
+                'strong',
+                'em'
+            ]
         }
     }
 };
@@ -84,7 +102,14 @@ export const AllWeights: Story = {
 
 function AlignmentsStory(): ReactElement {
     return (
-        <div style={{ width: '300px', border: '1px solid #333', borderRadius: '8px', padding: '16px' }}>
+        <div
+            style={{
+                width: '300px',
+                border: '1px solid #333',
+                borderRadius: '8px',
+                padding: '16px'
+            }}
+        >
             <Text align="left">Left aligned text</Text>
             <Text align="center">Center aligned text</Text>
             <Text align="right">Right aligned text</Text>
@@ -140,12 +165,12 @@ function ParagraphExampleStory(): ReactElement {
                 Article Title
             </Text>
             <Text color="secondary">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua.
             </Text>
             <Text color="secondary" style={{ marginTop: vars.spacing['2'] }}>
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat.
             </Text>
         </div>
     );

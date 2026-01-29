@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from '@tanstack/react-router';
+import React, { useEffect } from 'react';
 
 const BangRedirect = () => {
     const location = useLocation();

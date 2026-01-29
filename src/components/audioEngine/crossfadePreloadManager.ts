@@ -6,12 +6,21 @@
  * Supports streaming (metadata-only) and full preload modes based on queue membership.
  */
 
-import { preloadNextTrack, resetPreloadedTrack, PreloadPurpose, PreloadStrategy } from './crossfadeController';
-import { imagePreloader } from '../../utils/imagePreloader';
-import { usePreferencesStore, isCrossfadeEnabled, isVisualizerEnabled } from '../../store/preferencesStore';
+import {
+    isCrossfadeEnabled,
+    isVisualizerEnabled,
+    usePreferencesStore
+} from '../../store/preferencesStore';
 import { useQueueStore } from '../../store/queueStore';
+import { imagePreloader } from '../../utils/imagePreloader';
 import { logger } from '../../utils/logger';
 import { extractPeaksForAnalysis } from '../../utils/peakAnalyzer';
+import {
+    PreloadPurpose,
+    PreloadStrategy,
+    preloadNextTrack,
+    resetPreloadedTrack
+} from './crossfadeController';
 
 type PreloadTriggerType = 'immediate' | 'fallback' | 'manual';
 
@@ -44,7 +53,7 @@ let preloadState: PreloadState = {
 
 function isInQueue(itemId: string): boolean {
     const queueStore = useQueueStore.getState();
-    return queueStore.items.some(item => item.item.id === itemId);
+    return queueStore.items.some((item) => item.item.id === itemId);
 }
 
 function getPreloadStrategy(itemId: string | null): PreloadStrategy {
@@ -136,7 +145,9 @@ async function executePreload(
 
         const shouldPreloadImages = strategy === 'full';
         if (shouldPreloadImages && (imageUrl || backdropUrl || artistLogoUrl || discImageUrl)) {
-            const imageUrls = [imageUrl, backdropUrl, artistLogoUrl, discImageUrl].filter(Boolean) as string[];
+            const imageUrls = [imageUrl, backdropUrl, artistLogoUrl, discImageUrl].filter(
+                Boolean
+            ) as string[];
             for (const imgUrl of imageUrls) {
                 imagePreloader.preloadImage(imgUrl);
             }
@@ -158,19 +169,26 @@ export function handlePlaybackTimeUpdate(
     }
 
     if (shouldPreloadFallback(player)) {
-        logger.debug('[CrossfadePreload] Fallback trigger near crossfade', { component: 'CrossfadePreload' });
+        logger.debug('[CrossfadePreload] Fallback trigger near crossfade', {
+            component: 'CrossfadePreload'
+        });
         executePreload(nextTrack, 'fallback', 'crossfade');
         return;
     }
 }
 
 export async function handleManualSkip(trackInfo: TrackInfo): Promise<boolean> {
-    logger.debug('[CrossfadePreload] Manual trigger on user skip', { component: 'CrossfadePreload' });
+    logger.debug('[CrossfadePreload] Manual trigger on user skip', {
+        component: 'CrossfadePreload'
+    });
     resetPreloadState();
     return await executePreload(trackInfo, 'manual', 'crossfade');
 }
 
-export async function handleTrackStart(currentTrack: TrackInfo, getNextTrack: () => TrackInfo | null): Promise<void> {
+export async function handleTrackStart(
+    currentTrack: TrackInfo,
+    getNextTrack: () => TrackInfo | null
+): Promise<void> {
     resetPreloadState();
     logger.debug(`[CrossfadePreload] State reset for new track: ${currentTrack.itemId}`, {
         component: 'CrossfadePreload'
@@ -191,9 +209,12 @@ export async function handleTrackStart(currentTrack: TrackInfo, getNextTrack: ()
         const isNextInQueue = isInQueue(nextTrack.itemId);
 
         if (isNextInQueue) {
-            logger.debug(`[CrossfadePreload] Peak analysis preload of next track: ${nextTrack.itemId}`, {
-                component: 'CrossfadePreload'
-            });
+            logger.debug(
+                `[CrossfadePreload] Peak analysis preload of next track: ${nextTrack.itemId}`,
+                {
+                    component: 'CrossfadePreload'
+                }
+            );
 
             extractPeaksForAnalysis(nextTrack.itemId, nextTrack.url).catch((err: Error) => {
                 logger.debug(
@@ -203,9 +224,12 @@ export async function handleTrackStart(currentTrack: TrackInfo, getNextTrack: ()
                 );
             });
         } else {
-            logger.debug(`[CrossfadePreload] Skipping peak analysis for non-queue track: ${nextTrack.itemId}`, {
-                component: 'CrossfadePreload'
-            });
+            logger.debug(
+                `[CrossfadePreload] Skipping peak analysis for non-queue track: ${nextTrack.itemId}`,
+                {
+                    component: 'CrossfadePreload'
+                }
+            );
         }
     }
 }

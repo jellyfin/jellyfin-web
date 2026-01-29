@@ -1,13 +1,12 @@
-import React, { useCallback, useState } from 'react';
 import type { TunerHostInfo } from '@jellyfin/sdk/lib/generated-client/models/tuner-host-info';
-import BaseCard from 'components/cardbuilder/Card/BaseCard';
-import { Menu, MenuItem } from 'ui-primitives';
-import { IconButton } from 'ui-primitives';
-import getTunerName from '../utils/getTunerName';
-import globalize from 'lib/globalize';
 import { useNavigate } from '@tanstack/react-router';
 import ConfirmDialog from 'components/ConfirmDialog';
+import BaseCard from 'components/cardbuilder/Card/BaseCard';
+import globalize from 'lib/globalize';
+import React, { useCallback, useState } from 'react';
+import { IconButton, Menu, MenuItem } from 'ui-primitives';
 import { useDeleteTuner } from '../api/useDeleteTuner';
+import getTunerName from '../utils/getTunerName';
 
 // Inline SVG icons
 const DvrIcon = () => (

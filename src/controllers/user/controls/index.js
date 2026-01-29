@@ -1,9 +1,9 @@
 import layoutManager from 'components/layoutManager';
+import keyboardNavigation from 'scripts/keyboardNavigation';
 import toast from '../../../components/toast/toast';
 import globalize from '../../../lib/globalize';
 import appSettings from '../../../scripts/settings/appSettings';
 import Events from '../../../utils/events';
-import keyboardNavigation from 'scripts/keyboardNavigation';
 
 export default function (view) {
     function submit(e) {
@@ -20,7 +20,10 @@ export default function (view) {
     }
 
     view.addEventListener('viewshow', () => {
-        view.querySelector('.enableGamepadContainer').classList.toggle('hide', !keyboardNavigation.canEnableGamepad());
+        view.querySelector('.enableGamepadContainer').classList.toggle(
+            'hide',
+            !keyboardNavigation.canEnableGamepad()
+        );
         view.querySelector('.smoothScrollContainer').classList.toggle('hide', !layoutManager.tv);
 
         view.querySelector('.chkEnableGamepad').checked = appSettings.enableGamepad();

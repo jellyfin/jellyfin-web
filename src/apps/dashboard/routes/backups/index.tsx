@@ -8,33 +8,46 @@
  * @see src/styles/LEGACY_DEPRECATION_GUIDE.md
  */
 
-import { Box, Flex, FlexCol } from 'ui-primitives';
-import { Button } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-import { Alert } from 'ui-primitives';
-import { List, ListItem } from 'ui-primitives';
-import { Spacer } from 'ui-primitives';
-import { Paper } from 'ui-primitives';
+import type { BackupManifestDto } from '@jellyfin/sdk/lib/generated-client/models/backup-manifest-dto';
+import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { useBackups } from 'apps/dashboard/features/backups/api/useBackups';
+import { useCreateBackup } from 'apps/dashboard/features/backups/api/useCreateBackup';
+import { useRestoreBackup } from 'apps/dashboard/features/backups/api/useRestoreBackup';
+import Backup from 'apps/dashboard/features/backups/components/Backup';
+import BackupProgressDialog from 'apps/dashboard/features/backups/components/BackupProgressDialog';
+import CreateBackupForm from 'apps/dashboard/features/backups/components/CreateBackupForm';
+import RestoreConfirmationDialog from 'apps/dashboard/features/backups/components/RestoreConfirmationDialog';
+import RestoreProgressDialog from 'apps/dashboard/features/backups/components/RestoreProgressDialog';
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
+import SimpleAlert from 'components/SimpleAlert';
+import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import React, { useCallback, useEffect, useState } from 'react';
-import Loading from 'components/loading/LoadingComponent';
-import CreateBackupForm from 'apps/dashboard/features/backups/components/CreateBackupForm';
-import type { BackupOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/backup-options-dto';
-import type { BackupManifestDto } from '@jellyfin/sdk/lib/generated-client/models/backup-manifest-dto';
-import { useCreateBackup } from 'apps/dashboard/features/backups/api/useCreateBackup';
-import BackupProgressDialog from 'apps/dashboard/features/backups/components/BackupProgressDialog';
-import Backup from 'apps/dashboard/features/backups/components/Backup';
-import SimpleAlert from 'components/SimpleAlert';
-import RestoreConfirmationDialog from 'apps/dashboard/features/backups/components/RestoreConfirmationDialog';
-import { useRestoreBackup } from 'apps/dashboard/features/backups/api/useRestoreBackup';
-import RestoreProgressDialog from 'apps/dashboard/features/backups/components/RestoreProgressDialog';
-import { useApi } from 'hooks/useApi';
-import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
+import {
+    Alert,
+    Box,
+    Button,
+    Flex,
+    FlexCol,
+    Heading,
+    List,
+    ListItem,
+    Paper,
+    Spacer,
+    Text
+} from 'ui-primitives';
 
 const AddIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+    >
         <line x1="12" y1="5" x2="12" y2="19" />
         <line x1="5" y1="12" x2="19" y2="12" />
     </svg>
@@ -136,10 +149,18 @@ export const Component = () => {
     }
 
     return (
-        <Page id="backupsPage" title={globalize.translate('HeaderBackups')} className="mainAnimatedPage type-interior">
+        <Page
+            id="backupsPage"
+            title={globalize.translate('HeaderBackups')}
+            className="mainAnimatedPage type-interior"
+        >
             <BackupProgressDialog open={backupInProgress} />
             <RestoreProgressDialog open={restoreInProgress} />
-            <CreateBackupForm open={isCreateFormOpen} onClose={onCreateFormClose} onCreate={onBackupCreate} />
+            <CreateBackupForm
+                open={isCreateFormOpen}
+                onClose={onCreateFormClose}
+                onCreate={onBackupCreate}
+            />
             <SimpleAlert
                 open={isErrorOccurred}
                 text={globalize.translate('UnknownError')}
@@ -174,10 +195,13 @@ export const Component = () => {
                             {backups.length > 0 && (
                                 <Paper>
                                     <List>
-                                        {backups.map(backup => {
+                                        {backups.map((backup) => {
                                             return (
                                                 <ListItem key={backup.Path}>
-                                                    <Backup backup={backup} onRestore={promptRestore} />
+                                                    <Backup
+                                                        backup={backup}
+                                                        onRestore={promptRestore}
+                                                    />
                                                 </ListItem>
                                             );
                                         })}

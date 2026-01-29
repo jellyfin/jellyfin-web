@@ -1,15 +1,14 @@
-
 /**
  * Module for media library editor.
  * @module components/mediaLibraryEditor/mediaLibraryEditor
  */
 
 import escapeHtml from 'escape-html';
-import loading from '../loading/loading';
-import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
-import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../lib/globalize';
+import dom from '../../utils/dom';
+import dialogHelper from '../dialogHelper/dialogHelper';
+import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
+import loading from '../loading/loading';
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -17,8 +16,8 @@ import '../formdialog.scss';
 import '../../elements/emby-toggle/emby-toggle';
 import './style.scss';
 import alert from '../alert';
-import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
+import toast from '../toast/toast';
 import template from './mediaLibraryEditor.template.html?raw';
 
 // eslint-disable-next-line sonarjs/no-invariant-returns
@@ -40,41 +39,52 @@ function onEditLibrary() {
         });
         return false;
     }
-    let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
+    let libraryOptions = libraryoptionseditor.getLibraryOptions(
+        dlg.querySelector('.libraryOptions')
+    );
     libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
-    ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
-        hasChanges = true;
-        isCreating = false;
-        loading.hide();
-        dialogHelper.close(dlg);
-    }, () => {
-        isCreating = false;
-        loading.hide();
-    });
+    ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(
+        () => {
+            hasChanges = true;
+            isCreating = false;
+            loading.hide();
+            dialogHelper.close(dlg);
+        },
+        () => {
+            isCreating = false;
+            loading.hide();
+        }
+    );
     return false;
 }
 
 function addMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     const refreshAfterChange = currentOptions.refresh;
-    ApiClient.addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(() => {
-        hasChanges = true;
-        refreshLibraryFromServer(page);
-    }, () => {
-        toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-    });
+    ApiClient.addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(
+        () => {
+            hasChanges = true;
+            refreshLibraryFromServer(page);
+        },
+        () => {
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
+        }
+    );
 }
 
 function updateMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     ApiClient.updateMediaPath(virtualFolder.Name, {
         Path: path
-    }).then(() => {
-        hasChanges = true;
-        refreshLibraryFromServer(page);
-    }, () => {
-        toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
-    });
+    }).then(
+        () => {
+            hasChanges = true;
+            refreshLibraryFromServer(page);
+        },
+        () => {
+            toast(globalize.translate('ErrorAddingMediaPathToVirtualFolder'));
+        }
+    );
 }
 
 function onRemoveClick(btnRemovePath, location) {
@@ -88,12 +98,15 @@ function onRemoveClick(btnRemovePath, location) {
         primary: 'delete'
     }).then(() => {
         const refreshAfterChange = currentOptions.refresh;
-        ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
-            hasChanges = true;
-            refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
-        }, () => {
-            toast(globalize.translate('ErrorDefault'));
-        });
+        ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(
+            () => {
+                hasChanges = true;
+                refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
+            },
+            () => {
+                toast(globalize.translate('ErrorDefault'));
+            }
+        );
     });
 }
 
@@ -104,7 +117,8 @@ function onListItemClick(e) {
         const index = parseInt(listItem.getAttribute('data-index'), 10);
         const pathInfos = currentOptions.library.LibraryOptions?.PathInfos || [];
         const pathInfo = index == null ? {} : pathInfos[index] || {};
-        const originalPath = pathInfo.Path || (index == null ? null : currentOptions.library.Locations[index]);
+        const originalPath =
+            pathInfo.Path || (index == null ? null : currentOptions.library.Locations[index]);
         const btnRemovePath = dom.parentWithClass(e.target, 'btnRemovePath');
 
         if (btnRemovePath) {
@@ -135,8 +149,8 @@ function getFolderHtml(pathInfo, index) {
 }
 
 function refreshLibraryFromServer(page) {
-    ApiClient.getVirtualFolders().then(result => {
-        const library = result.filter(f => {
+    ApiClient.getVirtualFolders().then((result) => {
+        const library = result.filter((f) => {
             return f.Name === currentOptions.library.Name;
         })[0];
 
@@ -151,7 +165,7 @@ function renderLibrary(page, options) {
     let pathInfos = options.library.LibraryOptions?.PathInfos || [];
 
     if (!pathInfos.length) {
-        pathInfos = options.library.Locations.map(p => {
+        pathInfos = options.library.Locations.map((p) => {
             return {
                 Path: p
             };
@@ -197,7 +211,11 @@ function initEditor(dlg, options) {
     dlg.querySelector('.btnAddFolder').addEventListener('click', onAddButtonClick);
     dlg.querySelector('.folderList').addEventListener('click', onListItemClick);
     dlg.querySelector('.btnSubmit').addEventListener('click', onEditLibrary);
-    libraryoptionseditor.embed(dlg.querySelector('.libraryOptions'), options.library.CollectionType, options.library.LibraryOptions);
+    libraryoptionseditor.embed(
+        dlg.querySelector('.libraryOptions'),
+        options.library.CollectionType,
+        options.library.LibraryOptions
+    );
 }
 
 function onDialogClosed() {

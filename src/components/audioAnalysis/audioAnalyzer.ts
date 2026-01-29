@@ -93,7 +93,10 @@ export class AudioAnalyzer {
         };
     }
 
-    async detectBPM(samples: Float32Array, sampleRate: number): Promise<{ tempo: number; confidence: number }> {
+    async detectBPM(
+        samples: Float32Array,
+        sampleRate: number
+    ): Promise<{ tempo: number; confidence: number }> {
         const bufferSize = 1024;
         const filterFreq = 100;
         const minBPM = 60;
@@ -123,7 +126,11 @@ export class AudioAnalyzer {
         return { tempo: Math.round(bpm * 10) / 10, confidence };
     }
 
-    private lowpassFilter(samples: Float32Array, cutoffFreq: number, sampleRate: number): Float32Array {
+    private lowpassFilter(
+        samples: Float32Array,
+        cutoffFreq: number,
+        sampleRate: number
+    ): Float32Array {
         const result = new Float32Array(samples.length);
         const rc = 1 / (2 * Math.PI * cutoffFreq);
         const dt = 1 / sampleRate;
@@ -174,7 +181,10 @@ export class AudioAnalyzer {
         return result;
     }
 
-    async detectKey(samples: Float32Array, sampleRate: number): Promise<{ key: string; confidence: number }> {
+    async detectKey(
+        samples: Float32Array,
+        sampleRate: number
+    ): Promise<{ key: string; confidence: number }> {
         const frameSize = 4096;
         const hopSize = 2048;
         const chroma = new Array(12).fill(0);
@@ -194,8 +204,12 @@ export class AudioAnalyzer {
             }
         }
 
-        const majorProfile = [6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88];
-        const minorProfile = [6.33, 2.68, 3.52, 5.38, 2.6, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17];
+        const majorProfile = [
+            6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88
+        ];
+        const minorProfile = [
+            6.33, 2.68, 3.52, 5.38, 2.6, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17
+        ];
 
         let bestMajorCorr = -Infinity;
         let bestMajorKey = 0;
@@ -223,11 +237,16 @@ export class AudioAnalyzer {
         }
 
         const keyNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const majorConfidence = bestMajorCorr / Math.max(...chroma) / majorProfile.reduce((a, b) => a + b, 0);
-        const minorConfidence = bestMinorCorr / Math.max(...chroma) / minorProfile.reduce((a, b) => a + b, 0);
+        const majorConfidence =
+            bestMajorCorr / Math.max(...chroma) / majorProfile.reduce((a, b) => a + b, 0);
+        const minorConfidence =
+            bestMinorCorr / Math.max(...chroma) / minorProfile.reduce((a, b) => a + b, 0);
 
         if (majorConfidence > minorConfidence) {
-            return { key: keyNames[bestMajorKey] + ' Major', confidence: Math.min(1, majorConfidence) };
+            return {
+                key: keyNames[bestMajorKey] + ' Major',
+                confidence: Math.min(1, majorConfidence)
+            };
         }
         return { key: keyNames[bestMinorKey] + ' Minor', confidence: Math.min(1, minorConfidence) };
     }
@@ -328,7 +347,7 @@ export class AudioAnalyzer {
         attackTime: number;
         decayTime: number;
     }> {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             let sum = 0;
             let rmsSum = 0;
             let peak = -Infinity;
@@ -336,7 +355,7 @@ export class AudioAnalyzer {
             let attackStart = 0;
             let attackPeak = -Infinity;
             let attackPeakTime = 0;
-            let decayStart = 0;
+            const decayStart = 0;
             let decayEnd = 0;
 
             const frameSize = 1024;
@@ -391,7 +410,7 @@ export class AudioAnalyzer {
     }
 
     private analyzeSpectral(samples: Float32Array, sampleRate: number): Promise<SpectralInfo> {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             const frameSize = 2048;
             const hopSize = 1024;
             const frames = Math.floor((samples.length - frameSize) / hopSize);
@@ -437,7 +456,7 @@ export class AudioAnalyzer {
                 let bandwidth = 0;
                 for (let j = 0; j < magSpectrum.length; j++) {
                     const freq = (j * sampleRate) / frameSize;
-                    bandwidth += Math.pow(freq - centroid, 2) * magSpectrum[j];
+                    bandwidth += (freq - centroid) ** 2 * magSpectrum[j];
                 }
                 bandwidthSum += Math.sqrt(bandwidth / magSum);
 
@@ -465,9 +484,9 @@ export class AudioAnalyzer {
                 prevSpectrum = magSpectrum;
 
                 let geoMean = 1;
-                let arithMean = magSum / magSpectrum.length;
+                const arithMean = magSum / magSpectrum.length;
                 for (let j = 0; j < magSpectrum.length; j++) {
-                    geoMean *= Math.pow(magSpectrum[j] + 0.0001, 1 / magSpectrum.length);
+                    geoMean *= (magSpectrum[j] + 0.0001) ** (1 / magSpectrum.length);
                 }
                 flatnessSum += geoMean / (arithMean + 0.0001);
 
@@ -495,7 +514,10 @@ export class AudioAnalyzer {
     private calculateZeroCrossingRate(samples: Float32Array): number {
         let crossings = 0;
         for (let i = 1; i < samples.length; i++) {
-            if ((samples[i] >= 0 && samples[i - 1] < 0) || (samples[i] < 0 && samples[i - 1] >= 0)) {
+            if (
+                (samples[i] >= 0 && samples[i - 1] < 0) ||
+                (samples[i] < 0 && samples[i - 1] >= 0)
+            ) {
                 crossings++;
             }
         }

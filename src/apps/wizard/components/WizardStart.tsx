@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react';
-
-import { Button } from 'ui-primitives';
-import { Text, Heading } from 'ui-primitives';
-
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import globalize from 'lib/globalize';
-import { Input } from 'ui-primitives';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from 'ui-primitives';
-import { FormControl, FormLabel } from 'ui-primitives';
 import { useNavigate } from '@tanstack/react-router';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import React, { useEffect, useState } from 'react';
+import {
+    Button,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Text
+} from 'ui-primitives';
 import Loading from '../../../components/loading/LoadingComponent';
 import * as styles from './WizardStart.css.ts';
 
@@ -28,8 +34,12 @@ const WizardStart = () => {
         }
         Promise.all([
             client.getPublicSystemInfo(),
-            client.ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' }).then((r: any) => r.json()),
-            client.ajax({ url: client.getUrl('Localization/Options'), type: 'GET' }).then((r: any) => r.json())
+            client
+                .ajax({ url: client.getUrl('Startup/Configuration'), type: 'GET' })
+                .then((r: any) => r.json()),
+            client
+                .ajax({ url: client.getUrl('Localization/Options'), type: 'GET' })
+                .then((r: any) => r.json())
         ]).then(([systemInfo, config, languageOptions]) => {
             setServerName(config.ServerName || systemInfo.ServerName);
             setUiCulture(config.UICulture);
@@ -77,13 +87,19 @@ const WizardStart = () => {
                         required
                     />
                     <FormControl>
-                        <FormLabel>{globalize.translate('LabelPreferredDisplayLanguage')}</FormLabel>
+                        <FormLabel>
+                            {globalize.translate('LabelPreferredDisplayLanguage')}
+                        </FormLabel>
                         <Select value={uiCulture} onValueChange={setUiCulture}>
                             <SelectTrigger>
-                                <SelectValue placeholder={globalize.translate('LabelPreferredDisplayLanguage')} />
+                                <SelectValue
+                                    placeholder={globalize.translate(
+                                        'LabelPreferredDisplayLanguage'
+                                    )}
+                                />
                             </SelectTrigger>
                             <SelectContent>
-                                {languages.map(l => (
+                                {languages.map((l) => (
                                     <SelectItem key={l.Value} value={l.Value}>
                                         {l.Name}
                                     </SelectItem>
