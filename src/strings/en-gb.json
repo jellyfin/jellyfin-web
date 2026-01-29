@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Add Provider",
     "ButtonAddTunerDevice": "Add Tuner Device",
     "LabelSlideshowInterval": "Photo Slideshow Interval",
-    "LabelSlideshowIntervalHelp": "The time in seconds each photo is displayed in slideshows."
+    "LabelSlideshowIntervalHelp": "The time in seconds each photo is displayed in slideshows.",
+    "ConfirmDeleteCollection": "Are you sure you wish to delete this collection?",
+    "ConfirmDeletePlaylist": "Are you sure you wish to delete this playlist?",
+    "HeaderDeleteCollection": "Delete Collection",
+    "HeaderDeletePlaylist": "Delete Playlist"
 }
