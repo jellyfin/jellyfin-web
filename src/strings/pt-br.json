@@ -1866,5 +1866,9 @@
     "ButtonAddTunerDevice": "Adicionar dispositivo sintonizador",
     "ButtonAddProvider": "Adicionar provedor",
     "LabelSlideshowInterval": "Intervalo de Slideshow de Fotos",
-    "LabelSlideshowIntervalHelp": "O tempo em segundos em cada foto é exibido em slides."
+    "LabelSlideshowIntervalHelp": "O tempo em segundos em cada foto é exibido em slides.",
+    "ConfirmDeleteCollection": "Tem certeza de que deseja excluir esta coleção?",
+    "ConfirmDeletePlaylist": "Tem certeza de que deseja excluir esta lista de reprodução?",
+    "HeaderDeleteCollection": "Excluir Coleção",
+    "HeaderDeletePlaylist": "Excluir Lista de Reprodução"
 }
