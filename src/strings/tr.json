@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Sağlayıcı Ekle",
     "ButtonAddTunerDevice": "Alıcı Cihazı Ekle",
     "LabelSlideshowInterval": "Fotoğraf Slayt Gösterisi Aralığı",
-    "LabelSlideshowIntervalHelp": "Her fotoğrafın slayt gösterisinde görüntülenme süresi (saniye cinsinden)."
+    "LabelSlideshowIntervalHelp": "Her fotoğrafın slayt gösterisinde görüntülenme süresi (saniye cinsinden).",
+    "ConfirmDeleteCollection": "Bu koleksiyonu silmek istediğinizden emin misiniz?",
+    "ConfirmDeletePlaylist": "Bu oynatma listesini silmek istediğinizden emin misiniz?",
+    "HeaderDeleteCollection": "Koleksiyonu Sil",
+    "HeaderDeletePlaylist": "Oynatma Listesini Sil"
 }

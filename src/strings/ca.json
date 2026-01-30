@@ -1531,7 +1531,7 @@
     "LabelEnableLUFSScan": "Habilita l'escaneig LUFS",
     "Select": "Selecció",
     "LabelEnableLUFSScanHelp": "Els clients poden normalitzar la reproducció d'àudio per a obtenir un nivell de volum igual entre pistes d'àudio. Això farà que els escanejos de la mediateca s'allarguin més i els calgui més recursos.",
-    "TonemappingModeHelp": "Seleccioneu el mode de mapatge de tons. Si experimenteu zones sobreexposades, proveu a canviar al mode RGB.",
+    "TonemappingModeHelp": "Seleccioneu el mode de mapatge de tons. Si experimenteu zones sobreexposades, proveu de canviar al mode RGB.",
     "MenuClose": "Tanca el menú",
     "MenuOpen": "Obre el menú",
     "UserMenu": "Menú d'usuari",
