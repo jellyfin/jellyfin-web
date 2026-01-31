@@ -578,9 +578,10 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             if (flags.isOuterFooter && item.AlbumArtists?.length) {
                 const artistText = item.AlbumArtists
                     .map(artist => {
+                        artist.ServerId = serverId;
                         artist.Type = BaseItemKind.MusicArtist;
                         artist.IsFolder = true;
-                        return getTextActionButton(artist, null, serverId);
+                        return getTextActionButton(artist);
                     })
                     .join(' / ');
                 lines.push(artistText);
@@ -1017,7 +1018,7 @@ function buildCard(index, item, apiClient, options) {
 
         cardImageContainerClose = '</div>';
     } else {
-        const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
+        const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}" role="img"`;
 
         const url = appRouter.getRouteUrl(item);
         // Don't use the IMG tag with safari because it puts a white border around it
@@ -1149,15 +1150,11 @@ function getHoverMenuHtml(item, action) {
     let html = '';
 
     html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
-    const url = appRouter.getRouteUrl(item, {
-        serverId: item.ServerId || ServerConnections.currentApiClient().serverId()
-    });
-    html += '<a href="' + url + '" class="cardImageContainer"></a>';
 
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
     if (playbackManager.canPlay(item)) {
-        html += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayFab-primary" data-action="${ItemAction.Resume}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
+        html += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayFab-primary" data-action="${ItemAction.Resume}" title="${globalize.translate('Play')}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
     }
 
     html += '<div class="cardOverlayButton-br flex">';

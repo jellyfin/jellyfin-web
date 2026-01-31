@@ -2,6 +2,7 @@ import Stack from '@mui/material/Stack';
 import React, { type FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { appRouter, PUBLIC_PATHS } from 'components/router/appRouter';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
 
@@ -16,14 +17,6 @@ interface AppToolbarProps {
     onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const PUBLIC_PATHS = [
-    '/addserver',
-    '/selectserver',
-    '/login',
-    '/forgotpassword',
-    '/forgotpasswordpin'
-];
-
 const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     isDrawerAvailable,
     isDrawerOpen,
@@ -34,6 +27,10 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     // The video osd does not show the standard toolbar
     if (location.pathname === '/video') return null;
 
+    // Only show the back button in apps when appropriate
+    const isBackButtonAvailable = window.NativeShell && appRouter.canGoBack(location.pathname);
+
+    // Check if the current path is a public path to hide user content
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
 
     return (
@@ -48,6 +45,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
             isDrawerAvailable={isDrawerAvailable}
             isDrawerOpen={isDrawerOpen}
             onDrawerButtonClick={onDrawerButtonClick}
+            isBackButtonAvailable={isBackButtonAvailable}
             isUserMenuAvailable={!isPublicPath}
         >
             {!isDrawerAvailable && (
