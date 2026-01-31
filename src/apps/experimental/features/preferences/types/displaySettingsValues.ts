@@ -13,6 +13,7 @@ export interface DisplaySettingsValues {
     enableRewatchingInNextUp: boolean;
     episodeImagesInNextUp: boolean;
     enableStillWatchingPrompt?: boolean;
+    stillWatchingPromptMaxCount?: number;
     language: string;
     layout: string;
     libraryPageSize: number;

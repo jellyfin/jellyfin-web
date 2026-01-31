@@ -304,7 +304,7 @@ function getAudioMaxValues(deviceProfile) {
 let startingPlaySession = new Date().getTime();
 
 function stillWatchingThreshold() {
-    return (userSettings.stillWatchingPromptMaxCount && userSettings.stillWatchingPromptMaxCount());
+    return userSettings.stillWatchingPromptMaxCount();
 }
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';

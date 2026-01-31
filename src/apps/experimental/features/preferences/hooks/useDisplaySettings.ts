@@ -145,6 +145,7 @@ async function saveDisplaySettings({
     userSettings.enableRewatchingInNextUp(newDisplaySettings.enableRewatchingInNextUp);
     userSettings.useEpisodeImagesInNextUpAndResume(newDisplaySettings.episodeImagesInNextUp);
     userSettings.enableStillWatchingPrompt(newDisplaySettings.enableStillWatchingPrompt);
+    userSettings.stillWatchingPromptMaxCount(newDisplaySettings.stillWatchingPromptMaxCount);
     userSettings.libraryPageSize(newDisplaySettings.libraryPageSize);
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));
