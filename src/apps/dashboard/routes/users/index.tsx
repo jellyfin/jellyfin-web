@@ -15,6 +15,7 @@ import { useUsers } from 'hooks/useUsers';
 import Loading from 'components/loading/LoadingComponent';
 import { useDeleteUser } from 'apps/dashboard/features/users/api/useDeleteUser';
 import dom from 'utils/dom';
+import { TabIndex } from 'apps/dashboard/features/users/constants/tabIndex';
 
 type MenuEntry = {
     name?: string;
@@ -87,15 +88,15 @@ const UserProfiles = () => {
                     callback: function (id: string) {
                         switch (id) {
                             case 'open':
-                                navigate(`/dashboard/users/profile?userId=${userId}`);
+                                navigate(`/dashboard/users/edit?userId=${userId}&index=${TabIndex.Profile}`);
                                 break;
 
                             case 'access':
-                                navigate(`/dashboard/users/access?userId=${userId}`);
+                                navigate(`/dashboard/users/edit?userId=${userId}&index=${TabIndex.Access}`);
                                 break;
 
                             case 'parentalcontrol':
-                                navigate(`/dashboard/users/parentalcontrol?userId=${userId}`);
+                                navigate(`/dashboard/users/edit?userId=${userId}&index=${TabIndex.ParentalControl}`);
                                 break;
 
                             case 'delete':
