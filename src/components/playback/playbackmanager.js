@@ -16,7 +16,6 @@ import PlayQueueManager from './playqueuemanager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
-import dialog from '../dialog/dialog';
 import { appHost } from '../apphost';
 import alert from '../alert';
 import { PluginType } from '../../types/plugin.ts';
@@ -726,7 +725,32 @@ export class PlaybackManager {
         const playerStates = {};
 
         this._playQueueManager = new PlayQueueManager();
+        
 
+        self.stillWatchingPromptDismiss = function (data) {
+            self.resetAutoPlayCounter();
+            self.nextTrack(undefined,true);
+            const { player, state, nextItem, nextMediaType } = data;
+
+            Events.trigger(self, 'playbackstop', [{
+                                    player,
+                                    state,
+                                    nextItem,
+                                    nextMediaType
+                                }]);
+        }
+        self.stillWatchingPromptDontAskAgain = function (data) {
+            self.suppressStillWatching();
+            self.nextTrack(undefined,true);
+            const { player, state, nextItem, nextMediaType } = data;
+
+            Events.trigger(self, 'playbackstop', [{
+                                    player,
+                                    state,
+                                    nextItem,
+                                    nextMediaType
+                                }]);
+        }
         self.resetAutoPlayCounter = function () {
             self._autoPlayCount = 0;
         }
@@ -3534,8 +3558,9 @@ export class PlaybackManager {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
                         const stillWatchingEnabled = userSettings.enableStillWatchingPrompt && userSettings.enableStillWatchingPrompt();
 
+                        const shouldTriggerExtraEvent = newPlayer !== player;
                         function triggerExtraEvent() {
-                            if (newPlayer !== player) {
+                            if (shouldTriggerExtraEvent) {
                                 Events.trigger(self, 'playbackstop', [{
                                     player,
                                     state,
@@ -3546,30 +3571,11 @@ export class PlaybackManager {
                         }
 
                         if (stillWatchingEnabled && !self.isStillWatchingSuppressed() && self.getAutoPlayCount() >= stillWatchingThreshold() - 1) {
-                            dialog.show({
-                                title: globalize.translate('AreYouStillWatchingTitle'),
-                                text: globalize.translate('AreYouStillWatchingText'),
-                                buttons: [
-                                    { name: globalize.translate('ButtonKeepWatchingAskLater'), id: 'keep', type: 'submit' },
-                                    { name: globalize.translate('ButtonDontAskAgain'), id: 'dontask', type: 'none' }
-                                ]
-                            }).then(function (result) {
-                                if (result === 'keep') {
-                                    // Ask again later: reset counter and resume autoplay
-                                    self.resetAutoPlayCounter();
-                                    self.nextTrack(undefined,true);
-                                    triggerExtraEvent();
-                                } else if (result === 'dontask') {
-                                    // Don't ask again until user starts a new playback session
-                                    self.suppressStillWatching();
-                                    self.nextTrack(undefined,true);
-                                    triggerExtraEvent();
-                                } else {
-                                    self._playNextAfterEnded = false;
-                                }
-                            }).catch(function () {
-                                self._playNextAfterEnded = false;
-                            });
+                            Events.trigger(self, 'stillwatchingprompt',[ {player,
+                                    state,
+                                    nextItem,
+                                    nextMediaType}]);
+                           
                         } else {
                             self.incrementAutoPlayCount();
                             self.nextTrack(undefined,true);
