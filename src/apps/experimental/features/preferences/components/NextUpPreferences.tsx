@@ -78,8 +78,6 @@ export function NextUpPreferences({ onChange, values }: Readonly<NextUpPreferenc
                     {globalize.translate('UseEpisodeImagesInNextUpHelp')}
                 </FormHelperText>
             </FormControl>
-
-            
         </Stack>
     );
 }
