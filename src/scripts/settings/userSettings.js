@@ -209,7 +209,7 @@ export class UserSettings {
 
     /**
      * Get or set 'Still Watching Prompt' state.
-     * @param {boolean|undefined} val - Flag to enable the "Are you still watching?" prompt.
+     * @param {boolean|undefined} [val] - Flag to enable the "Are you still watching?" prompt.
      * @return {boolean} 'Still Watching Prompt' state.
      */
     enableStillWatchingPrompt(val) {

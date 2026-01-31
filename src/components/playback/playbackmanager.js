@@ -3546,19 +3546,7 @@ export class PlaybackManager {
 
                 apiClient.getCurrentUser().then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
-                        const stillWatchingEnabled = userSettings.enableStillWatchingPrompt && userSettings.enableStillWatchingPrompt();
-
-                        // const shouldTriggerExtraEvent = newPlayer !== player;
-                        // function triggerExtraEvent() {
-                        //     if (shouldTriggerExtraEvent) {
-                        //         Events.trigger(self, 'playbackstop', [{
-                        //             player,
-                        //             state,
-                        //             nextItem,
-                        //             nextMediaType
-                        //         }]);
-                        //     }
-                        // }
+                        const stillWatchingEnabled = userSettings.enableStillWatchingPrompt();
 
                         if (stillWatchingEnabled && !self.isStillWatchingSuppressed() && self.getAutoPlayCount() >= stillWatchingThreshold() - 1) {
                             Events.trigger(self, 'stillwatchingprompt', [ { newPlayer, player,

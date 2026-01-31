@@ -236,8 +236,8 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
-    context.querySelector('.chkEnableStillWatchingPrompt').checked = userSettings.enableStillWatchingPrompt && userSettings.enableStillWatchingPrompt();
-    context.querySelector('#txtStillWatchingMaxCount').value = userSettings.stillWatchingPromptMaxCount && userSettings.stillWatchingPromptMaxCount();
+    context.querySelector('.chkEnableStillWatchingPrompt').checked = userSettings.enableStillWatchingPrompt();
+    context.querySelector('#txtStillWatchingMaxCount').value = userSettings.stillWatchingPromptMaxCount();
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
     context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
     context.querySelector('#selectPreferredTranscodeVideoCodec').value = appSettings.preferredTranscodeVideoCodec();
