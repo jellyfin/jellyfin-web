@@ -66,6 +66,7 @@ export const useSearchItems = (
                     includeItemTypes: itemTypes,
                     parentId,
                     searchTerm,
+                    isMissing: itemTypes.includes(BaseItemKind.Episode) && !user?.Configuration?.DisplayMissingEpisodes ? false : undefined,
                     limit: 800
                 },
                 { signal }
