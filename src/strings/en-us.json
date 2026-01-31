@@ -1419,6 +1419,8 @@
     "PreferEmbeddedTitlesOverFileNamesHelp": "Determine the display title to use when no internet metadata or local metadata is available.",
     "PreferNonstandardArtistsTag": "Prefer ARTISTS tag if available",
     "PreferNonstandardArtistsTagHelp": "Use the non-standard ARTISTS tag instead of ARTIST tag when available.",
+    "PreferOriginalReleaseDate": "Prefer ORIGINALDATE tag if available",
+    "PreferOriginalReleaseDateHelp": "Prefer the ORIGINALDATE tag to the DATE tag when available.",
     "AllowEmbeddedSubtitles": "Disable different types of embedded subtitles",
     "AllowEmbeddedSubtitlesHelp": "Disable subtitles that are packaged within media containers. Requires a full library refresh.",
     "AllowEmbeddedSubtitlesAllowAllOption": "Allow All",
