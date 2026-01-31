@@ -136,6 +136,7 @@
     "ButtonShutdown": "Shutdown",
     "ButtonSignIn": "Sign In",
     "ButtonSignOut": "Sign Out",
+    "ButtonSwitchUser": "Switch User",
     "ButtonExitApp": "Exit Application",
     "ButtonSpace": "Space",
     "ButtonSplit": "Split",
