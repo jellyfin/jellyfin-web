@@ -1312,6 +1312,18 @@ export default function (view) {
                     showOsd(btnFastForward);
                 }
                 break;
+            case ',':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.previousFrame(currentPlayer);
+                }
+                break;
+            case '.':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.nextFrame(currentPlayer);
+                }
+                break;
             case 'j':
             case 'J':
             case 'ArrowLeft':
