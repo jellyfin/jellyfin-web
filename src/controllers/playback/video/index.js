@@ -33,6 +33,8 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
+import dialog from '../../../components/dialog/dialog';
+
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -564,6 +566,29 @@ export default function (view) {
         }
     }
 
+    var onStillWatchingPrompt =function (e, data) {
+        var pm = playbackManager;
+        var f= function (result) {
+            if (result === 'keep') {
+                pm.stillWatchingPromptDismiss(data);
+            } else if (result === 'dontask') {
+                pm.stillWatchingPromptDontAskAgain(data);
+            } else {
+                pm._playNextAfterEnded = false;
+            };
+        };
+        dialog.show({
+            title: globalize.translate('AreYouStillWatchingTitle'),
+            text: globalize.translate('AreYouStillWatchingText'),
+            buttons: [
+                { name: globalize.translate('ButtonKeepWatchingAskLater'), id: 'keep', type: 'submit' },
+                { name: globalize.translate('ButtonDontAskAgain'), id: 'dontask', type: 'none' }
+            ]
+        }).then(f).catch(function () {
+            pm._playNextAfterEnded = false;
+        });
+    }
+
     function onMediaStreamsChanged() {
         const player = this;
         const state = playbackManager.getPlayerState(player);
@@ -590,6 +615,7 @@ export default function (view) {
         onStateChanged.call(player, {
             type: 'init'
         }, state);
+
         Events.on(player, 'playbackstart', onPlaybackStart);
         Events.on(player, 'playbackstop', onPlaybackStopped);
         Events.on(player, PlayerEvent.PromptSkip, onPromptSkip);
@@ -624,6 +650,8 @@ export default function (view) {
             Events.off(player, 'timeupdate', onTimeUpdate);
             Events.off(player, 'fullscreenchange', onFullscreenChanged);
             Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
+            Events.off(player, 'stillwatchingprompt', onStillWatchingPrompt);
+
             currentPlayer = null;
         }
     }
@@ -1672,6 +1700,7 @@ export default function (view) {
     view.addEventListener('viewshow', function () {
         try {
             Events.on(playbackManager, 'playerchange', onPlayerChange);
+            Events.on(playbackManager, 'stillwatchingprompt', onStillWatchingPrompt);
             bindToPlayer(playbackManager.getCurrentPlayer());
             /* eslint-disable-next-line compat/compat */
             dom.addEventListener(document, window.PointerEvent ? 'pointermove' : 'mousemove', onPointerMove, {
