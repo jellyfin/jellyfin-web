@@ -721,52 +721,43 @@ export class PlaybackManager {
 
         this._playNextAfterEnded = true;
         this._autoPlayCount = 0;
-        this._suppressStillWatching = false; 
+        this._suppressStillWatching = false;
         const playerStates = {};
 
         this._playQueueManager = new PlayQueueManager();
-        
 
         self.stillWatchingPromptDismiss = function (data) {
             self.resetAutoPlayCounter();
-            self.nextTrack(undefined,true);
-            const { player, state, nextItem, nextMediaType } = data;
-
-            Events.trigger(self, 'playbackstop', [{
-                                    player,
-                                    state,
-                                    nextItem,
-                                    nextMediaType
-                                }]);
-        }
+            self.nextTrack(undefined, true);
+            const { newPlayer, player, state, nextItem, nextMediaType } = data;
+            if (newPlayer !== player) {
+                self.triggerPlaybackStopEvent(player, state, nextItem, nextMediaType);
+            }
+        };
         self.stillWatchingPromptDontAskAgain = function (data) {
             self.suppressStillWatching();
-            self.nextTrack(undefined,true);
-            const { player, state, nextItem, nextMediaType } = data;
-
-            Events.trigger(self, 'playbackstop', [{
-                                    player,
-                                    state,
-                                    nextItem,
-                                    nextMediaType
-                                }]);
-        }
+            self.nextTrack(undefined, true);
+            const { newPlayer, player, state, nextItem, nextMediaType } = data;
+            if (newPlayer !== player) {
+                self.triggerPlaybackStopEvent(player, state, nextItem, nextMediaType);
+            }
+        };
         self.resetAutoPlayCounter = function () {
             self._autoPlayCount = 0;
-        }
+        };
         self.resetStillWatchingSuppressor = function () {
             self._suppressStillWatching = false;
-        }
+        };
         self.incrementAutoPlayCount = function () {
             self._autoPlayCount++;
-        }
+        };
         self.getAutoPlayCount = function () {
             return self._autoPlayCount;
-        }
+        };
 
         self.suppressStillWatching = function () {
             self._suppressStillWatching = true;
-        }
+        };
         self.isStillWatchingSuppressed = function () {
             return self._suppressStillWatching;
         };
@@ -2135,7 +2126,6 @@ export class PlaybackManager {
         self.getItemsForPlayback = getItemsForPlayback;
 
         self.play = async function (options) {
-            
             self.resetAutoPlayCounter();
             self.resetStillWatchingSuppressor();
 
@@ -3174,9 +3164,9 @@ export class PlaybackManager {
             };
         }
 
-        self.nextTrack = function (player,isAutoPlay = false) {
+        self.nextTrack = function (player, isAutoPlay = false) {
             if (!isAutoPlay) {
-                self.resetAutoPlayCounter()
+                self.resetAutoPlayCounter();
             }
 
             player = player || self._currentPlayer;
@@ -3558,33 +3548,47 @@ export class PlaybackManager {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
                         const stillWatchingEnabled = userSettings.enableStillWatchingPrompt && userSettings.enableStillWatchingPrompt();
 
-                        const shouldTriggerExtraEvent = newPlayer !== player;
-                        function triggerExtraEvent() {
-                            if (shouldTriggerExtraEvent) {
-                                Events.trigger(self, 'playbackstop', [{
+                        // const shouldTriggerExtraEvent = newPlayer !== player;
+                        // function triggerExtraEvent() {
+                        //     if (shouldTriggerExtraEvent) {
+                        //         Events.trigger(self, 'playbackstop', [{
+                        //             player,
+                        //             state,
+                        //             nextItem,
+                        //             nextMediaType
+                        //         }]);
+                        //     }
+                        // }
+
+                        if (stillWatchingEnabled && !self.isStillWatchingSuppressed() && self.getAutoPlayCount() >= stillWatchingThreshold() - 1) {
+                            Events.trigger(self, 'stillwatchingprompt', [ { newPlayer, player,
+                                state,
+                                nextItem,
+                                nextMediaType }]);
+                        } else {
+                            self.incrementAutoPlayCount();
+                            self.nextTrack(undefined, true);
+                            if (newPlayer !== player) {
+                                self.triggerPlaybackStopEvent(
                                     player,
                                     state,
                                     nextItem,
-                                    nextMediaType
-                                }]);
+                                    nextMediaType);
                             }
-                        }
-
-                        if (stillWatchingEnabled && !self.isStillWatchingSuppressed() && self.getAutoPlayCount() >= stillWatchingThreshold() - 1) {
-                            Events.trigger(self, 'stillwatchingprompt',[ {player,
-                                    state,
-                                    nextItem,
-                                    nextMediaType}]);
-                           
-                        } else {
-                            self.incrementAutoPlayCount();
-                            self.nextTrack(undefined,true);
-                            triggerExtraEvent();
                         }
                     }
                 });
             }
         }
+
+        self.triggerPlaybackStopEvent = function (player, state, nextItem, nextMediaType) {
+            Events.trigger(self, 'playbackstop', [{
+                player,
+                state,
+                nextItem,
+                nextMediaType
+            }]);
+        };
 
         function onPlaybackChanging(activePlayer, newPlayer, newItem) {
             const state = self.getPlayerState(activePlayer);
@@ -3593,7 +3597,6 @@ export class PlaybackManager {
 
             // User started playing something new while existing content is playing
             let promise;
-
 
             stopPlaybackProgressTimer(activePlayer);
             unbindStopped(activePlayer);

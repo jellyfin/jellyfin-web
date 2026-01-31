@@ -35,7 +35,6 @@ import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
 import dialog from '../../../components/dialog/dialog';
 
-
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
 }
@@ -568,16 +567,16 @@ export default function (view) {
         }
     }
 
-    var onStillWatchingPrompt =function (e, data) {
-        var pm = playbackManager;
-        var f= function (result) {
+    const onStillWatchingPrompt = function (e, data) {
+        const pm = playbackManager;
+        const f = function (result) {
             if (result === 'keep') {
                 pm.stillWatchingPromptDismiss(data);
             } else if (result === 'dontask') {
                 pm.stillWatchingPromptDontAskAgain(data);
             } else {
                 pm._playNextAfterEnded = false;
-            };
+            }
         };
         dialog.show({
             title: globalize.translate('AreYouStillWatchingTitle'),
@@ -589,7 +588,7 @@ export default function (view) {
         }).then(f).catch(function () {
             pm._playNextAfterEnded = false;
         });
-    }
+    };
 
     function onMediaStreamsChanged() {
         const player = this;
