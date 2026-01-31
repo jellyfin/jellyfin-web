@@ -24,6 +24,7 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
+import baseAlert from 'components/alert';
 
 const BRANDING_CONFIG_KEY = 'branding';
 const BrandingOption = {
@@ -169,6 +170,15 @@ export const Component = () => {
         }
     }, [ brandingOptions ]);
 
+    const previewLoginDisclaimer = useCallback(() => {
+        void baseAlert({
+            title: 'Login disclaimer Preview:',
+            html: [
+                brandingOptions.LoginDisclaimer
+            ]
+        });
+    }, [ brandingOptions ]);
+
     const onSubmit = useCallback(() => {
         setError(undefined);
     }, []);
@@ -283,6 +293,14 @@ export const Component = () => {
                                 }
                             }}
                         />
+
+                        <Button
+                            size='large'
+                            sx={{ width: 'fit-content' }}
+                            onClick={previewLoginDisclaimer}
+                        >
+                            {globalize.translate('Preview')}
+                        </Button>
 
                         <TextField
                             fullWidth
