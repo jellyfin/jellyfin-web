@@ -37,7 +37,10 @@ jobs:
     name: Deploy 🚀
     needs: get-pr-number
     uses: ./.github/workflows/__deploy.yml
-    secrets: inherit
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
     with:
       branch: ${{ github.event.workflow_run.head_repository.full_name != github.repository && github.event.workflow_run.head_branch == 'master' && format('{0}/{1}', github.event.workflow_run.head_repository.full_name, github.event.workflow_run.head_branch) || github.event.workflow_run.head_branch }}
       commit: ${{ github.event.workflow_run.head_sha }}

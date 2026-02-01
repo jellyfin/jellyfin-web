@@ -18,7 +18,8 @@ jobs:
     name: Automation 🎛️
     if: ${{ github.event_name == 'pull_request_target' && github.repository == 'jellyfin/jellyfin-web' }}
     uses: ./.github/workflows/__automation.yml
-    secrets: inherit
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
 
   merge-queue-build:
     name: Build 🏗️
@@ -55,7 +56,10 @@ jobs:
     permissions:
       contents: read
       deployments: write
-    secrets: inherit
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
     with:
       branch: ${{ github.head_ref }}
       commit: ${{ github.sha }}

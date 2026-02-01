@@ -2,6 +2,13 @@ name: Deploy 🏗️
 
 on:
   workflow_call:
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+      JF_BOT_TOKEN:
+        required: true
     inputs:
       branch:
         required: true
@@ -57,7 +64,8 @@ jobs:
     # Always run so the comment is composed for the workflow summary
     if: ${{ always() }}
     uses: ./.github/workflows/__job_messages.yml
-    secrets: inherit
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
     needs:
       - cf-pages
 
