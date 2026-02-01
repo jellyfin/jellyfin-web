@@ -17,7 +17,7 @@ jobs:
       - uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639 # v9.1.0
         with:
           repo-token: ${{ secrets.JF_BOT_TOKEN }}
-          operations-per-run: 75
+          operations-per-run: 500
           # Issues receive a stale warning after 120 days and close after an additional 21 days
           days-before-stale: 120
           days-before-close: 21
