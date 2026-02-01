@@ -1736,7 +1736,7 @@
     "MediaInfoRotation": "Ротация",
     "RenderPgsSubtitleHelp": "Определить, следует ли клиенту отображать субтитры PGS вместо использования встроенных субтитров. Это может избежать серверного транскодирования в обмен на улучшение производительности клиента.",
     "VideoCodecTagNotSupported": "Тэг видео кодека не поддерживается",
-    "LabelAllowStreamSharing": "Разрешить передавание потока",
+    "LabelAllowStreamSharing": "Разрешить дублирование потока",
     "LabelDisableVbrAudioEncoding": "Выключить аудио кодирование VBR",
     "DateModified": "Дата изменения",
     "LabelSaveTrickplayLocally": "Сохранять изображения trickplay рядом с медиа",
@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Добавить поставщика",
     "ButtonAddTunerDevice": "Добавить устройство тюнера",
     "LabelSlideshowIntervalHelp": "Время в секундах на каждую фотографию в слайд-шоу.",
-    "LabelSlideshowInterval": "Интервал слайд-шоу с фотографиями"
+    "LabelSlideshowInterval": "Интервал слайд-шоу с фотографиями",
+    "ConfirmDeleteCollection": "Вы уверены, что хотите удалить эту коллекцию?",
+    "ConfirmDeletePlaylist": "Вы уверены, что хотите удалить этот плейлист?",
+    "HeaderDeleteCollection": "Удалить коллекцию",
+    "HeaderDeletePlaylist": "Удалить плейлист"
 }
