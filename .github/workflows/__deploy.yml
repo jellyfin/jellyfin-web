@@ -16,6 +16,14 @@ on:
         required: false
         type: string
         default: frontend
+      run_id:
+        description: 'Workflow run ID to download artifacts from (for workflow_run triggers)'
+        required: false
+        type: string
+      pr_number:
+        description: 'PR number to comment on (for workflow_run triggers)'
+        required: false
+        type: string
 
 jobs:
   cf-pages:
@@ -33,6 +41,8 @@ jobs:
         with:
           name: ${{ inputs.artifact_name }}
           path: dist
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ inputs.run_id && secrets.GITHUB_TOKEN || '' }}
 
       - name: Publish to Cloudflare Pages 📃
         uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
@@ -57,3 +67,4 @@ jobs:
       preview_url: ${{ needs.cf-pages.outputs.url }}
       in_progress: false
       comment: ${{ inputs.comment }}
+      pr_number: ${{ inputs.pr_number }}

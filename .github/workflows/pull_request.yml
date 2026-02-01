@@ -14,87 +14,49 @@ on:
   merge_group:
 
 jobs:
-  push-comment:
-    name: Create comments ✍️
-    if: ${{ always() && !cancelled() && github.repository == 'jellyfin/jellyfin-web' }}
-    uses: ./.github/workflows/__job_messages.yml
-    secrets: inherit
-    with:
-      commit: ${{ github.event.pull_request.head.sha }}
-      in_progress: true
-      comment: true
-
-  build:
-    name: Build 🏗️
-    if: ${{ always() && !cancelled() }}
-    uses: ./.github/workflows/__package.yml
-    with:
-      commit: ${{ github.event.pull_request.head.sha }}
-
   automation:
     name: Automation 🎛️
-    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
+    if: ${{ github.event_name == 'pull_request_target' && github.repository == 'jellyfin/jellyfin-web' }}
     uses: ./.github/workflows/__automation.yml
     secrets: inherit
 
-  quality_checks:
+  merge-queue-build:
+    name: Build 🏗️
+    if: ${{ github.event_name == 'merge_group' }}
+    uses: ./.github/workflows/__package.yml
+    with:
+      commit: ${{ github.sha }}
+
+  merge-queue-quality:
     name: Quality checks 👌🧪
-    if: ${{ always() && !cancelled() }}
+    if: ${{ github.event_name == 'merge_group' }}
     uses: ./.github/workflows/__quality_checks.yml
     permissions: {}
     with:
-      commit: ${{ github.event.pull_request.head.sha }}
+      commit: ${{ github.sha }}
 
-  codeql:
+  merge-queue-codeql:
     name: GitHub CodeQL 🔬
-    if: ${{ always() && !cancelled() }}
+    if: ${{ github.event_name == 'merge_group' }}
     uses: ./.github/workflows/__codeql.yml
     permissions:
       actions: read
       contents: read
       security-events: write
     with:
-      commit: ${{ github.event.pull_request.head.sha }}
+      commit: ${{ github.sha }}
 
-  deploy:
+  merge-queue-deploy:
     name: Deploy 🚀
+    if: ${{ github.event_name == 'merge_group' && github.repository == 'jellyfin/jellyfin-web' }}
     uses: ./.github/workflows/__deploy.yml
-    if: ${{ always() && !cancelled() && needs.build.result == 'success' && github.repository == 'jellyfin/jellyfin-web' }}
     needs:
-      - push-comment
-      - build
+      - merge-queue-build
     permissions:
       contents: read
       deployments: write
     secrets: inherit
     with:
-      # If the PR is from the master branch of a fork, append the fork's name to the branch name
-      branch: ${{ github.event.pull_request.head.repo.full_name != github.repository && github.event.pull_request.head.ref == 'master' && format('{0}/{1}', github.event.pull_request.head.repo.full_name, github.event.pull_request.head.ref) || github.event.pull_request.head.ref }}
-      comment: true
-      commit: ${{ github.event.pull_request.head.sha }}
-
-  run-eslint:
-    name: Run eslint suggestions
-    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-    
-      - name: Setup node environment
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-          check-latest: true 
-    
-      - name: Install Node.js dependencies
-        run: npm ci --no-audit
-    
-      - name: Run eslint
-        uses: CatChen/eslint-suggestion-action@4ee415529307a8ca0260b4a3775484802523e5af # v4.1.19
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      branch: ${{ github.head_ref }}
+      commit: ${{ github.sha }}
+      comment: false

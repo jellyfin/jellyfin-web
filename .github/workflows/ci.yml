@@ -1,0 +1,66 @@
+name: CI 🔍
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - master
+      - release*
+    paths-ignore:
+      - '**/*.md'
+
+permissions: {}
+
+jobs:
+  build:
+    name: Build 🏗️
+    uses: ./.github/workflows/__package.yml
+    with:
+      commit: ${{ github.sha }}
+
+  quality_checks:
+    name: Quality checks 👌🧪
+    uses: ./.github/workflows/__quality_checks.yml
+    permissions: {}
+    with:
+      commit: ${{ github.sha }}
+
+  codeql:
+    name: GitHub CodeQL 🔬
+    uses: ./.github/workflows/__codeql.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    with:
+      commit: ${{ github.sha }}
+
+  run-eslint:
+    name: Run eslint suggestions
+    runs-on: ubuntu-latest
+    # Only post suggestions for same-repo PRs (GITHUB_TOKEN is read-only for forks)
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup node environment
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          check-latest: true
+
+      - name: Install Node.js dependencies
+        run: npm ci --no-audit
+
+      - name: Run eslint
+        uses: CatChen/eslint-suggestion-action@4ee415529307a8ca0260b4a3775484802523e5af # v4.1.19
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

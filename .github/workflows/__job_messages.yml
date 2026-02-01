@@ -23,6 +23,10 @@ on:
         required: false
         type: string
         default: "CFPages-deployment"
+      pr_number:
+        description: 'PR number to comment on (for workflow_run triggers)'
+        required: false
+        type: string
 
 
 jobs:
@@ -63,3 +67,4 @@ jobs:
           github-token: ${{ secrets.JF_BOT_TOKEN }}
           message: ${{ env.msg }}
           comment-tag: ${{ inputs.marker }}
+          pr-number: ${{ inputs.pr_number }}
