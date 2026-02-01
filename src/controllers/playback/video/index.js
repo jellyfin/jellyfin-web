@@ -651,7 +651,7 @@ export default function (view) {
             Events.off(player, 'timeupdate', onTimeUpdate);
             Events.off(player, 'fullscreenchange', onFullscreenChanged);
             Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
-            Events.off(player, 'stillwatchingprompt', onStillWatchingPrompt);
+            Events.off(playbackManager, 'stillwatchingprompt', onStillWatchingPrompt);
 
             currentPlayer = null;
         }
