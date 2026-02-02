@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Gehitu hornitzailea",
     "ButtonAddTunerDevice": "Gehitu sintonizatzaile gailua",
     "LabelSlideshowInterval": "Argazkien diapositiba-aurkezpenaren tartea",
-    "LabelSlideshowIntervalHelp": "Argazki bakoitza aurkezpenetan bistaratzen den denbora segundotan."
+    "LabelSlideshowIntervalHelp": "Argazki bakoitza aurkezpenetan bistaratzen den denbora segundotan.",
+    "ConfirmDeleteCollection": "Ziur zaude bilduma hau ezabatu nahi duzula?",
+    "ConfirmDeletePlaylist": "Ziur zaude erreprodukzio zerrenda hay ezabatu nahi duzula?",
+    "HeaderDeleteCollection": "Ezabatu bilduma",
+    "HeaderDeletePlaylist": "Ezabatu erreprodukzio-zerrenda"
 }
