@@ -1866,5 +1866,9 @@
     "ButtonAddTunerDevice": "Додај тјунер",
     "ButtonAddProvider": "Додај провајдера",
     "LabelSlideshowInterval": "Интервал за слајд-шоу фотографија",
-    "LabelSlideshowIntervalHelp": "Број секунди за приказ сваке слике у слајд-шоуу."
+    "LabelSlideshowIntervalHelp": "Број секунди за приказ сваке слике у слајд-шоуу.",
+    "HeaderDeletePlaylist": "Обриши листу за пуштање",
+    "ConfirmDeleteCollection": "Да ли сигурно желите да обришете ову колекцију?",
+    "ConfirmDeletePlaylist": "Да ли сигурно желите да обришете ову листу за пуштање?",
+    "HeaderDeleteCollection": "Обриши колекцију"
 }
