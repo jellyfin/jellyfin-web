@@ -305,7 +305,7 @@
     "LabelCache": "Cache",
     "LabelBirthDate": "Data de nascimento",
     "LabelBindToLocalNetworkAddressHelp": "Substitua o endereço IP local do servidor HTTP. Se deixado em branco, o servidor se vinculará a todos os endereços disponíveis. Alterar este valor requer um reinício.",
-    "LabelBindToLocalNetworkAddress": "Endereço local para colocar o servidor à escuta",
+    "LabelBindToLocalNetworkAddress": "Vincular ao endereço de rede local",
     "LabelAutomaticallyRefreshInternetMetadataEvery": "Atualizar metadados automaticamente a partir da Internet",
     "LabelAuthProvider": "Fornecedor de autenticação",
     "LabelAudioSampleRate": "Taxa de amostragem de áudio",
@@ -645,7 +645,7 @@
     "DirectPlaying": "Reprodução direta",
     "DeviceAccessHelp": "Apenas se aplica a dispositivos que podem ser identificados como únicos e que não impedem o acesso ao navegador. Filtrar o acesso a dispositivos a um utilizador, impede-o de utilizar novos dispositivos, até estes serem aprovados aqui.",
     "DetectingDevices": "Procurando dispositivos",
-    "Desktop": "Área de Trabalho",
+    "Desktop": "Ambiente de trabalho (Versão antiga)",
     "Descending": "Descendente",
     "Depressed": "Baixo relevo",
     "DeleteUserConfirmation": "Tens a certeza de que pretendes eliminar este utilizador?",
@@ -894,7 +894,7 @@
     "NoNewDevicesFound": "Não foram encontrados novos dispositivos. Para adicionares um novo sintonizador, fecha esta caixa de diálogo e introduz as informações do dispositivo manualmente.",
     "NoCreatedLibraries": "Parece que você ainda não criou nenhuma biblioteca. {0} Deseja criar um agora? {1}",
     "No": "Não",
-    "Mobile": "Telemóvel",
+    "Mobile": "Telemóvel (Versão antiga)",
     "MetadataSettingChangeHelp": "Alterar as definições de metadados irá afetar apenas conteúdo adicionado no futuro. Para atualizar conteúdo já existente, abre o painel de detalhes e clica no botão 'Recarregar metadados' ou executa uma atualização em massa utilizando o Gestor de metadados.",
     "MetadataManager": "Gestor de metadados",
     "MessageUnsetContentHelp": "O conteúdo será exibido como pastas simples. Para obter melhores resultados, use o gerenciador de metadados para definir os tipos de conteúdo das subpastas.",
@@ -1868,5 +1868,7 @@
     "ConfirmDeleteCollection": "Tens a certeza que queres eliminar esta coleção?",
     "ConfirmDeletePlaylist": "Tens a certeza de que queres eliminar esta playlist?",
     "HeaderDeleteCollection": "Eliminar coleção",
-    "HeaderDeletePlaylist": "Eliminar Playlist"
+    "HeaderDeletePlaylist": "Eliminar Playlist",
+    "LabelSlideshowInterval": "Intervalo da apresentação de fotografias",
+    "LabelSlideshowIntervalHelp": "O tempo, em segundos, que cada fotografia é exibida nas apresentações."
 }
