@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Tilføj Leverandør",
     "ButtonAddTunerDevice": "Tilføj Tuner Enhed",
     "LabelSlideshowInterval": "Billede Slideshow Interval",
-    "LabelSlideshowIntervalHelp": "Mængden af tid i sekunder hvert billede er vist slideshows."
+    "LabelSlideshowIntervalHelp": "Mængden af tid i sekunder hvert billede er vist slideshows.",
+    "HeaderDeletePlaylist": "Slet Playliste",
+    "ConfirmDeleteCollection": "Er du sikker på at du vil slette denne kollektion?",
+    "ConfirmDeletePlaylist": "Er du sikker på at du vil slette denne Playliste?",
+    "HeaderDeleteCollection": "Slet kollektion"
 }
