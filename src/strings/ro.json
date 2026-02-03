@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Adaugă Furnizor",
     "ButtonAddTunerDevice": "Adaugă dispozitiv de tuner",
     "LabelSlideshowInterval": "Interval de slideshow fotografic",
-    "LabelSlideshowIntervalHelp": "Timp in secunde pentru care o poza este prezentata."
+    "LabelSlideshowIntervalHelp": "Timp in secunde pentru care o poza este prezentata.",
+    "ConfirmDeleteCollection": "Sigur dorești să ștergi această colecție?",
+    "ConfirmDeletePlaylist": "Sigur dorești să ștergi această listă de redare?",
+    "HeaderDeleteCollection": "Ștergeți colecția",
+    "HeaderDeletePlaylist": "Ștergeți lista de redare"
 }
