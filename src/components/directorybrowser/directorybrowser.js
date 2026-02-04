@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import globalize from '../../lib/globalize';
 import '../listview/listview.scss';
 import '../../elements/emby-input/emby-input';
@@ -10,15 +10,6 @@ import './directorybrowser.scss';
 import '../formdialog.scss';
 import '../../elements/emby-button/emby-button';
 import alert from '../alert';
-
-function getSystemInfo() {
-    return systemInfo ? Promise.resolve(systemInfo) : ApiClient.getPublicSystemInfo().then(
-        info => {
-            systemInfo = info;
-            return info;
-        }
-    );
-}
 
 function onDialogClosed() {
     loading.hide();
@@ -83,25 +74,14 @@ function getItem(cssClass, type, path, name) {
     return html;
 }
 
-function getEditorHtml(options, systemInfo) {
+function getEditorHtml(options) {
     let html = '';
     html += '<div class="formDialogContent scrollY">';
     html += '<div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
-    if (!options.pathReadOnly) {
-        const instruction = options.instruction ? `${escapeHtml(options.instruction)}<br/><br/>` : '';
+    if (!options.pathReadOnly && options.instruction) {
+        const instruction = `${escapeHtml(options.instruction)}<br/><br/>`;
         html += '<div class="infoBanner" style="margin-bottom:1.5em;">';
         html += instruction;
-        if (systemInfo.OperatingSystem.toLowerCase() === 'bsd') {
-            html += '<br/>';
-            html += '<br/>';
-            html += globalize.translate('MessageDirectoryPickerBSDInstruction');
-            html += '<br/>';
-        } else if (systemInfo.OperatingSystem.toLowerCase() === 'linux') {
-            html += '<br/>';
-            html += '<br/>';
-            html += globalize.translate('MessageDirectoryPickerLinuxInstruction');
-            html += '<br/>';
-        }
         html += '</div>';
     }
     html += '<form style="margin:auto;">';
@@ -122,14 +102,6 @@ function getEditorHtml(options, systemInfo) {
     html += '</div>';
     if (!readOnlyAttribute) {
         html += '<div class="results paperList" style="max-height: 200px; overflow-y: auto;"></div>';
-    }
-    if (options.enableNetworkSharePath) {
-        html += '<div class="inputContainer" style="margin-top:2em;">';
-        html += `<input is="emby-input" id="txtNetworkPath" type="text" label="${globalize.translate('LabelOptionalNetworkPath')}"/>`;
-        html += '<div class="fieldDescription">';
-        html += globalize.translate('LabelOptionalNetworkPathHelp', '<b>\\\\server</b>', '<b>\\\\192.168.1.101</b>');
-        html += '</div>';
-        html += '</div>';
     }
     html += '<div class="formDialogFooter">';
     html += `<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">${globalize.translate('ButtonOk')}</button>`;
@@ -209,12 +181,10 @@ function initEditor(content, options, fileOptions) {
 
     content.querySelector('form').addEventListener('submit', function(e) {
         if (options.callback) {
-            let networkSharePath = this.querySelector('#txtNetworkPath');
-            networkSharePath = networkSharePath ? networkSharePath.value : null;
             const path = this.querySelector('#txtDirectoryPickerPath').value;
-            validatePath(path, options.validateWriteable, ApiClient).then(
-                options.callback(path, networkSharePath)
-            ).catch(() => { /* no-op */ });
+            validatePath(path, options.validateWriteable, ApiClient)
+                .then(options.callback(path))
+                .catch(() => { /* no-op */ });
         }
         e.preventDefault();
         e.stopPropagation();
@@ -236,7 +206,6 @@ function getDefaultPath(options) {
     }
 }
 
-let systemInfo;
 class DirectoryBrowser {
     currentDialog;
 
@@ -251,10 +220,8 @@ class DirectoryBrowser {
         if (options.includeFiles != null) {
             fileOptions.includeFiles = options.includeFiles;
         }
-        Promise.all([getSystemInfo(), getDefaultPath(options)]).then(
-            responses => {
-                const fetchedSystemInfo = responses[0];
-                const fetchedInitialPath = responses[1];
+        getDefaultPath(options).then(
+            fetchedInitialPath => {
                 const dlg = dialogHelper.createDialog({
                     size: 'small',
                     removeOnClose: true,
@@ -272,7 +239,7 @@ class DirectoryBrowser {
                 html += escapeHtml(options.header || '') || globalize.translate('HeaderSelectPath');
                 html += '</h3>';
                 html += '</div>';
-                html += getEditorHtml(options, fetchedSystemInfo);
+                html += getEditorHtml(options);
                 dlg.innerHTML = html;
                 initEditor(dlg, options, fileOptions);
                 dlg.addEventListener('close', onDialogClosed);
@@ -282,10 +249,6 @@ class DirectoryBrowser {
                 });
                 this.currentDialog = dlg;
                 dlg.querySelector('#txtDirectoryPickerPath').value = fetchedInitialPath;
-                const txtNetworkPath = dlg.querySelector('#txtNetworkPath');
-                if (txtNetworkPath) {
-                    txtNetworkPath.value = options.networkSharePath || '';
-                }
                 if (!options.pathReadOnly) {
                     refreshDirectoryBrowser(dlg, fetchedInitialPath, fileOptions, true);
                 }

@@ -1,7 +1,11 @@
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin.ts';
@@ -205,11 +209,9 @@ export class PdfPlayer {
             }
         };
 
-        const serverId = item.ServerId;
-        const apiClient = ServerConnections.getApiClient(serverId);
-
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
-            const downloadHref = apiClient.getItemDownloadUrl(item.Id);
+            const api = toApi(ServerConnections.getApiClient(item));
+            const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
 
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';
@@ -326,7 +328,7 @@ export class PdfPlayer {
     }
 
     canPlayItem(item) {
-        return item.Path?.endsWith('pdf');
+        return item.Path ? item.Path.toLowerCase().endsWith('pdf') : false;
     }
 }
 

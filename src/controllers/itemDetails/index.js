@@ -1,5 +1,6 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -22,11 +23,12 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import { AppFeature } from 'constants/appFeature';
+import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import { download } from 'scripts/fileDownloader';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -34,6 +36,7 @@ import { getPortraitShape, getSquareShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -44,6 +47,14 @@ import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-select/emby-select';
 
 import 'styles/scrollstyles.scss';
+
+/** Item types that use a list view for their children. */
+const LIST_VIEW_TYPES = [
+    BaseItemKind.MusicAlbum,
+    BaseItemKind.Playlist,
+    BaseItemKind.Season,
+    BaseItemKind.Series
+];
 
 function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -426,19 +437,19 @@ function renderName(item, container, context) {
         parentNameHtml.push(getArtistLinksHtml(item.ArtistItems, item.ServerId, context));
         parentNameLast = true;
     } else if (item.SeriesName && item.Type === 'Episode') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(escapeHtml(item.Name));
     }
 
     if (item.SeriesName && item.Type === 'Season') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeasonId}" data-serverid="${item.ServerId}" data-type="Season" data-isfolder="true">${escapeHtml(item.SeasonName)}</a>`);
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeasonId}" data-serverid="${item.ServerId}" data-type="Season" data-isfolder="true">${escapeHtml(item.SeasonName)}</a>`);
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(escapeHtml(item.SeasonName || 'S' + item.ParentIndexNumber));
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${escapeHtml(item.Album)}</a>`);
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${escapeHtml(item.Album)}</a>`);
     } else if (item.Album) {
         parentNameHtml.push(escapeHtml(item.Album));
     }
@@ -554,7 +565,6 @@ function reloadFromItem(instance, page, params, item, user) {
     renderBackdrop(page, item);
 
     // Render the main information for the item
-    page.querySelector('.detailPagePrimaryContainer').classList.add('detailRibbon');
     renderName(item, page.querySelector('.nameContainer'), params.context);
     renderDetails(page, item, apiClient, params.context);
     renderTrackSelections(page, instance, item);
@@ -749,12 +759,15 @@ function renderDetailImage(apiClient, elem, item, loader) {
 }
 
 function renderImage(page, item, apiClient) {
-    renderDetailImage(
-        apiClient,
-        page.querySelector('.detailImageContainer'),
-        item,
-        imageLoader
-    );
+    page.querySelectorAll('.detailImageContainer')
+        .forEach(elem => {
+            renderDetailImage(
+                apiClient,
+                elem,
+                item,
+                imageLoader
+            );
+        });
 }
 
 function setPeopleHeader(page, item) {
@@ -803,18 +816,22 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     page.querySelector('.collectionItems').innerHTML = '';
 
     if (item.Type == 'Playlist') {
-        page.querySelector('#childrenCollapsible').classList.remove('hide');
+        page.querySelector('#listChildrenCollapsible').classList.remove('hide');
+        page.querySelector('#childrenCollapsible').classList.add('hide');
         renderPlaylistItems(page, item);
     } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
-        page.querySelector('#childrenCollapsible').classList.remove('hide');
+        page.querySelector('#listChildrenCollapsible').classList.remove('hide');
+        page.querySelector('#childrenCollapsible').classList.add('hide');
         renderItemsByName(page, item);
     } else if (item.IsFolder) {
         if (item.Type == 'BoxSet') {
+            page.querySelector('#listChildrenCollapsible').classList.add('hide');
             page.querySelector('#childrenCollapsible').classList.add('hide');
         }
 
         renderChildren(page, item);
     } else {
+        page.querySelector('#listChildrenCollapsible').classList.add('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
     }
 
@@ -854,7 +871,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#additionalPartsCollapsible').classList.add('hide');
     }
 
-    if (item.Type == 'MusicAlbum' || item.Type == 'MusicArtist') {
+    if (item.Type == BaseItemKind.MusicAlbum) {
         renderMusicVideos(page, item, user);
     } else {
         page.querySelector('#musicVideosCollapsible').classList.add('hide');
@@ -1194,7 +1211,7 @@ function renderMoreFromArtist(view, item, apiClient) {
         if (item.Type === 'MusicArtist') {
             query.ContributingArtistIds = item.Id;
         } else {
-            query.ContributingArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
+            query.AlbumArtistIds = item.AlbumArtists.map(artist => artist.Id).join(',');
         }
 
         apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
@@ -1338,6 +1355,9 @@ function renderTags(page, item) {
 }
 
 function renderChildren(page, item) {
+    const childrenCollapsible = page.querySelector(LIST_VIEW_TYPES.includes(item.Type) ? '#listChildrenCollapsible' : '#childrenCollapsible');
+    const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
+
     let fields = 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount';
     const query = {
         ParentId: item.Id,
@@ -1375,7 +1395,6 @@ function renderChildren(page, item) {
         let html = '';
         let scrollX = false;
         let isList = false;
-        const childrenItemsContainer = page.querySelector('.childrenItemsContainer');
 
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
@@ -1451,7 +1470,7 @@ function renderChildren(page, item) {
         }
 
         if (item.Type !== 'BoxSet') {
-            page.querySelector('#childrenCollapsible').classList.remove('hide');
+            childrenCollapsible.classList.remove('hide');
         }
         if (scrollX) {
             childrenItemsContainer.classList.add('scrollX');
@@ -1502,21 +1521,23 @@ function renderChildren(page, item) {
         }
     });
 
+    let childrenTitle = globalize.translate('Items');
     if (item.Type == 'Season') {
-        page.querySelector('#childrenTitle').innerHTML = globalize.translate('Episodes');
+        childrenTitle = globalize.translate('Episodes');
     } else if (item.Type == 'Series') {
-        page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderSeasons');
+        childrenTitle = globalize.translate('HeaderSeasons');
     } else if (item.Type == 'MusicAlbum') {
-        page.querySelector('#childrenTitle').innerHTML = globalize.translate('HeaderTracks');
-    } else {
-        page.querySelector('#childrenTitle').innerHTML = globalize.translate('Items');
+        childrenTitle = globalize.translate('HeaderTracks');
     }
+    childrenCollapsible.querySelectorAll('.sectionTitle > span').forEach(el => {
+        el.innerText = childrenTitle;
+    });
 
     if (item.Type == 'MusicAlbum' || item.Type == 'Season') {
-        page.querySelector('.childrenSectionHeader').classList.add('hide');
-        page.querySelector('#childrenCollapsible').classList.add('verticalSection-extrabottompadding');
+        childrenCollapsible.querySelector('.sectionTitle').classList.add('hide');
+        childrenCollapsible.classList.add('verticalSection-extrabottompadding');
     } else {
-        page.querySelector('.childrenSectionHeader').classList.remove('hide');
+        childrenCollapsible.querySelector('.sectionTitle').classList.remove('hide');
     }
 }
 
@@ -1764,14 +1785,9 @@ function renderMusicVideos(page, item, user) {
         SortOrder: 'Ascending',
         IncludeItemTypes: 'MusicVideo',
         Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
+        Fields: 'PrimaryImageAspectRatio,CanDelete,MediaSourceCount',
+        AlbumIds: item.Id
     };
-
-    if (item.Type == 'MusicAlbum') {
-        request.AlbumIds = item.Id;
-    } else {
-        request.ArtistIds = item.Id;
-    }
 
     ServerConnections.getApiClient(item.ServerId).getItems(user.Id, request).then(function (result) {
         if (result.Items.length) {
@@ -1969,7 +1985,7 @@ export default function (view, params) {
             return;
         }
 
-        playItem(item, item.UserData && mode === 'resume' ? item.UserData.PlaybackPositionTicks : 0);
+        playItem(item, item.UserData && mode === ItemAction.Resume ? item.UserData.PlaybackPositionTicks : 0);
     }
 
     function onPlayClick() {
@@ -2013,9 +2029,10 @@ export default function (view, params) {
     }
 
     function onDownloadClick() {
-        const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
+        const api = toApi(getApiClient());
+        const url = getLibraryApi(api).getDownloadUrl({ itemId: currentItem.Id });
         download([{
-            url: downloadHref,
+            url,
             item: currentItem,
             itemId: currentItem.Id,
             serverId: currentItem.ServerId,

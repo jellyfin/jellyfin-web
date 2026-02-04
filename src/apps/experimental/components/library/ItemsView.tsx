@@ -9,6 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
 
+import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { useGetItemsViewByType } from 'hooks/useFetchItems';
@@ -99,7 +100,7 @@ const ItemsView: FC<ItemsViewProps> = ({
 
         if (viewType === LibraryTab.Songs) {
             listOptions.showParentTitle = true;
-            listOptions.action = 'playallfromhere';
+            listOptions.action = ItemAction.PlayAllFromHere;
             listOptions.smallIcon = true;
             listOptions.showArtist = true;
             listOptions.addToListButton = true;
@@ -221,12 +222,10 @@ const ItemsView: FC<ItemsViewProps> = ({
     const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some(
         (filter) => !!filter
     );
-    const hasSortName = libraryViewSettings.SortBy.includes(
-        ItemSortBy.SortName
-    );
+    const hasSortName = libraryViewSettings.SortBy !== ItemSortBy.Random;
 
     const itemsContainerClass = classNames(
-        'centered padded-left padded-right padded-right-withalphapicker',
+        'padded-left padded-right padded-right-withalphapicker',
         libraryViewSettings.ViewMode === ViewMode.ListView ?
             'vertical-list' :
             'vertical-wrap'
@@ -300,7 +299,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                             xs: 1,
                             sm: 0
                         },
-                        justifyContent: 'end'
+                        justifyContent: 'flex-end'
                     }}
                 >
                     {!isPending && (

@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -11,9 +11,8 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
 import { Link, To } from 'react-router-dom';
 
-interface IProps {
+interface BaseCardProps {
     title?: string;
-    secondaryTitle?: string;
     text?: string;
     image?: string | null;
     icon?: React.ReactNode;
@@ -22,15 +21,30 @@ interface IProps {
     action?: boolean;
     actionRef?: React.MutableRefObject<HTMLButtonElement | null>;
     onActionClick?: () => void;
+    height?: number;
+    width?: number;
 };
 
-const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, action, actionRef, onActionClick }: IProps) => {
+const BaseCard = ({
+    title,
+    text,
+    image,
+    icon,
+    to,
+    onClick,
+    action,
+    actionRef,
+    onActionClick,
+    height,
+    width
+}: BaseCardProps) => {
     return (
         <Card
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                height: 240
+                height: height || 240,
+                width: width
             }}
         >
             <CardActionArea
@@ -62,30 +76,44 @@ const BaseCard = ({ title, secondaryTitle, text, image, icon, to, onClick, actio
                     </Box>
                 )}
             </CardActionArea>
-            <CardHeader
-                title={
-                    <Stack direction='row' gap={1} alignItems='center'>
-                        <Typography sx={{
+            <CardContent
+                sx={{
+                    minHeight: 50,
+                    '&:last-child': {
+                        paddingBottom: 2,
+                        paddingRight: 1
+                    }
+                }}>
+                <Stack flexGrow={1} direction='row'>
+                    <Stack flexGrow={1} sx={{ overflow: 'hidden' }}>
+                        <Typography gutterBottom sx={{
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
                             textOverflow: 'ellipsis'
                         }}>
                             {title}
                         </Typography>
-                        {secondaryTitle && (
-                            <Typography variant='body2' color='text.secondary'>{secondaryTitle}</Typography>
+                        {text && (
+                            <Typography
+                                variant='body2'
+                                color='text.secondary'
+                                sx={{
+                                    lineBreak: 'anywhere'
+                                }}
+                            >
+                                {text}
+                            </Typography>
                         )}
                     </Stack>
-                }
-                subheader={text}
-                action={
-                    action ? (
-                        <IconButton ref={actionRef} onClick={onActionClick}>
-                            <MoreVertIcon />
-                        </IconButton>
-                    ) : null
-                }
-            />
+                    <Box>
+                        {action ? (
+                            <IconButton ref={actionRef} onClick={onActionClick}>
+                                <MoreVertIcon />
+                            </IconButton>
+                        ) : null}
+                    </Box>
+                </Stack>
+            </CardContent>
         </Card>
     );
 };

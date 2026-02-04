@@ -3,7 +3,7 @@ import escapeHtml from 'escape-html';
 import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
 import scrollHelper from '../../scripts/scrollHelper';
 import layoutManager from '../layoutManager';
@@ -80,11 +80,12 @@ function setFiles(page, files) {
 }
 
 async function onSubmit(e) {
+    e.preventDefault();
+
     const file = currentFile;
 
     if (!isValidSubtitleFile(file)) {
         toast(globalize.translate('MessageSubtitleFileTypeAllowed'));
-        e.preventDefault();
         return;
     }
 
@@ -109,8 +110,6 @@ async function onSubmit(e) {
         hasChanges = true;
         dialogHelper.close(dlg);
     });
-
-    e.preventDefault();
 }
 
 function initEditor(page) {

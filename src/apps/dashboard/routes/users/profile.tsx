@@ -1,9 +1,8 @@
 import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import Button from '../../../../elements/emby-button/Button';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
@@ -12,9 +11,16 @@ import Input from '../../../../elements/emby-input/Input';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
-import toast from '../../../../components/toast/toast';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
+import { useUser } from 'apps/dashboard/features/users/api/useUser';
+import { useAuthProviders } from 'apps/dashboard/features/users/api/useAuthProviders';
+import { usePasswordResetProviders } from 'apps/dashboard/features/users/api/usePasswordResetProviders';
+import { useLibraryMediaFolders } from 'apps/dashboard/features/users/api/useLibraryMediaFolders';
+import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
+import { useUpdateUser } from 'apps/dashboard/features/users/api/useUpdateUser';
+import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
+import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
 
 type ResetProvider = BaseItemDto & {
     checkedAttribute: string
@@ -25,26 +31,25 @@ const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
         .map(e => e.getAttribute('data-id'))
 );
 
-function onSaveComplete() {
-    Dashboard.navigate('/dashboard/users')
-        .catch(err => {
-            console.error('[useredit] failed to navigate to user profile', err);
-        });
-    loading.hide();
-    toast(globalize.translate('SettingsSaved'));
-}
-
 const UserEdit = () => {
+    const navigate = useNavigate();
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId');
-    const [ userDto, setUserDto ] = useState<UserDto>();
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
-    const [ authProviders, setAuthProviders ] = useState<NameIdPair[]>([]);
-    const [ passwordResetProviders, setPasswordResetProviders ] = useState<NameIdPair[]>([]);
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
+
+    const { data: userDto, isSuccess: isUserSuccess } = useUser(userId ? { userId: userId } : undefined);
+    const { data: authProviders, isSuccess: isAuthProvidersSuccess } = useAuthProviders();
+    const { data: passwordResetProviders, isSuccess: isPasswordResetProvidersSuccess } = usePasswordResetProviders();
+    const { data: mediaFolders, isSuccess: isMediaFoldersSuccess } = useLibraryMediaFolders({ isHidden: false });
+    const { data: channels, isSuccess: isChannelsSuccess } = useChannels({ supportsMediaDeletion: true });
+    const { data: netConfig, isSuccess: isNetConfigSuccess } = useNetworkConfig();
+
+    const updateUser = useUpdateUser();
+    const updateUserPolicy = useUpdateUserPolicy();
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -53,16 +58,9 @@ const UserEdit = () => {
         select.dispatchEvent(evt);
     };
 
-    const getUser = () => {
-        if (!userId) throw new Error('missing user id');
-        return window.ApiClient.getUser(userId);
-    };
-
     const loadAuthProviders = useCallback((page: HTMLDivElement, user: UserDto, providers: NameIdPair[]) => {
         const fldSelectLoginProvider = page.querySelector('.fldSelectLoginProvider') as HTMLDivElement;
         fldSelectLoginProvider.classList.toggle('hide', providers.length <= 1);
-
-        setAuthProviders(providers);
 
         const currentProviderId = user.Policy?.AuthenticationProviderId || '';
         setAuthenticationProviderId(currentProviderId);
@@ -72,30 +70,26 @@ const UserEdit = () => {
         const fldSelectPasswordResetProvider = page.querySelector('.fldSelectPasswordResetProvider') as HTMLDivElement;
         fldSelectPasswordResetProvider.classList.toggle('hide', providers.length <= 1);
 
-        setPasswordResetProviders(providers);
-
         const currentProviderId = user.Policy?.PasswordResetProviderId || '';
         setPasswordResetProviderId(currentProviderId);
     }, []);
 
-    const loadDeleteFolders = useCallback((page: HTMLDivElement, user: UserDto, mediaFolders: BaseItemDto[]) => {
-        window.ApiClient.getJSON(window.ApiClient.getUrl('Channels', {
-            SupportsMediaDeletion: true
-        })).then(function (channelsResult) {
-            let isChecked;
-            let checkedAttribute;
-            const itemsArr: ResetProvider[] = [];
+    const loadDeleteFolders = useCallback((page: HTMLDivElement, user: UserDto, folders: BaseItemDto[]) => {
+        let isChecked;
+        let checkedAttribute;
+        const itemsArr: ResetProvider[] = [];
 
-            for (const mediaFolder of mediaFolders) {
-                isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(mediaFolder.Id || '') != -1;
-                checkedAttribute = isChecked ? ' checked="checked"' : '';
-                itemsArr.push({
-                    ...mediaFolder,
-                    checkedAttribute: checkedAttribute
-                });
-            }
+        for (const mediaFolder of folders) {
+            isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(mediaFolder.Id || '') != -1;
+            checkedAttribute = isChecked ? ' checked="checked"' : '';
+            itemsArr.push({
+                ...mediaFolder,
+                checkedAttribute: checkedAttribute
+            });
+        }
 
-            for (const channel of channelsResult.Items) {
+        if (channels?.Items) {
+            for (const channel of channels.Items) {
                 isChecked = user.Policy?.EnableContentDeletion || user.Policy?.EnableContentDeletionFromFolders?.indexOf(channel.Id || '') != -1;
                 checkedAttribute = isChecked ? ' checked="checked"' : '';
                 itemsArr.push({
@@ -103,16 +97,66 @@ const UserEdit = () => {
                     checkedAttribute: checkedAttribute
                 });
             }
+        }
 
-            setDeleteFoldersAccess(itemsArr);
+        setDeleteFoldersAccess(itemsArr);
 
-            const chkEnableDeleteAllFolders = page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement;
-            chkEnableDeleteAllFolders.checked = user.Policy?.EnableContentDeletion || false;
-            triggerChange(chkEnableDeleteAllFolders);
-        }).catch(err => {
-            console.error('[useredit] failed to fetch channels', err);
-        });
-    }, []);
+        const chkEnableDeleteAllFolders = page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement;
+        chkEnableDeleteAllFolders.checked = user.Policy?.EnableContentDeletion || false;
+        triggerChange(chkEnableDeleteAllFolders);
+    }, [channels]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[useredit] Unexpected null page reference');
+            return;
+        }
+
+        if (userDto && isAuthProvidersSuccess && authProviders != null) {
+            loadAuthProviders(page, userDto, authProviders);
+        }
+    }, [authProviders, isAuthProvidersSuccess, userDto, loadAuthProviders]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[useredit] Unexpected null page reference');
+            return;
+        }
+
+        if (userDto && isPasswordResetProvidersSuccess && passwordResetProviders != null) {
+            loadPasswordResetProviders(page, userDto, passwordResetProviders);
+        }
+    }, [passwordResetProviders, isPasswordResetProvidersSuccess, userDto, loadPasswordResetProviders]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[useredit] Unexpected null page reference');
+            return;
+        }
+
+        if (userDto && isMediaFoldersSuccess && isChannelsSuccess && mediaFolders?.Items != null) {
+            loadDeleteFolders(page, userDto, mediaFolders.Items);
+        }
+    }, [userDto, mediaFolders, isMediaFoldersSuccess, isChannelsSuccess, channels, loadDeleteFolders]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[useredit] Unexpected null page reference');
+            return;
+        }
+
+        if (netConfig && isNetConfigSuccess) {
+            (page.querySelector('.fldRemoteAccess') as HTMLDivElement).classList.toggle('hide', !netConfig.EnableRemoteAccess);
+        }
+    }, [netConfig, isNetConfigSuccess]);
 
     const loadUser = useCallback((user: UserDto) => {
         const page = element.current;
@@ -121,24 +165,6 @@ const UserEdit = () => {
             console.error('[useredit] Unexpected null page reference');
             return;
         }
-
-        window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/Providers')).then(function (providers) {
-            loadAuthProviders(page, user, providers);
-        }).catch(err => {
-            console.error('[useredit] failed to fetch auth providers', err);
-        });
-        window.ApiClient.getJSON(window.ApiClient.getUrl('Auth/PasswordResetProviders')).then(function (providers) {
-            loadPasswordResetProviders(page, user, providers);
-        }).catch(err => {
-            console.error('[useredit] failed to fetch password reset providers', err);
-        });
-        window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
-            IsHidden: false
-        })).then(function (folders) {
-            loadDeleteFolders(page, user, folders.Items);
-        }).catch(err => {
-            console.error('[useredit] failed to fetch media folders', err);
-        });
 
         const disabledUserBanner = page.querySelector('.disabledUserBanner') as HTMLDivElement;
         disabledUserBanner.classList.toggle('hide', !user.Policy?.IsDisabled);
@@ -149,7 +175,6 @@ const UserEdit = () => {
 
         void libraryMenu.then(menu => menu.setTitle(user.Name));
 
-        setUserDto(user);
         (page.querySelector('#txtUserName') as HTMLInputElement).value = user.Name || '';
         (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked = !!user.Policy?.IsAdministrator;
         (page.querySelector('.chkDisabled') as HTMLInputElement).checked = !!user.Policy?.IsDisabled;
@@ -173,16 +198,22 @@ const UserEdit = () => {
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(user.Policy?.MaxActiveSessions) || '0';
         (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = String(user.Policy?.SyncPlayAccess);
         loading.hide();
-    }, [loadAuthProviders, loadPasswordResetProviders, loadDeleteFolders ]);
+    }, [ libraryMenu ]);
 
     const loadData = useCallback(() => {
+        if (!userDto) {
+            console.error('[profile] No user available');
+            return;
+        }
         loading.show();
-        getUser().then(function (user) {
-            loadUser(user);
-        }).catch(err => {
-            console.error('[useredit] failed to load data', err);
-        });
-    }, [loadUser]);
+        loadUser(userDto);
+    }, [userDto, loadUser]);
+
+    useEffect(() => {
+        if (isUserSuccess) {
+            loadData();
+        }
+    }, [loadData, isUserSuccess]);
 
     useEffect(() => {
         const page = element.current;
@@ -191,8 +222,6 @@ const UserEdit = () => {
             console.error('[useredit] Unexpected null page reference');
             return;
         }
-
-        loadData();
 
         const saveUser = (user: UserDto) => {
             if (!user.Id || !user.Policy) {
@@ -225,50 +254,58 @@ const UserEdit = () => {
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
 
-            window.ApiClient.updateUser(user).then(() => (
-                window.ApiClient.updateUserPolicy(user.Id || '', user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' })
-            )).then(() => {
-                onSaveComplete();
-            }).catch(err => {
-                console.error('[useredit] failed to update user', err);
+            updateUser.mutate({ userId: user.Id, userDto: user }, {
+                onSuccess: () => {
+                    if (user.Id) {
+                        updateUserPolicy.mutate({
+                            userId: user.Id,
+                            userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
+                        }, {
+                            onSuccess: () => {
+                                loading.hide();
+                                navigate('/dashboard/users', {
+                                    state: { openSavedToast: true }
+                                });
+                            }
+                        });
+                    }
+                }
             });
         };
 
         const onSubmit = (e: Event) => {
             loading.show();
-            getUser().then(function (result) {
-                saveUser(result);
-            }).catch(err => {
-                console.error('[useredit] failed to fetch user', err);
-            });
+            if (userDto) {
+                saveUser(userDto);
+            }
             e.preventDefault();
             e.stopPropagation();
             return false;
+        };
+
+        const onBtnCancelClick = () => {
+            window.history.back();
         };
 
         (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
             (page.querySelector('.deleteAccess') as HTMLDivElement).classList.toggle('hide', this.checked);
         });
 
-        window.ApiClient.getNamedConfiguration('network').then(function (config) {
-            (page.querySelector('.fldRemoteAccess') as HTMLDivElement).classList.toggle('hide', !config.EnableRemoteAccess);
-        }).catch(err => {
-            console.error('[useredit] failed to load network config', err);
-        });
-
         (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
+        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', onBtnCancelClick);
 
-        (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', function() {
-            window.history.back();
-        });
-    }, [loadData]);
+        return () => {
+            (page.querySelector('.editUserProfileForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
+            (page.querySelector('#btnCancel') as HTMLButtonElement).removeEventListener('click', onBtnCancelClick);
+        };
+    }, [loadData, updateUser, userDto, updateUserPolicy, navigate]);
 
-    const optionLoginProvider = authProviders.map((provider) => {
+    const optionLoginProvider = authProviders?.map((provider) => {
         const selected = provider.Id === authenticationProviderId || authProviders.length < 2 ? ' selected' : '';
         return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name)}</option>`;
     });
 
-    const optionPasswordResetProvider = passwordResetProviders.map((provider) => {
+    const optionPasswordResetProvider = passwordResetProviders?.map((provider) => {
         const selected = provider.Id === passwordResetProviderId || passwordResetProviders.length < 2 ? ' selected' : '';
         return `<option value="${provider.Id}"${selected}>${escapeHTML(provider.Name)}</option>`;
     });

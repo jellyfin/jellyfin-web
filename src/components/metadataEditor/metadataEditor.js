@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import datetime from '../../scripts/datetime';
@@ -589,17 +589,17 @@ function setFieldVisibilities(context, item) {
         hideElement('#fld3dFormat', context);
     }
 
-    if (item.Type === 'Audio') {
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo) {
+        showElement('#fldArtist', context);
         showElement('#fldAlbumArtist', context);
     } else {
+        hideElement('#fldArtist', context);
         hideElement('#fldAlbumArtist', context);
     }
 
-    if (item.Type === 'Audio' || item.Type === 'MusicVideo') {
-        showElement('#fldArtist', context);
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicVideo) {
         showElement('#fldAlbum', context);
     } else {
-        hideElement('#fldArtist', context);
         hideElement('#fldAlbum', context);
     }
 
@@ -970,7 +970,7 @@ function populatePeople(context, people) {
         html += '</div>';
 
         if (person.Role && person.Role !== lastType) {
-            html += '<div class="secondary">' + person.Role + '</div>';
+            html += '<div class="secondary">' + escapeHtml(person.Role) + '</div>';
         } else {
             html += '<div class="secondary">' + globalize.translate(person.Type) + '</div>';
         }

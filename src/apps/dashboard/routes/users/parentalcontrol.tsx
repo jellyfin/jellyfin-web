@@ -12,12 +12,12 @@ import Button from '../../../../elements/emby-button/Button';
 import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
 import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
-import toast from '../../../../components/toast/toast';
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
 import prompt from '../../../../components/prompt/prompt';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Toast from 'apps/dashboard/components/Toast';
 
 type NamedItem = {
     name: string;
@@ -30,6 +30,7 @@ type UnratedNamedItem = NamedItem & {
 
 function handleSaveUser(
     page: HTMLDivElement,
+    parentalRatingsRef: React.MutableRefObject<ParentalRating[]>,
     getSchedulesFromPage: () => AccessSchedule[],
     getAllowedTagsFromPage: () => string[],
     getBlockedTagsFromPage: () => string[],
@@ -42,8 +43,12 @@ function handleSaveUser(
             throw new Error('Unexpected null user id or policy');
         }
 
-        const parentalRating = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
-        userPolicy.MaxParentalRating = Number.isNaN(parentalRating) ? null : parentalRating;
+        const parentalRatingIndex = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
+        const parentalRating = parentalRatingsRef.current[parentalRatingIndex] as ParentalRating;
+        const score = parentalRating?.RatingScore?.score;
+        const subScore = parentalRating?.RatingScore?.subScore;
+        userPolicy.MaxParentalRating = Number.isNaN(score) ? null : score;
+        userPolicy.MaxParentalSubRating = Number.isNaN(subScore) ? null : subScore;
         userPolicy.BlockUnratedItems = Array.prototype.filter
             .call(page.querySelectorAll('.chkUnratedItem'), i => i.checked)
             .map(i => i.getAttribute('data-itemtype'));
@@ -69,33 +74,14 @@ const UserParentalControl = () => {
     const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
+    const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
+    const parentalRatingsRef = useRef<ParentalRating[]>([]);
 
-    const populateRatings = useCallback((allParentalRatings: ParentalRating[]) => {
-        let rating;
-        const ratings: ParentalRating[] = [];
-
-        for (let i = 0, length = allParentalRatings.length; i < length; i++) {
-            rating = allParentalRatings[i];
-
-            if (ratings.length) {
-                const lastRating = ratings[ratings.length - 1];
-
-                if (lastRating.Value === rating.Value) {
-                    lastRating.Name += '/' + rating.Name;
-                    continue;
-                }
-            }
-
-            ratings.push({
-                Name: rating.Name,
-                Value: rating.Value
-            });
-        }
-
-        setParentalRatings(ratings);
+    const handleToastClose = useCallback(() => {
+        setIsSettingsSavedToastOpen(false);
     }, []);
 
     const loadUnratedItems = useCallback((user: UserDto) => {
@@ -161,16 +147,52 @@ const UserParentalControl = () => {
 
         setAllowedTags(user.Policy?.AllowedTags || []);
         setBlockedTags(user.Policy?.BlockedTags || []);
-        populateRatings(allParentalRatings);
 
-        let ratingValue = '';
-        allParentalRatings.forEach(rating => {
-            if (rating.Value != null && user.Policy?.MaxParentalRating != null && user.Policy.MaxParentalRating >= rating.Value) {
-                ratingValue = `${rating.Value}`;
+        // Build the grouped ratings array
+        const ratings: ParentalRating[] = [];
+        for (let i = 0, length = allParentalRatings.length; i < length; i++) {
+            const rating = allParentalRatings[i];
+
+            if (ratings.length) {
+                const lastRating = ratings[ratings.length - 1];
+
+                if (lastRating.RatingScore?.score === rating.RatingScore?.score && lastRating.RatingScore?.subScore == rating.RatingScore?.subScore) {
+                    lastRating.Name += '/' + rating.Name;
+                    continue;
+                }
             }
-        });
 
-        setMaxParentalRating(ratingValue);
+            ratings.push(rating);
+        }
+        setParentalRatings(ratings);
+        parentalRatingsRef.current = ratings;
+
+        // Find matching rating - first try exact match with score and subscore
+        let ratingIndex = '';
+        const userMaxRating = user.Policy?.MaxParentalRating;
+        const userMaxSubRating = user.Policy?.MaxParentalSubRating;
+
+        if (userMaxRating != null) {
+            // First try to find exact match with both score and subscore
+            ratings.forEach((rating, index) => {
+                if (rating.RatingScore?.score === userMaxRating
+                    && rating.RatingScore?.subScore === userMaxSubRating) {
+                    ratingIndex = `${index}`;
+                }
+            });
+
+            // If no exact match found, fallback to score-only match
+            if (!ratingIndex) {
+                ratings.forEach((rating, index) => {
+                    if (rating.RatingScore?.score != null
+                        && rating.RatingScore.score <= userMaxRating) {
+                        ratingIndex = `${index}`;
+                    }
+                });
+            }
+        }
+
+        setMaxParentalRating(ratingIndex);
 
         if (user.Policy?.IsAdministrator) {
             (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
@@ -179,7 +201,7 @@ const UserParentalControl = () => {
         }
         setAccessSchedules(user.Policy?.AccessSchedules || []);
         loading.hide();
-    }, [libraryMenu, setAllowedTags, setBlockedTags, loadUnratedItems, populateRatings]);
+    }, [libraryMenu, setAllowedTags, setBlockedTags, loadUnratedItems]);
 
     const loadData = useCallback(() => {
         if (!userId) {
@@ -283,10 +305,10 @@ const UserParentalControl = () => {
 
         const onSaveComplete = () => {
             loading.hide();
-            toast(globalize.translate('SettingsSaved'));
+            setIsSettingsSavedToastOpen(true);
         };
 
-        const saveUser = handleSaveUser(page, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
+        const saveUser = handleSaveUser(page, parentalRatingsRef, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
 
         const onSubmit = (e: Event) => {
             if (!userId) {
@@ -342,11 +364,11 @@ const UserParentalControl = () => {
     const optionMaxParentalRating = () => {
         let content = '';
         content += '<option value=\'\'></option>';
-        for (const rating of parentalRatings) {
-            if (rating.Value != null) {
-                content += `<option value='${rating.Value}'>${escapeHTML(rating.Name)}</option>`;
+        parentalRatings.forEach((rating, index) => {
+            if (rating.RatingScore != null) {
+                content += `<option value='${index}'>${escapeHTML(rating.Name)}</option>`;
             }
-        }
+        });
         return content;
     };
 
@@ -370,6 +392,11 @@ const UserParentalControl = () => {
             id='userParentalControlPage'
             className='mainAnimatedPage type-interior'
         >
+            <Toast
+                open={isSettingsSavedToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('SettingsSaved')}
+            />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
