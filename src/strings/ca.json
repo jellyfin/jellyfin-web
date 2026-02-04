@@ -1867,8 +1867,8 @@
     "ButtonAddTunerDevice": "Afegiu-hi un dispositiu sintonitzador",
     "LabelSlideshowIntervalHelp": "El temps en segons que es mostra cada foto en les presentacions de diapositives.",
     "LabelSlideshowInterval": "Interval de les presentacions de diapositives",
-    "ConfirmDeleteCollection": "N'esteu segur que voleu eliminar aquesta col·lecció?",
-    "ConfirmDeletePlaylist": "N'esteu segur que voleu eliminar aquesta llista de reproducció?",
+    "ConfirmDeleteCollection": "N'esteu segur, que voleu eliminar aquesta col·lecció?",
+    "ConfirmDeletePlaylist": "N'esteu segur, que voleu eliminar aquesta llista de reproducció?",
     "HeaderDeleteCollection": "Elimina la col·lecció",
     "HeaderDeletePlaylist": "Elimina la llista de reproducció"
 }
