@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "Thêm Nhà Cung Cấp",
     "ButtonAddTunerDevice": "Thêm Thiết Bị Dò Kênh",
     "LabelSlideshowInterval": "Khoảng Thời Gian Trình Chiếu Ảnh",
-    "LabelSlideshowIntervalHelp": "Thời gian tính bằng giây mỗi bức ảnh được hiển thị trong trình chiếu."
+    "LabelSlideshowIntervalHelp": "Thời gian tính bằng giây mỗi bức ảnh được hiển thị trong trình chiếu.",
+    "ConfirmDeleteCollection": "Bạn có chắc chắn muốn xóa bộ sưu tập này?",
+    "ConfirmDeletePlaylist": "Bạn có chắc muốn xóa danh sách phát này?",
+    "HeaderDeleteCollection": "Xóa Bộ Sưu Tập",
+    "HeaderDeletePlaylist": "Xóa Danh Sách Phát"
 }
