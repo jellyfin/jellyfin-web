@@ -963,6 +963,7 @@
     "LabelSyncPlayAccessNone": "Disabled for this user",
     "LabelSyncPlayHaltPlayback": "Stop local playback",
     "LabelSyncPlayHaltPlaybackDescription": "And ignore current playlist updates",
+    "LabelSyncPlayJoinGroup": "Join group",
     "LabelSyncPlayLeaveGroup": "Leave group",
     "LabelSyncPlayLeaveGroupDescription": "Disable SyncPlay",
     "LabelSyncPlayNewGroup": "New group",

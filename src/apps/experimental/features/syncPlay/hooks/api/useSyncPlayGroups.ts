@@ -3,7 +3,9 @@ import type { Api } from '@jellyfin/sdk/lib/api';
 import { getSyncPlayApi } from '@jellyfin/sdk/lib/utils/api/sync-play-api';
 import type { AxiosRequestConfig } from 'axios';
 
-import { useApi } from './useApi';
+import { useApi } from 'hooks/useApi';
+
+export const QUERY_KEY = [ 'SyncPlay', 'Groups' ];
 
 const fetchSyncPlayGroups = async (
     api: Api,
@@ -17,8 +19,9 @@ const fetchSyncPlayGroups = async (
 export const useSyncPlayGroups = () => {
     const { api } = useApi();
     return useQuery({
-        queryKey: [ 'SyncPlay', 'Groups' ],
+        queryKey: QUERY_KEY,
         queryFn: ({ signal }) => fetchSyncPlayGroups(api!, { signal }),
+        refetchInterval: 30 * 1000, // Refresh every 30 seconds
         enabled: !!api
     });
 };
