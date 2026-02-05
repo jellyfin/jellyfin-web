@@ -1365,6 +1365,9 @@ export class HtmlVideoPlayer {
      */
     renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
         this.fetchSubtitles(track, item).then((subtitleData) => {
+            // Exit if the video element was destroyed while fetching subtitles
+            if (!this.#mediaElement) return;
+
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
 
