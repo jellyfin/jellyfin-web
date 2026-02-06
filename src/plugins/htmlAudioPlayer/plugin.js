@@ -489,7 +489,12 @@ class HtmlAudioPlayer {
     unpause() {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
-            mediaElement.play();
+            const playPromise = mediaElement.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(function(error) {
+                    console.debug('htmlAudioPlayer play() rejected', error);
+                });
+            }
         }
     }
 

@@ -4,6 +4,11 @@
  */
 
 import * as Helper from './Helper';
+import { postSyncPlayV2 } from './V2Api';
+import toast from '../../../components/toast/toast';
+import globalize from '../../../lib/globalize';
+import { toBoolean, toFloat } from '../../../utils/string.ts';
+import { getSetting } from './Settings';
 
 /**
  * Class that exposes SyncPlay calls to external modules.
@@ -11,6 +16,12 @@ import * as Helper from './Helper';
 class Controller {
     constructor() {
         this.manager = null;
+        this.enforceReadyBeforeUnpause = true;
+        this.commandCooldownMs = 140.0;
+        this.lastTransportCommandAt = 0;
+        this.lastSeekCommandAt = 0;
+        this.pendingSeekPositionTicks = null;
+        this.pendingSeekTimeout = null;
     }
 
     /**
@@ -19,6 +30,67 @@ class Controller {
      */
     init(syncPlayManager) {
         this.manager = syncPlayManager;
+        this.loadPreferences();
+    }
+
+    /**
+     * Loads settings used by controller logic.
+     */
+    loadPreferences() {
+        this.enforceReadyBeforeUnpause = toBoolean(getSetting('enforceReadyBeforeUnpause'), true);
+        this.commandCooldownMs = Math.max(0, toFloat(getSetting('commandCooldownMs'), 140.0));
+    }
+
+    /**
+     * Whether user-triggered unpause is blocked while group is still waiting.
+     * @returns {boolean} True when ready-gate is enabled.
+     */
+    isReadyGateBeforeUnpauseEnabled() {
+        return this.enforceReadyBeforeUnpause;
+    }
+
+    /**
+     * Gets command cooldown in milliseconds.
+     * @returns {number} Cooldown value.
+     */
+    getCommandCooldownMs() {
+        return this.commandCooldownMs;
+    }
+
+    /**
+     * Returns true when transport command is currently throttled.
+     * @returns {boolean} Whether cooldown is active.
+     */
+    isTransportCommandOnCooldown() {
+        if (this.commandCooldownMs <= 0) {
+            return false;
+        }
+
+        return (Date.now() - this.lastTransportCommandAt) < this.commandCooldownMs;
+    }
+
+    /**
+     * Returns remaining seek cooldown in milliseconds.
+     * @returns {number} Remaining cooldown.
+     */
+    getSeekCooldownRemainingMs() {
+        if (this.commandCooldownMs <= 0) {
+            return 0;
+        }
+
+        const elapsed = Date.now() - this.lastSeekCommandAt;
+        return Math.max(0, this.commandCooldownMs - elapsed);
+    }
+
+    /**
+     * Sends a seek command without throttle checks.
+     * @param {number} positionTicks The seek position.
+     */
+    postSeek(positionTicks) {
+        const apiClient = this.manager.getApiClient();
+        postSyncPlayV2(apiClient, 'Seek', {
+            PositionTicks: positionTicks
+        });
     }
 
     /**
@@ -36,16 +108,33 @@ class Controller {
      * Unpauses playback in SyncPlay group.
      */
     unpause() {
+        this.loadPreferences();
+        if (this.isTransportCommandOnCooldown()) {
+            return;
+        }
+
+        if (this.enforceReadyBeforeUnpause && this.manager.isGroupWaiting()) {
+            toast(globalize.translate('MessageSyncPlayWaitForReadyBeforeUnpause'));
+            return;
+        }
+
+        this.lastTransportCommandAt = Date.now();
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayUnpause();
+        postSyncPlayV2(apiClient, 'Unpause');
     }
 
     /**
      * Pauses playback in SyncPlay group.
      */
     pause() {
+        this.loadPreferences();
+        if (this.isTransportCommandOnCooldown()) {
+            return;
+        }
+
+        this.lastTransportCommandAt = Date.now();
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayPause();
+        postSyncPlayV2(apiClient, 'Pause');
 
         // Pause locally as well, to give the user some little control.
         const playerWrapper = this.manager.getPlayerWrapper();
@@ -57,10 +146,30 @@ class Controller {
      * @param {number} positionTicks The position.
      */
     seek(positionTicks) {
-        const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlaySeek({
-            PositionTicks: positionTicks
-        });
+        this.loadPreferences();
+        const remainingCooldown = this.getSeekCooldownRemainingMs();
+        if (remainingCooldown <= 0) {
+            this.lastSeekCommandAt = Date.now();
+            this.postSeek(positionTicks);
+            return;
+        }
+
+        this.pendingSeekPositionTicks = positionTicks;
+        if (this.pendingSeekTimeout) {
+            return;
+        }
+
+        this.pendingSeekTimeout = setTimeout(() => {
+            this.pendingSeekTimeout = null;
+            if (this.pendingSeekPositionTicks == null) {
+                return;
+            }
+
+            const pendingPositionTicks = this.pendingSeekPositionTicks;
+            this.pendingSeekPositionTicks = null;
+            this.lastSeekCommandAt = Date.now();
+            this.postSeek(pendingPositionTicks);
+        }, remainingCooldown);
     }
 
     /**
@@ -71,7 +180,7 @@ class Controller {
         const apiClient = this.manager.getApiClient();
         const sendPlayRequest = (items) => {
             const queue = items.map(item => item.Id);
-            return apiClient.requestSyncPlaySetNewQueue({
+            return postSyncPlayV2(apiClient, 'SetNewQueue', {
                 PlayingQueue: queue,
                 PlayingItemPosition: options.startIndex ? options.startIndex : 0,
                 StartPositionTicks: options.startPositionTicks ? options.startPositionTicks : 0
@@ -95,7 +204,7 @@ class Controller {
      */
     setCurrentPlaylistItem(playlistItemId) {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlaySetPlaylistItem({
+        postSyncPlayV2(apiClient, 'SetPlaylistItem', {
             PlaylistItemId: playlistItemId
         });
     }
@@ -106,7 +215,7 @@ class Controller {
      */
     clearPlaylist(clearPlayingItem = false) {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayRemoveFromPlaylist({
+        postSyncPlayV2(apiClient, 'RemoveFromPlaylist', {
             ClearPlaylist: true,
             ClearPlayingItem: clearPlayingItem
         });
@@ -118,7 +227,7 @@ class Controller {
      */
     removeFromPlaylist(playlistItemIds) {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayRemoveFromPlaylist({
+        postSyncPlayV2(apiClient, 'RemoveFromPlaylist', {
             PlaylistItemIds: playlistItemIds
         });
     }
@@ -130,7 +239,7 @@ class Controller {
      */
     movePlaylistItem(playlistItemId, newIndex) {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayMovePlaylistItem({
+        postSyncPlayV2(apiClient, 'MovePlaylistItem', {
             PlaylistItemId: playlistItemId,
             NewIndex: newIndex
         });
@@ -146,7 +255,7 @@ class Controller {
         if (options.items) {
             Helper.translateItemsForPlayback(apiClient, options.items, options).then((items) => {
                 const itemIds = items.map(item => item.Id);
-                apiClient.requestSyncPlayQueue({
+                postSyncPlayV2(apiClient, 'Queue', {
                     ItemIds: itemIds,
                     Mode: mode
                 });
@@ -157,7 +266,7 @@ class Controller {
             }).then(function (result) {
                 Helper.translateItemsForPlayback(apiClient, result.Items, options).then((items) => {
                     const itemIds = items.map(item => item.Id);
-                    apiClient.requestSyncPlayQueue({
+                    postSyncPlayV2(apiClient, 'Queue', {
                         ItemIds: itemIds,
                         Mode: mode
                     });
@@ -179,7 +288,7 @@ class Controller {
      */
     nextItem() {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayNextItem({
+        postSyncPlayV2(apiClient, 'NextItem', {
             PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
         });
     }
@@ -189,7 +298,7 @@ class Controller {
      */
     previousItem() {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlayPreviousItem({
+        postSyncPlayV2(apiClient, 'PreviousItem', {
             PlaylistItemId: this.manager.getQueueCore().getCurrentPlaylistItemId()
         });
     }
@@ -200,7 +309,7 @@ class Controller {
      */
     setRepeatMode(mode) {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlaySetRepeatMode({
+        postSyncPlayV2(apiClient, 'SetRepeatMode', {
             Mode: mode
         });
     }
@@ -211,7 +320,7 @@ class Controller {
      */
     setShuffleMode(mode) {
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlaySetShuffleMode({
+        postSyncPlayV2(apiClient, 'SetShuffleMode', {
             Mode: mode
         });
     }
@@ -224,7 +333,7 @@ class Controller {
         mode = mode === 'Sorted' ? 'Shuffle' : 'Sorted';
 
         const apiClient = this.manager.getApiClient();
-        apiClient.requestSyncPlaySetShuffleMode({
+        postSyncPlayV2(apiClient, 'SetShuffleMode', {
             Mode: mode
         });
     }

@@ -6,6 +6,7 @@
 import globalize from '../../../lib/globalize';
 import toast from '../../../components/toast/toast';
 import * as Helper from './Helper';
+import { postSyncPlayV2 } from './V2Api';
 
 /**
  * Class that manages the queue of SyncPlay.
@@ -15,6 +16,7 @@ class QueueCore {
         this.manager = null;
         this.lastPlayQueueUpdate = null;
         this.playlist = [];
+        this.playbackRequestSequence = 0;
     }
 
     /**
@@ -26,23 +28,33 @@ class QueueCore {
     }
 
     /**
+     * Resets the queue state to ensure new group updates are accepted.
+     */
+    reset() {
+        this.lastPlayQueueUpdate = null;
+        this.playlist = [];
+        this.playbackRequestSequence = 0;
+    }
+
+    /**
      * Handles the change in the play queue.
      * @param {Object} apiClient The ApiClient.
      * @param {Object} newPlayQueue The new play queue.
      */
-    updatePlayQueue(apiClient, newPlayQueue) {
+    updatePlayQueue(apiClient, newPlayQueue, options = {}) {
         newPlayQueue.LastUpdate = new Date(newPlayQueue.LastUpdate);
+        const { suppressActions = false } = options;
 
         if (newPlayQueue.LastUpdate.getTime() <= this.getLastUpdateTime()) {
             console.debug('SyncPlay updatePlayQueue: ignoring old update', newPlayQueue);
-            return;
+            return Promise.resolve(null);
         }
 
         console.debug('SyncPlay updatePlayQueue:', newPlayQueue);
 
         const serverId = apiClient.serverInfo().Id;
 
-        this.onPlayQueueUpdate(apiClient, newPlayQueue, serverId).then((previous) => {
+        return this.onPlayQueueUpdate(apiClient, newPlayQueue, serverId).then((previous) => {
             if (newPlayQueue.LastUpdate.getTime() < this.getLastUpdateTime()) {
                 console.warn('SyncPlay updatePlayQueue: trying to apply old update.', newPlayQueue);
                 throw new Error('Trying to apply old update');
@@ -51,10 +63,14 @@ class QueueCore {
             // Ignore if remote player is self-managed (has own SyncPlay manager running).
             if (this.manager.isRemote()) {
                 console.warn('SyncPlay updatePlayQueue: remote player has own SyncPlay manager.');
-                return;
+                return previous;
             }
 
             const playerWrapper = this.manager.getPlayerWrapper();
+
+            if (suppressActions) {
+                return previous;
+            }
 
             switch (newPlayQueue.Reason) {
                 case 'NewPlaylist': {
@@ -103,8 +119,14 @@ class QueueCore {
                     console.error('SyncPlay updatePlayQueue: unknown reason for update:', newPlayQueue.Reason);
                     break;
             }
+            return previous;
         }).catch((error) => {
             console.warn('SyncPlay updatePlayQueue:', error);
+            if (error?.message === 'Trying to apply old update') {
+                console.debug('[SyncPlayV2] stale_queue_update_detected_triggering_recovery');
+                this.manager.refreshJoinedGroupStateV2(apiClient, { allowEnable: true });
+            }
+            return null;
         });
     }
 
@@ -166,8 +188,14 @@ class QueueCore {
      * @param {Object} apiClient The ApiClient.
      * @param {string} origin The origin of the wait call, used for debug.
      */
-    scheduleReadyRequestOnPlaybackStart(apiClient, origin) {
+    scheduleReadyRequestOnPlaybackStart(apiClient, origin, requestSequence) {
+        const expectedSequence = requestSequence ?? this.playbackRequestSequence;
         Helper.waitForEventOnce(this.manager, 'playbackstart', Helper.WaitForEventDefaultTimeout, ['playbackerror']).then(async () => {
+            if (expectedSequence !== this.playbackRequestSequence) {
+                console.debug('SyncPlay scheduleReadyRequestOnPlaybackStart: superseded, skipping.', origin);
+                return;
+            }
+
             console.debug('SyncPlay scheduleReadyRequestOnPlaybackStart: local pause and notify server.');
             const playerWrapper = this.manager.getPlayerWrapper();
             playerWrapper.localPause();
@@ -180,7 +208,7 @@ class QueueCore {
             const currentPositionTicks = Math.round(currentPosition * Helper.TicksPerMillisecond);
             const isPlaying = playerWrapper.isPlaying();
 
-            apiClient.requestSyncPlayReady({
+            postSyncPlayV2(apiClient, 'Ready', {
                 When: now.toISOString(),
                 PositionTicks: currentPositionTicks,
                 IsPlaying: isPlaying,
@@ -227,7 +255,8 @@ class QueueCore {
 
         const serverId = apiClient.serverInfo().Id;
 
-        this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback');
+        this.playbackRequestSequence += 1;
+        this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback', this.playbackRequestSequence);
 
         const playerWrapper = this.manager.getPlayerWrapper();
         playerWrapper.localPlay({
@@ -252,7 +281,8 @@ class QueueCore {
             return;
         }
 
-        this.scheduleReadyRequestOnPlaybackStart(apiClient, 'setCurrentPlaylistItem');
+        this.playbackRequestSequence += 1;
+        this.scheduleReadyRequestOnPlaybackStart(apiClient, 'setCurrentPlaylistItem', this.playbackRequestSequence);
 
         const playerWrapper = this.manager.getPlayerWrapper();
         playerWrapper.localSetCurrentPlaylistItem(playlistItemId);

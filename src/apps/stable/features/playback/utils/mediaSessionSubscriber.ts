@@ -90,10 +90,79 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
         }
     }
 
+    private getResolvedPlayerState(state?: PlayerState) {
+        if (state) {
+            return state;
+        }
+
+        try {
+            return this.playbackManager.getPlayerState(this.player);
+        } catch (err) {
+            console.debug('[MediaSessionSubscriber] failed to read player state; resetting media session', err);
+            return undefined;
+        }
+    }
+
+    private updateNavigatorMetadata(
+        album: string | undefined,
+        artist: string | undefined,
+        title: string | undefined,
+        item: ItemDto
+    ) {
+        if (
+            !navigator.mediaSession.metadata
+            || navigator.mediaSession.metadata.album !== album
+            || navigator.mediaSession.metadata.artist !== artist
+            || navigator.mediaSession.metadata.title !== title
+        ) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title,
+                artist,
+                album,
+                artwork: getArtwork(item)
+            });
+        }
+    }
+
+    private updateNativeShellSession(
+        action: string,
+        isLocalPlayer: boolean,
+        item: ItemDto,
+        title: string | undefined,
+        artist: string | undefined,
+        album: string | undefined,
+        state: PlayerState
+    ) {
+        shell.updateMediaSession({
+            action,
+            isLocalPlayer,
+            itemId: item.Id,
+            title,
+            artist,
+            album,
+            duration: item.RunTimeTicks ? Math.round(item.RunTimeTicks / TICKS_PER_MILLISECOND) : 0,
+            position: state.PlayState.PositionTicks ? Math.round(state.PlayState.PositionTicks / TICKS_PER_MILLISECOND) : 0,
+            imageUrl: getImageUrl(item, { maxHeight: 3_000 }),
+            canSeek: !!state.PlayState.CanSeek,
+            isPaused: !!state.PlayState.IsPaused
+        });
+    }
+
     private onMediaSessionUpdate(
         { type: action }: Event,
-        state: PlayerState = this.playbackManager.getPlayerState(this.player)
+        state?: PlayerState
     ) {
+        if (!this.player) {
+            resetMediaSession();
+            return;
+        }
+
+        state = this.getResolvedPlayerState(state);
+        if (!state) {
+            resetMediaSession();
+            return;
+        }
+
         const item = state.NowPlayingItem;
 
         if (!item) {
@@ -118,33 +187,9 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
         const title = line2 && line1;
 
         if (hasNavigatorSession) {
-            if (
-                !navigator.mediaSession.metadata
-                || navigator.mediaSession.metadata.album !== album
-                || navigator.mediaSession.metadata.artist !== artist
-                || navigator.mediaSession.metadata.title !== title
-            ) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title,
-                    artist,
-                    album,
-                    artwork: getArtwork(item)
-                });
-            }
+            this.updateNavigatorMetadata(album, artist, title, item);
         } else {
-            shell.updateMediaSession({
-                action,
-                isLocalPlayer,
-                itemId: item.Id,
-                title,
-                artist,
-                album,
-                duration: item.RunTimeTicks ? Math.round(item.RunTimeTicks / TICKS_PER_MILLISECOND) : 0,
-                position: state.PlayState.PositionTicks ? Math.round(state.PlayState.PositionTicks / TICKS_PER_MILLISECOND) : 0,
-                imageUrl: getImageUrl(item, { maxHeight: 3_000 }),
-                canSeek: !!state.PlayState.CanSeek,
-                isPaused: !!state.PlayState.IsPaused
-            });
+            this.updateNativeShellSession(action, isLocalPlayer, item, title, artist, album, state);
         }
     }
 
