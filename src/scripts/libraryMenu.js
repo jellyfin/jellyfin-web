@@ -14,7 +14,6 @@ import { queryClient } from 'utils/query/queryClient';
 
 import dom from '../utils/dom';
 import layoutManager from '../components/layoutManager';
-import inputManager from './inputManager';
 import viewManager from '../components/viewManager/viewManager';
 import { appRouter } from '../components/router/appRouter';
 import { appHost } from '../components/apphost';
@@ -214,7 +213,7 @@ function updateClock() {
 }
 
 function showSearch() {
-    inputManager.handleCommand('search');
+    window.dispatchEvent(new CustomEvent('quicksearch:open'));
 }
 
 function onHeaderUserButtonClick() {
