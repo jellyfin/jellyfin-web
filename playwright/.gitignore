@@ -1,0 +1,12 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+docker/jellyfin/cache
+docker/jellyfin/config
+docker/media
