@@ -1,3 +1,11 @@
+/**
+ * SyncPlay plugin bootstrap.
+ *
+ * Responsibilities:
+ * - Register SyncPlay player wrappers used by `PlayerFactory`.
+ * - Keep `SyncPlay.Manager` bound to the active Jellyfin ApiClient.
+ * - Bridge app-level playback manager player changes into SyncPlay.
+ */
 import { playbackManager } from '../../components/playback/playbackmanager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events';
@@ -33,16 +41,17 @@ class SyncPlayPlugin implements Plugin {
         SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlVideoPlayer);
         SyncPlay.PlayerFactory.registerWrapper(SyncPlayHtmlAudioPlayer);
 
-        // Listen for player changes.
+        // Keep SyncPlay bound to the current concrete player implementation.
         Events.on(playbackManager, 'playerchange', (_, newPlayer) => {
             SyncPlay.Manager.onPlayerChange(newPlayer);
         });
 
-        // Start SyncPlay.
+        // Start SyncPlay with whichever API client is active at bootstrap.
         const apiClient = ServerConnections.currentApiClient();
         if (apiClient) SyncPlay.Manager.init(apiClient);
 
-        // FIXME: Multiple apiClients?
+        // Rebind SyncPlay when API client/session context changes.
+        // This ensures group reconciliation continues across login/logout changes.
         Events.on(ServerConnections, 'apiclientcreated', (_, newApiClient) => SyncPlay.Manager.init(newApiClient));
         Events.on(ServerConnections, 'localusersignedin', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));
         Events.on(ServerConnections, 'localusersignedout', () => SyncPlay.Manager.updateApiClient(ServerConnections.currentApiClient()));

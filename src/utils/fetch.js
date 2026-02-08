@@ -43,11 +43,29 @@ export function getFetchPromise(request) {
     return fetchWithTimeout(url, fetchRequest, request.timeout);
 }
 
+function createHttpError(response, requestUrl) {
+    const statusText = response.statusText || 'Unknown Error';
+    const url = response.url || requestUrl;
+    let message = `HTTP ${response.status} ${statusText}`;
+    if (url) {
+        message += ` (${url})`;
+    }
+    const error = new Error(message);
+    error.name = 'HttpResponseError';
+    error.status = response.status;
+    error.statusText = response.statusText;
+    error.url = url;
+    error.response = response;
+    return error;
+}
+
 function fetchWithTimeout(url, options, timeoutMs) {
     console.debug(`fetchWithTimeout: timeoutMs: ${timeoutMs}, url: ${url}`);
 
     return new Promise(function (resolve, reject) {
-        const timeout = setTimeout(reject, timeoutMs);
+        const timeout = setTimeout(() => {
+            reject(new Error(`Request timed out after ${timeoutMs}ms: ${url}`));
+        }, timeoutMs);
 
         options = options || {};
         options.credentials = 'same-origin';
@@ -100,7 +118,7 @@ export function ajax(request) {
                 return response;
             }
         } else {
-            return Promise.reject(response);
+            return Promise.reject(createHttpError(response, request.url));
         }
     }, function (err) {
         console.error(`request failed to url: ${request.url}`);

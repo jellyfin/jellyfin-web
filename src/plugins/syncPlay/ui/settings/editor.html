@@ -1,3 +1,12 @@
+<!--
+SyncPlay settings editor template.
+
+Sections are ordered by operator priority:
+1) Preset/profile and latency guidance.
+2) Safety toggles and cooldown/buffering guardrails.
+3) Advanced timing knobs for diagnosis and fine tuning.
+4) Time sync offsets for edge environments.
+-->
 <div class="formDialogHeader">
     <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}">
         <span class="material-icons arrow_back" aria-hidden="true"></span>
@@ -10,7 +19,24 @@
         <form style="margin: auto;">
             <h2 class="sectionTitle">${HeaderSyncPlayPlaybackSettings}</h2>
 
-            <!-- Sync Correction Setting -->
+            <div class="selectContainer selectContainer-withDescription">
+                <select is="emby-select" id="selectSyncProfile" label="${LabelSyncPlaySettingsSyncProfile}">
+                    <option value="balanced">${LabelSyncPlaySettingsSyncProfileBalancedWithLatency}</option>
+                    <option value="conservative">${LabelSyncPlaySettingsSyncProfileConservativeWithLatency}</option>
+                    <option value="aggressive">${LabelSyncPlaySettingsSyncProfileAggressiveWithLatency}</option>
+                    <option value="custom">${LabelSyncPlaySettingsSyncProfileCustom}</option>
+                </select>
+                <div class="fieldDescription">${LabelSyncPlaySettingsSyncProfileHelp}</div>
+                <div class="fieldDescription" id="syncPlayLatencyMetric">${LabelSyncPlaySettingsCurrentLatencyMeasuring}</div>
+                <div class="fieldDescription" id="syncPlayLatencyRecommendation">${LabelSyncPlaySettingsLatencyRecommendationUnavailable}</div>
+                <div>
+                    <button is="emby-button" type="button" class="button-flat btnCheckLatency">${ButtonSyncPlayCheckLatency}</button>
+                </div>
+                <div class="fieldDescription">${LabelSyncPlaySettingsSyncProfileAggressiveLatencyIndicator}</div>
+                <div class="fieldDescription">${LabelSyncPlaySettingsSyncProfileBalancedLatencyIndicator}</div>
+                <div class="fieldDescription">${LabelSyncPlaySettingsSyncProfileConservativeLatencyIndicator}</div>
+            </div>
+
             <div class="checkboxContainer checkboxContainer-withDescription">
                 <label>
                     <input type="checkbox" is="emby-checkbox" id="chkSyncCorrection" />
@@ -19,49 +45,104 @@
                 <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSyncCorrectionHelp}</div>
             </div>
 
-            <!-- SpeedToSync Settings -->
             <div class="checkboxContainer checkboxContainer-withDescription">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" id="chkSpeedToSync" />
+                    <input type="checkbox" is="emby-checkbox" id="chkEnforceReadyBeforeUnpause" />
+                    <span>${LabelSyncPlaySettingsEnforceReadyBeforeUnpause}</span>
+                </label>
+                <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsEnforceReadyBeforeUnpauseHelp}</div>
+            </div>
+
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtCommandCooldownMs" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsCommandCooldown}" min="0" data-profile-managed="true" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsCommandCooldownHelp}</div>
+            </div>
+
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtBufferingThresholdMillis" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsBufferingThreshold}" min="0" data-profile-managed="true" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsBufferingThresholdHelp}</div>
+            </div>
+
+            <h2 class="sectionTitle">${HeaderSyncPlayAdvancedSettings}</h2>
+
+            <div class="checkboxContainer checkboxContainer-withDescription">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" id="chkSpeedToSync" data-profile-managed="true" />
                     <span>${LabelSyncPlaySettingsSpeedToSync}</span>
                 </label>
                 <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSpeedToSyncHelp}</div>
             </div>
             <div class="inputContainer inputContainer-withDescription">
                 <input type="number" is="emby-input" id="txtMinDelaySpeedToSync" pattern="[0-9]*"
-                    label="${LabelSyncPlaySettingsMinDelaySpeedToSync}" />
+                    label="${LabelSyncPlaySettingsMinDelaySpeedToSync}" min="0" data-profile-managed="true" />
                 <div class="fieldDescription">${LabelSyncPlaySettingsMinDelaySpeedToSyncHelp}</div>
             </div>
             <div class="inputContainer inputContainer-withDescription">
                 <input type="number" is="emby-input" id="txtMaxDelaySpeedToSync" pattern="[0-9]*"
-                    label="${LabelSyncPlaySettingsMaxDelaySpeedToSync}" min="0"/>
+                    label="${LabelSyncPlaySettingsMaxDelaySpeedToSync}" min="0" data-profile-managed="true" />
                 <div class="fieldDescription">${LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp}</div>
             </div>
             <div class="inputContainer inputContainer-withDescription">
                 <input type="number" is="emby-input" id="txtSpeedToSyncDuration" pattern="[0-9]*"
-                    label="${LabelSyncPlaySettingsSpeedToSyncDuration}" min="0"/>
+                    label="${LabelSyncPlaySettingsSpeedToSyncDuration}" min="0" data-profile-managed="true" />
                 <div class="fieldDescription">${LabelSyncPlaySettingsSpeedToSyncDurationHelp}</div>
             </div>
 
-            <!-- SkipToSync Settings -->
             <div class="checkboxContainer checkboxContainer-withDescription">
                 <label>
-                    <input type="checkbox" is="emby-checkbox" id="chkSkipToSync" />
+                    <input type="checkbox" is="emby-checkbox" id="chkSkipToSync" data-profile-managed="true" />
                     <span>${LabelSyncPlaySettingsSkipToSync}</span>
                 </label>
                 <div class="fieldDescription checkboxFieldDescription">${LabelSyncPlaySettingsSkipToSyncHelp}</div>
             </div>
             <div class="inputContainer inputContainer-withDescription">
                 <input type="number" is="emby-input" id="txtMinDelaySkipToSync" pattern="[0-9]*"
-                    label="${LabelSyncPlaySettingsMinDelaySkipToSync}" min="0"/>
+                    label="${LabelSyncPlaySettingsMinDelaySkipToSync}" min="0" data-profile-managed="true" />
                 <div class="fieldDescription">${LabelSyncPlaySettingsMinDelaySkipToSyncHelp}</div>
             </div>
 
-            <!-- Time Settings -->
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtMaxLateCommandMillis" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsMaxLateCommandMillis}" min="0" data-profile-managed="true" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsMaxLateCommandMillisHelp}</div>
+            </div>
+
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtMaxLateSeekRecoveryMillis" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsMaxLateSeekRecoveryMillis}" min="0" data-profile-managed="true" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsMaxLateSeekRecoveryMillisHelp}</div>
+            </div>
+
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtSeekReadySettleDelayMs" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsSeekReadySettleDelayMs}" min="0" data-profile-managed="true" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsSeekReadySettleDelayMsHelp}</div>
+            </div>
+
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtMaxSeekSettleDiffMillis" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsMaxSeekSettleDiffMillis}" min="0" data-profile-managed="true" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsMaxSeekSettleDiffMillisHelp}</div>
+            </div>
+
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtSeekReadyEventTimeoutMs" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsSeekReadyEventTimeoutMs}" min="0" data-profile-managed="true" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsSeekReadyEventTimeoutMsHelp}</div>
+            </div>
+
+            <div class="inputContainer inputContainer-withDescription">
+                <input type="number" is="emby-input" id="txtZeroSeekAnchorMillis" pattern="[0-9]*"
+                    label="${LabelSyncPlaySettingsZeroSeekAnchorMillis}" min="0" data-profile-managed="true" />
+                <div class="fieldDescription">${LabelSyncPlaySettingsZeroSeekAnchorMillisHelp}</div>
+            </div>
+
             <h2 class="sectionTitle">${HeaderSyncPlayTimeSyncSettings}</h2>
             <div class="inputContainer inputContainer-withDescription">
                 <input type="number" is="emby-input" id="txtExtraTimeOffset" pattern="[0-9]*"
-                    label="${LabelSyncPlaySettingsExtraTimeOffset}" min="0"/>
+                    label="${LabelSyncPlaySettingsExtraTimeOffset}" min="0" />
                 <div class="fieldDescription">${LabelSyncPlaySettingsExtraTimeOffsetHelp}</div>
             </div>
         </form>

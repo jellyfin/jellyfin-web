@@ -5,6 +5,8 @@
 
 import NoActivePlayer from './NoActivePlayer';
 import Events from '../../../../utils/events.ts';
+import { toFloat } from '../../../../utils/string.ts';
+import { getSetting } from '../../core/Settings';
 
 /**
  * Class that manages the HtmlVideoPlayer for SyncPlay.
@@ -16,7 +18,7 @@ class HtmlVideoPlayer extends NoActivePlayer {
         super(player, syncPlayManager);
         this.isPlayerActive = false;
         this.savedPlaybackRate = 1.0;
-        this.minBufferingThresholdMillis = 3000;
+        this.minBufferingThresholdMillis = this.getBufferingThresholdMillis();
 
         if (player.currentTimeAsync) {
             /**
@@ -27,6 +29,15 @@ class HtmlVideoPlayer extends NoActivePlayer {
                 return this.player.currentTimeAsync();
             };
         }
+    }
+
+    /**
+     * Gets buffering detection threshold from settings.
+     * @returns {number} Buffering threshold in milliseconds.
+     */
+    getBufferingThresholdMillis() {
+        const threshold = toFloat(getSetting('bufferingThresholdMillis'), 1800.0);
+        return Math.max(250, threshold);
     }
 
     /**
@@ -72,6 +83,7 @@ class HtmlVideoPlayer extends NoActivePlayer {
 
         this._onWaiting = () => {
             clearTimeout(self.notifyBuffering);
+            self.minBufferingThresholdMillis = self.getBufferingThresholdMillis();
             self.notifyBuffering = setTimeout(() => {
                 self.onBuffering();
             }, self.minBufferingThresholdMillis);

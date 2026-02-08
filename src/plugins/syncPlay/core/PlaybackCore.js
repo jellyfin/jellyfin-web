@@ -7,6 +7,7 @@ import Events from '../../../utils/events.ts';
 import { toBoolean, toFloat } from '../../../utils/string.ts';
 import * as Helper from './Helper';
 import { getSetting } from './Settings';
+import { postSyncPlayV2 } from './V2Api';
 
 /**
  * Class that manages the playback of SyncPlay.
@@ -26,6 +27,7 @@ class PlaybackCore {
         this.lastCommand = null; // Last scheduled playback command, might not be the latest one.
         this.scheduledCommandTimeout = null;
         this.syncTimeout = null;
+        this.commandSequence = 0;
 
         this.loadPreferences();
     }
@@ -66,7 +68,24 @@ class PlaybackCore {
         this.useSkipToSync = toBoolean(getSetting('useSkipToSync'), true);
 
         // Whether sync correction during playback is active.
-        this.enableSyncCorrection = toBoolean(getSetting('enableSyncCorrection'), false);
+        this.enableSyncCorrection = toBoolean(getSetting('enableSyncCorrection'), true);
+
+        // Maximum command lateness tolerated before forcing authoritative v2 recovery, in milliseconds.
+        this.maxLateCommandMillis = toFloat(getSetting('maxLateCommandMillis'), 1200.0);
+
+        // For late seek commands, try immediate local recovery before dropping the command.
+
+        // Seek settle parameters to reduce desync in mixed direct-play/transcode groups.
+        this.seekReadySettleDelayMs = toFloat(getSetting('seekReadySettleDelayMs'), 180.0);
+        this.maxSeekSettleDiffMillis = toFloat(getSetting('maxSeekSettleDiffMillis'), 900.0);
+        this.seekReadyEventTimeoutMs = toFloat(getSetting('seekReadyEventTimeoutMs'), 1200.0);
+
+        // For late seek commands, try immediate local recovery before dropping the command.
+        this.maxLateSeekRecoveryMillis = toFloat(getSetting('maxLateSeekRecoveryMillis'), 5000.0);
+
+        // Treat seek-to-start as a strict anchor to avoid drift near 0:00.
+        this.zeroSeekAnchorMillis = toFloat(getSetting('zeroSeekAnchorMillis'), 400.0);
+        this.zeroSeekAnchorTicks = Math.round(this.zeroSeekAnchorMillis * Helper.TicksPerMillisecond);
     }
 
     /**
@@ -151,9 +170,9 @@ class PlaybackCore {
 
         const apiClient = this.manager.getApiClient();
         if (isBuffering) {
-            apiClient.requestSyncPlayBuffering(options);
+            postSyncPlayV2(apiClient, 'Buffering', options);
         } else {
-            apiClient.requestSyncPlayReady(options);
+            postSyncPlayV2(apiClient, 'Ready', options);
         }
     }
 
@@ -170,6 +189,18 @@ class PlaybackCore {
      * @param {Object} command The playback command.
      */
     async applyCommand(command) {
+        const commandLatenessMillis = this.getCommandLatenessMillis(command);
+        if (commandLatenessMillis > this.maxLateCommandMillis
+            && command.Command !== 'Unpause'
+            && command.Command !== 'Seek') {
+            console.warn('[SyncPlayV2] stale_control_command_ignored', {
+                command: command.Command,
+                latenessMs: commandLatenessMillis
+            });
+            this.manager.refreshJoinedGroupStateV2(this.manager.getApiClient(), { allowEnable: true });
+            return;
+        }
+
         // Check if duplicate.
         if (this.lastCommand
             && this.lastCommand.When.getTime() === command.When.getTime()
@@ -218,13 +249,8 @@ class PlaybackCore {
                         // During seek, playback is paused.
                         // FIXME: check range instead of fixed value for ticks.
                         if (isPlaying || currentPositionTicks !== command.PositionTicks) {
-                            // Account for player imperfections, we got half a second of tollerance we can play with
-                            // (the server tollerates a range of values when client reports that is ready).
-                            const rangeWidth = 100; // In milliseconds.
-                            // eslint-disable-next-line sonarjs/pseudo-random
-                            const randomOffsetTicks = Math.round((Math.random() - 0.5) * rangeWidth) * Helper.TicksPerMillisecond;
-                            this.scheduleSeek(command.When, command.PositionTicks + randomOffsetTicks);
-                            console.debug('SyncPlay applyCommand: adding random offset to force seek:', randomOffsetTicks, command);
+                            const seekTargetTicks = this.normalizePositionTicks(command.PositionTicks);
+                            this.scheduleSeek(command.When, seekTargetTicks);
                         } else {
                             // All done, I guess?
                             this.sendBufferingRequest(false);
@@ -241,6 +267,8 @@ class PlaybackCore {
         }
 
         // Applying command.
+        this.commandSequence += 1;
+        const commandSequence = this.commandSequence;
         this.lastCommand = command;
 
         // Ignore if remote player has local SyncPlay manager.
@@ -259,12 +287,117 @@ class PlaybackCore {
                 this.scheduleStop(command.When);
                 break;
             case 'Seek':
-                this.scheduleSeek(command.When, command.PositionTicks);
+                this.scheduleSeek(command.When, command.PositionTicks, commandSequence);
                 break;
             default:
                 console.error('SyncPlay applyCommand: command is not recognised:', command);
                 break;
         }
+    }
+
+    /**
+     * Gets how late a command is in local time, in milliseconds.
+     * @param {Object} command The playback command.
+     * @returns {number} Command lateness, where positive means stale.
+     */
+    getCommandLatenessMillis(command) {
+        if (!command || !command.When) {
+            return 0;
+        }
+
+        const commandLocalTime = this.timeSyncCore.remoteDateToLocal(command.When);
+        return Date.now() - commandLocalTime.getTime();
+    }
+
+    /**
+     * Normalizes ticks to a safe non-negative integer.
+     * @param {number|null|undefined} positionTicks The raw ticks value.
+     * @returns {number} The normalized ticks value.
+     */
+    normalizePositionTicks(positionTicks) {
+        if (typeof positionTicks !== 'number' || !Number.isFinite(positionTicks)) {
+            return 0;
+        }
+
+        return Math.max(0, Math.round(positionTicks));
+    }
+
+    /**
+     * Returns whether a position should be treated as start-of-media anchor.
+     * @param {number} positionTicks The target position in ticks.
+     * @returns {boolean} True when position is close enough to zero.
+     */
+    isZeroAnchorPosition(positionTicks) {
+        return this.normalizePositionTicks(positionTicks) <= this.zeroSeekAnchorTicks;
+    }
+
+    /**
+     * Gets current player position as ticks.
+     * @returns {Promise<number>} Current playback position in ticks.
+     */
+    async getCurrentPositionTicks() {
+        const playerWrapper = this.manager.getPlayerWrapper();
+        const currentPosition = playerWrapper.currentTimeAsync ?
+            await playerWrapper.currentTimeAsync() :
+            playerWrapper.currentTime();
+
+        return this.normalizePositionTicks(currentPosition * Helper.TicksPerMillisecond);
+    }
+
+    /**
+     * Delays execution for the given amount of milliseconds.
+     * @param {number} ms Delay in milliseconds.
+     * @returns {Promise<void>} Delay promise.
+     */
+    delayAsync(ms) {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        });
+    }
+
+    /**
+     * Settles seek position and reports readiness to server.
+     * @param {number} targetPositionTicks The target seek position.
+     * @param {number} expectedSequence Expected command sequence.
+     * @returns {Promise<void>} Promise that resolves when ready is reported.
+     */
+    async settleSeekAndNotifyReady(targetPositionTicks, expectedSequence) {
+        if (expectedSequence !== this.commandSequence || this.lastCommand?.Command !== 'Seek') {
+            return;
+        }
+
+        const useZeroAnchor = this.isZeroAnchorPosition(targetPositionTicks);
+        const effectiveTargetTicks = useZeroAnchor ? 0 : targetPositionTicks;
+
+        if (this.seekReadySettleDelayMs > 0) {
+            await this.delayAsync(this.seekReadySettleDelayMs);
+        }
+
+        if (expectedSequence !== this.commandSequence || this.lastCommand?.Command !== 'Seek') {
+            return;
+        }
+
+        const currentPositionTicks = await this.getCurrentPositionTicks();
+        const maxDiffTicks = this.maxSeekSettleDiffMillis * Helper.TicksPerMillisecond;
+        if (Math.abs(currentPositionTicks - effectiveTargetTicks) > maxDiffTicks || (useZeroAnchor && currentPositionTicks > this.zeroSeekAnchorTicks)) {
+            this.localSeek(effectiveTargetTicks);
+            if (this.seekReadySettleDelayMs > 0) {
+                await this.delayAsync(Math.min(this.seekReadySettleDelayMs, 250));
+            }
+        }
+
+        if (expectedSequence !== this.commandSequence || this.lastCommand?.Command !== 'Seek') {
+            return;
+        }
+
+        if (useZeroAnchor) {
+            const anchoredPositionTicks = await this.getCurrentPositionTicks();
+            if (anchoredPositionTicks > this.zeroSeekAnchorTicks) {
+                this.localSeek(0);
+            }
+        }
+
+        this.sendBufferingRequest(false);
     }
 
     /**
@@ -274,21 +407,26 @@ class PlaybackCore {
      */
     async scheduleUnpause(playAtTime, positionTicks) {
         this.clearScheduledCommand();
-        const enableSyncTimeout = this.maxDelaySpeedToSync / 2.0;
+        const enableSyncTimeout = Math.max(250, Math.min(this.maxDelaySpeedToSync / 2.0, 800));
         const currentTime = new Date();
         const playAtTimeLocal = this.timeSyncCore.remoteDateToLocal(playAtTime);
+        const targetPositionTicks = this.normalizePositionTicks(positionTicks);
+        const useZeroAnchor = this.isZeroAnchorPosition(targetPositionTicks);
 
         const playerWrapper = this.manager.getPlayerWrapper();
-        const currentPositionTicks = (playerWrapper.currentTimeAsync ?
+        const currentPositionTicks = this.normalizePositionTicks((playerWrapper.currentTimeAsync ?
             await playerWrapper.currentTimeAsync() :
-            playerWrapper.currentTime()) * Helper.TicksPerMillisecond;
+            playerWrapper.currentTime()) * Helper.TicksPerMillisecond);
 
         if (playAtTimeLocal > currentTime) {
             const playTimeout = playAtTimeLocal - currentTime;
 
-            // Seek only if delay is noticeable.
-            if ((currentPositionTicks - positionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
-                this.localSeek(positionTicks);
+            if (useZeroAnchor) {
+                this.localPause();
+                this.localSeek(0);
+            } else if (Math.abs(currentPositionTicks - targetPositionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
+                // Seek only if delay is noticeable.
+                this.localSeek(targetPositionTicks);
             }
 
             this.scheduledCommandTimeout = setTimeout(() => {
@@ -303,9 +441,10 @@ class PlaybackCore {
             console.debug('Scheduled unpause in', playTimeout / 1000.0, 'seconds.');
         } else {
             // Group playback already started.
-            const serverPositionTicks = this.estimateCurrentTicks(positionTicks, playAtTime);
+            const serverPositionTicks = this.normalizePositionTicks(this.estimateCurrentTicks(targetPositionTicks, playAtTime));
+            const effectiveServerPositionTicks = (useZeroAnchor && serverPositionTicks <= this.zeroSeekAnchorTicks) ? 0 : serverPositionTicks;
             Helper.waitForEventOnce(this.manager, 'unpause').then(() => {
-                this.localSeek(serverPositionTicks);
+                this.localSeek(effectiveServerPositionTicks);
             });
             this.localUnpause();
             setTimeout(() => {
@@ -316,7 +455,7 @@ class PlaybackCore {
                 this.syncEnabled = true;
             }, enableSyncTimeout);
 
-            console.debug(`SyncPlay scheduleUnpause: unpause now from ${serverPositionTicks} (was at ${currentPositionTicks}).`);
+            console.debug(`SyncPlay scheduleUnpause: unpause now from ${effectiveServerPositionTicks} (was at ${currentPositionTicks}).`);
         }
     }
 
@@ -329,13 +468,14 @@ class PlaybackCore {
         this.clearScheduledCommand();
         const currentTime = new Date();
         const pauseAtTimeLocal = this.timeSyncCore.remoteDateToLocal(pauseAtTime);
+        const targetPositionTicks = this.normalizePositionTicks(positionTicks);
 
         const callback = () => {
             Helper.waitForEventOnce(this.manager, 'pause', Helper.WaitForPlayerEventTimeout).then(() => {
-                this.localSeek(positionTicks);
+                this.localSeek(targetPositionTicks);
             }).catch(() => {
                 // Player was already paused, seeking.
-                this.localSeek(positionTicks);
+                this.localSeek(targetPositionTicks);
             });
             this.localPause();
         };
@@ -380,21 +520,58 @@ class PlaybackCore {
      * @param {Date} seekAtTime The server's UTC time at which to seek playback.
      * @param {number} positionTicks The PositionTicks where player will be seeked.
      */
-    scheduleSeek(seekAtTime, positionTicks) {
+    scheduleSeek(seekAtTime, positionTicks, commandSequence) {
         this.clearScheduledCommand();
         const currentTime = new Date();
         const seekAtTimeLocal = this.timeSyncCore.remoteDateToLocal(seekAtTime);
+        const expectedSequence = commandSequence ?? this.commandSequence;
+        const useZeroAnchor = this.isZeroAnchorPosition(positionTicks);
+        const targetPositionTicks = useZeroAnchor ? 0 : this.normalizePositionTicks(positionTicks);
+        const commandLatenessMillis = Date.now() - seekAtTimeLocal.getTime();
+        if (commandLatenessMillis > this.maxLateCommandMillis) {
+            if (commandLatenessMillis <= this.maxLateSeekRecoveryMillis) {
+                console.warn('[SyncPlayV2] late_seek_command_recovered', {
+                    latenessMs: commandLatenessMillis,
+                    maxLateMs: this.maxLateCommandMillis
+                });
+                this.localSeek(targetPositionTicks);
+                Helper.waitForEventOnce(this.manager, 'ready', this.seekReadyEventTimeoutMs).catch(() => {
+                    // Continue with best-effort settle path when ready event is late.
+                }).then(() => this.settleSeekAndNotifyReady(targetPositionTicks, expectedSequence)).catch((error) => {
+                    console.error('SyncPlay scheduleSeek: failed to recover late seek.', error);
+                });
+                this.manager.showSyncIcon('SkipToSync');
+                setTimeout(() => {
+                    this.manager.clearSyncIcon();
+                }, 500);
+                return;
+            }
+
+            console.warn('[SyncPlayV2] stale_seek_command_ignored', {
+                latenessMs: commandLatenessMillis,
+                maxLateMs: this.maxLateCommandMillis
+            });
+            this.manager.refreshJoinedGroupStateV2(this.manager.getApiClient(), { allowEnable: true });
+            return;
+        }
 
         const callback = () => {
-            this.localUnpause();
-            this.localSeek(positionTicks);
+            if (expectedSequence !== this.commandSequence) {
+                console.debug('SyncPlay scheduleSeek: command superseded, skipping seek.');
+                return;
+            }
+
+            if (useZeroAnchor) {
+                this.localPause();
+            }
+            this.localSeek(targetPositionTicks);
 
             Helper.waitForEventOnce(this.manager, 'ready', Helper.WaitForEventDefaultTimeout).then(() => {
-                this.localPause();
-                this.sendBufferingRequest(false);
+                return this.settleSeekAndNotifyReady(targetPositionTicks, expectedSequence);
             }).catch((error) => {
-                console.error(`Timed out while waiting for 'ready' event! Seeking to ${positionTicks}.`, error);
-                this.localSeek(positionTicks);
+                console.error(`Timed out while waiting for 'ready' event! Seeking to ${targetPositionTicks}.`, error);
+                this.localSeek(targetPositionTicks);
+                return this.settleSeekAndNotifyReady(targetPositionTicks, expectedSequence);
             });
         };
 
@@ -489,7 +666,7 @@ class PlaybackCore {
      */
     estimateCurrentTicks(ticks, when, currentTime = new Date()) {
         const remoteTime = this.timeSyncCore.localDateToRemote(currentTime);
-        return ticks + (remoteTime.getTime() - when.getTime()) * Helper.TicksPerMillisecond;
+        return this.normalizePositionTicks(ticks + (remoteTime.getTime() - when.getTime()) * Helper.TicksPerMillisecond);
     }
 
     /**
@@ -533,7 +710,7 @@ class PlaybackCore {
         const currentPositionTicks = currentPosition * Helper.TicksPerMillisecond;
 
         // Estimate PositionTicks on server.
-        const serverPositionTicks = this.estimateCurrentTicks(lastCommand.PositionTicks, lastCommand.When, currentTime);
+        const serverPositionTicks = this.normalizePositionTicks(this.estimateCurrentTicks(lastCommand.PositionTicks, lastCommand.When, currentTime));
 
         // Measure delay that needs to be recovered.
         // Diff might be caused by the player internally starting the playback.

@@ -142,6 +142,7 @@ function processGeneralCommand(cmd, apiClient) {
 function onMessageReceived(e, msg) {
     const apiClient = this;
     const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
+    const isSyncPlayEnabled = !!SyncPlay?.Manager?.isSyncPlayEnabled?.();
 
     if (msg.MessageType === 'Play') {
         notifyApp();
@@ -162,6 +163,58 @@ function onMessageReceived(e, msg) {
             });
         }
     } else if (msg.MessageType === 'Playstate') {
+        // Prevent command echo loops while SyncPlay overrides playbackManager controls.
+        // When Playstate arrives during SyncPlay, apply player actions locally instead
+        // of routing through inputManager (which would re-send SyncPlay requests).
+        if (isSyncPlayEnabled) {
+            if (msg.Data.Command === 'Pause') {
+                if (typeof playbackManager._localPause === 'function') {
+                    playbackManager._localPause();
+                } else {
+                    inputManager.handleCommand('pause');
+                }
+            } else if (msg.Data.Command === 'Unpause') {
+                if (typeof playbackManager._localUnpause === 'function') {
+                    playbackManager._localUnpause();
+                } else {
+                    inputManager.handleCommand('play');
+                }
+            } else if (msg.Data.Command === 'PlayPause') {
+                const isPaused = playbackManager.paused?.();
+                if (isPaused) {
+                    if (typeof playbackManager._localUnpause === 'function') {
+                        playbackManager._localUnpause();
+                    } else {
+                        inputManager.handleCommand('play');
+                    }
+                } else if (typeof playbackManager._localPause === 'function') {
+                    playbackManager._localPause();
+                } else {
+                    inputManager.handleCommand('pause');
+                }
+            } else if (msg.Data.Command === 'Seek') {
+                if (typeof playbackManager._localSeek === 'function') {
+                    playbackManager._localSeek(msg.Data.SeekPositionTicks);
+                } else {
+                    playbackManager.seek(msg.Data.SeekPositionTicks);
+                }
+            } else if (msg.Data.Command === 'Stop') {
+                inputManager.handleCommand('stop');
+            } else if (msg.Data.Command === 'NextTrack') {
+                inputManager.handleCommand('next');
+            } else if (msg.Data.Command === 'PreviousTrack') {
+                inputManager.handleCommand('previous');
+            } else if (msg.Data.Command === 'Rewind') {
+                inputManager.handleCommand('rewind');
+            } else if (msg.Data.Command === 'FastForward') {
+                inputManager.handleCommand('fastforward');
+            } else {
+                notifyApp();
+            }
+
+            return;
+        }
+
         if (msg.Data.Command === 'Stop') {
             inputManager.handleCommand('stop');
         } else if (msg.Data.Command === 'Pause') {

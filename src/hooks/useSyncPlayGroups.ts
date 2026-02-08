@@ -1,24 +1,39 @@
+/**
+ * React-query hook for listing joinable SyncPlay groups.
+ *
+ * Notes:
+ * - Uses the V2 route (`/SyncPlay/V2/List`) as the authoritative list source.
+ * - Adds a cache-busting query arg to avoid stale intermediary caches.
+ */
 import { useQuery } from '@tanstack/react-query';
-import type { Api } from '@jellyfin/sdk/lib/api';
-import { getSyncPlayApi } from '@jellyfin/sdk/lib/utils/api/sync-play-api';
-import type { AxiosRequestConfig } from 'axios';
+import type { GroupInfoDto } from '@jellyfin/sdk/lib/generated-client';
+import type { ApiClient } from 'jellyfin-apiclient';
 
 import { useApi } from './useApi';
 
 const fetchSyncPlayGroups = async (
-    api: Api,
-    options?: AxiosRequestConfig
+    apiClient: ApiClient
 ) => {
-    const response = await getSyncPlayApi(api)
-        .syncPlayGetGroups(options);
-    return response.data;
+    const url = apiClient.getUrl('SyncPlay/V2/List', { _: Date.now() });
+    return await apiClient.getJSON(url) as GroupInfoDto[];
 };
 
-export const useSyncPlayGroups = () => {
-    const { api } = useApi();
+interface UseSyncPlayGroupsOptions {
+    enabled?: boolean
+    refetchInterval?: number | false
+}
+
+export const useSyncPlayGroups = (options: UseSyncPlayGroupsOptions = {}) => {
+    const { __legacyApiClient__ } = useApi();
+    const {
+        enabled = true,
+        refetchInterval = false
+    } = options;
+
     return useQuery({
         queryKey: [ 'SyncPlay', 'Groups' ],
-        queryFn: ({ signal }) => fetchSyncPlayGroups(api!, { signal }),
-        enabled: !!api
+        queryFn: () => fetchSyncPlayGroups(__legacyApiClient__!),
+        enabled: !!__legacyApiClient__ && enabled,
+        refetchInterval
     });
 };
