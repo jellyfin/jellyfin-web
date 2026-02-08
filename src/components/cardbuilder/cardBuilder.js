@@ -1116,7 +1116,8 @@ function buildCard(index, item, apiClient, options) {
         showChildCountIndicator: options.showChildCountIndicator,
         childCount: item.ChildCount,
         tagName: tagName,
-        itemType: item.Type
+        itemType: item.Type,
+        isMultiselectable: options.isMultiselectable
     });
 
     const positionTicksData = item.UserData?.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
