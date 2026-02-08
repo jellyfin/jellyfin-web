@@ -260,6 +260,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('.fldAudioNormalization').classList.toggle('hide', browser.iOS);
+    context.querySelector('.chkEnableReducedGapAudio').checked = userSettings.enableReducedGapAudio();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
@@ -332,6 +333,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.limitSegmentLength(context.querySelector('.chkLimitSegmentLength').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
+    userSettingsInstance.enableReducedGapAudio(context.querySelector('.chkEnableReducedGapAudio').checked);
     userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
     user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
     user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
