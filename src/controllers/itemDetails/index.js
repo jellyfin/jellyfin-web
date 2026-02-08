@@ -499,6 +499,42 @@ function renderName(item, container, context) {
     } else {
         container.classList.add('hide');
     }
+    // Adjust card position based on text length
+    adjustCardPositionForTextLength(container);
+}
+
+/**
+ * Adjusts the position of the detail image card when artist names are long.
+ * By default, the card is positioned at -80% from the top in desktop layouts.
+ * However, because of changes in the formatting of the
+ * detailPagePrimaryContainer to support long artist names, the image card
+ * would appear offscreen at some screen sizes. This function detects long
+ * artist names and centers the card vertically instead to prevent overlap.
+ */
+function adjustCardPositionForTextLength(container) {
+    // Only adjust for desktop layout
+    if (!layoutManager.desktop) return;
+
+    const parentName = container.querySelector('.parentName.musicParentName');
+    if (!parentName) return;
+
+    // Find the card within the current page/container
+    const page = container.closest('.page');
+    if (!page) return;
+
+    const card = page.querySelector('.detailImageContainer .card');
+    if (!card) return;
+
+    const lineHeight = Math.ceil(parseFloat(window.getComputedStyle(parentName).lineHeight));
+    const textHeight = parentName.scrollHeight;
+
+    // if the text height is greater than 2.5 lines, center the image card
+    // vertically in the detailPagePrimaryContainer. otherwise, leave the style as is.
+    if (textHeight > lineHeight * 2.5) {
+        card.classList.add('cardCentered');
+    } else {
+        card.classList.remove('cardCentered');
+    }
 }
 
 function setTrailerButtonVisibility(page, item) {
