@@ -431,6 +431,15 @@ class AppRouter {
                 return url;
             }
 
+            if (item.CollectionType == CollectionType.Musicvideos) {
+                url = `#/musicvideos?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+                return url;
+            }
+
             const layoutMode = localStorage.getItem('layout');
 
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Homevideos) {

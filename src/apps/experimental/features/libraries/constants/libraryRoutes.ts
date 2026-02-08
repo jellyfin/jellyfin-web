@@ -168,5 +168,26 @@ export const LibraryRoutes: LibraryRoute[] = [
                 view: LibraryTab.Videos
             }
         ]
+    },
+    {
+        path: '/musicvideos',
+        views: [
+            {
+                index: 0,
+                label: 'HeaderVideos',
+                view: LibraryTab.MusicVideos,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 2,
+                label: 'Folders',
+                view: LibraryTab.Folders
+            }
+        ]
     }
 ];

@@ -155,6 +155,58 @@ export const getSuggestionSections = (): Section[] => {
                 overlayMoreButton: true,
                 coverImage: true
             }
+        },
+        {
+            name: 'HeaderLatestMusicVideos',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Video',
+            type: SectionType.LatestMusicVideos,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.MusicVideo]
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
+                overlayPlayButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderRecentlyPlayed',
+            itemTypes: 'Video',
+            type: SectionType.RecentlyPlayedMusicVideos,
+            parametersOptions: {
+                sortBy: [ItemSortBy.DatePlayed],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.MusicVideo],
+                ...parametersOptions
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
+                overlayMoreButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderFrequentlyPlayed',
+            itemTypes: 'Video',
+            type: SectionType.FrequentlyPlayedMusicVideos,
+            parametersOptions: {
+                sortBy: [ItemSortBy.PlayCount],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.MusicVideo],
+                ...parametersOptions
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
+                overlayMoreButton: true,
+                coverImage: true
+            }
         }
     ];
 };

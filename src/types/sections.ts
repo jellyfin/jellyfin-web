@@ -51,7 +51,10 @@ export enum SectionType {
     LatestRecordings = 'LatestRecordings',
     RecordingFolders = 'RecordingFolders',
     ActiveRecordings = 'ActiveRecordings',
-    UpcomingRecordings = 'UpcomingRecordings'
+    UpcomingRecordings = 'UpcomingRecordings',
+    LatestMusicVideos = 'latestmusicvideos',
+    RecentlyPlayedMusicVideos = 'recentlyplayedmusicvideos',
+    FrequentlyPlayedMusicVideos = 'frequentlyplayedmusicvideos'
 }
 
 export interface Section {
@@ -84,6 +87,14 @@ export const MusicSuggestionsSectionsView: SectionsView = {
         SectionType.LatestMusic,
         SectionType.FrequentlyPlayedMusic,
         SectionType.RecentlyPlayedMusic
+    ]
+};
+
+export const MusicVideoSuggestionsSectionsView: SectionsView = {
+    suggestionSections: [
+        SectionType.LatestMusicVideos,
+        SectionType.FrequentlyPlayedMusicVideos,
+        SectionType.RecentlyPlayedMusicVideos
     ]
 };
 
