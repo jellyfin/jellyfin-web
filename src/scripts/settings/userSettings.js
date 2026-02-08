@@ -224,6 +224,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Enable Reduced-Gap Audio Playback' state.
+     * @param {boolean|undefined} [val] - Flag to enable reduced-gap audio playback or undefined.
+     * @return {boolean} 'Enable Reduced-Gap Audio Playback' state.
+     */
+    enableReducedGapAudio(val) {
+        if (val !== undefined) {
+            return this.set('enableReducedGapAudio', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enableReducedGapAudio', false), false);
+    }
+
+    /**
      * Get or set 'Next Video Info Overlay' state.
      * @param {boolean|undefined} [val] - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
@@ -730,6 +743,7 @@ export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bin
 export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
+export const enableReducedGapAudio = currentSettings.enableReducedGapAudio.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
