@@ -768,6 +768,7 @@
     "LabelImportOnlyFavoriteChannels": "Restrict to channels marked as favorite",
     "LabelInstalled": "Installed",
     "LabelInternetQuality": "Internet quality",
+    "LabelInvertSorting": "Invert Sorting",
     "LabelIsForced": "Forced",
     "LabelIsSynced": "Is Synced",
     "LabelKeepUpTo": "Keep up to",
