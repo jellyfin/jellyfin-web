@@ -4,7 +4,7 @@ import {
     detectVrProjection,
     normalizeVrProjection,
     resolveVrProjection
-} from './vrPlayback';
+} from '../../../../../plugins/htmlVideoPlayer/vrPlayback';
 
 describe('vrPlayback helpers', () => {
     it('normalizes unknown projection values to off', () => {

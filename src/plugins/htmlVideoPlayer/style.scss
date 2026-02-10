@@ -49,11 +49,6 @@ video[controls]::-webkit-media-controls {
     pointer-events: none;
 }
 
-.videoPlayerContainer-vr .libassjs-canvas-parent,
-.videoPlayerContainer-vr .videoSubtitles {
-    z-index: 3;
-}
-
 .htmlvideoplayer::cue {
     background-color: transparent;
     text-shadow: 0.14em 0.14em 0.14em rgba(0, 0, 0, 1);
@@ -99,6 +94,11 @@ video[controls]::-webkit-media-controls {
     min-height: 0 !important;
     margin-top: 0.5em !important;
     margin-bottom: 0.5em !important;
+}
+
+.videoPlayerContainer-vr .libassjs-canvas-parent,
+.videoPlayerContainer-vr .videoSubtitles {
+    z-index: 3;
 }
 
 @keyframes htmlvideoplayer-zoomin {

@@ -61,7 +61,8 @@ const topBottomPatterns = [
     /\btab\b/i,
     /\btb\b/i,
     /\bou\b/i,
-    /top[\s_.-]*(and)?[\s_.-]*bottom/i,
+    /\btop[\s_.-]*bottom\b/i,
+    /\btop[\s_.-]*and[\s_.-]*bottom\b/i,
     /over[\s_.-]*under/i
 ];
 
