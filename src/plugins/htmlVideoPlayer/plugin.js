@@ -44,6 +44,12 @@ import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
+import {
+    VrCanvasRenderer,
+    getSupportedVrProjections,
+    normalizeVrProjection,
+    resolveVrProjection
+} from './vrPlayback';
 
 /**
  * Returns resolved URL.
@@ -274,6 +280,14 @@ export class HtmlVideoPlayer {
      */
     #mediaElement;
     /**
+     * @type {VrCanvasRenderer | null | undefined}
+     */
+    #vrRenderer;
+    /**
+     * @type {string | undefined}
+     */
+    #activeVrProjection;
+    /**
      * @type {number}
      */
     #fetchQueue = 0;
@@ -393,6 +407,41 @@ export class HtmlVideoPlayer {
         }
     }
 
+    /**
+     * @private
+     */
+    #resolveVrProjection(options = this._currentPlayOptions) {
+        return resolveVrProjection(this.getVrProjection(), options?.item, options?.mediaSource);
+    }
+
+    /**
+     * @private
+     */
+    #applyVrProjection(options = this._currentPlayOptions) {
+        const videoDialog = this.#videoDialog;
+        const mediaElement = this.#mediaElement;
+
+        if (!videoDialog || !mediaElement) {
+            return;
+        }
+
+        const projection = this.#resolveVrProjection(options);
+        const shouldRenderVr = projection !== 'off';
+
+        if (!this.#vrRenderer && shouldRenderVr) {
+            this.#vrRenderer = new VrCanvasRenderer(videoDialog, mediaElement);
+        }
+
+        if (!this.#vrRenderer) {
+            this.#activeVrProjection = projection;
+            return;
+        }
+
+        this.#vrRenderer.setVideoElement(mediaElement);
+        this.#activeVrProjection = projection;
+        this.#vrRenderer.setProjection(projection);
+    }
+
     async play(options) {
         this.#started = false;
         this.#timeUpdated = false;
@@ -403,6 +452,7 @@ export class HtmlVideoPlayer {
 
         const elem = await this.createMediaElement(options);
         this.#applyAspectRatio(options.aspectRatio || this.getAspectRatio());
+        this.#applyVrProjection(options);
 
         await this.updateVideoUrl(options);
         return this.setCurrentSrc(elem, options);
@@ -514,6 +564,7 @@ export class HtmlVideoPlayer {
         this.#audioTrackIndexToSetOnPlaying = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
 
         this._currentPlayOptions = options;
+        this.#applyVrProjection(options);
 
         if (secondaryTrackValid) {
             this.#secondarySubtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSecondarySubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSecondarySubtitleStreamIndex;
@@ -852,6 +903,12 @@ export class HtmlVideoPlayer {
 
         destroyHlsPlayer(this);
         destroyFlvPlayer(this);
+
+        if (this.#vrRenderer) {
+            this.#vrRenderer.destroy();
+            this.#vrRenderer = null;
+        }
+        this.#activeVrProjection = 'off';
 
         setBackdropTransparency(TRANSPARENCY_LEVEL.None);
         document.body.classList.remove('hide-scroll');
@@ -1657,6 +1714,7 @@ export class HtmlVideoPlayer {
                 document.body.insertBefore(playerDlg, document.body.firstChild);
                 this.#videoDialog = playerDlg;
                 this.#mediaElement = videoElement;
+                this.#vrRenderer?.setVideoElement(videoElement);
 
                 delete this.forcedFullscreen;
 
@@ -1696,6 +1754,9 @@ export class HtmlVideoPlayer {
             }
 
             const videoElement = dlg.querySelector('video');
+            this.#videoDialog = dlg;
+            this.#mediaElement = videoElement;
+            this.#vrRenderer?.setVideoElement(videoElement);
             if (options.backdropUrl) {
                 // update backdrop image
                 videoElement.poster = options.backdropUrl;
@@ -1774,6 +1835,7 @@ export class HtmlVideoPlayer {
 
         list.push('SetBrightness');
         list.push('SetAspectRatio');
+        list.push('SetVrProjection');
         list.push('SecondarySubtitles');
 
         return list;
@@ -2096,6 +2158,26 @@ export class HtmlVideoPlayer {
             name: globalize.translate('AspectRatioFill'),
             id: 'fill'
         }];
+    }
+
+    setVrProjection(val) {
+        appSettings.vrProjection(normalizeVrProjection(val));
+        this.#applyVrProjection();
+    }
+
+    getVrProjection() {
+        return normalizeVrProjection(appSettings.vrProjection() || 'off');
+    }
+
+    getSupportedVrProjections() {
+        return getSupportedVrProjections().map(({ id, labelKey }) => ({
+            id,
+            name: globalize.translate(labelKey)
+        }));
+    }
+
+    getResolvedVrProjection() {
+        return this.#activeVrProjection || 'off';
     }
 
     togglePictureInPicture() {

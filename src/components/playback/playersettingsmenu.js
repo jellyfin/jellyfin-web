@@ -175,6 +175,27 @@ function showPlaybackRateMenu(player, btn) {
     });
 }
 
+function showVrProjectionMenu(player, btn) {
+    const currentId = playbackManager.getVrProjection(player);
+    const menuItems = playbackManager.getSupportedVrProjections(player).map(({ id, name }) => ({
+        id,
+        name,
+        selected: id === currentId
+    }));
+
+    return actionsheet.show({
+        items: menuItems,
+        positionTo: btn
+    }).then(function (id) {
+        if (id) {
+            playbackManager.setVrProjection(id, player);
+            return Promise.resolve();
+        }
+
+        return Promise.reject();
+    });
+}
+
 function showWithUser(options, player, user) {
     const supportedCommands = playbackManager.getSupportedCommands(player);
 
@@ -200,6 +221,17 @@ function showWithUser(options, player, user) {
             name: globalize.translate('PlaybackRate'),
             id: 'playbackrate',
             asideText: currentPlaybackRate ? currentPlaybackRate.name : null
+        });
+    }
+
+    if (supportedCommands.indexOf('SetVrProjection') !== -1) {
+        const currentVrProjectionId = playbackManager.getVrProjection(player);
+        const currentVrProjection = playbackManager.getSupportedVrProjections(player).filter(i => i.id === currentVrProjectionId)[0];
+
+        menuItems.push({
+            name: globalize.translate('Vr3DMode'),
+            id: 'vrprojection',
+            asideText: currentVrProjection ? currentVrProjection.name : null
         });
     }
 
@@ -270,6 +302,8 @@ function handleSelectedOption(id, options, player) {
             return showAspectRatioMenu(player, options.positionTo);
         case 'playbackrate':
             return showPlaybackRateMenu(player, options.positionTo);
+        case 'vrprojection':
+            return showVrProjectionMenu(player, options.positionTo);
         case 'repeatmode':
             return showRepeatModeMenu(player, options.positionTo);
         case 'stats':
