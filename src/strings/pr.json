@@ -106,5 +106,6 @@
     "Movies": "Moving pictures",
     "Shows": "Sagas",
     "Playlists": "Lists o’ plunder",
-    "ValueSpecialEpisodeName": "Special Tale – {0}"
+    "ValueSpecialEpisodeName": "Special Tale – {0}",
+    "All": "All"
 }
