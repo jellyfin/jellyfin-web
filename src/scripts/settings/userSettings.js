@@ -84,16 +84,6 @@ export class UserSettings {
         });
     }
 
-    // FIXME: Seems unused
-    getData() {
-        return this.displayPrefs;
-    }
-
-    // FIXME: Seems unused
-    importFrom(instance) {
-        this.displayPrefs = instance.getData();
-    }
-
     /**
      * Flush any pending display preference changes to the server.
      * @return {Promise} Resolves when the server save completes.
