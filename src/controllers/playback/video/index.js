@@ -1452,7 +1452,7 @@ export default function (view) {
                                                                             return;
                                                     }
             }
-                }
+        }
         if (e.deltaY < 0) {
             playbackManager.volumeUp(currentPlayer);
         }
