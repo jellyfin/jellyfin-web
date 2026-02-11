@@ -9,6 +9,9 @@ const VrProjectionId = Object.freeze({
     FisheyeTopAndBottom: 'fisheye-tab'
 });
 
+const LEFT_EYE_LAYER = 1;
+const RIGHT_EYE_LAYER = 2;
+
 const VR_PROJECTIONS = Object.freeze([
     {
         id: VrProjectionId.Off,
@@ -170,6 +173,44 @@ export function resolveVrProjection(setting, item, mediaSource) {
     }
 
     return normalized;
+}
+
+function getNavigatorXr() {
+    if (typeof navigator === 'undefined') {
+        return null;
+    }
+
+    // eslint-disable-next-line compat/compat
+    return navigator.xr || null;
+}
+
+export function isImmersiveVrRuntimeAvailable() {
+    return !!getNavigatorXr();
+}
+
+function applyTextureLayout(texture, layout) {
+    if (!texture || !layout) {
+        return;
+    }
+
+    texture.repeat.set(layout.repeatX, layout.repeatY);
+    texture.offset.set(layout.offsetX, layout.offsetY);
+    texture.needsUpdate = true;
+}
+
+function configureVideoTexture(THREE, texture) {
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.generateMipmaps = false;
+    texture.flipY = true;
+
+    if ('colorSpace' in texture && 'SRGBColorSpace' in THREE) {
+        texture.colorSpace = THREE.SRGBColorSpace;
+    } else if ('encoding' in texture && 'sRGBEncoding' in THREE) {
+        texture.encoding = THREE.sRGBEncoding;
+    }
 }
 
 function drawIntoEye(ctx, videoElement, source, destination, circularMask) {
@@ -492,5 +533,613 @@ export class VrCanvasRenderer {
         }
 
         this.#scheduleNextFrame();
+    }
+}
+
+const MAX_EYE_TEXTURE_SIZE = 2048;
+const IMMERSIVE_HEMISPHERE_YAW_OFFSET = Math.PI;
+
+function isTopBottomProjection(projection) {
+    return projection === VrProjectionId.HalfTopAndBottom
+        || projection === VrProjectionId.FullTopAndBottom
+        || projection === VrProjectionId.FisheyeTopAndBottom;
+}
+
+function isFisheyeProjection(projection) {
+    return projection === VrProjectionId.FisheyeSideBySide
+        || projection === VrProjectionId.FisheyeTopAndBottom;
+}
+
+function getEyeSourceSize(videoElement, projection) {
+    const sourceWidth = videoElement?.videoWidth || 0;
+    const sourceHeight = videoElement?.videoHeight || 0;
+    if (!sourceWidth || !sourceHeight) {
+        return {
+            width: 0,
+            height: 0
+        };
+    }
+
+    if (isTopBottomProjection(projection)) {
+        return {
+            width: sourceWidth,
+            height: sourceHeight / 2
+        };
+    }
+
+    return {
+        width: sourceWidth / 2,
+        height: sourceHeight
+    };
+}
+
+function getEyeSourceRect(videoElement, projection, isRightEye) {
+    const sourceWidth = videoElement?.videoWidth || 0;
+    const sourceHeight = videoElement?.videoHeight || 0;
+    if (!sourceWidth || !sourceHeight) {
+        return null;
+    }
+
+    if (isTopBottomProjection(projection)) {
+        const eyeSourceHeight = sourceHeight / 2;
+        return {
+            sx: 0,
+            sy: isRightEye ? eyeSourceHeight : 0,
+            sw: sourceWidth,
+            sh: eyeSourceHeight
+        };
+    }
+
+    const eyeSourceWidth = sourceWidth / 2;
+    return {
+        sx: isRightEye ? eyeSourceWidth : 0,
+        sy: 0,
+        sw: eyeSourceWidth,
+        sh: sourceHeight
+    };
+}
+
+function getEyeTextureSize(videoElement, projection) {
+    const sourceSize = getEyeSourceSize(videoElement, projection);
+    let width = Math.max(1, Math.round(sourceSize.width));
+    let height = Math.max(1, Math.round(sourceSize.height));
+
+    const scale = Math.min(1, MAX_EYE_TEXTURE_SIZE / width, MAX_EYE_TEXTURE_SIZE / height);
+    if (scale < 1) {
+        width = Math.max(1, Math.round(width * scale));
+        height = Math.max(1, Math.round(height * scale));
+    }
+
+    return {
+        width,
+        height
+    };
+}
+
+function drawEyeProjection(ctx, videoElement, projection, isRightEye, width, height) {
+    const source = getEyeSourceRect(videoElement, projection, isRightEye);
+    if (!source) {
+        return;
+    }
+
+    drawIntoEye(
+        ctx,
+        videoElement,
+        source,
+        {
+            dx: 0,
+            dy: 0,
+            dw: width,
+            dh: height
+        },
+        isFisheyeProjection(projection)
+    );
+}
+
+export class VrImmersiveRenderer {
+    #container;
+    #videoElement;
+    #projection = VrProjectionId.Off;
+    #isSupported = null;
+    #isRunning = false;
+    #exitButtonLabel;
+
+    #three;
+    #renderer;
+    #scene;
+    #camera;
+    #session;
+    #leftMesh;
+    #rightMesh;
+    #leftTexture;
+    #rightTexture;
+    #leftCanvas;
+    #rightCanvas;
+    #leftContext;
+    #rightContext;
+    #hemisphereGeometry;
+    #exitButton;
+    #hasDomOverlay = false;
+
+    constructor(container, videoElement, options = {}) {
+        this.#container = container;
+        this.#videoElement = videoElement;
+        this.#exitButtonLabel = options.exitButtonLabel || 'Exit VR';
+        this.#ensureExitButton();
+    }
+
+    setVideoElement(videoElement) {
+        if (!videoElement || videoElement === this.#videoElement) {
+            return;
+        }
+
+        this.#videoElement = videoElement;
+        if (!this.#isRunning) {
+            return;
+        }
+
+        this.#rebuildVideoTextures();
+    }
+
+    isActive() {
+        const isPresenting = !!this.#renderer?.xr?.isPresenting;
+        if (this.#isRunning && !isPresenting) {
+            void this.#endActiveSession();
+            return false;
+        }
+
+        return this.#isRunning && isPresenting;
+    }
+
+    getProjection() {
+        return this.#projection;
+    }
+
+    async isSupported() {
+        if (this.#isSupported != null) {
+            return this.#isSupported;
+        }
+
+        const xr = getNavigatorXr();
+        if (!xr) {
+            this.#isSupported = false;
+            return false;
+        }
+
+        try {
+            this.#isSupported = await xr.isSessionSupported('immersive-vr');
+        } catch (error) {
+            console.debug('[VrImmersiveRenderer] isSessionSupported failed', error);
+            this.#isSupported = false;
+        }
+
+        return this.#isSupported;
+    }
+
+    async start(projection) {
+        if (this.#isRunning) {
+            this.setProjection(projection);
+            return true;
+        }
+
+        if (!(await this.isSupported())) {
+            return false;
+        }
+
+        const xr = getNavigatorXr();
+        if (!xr) {
+            return false;
+        }
+
+        try {
+            await this.#ensureThreeScene();
+
+            const session = await this.#requestSession(xr);
+            this.#session = session;
+            this.#session.addEventListener('end', this.#onSessionEnd);
+            this.#hasDomOverlay = !!session.domOverlayState;
+
+            await this.#renderer.xr.setSession(session);
+            this.#renderer.setAnimationLoop(this.#render);
+            this.#isRunning = true;
+            this.#setImmersiveUiVisible(true);
+            this.setProjection(projection);
+            return true;
+        } catch (error) {
+            console.error('[VrImmersiveRenderer] failed to start immersive session', error);
+            this.#cleanupSessionState();
+            return false;
+        }
+    }
+
+    async stop() {
+        if (!this.#isRunning) {
+            return;
+        }
+
+        await this.#endActiveSession();
+    }
+
+    async toggle(projection) {
+        if (this.#isRunning && !this.#renderer?.xr?.isPresenting) {
+            await this.#endActiveSession();
+        }
+
+        if (this.#isRunning) {
+            await this.stop();
+            return false;
+        }
+
+        return this.start(projection);
+    }
+
+    destroy() {
+        this.#cleanupSessionState();
+        window.removeEventListener('resize', this.#onResize);
+
+        if (this.#renderer?.xr) {
+            this.#renderer.xr.removeEventListener('sessionend', this.#onRendererSessionEnd);
+        }
+
+        if (this.#renderer) {
+            this.#renderer.dispose();
+
+            if (this.#renderer.domElement?.parentNode) {
+                this.#renderer.domElement.parentNode.removeChild(this.#renderer.domElement);
+            }
+        }
+
+        if (this.#exitButton) {
+            this.#exitButton.removeEventListener('click', this.#onExitButtonClick);
+            if (this.#exitButton.parentNode) {
+                this.#exitButton.parentNode.removeChild(this.#exitButton);
+            }
+        }
+
+        this.#leftTexture?.dispose();
+        this.#rightTexture?.dispose();
+        this.#leftTexture = null;
+        this.#rightTexture = null;
+
+        this.#leftContext = null;
+        this.#rightContext = null;
+        this.#leftCanvas = null;
+        this.#rightCanvas = null;
+
+        this.#hemisphereGeometry?.dispose();
+        this.#hemisphereGeometry = null;
+
+        this.#three = null;
+        this.#renderer = null;
+        this.#scene = null;
+        this.#camera = null;
+        this.#leftMesh = null;
+        this.#rightMesh = null;
+        this.#session = null;
+        this.#videoElement = null;
+        this.#exitButton = null;
+        this.#hasDomOverlay = false;
+        this.#container = null;
+    }
+
+    setProjection(projection) {
+        const normalized = normalizeVrProjection(projection);
+        this.#projection = normalized;
+
+        if (!this.#leftTexture || !this.#rightTexture || !this.#leftMesh || !this.#rightMesh) {
+            return;
+        }
+
+        applyTextureLayout(this.#leftTexture, {
+            repeatX: 1,
+            repeatY: 1,
+            offsetX: 0,
+            offsetY: 0
+        });
+        applyTextureLayout(this.#rightTexture, {
+            repeatX: 1,
+            repeatY: 1,
+            offsetX: 0,
+            offsetY: 0
+        });
+
+        this.#leftMesh.geometry = this.#hemisphereGeometry;
+        this.#rightMesh.geometry = this.#hemisphereGeometry;
+
+        this.#updateEyeTextures();
+    }
+
+    async #ensureThreeScene() {
+        if (this.#renderer && this.#scene && this.#camera) {
+            return;
+        }
+
+        const THREE = await import('three');
+        this.#three = THREE;
+
+        const renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true
+        });
+        renderer.xr.enabled = true;
+        renderer.xr.addEventListener('sessionend', this.#onRendererSessionEnd);
+        renderer.domElement.classList.add('htmlvideoplayer-vr-immersive-canvas');
+        renderer.setPixelRatio(window.devicePixelRatio || 1);
+        this.#renderer = renderer;
+
+        const size = this.#getCanvasSize();
+        renderer.setSize(size.width, size.height, false);
+
+        const scene = new THREE.Scene();
+        this.#scene = scene;
+
+        const camera = new THREE.PerspectiveCamera(90, size.width / size.height, 0.1, 1000);
+        camera.position.set(0, 0, 0);
+        camera.layers.enable(LEFT_EYE_LAYER);
+        camera.layers.enable(RIGHT_EYE_LAYER);
+        this.#camera = camera;
+
+        // Front-facing 180deg dome. Previous phiStart value centered the dome to the side.
+        this.#hemisphereGeometry = new THREE.SphereGeometry(50, 96, 64, 0, Math.PI, 0, Math.PI);
+
+        this.#rebuildVideoTextures();
+
+        if (this.#container) {
+            this.#container.appendChild(renderer.domElement);
+        }
+
+        window.addEventListener('resize', this.#onResize);
+    }
+
+    #rebuildVideoTextures() {
+        const THREE = this.#three;
+        const scene = this.#scene;
+        const videoElement = this.#videoElement;
+        if (!THREE || !scene || !videoElement) {
+            return;
+        }
+
+        this.#ensureEyeCanvasContext();
+        this.#ensureEyeCanvasSize(getEyeTextureSize(videoElement, this.#projection));
+
+        if (this.#leftMesh) {
+            scene.remove(this.#leftMesh);
+            this.#leftMesh.material?.dispose();
+        }
+        if (this.#rightMesh) {
+            scene.remove(this.#rightMesh);
+            this.#rightMesh.material?.dispose();
+        }
+
+        this.#leftTexture?.dispose();
+        this.#rightTexture?.dispose();
+
+        const leftTexture = new THREE.CanvasTexture(this.#leftCanvas);
+        const rightTexture = new THREE.CanvasTexture(this.#rightCanvas);
+        configureVideoTexture(THREE, leftTexture);
+        configureVideoTexture(THREE, rightTexture);
+        this.#leftTexture = leftTexture;
+        this.#rightTexture = rightTexture;
+
+        const leftMesh = new THREE.Mesh(this.#hemisphereGeometry, new THREE.MeshBasicMaterial({
+            map: leftTexture,
+            side: THREE.BackSide
+        }));
+        const rightMesh = new THREE.Mesh(this.#hemisphereGeometry, new THREE.MeshBasicMaterial({
+            map: rightTexture,
+            side: THREE.BackSide
+        }));
+
+        // Shift the 180 dome to the viewer's forward direction.
+        leftMesh.rotation.y = IMMERSIVE_HEMISPHERE_YAW_OFFSET;
+        rightMesh.rotation.y = IMMERSIVE_HEMISPHERE_YAW_OFFSET;
+
+        leftMesh.layers.set(LEFT_EYE_LAYER);
+        rightMesh.layers.set(RIGHT_EYE_LAYER);
+        this.#leftMesh = leftMesh;
+        this.#rightMesh = rightMesh;
+
+        scene.add(leftMesh);
+        scene.add(rightMesh);
+
+        this.setProjection(this.#projection);
+    }
+
+    #render = () => {
+        if (!this.#renderer || !this.#scene || !this.#camera || !this.#isRunning) {
+            return;
+        }
+
+        if (!this.#renderer.xr.isPresenting) {
+            void this.#endActiveSession();
+            return;
+        }
+
+        this.#updateEyeTextures();
+
+        const xrCamera = this.#renderer.xr.getCamera(this.#camera);
+        if (xrCamera?.isArrayCamera && xrCamera.cameras?.length >= 2) {
+            xrCamera.cameras[0].layers.set(LEFT_EYE_LAYER);
+            xrCamera.cameras[1].layers.set(RIGHT_EYE_LAYER);
+        }
+
+        this.#renderer.render(this.#scene, this.#camera);
+    };
+
+    #updateEyeTextures() {
+        const videoElement = this.#videoElement;
+        const leftContext = this.#leftContext;
+        const rightContext = this.#rightContext;
+        const leftCanvas = this.#leftCanvas;
+        const rightCanvas = this.#rightCanvas;
+        if (!videoElement || !leftContext || !rightContext || !leftCanvas || !rightCanvas) {
+            return;
+        }
+
+        if (videoElement.readyState < 2) {
+            return;
+        }
+
+        const textureSize = getEyeTextureSize(videoElement, this.#projection);
+        this.#ensureEyeCanvasSize(textureSize);
+
+        leftContext.fillStyle = '#000';
+        leftContext.fillRect(0, 0, leftCanvas.width, leftCanvas.height);
+        rightContext.fillStyle = '#000';
+        rightContext.fillRect(0, 0, rightCanvas.width, rightCanvas.height);
+
+        drawEyeProjection(leftContext, videoElement, this.#projection, false, leftCanvas.width, leftCanvas.height);
+        drawEyeProjection(rightContext, videoElement, this.#projection, true, rightCanvas.width, rightCanvas.height);
+
+        if (this.#leftTexture) {
+            this.#leftTexture.needsUpdate = true;
+        }
+        if (this.#rightTexture) {
+            this.#rightTexture.needsUpdate = true;
+        }
+    }
+
+    async #requestSession(xr) {
+        const optionalFeatures = ['local-floor', 'bounded-floor'];
+        if (this.#container) {
+            try {
+                return await xr.requestSession('immersive-vr', {
+                    optionalFeatures: optionalFeatures.concat(['dom-overlay']),
+                    domOverlay: {
+                        root: this.#container
+                    }
+                });
+            } catch (error) {
+                console.debug('[VrImmersiveRenderer] dom-overlay unavailable, retrying without it', error);
+            }
+        }
+
+        return xr.requestSession('immersive-vr', {
+            optionalFeatures
+        });
+    }
+
+    #ensureEyeCanvasContext() {
+        if (!this.#leftCanvas) {
+            this.#leftCanvas = document.createElement('canvas');
+        }
+        if (!this.#rightCanvas) {
+            this.#rightCanvas = document.createElement('canvas');
+        }
+        if (!this.#leftContext) {
+            this.#leftContext = this.#leftCanvas.getContext('2d', {
+                alpha: false,
+                desynchronized: true
+            });
+        }
+        if (!this.#rightContext) {
+            this.#rightContext = this.#rightCanvas.getContext('2d', {
+                alpha: false,
+                desynchronized: true
+            });
+        }
+    }
+
+    #ensureEyeCanvasSize(size) {
+        if (!size) {
+            return;
+        }
+
+        const { width, height } = size;
+        if (this.#leftCanvas && (this.#leftCanvas.width !== width || this.#leftCanvas.height !== height)) {
+            this.#leftCanvas.width = width;
+            this.#leftCanvas.height = height;
+        }
+
+        if (this.#rightCanvas && (this.#rightCanvas.width !== width || this.#rightCanvas.height !== height)) {
+            this.#rightCanvas.width = width;
+            this.#rightCanvas.height = height;
+        }
+    }
+
+    #getCanvasSize() {
+        const width = this.#container?.clientWidth || window.innerWidth || 1280;
+        const height = this.#container?.clientHeight || window.innerHeight || 720;
+        return {
+            width: Math.max(width, 1),
+            height: Math.max(height, 1)
+        };
+    }
+
+    #setImmersiveUiVisible(isVisible) {
+        const showOverlayUi = !!(isVisible && this.#hasDomOverlay);
+        this.#container?.classList.toggle('videoPlayerContainer-vr-immersive', showOverlayUi);
+        this.#exitButton?.classList.toggle('hide', !showOverlayUi);
+    }
+
+    #ensureExitButton() {
+        if (!this.#container || this.#exitButton) {
+            return;
+        }
+
+        const button = document.createElement('button');
+        button.setAttribute('type', 'button');
+        button.classList.add('htmlvideoplayer-vr-immersive-exit', 'hide');
+        button.textContent = this.#exitButtonLabel;
+        button.addEventListener('click', this.#onExitButtonClick);
+        this.#container.appendChild(button);
+        this.#exitButton = button;
+    }
+
+    #onExitButtonClick = () => {
+        this.stop();
+    };
+
+    #onResize = () => {
+        if (!this.#renderer || !this.#camera) {
+            return;
+        }
+
+        const size = this.#getCanvasSize();
+        this.#renderer.setSize(size.width, size.height, false);
+        this.#camera.aspect = size.width / size.height;
+        this.#camera.updateProjectionMatrix();
+    };
+
+    #onRendererSessionEnd = () => {
+        this.#cleanupSessionState();
+    };
+
+    #onSessionEnd = () => {
+        this.#cleanupSessionState();
+    };
+
+    async #endActiveSession() {
+        const session = this.#session;
+        this.#cleanupSessionState();
+
+        if (!session) {
+            return;
+        }
+
+        try {
+            await session.end();
+        } catch (error) {
+            console.debug('[VrImmersiveRenderer] failed to end immersive session', error);
+        }
+    }
+
+    #cleanupSessionState() {
+        if (!this.#isRunning && !this.#session) {
+            return;
+        }
+
+        if (this.#session) {
+            this.#session.removeEventListener('end', this.#onSessionEnd);
+        }
+
+        if (this.#renderer) {
+            this.#renderer.setAnimationLoop(null);
+        }
+
+        this.#setImmersiveUiVisible(false);
+        this.#hasDomOverlay = false;
+        this.#session = null;
+        this.#isRunning = false;
     }
 }

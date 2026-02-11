@@ -1124,6 +1124,26 @@ export class PlaybackManager {
             return [];
         };
 
+        self.toggleImmersiveVr = function (player) {
+            player = player || self._currentPlayer;
+
+            if (player?.toggleImmersiveVr) {
+                return player.toggleImmersiveVr();
+            }
+
+            return Promise.resolve(false);
+        };
+
+        self.isImmersiveVrActive = function (player) {
+            player = player || self._currentPlayer;
+
+            if (player?.isImmersiveVrActive) {
+                return player.isImmersiveVrActive();
+            }
+
+            return false;
+        };
+
         self.increasePlaybackRate = function (player) {
             player = player || self._currentPlayer;
             if (player) {
@@ -4144,6 +4164,9 @@ export class PlaybackManager {
                 if (player.supports('SetVrProjection')) {
                     list.push('SetVrProjection');
                 }
+                if (player.supports('ImmersiveVr')) {
+                    list.push('ImmersiveVr');
+                }
                 if (player.supports('PlaybackRate')) {
                     list.push('PlaybackRate');
                 }
@@ -4302,6 +4325,9 @@ export class PlaybackManager {
                 break;
             case 'SetVrProjection':
                 this.setVrProjection(cmd.Arguments.VrProjection, player);
+                break;
+            case 'ImmersiveVr':
+                this.toggleImmersiveVr(player);
                 break;
             case 'PlaybackRate':
                 this.setPlaybackRate(cmd.Arguments.PlaybackRate, player);

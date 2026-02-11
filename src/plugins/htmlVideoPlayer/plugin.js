@@ -46,6 +46,7 @@ import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
 import {
     VrCanvasRenderer,
+    VrImmersiveRenderer,
     getSupportedVrProjections,
     normalizeVrProjection,
     resolveVrProjection
@@ -288,6 +289,10 @@ export class HtmlVideoPlayer {
      */
     #activeVrProjection;
     /**
+     * @type {VrImmersiveRenderer | null | undefined}
+     */
+    #vrImmersiveRenderer;
+    /**
      * @type {number}
      */
     #fetchQueue = 0;
@@ -440,6 +445,10 @@ export class HtmlVideoPlayer {
         this.#vrRenderer.setVideoElement(mediaElement);
         this.#activeVrProjection = projection;
         this.#vrRenderer.setProjection(projection);
+
+        if (this.#vrImmersiveRenderer?.isActive()) {
+            this.#vrImmersiveRenderer.setProjection(projection);
+        }
     }
 
     async play(options) {
@@ -907,6 +916,10 @@ export class HtmlVideoPlayer {
         if (this.#vrRenderer) {
             this.#vrRenderer.destroy();
             this.#vrRenderer = null;
+        }
+        if (this.#vrImmersiveRenderer) {
+            this.#vrImmersiveRenderer.destroy();
+            this.#vrImmersiveRenderer = null;
         }
         this.#activeVrProjection = 'off';
 
@@ -1715,6 +1728,7 @@ export class HtmlVideoPlayer {
                 this.#videoDialog = playerDlg;
                 this.#mediaElement = videoElement;
                 this.#vrRenderer?.setVideoElement(videoElement);
+                this.#vrImmersiveRenderer?.setVideoElement(videoElement);
 
                 delete this.forcedFullscreen;
 
@@ -1757,6 +1771,7 @@ export class HtmlVideoPlayer {
             this.#videoDialog = dlg;
             this.#mediaElement = videoElement;
             this.#vrRenderer?.setVideoElement(videoElement);
+            this.#vrImmersiveRenderer?.setVideoElement(videoElement);
             if (options.backdropUrl) {
                 // update backdrop image
                 videoElement.poster = options.backdropUrl;
@@ -1836,6 +1851,7 @@ export class HtmlVideoPlayer {
         list.push('SetBrightness');
         list.push('SetAspectRatio');
         list.push('SetVrProjection');
+        list.push('ImmersiveVr');
         list.push('SecondarySubtitles');
 
         return list;
@@ -2178,6 +2194,37 @@ export class HtmlVideoPlayer {
 
     getResolvedVrProjection() {
         return this.#activeVrProjection || 'off';
+    }
+
+    isImmersiveVrActive() {
+        return !!this.#vrImmersiveRenderer?.isActive();
+    }
+
+    async toggleImmersiveVr() {
+        const videoDialog = this.#videoDialog;
+        const mediaElement = this.#mediaElement;
+        if (!videoDialog || !mediaElement) {
+            return false;
+        }
+
+        if (!this.#vrImmersiveRenderer) {
+            this.#vrImmersiveRenderer = new VrImmersiveRenderer(videoDialog, mediaElement, {
+                exitButtonLabel: globalize.translate('VrImmersiveExit')
+            });
+        }
+
+        let projection = this.#resolveVrProjection();
+        if (projection === 'off') {
+            const fallbackProjection = resolveVrProjection('auto', this._currentPlayOptions?.item, this._currentPlayOptions?.mediaSource);
+            projection = fallbackProjection === 'off' ? 'half-sbs' : fallbackProjection;
+            if (this.getVrProjection() === 'off') {
+                this.setVrProjection(projection);
+            }
+        }
+
+        const isActive = await this.#vrImmersiveRenderer.toggle(projection);
+        this.#applyVrProjection();
+        return isActive;
     }
 
     togglePictureInPicture() {

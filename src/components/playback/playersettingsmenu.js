@@ -3,6 +3,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import qualityoptions from '../qualityOptions';
+import alert from '../alert';
 
 function showQualityMenu(player, btn) {
     const videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
@@ -196,6 +197,28 @@ function showVrProjectionMenu(player, btn) {
     });
 }
 
+function toggleImmersiveVr(player) {
+    const wasActive = playbackManager.isImmersiveVrActive(player);
+
+    return playbackManager.toggleImmersiveVr(player).then(function (isActive) {
+        if (!wasActive && !isActive) {
+            alert({
+                title: globalize.translate('VrImmersiveMode'),
+                text: globalize.translate('VrImmersiveUnavailable')
+            });
+        }
+
+        return isActive;
+    }).catch(function () {
+        alert({
+            title: globalize.translate('VrImmersiveMode'),
+            text: globalize.translate('VrImmersiveUnavailable')
+        });
+
+        return false;
+    });
+}
+
 function showWithUser(options, player, user) {
     const supportedCommands = playbackManager.getSupportedCommands(player);
 
@@ -232,6 +255,15 @@ function showWithUser(options, player, user) {
             name: globalize.translate('Vr3DMode'),
             id: 'vrprojection',
             asideText: currentVrProjection ? currentVrProjection.name : null
+        });
+    }
+
+    if (supportedCommands.indexOf('ImmersiveVr') !== -1) {
+        const isImmersiveActive = playbackManager.isImmersiveVrActive(player);
+        menuItems.push({
+            name: globalize.translate('VrImmersiveMode'),
+            id: 'vrimmersive',
+            asideText: globalize.translate(isImmersiveActive ? 'VrImmersiveEnabled' : 'VrImmersiveDisabled')
         });
     }
 
@@ -304,6 +336,8 @@ function handleSelectedOption(id, options, player) {
             return showPlaybackRateMenu(player, options.positionTo);
         case 'vrprojection':
             return showVrProjectionMenu(player, options.positionTo);
+        case 'vrimmersive':
+            return toggleImmersiveVr(player);
         case 'repeatmode':
             return showRepeatModeMenu(player, options.positionTo);
         case 'stats':

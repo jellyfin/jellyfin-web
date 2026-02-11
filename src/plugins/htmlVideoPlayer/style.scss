@@ -49,6 +49,40 @@ video[controls]::-webkit-media-controls {
     pointer-events: none;
 }
 
+.htmlvideoplayer-vr-immersive-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.htmlvideoplayer-vr-immersive-exit {
+    position: fixed;
+    top: max(1rem, env(safe-area-inset-top));
+    right: max(1rem, env(safe-area-inset-right));
+    z-index: 1200;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.65em 1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    font-size: 0.95em;
+    pointer-events: all;
+}
+
+.videoPlayerContainer-vr-immersive .videoOsdBottom,
+.videoPlayerContainer-vr-immersive .skinHeader-withBackground.osdHeader {
+    z-index: 1100;
+}
+
+.videoPlayerContainer-vr-immersive .videoOsdBottom-hidden,
+.videoPlayerContainer-vr-immersive .osdHeader-hidden {
+    opacity: 1;
+}
+
 .htmlvideoplayer::cue {
     background-color: transparent;
     text-shadow: 0.14em 0.14em 0.14em rgba(0, 0, 0, 1);
