@@ -18,7 +18,6 @@
     "ButtonSyncPlay": "SyncPlay",
     "AddedOnValue": "Upended {0}",
     "AddToCollection": "Add t' ye collection",
-    "AdditionalNotificationServices": "Browse th' plugin scroll t' invoke additional bell-ringing.",
     "AddToPlaylist": "Upend t' ye playlist",
     "AddToPlayQueue": "Upend t' ye play queue",
     "StopPlayback": "Belay That",
@@ -30,7 +29,6 @@
     "SelectAdminUsername": "Capt'n's Title.",
     "OnWakeFromSleep": "Show A Leg",
     "TabDashboard": "The Helm",
-    "TabContainers": "Chests",
     "ValueOneSong": "1 shanty",
     "ValueSongCount": "{0} shanties",
     "Yes": "Ay",
@@ -61,7 +59,6 @@
     "HeaderContinueWatching": "Continue Yer Journey",
     "Folders": "Chests",
     "Collections": "Barrels",
-    "LabelUser": "",
     "HeaderPleaseSignIn": "Mewngofnodwch os gwelwch yn dda",
     "ButtonArrowRight": "Starboard",
     "ButtonArrowLeft": "Port",
@@ -104,5 +101,10 @@
     "AllowCollectionManagement": "Permit this scallywag to handle treasures",
     "Absolute": "Abs'lute",
     "AgeValue": "({0} summers gone by)",
-    "AirPlay": "Spyglass"
+    "AirPlay": "Spyglass",
+    "MusicVideos": "Shanty films",
+    "Movies": "Moving pictures",
+    "Shows": "Sagas",
+    "Playlists": "Lists o’ plunder",
+    "ValueSpecialEpisodeName": "Special Tale – {0}"
 }

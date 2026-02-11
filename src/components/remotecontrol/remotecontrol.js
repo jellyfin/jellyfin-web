@@ -3,6 +3,7 @@ import escapeHtml from 'escape-html';
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';
 import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { AppFeature } from 'constants/appFeature';
+import { ItemAction } from 'constants/itemAction';
 
 import datetime from '../../scripts/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
@@ -16,6 +17,9 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import itemContextMenu from '../itemContextMenu';
+import toast from '../toast/toast';
+import { appRouter } from '../router/appRouter';
+import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 
 import '../cardbuilder/card.scss';
 import '../../elements/emby-button/emby-button';
@@ -24,9 +28,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-slider/emby-slider';
-import toast from '../toast/toast';
-import { appRouter } from '../router/appRouter';
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -208,7 +209,7 @@ function setImageUrl(context, state, url) {
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImageAudio', item.Type === 'Audio');
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImagePoster', item.Type !== 'Audio');
     } else {
-        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>';
+        imgContainer.innerHTML = `<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="${ItemAction.Link}" class="cardImageContainer coveredImage ${getDefaultBackgroundClass(item.Name)} cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>`;
     }
 }
 
