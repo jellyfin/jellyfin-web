@@ -1451,7 +1451,7 @@ export default function (view) {
                                                     if (node.classList && node.classList.contains('playerStats')) {
                                                                             return;
                                                     }
-                                }
+            }
                 }
         if (e.deltaY < 0) {
             playbackManager.volumeUp(currentPlayer);
