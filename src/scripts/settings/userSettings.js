@@ -6,7 +6,9 @@ import appSettings from './appSettings';
 function onSaveTimeout() {
     const self = this;
     self.saveTimeout = null;
-    self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+    self.pendingSave = self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby').finally(() => {
+        self.pendingSave = null;
+    });
 }
 
 function saveServerPreferences(instance) {
@@ -15,6 +17,15 @@ function saveServerPreferences(instance) {
     }
 
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
+}
+
+function flushServerPreferences(instance) {
+    if (instance.saveTimeout) {
+        clearTimeout(instance.saveTimeout);
+        instance.saveTimeout = null;
+        onSaveTimeout.call(instance);
+    }
+    return instance.pendingSave || Promise.resolve();
 }
 
 const allowedSortSettings = ['SortBy', 'SortOrder'];
@@ -71,6 +82,24 @@ export class UserSettings {
             result.CustomPrefs = result.CustomPrefs || {};
             self.displayPrefs = result;
         });
+    }
+
+    // FIXME: Seems unused
+    getData() {
+        return this.displayPrefs;
+    }
+
+    // FIXME: Seems unused
+    importFrom(instance) {
+        this.displayPrefs = instance.getData();
+    }
+
+    /**
+     * Flush any pending display preference changes to the server.
+     * @return {Promise} Resolves when the server save completes.
+     */
+    flush() {
+        return flushServerPreferences(this);
     }
 
     // FIXME: 'appSettings.set' doesn't return any value
