@@ -2019,8 +2019,8 @@ export default function (view, params) {
                 return;
             }
             let itemToContinue = result.Items.find(item =>
-                item.UserData 
-                && item.UserData.PlaybackPositionTicks > 0 && 
+                item.UserData
+                && item.UserData.PlaybackPositionTicks > 0 &&
                 !item.UserData.Played
             );
             let startPositionTicks = 0;
@@ -2040,7 +2040,7 @@ export default function (view, params) {
             });
         });
     }
-        
+
     function onInstantMixClick() {
         playbackManager.instantMix(currentItem);
     }
