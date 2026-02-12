@@ -2033,7 +2033,6 @@ export default function (view, params) {
                     !item.UserData || !item.UserData.Played
                 ) || result.Items[0];
             }
-            
             const startIndex = result.Items.findIndex(item => item.Id === itemToContinue.Id);
             
             playbackManager.play({
