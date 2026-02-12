@@ -333,18 +333,27 @@ function reloadPlayButtons(page, item) {
         } else {
             hideAll(page, 'btnPlay');
         }
-
         hideAll(page, 'btnReplay');
         hideAll(page, 'btnInstantMix');
         hideAll(page, 'btnShuffle');
+        hideAll(page, 'btnContinuePlaylist');
+    } else if (item.Type === 'Playlist') {
+        hideAll(page, 'btnPlay', true);
+        hideAll(page, 'btnContinuePlaylist', true);
+        hideAll(page, 'btnReplay');
+        hideAll(page, 'btnInstantMix');
+        const enableShuffle = true;
+        hideAll(page, 'btnShuffle', enableShuffle);
+        canPlay = true;
     } else if (playbackManager.canPlay(item)) {
         hideAll(page, 'btnPlay', true);
+        hideAll(page, 'btnContinuePlaylist');
         const enableInstantMix = ['Audio', 'MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnInstantMix', enableInstantMix);
         const enableShuffle = item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnShuffle', enableShuffle);
         canPlay = true;
-
+        
         const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
         hideAll(page, 'btnReplay', isResumable);
 
@@ -357,6 +366,7 @@ function reloadPlayButtons(page, item) {
         }
     } else {
         hideAll(page, 'btnPlay');
+        hideAll(page, 'btnContinuePlaylist');
         hideAll(page, 'btnReplay');
         hideAll(page, 'btnInstantMix');
         hideAll(page, 'btnShuffle');
@@ -2000,6 +2010,44 @@ export default function (view, params) {
         playCurrentItem(actionElem, action);
     }
 
+    function onContinuePlaylistClick() {
+        const apiClient = getApiClient();
+        
+        apiClient.getItems(apiClient.getCurrentUserId(), {
+            ParentId: currentItem.Id,
+            Fields: 'UserData'
+        }).then(function(result) {
+            if (!result || !result.Items || result.Items.length === 0) {
+                return;
+            }
+            
+            let itemToContinue = result.Items.find(item => 
+                item.UserData && 
+                item.UserData.PlaybackPositionTicks > 0 && 
+                !item.UserData.Played
+            );
+            
+            let startPositionTicks = 0;
+            
+            if (itemToContinue) {
+                startPositionTicks = itemToContinue.UserData.PlaybackPositionTicks;
+            } else {
+                itemToContinue = result.Items.find(item => 
+                    !item.UserData || !item.UserData.Played
+                ) || result.Items[0];
+            }
+            
+            const startIndex = result.Items.findIndex(item => item.Id === itemToContinue.Id);
+            
+            playbackManager.play({
+                items: result.Items,
+                startIndex: startIndex,
+                startPositionTicks: startPositionTicks
+            });
+        });
+    }
+        
+        
     function onInstantMixClick() {
         playbackManager.instantMix(currentItem);
     }
@@ -2100,6 +2148,7 @@ export default function (view, params) {
         const apiClient = getApiClient();
 
         bindAll(view, '.btnPlay', 'click', onPlayClick);
+        bindAll(view, '.btnContinuePlaylist', 'click', onContinuePlaylistClick);
         bindAll(view, '.btnReplay', 'click', onPlayClick);
         bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
         bindAll(view, '.btnShuffle', 'click', onShuffleClick);
