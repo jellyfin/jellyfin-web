@@ -34,13 +34,13 @@ function playAllFromHere(card, serverId, queue) {
             const filteredItems = result.Items.filter(item => item.Type !== 'Folder');
             if (queue) {
                 return playbackManager.queue({
-                    items: filteredItems,
+                    items: filteredItems
                 });
             } else {
                 const filteredStartIndex = filteredItems.findIndex(item => item.Id === startId);
                 return playbackManager.play({
                     items: filteredItems,
-                    startIndex: filteredStartIndex,
+                    startIndex: filteredStartIndex
                 });
             }
         });
@@ -50,7 +50,7 @@ function playAllFromHere(card, serverId, queue) {
     let ids = cardsArray
         .filter(c => c.getAttribute('data-type') !== 'Folder')
         .map(c => c.getAttribute('data-id'));
-    let filteredStartIndex = ids.indexOf(startId);
+    const filteredStartIndex = ids.indexOf(startId);
 
     // Sanity check: nobody should play all from a folder
     if (filteredStartIndex === -1) {
