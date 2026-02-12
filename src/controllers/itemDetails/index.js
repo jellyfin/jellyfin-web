@@ -353,7 +353,6 @@ function reloadPlayButtons(page, item) {
         const enableShuffle = item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnShuffle', enableShuffle);
         canPlay = true;
-        
         const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
         hideAll(page, 'btnReplay', isResumable);
 
