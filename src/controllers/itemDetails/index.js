@@ -2023,7 +2023,6 @@ export default function (view, params) {
                 && item.UserData.PlaybackPositionTicks > 0 && 
                 !item.UserData.Played
             );
-            
             let startPositionTicks = 0;
             
             if (itemToContinue) {
