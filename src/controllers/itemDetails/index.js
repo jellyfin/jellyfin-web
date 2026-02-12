@@ -2015,7 +2015,7 @@ export default function (view, params) {
             ParentId: currentItem.Id,
             Fields: 'UserData'
         }).then(function(result) {
-            if (!result || !result.Items || result.Items.length === 0) {
+            if (!result?.Items || result.Items.length === 0) {
                 return;
             }
             let itemToContinue = result.Items.find(item =>
@@ -2029,7 +2029,7 @@ export default function (view, params) {
                 startPositionTicks = itemToContinue.UserData.PlaybackPositionTicks;
             } else {
                 itemToContinue = result.Items.find(item =>
-                    !item.UserData || !item.UserData.Played
+                    !item.UserData?.Played
                 ) || result.Items[0];
             }
             const startIndex = result.Items.findIndex(item => item.Id === itemToContinue.Id);
