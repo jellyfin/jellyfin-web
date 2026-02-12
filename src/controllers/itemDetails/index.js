@@ -2034,7 +2034,6 @@ export default function (view, params) {
                 ) || result.Items[0];
             }
             const startIndex = result.Items.findIndex(item => item.Id === itemToContinue.Id);
-            
             playbackManager.play({
                 items: result.Items,
                 startIndex: startIndex,
