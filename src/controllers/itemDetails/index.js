@@ -2018,7 +2018,6 @@ export default function (view, params) {
             if (!result || !result.Items || result.Items.length === 0) {
                 return;
             }
-            
             let itemToContinue = result.Items.find(item => 
                 item.UserData && 
                 item.UserData.PlaybackPositionTicks > 0 && 
