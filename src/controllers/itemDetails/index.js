@@ -2024,11 +2024,11 @@ export default function (view, params) {
                 !item.UserData.Played
             );
             let startPositionTicks = 0;
-            
+
             if (itemToContinue) {
                 startPositionTicks = itemToContinue.UserData.PlaybackPositionTicks;
             } else {
-                itemToContinue = result.Items.find(item => 
+                itemToContinue = result.Items.find(item =>
                     !item.UserData || !item.UserData.Played
                 ) || result.Items[0];
             }
