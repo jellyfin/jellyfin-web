@@ -2042,7 +2042,6 @@ export default function (view, params) {
         });
     }
         
-        
     function onInstantMixClick() {
         playbackManager.instantMix(currentItem);
     }
