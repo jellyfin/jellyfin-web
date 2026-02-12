@@ -2011,7 +2011,6 @@ export default function (view, params) {
 
     function onContinuePlaylistClick() {
         const apiClient = getApiClient();
-        
         apiClient.getItems(apiClient.getCurrentUserId(), {
             ParentId: currentItem.Id,
             Fields: 'UserData'
