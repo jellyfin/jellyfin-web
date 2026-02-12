@@ -20,38 +20,46 @@ function playAllFromHere(card, serverId, queue) {
     const parent = card.parentNode;
     const className = card.classList.length ? (`.${card.classList[0]}`) : '';
     const cards = parent.querySelectorAll(`${className}[data-id]`);
+    const cardsArray = Array.from(cards);
 
-    const ids = [];
+    const startId = card.getAttribute('data-id');
+    const startIndex = cardsArray.indexOf(card);
 
-    let foundCard = false;
-    let startIndex;
-
-    for (let i = 0, length = cards.length; i < length; i++) {
-        if (cards[i] === card) {
-            foundCard = true;
-            startIndex = i;
-        }
-        if (foundCard || !queue) {
-            ids.push(cards[i].getAttribute('data-id'));
-        }
-    }
-
+    // If we have a itemContainer that needs to fetch data...
     const itemsContainer = dom.parentWithClass(card, 'itemsContainer');
     if (itemsContainer?.fetchData) {
         const queryOptions = queue ? { StartIndex: startIndex } : {};
 
         return itemsContainer.fetchData(queryOptions).then(result => {
+            const filteredItems = result.Items.filter(item => item.Type !== 'Folder');
             if (queue) {
                 return playbackManager.queue({
-                    items: result.Items
+                    items: filteredItems,
                 });
             } else {
+                const filteredStartIndex = filteredItems.findIndex(item => item.Id === startId);
                 return playbackManager.play({
-                    items: result.Items,
-                    startIndex: startIndex
+                    items: filteredItems,
+                    startIndex: filteredStartIndex,
                 });
             }
         });
+    }
+
+    // Else, just use ids
+    let ids = cardsArray
+        .filter(c => c.getAttribute('data-type') !== 'Folder')
+        .map(c => c.getAttribute('data-id'));
+    let filteredStartIndex = ids.indexOf(startId);
+
+    // Sanity check: nobody should play all from a folder
+    if (filteredStartIndex === -1) {
+        return;
+    }
+
+    // Queue mode, drop prefix
+    if (queue) {
+        ids = ids.slice(filteredStartIndex);
     }
 
     if (!ids.length) {
@@ -67,7 +75,7 @@ function playAllFromHere(card, serverId, queue) {
         return playbackManager.play({
             ids: ids,
             serverId: serverId,
-            startIndex: startIndex
+            startIndex: filteredStartIndex
         });
     }
 }
