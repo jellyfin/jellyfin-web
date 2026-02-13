@@ -2020,8 +2020,8 @@ export default function (view, params) {
             }
             let itemToContinue = result.Items.find(item =>
                 item.UserData
-                && item.UserData.PlaybackPositionTicks > 0 &&
-                !item.UserData.Played
+                && item.UserData.PlaybackPositionTicks > 0
+                && !item.UserData.Played
             );
             let startPositionTicks = 0;
 
