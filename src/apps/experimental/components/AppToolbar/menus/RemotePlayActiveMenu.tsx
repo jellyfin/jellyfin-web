@@ -67,7 +67,9 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
                 onMenuClose();
 
                 if (id === 'yes') {
-                    playbackManager.getCurrentPlayer().endSession();
+                    playbackManager.sendCommand(
+                        { Name: 'EndSession' },
+                        playbackManager.getCurrentPlayer());
                 }
                 playbackManager.setDefaultPlayerActive();
             }).catch(() => {
