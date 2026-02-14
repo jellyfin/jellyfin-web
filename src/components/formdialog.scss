@@ -61,13 +61,13 @@
     left: 0;
     right: 0;
     display: flex;
+    justify-content: flex-end;
     position: absolute;
     padding: 1em 1em;
 
     /* Without this emby-checkbox is able to appear on top */
     z-index: 1;
     align-items: flex-end;
-    justify-content: center;
     flex-wrap: wrap;
 }
 
