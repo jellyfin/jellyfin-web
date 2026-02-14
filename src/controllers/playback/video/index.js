@@ -686,15 +686,19 @@ export default function (view) {
         import('../../../components/upnextdialog/upnextdialog').then(({ default: UpNextDialog }) => {
             if (!(currentVisibleMenu || currentUpNextDialog)) {
                 currentVisibleMenu = 'upnext';
-                comingUpNextDisplayed = true;
                 playbackManager.nextItem(player).then(function (nextItem) {
+                    comingUpNextDisplayed = true;
                     currentUpNextDialog = new UpNextDialog({
                         parent: view.querySelector('.upNextContainer'),
                         player: player,
                         nextItem: nextItem
                     });
                     Events.on(currentUpNextDialog, 'hide', onUpNextHidden);
-                }, onUpNextHidden);
+                }, function () {
+                    // If the play queue isn't ready yet, allow a later retry on subsequent timeupdate events.
+                    comingUpNextDisplayed = false;
+                    onUpNextHidden();
+                });
             }
         });
     }
@@ -2072,4 +2076,3 @@ export default function (view) {
         });
     }
 }
-
