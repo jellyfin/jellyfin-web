@@ -213,24 +213,34 @@ function configureVideoTexture(THREE, texture) {
     }
 }
 
-function drawIntoEye(ctx, videoElement, source, destination, circularMask) {
+function drawIntoEye(ctx, videoElement, source, destination, circularMask, mirrorX = false) {
     const { sx, sy, sw, sh } = source;
     const { dx, dy, dw, dh } = destination;
 
-    if (!circularMask) {
+    if (!circularMask && !mirrorX) {
         ctx.drawImage(videoElement, sx, sy, sw, sh, dx, dy, dw, dh);
         return;
     }
 
-    const radius = Math.min(dw, dh) * 0.48;
-    const centerX = dx + (dw / 2);
-    const centerY = dy + (dh / 2);
-
     ctx.save();
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.clip();
-    ctx.drawImage(videoElement, sx, sy, sw, sh, dx, dy, dw, dh);
+
+    if (circularMask) {
+        const radius = Math.min(dw, dh) * 0.48;
+        const centerX = dx + (dw / 2);
+        const centerY = dy + (dh / 2);
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.clip();
+    }
+
+    if (mirrorX) {
+        ctx.translate(dx + dw, dy);
+        ctx.scale(-1, 1);
+        ctx.drawImage(videoElement, sx, sy, sw, sh, 0, 0, dw, dh);
+    } else {
+        ctx.drawImage(videoElement, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
+
     ctx.restore();
 }
 
@@ -538,6 +548,8 @@ export class VrCanvasRenderer {
 
 const MAX_EYE_TEXTURE_SIZE = 2048;
 const IMMERSIVE_HEMISPHERE_YAW_OFFSET = Math.PI;
+const IMMERSIVE_SWAP_EYES = false;
+const IMMERSIVE_MIRROR_X = true;
 
 function isTopBottomProjection(projection) {
     return projection === VrProjectionId.HalfTopAndBottom
@@ -632,8 +644,26 @@ function drawEyeProjection(ctx, videoElement, projection, isRightEye, width, hei
             dw: width,
             dh: height
         },
-        isFisheyeProjection(projection)
+        isFisheyeProjection(projection),
+        IMMERSIVE_MIRROR_X
     );
+}
+
+function isRightEyeCamera(cameraForEye, rightEyeCamera) {
+    const viewportX = cameraForEye?.viewport?.x;
+    let isRightEye = false;
+
+    if (typeof viewportX === 'number') {
+        isRightEye = viewportX > 0;
+    } else if (rightEyeCamera && cameraForEye === rightEyeCamera) {
+        isRightEye = true;
+    }
+
+    if (IMMERSIVE_SWAP_EYES) {
+        isRightEye = !isRightEye;
+    }
+
+    return isRightEye;
 }
 
 export class VrImmersiveRenderer {
@@ -660,6 +690,7 @@ export class VrImmersiveRenderer {
     #hemisphereGeometry;
     #exitButton;
     #hasDomOverlay = false;
+    #rightEyeCamera;
 
     constructor(container, videoElement, options = {}) {
         this.#container = container;
@@ -819,6 +850,7 @@ export class VrImmersiveRenderer {
         this.#videoElement = null;
         this.#exitButton = null;
         this.#hasDomOverlay = false;
+        this.#rightEyeCamera = null;
         this.#container = null;
     }
 
@@ -921,14 +953,21 @@ export class VrImmersiveRenderer {
         this.#leftTexture = leftTexture;
         this.#rightTexture = rightTexture;
 
-        const leftMesh = new THREE.Mesh(this.#hemisphereGeometry, new THREE.MeshBasicMaterial({
+        const leftMaterial = new THREE.MeshBasicMaterial({
             map: leftTexture,
             side: THREE.BackSide
-        }));
-        const rightMesh = new THREE.Mesh(this.#hemisphereGeometry, new THREE.MeshBasicMaterial({
+        });
+        const rightMaterial = new THREE.MeshBasicMaterial({
             map: rightTexture,
             side: THREE.BackSide
-        }));
+        });
+        leftMaterial.depthTest = false;
+        leftMaterial.depthWrite = false;
+        rightMaterial.depthTest = false;
+        rightMaterial.depthWrite = false;
+
+        const leftMesh = new THREE.Mesh(this.#hemisphereGeometry, leftMaterial);
+        const rightMesh = new THREE.Mesh(this.#hemisphereGeometry, rightMaterial);
 
         // Shift the 180 dome to the viewer's forward direction.
         leftMesh.rotation.y = IMMERSIVE_HEMISPHERE_YAW_OFFSET;
@@ -936,6 +975,23 @@ export class VrImmersiveRenderer {
 
         leftMesh.layers.set(LEFT_EYE_LAYER);
         rightMesh.layers.set(RIGHT_EYE_LAYER);
+
+        leftMesh.onBeforeRender = (_renderer, _scene, cameraForEye) => {
+            const isRightEye = isRightEyeCamera(cameraForEye, this.#rightEyeCamera);
+            leftMaterial.colorWrite = !isRightEye;
+        };
+        leftMesh.onAfterRender = () => {
+            leftMaterial.colorWrite = true;
+        };
+
+        rightMesh.onBeforeRender = (_renderer, _scene, cameraForEye) => {
+            const isRightEye = isRightEyeCamera(cameraForEye, this.#rightEyeCamera);
+            rightMaterial.colorWrite = isRightEye;
+        };
+        rightMesh.onAfterRender = () => {
+            rightMaterial.colorWrite = true;
+        };
+
         this.#leftMesh = leftMesh;
         this.#rightMesh = rightMesh;
 
@@ -959,8 +1015,9 @@ export class VrImmersiveRenderer {
 
         const xrCamera = this.#renderer.xr.getCamera(this.#camera);
         if (xrCamera?.isArrayCamera && xrCamera.cameras?.length >= 2) {
-            xrCamera.cameras[0].layers.set(LEFT_EYE_LAYER);
-            xrCamera.cameras[1].layers.set(RIGHT_EYE_LAYER);
+            this.#rightEyeCamera = xrCamera.cameras.find((cameraForEye) => (cameraForEye?.viewport?.x || 0) > 0) || xrCamera.cameras[1];
+        } else {
+            this.#rightEyeCamera = null;
         }
 
         this.#renderer.render(this.#scene, this.#camera);
@@ -1139,6 +1196,7 @@ export class VrImmersiveRenderer {
 
         this.#setImmersiveUiVisible(false);
         this.#hasDomOverlay = false;
+        this.#rightEyeCamera = null;
         this.#session = null;
         this.#isRunning = false;
     }
