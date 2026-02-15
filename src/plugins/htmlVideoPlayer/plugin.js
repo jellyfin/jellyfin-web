@@ -2216,7 +2216,7 @@ export class HtmlVideoPlayer {
         let projection = this.#resolveVrProjection();
         if (projection === 'off') {
             const fallbackProjection = resolveVrProjection('auto', this._currentPlayOptions?.item, this._currentPlayOptions?.mediaSource);
-            projection = fallbackProjection === 'off' ? 'half-sbs' : fallbackProjection;
+            projection = fallbackProjection;
             if (this.getVrProjection() === 'off') {
                 this.setVrProjection(projection);
             }

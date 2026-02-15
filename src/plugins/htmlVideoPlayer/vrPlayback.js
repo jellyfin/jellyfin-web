@@ -557,6 +557,10 @@ function isTopBottomProjection(projection) {
         || projection === VrProjectionId.FisheyeTopAndBottom;
 }
 
+function isMonoProjection(projection) {
+    return projection === VrProjectionId.Off || projection === VrProjectionId.Auto;
+}
+
 function isFisheyeProjection(projection) {
     return projection === VrProjectionId.FisheyeSideBySide
         || projection === VrProjectionId.FisheyeTopAndBottom;
@@ -569,6 +573,13 @@ function getEyeSourceSize(videoElement, projection) {
         return {
             width: 0,
             height: 0
+        };
+    }
+
+    if (isMonoProjection(projection)) {
+        return {
+            width: sourceWidth,
+            height: sourceHeight
         };
     }
 
@@ -590,6 +601,15 @@ function getEyeSourceRect(videoElement, projection, isRightEye) {
     const sourceHeight = videoElement?.videoHeight || 0;
     if (!sourceWidth || !sourceHeight) {
         return null;
+    }
+
+    if (isMonoProjection(projection)) {
+        return {
+            sx: 0,
+            sy: 0,
+            sw: sourceWidth,
+            sh: sourceHeight
+        };
     }
 
     if (isTopBottomProjection(projection)) {
