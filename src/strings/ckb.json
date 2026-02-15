@@ -1,1 +1,27 @@
-{}
+{
+    "Absolute": "ڕەها",
+    "AccessRestrictedTryAgainLater": "دەستپێگەشتن بۆ ئێستاکە سنووردارە. تکایە دواتر هەوڵبدەرەوە.",
+    "Actor": "ڕۆڵگێڕ",
+    "Add": "زیادکردن",
+    "AddedOnValue": "زیادکرا {0}",
+    "AddToCollection": "زیادکردنی بۆ کۆمەڵەکان",
+    "AddToFavorites": "زیادکردنی بۆ دڵخوازەکان",
+    "AddToPlaylist": "زیادکردنی بۆ لیستی لێدان",
+    "AddToPlayQueue": "زیادکردنی بۆ ڕیزبەندی لیستی لێدانەکان",
+    "AgeValue": "({0} ساڵ)",
+    "AirDate": "بەرواری پەخش",
+    "AirPlay": "ئێرپلەی",
+    "Aired": "پەخشکراوە",
+    "Album": "ئەلبووم",
+    "AlbumArtist": "هوونەرمەندی سەرەکی",
+    "Albums": "ئەلبوومەکان",
+    "Alerts": "ئاگادارییەکان",
+    "All": "هەموو",
+    "AllChannels": "هەموو کەناڵەکان",
+    "AllComplexFormats": "هەموو جۆرە ئاڵۆزەکان (ASS، SSA، VobSub، PGS، SUB، IDX، …)",
+    "AllEpisodes": "هەموو ئەڵقەکان",
+    "AllLanguages": "هەموو زمانەکان",
+    "AllLibraries": "هەموو کتێبخانەکان",
+    "AllowedRemoteAddressesHelp": "لیستی ئایپی/نێتماسکە ڕێپێدراوەکان بۆ مۆڵەتی پەیوەست بوون بەم سێرڤەرەوە، ئەگەر بە بەتاڵی جێهێڵدرابوو هەموو ناونیشانێک ڕێگەپێدراوە.",
+    "AllowCollectionManagement": "ڕێگەپێدان بەم بەکارهێنەرە بۆ بەڕێوەبردنی کۆمەڵەکان"
+}
