@@ -32,8 +32,6 @@ function minimumScrollY() {
     return 0;
 }
 
-const supportsSmoothScroll = 'scrollBehavior' in document.documentElement.style;
-
 let supportsScrollToOptions = false;
 try {
     const elem = document.createElement('div');
