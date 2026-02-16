@@ -10,6 +10,7 @@ declare namespace browser {
     export { versionMajor };
     export let edge: boolean;
     export let edgeChromium: boolean;
+    export let chrome: boolean;
     export let firefox: boolean;
     export let safari: boolean;
     export let osx: boolean;
