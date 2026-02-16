@@ -1,8 +1,52 @@
 #comicsPlayer {
     background: #fff;
+    position: relative;
+
+    .readerHeader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1003;
+        padding: 8px 14px;
+        padding-right: 140px;
+        color: #fff;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0));
+        pointer-events: none;
+        transition: opacity 140ms ease;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    }
+
+    .readerTitle {
+        font-weight: 600;
+        font-size: 1rem;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .readerMeta {
+        margin-top: 2px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.82rem;
+        line-height: 1.2;
+        opacity: 0.9;
+        flex-wrap: wrap;
+    }
+
+    .readerChapter {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
     .slideshowSwiperContainer {
         height: 100%;
+        padding-top: 46px;
+        box-sizing: border-box;
     }
 
     .slider-zoom-container {
@@ -20,12 +64,13 @@
 
     .swiper-pagination {
         width: max-content;
-        background: #fff;
-        color: #000;
+        background: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        border-radius: 999px;
         padding: 2px 5px 2px 5px;
         left: 50%;
-        transform: translate(-50%, 0%);
-        text-shadow: 0 0 20px #fff;
+        bottom: 8px;
+        transform: translate(-50%, 0);
     }
 
     .actionButtons {
@@ -33,10 +78,57 @@
         top: 0.5vh;
         z-index: 1002;
         position: absolute;
+        background: rgba(0, 0, 0, 0.72);
+        border-radius: 999px;
+        padding: 2px;
     }
 
     .actionButtonIcon {
-        color: #000;
-        opacity: 0.7;
+        color: #fff;
+        opacity: 0.9;
+    }
+
+    &.readerChromeHidden {
+        .readerHeader {
+            opacity: 0;
+        }
+
+        .slideshowSwiperContainer {
+            padding-top: 0;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .readerHeader {
+            padding: 6px 10px;
+            padding-right: 10px;
+        }
+
+        .readerTitle {
+            font-size: 0.92rem;
+        }
+
+        .readerMeta {
+            display: block;
+            font-size: 0.74rem;
+        }
+
+        .readerPage {
+            display: block;
+            margin-top: 1px;
+        }
+
+        .slideshowSwiperContainer {
+            padding-top: 52px;
+        }
+
+        .actionButtons {
+            top: auto;
+            right: 6px;
+            bottom: 10px;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 999px;
+            padding: 2px;
+        }
     }
 }
