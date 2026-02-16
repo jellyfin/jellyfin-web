@@ -17,15 +17,6 @@ import './style.scss';
 const FILE_EXTENSIONS = ['.cbr', '.cbt', '.cbz', '.cb7'];
 // the comic book archive supports any kind of image format as it's just a zip archive
 const IMAGE_FORMATS = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png', 'avif', 'gif', 'bmp', 'dib', 'tiff', 'tif', 'webp'];
-const IMAGE_FILE_EXTENSIONS = IMAGE_FORMATS.map(format => `.${format}`);
-
-function isArchive(path) {
-    return FILE_EXTENSIONS.some(ext => path.endsWith(ext));
-}
-
-function isImage(path) {
-    return IMAGE_FILE_EXTENSIONS.some(ext => path.endsWith(ext));
-}
 
 export class ComicsPlayer {
     constructor() {
@@ -42,13 +33,11 @@ export class ComicsPlayer {
     play(options) {
         this.currentPage = 0;
         this.pageCount = 0;
-        this.chromeHidden = false;
 
         const mediaSourceId = options.items[0].Id;
         this.comicsPlayerSettings = userSettings.getComicsPlayerSettings(mediaSourceId);
 
         const elem = this.createMediaElement();
-        elem.classList.remove('readerChromeHidden');
         return this.setCurrentSrc(elem, options);
     }
 
@@ -105,54 +94,6 @@ export class ComicsPlayer {
 
     seekable() {
         return true;
-    }
-
-    getTitle() {
-        return this.item?.SeriesName || this.item?.Album || this.item?.Name || '';
-    }
-
-    getChapter() {
-        if (!this.item) return '';
-
-        const parts = [];
-        if (this.item.ParentIndexNumber != null) {
-            parts.push(`Book ${this.item.ParentIndexNumber}`);
-        }
-        if (this.item.IndexNumber != null) {
-            parts.push(`Chapter ${this.item.IndexNumber}`);
-        }
-
-        if (parts.length) {
-            return parts.join(' • ');
-        }
-
-        if (this.item.SeriesName && this.item.Name && this.item.SeriesName !== this.item.Name) {
-            return this.item.Name;
-        }
-
-        return '';
-    }
-
-    updateReaderHeader() {
-        if (!this.mediaElement) return;
-
-        const titleElement = this.mediaElement.querySelector('.readerTitle');
-        const chapterElement = this.mediaElement.querySelector('.readerChapter');
-        const pageElement = this.mediaElement.querySelector('.readerPage');
-
-        const title = this.getTitle();
-        const chapter = this.getChapter();
-
-        titleElement.textContent = title;
-        chapterElement.textContent = chapter;
-        pageElement.textContent = `Page ${Math.min(this.currentPage + 1, this.pageCount)} / ${this.pageCount}`;
-    }
-
-    toggleReaderChrome() {
-        if (!this.mediaElement) return;
-
-        this.chromeHidden = !this.chromeHidden;
-        this.mediaElement.classList.toggle('readerChromeHidden', this.chromeHidden);
     }
 
     onDialogClosed() {
@@ -303,14 +244,7 @@ export class ComicsPlayer {
 
             elem.id = 'comicsPlayer';
             elem.classList.add('slideshowDialog');
-            elem.innerHTML = `<div class="readerHeader">
-                                <div class="readerTitle"></div>
-                                <div class="readerMeta">
-                                    <span class="readerChapter"></span>
-                                    <span class="readerPage"></span>
-                                </div>
-                            </div>
-                            <div dir=${this.comicsPlayerSettings.langDir} class="slideshowSwiperContainer">
+            elem.innerHTML = `<div dir=${this.comicsPlayerSettings.langDir} class="slideshowSwiperContainer">
                                 <div class="swiper-wrapper"></div>
                                 <div class="swiper-button-next actionButtonIcon"></div>
                                 <div class="swiper-button-prev actionButtonIcon"></div>
@@ -376,7 +310,6 @@ export class ComicsPlayer {
 
                 this.pageCount = this.archiveSource.urls.length;
                 this.currentPage = options.startPositionTicks / 10000 || 0;
-                this.updateReaderHeader();
 
                 this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                     direction: 'horizontal',
@@ -384,8 +317,7 @@ export class ComicsPlayer {
                     loop: false,
                     zoom: {
                         minRatio: 1,
-                        maxRatio: 4,
-                        toggle: false,
+                        toggle: true,
                         containerClass: 'slider-zoom-container'
                     },
                     autoplay: false,
@@ -397,7 +329,6 @@ export class ComicsPlayer {
                     slidesPerGroup: this.comicsPlayerSettings.pagesPerView,
                     slidesPerColumn: 1,
                     initialSlide: this.currentPage,
-                    threshold: 14,
                     navigation: {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev'
@@ -420,18 +351,7 @@ export class ComicsPlayer {
                 // save current page ( a page is an image file inside the archive )
                 this.swiperInstance.on('slideChange', () => {
                     this.currentPage = this.swiperInstance.activeIndex;
-                    this.updateReaderHeader();
                     Events.trigger(this, 'pause');
-                });
-
-                this.swiperInstance.on('doubleTap', () => {
-                    this.toggleReaderChrome();
-                });
-
-                this.swiperInstance.on('zoomChange', (swiper, scale) => {
-                    const canTurnPage = scale <= 1.05;
-                    swiper.allowSlidePrev = canTurnPage;
-                    swiper.allowSlideNext = canTurnPage;
                 });
             });
     }
