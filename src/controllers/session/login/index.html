@@ -8,8 +8,11 @@
                 <input is="emby-input" type="text" id="txtManualName" required="required" label="${LabelUser}" autocomplete="username" autocapitalize="off" />
             </div>
 
-            <div class="inputContainer">
+            <div class="inputContainer passwordInputContainer">
                 <input is="emby-input" id="txtManualPassword" type="password" label="${LabelPassword}" autocomplete="current-password" />
+                <button type="button" class="passwordToggle" aria-label="${ShowPassword}" title="${ShowPassword}">
+                    <span class="material-icons" aria-hidden="true">visibility</span>
+                </button>
             </div>
 
             <label class="checkboxContainer">

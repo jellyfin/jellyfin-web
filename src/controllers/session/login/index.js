@@ -117,11 +117,51 @@ function onLoginSuccessful(id, accessToken, apiClient, url) {
     Dashboard.navigate(url || 'home');
 }
 
+function setPasswordVisibility(context, visible) {
+    const passwordInput = context.querySelector('#txtManualPassword');
+    const toggle = context.querySelector('.passwordToggle');
+
+    if (!passwordInput || !toggle) {
+        return;
+    }
+
+    const labelKey = visible ? 'HidePassword' : 'ShowPassword';
+    const label = globalize.translate(labelKey);
+    const icon = toggle.querySelector('.material-icons');
+
+    passwordInput.setAttribute('type', visible ? 'text' : 'password');
+    toggle.setAttribute('aria-label', label);
+    toggle.setAttribute('title', label);
+    toggle.classList.toggle('is-visible', visible);
+
+    if (icon) {
+        icon.textContent = visible ? 'visibility_off' : 'visibility';
+    }
+}
+
+function ensurePasswordToggle(context) {
+    const passwordInput = context.querySelector('#txtManualPassword');
+    const toggle = context.querySelector('.passwordToggle');
+
+    if (!passwordInput || !toggle || toggle.dataset.bound === 'true') {
+        return;
+    }
+
+    toggle.dataset.bound = 'true';
+    toggle.addEventListener('click', function () {
+        const shouldShow = passwordInput.getAttribute('type') === 'password';
+        setPasswordVisibility(context, shouldShow);
+    });
+}
+
 function showManualForm(context, showCancel, focusPassword) {
     context.querySelector('.chkRememberLogin').checked = appSettings.enableAutoLogin();
     context.querySelector('.manualLoginForm').classList.remove('hide');
     context.querySelector('.visualLoginForm').classList.add('hide');
     context.querySelector('.btnManual').classList.add('hide');
+
+    ensurePasswordToggle(context);
+    setPasswordVisibility(context, false);
 
     if (focusPassword) {
         context.querySelector('#txtManualPassword').focus();
@@ -242,6 +282,7 @@ export default function (view, params) {
     });
     view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
         appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
+        setPasswordVisibility(view, false);
         authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
         e.preventDefault();
         return false;
@@ -316,4 +357,3 @@ export default function (view, params) {
         libraryMenu.setTransparentMenu(false);
     });
 }
-

@@ -3,6 +3,43 @@
     margin-top: 2em;
 }
 
+.passwordInputContainer {
+    position: relative;
+}
+
+.passwordInputContainer #txtManualPassword {
+    padding-right: 2.5em;
+}
+
+.passwordInputContainer .passwordToggle {
+    position: absolute;
+    right: 0.5em;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25em;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: var(--jf-palette-text-primary, #fff);
+    opacity: 1;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 2px rgba(255, 255, 255, 0.25));
+    z-index: 2;
+}
+
+.passwordInputContainer .passwordToggle:hover,
+.passwordInputContainer .passwordToggle:focus-visible {
+    opacity: 1;
+}
+
+.passwordInputContainer .passwordToggle:focus-visible {
+    outline: 2px solid var(--jf-palette-primary-main, #00a4dc);
+    outline-offset: 2px;
+    border-radius: 999px;
+}
+
 .loginDisclaimer {
     margin: 0 auto;
 
