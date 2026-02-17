@@ -1,0 +1,333 @@
+/* Editor's Choice Banner Carousel Styles */
+
+.editorsChoiceWrapper {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.editorsChoiceContainer {
+    position: relative;
+    margin-bottom: 2em;
+    padding-left: 3.3%;
+    padding-left: max(env(safe-area-inset-left), 3.3%);
+    padding-right: 3.3%;
+    padding-right: max(env(safe-area-inset-right), 3.3%);
+
+    .sectionTitle {
+        padding-left: 0;
+        margin-bottom: 0.5em;
+    }
+}
+
+.splide__track {
+    border-radius: 0.2em;
+}
+
+.editorsChoiceContainer .splide__arrows {
+    .splide__arrow {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.5);
+        border: none;
+        color: #fff;
+        width: 3em;
+        height: 3em;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0.7;
+        z-index: 10;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            opacity: 1;
+        }
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        svg {
+            fill: #fff;
+            width: 2em;
+            height: 2em;
+        }
+
+        &--prev {
+            left: 1em;
+        }
+
+        &--next {
+            right: 1em;
+        }
+    }
+}
+
+.editorsChoiceItemBanner {
+    width: 100%;
+    height: 360px;
+    flex: none;
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: 52%;
+    cursor: pointer;
+    color: #ddd;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    border-radius: 0.2em;
+    display: block;
+    outline: none;
+    transition: box-shadow 0.2s ease;
+
+    &:nth-child(odd) {
+        background-position-y: 48%;
+    }
+
+    &.is-visible {
+        animation-name: bannerMove;
+        animation-duration: 10s;
+        animation-fill-mode: both;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+
+        &:nth-child(odd) {
+            animation-direction: alternate-reverse;
+        }
+    }
+
+    // TV focus state
+    &:focus,
+    &.is-active:focus {
+        box-shadow: 0 0 20px rgba(0, 150, 255, 0.8), 0 0 40px rgba(0, 150, 255, 0.5);
+        z-index: 10;
+    }
+
+    > div {
+        width: 100%;
+        height: 100%;
+        padding: 30px;
+        box-sizing: border-box;
+        background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        border-radius: 0.2em;
+    }
+}
+
+@keyframes bannerMove {
+    0% { background-position-y: 52%; }
+    100% { background-position-y: 48%; }
+}
+
+.editorsChoiceItemLogo {
+    display: block;
+    max-width: 300px;
+    max-height: 100px;
+    margin-bottom: 1em;
+    object-fit: contain;
+    object-position: left;
+}
+
+.editorsChoiceItemTitle {
+    max-width: 100%;
+    margin: 0 60px 0.5em 0;
+    font-weight: 600;
+    font-size: 2em;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.editorsChoiceItemRating {
+    display: inline-flex !important;
+    align-items: center;
+    margin-bottom: 1em;
+    font-size: 1.1em;
+    color: #ffd700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+
+    .starIcon {
+        color: #f2b01e;
+        font-size: 1.4em;
+        margin-right: 0.3em;
+        vertical-align: bottom;
+    }
+}
+
+.editorsChoiceItemOverview {
+    white-space: normal;
+    width: 650px;
+    min-width: 40%;
+    max-width: 100%;
+    font-size: 1em;
+    line-height: 1.4;
+    margin-bottom: 1em;
+    color: #fff;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.editorsChoiceItemButton {
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center;
+    padding: 0.8em 2em;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border: none;
+    border-radius: 0.3em;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    max-width: 200px;
+    position: relative;
+    margin: 0;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: scale(1.05);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .editorsChoiceContainer .splide__arrows {
+        display: none;
+    }
+
+    .editorsChoiceItemBanner {
+        height: 250px;
+
+        > div {
+            padding: 1em;
+        }
+    }
+
+    .editorsChoiceItemLogo {
+        max-width: 100%;
+        max-height: 60px;
+        margin-bottom: 0.5em;
+        filter: drop-shadow(3px 3px 15px black);
+    }
+
+    .editorsChoiceItemTitle {
+        font-size: 1.5em;
+        margin-bottom: 0.5em;
+    }
+
+    .editorsChoiceItemOverview {
+        display: none;
+    }
+
+    .editorsChoiceItemRating {
+        font-size: 1em;
+        margin-bottom: 0.5em;
+    }
+
+    .editorsChoiceItemButton {
+        padding: 0.6em 1.5em;
+        font-size: 0.9em;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 1024px) {
+    .editorsChoiceItemBanner {
+        height: 300px;
+    }
+
+    .editorsChoiceItemLogo {
+        max-width: 250px;
+        max-height: 80px;
+    }
+
+    .editorsChoiceItemTitle {
+        font-size: 1.8em;
+    }
+
+    .editorsChoiceItemOverview {
+        max-width: 400px;
+        -webkit-line-clamp: 2;
+    }
+}
+
+@media (min-width: 1025px) {
+    .layout-tv .editorsChoiceItemOverview {
+        min-width: 55%;
+        -webkit-line-clamp: 2;
+    }
+}
+
+@media (max-width: 1600px) {
+    .editorsChoiceContainer {
+        margin-top: 30px;
+    }
+}
+
+/* Splide customization */
+.editorsChoiceContainer .splide {
+    padding: 0;
+}
+
+.editorsChoiceContainer .splide__list {
+    backface-visibility: hidden;
+}
+
+/* TV layout adjustments */
+.layout-tv {
+    .editorsChoiceContainer .splide__arrows {
+        display: none;
+    }
+
+    .editorsChoiceItemBanner {
+        cursor: default;
+        height: 450px;
+
+        > div {
+            padding: 40px 50px;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.3) 100%);
+        }
+    }
+
+    .editorsChoiceItemLogo {
+        max-width: 350px;
+        max-height: 120px;
+    }
+
+    .editorsChoiceItemTitle {
+        font-size: 2.5em;
+        margin-bottom: 0.7em;
+    }
+
+    .editorsChoiceItemRating {
+        font-size: 1.3em;
+        margin-bottom: 1em;
+    }
+
+    .editorsChoiceItemOverview {
+        font-size: 1.2em;
+        line-height: 1.5;
+        max-width: 60%;
+        -webkit-line-clamp: 3;
+        margin-bottom: 1.5em;
+    }
+
+    .editorsChoiceItemButton {
+        font-size: 1.2em;
+        padding: 1em 2.5em;
+    }
+}
