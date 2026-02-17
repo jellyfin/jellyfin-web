@@ -61,7 +61,7 @@
         height: 100%;
         width: 100%;
         overflow: auto;
-        padding: 46px 12px 12px;
+        padding: 46px 12px 78px;
         box-sizing: border-box;
         cursor: default;
         touch-action: pan-y pan-x;
@@ -96,8 +96,9 @@
     }
 
     .actionButtons {
-        right: 0.5vh;
-        top: 0.5vh;
+        left: 50%;
+        bottom: 12px;
+        transform: translateX(-50%);
         z-index: 1004;
         position: absolute;
         display: flex;
@@ -154,15 +155,17 @@
 
         .readerViewport {
             padding-top: 52px;
+            padding-bottom: 80px;
         }
 
         .actionButtons {
-            top: auto;
-            right: 6px;
             bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.75);
             border-radius: 999px;
             padding: 2px;
+            max-width: calc(100% - 12px);
         }
     }
 }
