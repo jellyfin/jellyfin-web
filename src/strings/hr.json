@@ -768,7 +768,7 @@
     "MessageNoRepositories": "Nema repozitorija.",
     "MessageConfirmAppExit": "Da li želite izaći?",
     "Menu": "Izbornik",
-    "Logo": "Logo",
+    "Logo": "Logotip",
     "List": "Lista",
     "LabelYear": "Godina",
     "LabelVersion": "Verzija",
@@ -1117,7 +1117,7 @@
     "LabelVideoBitrate": "Brzina prijenosa videozapisa",
     "LabelVideoCodec": "Video kodek",
     "LatestFromLibrary": "Najnoviji {0}",
-    "MediaInfoTitle": "Titl",
+    "MediaInfoTitle": "Naslov",
     "LabelTranscodePath": "Putanja transkodiranja",
     "LabelSyncPlayHaltPlayback": "Zaustavi lokalnu reprodukciju",
     "OptionLoginAttemptsBeforeLockout": "Odredite koliko se netočnih pokušaja prijave može napraviti prije nego što dođe do zaključavanja.",
@@ -1541,5 +1541,14 @@
     "Smart": "Pametno",
     "MediaSegmentType.Recap": "Sažetak",
     "Preview": "Pregled",
-    "MediaSegmentType.Preview": "Pregled"
+    "MediaSegmentType.Preview": "Pregled",
+    "MediaInfoRotation": "Okretanje",
+    "MediaSegmentAction.None": "Ništa",
+    "LogLevel.None": "Ništa",
+    "MediaSegmentAction.AskToSkip": "Pitaj za preskakanje",
+    "MediaSegmentAction.Skip": "Preskoči",
+    "MediaSegmentSkipPrompt": "Preskoči {0}",
+    "MediaSegmentType.Intro": "Uvodni dio",
+    "MediaSegmentType.Outro": "Završni dio",
+    "ListView": "Prikaz liste"
 }
