@@ -1248,7 +1248,7 @@
     "SubtitleDownloadersHelp": "Käytä ja järjestä tekstitysten lataajat haluamasi painotuksen perusteella. Alemman painotuksen lataajia käytetään vain puuttuvien tietojen täydennykseen.",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Määritä käytettävä näyttönimi, kun metatietoja ei ole saatavilla Internetistä tai paikallisesti.",
     "ServerUpdateNeeded": "Palvelin on päivitettävä. Lataa uusin versio osoitteesta {0}",
-    "UseEpisodeImagesInNextUpHelp": "'Seuraavaksi ja 'Jatka katselua' -osioissa käytetään pienoiskuvina sarjojen ensisijaisten kuvien/julisteiden sijaan jaksojen kuvia.",
+    "UseEpisodeImagesInNextUpHelp": "'Seuraavaksi' ja 'Jatka katselua' -osioissa käytetään pienoiskuvina sarjojen ensisijaisten kuvien/julisteiden sijaan jaksojen kuvia.",
     "UseEpisodeImagesInNextUp": "Käytä 'Seuraavaksi' ja 'Jatka katselua' -osioissa jaksojen kuvia",
     "QuickConnectNotActive": "Pikayhdistys ei ole tällä palvelimella käytössä",
     "QuickConnectNotAvailable": "Pyydä palvelimen ylläpitoa ottamaan Pikayhdistys käyttöön",
@@ -1731,7 +1731,7 @@
     "MediaSegmentAction.Skip": "Ohita",
     "MediaSegmentType.Commercial": "Mainos",
     "MediaSegmentType.Intro": "Intro",
-    "MediaSegmentType.Outro": "Lopputekstit",
+    "MediaSegmentType.Outro": "Loppusoitto",
     "MediaSegmentType.Preview": "Esikatselu",
     "MediaSegmentType.Recap": "Kertaus",
     "AllowFmp4TranscodingContainerHelp": "Salli tämän virittimen fMP4-transkoodaussäiliön tukea HEVC- ja HDR-koodattua sisältöä. Kaikki virittimet eivät ole yhteensopivia tämän tyyppisten säiliöiden kanssa. Poista tämä vaihtoehto käytöstä, jos sinulla on toistoongelmia.",
@@ -1866,5 +1866,9 @@
     "ButtonAddTunerDevice": "Lisää viritin",
     "ButtonAddProvider": "Lisää tarjoaja",
     "LabelSlideshowInterval": "Kuva diaesitys aikaväli",
-    "LabelSlideshowIntervalHelp": "Diaesitysten kunkin valokuvan näyttöaika sekunteina."
+    "LabelSlideshowIntervalHelp": "Diaesitysten kunkin valokuvan näyttöaika sekunteina.",
+    "ConfirmDeleteCollection": "Oletko varma, että haluat poistaa tämän kokoelman?",
+    "ConfirmDeletePlaylist": "Oletko varma, että haluat poistaa tämän soittolistan?",
+    "HeaderDeleteCollection": "Poista kokoelma",
+    "HeaderDeletePlaylist": "Poista soittolista"
 }
