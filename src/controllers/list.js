@@ -1207,8 +1207,7 @@ class ItemsView {
             fields.push('imageType');
         }
 
-        fields.push('viewType');
-        fields.push('truncateLongTitles');
+        fields.push('viewType', 'truncateLongTitles');
         return fields;
     }
 
