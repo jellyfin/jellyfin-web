@@ -1,0 +1,117 @@
+<div id="musicRecommendedPage" data-dom-cache="true" data-role="page" class="page libraryPage backdropPage pageWithAbsoluteTabs withTabs" data-backdroptype="musicartist">
+
+    <style>
+        @media all and (max-width: 32em) {
+
+            .paging {
+                width: 100%;
+            }
+        }
+    </style>
+    <div class="pageTabContent" id="albumsTab" data-index="0">
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+            <button is="paper-icon-button-light" class="btnPlayAll musicglobalButton" title="${HeaderPlayAll}"><span class="material-icons play_arrow" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnShuffle musicglobalButton" title="${Shuffle}"><span class="material-icons shuffle" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>
+            <div class="btnFilter-wrapper">
+                <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_alt" aria-hidden="true"></span></button>
+            </div>
+        </div>
+
+        <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
+        </div>
+
+        <div is="emby-itemscontainer" class="itemsContainer padded-left padded-right">
+        </div>
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+        </div>
+    </div>
+    <div class="pageTabContent" id="suggestionsTab" data-index="1">
+
+        <div class="verticalSection">
+
+            <h2 class="sectionTitle sectionTitle-cards padded-left flex-grow">${HeaderLatestMusic}</h2>
+
+            <div is="emby-itemscontainer" id="recentlyAddedSongs" class="itemsContainer padded-left padded-right" style="text-align:left;">
+            </div>
+        </div>
+
+        <div id="recentlyPlayed" class="verticalSection hide">
+            <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderRecentlyPlayed}</h2>
+
+            <div is="emby-itemscontainer" id="recentlyPlayedSongs" class="itemsContainer padded-left padded-right" style="text-align:left;">
+            </div>
+        </div>
+
+        <div id="topPlayed" class="verticalSection hide">
+            <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderFrequentlyPlayed}</h2>
+
+            <div is="emby-itemscontainer" id="topPlayedSongs" class="itemsContainer padded-left padded-right" style="text-align: left;">
+            </div>
+        </div>
+
+        <div class="favoriteSections verticalSection"></div>
+    </div>
+    <div class="pageTabContent" id="albumArtistsTab" data-index="2">
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
+            <div class="btnFilter-wrapper">
+                <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_alt" aria-hidden="true"></span></button>
+            </div>
+        </div>
+
+        <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
+        </div>
+
+        <div is="emby-itemscontainer" class="itemsContainer padded-left padded-right">
+        </div>
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+        </div>
+    </div>
+    <div class="pageTabContent" id="artistsTab" data-index="3">
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
+            <div class="btnFilter-wrapper">
+                <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_alt" aria-hidden="true"></span></button>
+            </div>
+        </div>
+
+        <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
+        </div>
+
+        <div is="emby-itemscontainer" class="itemsContainer padded-left padded-right">
+        </div>
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+        </div>
+    </div>
+    <div class="pageTabContent" id="playlistsTab" data-index="4">
+
+        <div is="emby-itemscontainer" id="items" class="itemsContainer padded-left padded-right padded-top vertical-wrap centered"></div>
+    </div>
+    <div class="pageTabContent" id="songsTab" data-index="5">
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+            <button is="paper-icon-button-light" class="btnShuffle autoSize" title="${Shuffle}"><span class="material-icons shuffle" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>
+            <div class="btnFilter-wrapper">
+                <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_alt" aria-hidden="true"></span></button>
+            </div>
+        </div>
+
+        <div is="emby-itemscontainer" id="items" class="itemsContainer vertical-list" style="max-width:67.5em;margin: 0 auto;"></div>
+
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+        </div>
+    </div>
+    <div class="pageTabContent" id="genresTab" data-index="6">
+        <div is="emby-itemscontainer" id="items" class="itemsContainer padded-left padded-right padded-top vertical-wrap"></div>
+    </div>
+</div>

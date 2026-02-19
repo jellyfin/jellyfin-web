@@ -1,0 +1,22 @@
+.homeLibraryButton {
+    min-width: 18%;
+    margin: 0.5em !important;
+}
+
+@media all and (max-width: 50em) {
+    .homeLibraryButton {
+        width: 46% !important;
+    }
+}
+
+.homeLibraryIcon {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    flex-shrink: 0;
+}
+
+.homeLibraryText {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

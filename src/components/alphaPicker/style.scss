@@ -1,0 +1,138 @@
+@use '../../styles/mixins' as *;
+
+.alphaPicker {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.alphaPicker-vertical {
+    line-height: 1;
+}
+
+.alphaPicker-fixed {
+    position: fixed;
+
+    @include conditional-max(bottom, 5.5em, env(safe-area-inset-bottom));
+}
+
+.alphaPickerRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.alphaPickerRow-vertical {
+    flex-direction: column;
+}
+
+.alphaPickerButton {
+    border: 0 !important;
+    cursor: pointer;
+    outline: none !important;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
+    min-width: initial;
+    margin: 0;
+    padding: 0.1em 0.4em;
+    width: auto;
+    border-radius: 0.1em;
+    font-weight: normal;
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+@media all and (max-height: 50em) {
+    .alphaPicker-fixed {
+        @include conditional-max(bottom, 5em, env(safe-area-inset-bottom));
+    }
+
+    .alphaPickerButton-vertical {
+        padding-top: 1px !important;
+        padding-bottom: 1px !important;
+    }
+}
+
+@media all and (max-height: 49em) {
+    .alphaPicker-vertical {
+        font-size: 94%;
+    }
+}
+
+@media all and (max-height: 44em) {
+    .alphaPicker-vertical {
+        font-size: 90%;
+    }
+
+    .alphaPickerButton-vertical {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
+@media all and (max-height: 37em) {
+    .alphaPicker-vertical {
+        font-size: 82%;
+    }
+}
+
+@media all and (max-height: 32em) {
+    .alphaPicker-vertical {
+        font-size: 74%;
+    }
+}
+
+.alphaPicker-vertical.alphaPicker-tv {
+    font-size: 86%;
+}
+
+.alphaPickerButton-tv.alphaPickerButton-vertical {
+    padding: 0;
+}
+
+.alphaPickerButton-vertical {
+    /* Assign a fixed width to ensure they have the same dimensions and avoid throwing off directional navigation */
+    width: 1.5em;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.alphaPickerButtonIcon {
+    font-size: 100% !important;
+}
+
+.alphaPicker-fixed.alphaPicker-tv {
+    @include conditional-max(bottom, 1%, env(safe-area-inset-bottom));
+}
+
+.alphaPicker-fixed-right {
+    [dir="ltr"] & {
+        @include conditional-max(right, 0.4em, env(safe-area-inset-right));
+    }
+
+    [dir="rtl"] & {
+        @include conditional-max(left, 0.4em, env(safe-area-inset-left));
+    }
+}
+
+@media all and (min-width: 62.5em) {
+    .alphaPicker-fixed-right {
+        [dir="ltr"] & {
+            @include conditional-max(right, 1em, env(safe-area-inset-right));
+        }
+
+        [dir="rtl"] & {
+            @include conditional-max(left, 1em, env(safe-area-inset-left));
+        }
+    }
+}
+
+@media all and (max-height: 31.25em) {
+    .alphaPicker-fixed {
+        display: none !important;
+    }
+}

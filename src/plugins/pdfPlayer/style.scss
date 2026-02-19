@@ -1,0 +1,25 @@
+#pdfPlayer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: none;
+    z-index: 100;
+    background: #fff;
+
+    #canvas {
+        display: block;
+        margin: auto;
+    }
+
+    .actionButtons {
+        right: 0.5vh;
+        top: 0.5vh;
+        z-index: 1002;
+        position: absolute;
+    }
+
+    .actionButtonIcon {
+        color: #000;
+        opacity: 0.7;
+    }
+}

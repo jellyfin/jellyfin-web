@@ -1,0 +1,42 @@
+#comicsPlayer {
+    background: #fff;
+
+    .slideshowSwiperContainer {
+        height: 100%;
+    }
+
+    .slider-zoom-container {
+        text-align: center;
+        height: 100%;
+    }
+
+    .swiper-slide-img {
+        max-height: 100%;
+        max-width: 100%;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .swiper-pagination {
+        width: max-content;
+        background: #fff;
+        color: #000;
+        padding: 2px 5px 2px 5px;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        text-shadow: 0 0 20px #fff;
+    }
+
+    .actionButtons {
+        right: 0.5vh;
+        top: 0.5vh;
+        z-index: 1002;
+        position: absolute;
+    }
+
+    .actionButtonIcon {
+        color: #000;
+        opacity: 0.7;
+    }
+}

@@ -1,0 +1,74 @@
+<div id="tvRecommendedPage" data-dom-cache="true" data-role="page" class="page libraryPage backdropPage pageWithAbsoluteTabs withTabs" data-backdroptype="series">
+
+    <div class="pageTabContent" id="seriesTab" data-index="0">
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>
+            <div class="btnFilter-wrapper">
+                <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_alt" aria-hidden="true"></span></button>
+            </div>
+        </div>
+
+        <div is="emby-itemscontainer" class="itemsContainer padded-left padded-right"></div>
+        <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical"></div>
+
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+        </div>
+    </div>
+    <div class="pageTabContent" id="suggestionsTab" data-index="1">
+        <div id="resumableSection" class="verticalSection">
+            <div class="sectionTitleContainer sectionTitleContainer-cards">
+                <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderContinueWatching}</h2>
+            </div>
+
+            <div is="emby-itemscontainer" id="resumableItems" class="itemsContainer padded-left padded-right"></div>
+        </div>
+        <div id="latestItemsSection" class="hide verticalSection">
+            <div class="sectionTitleContainer sectionTitleContainer-cards">
+                <h2 class="sectionTitle sectionTitle-cards padded-left">${HeaderLatestEpisodes}</h2>
+            </div>
+
+            <div is="emby-itemscontainer" id="latestEpisodesItems" class="itemsContainer padded-left padded-right"></div>
+        </div>
+
+        <div id="nextUpItemsSection" class="hide verticalSection">
+            <div class="sectionTitleContainer sectionTitleContainer-cards">
+                <h2 class="sectionTitle sectionTitle-cards padded-left nextUpHeader">${NextUp}</h2>
+            </div>
+            <div is="emby-itemscontainer" id="nextUpItems" class="itemsContainer vertical-wrap padded-left padded-right">
+            </div>
+        </div>
+        <p class="noNextUpItems" style="display: none;">${MessageNoNextUpItems}</p>
+    </div>
+    <div class="pageTabContent" id="upcomingTab" data-index="2">
+        <div id="upcomingItems">
+        </div>
+        <div class="noItemsMessage centerMessage" style="display: none;">
+            <h1>${MessageNothingHere}</h1>
+            <p>${MessagePleaseEnsureInternetMetadata}</p>
+        </div>
+    </div>
+    <div class="pageTabContent" id="genresTab" data-index="3">
+        <div id="items"></div>
+    </div>
+    <div class="pageTabContent" id="studiosTab" data-index="4">
+        <div is="emby-itemscontainer" id="items" class="itemsContainer padded-left padded-right padded-top vertical-wrap" style="text-align: center;"></div>
+    </div>
+    <div class="pageTabContent" id="episodesTab" data-index="5">
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+            <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
+            <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>
+            <div class="btnFilter-wrapper">
+                <button is="paper-icon-button-light" class="btnFilter autoSize" title="${Filter}"><span class="material-icons filter_alt" aria-hidden="true"></span></button>
+            </div>
+        </div>
+        <div is="emby-itemscontainer" class="itemsContainer vertical-wrap padded-left padded-right">
+        </div>
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+        </div>
+    </div>
+</div>

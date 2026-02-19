@@ -1,0 +1,26 @@
+.emby-scrollbuttons {
+    position: absolute;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    min-width: 104px;
+    min-height: 24px;
+    padding-top: 0.85em;
+    z-index: 1;
+    color: #fff;
+    display: flex;
+
+    [dir="ltr"] & {
+        right: 0;
+    }
+
+    [dir="rtl"] & {
+        left: 0;
+    }
+}
+
+.emby-scrollbuttons-button > .material-icons {
+    min-width: 24px;
+    min-height: 24px;
+    display: block;
+}

@@ -1,0 +1,9 @@
+.guideProviderSelectListings {
+    [dir="ltr"] & {
+        margin: 0 0 0 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.5em 0 0;
+    }
+}

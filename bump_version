@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# bump_version - increase the shared version and generate changelogs
+
+set -o errexit
+set -o pipefail
+set -o xtrace
+
+usage() {
+    echo -e "bump_version - increase the shared version"
+    echo -e ""
+    echo -e "Usage:"
+    echo -e " $ bump_version <new_version>"
+}
+
+if [[ -z $1 ]]; then
+    usage
+    exit 1
+fi
+
+new_version="$1"
+new_version_sed="$( cut -f1 -d'-' <<<"${new_version}" )"
+
+# Bump the NPM version
+npm --no-git-tag-version --allow-same-version version v${new_version_sed}
+
+# Stage the changed files for commit
+git add .
+git status -v

@@ -1,0 +1,129 @@
+.emby-checkbox-label {
+    position: relative;
+    z-index: 1;
+    vertical-align: middle;
+    display: inline-flex;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    padding-left: 2.4em;
+    align-items: center;
+    height: 2.35em;
+    cursor: pointer;
+}
+
+.checkboxFieldDescription {
+    padding-left: 2.4em;
+}
+
+.checkboxContainer {
+    margin-bottom: 1.8em;
+    display: flex;
+}
+
+.checkboxListContainer {
+    margin-bottom: 1.8em;
+}
+
+.checkboxContainer-withDescription {
+    flex-direction: column;
+}
+
+.emby-checkbox {
+    position: absolute;
+
+    /* This is for focusing purposes, so the focusManager doesn't skip over it */
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    appearance: none;
+    border: none;
+}
+
+.checkboxOutline {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    box-sizing: border-box;
+    width: 1.83em;
+    height: 1.83em;
+    margin: 0;
+    overflow: hidden;
+    border: 0.14em solid currentcolor;
+    border-radius: 0.14em;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkboxIcon {
+    font-size: 1.6em;
+    color: #fff;
+}
+
+.checkboxIcon-checked,
+.emby-checkbox-label .checkboxIcon-checked {
+    display: none;
+}
+
+.emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
+    /* background color set by theme */
+    display: flex !important;
+}
+
+.emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-unchecked {
+    /* background color set by theme */
+    display: none !important;
+}
+
+.emby-checkbox:checked[disabled] + span + .checkboxOutline > .checkboxIcon {
+    background-color: rgba(0, 0, 0, 0.26);
+}
+
+.checkboxLabel {
+    position: relative;
+    margin: 0;
+}
+
+.checkboxList > .emby-checkbox-label {
+    display: flex;
+    margin: 0.5em 0;
+}
+
+.checkboxList-verticalwrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.checkboxList-verticalwrap > .emby-checkbox-label {
+    display: inline-flex;
+    margin: 0.3em 0 0.3em 0;
+    width: 12em;
+}
+
+.checkboxList > .sectioncheckbox > .emby-checkbox-label {
+    display: flex;
+    margin: 0.5em 0;
+}
+
+.checkboxList-paperList {
+    padding: 1em !important;
+}
+
+.checkboxListLabel {
+    margin-bottom: 0.25em;
+}
+
+@keyframes repaintChrome {
+    from {
+        margin: 0;
+    }
+
+    to {
+        margin: 0;
+    }
+}

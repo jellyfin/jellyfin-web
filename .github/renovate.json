@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>jellyfin/.github//renovate-presets/nodejs",
+    ":dependencyDashboard"
+  ],
+  "lockFileMaintenance": {
+    "enabled": false
+  },
+  "packageRules": [
+    {
+      "matchPackageNames": [ "@jellyfin/sdk" ],
+      "followTag": "unstable",
+      "minimumReleaseAge": null,
+      "prPriority": 5,
+      "schedule": [ "after 7:00 am" ]
+    },
+    {
+      "matchPackageNames": [ "dompurify" ],
+      "matchUpdateTypes": [ "major" ],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": [ "hls.js" ],
+      "prPriority": 5
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+<div class="formDialogHeader">
+    <button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle">${ButtonAddMediaLibrary}</h3>
+</div>
+
+<div class="formDialogContent scrollY" style="padding-top:2em;">
+    <div class="dialogContentInner dialog-content-centered">
+        <form class="addLibraryForm" style="max-width:100%;">
+
+            <div id="fldCollectionType" class="selectContainer">
+                <select is="emby-select" id="selectCollectionType" data-mini="true" required="required" label="${LabelContentType}"></select>
+                <div class="collectionTypeFieldDescription fieldDescription">
+                </div>
+            </div>
+
+            <div class="inputContainer">
+                <input is="emby-input" type="text" id="txtValue" required="required" label="${LabelDisplayName}" />
+            </div>
+
+            <div class="folders">
+                <div style="display: flex; align-items: center;">
+                    <h1 style="margin: .5em 0;">${Folders}</h1>
+                    <button is="emby-button" type="button" class="fab btnAddFolder submit" title="${Add}">
+                        <span class="material-icons add" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="paperList folderList hide" style="margin-bottom:2em;"></div>
+            </div>
+
+            <div class="libraryOptions"></div>
+
+            <div class="formDialogFooter">
+                <button is="emby-button" type="submit" class="raised btnSubmit button-submit block formDialogFooterItem">
+                    <span>${ButtonOk}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

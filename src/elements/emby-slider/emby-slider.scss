@@ -1,0 +1,276 @@
+.mdl-slider {
+    width: 100%;
+    appearance: none;
+    height: 150%;/* 150% is needed, else ie and edge won't display the thumb properly */
+    background: transparent;
+    user-select: none;
+    outline: 0;
+    color: #00a4dc;
+    align-self: center;
+    z-index: 1;
+    cursor: pointer;
+    margin: 0;
+
+    /* Disable webkit tap highlighting */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    display: block;
+
+    font-size: inherit; /* Chrome and Firefox override font size for 'input' */
+}
+
+.mdl-slider::-moz-focus-outer {
+    border: 0;
+}
+
+.mdl-slider::-ms-tooltip {
+    display: none;
+}
+
+.mdl-slider::-webkit-slider-runnable-track {
+    background: transparent;
+}
+
+.mdl-slider::-ms-track {
+    background: none;
+    color: transparent;
+    height: 0.2em;
+    width: 100%;
+    border: none;
+}
+
+.mdl-slider::-ms-fill-lower {
+    display: none;
+}
+
+.mdl-slider::-ms-fill-upper {
+    display: none;
+}
+
+.slider-browser-edge {
+    margin-left: -0.16em;
+    margin-right: -0.16em;
+    width: 150%; /* need to occupy space */
+}
+
+.mdl-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 1.08em;
+    height: 1.08em;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #00a4dc;
+    border: none;
+    transition: 0.2s;
+    pointer-events: none;
+}
+
+.mdl-slider-hoverthumb:hover::-webkit-slider-thumb {
+    transform: scale(1.3);
+}
+
+.mdl-slider.show-focus:focus::-webkit-slider-thumb {
+    transform: scale(1.3);
+}
+
+.mdl-slider::-moz-range-thumb {
+    appearance: none;
+    width: 1.08em;
+    height: 1.08em;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #00a4dc;
+    background-image: none;
+    border: none;
+    transition: 0.2s;
+}
+
+.mdl-slider-hoverthumb:hover::-moz-range-thumb {
+    transform: scale(1.3);
+}
+
+.mdl-slider.show-focus:focus::-moz-range-thumb {
+    transform: scale(1.3);
+}
+
+.mdl-slider::-ms-thumb {
+    appearance: none;
+    width: 1.4em;
+    height: 1.4em;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #00a4dc;
+    border: none;
+    transform: scale(0.771429);
+    transition: 0.2s;
+}
+
+.mdl-slider-hoverthumb:hover::-ms-thumb {
+    transform: none;
+}
+
+.mdl-slider.show-focus:focus::-ms-thumb {
+    transform: none;
+}
+
+.mdl-slider[disabled]::-webkit-slider-thumb {
+    display: none;
+}
+
+.mdl-slider[disabled]::-moz-range-thumb {
+    display: none;
+}
+
+.mdl-slider[disabled]::-ms-thumb {
+    display: none;
+}
+
+.mdl-slider-container {
+    height: 1.25em;
+    position: relative;
+    background: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.mdl-slider-background-flex-container {
+    width: 100%;
+    box-sizing: border-box;
+    top: 50%;
+    position: absolute;
+    padding: 0 0.54em; /* half of slider thumb size */
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
+}
+
+.mdl-slider-background-flex {
+    background: rgba(255, 255, 255, 0.3);
+    height: 0.2em;
+    margin-top: -0.1em;
+    width: 100%;
+    top: 50%;
+    display: flex;
+    overflow: hidden;
+    border: 0;
+    padding: 0;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
+}
+
+.mdl-slider-background-flex-inner {
+    position: relative;
+    width: 100%;
+}
+
+.mdl-slider-background-lower {
+    /* transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1); */
+    position: absolute;
+    width: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #00a4dc;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
+}
+
+.mdl-slider-background-lower-clear {
+    background-color: transparent;
+}
+
+.mdl-slider-background-lower-withtransform {
+    width: 100%;
+
+    /* transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1); */
+    transform-origin: left center;
+    transform: scaleX(0);
+}
+
+.mdl-slider-background-upper {
+    /* transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1), width 0.18s cubic-bezier(0.4, 0, 0.2, 1); */
+    background: #666;
+    background: rgba(255, 255, 255, 0.4);
+    position: absolute;
+    left: 0;
+    width: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.sliderBubbleTrack {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 0.54em; /* half of slider thumb size */
+}
+
+.sliderBubble {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(-50%, -120%, 0);
+    background: #282828;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.sliderBubbleText {
+    margin: 0;
+    padding: 0.5em 0.75em;
+}
+
+/* FIXME: 'sliderContainer' is used to wrap slider's pieces */
+.sliderContainer-settings {
+    margin-bottom: 1.8em;
+    position: relative;
+}
+
+.sliderContainer-settings .mdl-slider-container {
+    height: 2.83em; /* similar to emby-input with its 110% font-size */
+}
+
+.sliderLabel {
+    display: block;
+    margin-bottom: 0.25em;
+}
+
+.sliderMarkerContainer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 0.54em; /* half of slider thumb size */
+}
+
+.sliderMarker {
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    transform: translate3d(0, 25%, 0);
+}
+
+.sliderMarker.unwatched {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.sliderMarker.watched {
+    background-color: #00a4dc;
+}

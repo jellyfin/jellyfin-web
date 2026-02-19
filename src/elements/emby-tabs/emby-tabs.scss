@@ -1,0 +1,36 @@
+.emby-tab-button {
+    box-sizing: border-box;
+    background: transparent;
+    box-shadow: none;
+    cursor: pointer;
+    outline: none;
+    width: auto;
+    font-family: inherit;
+    font-size: inherit;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 1.5em 1.5em;
+    position: relative;
+    height: auto;
+    min-width: initial;
+    line-height: 1.25;
+    border-radius: 0;
+    overflow: hidden;
+    font-weight: 600;
+}
+
+.emby-tab-button.show-focus:focus {
+    /* these buttons are small so scale larger than usual */
+    transform: scale(1.3) !important;
+    background: 0 !important;
+}
+
+.emby-tabs-slider {
+    position: relative;
+}
+
+.tabContent:not(.is-active) {
+    display: none;
+}

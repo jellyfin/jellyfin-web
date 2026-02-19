@@ -1,0 +1,40 @@
+name: GitHub CodeQL 🔬
+
+on:
+  workflow_call:
+    inputs:
+      commit:
+        required: true
+        type: string
+
+jobs:
+  analyze:
+    name: Analyze ${{ matrix.language }} 🔬
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - javascript-typescript
+
+    steps:
+      - name: Checkout repository ⬇️
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ inputs.commit }}
+          show-progress: false
+
+      - name: Initialize CodeQL 🛠️
+        uses: github/codeql-action/init@c3d42c5d08633d8b33635fbd94b000a0e2585b3c # v3.31.4
+        with:
+          queries: security-and-quality
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild 📦
+        uses: github/codeql-action/autobuild@c3d42c5d08633d8b33635fbd94b000a0e2585b3c # v3.31.4
+
+      - name: Perform CodeQL Analysis 🧪
+        uses: github/codeql-action/analyze@c3d42c5d08633d8b33635fbd94b000a0e2585b3c # v3.31.4
+        with:
+          category: '/language:${{matrix.language}}'

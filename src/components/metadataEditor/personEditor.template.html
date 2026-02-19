@@ -1,0 +1,29 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${Edit}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
+    <form class="popupEditPersonForm dialogContentInner dialog-content-centered">
+        <div class="inputContainer">
+            <input type="text" is="emby-input" class="txtPersonName" required="required" label="${LabelName}" />
+        </div>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectPersonType" class="selectPersonType" label="${LabelType}"></select>
+        </div>
+
+        <div class="inputContainer fldRole hide">
+            <input is="emby-input" type="text" class="txtPersonRole" label="${LabelPersonRole}" />
+            <div class="fieldDescription">${LabelPersonRoleHelp}</div>
+        </div>
+
+        <div class="formDialogFooter">
+            <button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem">
+                <span>${Save}</span>
+            </button>
+        </div>
+    </form>
+</div>

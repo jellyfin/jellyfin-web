@@ -1,0 +1,16 @@
+.imageEditor-dropZone {
+    border: 0.2em dashed currentcolor;
+    border-radius: 0.25em;
+
+    /* padding: 1.6em; */
+    text-align: center;
+    position: relative;
+    height: 12em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.raised.raised-mini.btnBrowse {
+    margin-left: 1.5em;
+}

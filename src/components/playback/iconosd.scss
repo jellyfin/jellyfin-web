@@ -1,0 +1,40 @@
+.iconOsd {
+    position: fixed;
+    top: 7%;
+    right: 3%;
+    z-index: 100000;
+    background: #222;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1em;
+    color: #fff;
+    backdrop-filter: blur(5px);
+    border-radius: 0.25em;
+    transition: opacity 200ms ease-out;
+}
+
+.iconOsd-hidden {
+    opacity: 0;
+}
+
+.iconOsdIcon {
+    font-size: 320%;
+    display: block;
+    margin: 0.25em 0.7em;
+}
+
+.iconOsdProgressOuter {
+    margin: 1.5em 0.25em 1em;
+    height: 0.35em;
+    background: #222;
+    border-radius: 0.25em;
+}
+
+.iconOsdProgressInner {
+    background: #00a4dc;
+    height: 100%;
+    border-radius: 0.25em;
+}
+
+.brightnessOsdProgressInner {
+    background: #ff9800;
+}

@@ -1,0 +1,137 @@
+.formDialog {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.formDialogHeader {
+    padding: 1em 0.5em;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.formDialogHeaderTitle {
+    /* In case of h1, h2, h3 */
+    margin-top: 0;
+    margin-bottom: 0;
+
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
+}
+
+.formDialogHeaderTitle:first-child {
+    [dir="ltr"] & {
+        margin-left: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
+}
+
+.formDialogContent:not(.no-grow) {
+    flex-grow: 1;
+}
+
+.dialogContentInner {
+    padding: 0.5em 1em 20em 1em;
+}
+
+.dialogContentInner-mini {
+    padding-bottom: 10em;
+}
+
+.dialog-content-centered {
+    margin: 0 auto;
+    max-width: 53em;
+}
+
+.dialogContentTitle {
+    margin-top: 1em;
+}
+
+.formDialogFooter {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    position: absolute;
+    padding: 1em 1em;
+
+    /* Without this emby-checkbox is able to appear on top */
+    z-index: 1;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.layout-tv .formDialogFooter {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.formDialogFooter-flex {
+    position: static;
+    width: 100%;
+}
+
+.formDialogFooter-vertical {
+    padding-bottom: 1.5em;
+    flex-direction: column;
+    width: 80% !important;
+    padding-top: 0.5em;
+}
+
+.formDialogFooterItem {
+    margin: 0.5em !important;
+    text-align: center;
+    flex-basis: 12em;
+}
+
+.formDialogFooterItem-vertical {
+    max-width: none !important;
+    width: 100%;
+    justify-content: center;
+    margin: 1em !important;
+}
+
+.formDialogFooterItem-nomarginbottom {
+    margin-bottom: 0 !important;
+}
+
+.formDialogFooterItem-autosize {
+    flex-basis: initial;
+    flex-grow: initial;
+    padding-right: 2em;
+    padding-left: 2em;
+}
+
+@media all and (min-width: 50em) {
+    .formDialogFooterItem {
+        max-width: 80%;
+    }
+
+    .dialogContentInner {
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+    }
+}
+
+@media all and (min-width: 80em) {
+    .formDialogFooterItem {
+        max-width: 70%;
+    }
+
+    .dialogContentInner {
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+}

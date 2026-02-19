@@ -1,0 +1,72 @@
+.emby-input {
+    display: block;
+    margin: 0;
+    margin-bottom: 0 !important;
+    font-family: inherit;
+    font-weight: inherit;
+    padding: 0.4em 0.25em;
+
+    /* must the 16px or larger to prevent iOS page zoom on focus */
+    font-size: 110%;
+
+    /* prevent padding from causing width overflow */
+    box-sizing: border-box;
+    outline: none !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    width: 100%;
+}
+
+.emby-input[type=color] {
+    height: 2.5em;
+    padding: 0;
+}
+
+.emby-input::-moz-focus-inner {
+    border: 0;
+}
+
+.emby-input:required {
+    box-shadow: none;
+}
+
+.inputContainer {
+    margin-bottom: 1.8em;
+}
+
+.inlineForm {
+    display: flex;
+}
+
+.inlineForm .inputContainer,
+.inlineForm .selectContainer {
+    flex-basis: 0;
+    flex-grow: 1;
+    margin: 0 0.5em 1.8em;
+}
+
+[dir="rtl"] .inlineForm .inputContainer:last-child,
+[dir="rtl"] .inlineForm .selectContainer:last-child,
+[dir="ltr"] .inlineForm .inputContainer:first-child,
+[dir="ltr"] .inlineForm .selectContainer:first-child {
+    margin-left: 0;
+}
+
+[dir="ltr"] .inlineForm .inputContainer:last-child,
+[dir="ltr"] .inlineForm .selectContainer:last-child,
+[dir="rtl"] .inlineForm .inputContainer:first-child,
+[dir="rtl"] .inlineForm .selectContainer:first-child {
+    margin-right: 0;
+}
+
+.inputLabel {
+    display: inline-block;
+    margin-bottom: 0.25em;
+}
+
+.emby-input + .fieldDescription {
+    margin-top: 0.25em;
+}
+
+.emby-input-iconbutton {
+    align-self: flex-end;
+}

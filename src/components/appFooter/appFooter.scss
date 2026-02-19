@@ -1,0 +1,20 @@
+.appfooter {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1201 !important; // mui drawer uses z-index 1200
+    bottom: 0;
+    transition: transform 180ms linear;
+    contain: layout style;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.appfooter:empty {
+    padding: 0;
+}
+
+.appfooter.headroom--unpinned {
+    transform: translateY(100%) !important;
+}

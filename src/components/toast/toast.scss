@@ -1,0 +1,56 @@
+@use '../../styles/mixins' as *;
+
+.toastContainer {
+    position: fixed;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 9999999;
+    padding-right: 1em;
+    padding-top: 1em;
+    display: flex;
+    flex-direction: column;
+
+    @include conditional-max(padding-left, 1em, env(safe-area-inset-left));
+    @include conditional-max(padding-bottom, 1em, env(safe-area-inset-bottom));
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
+}
+
+.toast {
+    min-width: 20em;
+    box-sizing: border-box;
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    border-radius: 0.15em;
+    cursor: default;
+    transition: transform 0.3s ease-out;
+    min-height: initial;
+    padding: 1em 1.5em;
+    font-size: 110%;
+    margin: 0.25em 0;
+    margin-right: auto;
+    pointer-events: initial;
+}
+
+.toast:first-child {
+    margin-top: 0;
+}
+
+.toast:last-child {
+    margin-bottom: 0;
+    transform: translateY(16em);
+}
+
+.toast.toastVisible {
+    transform: none;
+}
+
+.toast.toastHide {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}

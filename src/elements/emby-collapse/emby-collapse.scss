@@ -1,0 +1,59 @@
+.emby-collapse {
+    margin: 0.5em 0;
+}
+
+.collapseContent {
+    border-width: 0;
+    padding: 1.25em 1.25em;
+    height: 0;
+    transition-property: height;
+    transition-duration: 300ms;
+    overflow: hidden;
+}
+
+.emby-collapsible-button {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    text-transform: none;
+    width: 100%;
+    border-width: 0 0 0.1em 0;
+    border-style: solid;
+    padding-left: 0.1em;
+    background: transparent;
+    box-shadow: none;
+
+    [dir="ltr"] & {
+        text-align: left;
+        padding-left: 0.1em;
+    }
+
+    [dir="rtl"] & {
+        text-align: right;
+        padding-right: 0.1em;
+    }
+}
+
+.emby-collapse-expandIcon {
+    transform-origin: 50% 50%;
+    transition: transform 180ms ease-out;
+    position: absolute;
+    font-size: 1.5em;
+
+    [dir="ltr"] & {
+        right: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        left: 0.5em;
+    }
+}
+
+.emby-collapse-expandIconExpanded {
+    transform: rotate(180deg);
+}
+
+.emby-collapsible-title {
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,114 @@
+.itemProgressBar {
+    background: #333;
+    background: rgba(51, 51, 51, 0.8);
+    position: relative;
+    height: 0.28em;
+}
+
+.itemLinearProgress {
+    width: 100%;
+    position: absolute !important;
+    left: 0;
+    bottom: 0;
+    border-radius: 100px;
+}
+
+.itemProgressBarForeground {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    [dir="ltr"] & {
+        left: 0;
+    }
+
+    [dir="rtl"] & {
+        right: 0;
+    }
+}
+
+.indicator {
+    border-radius: 100em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    width: 2em;
+    height: 2em;
+}
+
+.timerIndicator {
+    color: #cb272a;
+}
+
+.timerIndicator-inactive {
+    color: #888;
+}
+
+.indicator + .indicator {
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
+}
+
+.indicatorIcon {
+    width: auto;
+    height: auto;
+    font-size: 1.6em;
+}
+
+.countIndicator {
+    border-radius: 100em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    font-size: 88%;
+}
+
+.playedIndicator {
+    border-radius: 100em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    font-size: 80%;
+}
+
+.videoIndicator {
+    background: #444;
+    border-radius: 100em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    font-size: 88%;
+}
+
+.syncIndicator {
+    border-radius: 100em;
+}
+
+.emptySyncIndicator {
+    background: #ccc;
+    color: #333;
+}
+
+.missingIndicator,
+.unairedIndicator {
+    background: #c33;
+    padding: 0.25em 0.5em;
+    border-radius: 100em;
+    color: #fff;
+    font-size: 84%;
+    font-weight: 500;
+    margin: 0 0.25em;
+}

@@ -1,0 +1,30 @@
+<div class="formDialogHeader">
+    <button type="button" is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle"></h3>
+</div>
+
+<div class="formDialogContent scrollY" style="padding-top:2em;">
+    <div class="dialogContentInner dialog-content-centered">
+        <div class="infoBanner" style="margin-bottom:1.8em;">
+            ${ChangingMetadataImageSettingsNewContent}
+        </div>
+
+        <div class="folders hide">
+            <div style="display: flex; align-items: center;">
+                <h1 style="margin: .5em 0;">${Folders}</h1>
+                <button is="emby-button" type="button" class="fab btnAddFolder submit" title="${Add}">
+                    <span class="material-icons add" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="paperList folderList" style="margin-bottom:2em;"></div>
+        </div>
+
+        <div class="libraryOptions"></div>
+    </div>
+</div>
+
+<div class="formDialogFooter">
+    <button is="emby-button" type="button" class="raised btnSubmit button-submit block formDialogFooterItem">
+        <span>${ButtonOk}</span>
+    </button>
+</div>

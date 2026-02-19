@@ -1,0 +1,29 @@
+.imageEditor-buttons {
+    display: flex;
+    align-items: center;
+    margin: 1em 0 1em;
+}
+
+.first-imageEditor-buttons {
+    margin-top: 2em;
+}
+
+.btnBrowseAllImages {
+    [dir="ltr"] & {
+        margin-left: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
+}
+
+.btnOpenUploadMenu {
+    [dir="ltr"] & {
+        margin-left: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em;
+    }
+}

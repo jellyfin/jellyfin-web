@@ -1,0 +1,27 @@
+.recordingDialog-imageContainer {
+    flex-shrink: 0;
+    padding: 1em 1em 1em 0;
+    width: 25%;
+}
+
+.recordingDialog-img {
+    width: 100%;
+}
+
+.recordingDialog-itemName {
+    margin-top: 0.7em;
+}
+
+.recordingDetailsContainer {
+    display: flex;
+}
+
+.recordingDetails {
+    flex-grow: 1;
+}
+
+.recordingDetailText {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}

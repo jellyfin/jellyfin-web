@@ -1,0 +1,209 @@
+.nowPlayingBarInfoContainer {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 40%;
+    overflow: hidden;
+}
+
+/* Now playing bar */
+.nowPlayingBar {
+    /* Above everything, except for the video player and popup overlays */
+    text-align: center;
+    will-change: transform;
+    contain: layout style;
+    transition: transform 200ms ease-out;
+    cursor: pointer;
+}
+
+.nowPlayingBar-hidden {
+    transform: translate3d(0, 100%, 0);
+}
+
+.nowPlayingBarTop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 4.2em;
+    position: relative;
+    justify-content: center;
+}
+
+.mediaButton,
+.nowPlayingBarUserDataButtons .btnUserItemRating {
+    vertical-align: middle;
+    margin: 0;
+    text-align: center;
+}
+
+.mediaButton {
+    font-size: 120%;
+}
+
+.nowPlayingBar .nowPlayingImage {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 70%;
+    width: 4.2em;
+    flex-shrink: 0;
+}
+
+.nowPlayingBarText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    flex-grow: 1;
+    font-size: 92%;
+
+    [dir="ltr"] & {
+        text-align: left;
+        margin-right: 1em;
+        margin-left: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        text-align: right;
+        margin-left: 1em;
+        margin-right: 0.5em;
+    }
+}
+
+.nowPlayingBarCenter {
+    vertical-align: middle;
+    text-align: center;
+
+    /* Need this to make sure it's on top of nowPlayingBarPositionContainer so that buttons are fully clickable */
+    z-index: 2;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+.nowPlayingBarPositionContainer {
+    position: absolute !important;
+    left: 0;
+    top: -0.56em;
+    right: 0;
+    z-index: 1;
+}
+
+.headroom--unpinned .nowPlayingBarPositionContainer {
+    display: none;
+}
+
+.noMediaProgress .nowPlayingBarPositionContainer {
+    display: none;
+}
+
+.nowPlayingBarRight {
+    position: relative;
+
+    /* Need this to make sure it's on top of nowPlayingBarPositionContainer so that buttons are fully clickable */
+    z-index: 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin: 0 0.5em 0 auto;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 auto 0 0.5em;
+    }
+}
+
+.nowPlayingBarCurrentTime {
+    vertical-align: middle;
+    text-align: center;
+    display: inline-block;
+    padding-left: 1.5em;
+}
+
+.nowPlayingBarVolumeSliderContainer {
+    [dir="ltr"] & {
+        margin-right: 2em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 2em;
+    }
+}
+
+.nowPlayingBarUserDataButtons {
+    display: inline-block;
+}
+
+.nowPlayingBarPositionSlider::-webkit-slider-thumb {
+    width: 1.2em !important;
+    height: 1.2em !important;
+}
+
+@media all and (max-width: 70em) {
+    .nowPlayingBarRight .nowPlayingBarUserDataButtons {
+        display: none;
+    }
+}
+
+@media all and (max-width: 66em) {
+    .toggleRepeatButton {
+        display: none !important;
+    }
+
+    .nowPlayingBar .btnShuffleQueue {
+        display: none !important;
+    }
+}
+
+@media all and (max-width: 80em) {
+    .nowPlayingBarCenter .nowPlayingBarCurrentTime,
+    .nowPlayingBarCenter .stopButton {
+        display: none !important;
+    }
+
+    .nowPlayingBarInfoContainer {
+        width: 45%;
+    }
+}
+
+.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton) {
+    display: none;
+}
+
+.layout-desktop .nowPlayingBarRight .playPauseButton,
+.layout-tv .nowPlayingBarRight .playPauseButton {
+    display: none;
+}
+
+.layout-mobile .nowPlayingBarRight input,
+.layout-mobile .nowPlayingBarRight div {
+    display: none;
+}
+
+@media all and (max-width: 56em) {
+    .nowPlayingBarCenter {
+        display: none !important;
+    }
+}
+
+@media all and (max-width: 60em) {
+    .nowPlayingBarRight .nowPlayingBarVolumeSliderContainer {
+        display: none !important;
+    }
+
+    .nowPlayingBarInfoContainer {
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 24em) {
+    .nowPlayingBar .muteButton,
+    .nowPlayingBar .unmuteButton {
+        display: none;
+    }
+}

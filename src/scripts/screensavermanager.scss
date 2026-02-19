@@ -1,0 +1,4 @@
+/* own "noScroll" class to avoid conflicts and the need for a scrollbar manager */
+.screensaver-noScroll {
+    overflow: hidden !important;
+}

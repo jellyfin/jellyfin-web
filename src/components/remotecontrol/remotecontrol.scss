@@ -1,0 +1,477 @@
+@use '../../styles/mixins' as *;
+
+.nowPlayingPage {
+    padding: 5em 0 0 0 !important;
+}
+
+.nowPlayingInfoContainer {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+}
+
+.navigationSection {
+    text-align: center;
+}
+
+.btnArrowUp {
+    border-radius: 40% 40% 10% 10%;
+}
+
+.btnArrowLeft {
+    border-radius: 40% 10% 10% 40%;
+}
+
+.btnArrowRight {
+    border-radius: 10% 40% 40% 10%;
+}
+
+.btnArrowDown {
+    border-radius: 10% 10% 40% 40%;
+}
+
+.btnOk {
+    border-radius: 10%;
+}
+
+.nowPlayingPageTitle {
+    [dir="ltr"] & {
+        margin: 0 0 0.5em 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.5em 0.5em 0;
+    }
+}
+
+.nowPlayingAlbum a,
+.nowPlayingArtist a {
+    font-weight: normal;
+    text-align: left !important;
+    color: inherit !important;
+}
+
+.nowPlayingButtonsContainer {
+    display: flex;
+
+    [dir="rtl"] & {
+        flex-direction: row-reverse;
+    }
+}
+
+.infoContainer,
+.sliderContainer {
+    flex-shrink: 0;
+}
+
+.nowPlayingInfoContainerMedia {
+    text-align: left;
+    margin-bottom: 1em;
+}
+
+.nowPlayingPositionSlider {
+    width: stretch;
+}
+
+.nowPlayingPositionSliderContainer {
+    margin: 0.2em 1em 0.2em 1em;
+    width: 100%;
+    z-index: 0;
+}
+
+.nowPlayingInfoButtons {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.nowPlayingInfoControls,
+.nowPlayingTime {
+    display: flex;
+}
+
+.nowPlayingPageImageContainer {
+    width: 16%;
+    position: relative;
+    flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-right: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 1em;
+    }
+}
+
+.nowPlayingPageImageContainerNoAlbum {
+    width: 100%;
+    position: relative;
+}
+
+.nowPlayingPageImageContainerNoAlbum button {
+    cursor: default;
+}
+
+.nowPlayingPageImageContainerNoAlbum::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.btnPlayPause {
+    font-size: 2em;
+    padding: 0;
+}
+
+.nowPlayingInfoControls {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nowPlayingPageImage {
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100%;
+    box-shadow: 0 0 1.9vh #000;
+    border-radius: 0.2em;
+    user-select: none;
+}
+
+.contextMenuList {
+    padding: 1.5em 0;
+}
+
+.contextMenuList a {
+    color: inherit !important;
+}
+
+.contextMenuList .material-icons.listItemIcon {
+    font-size: x-large;
+}
+
+.nowPlayingSecondaryButtons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    z-index: 0;
+}
+
+.layout-mobile .playlistSectionButtonTransparent {
+    background: rgba(0, 0, 0, 0) !important;
+}
+
+.layout-mobile .playlistSection .playlist,
+.layout-mobile .playlistSection .contextMenu {
+    position: absolute;
+    top: 12.2em;
+    bottom: 4.2em;
+    overflow: scroll;
+    padding: 0 1em;
+    display: inline-block;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.layout-mobile .playlistSectionButton {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 4.2em;
+    right: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+
+    @include conditional-max(padding-left, 7.3%, env(safe-area-inset-left));
+    @include conditional-max(padding-right, 7.3%, env(safe-area-inset-right));
+}
+
+.layout-desktop .playlistSectionButton,
+.layout-tv .playlistSectionButton {
+    background: none;
+    color: inherit;
+}
+
+.layout-desktop .nowPlayingPlaylist,
+.layout-tv .nowPlayingPlaylist {
+    background: none;
+}
+
+.layout-mobile .playlistSectionButton .btnTogglePlaylist {
+    font-size: larger;
+    margin: 0;
+}
+
+.layout-mobile .playlistSectionButton .btnSavePlaylist {
+    margin: 0;
+    border-radius: 0;
+}
+
+.layout-mobile .playlistSectionButton .volumecontrol {
+    margin: 0;
+    padding-right: 0;
+    border-radius: 0;
+}
+
+.layout-mobile .playlistSectionButton .btnToggleContextMenu {
+    font-size: larger;
+    margin: 0;
+}
+
+.layout-mobile .nowPlayingSecondaryButtons .volumecontrol {
+    display: none;
+}
+
+.layout-desktop .nowPlayingInfoButtons .btnRepeat,
+.layout-tv .nowPlayingInfoButtons .btnRepeat {
+    display: none;
+}
+
+.layout-desktop .nowPlayingInfoButtons .btnShuffleQueue,
+.layout-tv .nowPlayingInfoButtons .btnShuffleQueue {
+    display: none;
+}
+
+.layout-desktop .playlistSectionButton .volumecontrol,
+.layout-tv .playlistSectionButton .volumecontrol {
+    display: none;
+}
+
+.nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
+    display: none;
+}
+
+.layout-mobile .nowPlayingPageUserDataButtons {
+    display: none;
+}
+
+@media all and (min-width: 63em) {
+    .nowPlayingPage {
+        padding: 8em 0 0 0 !important;
+    }
+}
+
+@media all and (min-width: 80em) {
+    .nowPlayingPageImageContainer {
+        [dir="ltr"] & {
+            margin-right: 0.75em;
+        }
+
+        [dir="rtl"] & {
+            margin-left: 0.75em;
+        }
+    }
+}
+
+@media all and (orientation: portrait) and (max-width: 43em) {
+    .remoteControlContent {
+        padding-left: 7.3% !important;
+        padding-right: 7.3% !important;
+        height: 100%;
+    }
+
+    .layout-desktop .nowPlayingPageUserDataButtons {
+        display: none;
+    }
+
+    .nowPlayingInfoContainer {
+        flex-direction: column !important;
+        align-items: center;
+        width: 100%;
+        height: calc(100% - 4.2em);
+    }
+
+    .nowPlayingPageTitle {
+        margin: 0;
+    }
+
+    .nowPlayingAlbum,
+    .nowPlayingArtist {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .nowPlayingInfoContainerMedia {
+        text-align: left !important;
+        width: 80%;
+    }
+
+    .nowPlayingPositionSliderContainer {
+        margin: 0.2em 1em 0.2em 1em;
+    }
+
+    .nowPlayingInfoButtons {
+        justify-content: center;
+        font-size: 1.5em;
+        margin-left: -0.5em;
+        margin-right: -0.5em;
+    }
+
+    .nowPlayingPageImageContainer {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        flex-shrink: 1;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 0;
+        margin: 0 auto 0.5em;
+    }
+
+    .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
+        font-size: 15em;
+        color: inherit;
+    }
+
+    .nowPlayingInfoControls {
+        flex-grow: 0;
+        flex-shrink: 1;
+        margin: 0.5em 0 0;
+        width: 100%;
+        justify-content: start !important;
+    }
+
+    .nowPlayingSecondaryButtons {
+        justify-content: center;
+    }
+
+    .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle {
+        width: 20%;
+        font-size: large;
+        display: unset;
+    }
+
+    .nowPlayingInfoControls .nowPlayingPageUserDataButtonsTitle button {
+        padding-top: 0;
+        border-radius: 0;
+        margin-left: 0;
+        margin-right: 0;
+
+        [dir="ltr"] & {
+            padding-right: 0;
+            float: right;
+        }
+
+        [dir="rtl"] & {
+            padding-left: 0;
+            float: left;
+        }
+    }
+
+    .nowPlayingInfoButtons .btnRepeat,
+    .nowPlayingInfoButtons .btnRewind {
+        font-size: smaller;
+
+        [dir="ltr"] & {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        [dir="rtl"] & {
+            margin-right: 0;
+            margin-left: auto;
+        }
+    }
+
+    .nowPlayingInfoButtons .btnShuffleQueue,
+    .nowPlayingInfoButtons .btnFastForward {
+        font-size: smaller;
+
+        [dir="ltr"] & {
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        [dir="rtl"] & {
+            margin-right: auto;
+            margin-left: 0;
+        }
+    }
+
+    .paper-icon-button-light {
+        background-color: transparent !important;
+    }
+
+    .btnPlayPause {
+        padding: 0;
+        margin: 0;
+        font-size: 2em;
+    }
+
+    .nowPlayingPageImage.nowPlayingPageImageAudio,
+    .nowPlayingPageImage.nowPlayingPageImagePoster {
+        width: auto;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .playlistSectionButton .volumecontrol {
+        width: 100%;
+    }
+
+    .remoteControlSection {
+        margin: 4.2em 0 0 0;
+        padding: 0 0 4.2em 0;
+    }
+
+    .nowPlayingButtonsContainer {
+        display: flex;
+        flex-direction: column !important;
+    }
+}
+
+.nowPlayingTime {
+    display: flex;
+    align-items: center;
+    margin: 0 1em;
+}
+
+.nowPlayingNavButtonContainer {
+    width: 30em;
+}
+
+.smallBackdropPosterItem .cardOverlayInner > div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.playlistIndexIndicatorImage {
+    background-size: initial !important;
+    background-image: url(../../assets/img/equalizer.gif) !important;
+}
+
+.playlistIndexIndicatorImage > * {
+    display: none;
+}
+
+.playlistIndexIndicatorImage.playlistIndexIndicatorPausedImage {
+    background-image: url(../../assets/img/equalizer-paused.png) !important;
+}
+
+.hideVideoButtons .videoButton {
+    display: none;
+}
+
+.nowPlayingVolumeSliderContainer {
+    width: 9em;
+}
+
+@media all and (max-width: 63em) {
+    .nowPlayingInfoButtons .playlist .listItemMediaInfo,
+    .nowPlayingInfoButtons .btnStop {
+        display: none !important;
+    }
+
+    .navigationSection .collapseContent .material-icons {
+        font-size: 4em;
+    }
+}

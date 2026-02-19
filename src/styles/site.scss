@@ -1,0 +1,180 @@
+@mixin fullpage {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.splashLogo {
+    animation: fadein 0.5s;
+    width: 30%;
+    height: 30%;
+    background-image: url(@jellyfin/ux-web/icon-transparent.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media screen
+    and (min-device-width: 992px) {
+    .splashLogo {
+        background-image: url(@jellyfin/ux-web/banner-light.png);
+    }
+}
+
+html {
+    @include fullpage;
+
+    /* Set the default font for cases we don't load the brand font */
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.35;
+}
+
+body {
+    @include fullpage;
+    overflow-x: hidden;
+    background-color: transparent !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+.clipForScreenReader {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+}
+
+.material-icons {
+    /* Fix font ligatures on older WebOS versions */
+    font-feature-settings: "liga";
+}
+
+.backgroundContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    contain: strict;
+}
+
+.layout-mobile,
+.layout-tv {
+    -webkit-touch-callout: none;
+    user-select: none;
+}
+
+.mainAnimatedPage {
+    contain: style size !important;
+}
+
+.pageContainer {
+    overflow-x: visible !important;
+}
+
+.bodyWithPopupOpen {
+    overflow-y: hidden !important;
+}
+
+div[data-role="page"] {
+    outline: 0;
+}
+
+.pageTitle {
+    margin-top: 0;
+    font-family: inherit;
+}
+
+.fieldDescription {
+    padding-left: 0.15em;
+    font-weight: 400;
+    white-space: normal !important;
+
+    + .fieldDescription {
+        margin-top: 0.3em;
+    }
+}
+
+.content-primary,
+.padded-bottom-page,
+.page,
+.pageWithAbsoluteTabs .pageTabContent {
+    /* provides room for the music controls */
+    padding-bottom: 5em !important;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 5em) !important;
+}
+
+.readOnlyContent {
+    @media all and (min-width: 50em) {
+        max-width: 54em;
+    }
+}
+
+form {
+    @media all and (min-width: 50em) {
+        max-width: 54em;
+    }
+}
+
+.mediaInfoContent {
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+}
+
+.headroom {
+    will-change: transform;
+    transition: transform 200ms linear;
+
+    &--pinned {
+        transform: translateY(0%);
+    }
+
+    &--unpinned {
+        transform: translateY(-100%);
+    }
+}
+
+.drawerContent {
+    /* make sure the bottom of the drawer is visible when music is playing */
+    padding-bottom: 4em;
+}
+
+.force-scroll {
+    overflow-y: scroll;
+}
+
+.hide-scroll {
+    overflow-y: hidden;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.margin-auto-x {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.margin-auto-y {
+    margin-top: auto;
+    margin-bottom: auto;
+}

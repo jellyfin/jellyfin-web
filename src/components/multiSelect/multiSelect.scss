@@ -1,0 +1,45 @@
+@use '../../styles/mixins' as *;
+
+.itemSelectionPanel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 99998;
+}
+
+.selectionCommandsPanel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: 1em;
+    display: flex;
+    align-items: center;
+    z-index: 99999;
+
+    @include conditional-max(padding-left, 0.5em, env(safe-area-inset-left));
+    @include conditional-max(padding-right, 0.5em, env(safe-area-inset-right));
+    @include conditional-max(padding-top, 1em, env(safe-area-inset-top));
+}
+
+.itemSelectionCount {
+    vertical-align: middle;
+    color: #fff !important;
+    margin: 0;
+}
+
+.multiSelectCheckboxOutline {
+    top: 0 !important;
+    border-radius: 0 !important;
+}
+
+.withMultiSelect {
+    position: relative;
+}
+
+.btnSelectionPanelOptions {
+    margin-left: auto;
+}

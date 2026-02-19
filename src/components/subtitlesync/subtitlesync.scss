@@ -1,0 +1,52 @@
+.subtitleSync {
+    position: absolute;
+    width: 100%;
+}
+
+.subtitleSyncContainer {
+    width: 40%;
+    min-width: 18em;
+    margin-left: auto;
+    margin-right: auto;
+    height: 4.2em;
+    background: rgba(28, 28, 28, 0.8);
+    border-radius: 0.3em;
+    color: #fff;
+    position: relative;
+}
+
+.subtitleSync-closeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #ccc;
+    z-index: 2;
+}
+
+.subtitleSyncTextField {
+    position: absolute;
+    left: 0;
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
+    top: 0.1em;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    z-index: 2;
+}
+
+#prompt {
+    flex-shrink: 0;
+}
+
+.subtitleSyncSliderContainer {
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+    top: 2.5em;
+    height: 1.4em;
+    flex-grow: 1;
+    border-radius: 0.3em;
+    z-index: 1;
+}

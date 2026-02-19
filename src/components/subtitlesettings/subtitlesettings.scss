@@ -1,0 +1,26 @@
+.subtitleappearance-fullpreview {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    pointer-events: none;
+    transition: 0.2s;
+}
+
+.subtitleappearance-fullpreview-hide {
+    opacity: 0;
+}
+
+.subtitleappearance-fullpreview-window {
+    position: absolute;
+    width: 100%;
+    font-size: 170%;
+    text-align: center;
+}
+
+.subtitleappearance-fullpreview-text {
+    display: inline-block;
+    max-width: 70%;
+}

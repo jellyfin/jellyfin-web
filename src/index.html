@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="preload" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <link rel="manifest" href="manifest.json">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta http-equiv="X-UA-Compatibility" content="IE=Edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Jellyfin">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta name="referrer" content="no-referrer">
+
+    <meta id="themeColor" name="theme-color" content="#202020">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../node_modules/@jellyfin/ux-web/favicons/touchicon.png">
+    <link rel="shortcut icon" href="../node_modules/@jellyfin/ux-web/favicons/favicon.ico">
+    <meta name="msapplication-TileImage" content="../node_modules/@jellyfin/ux-web/favicons/touchicon144.png">
+    <meta name="msapplication-TileColor" content="#333333">
+
+    <title>Jellyfin</title>
+
+    <style>
+        .transparentDocument,
+        .backgroundContainer-transparent:not(.withBackdrop) {
+            background: none !important;
+            background-color: transparent !important;
+        }
+
+        .layout-tv .mouseIdle,
+        .layout-tv .mouseIdle button,
+        .layout-tv .mouseIdle select,
+        .layout-tv .mouseIdle input,
+        .layout-tv .mouseIdle textarea,
+        .layout-tv .mouseIdle a,
+        .layout-tv .mouseIdle label,
+        .transparentDocument .mouseIdle,
+        .transparentDocument .mouseIdle button,
+        .transparentDocument .mouseIdle select,
+        .transparentDocument .mouseIdle input,
+        .transparentDocument .mouseIdle textarea,
+        .transparentDocument .mouseIdle a,
+        .transparentDocument .mouseIdle label,
+        .screensaver-noScroll.mouseIdle,
+        .screensaver-noScroll.mouseIdle button,
+        .screensaver-noScroll.mouseIdle select,
+        .screensaver-noScroll.mouseIdle input,
+        .screensaver-noScroll.mouseIdle textarea,
+        .screensaver-noScroll.mouseIdle a,
+        .screensaver-noScroll.mouseIdle label {
+            cursor: none !important;
+        }
+
+        .preload {
+            background-color: #101010;
+        }
+
+        .hide,
+        .layout-desktop .hide-desktop,
+        .layout-mobile .hide-mobile,
+        .layout-tv .hide-tv,
+        .mouseIdle .hide-mouse-idle,
+        .mouseIdle-tv .hide-mouse-idle-tv {
+            display: none !important;
+        }
+
+        .mainDrawerHandle {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            z-index: 1;
+            width: 0.8em;
+            padding-left: env(safe-area-inset-left);
+            caret-color: transparent;
+        }
+
+        [dir="ltr"] .mainDrawerHandle {
+            left: 0;
+        }
+
+        [dir="rtl"] .mainDrawerHandle {
+            left: 0;
+        }
+    </style>
+</head>
+<body dir="ltr">
+    <div id="reactRoot">
+        <div class="splashLogo"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+.playerStats {
+    background: rgba(28, 28, 28, 0.8);
+    border-radius: 0.3em;
+    color: #fff;
+    position: absolute;
+    top: 5em;
+
+    [dir="ltr"] & {
+        left: 1.5em;
+    }
+
+    [dir="rtl"] & {
+        right: 1.5em;
+    }
+}
+
+.playerStats-tv {
+    top: 4em;
+}
+
+.playerStats-content {
+    position: relative;
+    font-size: 84%;
+}
+
+.playerStats-content-tv {
+    font-size: 60%;
+}
+
+.playerStats-closeButton {
+    position: absolute;
+    top: 0.25em;
+    right: 0.25em;
+    color: #ccc;
+    z-index: 1;
+}
+
+.playerStats-stats {
+    display: flex;
+    flex-direction: column;
+    max-width: 50em;
+    overflow: hidden;
+
+    [dir="ltr"] & {
+        padding: 0 3em 1em 1em;
+    }
+
+    [dir="rtl"] & {
+        padding: 0 1em 1em 3em;
+    }
+}
+
+.playerStats-stat {
+    display: flex;
+
+    [dir="ltr"] & {
+        margin-left: 1em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 1em;
+    }
+}
+
+.playerStats-stat-label {
+    font-weight: 500;
+
+    [dir="ltr"] & {
+        margin: 0 0.5em 0 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0 0 0.5em;
+    }
+}
+
+.playerStats-stat-header {
+    [dir="ltr"] & {
+        margin: 1em 1em 0 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 1em 0 0 1em;
+    }
+}
+
+.playerStats-stat-value {
+    color: #ddd;
+}

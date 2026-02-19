@@ -1,0 +1,56 @@
+.upNextContainer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 30em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    will-change: transform, opacity;
+    transition: opacity 300ms ease-out;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    user-select: none;
+    -webkit-touch-callout: none;
+
+    [dir="ltr"] & {
+        margin: 0 2em 2em 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0 2em 2em;
+    }
+}
+
+.upNextDialog-hidden {
+    opacity: 0;
+}
+
+.upNextDialog-countdownText {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.upNextDialog-title {
+    width: 25.5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.upNextDialog-buttons {
+    width: 29.75em;
+    justify-content: end;
+    align-content: flex-end;
+}
+
+.upNextDialog-button {
+    background: #404040;
+    color: #fff;
+}
+
+@media all and (orientation: landscape) {
+    .upNextDialog {
+        flex-direction: row;
+    }
+}

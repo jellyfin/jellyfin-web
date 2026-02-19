@@ -1,0 +1,58 @@
+<div data-role="page" class="page libraryPage noSecondaryNavPage" data-backbutton="true">
+    <div class="alphaPicker alphaPicker-vertical alphaPicker-fixed focuscontainer-y hide">
+    </div>
+    <div class="padded-left padded-right padded-bottom-page">
+        <div class="flex align-items-center focuscontainer-x itemsViewSettingsContainer padded-top padded-bottom flex-wrap-wrap">
+            <div class="paging"></div>
+            <button is="emby-button" class="btnPlay button-flat hide listTextButton-autohide">
+                <span>${HeaderPlayAll}</span>
+            </button>
+            <button is="paper-icon-button-light" class="btnPlay listIconButton-autohide" title="${HeaderPlayAll}">
+                <span class="material-icons play_arrow" aria-hidden="true"></span>
+            </button>
+            <button is="emby-button" class="btnQueue button-flat hide listTextButton-autohide">
+                <span>${AddToPlayQueue}</span>
+            </button>
+            <button is="paper-icon-button-light" class="btnQueue hide listIconButton-autohide" title="${AddToPlayQueue}">
+                <span class="material-icons playlist_add" aria-hidden="true"></span>
+            </button>
+            <button is="emby-button" class="btnShuffle button-flat hide listTextButton-autohide">
+                <span>${Shuffle}</span>
+            </button>
+            <button is="paper-icon-button-light" class="btnShuffle hide listIconButton-autohide" title="${Shuffle}">
+                <span class="material-icons shuffle" aria-hidden="true"></span>
+            </button>
+            <button is="emby-button" class="btnNewItem hide button-flat listTextButton-autohide">
+                <span>${New}</span>
+            </button>
+            <button is="paper-icon-button-light" class="btnNewItem hide listIconButton-autohide" title="${New}">
+                <span class="material-icons add" aria-hidden="true"></span>
+            </button>
+
+            <button is="emby-button" class="btnSort hide button-flat listTextButton-autohide">
+                <span class="btnSortText"></span>
+                <span class="material-icons btnSortIcon arrow_upward" aria-hidden="true"></span>
+            </button>
+            <button is="paper-icon-button-light" class="btnSort hide listIconButton-autohide" title="${Sort}">
+                <span class="material-icons sort_by_alpha" aria-hidden="true"></span>
+            </button>
+            <button is="emby-button" class="btnFilter button-flat listTextButton-autohide">
+                <span>${Filter}</span>
+            </button>
+            <button is="paper-icon-button-light" class="btnFilter listIconButton-autohide" data-ripple="false" style="overflow:visible;" title="${Filter}">
+                <span class="material-icons filter_alt" aria-hidden="true"></span>
+            </button>
+            <button is="emby-button" class="btnViewSettings button-flat listTextButton-autohide" title="${ButtonMore}">
+                <span class="material-icons more_vert" aria-hidden="true"></span>
+            </button>
+            <button is="paper-icon-button-light" class="btnViewSettings listIconButton-autohide" title="${ButtonMore}">
+                <span class="material-icons more_vert" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div is="emby-itemscontainer" class="vertical-wrap itemsContainer">
+        </div>
+        <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
+            <div class="paging"></div>
+        </div>
+    </div>
+</div>

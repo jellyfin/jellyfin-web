@@ -1,0 +1,38 @@
+@use '../../styles/mixins' as *;
+
+.emby-scroller-container {
+    position: relative;
+}
+
+.emby-scroller {
+    @include conditional-max(padding-left, 3.3%, env(safe-area-inset-left));
+    @include conditional-max(padding-right, 3.3%, env(safe-area-inset-right));
+}
+
+.servers > .card > .cardBox {
+    margin-left: 0.6em;
+    margin-right: 0.6em;
+}
+
+/* align first card in scroller to heading */
+.itemsContainer > .card > .cardBox {
+    [dir="ltr"] & {
+        margin-left: 0;
+        margin-right: 1.2em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: 1.2em;
+    }
+}
+
+.no-padding {
+    [dir="ltr"] & {
+        padding-left: 0;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 0;
+    }
+}

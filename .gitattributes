@@ -1,0 +1,35 @@
+*               text=auto
+
+CONTRIBUTORS.md merge=union
+README.md         text
+LICENSE         text
+
+*.css           text
+*.eot           binary
+*.gif           binary
+*.html          text diff=html
+*.ico           binary
+*.*ignore       text
+*.jpg           binary
+*.js            text
+*.json          text
+*.lock          text -diff
+*.map           text -diff
+*.md            text
+*.otf           binary
+*.png           binary
+*.py            text diff=python
+*.svg           binary
+*.ts            text
+*.ttf           binary
+*.sass          text
+*.vue           text
+*.webp          binary
+*.woff          binary
+*.woff2         binary
+
+.editorconfig   text
+.gitattributes  export-ignore
+.gitignore      export-ignore
+
+*.gitattributes linguist-language=gitattributes

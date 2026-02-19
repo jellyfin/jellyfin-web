@@ -1,0 +1,94 @@
+.mediaInfoItem {
+    padding: 0;
+
+    [dir="ltr"] & {
+        margin: 0 1em 0 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0 0 1em;
+    }
+}
+
+.mediaInfoText {
+    padding: 0.22em 0.5em;
+    border-radius: 0.25em;
+    font-size: 92%;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0 0.5em 0 0;
+}
+
+.mediaInfoText-upper {
+    text-transform: uppercase;
+}
+
+.mediaInfoIconItem {
+    width: auto;
+    height: auto;
+    font-size: 1.6em;
+    margin-right: 0.6em;
+}
+
+.mediaInfoItem:last-child {
+    [dir="ltr"] & {
+        margin-right: 0;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 0;
+    }
+}
+
+.starRatingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.starIcon {
+    width: auto !important;
+    height: auto !important;
+    font-size: 1.4em;
+    margin-right: 0.125em;
+    color: #f2b01e;
+}
+
+.mediaInfoCriticRating {
+    background-repeat: no-repeat;
+    background-size: auto 1.2em;
+    min-height: 1.2em;
+    display: flex;
+    align-items: center;
+
+    [dir="ltr"] & {
+        padding-left: 1.5em;
+        background-position: left center;
+    }
+
+    [dir="rtl"] & {
+        padding-right: 1.5em;
+        background-position: right center;
+    }
+}
+
+.mediaInfoCriticRatingFresh {
+    background-image: url(../../assets/img/fresh.svg);
+}
+
+.mediaInfoCriticRatingRotten {
+    background-image: url(../../assets/img/rotten.svg);
+}
+
+.mediaInfoProgramAttribute {
+    text-transform: uppercase;
+    padding: 0.16em 0.6em;
+    border-radius: 0.15em;
+    font-size: 80%;
+}
+
+.closedCaptionMediaInfoText {
+    font-weight: bold;
+}

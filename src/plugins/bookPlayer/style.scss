@@ -1,0 +1,96 @@
+#bookPlayer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    z-index: 100;
+    background: #fff;
+
+    display: flex;
+    flex-direction: column;
+
+    .topButtons {
+        z-index: 1002;
+        width: 100%;
+        color: #000;
+        opacity: 0.7;
+    }
+
+    .bookPlayerContainer {
+        flex-grow: 1;
+    }
+
+    #btnBookplayerToc {
+        float: left;
+        margin: 0.5vh 0.5vh 0.5vh 2vw;
+    }
+
+    #btnBookplayerExit {
+        float: right;
+        margin: 0.5vh 2vw 0.5vh 0.5vh;
+    }
+
+    .bookplayerErrorMsg {
+        text-align: center;
+    }
+
+    #btnBookplayerPrev,
+    #btnBookplayerNext {
+        margin: 0.5vh 0.5vh;
+    }
+}
+
+#dialogToc {
+    background-color: white;
+    height: fit-content;
+    width: fit-content;
+    max-height: 80%;
+    max-width: 60%;
+
+    .bookplayerButtonIcon {
+        color: black;
+    }
+
+    .bookplayerButton {
+        margin: 0.5vh;
+    }
+
+    .toc {
+        margin: 0;
+        padding: 30px;
+    }
+
+    .toc li {
+        margin-bottom: 5px;
+
+        list-style-type: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+
+        ul {
+            padding-left: 1.5rem;
+
+            li {
+                font-weight: normal;
+            }
+        }
+
+        a:link {
+            color: #000;
+            text-decoration: none;
+        }
+
+        a:active,
+        a:hover {
+            color: #00a4dc;
+            text-decoration: none;
+        }
+    }
+}
+
+@media (max-width: 60em) {
+    #dialogToc {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}

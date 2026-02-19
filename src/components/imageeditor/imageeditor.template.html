@@ -1,0 +1,42 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderEditImages}
+    </h3>
+</div>
+
+<div class="formDialogContent smoothScrollY">
+    <div class="dialogContentInner">
+
+        <div id="imagesContainer">
+            <div class="imageEditor-buttons first-imageEditor-buttons">
+                <h2 style="margin:0;">${Images}</h2>
+                <button type="button" is="emby-button" class="btnBrowseAllImages fab mini autoSize">
+                    <span class="material-icons search" aria-hidden="true"></span>
+                </button>
+                <button type="button" is="emby-button" class="btnOpenUploadMenu fab mini hide">
+                    <span class="material-icons add" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div id="images" class="itemsContainer vertical-wrap">
+            </div>
+            <br />
+        </div>
+
+        <div id="backdropsContainer" class="hide">
+            <div class="imageEditor-buttons">
+                <h2 style="margin:0;">${Backdrops}</h2>
+                <button type="button" is="emby-button" class="btnBrowseAllImages fab mini autoSize" data-imagetype="Backdrop">
+                    <span class="material-icons search" aria-hidden="true"></span>
+                </button>
+                <button type="button" is="emby-button" class="btnOpenUploadMenu fab mini hide" data-imagetype="Backdrop">
+                    <span class="material-icons add" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div id="backdrops" class="itemsContainer vertical-wrap">
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+

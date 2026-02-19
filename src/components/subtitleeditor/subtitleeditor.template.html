@@ -1,0 +1,31 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle">${Subtitles}</h3>
+
+    <a is="emby-linkbutton" rel="noopener noreferrer" data-autohide="true" class="button-link btnHelp flex align-items-center" href="https://jellyfin.org/docs/general/server/media/external-files" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="${Help}"><span class="material-icons info" aria-hidden="true"></span><span style="margin-left:.25em;">${Help}</span></a>
+</div>
+<div class="formDialogContent smoothScrollY">
+    <div class="dialogContentInner dialog-content-centered">
+
+        <div class="subtitleList" style="margin-bottom:2em;"></div>
+        <h2>${SearchForSubtitles}</h2>
+
+        <p style="margin: 1.5em 0;" class="originalFile"><span class="originalSubtitleFileLabel secondaryText"></span><span class="pathValue"></span></p>
+
+        <form class="subtitleSearchForm" style="max-width: none;">
+            <div class="flex align-items-center">
+                <div class="selectContainer flex-grow" style="margin-bottom: 0;">
+                    <select is="emby-select" id="selectLanguage" required="required" label="${LabelLanguage}" autofocus></select>
+                </div>
+                <button type="submit" is="paper-icon-button-light" title="${Search}" class="btnSearchSubtitles flex-shrink-zero emby-select-iconbutton"><span class="material-icons search" aria-hidden="true"></span></button>
+                <button type="button" is="paper-icon-button-light" title="${Upload}" class="btnOpenUploadMenu flex-shrink-zero emby-select-iconbutton"><span class="material-icons add" aria-hidden="true"></span></button>
+            </div>
+            <button is="emby-button" type="submit" class="raised btnSubmit block button-submit">${Search}</button>
+        </form>
+        <br />
+        <div class="subtitleResults"></div>
+        <div class="noSearchResults hide">
+            ${NoSubtitleSearchResultsFound}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,338 @@
+.listItem,
+.listItemBody,
+.listItemMediaInfo {
+    display: flex;
+    contain: layout style;
+}
+
+.listItemMediaInfo {
+    align-items: center;
+    margin-right: 1em;
+}
+
+.listItem {
+    background: transparent;
+    border: 0;
+    outline: none !important;
+    color: inherit;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+
+    [dir="ltr"] & {
+        text-align: left;
+        padding: 0.25em 0.25em 0.25em 0.5em;
+    }
+
+    [dir="rtl"] & {
+        text-align: right;
+        padding: 0.25em 0.5em 0.25em 0.25em;
+    }
+}
+
+.listItem-withContentWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.listItem[data-action=none] {
+    cursor: default;
+}
+
+.listItem-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.listItem-button {
+    width: 100%;
+}
+
+.listItem-indexnumberleft {
+    min-width: 2%;
+    text-align: center;
+    margin-right: 1em;
+}
+
+.listItem-border {
+    margin: 0;
+    padding: 0;
+    border-width: 0 0 0.1em 0;
+    border-style: solid;
+    border-radius: 0;
+}
+
+.listItem-border.show-focus:focus {
+    transform: scale(1) !important;
+}
+
+.listItemImage,
+.listItemIcon,
+.listItemAside {
+    flex-shrink: 0;
+}
+
+.listItemBody,
+.listItemImage,
+.listItemIcon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.listItemButton {
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+    contain: layout style;
+}
+
+.listViewDragHandle {
+    touch-action: none;
+
+    [dir="ltr"] & {
+        margin-left: -0.25em !important;
+    }
+
+    [dir="rtl"] & {
+        margin-right: -0.25em !important;
+    }
+}
+
+.listItemBody {
+    flex-grow: 1;
+    padding: 0.85em 0.75em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-direction: column;
+    vertical-align: middle;
+    justify-content: center;
+}
+
+.layout-tv .listItemBody {
+    padding: 0.35em 0.75em;
+}
+
+.listItemBody-noleftpadding {
+    padding-left: 0 !important;
+}
+
+.listItemBodyText {
+    margin: 0;
+    padding: 0.1em 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+}
+
+.layout-desktop .listItemBodyText {
+    line-height: 1.2em;
+}
+
+.listItemBodyText-nowrap {
+    white-space: nowrap;
+}
+
+.listItemImage {
+    width: 4em;
+    height: 4em;
+    min-width: 2.78em;
+    min-height: 2.78em;
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex-shrink: 0;
+    background-position: center center;
+    position: relative;
+    display: flex;
+}
+
+.listItemImage-large {
+    width: 19.5vw;
+    height: 13vw;
+    background-position: center center;
+    margin-right: 0.75em;
+}
+
+.listItemImage-channel {
+    background-size: contain;
+}
+
+.listItemImageButton {
+    align-self: center;
+    justify-self: center;
+    margin: auto;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 1.6em;
+    transition: 200ms ease-out;
+    display: flex;
+}
+
+.listItemImageButton:hover {
+    color: #00a4dc;
+    background: rgba(0, 164, 220, 0.2);
+    transform: scale(1.2, 1.2);
+}
+
+.listItemImageButton-icon {
+    border-radius: 100em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2em;
+}
+
+.listItemImage .cardImageIcon {
+    margin: auto;
+    font-size: 3em;
+}
+
+@media all and (max-width: 64em) {
+    .listItemImage-large {
+        width: 22vw;
+        height: 16vw;
+        margin-right: 0 !important;
+    }
+
+    .listItemIndicators,
+    .listItemImageButton {
+        font-size: 0.6em !important;
+    }
+
+    .listItemBody {
+        padding-left: 0.75em;
+    }
+}
+
+@media all and (max-width: 50em) {
+    .listItemBody {
+        padding-right: 0.5em;
+    }
+
+    .listItemMediaInfo {
+        display: none;
+    }
+}
+
+@media all and (max-width: 40em) {
+    [data-type='Movie'] .listItemImage,
+    [data-type='Series'] .listItemImage {
+        display: none;
+    }
+}
+
+.listItemImage-large-tv {
+    width: 30vw !important;
+    height: 20vw !important;
+}
+
+.listItemIcon {
+    width: 1em !important;
+    height: 1em !important;
+    font-size: 143%;
+
+    [dir="ltr"] & {
+        margin: 0 0.25em 0 0;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0 0 0.25em;
+    }
+}
+
+.listItemIcon:not(.listItemIcon-transparent) {
+    background-color: #00a4dc;
+    color: #fff;
+    padding: 0.5em;
+    border-radius: 100em;
+
+    [dir="ltr"] & {
+        margin: 0 0.2em 0 0.4em;
+    }
+
+    [dir="rtl"] & {
+        margin: 0 0.4em 0 0.2em;
+    }
+}
+
+.listItemProgressBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.listItem:focus {
+    border-radius: 0.2em;
+}
+
+.listItem:focus .secondary {
+    color: inherit !important;
+}
+
+.listItem-focusscale {
+    transition: transform 0.2s ease-out;
+}
+
+.listItem-focusscale:focus {
+    transform: scale(1.025, 1.025);
+}
+
+.paperList {
+    margin: 0.5em auto;
+}
+
+.paperList-clear {
+    background-color: transparent !important;
+}
+
+.listGroupHeader-first {
+    margin-top: 0;
+}
+
+.listItemIndicators {
+    right: 0.324em;
+    top: 0.324em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+.listItem-bottomoverview {
+    font-size: 88%;
+    margin-bottom: 1em;
+    margin-top: 0.2em;
+}
+
+@media all and (max-width: 50em) {
+    .listItem .endsAt,
+    .listItem .criticRating,
+    .listItem-overview {
+        display: none !important;
+    }
+}
+
+@media all and (min-width: 50em) {
+    .listItem-bottomoverview {
+        display: none !important;
+    }
+}
+
+.listItemCheckboxContainer {
+    width: auto !important;
+}
+
+.listItemMediaInfo + .timerIndicator {
+    [dir="ltr"] & {
+        margin-left: 0.25em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.25em;
+    }
+}

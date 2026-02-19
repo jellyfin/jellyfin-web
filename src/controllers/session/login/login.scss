@@ -1,0 +1,26 @@
+.loginDisclaimerContainer {
+    display: flex;
+    margin-top: 2em;
+}
+
+.loginDisclaimer {
+    margin: 0 auto;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        text-align: center;
+    }
+
+    ol,
+    ul {
+        max-width: 40em;
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+    }
+}

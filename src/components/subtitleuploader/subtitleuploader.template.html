@@ -1,0 +1,49 @@
+<div class="formDialogHeader">
+    <button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="${ButtonBack}"><span class="material-icons arrow_back" aria-hidden="true"></span></button>
+    <h3 class="formDialogHeaderTitle">
+        ${HeaderUploadSubtitle}
+    </h3>
+</div>
+
+<div class="formDialogContent">
+    <div class="dialogContentInner">
+
+        <form class="uploadSubtitleForm">
+
+            <div class="flex align-items-center" style="margin:1.5em 0;">
+                <h2 style="margin:0;">${HeaderAddUpdateSubtitle}</h2>
+
+                <button is="emby-button" type="button" class="raised raised-mini btnBrowse">
+                    <span class="material-icons folder" aria-hidden="true"></span>
+                    <span>${Browse}</span>
+                </button>
+            </div>
+            <div>
+                <div class="subtitleEditor-dropZone fieldDescription">
+                    <div id="labelDropSubtitle">${LabelDropSubtitleHere}</div>
+                    <output id="subtitleOutput" class="flex align-items-center justify-content-center" style="position: absolute;top:0;left:0;right:0;bottom:0;width:100%;"></output>
+                    <input type="file" accept=".sub,.srt,.vtt,.ass,.ssa,.mks" id="uploadSubtitle" name="uploadSubtitle" style="position: absolute;top:0;left:0;right:0;bottom:0;width:100%;opacity:0;"/>
+                </div>
+                <div id="fldUpload" class="hide">
+                    <br />
+                    <div class="checkboxContainer">
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkIsForced" />
+                            <span>${LabelIsForced}</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" is="emby-checkbox" id="chkIsHearingImpaired" />
+                            <span>${LabelIsHearingImpaired}</span>
+                        </label>
+                    </div>
+                    <div class="selectContainer flex-grow">
+                        <select is="emby-select" id="selectLanguage" required="required" label="${LabelLanguage}"></select>
+                    </div>
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>${Upload}</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

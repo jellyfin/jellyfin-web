@@ -1,0 +1,19 @@
+.recordingButton {
+    min-width: 10em;
+
+    [dir="ltr"] & {
+        margin-left: 0;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0;
+    }
+}
+
+.recordingIcon-active {
+    color: #c33;
+}
+
+.recordSeriesContainer {
+    margin-bottom: 0.8em;
+}

@@ -1,0 +1,105 @@
+.progressring {
+    position: relative;
+    width: 2.6em;
+    height: 2.6em;
+    float: left;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.progressring-bg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 0.25em solid rgba(0, 0, 0, 1);
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progressring-text {
+    text-align: center;
+    color: #ddd;
+    font-size: 90%;
+}
+
+.spiner-holder-one {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 51%;
+    height: 51%;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.spiner-holder-two {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.progressring-spiner {
+    width: 200%;
+    height: 200%;
+    border-radius: 50%;
+    border-width: 0.25em;
+    border-style: solid;
+    box-sizing: border-box;
+}
+
+.animate-0-25-a {
+    transform: rotate(90deg);
+    transform-origin: 100% 100%;
+    transition: transform 180ms ease-out;
+}
+
+.animate-0-25-b {
+    transform: rotate(-90deg);
+    transform-origin: 100% 100%;
+    transition: transform 180ms ease-out;
+}
+
+.animate-25-50-a {
+    transform: rotate(180deg);
+    transform-origin: 100% 100%;
+    transition: transform 180ms ease-out;
+}
+
+.animate-25-50-b {
+    transform: rotate(-90deg);
+    transform-origin: 100% 100%;
+    transition: transform 180ms ease-out;
+}
+
+.animate-50-75-a {
+    transform: rotate(270deg);
+    transform-origin: 100% 100%;
+    transition: transform 180ms ease-out;
+}
+
+.animate-50-75-b {
+    transform: rotate(-90deg);
+    transform-origin: 100% 100%;
+    transition: transform 180ms ease-out;
+}
+
+.animate-75-100-a {
+    transform: rotate(0deg);
+    transform-origin: 100% 100%;
+    transition: transform 180ms ease-out;
+}
+
+.animate-75-100-b {
+    transform: rotate(-90deg);
+    transform-origin: 100% 100%;
+    transition: transform 180ms ease-out;
+}
