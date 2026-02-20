@@ -13,6 +13,47 @@ import Events from '../../utils/events.ts';
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
 
+/**
+ * @typedef {object} InteractionConfig
+ * @property {number} swipeMinDistance
+ * @property {number} swipeMaxVerticalDistance
+ * @property {number} swipeMaxDuration
+ * @property {number} tapMaxDistance
+ * @property {number} tapMaxDuration
+ * @property {number} doubleTapDelay
+ * @property {number} pinchTapCooldown
+ * @property {number} zoomStep
+ * @property {number} maxZoom
+ */
+
+/**
+ * @typedef {object} SwipeStart
+ * @property {number} x
+ * @property {number} y
+ * @property {number} time
+ */
+
+/**
+ * @typedef {object} PinchState
+ * @property {number} distance
+ * @property {number} zoomLevel
+ */
+
+/**
+ * @typedef {object} DragState
+ * @property {number} x
+ * @property {number} y
+ * @property {number} scrollLeft
+ * @property {number} scrollTop
+ */
+
+/**
+ * @typedef {object} ZoomAnchor
+ * @property {number} clientX
+ * @property {number} clientY
+ */
+
+/** @type {InteractionConfig} */
 const DEFAULT_INTERACTION_CONFIG = {
     swipeMinDistance: 80,
     swipeMaxVerticalDistance: 48,
@@ -169,6 +210,12 @@ export class PdfPlayer {
         zoomElement.textContent = `${Math.round(this.zoomLevel * 100)}%`;
     }
 
+    /**
+     * @param {CSSStyleDeclaration} style
+     * @param {string} name
+     * @param {number} fallback
+     * @returns {number}
+     */
     getCssNumberVar(style, name, fallback) {
         const raw = style.getPropertyValue(name).trim();
         if (!raw) return fallback;
@@ -177,6 +224,10 @@ export class PdfPlayer {
         return Number.isFinite(parsed) ? parsed : fallback;
     }
 
+    /**
+     * @param {HTMLElement | null | undefined} elem
+     * @returns {void}
+     */
     loadInteractionConfig(elem) {
         const style = window.getComputedStyle(elem || document.documentElement);
 
@@ -193,6 +244,11 @@ export class PdfPlayer {
         };
     }
 
+    /**
+     * @param {number} zoomLevel
+     * @param {ZoomAnchor | undefined} [anchorPoint]
+     * @returns {void}
+     */
     setZoom(zoomLevel, anchorPoint) {
         const previousZoom = this.zoomLevel;
         this.zoomLevel = Math.min(this.interactionConfig.maxZoom, Math.max(1, zoomLevel));
@@ -200,6 +256,11 @@ export class PdfPlayer {
         this.updateZoomLabel();
     }
 
+    /**
+     * @param {number} [previousZoom=this.zoomLevel]
+     * @param {ZoomAnchor | undefined} [anchorPoint]
+     * @returns {void}
+     */
     applyZoom(previousZoom = this.zoomLevel, anchorPoint) {
         if (!this.mediaElement) return;
 
@@ -294,6 +355,10 @@ export class PdfPlayer {
         }
     }
 
+    /**
+     * @param {TouchEvent} e
+     * @returns {void}
+     */
     onSwipeStart(e) {
         if (!this.loaded || !e.touches || e.touches.length === 0) {
             this.swipeStart = null;
@@ -325,6 +390,10 @@ export class PdfPlayer {
         };
     }
 
+    /**
+     * @param {TouchEvent} e
+     * @returns {void}
+     */
     onTouchMove(e) {
         if (!this.loaded || !this.pinchState || !e.touches || e.touches.length !== 2) return;
 
@@ -340,6 +409,10 @@ export class PdfPlayer {
         });
     }
 
+    /**
+     * @param {TouchEvent} e
+     * @returns {void}
+     */
     onSwipeEnd(e) {
         if (this.pinchState && (!e.touches || e.touches.length < 2)) {
             this.pinchState = null;
@@ -384,6 +457,10 @@ export class PdfPlayer {
         this.toggleReaderChrome();
     }
 
+    /**
+     * @param {PointerEvent} e
+     * @returns {void}
+     */
     onDragStart(e) {
         if (!this.loaded || this.zoomLevel <= 1) return;
         if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -404,6 +481,10 @@ export class PdfPlayer {
         }
     }
 
+    /**
+     * @param {PointerEvent} e
+     * @returns {void}
+     */
     onDragMove(e) {
         if (!this.dragState || this.zoomLevel <= 1) return;
 
@@ -417,6 +498,10 @@ export class PdfPlayer {
         viewport.scrollTop = this.dragState.scrollTop - deltaY;
     }
 
+    /**
+     * @param {PointerEvent} e
+     * @returns {void}
+     */
     onDragEnd(e) {
         if (!this.dragState) return;
 
@@ -648,6 +733,11 @@ export class PdfPlayer {
         }
     }
 
+    /**
+     * @param {HTMLCanvasElement} canvas
+     * @param {number} number
+     * @returns {void}
+     */
     renderPage(canvas, number) {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
