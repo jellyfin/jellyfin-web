@@ -43,6 +43,10 @@ function getDeleteLabel(type) {
     }
 }
 
+/**
+ * @param {import('@jellyfin/sdk/lib/generated-client/models/base-item-dto').BaseItemDto} item
+ * @returns {string}
+ */
 function getRemoveFromContinueLabel(item) {
     if (item.Type === BaseItemKind.Book) {
         return globalize.translate('ClearReadingProgress');
