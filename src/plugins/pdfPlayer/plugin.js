@@ -137,6 +137,9 @@ export class PdfPlayer {
         // Nothing to do here
     }
 
+    /**
+     * @returns {unknown}
+     */
     currentItem() {
         return this.item;
     }
@@ -165,10 +168,16 @@ export class PdfPlayer {
         return true;
     }
 
+    /**
+     * @returns {string}
+     */
     getTitle() {
         return this.item?.SeriesName || this.item?.Album || this.item?.Name || '';
     }
 
+    /**
+     * @returns {string}
+     */
     getChapter() {
         if (!this.item) return '';
 
@@ -587,6 +596,9 @@ export class PdfPlayer {
         document.removeEventListener('keydown', this.onWindowKeyDown);
     }
 
+    /**
+     * @returns {HTMLElement}
+     */
     createMediaElement() {
         let elem = this.mediaElement;
         if (elem) {
@@ -631,6 +643,11 @@ export class PdfPlayer {
         return elem;
     }
 
+    /**
+     * @param {HTMLElement} elem
+     * @param {{ items: Array<{ Id: string }>, startPositionTicks: number }} options
+     * @returns {Promise<void>}
+     */
     setCurrentSrc(elem, options) {
         const item = options.items[0];
 
