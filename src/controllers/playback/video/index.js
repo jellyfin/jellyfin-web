@@ -694,11 +694,7 @@ export default function (view) {
                         nextItem: nextItem
                     });
                     Events.on(currentUpNextDialog, 'hide', onUpNextHidden);
-                }, function () {
-                    // If the play queue isn't ready yet, allow a later retry on subsequent timeupdate events.
-                    comingUpNextDisplayed = false;
-                    onUpNextHidden();
-                });
+                }, onUpNextHidden);
             }
         });
     }
