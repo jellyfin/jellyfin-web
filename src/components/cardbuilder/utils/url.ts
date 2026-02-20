@@ -5,7 +5,7 @@ import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { ItemDto } from 'types/base/models/item-dto';
 import { CardOptions } from 'types/cardOptions';
 
-import { getDesiredAspect } from '../cardBuilderUtils';
+import { getDesiredAspect } from './builder';
 import { CardShape } from './shape';
 
 interface CardImageUrlParams {

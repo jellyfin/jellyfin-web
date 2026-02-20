@@ -40,7 +40,7 @@ import {
     resolveCardCssClasses,
     resolveCardImageContainerCssClasses,
     resolveMixedShapeByAspectRatio
-} from './cardBuilderUtils';
+} from './utils/builder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from './utils/shape';
 import { getCardImageUrl } from './utils/url';
 

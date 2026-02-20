@@ -12,7 +12,7 @@ import { getDataAttributes } from 'utils/items';
 import {
     resolveAction,
     resolveMixedShapeByAspectRatio
-} from '../cardBuilderUtils';
+} from '../utils/builder';
 import { CardShape } from '../utils/shape';
 import { getCardImageUrl } from '../utils/url';
 
