@@ -727,7 +727,7 @@
     "LabelAirsBeforeSeason": "Transmisión antes de la temporada",
     "LabelAirsBeforeEpisode": "Transmisión antes del episodio",
     "LabelAirsAfterSeason": "Transmisión después de la temporada",
-    "LabelAirTime": "Duración",
+    "LabelAirTime": "Tiempo de emisión",
     "LabelAirDays": "Se emite los días",
     "LabelAccessStart": "Hora de inicio",
     "LabelAccessEnd": "Hora de finalización",
@@ -1699,5 +1699,7 @@
     "VideoResolutionNotSupported": "La resolución del video no es compatible",
     "AudioProfileNotSupported": "El perfil del códec de audio no es compatible",
     "AudioSampleRateNotSupported": "La frecuencia de muestreo del audio no es compatible",
-    "AnamorphicVideoNotSupported": "El video anamórfico no es compatible"
+    "AnamorphicVideoNotSupported": "El video anamórfico no es compatible",
+    "Trickplay": "Trickplay",
+    "LabelTrickplayAccel": "Habilitar decodificación por hardware"
 }
