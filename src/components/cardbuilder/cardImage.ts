@@ -3,10 +3,10 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import type { ApiClient } from 'jellyfin-apiclient';
 
 import type { CardOptions } from 'types/cardOptions';
-import { CardShape } from 'utils/card';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import { getDefaultText } from './cardBuilder';
+import { CardShape } from './utils/shape';
 import { getCardImageUrl } from './utils/url';
 
 /**

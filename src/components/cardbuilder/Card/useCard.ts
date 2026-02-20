@@ -7,13 +7,13 @@ import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
-import { CardShape } from 'utils/card';
 import { getDataAttributes } from 'utils/items';
 
 import {
     resolveAction,
     resolveMixedShapeByAspectRatio
 } from '../cardBuilderUtils';
+import { CardShape } from '../utils/shape';
 import { getCardImageUrl } from '../utils/url';
 
 interface UseCardProps {
