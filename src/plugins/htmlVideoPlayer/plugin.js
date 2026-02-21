@@ -386,6 +386,7 @@ export class HtmlVideoPlayer {
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
         return this.createMediaElement(options).then(elem => {
+            if (options.aspectRatio) this.setAspectRatio(options.aspectRatio);
             return this.updateVideoUrl(options).then(() => {
                 return this.setCurrentSrc(elem, options);
             });
