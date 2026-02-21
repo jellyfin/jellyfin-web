@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - master
-  pull_request_target:
+  pull_request:
 
 jobs:
   conflicts:

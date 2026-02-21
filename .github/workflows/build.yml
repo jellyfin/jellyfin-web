@@ -7,7 +7,7 @@ concurrency:
 on:
   push:
     branches: [ master, release* ]
-  pull_request_target:
+  pull_request:
     branches: [ master, release* ]
   workflow_dispatch:
 
@@ -61,7 +61,7 @@ jobs:
     steps:
       - name: Add comment
         uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
-        if: ${{ github.event_name == 'pull_request_target' }}
+        if: ${{ github.event_name == 'pull_request' }}
         with:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
           message: |
@@ -89,13 +89,13 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=jellyfin-web --branch=${{
-                  (github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository)
+                  (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
                   && (github.event.pull_request.head.ref || github.ref_name)
                   || format('{0}/{1}', github.event.pull_request.head.repo.full_name, github.event.pull_request.head.ref)
                 }} --commit-hash=${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Update status comment (Success)
-        if: ${{ github.event_name == 'pull_request_target' && success() }}
+        if: ${{ github.event_name == 'pull_request' && success() }}
         uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
         with:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
@@ -112,7 +112,7 @@ jobs:
           mode: recreate
 
       - name: Update status comment (Failure)
-        if: ${{ github.event_name == 'pull_request_target' && failure() }}
+        if: ${{ github.event_name == 'pull_request' && failure() }}
         uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
         with:
           GITHUB_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
