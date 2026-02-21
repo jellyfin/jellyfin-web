@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import dialogHelper from '../dialogHelper/dialogHelper';
+import dialogHelper, { DialogOptions } from '../dialogHelper/dialogHelper';
 import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import dom from '../../utils/dom';
@@ -50,19 +50,6 @@ interface Offset {
     left: number;
     width: number;
     height: number;
-}
-
-interface DialogOptions {
-    autoFocus?: boolean;
-    enableHistory?: boolean;
-    entryAnimationDuration?: number;
-    entryAnimation?: string;
-    exitAnimationDuration?: number;
-    exitAnimation?: string;
-    modal?: boolean;
-    removeOnClose?: boolean;
-    scrollY?: boolean;
-    size?: string;
 }
 
 function getOffsets(elems: Element[]): Offset[] {

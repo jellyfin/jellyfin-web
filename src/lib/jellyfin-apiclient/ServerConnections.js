@@ -35,7 +35,9 @@ const getMaxBandwidth = () => {
 class ServerConnections extends ConnectionManager {
     constructor() {
         super(...arguments);
+        /** @type {?ApiClient} */
         this.localApiClient = null;
+        /** @type {?boolean} */
         this.firstConnection = null;
 
         Events.on(this, 'localusersignedout', (_e, logoutInfo) => {
@@ -82,6 +84,10 @@ class ServerConnections extends ConnectionManager {
         });
     }
 
+    /**
+     * @param {ApiClient} apiClient
+     * @returns void
+     */
     setLocalApiClient(apiClient) {
         if (apiClient) {
             this.localApiClient = apiClient;
@@ -89,6 +95,7 @@ class ServerConnections extends ConnectionManager {
         }
     }
 
+    /** @returns {ApiClient} */
     getLocalApiClient() {
         return this.localApiClient;
     }

@@ -358,7 +358,11 @@ export const appHost = {
             doExit();
         }
     },
-    supports: function (command) {
+    /**
+     * @param {AppFeature | 'fileinput'} command
+     * @returns boolean
+     */
+    supports: function(command) {
         if (window.NativeShell) {
             return window.NativeShell.AppHost.supports(command);
         }
