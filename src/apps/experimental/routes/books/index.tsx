@@ -26,10 +26,17 @@ const genresTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Book]
 };
 
+const favoritesTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Favorites,
+    collectionType: CollectionType.Books,
+    itemType: [BaseItemKind.Book]
+};
+
 const booksTabMapping: LibraryTabMapping = {
     0: booksTabContent,
     1: suggestionsTabContent,
-    2: genresTabContent
+    2: genresTabContent,
+    3: favoritesTabContent
 };
 
 const Books: FC = () => {

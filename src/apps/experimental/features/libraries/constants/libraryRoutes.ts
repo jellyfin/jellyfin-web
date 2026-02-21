@@ -57,6 +57,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 2,
                 label: 'Genres',
                 view: LibraryTab.Genres
+            },
+            {
+                index: 3,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
             }
         ]
     },
