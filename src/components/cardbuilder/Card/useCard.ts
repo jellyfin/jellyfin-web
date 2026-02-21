@@ -1,17 +1,19 @@
 import classNames from 'classnames';
+
+import layoutManager from 'components/layoutManager';
+import { ItemAction } from 'constants/itemAction';
+import { ItemKind } from 'types/base/models/item-kind';
+import { ItemMediaKind } from 'types/base/models/item-media-kind';
+import type { ItemDto } from 'types/base/models/item-dto';
+import type { CardOptions } from 'types/cardOptions';
+import { CardShape } from 'utils/card';
+import { getDataAttributes } from 'utils/items';
+
 import useCardImageUrl from './useCardImageUrl';
 import {
     resolveAction,
     resolveMixedShapeByAspectRatio
 } from '../cardBuilderUtils';
-import { getDataAttributes } from 'utils/items';
-import { CardShape } from 'utils/card';
-import layoutManager from 'components/layoutManager';
-
-import { ItemKind } from 'types/base/models/item-kind';
-import { ItemMediaKind } from 'types/base/models/item-media-kind';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { CardOptions } from 'types/cardOptions';
 
 interface UseCardProps {
     item: ItemDto;
@@ -20,7 +22,7 @@ interface UseCardProps {
 
 function useCard({ item, cardOptions }: UseCardProps) {
     const action = resolveAction({
-        defaultAction: cardOptions.action ?? 'link',
+        defaultAction: cardOptions.action ?? ItemAction.Link,
         isFolder: item.IsFolder ?? false,
         isPhoto: item.MediaType === ItemMediaKind.Photo
     });
@@ -37,7 +39,7 @@ function useCard({ item, cardOptions }: UseCardProps) {
         shape
     });
     const imgUrl = imgInfo.imgUrl;
-    const blurhash = imgInfo.blurhash;
+    const blurhash = imgInfo.blurhash ?? undefined;
     const forceName = imgInfo.forceName;
     const coveredImage = cardOptions.coverImage ?? imgInfo.coverImage;
     const overlayText = cardOptions.overlayText;

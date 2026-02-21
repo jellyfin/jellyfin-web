@@ -1,4 +1,5 @@
 import type { ColorSystemOptions, ThemeOptions } from '@mui/material/styles';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 
 const LIST_ICON_WIDTH = 36;
 
@@ -24,6 +25,9 @@ export const DEFAULT_COLOR_SCHEME: ColorSystemOptions = {
         },
         error: {
             main: '#c62828' // Red color
+        },
+        AppBar: {
+            defaultBg: '#202020'
         }
     }
 };
@@ -52,6 +56,13 @@ export const DEFAULT_THEME_OPTIONS: ThemeOptions = {
                     // NOTE: This seems like a bug. Block content does not fill the container width.
                     flexGrow: 1
                 }
+            }
+        },
+        MuiAppBar: {
+            styleOverrides: {
+                colorTransparent: ({ theme }) => ({
+                    color: theme.vars.palette.text.primary
+                })
             }
         },
         MuiButton: {

@@ -73,16 +73,6 @@ export class UserSettings {
         });
     }
 
-    // FIXME: Seems unused
-    getData() {
-        return this.displayPrefs;
-    }
-
-    // FIXME: Seems unused
-    importFrom(instance) {
-        this.displayPrefs = instance.getData();
-    }
-
     // FIXME: 'appSettings.set' doesn't return any value
     /**
      * Set value of setting.
@@ -465,6 +455,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the interval between slides when using the slideshow.
+     * @param {number|undefined} [val] - The interval between slides in seconds.
+     * @return {number} The interval between slides in seconds.
+     */
+    slideshowInterval(val) {
+        if (val !== undefined) {
+            return this.set('slideshowInterval', val.toString(), false);
+        }
+
+        return parseInt(this.get('slideshowInterval', false), 10) || 5;
+    }
+
+    /**
      * Get or set the amount of time it takes to activate the screensaver in seconds. Default 3 minutes.
      * @param {number|undefined} [val] - The amount of time it takes to activate the screensaver in seconds.
      * @return {number} The amount of time it takes to activate the screensaver in seconds.
@@ -677,8 +680,6 @@ export const currentSettings = new UserSettings;
 
 // Wrappers for non-ES6 modules and backward compatibility
 export const setUserInfo = currentSettings.setUserInfo.bind(currentSettings);
-export const getData = currentSettings.getData.bind(currentSettings);
-export const importFrom = currentSettings.importFrom.bind(currentSettings);
 export const set = currentSettings.set.bind(currentSettings);
 export const get = currentSettings.get.bind(currentSettings);
 export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
@@ -705,6 +706,7 @@ export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
+export const slideshowInterval = currentSettings.slideshowInterval.bind(currentSettings);
 export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);

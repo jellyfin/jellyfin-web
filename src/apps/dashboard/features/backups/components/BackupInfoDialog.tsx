@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Box from '@mui/material/Box';
 import globalize from 'lib/globalize';
-import React, { FunctionComponent, useCallback } from 'react';
+import React, { FunctionComponent, useCallback, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import FormGroup from '@mui/material/FormGroup';
 import FormControl from '@mui/material/FormControl';
@@ -16,7 +16,7 @@ import Checkbox from '@mui/material/Checkbox';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import { copy } from 'scripts/clipboard';
-import toast from 'components/toast/toast';
+import Toast from 'apps/dashboard/components/Toast';
 
 type IProps = {
     backup: BackupManifestDto;
@@ -25,10 +25,16 @@ type IProps = {
 };
 
 const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: IProps) => {
+    const [ isCopiedToastOpen, setIsCopiedToastOpen ] = useState(false);
+
+    const handleToastClose = useCallback(() => {
+        setIsCopiedToastOpen(false);
+    }, []);
+
     const copyPath = useCallback(async () => {
         if (backup.Path) {
             await copy(backup.Path);
-            toast({ text: globalize.translate('Copied') });
+            setIsCopiedToastOpen(true);
         }
     }, [ backup.Path ]);
 
@@ -39,6 +45,11 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }: 
             maxWidth={'sm'}
             fullWidth
         >
+            <Toast
+                open={isCopiedToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('Copied')}
+            />
             <DialogTitle>
                 {backup.DateCreated}
             </DialogTitle>

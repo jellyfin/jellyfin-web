@@ -1,3 +1,4 @@
+import { LayoutMode } from 'constants/layoutMode';
 
 import { appHost } from './apphost';
 import browser from '../scripts/browser';
@@ -14,51 +15,47 @@ function setLayout(instance, layout, selectedLayout) {
     }
 }
 
+export const SETTING_KEY = 'layout';
+
 class LayoutManager {
     tv = false;
     mobile = false;
     desktop = false;
     experimental = false;
 
-    setLayout(layout, save) {
-        if (!layout || layout === 'auto') {
+    setLayout(layout = '', save = true) {
+        const layoutValue = (!layout || layout === LayoutMode.Auto) ? '' : layout;
+
+        if (!layoutValue) {
             this.autoLayout();
-
-            if (save !== false) {
-                appSettings.set('layout', '');
-            }
         } else {
-            setLayout(this, 'mobile', layout);
-            setLayout(this, 'tv', layout);
-            setLayout(this, 'desktop', layout);
-
-            this.experimental = layout === 'experimental';
-            if (this.experimental) {
-                const legacyLayoutMode = browser.mobile ? 'mobile' : this.defaultLayout || 'desktop';
-                setLayout(this, legacyLayoutMode, legacyLayoutMode);
-            }
-
-            if (save !== false) {
-                appSettings.set('layout', layout);
-            }
+            setLayout(this, LayoutMode.Mobile, layoutValue);
+            setLayout(this, LayoutMode.Tv, layoutValue);
+            setLayout(this, LayoutMode.Desktop, layoutValue);
         }
+
+        console.debug('[LayoutManager] using layout mode', layoutValue);
+        this.experimental = layoutValue === LayoutMode.Experimental;
+        if (this.experimental) {
+            const legacyLayoutMode = browser.mobile ? LayoutMode.Mobile : LayoutMode.Desktop;
+            console.debug('[LayoutManager] using legacy layout mode', legacyLayoutMode);
+            setLayout(this, legacyLayoutMode, legacyLayoutMode);
+        }
+
+        if (save) appSettings.set(SETTING_KEY, layoutValue);
 
         Events.trigger(this, 'modechange');
     }
 
     getSavedLayout() {
-        return appSettings.get('layout');
+        return appSettings.get(SETTING_KEY);
     }
 
     autoLayout() {
-        // Take a guess at initial layout. The consuming app can override
-        if (browser.mobile) {
-            this.setLayout('mobile', false);
-        } else if (browser.tv || browser.xboxOne || browser.ps4) {
-            this.setLayout('tv', false);
-        } else {
-            this.setLayout(this.defaultLayout || 'tv', false);
-        }
+        // Take a guess at initial layout. The consuming app can override.
+        // NOTE: The fallback to TV mode seems like an outdated choice. TVs should be detected properly or override the
+        // default layout.
+        this.setLayout(browser.tv ? LayoutMode.Tv : this.defaultLayout || LayoutMode.Tv, false);
     }
 
     init() {
