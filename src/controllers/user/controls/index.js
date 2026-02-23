@@ -9,6 +9,7 @@ export default function (view) {
     function submit(e) {
         appSettings.enableGamepad(view.querySelector('.chkEnableGamepad').checked);
         appSettings.enableSmoothScroll(view.querySelector('.chkSmoothScroll').checked);
+        appSettings.enableHorizontalScroll(view.querySelector('.chkEnableHorizontalScroll').checked);
 
         toast(globalize.translate('SettingsSaved'));
 
@@ -25,6 +26,7 @@ export default function (view) {
 
         view.querySelector('.chkEnableGamepad').checked = appSettings.enableGamepad();
         view.querySelector('.chkSmoothScroll').checked = appSettings.enableSmoothScroll();
+        view.querySelector('.chkEnableHorizontalScroll').checked = appSettings.enableHorizontalScroll();
 
         view.querySelector('form').addEventListener('submit', submit);
         view.querySelector('.btnSave').classList.remove('hide');

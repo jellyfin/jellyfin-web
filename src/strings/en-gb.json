@@ -1331,6 +1331,8 @@
     "DirectPlayHelp": "The source file is entirely compatible with this client and the session is receiving the file without modifications.",
     "EnableGamepadHelp": "Listen for input from any connected controllers. (Requires: 'TV' Display Mode)",
     "LabelEnableGamepad": "Enable Gamepad",
+    "EnableHorizontalScrollHelp": "Allow mouse wheel horizontal axis to seek forward/backward during video playback.",
+    "LabelEnableHorizontalScroll": "Enable Horizontal Scrolling",
     "Controls": "Controls",
     "TextSent": "Text sent.",
     "MessageSent": "Message sent.",
