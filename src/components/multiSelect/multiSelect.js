@@ -93,7 +93,6 @@ function onSelectionChange() {
 
 function showSelection(item, isChecked, addInitialCheck) {
     let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
-
     if (!itemSelectionPanel) {
         itemSelectionPanel = document.createElement('div');
         itemSelectionPanel.classList.add('itemSelectionPanel');
@@ -386,6 +385,7 @@ function showSelections(initialCard, addInitialCheck) {
         }
 
         showSelectionCommands();
+
         updateItemSelection(initialCard, true);
     });
 }
@@ -587,6 +587,12 @@ export default function (options) {
 
 export const startMultiSelect = (card) => {
     showSelections(card, false);
+    const chkItemSelect = card.querySelector('.chkItemSelect');
+    if (chkItemSelect){ // If select pressed from context menu when multiselect already open, then this toggles the checkbox of the input
+        const newValue = !chkItemSelect.checked;
+        chkItemSelect.checked = newValue;
+        updateItemSelection(chkItemSelect, newValue);
+    }
 };
 
 export const stopMultiSelect = () => {
