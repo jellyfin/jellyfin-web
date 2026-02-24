@@ -32,7 +32,7 @@ function lyricHtmlReducer(htmlAccumulator, lyric, index) {
     const lyricTime = typeof lyric.Start !== 'undefined' ? `data-lyrictime="${lyric.Start}"` : '';
 
     htmlAccumulator += `<${elem} class="lyricsLine ${classes.join(' ')}" id="lyricPosition${index}" ${lyricTime}>
-    <bdi>${escapeHtml(lyric.Text)}</bdi>
+    ${escapeHtml(lyric.Text)}
 </${elem}>`;
 
     return htmlAccumulator;
