@@ -18,10 +18,14 @@
     }
 }
 
-.personSuggestionsContainer {
+.personSuggestionsContainer,
+.genreSuggestionsContainer,
+.tagSuggestionsContainer,
+.suggestionsContainer {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     
-    .personSuggestionItem {
+    .personSuggestionItem,
+    .suggestionItem {
         transition: background-color 0.2s;
 
         &:hover {
