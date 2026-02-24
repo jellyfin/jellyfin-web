@@ -27,6 +27,7 @@ import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
+import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 
 let currentContext;
 let metadataEditorInfo;
@@ -1205,40 +1206,63 @@ function populateListView(list, items, sortCallback) {
 }
 
 function populatePeople(context, people) {
+    const elem = context.querySelector('#peopleList');
+    const apiClient = getApiClient();
+    const api = toApi(apiClient);
+
+    // build initial DOM with placeholders and unique data-index attributes
     const lastType = '';
     let html = '';
-
-    const elem = context.querySelector('#peopleList');
-
-    for (let i = 0, length = people.length; i < length; i++) {
+    for (let i = 0; i < people.length; i++) {
         const person = people[i];
-
-        html += '<div class="listItem">';
-
+        html += '<div class="listItem" data-index="' + i + '">';
+        // placeholder icon; will be replaced if we find an image
         html += '<span class="material-icons listItemIcon person" style="background-color:#333;"></span>';
-
         html += '<div class="listItemBody">';
         html += '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' + i + '">';
-
-        html += '<div class="textValue">';
-        html += escapeHtml(person.Name || '');
-        html += '</div>';
-
+        html += '<div class="textValue">' + escapeHtml(person.Name || '') + '</div>';
         if (person.Role && person.Role !== lastType) {
             html += '<div class="secondary">' + escapeHtml(person.Role) + '</div>';
         } else {
             html += '<div class="secondary">' + globalize.translate(person.Type) + '</div>';
         }
-
-        html += '</button>';
-        html += '</div>';
-
-        html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
-
+        html += '</button></div>';
+        html += '<button type="button" is="paper-icon-button-light" data-index="' + i
+              + '" class="btnDeletePerson autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
         html += '</div>';
     }
-
     elem.innerHTML = html;
+
+    function updateIcon(index, personId, imgTag) {
+        const imgUrl = apiClient.getScaledImageUrl(personId, {
+            type: 'Primary', tag: imgTag, height: 80, quality: 90
+        });
+        // locate the item and replace the icon span with a div background
+        const item = elem.querySelector('.listItem[data-index="' + index + '"]');
+        if (!item) return;
+        const icon = item.querySelector('.listItemIcon');
+        if (icon) {
+            const div = document.createElement('div');
+            div.className = 'listItemIcon';
+            div.style.cssText = "background-image:url('" + imgUrl + "');background-size:cover;background-position:center;border-radius:50%;width:2.5em;height:2.5em;";
+            icon.replaceWith(div);
+        }
+    }
+
+    // now fetch missing images and patch the respective elements
+    for (let i = 0; i < people.length; i++) {
+        const person = people[i];
+        if (person.Id && person.PrimaryImageTag) updateIcon(i, person.Id, person.PrimaryImageTag);
+
+        getPersonsApi(api).getPerson({ name: person.Name })
+            .then(result => {
+                const personId = result.data.Id;
+                const imgTag = result.data.ImageTags?.Primary;
+                if (!personId || !imgTag) return;
+                updateIcon(i, personId, imgTag);
+            })
+            .catch(err => console.error('patch lookup failed', person.Name, err));
+    }
 }
 
 function getLockedFieldsHtml(fields, currentFields) {
