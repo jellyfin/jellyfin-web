@@ -2091,22 +2091,23 @@ export class HtmlVideoPlayer {
 
     setAspectRatio(val) {
         if (val === 'custom') {
-            const currentScale = appSettings.aspectRatioCustomScale();
-            const input = window.prompt(globalize.translate('AspectRatioCustomScalePrompt'), String(currentScale));
-            if (input === null) {
-                return;
-            }
-            const scale = parseFloat(input);
-            if (Number.isNaN(scale) || scale <= 0) {
-                return;
-            }
-            appSettings.aspectRatioCustomScale(scale);
             appSettings.aspectRatio('custom');
             this.#applyAspectRatio('custom');
         } else {
             appSettings.aspectRatio(val);
             this.#applyAspectRatio(val);
         }
+    }
+
+    setAspectRatioCustomScale(scale) {
+        appSettings.aspectRatioCustomScale(scale);
+        if (this.getAspectRatio() === 'custom') {
+            this.#applyAspectRatio('custom');
+        }
+    }
+
+    getAspectRatioCustomScale() {
+        return appSettings.aspectRatioCustomScale();
     }
 
     getAspectRatio() {
