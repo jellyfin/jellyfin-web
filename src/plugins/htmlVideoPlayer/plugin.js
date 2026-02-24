@@ -2064,21 +2064,49 @@ export class HtmlVideoPlayer {
     #applyAspectRatio(val = this.getAspectRatio()) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
-            if (val === 'auto') {
+            const customScaleClass = 'htmlvideoplayer--customScale';
+            if (val === 'custom') {
+                const scale = appSettings.aspectRatioCustomScale();
                 mediaElement.style.removeProperty('object-fit');
+                mediaElement.style.transform = `scale(${scale})`;
+                mediaElement.style.transformOrigin = 'center center';
+                mediaElement.classList.add(customScaleClass);
             } else {
-                mediaElement.style['object-fit'] = val;
+                mediaElement.classList.remove(customScaleClass);
+                mediaElement.style.removeProperty('transform');
+                mediaElement.style.removeProperty('transform-origin');
+                if (val === 'auto') {
+                    mediaElement.style.removeProperty('object-fit');
+                } else {
+                    mediaElement.style['object-fit'] = val;
+                }
             }
         }
 
         if (this.#currentPgsRenderer) {
-            this.#currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
+            const pgsRatio = val === 'auto' ? 'contain' : (val === 'custom' ? 'contain' : val);
+            this.#currentPgsRenderer.aspectRatio = pgsRatio;
         }
     }
 
     setAspectRatio(val) {
-        appSettings.aspectRatio(val);
-        this.#applyAspectRatio(val);
+        if (val === 'custom') {
+            const currentScale = appSettings.aspectRatioCustomScale();
+            const input = window.prompt(globalize.translate('AspectRatioCustomScalePrompt'), String(currentScale));
+            if (input === null) {
+                return;
+            }
+            const scale = parseFloat(input);
+            if (Number.isNaN(scale) || scale <= 0) {
+                return;
+            }
+            appSettings.aspectRatioCustomScale(scale);
+            appSettings.aspectRatio('custom');
+            this.#applyAspectRatio('custom');
+        } else {
+            appSettings.aspectRatio(val);
+            this.#applyAspectRatio(val);
+        }
     }
 
     getAspectRatio() {
@@ -2095,6 +2123,9 @@ export class HtmlVideoPlayer {
         }, {
             name: globalize.translate('AspectRatioFill'),
             id: 'fill'
+        }, {
+            name: globalize.translate('Custom'),
+            id: 'custom'
         }];
     }
 
