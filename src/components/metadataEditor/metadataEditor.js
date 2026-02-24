@@ -32,8 +32,6 @@ import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 let currentContext;
 let metadataEditorInfo;
 let currentItem;
-const genreSearchTimeout = null;
-const tagSearchTimeout = null;
 let cachedTags = null;
 
 function isDialog() {
@@ -319,7 +317,7 @@ function displayFilteredTags(searchTerm, allTags, suggestionsContainer) {
     suggestionsContainer.style.display = 'block';
 }
 
-function showGenreDialog(context) {
+function showAutocompleteDialog(title, searchFunction) {
     return new Promise((resolve, reject) => {
         const dialogOptions = {
             removeOnClose: true,
@@ -335,7 +333,7 @@ function showGenreDialog(context) {
         const dlg = dialogHelper.createDialog(dialogOptions);
         dlg.classList.add('formDialog');
 
-        let html = '<div class="formDialogHeader"><button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="' + globalize.translate('ButtonBack') + '"><span class="material-icons arrow_back" aria-hidden="true"></span></button><h3 class="formDialogHeaderTitle">' + globalize.translate('Add') + ' ' + globalize.translate('Genre') + '</h3></div>';
+        let html = '<div class="formDialogHeader"><button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="' + globalize.translate('ButtonBack') + '"><span class="material-icons arrow_back" aria-hidden="true"></span></button><h3 class="formDialogHeaderTitle">' + globalize.translate('Add') + ' ' + globalize.translate(title) + '</h3></div>';
         html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;"><form class="dialogContentInner dialog-content-centered"><div class="inputContainer" style="position:relative;"><input type="text" is="emby-input" class="txtValue" required="required" label="' + globalize.translate('LabelValue') + '" autocomplete="off" /><div class="suggestionsContainer" style="display:none; position:absolute; z-index:1000; background:var(--theme-background-color, #101010); border:1px solid var(--theme-border-color, #383838); border-radius:4px; max-height:300px; overflow-y:auto; width:100%; margin-top:0.5em;"></div></div><div class="formDialogFooter"><button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + globalize.translate('Add') + '</span></button></div></form></div>';
 
         dlg.innerHTML = html;
@@ -349,7 +347,7 @@ function showGenreDialog(context) {
             if (searchTimeout) clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
                 if (searchTerm && searchTerm.length >= 2) {
-                    searchGenres(searchTerm, suggestionsContainer);
+                    searchFunction(searchTerm, suggestionsContainer);
                 } else {
                     suggestionsContainer.style.display = 'none';
                 }
@@ -384,69 +382,12 @@ function showGenreDialog(context) {
     });
 }
 
-function showTagDialog(context) {
-    return new Promise((resolve, reject) => {
-        const dialogOptions = {
-            removeOnClose: true,
-            scrollY: false
-        };
+function showGenreDialog() {
+    return showAutocompleteDialog('Genre', searchGenres);
+}
 
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        } else {
-            dialogOptions.size = 'small';
-        }
-
-        const dlg = dialogHelper.createDialog(dialogOptions);
-        dlg.classList.add('formDialog');
-
-        let html = '<div class="formDialogHeader"><button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="' + globalize.translate('ButtonBack') + '"><span class="material-icons arrow_back" aria-hidden="true"></span></button><h3 class="formDialogHeaderTitle">' + globalize.translate('Add') + ' ' + globalize.translate('Tag') + '</h3></div>';
-        html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;"><form class="dialogContentInner dialog-content-centered"><div class="inputContainer" style="position:relative;"><input type="text" is="emby-input" class="txtValue" required="required" label="' + globalize.translate('LabelValue') + '" autocomplete="off" /><div class="suggestionsContainer" style="display:none; position:absolute; z-index:1000; background:var(--theme-background-color, #101010); border:1px solid var(--theme-border-color, #383838); border-radius:4px; max-height:300px; overflow-y:auto; width:100%; margin-top:0.5em;"></div></div><div class="formDialogFooter"><button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + globalize.translate('Add') + '</span></button></div></form></div>';
-
-        dlg.innerHTML = html;
-        let submitted = false;
-        const txtValue = dlg.querySelector('.txtValue');
-        const suggestionsContainer = dlg.querySelector('.suggestionsContainer');
-        let searchTimeout = null;
-
-        txtValue.addEventListener('input', function(e) {
-            const searchTerm = e.target.value;
-            if (searchTimeout) clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                if (searchTerm && searchTerm.length >= 2) {
-                    searchTags(searchTerm, suggestionsContainer);
-                } else {
-                    suggestionsContainer.style.display = 'none';
-                }
-            }, 300);
-        });
-
-        suggestionsContainer.addEventListener('click', function(e) {
-            const suggestionItem = e.target.closest('.suggestionItem');
-            if (suggestionItem) {
-                txtValue.value = suggestionItem.getAttribute('data-value');
-                suggestionsContainer.style.display = 'none';
-                txtValue.focus();
-            }
-        });
-
-        dlg.querySelector('.btnCancel').addEventListener('click', () => dialogHelper.close(dlg));
-        dlg.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            submitted = true;
-            resolve(txtValue.value);
-            dialogHelper.close(dlg);
-            return false;
-        });
-
-        dlg.addEventListener('close', () => {
-            if (searchTimeout) clearTimeout(searchTimeout);
-            if (!submitted) reject();
-        });
-
-        dialogHelper.open(dlg);
-        txtValue.focus();
-    });
+function showTagDialog() {
+    return showAutocompleteDialog('Tag', searchTags);
 }
 
 function addElementToList(source, sortCallback) {
@@ -455,19 +396,19 @@ function addElementToList(source, sortCallback) {
     const items = getListValues(list);
 
     if (listType === 'genre') {
-        showGenreDialog(currentContext).then(function(text) {
+        showGenreDialog().then(function(text) {
             if (text && !items.includes(text)) {
                 items.push(text);
                 populateListView(list, items, sortCallback);
             }
-        }).catch(() => {});
+        }).catch(() => { /* dialog dismissed */ });
     } else if (listType === 'tag') {
-        showTagDialog(currentContext).then(function(text) {
+        showTagDialog().then(function(text) {
             if (text && !items.includes(text)) {
                 items.push(text);
                 populateListView(list, items, sortCallback);
             }
-        }).catch(() => {});
+        }).catch(() => { /* dialog dismissed */ });
     } else {
         import('../prompt/prompt').then(({ default: prompt }) => {
             prompt({
