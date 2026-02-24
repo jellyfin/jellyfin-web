@@ -48,6 +48,7 @@ function init(instance) {
         updateAspectRatioScale();
     };
 
+    aspectRatioScaleSlider.addEventListener('input', () => updateAspectRatioScale());
     aspectRatioScaleSlider.addEventListener('change', () => updateAspectRatioScale());
 
     aspectRatioScaleSlider.getBubbleHtml = function (_, value) {
@@ -64,6 +65,7 @@ function init(instance) {
 class AspectRatioScale {
     constructor(currentPlayer) {
         player = currentPlayer;
+        this.opened = false;
         init(this);
     }
 
@@ -77,6 +79,7 @@ class AspectRatioScale {
     }
 
     toggle(action) {
+        console.log('toggle', action);
         if (action && !['hide', 'forceToHide'].includes(action)) {
             return;
         }

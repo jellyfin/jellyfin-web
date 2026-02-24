@@ -354,7 +354,8 @@ export default function (view) {
                 _focus(focusElement);
             }
             toggleSubtitleSync();
-            // toggleAspectRatioScale();
+            console.log('toggleAspectRatioScale from showMainOsdControls');
+            toggleAspectRatioScale();
         } else if (currentVisibleMenu === 'osd' && !layoutManager.mobile) {
             _focus(focusElement);
         }
@@ -369,6 +370,7 @@ export default function (view) {
             elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
             currentVisibleMenu = null;
             toggleSubtitleSync('hide');
+            console.log('toggleAspectRatioScale from hideMainOsdControls');
             toggleAspectRatioScale('hide');
 
             // Firefox does not blur by itself
@@ -998,7 +1000,8 @@ export default function (view) {
                 toggleSubtitleSync();
             }
         } else if (selectedOption === 'aspectratiocustom') {
-            toggleAspectRatioScale();
+            console.log('toggleAspectRatioScale from onSettingsOption');
+            toggleAspectRatioScale('force'); // force meas it was toggles via settings menu
         }
     }
 
@@ -1206,10 +1209,11 @@ export default function (view) {
     }
 
     function toggleAspectRatioScale(action) {
+        console.log('toggleAspectRatioScale called with', action);
         const player = currentPlayer;
         if (aspectRatioScaleOverlay) {
             aspectRatioScaleOverlay.toggle(action);
-        } else if (player) {
+        } else if (player && action === 'force') { // create new instance only if it was via settings menu
             aspectRatioScaleOverlay = new AspectRatioScale(player);
             aspectRatioScaleOverlay.toggle();
         }
