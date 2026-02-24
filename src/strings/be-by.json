@@ -1868,5 +1868,7 @@
     "LabelSlideshowInterval": "Інтэрвал слайд-шоу з фатаграфіямі",
     "LabelSlideshowIntervalHelp": "Час на паказ кожнай фатаграфіі ў слайд-шоу ў секундах.",
     "ConfirmDeleteCollection": "Вы ўпэўнены, што хочаце выдаліць гэту калекцыю?",
-    "HeaderDeleteCollection": "Выдаліць калекцыю"
+    "HeaderDeleteCollection": "Выдаліць калекцыю",
+    "ConfirmDeletePlaylist": "Вы ўпэўненыя, што хочаце выдаліць гэты спіс прайгравання?",
+    "HeaderDeletePlaylist": "Выдаліць спіс прайгравання"
 }
