@@ -104,6 +104,21 @@ function loadChildrenOfRootNode(page, scope, callback) {
                 icon: false
             });
         }
+        nodes.push({
+            id: 'persons',
+            text: globalize.translate('Persons'),
+            state: {
+                opened: false
+            },
+            li_attr: {
+                itemtype: 'persons'
+            },
+            children: [{
+                text: 'Loading...',
+                icon: false
+            }],
+            icon: false
+        });
         callback.call(scope, nodes);
         nodesToLoad.push('MediaFolders');
     });
@@ -113,6 +128,21 @@ function loadLiveTvChannels(service, openItems, callback) {
     ApiClient.getLiveTvChannels({
         ServiceName: service,
         AddCurrentProgram: false
+    }).then(function (result) {
+        const nodes = result.Items.map(function (i) {
+            const state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
+            return getNode(i, state, false);
+        });
+        callback(nodes);
+    });
+}
+
+function loadPersons(openItems, callback) {
+    ApiClient.getPeople(Dashboard.getCurrentUserId(), {
+        SortBy: 'SortName',
+        SortOrder: 'Ascending',
+        EnableTotalRecordCount: false,
+        EnableImages: false
     }).then(function (result) {
         const nodes = result.Items.map(function (i) {
             const state = openItems.indexOf(i.Id) == -1 ? 'closed' : 'open';
@@ -145,6 +175,10 @@ function loadNode(page, scope, node, openItems, selectedId, currentUser, callbac
     }
     if (id == 'livetv') {
         loadLiveTvChannels(id, openItems, callback);
+        return;
+    }
+    if (id == 'persons') {
+        loadPersons(openItems, callback);
         return;
     }
     if (id == 'MediaFolders') {
@@ -202,7 +236,7 @@ function onNodeSelect(event, data) {
         serverItemType: node.li_attr.serveritemtype,
         collectionType: node.li_attr.collectiontype
     };
-    if (eventData.itemType != 'livetv' && eventData.itemType != 'mediafolders') {
+    if (eventData.itemType != 'livetv' && eventData.itemType != 'mediafolders' && eventData.itemType != 'persons') {
         {
             this.dispatchEvent(new CustomEvent('itemclicked', {
                 detail: eventData,
