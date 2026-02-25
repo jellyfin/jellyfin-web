@@ -21,7 +21,7 @@ function centerFocus(elem, horiz, on) {
 }
 
 function searchPersons(searchTerm, suggestionsContainer) {
-    if (!searchTerm) {
+    if (!searchTerm || searchTerm.length < 2) {
         suggestionsContainer.style.display = 'none';
         suggestionsContainer.innerHTML = '';
         return;
