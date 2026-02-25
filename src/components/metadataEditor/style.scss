@@ -31,6 +31,10 @@
             background-color: var(--jf-palette-action-hover) !important;
         }
 
+        &.focused {
+            background-color: var(--jf-palette-action-selected) !important;
+        }
+
         &:last-child {
             border-bottom: none !important;
         }
