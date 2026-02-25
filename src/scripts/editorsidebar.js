@@ -264,6 +264,72 @@ function onNodeOpen(_, data) {
     }
 }
 
+async function onNodeContextMenu(event) {
+    event.preventDefault();
+
+    const page = $(this).parents('.page')[0];
+    const tree = $.jstree.reference('.libraryTree', page);
+
+    if (!tree) return;
+
+    const node = tree.get_node(event.target);
+    if (!node || !node.id) return;
+
+    const { id: itemId, li_attr: { itemtype: itemType } } = node;
+
+    // Skip context menu for special nodes
+    if (itemType === 'livetv' || itemType === 'mediafolders' || itemType === 'persons' || itemId === '#') {
+        return;
+    }
+
+    // Create a temporary element at the mouse cursor position for positioning
+    const positionElement = document.createElement('div');
+    Object.assign(positionElement.style, {
+        position: 'fixed',
+        left: event.clientX + 'px',
+        top: event.clientY + 'px',
+        width: '0',
+        height: '0'
+    });
+    document.body.appendChild(positionElement);
+
+    try {
+        const [item, user, { default: itemContextMenu }] = await Promise.all([
+            ApiClient.getItem(Dashboard.getCurrentUserId(), itemId),
+            Dashboard.getCurrentUser(),
+            import('../components/itemContextMenu')
+        ]);
+
+        const result = await itemContextMenu.show({
+            item,
+            positionTo: positionElement,
+            edit: false,
+            editImages: true,
+            editSubtitles: true,
+            share: false,
+            play: false,
+            queue: false,
+            shuffle: false,
+            user
+        });
+
+        if (result.deleted) {
+            const parentNode = tree.get_parent(itemId);
+            if (parentNode) {
+                tree.refresh_node(parentNode);
+            }
+        } else if (result.updated) {
+            updateEditorNode(page, item);
+        }
+    } catch (error) {
+        if (error?.message !== 'No item commands present') {
+            console.error('Failed to show context menu:', error);
+        }
+    } finally {
+        positionElement.remove();
+    }
+}
+
 function initializeTreeInternal(page, currentUser, openItems, selectedId) {
     nodesToLoad = [];
     selectedNodeId = null;
@@ -285,7 +351,9 @@ function initializeTreeInternal(page, currentUser, openItems, selectedId) {
         .off('open_node.jstree', onNodeOpen)
         .on('open_node.jstree', onNodeOpen)
         .off('load_node.jstree', onNodeOpen)
-        .on('load_node.jstree', onNodeOpen);
+        .on('load_node.jstree', onNodeOpen)
+        .off('contextmenu.jstree', onNodeContextMenu)
+        .on('contextmenu.jstree', onNodeContextMenu);
 }
 
 function loadNodesToLoad(page, node) {
@@ -361,6 +429,7 @@ $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
     $('.libraryTree', page)
         .off('select_node.jstree', onNodeSelect)
         .off('open_node.jstree', onNodeOpen)
-        .off('load_node.jstree', onNodeOpen);
+        .off('load_node.jstree', onNodeOpen)
+        .off('contextmenu.jstree', onNodeContextMenu);
 });
 /* eslint-enable @typescript-eslint/naming-convention */
