@@ -61,6 +61,8 @@ function getNodeInnerHtml(item) {
         htmlName += '<span class="material-icons metadataSidebarIcon photo" aria-hidden="true"></span>';
     } else if (item.MediaType === 'Book') {
         htmlName += '<span class="material-icons metadataSidebarIcon book" aria-hidden="true"></span>';
+    } else if (item.Type === 'Person') {
+        htmlName += '<span class="material-icons metadataSidebarIcon person" aria-hidden="true"></span>';
     }
     if (item.LockData) {
         htmlName += '<span class="material-icons metadataSidebarIcon lock" aria-hidden="true"></span>';
