@@ -1346,9 +1346,9 @@ export default {
             elem.innerHTML = globalize.translateHtml(template, 'core');
 
             elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
-            elem.querySelector('.btnClose').classList.add('hide');
-            elem.querySelector('.btnHeaderSave').classList.remove('hide');
-            elem.querySelector('.btnCancel').classList.add('hide');
+            elem.querySelector('.formDialogHeader').classList.add('hide');
+            elem.querySelector('.formDialogContent').style.padding = 0;
+            elem.querySelector('.dialogContentInner').style.paddingBottom = 0;
 
             currentContext = elem;
 
