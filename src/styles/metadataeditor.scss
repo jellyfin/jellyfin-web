@@ -33,7 +33,7 @@
 }
 
 .jstree-wholerow-hovered {
-    background: #38c !important;
+    background: var(--jf-palette-action-hover, rgba(255, 255, 255, 0.08)) !important;
     border-radius: 0 !important;
     box-shadow: none !important;
 }
@@ -42,16 +42,19 @@
     background: 0 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    color: #fff !important;
+    color: inherit !important;
 }
 
 .jstree-default .jstree-wholerow-clicked {
-    background: #00a4dc !important;
+    background: var(--jf-palette-action-focus, rgba(255, 255, 255, 0.12)) !important;
 }
 
 .metadataSidebarIcon {
     margin-right: 0.4em;
     vertical-align: middle;
+    position: relative;
+    top: -2px;
+    color: var(--jf-palette-text-secondary, rgba(255, 255, 255, 0.7)) !important;
 }
 
 @media all and (min-width: 50em) {
