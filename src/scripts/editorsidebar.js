@@ -106,7 +106,7 @@ function loadChildrenOfRootNode(page, scope, callback) {
         }
         nodes.push({
             id: 'persons',
-            text: globalize.translate('Persons'),
+            text: globalize.translate('People'),
             state: {
                 opened: false
             },
