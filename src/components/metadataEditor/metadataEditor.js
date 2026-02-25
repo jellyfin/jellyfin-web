@@ -24,7 +24,6 @@ import '../../styles/clearbutton.scss';
 import '../../styles/flexstyles.scss';
 import './style.scss';
 import toast from '../toast/toast';
-import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
@@ -434,40 +433,6 @@ function editPerson(context, person, index) {
     });
 }
 
-function afterDeleted(context, item) {
-    const parentId = item.ParentId || item.SeasonId || item.SeriesId;
-
-    if (parentId) {
-        reload(context, parentId, item.ServerId);
-    } else {
-        appRouter.goHome();
-    }
-}
-
-function showMoreMenu(context, button, user) {
-    import('../itemContextMenu').then(({ default: itemContextMenu }) => {
-        const item = currentItem;
-
-        itemContextMenu.show({
-            item: item,
-            positionTo: button,
-            edit: false,
-            editImages: true,
-            editSubtitles: true,
-            share: false,
-            play: false,
-            queue: false,
-            user: user
-        }).then(function (result) {
-            if (result.deleted) {
-                afterDeleted(context, item);
-            } else if (result.updated) {
-                reload(context, item.Id, item.ServerId);
-            }
-        }).catch(() => { /* no-op */ });
-    });
-}
-
 function onEditorClick(e) {
     const btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
     if (btnRemoveFromEditorList) {
@@ -530,24 +495,9 @@ function onResetClick() {
 }
 
 function init(context) {
-    if (!layoutManager.desktop) {
-        context.querySelector('.btnBack').classList.remove('hide');
-        context.querySelector('.btnClose').classList.add('hide');
-    }
-
     bindAll(context.querySelectorAll('.btnCancel'), 'click', function (event) {
         event.preventDefault();
         closeDialog();
-    });
-
-    context.querySelector('.btnMore').addEventListener('click', function (e) {
-        getApiClient().getCurrentUser().then(function (user) {
-            showMoreMenu(context, e.target, user);
-        });
-    });
-
-    context.querySelector('.btnHeaderSave').addEventListener('click', function () {
-        context.querySelector('.btnSave').click();
     });
 
     context.querySelector('#chkLockData').addEventListener('click', function (e) {
