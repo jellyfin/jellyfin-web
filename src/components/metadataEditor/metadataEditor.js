@@ -10,6 +10,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from '../../utils/jellyfin-apiclient/compat';
 import { getGenresApi } from '@jellyfin/sdk/lib/utils/api/genres-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
+import { setupAutocomplete } from './autocompleteHelper';
 
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
@@ -246,7 +247,7 @@ function searchGenres(searchTerm, suggestionsContainer) {
         let html = '';
         items.forEach(item => {
             const name = item.Name || '';
-            html += `<div class="suggestionItem" data-value="${escapeHtml(name)}" style="padding:0.8em;cursor:pointer;border-bottom:1px solid var(--theme-border-color, #383838);">`;
+            html += `<div class="suggestionItem" data-value="${escapeHtml(name)}" style="padding:0.8em;cursor:pointer;border-bottom:1px solid var(--jf-palette-divider);">`;
             html += `<div style="font-weight:500;">${escapeHtml(name)}</div>`;
             html += '</div>';
         });
@@ -308,7 +309,7 @@ function displayFilteredTags(searchTerm, allTags, suggestionsContainer) {
 
     let html = '';
     filteredTags.forEach(tag => {
-        html += `<div class="suggestionItem" data-value="${escapeHtml(tag)}" style="padding:0.8em;cursor:pointer;border-bottom:1px solid var(--theme-border-color, #383838);">`;
+        html += `<div class="suggestionItem" data-value="${escapeHtml(tag)}" style="padding:0.8em;cursor:pointer;border-bottom:1px solid var(--jf-palette-divider);">`;
         html += `<div style="font-weight:500;">${escapeHtml(tag)}</div>`;
         html += '</div>';
     });
@@ -334,34 +335,27 @@ function showAutocompleteDialog(title, searchFunction) {
         dlg.classList.add('formDialog');
 
         let html = '<div class="formDialogHeader"><button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="' + globalize.translate('ButtonBack') + '"><span class="material-icons arrow_back" aria-hidden="true"></span></button><h3 class="formDialogHeaderTitle">' + globalize.translate('Add') + ' ' + globalize.translate(title) + '</h3></div>';
-        html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;"><form class="dialogContentInner dialog-content-centered"><div class="inputContainer" style="position:relative;"><input type="text" is="emby-input" class="txtValue" required="required" label="' + globalize.translate('LabelValue') + '" autocomplete="off" /><div class="suggestionsContainer" style="display:none; position:absolute; z-index:1000; background:var(--theme-background-color, #101010); border:1px solid var(--theme-border-color, #383838); border-radius:4px; max-height:300px; overflow-y:auto; width:100%; margin-top:0.5em;"></div></div><div class="formDialogFooter"><button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + globalize.translate('Add') + '</span></button></div></form></div>';
+        html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;"><form class="dialogContentInner dialog-content-centered"><div class="inputContainer" style="position:relative;"><input type="text" is="emby-input" class="txtValue" required="required" label="' + globalize.translate('LabelValue') + '" autocomplete="off" /><div class="suggestionsContainer" style="display:none; position:absolute; z-index:1000; background:var(--jf-palette-background-paper); border:1px solid var(--jf-palette-divider); border-radius:4px; max-height:300px; overflow-y:auto; width:100%; margin-top:0.5em;"></div></div><div class="formDialogFooter"><button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + globalize.translate('Add') + '</span></button></div></form></div>';
 
         dlg.innerHTML = html;
         let submitted = false;
         const txtValue = dlg.querySelector('.txtValue');
         const suggestionsContainer = dlg.querySelector('.suggestionsContainer');
-        let searchTimeout = null;
 
-        txtValue.addEventListener('input', function(e) {
-            const searchTerm = e.target.value;
-            if (searchTimeout) clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                if (searchTerm && searchTerm.length >= 2) {
-                    searchFunction(searchTerm, suggestionsContainer);
-                } else {
-                    suggestionsContainer.style.display = 'none';
-                }
-            }, 300);
-        });
-
-        suggestionsContainer.addEventListener('click', function(e) {
-            const suggestionItem = e.target.closest('.suggestionItem');
-            if (suggestionItem) {
-                txtValue.value = suggestionItem.getAttribute('data-value');
-                suggestionsContainer.style.display = 'none';
-                txtValue.focus();
+        // Setup autocomplete behavior with minimum length check
+        const wrappedSearchFunction = (searchTerm, container) => {
+            if (searchTerm && searchTerm.length >= 2) {
+                searchFunction(searchTerm, container);
+            } else {
+                container.style.display = 'none';
             }
-        });
+        };
+
+        const cleanupAutocomplete = setupAutocomplete(
+            txtValue,
+            suggestionsContainer,
+            wrappedSearchFunction
+        );
 
         dlg.querySelector('.btnCancel').addEventListener('click', () => dialogHelper.close(dlg));
         dlg.querySelector('form').addEventListener('submit', function(e) {
@@ -373,7 +367,7 @@ function showAutocompleteDialog(title, searchFunction) {
         });
 
         dlg.addEventListener('close', () => {
-            if (searchTimeout) clearTimeout(searchTimeout);
+            cleanupAutocomplete();
             if (!submitted) reject();
         });
 

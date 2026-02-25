@@ -24,12 +24,11 @@
 .suggestionsContainer {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     
-    .personSuggestionItem,
     .suggestionItem {
         transition: background-color 0.2s;
 
         &:hover {
-            background-color: var(--theme-primary-color-opacity, rgba(0, 164, 220, 0.2)) !important;
+            background-color: var(--jf-palette-action-hover) !important;
         }
 
         &:last-child {

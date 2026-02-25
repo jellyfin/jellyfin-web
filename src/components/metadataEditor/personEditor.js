@@ -6,6 +6,7 @@ import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import { toApi } from '../../utils/jellyfin-apiclient/compat';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { setupAutocomplete } from './autocompleteHelper';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-select/emby-select';
@@ -18,8 +19,6 @@ function centerFocus(elem, horiz, on) {
         scrollHelper.centerFocus[fn](elem, horiz);
     });
 }
-
-let searchTimeout = null;
 
 function searchPersons(searchTerm, suggestionsContainer) {
     if (!searchTerm) {
@@ -49,7 +48,7 @@ function searchPersons(searchTerm, suggestionsContainer) {
 
         let html = '';
         items.forEach(item => {
-            html += `<div class="personSuggestionItem" data-person-name="${item.Name || ''}" style="padding:0.8em;cursor:pointer;border-bottom:1px solid var(--theme-border-color, #383838);">`;
+            html += `<div class="suggestionItem" data-person-name="${item.Name || ''}" style="padding:0.8em;cursor:pointer;border-bottom:1px solid var(--jf-palette-divider);">`;
             html += `<div style="font-weight:500;">${item.Name || ''}</div>`;
             html += '</div>';
         });
@@ -93,40 +92,16 @@ function show(person) {
         const txtPersonName = dlg.querySelector('.txtPersonName');
         const suggestionsContainer = dlg.querySelector('.personSuggestionsContainer');
 
-        // Handle input for autocomplete
-        txtPersonName.addEventListener('input', function(e) {
-            const searchTerm = e.target.value;
-
-            if (searchTimeout) {
-                clearTimeout(searchTimeout);
+        // Setup autocomplete behavior
+        const cleanupAutocomplete = setupAutocomplete(
+            txtPersonName,
+            suggestionsContainer,
+            searchPersons,
+            {
+                dataAttribute: 'data-person-name',
+                boundaryElement: dlg
             }
-
-            searchTimeout = setTimeout(() => {
-                searchPersons(searchTerm, suggestionsContainer);
-            }, 300);
-        });
-
-        // Handle clicking on suggestions
-        suggestionsContainer.addEventListener('click', function(e) {
-            const suggestionItem = e.target.closest('.personSuggestionItem');
-            if (suggestionItem) {
-                const personName = suggestionItem.getAttribute('data-person-name');
-                txtPersonName.value = personName;
-                suggestionsContainer.style.display = 'none';
-                suggestionsContainer.innerHTML = '';
-                txtPersonName.focus();
-            }
-        });
-
-        // Hide suggestions when clicking outside
-        document.addEventListener('click', function hideOnClickOutside(e) {
-            if (!dlg.contains(e.target)) {
-                return;
-            }
-            if (!txtPersonName.contains(e.target) && !suggestionsContainer.contains(e.target)) {
-                suggestionsContainer.style.display = 'none';
-            }
-        });
+        );
 
         if (layoutManager.tv) {
             centerFocus(dlg.querySelector('.formDialogContent'), false, true);
@@ -135,9 +110,7 @@ function show(person) {
         dialogHelper.open(dlg);
 
         dlg.addEventListener('close', function () {
-            if (searchTimeout) {
-                clearTimeout(searchTimeout);
-            }
+            cleanupAutocomplete();
 
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
