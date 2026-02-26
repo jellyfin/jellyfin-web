@@ -1,6 +1,3 @@
-// NOTE: This is used for jsdoc return type
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Api } from '@jellyfin/sdk';
 import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
 import { appHost } from 'components/apphost';
@@ -118,7 +115,7 @@ class ServerConnections extends ConnectionManager {
 
     /**
      * Gets the Api that is currently connected.
-     * @returns {Api|undefined} The current Api instance.
+     * @returns {import(@jellyfin/sdk).Api|undefined} The current Api instance.
      */
     getCurrentApi() {
         const apiClient = this.currentApiClient();
