@@ -33,6 +33,8 @@ const getMaxBandwidth = () => {
 };
 
 class ServerConnections extends ConnectionManager {
+    firstConnection = false;
+
     constructor() {
         super(...arguments);
         this.localApiClient = null;
@@ -75,6 +77,9 @@ class ServerConnections extends ConnectionManager {
         console.debug('loaded ApiClient singleton');
     }
 
+    /**
+     * @returns {Promise<import('jellyfin-apiclient').ConnectResponse>} The result of the connection attempt.
+     */
     connect(options) {
         return super.connect({
             enableAutoLogin: appSettings.enableAutoLogin(),
