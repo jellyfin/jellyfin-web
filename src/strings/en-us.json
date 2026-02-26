@@ -1729,7 +1729,6 @@
     "EnableFallbackFontHelp": "Enable custom alternate fonts. This can avoid the problem of incorrect subtitle rendering.",
     "AspectRatioCover": "Zoom",
     "AspectRatioFill": "Stretch",
-    "AspectRatioCustomScalePrompt": "Enter scale factor (e.g. 1.5):",
     "Remuxing": "Remuxing",
     "RemuxHelp1": "The media is in an incompatible file container (MKV, AVI, WMV, etc) but both the video stream and audio stream are compatible with the device. The media will be repackaged losslessly on the fly before being sent to the device.",
     "RemuxHelp2": "Remux uses very little processing power with a completely lossless media quality.",
