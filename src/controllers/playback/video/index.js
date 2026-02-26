@@ -355,7 +355,7 @@ export default function (view) {
             }
             toggleSubtitleSync();
             console.log('toggleAspectRatioScale from showMainOsdControls');
-            toggleAspectRatioScale();
+            toggleAspectRatioScale('autoOsdShow');
         } else if (currentVisibleMenu === 'osd' && !layoutManager.mobile) {
             _focus(focusElement);
         }
@@ -371,7 +371,7 @@ export default function (view) {
             currentVisibleMenu = null;
             toggleSubtitleSync('hide');
             console.log('toggleAspectRatioScale from hideMainOsdControls');
-            toggleAspectRatioScale('hide');
+            toggleAspectRatioScale('autoOsdHide');
 
             // Firefox does not blur by itself
             if (osdBottomElement.contains(document.activeElement)
@@ -1001,7 +1001,7 @@ export default function (view) {
             }
         } else if (selectedOption === 'aspectratiocustom') {
             console.log('toggleAspectRatioScale from onSettingsOption');
-            toggleAspectRatioScale('force'); // force meas it was toggles via settings menu
+            toggleAspectRatioScale('forceToShow'); // forceToShow means it was opened via settings menu
         }
     }
 
@@ -1208,14 +1208,17 @@ export default function (view) {
         }
     }
 
+    /**
+     * @param {'autoOsdHide' | 'autoOsdShow' | 'forceToHide' | 'forceToShow'} action 
+     */
     function toggleAspectRatioScale(action) {
         console.log('toggleAspectRatioScale called with', action);
         const player = currentPlayer;
         if (aspectRatioScaleOverlay) {
             aspectRatioScaleOverlay.toggle(action);
-        } else if (player && action === 'force') { // create new instance only if it was via settings menu
+        } else if (player && action === 'forceToShow') { // create new instance only if it was via settings menu
             aspectRatioScaleOverlay = new AspectRatioScale(player);
-            aspectRatioScaleOverlay.toggle();
+            aspectRatioScaleOverlay.toggle(action);
         }
     }
 

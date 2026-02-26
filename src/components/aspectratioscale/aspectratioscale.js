@@ -56,7 +56,8 @@ function init(instance) {
     };
 
     aspectRatioScaleCloseButton.addEventListener('click', function () {
-        AspectRatioScale.prototype.toggle('forceToHide');
+        console.log('inside close button click');
+        instance.toggle('forceToHide');
     });
 
     instance.element = parent;
@@ -78,28 +79,40 @@ class AspectRatioScale {
         }
     }
 
+    /**
+     * @param {'autoOsdHide' | 'autoOsdShow' | 'forceToHide' | 'forceToShow'} action 
+     */
     toggle(action) {
-        console.log('toggle', action);
-        if (action && !['hide', 'forceToHide'].includes(action)) {
+        if (action === 'forceToHide'){
+            this.opened = false;
+            aspectRatioScaleContainer.classList.add('hide');
             return;
         }
+        
+        if (action === 'autoOsdHide'){
+            aspectRatioScaleContainer.classList.add('hide');
+            return;
+        }
+
+        if (action === 'forceToShow'){
+            this.opened = true;
+        }
+
+        console.log('inside toggle', action, this.opened)
 
         const min = parseFloat(aspectRatioScaleSlider.min);
         const max = parseFloat(aspectRatioScaleSlider.max);
 
-        if (player && playbackManager.getAspectRatio(player) === 'custom') {
-            if (!action) {
-                let currentScale = playbackManager.getAspectRatioCustomScale(player);
-                currentScale = Math.max(min, Math.min(max, currentScale));
-                aspectRatioScaleSlider.value = currentScale;
-                aspectRatioScaleTextField.textContent = formatScale(currentScale);
-                playbackManager.setAspectRatioCustomScale(currentScale, player);
-                aspectRatioScaleContainer.classList.remove('hide');
-                return;
-            }
-            aspectRatioScaleContainer.classList.add('hide');
-        } else if (action) {
-            aspectRatioScaleContainer.classList.add('hide');
+        // basically autoOsdShow won't display the element if the element has not been explicitly opened
+        // since this.opened would be false
+        // this helps solve for the case when a user starts a video, and the aspect ratio is set to "custom" from before
+        if (player && playbackManager.getAspectRatio(player) === 'custom' && this.opened) {
+            let currentScale = playbackManager.getAspectRatioCustomScale(player);
+            currentScale = Math.max(min, Math.min(max, currentScale));
+            aspectRatioScaleSlider.value = currentScale;
+            aspectRatioScaleTextField.textContent = formatScale(currentScale);
+            playbackManager.setAspectRatioCustomScale(currentScale, player);
+            aspectRatioScaleContainer.classList.remove('hide');
         }
     }
 }
