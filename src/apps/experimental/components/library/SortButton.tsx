@@ -95,6 +95,14 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'Runtime', value: ItemSortBy.Runtime },
         { label: 'OptionRandom', value: ItemSortBy.Random }
     ],
+    [LibraryTab.Playlists]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlaylistUpdated', value: ItemSortBy.DateLastContentAdded },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime }
+    ],
     [LibraryTab.PhotoAlbums]: photosOrPhotoAlbumsOptions,
     [LibraryTab.Photos]: photosOrPhotoAlbumsOptions,
     [LibraryTab.Videos]: [
