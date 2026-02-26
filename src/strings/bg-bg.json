@@ -1866,5 +1866,7 @@
     "ButtonAddProvider": "Добави Източник",
     "ButtonAddTunerDevice": "Добави тунер",
     "LabelSlideshowInterval": "Интервал слайдшоу",
-    "LabelSlideshowIntervalHelp": "Времето (в секунди) за което всяка картина се показва в слайдшоуто."
+    "LabelSlideshowIntervalHelp": "Времето (в секунди) за което всяка картина се показва в слайдшоуто.",
+    "ConfirmDeleteCollection": "Сигурни ли сте, че искате да изтриете колекцията?",
+    "ConfirmDeletePlaylist": "Сигурни ли сте, че искате да изтриете плейлиста?"
 }
