@@ -1868,5 +1868,7 @@
     "LabelSlideshowInterval": "Интервал слайдшоу",
     "LabelSlideshowIntervalHelp": "Времето (в секунди) за което всяка картина се показва в слайдшоуто.",
     "ConfirmDeleteCollection": "Сигурни ли сте, че искате да изтриете колекцията?",
-    "ConfirmDeletePlaylist": "Сигурни ли сте, че искате да изтриете плейлиста?"
+    "ConfirmDeletePlaylist": "Сигурни ли сте, че искате да изтриете плейлиста?",
+    "HeaderDeleteCollection": "Изтриване на колекцията",
+    "HeaderDeletePlaylist": "Изтриване на плейлиста"
 }
