@@ -1944,7 +1944,7 @@ export class PlaybackManager {
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'musicvideos') {
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
-                    Filters: 'IsFolder',
+                    Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Video',
