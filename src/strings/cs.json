@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Opravdu chcete odstranit tuto kolekci?",
     "ConfirmDeletePlaylist": "Opravdu chcete odstranit tento seznam skladeb?",
     "HeaderDeleteCollection": "Odstranit kolekci",
-    "HeaderDeletePlaylist": "Odstranit seznam skladeb"
+    "HeaderDeletePlaylist": "Odstranit seznam skladeb",
+    "NewPlaylist": "Nový seznam skladeb",
+    "OptionDatePlaylistUpdated": "Datum seznamu skladeb aktualizováno"
 }
