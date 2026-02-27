@@ -534,7 +534,7 @@
     "Browse": "עיין",
     "BoxRear": "מארז (מאחור)",
     "BookLibraryHelp": "ניתן להוסיף ספרים מוקלטים וספרים כתובים. עיינו {0} במדריך מתן שמות לספרים {1}.",
-    "Desktop": "שולחן עבודה",
+    "Desktop": "שולחן עבודה (דור קודם)",
     "MessageDeleteTaskTrigger": "האם אתה בטוח כי ברצונך למחוק את מפעיל משימה זה?",
     "LastSeen": "פעילות אחרונה ב-{0}",
     "PersonRole": "כ-{0}",
@@ -1864,5 +1864,13 @@
     "ManageRepositories": "נהל מאגרים",
     "ViewAllPlugins": "הצגת כל התוספים",
     "ButtonAddProvider": "הוסף יבאוין",
-    "ButtonAddTunerDevice": "הוסף מכוון"
+    "ButtonAddTunerDevice": "הוסף מכוון",
+    "ConfirmDeleteCollection": "האם אתה בטוח שברצונך למחוק את האוסף הזה?",
+    "ConfirmDeletePlaylist": "האם אתה בטוח שברצונך למחוק את רשימת ההשמעה הזו?",
+    "HeaderDeleteCollection": "מחיקת אוסף",
+    "HeaderDeletePlaylist": "מחיקת רשימת השמעה",
+    "LabelSlideshowInterval": "מרווח זמן של מצגת תמונות",
+    "LabelSlideshowIntervalHelp": "הזמן בשניות שכל תמונה מוצגת במצגות.",
+    "NewPlaylist": "רשימת השמעה חדשה",
+    "OptionDatePlaylistUpdated": "תאריך עדכון רשימת ההשמעה"
 }
