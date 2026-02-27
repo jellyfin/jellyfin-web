@@ -1870,5 +1870,7 @@
     "HeaderDeleteCollection": "Collectie verwijderen",
     "HeaderDeletePlaylist": "Afspeellijst verwijderen",
     "ConfirmDeleteCollection": "Weet je zeker dat je deze collectie wilt verwijderen?",
-    "ConfirmDeletePlaylist": "Weet je zeker dat je deze afspeellijst wilt verwijderen?"
+    "ConfirmDeletePlaylist": "Weet je zeker dat je deze afspeellijst wilt verwijderen?",
+    "NewPlaylist": "Nieuwe afspeellijst",
+    "OptionDatePlaylistUpdated": "Datum afspeellijst bijgewerkt"
 }
