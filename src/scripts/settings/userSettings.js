@@ -286,6 +286,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Use Original Titles' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'Use Original Titles' or undefined.
+     * @return {boolean} 'Use Original Titles' state.
+     */
+    shouldUseOriginalTitles(val) {
+        if (val !== undefined) {
+            return this.set('useOriginalTitles', val.toString(), true);
+        }
+
+        return toBoolean(this.get('useOriginalTitles', true), false);
+    }
+
+    /**
      * Get or set 'disableCustomCss' state.
      * @param {boolean|undefined} [val] - Flag to enable 'disableCustomCss' or undefined.
      * @return {boolean} 'disableCustomCss' state.
@@ -695,6 +708,7 @@ export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentS
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
+export const shouldUseOriginalTitles = currentSettings.shouldUseOriginalTitles.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
 export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
