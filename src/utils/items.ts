@@ -88,7 +88,8 @@ export const getEpisodeFilter = (
 
 const getItemFieldsEnum = (
     viewType: LibraryTab,
-    libraryViewSettings: LibraryViewSettings
+    libraryViewSettings: LibraryViewSettings,
+    useOriginalTitles?: boolean
 ) => {
     const itemFields: ItemFields[] = [];
 
@@ -107,15 +108,20 @@ const getItemFieldsEnum = (
         );
     }
 
+    if (useOriginalTitles) {
+        itemFields.push(ItemFields.OriginalTitle);
+    }
+
     return itemFields;
 };
 
 export const getFieldsQuery = (
     viewType: LibraryTab,
-    libraryViewSettings: LibraryViewSettings
+    libraryViewSettings: LibraryViewSettings,
+    useOriginalTitles?: boolean
 ) => {
     return {
-        fields: getItemFieldsEnum(viewType, libraryViewSettings)
+        fields: getItemFieldsEnum(viewType, libraryViewSettings, useOriginalTitles)
     };
 };
 
