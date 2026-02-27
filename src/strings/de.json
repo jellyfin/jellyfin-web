@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Bist du sicher, dass du diese Sammlung löschen möchtest?",
     "ConfirmDeletePlaylist": "Bist du sicher, dass du diese Wiedergabeliste löschen möchtest?",
     "HeaderDeleteCollection": "Sammlung löschen",
-    "HeaderDeletePlaylist": "Wiedergabeliste löschen"
+    "HeaderDeletePlaylist": "Wiedergabeliste löschen",
+    "NewPlaylist": "Neue Wiedergabeliste",
+    "OptionDatePlaylistUpdated": "Datum Aktualisierung Wiedergabeliste"
 }
