@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "N'esteu segur, que voleu eliminar aquesta col·lecció?",
     "ConfirmDeletePlaylist": "N'esteu segur, que voleu eliminar aquesta llista de reproducció?",
     "HeaderDeleteCollection": "Elimina la col·lecció",
-    "HeaderDeletePlaylist": "Elimina la llista de reproducció"
+    "HeaderDeletePlaylist": "Elimina la llista de reproducció",
+    "NewPlaylist": "Nova llista de reproducció",
+    "OptionDatePlaylistUpdated": "Data d'actualització de la llista de reproducció"
 }
