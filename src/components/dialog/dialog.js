@@ -17,6 +17,8 @@ import template from './dialog.template.html';
  * @typedef {{
  *      type?: string,
  *      description?: string,
+ *      id?: string,
+ *      name?: string,
  * }} DialogButtons
  * @typedef {import('../dialogHelper/dialogHelper').DialogOptions} DialogOptions
  * @typedef {{

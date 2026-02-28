@@ -47,7 +47,7 @@ function authenticateUserByName(page, apiClient, url, username, password) {
 
             onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
         },
-        /** @param {{ status: int}} response */
+        /** @param {{ status: number}} response */
         function(response) {
             page.querySelector('#txtManualPassword').value = '';
             loading.hide();

@@ -192,9 +192,9 @@ export default class ConnectionManager {
          * @param {ApiClient} apiClient
          * @param {any} result
          * @param {AfterConnectedOptions & {
-         *     updateDateLastAccessed?: bool
+         *     updateDateLastAccessed?: boolean
          * }} options
-         * @param {bool} saveCredentials
+         * @param {boolean} saveCredentials
          */
         function onAuthenticated(apiClient, result, options, saveCredentials) {
             const credentials = credentialProvider.credentials();
@@ -230,9 +230,9 @@ export default class ConnectionManager {
 
         /**
          * @typedef {{
-         *  reportCapabilities?: bool,
-         *  enableAutomaticBitrateDetection?: bool,
-         *  enableWebSocket?: bool,
+         *  reportCapabilities?: boolean,
+         *  enableAutomaticBitrateDetection?: boolean,
+         *  enableWebSocket?: boolean,
          * }} AfterConnectedOptions
          */
 

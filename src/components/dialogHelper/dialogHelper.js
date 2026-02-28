@@ -13,8 +13,6 @@ import '../../styles/scrollstyles.scss';
 
 /**
  * @typedef {{
- *     removeOnClose: boolean,
- *     scrollY?: boolean,
  *     size?: 'fullscreen' | string,
  *     id?: string,
  *     lockScroll ?: boolean,
