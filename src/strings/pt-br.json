@@ -1575,7 +1575,7 @@
     "LabelThrottleDelaySecondsHelp": "Tempo em segundos em que o transcodificador será limitado. É necessário que seja grande o suficiente para que o cliente mantenha um buffer saudável. Funciona apenas se o limitador estiver habilitado.",
     "LabelSegmentKeepSeconds": "Tempo para manter seguimentos",
     "LabelSegmentKeepSecondsHelp": "Tempo em segundos, pelo qual os segmentos devem ser mantidos após serem baixados pelo cliente. Só funciona se a exclusão de segmentos estiver ativada.",
-    "SearchResultsEmpty": "Desculpe! Nenhum resultaod encontrado para \"{0}\"",
+    "SearchResultsEmpty": "Desculpe! Nenhum resultado encontrado para \"{0}\"",
     "ForeignPartsOnly": "Apenas partes extrangeiras/forçadas",
     "HearingImpairedShort": "HI/SDH",
     "SelectAudioNormalizationHelp": "Nivelar volume de faixas - ajusta o volume de cada faixa para que a reprodução esteja no mesmo volume. Nivelar volume de álbum - ajusta o volume de faixas em um álbum/disco, mandendo o alcance dinâmico. Alternando entre \"desligado\" e outras opções necessita o reinicio da atual reprodução.",
@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Tem certeza de que deseja excluir esta coleção?",
     "ConfirmDeletePlaylist": "Tem certeza de que deseja excluir esta lista de reprodução?",
     "HeaderDeleteCollection": "Excluir Coleção",
-    "HeaderDeletePlaylist": "Excluir Lista de Reprodução"
+    "HeaderDeletePlaylist": "Excluir Lista de Reprodução",
+    "NewPlaylist": "Nova Playlist",
+    "OptionDatePlaylistUpdated": "Data da Playlist atualizada"
 }
