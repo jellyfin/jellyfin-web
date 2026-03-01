@@ -27,6 +27,10 @@ class HtmlVideoPlayer extends NoActivePlayer {
                 return this.player.currentTimeAsync();
             };
         }
+
+        // Frame stepping constants
+        this._frameStepListener = null;
+        this._frameDuration = 1 / 25; // Default to 25fps, adjust if you can get actual framerate
     }
 
     /**
@@ -86,6 +90,32 @@ class HtmlVideoPlayer extends NoActivePlayer {
         Events.on(this.player, 'waiting', this._onWaiting);
 
         this.savedPlaybackRate = this.player.getPlaybackRate();
+
+        // Add frame step keydown listener
+        this._frameStepListener = (e) => {
+            // Don't interfere with text input
+            if (document.activeElement && (
+                document.activeElement.tagName === 'INPUT' ||
+                document.activeElement.tagName === 'TEXTAREA' ||
+                document.activeElement.isContentEditable
+            )) return;
+
+            // Only act when paused
+            if (!self.player.paused) return;
+
+            // Skip modified keys
+            if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
+            // Frame step
+            if (e.key === '.') {
+                e.preventDefault();
+                self.player.currentTime += self._frameDuration;
+            } else if (e.key === ',') {
+                e.preventDefault();
+                self.player.currentTime -= self._frameDuration;
+            }
+        };
+        document.addEventListener('keydown', this._frameStepListener);
     }
 
     /**
@@ -103,6 +133,12 @@ class HtmlVideoPlayer extends NoActivePlayer {
         Events.off(this.player, 'waiting', this._onWaiting);
 
         this.player.setPlaybackRate(this.savedPlaybackRate);
+
+        // Remove frame step keydown listener
+        if (this._frameStepListener) {
+            document.removeEventListener('keydown', this._frameStepListener);
+            this._frameStepListener = null;
+        }
     }
 
     /**
