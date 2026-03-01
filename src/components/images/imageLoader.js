@@ -86,8 +86,6 @@ export function fillImage(entry) {
         if (source) {
             fillImageElement(target, source);
         }
-    } else if (!source) {
-        emptyImageElement(target);
     }
 }
 
@@ -105,7 +103,7 @@ function onAnimationEnd(event) {
     elem.removeEventListener('animationend', onAnimationEnd);
 }
 
-function fillImageElement(elem, url) {
+function fillImageElement(elem, url, retries = 2) {
     if (url === undefined) {
         throw new TypeError('url cannot be undefined');
     }
@@ -132,6 +130,12 @@ function fillImageElement(elem, url) {
             }
             elem.classList.remove('lazy-hidden');
         });
+    });
+
+    preloaderImg.addEventListener('error', () => {
+        if (retries > 0) {
+            setTimeout(() => fillImageElement(elem, url, retries - 1), 1000);
+        }
     });
 }
 
