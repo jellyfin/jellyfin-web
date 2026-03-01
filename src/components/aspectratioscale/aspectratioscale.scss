@@ -1,10 +1,10 @@
-.subtitleSync {
+.aspectRatioScale {
     top: 10%;
     position: absolute;
     width: 100%;
 }
 
-.subtitleSyncContainer {
+.aspectRatioScaleContainer {
     width: 40%;
     min-width: 18em;
     margin-left: auto;
@@ -16,7 +16,7 @@
     position: relative;
 }
 
-.subtitleSync-closeButton {
+.aspectRatioScale-closeButton {
     position: absolute;
     top: 0;
     right: 0;
@@ -24,7 +24,7 @@
     z-index: 2;
 }
 
-.subtitleSyncTextField {
+.aspectRatioScaleTextField {
     position: absolute;
     left: 0;
     width: 40%;
@@ -37,11 +37,7 @@
     z-index: 2;
 }
 
-#prompt {
-    flex-shrink: 0;
-}
-
-.subtitleSyncSliderContainer {
+.aspectRatioScaleSliderContainer {
     width: 98%;
     margin-left: 1%;
     margin-right: 1%;
