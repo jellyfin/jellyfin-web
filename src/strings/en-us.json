@@ -668,6 +668,8 @@
     "LabelCreateHttpPortMap": "Enable automatic port mapping for HTTP traffic as well as HTTPS.",
     "LabelCreateHttpPortMapHelp": "Permit automatic port mapping to create a rule for HTTP traffic in addition to HTTPS traffic.",
     "LabelCriticRating": "Critics rating",
+    "LabelCudaDevice": "Cuda Device Index",
+    "LabelCudaDeviceHelp": "Specify the Cuda device index for ffmpeg argument '-init_hw_device cuda=cu:<deviceIndex>'. Default is 0.",
     "LabelCurrentPassword": "Current password",
     "LabelCurrentStatus": "Current status",
     "LabelCustomCertificatePath": "Custom SSL certificate path",
