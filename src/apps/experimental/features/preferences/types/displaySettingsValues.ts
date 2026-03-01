@@ -12,6 +12,8 @@ export interface DisplaySettingsValues {
     enableLibraryThemeVideos: boolean;
     enableRewatchingInNextUp: boolean;
     episodeImagesInNextUp: boolean;
+    enableStillWatchingPrompt?: boolean;
+    stillWatchingPromptMaxCount?: number;
     language: string;
     layout: string;
     libraryPageSize: number;

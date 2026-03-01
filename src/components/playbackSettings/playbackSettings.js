@@ -19,6 +19,7 @@ import template from './playbackSettings.template.html';
 
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
 
 function fillSkipLengths(select) {
     const options = [5, 10, 15, 20, 25, 30];
@@ -235,6 +236,8 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
+    context.querySelector('.chkEnableStillWatchingPrompt').checked = userSettings.enableStillWatchingPrompt();
+    context.querySelector('#txtStillWatchingMaxCount').value = userSettings.stillWatchingPromptMaxCount();
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
     context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
     context.querySelector('#selectPreferredTranscodeVideoCodec').value = appSettings.preferredTranscodeVideoCodec();
@@ -304,6 +307,11 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
     userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
+    userSettingsInstance.enableStillWatchingPrompt(context.querySelector('.chkEnableStillWatchingPrompt').checked);
+    if (context.querySelector('#txtStillWatchingMaxCount')) {
+        const val = parseInt(context.querySelector('#txtStillWatchingMaxCount').value, 10) || 5;
+        userSettingsInstance.stillWatchingPromptMaxCount(val);
+    }
     user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
     user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
