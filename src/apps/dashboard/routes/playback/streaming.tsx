@@ -25,6 +25,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const bitrateLimit = formData.get('StreamingBitrateLimit')?.toString();
     config.RemoteClientBitrateLimit = Math.trunc(1e6 * parseFloat(bitrateLimit || '0'));
 
+    const inactiveSessionThreshold = formData.get('InactiveSessionThreshold')?.toString();
+
+    if (inactiveSessionThreshold) config.InactiveSessionThreshold = parseInt(inactiveSessionThreshold, 10);
+
     await getConfigurationApi(api)
         .updateConfiguration({ serverConfiguration: config });
 
@@ -79,6 +83,20 @@ export const Component = () => {
                                     min: 0,
                                     max: 2147.25,
                                     step: 0.25
+                                }
+                            }}
+                        />
+                        <TextField
+                            label={globalize.translate('LabelInactiveSessionThreshold')}
+                            name='InactiveSessionThreshold'
+                            type='number'
+                            defaultValue={defaultConfiguration?.InactiveSessionThreshold}
+                            helperText={globalize.translate('LabelInactiveSessionThresholdHelp')}
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    max: 60 * 24,
+                                    required: true
                                 }
                             }}
                         />
