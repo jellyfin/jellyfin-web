@@ -1959,7 +1959,12 @@ export class HtmlVideoPlayer {
     unpause() {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
-            mediaElement.play();
+            const playPromise = mediaElement.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(function(error) {
+                    console.debug('htmlVideoPlayer play() rejected', error);
+                });
+            }
         }
     }
 
