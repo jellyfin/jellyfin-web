@@ -901,6 +901,7 @@ export class HtmlVideoPlayer {
          * @type {HTMLMediaElement}
          */
         const elem = e.target;
+        document.querySelector('.posterOverlay').style.display = 'inline';
         this.destroyCustomTrack(elem);
         onEndedInternal(this, elem, this.onError);
     };
@@ -931,6 +932,7 @@ export class HtmlVideoPlayer {
             timeMs += ((currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
             this.updateSubtitleText(timeMs);
         }
+        document.querySelector('.posterOverlay').style.display = 'none';
 
         Events.trigger(this, 'timeupdate');
     };
@@ -994,6 +996,7 @@ export class HtmlVideoPlayer {
         if (!this.#started) {
             this.#started = true;
             elem.removeAttribute('controls');
+            document.querySelector('.posterOverlay').style.display = 'none';
 
             loading.hide();
 
@@ -1633,8 +1636,11 @@ export class HtmlVideoPlayer {
 
                 html += '</video>';
 
+                html += '<img class="posterOverlay" />';
+
                 playerDlg.innerHTML = html;
                 const videoElement = playerDlg.querySelector('video');
+                const posterElement = playerDlg.querySelector('img');
 
                 // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
                 if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
@@ -1651,7 +1657,7 @@ export class HtmlVideoPlayer {
                 videoElement.addEventListener('dblclick', this.onDblClick);
                 videoElement.addEventListener('waiting', this.onWaiting);
                 if (options.backdropUrl) {
-                    videoElement.poster = options.backdropUrl;
+                    posterElement.src = options.backdropUrl;
                 }
 
                 document.body.insertBefore(playerDlg, document.body.firstChild);
