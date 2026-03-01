@@ -7,7 +7,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { getFilterStatus, setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -311,7 +311,8 @@ export default function (view, params, tabContent, options) {
             const filterDialog = new FilterDialog({
                 query: query,
                 mode: 'movies',
-                serverId: ApiClient.serverId()
+                serverId: ApiClient.serverId(),
+                hasFilters: getFilterStatus(query)
             });
             Events.on(filterDialog, 'filterchange', () => {
                 query.StartIndex = 0;

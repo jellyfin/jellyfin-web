@@ -9,6 +9,7 @@ import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
 import template from './filterdialog.template.html';
 import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+import { getFilterStatus } from 'components/filterdialog/filterIndicator';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
@@ -115,6 +116,14 @@ function updateFilterControls(context, options) {
      */
 function triggerChange(instance) {
     stopMultiSelect();
+
+    const hasFilters = getFilterStatus(instance.options.query);
+    if (hasFilters) {
+        enableByClass(document, 'resetFilters');
+    } else {
+        disableByClass(document, 'resetFilters');
+    }
+
     Events.trigger(instance, 'filterchange');
 }
 
@@ -144,6 +153,22 @@ function setVisibility(context, options) {
 
     if (options.mode === 'episodes') {
         showByClass(context, 'episodeFilter');
+    }
+
+    if (!options.hasFilters) {
+        disableByClass(context, 'resetFilters');
+    }
+}
+
+function enableByClass(context, className) {
+    for (const elem of context.querySelectorAll(`.${className}`)) {
+        elem.disabled = false;
+    }
+}
+
+function disableByClass(context, className) {
+    for (const elem of context.querySelectorAll(`.${className}`)) {
+        elem.disabled = true;
     }
 }
 
@@ -254,6 +279,16 @@ class FilterDialog {
         for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
             elem.addEventListener('change', () => this.onVideoTypeFilterChange(elem));
         }
+
+        const resetFilters = context.querySelector('.resetFilters');
+        resetFilters.addEventListener('click', () => {
+            for (const elem of context.querySelectorAll('.filterDialogContent input[type="checkbox"]:checked')) {
+                elem.checked = false;
+            }
+            this.resetQuery(query);
+            triggerChange(this);
+        });
+
         const chk3DFilter = context.querySelector('.chk3DFilter');
         chk3DFilter.addEventListener('change', () => {
             query.StartIndex = 0;
@@ -414,6 +449,26 @@ class FilterDialog {
                 triggerChange(this);
             }
         });
+    }
+
+    resetQuery(query) {
+        query.IsFavorite = null;
+        query.IsHD = null;
+        query.Is3D = null;
+        query.Is4K = null;
+        query.Filters = '';
+        query.SeriesStatus = '';
+        query.OfficialRatings = '';
+        query.Genres = '';
+        query.VideoTypes = '';
+        query.StartIndex = 0;
+        query.HasSpecialFeature = null;
+        query.HasSubtitles = null;
+        query.HasThemeSong = null;
+        query.HasThemeVideo = null;
+        query.HasTrailer = null;
+        query.Tags = null;
+        query.Years = '';
     }
 
     show() {
