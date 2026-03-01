@@ -153,25 +153,41 @@ function showAspectRatioMenu(player, btn) {
     });
 }
 
-function showPlaybackRateMenu(player, btn) {
+function showPlaybackRateMenu(player, options) {
     // each has a name and id
-    const currentId = playbackManager.getPlaybackRate(player);
-    const menuItems = playbackManager.getSupportedPlaybackRates(player).map(i => ({
+    const currentRate = playbackManager.getPlaybackRate(player);
+    const supportedRates = playbackManager.getSupportedPlaybackRates(player);
+
+    const isDefaultRate = supportedRates.some(i => i.id === currentRate);
+
+    const menuItems = supportedRates.map(i => ({
         id: i.id,
         name: i.name,
-        selected: i.id === currentId
+        selected: i.id === currentRate
     }));
+
+    menuItems.push({
+        id: 'custom',
+        name: 'Custom Rate',
+        selected: !isDefaultRate
+    });
 
     return actionsheet.show({
         items: menuItems,
-        positionTo: btn
+        positionTo: options.positionTo
     }).then(function (id) {
-        if (id) {
-            playbackManager.setPlaybackRate(id, player);
+        if (!id) return Promise.reject();
+
+        if (id === 'custom') {
+            if (typeof options?.onOption === 'function') {
+                options.onOption('playbackrate');
+            }
+            // custom rate set in modal so we can just return here.
             return Promise.resolve();
         }
 
-        return Promise.reject();
+        playbackManager.setPlaybackRate(id, player);
+        return Promise.resolve();
     });
 }
 
@@ -193,13 +209,15 @@ function showWithUser(options, player, user) {
     }
 
     if (supportedCommands.indexOf('PlaybackRate') !== -1) {
-        const currentPlaybackRateId = playbackManager.getPlaybackRate(player);
-        const currentPlaybackRate = playbackManager.getSupportedPlaybackRates(player).filter(i => i.id === currentPlaybackRateId)[0];
+        const currentRate = playbackManager.getPlaybackRate(player);
+        const supportedRates = playbackManager.getSupportedPlaybackRates(player);
+
+        const matchedRate = supportedRates.find(i => i.id === currentRate); // use rate from table
 
         menuItems.push({
             name: globalize.translate('PlaybackRate'),
             id: 'playbackrate',
-            asideText: currentPlaybackRate ? currentPlaybackRate.name : null
+            asideText: matchedRate ? matchedRate.name : `${parseFloat(currentRate).toFixed(2)}x` //generate text from current set rate
         });
     }
 
@@ -269,7 +287,7 @@ function handleSelectedOption(id, options, player) {
         case 'aspectratio':
             return showAspectRatioMenu(player, options.positionTo);
         case 'playbackrate':
-            return showPlaybackRateMenu(player, options.positionTo);
+            return showPlaybackRateMenu(player, options);
         case 'repeatmode':
             return showRepeatModeMenu(player, options.positionTo);
         case 'stats':
