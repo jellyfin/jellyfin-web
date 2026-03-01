@@ -20,12 +20,13 @@ const fetchServerLog = async (
         return data;
     }
 };
-export const useServerLog = (name: string) => {
+export const useServerLog = (name: string, refetchInterval: false | number) => {
     const { api } = useApi();
 
     return useQuery({
         queryKey: ['ServerLog', name],
         queryFn: ({ signal }) => fetchServerLog(api!, name, { signal }),
-        enabled: !!api
+        enabled: !!api,
+        refetchInterval: refetchInterval
     });
 };
