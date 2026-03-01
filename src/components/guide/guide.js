@@ -237,7 +237,7 @@ function Guide(options) {
         channelQuery.Limit = channelLimit;
         channelQuery.AddCurrentProgram = false;
         channelQuery.EnableUserData = false;
-        channelQuery.EnableImageTypes = 'Primary';
+        channelQuery.EnableImageTypes = 'Primary,Logo';
 
         const categories = self.categoryOptions.categories || [];
         const displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
@@ -596,8 +596,6 @@ function Guide(options) {
         let html = '';
 
         for (const channel of channels) {
-            const hasChannelImage = channel.ImageTags.Primary;
-
             let cssClass = 'guide-channelHeaderCell itemAction';
 
             if (layoutManager.tv) {
@@ -614,21 +612,16 @@ function Guide(options) {
 
             html += `<button title="${escapeHtml(title.join(' '))}" type="button" class="${cssClass}" data-action="${ItemAction.Link}" data-isfolder="${channel.IsFolder}" data-id="${channel.Id}" data-serverid="${channel.ServerId}" data-type="${channel.Type}">`;
 
-            if (hasChannelImage) {
-                const url = apiClient.getScaledImageUrl(channel.Id, {
-                    maxHeight: 220,
-                    tag: channel.ImageTags.Primary,
-                    type: 'Primary'
-                });
-
-                html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
+            const channelImageUrl = renderChannelImageUrl(channel, apiClient);
+            if (channelImageUrl) {
+                html += '<div class="guideChannelImage lazy" data-src="' + channelImageUrl + '"></div>';
             }
 
             if (channel.ChannelNumber) {
                 html += '<h3 class="guideChannelNumber">' + channel.ChannelNumber + '</h3>';
             }
 
-            if (!hasChannelImage && channel.Name) {
+            if (!channelImageUrl && channel.Name) {
                 html += '<div class="guideChannelName">' + escapeHtml(channel.Name) + '</div>';
             }
 
@@ -638,6 +631,25 @@ function Guide(options) {
         const channelList = context.querySelector('.channelsContainer');
         channelList.innerHTML = html;
         imageLoader.lazyChildren(channelList);
+    }
+
+    function renderChannelImageUrl(channel, apiClient) {
+        const hasChannelLogo = channel.ImageTags.Logo;
+        const hasChannelPrimary = channel.ImageTags.Primary;
+
+        if (!hasChannelLogo && !hasChannelPrimary) {
+            return false;
+        }
+
+        const imgType = hasChannelLogo ? 'Logo' : 'Primary';
+        const imgTag = hasChannelLogo ? channel.ImageTags.Logo : channel.ImageTags.Primary;
+        const url = apiClient.getScaledImageUrl(channel.Id, {
+            maxHeight: 220,
+            tag: imgTag,
+            type: imgType
+        });
+
+        return url;
     }
 
     function renderPrograms(context, date, channels, programs, programOptions) {
