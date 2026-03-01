@@ -167,8 +167,7 @@ function loadSection(page, apiClient, user, userSettings, userViews, allSections
         case HomeSectionType.ResumeBook:
             return loadResume(elem, apiClient, 'HeaderContinueReading', 'Book', userSettings, options);
         case HomeSectionType.SmallLibraryTiles:
-            loadLibraryTiles(elem, userViews, options);
-            break;
+            return loadLibraryTiles(elem, userViews, options);
         default:
             elem.innerHTML = '';
     }
