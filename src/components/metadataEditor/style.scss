@@ -17,3 +17,26 @@
         margin-right: 1em;
     }
 }
+
+.personSuggestionsContainer,
+.genreSuggestionsContainer,
+.tagSuggestionsContainer,
+.suggestionsContainer {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    
+    .suggestionItem {
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: var(--jf-palette-action-hover) !important;
+        }
+
+        &.focused {
+            background-color: var(--jf-palette-action-selected) !important;
+        }
+
+        &:last-child {
+            border-bottom: none !important;
+        }
+    }
+}
