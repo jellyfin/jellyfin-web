@@ -502,7 +502,19 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'edit':
-                editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                // If the editor returns an explicit { updated } flag, use it;
+                // otherwise default to true for editors that resolve without a payload.
+                // This lets metadataEditor report "nothing changed" on close-without-save
+                // so the caller skips the container refresh that resets scroll position.
+                editItem(apiClient, item).then(
+                    (result) => {
+                        const updated = result != null && 'updated' in result
+                            ? !!result.updated
+                            : true;
+                        getResolveFunction(resolve, id, updated)();
+                    },
+                    getResolveFunction(resolve, id)
+                );
                 break;
             case 'editplaylist':
                 import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
