@@ -119,6 +119,21 @@ function renderMetadataSavers(page, metadataSavers) {
     return true;
 }
 
+function renderMetadataResolvers(page, availableOptions, libraryOptions) {
+    let html = '';
+    const elem = page.querySelector('.metadataResolvers');
+    for (const availableTypeOptions of availableOptions.TypeOptions) {
+        html += getMetadataResolversForTypeHtml(availableTypeOptions, getTypeOptions(libraryOptions, availableTypeOptions.Type) || {});
+    }
+    elem.innerHTML = html;
+    if (html) {
+        elem.classList.remove('hide');
+    } else {
+        elem.classList.add('hide');
+    }
+    return true;
+}
+
 function getMetadataFetchersForTypeHtml(availableTypeOptions, libraryOptionsForType) {
     let html = '';
     let plugins = availableTypeOptions.MetadataFetchers;
@@ -150,6 +165,41 @@ function getMetadataFetchersForTypeHtml(availableTypeOptions, libraryOptionsForT
 
     html += '</div>';
     html += '<div class="fieldDescription">' + globalize.translate('LabelMetadataDownloadersHelp') + '</div>';
+    html += '</div>';
+    return html;
+}
+
+function getMetadataResolversForTypeHtml(availableTypeOptions, libraryOptionsForType) {
+    let html = '';
+    let plugins = availableTypeOptions.MetadataResolvers;
+
+    plugins = getOrderedPlugins(plugins, libraryOptionsForType.MetadataResolverOrder || []);
+    if (!plugins.length) return html;
+
+    html += '<div class="metadataResolver" data-type="' + availableTypeOptions.Type + '">';
+    html += '<h3 class="checkboxListLabel">' + globalize.translate('LabelTypeMetadataResolvers', globalize.translate('TypeOptionPlural' + availableTypeOptions.Type)) + '</h3>';
+    html += '<div class="checkboxList paperList checkboxList-paperList">';
+
+    plugins.forEach((plugin, index) => {
+        html += '<div class="listItem metadataResolverItem sortableOption" data-pluginname="' + escapeHtml(plugin.Name) + '">';
+        const isChecked = libraryOptionsForType.MetadataResolvers ? libraryOptionsForType.MetadataResolvers.includes(plugin.Name) : plugin.DefaultEnabled;
+        const checkedHtml = isChecked ? ' checked="checked"' : '';
+        html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkMetadataResolver" data-pluginname="' + escapeHtml(plugin.Name) + '" ' + checkedHtml + '><span></span></label>';
+        html += '<div class="listItemBody">';
+        html += '<h3 class="listItemBodyText">';
+        html += escapeHtml(plugin.Name);
+        html += '</h3>';
+        html += '</div>';
+        if (index > 0) {
+            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>';
+        } else if (plugins.length > 1) {
+            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>';
+        }
+        html += '</div>';
+    });
+
+    html += '</div>';
+    html += '<div class="fieldDescription">' + globalize.translate('LabelMetadataResolversHelp') + '</div>';
     html += '</div>';
     return html;
 }
@@ -349,6 +399,7 @@ function populateMetadataSettings(parent, contentType) {
         currentAvailableOptions = availableOptions;
         parent.availableOptions = availableOptions;
         renderMetadataSavers(parent, availableOptions.MetadataSavers);
+        renderMetadataResolvers(parent, availableOptions.MetadataResolvers);
         renderMetadataReaders(parent, availableOptions.MetadataReaders);
         renderMetadataFetchers(parent, availableOptions, {});
         renderSubtitleFetchers(parent, availableOptions, {});
@@ -581,6 +632,29 @@ function setMetadataFetchersIntoOptions(parent, options) {
     }
 }
 
+function setMetadataResolversIntoOptions(parent, options) {
+    const sections = parent.querySelectorAll('.metadataResolver');
+    for (const section of sections) {
+        const type = section.getAttribute('data-type');
+        let typeOptions = getTypeOptions(options, type);
+        if (!typeOptions) {
+            typeOptions = {
+                Type: type
+            };
+            options.TypeOptions.push(typeOptions);
+        }
+        typeOptions.MetadataResolvers = Array.prototype.map.call(Array.prototype.filter.call(section.querySelectorAll('.chkMetadataResolver'), elem => {
+            return elem.checked;
+        }), elem => {
+            return elem.getAttribute('data-pluginname');
+        });
+
+        typeOptions.MetadataResolverOrder = Array.prototype.map.call(section.querySelectorAll('.metadataResolverItem'), elem => {
+            return elem.getAttribute('data-pluginname');
+        });
+    }
+}
+
 function setImageFetchersIntoOptions(parent, options) {
     const sections = parent.querySelectorAll('.imageFetcher');
     for (const section of sections) {
@@ -656,6 +730,11 @@ export function getLibraryOptions(parent) {
         }), elem => {
             return elem.getAttribute('data-pluginname');
         }),
+        MetadataResolvers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataResolver'), elem => {
+            return elem.checked;
+        }), elem => {
+            return elem.getAttribute('data-pluginname');
+        }),
         TypeOptions: []
     };
 
@@ -673,6 +752,7 @@ export function getLibraryOptions(parent) {
     setLyricFetchersIntoOptions(parent, options);
     setMediaSegmentProvidersIntoOptions(parent, options);
     setMetadataFetchersIntoOptions(parent, options);
+    setMetadataResolversIntoOptions(parent, options);
     setImageFetchersIntoOptions(parent, options);
     setImageOptionsIntoOptions(options);
 
@@ -723,6 +803,9 @@ export function setLibraryOptions(parent, options) {
     Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
         elem.checked = options.MetadataSavers ? options.MetadataSavers.includes(elem.getAttribute('data-pluginname')) : elem.getAttribute('data-defaultenabled') === 'true';
     });
+    Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataResolver'), elem => {
+        elem.checked = options.MetadataResolvers ? options.MetadataResolvers.includes(elem.getAttribute('data-pluginname')) : elem.getAttribute('data-defaultenabled') === 'true';
+    });
     Array.prototype.forEach.call(parent.querySelectorAll('.chkSubtitleLanguage'), elem => {
         elem.checked = !!options.SubtitleDownloadLanguages && options.SubtitleDownloadLanguages.includes(elem.getAttribute('data-lang'));
     });
@@ -730,6 +813,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#tagDelimiterWhitelist').value = options.DelimiterWhitelist.filter(item => item.trim()).join('\n');
     renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
     renderMetadataFetchers(parent, parent.availableOptions, options);
+    renderMetadataResolvers(parent, parent.availableOptions, options);
     renderImageFetchers(parent, parent.availableOptions, options);
     renderSubtitleFetchers(parent, parent.availableOptions, options);
     renderLyricFetchers(parent, parent.availableOptions, options);
