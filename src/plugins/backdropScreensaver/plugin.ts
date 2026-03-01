@@ -1,9 +1,14 @@
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from 'scripts/settings/userSettings';
+import { backdropScreensaverInterval } from 'scripts/settings/userSettings';
 import { PluginType } from 'types/plugin.ts';
 
-class BackdropScreensaver {
+export default class BackdropScreensaver {
+    name: string;
+    type: PluginType;
+    id: string;
+    supportsAnonymous: boolean;
+    currentSlideshow: any = null;
     constructor() {
         this.name = 'BackdropScreensaver';
         this.type = PluginType.Screensaver;
@@ -24,15 +29,15 @@ class BackdropScreensaver {
         };
 
         const apiClient = ServerConnections.currentApiClient();
-        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
-            if (result.Items.length) {
+        apiClient?.getItems(apiClient.getCurrentUserId(), query).then((result) => {
+            if (result.Items?.length) {
                 import('../../components/slideshow/slideshow').then(({ default: Slideshow }) => {
                     const newSlideShow = new Slideshow({
                         showTitle: true,
                         cover: true,
                         items: result.Items,
                         autoplay: {
-                            delay: userSettings.backdropScreensaverInterval() * 1000
+                            delay: backdropScreensaverInterval() * 1000
                         }
                     });
 
@@ -51,5 +56,3 @@ class BackdropScreensaver {
         return Promise.resolve();
     }
 }
-
-export default BackdropScreensaver;
