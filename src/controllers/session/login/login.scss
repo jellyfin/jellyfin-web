@@ -24,3 +24,16 @@
         width: fit-content;
     }
 }
+
+.serverDetails {
+    display: flex;
+    position: relative;
+
+    button {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(calc(100% + 1em), -50%);
+        font-size: 80%;
+    }
+}
