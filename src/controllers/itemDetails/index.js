@@ -98,7 +98,7 @@ function hideAll(page, className, show) {
     }
 }
 
-function getContextMenuOptions(item, user, button) {
+function getContextMenuOptions(item, user, button, collectionItemId) {
     return {
         item: item,
         open: false,
@@ -112,7 +112,8 @@ function getContextMenuOptions(item, user, button) {
         shuffle: false,
         instantMix: false,
         user: user,
-        share: true
+        share: true,
+        collectionItemId: collectionItemId
     };
 }
 
@@ -2044,6 +2045,7 @@ export default function (view, params) {
     function onMoreCommandsClick() {
         const button = this;
         let selectedItem = view.querySelector('.selectSource').value || currentItem.Id;
+        const collectionItemId = currentItem?.Id;
 
         const apiClient = getApiClient();
 
@@ -2051,7 +2053,7 @@ export default function (view, params) {
             selectedItem = item;
 
             apiClient.getCurrentUser().then(function (user) {
-                itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
+                itemContextMenu.show(getContextMenuOptions(selectedItem, user, button, collectionItemId))
                     .then(function (result) {
                         if (result.deleted) {
                             const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
