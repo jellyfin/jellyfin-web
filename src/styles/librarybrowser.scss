@@ -536,6 +536,9 @@
 
 .itemOverview {
     white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 .itemLinks {
@@ -624,6 +627,13 @@
 .parentName {
     display: block;
     margin: 0 0 0;
+
+    .layout-mobile & {
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
 }
 
 .layout-mobile .parentName {
@@ -654,6 +664,9 @@
     .layout-mobile & {
         white-space: normal;
         overflow: visible;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
     }
 }
 
