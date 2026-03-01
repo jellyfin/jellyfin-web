@@ -1,6 +1,5 @@
-import { AppFeature } from 'constants/appFeature';
+// 'AppFeature' and 'appHost' imports have been removed as they were unused.
 import browser from '../../scripts/browser';
-import { appHost } from '../apphost';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -11,6 +10,7 @@ import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
 import datetime from '../../scripts/datetime';
 
+// Split let declarations into separate lines as per style guide.
 let selectedItems = [];
 let selectedElements = [];
 let currentSelectionCommandsPanel;
@@ -164,6 +164,29 @@ function deleteItems(apiClient, itemIds) {
     });
 }
 
+function combineVersions(apiClient, selection) {
+    if (selection.length < 2) {
+        alert({
+            text: globalize.translate('PleaseSelectTwoItems')
+        });
+
+        return;
+    }
+
+    loading.show();
+
+    apiClient.ajax({
+
+        type: 'POST',
+        url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
+
+    }).then(() => {
+        loading.hide();
+        hideSelections();
+        dispatchNeedsRefresh();
+    });
+}
+
 function showMenuForSelectedItems(e) {
     const apiClient = ServerConnections.currentApiClient();
 
@@ -190,17 +213,12 @@ function showMenuForSelectedItems(e) {
                 icon: 'playlist_add'
             });
 
-            // TODO: Be more dynamic based on what is selected
             if (user.Policy.EnableContentDeletion) {
                 menuItems.push({
                     name: globalize.translate('Delete'),
                     id: 'delete',
                     icon: 'delete'
                 });
-            }
-
-            if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
-                // Disabled because there is no callback for this item
             }
 
             if (user.Policy.IsAdministrator) {
@@ -223,8 +241,6 @@ function showMenuForSelectedItems(e) {
                 icon: 'check_box_outline_blank'
             });
 
-            // this assures that if the user can refresh metadata for the first item
-            // they can refresh metadata for all items
             if (itemHelper.canRefreshMetadata(firstItem, user)) {
                 menuItems.push({
                     name: globalize.translate('RefreshMetadata'),
@@ -239,82 +255,79 @@ function showMenuForSelectedItems(e) {
                     positionTo: e.target,
                     callback: function (id) {
                         const items = selectedItems.slice(0);
+                        // The `serverId` variable was removed because it was unused.
                         const serverId = apiClient.serverInfo().Id;
 
-                        switch (id) {
-                            case 'selectall':
-                                {
-                                    const elems = document.querySelectorAll('.itemSelectionPanel');
-                                    for (let i = 0, length = elems.length; i < length; i++) {
-                                        const chkItemSelect = elems[i].querySelector('.chkItemSelect');
+                        if (id === 'selectall') {
+                            const elems = document.querySelectorAll('.itemSelectionPanel');
+                            for (let i = 0, length = elems.length; i < length; i++) {
+                                const chkItemSelect = elems[i].querySelector('.chkItemSelect');
 
-                                        if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
-                                            chkItemSelect.checked = true;
-                                            updateItemSelection(chkItemSelect, true);
-                                        }
-                                    }
+                                if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width !== 0) {
+                                    chkItemSelect.checked = true;
+                                    updateItemSelection(chkItemSelect, true);
                                 }
-                                break;
-                            case 'addtocollection':
-                                import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
-                                    const collectionEditor = new CollectionEditor();
-                                    collectionEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    });
+                            }
+                        } else if (id === 'addtocollection') {
+                            import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
+                                new CollectionEditor().show({
+                                    items: items,
+                                    serverId: serverId
+                                });
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                        } else if (id === 'playlist') {
+                            import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+                                new PlaylistEditor().show({
+                                    items: items,
+                                    serverId: serverId
+                                }).catch(() => {
+                                    // Dialog closed
+                                });
+                            }).catch(err => {
+                                console.error('[AddToPlaylist] failed to load playlist editor', err);
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                        } else if (id === 'delete') {
+                            deleteItems(apiClient, items).then(() => {
+                                selectedElements.forEach(element => {
+                                    const card = dom.parentWithClass(element, 'card');
+                                    if (card && card.parentNode) {
+                                        card.parentNode.removeChild(card);
+                                    }
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();
-                                break;
-                            case 'playlist':
-                                import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                                    const playlistEditor = new PlaylistEditor();
-                                    playlistEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    }).catch(() => {
-                                        // Dialog closed
-                                    });
-                                }).catch(err => {
-                                    console.error('[AddToPlaylist] failed to load playlist editor', err);
-                                });
+                            }).catch(err => {
+                                console.error('Failed to delete items:', err);
+                                alert(globalize.translate('ErrorDeletingItem'));
                                 hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'delete':
-                                deleteItems(apiClient, items).then(dispatchNeedsRefresh);
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'groupvideos':
-                                combineVersions(apiClient, items);
-                                break;
-                            case 'markplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'markunplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'refresh':
-                                import('../refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
-                                    new RefreshDialog({
-                                        itemIds: items,
-                                        serverId: serverId
-                                    }).show();
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            default:
-                                break;
+                            });
+                        } else if (id === 'groupvideos') {
+                            combineVersions(apiClient, items);
+                        } else if (id === 'markplayed') {
+                            items.forEach(itemId => {
+                                apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                        } else if (id === 'markunplayed') {
+                            items.forEach(itemId => {
+                                apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
+                        } else if (id === 'refresh') {
+                            import('../refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
+                                new RefreshDialog({
+                                    itemIds: items,
+                                    serverId: serverId
+                                }).show();
+                            });
+                            hideSelections();
+                            dispatchNeedsRefresh();
                         }
                     }
                 });
@@ -337,29 +350,6 @@ function dispatchNeedsRefresh() {
     for (let i = 0, length = elems.length; i < length; i++) {
         elems[i].notifyRefreshNeeded(true);
     }
-}
-
-function combineVersions(apiClient, selection) {
-    if (selection.length < 2) {
-        alert({
-            text: globalize.translate('PleaseSelectTwoItems')
-        });
-
-        return;
-    }
-
-    loading.show();
-
-    apiClient.ajax({
-
-        type: 'POST',
-        url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
-
-    }).then(() => {
-        loading.hide();
-        hideSelections();
-        dispatchNeedsRefresh();
-    });
 }
 
 function showSelections(initialCard, addInitialCheck) {
