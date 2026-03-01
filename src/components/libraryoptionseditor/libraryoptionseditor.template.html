@@ -13,6 +13,15 @@
 <div class="selectContainer fldMetadataCountry hide">
     <select is="emby-select" id="selectCountry" label="${LabelCountry}"></select>
 </div>
+<div class="fldPreferredImageLanguages hide" style="margin-bottom: 2em;">
+    <h3 class="checkboxListLabel">${LabelPreferredImageLanguages}</h3>
+    <div class="preferredImageLanguagesList paperList" style="margin-bottom: 1em;">
+    </div>
+    <button type="button" is="emby-button" class="raised button-submit block btnAddImageLanguage">
+        <span>${ButtonAddLanguage}</span>
+    </button>
+    <div class="fieldDescription" style="margin-top: 0.5em;">${LabelPreferredImageLanguagesHelp}</div>
+</div>
 <div class="checkboxContainer checkboxContainer-withDescription chkEnablePhotosContainer">
     <label>
         <input type="checkbox" is="emby-checkbox" class="chkEnablePhotos" checked />
