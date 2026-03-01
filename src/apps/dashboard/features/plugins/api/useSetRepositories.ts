@@ -12,8 +12,8 @@ export const useSetRepositories = () => {
             getPackageApi(api!)
                 .setRepositories(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QueryKey.Repositories ]
             });
         }

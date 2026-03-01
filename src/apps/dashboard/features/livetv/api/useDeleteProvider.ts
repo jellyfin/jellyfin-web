@@ -13,8 +13,8 @@ export const useDeleteProvider = () => {
             getLiveTvApi(api!)
                 .deleteListingProvider(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ 'NamedConfiguration', 'livetv' ]
             });
         }

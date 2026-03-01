@@ -13,8 +13,8 @@ export const useCreateKey = () => {
             getApiKeyApi(api!)
                 .createKey(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QUERY_KEY ]
             });
         }

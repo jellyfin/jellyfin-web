@@ -14,8 +14,8 @@ export const useUninstallPlugin = () => {
             getPluginsApi(api!)
                 .uninstallPluginByVersion(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QueryKey.Plugins ]
             });
             void queryClient.invalidateQueries({
