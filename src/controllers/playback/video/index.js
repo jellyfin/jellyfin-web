@@ -264,11 +264,7 @@ export default function (view) {
         LibraryMenu.setTitle(title);
         Events.trigger(document, EventType.VIDEO_TITLE_CHANGE, [ title ]);
 
-        const documentTitle = parentName || (item ? item.Name : null);
-
-        if (documentTitle) {
-            document.title = documentTitle;
-        }
+        document.title = title;
     }
 
     let mouseIsDown = false;
