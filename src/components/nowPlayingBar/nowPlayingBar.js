@@ -90,6 +90,8 @@ function getNowPlayingBarHtml() {
 
     html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton hide" title="${globalize.translate('Lyrics')}"><span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span></button>`;
 
+    html += `<button is="paper-icon-button-light" class="btnAudioSettings mediaButton" title="${globalize.translate('Settings')}"><span class="material-icons settings" aria-hidden="true"></span></button>`;
+
     html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
     html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
 
@@ -227,6 +229,24 @@ function bindEvents(elem) {
         } else {
             appRouter.show('lyrics');
         }
+    });
+
+    elem.querySelector('.btnAudioSettings').addEventListener('click', function() {
+        const btn = this;
+
+        import('../playback/playersettingsmenu').then((playerSettingsMenu) => {
+            const player = currentPlayer;
+
+            if (player) {
+                playerSettingsMenu.show({
+                    mediaType: 'Audio',
+                    player: player,
+                    positionTo: btn
+                }).catch(() => {
+                    // User cancelled
+                });
+            }
+        });
     });
 
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
