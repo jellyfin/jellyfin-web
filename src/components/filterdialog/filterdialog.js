@@ -57,6 +57,14 @@ function renderFilters(context, result, query) {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });
+    renderOptions(context, '.audioLanguageFilters', 'chkAudioLanguageFilter', result.AudioLanguages, function (i) {
+        const delimeter = ',';
+        return (delimeter + (query.AudioLanguages || '') + delimeter).includes(delimeter + i + delimeter);
+    });
+    renderOptions(context, '.subtitleLanguageFilters', 'chkSubtitleLanguageFilter', result.SubtitleLanguages, function (i) {
+        const delimeter = ',';
+        return (delimeter + (query.SubtitleLanguages || '') + delimeter).includes(delimeter + i + delimeter);
+    });
 }
 
 function loadDynamicFilters(context, apiClient, userId, itemQuery) {
@@ -121,6 +129,7 @@ function triggerChange(instance) {
 function setVisibility(context, options) {
     if (options.mode === 'livetvchannels' || options.mode === 'albums' || options.mode === 'artists' || options.mode === 'albumartists' || options.mode === 'songs') {
         hideByClass(context, 'videoStandard');
+        hideByClass(context, 'languageFilters');
     }
 
     if (enableDynamicFilters(options.mode)) {
@@ -136,6 +145,7 @@ function setVisibility(context, options) {
 
     if (options.mode === 'movies' || options.mode === 'series' || options.mode === 'episodes') {
         context.querySelector('.features').classList.remove('hide');
+        context.querySelector('.languageFilters').classList.remove('hide');
     }
 
     if (options.mode === 'series') {
@@ -411,6 +421,34 @@ class FilterDialog {
                 }
                 query.StartIndex = 0;
                 query.OfficialRatings = filters;
+                triggerChange(this);
+                return;
+            }
+            const chkAudioLanguageFilter = dom.parentWithClass(e.target, 'chkAudioLanguageFilter');
+            if (chkAudioLanguageFilter) {
+                const filterName = chkAudioLanguageFilter.getAttribute('data-filter');
+                let filters = query.AudioLanguages || '';
+                const delimiter = ',';
+                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                if (chkAudioLanguageFilter.checked) {
+                    filters = filters ? (filters + delimiter + filterName) : filterName;
+                }
+                query.StartIndex = 0;
+                query.AudioLanguages = filters;
+                triggerChange(this);
+                return;
+            }
+            const chkSubtitleLanguageFilter = dom.parentWithClass(e.target, 'chkSubtitleLanguageFilter');
+            if (chkSubtitleLanguageFilter) {
+                const filterName = chkSubtitleLanguageFilter.getAttribute('data-filter');
+                let filters = query.SubtitleLanguages || '';
+                const delimiter = ',';
+                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                if (chkSubtitleLanguageFilter.checked) {
+                    filters = filters ? (filters + delimiter + filterName) : filterName;
+                }
+                query.StartIndex = 0;
+                query.SubtitleLanguages = filters;
                 triggerChange(this);
             }
         });
