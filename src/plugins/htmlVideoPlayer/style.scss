@@ -68,12 +68,12 @@ video[controls]::-webkit-media-controls {
 
 .videoSubtitlesInner {
     max-width: 70%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: transparent;
 }
 
 .videoSecondarySubtitlesInner {
     max-width: 70%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: transparent;
     min-height: 0 !important;
     margin-top: 0.5em !important;
     margin-bottom: 0.5em !important;

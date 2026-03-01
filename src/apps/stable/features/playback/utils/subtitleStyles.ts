@@ -38,6 +38,10 @@ export function useCustomSubtitles(userSettings: UserSettings) {
             // iOS/macOS global caption settings are causing huge font-size and margins
             if (browser.safari) return true;
 
+            // Native cue rendering in Chromium can force subtitle background boxes
+            // even when subtitle background is configured as transparent.
+            if (browser.chrome) return true;
+
             return false;
     }
 }
