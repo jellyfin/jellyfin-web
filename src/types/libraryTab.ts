@@ -16,6 +16,7 @@ export enum LibraryTab {
     Schedule = 'schedule',
     Series = 'series',
     SeriesTimers = 'seriestimers',
+    Studios = 'studios',
     Songs = 'songs',
     Suggestions = 'suggestions',
     Upcoming = 'upcoming',

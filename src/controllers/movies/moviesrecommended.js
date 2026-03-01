@@ -237,6 +237,8 @@ function getTabs() {
         name: globalize.translate('Collections')
     }, {
         name: globalize.translate('Genres')
+    }, {
+        name: globalize.translate('Studios')
     }];
 }
 
@@ -254,11 +256,17 @@ function getDefaultTabIndex(folderId) {
         case LibraryTab.Genres:
             return 4;
 
+        case LibraryTab.Studios:
+            return 5;
+
         default:
             return 0;
     }
 }
 
+// Tab management code shares structure with tvrecommended.js but has different
+// tab indices and controller handling, making extraction difficult without
+// reducing code clarity. This duplication is acceptable.
 export default function (view, params) {
     function onBeforeTabChange(e) {
         preLoadTab(view, parseInt(e.detail.selectedTabIndex, 10));
@@ -291,6 +299,10 @@ export default function (view, params) {
 
             case 4:
                 depends = 'moviegenres';
+                break;
+
+            case 5:
+                depends = 'moviestudios';
                 break;
         }
 

@@ -40,6 +40,28 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     elem.querySelector('.filterOptions').innerHTML = html;
 }
 
+function renderStudioOptions(context, selector, cssClass, studios, isCheckedFn) {
+    const elem = context.querySelector(selector);
+    if (studios.length) {
+        elem.classList.remove('hide');
+    } else {
+        elem.classList.add('hide');
+    }
+    let html = '';
+    html += '<div class="checkboxList">';
+    html += studios.map(function (studio) {
+        let itemHtml = '';
+        const checkedHtml = isCheckedFn(studio) ? 'checked' : '';
+        itemHtml += '<label>';
+        itemHtml += `<input is="emby-checkbox" type="checkbox" ${checkedHtml} data-filter="${studio.Id}" class="${cssClass}"/>`;
+        itemHtml += `<span>${studio.Name}</span>`;
+        itemHtml += '</label>';
+        return itemHtml;
+    }).join('');
+    html += '</div>';
+    elem.querySelector('.filterOptions').innerHTML = html;
+}
+
 function renderFilters(context, result, query) {
     renderOptions(context, '.genreFilters', 'chkGenreFilter', merge(result.Genres, query.Genres, '|'), function (i) {
         const delimeter = '|';
@@ -66,6 +88,22 @@ function loadDynamicFilters(context, apiClient, userId, itemQuery) {
         IncludeItemTypes: itemQuery.IncludeItemTypes
     })).then(function (result) {
         renderFilters(context, result, itemQuery);
+    });
+}
+
+function loadStudios(context, apiClient, userId, itemQuery) {
+    const query = {
+        ParentId: itemQuery.ParentId,
+        IncludeItemTypes: itemQuery.IncludeItemTypes
+    };
+    return apiClient.getStudios(userId, query).then(function (result) {
+        renderStudioOptions(context, '.studioFilters', 'chkStudioFilter',
+            result.Items || [],
+            function (studio) {
+                const studioIds = itemQuery.StudioIds || '';
+                const delimiter = ',';
+                return (delimiter + studioIds + delimiter).includes(delimiter + studio.Id + delimiter);
+            });
     });
 }
 
@@ -108,6 +146,11 @@ function updateFilterControls(context, options) {
         const filterName = elem.getAttribute('data-filter');
         elem.checked = filters.includes(`,${filterName}`);
     }
+    for (const elem of context.querySelectorAll('.chkStudioFilter')) {
+        const studioIds = `,${query.StudioIds || ''}`;
+        const filterName = elem.dataset.filter;
+        elem.checked = studioIds.includes(`,${filterName}`);
+    }
 }
 
 /**
@@ -136,6 +179,10 @@ function setVisibility(context, options) {
 
     if (options.mode === 'movies' || options.mode === 'series' || options.mode === 'episodes') {
         context.querySelector('.features').classList.remove('hide');
+    }
+
+    if (options.mode === 'movies' || options.mode === 'series') {
+        context.querySelector('.studioFilters').classList.remove('hide');
     }
 
     if (options.mode === 'series') {
@@ -412,6 +459,23 @@ class FilterDialog {
                 query.StartIndex = 0;
                 query.OfficialRatings = filters;
                 triggerChange(this);
+                return;
+            }
+            const chkStudioFilter = dom.parentWithClass(e.target, 'chkStudioFilter');
+            if (chkStudioFilter) {
+                const filterName = chkStudioFilter.dataset.filter;
+                let filters = query.StudioIds || '';
+                const delimiter = ',';
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);
+                if (chkStudioFilter.checked) {
+                    filters = filters ? (filters + delimiter + filterName) : filterName;
+                }
+                query.StartIndex = 0;
+                query.StudioIds = filters;
+                triggerChange(this);
             }
         });
     }
@@ -432,10 +496,13 @@ class FilterDialog {
             dlg.addEventListener('close', resolve);
             updateFilterControls(dlg, this.options);
             this.bindEvents(dlg);
+            const apiClient = ServerConnections.getApiClient(this.options.serverId);
             if (enableDynamicFilters(this.options.mode)) {
                 dlg.classList.add('dynamicFilterDialog');
-                const apiClient = ServerConnections.getApiClient(this.options.serverId);
                 loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
+            }
+            if (this.options.mode === 'movies' || this.options.mode === 'series') {
+                loadStudios(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
             }
         });
     }

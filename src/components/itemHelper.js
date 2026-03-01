@@ -274,6 +274,7 @@ export function canRate (item) {
         && item.Type !== 'CollectionFolder'
         && item.Type !== 'UserView'
         && item.Type !== 'Channel'
+        && item.Type !== 'Studio'
         && item.UserData;
 }
 
