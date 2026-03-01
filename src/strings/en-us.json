@@ -582,6 +582,7 @@
     "ImageUploadFailed": "Image upload failed",
     "Images": "Images",
     "ImportFavoriteChannelsHelp": "Only channels that are marked as favorite on the tuner device will be imported.",
+    "IndexNumber": "Index Number",
     "Inker": "Inker",
     "InstallingPackage": "Installing {0} (version {1})",
     "InstantMix": "Instant mix",
