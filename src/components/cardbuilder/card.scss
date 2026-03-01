@@ -784,6 +784,7 @@ button::-moz-focus-inner {
     .overflowSquareCard,
     .overflowPortraitCard {
         width: 9.3vw;
+        max-width: 20em;
     }
 }
 
@@ -791,6 +792,7 @@ button::-moz-focus-inner {
     .overflowBackdropCard,
     .overflowSmallBackdropCard {
         width: 15.6vw;
+        max-width: 30em;
     }
 }
 
