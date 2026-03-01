@@ -19,7 +19,6 @@ import { initialize as initializeAutoCast } from 'scripts/autocast';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
 import { getPlugins } from './scripts/settings/webSettings';
-import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
 
@@ -38,6 +37,7 @@ import './scripts/autoThemes';
 import './scripts/mouseManager';
 import './scripts/screensavermanager';
 import './scripts/serverNotifications';
+import './pluginImport';
 
 // Import site styles
 import './styles/site.scss';
@@ -53,10 +53,6 @@ async function init() {
 version: ${__PACKAGE_JSON_VERSION__}
 commit: ${__COMMIT_SHA__}
 build: ${__JF_BUILD_VERSION__}`);
-
-    // Register globals used in plugins
-    window.Events = Events;
-    window.TaskButton = taskButton;
 
     // Register handlers to update header classes
     pageClassOn('viewshow', 'standalonePage', function () {
