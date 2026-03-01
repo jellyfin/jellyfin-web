@@ -51,8 +51,8 @@ const enableFocusTransform = !browser.slow && !browser.edge;
  * @returns {string} The HTML markup for the cards.
  */
 export function getCardsHtml(items, options) {
-    if (arguments.length === 1) {
-        options = arguments[0];
+    if (options === undefined) {
+        options = items;
         items = options.items;
     }
 

@@ -149,8 +149,8 @@ class AppRouter {
                     console.error('[AppRouter] Failed to fetch item', err);
                 });
         } else {
-            if (arguments.length === 2) {
-                options = arguments[1];
+            if (options === undefined) {
+                options = serverId;
             }
 
             const url = this.getRouteUrl(item, options);

@@ -34,8 +34,8 @@
             configurable: true,
             enumerable: true,
             writable: true,
-            value: function append() {
-                const argArr = Array.prototype.slice.call(arguments);
+            value: function append(...args) {
+                const argArr = Array.prototype.slice.call(args);
                 const docFrag = document.createDocumentFragment();
 
                 argArr.forEach(function (argItem) {
@@ -59,8 +59,8 @@
             configurable: true,
             enumerable: true,
             writable: true,
-            value: function prepend() {
-                const argArr = Array.prototype.slice.call(arguments);
+            value: function prepend(...args) {
+                const argArr = Array.prototype.slice.call(args);
                 const docFrag = document.createDocumentFragment();
 
                 argArr.forEach(function (argItem) {
