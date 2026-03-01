@@ -2,6 +2,9 @@ name: Automation 🎛️
 
 on:
   workflow_call:
+    secrets:
+      JF_BOT_TOKEN:
+        required: true
 
 jobs:
   conflicts:
