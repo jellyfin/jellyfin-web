@@ -37,11 +37,21 @@ const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellVal
 
 export const Component = () => {
     const { api } = useApi();
-    const { data, isLoading: isDevicesLoading, isRefetching } = useDevices({});
+    const {
+        data,
+        isLoading: isDevicesLoading,
+        isError: isDevicesError,
+        isRefetching
+    } = useDevices({});
     const devices = useMemo(() => (
         data?.Items || []
     ), [ data ]);
-    const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
+    const {
+        usersById: users,
+        names: userNames,
+        isLoading: isUsersLoading,
+        isError: isUsersError
+    } = useUsersDetails();
     const theme = useTheme();
 
     const [ isDeleteConfirmOpen, setIsDeleteConfirmOpen ] = useState(false);
@@ -257,6 +267,8 @@ export const Component = () => {
             title={globalize.translate('HeaderDevices')}
             className='mainAnimatedPage type-interior'
             table={mrTable}
+            isError={isDevicesError || isUsersError}
+            errorMessage={globalize.translate('DevicesLoadError')}
         >
             <ConfirmDialog
                 open={isDeleteConfirmOpen}
