@@ -105,15 +105,15 @@
     left: 0;
     right: 0;
     bottom: 10vh;
-    text-align: center;
+    font-size: 3em;
+    text-align: left;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
 .slideTextInner {
-    margin: 0 auto;
     max-width: 60%;
-    background: rgba(0, 0, 0, 0.8);
     display: inline-block;
-    padding: 0.5em 1em;
+    margin: 0.5em 2em;
     border-radius: 0.25em;
 }
 
@@ -139,4 +139,21 @@
 
 .swiper-zoom-fakeimg-hidden {
     display: none;
+}
+
+@keyframes backgroundScroll {
+    0% {
+        margin-left: 0%;
+    }
+
+    100% {
+        margin-left: 20%;
+    }
+}
+
+.swiper-slide-img {
+    height: 120%;
+    object-fit: cover !important;
+    mask-image: linear-gradient(90deg, transparent 0%, black 50%, transparent 100%);
+    animation: backgroundScroll 20s ease-in-out 1s infinite alternate both running;
 }
