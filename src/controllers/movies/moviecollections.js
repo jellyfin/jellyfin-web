@@ -111,7 +111,8 @@ export default function (view, params, tabContent) {
                     context: 'movies',
                     overlayPlayButton: true,
                     centerText: true,
-                    showTitle: true
+                    showTitle: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'ThumbCard') {
                 html = cardBuilder.getCardsHtml({
@@ -121,7 +122,8 @@ export default function (view, params, tabContent) {
                     context: 'movies',
                     lazy: true,
                     cardLayout: true,
-                    showTitle: true
+                    showTitle: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'Banner') {
                 html = cardBuilder.getCardsHtml({
@@ -129,13 +131,15 @@ export default function (view, params, tabContent) {
                     shape: 'banner',
                     preferBanner: true,
                     context: 'movies',
-                    lazy: true
+                    lazy: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'List') {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     context: 'movies',
-                    sortBy: query.SortBy
+                    sortBy: query.SortBy,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -144,7 +148,8 @@ export default function (view, params, tabContent) {
                     context: 'movies',
                     showTitle: true,
                     centerText: false,
-                    cardLayout: true
+                    cardLayout: true,
+                    isMultiselectable: true
                 });
             } else {
                 html = cardBuilder.getCardsHtml({
@@ -153,7 +158,8 @@ export default function (view, params, tabContent) {
                     context: 'movies',
                     centerText: true,
                     overlayPlayButton: true,
-                    showTitle: true
+                    showTitle: true,
+                    isMultiselectable: true
                 });
             }
 
