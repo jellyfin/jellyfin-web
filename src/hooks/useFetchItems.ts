@@ -23,6 +23,7 @@ import globalize from 'lib/globalize';
 
 import { type JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
+import { shouldUseOriginalTitles } from 'scripts/settings/userSettings';
 import { getProgramSections, getSuggestionSections } from 'utils/sections';
 
 import type { LibraryViewSettings, ParentId } from 'types/library';
@@ -237,7 +238,7 @@ const fetchGetItemsViewByType = async (
                         userId: user.Id,
                         parentId: parentId ?? undefined,
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
-                        ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getFieldsQuery(viewType, libraryViewSettings, shouldUseOriginalTitles()),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
@@ -258,7 +259,7 @@ const fetchGetItemsViewByType = async (
                         userId: user.Id,
                         parentId: parentId ?? undefined,
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
-                        ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getFieldsQuery(viewType, libraryViewSettings, shouldUseOriginalTitles()),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
@@ -278,7 +279,7 @@ const fetchGetItemsViewByType = async (
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
-                        ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getFieldsQuery(viewType, libraryViewSettings, shouldUseOriginalTitles()),
                         includeItemTypes: itemType,
                         enableImageTypes: [ImageType.Thumb],
                         startIndex: libraryViewSettings.StartIndex
@@ -324,7 +325,7 @@ const fetchGetItemsViewByType = async (
                         imageTypeLimit: 1,
                         parentId: parentId ?? undefined,
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
-                        ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getFieldsQuery(viewType, libraryViewSettings, shouldUseOriginalTitles()),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),

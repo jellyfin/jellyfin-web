@@ -20,4 +20,5 @@ export interface DisplaySettingsValues {
     screensaverInterval: number;
     slideshowInterval: number;
     theme: string;
+    useOriginalTitles: boolean;
 }
