@@ -25,7 +25,7 @@
     "AllowedRemoteAddressesHelp": "Comma separated list of IP addresses or IP/netmask entries for networks that will be allowed to connect remotely. If left blank, all remote addresses will be allowed.",
     "AllowCollectionManagement": "Allow this user to manage collections",
     "AllowContentWithTagsHelp": "Only show media with at least one of the specified tags.",
-    "AllowSubtitleManagement": "Allow this user to edit subtitles",
+    "AllowSubtitleManagement": "Allow this user to add subtitles",
     "AllowFfmpegThrottling": "Throttle Transcodes",
     "AllowFfmpegThrottlingHelp": "When a transcode or remux gets far enough ahead from the current playback position, pause the process so it will consume fewer resources. This is most useful when watching without seeking often. Turn this off if you experience playback issues.",
     "AllowFmp4TranscodingContainerHelp": "Allow fMP4 transcoding container for this tuner to enable HEVC and HDR contents. Not all tuners are compatible with this container. Disable this if you experience playback issues.",
