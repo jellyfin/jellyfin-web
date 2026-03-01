@@ -70,6 +70,12 @@ export default function (view, params, tabContent) {
         loading.show();
         isLoading = true;
         const query = getQuery();
+        if (userSettings.enableInfiniteScroll() && userSettings.libraryPageSize() < 40) {
+            query.Limit = 40;
+        } else {
+            query.Limit = userSettings.libraryPageSize();
+        }
+
         setFilterStatus(page, query);
 
         ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
@@ -94,8 +100,10 @@ export default function (view, params, tabContent) {
                 }
                 reloadItems(tabContent);
             }
+            if (!userSettings.enableInfiniteScroll()) {
+                window.scrollTo(0, 0);
+            }
 
-            window.scrollTo(0, 0);
             let html;
             const pagingHtml = libraryBrowser.getQueryPagingHtml({
                 startIndex: query.StartIndex,
@@ -137,23 +145,36 @@ export default function (view, params, tabContent) {
                 });
             }
             let elems;
+            if (!userSettings.enableInfiniteScroll()) {
+                elems = tabContent.querySelectorAll('.paging');
+                for (let i = 0, length = elems.length; i < length; i++) {
+                    elems[i].innerHTML = pagingHtml;
+                }
 
-            elems = tabContent.querySelectorAll('.paging');
-            for (let i = 0, length = elems.length; i < length; i++) {
-                elems[i].innerHTML = pagingHtml;
+                elems = tabContent.querySelectorAll('.btnNextPage');
+                for (let i = 0, length = elems.length; i < length; i++) {
+                    elems[i].addEventListener('click', onNextPageClick);
+                }
+
+                elems = tabContent.querySelectorAll('.btnPreviousPage');
+                for (let i = 0, length = elems.length; i < length; i++) {
+                    elems[i].addEventListener('click', onPreviousPageClick);
+                }
+            } else {
+                hasMoreitems = true;
+                // Check if we need to load more items
+                if (result.Items.length >= query.Limit) {
+                    query.StartIndex += query.Limit;
+                } else {
+                    //if not searching with NameStartsWith set hasMoreitems false if no more items are found
+                    hasMoreitems = false;
+                }
             }
-
-            elems = tabContent.querySelectorAll('.btnNextPage');
-            for (let i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onNextPageClick);
+            if (userSettings.enableInfiniteScroll()) {
+                itemsContainer.innerHTML += html;
+            } else {
+                itemsContainer.innerHTML = html;
             }
-
-            elems = tabContent.querySelectorAll('.btnPreviousPage');
-            for (let i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onPreviousPageClick);
-            }
-
-            itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
             userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
@@ -168,7 +189,8 @@ export default function (view, params, tabContent) {
     const self = this;
     const data = {};
     let isLoading = false;
-
+    let hasMoreitems = true;
+    const scrollController = new AbortController();
     self.showFilterMenu = function () {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
@@ -225,6 +247,28 @@ export default function (view, params, tabContent) {
                 button: e.target
             });
         });
+
+        if (userSettings.enableInfiniteScroll()) {
+            document.addEventListener('viewshow', () => {
+                // Stop the scroll event listener on view change
+                scrollController.abort();
+            }, { signal: scrollController.signal });
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY || window.pageYOffset;
+                const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+                const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+
+                const isNearBottom = scrollPercentage >= 95;
+
+                // check if tabelement is active else dont run reloaditems
+                if (isNearBottom && !isLoading && hasMoreitems && tabElement.classList.contains('is-active')) {
+                    reloadItems(tabContent);
+                }
+            }, { signal: scrollController.signal });
+        }
+
         const btnSelectView = tabElement.querySelector('.btnSelectView');
         btnSelectView.addEventListener('click', function (e) {
             libraryBrowser.showLayoutMenu(e.target, self.getCurrentViewStyle(), 'List,Poster,PosterCard'.split(','));
