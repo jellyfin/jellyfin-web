@@ -131,62 +131,45 @@ function getTranscodingStats(session, player, displayPlayMethod) {
         audioChannels = session.TranscodingInfo.AudioChannels;
     }
 
+    const targetInfos = [];
+    const transcodeInfos = [];
     if (videoCodec) {
-        sessionStats.push({
-            label: globalize.translate('LabelVideoCodec'),
-            value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
-        });
+        targetInfos.push(session.TranscodingInfo.IsVideoDirect ? (`${videoCodec.toUpperCase()} (direct)`) : videoCodec.toUpperCase());
     }
-
     if (audioCodec) {
-        sessionStats.push({
-            label: globalize.translate('LabelAudioCodec'),
-            value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
-        });
+        targetInfos.push(session.TranscodingInfo.IsAudioDirect ? (`${audioCodec.toUpperCase()} (direct)`) : audioCodec.toUpperCase());
     }
-
     if (displayPlayMethod === 'Transcode') {
         if (audioChannels) {
-            sessionStats.push({
-                label: globalize.translate('LabelAudioChannels'),
-                value: audioChannels
-            });
+            targetInfos.push(`${audioChannels} Ch`);
         }
         if (totalBitrate) {
-            sessionStats.push({
-                label: globalize.translate('LabelBitrate'),
-                value: getDisplayBitrate(totalBitrate)
-            });
+            targetInfos.push(getDisplayBitrate(totalBitrate));
         }
         if (session.TranscodingInfo.CompletionPercentage) {
-            sessionStats.push({
-                label: globalize.translate('LabelTranscodingProgress'),
-                value: session.TranscodingInfo.CompletionPercentage.toFixed(1) + '%'
-            });
+            transcodeInfos.push(`${session.TranscodingInfo.CompletionPercentage.toFixed(1)}%`);
         }
         if (session.TranscodingInfo.Framerate) {
-            sessionStats.push({
-                label: globalize.translate('LabelTranscodingFramerate'),
-                value: getDisplayTranscodeFps(session, player)
-            });
+            transcodeInfos.push(getDisplayTranscodeFps(session, player));
         }
-        if (session.TranscodingInfo.TranscodeReasons?.length) {
-            sessionStats.push({
-                label: globalize.translate('LabelReasonForTranscoding'),
-                value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
-            });
-        }
-        // Hide this for now because it is not useful in its current state.
-        // This only reflects the configuration in the dashboard, but the actual
-        // decoder/encoder selection is more complex. As a result, the hardware
-        // encoder may not be used even if hardware acceleration is configured,
-        // making the display of hardware acceleration misleading.
-        // if (session.TranscodingInfo.HardwareAccelerationType) {
-        //     sessionStats.push({
-        //         label: globalize.translate('LabelHardwareEncoding'),
-        //         value: session.TranscodingInfo.HardwareAccelerationType
-        //     });
-        // }
+    }
+    if (targetInfos.length) {
+        sessionStats.push({
+            label: globalize.translate('LabelTargetCodecs'),
+            value: targetInfos.join(',  ')
+        });
+    }
+    if (transcodeInfos.length) {
+        sessionStats.push({
+            label: globalize.translate('LabelProgressAndSpeed'),
+            value: transcodeInfos.join(' / ')
+        });
+    }
+    if (session.TranscodingInfo.TranscodeReasons?.length) {
+        sessionStats.push({
+            label: globalize.translate('LabelReasons'),
+            value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
+        });
     }
 
     return sessionStats;
@@ -196,7 +179,7 @@ function getDisplayBitrate(bitrate) {
     if (bitrate > 1000000) {
         return (bitrate / 1000000).toFixed(1) + ' Mbps';
     } else {
-        return Math.floor(bitrate / 1000) + ' kbps';
+        return Math.floor(bitrate / 1000) + ' Kbps';
     }
 }
 
@@ -221,24 +204,20 @@ function getMediaSourceStats(session, player) {
     const totalBitrate = mediaSource.Bitrate;
     const mediaFileSize = mediaSource.Size;
 
+    const containerInfos = [];
     if (mediaSource.Container) {
+        containerInfos.push(mediaSource.Container);
+    }
+    if (mediaFileSize) {
+        containerInfos.push(getReadableSize(mediaFileSize));
+    }
+    if (totalBitrate) {
+        containerInfos.push(getDisplayBitrate(totalBitrate));
+    }
+    if (containerInfos.length) {
         sessionStats.push({
             label: globalize.translate('LabelProfileContainer'),
-            value: mediaSource.Container
-        });
-    }
-
-    if (mediaFileSize) {
-        sessionStats.push({
-            label: globalize.translate('LabelSize'),
-            value: getReadableSize(mediaFileSize)
-        });
-    }
-
-    if (totalBitrate) {
-        sessionStats.push({
-            label: globalize.translate('LabelBitrate'),
-            value: getDisplayBitrate(totalBitrate)
+            value: containerInfos.join(',  ')
         });
     }
 
@@ -255,81 +234,107 @@ function getMediaSourceStats(session, player) {
     })[0] || {};
 
     const audioCodec = audioStream.Codec;
-    const audioChannels = audioStream.Channels;
 
-    const videoInfos = [];
-
+    const videoCodecInfos = [];
     if (videoCodec) {
-        videoInfos.push(videoCodec.toUpperCase());
+        videoCodecInfos.push(videoCodec.toUpperCase());
     }
-
-    if (videoStream.Profile) {
-        videoInfos.push(videoStream.Profile);
+    if (videoStream.VideoDoViTitle) {
+        videoCodecInfos.push(videoStream.VideoDoViTitle);
     }
-
-    if (videoInfos.length) {
+    if (videoCodecInfos.length) {
         sessionStats.push({
             label: globalize.translate('LabelVideoCodec'),
-            value: videoInfos.join(' ')
+            value: videoCodecInfos.join('  ')
         });
     }
 
+    const videoAttributes = [];
+    if (videoStream.Profile) {
+        videoAttributes.push(videoStream.Profile);
+    }
+    if (videoStream.Level && videoStream.Level >= 0) {
+        videoAttributes.push(`Lv ${videoStream.Level}`);
+    }
     if (videoStream.BitRate) {
+        videoAttributes.push(getDisplayBitrate(videoStream.BitRate));
+    }
+    const frameRate = videoStream.AverageFrameRate || videoStream.RealFrameRate;
+    if (frameRate) {
+        videoAttributes.push(`${frameRate.toFixed(2)} fps`);
+    }
+    if (videoAttributes.length) {
         sessionStats.push({
-            label: globalize.translate('LabelVideoBitrate'),
-            value: getDisplayBitrate(videoStream.BitRate)
+            label: globalize.translate('LabelVideoAttributes'),
+            value: videoAttributes.join(',  ')
         });
     }
 
+    const videoBitDepthInfos = [];
+    if (videoStream.BitDepth) {
+        videoBitDepthInfos.push(`${videoStream.BitDepth} Bit`);
+    }
+    if (videoStream.PixelFormat) {
+        videoBitDepthInfos.push(videoStream.PixelFormat);
+    }
     if (videoStream.VideoRangeType) {
+        videoBitDepthInfos.push(videoStream.VideoRangeType);
+    }
+    if (videoBitDepthInfos.length) {
         sessionStats.push({
-            label: globalize.translate('LabelVideoRangeType'),
-            value: videoStream.VideoDoViTitle || videoStream.VideoRangeType
+            label: globalize.translate('LabelVideoBitDepth'),
+            value: videoBitDepthInfos.join(',  ')
         });
     }
 
-    const audioInfos = [];
+    const videoColorInfos = [];
+    if (videoStream.ColorSpace) {
+        videoColorInfos.push(`${videoStream.ColorSpace}(m)`);
+    }
+    if (videoStream.ColorPrimaries) {
+        videoColorInfos.push(`${videoStream.ColorPrimaries}(p)`);
+    }
+    if (videoStream.ColorTransfer) {
+        videoColorInfos.push(`${videoStream.ColorTransfer}(t)`);
+    }
+    if (videoColorInfos.length) {
+        sessionStats.push({
+            label: globalize.translate('LabelVideoColors'),
+            value: videoColorInfos.join(',  ')
+        });
+    }
 
+    const audioCodecInfos = [];
     if (audioCodec) {
-        audioInfos.push(audioCodec.toUpperCase());
+        audioCodecInfos.push(audioCodec.toUpperCase());
     }
-
     if (audioStream.Profile) {
-        audioInfos.push(audioStream.Profile);
+        audioCodecInfos.push(audioStream.Profile);
     }
-
-    if (audioInfos.length) {
+    if (audioCodecInfos.length) {
         sessionStats.push({
             label: globalize.translate('LabelAudioCodec'),
-            value: audioInfos.join(' ')
+            value: audioCodecInfos.join('  ')
         });
     }
 
+    const audioAttributes = [];
+    if (audioStream.Channels) {
+        audioAttributes.push(`${audioStream.Channels} Ch`);
+    }
     if (audioStream.BitRate) {
-        sessionStats.push({
-            label: globalize.translate('LabelAudioBitrate'),
-            value: getDisplayBitrate(audioStream.BitRate)
-        });
+        audioAttributes.push(getDisplayBitrate(audioStream.BitRate));
     }
-
-    if (audioChannels) {
-        sessionStats.push({
-            label: globalize.translate('LabelAudioChannels'),
-            value: audioChannels
-        });
-    }
-
     if (audioStream.SampleRate) {
-        sessionStats.push({
-            label: globalize.translate('LabelAudioSampleRate'),
-            value: audioStream.SampleRate + ' Hz'
-        });
+        audioAttributes.push(`${audioStream.SampleRate} Hz`);
     }
-
     if (audioStream.BitDepth) {
+        audioAttributes.push(`${audioStream.BitDepth} Bit`);
+    }
+    if (audioAttributes.length) {
         sessionStats.push({
-            label: globalize.translate('LabelAudioBitDepth'),
-            value: audioStream.BitDepth
+            label: globalize.translate('LabelAudioAttributes'),
+            value: audioAttributes.join(',  ')
         });
     }
 
@@ -396,27 +401,18 @@ function getStats(instance, player) {
             name: globalize.translate('LabelPlaybackInfo')
         };
 
-        baseCategory.stats.unshift({
-            label: globalize.translate('LabelPlayMethod'),
-            value: localizedDisplayMethod
-        });
-
-        baseCategory.stats.unshift({
+        const playerInfos = [];
+        playerInfos.push(player.name);
+        playerInfos.push(`(${localizedDisplayMethod})`);
+        baseCategory.stats.push({
             label: globalize.translate('LabelPlayer'),
-            value: player.name
+            value: playerInfos.join('  ')
         });
 
         const categories = [];
-
         categories.push(baseCategory);
-
         for (let i = 0, length = playerStats.length; i < length; i++) {
             const category = playerStats[i];
-            if (category.type === 'audio') {
-                category.name = globalize.translate('LabelAudioInfo');
-            } else if (category.type === 'video') {
-                category.name = globalize.translate('LabelVideoInfo');
-            }
             categories.push(category);
         }
 
