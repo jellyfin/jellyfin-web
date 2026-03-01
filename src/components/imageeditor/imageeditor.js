@@ -439,7 +439,7 @@ function showEditor(options, resolve, reject) {
             if (hasChanges) {
                 resolve();
             } else {
-                reject();
+                reject(new Error('ShowEditorError'));
             }
         });
 

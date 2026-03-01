@@ -102,7 +102,7 @@ export function handleHlsJsMediaError(instance, reject) {
         console.error('cannot recover, last media error recovery failed ...');
 
         if (reject) {
-            reject();
+            reject(new Error('HlsJsMediaError'));
         } else {
             onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
         }
@@ -214,7 +214,7 @@ export function playWithPromise(elem, onErrorFn) {
             });
     } catch (err) {
         console.error('error calling video.play: ' + err);
-        return Promise.reject();
+        return Promise.reject(new Error('VideoPlayError'));
     }
 }
 
@@ -263,7 +263,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
     hls.on(Hls.Events.MANIFEST_PARSED, function () {
         playWithPromise(elem, onErrorFn).then(resolve, function () {
             if (reject) {
-                reject();
+                reject(new Error('BindEventsToHlsPlayerError'));
                 reject = null;
             }
         });
@@ -328,7 +328,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                     hls.destroy();
 
                     if (reject) {
-                        reject();
+                        reject(new Error('HlsError'));
                         reject = null;
                     } else {
                         onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);

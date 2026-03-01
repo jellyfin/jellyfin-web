@@ -90,7 +90,7 @@ class SettingsEditor {
                 return Promise.resolve();
             }
 
-            return Promise.reject();
+            return Promise.reject(new Error('EmbedSettingsEditor'));
         });
     }
 

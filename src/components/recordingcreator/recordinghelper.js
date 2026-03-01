@@ -162,7 +162,7 @@ function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerI
         // schedule recording
         return createRecording(apiClient, programId);
     } else {
-        return Promise.reject();
+        return Promise.reject(new Error('ToggleRecordingError'));
     }
 }
 
