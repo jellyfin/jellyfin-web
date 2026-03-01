@@ -3,6 +3,7 @@ import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
 import EmbyButtonPrototype from '../emby-button/emby-button';
+import { playbackManager } from '../../components/playback/playbackmanager';
 
 function addNotificationEvent(instance, name, handler) {
     const localHandler = handler.bind(instance);
@@ -39,7 +40,20 @@ function onClick() {
     }
 
     showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
-        setState(button, userData.Likes, userData.IsFavorite);
+        // This hackish, but once all elements are migrated to React components
+        // button state will be able to be handled by React.
+        const buttons = document.querySelectorAll(`button[is="emby-ratingbutton"][data-id="${id}"]`);
+        buttons.forEach((btn) => {
+            setState(btn, userData.Likes, userData.IsFavorite);
+        });
+
+        playbackManager.getPlaylist().then(function(items) {
+            items.forEach(function(e) {
+                if (e.Id == id) {
+                    e.UserData.IsFavorite = userData.IsFavorite;
+                }
+            });
+        });
     });
 }
 
