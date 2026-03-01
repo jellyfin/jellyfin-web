@@ -6,6 +6,7 @@ import { toAsyncPageRoute } from 'components/router/AsyncRoute';
 import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
 import ErrorBoundary from 'components/router/ErrorBoundary';
 import FallbackRoute from 'components/router/FallbackRoute';
+import SearchRedirect from 'components/SearchRedirect';
 
 import { ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
@@ -22,6 +23,7 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
                 /* User routes */
                 Component: ConnectionRequired,
                 children: [
+                    { path: 'search', Component: SearchRedirect },
                     ...ASYNC_USER_ROUTES.map(toAsyncPageRoute),
                     ...LEGACY_USER_ROUTES.map(toViewManagerPageRoute),
 
