@@ -1841,6 +1841,23 @@ export default function (view) {
 
     dom.addEventListener(view, 'dblclick', (e) => {
         if (e.target !== view) return;
+
+        const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+        if (pointerType === 'touch') {
+            const third = view.clientWidth / 3;
+            // left third
+            if (e.clientX < third) {
+                playbackManager.rewind(currentPlayer);
+                showOsd(btnRewind);
+                return;
+            }
+            // right third
+            if (e.clientX > 2 * third) {
+                playbackManager.fastForward(currentPlayer);
+                showOsd(btnFastForward);
+                return;
+            }
+        }
         playbackManager.toggleFullscreen(currentPlayer);
     });
 
