@@ -819,7 +819,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
         page.querySelector('#listChildrenCollapsible').classList.remove('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
-        renderItemsByName(page, item);
+        renderItemsByName(page, item, user);
     } else if (item.IsFolder) {
         if (item.Type == 'BoxSet') {
             page.querySelector('#listChildrenCollapsible').classList.add('hide');
@@ -1538,9 +1538,9 @@ function renderChildren(page, item) {
     }
 }
 
-function renderItemsByName(page, item) {
+function renderItemsByName(page, item, user) {
     import('../../scripts/itemsByName').then(({ default: ItemsByName }) => {
-        ItemsByName.renderItems(page, item);
+        ItemsByName.renderItems(page, item, user);
     });
 }
 
