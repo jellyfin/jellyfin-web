@@ -11,6 +11,11 @@ import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
 import { compareVersions } from './utils/compareVersions';
 
+/**
+ * @typedef { import('jellyfin-apiclient').Credentials } Credentials
+ * @typedef {import('@jellyfin/sdk/lib/generated-client/models/client-capabilities').ClientCapabilities} ClientCapabilities
+ */
+
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
 
 function getServerAddress(server, mode) {
@@ -54,23 +59,37 @@ function sortByAccess(a, b) {
 }
 
 export default class ConnectionManager {
+    /**
+     * @param {Credentials} credentialProvider
+     * @param {string} appName
+     * @param {string} appVersion
+     * @param {string} deviceName
+     * @param {string} deviceId
+     * @param {ClientCapabilities} capabilities
+     */
     constructor(credentialProvider, appName, appVersion, deviceName, deviceId, capabilities) {
         console.log('Begin ConnectionManager constructor');
 
         const self = this;
+        /** @type {ApiClient[]} */
         this._apiClients = [];
 
         // Set the minimum version to match the SDK
         self._minServerVersion = MINIMUM_VERSION;
 
+        /** @type {() => string} */
         self.appVersion = () => appVersion;
 
+        /** @type {() => string} */
         self.appName = () => appName;
 
+        /** @type {() => ClientCapabilities} */
         self.capabilities = () => capabilities;
 
+        /** @type {() => string} */
         self.deviceId = () => deviceId;
 
+        /** @type {() => Credentials} */
         self.credentialProvider = () => credentialProvider;
 
         self.getServerInfo = (id) => {
@@ -91,6 +110,7 @@ export default class ConnectionManager {
             return servers[0];
         };
 
+        /** @type {(apiClient: ApiClient) => void} */
         self.addApiClient = (apiClient) => {
             self._apiClients.push(apiClient);
 
@@ -133,6 +153,7 @@ export default class ConnectionManager {
             credentialProvider.credentials(credentials);
         };
 
+        /** @type {(server: any, serverUrl: string) => ApiClient} */
         self._getOrAddApiClient = (server, serverUrl) => {
             let apiClient = self.getApiClient(server.Id);
 
@@ -167,6 +188,14 @@ export default class ConnectionManager {
             return self._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
         };
 
+        /**
+         * @param {ApiClient} apiClient
+         * @param {any} result
+         * @param {AfterConnectedOptions & {
+         *     updateDateLastAccessed?: boolean
+         * }} options
+         * @param {boolean} saveCredentials
+         */
         function onAuthenticated(apiClient, result, options, saveCredentials) {
             const credentials = credentialProvider.credentials();
             const servers = credentials.Servers.filter((s) => s.Id === result.ServerId);
@@ -199,6 +228,15 @@ export default class ConnectionManager {
             return onLocalUserSignIn(server, apiClient.serverAddress(), result.User);
         }
 
+        /**
+         * @typedef {{
+         *  reportCapabilities?: boolean,
+         *  enableAutomaticBitrateDetection?: boolean,
+         *  enableWebSocket?: boolean,
+         * }} AfterConnectedOptions
+         */
+
+        /** @type {(apiClient: ApiClient, options: AfterConnectedOptions) => void} */
         function afterConnected(apiClient, options = {}) {
             if (options.reportCapabilities !== false) {
                 apiClient.reportCapabilities(capabilities);
@@ -327,6 +365,10 @@ export default class ConnectionManager {
             });
         };
 
+        /**
+         * @param {ApiClient} apiClient
+         * @returns {Promise<any>}
+         */
         function logoutOfServer(apiClient) {
             const serverInfo = apiClient.serverInfo() || {};
 
@@ -344,6 +386,7 @@ export default class ConnectionManager {
             );
         }
 
+        /** @type {() => any} */
         self.getSavedServers = () => {
             const credentials = credentialProvider.credentials();
 

@@ -22,30 +22,47 @@ import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardB
 
 import './login.scss';
 
+/**
+ * @typedef {import('jellyfin-apiclient').ApiClient} ApiClient
+ * @typedef {import('@jellyfin/sdk/lib/generated-client').AuthenticationResult} AuthenticationResult
+ * @typedef {import('@jellyfin/sdk/lib/generated-client').UserDto} UserDto
+ */
+
 const enableFocusTransform = !browser.slow && !browser.edge;
 
+/**
+* @param {HTMLElement} page
+* @param {ApiClient} apiClient
+* @param {string} url
+* @param {string} username
+* @param {string} password
+*/
 function authenticateUserByName(page, apiClient, url, username, password) {
     loading.show();
-    apiClient.authenticateUserByName(username, password).then(function (result) {
-        const user = result.User;
-        loading.hide();
+    apiClient.authenticateUserByName(username, password).then(
+        /** @param {AuthenticationResult} result */
+        function(result) {
+            const user = result.User;
+            loading.hide();
 
-        onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
-    }, function (response) {
-        page.querySelector('#txtManualPassword').value = '';
-        loading.hide();
+            onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
+        },
+        /** @param {{ status: number}} response */
+        function(response) {
+            page.querySelector('#txtManualPassword').value = '';
+            loading.hide();
 
-        const UnauthorizedOrForbidden = [401, 403];
-        if (UnauthorizedOrForbidden.includes(response.status)) {
-            const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
-            toast(globalize.translate(messageKey));
-        } else {
-            Dashboard.alert({
-                message: globalize.translate('MessageUnableToConnectToServer'),
-                title: globalize.translate('HeaderConnectionFailure')
-            });
-        }
-    });
+            const UnauthorizedOrForbidden = [401, 403];
+            if (UnauthorizedOrForbidden.includes(response.status)) {
+                const messageKey = response.status === 401 ? 'MessageInvalidUser' : 'MessageUnauthorizedUser';
+                toast(globalize.translate(messageKey));
+            } else {
+                Dashboard.alert({
+                    message: globalize.translate('MessageUnableToConnectToServer'),
+                    title: globalize.translate('HeaderConnectionFailure')
+                });
+            }
+        });
 }
 
 function authenticateQuickConnect(apiClient, targetUrl) {
@@ -112,11 +129,23 @@ function authenticateQuickConnect(apiClient, targetUrl) {
     });
 }
 
-function onLoginSuccessful(id, accessToken, apiClient, url) {
-    Dashboard.onServerChanged(id, accessToken, apiClient);
+/**
+ * @param {string} userId
+ * @param {string} accessToken
+ * @param {ApiClient} apiClient
+ * @param {string} url
+ */
+function onLoginSuccessful(userId, accessToken, apiClient, url) {
+    Dashboard.onServerChanged(userId, accessToken, apiClient);
     Dashboard.navigate(url || 'home');
 }
 
+/**
+ * Hide the user cards (i.e., the '.visualLoginForm') and show the manual form
+ * @param {HTMLElement} context
+ * @param {boolean} showCancel
+ * @param {boolean} focusPassword
+ */
 function showManualForm(context, showCancel, focusPassword) {
     context.querySelector('.chkRememberLogin').checked = appSettings.enableAutoLogin();
     context.querySelector('.manualLoginForm').classList.remove('hide');
@@ -136,6 +165,14 @@ function showManualForm(context, showCancel, focusPassword) {
     }
 }
 
+/**
+ * Transform UserDto objects into html and inject them into the user div (#divUsers).
+ * This creates the user icons for users that are not hidden on the login screen.
+ *
+ * @param {HTMLElement} context
+ * @param {ApiClient} apiClient
+ * @param {UserDto[]} users
+ */
 function loadUserList(context, apiClient, users) {
     let html = '';
 
@@ -184,8 +221,14 @@ function loadUserList(context, apiClient, users) {
 
     context.querySelector('#divUsers').innerHTML = html;
 }
-
-export default function (view, params) {
+/**
+ * @param {HTMLElement} view
+ * @param {Object.<string, string>} params
+ */
+export default function(view, params) {
+    /**
+     * @returns {import('jellyfin-apiclient').ApiClient}
+     */
     function getApiClient() {
         const serverId = params.serverid;
 
@@ -196,6 +239,9 @@ export default function (view, params) {
         return ApiClient;
     }
 
+    /**
+     * @returns {string}
+     */
     function getTargetUrl() {
         if (params.url) {
             try {
@@ -218,7 +264,8 @@ export default function (view, params) {
         });
     }
 
-    view.querySelector('#divUsers').addEventListener('click', function (e) {
+    // On user selected one of the user cards
+    view.querySelector('#divUsers').addEventListener('click', function(e) {
         const card = dom.parentWithClass(e.target, 'card');
         const cardContent = card ? card.querySelector('.cardContent') : null;
 

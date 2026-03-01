@@ -11,6 +11,24 @@ import { history } from 'RootAppRouter';
 import './dialoghelper.scss';
 import '../../styles/scrollstyles.scss';
 
+/**
+ * @typedef {{
+ *     size?: 'fullscreen' | string,
+ *     id?: string,
+ *     lockScroll ?: boolean,
+ *     enableHistory?: boolean,
+ *     modal?: boolean,
+ *     autoFocus?: boolean,
+ *     entryAnimation?: string,
+ *     exitAnimation?: string,
+ *     entryAnimationDuration?: number,
+ *     exitAnimationDuration?: number,
+ *     scrollX?: boolean,
+ *     scrollY?: boolean,
+ *     removeOnClose?: boolean,
+ * }} DialogOptions
+ */
+
 let globalOnOpenCallback;
 
 function enableAnimation() {
@@ -349,6 +367,9 @@ function animateDialogClose(dlg, onAnimationFinish) {
 
 const supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
 
+/**
+ * @param {DialogOptions} options
+ */
 function shouldLockDocumentScroll(options) {
     if (options.lockScroll != null) {
         return options.lockScroll;
@@ -400,6 +421,9 @@ function centerFocus(elem, horiz, on) {
     });
 }
 
+/**
+ * @param {DialogOptions} [options={}]
+ */
 export function createDialog(options = {}) {
     // If there's no native dialog support, use a plain div
     // Also not working well in samsung tizen browser, content inside not clickable

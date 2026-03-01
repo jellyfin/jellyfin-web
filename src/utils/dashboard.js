@@ -167,6 +167,7 @@ export function processErrorResponse(response) {
     });
 }
 
+/** @param {{message: string, title: string} | string} options */
 export function alert(options) {
     if (typeof options == 'string') {
         toast({
