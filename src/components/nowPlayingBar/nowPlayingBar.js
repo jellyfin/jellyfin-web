@@ -4,6 +4,7 @@ import { appRouter, isLyricsPage } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
+import actionsheet from '../actionSheet/actionSheet';
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
@@ -37,6 +38,7 @@ let positionSlider;
 let toggleAirPlayButton;
 let toggleRepeatButton;
 let toggleRepeatButtonIcon;
+let showPlaybackRateMenuButton;
 let lyricButton;
 
 let lastUpdateTime = 0;
@@ -90,6 +92,7 @@ function getNowPlayingBarHtml() {
 
     html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton hide" title="${globalize.translate('Lyrics')}"><span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span></button>`;
 
+    html += `<button is="paper-icon-button-light" class="showPlaybackRateMenuButton mediaButton" title="${globalize.translate('PlaybackRate')}"><span class="material-icons speed" aria-hidden="true"></span></button>`;
     html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
     html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
 
@@ -152,6 +155,7 @@ function bindEvents(elem) {
     muteButton = elem.querySelector('.muteButton');
     playPauseButtons = elem.querySelectorAll('.playPauseButton');
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
+    showPlaybackRateMenuButton = elem.querySelector('.showPlaybackRateMenuButton');
     volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
     volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
     lyricButton = nowPlayingBarElement.querySelector('.openLyricsButton');
@@ -244,6 +248,28 @@ function bindEvents(elem) {
     });
 
     toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
+
+    showPlaybackRateMenuButton.addEventListener('click', function () {
+        // each has a name and id
+        const currentId = playbackManager.getPlaybackRate(currentPlayer);
+        const menuItems = playbackManager.getSupportedPlaybackRates(currentPlayer).map(i => ({
+            id: i.id,
+            name: i.name,
+            selected: i.id === currentId
+        }));
+
+        return actionsheet.show({
+            items: menuItems,
+            positionTo: showPlaybackRateMenuButton,
+        }).then(function (id) {
+            if (id) {
+                playbackManager.setPlaybackRate(id, currentPlayer);
+                return Promise.resolve();
+            }
+
+            return Promise.reject();
+        });
+    });
 
     volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
 
