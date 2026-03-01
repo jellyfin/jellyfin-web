@@ -5,11 +5,16 @@
                 <h1 class="sectionTitle">${HeaderPleaseSignIn}</h1>
             </div>
             <div class="inputContainer">
-                <input is="emby-input" type="text" id="txtManualName" required="required" label="${LabelUser}" autocomplete="username" autocapitalize="off" />
+                <input is="emby-input" type="text" id="txtManualName" required="required" label="${LabelUser}"
+                    autocomplete="username" autocapitalize="off" />
             </div>
 
-            <div class="inputContainer">
-                <input is="emby-input" id="txtManualPassword" type="password" label="${LabelPassword}" autocomplete="current-password" />
+            <div class="inputContainer passwordInput">
+                <label for="txtManualPassword">${LabelPassword}</label>
+                <div class="inputInner">
+                    <input is="emby-input" id="txtManualPassword" type="password" autocomplete="current-password" />
+                    <span class="togglePasswordVisibility material-icons">visibility</span>
+                </div>
             </div>
 
             <label class="checkboxContainer">
