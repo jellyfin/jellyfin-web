@@ -3736,6 +3736,7 @@ export class PlaybackManager {
         this._skipSegment = bindSkipSegment(self);
     }
 
+    /** @returns {import('types/plugin').PlayerPlugin | null} */
     getCurrentPlayer() {
         return this._currentPlayer;
     }
@@ -4287,6 +4288,12 @@ export class PlaybackManager {
             case 'ToggleFullscreen':
                 this.toggleFullscreen(player);
                 break;
+            case 'EndSession':
+                if ('endSession' in player && typeof player.endSession === 'function') {
+                    player.endSession();
+                    break;
+                }
+                // falls through
             default:
                 if (player.sendCommand) {
                     player.sendCommand(cmd);

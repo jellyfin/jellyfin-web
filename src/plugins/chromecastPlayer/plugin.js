@@ -678,7 +678,8 @@ class ChromecastPlayer {
                 'SetAudioStreamIndex',
                 'SetSubtitleStreamIndex',
                 'DisplayContent',
-                'SetRepeatMode'
+                'SetRepeatMode',
+                'EndSession'
             ]
         };
     }

@@ -42,7 +42,7 @@ export interface PlaybackSubscriber {
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class PlaybackSubscriber {
-    protected player: PlayerPlugin | undefined;
+    protected player: PlayerPlugin | null = null;
 
     private readonly playbackManagerEvents = {
         [PlaybackManagerEvent.PlaybackCancelled]: this.onPlaybackCancelled?.bind(this),
