@@ -39,10 +39,12 @@ interface PlaylistEditorOptions {
     id?: string,
     serverId: string,
     enableAddToPlayQueue?: boolean,
-    defaultValue?: string
+    defaultValue?: string,
+    inVideo: boolean
 }
 
 let currentServerId: string;
+let inVideo: boolean;
 
 function onSubmit(this: HTMLElement, e: Event) {
     const panel = dom.parentWithClass(this, 'dialog') as DialogElement | null;
@@ -105,7 +107,9 @@ function createPlaylist(dlg: DialogElement) {
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
-            redirectToPlaylist(result.data.Id);
+            if (!inVideo) {
+                redirectToPlaylist(result.data.Id);
+            }
         });
 }
 
@@ -380,6 +384,7 @@ export class PlaylistEditor {
     show(options: PlaylistEditorOptions) {
         const items = options.items || [];
         currentServerId = options.serverId;
+        inVideo = options.inVideo;
 
         const dialogOptions = {
             removeOnClose: true,
