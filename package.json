@@ -41,7 +41,7 @@
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
-    "eslint-plugin-sonarjs": "3.0.4",
+    "eslint-plugin-sonarjs": "3.0.7",
     "expose-loader": "5.0.1",
     "fast-glob": "3.3.3",
     "fork-ts-checker-webpack-plugin": "9.1.0",
