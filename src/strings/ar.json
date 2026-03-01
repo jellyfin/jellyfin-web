@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "هل انت متأكد من رغبتك في حذف هذه المجموعة؟",
     "ConfirmDeletePlaylist": "هل انت متأكد من رغبتك في حذف هذه اللائحة؟",
     "HeaderDeleteCollection": "حذف مجموعة",
-    "HeaderDeletePlaylist": "حذف لائحة"
+    "HeaderDeletePlaylist": "حذف لائحة",
+    "NewPlaylist": "لائحة تشغيل جديدة",
+    "OptionDatePlaylistUpdated": "تحديث تاريخ لائحة تشغيل"
 }
