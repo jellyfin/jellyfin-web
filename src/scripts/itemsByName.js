@@ -359,7 +359,7 @@ function getQuery(options, item, user) {
         Limit: 100,
         StartIndex: 0,
         CollapseBoxSetItems: false,
-        isMissing: !user.Configuration.DisplayMissingEpisodes ? false : undefined,
+        isMissing: !user?.Configuration?.DisplayMissingEpisodes ? false : undefined,
     };
     query = Object.assign(query, options || {});
     addCurrentItemToQuery(query, item);
