@@ -399,7 +399,7 @@ function addOtherText(
     }
 
     if (shouldShowExtraType(item.ExtraType)) {
-        addTextLine({ title: globalize.translate(item.ExtraType) });
+        addTextLine({ title: globalize.translate(item.ExtraType as string) });
     }
 
     if (cardOptions.showItemCounts) {

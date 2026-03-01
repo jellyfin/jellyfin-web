@@ -112,7 +112,7 @@ const UserViewNav = () => {
                 component={Link}
                 to='/home?tab=1'
             >
-                {globalize.translate(MetaView.Favorites.Name)}
+                {globalize.translate(MetaView.Favorites.Name as string)}
             </Button>
 
             {webConfig.menuLinks?.map(link => (
