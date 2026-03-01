@@ -686,8 +686,8 @@ export default function (view) {
         import('../../../components/upnextdialog/upnextdialog').then(({ default: UpNextDialog }) => {
             if (!(currentVisibleMenu || currentUpNextDialog)) {
                 currentVisibleMenu = 'upnext';
-                comingUpNextDisplayed = true;
                 playbackManager.nextItem(player).then(function (nextItem) {
+                    comingUpNextDisplayed = true;
                     currentUpNextDialog = new UpNextDialog({
                         parent: view.querySelector('.upNextContainer'),
                         player: player,
@@ -2072,4 +2072,3 @@ export default function (view) {
         });
     }
 }
-
