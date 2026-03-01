@@ -4,6 +4,8 @@
     color: #fff;
     position: absolute;
     top: 5em;
+    bottom: 1em;
+    max-height: calc(100vh - 6em);
 
     [dir="ltr"] & {
         left: 1.5em;
@@ -16,11 +18,15 @@
 
 .playerStats-tv {
     top: 4em;
+    bottom: 1em;
 }
 
 .playerStats-content {
     position: relative;
     font-size: 84%;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
 }
 
 .playerStats-content-tv {
@@ -38,8 +44,21 @@
 .playerStats-stats {
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
     max-width: 50em;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    -webkit-overflow-scrolling: touch;
+    background-image:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)),
+        linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0));
+    background-repeat: no-repeat;
+    background-size: 100% 14px, 100% 14px;
+    background-position: 0 0, 0 100%;
+    background-attachment: local, local;
 
     [dir="ltr"] & {
         padding: 0 3em 1em 1em;
