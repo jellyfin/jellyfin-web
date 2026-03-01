@@ -6,6 +6,8 @@
     right: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
+    overflow: hidden;
     background: #000 !important;
 }
 
@@ -30,6 +32,55 @@ video[controls]::-webkit-media-controls {
     padding: 0 !important;
     width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.htmlvideoplayer-vr-source {
+    opacity: 0;
+}
+
+.htmlvideoplayer-vr-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.htmlvideoplayer-vr-immersive-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.htmlvideoplayer-vr-immersive-exit {
+    position: fixed;
+    top: max(1rem, env(safe-area-inset-top));
+    right: max(1rem, env(safe-area-inset-right));
+    z-index: 1200;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.65em 1em;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    font-size: 0.95em;
+    pointer-events: all;
+}
+
+.videoPlayerContainer-vr-immersive .videoOsdBottom,
+.videoPlayerContainer-vr-immersive .skinHeader-withBackground.osdHeader {
+    z-index: 1100;
+}
+
+.videoPlayerContainer-vr-immersive .videoOsdBottom-hidden,
+.videoPlayerContainer-vr-immersive .osdHeader-hidden {
+    opacity: 1;
 }
 
 .htmlvideoplayer::cue {
@@ -77,6 +128,11 @@ video[controls]::-webkit-media-controls {
     min-height: 0 !important;
     margin-top: 0.5em !important;
     margin-bottom: 0.5em !important;
+}
+
+.videoPlayerContainer-vr .libassjs-canvas-parent,
+.videoPlayerContainer-vr .videoSubtitles {
+    z-index: 3;
 }
 
 @keyframes htmlvideoplayer-zoomin {

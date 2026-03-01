@@ -260,6 +260,19 @@ class AppSettings {
         return this.get('aspectRatio') || '';
     }
 
+    /**
+     * Get or set the preferred VR/3D projection mode.
+     * @param {string|undefined} val - The projection mode or undefined.
+     * @returns {string} The saved projection mode state.
+     */
+    vrProjection(val) {
+        if (val !== undefined) {
+            return this.set('vrProjection', val);
+        }
+
+        return this.get('vrProjection') || '';
+    }
+
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
         localStorage.setItem(this.#getKey(name, userId), value);
