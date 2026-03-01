@@ -233,6 +233,19 @@ export const pageIdOn = function(eventName, id, fn) {
     });
 };
 
+export function switchUser() {
+    const apiClient = ServerConnections.currentApiClient();
+    let url = 'login';
+
+    if (apiClient) {
+        const serverId = apiClient.serverInfo().Id;
+        ServerConnections.setAutoLoginUser(serverId, null);
+        url += '?serverid=' + serverId;
+    }
+
+    navigate(url);
+}
+
 const Dashboard = {
     alert,
     capabilities,
@@ -249,6 +262,7 @@ const Dashboard = {
     processPluginConfigurationUpdateResult,
     processServerConfigurationUpdateResult,
     selectServer,
+    switchUser,
     serverAddress,
     showLoadingMsg,
     datetime,

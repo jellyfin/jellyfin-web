@@ -63,6 +63,40 @@ export default class ConnectionManager {
         // Set the minimum version to match the SDK
         self._minServerVersion = MINIMUM_VERSION;
 
+        self.shouldSaveCredentials = () => true;
+
+        self.setAutoLoginUser = (serverId, userId) => {
+            const credentials = credentialProvider.credentials();
+            const server = credentials.Servers.find(s => s.Id === serverId);
+            if (server) {
+                server.AutoLoginUserId = userId;
+                credentialProvider.addOrUpdateServer(credentials.Servers, server);
+                credentialProvider.credentials(credentials);
+            }
+        };
+
+        self.getAutoLoginUser = (serverId) => {
+            const credentials = credentialProvider.credentials();
+            const server = credentials.Servers.find(s => s.Id === serverId);
+            return server ? server.AutoLoginUserId : null;
+        };
+
+        self.loginWithSavedCredentials = (serverId, userId) => {
+            const server = self.getServerInfo(serverId);
+            if (server) {
+                // Check for saved user in multi-user list
+                if (server.Users) {
+                    const user = server.Users.find(u => u.UserId === userId);
+                    if (user && user.AccessToken) {
+                        server.UserId = user.UserId;
+                        server.AccessToken = user.AccessToken;
+                        return self.connectToServer(server, { enableAutoLogin: true });
+                    }
+                }
+            }
+            return Promise.resolve({ State: ConnectionState.ServerSignIn });
+        };
+
         self.appVersion = () => appVersion;
 
         self.appName = () => appName;
@@ -114,7 +148,7 @@ export default class ConnectionManager {
 
             apiClient.serverInfo(existingServer);
 
-            apiClient.onAuthenticated = (instance, result) => onAuthenticated(instance, result, {}, true);
+            apiClient.onAuthenticated = (instance, result) => onAuthenticated(instance, result, {}, self.shouldSaveCredentials());
 
             if (!existingServers.length) {
                 const credentials = credentialProvider.credentials();
@@ -144,7 +178,7 @@ export default class ConnectionManager {
                 apiClient.serverInfo(server);
 
                 apiClient.onAuthenticated = (instance, result) => {
-                    return onAuthenticated(instance, result, {}, true);
+                    return onAuthenticated(instance, result, {}, self.shouldSaveCredentials());
                 };
 
                 events.trigger(self, 'apiclientcreated', [apiClient]);
@@ -178,9 +212,27 @@ export default class ConnectionManager {
             }
             server.Id = result.ServerId;
 
+            // Multi-user support: Initialize Users array if it doesn't exist
+            if (!server.Users) {
+                server.Users = [];
+            }
+
             if (saveCredentials) {
                 server.UserId = result.User.Id;
                 server.AccessToken = result.AccessToken;
+
+                // Add or update user in Users array
+                const existingUserIndex = server.Users.findIndex((u) => u.UserId === result.User.Id);
+                const userInfo = {
+                    UserId: result.User.Id,
+                    AccessToken: result.AccessToken
+                };
+
+                if (existingUserIndex !== -1) {
+                    server.Users[existingUserIndex] = userInfo;
+                } else {
+                    server.Users.push(userInfo);
+                }
             } else {
                 server.UserId = null;
                 server.AccessToken = null;
@@ -329,19 +381,38 @@ export default class ConnectionManager {
 
         function logoutOfServer(apiClient) {
             const serverInfo = apiClient.serverInfo() || {};
+            const userId = apiClient.getCurrentUserId();
 
             const logoutInfo = {
-                serverId: serverInfo.Id
+                serverId: serverInfo.Id,
+                userId: userId
             };
 
             return apiClient.logout().then(
                 () => {
+                    removeSavedUser(serverInfo.Id, userId);
                     events.trigger(self, 'localusersignedout', [logoutInfo]);
                 },
                 () => {
+                    removeSavedUser(serverInfo.Id, userId);
                     events.trigger(self, 'localusersignedout', [logoutInfo]);
                 }
             );
+        }
+
+        function removeSavedUser(serverId, userId) {
+            const credentials = credentialProvider.credentials();
+            const server = credentials.Servers.find((s) => s.Id === serverId);
+
+            if (server) {
+                if (server.Users) {
+                    server.Users = server.Users.filter((u) => u.UserId !== userId);
+                }
+
+                if (server.AutoLoginUserId === userId) {
+                    server.AutoLoginUserId = null;
+                }
+            }
         }
 
         self.getSavedServers = () => {
@@ -425,7 +496,21 @@ export default class ConnectionManager {
             const firstServer = servers.length ? servers[0] : null;
             // See if we have any saved credentials and can auto sign in
             if (firstServer) {
-                return self.connectToServer(firstServer, options).then((result) => {
+                if (firstServer.AutoLoginUserId && firstServer.Users) {
+                    const autoLoginUser = firstServer.Users.find(u => u.UserId === firstServer.AutoLoginUserId);
+                    if (autoLoginUser && autoLoginUser.AccessToken) {
+                        firstServer.UserId = autoLoginUser.UserId;
+                        firstServer.AccessToken = autoLoginUser.AccessToken;
+
+                        return self.connectToServer(firstServer, options).then((result) => {
+                            console.log('resolving connectToServers with result.State: ' + result.State);
+                            return result;
+                        });
+                    }
+                }
+                // We pass enableAutoLogin: false to ensure we connect (getting to user selection) but do NOT auto-login.
+                const newOptions = Object.assign({}, options, { enableAutoLogin: false });
+                return self.connectToServer(firstServer, newOptions).then((result) => {
                     console.log('resolving connectToServers with result.State: ' + result.State);
                     return result;
                 });
