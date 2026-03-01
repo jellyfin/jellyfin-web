@@ -983,6 +983,7 @@
     "LabelPostProcessorArgumentsHelp": "Use {path} as the path to the recording file.",
     "LabelKodiMetadataEnableExtraThumbs": "Copy extrafanart to extrathumbs field",
     "LabelInternetQuality": "Internet quality",
+    "LabelInvertSorting": "Invert sorting",
     "LabelFileOrUrl": "File or URL",
     "LabelDateAdded": "Date added",
     "LabelDashboardTheme": "Server Dashboard theme",
