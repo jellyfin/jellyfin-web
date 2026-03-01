@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
-    "@emotion/styled": "11.14.0",
+    "@emotion/styled": "11.14.1",
     "@fontsource/noto-sans": "5.2.7",
     "@fontsource/noto-sans-hk": "5.2.6",
     "@fontsource/noto-sans-jp": "5.2.6",
