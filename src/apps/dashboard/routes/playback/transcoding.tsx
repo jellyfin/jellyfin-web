@@ -726,6 +726,18 @@ export const Component = () => {
                             </TextField>
 
                             <TextField
+                                name='HlsAudioSeekStrategy'
+                                value={config.HlsAudioSeekStrategy}
+                                onChange={onConfigChange}
+                                label={globalize.translate('LabelHlsAudioSeekStrategy')}
+                                helperText={globalize.translate('HlsAudioSeekStrategy')}
+                                select
+                            >
+                                <MenuItem value='DisableAccurateSeek'>DisableAccurateSeek</MenuItem>
+                                <MenuItem value='TranscodeAudio'>TranscodeAudio</MenuItem>
+                            </TextField>
+
+                            <TextField
                                 name='MaxMuxingQueueSize'
                                 value={config.MaxMuxingQueueSize}
                                 onChange={onConfigChange}
