@@ -1866,5 +1866,11 @@
     "ButtonAddProvider": "Lägg till leverantör",
     "ButtonAddTunerDevice": "Lägg till mottagarenhet",
     "LabelSlideshowIntervalHelp": "Tiden i sekunder som varje bild visas i bildspel.",
-    "LabelSlideshowInterval": "Väntetid i bildspel"
+    "LabelSlideshowInterval": "Väntetid i bildspel",
+    "NewPlaylist": "Ny Spellista",
+    "ConfirmDeleteCollection": "Är du säker på att du vill ta bort denna samling?",
+    "ConfirmDeletePlaylist": "Är du säker på att du vill ta bort spellistan?",
+    "HeaderDeleteCollection": "Ta bort Samling",
+    "HeaderDeletePlaylist": "Ta bort Spellista",
+    "OptionDatePlaylistUpdated": "Datum Spellistan Uppdaterades"
 }
