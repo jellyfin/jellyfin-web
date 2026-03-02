@@ -1486,7 +1486,7 @@
     "LabelVideoRangeType": "Video-Dynamikumfang",
     "IgnoreDtsHelp": "Die Deaktivierung dieser Option könnte Probleme beheben, z. B. kein Ton auf Filmen mit getrennten Audio- und Video-Streams.",
     "OptionDateShowAdded": "Datum Serie hinzugefügt",
-    "OptionDateEpisodeAdded": "Datum Folge hinzugefügt",
+    "OptionDateEpisodeAdded": "Folge hinzugefügt am",
     "IgnoreDts": "DTS ignorieren (Dekodierungszeitstempel)",
     "MessageRenameMediaFolder": "Beim Umbenennen einer Medienbibliothek werden alle Metadaten gelöscht, mit Vorsicht fortfahren.",
     "MessageNoItemsAvailable": "Es sind aktuell keine Einträge verfügbar.",
@@ -1872,5 +1872,5 @@
     "HeaderDeleteCollection": "Sammlung löschen",
     "HeaderDeletePlaylist": "Wiedergabeliste löschen",
     "NewPlaylist": "Neue Wiedergabeliste",
-    "OptionDatePlaylistUpdated": "Datum Aktualisierung Wiedergabeliste"
+    "OptionDatePlaylistUpdated": "Wiedergabeliste aktualisiert am"
 }
