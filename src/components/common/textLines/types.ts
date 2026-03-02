@@ -12,6 +12,7 @@ export interface TextLineOpts {
     showIndexNumber?: boolean;
     parentTitleWithTitle?: boolean;
     showArtist?: boolean;
+    showComposer?: boolean;
     showCurrentProgram?: boolean;
     includeIndexNumber?: boolean;
     includeParentInfoInTitle?: boolean;

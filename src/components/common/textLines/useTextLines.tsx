@@ -1,14 +1,14 @@
-import itemHelper from '../../itemHelper';
-import datetime from 'scripts/datetime';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { TextLine, TextLineOpts } from './types';
-import { ItemKind } from 'types/base/models/item-kind';
+import itemHelper from "../../itemHelper";
+import datetime from "scripts/datetime";
+import type { ItemDto } from "types/base/models/item-dto";
+import type { TextLine, TextLineOpts } from "./types";
+import { ItemKind } from "types/base/models/item-kind";
 
 function getParentTitle(
     item: ItemDto,
     showParentTitle: boolean | undefined,
     parentTitleWithTitle: boolean | undefined,
-    displayName: string | null | undefined
+    displayName: string | null | undefined,
 ) {
     let parentTitle;
     if (showParentTitle) {
@@ -20,9 +20,9 @@ function getParentTitle(
     }
     if (showParentTitle && parentTitleWithTitle) {
         if (displayName && parentTitle) {
-            parentTitle += ' - ';
+            parentTitle += " - ";
         }
-        parentTitle = (parentTitle ?? '') + displayName;
+        parentTitle = (parentTitle ?? "") + displayName;
     }
     return parentTitle;
 }
@@ -31,11 +31,11 @@ function getNameOrIndexWithName(
     item: ItemDto,
     showIndexNumber?: boolean,
     includeParentInfoInTitle?: boolean,
-    includeIndexNumber?: boolean
+    includeIndexNumber?: boolean,
 ) {
     let displayName = itemHelper.getDisplayName(item, {
         includeParentInfo: includeParentInfoInTitle,
-        includeIndexNumber
+        includeIndexNumber,
     });
 
     if (showIndexNumber && item.IndexNumber != null) {
@@ -59,9 +59,10 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
         showIndexNumber,
         parentTitleWithTitle,
         showArtist,
+        showComposer,
         showCurrentProgram,
         includeParentInfoInTitle,
-        includeIndexNumber
+        includeIndexNumber,
     } = textLineOpts;
 
     const textLines: TextLine[] = [];
@@ -77,12 +78,12 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
             const programDateTime = datetime.toLocaleString(
                 datetime.parseISO8601Date(item.StartDate),
                 {
-                    weekday: 'long',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: '2-digit'
-                }
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                },
             );
             addTextLine({ title: programDateTime });
         }
@@ -91,7 +92,7 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     const addProgramTime = () => {
         if (showProgramTime) {
             const programTime = datetime.getDisplayTime(
-                datetime.parseISO8601Date(item.StartDate)
+                datetime.parseISO8601Date(item.StartDate),
             );
             addTextLine({ title: programTime });
         }
@@ -103,9 +104,19 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
         }
     };
 
-    const displayName = getNameOrIndexWithName(item, showIndexNumber, includeParentInfoInTitle, includeIndexNumber);
+    const displayName = getNameOrIndexWithName(
+        item,
+        showIndexNumber,
+        includeParentInfoInTitle,
+        includeIndexNumber,
+    );
 
-    const parentTitle = getParentTitle(item, showParentTitle, parentTitleWithTitle, displayName );
+    const parentTitle = getParentTitle(
+        item,
+        showParentTitle,
+        parentTitleWithTitle,
+        displayName,
+    );
 
     const addParentTitle = () => {
         if (parentTitle) {
@@ -127,18 +138,34 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
         } else if (showArtist) {
             const artistItems = item.ArtistItems;
             if (artistItems && item.Type !== ItemKind.MusicAlbum) {
-                const artists = artistItems.map((a) => a.Name).join(', ');
+                const artists = artistItems.map((a) => a.Name).join(", ");
                 addTextLine({ title: artists });
             }
         }
     };
 
+    const addComposers = () => {
+        if (showComposer && item.People) {
+            const composers = item.People.filter((p) => p.Type === "Composer");
+            if (composers.length) {
+                addTextLine({ title: composers.map((c) => c.Name).join(", ") });
+            }
+        }
+    };
+
     const addCurrentProgram = () => {
-        if (item.Type === ItemKind.TvChannel && item.CurrentProgram && showCurrentProgram !== false) {
-            const currentProgram = itemHelper.getDisplayName(item.CurrentProgram, {
-                includeParentInfo: includeParentInfoInTitle,
-                includeIndexNumber
-            });
+        if (
+            item.Type === ItemKind.TvChannel &&
+            item.CurrentProgram &&
+            showCurrentProgram !== false
+        ) {
+            const currentProgram = itemHelper.getDisplayName(
+                item.CurrentProgram,
+                {
+                    includeParentInfo: includeParentInfoInTitle,
+                    includeIndexNumber,
+                },
+            );
 
             addTextLine({ title: currentProgram });
         }
@@ -150,10 +177,11 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     addParentTitle();
     addDisplayName();
     addAlbumArtistOrArtists();
+    addComposers();
     addCurrentProgram();
 
     return {
-        textLines
+        textLines,
     };
 }
 

@@ -80,6 +80,10 @@ const getItemFieldsEnum = (
 ) => {
     const itemFields: ItemFields[] = [];
 
+    if (viewType === LibraryTab.Songs) {
+        itemFields.push(ItemFields.People);
+    }
+
     if (viewType !== LibraryTab.Networks) {
         itemFields.push(ItemFields.MediaSourceCount);
     }
