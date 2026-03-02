@@ -1482,6 +1482,9 @@ export class HtmlVideoPlayer {
 
         // download the track json
         this.fetchSubtitles(track, item).then(function (data) {
+            // Exit if the video element was destroyed while fetching subtitles
+            if (!this.#mediaElement) return;
+
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();

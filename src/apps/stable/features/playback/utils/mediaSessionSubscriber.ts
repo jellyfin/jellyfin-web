@@ -12,7 +12,7 @@ import type { PlayerState } from 'types/playbackStopInfo';
 import type { Event } from 'utils/events';
 
 /** The default image resolutions to provide to the media session.
- * 
+ *
  * Highest-to-lowest order matters; Firefox on Linux seems to use the first
  * image in the artwork array for its MPRIS interface. (#7630)
  */
