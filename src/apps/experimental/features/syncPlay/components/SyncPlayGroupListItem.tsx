@@ -56,6 +56,7 @@ const SyncPlayGroupListItem: FC<SyncPlayGroupListItemProps> = ({
                         const participant = users?.find(u => u.Name === participantName);
                         return participant ? (
                             <UserAvatar
+                                key={participant.Id}
                                 user={participant}
                                 size={32}
                             />
