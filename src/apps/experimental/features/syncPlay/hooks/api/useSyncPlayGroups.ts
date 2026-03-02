@@ -21,7 +21,7 @@ export const useSyncPlayGroups = () => {
     return useQuery({
         queryKey: QUERY_KEY,
         queryFn: ({ signal }) => fetchSyncPlayGroups(api!, { signal }),
-        refetchInterval: 30 * 1000, // Refresh every 30 seconds
+        refetchInterval: 60 * 1000, // Refresh every minute
         enabled: !!api
     });
 };
