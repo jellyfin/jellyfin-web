@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Вы ўпэўнены, што хочаце выдаліць гэту калекцыю?",
     "HeaderDeleteCollection": "Выдаліць калекцыю",
     "ConfirmDeletePlaylist": "Вы ўпэўнены, што хочаце выдаліць гэты плэй-ліст?",
-    "HeaderDeletePlaylist": "Выдаліць плэй-ліст"
+    "HeaderDeletePlaylist": "Выдаліць плэй-ліст",
+    "NewPlaylist": "Новы плэй-ліст",
+    "OptionDatePlaylistUpdated": "Дата абнаўлення плэй-ліста"
 }
