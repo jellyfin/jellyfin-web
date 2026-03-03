@@ -77,6 +77,7 @@ export const Component = () => {
                             slotProps={{
                                 htmlInput: {
                                     min: 0,
+                                    max: 2147.25,
                                     step: 0.25
                                 }
                             }}
