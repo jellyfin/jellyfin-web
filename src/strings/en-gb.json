@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Are you sure you wish to delete this collection?",
     "ConfirmDeletePlaylist": "Are you sure you wish to delete this playlist?",
     "HeaderDeleteCollection": "Delete Collection",
-    "HeaderDeletePlaylist": "Delete Playlist"
+    "HeaderDeletePlaylist": "Delete Playlist",
+    "NewPlaylist": "New Playlist",
+    "OptionDatePlaylistUpdated": "Date Playlist Updated"
 }
