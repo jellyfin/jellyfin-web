@@ -115,6 +115,8 @@ const ItemsView: FC<ItemsViewProps> = ({
         } else if (viewType === LibraryTab.Albums) {
             listOptions.sortBy = libraryViewSettings.SortBy;
             listOptions.addToListButton = true;
+        } else if (viewType === LibraryTab.Playlists && collectionType === CollectionType.Music) {
+            listOptions.showComposer = true;
         } else if (viewType === LibraryTab.Episodes) {
             listOptions.showParentTitle = true;
         }

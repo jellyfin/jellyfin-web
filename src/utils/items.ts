@@ -80,7 +80,7 @@ const getItemFieldsEnum = (
 ) => {
     const itemFields: ItemFields[] = [];
 
-    if (viewType === LibraryTab.Songs) {
+    if (viewType === LibraryTab.Songs || viewType === LibraryTab.Playlists) {
         itemFields.push(ItemFields.People);
     }
 
