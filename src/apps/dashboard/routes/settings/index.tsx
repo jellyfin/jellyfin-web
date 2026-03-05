@@ -17,6 +17,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -37,6 +38,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     config.CachePath = formData.get('CachePath')?.toString();
     config.MetadataPath = formData.get('MetadataPath')?.toString();
     config.QuickConnectAvailable = formData.get('QuickConnectAvailable')?.toString() === 'on';
+    config.EnablePlaybackInhibitors = formData.get('EnablePlaybackInhibitors')?.toString() === 'on';
     config.LibraryScanFanoutConcurrency = parseInt(formData.get('LibraryScanFanoutConcurrency')?.toString() || '0', 10);
     config.ParallelImageEncodingLimit = parseInt(formData.get('ParallelImageEncodingLimit')?.toString() || '0', 10);
 
@@ -225,6 +227,21 @@ export const Component = () => {
                                     }
                                     label={globalize.translate('EnableQuickConnect')}
                                 />
+                            </FormControl>
+
+                            <Typography variant='h2'>{globalize.translate('HeaderPlayback')}</Typography>
+
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name='EnablePlaybackInhibitors'
+                                            defaultChecked={config.EnablePlaybackInhibitors}
+                                        />
+                                    }
+                                    label={globalize.translate('EnablePlaybackInhibitors')}
+                                />
+                                <FormHelperText>{globalize.translate('EnablePlaybackInhibitorsHelp')}</FormHelperText>
                             </FormControl>
 
                             <Typography variant='h2'>{globalize.translate('HeaderPerformance')}</Typography>

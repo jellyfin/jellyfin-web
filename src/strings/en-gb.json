@@ -1247,6 +1247,8 @@
     "KnownProxiesHelp": "Comma separated list of IP addresses or hostnames of known proxies used when connecting to your Jellyfin instance. This is required to make proper use of 'X-Forwarded-For' headers. Requires a reboot after saving.",
     "Other": "Other",
     "EnableQuickConnect": "Enable Quick Connect on this server",
+    "EnablePlaybackInhibitors": "Prevent system sleep during playback",
+    "EnablePlaybackInhibitorsHelp": "When enabled, Jellyfin will inhibit system shutdown, sleep, and suspend while media is playing.",
     "ButtonUseQuickConnect": "Use Quick Connect",
     "ButtonActivate": "Activate",
     "Authorize": "Authorise",

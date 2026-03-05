@@ -1237,6 +1237,8 @@
     "LabelQuickConnectCode": "விரைவு இணைப்பு குறியீடு",
     "LabelCurrentStatus": "தற்போதைய நிலை",
     "EnableQuickConnect": "இந்த சேவையகத்தில் விரைவான இணைப்பை இயக்கவும்",
+    "EnablePlaybackInhibitors": "பிளேபேக் போது கணினி உறக்கத்தைத் தடுக்கவும்",
+    "EnablePlaybackInhibitorsHelp": "இயக்கப்பட்டால், மீடியா இயங்கும் போது Jellyfin கணினி நிறுத்தம், உறக்கம் மற்றும் இடைநிறுத்தத்தைத் தடுக்கிறது.",
     "ButtonUseQuickConnect": "விரைவு இணைப்பைப் பயன்படுத்தவும்",
     "ButtonActivate": "செயல்படுத்து",
     "Authorize": "அதிகாரமளி",
