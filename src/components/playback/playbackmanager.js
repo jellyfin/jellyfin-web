@@ -1024,7 +1024,7 @@ export class PlaybackManager {
         self.canPlay = function (item) {
             const itemType = item.Type;
 
-            if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
+            if (itemType === 'Book' || itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
                 return true;
             }
 
@@ -1980,28 +1980,18 @@ export class PlaybackManager {
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
             const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
-            const seriesId = firstItem.SeriesId || firstItem.Id;
+            const SeriesId = firstItem.SeriesId || firstItem.Id;
             const UserId = apiClient.getCurrentUserId();
 
             let startItemId;
 
             // Start from a specific (the next unwatched) episode if we want to watch in order and have not chosen a specific season
             if (!options.shuffle && !seasonId) {
-                const initialUnplayedEpisode = await getItems(apiClient, UserId, {
-                    SortBy: 'SeriesSortName,SortName',
-                    SortOrder: 'Ascending',
-                    IncludeItemTypes: 'Episode',
-                    Recursive: true,
-                    IsMissing: false,
-                    ParentId: seriesId,
-                    limit: 1,
-                    Filters: 'IsUnplayed'
-                });
-
-                startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
+                const nextUp = await apiClient.getNextUpEpisodes({ SeriesId, UserId });
+                startItemId = nextUp?.Items?.[0]?.Id;
             }
 
-            const episodesResult = await apiClient.getEpisodes(seriesId, {
+            const episodesResult = await apiClient.getEpisodes(SeriesId, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
                 SeasonId: seasonId,
@@ -3493,7 +3483,7 @@ export class PlaybackManager {
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
-            if (newPlayer !== player) {
+            if (!newPlayer) {
                 data.streamInfo = null;
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
@@ -3501,12 +3491,21 @@ export class PlaybackManager {
 
             if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
-            } else if (nextItem) {
+            } else if (newPlayer) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
                 apiClient.getCurrentUser().then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
                         self.nextTrack();
+
+                        if (newPlayer !== player) {
+                            Events.trigger(self, 'playbackstop', [{
+                                player,
+                                state,
+                                nextItem,
+                                nextMediaType
+                            }]);
+                        }
                     }
                 });
             }

@@ -1064,9 +1064,9 @@ export class HtmlVideoPlayer {
         Events.trigger(this, 'pause');
     };
 
-    onWaiting() {
+    onWaiting = () => {
         Events.trigger(this, 'waiting');
-    }
+    };
 
     /**
      * @private
@@ -1309,7 +1309,7 @@ export class HtmlVideoPlayer {
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
-                targetFps: videoStream?.ReferenceFrameRate || videoStream?.RealFrameRate || 24,
+                targetFps: videoStream?.ReferenceFrameRate || 24,
                 prescaleFactor: 0.8,
                 prescaleHeightLimit: 1080,
                 maxRenderHeight: 2160,

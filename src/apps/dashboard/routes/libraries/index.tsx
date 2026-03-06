@@ -29,7 +29,8 @@ export const Component = () => {
 
     const showMediaLibraryCreator = useCallback(() => {
         const mediaLibraryCreator = new MediaLibraryCreator({
-            collectionTypeOptions: getCollectionTypeOptions()
+            collectionTypeOptions: getCollectionTypeOptions(),
+            refresh: true
         }) as Promise<boolean>;
 
         void mediaLibraryCreator.then((hasChanges: boolean) => {
@@ -69,7 +70,7 @@ export const Component = () => {
                         <Button
                             onClick={onScanLibraries}
                             startIcon={<RefreshIcon />}
-                            loading={librariesTask && librariesTask.State === TaskState.Running}
+                            loading={librariesTask && librariesTask.State !== TaskState.Idle}
                             loadingPosition='start'
                             variant='outlined'
                         >

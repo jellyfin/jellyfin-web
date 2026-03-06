@@ -1,18 +1,22 @@
-import 'material-design-icons-iconfont';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import Screenfull from 'screenfull';
 
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import browser from 'scripts/browser';
+import TouchHelper from 'scripts/touchHelper';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+
+import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import Screenfull from 'screenfull';
 import TableOfContents from './tableOfContents';
 import { translateHtml } from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import browser from 'scripts/browser';
 import * as userSettings from '../../scripts/settings/userSettings';
-import TouchHelper from 'scripts/touchHelper';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
+import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';
@@ -32,6 +36,7 @@ export class BookPlayer {
         this.type = PluginType.MediaPlayer;
         this.id = 'bookplayer';
         this.priority = 1;
+        this.THEMES = THEMES;
         if (!userSettings.theme() || userSettings.theme() === 'dark') {
             this.theme = 'dark';
         } else {
@@ -47,6 +52,9 @@ export class BookPlayer {
         this.next = this.next.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.addSwipeGestures = this.addSwipeGestures.bind(this);
+        this.getPlayerHeight = this.getPlayerHeight.bind(this);
+        this.toggleFullscreen = this.toggleFullscreen.bind(this);
+        this.fullscreen = false;
     }
 
     play(options) {
@@ -84,6 +92,10 @@ export class BookPlayer {
 
         if (rendition) {
             rendition.destroy();
+        }
+
+        if (this.fullscreen) {
+            this.toggleFullscreen();
         }
 
         // hide loader in case player was not fully loaded yet
@@ -230,6 +242,16 @@ export class BookPlayer {
         this.touchHelper?.destroy();
     }
 
+    getPlayerHeight() {
+        if (layoutManager.mobile) {
+            // we have no method from NativeShell to get the required margin for mobile devices
+            return this.fullscreen ? 0.9 : 0.94;
+        }
+
+        // desktop needs slightly less space than mobile
+        return 0.958;
+    }
+
     openTableOfContents() {
         if (this.loaded) {
             this.tocElement = new TableOfContents(this);
@@ -237,12 +259,32 @@ export class BookPlayer {
     }
 
     toggleFullscreen() {
+        const icon = document.querySelector('#btnBookplayerFullscreen .material-icons');
+        const buttons = document.querySelector('.topButtons');
+
         if (Screenfull.isEnabled) {
-            const icon = document.querySelector('#btnBookplayerFullscreen .material-icons');
             icon.classList.remove(Screenfull.isFullscreen ? 'fullscreen_exit' : 'fullscreen');
             icon.classList.add(Screenfull.isFullscreen ? 'fullscreen' : 'fullscreen_exit');
             Screenfull.toggle();
+        } else if (window.NativeShell) {
+            if (this.fullscreen) {
+                icon.classList.remove('fullscreen_exit');
+                icon.classList.add('fullscreen');
+                buttons.classList.remove('fullscreen');
+                window.NativeShell.disableFullscreen();
+            } else {
+                icon.classList.remove('fullscreen');
+                icon.classList.add('fullscreen_exit');
+                buttons.classList.add('fullscreen');
+                window.NativeShell.enableFullscreen();
+            }
         }
+
+        // needs to be executed with a slight delay to give NativeShell time to process the request
+        setTimeout(() => this.rendition.resize(document.body.clientWidth, document.body.clientHeight * this.getPlayerHeight()), 200);
+
+        // required for mobile apps without browser fullscreen support
+        this.fullscreen = !this.fullscreen;
     }
 
     rotateTheme() {
@@ -323,26 +365,19 @@ export class BookPlayer {
             }
         };
 
-        const serverId = item.ServerId;
-        const apiClient = ServerConnections.getApiClient(serverId);
-
         if (!Screenfull.isEnabled) {
             document.getElementById('btnBookplayerFullscreen').display = 'none';
         }
 
         return new Promise((resolve, reject) => {
             import('epubjs').then(({ default: epubjs }) => {
-                const downloadHref = apiClient.getItemDownloadUrl(item.Id);
+                const api = toApi(ServerConnections.getApiClient(item));
+                const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
                 const book = epubjs(downloadHref, { openAs: 'epub' });
-
-                // We need to calculate the height of the window beforehand because using 100% is not accurate when the dialog is opening.
-                // In addition we don't render to the full height so that we have space for the top buttons.
-                const clientHeight = document.body.clientHeight;
-                const renderHeight = clientHeight - (clientHeight * 0.0425);
 
                 const rendition = book.renderTo('bookPlayerContainer', {
                     width: '100%',
-                    height: renderHeight,
+                    height: document.body.clientHeight * this.getPlayerHeight(),
                     // TODO: Add option for scrolled-doc
                     flow: 'paginated'
                 });
