@@ -27,10 +27,12 @@ const UserNew = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+    const [ errorMessage, setErrorMessage ] = useState<string | null>(null);
     const element = useRef<HTMLDivElement>(null);
 
     const handleToastClose = useCallback(() => {
         setIsErrorToastOpen(false);
+        setErrorMessage(null);
     }, []);
     const { data: mediaFolders, isSuccess: isMediaFoldersSuccess } = useLibraryMediaFolders();
     const { data: channels, isSuccess: isChannelsSuccess } = useChannels();
@@ -126,6 +128,12 @@ const UserNew = () => {
                 Password: (page.querySelector('#txtPassword') as HTMLInputElement).value
             };
             createUser.mutate({ createUserByName: userInput }, {
+                onError: (error: unknown) => {
+                    loading.hide();
+                    const apiMessage = (error as any)?.response?.data as string | undefined;
+                    setErrorMessage(typeof apiMessage === 'string' && apiMessage ? apiMessage : null);
+                    setIsErrorToastOpen(true);
+                },
                 onSuccess: (response) => {
                     const user = response.data;
 
@@ -214,7 +222,7 @@ const UserNew = () => {
             <Toast
                 open={isErrorToastOpen}
                 onClose={handleToastClose}
-                message={globalize.translate('ErrorDefault')}
+                message={errorMessage ?? globalize.translate('ErrorDefault')}
             />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
