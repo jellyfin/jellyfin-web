@@ -1,5 +1,6 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
 
 import { AppFeature } from 'constants/appFeature';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -40,6 +41,22 @@ function getDeleteLabel(type) {
         default:
             return globalize.translate('DeleteMedia');
     }
+}
+
+/**
+ * @param {import('@jellyfin/sdk/lib/generated-client/models/base-item-dto').BaseItemDto} item
+ * @returns {string}
+ */
+function getRemoveFromContinueLabel(item) {
+    if (item.Type === BaseItemKind.Book) {
+        return globalize.translate('ClearReadingProgress');
+    }
+
+    if (item.MediaType === 'Audio' || item.Type === BaseItemKind.AudioBook) {
+        return globalize.translate('ClearListeningProgress');
+    }
+
+    return globalize.translate('ClearWatchProgress');
 }
 
 export async function getCommands(options) {
@@ -307,6 +324,18 @@ export async function getCommands(options) {
         });
     }
 
+    const canRemoveFromContinue = !itemHelper.isLocalItem(item)
+        && item.UserData?.PlaybackPositionTicks
+        && !item.UserData?.Played;
+
+    if (canRemoveFromContinue) {
+        commands.push({
+            name: getRemoveFromContinueLabel(item),
+            id: 'removefromcontinue',
+            icon: 'cancel'
+        });
+    }
+
     if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
         commands.push({
             name: globalize.translate('RemoveFromPlaylist'),
@@ -395,6 +424,14 @@ function executeCommand(item, id, options) {
     return new Promise(function (resolve, reject) {
         // eslint-disable-next-line sonarjs/max-switch-cases
         switch (id) {
+            case 'removefromcontinue':
+                getPlaystateApi(api)
+                    .markUnplayedItem({
+                        userId: options.user.Id,
+                        itemId: itemId
+                    })
+                    .then(getResolveFunction(resolve, id, true), reject);
+                break;
             case 'addtocollection':
                 import('./collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
                     const collectionEditor = new CollectionEditor();
