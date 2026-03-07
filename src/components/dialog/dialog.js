@@ -13,7 +13,30 @@ import '../formdialog.scss';
 import '../../styles/flexstyles.scss';
 import template from './dialog.template.html';
 
+/**
+ * @typedef {{
+ *      type?: string,
+ *      description?: string,
+ *      id?: string,
+ *      name?: string,
+ * }} DialogButtons
+ * @typedef {import('../dialogHelper/dialogHelper').DialogOptions} DialogOptions
+ * @typedef {{
+ *      dialogOptions: DialogOptions,
+ *      buttons?: DialogButtons[],
+ *      title?: string,
+ *      html?: string,
+ *      text?: string,
+ *      ...,
+ * }} ShowDialogOptions
+ */
+
+/**
+ * @param {ShowDialogOptions} options
+ * @returns {Promise<any>}
+ */
 function showDialog(options = { dialogOptions: {}, buttons: [] }) {
+    /** @type {DialogOptions} */
     const dialogOptions = {
         removeOnClose: true,
         scrollY: false,
@@ -65,16 +88,16 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
     let hasDescriptions = false;
 
     for (i = 0, length = options.buttons.length; i < length; i++) {
-        const item = options.buttons[i];
+        const button = options.buttons[i];
         const autoFocus = i === 0 ? ' autofocus' : '';
 
         let buttonClass = 'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
 
-        if (item.type) {
-            buttonClass += ` button-${item.type}`;
+        if (button.type) {
+            buttonClass += ` button-${button.type}`;
         }
 
-        if (item.description) {
+        if (button.description) {
             hasDescriptions = true;
         }
 
@@ -82,10 +105,10 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
             buttonClass += ' formDialogFooterItem-vertical formDialogFooterItem-nomarginbottom';
         }
 
-        html += `<button is="emby-button" type="button" class="${buttonClass}" data-id="${item.id}"${autoFocus}>${escapeHtml(item.name)}</button>`;
+        html += `<button is="emby-button" type="button" class="${buttonClass}" data-id="${button.id}"${autoFocus}>${escapeHtml(button.name)}</button>`;
 
-        if (item.description) {
-            html += `<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">${item.description}</div>`;
+        if (button.description) {
+            html += `<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">${button.description}</div>`;
         }
     }
 
@@ -119,7 +142,20 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
     });
 }
 
+/**
+ * @overload
+ * @param {ShowDialogOptions} text
+ * @returns {Promise<any>}
+ */
+
+/**
+ * @overload
+ * @param {string} text
+ * @param {string} title
+ * @returns {Promise<any>}
+ */
 export function show(text, title) {
+    /** @type {ShowDialogOptions} */
     let options;
     if (typeof text === 'string') {
         options = {
