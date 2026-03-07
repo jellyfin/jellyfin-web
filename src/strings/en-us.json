@@ -1623,6 +1623,8 @@
     "TabServer": "Server",
     "TabStreaming": "Streaming",
     "TabUpcoming": "Upcoming",
+    "TabLogSettings": "Settings",
+    "TabLogFiles": "Files",
     "Tags": "Tags",
     "TagsValue": "Tags: {0}",
     "TellUsAboutYourself": "Tell us about yourself",
@@ -1872,5 +1874,9 @@
     "ExtractTrickplayImagesHelp": "Trickplay images are similar to chapter images, except they span the entire length of the content and are used to show a preview when scrubbing through videos.",
     "LabelExtractTrickplayDuringLibraryScan": "Extract trickplay images during the library scan",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Generate trickplay images when videos are imported during the library scan. Otherwise, they will be extracted during the trickplay images scheduled task. If generation is set to non-blocking this will not affect the time a library scan takes to complete.",
-    "LogLoadFailure": "Failed to load the log file. It may still be actively written to."
+    "LogLoadFailure": "Failed to load the log file. It may still be actively written to.",
+    "LabelActivityLogRetentionDays": "Activity log retention days",
+    "LabelActivityLogRetentionDaysHelp": "The number of days to retain activity log entries.",
+    "LabelInactiveSessionThreshold": "Inactive session threshold (minutes)",
+    "LabelInactiveSessionThresholdHelp": "The number of minutes of inactivity before a session is considered inactive, at which point the session is stopped. Set to 0 to disable."
 }
