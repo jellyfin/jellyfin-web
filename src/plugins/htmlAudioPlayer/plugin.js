@@ -517,6 +517,43 @@ class HtmlAudioPlayer {
         return null;
     }
 
+    getSupportedPlaybackRates() {
+        return [{
+            name: '0.5x',
+            id: 0.5
+        }, {
+            name: '0.75x',
+            id: 0.75
+        }, {
+            name: '1x',
+            id: 1.0
+        }, {
+            name: '1.25x',
+            id: 1.25
+        }, {
+            name: '1.5x',
+            id: 1.5
+        }, {
+            name: '1.75x',
+            id: 1.75
+        }, {
+            name: '2x',
+            id: 2.0
+        }, {
+            name: '2.5x',
+            id: 2.5
+        }, {
+            name: '3x',
+            id: 3.0
+        }, {
+            name: '3.5x',
+            id: 3.5
+        }, {
+            name: '4.0x',
+            id: 4.0
+        }];
+    }
+
     setVolume(val) {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
