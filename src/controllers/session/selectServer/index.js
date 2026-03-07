@@ -3,7 +3,6 @@ import loading from '../../../components/loading/loading';
 import { appRouter } from '../../../components/router/appRouter';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
-import appSettings from '../../../scripts/settings/appSettings';
 import focusManager from '../../../components/focusManager';
 import globalize from '../../../lib/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
@@ -104,9 +103,19 @@ function showServerConnectionFailure() {
 
 export default function (view, params) {
     function connectToServer(server) {
+        let enableAutoLogin = false;
+        if (server.AutoLoginUserId && server.Users) {
+            const user = server.Users.find(u => u.UserId === server.AutoLoginUserId);
+            if (user && user.AccessToken) {
+                server.UserId = user.UserId;
+                server.AccessToken = user.AccessToken;
+                enableAutoLogin = true;
+            }
+        }
+
         loading.show();
         ServerConnections.connectToServer(server, {
-            enableAutoLogin: appSettings.enableAutoLogin()
+            enableAutoLogin: enableAutoLogin
         }).then(function (result) {
             loading.hide();
             const apiClient = result.ApiClient;
