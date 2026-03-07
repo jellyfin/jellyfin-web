@@ -1513,10 +1513,13 @@ export default function (options) {
     });
 
     if (browser.web0s && supportsDolbyVision(options)) {
-        // Disallow direct playing of DOVI media in containers not ts or mp4.
+        // Adjust DOVI container rules based on WebOS version.
+        // On WebOS 25 and newer, mp4, ts, and mkv containers are allowed.
+        // On WebOS 24 and lower, only mp4 and ts containers are allowed.
+        const allowedContainers = browser.web0sVersion >= 25 ? ['mp4', 'ts', 'mkv'] : ['mp4', 'ts'];
         profile.CodecProfiles.push({
             Type: 'Video',
-            Container: '-mp4,ts',
+            Container: '-' + allowedContainers.join(','),
             Codec: 'hevc',
             Conditions: [
                 {
