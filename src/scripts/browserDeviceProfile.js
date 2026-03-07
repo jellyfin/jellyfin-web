@@ -273,9 +273,16 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
     const supportedProfiles = [];
     // Profiles 5/8 4k@24fps
     if (videoTestElement.canPlayType) {
-        if (videoTestElement
-            .canPlayType('video/mp4; codecs="dvh1.05.06"')
-            .replace(/no/, '')) {
+        if (
+            videoTestElement
+                .canPlayType('video/mp4; codecs="dvh1.05.06"')
+                .replace(/no/, '')
+            // Safari does not expose DoVi via canPlayType even on capable devices.
+            // AVPlayer handles DoVi when the HLS manifest signals dvh1; canPlayType
+            // only tests bare MP4 which Apple treats as a separate path.
+            // Devices without DoVi fall back to the hvc1 PQ variant in the manifest.
+            || (browser.safari && ((browser.iOS && browser.iOSVersion >= 13) || browser.osx))
+        ) {
             supportedProfiles.push(5);
         }
         if (
@@ -284,10 +291,13 @@ function supportedDolbyVisionProfilesHevc(videoTestElement) {
                 .replace(/no/, '')
             // LG TVs from at least 2020 onwards should support profile 8, but they don't report it.
             || (browser.web0sVersion >= 4)
+            // Safari: same canPlayType limitation as P5. P8 also has an HDR10 base layer as fallback.
+            || (browser.safari && ((browser.iOS && browser.iOSVersion >= 13) || browser.osx))
         ) {
             supportedProfiles.push(8);
         }
     }
+
     return supportedProfiles;
 }
 
