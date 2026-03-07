@@ -45,6 +45,19 @@ class AppSettings {
         return toBoolean(this.get('enableSmoothScroll'), !!browser.tizen);
     }
 
+    /**
+     * Get or set 'Enable horizontal scroll' state.
+     * @param {boolean|undefined} val - Flag to enable 'Enable horizontal scroll' or undefined.
+     * @return {boolean} 'Enable horizontal scroll' state.
+     */
+    enableHorizontalScroll(val) {
+        if (val !== undefined) {
+            this.set('enableHorizontalScroll', val.toString());
+        }
+
+        return toBoolean(this.get('enableHorizontalScroll'), false);
+    }
+
     enableSystemExternalPlayers(val) {
         if (val !== undefined) {
             this.set('enableSystemExternalPlayers', val.toString());
