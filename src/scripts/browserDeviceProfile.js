@@ -971,15 +971,6 @@ export default function (options) {
         });
     }
 
-    if (!supportsSecondaryAudio) {
-        aacCodecProfileConditions.push({
-            Condition: 'Equals',
-            Property: 'IsSecondaryAudio',
-            Value: 'false',
-            IsRequired: false
-        });
-    }
-
     if (aacCodecProfileConditions.length) {
         profile.CodecProfiles.push({
             Type: 'VideoAudio',
@@ -1012,6 +1003,23 @@ export default function (options) {
             Condition: 'Equals',
             Property: 'IsSecondaryAudio',
             Value: 'false',
+            IsRequired: false
+        });
+
+        // FIXME: Most likely, it is always `FirstSupported`
+        if (browser.chrome || browser.firefox || browser.tizen || browser.web0s) {
+            profile.SingleAudioPolicy = 'FirstSupported';
+        } else {
+            profile.SingleAudioPolicy = 'First';
+        }
+    }
+
+    if (browser.chrome && browser.versionMajor >= 115) {
+        // Chrome 115+ detects only default audio tracks - BROKEN
+        globalVideoAudioCodecProfileConditions.push({
+            Condition: 'Equals',
+            Property: 'IsDefaultTrack',
+            Value: 'true',
             IsRequired: false
         });
     }
