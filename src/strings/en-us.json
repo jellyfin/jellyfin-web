@@ -1289,6 +1289,8 @@
     "OptionAllowVideoPlaybackTranscoding": "Allow video playback that requires transcoding",
     "OptionAutomaticallyGroupSeries": "Automatically merge series that are spread across multiple folders",
     "OptionAutomaticallyGroupSeriesHelp": "Series that are spread across multiple folders within this library will be automatically merged into a single series.",
+    "OptionEnableVersionGrouping": "Automatically group different versions of episodes or movies",
+    "OptionEnableVersionGroupingHelp": "Grouping happens according to naming rules described in the docs.",
     "OptionBluray": "BD",
     "OptionCommunityRating": "Community Rating",
     "OptionCriticRating": "Critics Rating",
