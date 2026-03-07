@@ -1096,6 +1096,54 @@ export class PlaybackManager {
             }
         };
 
+        self.setVrProjection = function (val, player) {
+            player = player || self._currentPlayer;
+
+            if (player?.setVrProjection) {
+                player.setVrProjection(val);
+            }
+        };
+
+        self.getVrProjection = function (player) {
+            player = player || self._currentPlayer;
+
+            if (player?.getVrProjection) {
+                return player.getVrProjection();
+            }
+
+            return 'off';
+        };
+
+        self.getSupportedVrProjections = function (player) {
+            player = player || self._currentPlayer;
+
+            if (player?.getSupportedVrProjections) {
+                return player.getSupportedVrProjections();
+            }
+
+            return [];
+        };
+
+        self.toggleImmersiveVr = function (player) {
+            player = player || self._currentPlayer;
+
+            if (player?.toggleImmersiveVr) {
+                return player.toggleImmersiveVr();
+            }
+
+            return Promise.resolve(false);
+        };
+
+        self.isImmersiveVrActive = function (player) {
+            player = player || self._currentPlayer;
+
+            if (player?.isImmersiveVrActive) {
+                return player.isImmersiveVrActive();
+            }
+
+            return false;
+        };
+
         self.increasePlaybackRate = function (player) {
             player = player || self._currentPlayer;
             if (player) {
@@ -4113,6 +4161,12 @@ export class PlaybackManager {
                 if (player.supports('SetAspectRatio')) {
                     list.push('SetAspectRatio');
                 }
+                if (player.supports('SetVrProjection')) {
+                    list.push('SetVrProjection');
+                }
+                if (player.supports('ImmersiveVr')) {
+                    list.push('ImmersiveVr');
+                }
                 if (player.supports('PlaybackRate')) {
                     list.push('PlaybackRate');
                 }
@@ -4268,6 +4322,12 @@ export class PlaybackManager {
                 break;
             case 'SetAspectRatio':
                 this.setAspectRatio(cmd.Arguments.AspectRatio, player);
+                break;
+            case 'SetVrProjection':
+                this.setVrProjection(cmd.Arguments.VrProjection, player);
+                break;
+            case 'ImmersiveVr':
+                this.toggleImmersiveVr(player);
                 break;
             case 'PlaybackRate':
                 this.setPlaybackRate(cmd.Arguments.PlaybackRate, player);
