@@ -1,25 +1,171 @@
 #pdfPlayer {
+    --jellyfin-pdf-swipe-min-distance: 80;
+    --jellyfin-pdf-swipe-max-vertical-distance: 48;
+    --jellyfin-pdf-swipe-max-duration: 550;
+    --jellyfin-pdf-tap-max-distance: 18;
+    --jellyfin-pdf-tap-max-duration: 320;
+    --jellyfin-pdf-double-tap-delay: 320;
+    --jellyfin-pdf-pinch-tap-cooldown: 220;
+    --jellyfin-pdf-zoom-step: 0.2;
+    --jellyfin-pdf-max-zoom: 4;
+
     position: relative;
     height: 100%;
     width: 100%;
-    overflow: none;
+    overflow: hidden;
     z-index: 100;
     background: #fff;
 
+    .readerHeader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1003;
+        padding: 8px 14px;
+        padding-right: 260px;
+        color: #fff;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0));
+        pointer-events: none;
+        transition: opacity 140ms ease;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    }
+
+    .readerTitle {
+        font-weight: 600;
+        font-size: 1rem;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .readerMeta {
+        margin-top: 2px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.82rem;
+        line-height: 1.2;
+        opacity: 0.9;
+        flex-wrap: wrap;
+    }
+
+    .readerChapter {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .readerViewport {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        padding: 46px 12px 78px;
+        box-sizing: border-box;
+        cursor: default;
+        touch-action: pan-y pan-x;
+
+        &.isZoomed {
+            cursor: grab;
+            touch-action: pinch-zoom;
+        }
+
+        &.isDragging {
+            cursor: grabbing;
+        }
+    }
+
+    .canvasHost {
+        min-height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .readerViewport.isZoomed .canvasHost {
+        width: max-content;
+        min-width: max-content;
+        justify-content: flex-start;
+    }
+
     #canvas {
         display: block;
-        margin: auto;
+        margin: 0;
     }
 
     .actionButtons {
-        right: 0.5vh;
-        top: 0.5vh;
-        z-index: 1002;
+        left: 50%;
+        bottom: 12px;
+        transform: translateX(-50%);
+        z-index: 1004;
         position: absolute;
+        display: flex;
+        gap: 2px;
+        background: rgba(0, 0, 0, 0.72);
+        border-radius: 999px;
+        padding: 2px;
     }
 
     .actionButtonIcon {
-        color: #000;
-        opacity: 0.7;
+        color: #fff;
+        opacity: 0.9;
+    }
+
+    .zoomValue {
+        color: #fff;
+        opacity: 0.95;
+        font-size: 0.74rem;
+        font-weight: 700;
+        min-width: 42px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    &.readerChromeHidden {
+        .readerHeader {
+            opacity: 0;
+        }
+
+        .readerViewport {
+            padding-top: 12px;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .readerHeader {
+            padding: 6px 10px;
+            padding-right: 10px;
+        }
+
+        .readerTitle {
+            font-size: 0.92rem;
+        }
+
+        .readerMeta {
+            font-size: 0.74rem;
+            display: block;
+        }
+
+        .readerPage {
+            display: block;
+            margin-top: 1px;
+        }
+
+        .readerViewport {
+            padding-top: 52px;
+            padding-bottom: 80px;
+        }
+
+        .actionButtons {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 999px;
+            padding: 2px;
+            max-width: calc(100% - 12px);
+        }
     }
 }
