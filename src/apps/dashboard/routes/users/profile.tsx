@@ -13,6 +13,7 @@ import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
 import loading from '../../../../components/loading/loading';
 import SelectElement from '../../../../elements/SelectElement';
 import Page from '../../../../components/Page';
+import Toast from 'apps/dashboard/components/Toast';
 import { useUser } from 'apps/dashboard/features/users/api/useUser';
 import { useAuthProviders } from 'apps/dashboard/features/users/api/useAuthProviders';
 import { usePasswordResetProviders } from 'apps/dashboard/features/users/api/usePasswordResetProviders';
@@ -38,8 +39,13 @@ const UserEdit = () => {
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
+    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
+
+    const handleToastClose = useCallback(() => {
+        setIsErrorToastOpen(false);
+    }, []);
 
     const { data: userDto, isSuccess: isUserSuccess } = useUser(userId ? { userId: userId } : undefined);
     const { data: authProviders, isSuccess: isAuthProvidersSuccess } = useAuthProviders();
@@ -266,9 +272,17 @@ const UserEdit = () => {
                                 navigate('/dashboard/users', {
                                     state: { openSavedToast: true }
                                 });
+                            },
+                            onError: () => {
+                                loading.hide();
+                                setIsErrorToastOpen(true);
                             }
                         });
                     }
+                },
+                onError: () => {
+                    loading.hide();
+                    setIsErrorToastOpen(true);
                 }
             });
         };
@@ -323,6 +337,11 @@ const UserEdit = () => {
             id='editUserPage'
             className='mainAnimatedPage type-interior'
         >
+            <Toast
+                open={isErrorToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('ErrorDefault')}
+            />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>
                     <SectionTitleContainer
