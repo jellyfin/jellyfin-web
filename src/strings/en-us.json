@@ -1678,6 +1678,7 @@
     "UseEpisodeImagesInNextUpHelp": "'Next Up' and 'Continue Watching' sections will use episode images as thumbnails instead of the primary thumbnail of the show.",
     "UserAgentHelp": "Supply a custom 'User-Agent' HTTP header.",
     "UserMenu": "User Menu",
+    "UsersEditPageError": "Failed to load users edit page",
     "UserProfilesIntro": "Jellyfin includes support for user profiles with granular display settings, play state, and parental controls.",
     "ValueAlbumCount": "{0} albums",
     "ValueDiscNumber": "Disc {0}",

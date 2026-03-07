@@ -3,21 +3,22 @@ import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-i
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
-import globalize from '../../../../lib/globalize';
-import AccessScheduleList from '../../../../components/dashboard/users/AccessScheduleList';
-import TagList from '../../../../components/dashboard/users/TagList';
-import Button from '../../../../elements/emby-button/Button';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
-import loading from '../../../../components/loading/loading';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import SelectElement from '../../../../elements/SelectElement';
-import Page from '../../../../components/Page';
-import prompt from '../../../../components/prompt/prompt';
+import globalize from 'lib/globalize';
+import AccessScheduleList from 'components/dashboard/users/AccessScheduleList';
+import TagList from 'components/dashboard/users/TagList';
+import Button from 'elements/emby-button/Button';
+import SectionTitleContainer from 'elements/SectionTitleContainer';
+import loading from 'components/loading/loading';
+import CheckBoxElement from 'elements/CheckBoxElement';
+import SelectElement from 'elements/SelectElement';
+import prompt from 'components/prompt/prompt';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Toast from 'apps/dashboard/components/Toast';
+
+interface ParentalControlProps {
+    userId: string;
+}
 
 type NamedItem = {
     name: string;
@@ -64,10 +65,7 @@ function handleSaveUser(
     };
 }
 
-const UserParentalControl = () => {
-    const [ searchParams ] = useSearchParams();
-    const userId = searchParams.get('userId');
-    const [ userName, setUserName ] = useState('');
+const ParentalControl = ({ userId }: ParentalControlProps) => {
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
     const [ maxParentalRating, setMaxParentalRating ] = useState<string>();
@@ -75,7 +73,7 @@ const UserParentalControl = () => {
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
-    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
+    const libraryMenu = useMemo(async () => ((await import('scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
     const parentalRatingsRef = useRef<ParentalRating[]>([]);
@@ -141,7 +139,6 @@ const UserParentalControl = () => {
             return;
         }
 
-        setUserName(user.Name || '');
         void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadUnratedItems(user);
 
@@ -231,7 +228,7 @@ const UserParentalControl = () => {
 
         const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
             schedule = schedule || {};
-            import('../../../../components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
+            import('components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
                 accessschedule.show({
                     schedule: schedule
                 }).then(function (updatedSchedule) {
@@ -388,136 +385,124 @@ const UserParentalControl = () => {
     }, [accessSchedules, setAccessSchedules]);
 
     return (
-        <Page
-            id='userParentalControlPage'
-            className='mainAnimatedPage type-interior'
-        >
+        <div ref={element}>
             <Toast
                 open={isSettingsSavedToastOpen}
                 onClose={handleToastClose}
                 message={globalize.translate('SettingsSaved')}
             />
-            <div ref={element} className='content-primary'>
-                <div className='verticalSection'>
+            <form className='userParentalControlForm'>
+                <div className='selectContainer'>
+                    <SelectElement
+                        id='selectMaxParentalRating'
+                        label='LabelMaxParentalRating'
+                    >
+                        {optionMaxParentalRating()}
+                    </SelectElement>
+                    <div className='fieldDescription'>
+                        {globalize.translate('MaxParentalRatingHelp')}
+                    </div>
+                </div>
+                <div>
+                    <div className='blockUnratedItems'>
+                        <h3 className='checkboxListLabel'>
+                            {globalize.translate('HeaderBlockItemsWithNoRating')}
+                        </h3>
+                        <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
+                            {unratedItems.map(Item => {
+                                return <CheckBoxElement
+                                    key={Item.value}
+                                    className='chkUnratedItem'
+                                    itemType={Item.value}
+                                    itemName={Item.name}
+                                    itemCheckedAttribute={Item.checkedAttribute}
+                                />;
+                            })}
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div className='verticalSection' style={{ marginBottom: '2em' }}>
                     <SectionTitleContainer
-                        title={userName}
+                        SectionClassName='detailSectionHeader'
+                        title={globalize.translate('LabelAllowContentWithTags')}
+                        isBtnVisible={true}
+                        btnId='btnAddAllowedTag'
+                        btnClassName='fab submit sectionTitleButton'
+                        btnTitle='Add'
+                        btnIcon='add'
+                    />
+                    <div className='fieldDescription'>
+                        {globalize.translate('AllowContentWithTagsHelp')}
+                    </div>
+                    <div className='allowedTags' style={{ marginTop: '.5em' }}>
+                        {allowedTags?.map(tag => {
+                            return <TagList
+                                key={tag}
+                                tag={tag}
+                                tagType='allowedTag'
+                                removeTagCallback={removeAllowedTagsCallback}
+                            />;
+                        })}
+                    </div>
+                </div>
+                <div className='verticalSection' style={{ marginBottom: '2em' }}>
+                    <SectionTitleContainer
+                        SectionClassName='detailSectionHeader'
+                        title={globalize.translate('LabelBlockContentWithTags')}
+                        isBtnVisible={true}
+                        btnId='btnAddBlockedTag'
+                        btnClassName='fab submit sectionTitleButton'
+                        btnTitle='Add'
+                        btnIcon='add'
+                    />
+                    <div className='fieldDescription'>
+                        {globalize.translate('BlockContentWithTagsHelp')}
+                    </div>
+                    <div className='blockedTags' style={{ marginTop: '.5em' }}>
+                        {blockedTags.map(tag => {
+                            return <TagList
+                                key={tag}
+                                tag={tag}
+                                tagType='blockedTag'
+                                removeTagCallback={removeBlockedTagsTagsCallback}
+                            />;
+                        })}
+                    </div>
+                </div>
+                <div className='accessScheduleSection verticalSection' style={{ marginBottom: '2em' }}>
+                    <SectionTitleContainer
+                        title={globalize.translate('HeaderAccessSchedule')}
+                        isBtnVisible={true}
+                        btnId='btnAddSchedule'
+                        btnClassName='fab submit sectionTitleButton'
+                        btnTitle='Add'
+                        btnIcon='add'
+                    />
+                    <p>{globalize.translate('HeaderAccessScheduleHelp')}</p>
+                    <div className='accessScheduleList paperList'>
+                        {accessSchedules.map((accessSchedule, index) => {
+                            return <AccessScheduleList
+                                key={`${accessSchedule.DayOfWeek}${accessSchedule.StartHour}${accessSchedule.EndHour}`}
+                                index={index}
+                                DayOfWeek={accessSchedule.DayOfWeek}
+                                StartHour={accessSchedule.StartHour}
+                                EndHour={accessSchedule.EndHour}
+                                removeScheduleCallback={removeScheduleCallback}
+                            />;
+                        })}
+                    </div>
+                </div>
+                <div>
+                    <Button
+                        type='submit'
+                        className='raised button-submit block'
+                        title={globalize.translate('Save')}
                     />
                 </div>
-                <SectionTabs activeTab='userparentalcontrol'/>
-                <form className='userParentalControlForm'>
-                    <div className='selectContainer'>
-                        <SelectElement
-                            id='selectMaxParentalRating'
-                            label='LabelMaxParentalRating'
-                        >
-                            {optionMaxParentalRating()}
-                        </SelectElement>
-                        <div className='fieldDescription'>
-                            {globalize.translate('MaxParentalRatingHelp')}
-                        </div>
-                    </div>
-                    <div>
-                        <div className='blockUnratedItems'>
-                            <h3 className='checkboxListLabel'>
-                                {globalize.translate('HeaderBlockItemsWithNoRating')}
-                            </h3>
-                            <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
-                                {unratedItems.map(Item => {
-                                    return <CheckBoxElement
-                                        key={Item.value}
-                                        className='chkUnratedItem'
-                                        itemType={Item.value}
-                                        itemName={Item.name}
-                                        itemCheckedAttribute={Item.checkedAttribute}
-                                    />;
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div className='verticalSection' style={{ marginBottom: '2em' }}>
-                        <SectionTitleContainer
-                            SectionClassName='detailSectionHeader'
-                            title={globalize.translate('LabelAllowContentWithTags')}
-                            isBtnVisible={true}
-                            btnId='btnAddAllowedTag'
-                            btnClassName='fab submit sectionTitleButton'
-                            btnTitle='Add'
-                            btnIcon='add'
-                        />
-                        <div className='fieldDescription'>
-                            {globalize.translate('AllowContentWithTagsHelp')}
-                        </div>
-                        <div className='allowedTags' style={{ marginTop: '.5em' }}>
-                            {allowedTags?.map(tag => {
-                                return <TagList
-                                    key={tag}
-                                    tag={tag}
-                                    tagType='allowedTag'
-                                    removeTagCallback={removeAllowedTagsCallback}
-                                />;
-                            })}
-                        </div>
-                    </div>
-                    <div className='verticalSection' style={{ marginBottom: '2em' }}>
-                        <SectionTitleContainer
-                            SectionClassName='detailSectionHeader'
-                            title={globalize.translate('LabelBlockContentWithTags')}
-                            isBtnVisible={true}
-                            btnId='btnAddBlockedTag'
-                            btnClassName='fab submit sectionTitleButton'
-                            btnTitle='Add'
-                            btnIcon='add'
-                        />
-                        <div className='fieldDescription'>
-                            {globalize.translate('BlockContentWithTagsHelp')}
-                        </div>
-                        <div className='blockedTags' style={{ marginTop: '.5em' }}>
-                            {blockedTags.map(tag => {
-                                return <TagList
-                                    key={tag}
-                                    tag={tag}
-                                    tagType='blockedTag'
-                                    removeTagCallback={removeBlockedTagsTagsCallback}
-                                />;
-                            })}
-                        </div>
-                    </div>
-                    <div className='accessScheduleSection verticalSection' style={{ marginBottom: '2em' }}>
-                        <SectionTitleContainer
-                            title={globalize.translate('HeaderAccessSchedule')}
-                            isBtnVisible={true}
-                            btnId='btnAddSchedule'
-                            btnClassName='fab submit sectionTitleButton'
-                            btnTitle='Add'
-                            btnIcon='add'
-                        />
-                        <p>{globalize.translate('HeaderAccessScheduleHelp')}</p>
-                        <div className='accessScheduleList paperList'>
-                            {accessSchedules.map((accessSchedule, index) => {
-                                return <AccessScheduleList
-                                    key={`${accessSchedule.DayOfWeek}${accessSchedule.StartHour}${accessSchedule.EndHour}`}
-                                    index={index}
-                                    DayOfWeek={accessSchedule.DayOfWeek}
-                                    StartHour={accessSchedule.StartHour}
-                                    EndHour={accessSchedule.EndHour}
-                                    removeScheduleCallback={removeScheduleCallback}
-                                />;
-                            })}
-                        </div>
-                    </div>
-                    <div>
-                        <Button
-                            type='submit'
-                            className='raised button-submit block'
-                            title={globalize.translate('Save')}
-                        />
-                    </div>
-                </form>
-            </div>
-        </Page>
-
+            </form>
+        </div>
     );
 };
 
-export default UserParentalControl;
+export default ParentalControl;
