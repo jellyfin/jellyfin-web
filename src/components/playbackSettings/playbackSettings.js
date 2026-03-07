@@ -315,7 +315,10 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
         userSettingsInstance.set(actionEl.id, actionEl.value, false);
     });
 
-    return apiClient.updateUserConfiguration(user.Id, user.Configuration);
+    return Promise.all([
+        apiClient.updateUserConfiguration(user.Id, user.Configuration),
+        userSettingsInstance.flush()
+    ]);
 }
 
 function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
