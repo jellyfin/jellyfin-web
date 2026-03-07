@@ -1,0 +1,49 @@
+name: Deploy PR Preview 🚀
+
+on:
+  workflow_run:
+    workflows: ["CI 🔍"]
+    types: [completed]
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: read
+
+jobs:
+  get-pr-number:
+    name: Get PR number
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.repository == 'jellyfin/jellyfin-web'
+    runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.pr.outputs.number }}
+    steps:
+      - name: Find PR number
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          PR_NUMBER="${{ github.event.workflow_run.pull_requests[0].number }}"
+          if [ -z "$PR_NUMBER" ]; then
+            PR_NUMBER=$(gh api "/repos/${{ github.repository }}/commits/${HEAD_SHA}/pulls" --jq '.[0].number // empty')
+          fi
+          echo "number=${PR_NUMBER}" >> $GITHUB_OUTPUT
+
+  deploy:
+    name: Deploy 🚀
+    needs: get-pr-number
+    uses: ./.github/workflows/__deploy.yml
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+    with:
+      branch: ${{ github.event.workflow_run.head_repository.full_name != github.repository && github.event.workflow_run.head_branch == 'master' && format('{0}/{1}', github.event.workflow_run.head_repository.full_name, github.event.workflow_run.head_branch) || github.event.workflow_run.head_branch }}
+      commit: ${{ github.event.workflow_run.head_sha }}
+      comment: true
+      run_id: ${{ github.event.workflow_run.id }}
+      pr_number: ${{ needs.get-pr-number.outputs.pr_number }}
