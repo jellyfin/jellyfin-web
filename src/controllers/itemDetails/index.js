@@ -510,7 +510,7 @@ function setTrailerButtonVisibility(page, item) {
 }
 
 function renderBackdrop(page, item) {
-    if (!layoutManager.mobile && dom.getWindowSize().innerWidth >= 1000) {
+    if (!layoutManager.mobile) {
         const isBannerEnabled = !layoutManager.tv && userSettings.detailsBanner();
         // If backdrops are disabled, but the header banner is enabled, add a class to the page to disable the transparency
         page.classList.toggle('noBackdropTransparency', isBannerEnabled && !userSettings.enableBackdrops());
