@@ -112,6 +112,14 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'Runtime', value: ItemSortBy.Runtime },
         { label: 'OptionRandom', value: ItemSortBy.Random }
+    ],
+    [LibraryTab.MusicVideos]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+        { label: 'Runtime', value: ItemSortBy.Runtime },
+        { label: 'OptionRandom', value: ItemSortBy.Random }
     ]
 };
 
