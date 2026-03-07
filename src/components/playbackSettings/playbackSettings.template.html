@@ -127,6 +127,19 @@
             <div class="fieldDescription checkboxFieldDescription">${RememberSubtitleSelectionsHelp}</div>
         </div>
 
+        <div class="checkboxContainer checkboxContainer-withDescription">
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkEnableStillWatchingPrompt" />
+                <span>${AreYouStillWatchingSettingTitle}</span>
+            </label>
+            <div class="fieldDescription checkboxFieldDescription">${AreYouStillWatchingSettingDescription}</div>
+        </div>
+
+        <div class="inputContainer txtStillWatchingMaxCountContainer inputContainer-withDescription">
+            <input is="emby-input" type="number" id="txtStillWatchingMaxCount" pattern="[0-9]*" required="required" min="1" max="50" step="1" label="${LabelAreYouStillWatchingCount}" />
+            <div class="fieldDescription">${LabelAreYouStillWatchingCountHelp}</div>
+        </div>
+
         <div class="checkboxContainer checkboxContainer-withDescription fldEnableNextVideoOverlay">
             <label>
                 <input type="checkbox" is="emby-checkbox" class="chkEnableNextVideoOverlay" />

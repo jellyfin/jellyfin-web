@@ -302,6 +302,10 @@ function getAudioMaxValues(deviceProfile) {
 }
 
 let startingPlaySession = new Date().getTime();
+
+function stillWatchingThreshold() {
+    return userSettings.stillWatchingPromptMaxCount();
+}
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';
 
@@ -716,9 +720,47 @@ export class PlaybackManager {
         let currentPairingId = null;
 
         this._playNextAfterEnded = true;
+        this._autoPlayCount = 0;
+        this._suppressStillWatching = false;
         const playerStates = {};
 
         this._playQueueManager = new PlayQueueManager();
+
+        self.stillWatchingPromptDismiss = function (data) {
+            self.resetAutoPlayCounter();
+            self.nextTrack(undefined, true);
+            const { newPlayer, player, state, nextItem, nextMediaType } = data;
+            if (newPlayer !== player) {
+                self.triggerPlaybackStopEvent(player, state, nextItem, nextMediaType);
+            }
+        };
+        self.stillWatchingPromptDontAskAgain = function (data) {
+            self.suppressStillWatching();
+            self.nextTrack(undefined, true);
+            const { newPlayer, player, state, nextItem, nextMediaType } = data;
+            if (newPlayer !== player) {
+                self.triggerPlaybackStopEvent(player, state, nextItem, nextMediaType);
+            }
+        };
+        self.resetAutoPlayCounter = function () {
+            self._autoPlayCount = 0;
+        };
+        self.resetStillWatchingSuppressor = function () {
+            self._suppressStillWatching = false;
+        };
+        self.incrementAutoPlayCount = function () {
+            self._autoPlayCount++;
+        };
+        self.getAutoPlayCount = function () {
+            return self._autoPlayCount;
+        };
+
+        self.suppressStillWatching = function () {
+            self._suppressStillWatching = true;
+        };
+        self.isStillWatchingSuppressed = function () {
+            return self._suppressStillWatching;
+        };
 
         self.currentItem = function (player) {
             if (!player) {
@@ -2084,6 +2126,9 @@ export class PlaybackManager {
         self.getItemsForPlayback = getItemsForPlayback;
 
         self.play = async function (options) {
+            self.resetAutoPlayCounter();
+            self.resetStillWatchingSuppressor();
+
             normalizePlayOptions(options);
 
             if (self._currentPlayer) {
@@ -3119,7 +3164,11 @@ export class PlaybackManager {
             };
         }
 
-        self.nextTrack = function (player) {
+        self.nextTrack = function (player, isAutoPlay = false) {
+            if (!isAutoPlay) {
+                self.resetAutoPlayCounter();
+            }
+
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.nextTrack();
@@ -3139,6 +3188,7 @@ export class PlaybackManager {
         };
 
         self.previousTrack = function (player) {
+            self.resetAutoPlayCounter();
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.previousTrack();
@@ -3496,20 +3546,37 @@ export class PlaybackManager {
 
                 apiClient.getCurrentUser().then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
-                        self.nextTrack();
+                        const stillWatchingEnabled = userSettings.enableStillWatchingPrompt();
 
-                        if (newPlayer !== player) {
-                            Events.trigger(self, 'playbackstop', [{
-                                player,
+                        if (stillWatchingEnabled && !self.isStillWatchingSuppressed() && self.getAutoPlayCount() >= stillWatchingThreshold() - 1) {
+                            Events.trigger(self, 'stillwatchingprompt', [ { newPlayer, player,
                                 state,
                                 nextItem,
-                                nextMediaType
-                            }]);
+                                nextMediaType }]);
+                        } else {
+                            self.incrementAutoPlayCount();
+                            self.nextTrack(undefined, true);
+                            if (newPlayer !== player) {
+                                self.triggerPlaybackStopEvent(
+                                    player,
+                                    state,
+                                    nextItem,
+                                    nextMediaType);
+                            }
                         }
                     }
                 });
             }
         }
+
+        self.triggerPlaybackStopEvent = function (player, state, nextItem, nextMediaType) {
+            Events.trigger(self, 'playbackstop', [{
+                player,
+                state,
+                nextItem,
+                nextMediaType
+            }]);
+        };
 
         function onPlaybackChanging(activePlayer, newPlayer, newItem) {
             const state = self.getPlayerState(activePlayer);
