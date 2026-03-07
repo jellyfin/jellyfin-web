@@ -1438,6 +1438,21 @@ export default function (view) {
 
     function onWheel(e) {
         if (getOpenedDialog()) return;
+        const path = e.composedPath ? e.composedPath() : null;
+        if (path) {
+            for (const node of path) {
+                if (node && node.classList && node.classList.contains('playerStats')) {
+                    return;
+                }
+            }
+        } else {
+            for (let node = e.target; node; node = node.parentNode || node.host || null) {
+                if (node.classList && node.classList.contains('playerStats')) {
+                    return;
+                }
+            }
+        }
+
         if (e.deltaY < 0) {
             playbackManager.volumeUp(currentPlayer);
         }
