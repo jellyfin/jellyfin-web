@@ -1200,6 +1200,19 @@ export default function (view) {
         }
     }
 
+    function toggleDefaultSubtitleTrack(player) {
+        const subtitleTracks = playbackManager.subtitleTracks(player);
+        const currentIndex = playbackManager.getSubtitleStreamIndex(player) ?? -1;
+        const defaultIndex = player?.streamInfo?.mediaSource?.DefaultSubtitleStreamIndex ?? -1;
+
+        if (currentIndex === -1 && subtitleTracks.length > 0) {
+            const subtitleIndex = defaultIndex != -1 ? defaultIndex : subtitleTracks[0].Index;
+            playbackManager.setSubtitleStreamIndex(subtitleIndex, player);
+        } else {
+            playbackManager.setSubtitleStreamIndex(-1, player);
+        }
+    }
+
     /**
          * Clicked element.
          * To skip 'click' handling on Firefox/Edge.
@@ -1413,6 +1426,13 @@ export default function (view) {
                 if (!e.shiftKey) {
                     e.preventDefault();
                     playbackManager.previousChapter(currentPlayer);
+                }
+                break;
+            case 'c':
+            case 'C':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    toggleDefaultSubtitleTrack(currentPlayer);
                 }
                 break;
             case 'g':
