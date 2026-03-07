@@ -7,18 +7,27 @@ import globalize from 'lib/globalize';
 import Input from 'elements/emby-input/Input';
 import Button from 'elements/emby-button/Button';
 import { useApi } from 'hooks/useApi';
+import { useUsers } from 'hooks/useUsers';
 
 import './quickConnect.scss';
 
 const QuickConnectPage: FC = () => {
     const { api, user } = useApi();
+    const { data: usersData } = useUsers();
     const [ searchParams ] = useSearchParams();
     const [ code, setCode ] = useState(searchParams.get('code') ?? '');
+    const [ selectedUserId, setSelectedUserId ] = useState<string>(user?.Id ?? '');
     const [ error, setError ] = useState<string>();
     const [ success, setSuccess ] = useState(false);
 
+    const isAdmin = user?.Policy?.IsAdministrator ?? false;
+
     const onCodeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setCode(event.currentTarget.value);
+    }, []);
+
+    const onUserChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedUserId(event.currentTarget.value);
     }, []);
 
     const onSubmitCode = useCallback((e: FormEvent<HTMLFormElement>) => {
@@ -37,7 +46,11 @@ const QuickConnectPage: FC = () => {
             return;
         }
 
-        const userId = searchParams.get('userId') ?? user?.Id;
+        // Use selected user ID for admins, otherwise use current user
+        const userId = isAdmin && selectedUserId ?
+            selectedUserId :
+            (searchParams.get('userId') ?? user?.Id);
+
         const normalizedCode = code.replace(/\s/g, '');
         console.log('[QuickConnect] authorizing code %s as user %s', normalizedCode, userId);
 
@@ -52,7 +65,7 @@ const QuickConnectPage: FC = () => {
             .catch(() => {
                 setError('QuickConnectAuthorizeFail');
             });
-    }, [api, code, searchParams, user?.Id]);
+    }, [api, code, searchParams, user?.Id, isAdmin, selectedUserId]);
 
     return (
         <Page
@@ -89,6 +102,25 @@ const QuickConnectPage: FC = () => {
                             </div>
                         ) : (
                             <>
+                                {isAdmin && usersData && (
+                                    <div className='inputContainer'>
+                                        <label htmlFor='selectUser' className='inputLabel'>
+                                            {globalize.translate('LabelUser')}
+                                        </label>
+                                        <select
+                                            id='selectUser'
+                                            className='emby-select-withcolor emby-select'
+                                            value={selectedUserId}
+                                            onChange={onUserChange}
+                                        >
+                                            {usersData.map((u) => (
+                                                <option key={u.Id} value={u.Id}>
+                                                    {u.Name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
                                 <div className='inputContainer'>
                                     <Input
                                         value={code}
