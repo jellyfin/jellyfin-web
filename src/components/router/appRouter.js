@@ -452,6 +452,14 @@ class AppRouter {
             return '#/details?id=' + id + contextSuffix + '&serverId=' + serverId;
         }
 
+        if (item.CollectionType === 'books') {
+            if (id) {
+                return `#/list?type=Books&parentId=${id}&serverId=${serverId}`;
+            }
+
+            return '#';
+        }
+
         if (item.IsFolder) {
             if (id) {
                 return '#/list?parentId=' + id + '&serverId=' + serverId;
