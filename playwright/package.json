@@ -1,0 +1,20 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "npx playwright install && sudo npx playwright install-deps",
+    "start": "cd docker && docker compose up",
+    "test": "npx playwright test",
+    "stop": "cd docker && docker compose down",
+    "report": "npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "1.55.1",
+    "@types/node": "24.6.2"
+  }
+}
