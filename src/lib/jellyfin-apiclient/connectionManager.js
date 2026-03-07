@@ -3,6 +3,7 @@ import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ApiClient } from 'jellyfin-apiclient';
 
+import appSettings from 'scripts/settings/appSettings';
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
 import { equalsIgnoreCase } from 'utils/string';
@@ -178,7 +179,9 @@ export default class ConnectionManager {
             }
             server.Id = result.ServerId;
 
-            if (saveCredentials) {
+            const shouldSaveCredentials = saveCredentials && options.enableAutoLogin !== false && appSettings.enableAutoLogin();
+
+            if (shouldSaveCredentials) {
                 server.UserId = result.User.Id;
                 server.AccessToken = result.AccessToken;
             } else {
