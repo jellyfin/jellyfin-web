@@ -7,8 +7,9 @@
 
 <div class="formDialogContent smoothScrollY" style="padding-top:2em;">
     <form class="popupEditPersonForm dialogContentInner dialog-content-centered">
-        <div class="inputContainer">
-            <input type="text" is="emby-input" class="txtPersonName" required="required" label="${LabelName}" />
+        <div class="inputContainer" style="position:relative;">
+            <input type="text" is="emby-input" class="txtPersonName" required="required" label="${LabelName}" autocomplete="off" />
+            <div class="personSuggestionsContainer" style="display:none; position:absolute; z-index:1000; background:var(--jf-palette-background-paper); border:1px solid var(--jf-palette-divider); border-radius:4px; max-height:300px; overflow-y:auto; width:100%; margin-top:0.5em;"></div>
         </div>
 
         <div class="selectContainer">
