@@ -149,7 +149,7 @@ export const Component = () => {
     }, [ config ]);
 
     const hardwareAccelType = config?.HardwareAccelerationType || HardwareAccelerationType.None;
-    const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox' ].includes(hardwareAccelType);
+    const isHwaSelected = [ 'amf', 'nvenc', 'qsv', 'vaapi', 'rkmpp', 'videotoolbox', 'nvmpi' ].includes(hardwareAccelType);
 
     const availableCodecs = useMemo(() => (
         CODECS.filter(codec => codec.types.includes(hardwareAccelType))
@@ -203,6 +203,7 @@ export const Component = () => {
                                 <MenuItem value='rkmpp'>Rockchip MPP (RKMPP)</MenuItem>
                                 <MenuItem value='videotoolbox'>Apple VideoToolBox</MenuItem>
                                 <MenuItem value='v4l2m2m'>Video4Linux2 (V4L2)</MenuItem>
+                                <MenuItem value='nvmpi'>Nvidia Jetson</MenuItem>
                             </TextField>
 
                             {hardwareAccelType === 'vaapi' && (
