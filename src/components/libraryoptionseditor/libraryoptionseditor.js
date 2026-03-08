@@ -323,6 +323,41 @@ function getImageFetchersForTypeHtml(availableTypeOptions, libraryOptionsForType
     return html;
 }
 
+function getSimilarItemProvidersForTypeHtml(availableTypeOptions, libraryOptionsForType) {
+    let html = '';
+    let plugins = availableTypeOptions.SimilarItemProviders;
+
+    plugins = getOrderedPlugins(plugins, libraryOptionsForType.SimilarItemProviderOrder || []);
+    if (!plugins.length) return html;
+
+    html += '<div class="similarItemProvider" data-type="' + availableTypeOptions.Type + '">';
+    html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderTypeSimilarItemProviders', globalize.translate('TypeOptionPlural' + availableTypeOptions.Type)) + '</h3>';
+    html += '<div class="checkboxList paperList checkboxList-paperList">';
+
+    plugins.forEach((plugin, index) => {
+        html += '<div class="listItem similarItemProviderItem sortableOption" data-pluginname="' + escapeHtml(plugin.Name) + '">';
+        const isChecked = libraryOptionsForType.SimilarItemProviders ? libraryOptionsForType.SimilarItemProviders.includes(plugin.Name) : plugin.DefaultEnabled;
+        const checkedHtml = isChecked ? ' checked="checked"' : '';
+        html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkSimilarItemProvider" data-pluginname="' + escapeHtml(plugin.Name) + '" ' + checkedHtml + '><span></span></label>';
+        html += '<div class="listItemBody">';
+        html += '<h3 class="listItemBodyText">';
+        html += escapeHtml(plugin.Name);
+        html += '</h3>';
+        html += '</div>';
+        if (index > 0) {
+            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>';
+        } else if (plugins.length > 1) {
+            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>';
+        }
+        html += '</div>';
+    });
+
+    html += '</div>';
+    html += '<div class="fieldDescription">' + globalize.translate('LabelSimilarItemProvidersHelp') + '</div>';
+    html += '</div>';
+    return html;
+}
+
 function renderImageFetchers(page, availableOptions, libraryOptions) {
     let html = '';
     const elem = page.querySelector('.imageFetchers');
@@ -336,6 +371,21 @@ function renderImageFetchers(page, availableOptions, libraryOptions) {
     } else {
         elem.classList.add('hide');
         page.querySelector('.chkSaveLocalContainer').classList.add('hide');
+    }
+    return true;
+}
+
+function renderSimilarItemProviders(page, availableOptions, libraryOptions) {
+    let html = '';
+    const elem = page.querySelector('.similarItemProviders');
+    for (const availableTypeOptions of availableOptions.TypeOptions) {
+        html += getSimilarItemProvidersForTypeHtml(availableTypeOptions, getTypeOptions(libraryOptions, availableTypeOptions.Type) || {});
+    }
+    elem.innerHTML = html;
+    if (html) {
+        elem.classList.remove('hide');
+    } else {
+        elem.classList.add('hide');
     }
     return true;
 }
@@ -355,6 +405,7 @@ function populateMetadataSettings(parent, contentType) {
         renderLyricFetchers(parent, availableOptions, {});
         renderMediaSegmentProviders(parent, availableOptions, {});
         renderImageFetchers(parent, availableOptions, {});
+        renderSimilarItemProviders(parent, availableOptions, {});
         availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleDownloadSettings').classList.remove('hide') : parent.querySelector('.subtitleDownloadSettings').classList.add('hide');
     }).catch(() => {
         return Promise.resolve();
@@ -432,6 +483,7 @@ function bindEvents(parent) {
     parent.querySelector('.lyricFetchers').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.mediaSegmentProviders').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
+    parent.querySelector('.similarItemProviders').addEventListener('click', onSortableContainerClick);
 
     parent.querySelector('#chkEnableEmbeddedTitles').addEventListener('change', (e) => {
         parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !e.currentTarget.checked);
@@ -605,6 +657,30 @@ function setImageFetchersIntoOptions(parent, options) {
     }
 }
 
+function setSimilarItemProvidersIntoOptions(parent, options) {
+    const sections = parent.querySelectorAll('.similarItemProvider');
+    for (const section of sections) {
+        const type = section.getAttribute('data-type');
+        let typeOptions = getTypeOptions(options, type);
+        if (!typeOptions) {
+            typeOptions = {
+                Type: type
+            };
+            options.TypeOptions.push(typeOptions);
+        }
+
+        typeOptions.SimilarItemProviders = Array.prototype.map.call(Array.prototype.filter.call(section.querySelectorAll('.chkSimilarItemProvider'), elem => {
+            return elem.checked;
+        }), elem => {
+            return elem.getAttribute('data-pluginname');
+        });
+
+        typeOptions.SimilarItemProviderOrder = Array.prototype.map.call(section.querySelectorAll('.similarItemProviderItem'), elem => {
+            return elem.getAttribute('data-pluginname');
+        });
+    }
+}
+
 function setImageOptionsIntoOptions(options) {
     const originalTypeOptions = currentLibraryOptions?.TypeOptions || [];
     for (const originalTypeOption of originalTypeOptions) {
@@ -674,6 +750,7 @@ export function getLibraryOptions(parent) {
     setMediaSegmentProvidersIntoOptions(parent, options);
     setMetadataFetchersIntoOptions(parent, options);
     setImageFetchersIntoOptions(parent, options);
+    setSimilarItemProvidersIntoOptions(parent, options);
     setImageOptionsIntoOptions(options);
 
     return options;
@@ -731,6 +808,7 @@ export function setLibraryOptions(parent, options) {
     renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
     renderMetadataFetchers(parent, parent.availableOptions, options);
     renderImageFetchers(parent, parent.availableOptions, options);
+    renderSimilarItemProviders(parent, parent.availableOptions, options);
     renderSubtitleFetchers(parent, parent.availableOptions, options);
     renderLyricFetchers(parent, parent.availableOptions, options);
     renderMediaSegmentProviders(parent, parent.availableOptions, options);
