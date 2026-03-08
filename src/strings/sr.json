@@ -1870,5 +1870,7 @@
     "HeaderDeletePlaylist": "Обриши листу за пуштање",
     "ConfirmDeleteCollection": "Да ли сигурно желите да обришете ову колекцију?",
     "ConfirmDeletePlaylist": "Да ли сигурно желите да обришете ову листу за пуштање?",
-    "HeaderDeleteCollection": "Обриши колекцију"
+    "HeaderDeleteCollection": "Обриши колекцију",
+    "OptionDatePlaylistUpdated": "Датум ажурирања плејлисте",
+    "NewPlaylist": "Нова плејлиста"
 }

@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "您确定要删除此合集吗？",
     "ConfirmDeletePlaylist": "您确定要删除此播放列表吗？",
     "HeaderDeleteCollection": "删除合集",
-    "HeaderDeletePlaylist": "删除播放列表"
+    "HeaderDeletePlaylist": "删除播放列表",
+    "NewPlaylist": "新建播放列表",
+    "OptionDatePlaylistUpdated": "播放列表更新时间"
 }

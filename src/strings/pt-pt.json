@@ -1870,5 +1870,7 @@
     "HeaderDeletePlaylist": "Eliminar Playlist",
     "ConfirmDeleteCollection": "Tens a certeza que queres eliminar esta coleção?",
     "ConfirmDeletePlaylist": "Tens a certeza de que queres eliminar esta playlist?",
-    "HeaderDeleteCollection": "Eliminar coleção"
+    "HeaderDeleteCollection": "Eliminar coleção",
+    "NewPlaylist": "Nova lista de reprodução",
+    "OptionDatePlaylistUpdated": "Data de Atualização da Lista de Reprodução"
 }
