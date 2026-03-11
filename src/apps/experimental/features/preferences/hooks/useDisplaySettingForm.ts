@@ -17,7 +17,8 @@ export function useDisplaySettingForm() {
     const {
         displaySettings,
         loading,
-        saveDisplaySettings
+        saveDisplaySettings,
+        userSettings
     } = useDisplaySettings({ userId: urlParams.get('userId') });
     const [formValues, setFormValues] = useState<DisplaySettingsValues>();
 
@@ -43,10 +44,18 @@ export function useDisplaySettingForm() {
         }
     }, [formValues, saveDisplaySettings]);
 
+    const saveUserCustomCss = useCallback(async () => {
+        if (formValues && userSettings) {
+            userSettings.userCustomCss(formValues.customCss);
+            toast(globalize.translate('UserCustomCssSaved'));
+        }
+    }, [formValues, userSettings]);
+
     return {
         loading,
         values: formValues,
         submitChanges,
-        updateField
+        updateField,
+        saveUserCustomCss
     };
 }

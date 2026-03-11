@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -22,10 +23,11 @@ import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 
 interface DisplayPreferencesProps {
     onChange: (event: SelectChangeEvent | React.SyntheticEvent) => void;
+    onSaveUserCustomCss: () => void;
     values: DisplaySettingsValues;
 }
 
-export function DisplayPreferences({ onChange, values }: Readonly<DisplayPreferencesProps>) {
+export function DisplayPreferences({ onChange, onSaveUserCustomCss, values }: Readonly<DisplayPreferencesProps>) {
     const { user } = useApi();
     const { screensavers } = useScreensavers();
     const { themes } = useThemes();
@@ -94,6 +96,23 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
             </FormControl>
 
             <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-use-saved-custom-css-description'
+                    control={
+                        <Checkbox
+                            checked={values.useSavedCustomCss}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('UseSavedCustomCss')}
+                    name='useSavedCustomCss'
+                />
+                <FormHelperText id='display-settings-use-saved-custom-css-description'>
+                    {globalize.translate('LabelUseSavedCustomCss')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
                 <TextField
                     aria-describedby='display-settings-custom-css-description'
                     value={values.customCss}
@@ -104,6 +123,15 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                 />
                 <FormHelperText id='display-settings-custom-css-description'>
                     {globalize.translate('LabelLocalCustomCss')}
+                </FormHelperText>
+                <Button
+                    onClick={onSaveUserCustomCss}
+                    sx={{ mt: 1, alignSelf: 'flex-start' }}
+                >
+                    {globalize.translate('SaveUserCustomCss')}
+                </Button>
+                <FormHelperText>
+                    {globalize.translate('LabelSaveUserCustomCss')}
                 </FormHelperText>
             </FormControl>
 

@@ -61,7 +61,8 @@ export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {
     return {
         displaySettings,
         loading,
-        saveDisplaySettings: saveSettings
+        saveDisplaySettings: saveSettings,
+        userSettings
     };
 }
 
@@ -84,10 +85,11 @@ async function loadDisplaySettings({
     await settings.setUserInfo(userId, api);
 
     const displaySettings = {
-        customCss: settings.customCss() || '',
+        customCss: settings.useSavedCustomCss() ? settings.userCustomCss() : (settings.customCss() || ''),
         dashboardTheme: settings.dashboardTheme() || defaultTheme?.id || FALLBACK_THEME_ID,
         dateTimeLocale: settings.dateTimeLocale() || 'auto',
         disableCustomCss: Boolean(settings.disableCustomCss()),
+        useSavedCustomCss: Boolean(settings.useSavedCustomCss()),
         displayMissingEpisodes: user?.Configuration?.DisplayMissingEpisodes ?? false,
         enableBlurHash: Boolean(settings.enableBlurhash()),
         enableFasterAnimation: Boolean(settings.enableFastFadein()),
@@ -104,7 +106,8 @@ async function loadDisplaySettings({
         screensaver: settings.screensaver() || 'none',
         screensaverInterval: settings.backdropScreensaverInterval(),
         slideshowInterval: settings.slideshowInterval(),
-        theme: settings.theme() || defaultTheme?.id || FALLBACK_THEME_ID
+        theme: settings.theme() || defaultTheme?.id || FALLBACK_THEME_ID,
+        userCustomCss: settings.userCustomCss() || ''
     };
 
     return {
@@ -131,10 +134,12 @@ async function saveDisplaySettings({
     if (appHost.supports(AppFeature.DisplayLanguage)) {
         userSettings.language(normalizeValue(newDisplaySettings.language));
     }
+
     userSettings.customCss(normalizeValue(newDisplaySettings.customCss));
     userSettings.dashboardTheme(newDisplaySettings.dashboardTheme);
     userSettings.dateTimeLocale(normalizeValue(newDisplaySettings.dateTimeLocale));
     userSettings.disableCustomCss(newDisplaySettings.disableCustomCss);
+    userSettings.useSavedCustomCss(newDisplaySettings.useSavedCustomCss);
     userSettings.enableBlurhash(newDisplaySettings.enableBlurHash);
     userSettings.enableFastFadein(newDisplaySettings.enableFasterAnimation);
     userSettings.detailsBanner(newDisplaySettings.enableItemDetailsBanner);
