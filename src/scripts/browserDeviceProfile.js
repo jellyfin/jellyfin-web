@@ -412,7 +412,7 @@ function getGlobalMaxVideoBitrate() {
     if (browser.ps4) {
         bitrate = 8000000;
     } else if (browser.xboxOne) {
-        bitrate = 12000000;
+        bitrate = window.xboxBitrateLimit ?? null;
     } else if (browser.tizen && isTizenFhd) {
         bitrate = 20000000;
     }
