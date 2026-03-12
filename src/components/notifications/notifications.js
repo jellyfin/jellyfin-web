@@ -89,6 +89,10 @@ function showNonPersistentNotification(title, options, timeoutMs) {
 }
 
 function showNotification(options, timeoutMs, apiClient) {
+    if (!window.Notification || Notification.permission !== 'granted') {
+        return;
+    }
+
     const title = options.title;
 
     options.data = options.data || {};
