@@ -458,6 +458,7 @@ export class HtmlVideoPlayer {
                     maxBufferLength: maxBufferLength,
                     maxMaxBufferLength: maxBufferLength,
                     videoPreference: { preferHDR: true },
+                    workerPath: 'libraries/hls.worker.js',
                     xhrSetup(xhr) {
                         xhr.withCredentials = includeCorsCredentials;
                     }

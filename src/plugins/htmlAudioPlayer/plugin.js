@@ -171,6 +171,7 @@ class HtmlAudioPlayer {
 
                         const hls = new Hls({
                             manifestLoadingTimeOut: 20000,
+                            workerPath: 'libraries/hls.worker.js',
                             xhrSetup: function (xhr) {
                                 xhr.withCredentials = includeCorsCredentials;
                             }

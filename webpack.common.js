@@ -17,7 +17,8 @@ const Assets = [
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
     'pdfjs-dist/build/pdf.worker.js',
-    'libpgs/dist/libpgs.worker.js'
+    'libpgs/dist/libpgs.worker.js',
+    'hls.js/dist/hls.worker.js'
 ];
 
 const DEV_MODE = process.env.NODE_ENV !== 'production';
