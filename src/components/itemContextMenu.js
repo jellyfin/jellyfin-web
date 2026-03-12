@@ -18,6 +18,8 @@ import { playbackManager } from './playback/playbackmanager';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 
+/** @typedef {import('@jellyfin/sdk/lib/generated-client/models/base-item-dto').BaseItemDto} BaseItemDto */
+
 /** Item types that support downloading all children. */
 const DOWNLOAD_ALL_TYPES = [
     BaseItemKind.BoxSet,
@@ -44,7 +46,7 @@ function getDeleteLabel(type) {
 }
 
 /**
- * @param {import('@jellyfin/sdk/lib/generated-client/models/base-item-dto').BaseItemDto} item
+ * @param {BaseItemDto} item
  * @returns {string}
  */
 function getRemoveFromContinueLabel(item) {
