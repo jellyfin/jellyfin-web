@@ -1807,11 +1807,14 @@ export class PlaybackManager {
 
             sortItemsIfNeeded(items, options);
 
-            const firstItem = items[0];
-            const serverId = firstItem.ServerId;
+            let reprIdx = 0;
+            if (options.startIndex !== undefined) reprIdx = options.startIndex;
+
+            const reprItem = items[reprIdx];
+            const serverId = reprItem.ServerId;
             const queryOptions = options.queryOptions || {};
 
-            const promise = getPlaybackPromise(firstItem, serverId, options, queryOptions, items);
+            const promise = getPlaybackPromise(reprItem, serverId, options, queryOptions, items);
 
             if (promise) {
                 const result = await promise;
@@ -1830,23 +1833,26 @@ export class PlaybackManager {
             }
         }
 
-        function getPlaybackPromise(firstItem, serverId, options, queryOptions, items) {
+        /**
+         * reprItem is the representative item that decides the filters
+         */
+        function getPlaybackPromise(reprItem, serverId, options, queryOptions, items) {
             const SortBy = options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName;
 
-            switch (firstItem.Type) {
+            switch (reprItem.Type) {
                 case BaseItemKind.Program:
                     return getItemsForPlayback(serverId, {
-                        Ids: firstItem.ChannelId
+                        Ids: reprItem.ChannelId
                     });
                 case BaseItemKind.Playlist:
                     return getItemsForPlayback(serverId, {
-                        ParentId: firstItem.Id,
+                        ParentId: reprItem.Id,
                         SortBy: options.shuffle ? SortBy : undefined
                     });
                 case BaseItemKind.MusicArtist:
 
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        ArtistIds: firstItem.Id,
+                        ArtistIds: reprItem.Id,
                         Recursive: true,
                         SortBy: options.shuffle ? SortBy : [
                             ItemSortBy.Album,
@@ -1858,7 +1864,7 @@ export class PlaybackManager {
                     }, queryOptions));
                 case BaseItemKind.PhotoAlbum:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        ParentId: firstItem.Id,
+                        ParentId: reprItem.Id,
                         // Setting this to true may cause some incorrect sorting
                         Recursive: false,
                         SortBy,
@@ -1868,48 +1874,48 @@ export class PlaybackManager {
                     }, queryOptions));
                 case BaseItemKind.MusicGenre:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        GenreIds: firstItem.Id,
+                        GenreIds: reprItem.Id,
                         Recursive: true,
                         SortBy,
                         MediaTypes: MediaType.Audio
                     }, queryOptions));
                 case BaseItemKind.Genre:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        GenreIds: firstItem.Id,
-                        ParentId: firstItem.ParentId,
+                        GenreIds: reprItem.Id,
+                        ParentId: reprItem.ParentId,
                         Recursive: true,
                         SortBy,
                         MediaTypes: MediaType.Video
                     }, queryOptions));
                 case BaseItemKind.Studio:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        StudioIds: firstItem.Id,
+                        StudioIds: reprItem.Id,
                         Recursive: true,
                         SortBy,
                         MediaTypes: MediaType.Video
                     }, queryOptions));
                 case BaseItemKind.Person:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        PersonIds: firstItem.Id,
-                        ParentId: firstItem.ParentId,
+                        PersonIds: reprItem.Id,
+                        ParentId: reprItem.ParentId,
                         Recursive: true,
                         SortBy,
                         MediaTypes: MediaType.Video
                     }, queryOptions));
                 case BaseItemKind.Series:
                 case BaseItemKind.Season:
-                    return getSeriesOrSeasonPlaybackPromise(firstItem, options, items);
+                    return getSeriesOrSeasonPlaybackPromise(reprItem, options, items);
                 case BaseItemKind.Episode:
-                    return getEpisodePlaybackPromise(firstItem, options, items);
+                    return getEpisodePlaybackPromise(reprItem, options, items);
             }
 
-            return getNonItemTypePromise(firstItem, serverId, options, queryOptions);
+            return getNonItemTypePromise(reprItem, serverId, options, queryOptions);
         }
 
-        function getNonItemTypePromise(firstItem, serverId, options, queryOptions) {
-            if (firstItem.MediaType === 'Photo') {
+        function getNonItemTypePromise(reprItem, serverId, options, queryOptions) {
+            if (reprItem.MediaType === 'Photo') {
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ParentId: firstItem.ParentId,
+                    ParentId: reprItem.ParentId,
                     Filters: 'IsNotFolder',
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
@@ -1921,7 +1927,7 @@ export class PlaybackManager {
 
                     let index = playbackItems.map(function (i) {
                         return i.Id;
-                    }).indexOf(firstItem.Id);
+                    }).indexOf(reprItem.Id);
 
                     if (index === -1) {
                         index = 0;
@@ -1931,9 +1937,9 @@ export class PlaybackManager {
 
                     return Promise.resolve(result);
                 });
-            } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
+            } else if (reprItem.IsFolder && reprItem.CollectionType === 'homevideos') {
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ParentId: firstItem.Id,
+                    ParentId: reprItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
@@ -1941,21 +1947,21 @@ export class PlaybackManager {
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
-            } else if (firstItem.IsFolder && firstItem.CollectionType === 'musicvideos') {
+            } else if (reprItem.IsFolder && reprItem.CollectionType === 'musicvideos') {
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ParentId: firstItem.Id,
+                    ParentId: reprItem.Id,
                     Filters: 'IsFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: 'Video',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
-            } else if (firstItem.IsFolder) {
+            } else if (reprItem.IsFolder) {
                 let sortBy = null;
                 if (options.shuffle) {
                     sortBy = 'Random';
-                } else if (firstItem.Type !== 'BoxSet') {
-                    if (firstItem.CollectionType === 'music' || firstItem.MediaType === 'Audio') {
+                } else if (reprItem.Type !== 'BoxSet') {
+                    if (reprItem.CollectionType === 'music' || reprItem.MediaType === 'Audio') {
                         sortBy = 'Album,ParentIndexNumber,IndexNumber,SortName';
                     } else {
                         sortBy = 'SortName';
@@ -1963,7 +1969,7 @@ export class PlaybackManager {
                 }
 
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ParentId: firstItem.Id,
+                    ParentId: reprItem.Id,
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     // These are pre-sorted
