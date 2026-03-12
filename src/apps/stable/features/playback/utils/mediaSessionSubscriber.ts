@@ -11,8 +11,12 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import type { PlayerState } from 'types/playbackStopInfo';
 import type { Event } from 'utils/events';
 
-/** The default image resolutions to provide to the media session */
-const DEFAULT_IMAGE_SIZES = [96, 128, 192, 256, 384, 512];
+/** The default image resolutions to provide to the media session.
+ *
+ * Highest-to-lowest order matters; Firefox on Linux seems to use the first
+ * image in the artwork array for its MPRIS interface. (#7630)
+ */
+const DEFAULT_IMAGE_SIZES = [512, 384, 256, 192, 128, 96];
 
 const hasNavigatorSession = 'mediaSession' in navigator;
 const hasNativeShell = !!window.NativeShell;
@@ -92,8 +96,14 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
 
     private onMediaSessionUpdate(
         { type: action }: Event,
-        state: PlayerState = this.playbackManager.getPlayerState(this.player)
+        stateOverride?: PlayerState
     ) {
+        if (!this.player) {
+            console.debug('[MediaSessionSubscriber] no active player; resetting media session');
+            return resetMediaSession();
+        }
+
+        const state: PlayerState = stateOverride || this.playbackManager.getPlayerState(this.player);
         const item = state.NowPlayingItem;
 
         if (!item) {
