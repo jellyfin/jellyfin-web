@@ -22,7 +22,13 @@ module.exports = merge(common, {
         client: {
             overlay: {
                 errors: true,
-                warnings: false
+                warnings: false,
+                runtimeErrors: (error) => {
+                    const message = error?.message || String(error);
+
+                    // Ignore noisy unhandled Response rejections in dev overlay.
+                    return message !== '[object Response]';
+                }
             }
         }
     }

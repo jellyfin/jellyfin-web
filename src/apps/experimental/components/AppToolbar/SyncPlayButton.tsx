@@ -1,3 +1,11 @@
+/**
+ * App toolbar entrypoint for SyncPlay actions.
+ *
+ * Rendering rules:
+ * - Hidden when user policy disallows SyncPlay.
+ * - Hidden when SyncPlay plugin is not registered.
+ * - Otherwise renders a button that anchors `SyncPlayMenu`.
+ */
 import { SyncPlayUserAccessType } from '@jellyfin/sdk/lib/generated-client/models/sync-play-user-access-type';
 import Groups from '@mui/icons-material/Groups';
 import IconButton from '@mui/material/IconButton';

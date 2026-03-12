@@ -1,3 +1,9 @@
+/**
+ * SyncPlay runtime composition root.
+ *
+ * This file intentionally exports singleton-like instances so the plugin and UI
+ * surfaces all operate on one shared SyncPlay manager and player factory.
+ */
 import * as Helper from './Helper';
 import ManagerClass from './Manager';
 import PlayerFactoryClass from './players/PlayerFactory';
