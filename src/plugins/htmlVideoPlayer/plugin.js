@@ -293,6 +293,10 @@ export class HtmlVideoPlayer {
      * @type {number | null | undefined}
      */
     #currentTime;
+    /**
+     * @type {number | null}
+     */
+    #detectedAspectRatio = null;
 
     /**
      * @private (used in other files)
@@ -398,6 +402,7 @@ export class HtmlVideoPlayer {
         this.#timeUpdated = false;
 
         this.#currentTime = null;
+        this.#detectedAspectRatio = this.#getDetectedAspectRatio(options);
 
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
@@ -856,6 +861,8 @@ export class HtmlVideoPlayer {
         setBackdropTransparency(TRANSPARENCY_LEVEL.None);
         document.body.classList.remove('hide-scroll');
 
+        this.#detectedAspectRatio = null;
+
         const videoElement = this.#mediaElement;
 
         if (videoElement) {
@@ -1013,6 +1020,10 @@ export class HtmlVideoPlayer {
 
                 this.onStartedAndNavigatedToOsd();
             }
+        }
+        // Reapply detected aspect ratio now that video dimensions are available
+        if (this.getAspectRatio() === 'detected') {
+            this.#applyAspectRatio('detected');
         }
         Events.trigger(this, 'playing');
     };
@@ -2064,15 +2075,30 @@ export class HtmlVideoPlayer {
     #applyAspectRatio(val = this.getAspectRatio()) {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
-            if (val === 'auto') {
-                mediaElement.style.removeProperty('object-fit');
+            if (val === 'detected' && typeof this.#detectedAspectRatio === 'number' && this.#detectedAspectRatio > 0) {
+                const ar = this.#detectedAspectRatio;
+                // Viewport-unit sizing: element takes the content's aspect ratio,
+                // constrained to fit the viewport. Fully responsive to any window shape.
+                // object-fit:cover then crops exactly the baked-in black bars.
+                mediaElement.style.width = `min(100vw, calc(100vh * ${ar}))`;
+                mediaElement.style.height = `min(100vh, calc(100vw / ${ar}))`;
+                mediaElement.style['object-fit'] = 'cover';
+                mediaElement.style.setProperty('margin', 'auto', 'important');
             } else {
-                mediaElement.style['object-fit'] = val;
+                // Restore default sizing for non-detected modes
+                mediaElement.style.width = '100%';
+                mediaElement.style.height = '100%';
+                mediaElement.style.setProperty('margin', '0', 'important');
+                if (val === 'auto' || val === 'detected') {
+                    mediaElement.style.removeProperty('object-fit');
+                } else {
+                    mediaElement.style['object-fit'] = val;
+                }
             }
         }
 
         if (this.#currentPgsRenderer) {
-            this.#currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
+            this.#currentPgsRenderer.aspectRatio = val === 'auto' || val === 'detected' ? 'contain' : val;
         }
     }
 
@@ -2082,20 +2108,62 @@ export class HtmlVideoPlayer {
     }
 
     getAspectRatio() {
-        return appSettings.aspectRatio() || 'auto';
+        const saved = appSettings.aspectRatio() || 'auto';
+        // Fall back to auto if detected was saved but isn't available for this file
+        if (saved === 'detected' && this.#detectedAspectRatio === null) {
+            return 'auto';
+        }
+        return saved;
     }
 
     getSupportedAspectRatios() {
-        return [{
+        const ratios = [{
             name: globalize.translate('Auto'),
             id: 'auto'
-        }, {
+        }];
+
+        if (this.#detectedAspectRatio !== null) {
+            ratios.push({
+                name: globalize.translate('AspectRatioDetected'),
+                id: 'detected'
+            });
+        }
+
+        ratios.push({
             name: globalize.translate('AspectRatioCover'),
             id: 'cover'
         }, {
             name: globalize.translate('AspectRatioFill'),
             id: 'fill'
-        }];
+        });
+
+        return ratios;
+    }
+
+    #getDetectedAspectRatio(options) {
+        const item = options?.item;
+        const mediaSourceId = options?.mediaSource?.Id;
+        if (!item?.Trickplay || !mediaSourceId) {
+            return null;
+        }
+
+        const trickplayResolutions = item.Trickplay[mediaSourceId];
+        if (!trickplayResolutions) {
+            return null;
+        }
+
+        for (const [, info] of Object.entries(trickplayResolutions)) {
+            if (info.DetectedAspectRatioSnapped != null) {
+                return parseFloat(info.DetectedAspectRatioSnapped);
+            }
+            // DetectedAspectRatioSnapped is null when no black bars are detected;
+            // fall back to the raw value (0 = native aspect ratio, no cropping needed)
+            if (info.DetectedAspectRatio != null) {
+                return parseFloat(info.DetectedAspectRatio);
+            }
+        }
+
+        return null;
     }
 
     togglePictureInPicture() {
