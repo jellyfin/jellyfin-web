@@ -1870,5 +1870,6 @@
     "ConfirmDeleteCollection": "Bạn có chắc chắn muốn xóa bộ sưu tập này?",
     "ConfirmDeletePlaylist": "Bạn có chắc muốn xóa danh sách phát này?",
     "HeaderDeleteCollection": "Xóa Bộ Sưu Tập",
-    "HeaderDeletePlaylist": "Xóa Danh Sách Phát"
+    "HeaderDeletePlaylist": "Xóa Danh Sách Phát",
+    "NewPlaylist": "Danh Sách Phát Mới"
 }

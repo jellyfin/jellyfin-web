@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "¿Está seguro de que desea borrar esta colección?",
     "ConfirmDeletePlaylist": "¿Está seguro de que desea eliminar esta lista de reproducción?",
     "HeaderDeleteCollection": "Eliminar colección",
-    "HeaderDeletePlaylist": "Eliminar lista de reproducción"
+    "HeaderDeletePlaylist": "Eliminar lista de reproducción",
+    "NewPlaylist": "Nueva Lista de Reproducción",
+    "OptionDatePlaylistUpdated": "Fecha en que se actualizó la Lista de Reproducción"
 }

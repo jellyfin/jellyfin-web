@@ -721,9 +721,9 @@
     "OptionDateAdded": "Aggiunto il",
     "OptionDateAddedFileTime": "Utilizza la data di creazione del file",
     "OptionDateAddedImportTime": "Utilizza la data di scansione nella libreria",
-    "OptionDatePlayed": "Visto il",
+    "OptionDatePlayed": "Data riproduzione",
     "OptionDisableUser": "Disabilita questo utente",
-    "OptionDisableUserHelp": "Il server non sarà disponibile per questo utente. Le connessioni esistenti verranno terminate.",
+    "OptionDisableUserHelp": "Il server non sarà disponibile per questo utente. Le connessioni esistenti saranno terminate.",
     "OptionDisplayFolderView": "Visualizza cartelle come normali cartelle dei media",
     "OptionDisplayFolderViewHelp": "Visualizza le cartelle accanto alle librerie multimediali. Questo può essere utile se si desidera avere una vista di cartelle semplici.",
     "OptionEnableAccessFromAllDevices": "Abilita l'accesso da tutti i dispositivi",
@@ -1489,7 +1489,7 @@
     "MessageNoItemsAvailable": "Nessun oggetto è disponibile per il momento.",
     "MessageRenameMediaFolder": "Rinominare una libreria media causerà la perdita di tutti i metadati, procedi con cautela.",
     "OptionDateEpisodeAdded": "Data Aggiunta Episodio",
-    "OptionDateShowAdded": "Data Aggiunta Serie",
+    "OptionDateShowAdded": "Data aggiunta serie",
     "MessageNoFavoritesAvailable": "Al momento non sono disponibili preferiti.",
     "Unreleased": "Non ancora rilasciato",
     "DownloadAll": "Scarica tutto",
@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Sicuro di cancellare questa collezione?",
     "ConfirmDeletePlaylist": "Sicuro di eliminare questa scaletta?",
     "HeaderDeleteCollection": "Rimuovi Collezione",
-    "HeaderDeletePlaylist": "Elimina scaletta"
+    "HeaderDeletePlaylist": "Elimina scaletta",
+    "NewPlaylist": "Nuova scaletta",
+    "OptionDatePlaylistUpdated": "Data aggiornamento scaletta"
 }

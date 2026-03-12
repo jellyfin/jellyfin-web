@@ -85,7 +85,7 @@
     "DeleteUser": "Zmazať používateľa",
     "DeleteUserConfirmation": "Ste si istý, že chcete vymazať tohto používateľa?",
     "Descending": "Zostupne",
-    "Desktop": "Stolný počítač",
+    "Desktop": "Počítač (zastaralé)",
     "DetectingDevices": "Hľadanie zariadení",
     "DeviceAccessHelp": "Táto možnosť sa vzťahuje iba na zariadenia, ktoré môžu byť jedinečne identifikované a nezabráni im prístup cez prehliadač. Filtrovaním prístupu používateľských zariadení zabraňuje užívateľom použiť nové zariadenie, pokiaľ tu neboli schválené.",
     "Director": "Režisér",
@@ -421,7 +421,7 @@
     "MetadataManager": "Správca metadát",
     "MinutesAfter": "minút po",
     "MinutesBefore": "minút pred",
-    "Mobile": "Mobil",
+    "Mobile": "Mobilné (zastaralé)",
     "Monday": "Pondelok",
     "MoreFromValue": "Viac od {0}",
     "MoreUsersCanBeAddedLater": "Ďalších používateľov môžete neskôr pridať cez Dashboard.",
@@ -1772,7 +1772,7 @@
     "MediaSegmentAction.None": "Žiadne",
     "MediaSegmentAction.Skip": "Preskočiť",
     "MediaSegmentType.Commercial": "Komerčné",
-    "MediaSegmentType.Intro": "Úvod",
+    "MediaSegmentType.Intro": "Intro",
     "MediaSegmentType.Outro": "Záverečné titulky",
     "MediaSegmentType.Preview": "Ukážka",
     "MediaSegmentType.Recap": "Rekapitulácia",
@@ -1869,5 +1869,8 @@
     "ConfirmDeleteCollection": "Naozaj chcete odstrániť túto kolekciu?",
     "ConfirmDeletePlaylist": "Naozaj chcete odstrániť tento zoznam skladieb?",
     "HeaderDeleteCollection": "Vymazať kolekciu",
-    "HeaderDeletePlaylist": "Vymazať zoznam skladieb"
+    "HeaderDeletePlaylist": "Vymazať zoznam skladieb",
+    "LabelSlideshowInterval": "Interval prezentácie fotografií",
+    "NewPlaylist": "Nový playlist",
+    "OptionDatePlaylistUpdated": "Dátum aktualizácie playlistu"
 }
