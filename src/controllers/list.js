@@ -334,7 +334,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 
     if (sortBy === 'Random') {
         instance.queryRecursive = true;
-        query.IncludeItemTypes = 'Video,Movie,Series,Music';
+        query.IncludeItemTypes = 'Video,Movie,Series,Music,MusicVideo';
         query.Recursive = true;
     }
 
