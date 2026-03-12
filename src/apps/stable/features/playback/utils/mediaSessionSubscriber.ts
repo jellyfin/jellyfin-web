@@ -12,7 +12,7 @@ import type { PlayerState } from 'types/playbackStopInfo';
 import type { Event } from 'utils/events';
 
 /** The default image resolutions to provide to the media session.
- * 
+ *
  * Highest-to-lowest order matters; Firefox on Linux seems to use the first
  * image in the artwork array for its MPRIS interface. (#7630)
  */
@@ -96,8 +96,14 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
 
     private onMediaSessionUpdate(
         { type: action }: Event,
-        state: PlayerState = this.playbackManager.getPlayerState(this.player)
+        stateOverride?: PlayerState
     ) {
+        if (!this.player) {
+            console.debug('[MediaSessionSubscriber] no active player; resetting media session');
+            return resetMediaSession();
+        }
+
+        const state: PlayerState = stateOverride || this.playbackManager.getPlayerState(this.player);
         const item = state.NowPlayingItem;
 
         if (!item) {
