@@ -1,0 +1,126 @@
+.clipSaverDialog {
+    .clipTimeInputs {
+        display: flex;
+        justify-content: center;
+        gap: 2em;
+        margin-bottom: 0.75em;
+    }
+
+    .clipTimeRow {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+    }
+
+    .clipTimeInput {
+        width: 13ch;
+        font-size: 1.1em;
+    }
+
+    .clipStepBtn {
+        padding: 0.25em 0.5em;
+        background: rgba(255, 255, 255, 0.1);
+        color: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        cursor: pointer;
+        line-height: 1.4;
+
+        &:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+    }
+
+    .clipCodecSelector {
+        margin: 0.75em 0;
+        text-align: center;
+    }
+
+    .clipCodecRow {
+        display: flex;
+        justify-content: center;
+        gap: 0.5em;
+    }
+
+    .clipCodecBtn--active {
+        background: rgba(0, 164, 220, 0.35);
+        border-color: #00a4dc;
+        color: #00a4dc;
+    }
+
+    .clipDuration {
+        margin: 0.5em 0 1em;
+        opacity: 0.8;
+    }
+
+    .clipValidation {
+        color: #f44336;
+        margin: 0.5em 0;
+    }
+
+    .clipProgressSection {
+        margin: 1em 0;
+    }
+
+    .clipProgressLabel {
+        margin-bottom: 0.5em;
+        font-size: 0.9em;
+    }
+
+    .clipProgressBar {
+        width: 100%;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .clipProgressFill {
+        height: 100%;
+        width: 0;
+        background: #00a4dc;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+    }
+
+    .clipProgressFooter {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-top: 0.25em;
+    }
+
+    .clipProgressPercent,
+    .clipProgressEta {
+        font-size: 0.85em;
+        opacity: 0.7;
+    }
+
+    @media (max-width: 500px) {
+        .clipTimeInputs {
+            align-items: center;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .clipCodecSelector {
+            margin: .75em 0 2.5em;
+        }
+    }
+
+    .btnDownloadClip {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btnStartClip:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        pointer-events: auto;
+    }
+}

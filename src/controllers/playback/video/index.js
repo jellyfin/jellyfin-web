@@ -33,6 +33,8 @@ import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
 import { PluginType } from '../../../types/plugin.ts';
+import clipSaver from '../../../components/clipSaver/clipSaver';
+import { TICKS_PER_MS } from '../../../components/clipSaver/clipSaverTime';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
@@ -1219,6 +1221,9 @@ export default function (view) {
     function onKeyDown(e) {
         clickedElement = e.target;
 
+        // Skip all key events when a dialog is open
+        if (getOpenedDialog()) return;
+
         const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
 
         // Skip modified keys
@@ -1962,6 +1967,36 @@ export default function (view) {
     });
     view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
     view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
+    let clipDialogOpen = false;
+    view.querySelector('.btnClip').addEventListener('click', function () {
+        const player = currentPlayer;
+        if (!player || !currentItem || clipDialogOpen) return;
+
+        const positionMs = playbackManager.currentTime(player);
+        const positionTicks = positionMs * TICKS_PER_MS;
+        const durationTicks = playbackManager.duration(player) || currentItem.RunTimeTicks;
+
+        const state = playbackManager.getPlayerState(player);
+        const mediaSourceId = state?.PlayState?.MediaSourceId
+            || state?.NowPlayingItem?.MediaSourceId
+            || currentItem.Id;
+
+        const audioStreamIndex = playbackManager.getAudioStreamIndex(player) ?? 0;
+
+        playbackManager.pause(player);
+
+        clipDialogOpen = true;
+        clipSaver.show({
+            itemId: currentItem.Id,
+            serverId: currentItem.ServerId,
+            currentPositionTicks: positionTicks,
+            durationTicks: durationTicks,
+            mediaSourceId: mediaSourceId,
+            audioStreamIndex: audioStreamIndex
+        }).finally(() => {
+            clipDialogOpen = false;
+        });
+    });
 
     // HACK: Remove `emby-button` from the rating button to make it look like the other buttons
     view.querySelector('.btnUserRating').classList.remove('emby-button');
@@ -2072,4 +2107,3 @@ export default function (view) {
         });
     }
 }
-
