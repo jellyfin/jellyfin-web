@@ -682,7 +682,7 @@
     "Next": "Volgende",
     "NextUp": "Als volgende",
     "No": "Nee",
-    "NoNewDevicesFound": "Er zijn geen nieuwe apparaten gevonden. Sluit deze melding en voer handmatig de apparaatgegevens in om een nieuwe tuner toe te voegen.",
+    "NoNewDevicesFound": "Er zijn geen nieuwe apparaten gevonden. Sluit deze melding en voer de apparaatgegevens handmatig in om een nieuwe tuner toe te voegen.",
     "MessageNoNextUpItems": "Niets gevonden. Begin met kijken!",
     "MessageNoPluginConfiguration": "Deze plugin heeft geen instellingen om op te zetten.",
     "NoSubtitleSearchResultsFound": "Geen resultaten gevonden.",
@@ -1870,5 +1870,7 @@
     "HeaderDeleteCollection": "Collectie verwijderen",
     "HeaderDeletePlaylist": "Afspeellijst verwijderen",
     "ConfirmDeleteCollection": "Weet je zeker dat je deze collectie wilt verwijderen?",
-    "ConfirmDeletePlaylist": "Weet je zeker dat je deze afspeellijst wilt verwijderen?"
+    "ConfirmDeletePlaylist": "Weet je zeker dat je deze afspeellijst wilt verwijderen?",
+    "NewPlaylist": "Nieuwe afspeellijst",
+    "OptionDatePlaylistUpdated": "Datum afspeellijst bijgewerkt"
 }

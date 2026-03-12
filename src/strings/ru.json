@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Вы уверены, что хотите удалить эту коллекцию?",
     "ConfirmDeletePlaylist": "Вы уверены, что хотите удалить этот плейлист?",
     "HeaderDeleteCollection": "Удалить коллекцию",
-    "HeaderDeletePlaylist": "Удалить плейлист"
+    "HeaderDeletePlaylist": "Удалить плейлист",
+    "NewPlaylist": "Новый плейлист",
+    "OptionDatePlaylistUpdated": "Дата обновления плейлиста"
 }
