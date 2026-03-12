@@ -1,5 +1,6 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -22,6 +23,7 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import { AppFeature } from 'constants/appFeature';
+import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
@@ -34,6 +36,7 @@ import { getPortraitShape, getSquareShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -434,19 +437,19 @@ function renderName(item, container, context) {
         parentNameHtml.push(getArtistLinksHtml(item.ArtistItems, item.ServerId, context));
         parentNameLast = true;
     } else if (item.SeriesName && item.Type === 'Episode') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
     } else if (item.IsSeries || item.EpisodeTitle) {
         parentNameHtml.push(escapeHtml(item.Name));
     }
 
     if (item.SeriesName && item.Type === 'Season') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeriesId}" data-serverid="${item.ServerId}" data-type="Series" data-isfolder="true">${escapeHtml(item.SeriesName)}</a>`);
     } else if (item.ParentIndexNumber != null && item.Type === 'Episode') {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.SeasonId}" data-serverid="${item.ServerId}" data-type="Season" data-isfolder="true">${escapeHtml(item.SeasonName)}</a>`);
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.SeasonId}" data-serverid="${item.ServerId}" data-type="Season" data-isfolder="true">${escapeHtml(item.SeasonName)}</a>`);
     } else if (item.ParentIndexNumber != null && item.IsSeries) {
         parentNameHtml.push(escapeHtml(item.SeasonName || 'S' + item.ParentIndexNumber));
     } else if (item.Album && item.AlbumId && (item.Type === 'MusicVideo' || item.Type === 'Audio')) {
-        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="link" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${escapeHtml(item.Album)}</a>`);
+        parentNameHtml.push(`<a style="color:inherit;" class="button-link itemAction" is="emby-linkbutton" href="#" data-action="${ItemAction.Link}" data-id="${item.AlbumId}" data-serverid="${item.ServerId}" data-type="MusicAlbum" data-isfolder="true">${escapeHtml(item.Album)}</a>`);
     } else if (item.Album) {
         parentNameHtml.push(escapeHtml(item.Album));
     }
@@ -1982,7 +1985,7 @@ export default function (view, params) {
             return;
         }
 
-        playItem(item, item.UserData && mode === 'resume' ? item.UserData.PlaybackPositionTicks : 0);
+        playItem(item, item.UserData && mode === ItemAction.Resume ? item.UserData.PlaybackPositionTicks : 0);
     }
 
     function onPlayClick() {
@@ -2026,9 +2029,10 @@ export default function (view, params) {
     }
 
     function onDownloadClick() {
-        const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
+        const api = toApi(getApiClient());
+        const url = getLibraryApi(api).getDownloadUrl({ itemId: currentItem.Id });
         download([{
-            url: downloadHref,
+            url,
             item: currentItem,
             itemId: currentItem.Id,
             serverId: currentItem.ServerId,

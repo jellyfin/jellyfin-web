@@ -78,7 +78,6 @@ const TunerDeviceCard = ({ tunerHost }: TunerDeviceCardProps) => {
                 title={tunerHost.FriendlyName || getTunerName(tunerHost.Type) || ''}
                 text={tunerHost.Url || ''}
                 icon={<DvrIcon sx={{ fontSize: 70 }} />}
-                width={340}
                 action={true}
                 actionRef={actionRef}
                 onActionClick={onActionClick}

@@ -1,6 +1,8 @@
-import { CardShape } from '../../utils/card';
-import { randomInt } from '../../utils/number';
 import classNames from 'classnames';
+
+import { ItemAction } from 'constants/itemAction';
+import { CardShape } from 'utils/card';
+import { randomInt } from 'utils/number';
 
 const ASPECT_RATIOS = {
     portrait: (2 / 3),
@@ -20,12 +22,12 @@ export const isUsingLiveTvNaming = (itemType: string | null | undefined): boolea
  * Resolves Card action to display
  * @param opts options to determine the action to return
  */
-export const resolveAction = (opts: { defaultAction: string, isFolder: boolean, isPhoto: boolean }): string => {
-    if (opts.defaultAction === 'play' && opts.isFolder) {
+export const resolveAction = (opts: { defaultAction: ItemAction, isFolder: boolean, isPhoto: boolean }): ItemAction => {
+    if (opts.defaultAction === ItemAction.Play && opts.isFolder) {
         // If this hard-coding is ever removed make sure to test nested photo albums
-        return 'link';
+        return ItemAction.Link;
     } else if (opts.isPhoto) {
-        return 'play';
+        return ItemAction.Play;
     } else {
         return opts.defaultAction;
     }

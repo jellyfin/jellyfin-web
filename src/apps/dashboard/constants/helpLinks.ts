@@ -47,5 +47,8 @@ export const HelpLinks = [
             '/dashboard/users/profile'
         ],
         url: 'https://jellyfin.org/docs/general/server/users/'
+    }, {
+        paths: ['/dashboard/backups'],
+        url: 'https://jellyfin.org/docs/general/administration/backup-and-restore/'
     }
 ];

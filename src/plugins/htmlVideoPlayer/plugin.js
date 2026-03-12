@@ -1064,9 +1064,9 @@ export class HtmlVideoPlayer {
         Events.trigger(this, 'pause');
     };
 
-    onWaiting() {
+    onWaiting = () => {
         Events.trigger(this, 'waiting');
-    }
+    };
 
     /**
      * @private
@@ -1309,7 +1309,7 @@ export class HtmlVideoPlayer {
                 dropAllAnimations: false,
                 libassMemoryLimit: 40,
                 libassGlyphLimit: 40,
-                targetFps: videoStream?.ReferenceFrameRate || videoStream?.RealFrameRate || 24,
+                targetFps: videoStream?.ReferenceFrameRate || 24,
                 prescaleFactor: 0.8,
                 prescaleHeightLimit: 1080,
                 maxRenderHeight: 2160,
@@ -1365,6 +1365,9 @@ export class HtmlVideoPlayer {
      */
     renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
         this.fetchSubtitles(track, item).then((subtitleData) => {
+            // Exit if the video element was destroyed while fetching subtitles
+            if (!this.#mediaElement) return;
+
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
 
@@ -1478,7 +1481,10 @@ export class HtmlVideoPlayer {
         }
 
         // download the track json
-        this.fetchSubtitles(track, item).then(function (data) {
+        this.fetchSubtitles(track, item).then(data => {
+            // Exit if the video element was destroyed while fetching subtitles
+            if (!this.#mediaElement) return;
+
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
