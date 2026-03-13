@@ -26,6 +26,15 @@ const genresTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Book]
 };
 
+const collectionsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Collections,
+    collectionType: CollectionType.Books,
+    isBtnFilterEnabled: false,
+    isBtnNewCollectionEnabled: true,
+    itemType: [BaseItemKind.BoxSet],
+    noItemsMessage: 'MessageNoCollectionsAvailable'
+};
+
 const favoritesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Favorites,
     collectionType: CollectionType.Books,
@@ -36,7 +45,8 @@ const booksTabMapping: LibraryTabMapping = {
     0: booksTabContent,
     1: suggestionsTabContent,
     2: genresTabContent,
-    3: favoritesTabContent
+    3: collectionsTabContent,
+    4: favoritesTabContent
 };
 
 const Books: FC = () => {
