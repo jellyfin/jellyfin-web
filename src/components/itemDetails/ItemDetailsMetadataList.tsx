@@ -1,6 +1,7 @@
 import React, { type FC } from 'react';
-import { NameGuidPair, PersonKind } from '@jellyfin/sdk/lib/generated-client';
-import { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import type { NameGuidPair } from '@jellyfin/sdk/lib/generated-client/models/name-guid-pair';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -32,7 +33,7 @@ const ItemDetailsMetadataList: FC<ItemDetailsMetadataListProps> = ({
             </Typography>
             <Box className='focuscontainer-x'>
                 {items.map((metadataItem, index) => (
-                    <Box key={index} component='span'>
+                    <Box key={item.Id} component='span'>
                         {index > 0 ? ', ' : ''}
                         <LinkButton href={getLink(type, item, context, metadataItem)} className='button-link' style={{ color: 'inherit' }}>
                             {metadataItem.Name}

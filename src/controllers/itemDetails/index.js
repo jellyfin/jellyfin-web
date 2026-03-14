@@ -992,9 +992,9 @@ function renderDetails(page, instance, item, apiClient, context) {
 
         for (const type of metadataTypes) {
             const renderTarget = document.createElement('div');
-            const unmount = renderComponent(ItemDetailsMetadataList, { type, item, context: inferContext(item) }, renderTarget);
+            const unmountMethod = renderComponent(ItemDetailsMetadataList, { type, item, context: inferContext(item) }, renderTarget);
 
-            instance._unmount.push(unmount);
+            instance._unmount.push(unmountMethod);
             itemDetailsGroup.appendChild(renderTarget);
         }
     }
@@ -1816,8 +1816,8 @@ function ItemDetailPage() {
 }
 
 function unmount(instance) {
-    for (const unmount of instance._unmount) {
-        unmount();
+    for (const unmountMethod of instance._unmount) {
+        unmountMethod();
     }
 
     instance._unmount = [];
