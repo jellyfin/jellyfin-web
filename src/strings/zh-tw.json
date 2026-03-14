@@ -294,7 +294,7 @@
     "DeleteMedia": "刪除媒體",
     "DeleteUserConfirmation": "你確定要刪除此使用者？",
     "Descending": "遞減",
-    "Desktop": "桌面",
+    "Desktop": "桌面（舊式）",
     "DetectingDevices": "正在偵測裝置",
     "DeviceAccessHelp": "只適用於擁有唯一辨識方法的裝置，並不會阻止瀏覽器存取。已過濾的使用者裝置會被拒絕存取，直到他們在這裡被批准。",
     "DirectPlaying": "直接播放",
@@ -1864,5 +1864,7 @@
     "ManageRepositories": "管理倉庫",
     "ViewAllPlugins": "查看所有擴充功能",
     "ButtonAddTunerDevice": "新增調諧器設備",
-    "ButtonAddProvider": "新增提供者"
+    "ButtonAddProvider": "新增提供者",
+    "ConfirmDeleteCollection": "您確定要刪除此收藏集嗎？",
+    "ConfirmDeletePlaylist": "您確定要刪除此播放清單嗎？"
 }
