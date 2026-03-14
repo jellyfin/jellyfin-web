@@ -28,7 +28,8 @@ jobs:
     name: Progress Comment
     if: ${{ always() }}
     uses: ./.github/workflows/__job_messages.yml
-    secrets: inherit
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
     with:
       branch: ${{ inputs.branch }}
       commit: ${{ inputs.commit }}

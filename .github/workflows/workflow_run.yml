@@ -32,7 +32,8 @@ jobs:
     permissions:
       contents: read
       issues: write
-    secrets: inherit
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
 
   deploy:
     name: Deploy
@@ -41,7 +42,10 @@ jobs:
       contents: read
       issues: write
       deployments: write
-    secrets: inherit
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     needs:
     - metadata
     with:
