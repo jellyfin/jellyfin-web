@@ -1,0 +1,51 @@
+name: Workflow Run
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
+on:
+  workflow_run:
+    workflows:
+    - Pull Request
+    types:
+    - completed
+
+jobs:
+  metadata:
+    name: Metadata
+    runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.pr_number.outputs.pr_number }}
+    steps:
+    - name: Get Pull Request Number
+      id: pr_number
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+      run: |
+        echo "pr_number=$(gh pr list --repo "${GITHUB_REPOSITORY}" --head "${HEAD_BRANCH}" --json number --jq '.[0].number')" >> "${GITHUB_OUTPUT}"
+
+  automation:
+    name: Automation
+    uses: ./.github/workflows/__automation.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets: inherit
+
+  deploy:
+    name: Deploy
+    uses: ./.github/workflows/__deploy.yml
+    permissions:
+      contents: read
+      issues: write
+      deployments: write
+    secrets: inherit
+    needs:
+    - metadata
+    with:
+      branch: ${{ format('{0}/{1}', github.event.workflow_run.head_repository.full_name, github.event.workflow_run.head_branch) }}
+      commit: ${{ github.event.workflow_run.head_sha }}
+      workflow_run_id: ${{ github.event.workflow_run.id }}
+      pr_number: ${{ needs.metadata.outputs.pr_number }}
