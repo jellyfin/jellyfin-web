@@ -256,9 +256,6 @@ export function canMarkPlayed (item) {
             return true;
         }
     } else if (item.MediaType === 'Audio') {
-        if (item.Type === 'AudioPodcast') {
-            return true;
-        }
         if (item.Type === 'AudioBook') {
             return true;
         }
@@ -267,8 +264,7 @@ export function canMarkPlayed (item) {
     return item.Type === 'Series'
         || item.Type === 'Season'
         || item.Type === 'BoxSet'
-        || item.MediaType === 'Book'
-        || item.MediaType === 'Recording';
+        || item.MediaType === 'Book';
 }
 
 export function canRate (item) {
