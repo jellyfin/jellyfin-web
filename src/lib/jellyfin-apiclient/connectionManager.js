@@ -1,4 +1,4 @@
-import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/api';
+import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ApiClient } from 'jellyfin-apiclient';
@@ -225,6 +225,13 @@ export default class ConnectionManager {
         }
 
         function validateAuthentication(server, serverUrl) {
+            if (!server.AccessToken) {
+                // exit early, no need for the request
+                server.UserId = null;
+                server.AccessToken = null;
+                return Promise.resolve();
+            }
+
             return ajax({
                 type: 'GET',
                 url: `${serverUrl}/System/Info`,
