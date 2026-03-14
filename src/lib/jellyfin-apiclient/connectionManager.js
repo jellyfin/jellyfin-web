@@ -225,13 +225,6 @@ export default class ConnectionManager {
         }
 
         function validateAuthentication(server, serverUrl) {
-            if (!server.AccessToken) {
-                // exit early, no need for the request
-                server.UserId = null;
-                server.AccessToken = null;
-                return Promise.resolve();
-            }
-
             return ajax({
                 type: 'GET',
                 url: `${serverUrl}/System/Info`,
