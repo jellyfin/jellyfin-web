@@ -11,6 +11,7 @@ export interface DisplaySettingsValues {
     enableLibraryThemeSongs: boolean;
     enableLibraryThemeVideos: boolean;
     enableRewatchingInNextUp: boolean;
+    useSavedCustomCss: boolean;
     episodeImagesInNextUp: boolean;
     language: string;
     layout: string;
@@ -20,4 +21,5 @@ export interface DisplaySettingsValues {
     screensaverInterval: number;
     slideshowInterval: number;
     theme: string;
+    userCustomCss: string;
 }

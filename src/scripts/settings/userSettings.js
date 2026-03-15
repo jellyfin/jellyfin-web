@@ -299,6 +299,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'useSavedCustomCss' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'useSavedCustomCss' or undefined.
+     * @return {boolean} 'useSavedCustomCss' state.
+     */
+    useSavedCustomCss(val) {
+        if (val !== undefined) {
+            return this.set('useSavedCustomCss', val.toString(), false);
+        }
+
+        return toBoolean(this.get('useSavedCustomCss', false), false);
+    }
+
+    /**
      * Get or set customCss.
      * @param {string|undefined} [val] - Language.
      * @return {string} Language.
@@ -309,6 +322,19 @@ export class UserSettings {
         }
 
         return this.get('customCss', false);
+    }
+
+    /**
+     * Get or set user saved customCss.
+     * @param {string|undefined} [val] - Language.
+     * @return {string} Language.
+     */
+    userCustomCss(val) {
+        if (val !== undefined) {
+            return this.set('userCustomCss', val.toString(), true);
+        }
+
+        return this.get('userCustomCss', true);
     }
 
     /**
@@ -725,3 +751,5 @@ export const disableCustomCss = currentSettings.disableCustomCss.bind(currentSet
 export const getSavedView = currentSettings.getSavedView.bind(currentSettings);
 export const saveViewSetting = currentSettings.saveViewSetting.bind(currentSettings);
 export const getSortValuesLegacy = currentSettings.getSortValuesLegacy.bind(currentSettings);
+export const userCustomCSS = currentSettings.userCustomCss.bind(currentSettings);
+export const useSavedCustomCSs = currentSettings.useSavedCustomCss.bind(currentSettings);
