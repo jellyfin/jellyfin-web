@@ -1,13 +1,11 @@
 import parseISO from 'date-fns/parseISO';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
+import React, { useCallback, useMemo, useState } from 'react';
 import { LogLevel } from '@jellyfin/sdk/lib/generated-client/models/log-level';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import { useTheme } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
-import { useSearchParams } from 'react-router-dom';
-
+import { type MRT_ColumnDef, type MRT_Theme, type MRT_ColumnFiltersState, type MRT_SortingState, useMaterialReactTable } from 'material-react-table';
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
@@ -18,22 +16,16 @@ import UserAvatarButton from 'apps/dashboard/components/UserAvatarButton';
 import type { ActivityLogEntryCell } from 'apps/dashboard/features/activity/types/ActivityLogEntryCell';
 import { type UsersRecords, useUsersDetails } from 'hooks/useUsers';
 import globalize from 'lib/globalize';
-import { toBoolean } from 'utils/string';
+import type { ActivityLogEntry } from '@jellyfin/sdk/lib/generated-client/models/activity-log-entry';
+import { ActivityLogSortBy } from '@jellyfin/sdk/lib/generated-client/models/activity-log-sort-by';
 
 const DEFAULT_PAGE_SIZE = 25;
-const VIEW_PARAM = 'useractivity';
 
 const enum ActivityView {
     All = 'All',
     User = 'User',
     System = 'System'
 }
-
-const getActivityView = (param: string | null) => {
-    if (param === null) return ActivityView.All;
-    if (toBoolean(param)) return ActivityView.User;
-    return ActivityView.System;
-};
 
 const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
     return (
@@ -42,12 +34,13 @@ const getUserCell = (users: UsersRecords) => function UserCell({ row }: Activity
 };
 
 export const Component = () => {
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
+    const [activityView, setActivityView] = useState(
+        'All');
 
-    const [ activityView, setActivityView ] = useState(
-        getActivityView(searchParams.get(VIEW_PARAM)));
+    const [sorting, setSorting] = useState<MRT_SortingState>([{ id: 'Date', desc: true }]);
 
-    const [ pagination, setPagination ] = useState({
+    const [pagination, setPagination] = useState({
         pageIndex: 0,
         pageSize: DEFAULT_PAGE_SIZE
     });
@@ -58,19 +51,56 @@ export const Component = () => {
 
     const UserCell = getUserCell(users);
 
-    const activityParams = useMemo(() => ({
-        startIndex: pagination.pageIndex * pagination.pageSize,
-        limit: pagination.pageSize,
-        hasUserId: activityView !== ActivityView.All ? activityView === ActivityView.User : undefined
-    }), [activityView, pagination.pageIndex, pagination.pageSize]);
+    const activityParams = useMemo(() => {
+        const getFilter = (id: string) => columnFilters.find(f => f.id === id)?.value;
+        const sortFields: ActivityLogSortBy[] = [];
+        const sortOrders: SortOrder[] = [];
+
+        const mapSortField = (id: string): ActivityLogSortBy => {
+            switch (id) {
+                case 'Date': return ActivityLogSortBy.DateCreated;
+                case 'Severity': return ActivityLogSortBy.LogSeverity;
+                case 'Name': return ActivityLogSortBy.Name;
+                case 'Type': return ActivityLogSortBy.Type;
+                case 'Overview': return ActivityLogSortBy.ShortOverview;
+                case 'User': return ActivityLogSortBy.Username;
+                default: return ActivityLogSortBy.DateCreated;
+            }
+        };
+
+        if (sorting.length === 0) {
+            sortFields.push(ActivityLogSortBy.DateCreated);
+            sortOrders.push(SortOrder.Descending);
+        } else {
+            sorting.forEach(sort => {
+                sortFields.push(mapSortField(sort.id));
+                sortOrders.push(sort.desc ? SortOrder.Descending : SortOrder.Ascending);
+            });
+        }
+
+        return {
+            startIndex: pagination.pageIndex * pagination.pageSize,
+            limit: pagination.pageSize,
+
+            name: getFilter('Name') as string || undefined,
+            type: getFilter('Type') as string || undefined,
+            shortOverview: getFilter('Overview') as string || undefined,
+            username: getFilter('User') as string || undefined,
+            severity: getFilter('Severity') as LogLevel || undefined,
+            minDate: (getFilter('Date') as string[] | undefined)?.[0] ?? undefined,
+            maxDate: (getFilter('Date') as string[] | undefined)?.[1] ?? undefined,
+            sortBy: sortFields,
+            sortOrder: sortOrders
+        };
+    }, [pagination, columnFilters, sorting]);
 
     const { data, isLoading: isLogEntriesLoading } = useLogEntries(activityParams);
     const logEntries = useMemo(() => (
         data?.Items || []
-    ), [ data ]);
+    ), [data]);
     const rowCount = useMemo(() => (
         data?.TotalRecordCount || 0
-    ), [ data ]);
+    ), [data]);
 
     const isLoading = isUsersLoading || isLogEntriesLoading;
 
@@ -79,15 +109,15 @@ export const Component = () => {
             id: 'User',
             accessorFn: row => row.UserId && users[row.UserId]?.Name,
             header: globalize.translate('LabelUser'),
-            size: 75,
+            size: 100,
             Cell: UserCell,
             enableResizing: false,
             muiTableBodyCellProps: {
                 align: 'center'
             },
-            filterVariant: 'multi-select',
+            filterVariant: 'select',
             filterSelectOptions: userNames
-        }], [ activityView, userNames, users, UserCell ]);
+        }], [activityView, userNames, users, UserCell]);
 
     const columns = useMemo<MRT_ColumnDef<ActivityLogEntry>[]>(() => [
         {
@@ -96,7 +126,9 @@ export const Component = () => {
             header: globalize.translate('LabelTime'),
             size: 160,
             Cell: DateTimeCell,
-            filterVariant: 'datetime-range'
+            filterVariant: 'datetime-range',
+            grow: true,
+            maxSize: 320
         },
         {
             accessorKey: 'Severity',
@@ -107,26 +139,34 @@ export const Component = () => {
             muiTableBodyCellProps: {
                 align: 'center'
             },
-            filterVariant: 'multi-select',
-            filterSelectOptions: Object.values(LogLevel).map(level => globalize.translate(`LogLevel.${level}`))
+            filterVariant: 'select',
+            filterSelectOptions: Object.values(LogLevel).map(level => ({
+                text: globalize.translate(`LogLevel.${level}`),
+                value: level
+            }))
         },
         ...userColumn,
         {
             accessorKey: 'Name',
             header: globalize.translate('LabelName'),
-            size: 270
+            size: 270,
+            grow: true
         },
         {
             id: 'Overview',
             accessorFn: row => row.ShortOverview || row.Overview,
             header: globalize.translate('LabelOverview'),
             size: 170,
-            Cell: OverviewCell
+            Cell: OverviewCell,
+            grow: true,
+            maxSize: 220
         },
         {
             accessorKey: 'Type',
             header: globalize.translate('LabelType'),
-            size: 150
+            size: 150,
+            grow: true,
+            maxSize: 220
         },
         {
             id: 'Actions',
@@ -139,7 +179,7 @@ export const Component = () => {
             enableResizing: false,
             enableSorting: false
         }
-    ], [ userColumn ]);
+    ], [userColumn]);
 
     const onViewChange = useCallback((_e: React.MouseEvent<HTMLElement, MouseEvent>, newView: ActivityView | null) => {
         if (newView !== null) {
@@ -147,23 +187,11 @@ export const Component = () => {
         }
     }, []);
 
-    useEffect(() => {
-        const currentViewParam = getActivityView(searchParams.get(VIEW_PARAM));
-        if (currentViewParam !== activityView) {
-            if (activityView === ActivityView.All) {
-                searchParams.delete(VIEW_PARAM);
-            } else {
-                searchParams.set(VIEW_PARAM, `${activityView === ActivityView.User}`);
-            }
-            setSearchParams(searchParams);
-        }
-    }, [ activityView, searchParams, setSearchParams ]);
-
     // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
     // https://github.com/KevinVandy/material-react-table/issues/1429
     const mrtTheme = useMemo<Partial<MRT_Theme>>(() => ({
         baseBackgroundColor: theme.palette.background.paper
-    }), [ theme ]);
+    }), [theme]);
 
     const table = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
@@ -174,12 +202,22 @@ export const Component = () => {
 
         // State
         initialState: {
-            density: 'compact'
+            density: 'compact',
+            showColumnFilters: true
         },
         state: {
             isLoading,
-            pagination
+            columnFilters,
+            pagination,
+            sorting
         },
+
+        manualFiltering: true,
+        manualSorting: true,
+        onColumnFiltersChange: setColumnFilters,
+        onSortingChange: setSorting,
+        enableMultiSort: true,
+        enableGlobalFilter: false,
 
         // Server pagination
         manualPagination: true,
