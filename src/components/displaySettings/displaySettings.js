@@ -117,6 +117,7 @@ function loadForm(context, user, userSettings) {
     context.querySelector('#txtScreensaverTime').value = userSettings.screensaverTime();
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
+    context.querySelector('.chkUseOriginalTitles').checked = userSettings.shouldUseOriginalTitles();
 
     context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
     context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
@@ -146,6 +147,7 @@ function loadForm(context, user, userSettings) {
 
 function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;
+    userSettingsInstance.shouldUseOriginalTitles(context.querySelector('.chkUseOriginalTitles').checked);
 
     if (appHost.supports(AppFeature.DisplayLanguage)) {
         userSettingsInstance.language(context.querySelector('#selectLanguage').value);
