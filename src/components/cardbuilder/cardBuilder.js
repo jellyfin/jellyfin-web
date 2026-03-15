@@ -313,6 +313,16 @@ export function getCardImageUrl(item, apiClient, options, shape) {
         imgType = 'Backdrop';
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
+    } else if (item._sourceItemId && item.ImageTags?.Primary) {
+        // This is a Live TV library enriched with a channel image
+        // Use the source channel's ID for the image URL
+        imgType = 'Primary';
+        imgTag = item.ImageTags.Primary;
+        itemId = item._sourceItemId;
+
+        if (item.PrimaryImageAspectRatio && uiAspect) {
+            coverImage = (Math.abs(item.PrimaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
+        }
     } else if (item.ImageTags?.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
         imgType = 'Primary';
         imgTag = item.ImageTags.Primary;
