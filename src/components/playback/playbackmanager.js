@@ -2173,6 +2173,7 @@ export class PlaybackManager {
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
                 state.PlayState.ShuffleMode = self.getQueueShuffleMode(player);
+                state.PlayState.OrderMode = self.getQueueShuffleMode(player);
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
@@ -4247,6 +4248,9 @@ export class PlaybackManager {
                 break;
             case 'SetShuffleQueue':
                 this.setQueueShuffleMode(cmd.Arguments.ShuffleMode, player);
+                break;
+            case 'SetOrderMode':
+                this.setQueueShuffleMode(cmd.Arguments.OrderMode, player);
                 break;
             case 'VolumeUp':
                 this.volumeUp(player);
