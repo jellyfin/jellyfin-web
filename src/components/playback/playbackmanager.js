@@ -302,6 +302,7 @@ function getAudioMaxValues(deviceProfile) {
 }
 
 let startingPlaySession = new Date().getTime();
+
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';
 
@@ -2271,16 +2272,16 @@ export class PlaybackManager {
             const getItemAndParts = async function (item) {
                 if (
                     item.PartCount && item.PartCount > 1
-                    && [ BaseItemKind.Episode, BaseItemKind.Movie ].includes(item.Type)
+                    && [BaseItemKind.Episode, BaseItemKind.Movie].includes(item.Type)
                 ) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
                     const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
                     if (additionalParts.Items.length) {
-                        return [ item, ...additionalParts.Items ];
+                        return [item, ...additionalParts.Items];
                     }
                 }
-                return [ item ];
+                return [item];
             };
 
             return Promise.all(items.map(getItemAndParts));
@@ -2957,7 +2958,7 @@ export class PlaybackManager {
                                 });
                             } else {
                                 if (item.AlbumId != null) {
-                                    return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
+                                    return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function (result) {
                                         mediaSource.albumNormalizationGain = result.NormalizationGain;
                                         return mediaSource;
                                     });
@@ -3119,13 +3120,13 @@ export class PlaybackManager {
             };
         }
 
-        self.nextTrack = function (player) {
+        self.nextTrack = function (player, manualClick = false) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.nextTrack();
             }
 
-            const newItemInfo = self._playQueueManager.getNextItemInfo();
+            const newItemInfo = self._playQueueManager.getNextItemInfo(manualClick);
 
             if (newItemInfo) {
                 console.debug('playing next track');
