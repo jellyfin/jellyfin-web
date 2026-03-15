@@ -40,6 +40,37 @@ export const LibraryRoutes: LibraryRoute[] = [
         ]
     },
     {
+        path: '/books',
+        views: [
+            {
+                index: 0,
+                label: 'Books',
+                view: LibraryTab.Books,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 2,
+                label: 'Genres',
+                view: LibraryTab.Genres
+            },
+            {
+                index: 3,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 4,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            }
+        ]
+    },
+    {
         path: '/movies',
         views: [
             {
