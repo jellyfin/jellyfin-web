@@ -388,6 +388,7 @@ function getResolveFunction(resolve, commandId, changed, deleted, itemId) {
 
 function executeCommand(item, id, options) {
     const itemId = item.Id;
+    const collectionItemId = options.collectionItemId || item.Id;
     const serverId = item.ServerId;
     const apiClient = ServerConnections.getApiClient(serverId);
     const api = toApi(apiClient);
@@ -399,7 +400,7 @@ function executeCommand(item, id, options) {
                 import('./collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
                     const collectionEditor = new CollectionEditor();
                     collectionEditor.show({
-                        items: [itemId],
+                        items: [collectionItemId],
                         serverId: serverId
                     }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 });
