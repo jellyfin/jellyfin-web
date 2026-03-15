@@ -744,24 +744,15 @@ class ItemsView {
         function play() {
             const currentItem = self.currentItem;
 
-            if (currentItem && !self.hasFilters) {
-                const values = self.getSortValues();
+            const newQuery = { SortBy: 'SortName', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay', IncludeItemTypes: 'Video', ParentId: currentItem.Id, Recursive: true };
+            return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
                 playbackManager.play({
-                    items: [currentItem],
-                    queryOptions: {
-                        SortBy: values.sortBy,
-                        SortOrder: values.sortOrder
-                    },
+                    items: Items,
                     autoplay: true
                 });
-            } else {
-                getItems(self, self.params, currentItem, null, 0, 300).then(function (result) {
-                    playbackManager.play({
-                        items: result.Items,
-                        autoplay: true
-                    });
-                });
-            }
+            }).finally(() => {
+                isLoading = false;
+            });
         }
 
         function queue() {
@@ -783,16 +774,15 @@ class ItemsView {
         function shuffle() {
             const currentItem = self.currentItem;
 
-            if (currentItem && !self.hasFilters) {
-                playbackManager.shuffle(currentItem);
-            } else {
-                getItems(self, self.params, currentItem, 'Random', 0, 300).then(function (result) {
-                    playbackManager.play({
-                        items: result.Items,
-                        autoplay: true
-                    });
+            const newQuery = { SortBy: 'Random', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay', IncludeItemTypes: 'Video', ParentId: currentItem.Id, Recursive: true };
+            return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
+                playbackManager.play({
+                    items: Items,
+                    autoplay: true
                 });
-            }
+            }).finally(() => {
+                isLoading = false;
+            });
         }
 
         function autoFocus() {
