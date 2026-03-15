@@ -6,6 +6,7 @@ import itemHelper from '../itemHelper';
 import loading from '../loading/loading';
 import alert from '../alert';
 
+import { SETTING_KEY as LAYOUT_SETTING_KEY } from 'components/layoutManager';
 import { LayoutMode } from 'constants/layoutMode';
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -431,9 +432,19 @@ class AppRouter {
                 return url;
             }
 
-            const layoutMode = localStorage.getItem('layout');
+            const layoutMode = localStorage.getItem(LAYOUT_SETTING_KEY);
+            const isExperimentalLayout = !layoutMode || layoutMode === LayoutMode.Experimental;
 
-            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Homevideos) {
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Musicvideos) {
+                url = `#/musicvideos?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+                return url;
+            }
+
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Homevideos) {
                 url = '#/homevideos?topParentId=' + item.Id;
 
                 return url;
