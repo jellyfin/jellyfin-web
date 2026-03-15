@@ -1096,6 +1096,24 @@ export class PlaybackManager {
             }
         };
 
+        self.setAspectRatioCustomScale = function (scale, player) {
+            player = player || self._currentPlayer;
+
+            if (player?.setAspectRatioCustomScale) {
+                player.setAspectRatioCustomScale(scale);
+            }
+        };
+
+        self.getAspectRatioCustomScale = function (player) {
+            player = player || self._currentPlayer;
+
+            if (player?.getAspectRatioCustomScale) {
+                return player.getAspectRatioCustomScale();
+            }
+
+            return 1;
+        };
+
         self.increasePlaybackRate = function (player) {
             player = player || self._currentPlayer;
             if (player) {

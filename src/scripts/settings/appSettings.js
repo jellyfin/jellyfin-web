@@ -260,6 +260,26 @@ class AppSettings {
         return this.get('aspectRatio') || '';
     }
 
+    /**
+     * Get or set the custom aspect ratio scale (used when aspect ratio is 'custom').
+     * @param {number|string|undefined} val - The scale value or undefined.
+     * @returns {number} The saved custom scale (default 1).
+     */
+    aspectRatioCustomScale(val) {
+        if (val !== undefined) {
+            const num = typeof val === 'number' ? val : parseFloat(val);
+            if (!Number.isNaN(num) && num > 0) {
+                this.set('aspectRatioCustomScale', String(num));
+                return num;
+            }
+            return this.aspectRatioCustomScale();
+        }
+
+        const stored = this.get('aspectRatioCustomScale');
+        const num = stored ? parseFloat(stored) : 1;
+        return Number.isNaN(num) || num <= 0 ? 1 : num;
+    }
+
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
         localStorage.setItem(this.#getKey(name, userId), value);
