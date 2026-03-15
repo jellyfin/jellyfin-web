@@ -155,6 +155,20 @@ function getLandingScreenOptions(type) {
             name: globalize.translate('Series'),
             value: LibraryTab.SeriesTimers
         });
+    } else if (type === 'homevideos') {
+        list.push({
+            name: globalize.translate('Photos'),
+            value: LibraryTab.Photos,
+            isDefault: true
+        });
+        list.push({
+            name: globalize.translate('HeaderPhotoAlbums'),
+            value: LibraryTab.PhotoAlbums
+        });
+        list.push({
+            name: globalize.translate('HeaderVideos'),
+            value: LibraryTab.Videos
+        });
     }
 
     return list;
@@ -248,7 +262,7 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
         html = `<div class="checkboxListContainer">${html}</div>`;
     }
 
-    if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv') {
+    if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv' || item.CollectionType === 'homevideos') {
         const idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
         html += '<div class="selectContainer">';
         html += `<select is="emby-select" class="selectLanding" data-folderid="${idForLanding}" label="${globalize.translate('LabelDefaultScreen')}">`;
