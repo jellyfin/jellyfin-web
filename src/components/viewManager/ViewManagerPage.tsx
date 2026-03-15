@@ -38,25 +38,18 @@ const importController = (
     controller: string,
     view: string
 ) => {
-    switch (appType) {
-        case AppType.Dashboard:
-            return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${view}`)
-                    .then(html => globalize.translateHtml(html))
-            ]);
-        case AppType.Wizard:
-            return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../apps/wizard/controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../apps/wizard/controllers/${view}`)
-                    .then(html => globalize.translateHtml(html))
-            ]);
-        default:
-            return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
-                    .then(html => globalize.translateHtml(html))
-            ]);
+    if (appType == AppType.Dashboard) {
+        return Promise.all([
+            import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${controller}`),
+            import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${view}`)
+                .then(html => globalize.translateHtml(html))
+        ]);
+    } else {
+        return Promise.all([
+            import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
+            import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
+                .then(html => globalize.translateHtml(html))
+        ]);
     }
 };
 
