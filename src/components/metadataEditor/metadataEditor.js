@@ -28,6 +28,9 @@ import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-s
 let currentContext;
 let metadataEditorInfo;
 let currentItem;
+// Tracks whether metadata was saved during this dialog session.
+// Reset to false each time the dialog opens; set to true only after a successful save.
+let hasChanges;
 
 function isDialog() {
     return currentContext.classList.contains('dialog');
@@ -41,6 +44,7 @@ function closeDialog() {
 
 function submitUpdatedItem(form, item) {
     function afterContentTypeUpdated() {
+        hasChanges = true;
         toast(globalize.translate('MessageItemSaved'));
 
         loading.hide();
@@ -1107,7 +1111,9 @@ function show(itemId, serverId, resolve) {
             centerFocus(dlg.querySelector('.formDialogContent'), false, false);
         }
 
-        resolve();
+        // Report whether anything was actually saved so callers can skip
+        // unnecessary container refreshes (which reset scroll position).
+        resolve({ updated: hasChanges });
     });
 
     currentContext = dlg;
@@ -1119,7 +1125,10 @@ function show(itemId, serverId, resolve) {
 
 export default {
     show: function (itemId, serverId) {
-        return new Promise(resolve => show(itemId, serverId, resolve));
+        return new Promise(function (resolve) {
+            hasChanges = false;
+            show(itemId, serverId, resolve);
+        });
     },
 
     embed: function (elem, itemId, serverId) {
