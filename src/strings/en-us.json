@@ -1853,7 +1853,7 @@
     "PriorityBelowNormal": "Below Normal",
     "PriorityIdle": "Idle",
     "LabelProcessPriority": "Process Priority",
-    "LabelProcessPriorityHelp": "Setting this lower or higher will determine how the CPU prioritizes the ffmpeg trickplay generation process in relation to other processes. If you notice slowdown while generating trickplay images but don't want to fully stop their generation, try lowering this as well as the thread count.",
+    "LabelProcessPriorityHelp": "Setting this lower or higher will determine how the CPU prioritizes the ffmpeg trickplay generation process in relation to other processes. If you notice slowdown while generating trickplay images but don't want to fully stop their generation, try lowering this as well as the thread count. Increasing the 'ImageExtractionTimeoutMs' value above 20,000 may be needed for the 'Idle' priority.",
     "LabelImageInterval": "Image Interval",
     "LabelImageIntervalHelp": "Interval of time (ms) between each new trickplay image.",
     "LabelWidthResolutions": "Width Resolutions",
