@@ -329,6 +329,7 @@
     "ErrorPleaseSelectLineup": "Please select a lineup and try again. If no lineups are available, then please check that your username, password, and postal code is correct.",
     "ErrorSavingTvProvider": "There was an error saving the TV provider. Please ensure it is accessible and try again.",
     "ErrorStartHourGreaterThanEnd": "End time must be greater than the start time.",
+    "ErrorUserReachedMaxActiveSessions": "The user has reached the maximum number of active sessions allowed.",
     "EveryHour": "Every hour",
     "EveryNDays": "Every {0} days",
     "EveryXHours": "Every {0} hours",
