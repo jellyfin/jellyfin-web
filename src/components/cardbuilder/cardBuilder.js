@@ -526,7 +526,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
     let titleAdded;
 
     if (showOtherText && (options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
-        if (flags.isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
+        if (flags.isOuterFooter && (item.Type === 'Episode' || item.Type === 'Season') && item.SeriesName) {
             if (item.SeriesId) {
                 lines.push(getTextActionButton({
                     Id: item.SeriesId,
