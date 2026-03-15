@@ -128,6 +128,18 @@ class HtmlAudioPlayer {
                     return;
                 }
 
+                /** Multiple issues in WebKit state that there's a problem with AudioContext being suspended if the application goes into the background
+                 *  - https://bugs.webkit.org/show_bug.cgi?id=261554
+                 *  - https://bugs.webkit.org/show_bug.cgi?id=237878
+                 *
+                 *  I haven't found a source where this problem is resolved. Instead we can skip the creation of an AudioContext on iOS since
+                 *  programmatic volume control doesn't work on iOS anyways.
+                 *  With skipping this code we get background playback on iOS.
+                 */
+                if (browser.iOS) {
+                    return;
+                }
+
                 if (!self.gainNode) {
                     addGainElement(elem);
                     if (!self.gainNode) return;
