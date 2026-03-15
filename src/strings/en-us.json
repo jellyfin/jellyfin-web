@@ -1154,6 +1154,7 @@
     "MessageForgotPasswordPinReset": "Enter PIN here to finish Password reset",
     "MessageForgotPasswordInNetworkRequired": "Please try again within your home network to initiate the password reset process.",
     "MessageGetInstalledPluginsError": "An error occurred while getting the list of currently installed plugins.",
+    "MessageIdentifyResultNotFound": "No results found. Try different parameters.",
     "MessageImageFileTypeAllowed": "Only JPEG and PNG files are supported.",
     "MessageImageTypeNotSelected": "Please select an image type from the drop-down menu.",
     "MessageInvalidForgotPasswordPin": "An invalid or expired PIN code was entered. Please try again.",
