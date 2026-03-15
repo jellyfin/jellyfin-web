@@ -28,6 +28,9 @@ import 'elements/emby-select/emby-select';
 
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
+import type { PlaylistUserPermissions } from '@jellyfin/sdk/lib/generated-client/models/playlist-user-permissions';
 
 interface DialogElement extends HTMLDivElement {
     playlistId?: string
@@ -97,6 +100,7 @@ function createPlaylist(dlg: DialogElement) {
             createPlaylistDto: {
                 Name: name ?? '',
                 IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked,
+                Users: getUsers(dlg),
                 Ids: itemIds?.split(','),
                 UserId: apiClient.getCurrentUserId()
             }
@@ -127,6 +131,7 @@ function updatePlaylist(dlg: DialogElement) {
             playlistId: dlg.playlistId,
             updatePlaylistDto: {
                 Name: name,
+                Users: getUsers(dlg),
                 IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked
             }
         })
@@ -279,6 +284,21 @@ function getEditorHtml(items: string[], options: PlaylistEditorOptions) {
         </div>
     </div>`;
 
+    html += `
+    <div>
+        <div class="sectionTitleContainer flex align-items-center">
+            <h2 className='sectionTitle'>
+                Users
+            </h2>
+            <button id="btnAddUser" is="emby-button" class="fab submit sectionTitleButton">
+                <span class="material-icons add" aria-hidden="true"></span>
+            </button>
+        </div>
+
+        <div class="sharesList paperList"></div>
+    </div>
+    `;
+
     // newPlaylistInfo
     html += '</div>';
 
@@ -295,6 +315,94 @@ function getEditorHtml(items: string[], options: PlaylistEditorOptions) {
     return html;
 }
 
+function getPlaylistPermissionsHtml() {
+    let html = '';
+
+    html += '<div class="selectContainer-inline">';
+
+    html += '<select is="emby-select">';
+
+    html += '<option value="0">Read</option>';
+    html += '<option value="1">Edit</option>';
+
+    html += '</select>';
+
+    html += '</div>';
+
+    return html;
+}
+
+function getUsers(page: DialogElement): PlaylistUserPermissions[] {
+    return Array.prototype.map.call(page.querySelectorAll('.playlistUser'), function (elem) {
+        return {
+            UserId: elem.getAttribute('data-user-id'),
+            CanEdit: Boolean(parseInt(elem.querySelector('select').value, 10))
+        };
+    }) as PlaylistUserPermissions[];
+}
+
+function getUserImage(user: UserDto) {
+    const apiClient = ServerConnections.currentApiClient();
+
+    let html = '';
+
+    if (apiClient && user.Id) {
+        let imageUrl = 'assets/img/avatar.png';
+        if (user.PrimaryImageTag) {
+            imageUrl = apiClient.getUserImageUrl(user.Id, {
+                width: 35,
+                tag: user.PrimaryImageTag,
+                type: 'Primary'
+            });
+        }
+
+        html += `<img src="${imageUrl}" width="35" height="35" style="border-radius: 100em">`;
+    }
+
+    return html;
+}
+
+function addUser(content: DialogElement, user: UserDto, canEdit?: boolean) {
+    const sharesList = content.querySelector('.sharesList');
+    if (sharesList) {
+        let html = '';
+
+        html += `<div class="listItem playlistUser" data-user-id="${user.Id}">`;
+
+        html += '<div class="listItemBody">';
+
+        html += `
+        <div style="display: flex; align-items: center; gap: 10px;">
+            ${getUserImage(user)}
+            ${user.Name}
+        </div>`;
+
+        html += '</div>';
+
+        html += `
+        ${getPlaylistPermissionsHtml()}
+        <button class="btnDelete listItemButton" is="paper-icon-button-light" type="button" title="Delete">
+            <span class="material-icons delete" aria-hidden="true"></span>
+        </button>`;
+
+        html += '</div>';
+
+        sharesList.insertAdjacentHTML('beforeend', html);
+        const userElement = sharesList.querySelector(`[data-user-id="${user.Id}"]`);
+
+        userElement?.querySelector('.btnDelete')?.addEventListener('click', () => {
+            userElement.remove();
+        });
+
+        if (canEdit) {
+            const selectElement = userElement?.querySelector('select');
+            if (selectElement) {
+                selectElement.value = canEdit ? '1' : '0';
+            }
+        }
+    }
+}
+
 function initEditor(content: DialogElement, options: PlaylistEditorOptions, items: string[]) {
     content.querySelector('#selectPlaylistToAddTo')?.addEventListener('change', function(this: HTMLSelectElement) {
         if (this.value) {
@@ -306,7 +414,35 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
         }
     });
 
+    const apiClient = ServerConnections.getApiClient(currentServerId);
+    const api = toApi(apiClient);
+
     content.querySelector('form')?.addEventListener('submit', onSubmit);
+    content.querySelector('#btnAddUser')?.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const shareUsers = getUsers(content).map(user => user.UserId);
+
+        const users = getUserApi(api).getUsers().then(req => {
+            return req.data.filter(user => user.Id != apiClient.getCurrentUserId() && !shareUsers.includes(user.Id));
+        }).catch(err => {
+            console.error('[PlaylistEditor] failed to fetch users', err);
+        });
+
+        import('../userpicker/userpicker').then(({ default: UserPicker }) => {
+            const picker = new UserPicker();
+
+            picker.show({
+                users: users,
+                callback: function (selectedUser: UserDto) {
+                    addUser(content, selectedUser);
+                    picker.close();
+                }
+            });
+        }).catch(() => {
+            console.error('[PlaylistEditor] failed to show user picker');
+        });
+    });
 
     const selectedItemsInput = content.querySelector<HTMLInputElement>('.fldSelectedItemIds');
     if (selectedItemsInput) {
@@ -327,16 +463,15 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
             console.error('[PlaylistEditor] could not find dialog element');
             return;
         }
-
-        const apiClient = ServerConnections.getApiClient(currentServerId);
-        const api = toApi(apiClient);
         Promise.all([
             getUserLibraryApi(api)
                 .getItem({ itemId: options.id }),
             getPlaylistsApi(api)
-                .getPlaylist({ playlistId: options.id })
+                .getPlaylist({ playlistId: options.id }),
+            getUserApi(api)
+                .getUsers()
         ])
-            .then(([ { data: playlistItem }, { data: playlist } ]) => {
+            .then(([ { data: playlistItem }, { data: playlist }, { data: users } ]) => {
                 panel.playlistId = options.id;
 
                 const nameField = panel.querySelector<HTMLInputElement>('#txtNewPlaylistName');
@@ -344,6 +479,14 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
 
                 const publicField = panel.querySelector<HTMLInputElement>('#chkPlaylistPublic');
                 if (publicField) publicField.checked = !!playlist.OpenAccess;
+
+                playlist.Shares?.forEach(shareUser => {
+                    const user = users.find(u => u.Id == shareUser.UserId);
+
+                    if (user) {
+                        addUser(panel, user, shareUser.CanEdit);
+                    }
+                });
             })
             .catch(err => {
                 console.error('[playlistEditor] failed to get playlist details', err);
