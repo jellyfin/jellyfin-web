@@ -17,7 +17,8 @@ jobs:
     name: Automation 🎛️
     if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
     uses: ./.github/workflows/__automation.yml
-    secrets: inherit
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
 
   main:
     name: 'Unstable release 🚀⚠️'
@@ -52,7 +53,12 @@ jobs:
     permissions:
       contents: read
       deployments: write
-    secrets: inherit
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     with:
-      branch: ${{ github.ref_name }}
+      branch: ${{ format('{0}/{1}', github.repository, github.ref_name) }}
+      commit: ${{ github.sha }}
+      workflow_run_id: ${{ github.run_id }}
       comment: false

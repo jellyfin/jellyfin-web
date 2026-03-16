@@ -55,3 +55,4 @@ jobs:
       commit: ${{ github.event.workflow_run.head_sha }}
       workflow_run_id: ${{ github.event.workflow_run.id }}
       pr_number: ${{ needs.metadata.outputs.pr_number }}
+      comment: true
