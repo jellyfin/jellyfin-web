@@ -8,6 +8,7 @@ import { ticksToTimeString } from './clipSaverTime';
  * @returns {string} HTML string to assign to dlg.innerHTML.
  */
 export function buildHtml(startTicks: number, endTicks: number): string {
+    const timePattern = String.raw`\d+:\d{2}:\d{2}(\.\d{1,3})?`;
     let html = '';
 
     // Header
@@ -29,7 +30,7 @@ export function buildHtml(startTicks: number, endTicks: number): string {
     html += `<label class="inputLabel" for="clipStartTime">${globalize.translate('ClipStartTime')}</label>`;
     html += '<div class="clipTimeRow">';
     html += '<button type="button" class="clipStepBtn btnStartMinus">−1s</button>';
-    html += `<input type="text" id="clipStartTime" class="emby-input clipTimeInput" value="${ticksToTimeString(startTicks)}" pattern="\\d+:\\d{2}:\\d{2}(\\.\\d{1,3})?" title="${globalize.translate('ClipTimeFormat')}" />`;
+    html += `<input type="text" id="clipStartTime" class="emby-input clipTimeInput" value="${ticksToTimeString(startTicks)}" pattern="${timePattern}" title="${globalize.translate('ClipTimeFormat')}" />`;
     html += '<button type="button" class="clipStepBtn btnStartPlus">+1s</button>';
     html += '</div>';
     html += '</div>';
@@ -38,7 +39,7 @@ export function buildHtml(startTicks: number, endTicks: number): string {
     html += `<label class="inputLabel" for="clipEndTime">${globalize.translate('ClipEndTime')}</label>`;
     html += '<div class="clipTimeRow">';
     html += '<button type="button" class="clipStepBtn btnEndMinus">−1s</button>';
-    html += `<input type="text" id="clipEndTime" class="emby-input clipTimeInput" value="${ticksToTimeString(endTicks)}" pattern="\\d+:\\d{2}:\\d{2}(\\.\\d{1,3})?" title="${globalize.translate('ClipTimeFormat')}" />`;
+    html += `<input type="text" id="clipEndTime" class="emby-input clipTimeInput" value="${ticksToTimeString(endTicks)}" pattern="${timePattern}" title="${globalize.translate('ClipTimeFormat')}" />`;
     html += '<button type="button" class="clipStepBtn btnEndPlus">+1s</button>';
     html += '</div>';
     html += '</div>';

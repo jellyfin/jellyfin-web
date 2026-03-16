@@ -303,8 +303,8 @@ export async function show(options: ClipSaverOptions): Promise<void> {
             eventSource = new EventSource(sseUrl);
 
             eventSource.addEventListener('progress', function (e) {
-                const percent = parseFloat(e.data);
-                if (!isNaN(percent)) {
+                const percent = Number.parseFloat(e.data);
+                if (!Number.isNaN(percent)) {
                     progressFill.style.width = `${Math.min(percent, 100)}%`;
                     progressPercent.textContent = `${Math.round(percent)}%`;
                     updateEta(percent);

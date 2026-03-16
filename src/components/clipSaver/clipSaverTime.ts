@@ -9,7 +9,7 @@ const pad3 = (n: number) => String(n).padStart(3, '0');
  * Returns '00:00:00.000' for invalid/NaN values.
  */
 export function ticksToTimeString(ticks: number): string {
-    if (!isFinite(ticks) || ticks < 0) return '00:00:00.000';
+    if (!Number.isFinite(ticks) || ticks < 0) return '00:00:00.000';
 
     const totalSeconds = Math.floor(ticks / TICKS_PER_SECOND);
     const hours = Math.floor(totalSeconds / 3600);
@@ -28,10 +28,10 @@ export function timeStringToTicks(str: string): number | null {
     const match = /^(\d+):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/.exec(str);
     if (!match) return null;
 
-    const hours = parseInt(match[1], 10);
-    const minutes = parseInt(match[2], 10);
-    const seconds = parseInt(match[3], 10);
-    const ms = match[4] ? parseInt(match[4].padEnd(3, '0'), 10) : 0;
+    const hours = Number.parseInt(match[1], 10);
+    const minutes = Number.parseInt(match[2], 10);
+    const seconds = Number.parseInt(match[3], 10);
+    const ms = match[4] ? Number.parseInt(match[4].padEnd(3, '0'), 10) : 0;
 
     if (minutes >= 60 || seconds >= 60 || ms >= 1000) return null;
 
