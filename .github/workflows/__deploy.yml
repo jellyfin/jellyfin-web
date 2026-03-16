@@ -2,6 +2,13 @@ name: Deploy 🏗️
 
 on:
   workflow_call:
+    secrets:
+      JF_BOT_TOKEN:
+        required: true
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+      CLOUDFLARE_API_TOKEN:
+        required: true
     inputs:
       branch:
         required: true
