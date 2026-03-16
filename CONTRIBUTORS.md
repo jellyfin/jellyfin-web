@@ -104,6 +104,8 @@
 - [qm3jp](https://github.com/qm3jp)
 - [johnnyg](https://github.com/johnnyg)
 - [Olwë](https://github.com/olwe1)
+- [lmaotrigine](https://github.com/lmaotrigine)
+- [bjorntp](https://github.com/bjorntp)
 
 ## Emby Contributors
 

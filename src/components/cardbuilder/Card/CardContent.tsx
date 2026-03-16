@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { getDefaultBackgroundClass } from '../cardBuilderUtils';
 import CardImageContainer from './CardImageContainer';
 
+import { useApi } from 'hooks/useApi';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 
@@ -25,9 +26,14 @@ const CardContent: FC<CardContentProps> = ({
     blurhash,
     forceName
 }) => {
+    const { api } = useApi();
+
     const cardContentClass = classNames(
         'cardContent',
-        { [getDefaultBackgroundClass(item.Name)]: !imgUrl }
+        // Only apply the default background class if there is no image, and we have an API instance. This prevents
+        // cards rendering with a default background color and then switching to the image once the API instance is
+        // available.
+        { [getDefaultBackgroundClass(item.Name)]: api && !imgUrl }
     );
 
     return (
