@@ -14,8 +14,8 @@ export const useInstallPackage = () => {
             getPackageApi(api!)
                 .installPackage(params)
         ),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
                 queryKey: [ QueryKey.ConfigurationPages ]
             });
             void queryClient.invalidateQueries({
