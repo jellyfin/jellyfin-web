@@ -56,18 +56,16 @@ function getLatestItemsHtmlFn(
     return function (items: BaseItemDto[]) {
         const cardLayout = false;
         let shape;
-        if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {
-            shape = getPortraitShape(enableOverflow);
-        } else if (viewType === 'music' || viewType === 'homevideos') {
+        if (viewType === 'music' || viewType === 'homevideos') {
             shape = getSquareShape(enableOverflow);
         } else {
-            shape = getBackdropShape(enableOverflow);
+            shape = getPortraitShape(enableOverflow);
         }
 
         return cardBuilder.getCardsHtml({
             items: items,
             shape: shape,
-            preferThumb: viewType !== 'movies' && viewType !== 'tvshows' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
+            preferThumb: viewType === 'homevideos' || viewType === 'photos' ? 'auto' : null,
             showUnplayedIndicator: false,
             showChildCountIndicator: true,
             context: 'home',
