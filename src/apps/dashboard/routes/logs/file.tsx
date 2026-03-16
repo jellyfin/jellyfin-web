@@ -75,7 +75,7 @@ export const Component = () => {
     useEffect(() => {
         const onScroll = () => {
             if (contentPrimaryRef.current) {
-                const isAtBottom = window.innerHeight + Math.round(window.scrollY) >= contentPrimaryRef.current.offsetHeight;
+                const isAtBottom = window.innerHeight + Math.round(window.scrollY) >= contentPrimaryRef.current.offsetHeight - 5;
                 setWasAtBottom(isAtBottom);
             }
         };
