@@ -1171,7 +1171,7 @@
     "ClearQueue": "Eliminar cola",
     "StopPlayback": "Detener la reproducción",
     "ViewAlbumArtist": "Ver artista del álbum",
-    "Preview": "Avance",
+    "Preview": "Vista previa",
     "SubtitleVerticalPositionHelp": "Número de línea donde aparece el texto. Los números positivos indican de arriba hacia abajo. Los números negativos indican de abajo hacia arriba.",
     "LabelSubtitleVerticalPosition": "Posición vertical",
     "PreviousTrack": "Pasar al anterior",
@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "¿Estás seguro de que querés borrar esta colección?",
     "ConfirmDeletePlaylist": "¿Estás seguro de que querés eliminar esta lista de reproducción?",
     "HeaderDeleteCollection": "Eliminar colección",
-    "HeaderDeletePlaylist": "Eliminar lista de reproducción"
+    "HeaderDeletePlaylist": "Eliminar lista de reproducción",
+    "NewPlaylist": "Nueva Lista de Reproducción",
+    "OptionDatePlaylistUpdated": "Fecha en que se actualizó la Lista de Reproducción"
 }

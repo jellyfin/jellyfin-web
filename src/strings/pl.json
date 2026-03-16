@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Czy na pewno chcesz usunąć tę kolekcję?",
     "ConfirmDeletePlaylist": "Czy na pewno chcesz usunąć tę listę odtwarzania?",
     "HeaderDeleteCollection": "Usuń kolekcję",
-    "HeaderDeletePlaylist": "Usuń listę odtwarzania"
+    "HeaderDeletePlaylist": "Usuń listę odtwarzania",
+    "NewPlaylist": "Nowa lista odtwarzania",
+    "OptionDatePlaylistUpdated": "Data aktualizacji listy odtwarzania"
 }

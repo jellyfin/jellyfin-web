@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Ziur zaude bilduma hau ezabatu nahi duzula?",
     "ConfirmDeletePlaylist": "Ziur zaude erreprodukzio zerrenda hay ezabatu nahi duzula?",
     "HeaderDeleteCollection": "Ezabatu bilduma",
-    "HeaderDeletePlaylist": "Ezabatu erreprodukzio-zerrenda"
+    "HeaderDeletePlaylist": "Ezabatu erreprodukzio-zerrenda",
+    "NewPlaylist": "Erreprodukzio-zerrenda berria",
+    "OptionDatePlaylistUpdated": "Erreprodukzio-zerrendaren eguneraketa data"
 }
