@@ -28,5 +28,5 @@ export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: 'tasks/:id', page: 'tasks/task', type: AppType.Dashboard },
     { path: 'users', type: AppType.Dashboard },
     { path: 'users/add', type: AppType.Dashboard },
-    { path: 'users/edit', type: AppType.Dashboard }
+    { path: 'users/:userId/:tab', page: 'users/edit', type: AppType.Dashboard }
 ];

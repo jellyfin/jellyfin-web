@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useUser } from 'apps/dashboard/features/users/api/useUser';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import globalize from 'lib/globalize';
 import Stack from '@mui/material/Stack';
-import { TabIndex } from 'apps/dashboard/features/users/constants/tabIndex';
+import { UserTab } from 'apps/dashboard/features/users/constants/userTab';
 import Profile from 'apps/dashboard/features/users/components/Profile';
 import Access from 'apps/dashboard/features/users/components/Access';
 import ParentalControl from 'apps/dashboard/features/users/components/ParentalControl';
@@ -17,18 +17,13 @@ import Password from 'apps/dashboard/features/users/components/Password';
 import Alert from '@mui/material/Alert';
 
 export const Component = () => {
-    const [ searchParams, setSearchParams ] = useSearchParams();
-    const userId = searchParams.get('userId');
+    const navigate = useNavigate();
+    const { userId, tab } = useParams();
     const { data: user, isPending, isError } = useUser(userId ? { userId: userId } : undefined);
-    const [ index, setIndex ] = useState(parseInt(searchParams.get('index') || '0', 10));
 
-    const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: number) => {
-        setIndex(newValue);
-        setSearchParams((params) => {
-            params.set('index', index.toString());
-            return params;
-        });
-    }, [ index, setSearchParams ]);
+    const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: UserTab) => {
+        navigate(`/dashboard/users/${userId}/${newValue}`);
+    }, [ navigate ]);
 
     if (isPending) return <Loading />;
 
@@ -48,23 +43,23 @@ export const Component = () => {
                 ) : (
                     <Stack spacing={2}>
                         <Typography variant='h1'>{user.Name}</Typography>
-                        <Tabs value={index} onChange={handleTabChange}>
-                            <Tab label={globalize.translate('Profile')} />
-                            <Tab label={globalize.translate('TabAccess')} />
-                            <Tab label={globalize.translate('TabParentalControl')} />
-                            <Tab label={globalize.translate('HeaderPassword')} />
+                        <Tabs value={tab} onChange={handleTabChange}>
+                            <Tab label={globalize.translate('Profile')} value={UserTab.Profile} />
+                            <Tab label={globalize.translate('TabAccess')} value={UserTab.Access} />
+                            <Tab label={globalize.translate('TabParentalControl')} value={UserTab.ParentalControl} />
+                            <Tab label={globalize.translate('HeaderPassword')} value={UserTab.Password} />
                         </Tabs>
 
-                        {index == TabIndex.Profile && (
+                        {tab == UserTab.Profile && (
                             <Profile userDto={user} />
                         )}
-                        {index == TabIndex.Access && (
+                        {tab == UserTab.Access && (
                             <Access userId={user.Id || ''} />
                         )}
-                        {index == TabIndex.ParentalControl && (
+                        {tab == UserTab.ParentalControl && (
                             <ParentalControl userId={user.Id || ''} />
                         )}
-                        {index == TabIndex.Password && (
+                        {tab == UserTab.Password && (
                             <Password user={user} />
                         )}
                     </Stack>
