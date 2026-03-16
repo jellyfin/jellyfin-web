@@ -18,6 +18,9 @@ on:
       comment:
         required: false
         type: boolean
+      pr_number:
+        required: true
+        type: number
       marker:
         description: Hidden marker to detect PR comments composed by the bot
         required: false
@@ -63,3 +66,4 @@ jobs:
           github-token: ${{ secrets.JF_BOT_TOKEN }}
           message: ${{ env.msg }}
           comment-tag: ${{ inputs.marker }}
+          pr-number: ${{ inputs.pr_number }}
