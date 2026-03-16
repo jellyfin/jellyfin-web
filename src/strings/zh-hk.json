@@ -1518,7 +1518,7 @@
     "PluginLoadConfigError": "在獲取插件設定頁面的時候發生錯誤。",
     "PluginLoadRepoError": "從插件資源庫中獲取詳情的時候發生了錯誤。",
     "PluginUninstallError": "在解除安裝插件時發生錯誤。",
-    "PluginsLoadError": "載入插件時發生錯誤。",
+    "PluginsLoadError": "載入插件嗰陣出咗錯",
     "Poster": "海報",
     "PosterCard": "海報卡片",
     "PreferEmbeddedEpisodeInfosOverFileNames": "優先使用內建劇集資訊而不是檔案名稱",
@@ -1872,5 +1872,13 @@
     "HeaderDeleteCollection": "刪除媒體櫃",
     "HeaderDeletePlaylist": "刪除播放清單",
     "NewPlaylist": "新增播放清單",
-    "OptionDatePlaylistUpdated": "播放清單更新日期"
+    "OptionDatePlaylistUpdated": "播放清單更新日期",
+    "ActivitiesLoadError": "讀取活動紀錄失敗",
+    "ApiKeysLoadError": "讀取 API 金鑰失敗",
+    "BrandingLoadError": "讀取品牌化設定失敗",
+    "DevicesLoadError": "讀取裝置失敗",
+    "LibrariesLoadError": "讀取媒體庫失敗",
+    "ResumeLoadError": "讀取續播設定失敗",
+    "StreamingLoadError": "讀取串流頁面設定失敗",
+    "TrickplayLoadError": "讀取快進預覽設定失敗"
 }
