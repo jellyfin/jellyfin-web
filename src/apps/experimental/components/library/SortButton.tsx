@@ -22,6 +22,14 @@ type SortOption = {
 
 type SortOptionsMapping = Record<string, SortOption[]>;
 
+const collectionMovieOptions: SortOption[] = [
+    { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
+    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
+];
+
 const movieOrFavoriteOptions = [
     { label: 'Name', value: ItemSortBy.SortName },
     { label: 'OptionRandom', value: ItemSortBy.Random },
@@ -43,6 +51,7 @@ const photosOrPhotoAlbumsOptions = [
 
 const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Movies]: movieOrFavoriteOptions,
+    [LibraryTab.Collections]: collectionMovieOptions,
     [LibraryTab.Favorites]: movieOrFavoriteOptions,
     [LibraryTab.Series]: [
         { label: 'Name', value: ItemSortBy.SortName },
@@ -85,6 +94,14 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
         { label: 'Runtime', value: ItemSortBy.Runtime },
         { label: 'OptionRandom', value: ItemSortBy.Random }
+    ],
+    [LibraryTab.Playlists]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDatePlaylistUpdated', value: ItemSortBy.DateLastContentAdded },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ],
     [LibraryTab.PhotoAlbums]: photosOrPhotoAlbumsOptions,
     [LibraryTab.Photos]: photosOrPhotoAlbumsOptions,

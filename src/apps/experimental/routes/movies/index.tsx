@@ -11,6 +11,7 @@ import { MovieSuggestionsSectionsView } from 'types/sections';
 const moviesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Movies,
     collectionType: CollectionType.Movies,
+    isBtnPlayAllEnabled: true,
     isBtnShuffleEnabled: true,
     itemType: [BaseItemKind.Movie]
 };
@@ -20,7 +21,6 @@ const collectionsTabContent: LibraryTabContent = {
     collectionType: CollectionType.Movies,
     isBtnFilterEnabled: false,
     isBtnNewCollectionEnabled: true,
-    isAlphabetPickerEnabled: false,
     itemType: [BaseItemKind.BoxSet],
     noItemsMessage: 'MessageNoCollectionsAvailable'
 };

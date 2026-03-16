@@ -102,7 +102,7 @@ export const Component = () => {
                     }).catch(() => {
                         // Server is still down
                     });
-            }, 5000);
+            }, 45000);
 
             return () => {
                 clearInterval(serverCheckInterval);

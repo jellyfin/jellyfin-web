@@ -1,7 +1,14 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
+
+import Media from 'components/common/Media';
+import PlayArrowIconButton from 'components/common/PlayArrowIconButton';
+import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
+import type { ItemDto } from 'types/base/models/item-dto';
+import type { ListOptions } from 'types/listOptions';
+
 import useIndicator from '../../indicators/useIndicator';
 import layoutManager from '../../layoutManager';
 import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
@@ -11,22 +18,17 @@ import {
     getImageUrl
 } from './listHelper';
 
-import Media from 'components/common/Media';
-import PlayArrowIconButton from 'components/common/PlayArrowIconButton';
-import type { ItemDto } from 'types/base/models/item-dto';
-import type { ListOptions } from 'types/listOptions';
-
 interface ListImageContainerProps {
     item: ItemDto;
     listOptions: ListOptions;
-    action?: string | null;
+    action?: ItemAction | null;
     isLargeStyle: boolean;
     clickEntireItem?: boolean;
     downloadWidth?: number;
 }
 
 const ListImageContainer: FC<ListImageContainerProps> = ({
-    item = {},
+    item,
     listOptions,
     action,
     isLargeStyle,
@@ -55,7 +57,7 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
 
     const playOnImageClick = listOptions.imagePlayButton && !layoutManager.tv;
 
-    const imageAction = playOnImageClick ? 'link' : action;
+    const imageAction = playOnImageClick ? ItemAction.Link : action;
 
     const btnCssClass =
         'paper-icon-button-light listItemImageButton itemAction';
@@ -71,7 +73,7 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
             className={imageClass}
         >
 
-            <Media item={item} imgUrl={imgUrl} blurhash={blurhash} defaultCardImageIcon={defaultCardImageIcon} />
+            <Media item={item} imgUrl={imgUrl} blurhash={blurhash ?? undefined} defaultCardImageIcon={defaultCardImageIcon} />
 
             {disableIndicators !== true && mediaSourceIndicator}
 
@@ -85,7 +87,7 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
                 <PlayArrowIconButton
                     className={btnCssClass}
                     action={
-                        canResume(playbackPositionTicks) ? 'resume' : 'play'
+                        canResume(playbackPositionTicks) ? ItemAction.Resume : ItemAction.Play
                     }
                     title={
                         canResume(playbackPositionTicks) ?

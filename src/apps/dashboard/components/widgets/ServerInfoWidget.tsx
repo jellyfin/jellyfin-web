@@ -15,9 +15,15 @@ type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;
     onRestartClick?: () => void;
     onShutdownClick?: () => void;
+    isScanning?: boolean;
 };
 
-const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClick }: ServerInfoWidgetProps) => {
+const ServerInfoWidget = ({
+    onScanLibrariesClick,
+    onRestartClick,
+    onShutdownClick,
+    isScanning
+}: ServerInfoWidgetProps) => {
     const { data: systemInfo, isPending } = useSystemInfo();
 
     return (
@@ -56,13 +62,17 @@ const ServerInfoWidget = ({ onScanLibrariesClick, onRestartClick, onShutdownClic
                     </Stack>
                 </Paper>
 
-                <Stack direction='row' spacing={1.5}>
+                <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    spacing={1.5}
+                >
                     <Button
                         onClick={onScanLibrariesClick}
                         startIcon={<RefreshIcon />}
                         sx={{
                             fontWeight: 'bold'
                         }}
+                        disabled={isScanning}
                     >
                         {globalize.translate('ButtonScanAllLibraries')}
                     </Button>
