@@ -1029,7 +1029,7 @@
     "LabelAudioCodec": "Geluidscodec",
     "LabelAudioChannels": "Geluidskanalen",
     "LabelBitrate": "Bitsnelheid",
-    "LabelBaseUrlHelp": "Voegt een aangepaste submap toe aan de server-URL. Bijvoorbeeld: <code>http://example.com/<b>&lt;baseurl&gt;</b></code>",
+    "LabelBaseUrlHelp": "Voeg een aangepaste submap toe aan de server-URL. Bijvoorbeeld: https://example.com/<baseurl>",
     "LabelFolder": "Map",
     "LabelLineup": "Line-up",
     "LabelPlayer": "Speler",
@@ -1276,8 +1276,8 @@
     "Remuxing": "Remuxen",
     "AspectRatioFill": "Uitrekken",
     "AspectRatioCover": "Bijsnijden",
-    "LabelPublishedServerUriHelp": "Overschrijf de URI die door Jellyfin wordt gebruikt, op basis van de interface of het IP-adres van de speler. Bijvoorbeeld: internal=http://jellyfin.example.com, external=https://jellyfin.example.com of all=https://jellyfin.example.com",
-    "LabelPublishedServerUri": "Gepubliceerde server-URI's",
+    "LabelPublishedServerUriHelp": "Overschrijf de URI die door Jellyfin wordt gebruikt, op basis van de interface of het IP-adres van de speler.",
+    "LabelPublishedServerUri": "Gepubliceerde server-URI",
     "LabelIsForced": "Gedwongen",
     "LabelEnableIP6Help": "Maakt IPv6-functionaliteit mogelijk.",
     "LabelEnableIP4": "IPv4 inschakelen",
@@ -1880,5 +1880,11 @@
     "BrandingLoadError": "Laden van huisstijl-instellingen mislukt",
     "DevicesLoadError": "Laden van apparaten mislukt",
     "LibrariesLoadError": "Laden van bibliotheken mislukt",
-    "StreamingLoadError": "Laden van instellingen voor streamen mislukt"
+    "StreamingLoadError": "Laden van instellingen voor streamen mislukt",
+    "LabelInternalServerUri": "Interne URI",
+    "LabelInternalServerUriHelp": "Gepubliceerde server-URI for interne toegang.",
+    "LabelUseSamePublishedServerUri": "Dezelfde gepubliceerde server-URI gebruiken voor interne en externe toegang",
+    "NetworkingPageLoadError": "Laden van netwerkinstellingen mislukt",
+    "LabelExternalServerUri": "Externe URI",
+    "LabelExternalServerUriHelp": "Gepubliceerde server-URI voor externe toegang."
 }
