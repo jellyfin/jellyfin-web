@@ -6,7 +6,7 @@ import escapeHtml from 'escape-html';
 import type { ApiClient } from 'jellyfin-apiclient';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
-import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
+import { getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
@@ -56,18 +56,16 @@ function getLatestItemsHtmlFn(
     return function (items: BaseItemDto[]) {
         const cardLayout = false;
         let shape;
-        if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {
-            shape = getPortraitShape(enableOverflow);
-        } else if (viewType === 'music' || viewType === 'homevideos') {
+        if (viewType === 'music' || viewType === 'homevideos') {
             shape = getSquareShape(enableOverflow);
         } else {
-            shape = getBackdropShape(enableOverflow);
+            shape = getPortraitShape(enableOverflow);
         }
 
         return cardBuilder.getCardsHtml({
             items: items,
             shape: shape,
-            preferThumb: viewType !== 'movies' && viewType !== 'tvshows' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
+            preferThumb: viewType === 'homevideos' || viewType === 'photos' ? 'auto' : null,
             showUnplayedIndicator: false,
             showChildCountIndicator: true,
             context: 'home',
