@@ -14,6 +14,7 @@ on:
 jobs:
   metadata:
     name: Metadata
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     outputs:
       pr_number: ${{ steps.pr_number.outputs.pr_number }}
@@ -22,9 +23,9 @@ jobs:
       id: pr_number
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
       run: |
-        echo "pr_number=$(gh pr list --repo "${GITHUB_REPOSITORY}" --head "${HEAD_BRANCH}" --json number --jq '.[0].number')" >> "${GITHUB_OUTPUT}"
+        echo pr_number=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls" --jq 'map(select(.state == "open")) | .[0].number') >> "${GITHUB_OUTPUT}"
 
   automation:
     name: Automation
@@ -37,6 +38,7 @@ jobs:
 
   deploy:
     name: Deploy
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     uses: ./.github/workflows/__deploy.yml
     permissions:
       contents: read
