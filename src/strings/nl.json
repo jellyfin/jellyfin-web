@@ -1849,7 +1849,7 @@
     "StorageType.Ram": "RAM",
     "StorageType.Removable": "Verwisselbaar",
     "StorageType.Unknown": "Onbekend",
-    "PluginsLoadError": "Er is een fout opgetreden bij het laden van plug-ins.",
+    "PluginsLoadError": "Er is een fout opgetreden bij het laden van plug-ins",
     "ButtonLearnMore": "Meer informatie",
     "ConfirmDeleteRepository": "Repository verwijderen?",
     "DeleteRepositoryConfirmation": "Weet je zeker dat je dit repository wilt verwijderen?",
@@ -1872,5 +1872,13 @@
     "ConfirmDeleteCollection": "Weet je zeker dat je deze collectie wilt verwijderen?",
     "ConfirmDeletePlaylist": "Weet je zeker dat je deze afspeellijst wilt verwijderen?",
     "NewPlaylist": "Nieuwe afspeellijst",
-    "OptionDatePlaylistUpdated": "Datum afspeellijst bijgewerkt"
+    "OptionDatePlaylistUpdated": "Datum afspeellijst bijgewerkt",
+    "ApiKeysLoadError": "Laden van API-sleutels mislukt",
+    "ResumeLoadError": "Laden van instellingen voor hervatten mislukt",
+    "TrickplayLoadError": "Laden van trickplay-instellingen mislukt",
+    "ActivitiesLoadError": "Laden van activiteiten mislukt",
+    "BrandingLoadError": "Laden van huisstijl-instellingen mislukt",
+    "DevicesLoadError": "Laden van apparaten mislukt",
+    "LibrariesLoadError": "Laden van bibliotheken mislukt",
+    "StreamingLoadError": "Laden van instellingen voor streamen mislukt"
 }
