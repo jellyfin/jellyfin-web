@@ -40,7 +40,7 @@ export const HelpLinks = [
         paths: ['/dashboard/users'],
         url: 'https://jellyfin.org/docs/general/server/users/adding-managing-users'
     }, {
-        paths: ['/dashboard/users/edit'],
+        paths: ['/dashboard/users/:userId/:tab'],
         url: 'https://jellyfin.org/docs/general/server/users/'
     }, {
         paths: ['/dashboard/backups'],
