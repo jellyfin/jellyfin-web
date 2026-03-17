@@ -111,6 +111,7 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
             isBtnQueueEnabled={currentTab.isBtnQueueEnabled}
             isBtnShuffleEnabled={currentTab.isBtnShuffleEnabled}
             isBtnNewCollectionEnabled={currentTab.isBtnNewCollectionEnabled}
+            isBtnNewPlaylistEnabled={currentTab.isBtnNewPlaylistEnabled}
             isBtnFilterEnabled={currentTab.isBtnFilterEnabled}
             isBtnGridListEnabled={currentTab.isBtnGridListEnabled}
             isBtnSortEnabled={currentTab.isBtnSortEnabled}
