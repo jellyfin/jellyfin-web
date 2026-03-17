@@ -1886,5 +1886,6 @@
     "StreamingLoadError": "Nepodařilo se načíst nastavení stránky pro streamování",
     "TrickplayLoadError": "Nepodařilo se načíst nastavení Trickplay",
     "LabelExternalServerUri": "Externí URI",
-    "LabelExternalServerUriHelp": "Zveřejněná adresa URI serveru pro externí přístup."
+    "LabelExternalServerUriHelp": "Zveřejněná adresa URI serveru pro externí přístup.",
+    "ResetFilters": "Vymazat filtry"
 }
