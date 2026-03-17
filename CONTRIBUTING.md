@@ -4,7 +4,7 @@ Thanks for taking the time to contribute! :purple_heart:
 Jellyfin is an entirely volunteer-driven project, so without contributors like you it could not exist!
 
 Below are some general guidelines and information about this project.
-If you have any questions, please join one of our [development chat rooms](https://jellyfin.org/contact/) to discuss them!
+If you have any questions, please join one of our [development chat rooms](https://jellyfin.org/contact) to discuss them!
 
 ## Contributor Guidelines
 
