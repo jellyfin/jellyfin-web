@@ -1887,5 +1887,7 @@
     "TrickplayLoadError": "Nie udało się załadować ustawień Trickplay",
     "LabelExternalServerUri": "Zewnętrzny URI",
     "LabelExternalServerUriHelp": "Opublikowany URI serwera umożliwiający dostęp zewnętrzny.",
-    "ResetFilters": "Zresetuj filtry"
+    "ResetFilters": "Zresetuj filtry",
+    "Unwatch": "Nie oglądaj",
+    "Watch": "Obejrzyj"
 }
