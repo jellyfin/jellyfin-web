@@ -13,13 +13,6 @@ on:
       - '**/*.md'
 
 jobs:
-  automation:
-    name: Automation 🎛️
-    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-    uses: ./.github/workflows/__automation.yml
-    secrets:
-      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
-
   main:
     name: 'Unstable release 🚀⚠️'
     uses: ./.github/workflows/__package.yml

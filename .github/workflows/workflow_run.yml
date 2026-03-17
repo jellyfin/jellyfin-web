@@ -25,7 +25,15 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
       run: |
-        echo pr_number=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls" --jq 'map(select(.state == "open")) | .[0].number') >> "${GITHUB_OUTPUT}"
+        API_RESPONSE=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls")
+        PR_NUMBER=$(echo "${API_RESPONSE}" | jq '.[0].number')
+
+        echo "repository: ${GITHUB_REPOSITORY}"
+        echo "sha: ${HEAD_SHA}"
+        echo "response: ${API_RESPONSE}"
+        echo "pr: ${PR_NUMBER}"
+
+        echo "pr_number=${PR_NUMBER}" >> "${GITHUB_OUTPUT}"
 
   automation:
     name: Automation

@@ -21,10 +21,10 @@ on:
         type: boolean
       pr_number:
         required: false
-        type: number
+        type: string
       workflow_run_id:
         required: true
-        type: number
+        type: string
       artifact_name:
         required: false
         type: string
