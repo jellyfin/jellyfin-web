@@ -1886,5 +1886,6 @@
     "StreamingLoadError": "Nie udało się załadować ustawień strony przesyłania strumieniowego",
     "TrickplayLoadError": "Nie udało się załadować ustawień Trickplay",
     "LabelExternalServerUri": "Zewnętrzny URI",
-    "LabelExternalServerUriHelp": "Opublikowany URI serwera umożliwiający dostęp zewnętrzny."
+    "LabelExternalServerUriHelp": "Opublikowany URI serwera umożliwiający dostęp zewnętrzny.",
+    "ResetFilters": "Zresetuj filtry"
 }
