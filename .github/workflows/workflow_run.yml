@@ -25,7 +25,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
       run: |
-        API_RESPONSE=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls")
+        API_RESPONSE=$(gh pr list --repo "${GITHUB_REPOSITORY}" --search "${HEAD_SHA}" --state open --json number)
         PR_NUMBER=$(echo "${API_RESPONSE}" | jq '.[0].number')
 
         echo "repository: ${GITHUB_REPOSITORY}"
