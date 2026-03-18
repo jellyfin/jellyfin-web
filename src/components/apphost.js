@@ -6,6 +6,7 @@ import * as webSettings from '../scripts/settings/webSettings';
 import globalize from '../lib/globalize';
 import profileBuilder from '../scripts/browserDeviceProfile';
 import { AppFeature } from 'constants/appFeature';
+import { LayoutMode } from 'constants/layoutMode';
 
 const appName = 'Jellyfin Web';
 
@@ -13,6 +14,7 @@ const BrowserName = {
     tizen: 'Samsung Smart TV',
     web0s: 'LG Smart TV',
     titanos: 'Titan OS',
+    vega: 'Vega OS',
     operaTv: 'Opera TV',
     xboxOne: 'Xbox One',
     ps4: 'Sony PS4',
@@ -181,7 +183,7 @@ function supportsFullscreen() {
 }
 
 function getDefaultLayout() {
-    return 'desktop';
+    return LayoutMode.Experimental;
 }
 
 function supportsHtmlMediaAutoplay() {
@@ -371,7 +373,7 @@ export const appHost = {
 
         return getDefaultLayout();
     },
-    getDeviceProfile: getDeviceProfile,
+    getDeviceProfile,
     init: function () {
         if (window.NativeShell) {
             return window.NativeShell.AppHost.init();
@@ -455,5 +457,3 @@ if (window.addEventListener) {
     window.addEventListener('blur', onAppHidden);
 }
 
-// load app host on module load
-appHost.init();

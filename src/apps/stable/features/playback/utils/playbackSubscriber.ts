@@ -78,12 +78,14 @@ export abstract class PlaybackSubscriber {
     constructor(
         protected readonly playbackManager: PlaybackManager
     ) {
+        // Bind player events before invoking any player change handlers
+        Events.on(playbackManager, PlaybackManagerEvent.PlayerChange, this.bindPlayerEvents.bind(this));
+
         Object.entries(this.playbackManagerEvents).forEach(([event, handler]) => {
             if (handler) Events.on(playbackManager, event, handler);
         });
 
         this.bindPlayerEvents();
-        Events.on(playbackManager, PlaybackManagerEvent.PlayerChange, this.bindPlayerEvents.bind(this));
     }
 
     private bindPlayerEvents() {

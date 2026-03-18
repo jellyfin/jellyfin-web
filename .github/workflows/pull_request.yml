@@ -1,41 +1,24 @@
-name: Pull Request 📥
+name: Pull Request
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - master
       - release*
     paths-ignore:
       - '**/*.md'
-  merge_group:
 
 jobs:
-  push-comment:
-    name: Create comments ✍️
-    if: ${{ always() && !cancelled() && github.repository == 'jellyfin/jellyfin-web' }}
-    uses: ./.github/workflows/__job_messages.yml
-    secrets: inherit
-    with:
-      commit: ${{ github.event.pull_request.head.sha }}
-      in_progress: true
-      comment: true
-
   build:
     name: Build 🏗️
     if: ${{ always() && !cancelled() }}
     uses: ./.github/workflows/__package.yml
     with:
       commit: ${{ github.event.pull_request.head.sha }}
-
-  automation:
-    name: Automation 🎛️
-    if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
-    uses: ./.github/workflows/__automation.yml
-    secrets: inherit
 
   quality_checks:
     name: Quality checks 👌🧪
@@ -56,23 +39,6 @@ jobs:
     with:
       commit: ${{ github.event.pull_request.head.sha }}
 
-  deploy:
-    name: Deploy 🚀
-    uses: ./.github/workflows/__deploy.yml
-    if: ${{ always() && !cancelled() && needs.build.result == 'success' && github.repository == 'jellyfin/jellyfin-web' }}
-    needs:
-      - push-comment
-      - build
-    permissions:
-      contents: read
-      deployments: write
-    secrets: inherit
-    with:
-      # If the PR is from the master branch of a fork, append the fork's name to the branch name
-      branch: ${{ github.event.pull_request.head.repo.full_name != github.repository && github.event.pull_request.head.ref == 'master' && format('{0}/{1}', github.event.pull_request.head.repo.full_name, github.event.pull_request.head.ref) || github.event.pull_request.head.ref }}
-      comment: true
-      commit: ${{ github.event.pull_request.head.sha }}
-
   run-eslint:
     name: Run eslint suggestions
     if: ${{ github.repository == 'jellyfin/jellyfin-web' }}
@@ -80,14 +46,14 @@ jobs:
     
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: ${{ github.event.pull_request.head.sha }}
     
       - name: Setup node environment
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
           check-latest: true 
     
@@ -95,6 +61,6 @@ jobs:
         run: npm ci --no-audit
     
       - name: Run eslint
-        uses: CatChen/eslint-suggestion-action@4dda35decf912ab18ea3e071acec2c6c2eda00b6 # v4.1.18
+        uses: CatChen/eslint-suggestion-action@4ee415529307a8ca0260b4a3775484802523e5af # v4.1.19
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
