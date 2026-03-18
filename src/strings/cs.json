@@ -1887,5 +1887,7 @@
     "TrickplayLoadError": "Nepodařilo se načíst nastavení Trickplay",
     "LabelExternalServerUri": "Externí URI",
     "LabelExternalServerUriHelp": "Zveřejněná adresa URI serveru pro externí přístup.",
-    "ResetFilters": "Vymazat filtry"
+    "ResetFilters": "Vymazat filtry",
+    "Unwatch": "Zrušit sledování",
+    "Watch": "Sledovat"
 }
