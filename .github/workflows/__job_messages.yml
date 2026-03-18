@@ -23,7 +23,7 @@ on:
         type: boolean
       pr_number:
         required: true
-        type: number
+        type: string
       marker:
         description: Hidden marker to detect PR comments composed by the bot
         required: false

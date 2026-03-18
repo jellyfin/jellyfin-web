@@ -1886,5 +1886,8 @@
     "LabelUseSamePublishedServerUri": "Dezelfde gepubliceerde server-URI gebruiken voor interne en externe toegang",
     "NetworkingPageLoadError": "Laden van netwerkinstellingen mislukt",
     "LabelExternalServerUri": "Externe URI",
-    "LabelExternalServerUriHelp": "Gepubliceerde server-URI voor externe toegang."
+    "LabelExternalServerUriHelp": "Gepubliceerde server-URI voor externe toegang.",
+    "ResetFilters": "Filters herstellen",
+    "Unwatch": "Volgen stoppen",
+    "Watch": "Volgen"
 }
