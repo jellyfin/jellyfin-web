@@ -43,3 +43,4 @@ jobs:
         with:
           name: frontend
           path: dist
+          if-no-files-found: error
