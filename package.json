@@ -65,7 +65,7 @@
     "stylelint-order": "7.0.1",
     "stylelint-scss": "6.14.0",
     "ts-loader": "9.5.2",
-    "typescript": "5.8.3",
+    "typescript": "5.9.3",
     "typescript-eslint": "8.57.0",
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "3.2.4",
