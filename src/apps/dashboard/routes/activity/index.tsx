@@ -39,7 +39,7 @@ const getActivityView = (param: string | null) => {
 
 const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
     return (
-        <UserAvatarButton user={row.original.UserId && users[ row.original.UserId ] || undefined} />
+        <UserAvatarButton user={row.original.UserId && users[row.original.UserId] || undefined} />
     );
 };
 
@@ -129,7 +129,7 @@ export const Component = () => {
             },
             filterVariant: 'select',
             filterSelectOptions: userNames
-        }], [activityView, userNames, users, UserCell]);
+        }], [ activityView, userNames, users, UserCell ]);
 
     const columns = useMemo<MRT_ColumnDef<ActivityLogEntry>[]>(() => [
         {
