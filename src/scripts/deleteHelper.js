@@ -42,7 +42,7 @@ function getDeletionConfirmContent(item) {
 
     return {
         title: globalize.translate('HeaderDeleteItem'),
-        text: globalize.translate('ConfirmDeleteItem'),
+        text: globalize.translate('ConfirmDeleteItemByName', item.Name),
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
     };
