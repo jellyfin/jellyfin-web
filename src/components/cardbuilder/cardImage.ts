@@ -4,8 +4,10 @@ import type { ApiClient } from 'jellyfin-apiclient';
 
 import type { CardOptions } from 'types/cardOptions';
 import { CardShape } from 'utils/card';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
-import { getCardImageUrl, getDefaultText } from './cardBuilder';
+import { getDefaultText } from './cardBuilder';
+import { getCardImageUrl } from './utils/url';
 
 /**
  * Builds an html string for a basic image only card.
@@ -28,12 +30,12 @@ export function buildCardImage(
         }
     }
 
-    const image = getCardImageUrl(
+    const image = getCardImageUrl({
+        api: toApi(apiClient),
         item,
-        apiClient,
         options,
         shape
-    );
+    });
 
     if (!image) return '';
 
