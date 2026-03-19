@@ -401,7 +401,7 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            const layoutMode = localStorage.getItem('layout') ?? LayoutMode.Experimental;
+            const layoutMode = localStorage.getItem('layout') || LayoutMode.Experimental;
 
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Books) {
                 return `#/books?topParentId=${item.Id}`;
