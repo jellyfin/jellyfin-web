@@ -209,7 +209,16 @@ a[data-role=button],
 
 .selectionCommandsPanel {
     background: var(--jf-palette-primary-main, $primary-main);
-    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
+
+    .paper-icon-button-light:not(:disabled) {
+        color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+
+        &:hover,
+        &:focus {
+            background-color: var(--jf-palette-primary-dark, $primary-dark);
+        }
+    }
 }
 
 .upNextDialog-countdownText {
