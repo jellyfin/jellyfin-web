@@ -32,6 +32,11 @@ describe('getDisplayVersion', () => {
 
     it('should return only major.minor for versions above 10.0.0', () => {
         expect(getDisplayVersion('11.0.0')).toBe('11.0');
-        expect(getDisplayVersion('12.3.4')).toBe('12.3');
+        expect(getDisplayVersion('12.3.0')).toBe('12.3');
+    });
+
+    it('should return the full version if there is a non-zero patch version above 10.0.0', () => {
+        expect(getDisplayVersion('11.0.1')).toBe('11.0.1');
+        expect(getDisplayVersion('12.3.4')).toBe('12.3.4');
     });
 });

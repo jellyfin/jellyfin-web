@@ -30,7 +30,11 @@ export function getDisplayVersion(version: string | null | undefined) {
 
     // For versions above 10.X, we switch to only showing major.minor to reflect the new versioning scheme.
     if (compareVersions(version, '11') >= 0) {
-        return version.split('.').slice(0, 2).join('.');
+        const parts = version.split('.');
+        // Just in case we have a patch version that isn't 0, we want to show it. This should not happen.
+        if (parts.length === 3 && parts[2] !== '0') return version;
+
+        return parts.slice(0, 2).join('.');
     }
 
     return version;
