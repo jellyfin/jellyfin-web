@@ -639,6 +639,7 @@ export function getLibraryOptions(parent) {
         MetadataCountryCode: parent.querySelector('#selectCountry').value,
         SeasonZeroDisplayName: parent.querySelector('#txtSeasonZeroName').value,
         AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value, 10),
+        KeepOriginalTitle: parent.querySelector('#chkKeepOriginalTitle').checked,
         EnableEmbeddedTitles: parent.querySelector('#chkEnableEmbeddedTitles').checked,
         EnableEmbeddedExtrasTitles: parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked,
         EnableEmbeddedEpisodeInfos: parent.querySelector('#chkEnableEmbeddedEpisodeInfos').checked,
@@ -707,6 +708,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
     parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
     parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
+    parent.querySelector('#chkKeepOriginalTitle').checked = options.KeepOriginalTitle;
     parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;
     parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !options.EnableEmbeddedTitles);
     parent.querySelector('#chkEnableEmbeddedExtrasTitles').checked = options.EnableEmbeddedExtrasTitles;
