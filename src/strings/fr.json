@@ -1872,5 +1872,6 @@
     "HeaderDeleteCollection": "Supprimer la Collection",
     "HeaderDeletePlaylist": "Supprimer la Playlist",
     "NewPlaylist": "Nouvelle Playlist",
-    "OptionDatePlaylistUpdated": "Date de mise à jour de la Playlist"
+    "OptionDatePlaylistUpdated": "Date de mise à jour de la Playlist",
+    "Authors": "Auteurs"
 }
