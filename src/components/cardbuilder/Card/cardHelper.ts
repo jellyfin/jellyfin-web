@@ -217,7 +217,6 @@ function getParentTitle(
             .map(artist => {
                 const artistItem: ItemDto = {
                     ...artist,
-                    Key: artist.Id ?? '',
                     Type: BaseItemKind.MusicArtist,
                     IsFolder: true
                 };
@@ -512,7 +511,6 @@ function getChannelName(item: ItemDto) {
     if (item.ChannelId) {
         return getTextActionButton(
             {
-                Key: item.ChannelId,
                 Id: item.ChannelId,
                 ServerId: item.ServerId,
                 Name: item.ChannelName,
@@ -600,7 +598,6 @@ function getMediaTitle(cardOptions: CardOptions, item: ItemDto): TextLine {
             });
 
     return getTextActionButton({
-        Key: item.Id ?? '',
         Id: item.Id,
         ServerId: item.ServerId,
         Name: name,
@@ -623,7 +620,6 @@ function getParentTitleOrTitle(
     ) {
         if (item.SeriesId) {
             return getTextActionButton({
-                Key: item.SeriesId,
                 Id: item.SeriesId,
                 ServerId: item.ServerId,
                 Name: item.SeriesName,
