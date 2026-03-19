@@ -1,7 +1,7 @@
 import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import globalize from 'lib/globalize';
 import Button from 'elements/emby-button/Button';
@@ -33,7 +33,6 @@ const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
 
 const Profile = ({ userDto }: ProfileProps) => {
     const navigate = useNavigate();
-    const [ searchParams ] = useSearchParams();
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
     const libraryMenu = useMemo(async () => ((await import('scripts/libraryMenu')).default), []);
 
