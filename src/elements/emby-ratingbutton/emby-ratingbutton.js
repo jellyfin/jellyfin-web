@@ -42,14 +42,14 @@ function onClick() {
     showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
         // This hackish, but once all elements are migrated to React components
         // button state will be able to be handled by React.
-        const buttons = document.querySelectorAll(`button[is="emby-ratingbutton"][data-id="${id}"]`);
+        const buttons = document.querySelectorAll(`button[is="emby-ratingbutton"][data-id="${CSS.escape(id)}"]`);
         buttons.forEach((btn) => {
             setState(btn, userData.Likes, userData.IsFavorite);
         });
 
         playbackManager.getPlaylist().then(function(items) {
             items.forEach(function(e) {
-                if (e.Id == id) {
+                if (e.Id === id && e.UserData) {
                     e.UserData.IsFavorite = userData.IsFavorite;
                 }
             });
