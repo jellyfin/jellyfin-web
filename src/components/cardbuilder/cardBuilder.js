@@ -14,7 +14,6 @@ import datetime from 'scripts/datetime';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
@@ -41,7 +40,8 @@ import {
     resolveCardCssClasses,
     resolveCardImageContainerCssClasses,
     resolveMixedShapeByAspectRatio
-} from './cardBuilderUtils';
+} from './utils/builder';
+import { getBackdropShape, getPortraitShape, getSquareShape } from './utils/shape';
 import { getCardImageUrl } from './utils/url';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
