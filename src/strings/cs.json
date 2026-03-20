@@ -1889,5 +1889,9 @@
     "LabelExternalServerUriHelp": "Zveřejněná adresa URI serveru pro externí přístup.",
     "ResetFilters": "Vymazat filtry",
     "Unwatch": "Zrušit sledování",
-    "Watch": "Sledovat"
+    "Watch": "Sledovat",
+    "Authors": "Autoři",
+    "ContinueReading": "Číst dál",
+    "HeaderLatestBooks": "Nedávno přidané knihy",
+    "UsersEditPageError": "Nepodařilo se načíst stránku pro úpravy uživatelů"
 }
