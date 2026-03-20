@@ -8,6 +8,8 @@
     --jellyfin-pdf-pinch-tap-cooldown: 220;
     --jellyfin-pdf-zoom-step: 0.2;
     --jellyfin-pdf-max-zoom: 4;
+    --jellyfin-pdf-canvas-gutter-x: clamp(72px, 18vw, 220px);
+    --jellyfin-pdf-canvas-gutter-y: clamp(40px, 10vw, 120px);
 
     position: relative;
     height: 100%;
@@ -22,46 +24,76 @@
         left: 0;
         right: 0;
         z-index: 1003;
-        padding: 8px 14px;
-        padding-right: 260px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
         color: #fff;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0));
-        pointer-events: none;
+        background: rgba(0, 0, 0, 0.72);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
         transition: opacity 140ms ease;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    }
+
+    .readerHeaderText {
+        min-width: 0;
+        flex: 1 1 auto;
     }
 
     .readerTitle {
         font-weight: 600;
         font-size: 1rem;
         line-height: 1.2;
-        white-space: nowrap;
+        white-space: normal;
         overflow: hidden;
-        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .readerMeta {
-        margin-top: 2px;
+        margin-top: 4px;
         display: flex;
-        justify-content: space-between;
-        gap: 12px;
+        align-items: center;
+        gap: 8px;
         font-size: 0.82rem;
         line-height: 1.2;
         opacity: 0.9;
         flex-wrap: wrap;
     }
 
-    .readerChapter {
+    .readerPage {
+        font-weight: 600;
         white-space: nowrap;
+    }
+
+    .readerTitleCompact {
+        display: none;
+        min-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    .readerChapter {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        opacity: 0.78;
+    }
+
+    .readerChapter.hide {
+        display: none;
     }
 
     .readerViewport {
         height: 100%;
         width: 100%;
         overflow: auto;
-        padding: 46px 12px 78px;
+        padding: 96px 12px 24px;
         box-sizing: border-box;
         cursor: default;
         touch-action: pan-y pan-x;
@@ -82,11 +114,24 @@
         display: flex;
         justify-content: center;
         align-items: flex-start;
+        box-sizing: border-box;
+    }
+
+    .canvasStage {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
 
     .readerViewport.isZoomed .canvasHost {
         width: max-content;
         min-width: max-content;
+        justify-content: flex-start;
+        padding: var(--jellyfin-pdf-canvas-gutter-y) var(--jellyfin-pdf-canvas-gutter-x);
+    }
+
+    .readerViewport.isZoomed .canvasStage {
         justify-content: flex-start;
     }
 
@@ -96,16 +141,10 @@
     }
 
     .actionButtons {
-        left: 50%;
-        bottom: 12px;
-        transform: translateX(-50%);
-        z-index: 1004;
-        position: absolute;
+        flex: 0 0 auto;
         display: flex;
         gap: 2px;
-        background: rgba(0, 0, 0, 0.72);
-        border-radius: 999px;
-        padding: 2px;
+        align-items: center;
     }
 
     .actionButtonIcon {
@@ -126,6 +165,7 @@
     &.readerChromeHidden {
         .readerHeader {
             opacity: 0;
+            pointer-events: none;
         }
 
         .readerViewport {
@@ -134,38 +174,45 @@
     }
 
     @media (max-width: 700px) {
-        .readerHeader {
-            padding: 6px 10px;
-            padding-right: 10px;
-        }
+        --jellyfin-pdf-canvas-gutter-x: clamp(96px, 24vw, 240px);
+        --jellyfin-pdf-canvas-gutter-y: clamp(48px, 14vw, 132px);
 
-        .readerTitle {
-            font-size: 0.92rem;
+        .readerHeader {
+            gap: 8px;
+            align-items: stretch;
         }
 
         .readerMeta {
+            margin-top: 0;
             font-size: 0.74rem;
-            display: block;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: nowrap;
+            min-width: 0;
+        }
+
+        .readerTitleCompact {
+            flex: 1 1 auto;
+            order: 1;
         }
 
         .readerPage {
-            display: block;
-            margin-top: 1px;
+            order: 2;
+            flex: 0 0 auto;
         }
 
         .readerViewport {
-            padding-top: 52px;
-            padding-bottom: 80px;
+            padding-top: 90px;
+            padding-bottom: 18px;
         }
 
         .actionButtons {
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.75);
-            border-radius: 999px;
-            padding: 2px;
-            max-width: calc(100% - 12px);
+            align-self: flex-start;
+        }
+
+        .zoomValue {
+            min-width: 36px;
+            font-size: 0.7rem;
         }
     }
 }

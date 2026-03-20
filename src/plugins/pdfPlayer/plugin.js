@@ -204,12 +204,18 @@ export class PdfPlayer {
         if (!this.mediaElement) return;
 
         const titleElement = this.mediaElement.querySelector('.readerTitle');
+        const compactTitleElement = this.mediaElement.querySelector('.readerTitleCompact');
         const chapterElement = this.mediaElement.querySelector('.readerChapter');
         const pageElement = this.mediaElement.querySelector('.readerPage');
 
-        titleElement.textContent = this.getTitle();
-        chapterElement.textContent = this.getChapter();
+        const title = this.getTitle();
+        titleElement.textContent = title;
+        compactTitleElement.textContent = title;
         pageElement.textContent = `Page ${Math.min(this.progress + 1, this.duration())} / ${this.duration()}`;
+
+        const chapter = this.getChapter();
+        chapterElement.textContent = chapter;
+        chapterElement.classList.toggle('hide', !chapter);
     }
 
     updateZoomLabel() {
@@ -278,29 +284,36 @@ export class PdfPlayer {
         const baseWidth = Number(canvas.dataset.baseWidth || 0);
         const baseHeight = Number(canvas.dataset.baseHeight || 0);
         const hasAnchor = anchorPoint && typeof anchorPoint.clientX === 'number' && typeof anchorPoint.clientY === 'number';
-        const viewportBounds = hasAnchor ? viewport.getBoundingClientRect() : null;
-        const relativeAnchorX = hasAnchor ? (anchorPoint.clientX - viewportBounds.left) : 0;
-        const relativeAnchorY = hasAnchor ? (anchorPoint.clientY - viewportBounds.top) : 0;
-        const contentAnchorX = hasAnchor ? (viewport.scrollLeft + relativeAnchorX) : 0;
-        const contentAnchorY = hasAnchor ? (viewport.scrollTop + relativeAnchorY) : 0;
+        const canvasBoundsBeforeZoom = hasAnchor ? canvas.getBoundingClientRect() : null;
+        const anchorRatioX = hasAnchor && canvasBoundsBeforeZoom.width > 0
+            ? Math.min(Math.max((anchorPoint.clientX - canvasBoundsBeforeZoom.left) / canvasBoundsBeforeZoom.width, 0), 1)
+            : 0.5;
+        const anchorRatioY = hasAnchor && canvasBoundsBeforeZoom.height > 0
+            ? Math.min(Math.max((anchorPoint.clientY - canvasBoundsBeforeZoom.top) / canvasBoundsBeforeZoom.height, 0), 1)
+            : 0.5;
 
         if (baseWidth > 0 && baseHeight > 0) {
             canvas.style.width = `${Math.round(baseWidth * this.zoomLevel)}px`;
             canvas.style.height = `${Math.round(baseHeight * this.zoomLevel)}px`;
         }
 
+        const isZoomed = this.zoomLevel > 1;
+        viewport.classList.toggle('isZoomed', isZoomed);
+
         if (hasAnchor && previousZoom > 0 && this.zoomLevel !== previousZoom) {
-            const zoomRatio = this.zoomLevel / previousZoom;
-            viewport.scrollLeft = (contentAnchorX * zoomRatio) - relativeAnchorX;
-            viewport.scrollTop = (contentAnchorY * zoomRatio) - relativeAnchorY;
+            const canvasBoundsAfterZoom = canvas.getBoundingClientRect();
+            const targetScrollLeft = viewport.scrollLeft + ((canvasBoundsAfterZoom.left + (canvasBoundsAfterZoom.width * anchorRatioX)) - anchorPoint.clientX);
+            const targetScrollTop = viewport.scrollTop + ((canvasBoundsAfterZoom.top + (canvasBoundsAfterZoom.height * anchorRatioY)) - anchorPoint.clientY);
+            const maxScrollLeft = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+            const maxScrollTop = Math.max(0, viewport.scrollHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = Math.min(Math.max(0, targetScrollLeft), maxScrollLeft);
+            viewport.scrollTop = Math.min(Math.max(0, targetScrollTop), maxScrollTop);
         }
 
-        if (this.zoomLevel <= 1) {
-            viewport.classList.remove('isZoomed');
+        if (!isZoomed) {
             viewport.scrollLeft = 0;
             viewport.scrollTop = 0;
-        } else {
-            viewport.classList.add('isZoomed');
         }
     }
 
@@ -618,11 +631,9 @@ export class PdfPlayer {
 
             let html = '';
             html += '<div class="readerHeader">';
+            html += '<div class="readerHeaderText">';
             html += '<div class="readerTitle"></div>';
-            html += '<div class="readerMeta"><span class="readerChapter"></span><span class="readerPage"></span></div>';
-            html += '</div>';
-            html += '<div class="readerViewport">';
-            html += '<div class="canvasHost"><canvas id="canvas"></canvas></div>';
+            html += '<div class="readerMeta"><span class="readerPage"></span><span class="readerTitleCompact"></span><span class="readerChapter"></span></div>';
             html += '</div>';
             html += '<div class="actionButtons">';
             html += '<button is="paper-icon-button-light" class="autoSize btnPrevious" tabindex="-1" title="Previous page"><span class="material-icons actionButtonIcon chevron_left" aria-hidden="true"></span></button>';
@@ -630,7 +641,11 @@ export class PdfPlayer {
             html += '<button is="paper-icon-button-light" class="autoSize btnZoomOut" tabindex="-1" title="Zoom out"><span class="material-icons actionButtonIcon zoom_out" aria-hidden="true"></span></button>';
             html += '<button is="paper-icon-button-light" class="autoSize btnZoomIn" tabindex="-1" title="Zoom in"><span class="material-icons actionButtonIcon zoom_in" aria-hidden="true"></span></button>';
             html += '<button is="paper-icon-button-light" class="autoSize btnZoomReset" tabindex="-1" title="Reset zoom"><span class="zoomValue">100%</span></button>';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1" title="Close reader"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
+            html += '</div>';
+            html += '</div>';
+            html += '<div class="readerViewport">';
+            html += '<div class="canvasHost"><div class="canvasStage"><canvas id="canvas"></canvas></div></div>';
             html += '</div>';
 
             elem.id = 'pdfPlayer';
@@ -696,6 +711,7 @@ export class PdfPlayer {
     }
 
     next() {
+        if (!this.loaded || !this.book) return;
         if (this.progress === this.duration() - 1) return;
         this.loadPage(this.progress + 2);
         this.progress = this.progress + 1;
@@ -705,6 +721,7 @@ export class PdfPlayer {
     }
 
     previous() {
+        if (!this.loaded || !this.book) return;
         if (this.progress === 0) return;
         this.loadPage(this.progress);
         this.progress = this.progress - 1;
@@ -721,6 +738,8 @@ export class PdfPlayer {
     }
 
     loadPage(number) {
+        if (!this.loaded || !this.book) return;
+
         const prefix = 'page';
         const pad = 2;
 
@@ -756,6 +775,8 @@ export class PdfPlayer {
      * @returns {void}
      */
     renderPage(canvas, number) {
+        if (!this.book) return;
+
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
             const original = page.getViewport({ scale: 1 });
