@@ -1890,5 +1890,8 @@
     "ResetFilters": "Zresetuj filtry",
     "Unwatch": "Nie oglądaj",
     "Watch": "Obejrzyj",
-    "Authors": "Autorzy"
+    "Authors": "Autorzy",
+    "ContinueReading": "Kontynuuj czytanie",
+    "HeaderLatestBooks": "Ostatnio dodane książki",
+    "UsersEditPageError": "Nie udało się załadować strony edycji użytkowników"
 }
