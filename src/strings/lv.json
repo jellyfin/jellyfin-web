@@ -1848,5 +1848,7 @@
     "ButtonAddTunerDevice": "Pievienot uztvērēja ierīci",
     "ButtonAddProvider": "Pievienot pakalpojuma sniedzēju",
     "LabelSlideshowInterval": "Fotoattēlu slaidrādes intervāls",
-    "LabelSlideshowIntervalHelp": "Katra fotoattēla laiks sekundēs tiek parādīts slaidšovā."
+    "LabelSlideshowIntervalHelp": "Katra fotoattēla laiks sekundēs tiek parādīts slaidšovā.",
+    "OptionDatePlaylistUpdated": "Atskaņošanas saraksta atjaunošanas datums",
+    "NewPlaylist": "Jauns atskaņošanas saraksts"
 }
