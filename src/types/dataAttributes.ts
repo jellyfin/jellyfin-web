@@ -6,7 +6,7 @@ import { ItemAction } from 'constants/itemAction';
 import type { NullableBoolean, NullableNumber, NullableString } from './base/common/shared/types';
 
 export type AttributesOpts = {
-    context?: CollectionType,
+    context?: CollectionType | string,
     parentId?: NullableString,
     collectionId?: NullableString,
     playlistId?: NullableString,

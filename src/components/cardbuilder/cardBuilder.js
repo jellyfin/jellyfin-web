@@ -14,8 +14,8 @@ import datetime from 'scripts/datetime';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import focusManager from '../focusManager';
 import imageLoader from '../images/imageLoader';
@@ -40,7 +40,9 @@ import {
     resolveCardCssClasses,
     resolveCardImageContainerCssClasses,
     resolveMixedShapeByAspectRatio
-} from './cardBuilderUtils';
+} from './utils/builder';
+import { getBackdropShape, getPortraitShape, getSquareShape } from './utils/shape';
+import { getCardImageUrl } from './utils/url';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -910,7 +912,7 @@ function buildCard(index, item, apiClient, options) {
 
     // TODO move card creation code to Card component
 
-    const imgInfo = getCardImageUrl(item, apiClient, options, shape);
+    const imgInfo = getCardImageUrl({ api: toApi(apiClient), item, options, shape });
     const imgUrl = imgInfo.imgUrl;
     const blurhash = imgInfo.blurhash;
     const forceName = imgInfo.forceName;
@@ -1028,7 +1030,7 @@ function buildCard(index, item, apiClient, options) {
 
         cardImageContainerClose = '</div>';
     } else {
-        const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
+        const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}" role="img"`;
 
         const url = appRouter.getRouteUrl(item);
         // Don't use the IMG tag with safari because it puts a white border around it
@@ -1160,15 +1162,11 @@ function getHoverMenuHtml(item, action) {
     let html = '';
 
     html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
-    const url = appRouter.getRouteUrl(item, {
-        serverId: item.ServerId || ServerConnections.currentApiClient().serverId()
-    });
-    html += '<a href="' + url + '" class="cardImageContainer"></a>';
 
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
     if (playbackManager.canPlay(item)) {
-        html += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayFab-primary" data-action="${ItemAction.Resume}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
+        html += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayFab-primary" data-action="${ItemAction.Resume}" title="${globalize.translate('Play')}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
     }
 
     html += '<div class="cardOverlayButton-br flex">';

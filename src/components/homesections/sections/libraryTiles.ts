@@ -9,9 +9,9 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import globalize from 'lib/globalize';
-import { getBackdropShape } from 'utils/card';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import type { SectionOptions } from './section';
