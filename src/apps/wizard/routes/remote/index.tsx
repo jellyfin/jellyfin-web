@@ -14,8 +14,7 @@ import type { StartupRemoteAccessDto } from '@jellyfin/sdk/lib/generated-client/
 export const Component = () => {
     const navigate = useNavigate();
     const [ data, setData ] = useState<StartupRemoteAccessDto>({
-        EnableRemoteAccess: true,
-        EnableAutomaticPortMapping: false
+        EnableRemoteAccess: true
     });
     const setRemoteAccess = useSetRemoteAccess();
 
