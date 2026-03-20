@@ -16,6 +16,7 @@ If you have any questions, please join one of our [development chat rooms](https
 * **SHOULD** avoid whitespace only changes in unchanged sections of code.
 * **SHOULD NOT** overuse dynamic imports. We use dynamic imports at the page level; otherwise we should let our build tooling deal with code-splitting for the best bundle sizes.
 * **SHOULD NOT** reference browser globals. Globals exist for plugins/legacy compatibility. Use direct imports for any dependencies instead.
+* You **MAY** add your GitHub username to the list of contributors in [CONTRIBUTORS.md](./CONTRIBUTORS.md).
 
 ### Localization
 
@@ -31,6 +32,14 @@ If you have any questions, please join one of our [development chat rooms](https
 * **MUST** test that the change works as expected before marking a PR as ready for review.
 * **SHOULD** represent a singular focus (i.e. a PR to fix a bug should not include unrelated refactoring).
 * **SHOULD NOT** update from `master` needlessly once opened (only update if conflicts exist).
+
+#### Targeting a Release Branch
+
+You may be asked to update your Pull Request to target a release branch as part of our patch / bug-fix release process. Follow these steps to properly update your PR.
+
+1. `git rebase --onto release-X.Y.Z master` (Fetch the release branch if it does not exist in your local copy and replace `release-X.Y.Z` with the latest release branch.)
+2. Force push your branch.
+3. Update the target branch on Github by clicking "Edit" -> Change base branch to point to the release branch.
 
 ## Application Architecture
 
@@ -50,9 +59,9 @@ If you have any questions, please join one of our [development chat rooms](https
 
 | Library | Replacement |
 | --- | --- |
-| [Emby WebComponents](https://github.com/jellyfin/jellyfin-web/tree/master/src/elements) | MUI components (Dashboard + Experimental apps ONLY; Untested on TVs) |
-| [App Router](https://github.com/jellyfin/jellyfin-web/blob/master/src/components/router/appRouter.js) | React Router |
-| [View Manager](https://github.com/jellyfin/jellyfin-web/tree/master/src/components/viewManager) | React Router |
+| [Emby WebComponents](./src/elements) | MUI components (Dashboard + Experimental apps ONLY; Untested on TVs) |
+| [App Router](./src/components/router/appRouter.js) | React Router |
+| [View Manager](./src/components/viewManager) | React Router |
 | [Jellyfin ApiClient](https://github.com/jellyfin-archive/jellyfin-apiclient-javascript) | Jellyfin TypeScript SDK |
 | [jQuery](https://api.jquery.com/) | None (use plain JavaScript/TypeScript) |
 
@@ -60,7 +69,7 @@ If you have any questions, please join one of our [development chat rooms](https
 
 This codebase supports a wide variety of platforms including TVs that are stuck on ancient versions of browser engines.
 As a result, we can only use JavaScript and CSS features that are either directly supported by these browser versions or can be otherwise compiled or polyfilled for compatibility.
-The official list of supported browser versions can be found in the `browserlist` section of the [package.json file](https://github.com/jellyfin/jellyfin-web/blob/master/package.json).
+The official list of supported browser versions can be found in the `browserlist` section of the [package.json file](./package.json).
 
 ## Application Components
 
@@ -82,3 +91,42 @@ The official list of supported browser versions can be found in the `browserlist
   * Modular functionality that is loaded dynamically at runtime
   * ALL media player implementations are plugins
   * Allows native wrapper overrides
+
+## Directory Structure
+
+> [!NOTE]
+> We are in the process of refactoring to a [new structure](https://forum.jellyfin.org/t-proposed-update-to-the-structure-of-jellyfin-web) based on [Bulletproof React](https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md) architecture guidelines.
+> Most new code should be organized under the appropriate app directory unless it is common/shared.
+
+```
+.
+└── src
+    ├── apps
+    │   ├── dashboard           # Admin dashboard app
+    │   ├── experimental        # New experimental app
+    │   ├── stable              # Classic (stable) app
+    │   └── wizard              # Startup wizard app
+    ├── assets                  # Static assets
+    ├── components              # Higher order visual components and React components
+    ├── constants               # Common constant values
+    ├── controllers             # Legacy page views and controllers 🧹 ❌
+    ├── elements                # Basic webcomponents and React equivalents 🧹
+    ├── hooks                   # Custom React hooks
+    ├── lib                     # Reusable libraries
+    │   ├── globalize           # Custom localization library
+    │   ├── jellyfin-apiclient  # Supporting code for the deprecated apiclient package
+    │   ├── legacy              # Polyfills for legacy browsers
+    │   ├── navdrawer           # Navigation drawer library for classic layout
+    │   └── scroller            # Content scrolling library
+    ├── plugins                 # Client plugins (features dynamically loaded at runtime)
+    ├── scripts                 # Random assortment of visual components and utilities 🐉 ❌
+    ├── strings                 # Translation files (only commit changes to en-us.json)
+    ├── styles                  # Common app Sass stylesheets
+    ├── themes                  # Sass and MUI themes
+    ├── types                   # Common TypeScript interfaces/types
+    └── utils                   # Utility functions
+```
+
+* ❌ &mdash; Deprecated, do **not** create new files here
+* 🧹 &mdash; Needs cleanup
+* 🐉 &mdash; Serious mess (Here be dragons)
