@@ -442,6 +442,15 @@ class AppRouter {
 
                 return url;
             }
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Musicvideos) {
+                url = `#/musicvideos?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+                return url;
+            }
         }
 
         const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
