@@ -1247,7 +1247,7 @@
     "YoutubeNotFound": "Video non trovato.",
     "YoutubePlaybackError": "Il video richiesto non può essere riprodotto.",
     "YoutubeBadRequest": "Richiesta non valida.",
-    "LabelPublishedServerUriHelp": "Sovrascrivi l'URI utilizzata da Jellyfin basandosi sull'interfaccia o sull'indirizzo IP del client, ad esempio: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, oppure all=https://jellyfin.example.com",
+    "LabelPublishedServerUriHelp": "Sovrascrivi l'URI utilizzata da Jellyfin basandosi sull'interfaccia o sull'indirizzo IP del client.",
     "LabelMaxMuxingQueueSizeHelp": "Massimo numero di pacchetti che possono essere bufferizzati prima che tutti gli stream vengano inizializzati. Prova ad incrementare il numero se si nota nei messaggi di errore di FFmpeg il messaggio \"Too many packets buffered for output stream\". Il valore raccomandato è 2048.",
     "LabelEnableIP6Help": "Abilita la funzionalità IPv6.",
     "LabelEnableIP6": "Abilita IPv6",

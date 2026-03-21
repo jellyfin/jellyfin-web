@@ -419,8 +419,6 @@ function getGlobalMaxVideoBitrate() {
     let bitrate = null;
     if (browser.ps4) {
         bitrate = 8000000;
-    } else if (browser.xboxOne) {
-        bitrate = 12000000;
     } else if (browser.tizen && isTizenFhd) {
         bitrate = 20000000;
     }
@@ -1404,7 +1402,7 @@ export default function (options) {
         });
     }
 
-    const globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();
+    const globalMaxVideoBitrate = (options.globalMaxVideoBitrate || getGlobalMaxVideoBitrate() || '').toString();
 
     const h264MaxVideoBitrate = globalMaxVideoBitrate;
 

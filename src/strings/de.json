@@ -1890,5 +1890,9 @@
     "TrickplayLoadError": "Trickplay-Einstellungen konnten nicht geladen werden",
     "LabelExternalServerUri": "Externe URI",
     "LabelExternalServerUriHelp": "Veröffentlichte Server-URI für externen Zugriff.",
-    "Authors": "Autoren"
+    "Authors": "Autoren",
+    "ContinueReading": "Weiterlesen",
+    "HeaderLatestBooks": "Kürzlich hinzugefügte Bücher",
+    "UsersEditPageError": "Seite zur Bearbeitung von Benutzern konnte nicht geladen werden",
+    "HeaderLatestMusicVideos": "Kürzlich hinzugefügte Musikvideos"
 }

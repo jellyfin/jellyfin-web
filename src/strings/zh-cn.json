@@ -1853,7 +1853,7 @@
     "ConfirmDeleteRepository": "删除存储库？",
     "RepositoriesPageLoadError": "加载存储库失败",
     "TranscodingLoadError": "加载转码设置失败",
-    "PluginsLoadError": "加载插件时发生错误。",
+    "PluginsLoadError": "加载插件时出现错误",
     "ButtonLearnMore": "了解更多",
     "LiveTVPageLoadError": "无法加载录制页面",
     "ConnectAnyway": "仍要连接",
@@ -1872,5 +1872,13 @@
     "HeaderDeleteCollection": "删除合集",
     "HeaderDeletePlaylist": "删除播放列表",
     "NewPlaylist": "新建播放列表",
-    "OptionDatePlaylistUpdated": "播放列表更新时间"
+    "OptionDatePlaylistUpdated": "播放列表更新时间",
+    "ApiKeysLoadError": "API密钥加载失败",
+    "DevicesLoadError": "加载设备失败",
+    "HeaderLatestBooks": "最近添加的书籍",
+    "LabelInternalServerUri": "内部URI",
+    "LibrariesLoadError": "媒体库加载失败",
+    "NetworkingPageLoadError": "网络设置加载失败",
+    "ResetFilters": "重设筛选条件",
+    "LabelExternalServerUri": "外部URI"
 }
