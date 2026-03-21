@@ -1882,5 +1882,17 @@
     "LabelUseSamePublishedServerUri": "استخدم نفس عنوان URI الخادم للمرور الداخلي و الخارجي",
     "LibrariesLoadError": "فشل تحميل المكتبات",
     "NetworkingPageLoadError": "فشل تحميل اعدادات الشبكة",
-    "ResumeLoadError": "فشل تحميل اعدادات الاستهلال"
+    "ResumeLoadError": "فشل تحميل اعدادات الاستهلال",
+    "Authors": "مؤلفون",
+    "ContinueReading": "استمرار القراءة",
+    "HeaderLatestBooks": "الكتب المضافة مؤخرا",
+    "HeaderLatestMusicVideos": "مقاطع الموسيقى المضافة مؤخرا",
+    "ResetFilters": "إعادة تعيين المصافي",
+    "StreamingLoadError": "فشل تحميل صفحة إعدادات البث",
+    "Unwatch": "غير مشاهد",
+    "UsersEditPageError": "فشل تحميل صفحة تحرير المستخدمين",
+    "Watch": "مشاهد",
+    "TrickplayLoadError": "فشل تحميل إعدادات trickplay",
+    "LabelExternalServerUri": "URI خارجي",
+    "LabelExternalServerUriHelp": "نشر URI الخادم للولوج الخارجي."
 }
