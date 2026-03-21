@@ -192,6 +192,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 2,
                 label: 'HeaderVideos',
                 view: LibraryTab.Videos
+            },
+            {
+                index: 3,
+                label: 'Folders',
+                view: LibraryTab.Folders
             }
         ]
     },

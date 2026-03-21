@@ -31,10 +31,19 @@ const videosTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Video]
 };
 
+const foldersTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Folders,
+    collectionType: CollectionType.Homevideos,
+    isBtnPlayAllEnabled: true,
+    isBtnShuffleEnabled: true,
+    itemType: [BaseItemKind.Folder, BaseItemKind.Photo, BaseItemKind.PhotoAlbum, BaseItemKind.Video]
+};
+
 const homevideosTabMapping: LibraryTabMapping = {
     0: photosTabContent,
     1: photoAlbumsTabContent,
-    2: videosTabContent
+    2: videosTabContent,
+    3: foldersTabContent
 };
 
 const HomeVideos: FC = () => {

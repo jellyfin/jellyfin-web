@@ -177,6 +177,10 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('HeaderVideos'),
                 value: LibraryTab.Videos
+            },
+            {
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders
             }
         );
     }
