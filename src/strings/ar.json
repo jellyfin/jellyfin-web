@@ -892,7 +892,7 @@
     "HeaderContinueReading": "استئناف القراءة",
     "DisablePlugin": "غير مفعل",
     "EnablePlugin": "مفعل",
-    "AgeValue": "({0} سنة مضت)",
+    "AgeValue": "(عمر{0} سنة/سنوات)",
     "Large": "كبير",
     "Normal": "عادي",
     "Small": "صغير",
