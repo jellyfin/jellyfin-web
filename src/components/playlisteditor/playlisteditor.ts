@@ -28,6 +28,12 @@ import 'elements/emby-select/emby-select';
 
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
+import type { BaseItemDto, PlaylistUserPermissions } from '@jellyfin/sdk/lib/generated-client';
+
+interface PlaylistInfoWrapper {
+    item: BaseItemDto,
+    permissions?: PlaylistUserPermissions
+}
 
 interface DialogElement extends HTMLDivElement {
     playlistId?: string
@@ -43,6 +49,53 @@ interface PlaylistEditorOptions {
 }
 
 let currentServerId: string;
+
+async function getPlaylistsInfo(): Promise<PlaylistInfoWrapper[]> {
+    const cached = localStorage.getItem('playlistInfo');
+    if (cached) {
+        return JSON.parse(cached) as PlaylistInfoWrapper[];
+    }
+
+    const apiClient = ServerConnections.getApiClient(currentServerId);
+    const api = toApi(apiClient);
+    const currentUserId = apiClient.getCurrentUserId();
+
+    const playlistInfo: PlaylistInfoWrapper[] = await getItemsApi(api)
+        .getItems({
+            userId: currentUserId,
+            includeItemTypes: [ BaseItemKind.Playlist ],
+            sortBy: [ ItemSortBy.SortName ],
+            recursive: true
+        })
+        .then(({ data }) => {
+            return Promise.all((data.Items || []).map(item => {
+                const playlist = {
+                    item,
+                    permissions: undefined
+                };
+
+                if (!item.Id) return playlist;
+
+                return getPlaylistsApi(api)
+                    .getPlaylistUser({
+                        playlistId: item.Id,
+                        userId: currentUserId
+                    })
+                    .then(({ data: permissions }) => ({
+                        ...playlist,
+                        permissions
+                    }))
+                    .catch(err => {
+                        // If a user doesn't have access, then the request will 404 and throw
+                        console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
+
+                        return playlist;
+                    });
+            }));
+        });
+    localStorage.setItem('playlistInfo', JSON.stringify(playlistInfo));
+    return playlistInfo;
+};
 
 function onSubmit(this: HTMLElement, e: Event) {
     const panel = dom.parentWithClass(this, 'dialog') as DialogElement | null;
@@ -170,6 +223,7 @@ function triggerChange(select: HTMLSelectElement) {
 }
 
 function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogElement) {
+    console.trace('In populatePlaylists()');
     const select = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
 
     if (!select) {
@@ -180,43 +234,9 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
     panel.querySelector('.newPlaylistInfo')?.classList.add('hide');
 
-    const apiClient = ServerConnections.getApiClient(currentServerId);
-    const api = toApi(apiClient);
     const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
 
-    return getItemsApi(api)
-        .getItems({
-            userId: apiClient.getCurrentUserId(),
-            includeItemTypes: [ BaseItemKind.Playlist ],
-            sortBy: [ ItemSortBy.SortName ],
-            recursive: true
-        })
-        .then(({ data }) => {
-            return Promise.all((data.Items || []).map(item => {
-                const playlist = {
-                    item,
-                    permissions: undefined
-                };
-
-                if (!item.Id) return playlist;
-
-                return getPlaylistsApi(api)
-                    .getPlaylistUser({
-                        playlistId: item.Id,
-                        userId: apiClient.getCurrentUserId()
-                    })
-                    .then(({ data: permissions }) => ({
-                        ...playlist,
-                        permissions
-                    }))
-                    .catch(err => {
-                        // If a user doesn't have access, then the request will 404 and throw
-                        console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
-
-                        return playlist;
-                    });
-            }));
-        })
+    return getPlaylistsInfo()
         .then(playlists => {
             let html = '';
 
