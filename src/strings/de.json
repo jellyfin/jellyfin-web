@@ -1893,5 +1893,6 @@
     "Authors": "Autoren",
     "ContinueReading": "Weiterlesen",
     "HeaderLatestBooks": "Kürzlich hinzugefügte Bücher",
-    "UsersEditPageError": "Seite zur Bearbeitung von Benutzern konnte nicht geladen werden"
+    "UsersEditPageError": "Seite zur Bearbeitung von Benutzern konnte nicht geladen werden",
+    "HeaderLatestMusicVideos": "Kürzlich hinzugefügte Musikvideos"
 }
