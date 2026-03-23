@@ -1872,5 +1872,10 @@
     "HeaderDeletePlaylist": "Vymazať zoznam skladieb",
     "LabelSlideshowInterval": "Interval prezentácie fotografií",
     "NewPlaylist": "Nový playlist",
-    "OptionDatePlaylistUpdated": "Dátum aktualizácie playlistu"
+    "OptionDatePlaylistUpdated": "Dátum aktualizácie playlistu",
+    "ActivitiesLoadError": "Nepodarilo sa načítať aktivity",
+    "ApiKeysLoadError": "Nepodarilo sa načítať API kľúče",
+    "Authors": "Autori",
+    "BrandingLoadError": "Nepodarilo sa načítať nastavenia značky",
+    "ContinueReading": "Pokračovať v čítaní"
 }
