@@ -1893,5 +1893,6 @@
     "Watch": "Regardé",
     "TrickplayLoadError": "‹Échec du chargement des paramètres de Trickplay",
     "LabelExternalServerUri": "URI externe",
-    "LabelExternalServerUriHelp": "URI du serveur publié pour l'accès externe."
+    "LabelExternalServerUriHelp": "URI du serveur publié pour l'accès externe.",
+    "HeaderLatestMusicVideos": "Vidéos musicales ajoutées récemment"
 }
