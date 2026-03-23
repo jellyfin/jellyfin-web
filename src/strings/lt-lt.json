@@ -1891,5 +1891,7 @@
     "UsersEditPageError": "Nepavyko įkelti naudotojų redagavimo puslapio",
     "Watch": "Žiurėti",
     "LabelExternalServerUri": "Išorinis URL",
-    "LabelExternalServerUriHelp": "Paskelbto serverio URL išorinei prieigai."
+    "LabelExternalServerUriHelp": "Paskelbto serverio URL išorinei prieigai.",
+    "ActivitiesLoadError": "Nepavyko įkelti veiklų",
+    "BrandingLoadError": "Nepavyko įkelti prekės ženklo nustatymų"
 }
