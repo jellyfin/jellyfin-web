@@ -175,6 +175,7 @@
     "EnableThemeVideosHelp": "ライブラリを閲覧中にバックグラウンドでテーマ動画を再生します。",
     "Ended": "終了",
     "EndsAtValue": "{0}に終了",
+    "EndsAtIfStartedNowValue": "今すぐ開始すると {0} に終了",
     "Episodes": "エピソード",
     "HeaderInstantMix": "インスタントミックス",
     "HeaderMoreLikeThis": "これに似たもの",

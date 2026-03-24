@@ -378,6 +378,7 @@
     "ErrorAddingListingsToSchedulesDirect": "Dizilişi Schedules Direct hesabınıza eklerken bir hata oluştu. Schedules Direct, hesap başına yalnızca sınırlı sayıda kadroya izin verir. Devam etmeden önce Schedules Direct web sitesine giriş yapmanız ve başka girişleri hesabınızdan kaldırmanız gerekebilir.",
     "Episodes": "Bölümler",
     "EndsAtValue": "Bitiş saati: {0}",
+    "EndsAtIfStartedNowValue": "Şimdi başlasa {0} de biter",
     "EnableThemeVideosHelp": "Kütüphanede gezinirken arka planda tema videoları oynatılsın.",
     "EnableThemeSongsHelp": "Kütüphanede gezinirken arka planda tema şarkıları çalsın.",
     "EnableStreamLoopingHelp": "Canlı akışlar yalnızca birkaç saniye veri içeriyorsa ve sürekli istenmesi gerekiyorsa bunu etkinleştirin. Gerekmediğinde bunu etkinleştirmek sorunlara neden olabilir.",

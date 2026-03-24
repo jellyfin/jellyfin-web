@@ -134,6 +134,7 @@
     "EnableThemeVideosHelp": "Přehrávat videa z médií na pozadí při procházení knihovny.",
     "Ended": "Ukončeno",
     "EndsAtValue": "Končí v {0}",
+    "EndsAtIfStartedNowValue": "Pokud začne teď, končí v {0}",
     "Episodes": "Epizody",
     "ErrorAddingListingsToSchedulesDirect": "Došlo k chybě při přidání sestavy do účtu vašeho Direct plánovače. Direct plánovač umožňuje pouze omezený počet sestav na účet. Možná se budete muset přihlásit do webových stránek Direct plánovače a před pokračováním odstranit ostatní výpisy ze svého účtu.",
     "ErrorAddingMediaPathToVirtualFolder": "Při přidávání cesty k médiím došlo k chybě. Zkontrolujte zda je zadaná složka platná a zda má Jellyfin k této složce přístup.",

@@ -277,6 +277,7 @@
     "EnableExternalVideoPlayers": "Playere video externe",
     "EnablePhotos": "Afișează imaginile",
     "EndsAtValue": "Se termină la {0}",
+    "EndsAtIfStartedNowValue": "Dacă începe acum, se termină la {0}",
     "Episodes": "Episoade",
     "Favorites": "Preferate",
     "Favorite": "Favorit",

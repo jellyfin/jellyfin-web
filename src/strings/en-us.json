@@ -320,6 +320,7 @@
     "EncoderPresetHelp": "Pick a faster value to improve performance, or a slower value to improve quality.",
     "Ended": "Ended",
     "EndsAtValue": "Ends at {0}",
+    "EndsAtIfStartedNowValue": "If started now, ends at {0}",
     "Engineer": "Sound engineer",
     "Episode": "Episode",
     "Episodes": "Episodes",

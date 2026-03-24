@@ -201,6 +201,7 @@
     "EnableThemeVideosHelp": "Reproducir los videos de tema de fondo mientras navegues por la biblioteca.",
     "Ended": "Finalizado",
     "EndsAtValue": "Termina a las {0}",
+    "EndsAtIfStartedNowValue": "Si empieza ahora, termina a las {0}",
     "Episodes": "Capítulos",
     "ErrorAddingListingsToSchedulesDirect": "Ocurrió un error al añadir el alineamiento a tu cuenta de Schedules Direct. Schedules Direct solo permite una cantidad limitada de alineamientos por cuenta. Puede que necesites ingresar al sitio de Schedules Direct y eliminar otros alineamientos de tu cuenta antes de continuar.",
     "ErrorAddingMediaPathToVirtualFolder": "Hubo un error al agregar la ruta del medio. Asegurate de que la ruta sea válida y que Jellyfin tenga acceso a esa ubicación.",

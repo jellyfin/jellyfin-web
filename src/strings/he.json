@@ -51,6 +51,7 @@
     "EnableColorCodedBackgrounds": "רקע בצבע מקודד",
     "Ended": "הסתיים",
     "EndsAtValue": "מסתיים ב {0}",
+    "EndsAtIfStartedNowValue": "אם יתחיל עכשיו, יסתיים ב {0}",
     "Favorite": "מועדף",
     "File": "קובץ",
     "FileNotFound": "קובץ לא נמצא.",

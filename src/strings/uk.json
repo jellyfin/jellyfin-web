@@ -233,6 +233,7 @@
     "ButtonActivate": "Активувати",
     "Authorize": "Авторизуватися",
     "EndsAtValue": "Завершиться о {0}",
+    "EndsAtIfStartedNowValue": "Якщо почати зараз, завершиться о {0}",
     "EnableAutoCast": "Встановити як типовий",
     "DisplayMissingEpisodesWithinSeasons": "Відображати відсутні епізоди в межах сезону",
     "DirectPlaying": "Пряме відтворення",

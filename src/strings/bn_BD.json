@@ -146,6 +146,7 @@
     "Episode": "পর্ব",
     "Engineer": "শব্দ প্রকৌশলী",
     "EndsAtValue": "শেষ হয় {0}",
+    "EndsAtIfStartedNowValue": "এখন শুরু হলে {0} তে শেষ হবে",
     "Ended": "শেষ হয়েছে",
     "EncoderPresetHelp": "পারফরমেন্স উন্নত করতে একটি দ্রুত মান অথবা কোয়ালিটি উন্নত করতে একটি ধীর মান চয়ন করুন৷",
     "EnableTonemapping": "টোন ম্যাপিং চালু করুন",

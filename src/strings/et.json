@@ -333,6 +333,7 @@
     "Episode": "Episood",
     "Engineer": "Helitehnik",
     "EndsAtValue": "Lõpeb kell {0}",
+    "EndsAtIfStartedNowValue": "Kui alustataks kohe, lõpeks kell {0}",
     "Ended": "Lõppenud",
     "EncoderPresetHelp": "Vali jõudluse parandamiseks kiirem väärtus või kvaliteedi parandamiseks aeglasem väärtus.",
     "EnableTonemapping": "Luba toonikaardistus",

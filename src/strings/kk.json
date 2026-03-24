@@ -176,6 +176,7 @@
     "EnableThemeVideosHelp": "Taqyryptyq beineler tasyğyşhanany şolu kezınde öñde oinatylady.",
     "Ended": "Aiaqtaldy",
     "EndsAtValue": "Soñy {0} kezınde",
+    "EndsAtIfStartedNowValue": "Қазір басталса, {0} кезінде аяқталады",
     "Episodes": "Telebölımder",
     "ErrorAddingListingsToSchedulesDirect": "Schedules Direct tırkelgıñızge tızbek üsteu kezınde qate oryn aldy. Schedules Direct tırkelgısınde tızbekterdıñ tek qana şekteulı sany ruqsat etıledı. Oryndamas būryn Schedules Direct saityna kırıp jäne tırkelgıden basqa tızbelerdı alastau qajet boluy mümkın.",
     "ErrorAddingMediaPathToVirtualFolder": "Tasyğyşderekter jolyn üstegen kezınde qate oryn aldy. Jol dūrys ekenıne jäne Jellyfin osy ornalasymğa qatynaityna köz jetkızıñız.",

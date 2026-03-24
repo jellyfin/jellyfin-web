@@ -401,6 +401,7 @@
     "Episode": "Epizod",
     "Engineer": "Yozuvchi muhandis",
     "EndsAtValue": "Tugash vaqti: {0}",
+    "EndsAtIfStartedNowValue": "Hozir boshlansa, {0} da tugaydi",
     "Ended": "Bekor qilingan",
     "EncoderPresetHelp": "Yaxshiroq ishlash uchun tezroq qiymatni yoki yaxshiroq sifat uchun sekinroq qiymatni tanlang.",
     "EnableTonemapping": "Tonemappingni yoqish",

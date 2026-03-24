@@ -1112,6 +1112,7 @@
     "Episode": "Episodyo",
     "Engineer": "Inhinyerong pantunog",
     "EndsAtValue": "Magtatapos sa {0}",
+    "EndsAtIfStartedNowValue": "Kung magsisimula ngayon, magtatapos sa {0}",
     "Ended": "Natapos na",
     "EncoderPresetHelp": "Pumili ng isang mas mabilis na halaga upang mapabuti ang pagganap, o isang mas mabagal na halaga upang mapabuti ang kalidad.",
     "EnableThemeVideosHelp": "Mag-play ng mga theme video sa background habang nagba-browse sa library.",

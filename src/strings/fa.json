@@ -146,6 +146,7 @@
     "ErrorStartHourGreaterThanEnd": "زمان پایان باید پس از زمان شروع باشد.",
     "Episodes": "قسمت‌ها",
     "EndsAtValue": "تمام شده در {0}",
+    "EndsAtIfStartedNowValue": "در صورت شروع الان، در {0} پایان می‌یابد",
     "Ended": "تمام شده",
     "EnableStreamLooping": "چرخش خودکار پخش‌های زنده",
     "EnablePhotos": "نمایش عکس‌ها",

@@ -1346,6 +1346,7 @@
     "EncoderPresetHelp": "Roghnaigh luach níos tapúla chun feidhmíocht a fheabhsú, nó luach níos moille chun cáilíocht a fheabhsú.",
     "Ended": "Críochnaithe",
     "EndsAtValue": "Críoch ag {0}",
+    "EndsAtIfStartedNowValue": "Má thosaítear anois, críoch ag {0}",
     "Episodes": "Eipeasóidí",
     "ChangingMetadataImageSettingsNewContent": "Ní bheidh feidhm ag athruithe ar mheiteashonraí nó ar shocruithe íoslódála saothar ealaíne ach amháin maidir le hábhar nua a chuirtear le do leabharlann. Chun na hathruithe ar theidil atá ann cheana a chur i bhfeidhm, beidh ort a meiteashonraí a athnuachan de láimh.",
     "AnamorphicVideoNotSupported": "Ní thacaítear le físeán anamorfach",

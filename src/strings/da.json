@@ -109,6 +109,7 @@
     "EnableStreamLoopingHelp": "Aktiver dette hvis live streams kun indeholder få sekunders data og skal efterspørgsel hele tiden. Aktivering af dette uden det er nødvendigt kan forårsage problemer.",
     "Ended": "Færdig",
     "EndsAtValue": "Slutter {0}",
+    "EndsAtIfStartedNowValue": "Hvis det startes nu, slutter det {0}",
     "ErrorAddingListingsToSchedulesDirect": "Der opstod en fejl ved tilføjelse af lineup til din Schedules Direct-konto. Schedules Direct tillader kun et begrænset antal opstillinger pr. Konto. Det kan være nødvendigt at du logger ind på Schedules Direct-webstedet og fjerner andre lister fra din konto, før du fortsætter.",
     "ErrorAddingMediaPathToVirtualFolder": "Der opstod en fejl under tilføjelse af mediesti. Kontroller venligst at stien er gyldig og at Jellyfin har adgang til denne lokation.",
     "ErrorAddingTunerDevice": "Der opstod en fejl under tilføjelse af tuner-enhed. Kontroller at den er tilgængelig og prøv igen.",

@@ -166,6 +166,7 @@
     "EnableThemeVideosHelp": "Reproduz vídeos-tema em segundo plano ao navegar pela biblioteca.",
     "Ended": "Finalizada",
     "EndsAtValue": "Termina às {0}",
+    "EndsAtIfStartedNowValue": "Se iniciado agora, termina às {0}",
     "Episodes": "Episódios",
     "ErrorAddingListingsToSchedulesDirect": "Ocorreu um erro ao adicionar a programação à sua conta da Schedules Direct. A Schedules Direct permite apenas um número limitado de programações por conta. Talvez seja necessário que você entre no website da Schedules Direct e remova outras listas de sua conta antes de prosseguir.",
     "ErrorAddingMediaPathToVirtualFolder": "Um erro ocorreu ao adicionar o local da mídia. Por favor, verifique se o local é válido e se o Jellyfin tem acesso a este local.",

@@ -379,6 +379,7 @@
     "Episodes": "Episodar",
     "Episode": "Episode",
     "EndsAtValue": "Slutter kl. {0}",
+    "EndsAtIfStartedNowValue": "Dersom det startar no, sluttar det kl. {0}",
     "Ended": "Avslutta",
     "EnableFasterAnimationsHelp": "Bruk raskare animasjonar og overgangar.",
     "EnableFasterAnimations": "Raskare animasjonar",

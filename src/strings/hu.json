@@ -68,6 +68,7 @@
     "EnableHardwareEncoding": "Hardveres kódolás engedélyezése",
     "EnableThemeSongsHelp": "Főcímdalok lejátszása háttérben a könyvtár böngészése közben.",
     "EndsAtValue": "Várható befejezés: {0}",
+    "EndsAtIfStartedNowValue": "Ha most indul, várható befejezés: {0}",
     "Episodes": "Epizódok",
     "ExitFullscreen": "Kilépés a teljes képernyőből",
     "FastForward": "Ugrás előre",

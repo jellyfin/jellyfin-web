@@ -956,6 +956,7 @@
     "ButtonCast": "Төхөөрөмжид дамжуулах",
     "ButtonSpace": "Зай",
     "EndsAtValue": "{0}-д дуусна",
+    "EndsAtIfStartedNowValue": "Одоо эхэлбэл {0}-д дуусна",
     "FetchingData": "Нэмэлт өгөгдөл татаж байна",
     "HeaderAutoDiscovery": "Сүлжээний илрүүлэлт",
     "HeaderNewApiKey": "Шинэ API түлхүүр",

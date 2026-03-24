@@ -327,6 +327,7 @@
     "EveryNDays": "Ik pēc {0} dienām",
     "Episodes": "Sērijas",
     "EndsAtValue": "Beigsies pulksten {0}",
+    "EndsAtIfStartedNowValue": "Ja sāktos tagad, beigsies pulksten {0}",
     "EnableThemeVideosHelp": "Atskaņot tēmas video fonā bibliotēkas pārlūkošanas laikā.",
     "EnableThemeSongsHelp": "Atskaņot tēmas mūziku fonā bibliotēkas pārlūkošanas laikā.",
     "EnablePhotos": "Rādīt foto",

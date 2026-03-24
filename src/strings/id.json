@@ -346,6 +346,7 @@
     "Episodes": "Semua episode",
     "Episode": "Episod",
     "EndsAtValue": "Berakhir pada {0}",
+    "EndsAtIfStartedNowValue": "Jika dimulai sekarang, berakhir pada {0}",
     "Ended": "Berakhir",
     "EnableDetailsBannerHelp": "Tampilkan gambar spanduk di bagian atas halaman detail item.",
     "EnableDetailsBanner": "Detail Spanduk",

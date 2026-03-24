@@ -27,6 +27,7 @@
     "EditImages": "編輯圖片",
     "Ended": "已完結",
     "EndsAtValue": "於 {0} 結束",
+    "EndsAtIfStartedNowValue": "若現在開始，將於 {0} 結束",
     "Favorite": "加到最愛",
     "File": "檔案",
     "FileNotFound": "未找到檔案。",

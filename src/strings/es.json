@@ -135,6 +135,7 @@
     "EnableStreamLoopingHelp": "Habilite esto si las emisiones en directo sólo contienen unos pocos segundos de datos y necesitan ser solicitados continuamente.",
     "Ended": "Finalizado",
     "EndsAtValue": "Termina a las {0}",
+    "EndsAtIfStartedNowValue": "Si empieza ahora, termina a las {0}",
     "Episodes": "Episodios",
     "ErrorAddingListingsToSchedulesDirect": "Ha habido un error al añadir la alineación a tu cuenta de Schedules Direct. Schedules Direct solo permite un determinado número de alineaciones por cuenta. Necesitarás iniciar sesión en la web de Schedules Direct y eliminar otras listas de tu cuenta antes de proceder.",
     "ErrorAddingMediaPathToVirtualFolder": "Ha habido un error añadiendo la ruta de los Medios. Por favor, asegúrate de que la ruta es válida y el servidor Jellyfin tiene acceso a esa ubicación.",

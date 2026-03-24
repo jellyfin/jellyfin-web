@@ -161,6 +161,7 @@
     "EnableThemeVideosHelp": "Riproduzione dei video a tema sullo sfondo mentre visualizzi la tua libreria.",
     "Ended": "Finito",
     "EndsAtValue": "Finirà alle {0}",
+    "EndsAtIfStartedNowValue": "Se iniziato adesso, finirà alle {0}",
     "Episodes": "Episodi",
     "ErrorAddingListingsToSchedulesDirect": "C'è stato un errore nell'aggiunta della tua lista all'account Schedules Direct. Schedules Direct permette solo un numero limitato di selezioni per account. Potresti aver bisogno di accedere al sito Schedules Direct e rimuoverne alcune prima di procedere.",
     "ErrorAddingMediaPathToVirtualFolder": "Si è verificato un errore durante l'aggiunta del percorso. Controlla che il percorso sia valido, e che Jellyfin abbia l'accesso alla posizione indicata.",

@@ -85,6 +85,7 @@
     "Favorites": "รายการโปรด",
     "Favorite": "รายการโปรด",
     "EndsAtValue": "จบเมื่อ {0}",
+    "EndsAtIfStartedNowValue": "ถ้าเริ่มตอนนี้ จะจบเมื่อ {0}",
     "Ended": "จบ",
     "DownloadsValue": "{0} ดาวน์โหลด",
     "Desktop": "เดสก์ท็อป",

@@ -248,6 +248,7 @@
     "ClearQueue": "Borrar fila",
     "EnableFasterAnimations": "Animacións máis rápidas",
     "EndsAtValue": "Termina ás {0}",
+    "EndsAtIfStartedNowValue": "Se comeza agora, termina ás {0}",
     "DirectPlaying": "Reprodución directa",
     "ButtonUseQuickConnect": "Usar Conexión rápida",
     "Backdrops": "Imaxes de fondo",

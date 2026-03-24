@@ -74,6 +74,7 @@
     "EnableDisplayMirroring": "Duplicació de pantalla",
     "Ended": "Acabades",
     "EndsAtValue": "Acabaria a les {0}",
+    "EndsAtIfStartedNowValue": "Si es comença ara, acabaria a les {0}",
     "Episodes": "Episodis",
     "ExitFullscreen": "Surt de la pantalla completa",
     "Favorite": "Preferit",

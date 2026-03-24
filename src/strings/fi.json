@@ -205,6 +205,7 @@
     "ErrorAddingMediaPathToVirtualFolder": "Lisättäessä mediasijaintia tapahtui virhe. Varmista, että se on oikein ja Jellyfinillä on sen käyttöoikeus.",
     "Episodes": "Jaksot",
     "EndsAtValue": "Päättyy {0}",
+    "EndsAtIfStartedNowValue": "Jos aloitetaan nyt, päättyy {0}",
     "Ended": "Päättynyt",
     "EnableThemeSongsHelp": "Soita tunnussäveliä taustalla selatessasi kirjastoa.",
     "EnableStreamLoopingHelp": "Laita tämä päälle, jos suoratoistot sisältävät vain muutaman sekuntin verran dataa jota tarvitsee pyytää jatkuvasti. Tämän päälle laittaminen ilman toiminnon tarvetta voi aiheuttaa ongelmia.",

@@ -84,6 +84,7 @@
     "EnableCinemaMode": "Режим \"Киносалон\"",
     "Ended": "Приключило",
     "EndsAtValue": "Свършва на {0}",
+    "EndsAtIfStartedNowValue": "Ако се стартира сега, свършва в {0}",
     "Episodes": "Епизоди",
     "EveryNDays": "На всеки {0} дни",
     "ExitFullscreen": "Изход от цял екран",

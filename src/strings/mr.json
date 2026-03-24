@@ -396,6 +396,7 @@
     "Episodes": "भाग",
     "Episode": "भाग",
     "EndsAtValue": "{0} येथे संपते",
+    "EndsAtIfStartedNowValue": "आत्ता सुरू केल्यास, {0} येथे संपते",
     "Ended": "संपले",
     "EnableTonemapping": "टोन मॅपिंग सक्रिय करा",
     "EnableQuickConnect": "या सर्व्हरवर जलद कनेक्ट सक्रिय करा",

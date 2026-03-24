@@ -1435,6 +1435,7 @@
     "Episode": "Kapitulua",
     "Engineer": "Soinu-ingeniaria",
     "EndsAtValue": "{0}(e)tan amaituko da",
+    "EndsAtIfStartedNowValue": "Orain hasiko balitz, {0}(e)tan amaituko da",
     "ButtonBackspace": "Atzera",
     "ButtonClose": "Itxi",
     "ButtonSpace": "Hutsunea",

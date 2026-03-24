@@ -171,6 +171,7 @@
     "EnableThemeVideosHelp": "Lire les génériques en arrière-plan pendant la navigation dans la médiathèque.",
     "Ended": "Terminé",
     "EndsAtValue": "Se terminera à {0}",
+    "EndsAtIfStartedNowValue": "Si démarré maintenant, se terminera à {0}",
     "Episodes": "Épisodes",
     "ErrorAddingListingsToSchedulesDirect": "Une erreur est survenue pendant l'ajout de la programmation avec votre compte Schedules Direct. Schedules Direct autorise uniquement un nombre limité de programmations par compte. Vous devez vous connecter au site Schedules Direct et supprimer d'autres programmations depuis votre compte avant de pouvoir réessayer.",
     "ErrorAddingMediaPathToVirtualFolder": "Une erreur est survenue pendant l'ajout du chemin vers les médias. Veuillez vérifier que le chemin est valide et que Jellyfin peut y accéder.",

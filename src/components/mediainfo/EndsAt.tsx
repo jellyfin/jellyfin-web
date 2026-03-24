@@ -1,6 +1,7 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
+import globalize from 'lib/globalize';
 import mediainfo from './mediainfo';
 
 interface EndsAtProps {
@@ -16,7 +17,8 @@ const EndsAt: FC<EndsAtProps> = ({ runTimeTicks, positionTicks, className }) => 
         className
     );
 
-    const displayTime = mediainfo.getEndsAtFromPosition(runTimeTicks, positionTicks, 1, true);
+    const time = mediainfo.getEndsAtFromPosition(runTimeTicks, positionTicks, 1, false);
+    const displayTime = '(' + globalize.translate('EndsAtIfStartedNowValue', time) + ')';
 
     return (
         <Box className={cssClass}>

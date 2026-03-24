@@ -210,6 +210,7 @@
     "Episodes": "Episodes",
     "Episode": "Episode",
     "EndsAtValue": "Eindig om {0}",
+    "EndsAtIfStartedNowValue": "Indien nou begin, eindig om {0}",
     "Ended": "Geëindig",
     "EnableDetailsBannerHelp": "Wys 'n banier-beeld bo aan die item besonderhede blad.",
     "EnableDetailsBanner": "Besonderhede Banier",

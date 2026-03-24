@@ -606,6 +606,7 @@
     "ErrorAddingMediaPathToVirtualFolder": "Ocorreu um erro ao adicionares a localização dos ficheiros. Certifica-te de que o caminho é valido e que o Jellyfin tem acesso ao mesmo.",
     "Episodes": "Episódios",
     "EndsAtValue": "Termina às {0}",
+    "EndsAtIfStartedNowValue": "Se iniciado agora, termina às {0}",
     "EnableThemeVideosHelp": "Reproduzir vídeos do tema em plano de fundo durante a navegação pela Biblioteca.",
     "EnableThemeSongsHelp": "Reproduz as bandas sonoras em segundo plano enquanto navegas na biblioteca.",
     "EnableStreamLoopingHelp": "Ativa esta opção se as transmissões em direto contiverem apenas alguns segundos de dados e precisarem de ser solicitadas continuamente. Ativar esta opção quando não é necessária pode causar problemas.",

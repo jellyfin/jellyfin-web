@@ -157,6 +157,7 @@
     "EnableThemeVideosHelp": "Spela vinjettvideor i bakgrunden vid bläddring i biblioteket.",
     "Ended": "Avslutad",
     "EndsAtValue": "Slutar vid: {0}",
+    "EndsAtIfStartedNowValue": "Om det startas nu slutar det vid {0}",
     "Episodes": "Avsnitt",
     "ErrorAddingMediaPathToVirtualFolder": "Det gick inte att lägga till sökvägen. Kontrollera att sökvägen är korrekt och att Jellyfin har rättigheter till sökvägen.",
     "ErrorAddingTunerDevice": "Det gick inte att lågga till den här TV-mottagaren. Säkerställ att den går att nå och försök igen.",

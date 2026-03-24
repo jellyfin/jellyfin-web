@@ -88,6 +88,7 @@
     "EnablePhotosHelp": "Fotografije će biti otkrivene i prikazane zajedno s ostalim medijskim datotekama.",
     "Ended": "Završeno",
     "EndsAtValue": "Završava u {0}",
+    "EndsAtIfStartedNowValue": "Ako počne sada, završava u {0}",
     "ErrorAddingListingsToSchedulesDirect": "Došlo je do pogreške prilikom dodavanja postava vašim zakazanim direktnim računima. Raspored dopušta samo ograničen broj postava po računu. Možda ćete morati se prijavite u zakazanim \"Direct\" web stranicama i ukloniti unose drugih s računa prije nastavka.",
     "ErrorAddingMediaPathToVirtualFolder": "Došlo je do pogreške prilikom dodavanja putanje medija. Provjerite dali je putanja valjana i da Jellyfin ima pristup tom mjestu.",
     "ErrorAddingTunerDevice": "Došlo je do pogreške prilikom dodavanja uređaja TV/radio pretraživača. Provjerite da je dostupan i pokušajte ponovno.",

@@ -159,6 +159,7 @@
     "EnableThemeVideosHelp": "Titelvideos im Hintergrund abspielen, während du die Bibliothek durchblätterst.",
     "Ended": "Beendet",
     "EndsAtValue": "Endet um {0}",
+    "EndsAtIfStartedNowValue": "Wenn jetzt gestartet, endet um {0}",
     "Episodes": "Folgen",
     "ErrorAddingListingsToSchedulesDirect": "Ein Fehler trat beim Hinzufügen der Zusammenstellung zu deinem Schedules-Direct-Konto auf. Schedules Direct erlaubt nur eine begrenzte Anzahl von Zusammenstellungen je Account. Du solltest dich auf der Website mit deinem Schedules-Direct-Konto einloggen und nicht genutzte Zusammenstellungen von deinem Konto löschen, bevor du fortfährst.",
     "ErrorAddingMediaPathToVirtualFolder": "Ein Fehler trat beim Hinzufügen eines Medienverzeichnisses auf. Bitte stelle sicher, dass der Pfad gültig ist und Jellyfin die notwendigen Zugriffsrechte besitzt.",

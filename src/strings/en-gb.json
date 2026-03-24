@@ -209,6 +209,7 @@
     "EnableThemeVideosHelp": "Play theme videos in the background while browsing the library.",
     "Ended": "Ended",
     "EndsAtValue": "Ends at {0}",
+    "EndsAtIfStartedNowValue": "If started now, ends at {0}",
     "Episodes": "Episodes",
     "ErrorAddingListingsToSchedulesDirect": "There was an error adding the lineup to your Schedules Direct account. Schedules Direct only allows a limited number of lineups per account. You may need to log into the Schedules Direct website and remove others listings from your account before proceeding.",
     "ErrorAddingMediaPathToVirtualFolder": "There was an error adding the media path. Please ensure the path is valid and Jellyfin has access to that location.",

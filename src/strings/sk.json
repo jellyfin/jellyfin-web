@@ -107,6 +107,7 @@
     "EnableHardwareEncoding": "Povoliť hardvérové kódovanie",
     "EnablePhotos": "Zobraziť fotky",
     "EndsAtValue": "Končí o {0}",
+    "EndsAtIfStartedNowValue": "Ak sa začne teraz, skončí o {0}",
     "Episodes": "Epizódy",
     "ErrorStartHourGreaterThanEnd": "Čas ukončenia musí byť väčší ako čas štartu.",
     "EveryNDays": "Každých {0} dní",

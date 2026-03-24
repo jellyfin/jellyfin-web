@@ -640,6 +640,7 @@
     "Absolute": "مطلقمطلق",
     "Ended": "انتهى",
     "EndsAtValue": "ينتهى عند {0}",
+    "EndsAtIfStartedNowValue": "إذا بدأ الآن، ينتهي عند {0}",
     "Episodes": "الحلقات",
     "ConfirmDeletion": "تأكيد الحذف",
     "ConfirmDeleteItems": "حذف هذه العناصر سوف يحذفها من نظام الملفات ومن مكتبة الوسائط. هل ترغب حقاً فى الاستمرار؟",

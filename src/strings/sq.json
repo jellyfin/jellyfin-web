@@ -280,6 +280,7 @@
     "File": "Dosje",
     "Ended": "Përfundoi",
     "EndsAtValue": "Përfundon në {0}",
+    "EndsAtIfStartedNowValue": "Nëse fillon tani, përfundon në {0}",
     "DirectPlaying": "Duke luajtur direkt",
     "DeathDateValue": "Vdiq: {0}",
     "DeleteUser": "Fshij përdoruesin",

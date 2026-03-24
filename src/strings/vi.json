@@ -312,6 +312,7 @@
     "Episodes": "Tập Phim",
     "Episode": "Tập",
     "EndsAtValue": "Kết thúc lúc {0}",
+    "EndsAtIfStartedNowValue": "Nếu bắt đầu ngay bây giờ, kết thúc lúc {0}",
     "Ended": "Đã Kết Thúc",
     "EnableThemeVideosHelp": "Phát các video chủ đề dưới nền trong khi duyệt thư viện.",
     "EnableThemeSongsHelp": "Phát những bài hát chủ đề khi lướt qua thư viện nội dung.",

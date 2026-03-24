@@ -158,6 +158,7 @@
     "EnableThemeVideosHelp": "当浏览媒体库时主题视频将作为背景视频播放。",
     "Ended": "完结",
     "EndsAtValue": "结束于 {0}",
+    "EndsAtIfStartedNowValue": "如果现在开始，将于 {0} 结束",
     "Episodes": "剧集",
     "ErrorAddingListingsToSchedulesDirect": "我们将阵容添加到您的Schedules Direct帐户时出错。 Schedules Direct只允许有限的账号排序。 您可能需要在继续前直接登入Schedules Direct 网站并删除其他列表。",
     "ErrorAddingMediaPathToVirtualFolder": "添加媒体路径时发生错误。请确认路径是有效的，并且Jellyfin有对该位置的访问权。",

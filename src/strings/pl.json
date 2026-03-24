@@ -175,6 +175,7 @@
     "EnableThemeVideosHelp": "Podczas przeglądania biblioteki odtwarzaj w tle motywy wideo.",
     "Ended": "Zakończony",
     "EndsAtValue": "Koniec o {0}",
+    "EndsAtIfStartedNowValue": "Jeśli zacznie się teraz, koniec o {0}",
     "Episodes": "Odcinki",
     "ErrorAddingListingsToSchedulesDirect": "Wystąpił błąd podczas dodawania składu do Twojego konta Schedules Direct. Schedules Direct pozwala na limitowaną liczbę składów na konto. Może być wymagane zalogowanie się na stronę Schedules Direct i usunięcie innych składów przed kontynuowaniem.",
     "ErrorAddingMediaPathToVirtualFolder": "Wystąpił błąd podczas dodawania folderu mediów. Upewnij się, że folder jest prawidłowy a Jellyfin ma dostęp do tej lokalizacji.",

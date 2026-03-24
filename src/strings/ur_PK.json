@@ -216,6 +216,7 @@
     "ButtonResume": "دوبارہ شروع کریں",
     "HeaderApiKey": "API کلید",
     "EndsAtValue": "{0} پر ختم ہوتا ہے",
+    "EndsAtIfStartedNowValue": "ابھی شروع ہونے پر {0} پر ختم ہوگا",
     "ButtonSelectView": "منظر کو منتخب کریں",
     "ButtonSend": "بھیجیں",
     "HeaderCancelSeries": "سیریز منسوخ کریں",

@@ -119,6 +119,7 @@
     "EnableStreamLoopingHelp": "Aktiver dette hvis direktestrømmer bare inneholder noen få sekunder med data og må forespørres kontinuerlig. Dette kan skape problemer dersom det er aktivert uten at det er behov for det.",
     "Ended": "Avsluttet",
     "EndsAtValue": "Slutter klokken {0}",
+    "EndsAtIfStartedNowValue": "Dersom det startes nå, slutter det klokken {0}",
     "Episodes": "Episoder",
     "ErrorAddingListingsToSchedulesDirect": "Det oppstod en feil når du la oppstillingen til Schedules Direct-kontoen din. Schedules Direct tillater kun et begrenset antall oppstillinger per konto. Det kan hende du må logge inn på Schedules Direct-nettstedet og fjerne andre lister fra kontoen din før du fortsetter.",
     "ErrorAddingMediaPathToVirtualFolder": "Det oppstod en feil med å legge inn filbane til media. Vennligst sørg for at filbanen er gyldig og at Jellyfin har tilgang til filbanen.",

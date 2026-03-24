@@ -56,6 +56,7 @@
     "EnableColorCodedBackgrounds": "Spalva koduojami fonai",
     "Ended": "Pasibaigė",
     "EndsAtValue": "Baigiasi {0}",
+    "EndsAtIfStartedNowValue": "Jei pradėtų dabar, baigtųsi {0}",
     "ExtractChapterImagesHelp": "Skyrių paveikslų išgavimas padės Jellyfin programėlėms rodyti vaizdingas scenas pasirinkimo meniu. Procesas gana lėtas, naudoja daug procesoriaus pajėgumų ir gali sunaudoti kelis gigabaitus disko vietos. Jis vyksta atradus naujus vaizdo įrašus, bei atliekamas naktimis. Tvarkaraštį galima keisti numatytų užduočių skyriuje. Nerekomenduojama vykdyti šios užduoties vartojimo piko valandomis.",
     "Favorite": "Mėgstamas",
     "File": "Failas",

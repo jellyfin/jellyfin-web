@@ -582,6 +582,7 @@
     "ErrorAddingXmlTvFile": "Ocorreu um erro ao aceder ao ficheiro XMLTV. Por favor, certifique-se que o ficheiro está acessível e tente novamente.",
     "Episodes": "Episódios",
     "EndsAtValue": "Termina às {0}",
+    "EndsAtIfStartedNowValue": "Se iniciado agora, termina às {0}",
     "EnablePhotosHelp": "Imagens serão detectadas e exibidas em conjunto com outros ficheiros multimédia.",
     "EnablePhotos": "Mostrar fotografias",
     "EnableNextVideoInfoOverlayHelp": "No final de um vídeo, mostrar informações sobre o próximo vídeo da playlist atual.",

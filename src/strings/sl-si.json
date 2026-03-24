@@ -351,6 +351,7 @@
     "ErrorAddingMediaPathToVirtualFolder": "Prišlo je do težave pri dodajanju poti predstavnosti. Preverite ali je pot veljavna in da ima Jellyfin dovoljenja za dostop.",
     "Episodes": "Epizode",
     "EndsAtValue": "Konec ob {0}",
+    "EndsAtIfStartedNowValue": "Če se začne zdaj, konec ob {0}",
     "Ended": "Končano",
     "EnableThemeVideosHelp": "Predvajaj tematske videe v ozadju med brskanjem knjižnice.",
     "EnableThemeSongsHelp": "Predvajaj tematske pesmi v ozadju med brskanjem knjižnice.",

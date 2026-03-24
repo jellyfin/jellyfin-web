@@ -967,6 +967,7 @@
     "Episodes": "Episodios",
     "Episode": "Episodio",
     "EndsAtValue": "Termina a las {0}",
+    "EndsAtIfStartedNowValue": "Si empieza ahora, termina a las {0}",
     "Ended": "Finalizado",
     "EnableDetailsBannerHelp": "Mostrar una imagen banner en la parte superior de la página de detalles del elemento.",
     "EnableDetailsBanner": "Banner de detalles",

@@ -75,6 +75,7 @@
     "LabelAudioCodec": "Aŭdiokodeko",
     "DailyAt": "Ĉiutage je {0}",
     "EndsAtValue": "Finiĝas je {0}",
+    "EndsAtIfStartedNowValue": "Se komencata nun, finiĝas je {0}",
     "EnablePhotos": "Montri la fotojn",
     "EnableDetailsBanner": "Detala Standardo",
     "Banner": "Standardo",

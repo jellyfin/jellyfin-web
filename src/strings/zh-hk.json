@@ -379,6 +379,7 @@
     "Episodes": "劇集",
     "Episode": "劇集",
     "EndsAtValue": "喺 {0} 播完",
+    "EndsAtIfStartedNowValue": "宜家開始嘅話，喺 {0} 播完",
     "EncoderPresetHelp": "揀個快啲嘅數值可以提升效能，揀個慢啲嘅就可以提高畫質。",
     "EnableTonemapping": "啟用色調映射（Tone Mapping）",
     "EnableThemeVideosHelp": "喺你瀏覽媒體庫嗰陣，背景會播住主題影片。",
