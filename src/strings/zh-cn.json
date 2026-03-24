@@ -1880,5 +1880,7 @@
     "LibrariesLoadError": "媒体库加载失败",
     "NetworkingPageLoadError": "网络设置加载失败",
     "ResetFilters": "重设筛选条件",
-    "LabelExternalServerUri": "外部URI"
+    "LabelExternalServerUri": "外部URI",
+    "ContinueReading": "继续阅读",
+    "HeaderLatestMusicVideos": "最近添加的MV"
 }
