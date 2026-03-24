@@ -1893,5 +1893,6 @@
     "Authors": "Autoři",
     "ContinueReading": "Číst dál",
     "HeaderLatestBooks": "Nedávno přidané knihy",
-    "UsersEditPageError": "Nepodařilo se načíst stránku pro úpravy uživatelů"
+    "UsersEditPageError": "Nepodařilo se načíst stránku pro úpravy uživatelů",
+    "HeaderLatestMusicVideos": "Nedávno přidaná hudební videa"
 }
