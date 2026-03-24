@@ -96,6 +96,7 @@
     "@tanstack/react-query-devtools": "5.91.3",
     "abortcontroller-polyfill": "1.7.8",
     "blurhash": "2.0.5",
+    "cacheables": "2.0.0",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "2.5.1",
     "core-js": "3.48.0",

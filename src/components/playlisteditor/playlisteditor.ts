@@ -29,6 +29,7 @@ import 'elements/emby-select/emby-select';
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
 import type { BaseItemDto, PlaylistUserPermissions } from '@jellyfin/sdk/lib/generated-client';
+import { Cacheables } from 'cacheables';
 
 interface PlaylistInfoWrapper {
     item: BaseItemDto,
@@ -50,17 +51,33 @@ interface PlaylistEditorOptions {
 
 let currentServerId: string;
 
-async function getPlaylistsInfo(): Promise<PlaylistInfoWrapper[]> {
-    const cached = localStorage.getItem('playlistInfo');
-    if (cached) {
-        return JSON.parse(cached) as PlaylistInfoWrapper[];
-    }
+const cache = new Cacheables({
+    log: true,
+    logTiming: true
+});
 
+function getPlaylistsInfoCaching(): Promise<PlaylistInfoWrapper[]> {
+    return cache.cacheable(
+        getPlaylistsInfo,
+        'playlistInfo',
+        {
+            // Return cached value, but update cache in the background.
+            // Since there's no `maxAge` value, update in the backgroung every time.
+            // This prevents freshly-made playlists from appearing due to cache age.
+            // see Cacheable docs: https://github.com/grischaerbe/cacheables?tab=readme-ov-file#cache-policies
+            cachePolicy: 'stale-while-revalidate'
+        }
+    );
+}
+
+function getPlaylistsInfo(): Promise<PlaylistInfoWrapper[]> {
+    console.log('starting init of api helpers');
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const api = toApi(apiClient);
     const currentUserId = apiClient.getCurrentUserId();
+    console.log('finished init of api helpers');
 
-    const playlistInfo: PlaylistInfoWrapper[] = await getItemsApi(api)
+    return getItemsApi(api)
         .getItems({
             userId: currentUserId,
             includeItemTypes: [ BaseItemKind.Playlist ],
@@ -93,8 +110,6 @@ async function getPlaylistsInfo(): Promise<PlaylistInfoWrapper[]> {
                     });
             }));
         });
-    localStorage.setItem('playlistInfo', JSON.stringify(playlistInfo));
-    return playlistInfo;
 };
 
 function onSubmit(this: HTMLElement, e: Event) {
@@ -223,7 +238,6 @@ function triggerChange(select: HTMLSelectElement) {
 }
 
 function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogElement) {
-    console.trace('In populatePlaylists()');
     const select = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo');
 
     if (!select) {
@@ -236,7 +250,7 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
     const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
 
-    return getPlaylistsInfo()
+    return getPlaylistsInfoCaching()
         .then(playlists => {
             let html = '';
 
