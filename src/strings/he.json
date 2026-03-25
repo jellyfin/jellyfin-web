@@ -1890,5 +1890,9 @@
     "Watch": "סמן כנצפה",
     "TrickplayLoadError": "טעינת הגדרות דילוג והרצה נכשלה",
     "LabelExternalServerUri": "URI חיצוני",
-    "LabelExternalServerUriHelp": "כתובת URI לגישה חיצונית."
+    "LabelExternalServerUriHelp": "כתובת URI לגישה חיצונית.",
+    "ContinueReading": "המשך קריאה",
+    "HeaderLatestBooks": "ספרים שהוספו לאחרונה",
+    "HeaderLatestMusicVideos": "קליפים שהוספו לאחרונה",
+    "UsersEditPageError": "לא ניתן לטעון את דף עריכת המשתמשים"
 }
