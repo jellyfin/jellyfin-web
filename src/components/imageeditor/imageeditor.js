@@ -271,6 +271,21 @@ function showImageDownloader(page, imageType) {
     });
 }
 
+function showImageUrlInput(page, imageType) {
+    import('../imageUrlInput/imageUrlInput').then((ImageUrlInput) => {
+        ImageUrlInput.show(
+            currentItem.Id,
+            currentItem.ServerId,
+            imageType
+        ).then(function () {
+            hasChanges = true;
+            reload(page);
+        }).catch(function () {
+            // image url input closed
+        });
+    });
+}
+
 function showActionSheet(context, imageCard) {
     const itemId = imageCard.getAttribute('data-id');
     const serverId = imageCard.getAttribute('data-serverid');
@@ -375,6 +390,10 @@ function initEditor(context, options) {
 
     addListeners(context, 'btnBrowseAllImages', 'click', function () {
         showImageDownloader(context, this.getAttribute('data-imagetype') || 'Primary');
+    });
+
+    addListeners(context, 'btnImageFromLink', 'click', function () {
+        showImageUrlInput(context, this.getAttribute('data-imagetype') || 'Primary');
     });
 
     addListeners(context, 'btnImageCard', 'click', function () {
