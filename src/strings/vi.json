@@ -1885,5 +1885,10 @@
     "ResumeLoadError": "Không thể tải cài đặt tiếp tục",
     "StreamingLoadError": "Không thể tải cài đặt trang phát trực tuyến",
     "LabelExternalServerUri": "URI bên ngoài",
-    "LabelExternalServerUriHelp": "Địa chỉ URI máy chủ đã công bố để truy cập từ bên ngoài."
+    "LabelExternalServerUriHelp": "Địa chỉ URI máy chủ đã công bố để truy cập từ bên ngoài.",
+    "Authors": "Tác giả",
+    "ContinueReading": "Tiếp tục đọc",
+    "HeaderLatestBooks": "Sách Mới Thêm Gần Đây",
+    "HeaderLatestMusicVideos": "Video Nhạc Mới Thêm Gần Đây",
+    "UsersEditPageError": "Không thể tải trang chỉnh sửa người dùng"
 }
