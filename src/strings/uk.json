@@ -1864,5 +1864,11 @@
     "LabelBundled": "У комплекті",
     "ManageRepositories": "Керування репозиторіями",
     "ButtonAddProvider": "Додати провайдера",
-    "ButtonAddTunerDevice": "Додати тюнер"
+    "ButtonAddTunerDevice": "Додати тюнер",
+    "ActivitiesLoadError": "Не вдалося завантажити активності",
+    "ApiKeysLoadError": "Не вдалося завантажити ключі API",
+    "Authors": "Автори",
+    "BrandingLoadError": "Не вдалося завантажити налаштування брендингу",
+    "ConfirmDeleteCollection": "Ви впевнени, що бажаєте видалити цю колекцію?",
+    "ConfirmDeletePlaylist": "Ви впевнени, що бажаєте видалити цей плейлист?"
 }
