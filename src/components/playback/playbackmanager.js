@@ -2861,7 +2861,7 @@ export class PlaybackManager {
                     // Append server-side playback speed if set (for TV platforms without native playbackRate support)
                     if (player) {
                         const playerData = getPlayerData(player);
-                        if (playerData.serverPlaybackSpeed && playerData.serverPlaybackSpeed !== 1.0) {
+                        if (playerData.serverPlaybackSpeed && playerData.serverPlaybackSpeed !== 1) {
                             const separator = mediaUrl.includes('?') ? '&' : '?';
                             mediaUrl += separator + 'PlaybackSpeed=' + playerData.serverPlaybackSpeed;
                         }
@@ -4003,48 +4003,50 @@ export class PlaybackManager {
     }
 
     setPlaybackRate(value, player = this._currentPlayer) {
-        if (player) {
-            const numericValue = parseFloat(value);
-            const useServerSpeed = player.requiresServerPlaybackRate?.() && numericValue >= 0.5 && numericValue <= 3.0;
-            if (useServerSpeed) {
-                // Server-side playback rate: request a new transcoded stream with speed adjustment.
-                // This is needed on platforms (webOS, Tizen, etc.) where native playbackRate
-                // doesn't work properly for audio.
-                const playerData = getPlayerData(player);
-                playerData.serverPlaybackSpeed = numericValue;
+        if (!player) {
+            return;
+        }
 
-                if (numericValue !== 1.0) {
-                    // Force transcoding since we need server-side speed filters
-                    changeStream(player, getCurrentTicks(player), {
-                        EnableDirectPlay: false,
-                        EnableDirectStream: false,
-                        AllowVideoStreamCopy: false,
-                        AllowAudioStreamCopy: false
-                    });
-                } else {
-                    // Reset to normal speed: allow direct play again
-                    changeStream(player, getCurrentTicks(player), {});
-                }
+        const numericValue = Number.parseFloat(value);
+        const useServerSpeed = player.requiresServerPlaybackRate?.() && numericValue >= 0.5 && numericValue <= 3;
+        if (useServerSpeed) {
+            // Server-side playback rate: request a new transcoded stream with speed adjustment.
+            // This is needed on platforms (webOS, Tizen, etc.) where native playbackRate
+            // doesn't work properly for audio.
+            const playerData = getPlayerData(player);
+            playerData.serverPlaybackSpeed = numericValue;
+
+            if (numericValue === 1) {
+                // Reset to normal speed: allow direct play again
+                changeStream(player, getCurrentTicks(player), {});
             } else {
-                // Outside server-supported range (0.5x-3.0x) or platform doesn't need server speed:
-                // fall back to native HTML5 playbackRate
-                const playerData = getPlayerData(player);
-                if (playerData.serverPlaybackSpeed && playerData.serverPlaybackSpeed !== 1.0) {
-                    // Was previously using server speed, reset the stream first
-                    playerData.serverPlaybackSpeed = null;
-                    changeStream(player, getCurrentTicks(player), {});
-                } else {
-                    playerData.serverPlaybackSpeed = null;
-                }
-
-                if (player.setPlaybackRate) {
-                    player.setPlaybackRate(numericValue);
-                }
+                // Force transcoding since we need server-side speed filters
+                changeStream(player, getCurrentTicks(player), {
+                    EnableDirectPlay: false,
+                    EnableDirectStream: false,
+                    AllowVideoStreamCopy: false,
+                    AllowAudioStreamCopy: false
+                });
+            }
+        } else {
+            // Outside server-supported range (0.5x-3.0x) or platform doesn't need server speed:
+            // fall back to native HTML5 playbackRate
+            const playerData = getPlayerData(player);
+            if (playerData.serverPlaybackSpeed && playerData.serverPlaybackSpeed !== 1) {
+                // Was previously using server speed, reset the stream first
+                playerData.serverPlaybackSpeed = null;
+                changeStream(player, getCurrentTicks(player), {});
+            } else {
+                playerData.serverPlaybackSpeed = null;
             }
 
-            // Save the new playback rate in the browser session, to restore when playing a new video.
-            sessionStorage.setItem('playbackRateSpeed', value);
+            if (player.setPlaybackRate) {
+                player.setPlaybackRate(numericValue);
+            }
         }
+
+        // Save the new playback rate in the browser session, to restore when playing a new video.
+        sessionStorage.setItem('playbackRateSpeed', value);
     }
 
     getPlaybackRate(player = this._currentPlayer) {
