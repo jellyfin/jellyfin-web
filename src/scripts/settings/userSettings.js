@@ -169,6 +169,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Preload Trickplay Images' state.
+     * @param {boolean|undefined} val - Flag to enable preloading or undefined.
+     * @return {boolean} 'Preload Trickplay Images' state.
+     */
+    enablePreloadTrickplayImages(val) {
+        if (val !== undefined) {
+            return this.set('enablePreloadTrickplayImages', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enablePreloadTrickplayImages', false), false);
+    }
+
+    /**
      * Get or set 'Cinema Mode' state.
      * @param {boolean|undefined} val - Flag to enable 'Cinema Mode' or undefined.
      * @return {boolean} 'Cinema Mode' state.
@@ -686,6 +699,7 @@ export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
+export const enablePreloadTrickplayImages = currentSettings.enablePreloadTrickplayImages.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);

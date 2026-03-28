@@ -284,6 +284,8 @@
     "EnableBlurHash": "Enable blurred placeholders for images",
     "EnableBlurHashHelp": "Images that are still being loaded will be displayed with a unique placeholder.",
     "EnableCinemaMode": "Cinema mode",
+    "EnablePreloadTrickplayImages": "Preload trickplay images",
+    "EnablePreloadTrickplayImagesHelp": "Loads all trickplay thumbnail sprites when a video starts playing, so scrub previews appear instantly without delay.",
     "EnableColorCodedBackgrounds": "Color coded backgrounds",
     "EnableDecodingColorDepth10Hevc": "Enable 10-bit hardware decoding for HEVC",
     "EnableDecodingColorDepth10Vp9": "Enable 10-bit hardware decoding for VP9",
