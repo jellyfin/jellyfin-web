@@ -1774,7 +1774,7 @@
     "MediaSegmentAction.Skip": "Overslaan",
     "MediaSegmentType.Commercial": "Reclame",
     "MediaSegmentType.Intro": "Intro",
-    "MediaSegmentType.Outro": "Aftiteling",
+    "MediaSegmentType.Outro": "Outro",
     "MediaSegmentType.Preview": "Vooruitblik",
     "MediaSegmentType.Recap": "Terugblik",
     "PlaylistError.UpdateFailed": "Fout bij bijwerken afspeellijst",
@@ -1893,5 +1893,6 @@
     "Authors": "Auteurs",
     "ContinueReading": "Verderlezen",
     "HeaderLatestBooks": "Onlangs toegevoegde boeken",
-    "HeaderLatestMusicVideos": "Onlangs toegevoegde muziekvideo's"
+    "HeaderLatestMusicVideos": "Onlangs toegevoegde muziekvideo's",
+    "UsersEditPageError": "Het laden van de gebruikers aanpassen pagina is mislukt"
 }
