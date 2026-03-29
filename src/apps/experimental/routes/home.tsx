@@ -5,7 +5,7 @@ import globalize from '../../../lib/globalize';
 import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import layoutManager from '../../../components/layoutManager';
 import Page from '../../../components/Page';
-import { EventType } from 'types/eventType';
+import { EventType } from 'constants/eventType';
 import Events from 'utils/events';
 
 import '../../../elements/emby-tabs/emby-tabs';

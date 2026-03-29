@@ -12,14 +12,21 @@ const fetchServerLog = async (
     const response = await getSystemApi(api).getLogFile({ name }, options);
 
     // FIXME: TypeScript SDK thinks it is returning a File but in reality it is a string
-    return response.data as never as string;
+    const data = response.data as never as string | object;
+
+    if (typeof data === 'object') {
+        return JSON.stringify(data, null, 2);
+    } else {
+        return data;
+    }
 };
-export const useServerLog = (name: string) => {
+export const useServerLog = (name: string, refetchInterval: false | number) => {
     const { api } = useApi();
 
     return useQuery({
         queryKey: ['ServerLog', name],
         queryFn: ({ signal }) => fetchServerLog(api!, name, { signal }),
-        enabled: !!api
+        enabled: !!api,
+        refetchInterval
     });
 };

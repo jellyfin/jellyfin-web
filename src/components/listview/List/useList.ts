@@ -1,6 +1,8 @@
 import classNames from 'classnames';
-import { getDataAttributes } from 'utils/items';
+
 import layoutManager from 'components/layoutManager';
+import { ItemAction } from 'constants/itemAction';
+import { getDataAttributes } from 'utils/items';
 
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
@@ -11,7 +13,7 @@ interface UseListProps {
 }
 
 function useList({ item, listOptions }: UseListProps) {
-    const action = listOptions.action ?? 'link';
+    const action = listOptions.action ?? ItemAction.Link;
     const isLargeStyle = listOptions.imageSize === 'large';
     const enableOverview = listOptions.enableOverview;
     const clickEntireItem = !!layoutManager.tv;

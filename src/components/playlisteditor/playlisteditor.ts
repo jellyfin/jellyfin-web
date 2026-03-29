@@ -6,7 +6,7 @@ import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api'
 import escapeHtml from 'escape-html';
 
 import toast from 'components/toast/toast';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
@@ -95,7 +95,7 @@ function createPlaylist(dlg: DialogElement) {
     return getPlaylistsApi(api)
         .createPlaylist({
             createPlaylistDto: {
-                Name: name,
+                Name: name ?? '',
                 IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked,
                 Ids: itemIds?.split(','),
                 UserId: apiClient.getCurrentUserId()
@@ -189,7 +189,8 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
             userId: apiClient.getCurrentUserId(),
             includeItemTypes: [ BaseItemKind.Playlist ],
             sortBy: [ ItemSortBy.SortName ],
-            recursive: true
+            recursive: true,
+            enableUserData: false
         })
         .then(({ data }) => {
             return Promise.all((data.Items || []).map(item => {

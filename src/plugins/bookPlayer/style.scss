@@ -9,34 +9,25 @@
     display: flex;
     flex-direction: column;
 
+    .bookplayerButton {
+        margin: 0.5vh;
+    }
+
     .topButtons {
         z-index: 1002;
-        width: 100%;
+        display: flex;
+        height: 4.2vh;
+        padding: 0 2vw;
         color: #000;
         opacity: 0.7;
     }
 
-    .bookPlayerContainer {
-        flex-grow: 1;
-    }
-
-    #btnBookplayerToc {
-        float: left;
-        margin-left: 2vw;
-    }
-
     #btnBookplayerExit {
-        float: right;
-        margin-right: 2vw;
+        margin-left: auto;
     }
 
     .bookplayerErrorMsg {
         text-align: center;
-    }
-
-    #btnBookplayerPrev,
-    #btnBookplayerNext {
-        margin: 0.5vh 0.5vh;
     }
 }
 
@@ -46,11 +37,14 @@
     width: fit-content;
     max-height: 80%;
     max-width: 60%;
-    padding-right: 50px;
-    padding-bottom: 15px;
 
     .bookplayerButtonIcon {
         color: black;
+    }
+
+    .toc {
+        margin: 0;
+        padding: 30px;
     }
 
     .toc li {
@@ -78,5 +72,21 @@
             color: #00a4dc;
             text-decoration: none;
         }
+    }
+}
+
+@media (max-width: 60em) {
+    #dialogToc {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    #bookPlayer .topButtons {
+        height: 6vh;
+    }
+
+    #bookPlayer .topButtons.fullscreen {
+        height: 10vh;
+        align-items: flex-end;
     }
 }

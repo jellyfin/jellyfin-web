@@ -7,7 +7,7 @@
 import escapeHtml from 'escape-html';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';
@@ -122,9 +122,9 @@ function onAddButtonClick() {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
-            callback: function (path, networkSharePath) {
+            callback: function (path) {
                 if (path) {
-                    addMediaLocation(page, path, networkSharePath);
+                    addMediaLocation(page, path);
                 }
 
                 picker.close();
@@ -161,7 +161,7 @@ function renderPaths(page) {
     }
 }
 
-function addMediaLocation(page, path, networkSharePath) {
+function addMediaLocation(page, path) {
     const pathLower = path.toLowerCase();
     const pathFilter = pathInfos.filter(p => {
         return p.Path.toLowerCase() == pathLower;
@@ -171,10 +171,6 @@ function addMediaLocation(page, path, networkSharePath) {
         const pathInfo = {
             Path: path
         };
-
-        if (networkSharePath) {
-            pathInfo.NetworkPath = networkSharePath;
-        }
 
         pathInfos.push(pathInfo);
         renderPaths(page);

@@ -8,7 +8,7 @@ import focusManager from '../../../components/focusManager';
 import globalize from '../../../lib/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
 import confirm from '../../../components/confirm/confirm';
-import dom from '../../../scripts/dom';
+import dom from '../../../utils/dom';
 import browser from '../../../scripts/browser';
 import 'material-design-icons-iconfont';
 import '../../../styles/flexstyles.scss';
@@ -18,7 +18,7 @@ import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../utils/dashboard';
 import alert from '../../../components/alert';
-import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../../../components/cardbuilder/utils/builder';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 const enableFocusTransform = !browser.slow && !browser.edge;

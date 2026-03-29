@@ -1,8 +1,11 @@
 import escapeHtml from 'escape-html';
+
+import { ItemAction } from 'constants/itemAction';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
 import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
 import scrollHelper from '../../scripts/scrollHelper';
 import serverNotifications from '../../scripts/serverNotifications';
@@ -14,7 +17,8 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import itemShortcuts from '../shortcuts';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
+
 import './guide.scss';
 import './programs.scss';
 import 'material-design-icons-iconfont';
@@ -26,6 +30,7 @@ import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../styles/flexstyles.scss';
 import 'webcomponents.js/webcomponents-lite';
+
 import template from './tvguide.template.html';
 
 function showViewSettings(instance) {
@@ -441,7 +446,7 @@ function Guide(options) {
 
         html += '<div class="' + outerCssClass + '" data-channelid="' + channel.Id + '">';
 
-        const clickAction = layoutManager.tv ? 'link' : 'programdialog';
+        const clickAction = layoutManager.tv ? ItemAction.Link : ItemAction.ProgramDialog;
 
         const categories = self.categoryOptions.categories || [];
         const displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
@@ -607,7 +612,7 @@ function Guide(options) {
                 title.push(channel.Name);
             }
 
-            html += '<button title="' + escapeHtml(title.join(' ')) + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
+            html += `<button title="${escapeHtml(title.join(' '))}" type="button" class="${cssClass}" data-action="${ItemAction.Link}" data-isfolder="${channel.IsFolder}" data-id="${channel.Id}" data-serverid="${channel.ServerId}" data-type="${channel.Type}">`;
 
             if (hasChannelImage) {
                 const url = apiClient.getScaledImageUrl(channel.Id, {
