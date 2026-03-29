@@ -1347,16 +1347,13 @@ export class HtmlVideoPlayer {
      * @private
      */
     renderPgs(videoElement, track, item) {
-        import('libpgs').then((libpgs) => {
-            const aspectRatio = this.getAspectRatio() === 'auto' ? 'contain' : this.getAspectRatio();
+        import('libbitsub').then((libbitsub) => {
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
-                workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-                aspectRatio
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000
             };
-            this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
+            this.#currentPgsRenderer = new libbitsub.PgsRenderer(options);
         });
     }
 
@@ -2078,7 +2075,7 @@ export class HtmlVideoPlayer {
         }
 
         if (this.#currentPgsRenderer) {
-            this.#currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
+            this.#currentPgsRenderer.updateCanvasSize?.();
         }
     }
 
