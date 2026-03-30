@@ -1872,5 +1872,10 @@
     "HeaderDeleteCollection": "Excluir Coleção",
     "HeaderDeletePlaylist": "Excluir Lista de Reprodução",
     "NewPlaylist": "Nova Playlist",
-    "OptionDatePlaylistUpdated": "Data da Playlist atualizada"
+    "OptionDatePlaylistUpdated": "Data da Playlist atualizada",
+    "ActivitiesLoadError": "Falha ao carregar atividades",
+    "ApiKeysLoadError": "Falha ao carregar as chaves de API",
+    "Authors": "Autores",
+    "BrandingLoadError": "Falha ao carregar as configurações de personalização",
+    "ContinueReading": "Continue lendo"
 }
