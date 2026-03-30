@@ -28,6 +28,11 @@ function canPlayAv1(videoTestElement) {
         return true;
     }
 
+    if (browser.xboxOne) {
+        // webview2 on xbox may falsely report AV1 as supported
+        return false;
+    }
+
     // av1 main level 5.3
     return !!videoTestElement.canPlayType
         && (videoTestElement.canPlayType('video/mp4; codecs="av01.0.15M.08"').replace(/no/, '')
@@ -173,6 +178,9 @@ function canPlayAudioFormat(format) {
         if (browser.web0s) {
             // canPlayType lies about OPUS support
             return browser.web0sVersion >= 3.5;
+        } else if (browser.xboxOne) {
+            // webview2 on xbox may falsely report OPUS as supported
+            return false;
         }
 
         typeString = 'audio/ogg; codecs="opus"';
@@ -411,8 +419,6 @@ function getGlobalMaxVideoBitrate() {
     let bitrate = null;
     if (browser.ps4) {
         bitrate = 8000000;
-    } else if (browser.xboxOne) {
-        bitrate = 12000000;
     } else if (browser.tizen && isTizenFhd) {
         bitrate = 20000000;
     }
@@ -1396,7 +1402,7 @@ export default function (options) {
         });
     }
 
-    const globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();
+    const globalMaxVideoBitrate = (options.globalMaxVideoBitrate || getGlobalMaxVideoBitrate() || '').toString();
 
     const h264MaxVideoBitrate = globalMaxVideoBitrate;
 

@@ -305,6 +305,29 @@ const fetchGetItemsViewByType = async (
                 );
                 break;
             }
+            case LibraryTab.Folders: {
+                response = await getItemsApi(api).getItems(
+                    {
+                        userId: user.Id,
+                        recursive: false,
+                        imageTypeLimit: 1,
+                        parentId: parentId ?? undefined,
+                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+                        ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getFiltersQuery(viewType, libraryViewSettings),
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
+                        sortBy: [libraryViewSettings.SortBy],
+                        sortOrder: [libraryViewSettings.SortOrder],
+                        includeItemTypes: itemType,
+                        startIndex: libraryViewSettings.StartIndex
+                    },
+                    {
+                        signal: options?.signal
+                    }
+                );
+                break;
+            }
             case LibraryTab.SeriesTimers:
                 response = await getLiveTvApi(api).getSeriesTimers(
                     {
@@ -391,7 +414,9 @@ export const useGetItemsViewByType = (
                 LibraryTab.Photos,
                 LibraryTab.Videos,
                 LibraryTab.Channels,
-                LibraryTab.SeriesTimers
+                LibraryTab.SeriesTimers,
+                LibraryTab.MusicVideos,
+                LibraryTab.Folders
             ].includes(viewType)
     });
 };

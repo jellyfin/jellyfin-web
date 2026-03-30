@@ -2,12 +2,12 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import type { ApiClient } from 'jellyfin-apiclient';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { UserSettings } from 'scripts/settings/userSettings';
-import { getBackdropShape } from 'utils/card';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 

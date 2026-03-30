@@ -1870,5 +1870,7 @@
     "ConfirmDeleteCollection": "Oletko varma, että haluat poistaa tämän kokoelman?",
     "ConfirmDeletePlaylist": "Oletko varma, että haluat poistaa tämän soittolistan?",
     "HeaderDeleteCollection": "Poista kokoelma",
-    "HeaderDeletePlaylist": "Poista soittolista"
+    "HeaderDeletePlaylist": "Poista soittolista",
+    "NewPlaylist": "Uusi Soittolista",
+    "OptionDatePlaylistUpdated": "Soittolistan Päivityspäivämäärä"
 }
