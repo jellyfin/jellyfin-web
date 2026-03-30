@@ -166,9 +166,13 @@ function getLandingScreenOptions(type) {
     } else if (type === 'homevideos') {
         list.push(
             {
-                name: globalize.translate('Photos'),
-                value: LibraryTab.Photos,
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders,
                 isDefault: true
+            },
+            {
+                name: globalize.translate('Photos'),
+                value: LibraryTab.Photos
             },
             {
                 name: globalize.translate('HeaderPhotoAlbums'),
@@ -177,10 +181,6 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('HeaderVideos'),
                 value: LibraryTab.Videos
-            },
-            {
-                name: globalize.translate('Folders'),
-                value: LibraryTab.Folders
             }
         );
     }

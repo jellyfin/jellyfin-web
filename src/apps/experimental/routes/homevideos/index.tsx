@@ -7,6 +7,14 @@ import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
 
+const foldersTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Folders,
+    collectionType: CollectionType.Homevideos,
+    isBtnPlayAllEnabled: true,
+    isBtnShuffleEnabled: true,
+    itemType: [BaseItemKind.Folder, BaseItemKind.Photo, BaseItemKind.PhotoAlbum, BaseItemKind.Video]
+};
+
 const photosTabContent: LibraryTabContent = {
     viewType: LibraryTab.Photos,
     collectionType: CollectionType.Homevideos,
@@ -31,19 +39,11 @@ const videosTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Video]
 };
 
-const foldersTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Folders,
-    collectionType: CollectionType.Homevideos,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Folder, BaseItemKind.Photo, BaseItemKind.PhotoAlbum, BaseItemKind.Video]
-};
-
 const homevideosTabMapping: LibraryTabMapping = {
-    0: photosTabContent,
-    1: photoAlbumsTabContent,
-    2: videosTabContent,
-    3: foldersTabContent
+    0: foldersTabContent,
+    1: photosTabContent,
+    2: photoAlbumsTabContent,
+    3: videosTabContent
 };
 
 const HomeVideos: FC = () => {

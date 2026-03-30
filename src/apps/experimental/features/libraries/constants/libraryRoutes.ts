@@ -178,25 +178,24 @@ export const LibraryRoutes: LibraryRoute[] = [
         views: [
             {
                 index: 0,
-                label: 'Photos',
-                view: LibraryTab.Photos,
+                label: 'Folders',
+                view: LibraryTab.Folders,
                 isDefault: true
             },
             {
                 index: 1,
-                label: 'HeaderPhotoAlbums',
-                view: LibraryTab.PhotoAlbums,
-                isDefault: true
+                label: 'Photos',
+                view: LibraryTab.Photos
             },
             {
                 index: 2,
-                label: 'HeaderVideos',
-                view: LibraryTab.Videos
+                label: 'HeaderPhotoAlbums',
+                view: LibraryTab.PhotoAlbums
             },
             {
                 index: 3,
-                label: 'Folders',
-                view: LibraryTab.Folders
+                label: 'HeaderVideos',
+                view: LibraryTab.Videos
             }
         ]
     },
