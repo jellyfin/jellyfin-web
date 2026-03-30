@@ -28,6 +28,27 @@ let currentTimeElement;
 let nowPlayingImageElement;
 let nowPlayingImageUrl;
 let nowPlayingTextElement;
+
+function isAudioBookWithChapters(player) {
+    const item = playbackManager.currentItem(player);
+    return item?.Type === 'AudioBook' && item.Chapters?.length > 0;
+}
+
+function getCurrentChapterName(player) {
+    const item = playbackManager.currentItem(player);
+    if (!item?.Chapters?.length) return null;
+
+    const ticks = playbackManager.currentTime(player) * 10000;
+    const chapters = item.Chapters;
+    let currentChapter = chapters[0];
+    for (let i = chapters.length - 1; i >= 0; i--) {
+        if (chapters[i].StartPositionTicks <= ticks) {
+            currentChapter = chapters[i];
+            break;
+        }
+    }
+    return currentChapter?.Name || null;
+}
 let nowPlayingUserData;
 let muteButton;
 let volumeSlider;
@@ -174,12 +195,21 @@ function bindEvents(elem) {
 
     elem.querySelector('.nextTrackButton').addEventListener('click', function () {
         if (currentPlayer) {
-            playbackManager.nextTrack(currentPlayer);
+            if (isAudioBookWithChapters(currentPlayer)) {
+                playbackManager.nextChapter(currentPlayer);
+            } else {
+                playbackManager.nextTrack(currentPlayer);
+            }
         }
     });
 
     elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
         if (currentPlayer) {
+            if (isAudioBookWithChapters(currentPlayer)) {
+                playbackManager.previousChapter(currentPlayer);
+                return;
+            }
+
             if (playbackManager.isPlayingAudio(currentPlayer)) {
                 // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
                 if (e.detail > 1 ) {
@@ -204,7 +234,11 @@ function bindEvents(elem) {
 
     elem.querySelector('.previousTrackButton').addEventListener('dblclick', function () {
         if (currentPlayer) {
-            playbackManager.previousTrack(currentPlayer);
+            if (isAudioBookWithChapters(currentPlayer)) {
+                playbackManager.previousChapter(currentPlayer);
+            } else {
+                playbackManager.previousTrack(currentPlayer);
+            }
         }
     });
 
@@ -272,7 +306,25 @@ function bindEvents(elem) {
         ticks /= 100;
         ticks *= value;
 
-        return datetime.getDisplayRunningTime(ticks);
+        const timeText = datetime.getDisplayRunningTime(ticks);
+
+        // For audiobooks, append the chapter name at the hovered position
+        const item = state.NowPlayingItem;
+        if (item?.Type === 'AudioBook' && item.Chapters?.length) {
+            const chapters = item.Chapters;
+            let chapterName = chapters[0]?.Name;
+            for (let i = chapters.length - 1; i >= 0; i--) {
+                if (chapters[i].StartPositionTicks <= ticks) {
+                    chapterName = chapters[i].Name;
+                    break;
+                }
+            }
+            if (chapterName) {
+                return `${timeText}\n${chapterName}`;
+            }
+        }
+
+        return timeText;
     };
 
     elem.addEventListener('click', function (e) {
@@ -482,7 +534,14 @@ function updateNowPlayingInfo(state) {
         const itemText = document.createElement('div');
         const secondaryText = document.createElement('div');
         secondaryText.classList.add('nowPlayingBarSecondaryText');
-        if (textLines.length > 1 && textLines[1]) {
+
+        // For audiobooks with chapters, show the current chapter name as the secondary text
+        const chapterName = nowPlayingItem?.Type === 'AudioBook' ? getCurrentChapterName(currentPlayer) : null;
+        if (chapterName) {
+            const text = document.createElement('a');
+            text.innerText = chapterName;
+            secondaryText.appendChild(text);
+        } else if (textLines.length > 1 && textLines[1]) {
             const text = document.createElement('a');
             text.innerText = textLines[1];
             secondaryText.appendChild(text);
@@ -678,6 +737,17 @@ function onTimeUpdate() {
     const player = this;
     currentRuntimeTicks = playbackManager.duration(player);
     updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+
+    // Update chapter name in the secondary text for audiobooks
+    if (isAudioBookWithChapters(player)) {
+        const chapterName = getCurrentChapterName(player);
+        if (chapterName && nowPlayingTextElement) {
+            const secondaryText = nowPlayingTextElement.querySelector('.nowPlayingBarSecondaryText a');
+            if (secondaryText && secondaryText.innerText !== chapterName) {
+                secondaryText.innerText = chapterName;
+            }
+        }
+    }
 }
 
 function releaseCurrentPlayer() {

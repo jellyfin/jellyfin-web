@@ -1723,9 +1723,31 @@ function renderAdditionalParts(page, item, user) {
     });
 }
 
-function renderScenes(page, item) {
-    let chapters = item.Chapters || [];
+let _chapterCleanup = null;
 
+function renderScenes(page, item) {
+    const allChapters = item.Chapters || [];
+    const isAudioBook = item.Type === 'AudioBook';
+
+    // Audiobook chapters: render into the split cast row
+    if (isAudioBook && allChapters.length) {
+        page.querySelector('#scenesCollapsible').classList.add('hide');
+
+        import('../../components/cardbuilder/audiobookChapterList').then(({ buildAudiobookChapterList, unbindLiveUpdates }) => {
+            _chapterCleanup = unbindLiveUpdates;
+            const castRow = page.querySelector('#audiobookCastRow');
+            castRow.classList.remove('hide');
+            buildAudiobookChapterList(item, allChapters, {
+                itemsContainer: page.querySelector('#audiobookChaptersContent')
+            });
+        });
+        return;
+    }
+
+    page.querySelector('#audiobookCastRow').classList.add('hide');
+
+    // Video chapters: image card grid (requires images)
+    let chapters = allChapters;
     if (chapters.length && !chapters[0].ImageTag) {
         chapters = [];
     }
@@ -1768,23 +1790,45 @@ function renderSpecials(page, item, user) {
 }
 
 function renderCast(page, item, people) {
+    const isAudioBookWithChapters = item.Type === 'AudioBook' && item.Chapters?.length;
+
     if (!people.length) {
         page.querySelector('#castCollapsible').classList.add('hide');
+        if (isAudioBookWithChapters) {
+            page.querySelector('.audiobookCastRow-peopleCol').classList.add('hide');
+        }
         return;
     }
 
-    page.querySelector('#castCollapsible').classList.remove('hide');
-    const castContent = page.querySelector('#castContent');
+    if (isAudioBookWithChapters) {
+        // Render people into the audiobook split row's right column
+        page.querySelector('#castCollapsible').classList.add('hide');
+        page.querySelector('.audiobookCastRow-peopleCol').classList.remove('hide');
+        const audiobookCastContent = page.querySelector('#audiobookCastContent');
 
-    import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
-        peoplecardbuilder.buildPeopleCards(people, {
-            itemsContainer: castContent,
-            coverImage: true,
-            serverId: item.ServerId,
-            shape: 'overflowPortrait',
-            imageBlurhashes: item.ImageBlurHashes
+        import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
+            peoplecardbuilder.buildPeopleCards(people, {
+                itemsContainer: audiobookCastContent,
+                coverImage: true,
+                serverId: item.ServerId,
+                shape: 'overflowPortrait',
+                imageBlurhashes: item.ImageBlurHashes
+            });
         });
-    });
+    } else {
+        page.querySelector('#castCollapsible').classList.remove('hide');
+        const castContent = page.querySelector('#castContent');
+
+        import('../../components/cardbuilder/peoplecardbuilder').then(({ default: peoplecardbuilder }) => {
+            peoplecardbuilder.buildPeopleCards(people, {
+                itemsContainer: castContent,
+                coverImage: true,
+                serverId: item.ServerId,
+                shape: 'overflowPortrait',
+                imageBlurhashes: item.ImageBlurHashes
+            });
+        });
+    }
 }
 
 function renderGuestCast(page, item, people) {
@@ -2056,9 +2100,15 @@ export default function (view, params) {
             Events.on(playbackManager, 'playerchange', onPlayerChange);
 
             itemShortcuts.on(view.querySelector('.nameContainer'));
+            itemShortcuts.on(view.querySelector('#audiobookChaptersContent'));
         });
         view.addEventListener('viewbeforehide', function () {
             itemShortcuts.off(view.querySelector('.nameContainer'));
+            itemShortcuts.off(view.querySelector('#audiobookChaptersContent'));
+            if (_chapterCleanup) {
+                _chapterCleanup();
+                _chapterCleanup = null;
+            }
             Events.off(apiClient, 'message', onWebSocketMessage);
             Events.off(playbackManager, 'playerchange', onPlayerChange);
             libraryMenu.setTransparentMenu(false);

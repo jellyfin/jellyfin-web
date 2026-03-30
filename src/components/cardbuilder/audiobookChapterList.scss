@@ -1,0 +1,136 @@
+.audiobookChaptersScroller {
+    max-height: 18em;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.audiobookChapterList {
+    display: flex;
+    flex-direction: column;
+}
+
+.audiobookChapterItem {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    padding: 0.45em 0.7em;
+    border: 0;
+    border-radius: 0.3em;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    text-align: start;
+    width: 100%;
+    font-size: 0.9em;
+    transition: background-color 0.15s ease;
+    position: relative;
+}
+
+.audiobookChapterItem:hover,
+.audiobookChapterItem:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.chapterItem-played {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.chapterItem-playing {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.audiobookChapterItem-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6em;
+    flex-shrink: 0;
+}
+
+.audiobookChapterItem-iconComplete {
+    font-size: 1.1em;
+    color: #4caf50;
+}
+
+.audiobookChapterItem-iconPlaying {
+    font-size: 1.1em;
+    color: #00a4dc;
+}
+
+.audiobookChapterItem-number {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85em;
+}
+
+.audiobookChapterItem-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chapterItem-playing .audiobookChapterItem-name {
+    font-weight: 600;
+}
+
+.audiobookChapterItem-time {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8em;
+    flex-shrink: 0;
+}
+
+.audiobookChapterItem-progressTrack {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1px;
+    flex-basis: 100%;
+    margin-top: -0.2em;
+}
+
+.audiobookChapterItem-progressBar {
+    height: 100%;
+    background: #00a4dc;
+    border-radius: 1px;
+    transition: width 0.3s ease;
+}
+
+.audiobookChapterItem-restart {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    margin-inline-start: 0.2em;
+
+    &:hover {
+        color: #00a4dc;
+    }
+}
+
+// Two-column layout: chapters + people side by side
+.audiobookCastRow-columns {
+    display: flex;
+    gap: 2em;
+
+    .layout-mobile & {
+        flex-direction: column;
+        gap: 1em;
+    }
+}
+
+.audiobookCastRow-chaptersCol {
+    width: 25vw;
+    flex-shrink: 0;
+
+    .layout-mobile & {
+        width: 100%;
+    }
+}
+
+.audiobookCastRow-peopleCol {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}

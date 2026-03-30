@@ -192,6 +192,21 @@
                 </div>
             </div>
 
+            <div id="audiobookCastRow" class="hide">
+                <div class="audiobookCastRow-columns">
+                    <div class="audiobookCastRow-chaptersCol">
+                        <h2 class="sectionTitle sectionTitle-cards">${HeaderChapters}</h2>
+                        <div id="audiobookChaptersContent" class="audiobookChaptersScroller"></div>
+                    </div>
+                    <div class="audiobookCastRow-peopleCol">
+                        <h2 id="audiobookPeopleHeader" class="sectionTitle sectionTitle-cards padded-right">${HeaderCastAndCrew}</h2>
+                        <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale no-padding" data-centerfocus="true">
+                            <div id="audiobookCastContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="castCollapsible" class="verticalSection detailVerticalSection hide">
                 <h2 id="peopleHeader" class="sectionTitle sectionTitle-cards padded-right">${HeaderCastAndCrew}</h2>
                 <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale no-padding" data-centerfocus="true">
