@@ -5,10 +5,10 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 
+import { CardShape } from 'components/cardbuilder/utils/shape';
 import { ItemAction } from 'constants/itemAction';
 import * as userSettings from 'scripts/settings/userSettings';
 import { type Section, SectionType, SectionApiMethod } from 'types/sections';
-import { CardShape } from 'utils/card';
 
 export const getSuggestionSections = (): Section[] => {
     const parametersOptions = {
@@ -36,6 +36,32 @@ export const getSuggestionSections = (): Section[] => {
                 preferThumb: true,
                 shape: CardShape.BackdropOverflow,
                 showYear: true
+            }
+        },
+        {
+            name: 'HeaderContinueReading',
+            apiMethod: SectionApiMethod.ResumeItems,
+            itemTypes: 'Book',
+            type: SectionType.ContinueReading,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Book]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.PortraitOverflow
+            }
+        },
+        {
+            name: 'HeaderLatestBooks',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Book',
+            type: SectionType.LatestBooks,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Book]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.PortraitOverflow
             }
         },
         {
@@ -152,6 +178,58 @@ export const getSuggestionSections = (): Section[] => {
                 shape: CardShape.SquareOverflow,
                 showParentTitle: true,
                 action: ItemAction.InstantMix,
+                overlayMoreButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderLatestMusicVideos',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Video',
+            type: SectionType.LatestMusicVideos,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.MusicVideo]
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
+                overlayPlayButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderRecentlyPlayed',
+            itemTypes: 'Video',
+            type: SectionType.RecentlyPlayedMusicVideos,
+            parametersOptions: {
+                sortBy: [ItemSortBy.DatePlayed],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.MusicVideo],
+                ...parametersOptions
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
+                overlayMoreButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderFrequentlyPlayed',
+            itemTypes: 'Video',
+            type: SectionType.FrequentlyPlayedMusicVideos,
+            parametersOptions: {
+                sortBy: [ItemSortBy.PlayCount],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.MusicVideo],
+                ...parametersOptions
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
                 overlayMoreButton: true,
                 coverImage: true
             }

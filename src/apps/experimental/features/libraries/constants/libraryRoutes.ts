@@ -40,6 +40,32 @@ export const LibraryRoutes: LibraryRoute[] = [
         ]
     },
     {
+        path: '/books',
+        views: [
+            {
+                index: 0,
+                label: 'Books',
+                view: LibraryTab.Books,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 2,
+                label: 'Genres',
+                view: LibraryTab.Genres
+            },
+            {
+                index: 3,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            }
+        ]
+    },
+    {
         path: '/movies',
         views: [
             {
@@ -166,6 +192,27 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 2,
                 label: 'HeaderVideos',
                 view: LibraryTab.Videos
+            }
+        ]
+    },
+    {
+        path: '/musicvideos',
+        views: [
+            {
+                index: 0,
+                label: 'HeaderVideos',
+                view: LibraryTab.MusicVideos,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 2,
+                label: 'Folders',
+                view: LibraryTab.Folders
             }
         ]
     }
