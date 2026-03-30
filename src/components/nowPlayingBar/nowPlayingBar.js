@@ -10,6 +10,7 @@ import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
+import { bindVolumeWheelHandler, updateVolumeSliderBubble } from '../playback/volumeWheel';
 import { appHost } from '../apphost';
 import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
@@ -47,11 +48,6 @@ let currentRuntimeTicks = 0;
 let isVisibilityAllowed = true;
 
 let isLyricPageActive = false;
-
-let isWheelingVolume = false;
-let wheelVolumeTimer;
-let wheelEventX = 0;
-let wheelEventY = 0;
 
 function getNowPlayingBarHtml() {
     let html = '';
@@ -258,50 +254,7 @@ function bindEvents(elem) {
         }
     });
 
-    function requestBubbleUpdate(x, y) {
-        if (volumeSlider && !volumeSlider.dragging) {
-            const eventName = window.PointerEvent ? 'pointermove' : 'mousemove';
-            const EventClass = window.PointerEvent || window.MouseEvent;
-            volumeSlider.dispatchEvent(new EventClass(eventName, {
-                clientX: x,
-                clientY: y,
-                bubbles: true
-            }));
-        }
-    }
-
-    volumeSlider.getBubbleText = function (percent, value) {
-        if (isWheelingVolume && currentPlayer && !volumeSlider.dragging) {
-            return Math.round(currentPlayer.getVolume());
-        }
-        return Math.round(value);
-    };
-
-    volumeSliderContainer.addEventListener('wheel', (e) => {
-        if (currentPlayer) {
-            e.preventDefault();
-
-            isWheelingVolume = true;
-            wheelEventX = e.clientX;
-            wheelEventY = e.clientY;
-
-            clearTimeout(wheelVolumeTimer);
-            wheelVolumeTimer = setTimeout(() => {
-                isWheelingVolume = false;
-                requestBubbleUpdate(wheelEventX, wheelEventY);
-            }, 600);
-
-            if (e.deltaY < 0) {
-                playbackManager.volumeUp(currentPlayer);
-            } else if (e.deltaY > 0) {
-                playbackManager.volumeDown(currentPlayer);
-            }
-
-            setTimeout(() => {
-                requestBubbleUpdate(wheelEventX, wheelEventY);
-            }, 10);
-        }
-    }, { passive: false });
+    bindVolumeWheelHandler(volumeSliderContainer, volumeSlider, playbackManager, () => currentPlayer);
 
     positionSlider.addEventListener('change', function () {
         if (currentPlayer) {
@@ -758,15 +711,7 @@ function onVolumeChanged() {
 
     updatePlayerVolumeState(player.isMuted(), player.getVolume());
 
-    if (isWheelingVolume && volumeSlider && !volumeSlider.dragging) {
-        const eventName = window.PointerEvent ? 'pointermove' : 'mousemove';
-        const EventClass = window.PointerEvent || window.MouseEvent;
-        volumeSlider.dispatchEvent(new EventClass(eventName, {
-            clientX: wheelEventX,
-            clientY: wheelEventY,
-            bubbles: true
-        }));
-    }
+    updateVolumeSliderBubble(volumeSlider);
 }
 
 function refreshFromPlayer(player, type) {

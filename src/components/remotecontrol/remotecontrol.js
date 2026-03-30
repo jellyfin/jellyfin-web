@@ -10,6 +10,7 @@ import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
+import { bindVolumeWheelHandler, updateVolumeSliderBubble } from '../playback/volumeWheel';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../lib/globalize';
@@ -31,11 +32,6 @@ import '../../elements/emby-slider/emby-slider';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
-
-let isWheelingVolume = false;
-let wheelVolumeTimer;
-let wheelEventX = 0;
-let wheelEventY = 0;
 
 function showAudioMenu(context, player, button) {
     const currentIndex = playbackManager.getAudioStreamIndex(player);
@@ -411,15 +407,7 @@ export default function () {
                     nowPlayingVolumeSlider.value = volumeLevel || 0;
                 }
 
-                if (isWheelingVolume && !nowPlayingVolumeSlider.dragging) {
-                    const eventName = window.PointerEvent ? 'pointermove' : 'mousemove';
-                    const EventClass = window.PointerEvent || window.MouseEvent;
-                    nowPlayingVolumeSlider.dispatchEvent(new EventClass(eventName, {
-                        clientX: wheelEventX,
-                        clientY: wheelEventY,
-                        bubbles: true
-                    }));
-                }
+                updateVolumeSliderBubble(nowPlayingVolumeSlider);
             }
         }
     }
@@ -816,54 +804,7 @@ export default function () {
         const volumeSlider = context.querySelector('.nowPlayingVolumeSlider');
         const volumeSliderContainer = context.querySelector('.nowPlayingVolumeSliderContainer');
 
-        function requestBubbleUpdate(x, y) {
-            if (volumeSlider && !volumeSlider.dragging) {
-                const eventName = window.PointerEvent ? 'pointermove' : 'mousemove';
-                const EventClass = window.PointerEvent || window.MouseEvent;
-                volumeSlider.dispatchEvent(new EventClass(eventName, {
-                    clientX: x,
-                    clientY: y,
-                    bubbles: true
-                }));
-            }
-        }
-
-        if (volumeSlider) {
-            volumeSlider.getBubbleText = function (percent, value) {
-                if (isWheelingVolume && currentPlayer && !volumeSlider.dragging) {
-                    return Math.round(currentPlayer.getVolume());
-                }
-                return Math.round(value);
-            };
-        }
-
-        if (volumeSliderContainer) {
-            volumeSliderContainer.addEventListener('wheel', (e) => {
-                if (currentPlayer) {
-                    e.preventDefault();
-
-                    isWheelingVolume = true;
-                    wheelEventX = e.clientX;
-                    wheelEventY = e.clientY;
-
-                    clearTimeout(wheelVolumeTimer);
-                    wheelVolumeTimer = setTimeout(() => {
-                        isWheelingVolume = false;
-                        requestBubbleUpdate(wheelEventX, wheelEventY);
-                    }, 600);
-
-                    if (e.deltaY < 0) {
-                        playbackManager.volumeUp(currentPlayer);
-                    } else if (e.deltaY > 0) {
-                        playbackManager.volumeDown(currentPlayer);
-                    }
-
-                    setTimeout(() => {
-                        requestBubbleUpdate(wheelEventX, wheelEventY);
-                    }, 10);
-                }
-            }, { passive: false });
-        }
+        bindVolumeWheelHandler(volumeSliderContainer, volumeSlider, playbackManager, () => currentPlayer);
 
         context.querySelector('.buttonMute').addEventListener('click', function () {
             playbackManager.toggleMute(currentPlayer);
