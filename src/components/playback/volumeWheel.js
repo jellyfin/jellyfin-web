@@ -1,9 +1,9 @@
-export let isWheelingVolume = false;
+let isWheelingVolume = false;
 let wheelVolumeTimer;
 let wheelEventX = 0;
 let wheelEventY = 0;
 
-export function requestBubbleUpdate(volumeSlider, x, y) {
+function requestBubbleUpdate(volumeSlider, x, y) {
     if (volumeSlider && !volumeSlider.dragging) {
         const eventName = window.PointerEvent ? 'pointermove' : 'mousemove';
         const EventClass = window.PointerEvent || window.MouseEvent;
