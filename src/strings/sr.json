@@ -1872,5 +1872,6 @@
     "ConfirmDeletePlaylist": "Да ли сигурно желите да обришете ову листу за пуштање?",
     "HeaderDeleteCollection": "Обриши колекцију",
     "OptionDatePlaylistUpdated": "Датум ажурирања плејлисте",
-    "NewPlaylist": "Нова плејлиста"
+    "NewPlaylist": "Нова плејлиста",
+    "ActivitiesLoadError": "Учитавање активности није успело"
 }
