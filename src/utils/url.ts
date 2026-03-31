@@ -36,6 +36,5 @@ export const getParameterByName = (name: string, url?: string | null | undefined
         url = getLocationSearch();
     }
 
-    // eslint-disable-next-line compat/compat
     return new URLSearchParams(url).get(name) || '';
 };

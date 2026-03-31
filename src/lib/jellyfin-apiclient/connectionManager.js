@@ -1,4 +1,4 @@
-import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/api';
+import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { ApiClient } from 'jellyfin-apiclient';
@@ -6,10 +6,10 @@ import { ApiClient } from 'jellyfin-apiclient';
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
 import { equalsIgnoreCase } from 'utils/string';
+import { compareVersions } from 'utils/versions';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
-import { compareVersions } from './utils/compareVersions';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
 

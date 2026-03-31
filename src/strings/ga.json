@@ -386,7 +386,7 @@
     "CriticRating": "Rátáil léirmheastóirí",
     "Depressed": "Dúlagar",
     "Descending": "Íslitheach",
-    "Desktop": "Deasc",
+    "Desktop": "Deasc (Oidhreacht)",
     "DirectPlayHelp": "Tá an comhad foinse comhoiriúnach go hiomlán leis an gcliant seo agus tá an seisiún ag fáil an chomhaid gan modhnuithe.",
     "DirectStreamHelp1": "Tá an sruth físe comhoiriúnach leis an bhfeiste, ach tá formáid fuaime neamh-chomhoiriúnach aige (DTS, Dolby TrueHD, etc.) nó líon na gcainéal fuaime. Déanfar an sruth físe a athphacáistiú gan chailliúint ar an eitilt sula seolfar chuig an ngléas é. Ní dhéanfar ach an sruth fuaime a thraschódú.",
     "DisableCustomCss": "Díchumasaigh cód CSS saincheaptha a chuirtear ar fáil don fhreastalaí",
@@ -1581,7 +1581,7 @@
     "MessageSyncPlayIsDisabled": "Cead ag teastáil chun SyncPlay a úsáid.",
     "MetadataSettingChangeHelp": "Beidh tionchar ag socruithe meiteashonraí a athrú ar inneachar nua a chuirfear leis amach anseo. Chun an t-ábhar atá ann cheana a athnuachan, oscail an scáileán mionsonraí agus cliceáil ar an gcnaipe 'Athnuaigh', nó déan athnuachan ar an mórchóir leis an 'mBainisteoir Meiteashonraí'.",
     "MillisecondsUnit": "ms",
-    "Mobile": "Fón póca",
+    "Mobile": "Soghluaiste (Oidhreacht)",
     "Monday": "Dé Luain",
     "MoreFromValue": "Tuilleadh ó {0}",
     "MoreMediaInfo": "Eolas do na Meáin",
@@ -1864,5 +1864,13 @@
     "ManageRepositories": "Bainistigh Stórtha",
     "ViewAllPlugins": "Féach ar na breiseáin uile",
     "ButtonAddProvider": "Cuir Soláthraí leis",
-    "ButtonAddTunerDevice": "Cuir Gléas Tiúnóir leis"
+    "ButtonAddTunerDevice": "Cuir Gléas Tiúnóir leis",
+    "ConfirmDeleteCollection": "An bhfuil tú cinnte gur mian leat an bailiúchán seo a scriosadh?",
+    "ConfirmDeletePlaylist": "An bhfuil tú cinnte gur mian leat an seinmliosta seo a scriosadh?",
+    "HeaderDeleteCollection": "Scrios an Bailiúchán",
+    "HeaderDeletePlaylist": "Scrios Seinmliosta",
+    "LabelSlideshowInterval": "Eatramh Sleamhnán Grianghraf",
+    "LabelSlideshowIntervalHelp": "An t-am i soicindí a thaispeántar gach grianghraf sna sleamhnáin.",
+    "NewPlaylist": "Seinmliosta Nua",
+    "OptionDatePlaylistUpdated": "Dáta Nuashonraithe Seinmliosta"
 }
