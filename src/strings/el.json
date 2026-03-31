@@ -1890,5 +1890,9 @@
     "ResumeLoadError": "Αποτυχία φόρτωσης ρυθμίσεων συνέχισης",
     "LibrariesLoadError": "Αποτυχία φόρτωσης βιβλιοθηκών",
     "DevicesLoadError": "Αποτυχία φόρτωσης συσκευών",
-    "BrandingLoadError": "Αποτυχία φόρτωσης ρυθμίσεων επωνυμίας"
+    "BrandingLoadError": "Αποτυχία φόρτωσης ρυθμίσεων επωνυμίας",
+    "HeaderDeleteCollection": "Διαγραφή Συλλογής",
+    "HeaderDeletePlaylist": "Διαγραφή Λίστας Αναπαραγωγής",
+    "NewPlaylist": "Νέα Λίστα Αναπαραγωγής",
+    "OptionDatePlaylistUpdated": "Ημερομηνία Ενημέρωσης Λίστας Αναπαραγωγής"
 }
