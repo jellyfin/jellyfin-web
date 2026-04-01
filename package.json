@@ -102,7 +102,7 @@
     "date-fns": "2.30.0",
     "dompurify": "2.5.9",
     "element-closest-polyfill": "1.0.7",
-    "epubjs": "0.3.93",
+    "epubjs": "0.4.2",
     "escape-html": "1.0.3",
     "fast-text-encoding": "1.0.6",
     "flv.js": "1.6.2",
