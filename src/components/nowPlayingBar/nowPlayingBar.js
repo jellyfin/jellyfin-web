@@ -96,6 +96,8 @@ function getNowPlayingBarHtml() {
     html += '<div class="nowPlayingBarUserDataButtons">';
     html += '</div>';
 
+    html += `<button is="paper-icon-button-light" class="btnDeleteItem mediaButton hide" title="${globalize.translate('Delete')}"><span class="material-icons delete_outline" aria-hidden="true"></span></button>`;
+
     html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
     if (layoutManager.mobile) {
         html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
@@ -219,6 +221,16 @@ function bindEvents(elem) {
         if (currentPlayer) {
             playbackManager.toggleQueueShuffleMode();
         }
+    });
+
+    elem.querySelector('.btnDeleteItem').addEventListener('click', function (e) {
+        e.stopPropagation();
+        const state = lastPlayerState;
+        if (!state?.NowPlayingItem) return;
+
+        import('../recycleHelper').then(({ recycleCurrentItem }) => {
+            recycleCurrentItem(currentPlayer, state.NowPlayingItem);
+        });
     });
 
     lyricButton.addEventListener('click', function() {
@@ -546,9 +558,18 @@ function updateNowPlayingInfo(state) {
                 });
             }
             nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="mediaButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+
+            const deleteButton = nowPlayingBarElement.querySelector('.btnDeleteItem');
+            if (deleteButton) {
+                deleteButton.classList.toggle('hide', !item.CanDelete);
+            }
         });
     } else {
         nowPlayingUserData.innerHTML = '';
+        const deleteButton = nowPlayingBarElement.querySelector('.btnDeleteItem');
+        if (deleteButton) {
+            deleteButton.classList.add('hide');
+        }
     }
 }
 

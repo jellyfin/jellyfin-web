@@ -99,34 +99,36 @@ function updateNowPlayingInfo(context, state, serverId) {
     if (item) {
         const nowPlayingServerId = (item.ServerId || serverId);
         if (item.Type == 'AudioBook' || item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
-            let artistsSeries = '';
-            let albumName = '';
-            if (item.Artists != null) {
-                if (item.ArtistItems != null) {
-                    for (const artist of item.ArtistItems) {
-                        artistsSeries += `<a class="button-link" is="emby-linkbutton" href="#/details?id=${artist.Id}&serverId=${nowPlayingServerId}">${escapeHtml(artist.Name)}</a>`;
-                        if (artist !== item.ArtistItems.slice(-1)[0]) {
-                            artistsSeries += ', ';
+            // Fetch full item details to ensure artist/album data is available
+            const apiClient = ServerConnections.getApiClient(nowPlayingServerId);
+            apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+                const sourceItem = fullItem || item;
+                let artistsSeries = '';
+                let albumName = '';
+                if (sourceItem.Artists != null) {
+                    if (sourceItem.ArtistItems != null) {
+                        for (const artist of sourceItem.ArtistItems) {
+                            artistsSeries += `<a class="button-link" is="emby-linkbutton" href="#/details?id=${artist.Id}&serverId=${nowPlayingServerId}">${escapeHtml(artist.Name)}</a>`;
+                            if (artist !== sourceItem.ArtistItems.slice(-1)[0]) {
+                                artistsSeries += ', ';
+                            }
                         }
-                    }
-                } else if (item.Artists) {
-                    // For some reason, Chromecast Player doesn't return a item.ArtistItems object, so we need to fallback
-                    // to normal item.Artists item.
-                    // TODO: Normalise fields returned by all the players
-                    for (const artist of item.Artists) {
-                        artistsSeries += `<a>${escapeHtml(artist)}</a>`;
-                        if (artist !== item.Artists.slice(-1)[0]) {
-                            artistsSeries += ', ';
+                    } else if (sourceItem.Artists) {
+                        for (const artist of sourceItem.Artists) {
+                            artistsSeries += `<a>${escapeHtml(artist)}</a>`;
+                            if (artist !== sourceItem.Artists.slice(-1)[0]) {
+                                artistsSeries += ', ';
+                            }
                         }
                     }
                 }
-            }
-            if (item.Album != null) {
-                albumName = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + escapeHtml(item.Album) + '</a>';
-            }
-            context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
-            context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
-            context.querySelector('.nowPlayingSongName').innerText = item.Name;
+                if (sourceItem.Album != null) {
+                    albumName = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + sourceItem.AlbumId + `&serverId=${nowPlayingServerId}">` + escapeHtml(sourceItem.Album) + '</a>';
+                }
+                context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
+                context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
+                context.querySelector('.nowPlayingSongName').innerText = sourceItem.Name;
+            });
         } else if (item.Type == 'Episode') {
             if (item.SeasonName != null) {
                 const seasonName = item.SeasonName;
@@ -284,6 +286,7 @@ export default function () {
         buttonVisible(context.querySelector('.btnStop'), item != null);
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
+        buttonVisible(context.querySelector('.btnDeleteItem'), item != null);
         if (layoutManager.mobile) {
             const playingVideo = playbackManager.isPlayingVideo() && item !== null;
             const playingAudio = !playbackManager.isPlayingVideo() && item !== null;
@@ -733,6 +736,15 @@ export default function () {
         });
         context.querySelector('.btnLyrics').addEventListener('click', function () {
             appRouter.show('lyrics');
+        });
+
+        context.querySelector('.btnDeleteItem').addEventListener('click', function () {
+            const state = lastPlayerState;
+            if (!state?.NowPlayingItem) return;
+
+            import('../recycleHelper').then(({ recycleCurrentItem }) => {
+                recycleCurrentItem(currentPlayer, state.NowPlayingItem);
+            });
         });
 
         for (const shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
