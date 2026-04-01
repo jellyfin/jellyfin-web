@@ -57,6 +57,9 @@ html {
 .ui-shadow {
     background-color: var(--jf-palette-background-default, $background-default);
     background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .emby-collapsible-button {
@@ -98,6 +101,9 @@ html {
 html {
     background-color: var(--jf-palette-background-default, $background-default);
     background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .backgroundContainer.withBackdrop {
@@ -255,6 +261,9 @@ a[data-role=button],
     background-color: var(--jf-palette-background-default, $background-default);
     background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
     background-attachment: fixed;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .listItem-border {
