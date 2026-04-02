@@ -1674,7 +1674,7 @@
     "SubtitleOffset": "字幕偏移",
     "SubtitleVerticalPositionHelp": "字幕出現嘅行數位置。正數係由頂落，負數係由底上。",
     "Success": "成功",
-    "SyncPlayAccessHelp": "「一同觀看」功能畀你同其他裝置一同觀看進度。請選擇呢個用家對「一同觀看」嘅存取權限。",
+    "SyncPlayAccessHelp": "「一齊睇」功能畀你同其他裝置同步播片。請選擇呢個用家可以存取邊啲「一齊睇」嘅功能權限。",
     "SyncPlayGroupDefaultTitle": "{0}的群組",
     "HeaderBackups": "備份",
     "TabLogs": "日誌",
