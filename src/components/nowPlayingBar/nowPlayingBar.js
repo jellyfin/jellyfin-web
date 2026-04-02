@@ -98,6 +98,8 @@ function getNowPlayingBarHtml() {
 
     html += `<button is="paper-icon-button-light" class="btnDeleteItem mediaButton hide" title="${globalize.translate('Delete')}"><span class="material-icons delete_outline" aria-hidden="true"></span></button>`;
 
+    html += `<button is="paper-icon-button-light" class="btnMoveToFolder mediaButton hide" title="2nd Round"><span class="material-icons forward_to_inbox" aria-hidden="true"></span></button>`;
+
     html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
     if (layoutManager.mobile) {
         html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
@@ -230,6 +232,16 @@ function bindEvents(elem) {
 
         import('../recycleHelper').then(({ recycleCurrentItem }) => {
             recycleCurrentItem(currentPlayer, state.NowPlayingItem);
+        });
+    });
+
+    elem.querySelector('.btnMoveToFolder').addEventListener('click', function (e) {
+        e.stopPropagation();
+        const state = lastPlayerState;
+        if (!state?.NowPlayingItem) return;
+
+        import('../moveToFolderHelper').then(({ moveCurrentItemToFolder }) => {
+            moveCurrentItemToFolder(currentPlayer, state.NowPlayingItem);
         });
     });
 
@@ -563,12 +575,20 @@ function updateNowPlayingInfo(state) {
             if (deleteButton) {
                 deleteButton.classList.toggle('hide', !item.CanDelete);
             }
+            const moveToFolderButton = nowPlayingBarElement.querySelector('.btnMoveToFolder');
+            if (moveToFolderButton) {
+                moveToFolderButton.classList.toggle('hide', !item.CanDelete);
+            }
         });
     } else {
         nowPlayingUserData.innerHTML = '';
         const deleteButton = nowPlayingBarElement.querySelector('.btnDeleteItem');
         if (deleteButton) {
             deleteButton.classList.add('hide');
+        }
+        const moveToFolderButton = nowPlayingBarElement.querySelector('.btnMoveToFolder');
+        if (moveToFolderButton) {
+            moveToFolderButton.classList.add('hide');
         }
     }
 }

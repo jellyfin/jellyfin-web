@@ -171,7 +171,7 @@
     }
 }
 
-.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton, .btnDeleteItem) {
+.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton, .btnDeleteItem, .btnMoveToFolder) {
     display: none;
 }
 

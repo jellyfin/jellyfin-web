@@ -214,6 +214,12 @@ export async function getCommands(options) {
             id: 'delete',
             icon: 'delete'
         });
+
+        commands.push({
+            name: '2nd Round',
+            id: 'movetofolder',
+            icon: 'forward_to_inbox'
+        });
     }
 
     if (commands.length) {
@@ -582,6 +588,14 @@ function executeCommand(item, id, options) {
                 break;
             case 'delete':
                 deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
+                break;
+            case 'movetofolder':
+                import('./moveToFolderHelper').then(({ moveItemToFolder }) => {
+                    moveItemToFolder(apiClient, itemId).then(
+                        getResolveFunction(resolve, id, true, true, itemId),
+                        getResolveFunction(resolve, id)
+                    );
+                });
                 break;
             case 'share':
                 navigator.share({

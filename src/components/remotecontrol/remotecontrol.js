@@ -287,6 +287,7 @@ export default function () {
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
         buttonVisible(context.querySelector('.btnDeleteItem'), item != null);
+        buttonVisible(context.querySelector('.btnMoveToFolder'), item != null);
         if (layoutManager.mobile) {
             const playingVideo = playbackManager.isPlayingVideo() && item !== null;
             const playingAudio = !playbackManager.isPlayingVideo() && item !== null;
@@ -744,6 +745,15 @@ export default function () {
 
             import('../recycleHelper').then(({ recycleCurrentItem }) => {
                 recycleCurrentItem(currentPlayer, state.NowPlayingItem);
+            });
+        });
+
+        context.querySelector('.btnMoveToFolder').addEventListener('click', function () {
+            const state = lastPlayerState;
+            if (!state?.NowPlayingItem) return;
+
+            import('../moveToFolderHelper').then(({ moveCurrentItemToFolder }) => {
+                moveCurrentItemToFolder(currentPlayer, state.NowPlayingItem);
             });
         });
 
