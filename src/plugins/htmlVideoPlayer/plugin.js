@@ -106,7 +106,7 @@ function enableNativeTrackSupport(mediaSource, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass' || format === 'pgssub') {
+        if (format === 'ssa' || format === 'ass' || format === 'pgssub' || format === 'dvdsub' || format === 'vobsub') {
             return false;
         }
     }
@@ -173,6 +173,14 @@ function getTextTrackUrl(track, item, format) {
     }
 
     return url;
+}
+
+function getSubtitleFileNameHint(track) {
+    if (!track?.Path) {
+        return undefined;
+    }
+
+    return track.Path.split(/[\\/]/).pop();
 }
 
 function getDefaultProfile() {
@@ -1360,6 +1368,21 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
+    renderVobSub(videoElement, track, item) {
+        import('libbitsub').then((libbitsub) => {
+            const options = {
+                video: videoElement,
+                subUrl: getTextTrackUrl(track, item),
+                fileName: getSubtitleFileNameHint(track),
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000
+            };
+            this.#currentPgsRenderer = new libbitsub.VobSubRenderer(options);
+        });
+    }
+
+    /**
+     * @private
+     */
     renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
         this.fetchSubtitles(track, item).then((subtitleData) => {
             // Exit if the video element was destroyed while fetching subtitles
@@ -1446,6 +1469,10 @@ export class HtmlVideoPlayer {
             }
             if (format === 'pgssub') {
                 this.renderPgs(videoElement, track, item);
+                return;
+            }
+            if (format === 'dvdsub' || format === 'vobsub') {
+                this.renderVobSub(videoElement, track, item);
                 return;
             }
 
