@@ -544,6 +544,18 @@ function updateNowPlayingInfo(state) {
     if (nowPlayingItem.Id) {
         const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
         apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
+            // Update artist text from full item data since NowPlayingItem often lacks artist fields
+            const fullTextLines = getItemTextLines(item);
+            if (fullTextLines) {
+                const secondaryEl = nowPlayingTextElement.querySelector('.nowPlayingBarSecondaryText');
+                if (secondaryEl && fullTextLines.length > 1 && fullTextLines[1]) {
+                    secondaryEl.textContent = '';
+                    const text = document.createElement('a');
+                    text.innerText = fullTextLines[1];
+                    secondaryEl.appendChild(text);
+                }
+            }
+
             const userData = item.UserData || {};
             const likes = userData.Likes == null ? '' : userData.Likes;
             if (!layoutManager.mobile) {

@@ -105,22 +105,14 @@ function updateNowPlayingInfo(context, state, serverId) {
                 const sourceItem = fullItem || item;
                 let artistsSeries = '';
                 let albumName = '';
-                if (sourceItem.Artists != null) {
-                    if (sourceItem.ArtistItems != null) {
-                        for (const artist of sourceItem.ArtistItems) {
-                            artistsSeries += `<a class="button-link" is="emby-linkbutton" href="#/details?id=${artist.Id}&serverId=${nowPlayingServerId}">${escapeHtml(artist.Name)}</a>`;
-                            if (artist !== sourceItem.ArtistItems.slice(-1)[0]) {
-                                artistsSeries += ', ';
-                            }
-                        }
-                    } else if (sourceItem.Artists) {
-                        for (const artist of sourceItem.Artists) {
-                            artistsSeries += `<a>${escapeHtml(artist)}</a>`;
-                            if (artist !== sourceItem.Artists.slice(-1)[0]) {
-                                artistsSeries += ', ';
-                            }
-                        }
-                    }
+                if (sourceItem.ArtistItems?.length) {
+                    artistsSeries = sourceItem.ArtistItems.map(artist =>
+                        `<a class="button-link" is="emby-linkbutton" href="#/details?id=${artist.Id}&serverId=${nowPlayingServerId}">${escapeHtml(artist.Name)}</a>`
+                    ).join(', ');
+                } else if (sourceItem.Artists?.length) {
+                    artistsSeries = sourceItem.Artists.map(artist =>
+                        `<a>${escapeHtml(artist)}</a>`
+                    ).join(', ');
                 }
                 if (sourceItem.Album != null) {
                     albumName = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + sourceItem.AlbumId + `&serverId=${nowPlayingServerId}">` + escapeHtml(sourceItem.Album) + '</a>';
@@ -128,6 +120,8 @@ function updateNowPlayingInfo(context, state, serverId) {
                 context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
                 context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
                 context.querySelector('.nowPlayingSongName').innerText = sourceItem.Name;
+            }).catch(function (err) {
+                console.error('[remotecontrol] Failed to fetch item details for artist display', err);
             });
         } else if (item.Type == 'Episode') {
             if (item.SeasonName != null) {
@@ -457,6 +451,31 @@ export default function () {
                 return;
             }
 
+            // Fetch full item details for items missing ArtistItems
+            const itemsMissingArtist = items.filter(i => !i.ArtistItems && i.Id);
+            const enrichPromise = itemsMissingArtist.length > 0
+                ? (function () {
+                    const serverId = items[0].ServerId;
+                    const apiClient = ServerConnections.getApiClient(serverId);
+                    const ids = itemsMissingArtist.map(i => i.Id).join(',');
+                    return apiClient.getItems(apiClient.getCurrentUserId(), {
+                        Ids: ids,
+                        Fields: 'ArtistItems'
+                    }).then(function (result) {
+                        const fullItemsMap = {};
+                        for (const fi of (result.Items || result)) {
+                            fullItemsMap[fi.Id] = fi;
+                        }
+                        for (const item of items) {
+                            if (!item.ArtistItems && fullItemsMap[item.Id]) {
+                                item.ArtistItems = fullItemsMap[item.Id].ArtistItems;
+                            }
+                        }
+                    });
+                })()
+                : Promise.resolve();
+
+            enrichPromise.then(function () {
             let html = '';
             let favoritesEnabled = true;
             if (layoutManager.mobile) {
@@ -472,6 +491,7 @@ export default function () {
                 items: items,
                 smallIcon: true,
                 action: 'setplaylistindex',
+                artist: true,
                 enableUserDataButtons: favoritesEnabled,
                 rightButtons: [{
                     icon: 'remove_circle_outline',
@@ -505,6 +525,7 @@ export default function () {
             }
 
             imageLoader.lazyChildren(itemsContainer);
+            });
         });
     }
 
