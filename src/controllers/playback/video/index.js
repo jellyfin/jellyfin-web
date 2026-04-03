@@ -626,6 +626,8 @@ export default function (view) {
             Events.off(player, 'timeupdate', onTimeUpdate);
             Events.off(player, 'fullscreenchange', onFullscreenChanged);
             Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
+            Events.off(player, 'beginFetch', onBeginFetch);
+            Events.off(player, 'endFetch', onEndFetch);
             currentPlayer = null;
         }
     }
