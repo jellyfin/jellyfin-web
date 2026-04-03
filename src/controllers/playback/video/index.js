@@ -1575,22 +1575,22 @@ export default function (view) {
         }
 
         const src = getImgUrl(item, chapter, index, 400, apiClient);
+        let html = '<div class="chapterThumbContainer">';
 
         if (src) {
-            let html = '<div class="chapterThumbContainer">';
             html += '<img class="chapterThumb" src="' + src + '" />';
-            html += '<div class="chapterThumbTextContainer">';
-            html += '<div class="chapterThumbText chapterThumbText-dim">';
-            html += escapeHtml(chapter.Name);
-            html += '</div>';
-            html += '<h2 class="chapterThumbText">';
-            html += datetime.getDisplayRunningTime(positionTicks);
-            html += '</h2>';
-            html += '</div>';
-            return html + '</div>';
         }
 
-        return null;
+        html += '<div class="chapterThumbTextContainer">';
+        html += '<h4 class="chapterThumbText chapterThumbText-dim">';
+        html += escapeHtml(chapter.Name);
+        html += '</h4>';
+        html += '<h4 class="chapterThumbText">';
+        html += datetime.getDisplayRunningTime(positionTicks);
+        html += '</h4>';
+        html += '</div>';
+
+        return html + '</div>';
     }
 
     let playPauseClickTimeout;
@@ -1920,7 +1920,7 @@ export default function (view) {
         ticks *= value;
         const item = currentItem;
 
-        if (item?.Chapters?.length && item.Chapters[0].ImageTag) {
+        if (item?.Chapters?.length) {
             const html = getChapterBubbleHtml(ServerConnections.getApiClient(item.ServerId), item, item.Chapters, ticks);
 
             if (html) {
