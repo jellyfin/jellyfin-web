@@ -201,10 +201,12 @@ function bindEvents(apiClient) {
     Events.on(apiClient, 'message', onMessageReceived);
 }
 
-ServerConnections.getApiClients().forEach(bindEvents);
-Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
-    bindEvents(newApiClient);
-});
+export function initializeServerConnections() {
+    ServerConnections.getApiClients().forEach(bindEvents);
+    Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
+        bindEvents(newApiClient);
+    });
+}
 
 window.ServerNotifications = serverNotifications;
 
