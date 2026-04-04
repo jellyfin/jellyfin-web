@@ -53,7 +53,6 @@ export const LANGUAGE_OPTIONS = [
     { value: 'pa', label: 'ਪੰਜਾਬੀ' },
     { value: 'pl', label: 'Polski' },
     { value: 'pr', label: 'Pirate' },
-    { value: 'pt', label: 'Português' },
     { value: 'pt-BR', label: 'Português (Brasil)' },
     { value: 'pt-PT', label: 'Português (Portugal)' },
     { value: 'ro', label: 'Românește' },

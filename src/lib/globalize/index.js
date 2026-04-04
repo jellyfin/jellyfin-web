@@ -128,7 +128,13 @@ function ensureTranslation(translationInfo, culture) {
 }
 
 export function normalizeLocaleName(culture) {
-    return culture.replace('_', '-').toLowerCase();
+    culture = culture.replace('_', '-').toLowerCase();
+
+    if (culture === 'pt') {
+        return 'pt-pt';
+    }
+
+    return culture;
 }
 
 function getDictionary(module, locale) {
