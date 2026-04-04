@@ -63,13 +63,15 @@ export default class ConnectionManager {
         // Set the minimum version to match the SDK
         self._minServerVersion = MINIMUM_VERSION;
 
-        self.appVersion = () => appVersion;
+        self.appVersion = () => typeof appVersion === 'function' ? appVersion() : appVersion;
 
-        self.appName = () => appName;
+        self.appName = () => typeof appName === 'function' ? appName() : appName;
 
         self.capabilities = () => capabilities;
 
-        self.deviceId = () => deviceId;
+        self.deviceName = () => typeof deviceName === 'function' ? deviceName() : deviceName;
+
+        self.deviceId = () => typeof deviceId === 'function' ? deviceId() : deviceId;
 
         self.credentialProvider = () => credentialProvider;
 
@@ -137,7 +139,7 @@ export default class ConnectionManager {
             let apiClient = self.getApiClient(server.Id);
 
             if (!apiClient) {
-                apiClient = new ApiClient(serverUrl, appName, appVersion, deviceName, deviceId);
+                apiClient = new ApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
 
                 self._apiClients.push(apiClient);
 
@@ -232,12 +234,12 @@ export default class ConnectionManager {
                 headers: {
                     [AUTHORIZATION_HEADER]: getAuthorizationHeader(
                         {
-                            name: appName,
-                            version: appVersion
+                            name: self.appName(),
+                            version: self.appVersion()
                         },
                         {
-                            id: deviceId,
-                            name: deviceName
+                            id: self.deviceId(),
+                            name: self.deviceName()
                         },
                         server.AccessToken
                     )
