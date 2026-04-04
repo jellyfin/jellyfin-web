@@ -1871,5 +1871,8 @@
     "HeaderDeletePlaylist": "Eliminar Playlist",
     "LabelSlideshowInterval": "Intervalo da apresentação de fotografias",
     "LabelSlideshowIntervalHelp": "O tempo, em segundos, que cada fotografia é exibida nas apresentações.",
-    "HeaderLatestMusicVideos": "Vídeos musicais adicionados recentemente"
+    "HeaderLatestMusicVideos": "Vídeos musicais adicionados recentemente",
+    "ActivitiesLoadError": "Falha a carregar actividades",
+    "ApiKeysLoadError": "Falha a carregar as chaves API",
+    "Authors": "Autores"
 }
