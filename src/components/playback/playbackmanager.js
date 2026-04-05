@@ -2153,7 +2153,12 @@ export class PlaybackManager {
             player = player || self._currentPlayer;
 
             if (!player) {
-                throw new Error('player cannot be null');
+                // When playback is stopping, callers (e.g. media session subscribers)
+                // may request state after the active player has been cleared.
+                // Return an empty state instead of throwing to avoid crashing the app.
+                return {
+                    PlayState: {}
+                };
             }
 
             if (!enableLocalPlaylistManagement(player) && player.getPlayerState) {

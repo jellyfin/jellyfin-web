@@ -5,6 +5,7 @@ import UpcomingView from './UpcomingView';
 import GenresView from './GenresView';
 import ItemsView from './ItemsView';
 import GuideView from './GuideView';
+import LiveTvView from './LiveTvView';
 import ProgramsSectionView from './ProgramsSectionView';
 import { LibraryTab } from 'types/libraryTab';
 import type { ParentId } from 'types/library';
@@ -97,6 +98,24 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
                 </Box>
 
                 <GuideView />
+            </>
+        );
+    }
+
+    if (currentTab.viewType === LibraryTab.Channels) {
+        return (
+            <>
+                <Box
+                    className='padded-top padded-left padded-right padded-bottom'
+                    sx={{
+                        position: 'relative',
+                        zIndex: 2
+                    }}
+                >
+                    <LibraryViewMenu />
+                </Box>
+
+                <LiveTvView />
             </>
         );
     }
