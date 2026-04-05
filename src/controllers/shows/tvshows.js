@@ -69,6 +69,12 @@ export default function (view, params, tabContent) {
         loading.show();
         isLoading = true;
         const query = getQuery();
+        if (userSettings.enableInfiniteScroll() && userSettings.libraryPageSize() < 40) {
+            query.Limit = 40;
+        } else {
+            query.Limit = userSettings.libraryPageSize();
+        }
+
         setFilterStatus(page, query);
 
         ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
@@ -93,8 +99,9 @@ export default function (view, params, tabContent) {
                 }
                 reloadItems(tabContent);
             }
-
-            window.scrollTo(0, 0);
+            if (!userSettings.enableInfiniteScroll()) {
+                window.scrollTo(0, 0);
+            }
             this.alphaPicker?.updateControls(query);
             let html;
             const pagingHtml = libraryBrowser.getQueryPagingHtml({
@@ -165,24 +172,51 @@ export default function (view, params, tabContent) {
                 });
             }
 
-            let elems = tabContent.querySelectorAll('.paging');
+            if (!userSettings.enableInfiniteScroll()) {
+                let elems = tabContent.querySelectorAll('.paging');
 
-            for (const elem of elems) {
-                elem.innerHTML = pagingHtml;
-            }
+                for (const elem of elems) {
+                    elem.innerHTML = pagingHtml;
+                }
 
-            elems = tabContent.querySelectorAll('.btnNextPage');
-            for (const elem of elems) {
-                elem.addEventListener('click', onNextPageClick);
-            }
+                elems = tabContent.querySelectorAll('.btnNextPage');
+                for (const elem of elems) {
+                    elem.addEventListener('click', onNextPageClick);
+                };
 
-            elems = tabContent.querySelectorAll('.btnPreviousPage');
-            for (const elem of elems) {
-                elem.addEventListener('click', onPreviousPageClick);
+                elems = tabContent.querySelectorAll('.btnPreviousPage');
+                for (const elem of elems) {
+                    elem.addEventListener('click', onPreviousPageClick);
+                }
+            } else {
+                hasMoreitems = true;
+                // Check if we need to load more items
+                if (result.Items.length >= query.Limit) {
+                    query.StartIndex += query.Limit;
+                } else if (query.NameStartsWith !== undefined) {
+                    // no more items with the alphaPicker/NameStartsWith selection.
+                    // increment ascii letter code and search with next letter
+                    const nextletter = String.fromCharCode(query.NameStartsWith.charCodeAt(0) + 1);
+                    // check if ascii code is smaler or equal to Z else disable loading more items
+                    if (nextletter.charCodeAt(0) <= 90) {
+                        query.NameStartsWith = nextletter;
+                        //reset start index for new letter
+                        query.StartIndex = 0;
+                    } else {
+                        hasMoreitems = false;
+                    }
+                } else {
+                    //if not searching with NameStartsWith set hasMoreitems false if no more items are found
+                    hasMoreitems = false;
+                }
             }
 
             const itemsContainer = tabContent.querySelector('.itemsContainer');
-            itemsContainer.innerHTML = html;
+            if (userSettings.enableInfiniteScroll()) {
+                itemsContainer.innerHTML += html;
+            } else {
+                itemsContainer.innerHTML = html;
+            }
             imageLoader.lazyChildren(itemsContainer);
             userSettings.saveQuerySettings(getSavedQueryKey(), query);
             loading.hide();
@@ -196,7 +230,8 @@ export default function (view, params, tabContent) {
 
     const data = {};
     let isLoading = false;
-
+    let hasMoreitems = true;
+    const scrollController = new AbortController();
     this.showFilterMenu = function () {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
@@ -231,6 +266,7 @@ export default function (view, params, tabContent) {
                 delete query.NameLessThan;
             }
             query.StartIndex = 0;
+            itemsContainer.innerHTML = '';
             reloadItems(tabElement);
         });
         this.alphaPicker = new AlphaPicker({
@@ -292,6 +328,27 @@ export default function (view, params, tabContent) {
             onViewStyleChange();
             reloadItems(tabElement);
         });
+
+        if (userSettings.enableInfiniteScroll()) {
+            document.addEventListener('viewshow', () => {
+                // Stop the scroll event listener on view change
+                scrollController.abort();
+            }, { signal: scrollController.signal });
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY || window.pageYOffset;
+                const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+                const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+
+                const isNearBottom = scrollPercentage >= 95;
+
+                // check if tabelement is active else dont run reloaditems
+                if (isNearBottom && !isLoading && hasMoreitems && tabElement.classList.contains('is-active')) {
+                    reloadItems(tabContent);
+                }
+            }, { signal: scrollController.signal });
+        }
     };
 
     initPage(tabContent);
