@@ -10,6 +10,7 @@ import alert from '../alert';
 import confirm from '../confirm/confirm';
 import itemHelper from '../itemHelper';
 import datetime from '../../scripts/datetime';
+import { getParameterByName } from 'utils/url';
 
 let selectedItems = [];
 let selectedElements = [];
@@ -168,155 +169,180 @@ function showMenuForSelectedItems(e) {
     const apiClient = ServerConnections.currentApiClient();
 
     apiClient.getCurrentUser().then(user => {
-        // get first selected item to perform metadata refresh permission check
-        apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then(firstItem => {
-            const menuItems = [];
+        // get collection id
+        const collectionId = getParameterByName('id');
+        const collectionPromise = collectionId ? apiClient.getItem(user.Id, collectionId) : Promise.resolve(null);
 
-            menuItems.push({
-                name: globalize.translate('SelectAll'),
-                id: 'selectall',
-                icon: 'select_all'
-            });
+        collectionPromise.then(collectionItem => {
+            // get first selected item to perform metadata refresh permission check
+            apiClient.getItem(apiClient.getCurrentUserId(), selectedItems[0]).then(firstItem => {
+                const menuItems = [];
 
-            menuItems.push({
-                name: globalize.translate('AddToCollection'),
-                id: 'addtocollection',
-                icon: 'add'
-            });
-
-            menuItems.push({
-                name: globalize.translate('AddToPlaylist'),
-                id: 'playlist',
-                icon: 'playlist_add'
-            });
-
-            // TODO: Be more dynamic based on what is selected
-            if (user.Policy.EnableContentDeletion) {
                 menuItems.push({
-                    name: globalize.translate('Delete'),
-                    id: 'delete',
-                    icon: 'delete'
+                    name: globalize.translate('SelectAll'),
+                    id: 'selectall',
+                    icon: 'select_all'
                 });
-            }
 
-            if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
-                // Disabled because there is no callback for this item
-            }
-
-            if (user.Policy.IsAdministrator) {
                 menuItems.push({
-                    name: globalize.translate('GroupVersions'),
-                    id: 'groupvideos',
-                    icon: 'call_merge'
+                    name: globalize.translate('AddToCollection'),
+                    id: 'addtocollection',
+                    icon: 'add'
                 });
-            }
 
-            menuItems.push({
-                name: globalize.translate('MarkPlayed'),
-                id: 'markplayed',
-                icon: 'check_box'
-            });
+                if (collectionItem && collectionItem.Type === 'BoxSet') {
+                    menuItems.push({
+                        name: globalize.translate('RemoveFromCollection'),
+                        id: 'removefromcollection',
+                        icon: 'playlist_remove'
+                    });
+                }
 
-            menuItems.push({
-                name: globalize.translate('MarkUnplayed'),
-                id: 'markunplayed',
-                icon: 'check_box_outline_blank'
-            });
-
-            // this assures that if the user can refresh metadata for the first item
-            // they can refresh metadata for all items
-            if (itemHelper.canRefreshMetadata(firstItem, user)) {
                 menuItems.push({
-                    name: globalize.translate('RefreshMetadata'),
-                    id: 'refresh',
-                    icon: 'refresh'
+                    name: globalize.translate('AddToPlaylist'),
+                    id: 'playlist',
+                    icon: 'playlist_add'
                 });
-            }
 
-            import('../actionSheet/actionSheet').then((actionsheet) => {
-                actionsheet.show({
-                    items: menuItems,
-                    positionTo: e.target,
-                    callback: function (id) {
-                        const items = selectedItems.slice(0);
-                        const serverId = apiClient.serverInfo().Id;
+                // TODO: Be more dynamic based on what is selected
+                if (user.Policy.EnableContentDeletion) {
+                    menuItems.push({
+                        name: globalize.translate('Delete'),
+                        id: 'delete',
+                        icon: 'delete'
+                    });
+                }
 
-                        switch (id) {
-                            case 'selectall':
-                                {
-                                    const elems = document.querySelectorAll('.itemSelectionPanel');
-                                    for (let i = 0, length = elems.length; i < length; i++) {
-                                        const chkItemSelect = elems[i].querySelector('.chkItemSelect');
+                if (user.Policy.EnableContentDownloading && appHost.supports(AppFeature.FileDownload)) {
+                    // Disabled because there is no callback for this item
+                }
 
-                                        if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
-                                            chkItemSelect.checked = true;
-                                            updateItemSelection(chkItemSelect, true);
+                if (user.Policy.IsAdministrator) {
+                    menuItems.push({
+                        name: globalize.translate('GroupVersions'),
+                        id: 'groupvideos',
+                        icon: 'call_merge'
+                    });
+                }
+
+                menuItems.push({
+                    name: globalize.translate('MarkPlayed'),
+                    id: 'markplayed',
+                    icon: 'check_box'
+                });
+
+                menuItems.push({
+                    name: globalize.translate('MarkUnplayed'),
+                    id: 'markunplayed',
+                    icon: 'check_box_outline_blank'
+                });
+
+                // this assures that if the user can refresh metadata for the first item
+                // they can refresh metadata for all items
+                if (itemHelper.canRefreshMetadata(firstItem, user)) {
+                    menuItems.push({
+                        name: globalize.translate('RefreshMetadata'),
+                        id: 'refresh',
+                        icon: 'refresh'
+                    });
+                }
+
+                import('../actionSheet/actionSheet').then((actionsheet) => {
+                    actionsheet.show({
+                        items: menuItems,
+                        positionTo: e.target,
+                        callback: function (id) {
+                            const items = selectedItems.slice(0);
+                            const serverId = apiClient.serverInfo().Id;
+
+                            switch (id) {
+                                case 'selectall':
+                                    {
+                                        const elems = document.querySelectorAll('.itemSelectionPanel');
+                                        for (let i = 0, length = elems.length; i < length; i++) {
+                                            const chkItemSelect = elems[i].querySelector('.chkItemSelect');
+
+                                            if (chkItemSelect && !chkItemSelect.classList.contains('checkedInitial') && !chkItemSelect.checked && chkItemSelect.getBoundingClientRect().width != 0) {
+                                                chkItemSelect.checked = true;
+                                                updateItemSelection(chkItemSelect, true);
+                                            }
                                         }
                                     }
-                                }
-                                break;
-                            case 'addtocollection':
-                                import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
-                                    const collectionEditor = new CollectionEditor();
-                                    collectionEditor.show({
-                                        items: items,
-                                        serverId: serverId
+                                    break;
+                                case 'addtocollection':
+                                    import('../collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
+                                        const collectionEditor = new CollectionEditor();
+                                        collectionEditor.show({
+                                            items: items,
+                                            serverId: serverId
+                                        });
                                     });
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'playlist':
-                                import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
-                                    const playlistEditor = new PlaylistEditor();
-                                    playlistEditor.show({
-                                        items: items,
-                                        serverId: serverId
-                                    }).catch(() => {
-                                        // Dialog closed
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'removefromcollection':
+                                    apiClient.ajax({
+                                        type: 'DELETE',
+                                        url: apiClient.getUrl('Collections/' + collectionId + '/Items', {
+                                            Ids: items.join(',')
+                                        })
+                                    }).then(() => {
+                                        dispatchNeedsRefresh();
+                                        hideSelections();
                                     });
-                                }).catch(err => {
-                                    console.error('[AddToPlaylist] failed to load playlist editor', err);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'delete':
-                                deleteItems(apiClient, items).then(dispatchNeedsRefresh);
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'groupvideos':
-                                combineVersions(apiClient, items);
-                                break;
-                            case 'markplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'markunplayed':
-                                items.forEach(itemId => {
-                                    apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            case 'refresh':
-                                import('../refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
-                                    new RefreshDialog({
-                                        itemIds: items,
-                                        serverId: serverId
-                                    }).show();
-                                });
-                                hideSelections();
-                                dispatchNeedsRefresh();
-                                break;
-                            default:
-                                break;
+                                    break;
+                                case 'playlist':
+                                    import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
+                                        const playlistEditor = new PlaylistEditor();
+                                        playlistEditor.show({
+                                            items: items,
+                                            serverId: serverId
+                                        }).catch(() => {
+                                            // Dialog closed
+                                        });
+                                    }).catch(err => {
+                                        console.error('[AddToPlaylist] failed to load playlist editor', err);
+                                    });
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'delete':
+                                    deleteItems(apiClient, items).then(dispatchNeedsRefresh);
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'groupvideos':
+                                    combineVersions(apiClient, items);
+                                    break;
+                                case 'markplayed':
+                                    items.forEach(itemId => {
+                                        apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
+                                    });
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'markunplayed':
+                                    items.forEach(itemId => {
+                                        apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
+                                    });
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                case 'refresh':
+                                    import('../refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
+                                        new RefreshDialog({
+                                            itemIds: items,
+                                            serverId: serverId
+                                        }).show();
+                                    });
+                                    hideSelections();
+                                    dispatchNeedsRefresh();
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
+                    });
                 });
             });
         });
