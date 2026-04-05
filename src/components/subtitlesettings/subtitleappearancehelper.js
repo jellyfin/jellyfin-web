@@ -153,8 +153,14 @@ export function applyStyles(elements, appearanceSettings) {
     if (elements.text) {
         applyStyleList(styles.text, elements.text);
     }
+    if (elements.secondaryText) {
+        applyStyleList(styles.text, elements.secondaryText);
+    }
     if (elements.window) {
         applyStyleList(styles.window, elements.window);
+    }
+    if (elements.secondaryWindow) {
+        applyStyleList(styles.window, elements.secondaryWindow);
     }
 }
 export default {
