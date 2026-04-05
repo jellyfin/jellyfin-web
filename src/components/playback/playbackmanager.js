@@ -1952,12 +1952,14 @@ export class PlaybackManager {
                 }, queryOptions));
             } else if (firstItem.IsFolder) {
                 let sortBy = null;
+                let recursive = true;
                 if (options.shuffle) {
                     sortBy = 'Random';
                 } else if (firstItem.Type !== 'BoxSet') {
                     if (firstItem.CollectionType === 'music' || firstItem.MediaType === 'Audio') {
                         sortBy = 'Album,ParentIndexNumber,IndexNumber,SortName';
                     } else {
+                        recursive = false;
                         sortBy = 'SortName';
                     }
                 }
@@ -1965,7 +1967,7 @@ export class PlaybackManager {
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
                     Filters: 'IsNotFolder',
-                    Recursive: true,
+                    Recursive: recursive,
                     // These are pre-sorted
                     SortBy: sortBy,
                     MediaTypes: 'Audio,Video'
