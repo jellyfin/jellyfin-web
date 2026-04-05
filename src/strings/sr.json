@@ -1873,5 +1873,10 @@
     "HeaderDeleteCollection": "Обриши колекцију",
     "OptionDatePlaylistUpdated": "Датум ажурирања плејлисте",
     "NewPlaylist": "Нова плејлиста",
-    "ActivitiesLoadError": "Учитавање активности није успело"
+    "ActivitiesLoadError": "Учитавање активности није успело",
+    "ApiKeysLoadError": "Учитавање АПИ кључева није успело",
+    "Authors": "Аутори",
+    "ContinueReading": "Настави читање",
+    "DevicesLoadError": "Учитавање уређаја није успело",
+    "HeaderLatestBooks": "Недавно додате књиге"
 }
