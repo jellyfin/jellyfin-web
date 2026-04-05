@@ -19,6 +19,7 @@ import globalize from '../../../lib/globalize';
 import { appHost } from '../../../components/apphost';
 import layoutManager from '../../../components/layoutManager';
 import * as userSettings from '../../../scripts/settings/userSettings';
+import appSettings from '../../../scripts/settings/appSettings';
 import keyboardnavigation from '../../../scripts/keyboardNavigation';
 import '../../../styles/scrollstyles.scss';
 import '../../../elements/emby-slider/emby-slider';
@@ -1443,6 +1444,14 @@ export default function (view) {
         }
         if (e.deltaY > 0) {
             playbackManager.volumeDown(currentPlayer);
+        }
+        if (appSettings.enableHorizontalScroll()) {
+            if (e.deltaX < 0) {
+                playbackManager.rewind(currentPlayer);
+            }
+            if (e.deltaX > 0) {
+                playbackManager.fastForward(currentPlayer);
+            }
         }
     }
 
