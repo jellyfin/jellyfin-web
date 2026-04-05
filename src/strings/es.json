@@ -362,7 +362,7 @@
     "LabelCustomCss": "Código CSS personalizado",
     "LabelCustomCssHelp": "Aplicar su código CSS personalizado para el tema/estilo en la interfaz web.",
     "LabelCustomDeviceDisplayNameHelp": "Proporcione un nombre para mostrar o déjelo vacío para usar el nombre proporcionado por el dispositivo.",
-    "LabelCustomRating": "Valoración pesonalizada",
+    "LabelCustomRating": "Valoración personalizada",
     "LabelDateAdded": "Fecha de añadido",
     "LabelDateAddedBehavior": "Comportamiento de la fecha añadida para contenido nuevo",
     "LabelDateAddedBehaviorHelp": "Si el elemento tiene metadatos que contengan información sobre la fecha de creación independientemente de lo seleccionado aquí, se utilizarán para ordenar el contenido.",
