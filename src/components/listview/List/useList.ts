@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import layoutManager from 'components/layoutManager';
 import { ItemAction } from 'constants/itemAction';
 import { getDataAttributes } from 'utils/items';
+import itemHelper from 'components/itemHelper';
 
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
@@ -53,7 +54,7 @@ function useList({ item, listOptions }: UseListProps) {
 
     const getListdWrapperProps = () => ({
         className: listWrapperClass,
-        title: item.Name,
+        title: itemHelper.getDisplayName(item),
         action,
         dataAttributes
     });
