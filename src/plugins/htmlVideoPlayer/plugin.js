@@ -106,7 +106,7 @@ function enableNativeTrackSupport(mediaSource, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass' || format === 'pgssub') {
+        if (format === 'ssa' || format === 'ass' || format === 'pgssub' || format === 'dvdsub' || format === 'vobsub') {
             return false;
         }
     }
@@ -173,6 +173,14 @@ function getTextTrackUrl(track, item, format) {
     }
 
     return url;
+}
+
+function getSubtitleFileNameHint(track) {
+    if (!track?.Path) {
+        return undefined;
+    }
+
+    return track.Path.split(/[\\/]/).pop();
 }
 
 function getDefaultProfile() {
@@ -278,6 +286,10 @@ export class HtmlVideoPlayer {
      */
     #fetchQueue = 0;
     /**
+     * @type {Map<number, { token: symbol, active: boolean }>}
+     */
+    #pendingSubtitleLoads = new Map();
+    /**
      * @type {string | undefined}
      */
     #currentSrc;
@@ -354,6 +366,55 @@ export class HtmlVideoPlayer {
             this.isFetching = false;
             Events.trigger(this, 'endFetch');
         }
+    }
+
+    /**
+     * @private
+     */
+    beginPendingSubtitleLoad(targetTextTrackIndex, loadToken) {
+        const pendingLoad = this.#pendingSubtitleLoads.get(targetTextTrackIndex);
+        if (!pendingLoad || pendingLoad.token !== loadToken || pendingLoad.active) {
+            return;
+        }
+
+        pendingLoad.active = true;
+        this.incrementFetchQueue();
+    }
+
+    /**
+     * @private
+     */
+    endPendingSubtitleLoad(targetTextTrackIndex, loadToken) {
+        const pendingLoad = this.#pendingSubtitleLoads.get(targetTextTrackIndex);
+        if (!pendingLoad || (loadToken && pendingLoad.token !== loadToken)) {
+            return;
+        }
+
+        this.#pendingSubtitleLoads.delete(targetTextTrackIndex);
+        if (pendingLoad.active) {
+            this.decrementFetchQueue();
+        }
+    }
+
+    /**
+     * @private
+     */
+    createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex) {
+        const loadToken = Symbol(String(targetTextTrackIndex));
+        this.endPendingSubtitleLoad(targetTextTrackIndex);
+        this.#pendingSubtitleLoads.set(targetTextTrackIndex, {
+            token: loadToken,
+            active: false
+        });
+
+        return {
+            video: videoElement,
+            subUrl: getTextTrackUrl(track, item),
+            timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+            onLoading: () => this.beginPendingSubtitleLoad(targetTextTrackIndex, loadToken),
+            onLoaded: () => this.endPendingSubtitleLoad(targetTextTrackIndex, loadToken),
+            onError: () => this.endPendingSubtitleLoad(targetTextTrackIndex, loadToken)
+        };
     }
 
     /**
@@ -1181,6 +1242,13 @@ export class HtmlVideoPlayer {
      * @private
      */
     destroyCustomTrack(videoElement, targetTrackIndex) {
+        if (targetTrackIndex === undefined) {
+            this.endPendingSubtitleLoad(PRIMARY_TEXT_TRACK_INDEX);
+            this.endPendingSubtitleLoad(SECONDARY_TEXT_TRACK_INDEX);
+        } else {
+            this.endPendingSubtitleLoad(targetTrackIndex);
+        }
+
         this.destroyCustomRenderedTrackElements(targetTrackIndex);
         this.destroyNativeTracks(videoElement, targetTrackIndex);
         this.destroyStoredTrackInfo(targetTrackIndex);
@@ -1346,17 +1414,29 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    renderPgs(videoElement, track, item) {
-        import('libpgs').then((libpgs) => {
-            const aspectRatio = this.getAspectRatio() === 'auto' ? 'contain' : this.getAspectRatio();
-            const options = {
-                video: videoElement,
-                subUrl: getTextTrackUrl(track, item),
-                workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-                aspectRatio
-            };
-            this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
+    renderPgs(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+        const options = this.createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex);
+        import('libbitsub').then((libbitsub) => {
+            this.#currentPgsRenderer = new libbitsub.PgsRenderer(options);
+        }).catch((error) => {
+            this.endPendingSubtitleLoad(targetTextTrackIndex);
+            console.error(error);
+        });
+    }
+
+    /**
+     * @private
+     */
+    renderVobSub(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+        const options = {
+            ...this.createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex),
+            fileName: getSubtitleFileNameHint(track)
+        };
+        import('libbitsub').then((libbitsub) => {
+            this.#currentPgsRenderer = new libbitsub.VobSubRenderer(options);
+        }).catch((error) => {
+            this.endPendingSubtitleLoad(targetTextTrackIndex);
+            console.error(error);
         });
     }
 
@@ -1448,7 +1528,11 @@ export class HtmlVideoPlayer {
                 return;
             }
             if (format === 'pgssub') {
-                this.renderPgs(videoElement, track, item);
+                this.renderPgs(videoElement, track, item, targetTextTrackIndex);
+                return;
+            }
+            if (format === 'dvdsub' || format === 'vobsub') {
+                this.renderVobSub(videoElement, track, item, targetTextTrackIndex);
                 return;
             }
 
@@ -2078,7 +2162,7 @@ export class HtmlVideoPlayer {
         }
 
         if (this.#currentPgsRenderer) {
-            this.#currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
+            this.#currentPgsRenderer.updateCanvasSize?.();
         }
     }
 

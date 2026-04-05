@@ -877,7 +877,12 @@ export class PlaybackManager {
             // Currently, only non-SSA/non-ASS external subtitles are supported.
             // Showing secondary subtitles does not work with any SSA/ASS subtitle combinations because
             // of the complexity of how they are rendered and the risk of the subtitles overlapping
-            return format !== 'ssa' && format !== 'ass' && getDeliveryMethod(track) === 'External';
+            return format !== 'ssa'
+                && format !== 'ass'
+                && format !== 'pgssub'
+                && format !== 'dvdsub'
+                && format !== 'vobsub'
+                && getDeliveryMethod(track) === 'External';
         };
 
         self.secondarySubtitleTracks = function (player = self._currentPlayer) {
