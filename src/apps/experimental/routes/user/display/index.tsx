@@ -19,7 +19,8 @@ export default function UserDisplayPreferences() {
         loading,
         submitChanges,
         updateField,
-        values
+        values,
+        saveUserCustomCss
     } = useDisplaySettingForm();
 
     const handleSubmitForm = useCallback((e: React.FormEvent<HTMLFormElement>) => {
@@ -62,6 +63,7 @@ export default function UserDisplayPreferences() {
                         />
                         <DisplayPreferences
                             onChange={handleFieldChange}
+                            onSaveUserCustomCss={saveUserCustomCss}
                             values={values}
                         />
                         <LibraryPreferences

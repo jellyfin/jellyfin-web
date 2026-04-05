@@ -62,7 +62,7 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
 
     // Update the values of the user settings
     const updateUserSettings = useCallback(() => {
-        setCustomCss(userSettings.customCss());
+        setCustomCss(userSettings.useSavedCustomCss() ? userSettings.userCustomCss() : userSettings.customCss());
         setDisableCustomCss(userSettings.disableCustomCss());
         setTheme(userSettings.theme());
         setDashboardTheme(userSettings.dashboardTheme());
