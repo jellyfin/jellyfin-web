@@ -37,6 +37,7 @@ function populateLanguages(select, languages) {
     let html = '';
 
     html += `<option value=''>${globalize.translate('AnyLanguage')}</option>`;
+    html += `<option value='OriginalLanguage'>${globalize.translate('OriginalLanguage')}</option>`;
 
     for (let i = 0, length = languages.length; i < length; i++) {
         const culture = languages[i];

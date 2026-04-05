@@ -129,6 +129,7 @@ function onSubmit(e) {
         Id: currentItem.Id,
         Name: form.querySelector('#txtName').value,
         OriginalTitle: form.querySelector('#txtOriginalName').value,
+        OriginalLanguage: form.querySelector('#txtOriginalLanguage').value,
         ForcedSortName: form.querySelector('#txtSortName').value,
         CommunityRating: form.querySelector('#txtCommunityRating').value,
         CriticRating: form.querySelector('#txtCriticRating').value,
@@ -301,8 +302,8 @@ function bindAll(elems, eventName, fn) {
 }
 
 function onResetClick() {
-    const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
-        '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
+    const resetElementId = ['#txtName', '#txtOriginalName', '#txtOriginalLanguage', '#txtSortName', '#txtCommunityRating', '#txtCriticRating',
+        '#txtIndexNumber', '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
         '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
         '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
         '#txtSeriesRuntime', '#txtTagline'];
@@ -549,6 +550,12 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldOriginalName', context);
     }
 
+    if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Episode') {
+        showElement('#fldOriginalLanguage', context);
+    } else {
+        hideElement('#fldOriginalLanguage', context);
+    }
+
     if (item.Type === 'Series') {
         showElement('#fldSeriesRuntime', context);
     } else {
@@ -789,6 +796,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#txtPath').value = item.Path || '';
     context.querySelector('#txtName').value = item.Name || '';
     context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
+    context.querySelector('#txtOriginalLanguage').value = item.OriginalLanguage || '';
     context.querySelector('#txtOverview').value = item.Overview || '';
     context.querySelector('#txtTagline').value = (item.Taglines?.length ? item.Taglines[0] : '');
     context.querySelector('#txtSortName').value = item.ForcedSortName || '';
