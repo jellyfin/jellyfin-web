@@ -33,6 +33,8 @@ function getWebDeviceIcon(browser: string | null | undefined) {
             return BASE_DEVICE_IMAGE_URL + 'msie.svg';
         case 'Titan OS':
             return BASE_DEVICE_IMAGE_URL + 'titanos.svg';
+        case 'Vega OS':
+            return BASE_DEVICE_IMAGE_URL + 'firetv.svg';
         default:
             return BASE_DEVICE_IMAGE_URL + 'html5.svg';
     }
@@ -52,6 +54,9 @@ export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
         case 'Jellyfin Android':
         case 'AndroidTV':
         case 'Android TV':
+        case 'Jellyfin Android TV':
+        case 'Jellyfin for Android':
+        case 'Jellyfin for Android TV':
             return BASE_DEVICE_IMAGE_URL + 'android.svg';
         case 'Jellyfin Mobile (iOS)':
         case 'Jellyfin Mobile (iPadOS)':
@@ -72,6 +77,8 @@ export function getDeviceIcon(info: DeviceInfo | SessionInfo) {
             return BASE_DEVICE_IMAGE_URL + 'webos.svg';
         case 'Jellyfin Roku':
             return BASE_DEVICE_IMAGE_URL + 'roku.svg';
+        case 'Jellyfin for Titan OS':
+            return BASE_DEVICE_IMAGE_URL + 'titanos.svg';
         case 'Finamp':
             return BASE_DEVICE_IMAGE_URL + 'finamp.svg';
         case 'Jellyfin Web':

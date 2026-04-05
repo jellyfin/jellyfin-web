@@ -9,12 +9,12 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
 
+import { CardShape } from 'components/cardbuilder/utils/shape';
 import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
-import { CardShape } from 'utils/card';
 import Loading from 'components/loading/LoadingComponent';
 import { playbackManager } from 'components/playback/playbackmanager';
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
@@ -30,6 +30,7 @@ import { useItem } from 'hooks/useItem';
 import AlphabetPicker from './AlphabetPicker';
 import FilterButton from './filter/FilterButton';
 import NewCollectionButton from './NewCollectionButton';
+import NewPlaylistButton from './NewPlaylistButton';
 import Pagination from './Pagination';
 import PlayAllButton from './PlayAllButton';
 import QueueButton from './QueueButton';
@@ -50,6 +51,7 @@ interface ItemsViewProps {
     isBtnSortEnabled?: boolean;
     isBtnFilterEnabled?: boolean;
     isBtnNewCollectionEnabled?: boolean;
+    isBtnNewPlaylistEnabled?: boolean;
     isBtnGridListEnabled?: boolean;
     isAlphabetPickerEnabled?: boolean;
     noItemsMessage: string;
@@ -66,6 +68,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     isBtnSortEnabled = true,
     isBtnFilterEnabled = true,
     isBtnNewCollectionEnabled = false,
+    isBtnNewPlaylistEnabled = false,
     isBtnGridListEnabled = true,
     isAlphabetPickerEnabled = true,
     itemType,
@@ -222,9 +225,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     const hasFilters = Object.values(libraryViewSettings.Filters ?? {}).some(
         (filter) => !!filter
     );
-    const hasSortName = libraryViewSettings.SortBy.includes(
-        ItemSortBy.SortName
-    );
+    const hasSortName = libraryViewSettings.SortBy !== ItemSortBy.Random;
 
     const itemsContainerClass = classNames(
         'padded-left padded-right padded-right-withalphapicker',
@@ -342,6 +343,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                             </ButtonGroup>
 
                             {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
+                            {isBtnNewPlaylistEnabled && <NewPlaylistButton isTextVisible={isSmallScreen} />}
                         </>
                     )}
                 </Box>
