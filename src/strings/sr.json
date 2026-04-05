@@ -1878,5 +1878,7 @@
     "Authors": "Аутори",
     "ContinueReading": "Настави читање",
     "DevicesLoadError": "Учитавање уређаја није успело",
-    "HeaderLatestBooks": "Недавно додате књиге"
+    "HeaderLatestBooks": "Недавно додате књиге",
+    "HeaderLatestMusicVideos": "Недавно додати музички видеи",
+    "LibrariesLoadError": "Учитавање библиотека није успело"
 }
