@@ -519,7 +519,7 @@ export default function (view) {
         if (state.NowPlayingItem) {
             isEnabled = true;
             updatePlayerStateInternal(event, player, state);
-            updatePlaylist();
+            updatePlaylist().then(switchFocus => switchFocusFromTrackControlButtonsIfNeeded(switchFocus));
             enableStopOnBack(true);
             updatePlaybackRate(player);
         }
@@ -918,17 +918,17 @@ export default function (view) {
         try {
             const playlist = await playbackManager.getPlaylist();
 
-            if (playlist && playlist.length > 1) {
-                const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
-                const btnNextTrack = view.querySelector('.btnNextTrack');
-                btnPreviousTrack.classList.remove('hide');
-                btnNextTrack.classList.remove('hide');
-                btnPreviousTrack.disabled = false;
-                btnNextTrack.disabled = false;
+            if (!playlist) {
+                console.error('[VideoPlayer] failed to get playlist');
+                return false;
             }
+
+            return updateTrackControlButtonsState(playlist);
         } catch (err) {
-            console.error('[VideoPlayer] failed to get playlist', err);
+            console.error('[VideoPlayer] failed to update playlist', err);
         }
+
+        return false;
     }
 
     function updateTimeText(elem, ticks, divider) {
@@ -1341,6 +1341,10 @@ export default function (view) {
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.previousTrack(currentPlayer);
+
+                    if (!btnPreviousTrack.disabled && !btnPreviousTrack.classList.contains('hide')) {
+                        showOsd(btnPreviousTrack);
+                    }
                 }
                 break;
             case 'n':
@@ -1348,6 +1352,10 @@ export default function (view) {
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.nextTrack(currentPlayer);
+
+                    if (!btnNextTrack.disabled && !btnNextTrack.classList.contains('hide')) {
+                        showOsd(btnNextTrack);
+                    }
                 }
                 break;
             case 'NavigationLeft':
@@ -1622,6 +1630,42 @@ export default function (view) {
         }
     }
 
+    function updateTrackControlButtonsState(currentPlaylist) {
+        const currentPlaylistNumber = playbackManager.getCurrentPlaylistIndex() + 1;
+
+        if (btnPreviousTrack) {
+            const isBtnPreviousTrackDisabled = currentPlaylistNumber === 1;
+
+            btnPreviousTrack.classList.toggle('hide', isBtnPreviousTrackDisabled);
+            btnPreviousTrack.disabled = isBtnPreviousTrackDisabled;
+        } else {
+            console.error('[VideoPlayer] failed to get "btnPreviousTrack"', btnPreviousTrack);
+        }
+
+        if (btnNextTrack) {
+            const isBtnNextTrackDisabled = currentPlaylistNumber === currentPlaylist.length;
+
+            btnNextTrack.classList.toggle('hide', isBtnNextTrackDisabled);
+            btnNextTrack.disabled = isBtnNextTrackDisabled;
+        } else {
+            console.error('[VideoPlayer] failed to get "btnNextTrack"', btnNextTrack);
+        }
+
+        // Switch focus to the pause button or keep focus on a track control button?
+        return currentPlaylistNumber === 1 || currentPlaylistNumber === currentPlaylist.length;
+    }
+
+    function switchFocusFromTrackControlButtonsIfNeeded(switchFocus) {
+        // Switch focus from track control buttons to the pause button if needed.
+        if (currentVisibleMenu !== 'osd' || !switchFocus) {
+            return;
+        }
+
+        // Switch the focus to the pause button if OSD menu is visible and focus switching is requested.
+        const btnPause = osdBottomElement.querySelector('.btnPause');
+        _focus(btnPause);
+    }
+
     shell.enableFullscreen();
 
     let currentPlayer;
@@ -1652,6 +1696,8 @@ export default function (view) {
     const startTimeText = view.querySelector('.startTimeText');
     const endTimeText = view.querySelector('.endTimeText');
     const endsAtText = view.querySelector('.endsAtText');
+    const btnPreviousTrack = view.querySelector('.btnPreviousTrack');
+    const btnNextTrack = view.querySelector('.btnNextTrack');
     const btnRewind = view.querySelector('.btnRewind');
     const btnFastForward = view.querySelector('.btnFastForward');
     const transitionEndEventName = dom.whichTransitionEvent();
