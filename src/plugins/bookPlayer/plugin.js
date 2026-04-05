@@ -395,7 +395,7 @@ export class BookPlayer {
                     this.bindEvents();
 
                     return this.rendition.book.locations.generate(1024).then(async () => {
-                        if (this.cancellationToken) reject();
+                        if (this.cancellationToken) reject(new Error('GenerateLocationsError'));
 
                         const percentageTicks = options.startPositionTicks / 10000000;
                         if (percentageTicks !== 0.0) {
@@ -415,7 +415,7 @@ export class BookPlayer {
                     });
                 }, () => {
                     console.error('failed to display epub');
-                    return reject();
+                    return reject(new Error('SetCurrentSrcError'));
                 });
             });
         });

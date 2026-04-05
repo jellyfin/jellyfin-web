@@ -369,7 +369,7 @@ function onDialogClosed() {
     if (hasChanges) {
         currentResolve();
     } else {
-        currentReject();
+        currentReject(new Error('OnDialogClosedError'));
     }
 }
 
