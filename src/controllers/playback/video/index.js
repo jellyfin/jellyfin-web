@@ -137,6 +137,25 @@ export default function (view) {
             btnUserRating.setItem(null);
         }
 
+        if (currentItem.Chapters) {
+            const chapters = currentItem.Chapters;
+            // make sure all displayed chapter numbers and timestamps have the same length for a cleaner look
+            const chapterNumberPadLength = `${chapters.length}`.length;
+            const maxChapterStartTime = Math.max(...chapters.map(chpt => chpt.StartPositionTicks));
+            const durationStringMaxLength = datetime.getDisplayRunningTime(maxChapterStartTime, true).length;
+
+            chapterSelectionOptions = chapters.map((chapter, index) => {
+                const chapterNumber = `${index + 1}`.padStart(chapterNumberPadLength, '0');
+                const chapterName = chapter.Name || `${globalize.translate('Chapter')} ${chapterNumber}`;
+
+                return {
+                    name: `${chapterNumber}: ${chapterName}`,
+                    asideText: `[${datetime.getDisplayRunningTime(chapter.StartPositionTicks, true).padStart(durationStringMaxLength, '0')}]`,
+                    id: chapter.StartPositionTicks
+                };
+            });
+        }
+
         // Update trickplay data
         trickplayResolution = null;
 
@@ -197,6 +216,7 @@ export default function (view) {
             nowPlayingPositionSlider.disabled = true;
             btnFastForward.disabled = true;
             btnRewind.disabled = true;
+            view.querySelector('.btnChapters').classList.add('hide');
             view.querySelector('.btnSubtitles').classList.add('hide');
             view.querySelector('.btnAudio').classList.add('hide');
             view.querySelector('.osdTitle').innerHTML = '';
@@ -210,6 +230,12 @@ export default function (view) {
         nowPlayingPositionSlider.disabled = false;
         btnFastForward.disabled = false;
         btnRewind.disabled = false;
+
+        if (currentItem.Chapters?.length) {
+            view.querySelector('.btnChapters').classList.remove('hide');
+        } else {
+            view.querySelector('.btnChapters').classList.add('hide');
+        }
 
         if (playbackManager.subtitleTracks(player).length) {
             view.querySelector('.btnSubtitles').classList.remove('hide');
@@ -976,6 +1002,8 @@ export default function (view) {
                     stats: true,
                     suboffset: showSubOffset,
                     onOption: onSettingsOption
+                }).catch(() => {
+                    // prevent 'ActionSheet closed without resolving' error
                 }).finally(() => {
                     resetIdle();
                 });
@@ -1049,6 +1077,8 @@ export default function (view) {
                 if (index !== currentIndex) {
                     playbackManager.setAudioStreamIndex(index, player);
                 }
+            }).catch(() => {
+                // prevent 'ActionSheet closed without resolving' error
             }).finally(() => {
                 resetIdle();
             });
@@ -1096,10 +1126,11 @@ export default function (view) {
                     playbackManager.setSecondarySubtitleStreamIndex(index, player);
                 }
             }
-        })
-            .finally(() => {
-                resetIdle();
-            });
+        }).catch(() => {
+            // prevent 'ActionSheet closed without resolving' error
+        }).finally(() => {
+            resetIdle();
+        });
 
         setTimeout(resetIdle, 0);
     }
@@ -1176,6 +1207,45 @@ export default function (view) {
                 }
 
                 toggleSubtitleSync();
+            }).catch(() => {
+                // prevent 'ActionSheet closed without resolving' error
+            }).finally(() => {
+                resetIdle();
+            });
+
+            setTimeout(resetIdle, 0);
+        });
+    }
+
+    function showChapterSelection() {
+        // At the moment Jellyfin doesn't support most of MKV's chapter features (hidden- and standard-flags, multiple Editions, linked chapters, sub-chapters, multi language support, ...).
+        // For MKV files that use one or more of these features it's not guaranteed that chapters are correctly ordered or displayed.
+        // If support of one of these features is added in the future, it's maybe necessary to adjust the chapter handling.
+
+        const player = currentPlayer;
+        const currentTicks = playbackManager.getCurrentTicks(player);
+
+        const menuItems = chapterSelectionOptions.map((chapter, index) => {
+            return {
+                ...chapter,
+                selected: currentTicks >= chapter.id // the id is equal to StartPositionTicks
+                    && (chapterSelectionOptions[index + 1] == null
+                        || currentTicks < chapterSelectionOptions[index + 1].id)
+            };
+        });
+
+        const positionTo = this;
+
+        import('../../../components/actionSheet/actionSheet').then(({ default: actionsheet }) => {
+            actionsheet.show({
+                title: globalize.translate('Chapters'),
+                items: menuItems,
+                positionTo: positionTo,
+                scrollY: true
+            }).then(
+                chapterStartPositionTicks => playbackManager.seek(chapterStartPositionTicks, player)
+            ).catch(() => {
+                // prevent 'ActionSheet closed without resolving' error
             }).finally(() => {
                 resetIdle();
             });
@@ -1643,6 +1713,7 @@ export default function (view) {
     let programEndDateMs = 0;
     let playbackStartTimeTicks = 0;
     let subtitleSyncOverlay;
+    let chapterSelectionOptions = [];
     let trickplayResolution = null;
     const nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
     const nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
@@ -1962,6 +2033,7 @@ export default function (view) {
     });
     view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
     view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
+    view.querySelector('.btnChapters').addEventListener('click', showChapterSelection);
 
     // HACK: Remove `emby-button` from the rating button to make it look like the other buttons
     view.querySelector('.btnUserRating').classList.remove('emby-button');
