@@ -11,7 +11,7 @@ import Page from 'components/Page';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react'; // ← MODIFIED: Added useRef
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -24,6 +24,7 @@ import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
+import SettingsSearch from '../../../../components/SettingsSearch'; // new Import search component
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getCurrentApi();
@@ -69,6 +70,9 @@ export const Component = () => {
     const isSubmitting = navigation.state === 'submitting';
     const [ cachePath, setCachePath ] = useState<string | null | undefined>('');
     const [ metadataPath, setMetadataPath ] = useState<string | null | undefined>('');
+
+    // ← NEW: Create ref for settings container
+    const settingsContainerRef = useRef<HTMLDivElement>(null);
 
     const onCachePathChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setCachePath(event.target.value);
@@ -137,125 +141,131 @@ export const Component = () => {
                     <Form method='POST'>
                         <Stack spacing={3}>
                             <Typography variant='h1'>{globalize.translate('Settings')}</Typography>
-
                             {!isSubmitting && actionData?.isSaved && (
                                 <Alert severity='success'>
                                     {globalize.translate('SettingsSaved')}
                                 </Alert>
                             )}
 
-                            <TextField
-                                name='ServerName'
-                                label={globalize.translate('LabelServerName')}
-                                helperText={globalize.translate('LabelServerNameHelp')}
-                                defaultValue={config.ServerName}
-                            />
+                            {/* search bar here */}
+                            <SettingsSearch containerRef={settingsContainerRef} />
 
-                            <TextField
-                                select
-                                name='UICulture'
-                                label={globalize.translate('LabelPreferredDisplayLanguage')}
-                                helperText={(
-                                    <>
-                                        <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
-                                        <Link href='https://jellyfin.org/docs/general/contributing/#translating' target='_blank'>
-                                            {globalize.translate('LearnHowYouCanContribute')}
-                                        </Link>
-                                    </>
-                                )}
-                                defaultValue={config.UICulture}
-                                slotProps={{
-                                    formHelperText: { component: Stack }
-                                }}
-                            >
-                                {languageOptions.map((language) =>
-                                    <MenuItem key={language.Name} value={language.Value || ''}>{language.Name}</MenuItem>
-                                )}
-                            </TextField>
-
-                            <Typography variant='h2'>{globalize.translate('HeaderPaths')}</Typography>
-
-                            <TextField
-                                name='CachePath'
-                                label={globalize.translate('LabelCachePath')}
-                                helperText={globalize.translate('LabelCachePathHelp')}
-                                value={cachePath}
-                                onChange={onCachePathChange}
-                                slotProps={{
-                                    input: {
-                                        endAdornment: (
-                                            <InputAdornment position='end'>
-                                                <IconButton edge='end' onClick={showCachePathPicker}>
-                                                    <SearchIcon />
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }
-                                }}
-                            />
-
-                            <TextField
-                                name={'MetadataPath'}
-                                label={globalize.translate('LabelMetadataPath')}
-                                helperText={globalize.translate('LabelMetadataPathHelp')}
-                                value={metadataPath}
-                                onChange={onMetadataPathChange}
-                                slotProps={{
-                                    input: {
-                                        endAdornment: (
-                                            <InputAdornment position='end'>
-                                                <IconButton edge='end' onClick={showMetadataPathPicker}>
-                                                    <SearchIcon />
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }
-                                }}
-                            />
-
-                            <Typography variant='h2'>{globalize.translate('QuickConnect')}</Typography>
-
-                            <FormControl>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            name='QuickConnectAvailable'
-                                            defaultChecked={config.QuickConnectAvailable}
-                                        />
-                                    }
-                                    label={globalize.translate('EnableQuickConnect')}
+                            {/* wrap all settings in a div with the ref */}
+                            <div ref={settingsContainerRef}>
+                                <TextField
+                                    name='ServerName'
+                                    label={globalize.translate('LabelServerName')}
+                                    helperText={globalize.translate('LabelServerNameHelp')}
+                                    defaultValue={config.ServerName}
                                 />
-                            </FormControl>
 
-                            <Typography variant='h2'>{globalize.translate('HeaderPerformance')}</Typography>
+                                <TextField
+                                    select
+                                    name='UICulture'
+                                    label={globalize.translate('LabelPreferredDisplayLanguage')}
+                                    helperText={(
+                                        <>
+                                            <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
+                                            <Link href='https://jellyfin.org/docs/general/contributing/#translating' target='_blank'>
+                                                {globalize.translate('LearnHowYouCanContribute')}
+                                            </Link>
+                                        </>
+                                    )}
+                                    defaultValue={config.UICulture}
+                                    slotProps={{
+                                        formHelperText: { component: Stack }
+                                    }}
+                                >
+                                    {languageOptions.map((language) =>
+                                        <MenuItem key={language.Name} value={language.Value || ''}>{language.Name}</MenuItem>
+                                    )}
+                                </TextField>
 
-                            <TextField
-                                name='LibraryScanFanoutConcurrency'
-                                type='number'
-                                label={globalize.translate('LibraryScanFanoutConcurrency')}
-                                helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
-                                defaultValue={config.LibraryScanFanoutConcurrency || ''}
-                                slotProps={{
-                                    htmlInput: {
-                                        min: 0,
-                                        step: 1
-                                    }
-                                }}
-                            />
+                                <Typography variant='h2'>{globalize.translate('HeaderPaths')}</Typography>
 
-                            <TextField
-                                name='ParallelImageEncodingLimit'
-                                type='number'
-                                label={globalize.translate('LabelParallelImageEncodingLimit')}
-                                helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
-                                defaultValue={config.ParallelImageEncodingLimit || ''}
-                                slotProps={{
-                                    htmlInput: {
-                                        min: 0,
-                                        step: 1
-                                    }
-                                }}
-                            />
+                                <TextField
+                                    name='CachePath'
+                                    label={globalize.translate('LabelCachePath')}
+                                    helperText={globalize.translate('LabelCachePathHelp')}
+                                    value={cachePath}
+                                    onChange={onCachePathChange}
+                                    slotProps={{
+                                        input: {
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton edge='end' onClick={showCachePathPicker}>
+                                                        <SearchIcon />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }
+                                    }}
+                                />
+
+                                <TextField
+                                    name={'MetadataPath'}
+                                    label={globalize.translate('LabelMetadataPath')}
+                                    helperText={globalize.translate('LabelMetadataPathHelp')}
+                                    value={metadataPath}
+                                    onChange={onMetadataPathChange}
+                                    slotProps={{
+                                        input: {
+                                            endAdornment: (
+                                                <InputAdornment position='end'>
+                                                    <IconButton edge='end' onClick={showMetadataPathPicker}>
+                                                        <SearchIcon />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }
+                                    }}
+                                />
+
+                                <Typography variant='h2'>{globalize.translate('QuickConnect')}</Typography>
+
+                                <FormControl>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                name='QuickConnectAvailable'
+                                                defaultChecked={config.QuickConnectAvailable}
+                                            />
+                                        }
+                                        label={globalize.translate('EnableQuickConnect')}
+                                    />
+                                </FormControl>
+
+                                <Typography variant='h2'>{globalize.translate('HeaderPerformance')}</Typography>
+
+                                <TextField
+                                    name='LibraryScanFanoutConcurrency'
+                                    type='number'
+                                    label={globalize.translate('LibraryScanFanoutConcurrency')}
+                                    helperText={globalize.translate('LibraryScanFanoutConcurrencyHelp')}
+                                    defaultValue={config.LibraryScanFanoutConcurrency || ''}
+                                    slotProps={{
+                                        htmlInput: {
+                                            min: 0,
+                                            step: 1
+                                        }
+                                    }}
+                                />
+
+                                <TextField
+                                    name='ParallelImageEncodingLimit'
+                                    type='number'
+                                    label={globalize.translate('LabelParallelImageEncodingLimit')}
+                                    helperText={globalize.translate('LabelParallelImageEncodingLimitHelp')}
+                                    defaultValue={config.ParallelImageEncodingLimit || ''}
+                                    slotProps={{
+                                        htmlInput: {
+                                            min: 0,
+                                            step: 1
+                                        }
+                                    }}
+                                />
+                            </div>
+                            {/* end of wrapped settings */}
 
                             <Button type='submit' size='large'>
                                 {globalize.translate('Save')}
