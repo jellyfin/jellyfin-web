@@ -105,6 +105,7 @@
 - [johnnyg](https://github.com/johnnyg)
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
+- [Truman Miller](https://github.com/trumanmiller)
 
 ## Emby Contributors
 
