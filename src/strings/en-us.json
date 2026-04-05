@@ -1278,6 +1278,7 @@
     "NumLocationsValue": "{0} folders",
     "Off": "Off",
     "OnApplicationStartup": "On application startup",
+    "OnFilesystem": "On filesystem: {0}",
     "OneChannel": "One channel",
     "OnlyForcedSubtitles": "Only Forced",
     "OnlyForcedSubtitlesHelp": "Only subtitles marked as forced will be loaded.",
