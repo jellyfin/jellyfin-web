@@ -28,6 +28,13 @@ import 'elements/emby-select/emby-select';
 
 import 'material-design-icons-iconfont';
 import '../formdialog.scss';
+import type { BaseItemDto, PlaylistUserPermissions } from '@jellyfin/sdk/lib/generated-client';
+import { Cacheables } from 'cacheables';
+
+interface PlaylistInfoWrapper {
+    item: BaseItemDto,
+    permissions?: PlaylistUserPermissions
+}
 
 interface DialogElement extends HTMLDivElement {
     playlistId?: string
@@ -43,6 +50,67 @@ interface PlaylistEditorOptions {
 }
 
 let currentServerId: string;
+
+const cache = new Cacheables({
+    log: true,
+    logTiming: true
+});
+
+function getPlaylistsInfoCaching(): Promise<PlaylistInfoWrapper[]> {
+    return cache.cacheable(
+        getPlaylistsInfo,
+        'playlistInfo',
+        {
+            // Return cached value, but update cache in the background.
+            // Since there's no `maxAge` value, update in the backgroung every time.
+            // This prevents freshly-made playlists from appearing due to cache age.
+            // see Cacheable docs: https://github.com/grischaerbe/cacheables?tab=readme-ov-file#cache-policies
+            cachePolicy: 'stale-while-revalidate'
+        }
+    );
+}
+
+function getPlaylistsInfo(): Promise<PlaylistInfoWrapper[]> {
+    console.log('starting init of api helpers');
+    const apiClient = ServerConnections.getApiClient(currentServerId);
+    const api = toApi(apiClient);
+    const currentUserId = apiClient.getCurrentUserId();
+    console.log('finished init of api helpers');
+
+    return getItemsApi(api)
+        .getItems({
+            userId: currentUserId,
+            includeItemTypes: [ BaseItemKind.Playlist ],
+            sortBy: [ ItemSortBy.SortName ],
+            recursive: true
+        })
+        .then(({ data }) => {
+            return Promise.all((data.Items || []).map(item => {
+                const playlist = {
+                    item,
+                    permissions: undefined
+                };
+
+                if (!item.Id) return playlist;
+
+                return getPlaylistsApi(api)
+                    .getPlaylistUser({
+                        playlistId: item.Id,
+                        userId: currentUserId
+                    })
+                    .then(({ data: permissions }) => ({
+                        ...playlist,
+                        permissions
+                    }))
+                    .catch(err => {
+                        // If a user doesn't have access, then the request will 404 and throw
+                        console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
+
+                        return playlist;
+                    });
+            }));
+        });
+};
 
 function onSubmit(this: HTMLElement, e: Event) {
     const panel = dom.parentWithClass(this, 'dialog') as DialogElement | null;
@@ -180,44 +248,9 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
     panel.querySelector('.newPlaylistInfo')?.classList.add('hide');
 
-    const apiClient = ServerConnections.getApiClient(currentServerId);
-    const api = toApi(apiClient);
     const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
 
-    return getItemsApi(api)
-        .getItems({
-            userId: apiClient.getCurrentUserId(),
-            includeItemTypes: [ BaseItemKind.Playlist ],
-            sortBy: [ ItemSortBy.SortName ],
-            recursive: true,
-            enableUserData: false
-        })
-        .then(({ data }) => {
-            return Promise.all((data.Items || []).map(item => {
-                const playlist = {
-                    item,
-                    permissions: undefined
-                };
-
-                if (!item.Id) return playlist;
-
-                return getPlaylistsApi(api)
-                    .getPlaylistUser({
-                        playlistId: item.Id,
-                        userId: apiClient.getCurrentUserId()
-                    })
-                    .then(({ data: permissions }) => ({
-                        ...playlist,
-                        permissions
-                    }))
-                    .catch(err => {
-                        // If a user doesn't have access, then the request will 404 and throw
-                        console.info('[PlaylistEditor] Failed to fetch playlist permissions', err);
-
-                        return playlist;
-                    });
-            }));
-        })
+    return getPlaylistsInfoCaching()
         .then(playlists => {
             let html = '';
 
