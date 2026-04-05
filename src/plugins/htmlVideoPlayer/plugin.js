@@ -746,6 +746,10 @@ export class HtmlVideoPlayer {
      * @private
      */
     isAudioStreamSupported(stream, deviceProfile, container) {
+        if (stream.SupportsDirectPlay != null) {
+            return stream.SupportsDirectPlay;
+        }
+
         const codec = (stream.Codec || '').toLowerCase();
 
         if (!codec) {
