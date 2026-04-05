@@ -124,7 +124,7 @@ if (!hasFieldKey) {
  */
 export function getKeyName(event) {
     const key = KeyNames[event.keyCode] || event.key;
-    return KeyAliases[key] || key;
+    return KeyAliases[key] || event.code;
 }
 
 /**
