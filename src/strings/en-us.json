@@ -776,6 +776,7 @@
     "LabelImportOnlyFavoriteChannels": "Restrict to channels marked as favorite",
     "LabelInstalled": "Installed",
     "LabelInternetQuality": "Internet quality",
+    "LabelInvertSorting": "Invert Sorting",
     "LabelInternalServerUri": "Internal URI",
     "LabelInternalServerUriHelp": "Published server URI for internal access.",
     "LabelIsForced": "Forced",

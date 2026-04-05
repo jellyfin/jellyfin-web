@@ -193,6 +193,11 @@ function onSubmit(e) {
         item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
     }
 
+    if (currentItem.Type === 'Series' && Object.hasOwn(currentItem, 'InvertEpisodeOrder')) {
+        const invertEpisodeOrderCheckbox = form.querySelector('#chkInvertEpisodeOrder');
+        item.InvertEpisodeOrder = invertEpisodeOrderCheckbox?.checked || false;
+    }
+
     const tagline = form.querySelector('#txtTagline').value;
     item.Taglines = tagline ? [tagline] : [];
 
@@ -331,6 +336,11 @@ function onResetClick() {
 
     form.querySelector('#chkLockData').checked = false;
     showElement('.providerSettingsContainer');
+
+    const invertEpisodeOrderCheckbox = form.querySelector('#chkInvertEpisodeOrder');
+    if (invertEpisodeOrderCheckbox) {
+        invertEpisodeOrderCheckbox.checked = false;
+    }
 
     const lockedFields = form.querySelectorAll('.selectLockedField');
     lockedFields.forEach(function (checkbox) {
@@ -547,6 +557,13 @@ function setFieldVisibilities(context, item) {
         showElement('#fldOriginalName', context);
     } else {
         hideElement('#fldOriginalName', context);
+    }
+
+    const supportsInvertEpisodeOrder = item.Type === 'Series' && Object.hasOwn(item, 'InvertEpisodeOrder');
+    if (supportsInvertEpisodeOrder) {
+        showElement('#fldInvertEpisodeOrder', context);
+    } else {
+        hideElement('#fldInvertEpisodeOrder', context);
     }
 
     if (item.Type === 'Series') {
@@ -814,6 +831,11 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
         return a.Name;
     }).join(';');
+
+    const invertEpisodeOrderCheckbox = context.querySelector('#chkInvertEpisodeOrder');
+    if (invertEpisodeOrderCheckbox) {
+        invertEpisodeOrderCheckbox.checked = item.InvertEpisodeOrder === true;
+    }
 
     let date;
 
@@ -1142,4 +1164,3 @@ export default {
         });
     }
 };
-
