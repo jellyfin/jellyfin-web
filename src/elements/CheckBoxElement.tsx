@@ -66,7 +66,7 @@ const CheckBoxElement: FC<CheckBoxElementProps> = ({
     const appName = itemAppName ? `- ${itemAppName}` : '';
     const renderContent = itemName ?
         `<span>${escapeHTML(itemName || '')} ${appName}</span>` :
-        `<span>${globalize.translate(title)}</span>`;
+        `<span>${globalize.translate(title as string)}</span>`;
 
     return (
         <div

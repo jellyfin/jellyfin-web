@@ -35,7 +35,7 @@ const AccessScheduleList: FunctionComponent<AccessScheduleListProps> = ({ index,
         >
             <div className='listItemBody two-line'>
                 <h3 className='listItemBodyText'>
-                    {globalize.translate(DayOfWeek)}
+                    {globalize.translate(DayOfWeek as string)}
                 </h3>
                 <div className='listItemBodyText secondary'>
                     {getDisplayTime(StartHour) + ' - ' + getDisplayTime(EndHour)}
