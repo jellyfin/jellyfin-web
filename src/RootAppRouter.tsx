@@ -13,6 +13,8 @@ import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
 import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
+import QuickSearchDialog from 'components/QuickSearchDialog';
+import { QuickSearchProvider } from 'hooks/useQuickSearch';
 import { SETTING_KEY as LAYOUT_SETTING_KEY } from 'components/layoutManager';
 import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
@@ -60,10 +62,13 @@ function RootAppLayout() {
             defaultMode='dark'
             storageManager={ThemeStorageManager}
         >
-            <Backdrop />
-            <AppHeader isHidden={isExperimentalLayout || isNewLayoutPath} />
+            <QuickSearchProvider>
+                <Backdrop />
+                <AppHeader isHidden={isExperimentalLayout || isNewLayoutPath} />
+                <QuickSearchDialog />
 
-            <Outlet />
+                <Outlet />
+            </QuickSearchProvider>
         </ThemeProvider>
     );
 }
