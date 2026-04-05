@@ -113,7 +113,8 @@ export default function (view, params, tabContent) {
                 html = listView.getListViewHtml({
                     items: result.Items,
                     sortBy: query.SortBy,
-                    showParentTitle: true
+                    showParentTitle: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -122,7 +123,8 @@ export default function (view, params, tabContent) {
                     showTitle: true,
                     showParentTitle: true,
                     scalable: true,
-                    cardLayout: true
+                    cardLayout: true,
+                    isMultiselectable: true
                 });
             } else {
                 html = cardBuilder.getCardsHtml({
@@ -133,7 +135,8 @@ export default function (view, params, tabContent) {
                     overlayText: false,
                     centerText: true,
                     scalable: true,
-                    overlayPlayButton: true
+                    overlayPlayButton: true,
+                    isMultiselectable: true
                 });
             }
             let elems;
