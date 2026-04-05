@@ -44,7 +44,7 @@ export const getSuggestionSections = (): Section[] => {
             itemTypes: 'Book',
             type: SectionType.ContinueReading,
             parametersOptions: {
-                includeItemTypes: [BaseItemKind.Book]
+                includeItemTypes: [BaseItemKind.Book, BaseItemKind.AudioBook]
             },
             cardOptions: {
                 overlayPlayButton: true,
@@ -57,7 +57,7 @@ export const getSuggestionSections = (): Section[] => {
             itemTypes: 'Book',
             type: SectionType.LatestBooks,
             parametersOptions: {
-                includeItemTypes: [BaseItemKind.Book]
+                includeItemTypes: [BaseItemKind.Book, BaseItemKind.AudioBook]
             },
             cardOptions: {
                 overlayPlayButton: true,
