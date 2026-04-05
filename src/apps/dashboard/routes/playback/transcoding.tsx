@@ -299,19 +299,37 @@ export const Component = () => {
                             )}
 
                             {hardwareAccelType === 'nvenc' && (
-                                <FormControl>
-                                    <FormControlLabel
-                                        label={globalize.translate('EnableEnhancedNvdecDecoder')}
-                                        control={
-                                            <Checkbox
-                                                name='EnableEnhancedNvdecDecoder'
-                                                checked={config.EnableEnhancedNvdecDecoder}
-                                                onChange={onCheckboxChange}
-                                            />
-                                        }
+                                <>
+                                    <FormControl>
+                                        <FormControlLabel
+                                            label={globalize.translate('EnableEnhancedNvdecDecoder')}
+                                            control={
+                                                <Checkbox
+                                                    name='EnableEnhancedNvdecDecoder'
+                                                    checked={config.EnableEnhancedNvdecDecoder}
+                                                    onChange={onCheckboxChange}
+                                                />
+                                            }
+                                        />
+                                        <FormHelperText>{globalize.translate('EnableEnhancedNvdecDecoderHelp')}</FormHelperText>
+                                    </FormControl>
+
+                                    <TextField
+                                        name='CudaDevice'
+                                        value={config.CudaDevice}
+                                        onChange={onConfigChange}
+                                        label={globalize.translate('LabelCudaDevice')}
+                                        helperText={globalize.translate('LabelCudaDeviceHelp')}
+                                        type='number'
+                                        slotProps={{
+                                            htmlInput: {
+                                                min: 0,
+                                                max: 9,
+                                                step: 1
+                                            }
+                                        }}
                                     />
-                                    <FormHelperText>{globalize.translate('EnableEnhancedNvdecDecoderHelp')}</FormHelperText>
-                                </FormControl>
+                                </>
                             )}
 
                             {hardwareAccelType === 'qsv' && (
