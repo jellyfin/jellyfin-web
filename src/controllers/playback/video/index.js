@@ -1841,6 +1841,22 @@ export default function (view) {
 
     dom.addEventListener(view, 'dblclick', (e) => {
         if (e.target !== view) return;
+
+        if (browser.touch) {
+            const rect = view.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+
+            if (x < rect.width * 0.33) {
+                playbackManager.rewind(currentPlayer);
+                showOsd(btnRewind);
+                return;
+            } else if (x > rect.width * 0.66) {
+                playbackManager.fastForward(currentPlayer);
+                showOsd(btnFastForward);
+                return;
+            }
+        }
+
         playbackManager.toggleFullscreen(currentPlayer);
     });
 
