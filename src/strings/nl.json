@@ -1894,5 +1894,14 @@
     "HeaderLatestMusicVideos": "Onlangs toegevoegde muziekvideo's",
     "UsersEditPageError": "Het laden van de gebruikers aanpassen pagina is mislukt",
     "Albums": "Albums",
-    "Genres": "Genres"
+    "Genres": "Genres",
+    "LabelAudioAttributes": "Geluidseigenschappen",
+    "LabelVideoAttributes": "Beeldeigenschappen",
+    "LabelVideoColors": "Beeldkleuren",
+    "LabelVideoBitDepth": "Bitdiepte beeld",
+    "LabelTargetCodecs": "Doelcodecs",
+    "LabelProgressAndSpeed": "Voortgang / snelheid",
+    "LabelReasons": "Redenen",
+    "LabelPlayerSizes": "Spelergroottes",
+    "LabelPlaybackQuality": "Frame verloren / beschadigd"
 }
