@@ -797,7 +797,7 @@
     "AddToCollection": "Adicionar à coleção",
     "Add": "Adicionar",
     "Actor": "Ator",
-    "AccessRestrictedTryAgainLater": "O acesso está atualmente restrito. Por favor, tenta mais tarde.",
+    "AccessRestrictedTryAgainLater": "O acesso está atualmente restrito. Por favor, tente mais tarde.",
     "Absolute": "Absoluto",
     "AlwaysPlaySubtitlesHelp": "As legendas correspondentes à preferência de idioma serão carregadas, independentemente do idioma do áudio.",
     "SearchForMissingMetadata": "Procurar metadados em falta",
@@ -1881,5 +1881,13 @@
     "NetworkingPageLoadError": "Falha ao carregar as configurações de rede",
     "StreamingLoadError": "Falha ao carregar as definições da página de streaming",
     "UsersEditPageError": "Falha ao carregar a página de edição de utilizadores",
-    "TrickplayLoadError": "Falha ao carregar as definições do trickplay"
+    "TrickplayLoadError": "Falha ao carregar as definições do trickplay",
+    "ContinueReading": "Continuar a ler",
+    "HeaderLatestBooks": "Livros Recentemente Adicionados",
+    "LabelInternalServerUri": "URI interno",
+    "LabelInternalServerUriHelp": "Servidor URI publicado para acesso interno.",
+    "LabelUseSamePublishedServerUri": "Usar o mesmo servidor URI para acesso interno e externo",
+    "NewPlaylist": "Nova Playlist",
+    "OptionDatePlaylistUpdated": "Data de Actualização da Playlist",
+    "ResetFilters": "Redefinir filtros"
 }
