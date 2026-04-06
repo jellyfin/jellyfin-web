@@ -1880,5 +1880,9 @@
     "LabelSlideshowInterval": "Інтервал слайд-шоу фото",
     "LabelSlideshowIntervalHelp": "Час у секундах коли кожне фото відображається в слайд-шоу.",
     "LabelInternalServerUri": "Внутрішній URI",
-    "LabelInternalServerUriHelp": "Опублікований URI сервера для внутрішнього доступу."
+    "LabelInternalServerUriHelp": "Опублікований URI сервера для внутрішнього доступу.",
+    "Watch": "Спостерігати",
+    "TrickplayLoadError": "Не вдалося завантажити налаштування прев'ю",
+    "LabelExternalServerUri": "Зовнішній URI",
+    "LabelExternalServerUriHelp": "Опублікований URI сервера для зовнішнього доступу."
 }
