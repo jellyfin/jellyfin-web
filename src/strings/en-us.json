@@ -1886,6 +1886,8 @@
     "LabelJpegQualityHelp": "The JPEG compression quality for trickplay images.",
     "LabelQscale": "Qscale",
     "LabelQscaleHelp": "The quality scale of images output by ffmpeg, with 2 being the highest quality and 31 being the lowest.",
+    "LabelTrickplayMaxParallelism": "Max Parallelism",
+    "LabelTrickplayMaxParallelismHelp": "The maximum number of trickplay images that can be processed concurrently.",
     "LabelTrickplayThreads": "FFmpeg Threads",
     "LabelTrickplayThreadsHelp": "The number of threads to pass to the '-threads' argument of ffmpeg.",
     "OptionExtractTrickplayImage": "Enable trickplay image extraction",
