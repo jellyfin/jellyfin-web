@@ -1892,5 +1892,7 @@
     "ContinueReading": "Verderlezen",
     "HeaderLatestBooks": "Onlangs toegevoegde boeken",
     "HeaderLatestMusicVideos": "Onlangs toegevoegde muziekvideo's",
-    "UsersEditPageError": "Het laden van de gebruikers aanpassen pagina is mislukt"
+    "UsersEditPageError": "Het laden van de gebruikers aanpassen pagina is mislukt",
+    "Albums": "Albums",
+    "Genres": "Genres"
 }
