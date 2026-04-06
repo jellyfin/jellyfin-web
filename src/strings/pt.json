@@ -1083,7 +1083,7 @@
     "LabelRepositoryNameHelp": "Nome personalizado para distinguir este repositório de outros presentes no servidor.",
     "LabelRepositoryName": "Nome do Repositório",
     "LabelQuickConnectCode": "Código de Ligação Rápida",
-    "LabelPublishedServerUriHelp": "Substituir o URI utilizado pelo Jellyfin, com base na interface, ou no endereço IP do cliente. Por exemplo: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, ou all=https://jellyfin.example.com",
+    "LabelPublishedServerUriHelp": "Substituir o URI utilizado pelo Jellyfin, com base na interface, ou no endereço IP do cliente.",
     "LabelPublishedServerUri": "URI de Servidor Publicado",
     "LabelOpenclDeviceHelp": "Este é o dispositivo OpenCL utilizado para o mapeamento de tons. O número à esquerda do ponto representa a plataforma, e o da direita representa o número do dispositivo nessa plataforma. O valor predefinido é 0.0. É necessário o ficheiro da aplicação FFmpeg que contenha o método de aceleração por hardware via OpenCL.",
     "LabelOpenclDevice": "Dispositivo OpenCL",
@@ -1850,7 +1850,7 @@
     "MessageRestoreSuccess": "Restauração concluída com sucesso",
     "StorageType.Fixed": "Fixo",
     "StorageType.Network": "Rede",
-    "PluginsLoadError": "Ocorreu um erro ao carregar as extensões.",
+    "PluginsLoadError": "Ocorreu um erro ao carregar as extensões",
     "MessageRestoreInProgress": "Restauração em andamento",
     "StorageType.NoRootDirectory": "Sem Diretório Raiz",
     "StorageType.Ram": "RAM",
@@ -1893,5 +1893,6 @@
     "Unwatch": "Não visto",
     "Watch": "Ver",
     "LabelExternalServerUri": "URI externo",
-    "LabelExternalServerUriHelp": "Servidor URI publicado para acesso externo."
+    "LabelExternalServerUriHelp": "Servidor URI publicado para acesso externo.",
+    "ResumeLoadError": "Falha ao carregar as definições de retoma"
 }
