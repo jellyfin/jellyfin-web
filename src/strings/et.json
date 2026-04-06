@@ -1879,5 +1879,16 @@
     "DevicesLoadError": "Seadmete laadimine nurjus",
     "HeaderLatestBooks": "Viimati lisatud raamatud",
     "HeaderLatestMusicVideos": "Viimati lisatud muusikavideod",
-    "LabelInternalServerUri": "Sisemine URI"
+    "LabelInternalServerUri": "Sisemine URI",
+    "LibrariesLoadError": "Meediakogude laadimine nurjus",
+    "NetworkingPageLoadError": "Võrgusätete laadimine nurjus",
+    "NewPlaylist": "Uus esitusloend",
+    "ResetFilters": "Lähtesta filtrid",
+    "ResumeLoadError": "Taasesituse jätkamise seadete laadimine nurjus",
+    "StreamingLoadError": "Voogesituse lehe seadete laadimine nurjus",
+    "TrickplayLoadError": "Trickplay seadete laadimine nurjus",
+    "LabelExternalServerUri": "Väline URI",
+    "LabelExternalServerUriHelp": "Serveri avaldatud URI välise juurdepääsu jaoks.",
+    "LabelInternalServerUriHelp": "Serveri avaldatud URI sisemise juurdepääsu jaoks.",
+    "LabelUseSamePublishedServerUri": "Kasuta sama URI nii sisemise kui ka välise juurdepääsu jaoks"
 }
