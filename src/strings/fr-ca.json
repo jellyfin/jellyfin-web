@@ -1893,5 +1893,6 @@
     "HeaderLatestBooks": "Livres récemment ajoutés",
     "LabelInternalServerUriHelp": "URI du serveur publié pour un accès interne.",
     "LabelUseSamePublishedServerUri": "Utilisez la même URI de serveur publiée pour l'accès interne et externe",
-    "LibrariesLoadError": "Échec du chargement des bibliothèques"
+    "LibrariesLoadError": "Échec du chargement des bibliothèques",
+    "HeaderLatestMusicVideos": "Vidéos musicales ajoutées récemment"
 }

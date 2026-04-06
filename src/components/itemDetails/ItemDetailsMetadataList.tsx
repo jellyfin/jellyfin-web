@@ -33,7 +33,7 @@ const ItemDetailsMetadataList: FC<ItemDetailsMetadataListProps> = ({
             </Typography>
             <Box className='focuscontainer-x'>
                 {items.map((metadataItem, index) => (
-                    <Box key={item.Id} component='span'>
+                    <Box key={metadataItem.Id} component='span'>
                         {index > 0 ? ', ' : ''}
                         <LinkButton href={getLink(type, item, context, metadataItem)} className='button-link' style={{ color: 'inherit' }}>
                             {metadataItem.Name}

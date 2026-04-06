@@ -716,7 +716,7 @@
     "RefreshMetadata": "Ανανέωση μεταδεδομένων",
     "RefreshQueued": "Η Ανανέωση προγραμματίστηκε.",
     "ReleaseDate": "Ημέρα κυκλοφορίας",
-    "RememberMe": "Να Με Θυμάσαι",
+    "RememberMe": "Να με θυμάσαι",
     "RemoveFromCollection": "Κατάργηση από την συλλογή",
     "RemoveFromPlaylist": "Κατάργηση από την ουρά",
     "Repeat": "Επανάληψη",
@@ -1890,5 +1890,9 @@
     "ResumeLoadError": "Αποτυχία φόρτωσης ρυθμίσεων συνέχισης",
     "LibrariesLoadError": "Αποτυχία φόρτωσης βιβλιοθηκών",
     "DevicesLoadError": "Αποτυχία φόρτωσης συσκευών",
-    "BrandingLoadError": "Αποτυχία φόρτωσης ρυθμίσεων επωνυμίας"
+    "BrandingLoadError": "Αποτυχία φόρτωσης ρυθμίσεων επωνυμίας",
+    "HeaderDeleteCollection": "Διαγραφή Συλλογής",
+    "HeaderDeletePlaylist": "Διαγραφή Λίστας Αναπαραγωγής",
+    "NewPlaylist": "Νέα Λίστα Αναπαραγωγής",
+    "OptionDatePlaylistUpdated": "Ημερομηνία Ενημέρωσης Λίστας Αναπαραγωγής"
 }
