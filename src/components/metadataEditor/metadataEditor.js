@@ -7,6 +7,10 @@ import loading from '../loading/loading';
 import focusManager from '../focusManager';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from '../../utils/jellyfin-apiclient/compat';
+import { getGenresApi } from '@jellyfin/sdk/lib/utils/api/genres-api';
+import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
+import { setupAutocomplete } from './autocompleteHelper';
 
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
@@ -20,14 +24,15 @@ import '../../styles/clearbutton.scss';
 import '../../styles/flexstyles.scss';
 import './style.scss';
 import toast from '../toast/toast';
-import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
+import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 
 let currentContext;
 let metadataEditorInfo;
 let currentItem;
+let cachedTags = null;
 
 function isDialog() {
     return currentContext.classList.contains('dialog');
@@ -211,17 +216,202 @@ function getListValues(list) {
     });
 }
 
-function addElementToList(source, sortCallback) {
-    import('../prompt/prompt').then(({ default: prompt }) => {
-        prompt({
-            label: 'Value:'
-        }).then(function (text) {
-            const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
-            const items = getListValues(list);
-            items.push(text);
-            populateListView(list, items, sortCallback);
+function searchGenres(searchTerm, suggestionsContainer) {
+    if (!searchTerm) {
+        suggestionsContainer.style.display = 'none';
+        suggestionsContainer.innerHTML = '';
+        return;
+    }
+
+    const apiClient = ServerConnections.currentApiClient();
+    if (!apiClient) return;
+
+    const api = toApi(apiClient);
+    const userId = apiClient.getCurrentUserId();
+
+    getGenresApi(api).getGenres({
+        userId: userId,
+        searchTerm: searchTerm,
+        limit: 10,
+        enableImages: false
+    }).then(response => {
+        const items = response.data.Items || [];
+
+        if (items.length === 0) {
+            suggestionsContainer.style.display = 'none';
+            suggestionsContainer.innerHTML = '';
+            return;
+        }
+
+        let html = '';
+        items.forEach(item => {
+            const name = item.Name || '';
+            html += `<div class="suggestionItem" data-value="${escapeHtml(name)}" style="padding:0.8em;cursor:pointer;border-bottom:1px solid var(--jf-palette-divider);">`;
+            html += `<div style="font-weight:500;">${escapeHtml(name)}</div>`;
+            html += '</div>';
         });
+
+        suggestionsContainer.innerHTML = html;
+        suggestionsContainer.style.display = 'block';
+    }).catch(() => {
+        suggestionsContainer.style.display = 'none';
+        suggestionsContainer.innerHTML = '';
     });
+}
+
+function searchTags(searchTerm, suggestionsContainer) {
+    if (!searchTerm) {
+        suggestionsContainer.style.display = 'none';
+        suggestionsContainer.innerHTML = '';
+        return;
+    }
+
+    // Use cached tags if available
+    if (cachedTags) {
+        displayFilteredTags(searchTerm, cachedTags, suggestionsContainer);
+        return;
+    }
+
+    const apiClient = ServerConnections.currentApiClient();
+    if (!apiClient) return;
+
+    const api = toApi(apiClient);
+    const userId = apiClient.getCurrentUserId();
+
+    getFilterApi(api).getQueryFiltersLegacy({
+        userId: userId,
+        parentId: currentItem.ParentId
+    }).then(response => {
+        const allTags = response.data.Tags || [];
+
+        // Cache the tags for future searches
+        cachedTags = allTags;
+
+        displayFilteredTags(searchTerm, allTags, suggestionsContainer);
+    }).catch(() => {
+        suggestionsContainer.style.display = 'none';
+        suggestionsContainer.innerHTML = '';
+    });
+}
+
+function displayFilteredTags(searchTerm, allTags, suggestionsContainer) {
+    // Filter tags based on search term
+    const filteredTags = allTags.filter(tag =>
+        tag.toLowerCase().includes(searchTerm.toLowerCase())
+    ).slice(0, 10);
+
+    if (filteredTags.length === 0) {
+        suggestionsContainer.style.display = 'none';
+        suggestionsContainer.innerHTML = '';
+        return;
+    }
+
+    let html = '';
+    filteredTags.forEach(tag => {
+        html += `<div class="suggestionItem" data-value="${escapeHtml(tag)}" style="padding:0.8em;cursor:pointer;border-bottom:1px solid var(--jf-palette-divider);">`;
+        html += `<div style="font-weight:500;">${escapeHtml(tag)}</div>`;
+        html += '</div>';
+    });
+
+    suggestionsContainer.innerHTML = html;
+    suggestionsContainer.style.display = 'block';
+}
+
+function showAutocompleteDialog(title, searchFunction) {
+    return new Promise((resolve, reject) => {
+        const dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
+
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        const dlg = dialogHelper.createDialog(dialogOptions);
+        dlg.classList.add('formDialog');
+
+        let html = '<div class="formDialogHeader"><button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1" title="' + globalize.translate('ButtonBack') + '"><span class="material-icons arrow_back" aria-hidden="true"></span></button><h3 class="formDialogHeaderTitle">' + globalize.translate('Add') + ' ' + globalize.translate(title) + '</h3></div>';
+        html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;"><form class="dialogContentInner dialog-content-centered"><div class="inputContainer" style="position:relative;"><input type="text" is="emby-input" class="txtValue" required="required" label="' + globalize.translate('LabelValue') + '" autocomplete="off" /><div class="suggestionsContainer" style="display:none; position:absolute; z-index:1000; background:var(--jf-palette-background-paper); border:1px solid var(--jf-palette-divider); border-radius:4px; max-height:300px; overflow-y:auto; width:100%; margin-top:0.5em;"></div></div><div class="formDialogFooter"><button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + globalize.translate('Add') + '</span></button></div></form></div>';
+
+        dlg.innerHTML = html;
+        let submitted = false;
+        const txtValue = dlg.querySelector('.txtValue');
+        const suggestionsContainer = dlg.querySelector('.suggestionsContainer');
+
+        // Setup autocomplete behavior with minimum length check
+        const wrappedSearchFunction = (searchTerm, container) => {
+            if (searchTerm && searchTerm.length >= 2) {
+                searchFunction(searchTerm, container);
+            } else {
+                container.style.display = 'none';
+            }
+        };
+
+        const cleanupAutocomplete = setupAutocomplete(
+            txtValue,
+            suggestionsContainer,
+            wrappedSearchFunction
+        );
+
+        dlg.querySelector('.btnCancel').addEventListener('click', () => dialogHelper.close(dlg));
+        dlg.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitted = true;
+            resolve(txtValue.value);
+            dialogHelper.close(dlg);
+            return false;
+        });
+
+        dlg.addEventListener('close', () => {
+            cleanupAutocomplete();
+            if (!submitted) reject();
+        });
+
+        dialogHelper.open(dlg);
+        txtValue.focus();
+    });
+}
+
+function showGenreDialog() {
+    return showAutocompleteDialog('Genre', searchGenres);
+}
+
+function showTagDialog() {
+    return showAutocompleteDialog('Tag', searchTags);
+}
+
+function addElementToList(source, sortCallback) {
+    const listType = source.getAttribute('data-list-type');
+    const list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
+    const items = getListValues(list);
+
+    if (listType === 'genre') {
+        showGenreDialog().then(function(text) {
+            if (text && !items.includes(text)) {
+                items.push(text);
+                populateListView(list, items, sortCallback);
+            }
+        }).catch(() => { /* dialog dismissed */ });
+    } else if (listType === 'tag') {
+        showTagDialog().then(function(text) {
+            if (text && !items.includes(text)) {
+                items.push(text);
+                populateListView(list, items, sortCallback);
+            }
+        }).catch(() => { /* dialog dismissed */ });
+    } else {
+        import('../prompt/prompt').then(({ default: prompt }) => {
+            prompt({
+                label: 'Value:'
+            }).then(function (text) {
+                items.push(text);
+                populateListView(list, items, sortCallback);
+            });
+        });
+    }
 }
 
 function removeElementFromList(source) {
@@ -240,40 +430,6 @@ function editPerson(context, person, index) {
 
             populatePeople(context, currentItem.People);
         });
-    });
-}
-
-function afterDeleted(context, item) {
-    const parentId = item.ParentId || item.SeasonId || item.SeriesId;
-
-    if (parentId) {
-        reload(context, parentId, item.ServerId);
-    } else {
-        appRouter.goHome();
-    }
-}
-
-function showMoreMenu(context, button, user) {
-    import('../itemContextMenu').then(({ default: itemContextMenu }) => {
-        const item = currentItem;
-
-        itemContextMenu.show({
-            item: item,
-            positionTo: button,
-            edit: false,
-            editImages: true,
-            editSubtitles: true,
-            share: false,
-            play: false,
-            queue: false,
-            user: user
-        }).then(function (result) {
-            if (result.deleted) {
-                afterDeleted(context, item);
-            } else if (result.updated) {
-                reload(context, item.Id, item.ServerId);
-            }
-        }).catch(() => { /* no-op */ });
     });
 }
 
@@ -339,24 +495,9 @@ function onResetClick() {
 }
 
 function init(context) {
-    if (!layoutManager.desktop) {
-        context.querySelector('.btnBack').classList.remove('hide');
-        context.querySelector('.btnClose').classList.add('hide');
-    }
-
     bindAll(context.querySelectorAll('.btnCancel'), 'click', function (event) {
         event.preventDefault();
         closeDialog();
-    });
-
-    context.querySelector('.btnMore').addEventListener('click', function (e) {
-        getApiClient().getCurrentUser().then(function (user) {
-            showMoreMenu(context, e.target, user);
-        });
-    });
-
-    context.querySelector('.btnHeaderSave').addEventListener('click', function () {
-        context.querySelector('.btnSave').click();
     });
 
     context.querySelector('#chkLockData').addEventListener('click', function (e) {
@@ -950,40 +1091,63 @@ function populateListView(list, items, sortCallback) {
 }
 
 function populatePeople(context, people) {
+    const elem = context.querySelector('#peopleList');
+    const apiClient = getApiClient();
+    const api = toApi(apiClient);
+
+    // build initial DOM with placeholders and unique data-index attributes
     const lastType = '';
     let html = '';
-
-    const elem = context.querySelector('#peopleList');
-
-    for (let i = 0, length = people.length; i < length; i++) {
+    for (let i = 0; i < people.length; i++) {
         const person = people[i];
-
-        html += '<div class="listItem">';
-
+        html += '<div class="listItem" data-index="' + i + '">';
+        // placeholder icon; will be replaced if we find an image
         html += '<span class="material-icons listItemIcon person" style="background-color:#333;"></span>';
-
         html += '<div class="listItemBody">';
         html += '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' + i + '">';
-
-        html += '<div class="textValue">';
-        html += escapeHtml(person.Name || '');
-        html += '</div>';
-
+        html += '<div class="textValue">' + escapeHtml(person.Name || '') + '</div>';
         if (person.Role && person.Role !== lastType) {
             html += '<div class="secondary">' + escapeHtml(person.Role) + '</div>';
         } else {
             html += '<div class="secondary">' + globalize.translate(person.Type) + '</div>';
         }
-
-        html += '</button>';
-        html += '</div>';
-
-        html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
-
+        html += '</button></div>';
+        html += '<button type="button" is="paper-icon-button-light" data-index="' + i
+              + '" class="btnDeletePerson autoSize"><span class="material-icons delete" aria-hidden="true"></span></button>';
         html += '</div>';
     }
-
     elem.innerHTML = html;
+
+    function updateIcon(index, personId, imgTag) {
+        const imgUrl = apiClient.getScaledImageUrl(personId, {
+            type: 'Primary', tag: imgTag, height: 80, quality: 90
+        });
+        // locate the item and replace the icon span with a div background
+        const item = elem.querySelector('.listItem[data-index="' + index + '"]');
+        if (!item) return;
+        const icon = item.querySelector('.listItemIcon');
+        if (icon) {
+            const div = document.createElement('div');
+            div.className = 'listItemIcon';
+            div.style.cssText = "background-image:url('" + imgUrl + "');background-size:cover;background-position:center;border-radius:50%;width:2.5em;height:2.5em;";
+            icon.replaceWith(div);
+        }
+    }
+
+    // now fetch missing images and patch the respective elements
+    for (let i = 0; i < people.length; i++) {
+        const person = people[i];
+        if (person.Id && person.PrimaryImageTag) updateIcon(i, person.Id, person.PrimaryImageTag);
+
+        getPersonsApi(api).getPerson({ name: person.Name })
+            .then(result => {
+                const personId = result.data.Id;
+                const imgTag = result.data.ImageTags?.Primary;
+                if (!personId || !imgTag) return;
+                updateIcon(i, personId, imgTag);
+            })
+            .catch(err => console.error('patch lookup failed', person.Name, err));
+    }
 }
 
 function getLockedFieldsHtml(fields, currentFields) {
@@ -1041,6 +1205,9 @@ function reload(context, itemId, serverId) {
         metadataEditorInfo = responses[1];
 
         currentItem = item;
+
+        // Clear tags cache when loading a new item
+        cachedTags = null;
 
         const languages = metadataEditorInfo.Cultures;
         const countries = metadataEditorInfo.Countries;
@@ -1129,9 +1296,9 @@ export default {
             elem.innerHTML = globalize.translateHtml(template, 'core');
 
             elem.querySelector('.formDialogFooter').classList.remove('formDialogFooter');
-            elem.querySelector('.btnClose').classList.add('hide');
-            elem.querySelector('.btnHeaderSave').classList.remove('hide');
-            elem.querySelector('.btnCancel').classList.add('hide');
+            elem.querySelector('.formDialogHeader').classList.add('hide');
+            elem.querySelector('.formDialogContent').style.padding = 0;
+            elem.querySelector('.dialogContentInner').style.paddingBottom = 0;
 
             currentContext = elem;
 
