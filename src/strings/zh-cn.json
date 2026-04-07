@@ -1897,11 +1897,11 @@
     "BrandingLoadError": "品牌设置加载失败",
     "LabelVideoAttributes": "视频属性",
     "LabelVideoColors": "视频色彩",
-    "LabelVideoBitDepth": "视频位深",
+    "LabelVideoBitDepth": "视频色深",
     "LabelAudioAttributes": "音频属性",
-    "LabelTargetCodecs": "目标编码器",
+    "LabelTargetCodecs": "目标编码",
     "LabelReasons": "原因",
     "LabelPlayerSizes": "播放器尺寸",
-    "LabelProgressAndSpeed": "进度 / 速度",
+    "LabelProgressAndSpeed": "进度 / 速率",
     "LabelPlaybackQuality": "丢帧 / 坏帧"
 }
