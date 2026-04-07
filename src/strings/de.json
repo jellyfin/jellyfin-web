@@ -1894,5 +1894,14 @@
     "ContinueReading": "Weiterlesen",
     "HeaderLatestBooks": "Kürzlich hinzugefügte Bücher",
     "UsersEditPageError": "Seite zur Bearbeitung von Benutzern konnte nicht geladen werden",
-    "HeaderLatestMusicVideos": "Kürzlich hinzugefügte Musikvideos"
+    "HeaderLatestMusicVideos": "Kürzlich hinzugefügte Musikvideos",
+    "LabelVideoAttributes": "Video Attribute",
+    "LabelVideoColors": "Video Farben",
+    "LabelVideoBitDepth": "Video Bittiefe",
+    "LabelAudioAttributes": "Audio Attribute",
+    "LabelTargetCodecs": "Zielcodecs",
+    "LabelProgressAndSpeed": "Fortschritt / Geschwindigkeit",
+    "LabelReasons": "Gründe",
+    "LabelPlayerSizes": "Player Größen",
+    "LabelPlaybackQuality": "Frame verloren / beschädigt"
 }
