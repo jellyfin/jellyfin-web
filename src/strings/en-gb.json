@@ -1889,5 +1889,6 @@
     "Watch": "Watch",
     "TrickplayLoadError": "Failed to load trickplay settings",
     "LabelExternalServerUri": "External URI",
-    "LabelExternalServerUriHelp": "Published server URI for external access."
+    "LabelExternalServerUriHelp": "Published server URI for external access.",
+    "Authors": "Authors"
 }
