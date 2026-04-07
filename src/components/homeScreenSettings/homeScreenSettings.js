@@ -183,6 +183,22 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Videos
             }
         );
+    } else if (type === 'musicvideos') {
+        list.push(
+            {
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('HeaderVideos'),
+                value: LibraryTab.MusicVideos
+            }
+        );
     }
 
     return list;
@@ -276,7 +292,7 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
         html = `<div class="checkboxListContainer">${html}</div>`;
     }
 
-    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos'];
+    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos', 'musicvideos'];
     if (landingScreenTypes.includes(item.CollectionType)) {
         const idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
         html += '<div class="selectContainer">';
