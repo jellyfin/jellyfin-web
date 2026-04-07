@@ -99,7 +99,8 @@ const FilterButton: FC<FilterButtonProps> = ({
     const open = Boolean(anchorEl);
     const id = open ? 'filter-popover' : undefined;
 
-    const { data } = useGetQueryFiltersLegacy(parentId, itemType);
+    const viewAdjustedItemType = viewType === LibraryTab.Collections ? [BaseItemKind.BoxSet, BaseItemKind.Movie] : itemType;
+    const { data } = useGetQueryFiltersLegacy(parentId, viewAdjustedItemType);
     const { data: studios } = useGetStudios(parentId, itemType);
 
     const handleChange =
@@ -136,6 +137,7 @@ const FilterButton: FC<FilterButtonProps> = ({
             || viewType === LibraryTab.Songs
             || viewType === LibraryTab.Episodes
             || viewType === LibraryTab.Books
+            || viewType === LibraryTab.Collections
         );
     };
 

@@ -66,6 +66,27 @@ export const LibraryRoutes: LibraryRoute[] = [
         ]
     },
     {
+        path: '/boxsets',
+        views: [
+            {
+                index: 0,
+                label: 'Collections',
+                view: LibraryTab.Collections,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            },
+            {
+                index: 2,
+                label: 'Genres',
+                view: LibraryTab.Genres
+            }
+        ]
+    },
+    {
         path: '/movies',
         views: [
             {

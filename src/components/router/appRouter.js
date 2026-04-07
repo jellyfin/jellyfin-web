@@ -438,9 +438,7 @@ class AppRouter {
             }
 
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Homevideos) {
-                url = '#/homevideos?topParentId=' + item.Id;
-
-                return url;
+                return '#/homevideos?topParentId=' + item.Id;
             }
 
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Musicvideos) {
@@ -450,6 +448,10 @@ class AppRouter {
                     url += '&tab=1';
                 }
                 return url;
+            }
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Boxsets) {
+                return `#/boxsets?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
             }
         }
 
