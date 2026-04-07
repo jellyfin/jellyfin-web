@@ -1894,5 +1894,14 @@
     "ActivitiesLoadError": "活动加载失败",
     "Authors": "作者",
     "LabelInternalServerUriHelp": "用于内部访问的已发布 URI。",
-    "BrandingLoadError": "品牌设置加载失败"
+    "BrandingLoadError": "品牌设置加载失败",
+    "LabelVideoAttributes": "视频属性",
+    "LabelVideoColors": "视频色彩",
+    "LabelVideoBitDepth": "视频位深",
+    "LabelAudioAttributes": "音频属性",
+    "LabelTargetCodecs": "目标编码器",
+    "LabelReasons": "原因",
+    "LabelPlayerSizes": "播放器尺寸",
+    "LabelProgressAndSpeed": "进度 / 速度",
+    "LabelPlaybackQuality": "丢帧 / 坏帧"
 }
