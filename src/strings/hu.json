@@ -1870,5 +1870,11 @@
     "ConfirmDeleteCollection": "Biztos vagy benne, hogy kitörlöd ezt a gyűjteményt?",
     "ConfirmDeletePlaylist": "Biztosan kitörlöd ezt a lejátszási listát?",
     "HeaderDeleteCollection": "Gyűjtemény törlése",
-    "HeaderDeletePlaylist": "Lejátszási lista törlése"
+    "HeaderDeletePlaylist": "Lejátszási lista törlése",
+    "ActivitiesLoadError": "Tevékenység betöltése sikertelen",
+    "ApiKeysLoadError": "API kulcsok betöltése sikertelen",
+    "Authors": "Szerzők",
+    "ContinueReading": "Olvasás folytatása",
+    "HeaderLatestBooks": "Mostanában hozzáadott könyvek",
+    "HeaderLatestMusicVideos": "Mostanában hozzáadott zenei videók"
 }
