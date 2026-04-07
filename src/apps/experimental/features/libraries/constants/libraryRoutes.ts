@@ -204,8 +204,8 @@ export const LibraryRoutes: LibraryRoute[] = [
         views: [
             {
                 index: 0,
-                label: 'HeaderVideos',
-                view: LibraryTab.MusicVideos,
+                label: 'Folders',
+                view: LibraryTab.Folders,
                 isDefault: true
             },
             {
@@ -215,8 +215,8 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 2,
-                label: 'Folders',
-                view: LibraryTab.Folders
+                label: 'HeaderVideos',
+                view: LibraryTab.MusicVideos
             }
         ]
     }
