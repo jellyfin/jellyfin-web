@@ -219,5 +219,26 @@ export const LibraryRoutes: LibraryRoute[] = [
                 view: LibraryTab.Folders
             }
         ]
+    },
+    {
+        path: '/mixed',
+        views: [
+            {
+                index: 0,
+                label: 'Folders',
+                view: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 2,
+                label: 'HeaderMedia',
+                view: LibraryTab.Mixed
+            }
+        ]
     }
 ];

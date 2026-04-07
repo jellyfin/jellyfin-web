@@ -56,7 +56,10 @@ export enum SectionType {
     UpcomingRecordings = 'UpcomingRecordings',
     LatestMusicVideos = 'latestmusicvideos',
     RecentlyPlayedMusicVideos = 'recentlyplayedmusicvideos',
-    FrequentlyPlayedMusicVideos = 'frequentlyplayedmusicvideos'
+    FrequentlyPlayedMusicVideos = 'frequentlyplayedmusicvideos',
+    ContinueWatchingMixed = 'continuewatchingmixed',
+    LatestMixed = 'latestmixed'
+
 }
 
 export interface Section {
@@ -87,6 +90,14 @@ export const TvShowSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
         SectionType.ContinueWatchingEpisode,
         SectionType.LatestEpisode,
+        SectionType.NextUp
+    ]
+};
+
+export const MixedSuggestionsSectionsView: SectionsView = {
+    suggestionSections: [
+        SectionType.ContinueWatchingMixed,
+        SectionType.LatestMixed,
         SectionType.NextUp
     ]
 };

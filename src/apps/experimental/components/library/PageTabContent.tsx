@@ -76,7 +76,7 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
 
                 <GenresView
                     parentId={parentId}
-                    collectionType={currentTab.collectionType}
+                    collectionType={currentTab.collectionType ?? undefined}
                     itemType={currentTab.itemType || []}
                 />
             </>
@@ -105,7 +105,7 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
         <ItemsView
             viewType={currentTab.viewType}
             parentId={parentId}
-            collectionType={currentTab.collectionType}
+            collectionType={currentTab.collectionType ?? undefined}
             isPaginationEnabled={currentTab.isPaginationEnabled}
             isBtnPlayAllEnabled={currentTab.isBtnPlayAllEnabled}
             isBtnQueueEnabled={currentTab.isBtnQueueEnabled}
