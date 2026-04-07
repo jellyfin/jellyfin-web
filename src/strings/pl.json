@@ -1894,5 +1894,14 @@
     "ContinueReading": "Kontynuuj czytanie",
     "HeaderLatestBooks": "Ostatnio dodane książki",
     "UsersEditPageError": "Nie udało się załadować strony edycji użytkowników",
-    "HeaderLatestMusicVideos": "Niedawno dodane teledyski"
+    "HeaderLatestMusicVideos": "Niedawno dodane teledyski",
+    "LabelVideoAttributes": "Atrybuty wideo",
+    "LabelVideoColors": "Kolory wideo",
+    "LabelVideoBitDepth": "Głębia bitowa wideo",
+    "LabelAudioAttributes": "Atrybuty audio",
+    "LabelTargetCodecs": "Kodeki docelowe",
+    "LabelProgressAndSpeed": "Postęp / prędkość",
+    "LabelReasons": "Powody",
+    "LabelPlayerSizes": "Rozmiary odtwarzacza",
+    "LabelPlaybackQuality": "Klatka utracona / uszkodzona"
 }
