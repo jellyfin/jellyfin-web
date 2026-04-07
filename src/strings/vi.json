@@ -1894,5 +1894,13 @@
     "OptionDatePlaylistUpdated": "Ngày cập nhật danh sách phát",
     "Unwatch": "Hủy theo dõi",
     "Watch": "Xem",
-    "TrickplayLoadError": "Lỗi tải cấu hình trickplay"
+    "TrickplayLoadError": "Lỗi tải cấu hình trickplay",
+    "LabelVideoAttributes": "Thuộc tính video",
+    "LabelVideoColors": "Màu sắc video",
+    "LabelVideoBitDepth": "Độ sâu bit video",
+    "LabelAudioAttributes": "Thuộc tính âm thanh",
+    "LabelProgressAndSpeed": "Tiến độ / tốc độ",
+    "LabelReasons": "Lý do",
+    "LabelPlayerSizes": "Kích thước trình phát",
+    "LabelPlaybackQuality": "Khung hình bị rớt / hỏng"
 }
