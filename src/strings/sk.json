@@ -1886,5 +1886,22 @@
     "LabelUseSamePublishedServerUri": "Použiť rovnakú publikovanú URI adresu servera pre interný aj externý prístup",
     "LibrariesLoadError": "Nepodarilo sa načítať knižnice",
     "NetworkingPageLoadError": "Nepodarilo sa načítať nastavenia siete",
-    "ResetFilters": "Resetovať filtre"
+    "ResetFilters": "Resetovať filtre",
+    "ResumeLoadError": "Nepodarilo sa načítať nastavenia pokračovania",
+    "StreamingLoadError": "Nepodarilo sa načítať nastavenie pre streamovanie stránky",
+    "Unwatch": "Zrušiť sledovanie",
+    "UsersEditPageError": "Nepodarilo sa načítať stránku pre úpravu používateľov",
+    "Watch": "Sledovať",
+    "TrickplayLoadError": "Nepodarilo sa načítať nastavenie Trickplay",
+    "LabelExternalServerUri": "Externá URI",
+    "LabelExternalServerUriHelp": "Zverejnená adresa URI servera pre externý prístup.",
+    "LabelVideoAttributes": "Atribúty videa",
+    "LabelVideoColors": "Farby videa",
+    "LabelVideoBitDepth": "Bitová hĺbka videa",
+    "LabelAudioAttributes": "Atribúty zvuku",
+    "LabelTargetCodecs": "Cieľové kódeky",
+    "LabelProgressAndSpeed": "Priebeh / rýchlosť",
+    "LabelReasons": "Dôvody",
+    "LabelPlayerSizes": "Veľkosti prehrávača",
+    "LabelPlaybackQuality": "Stratený / poškodený snímok"
 }
