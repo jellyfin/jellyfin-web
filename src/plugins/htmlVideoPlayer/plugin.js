@@ -445,8 +445,19 @@ export class HtmlVideoPlayer {
                 const maxBufferSizeBits = 50 * 1024 * 1024 * 8;
                 const sourceBitrate = options.mediaSource?.MediaStreams?.find(s => s.Type === 'Video')?.BitRate || 8000000; // Default 8Mbps
                 const maxStreamingBitrate = playbackManager.getMaxStreamingBitrate(this) || sourceBitrate;
-                // Use the smaller of source bitrate and max streaming bitrate (actual playback bitrate)
-                const bitrate = Math.min(sourceBitrate, maxStreamingBitrate);
+                let bitrate = Math.min(sourceBitrate, maxStreamingBitrate);
+
+                // For transcoded streams, prefer the negotiated transcode target from the URL
+                if (options.playMethod === 'Transcode') {
+                    const params = new URL(url, window.location.href).searchParams;
+                    const videoBitrate = Number(params.get('VideoBitrate')) || 0;
+                    const audioBitrate = Number(params.get('AudioBitrate')) || 0;
+                    const transcodedBitrate = videoBitrate + audioBitrate;
+                    if (transcodedBitrate > 0) {
+                        bitrate = transcodedBitrate;
+                    }
+                }
+
                 let maxBufferLength = Math.floor(maxBufferSizeBits / bitrate);
                 // Clamp buffer length between 6s and 60s
                 maxBufferLength = Math.max(6, Math.min(60, maxBufferLength));
