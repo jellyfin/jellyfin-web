@@ -248,6 +248,19 @@ class AppSettings {
     }
 
     /**
+     * Get or set 'Playback Buffer Size' preset.
+     * @param {string|undefined} val - Buffer size preset ('auto', 'large', 'extra_large') or undefined.
+     * @return {string} Buffer size preset.
+     */
+    playbackBufferSize(val) {
+        if (val !== undefined) {
+            return this.set('playbackBufferSize', val);
+        }
+
+        return this.get('playbackBufferSize') || 'auto';
+    }
+
+    /**
      * Get or set the preferred video aspect ratio.
      * @param {string|undefined} val - The aspect ratio or undefined.
      * @returns {string} The saved aspect ratio state.

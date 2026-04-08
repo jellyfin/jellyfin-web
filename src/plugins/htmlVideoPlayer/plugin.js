@@ -440,14 +440,22 @@ export class HtmlVideoPlayer {
     setSrcWithHlsJs(elem, options, url) {
         return new Promise((resolve, reject) => {
             requireHlsPlayer(async () => {
-                let maxBufferLength = 30;
-
-                // Some browsers cannot handle huge fragments in high bitrate.
-                // This issue usually happens when using HWA encoders with a high bitrate setting.
-                // Limit the BufferLength to 6s, it works fine when playing 4k 120Mbps over HLS on chrome.
+                // Reduce buffer for high bitrate streams to avoid browser memory issues
                 // https://github.com/video-dev/hls.js/issues/876
-                if ((browser.chrome || browser.edgeChromium || browser.firefox) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
-                    maxBufferLength = 6;
+                const maxBufferLength = (browser.chrome || browser.edgeChromium || browser.firefox) && playbackManager.getMaxStreamingBitrate(this) >= 25000000 ? 6 : 30;
+                const bufferSizeSetting = appSettings.playbackBufferSize();
+                let maxMaxBufferLength;
+                let maxBufferSize;
+
+                if (bufferSizeSetting === 'large') {
+                    maxMaxBufferLength = 120;
+                    maxBufferSize = 500 * 1024 * 1024;
+                } else if (bufferSizeSetting === 'extra_large') {
+                    maxMaxBufferLength = 240;
+                    maxBufferSize = 3 * 1024 * 1024 * 1024;
+                } else {
+                    maxMaxBufferLength = maxBufferLength;
+                    maxBufferSize = 60 * 1000 * 1000;
                 }
 
                 const includeCorsCredentials = await getIncludeCorsCredentials();
@@ -456,7 +464,8 @@ export class HtmlVideoPlayer {
                     startPosition: options.playerStartPositionTicks / 10000000,
                     manifestLoadingTimeOut: 20000,
                     maxBufferLength: maxBufferLength,
-                    maxMaxBufferLength: maxBufferLength,
+                    maxMaxBufferLength: maxMaxBufferLength,
+                    maxBufferSize: maxBufferSize,
                     videoPreference: { preferHDR: true },
                     xhrSetup(xhr) {
                         xhr.withCredentials = includeCorsCredentials;

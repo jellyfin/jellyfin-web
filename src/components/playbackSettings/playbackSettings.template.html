@@ -150,6 +150,15 @@
         </div>
 
         <div class="selectContainer">
+            <select is="emby-select" id="selectPlaybackBufferSize" label="${LabelPlaybackBufferSize}">
+                <option value="auto">${Auto}</option>
+                <option value="large">${PlaybackBufferLarge}</option>
+                <option value="extra_large">${PlaybackBufferExtraLarge}</option>
+            </select>
+            <div class="fieldDescription">${PlaybackBufferSizeHelp}</div>
+        </div>
+
+        <div class="selectContainer">
             <select is="emby-select" class="selectSkipForwardLength" label="${LabelSkipForwardLength}"></select>
         </div>
 
