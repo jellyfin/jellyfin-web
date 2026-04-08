@@ -236,6 +236,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
+    context.querySelector('#selectPlaybackBufferSize').value = appSettings.playbackBufferSize();
     context.querySelector('.chkLimitSupportedVideoResolution').checked = appSettings.limitSupportedVideoResolution();
     context.querySelector('#selectPreferredTranscodeVideoCodec').value = appSettings.preferredTranscodeVideoCodec();
     context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value = appSettings.preferredTranscodeVideoAudioCodec();
@@ -279,6 +280,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
     appSettings.maxVideoWidth(context.querySelector('.selectMaxVideoWidth').value);
+    appSettings.playbackBufferSize(context.querySelector('#selectPlaybackBufferSize').value);
     appSettings.limitSupportedVideoResolution(context.querySelector('.chkLimitSupportedVideoResolution').checked);
     appSettings.preferredTranscodeVideoCodec(context.querySelector('#selectPreferredTranscodeVideoCodec').value);
     appSettings.preferredTranscodeVideoAudioCodec(context.querySelector('#selectPreferredTranscodeVideoAudioCodec').value);

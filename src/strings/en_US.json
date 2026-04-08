@@ -217,5 +217,9 @@
     "ActivitiesLoadError": "Failed to load activities",
     "ApiKeysLoadError": "Failed to load API keys",
     "Authors": "Authors",
-    "BrandingLoadError": "Failed to load branding settings"
+    "BrandingLoadError": "Failed to load branding settings",
+    "LabelPlaybackBufferSize": "Playback buffer size",
+    "PlaybackBufferLarge": "Large (up to 500 MB)",
+    "PlaybackBufferExtraLarge": "Extra large (up to 3 GB)",
+    "PlaybackBufferSizeHelp": "Controls how far ahead hls.js can buffer video when used for playback. Has no effect on native HLS playback (e.g. Safari, iOS, Tizen, webOS). Larger values help on slow or unstable connections but use significantly more memory and may re-expose browser buffering issues on some clients."
 }
