@@ -1903,5 +1903,6 @@
     "LabelProgressAndSpeed": "Fortschritt / Geschwindigkeit",
     "LabelReasons": "Gründe",
     "LabelPlayerSizes": "Player Größen",
-    "LabelPlaybackQuality": "Frame verloren / beschädigt"
+    "LabelPlaybackQuality": "Frame verloren / beschädigt",
+    "OnFilesystem": "Auf Dateisystem: {0}"
 }
