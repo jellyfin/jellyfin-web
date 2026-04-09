@@ -1903,5 +1903,6 @@
     "LabelProgressAndSpeed": "Progreso / velocidad",
     "LabelReasons": "Razones",
     "LabelPlayerSizes": "Tamaño del reproductor",
-    "LabelPlaybackQuality": "Fotogramas perdidos / corruptos"
+    "LabelPlaybackQuality": "Fotogramas perdidos / corruptos",
+    "OnFilesystem": "En el sistema de archivos: {0}"
 }
