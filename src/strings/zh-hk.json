@@ -16,7 +16,7 @@
     "ChannelAccessHelp": "揀返你想同呢個用家分享嘅頻道。管理員可以用媒體詳細資料管理器編輯所有頻道嘅資料。",
     "Continuing": "繼續",
     "Delete": "刪走",
-    "DeviceAccessHelp": "呢個設定只適用於可以獨特識別嘅裝置，唔會阻擋到瀏覽器存取。過濾用家裝置存取權之後，佢哋如果用新裝置，必須喺呢度批准咗先用得。",
+    "DeviceAccessHelp": "呢個設定只適用於可以獨特識別嘅裝置，唔會阻擋到瀏覽器存取。篩選用家裝置存取權之後，佢哋如果用新裝置，必須喺呢度批准咗先用得。",
     "Edit": "編輯",
     "EditSubtitles": "編輯字幕",
     "Ended": "已完結",
@@ -622,8 +622,8 @@
     "LabelAppNameExample": "呢個係畀人睇嘅識別名，用嚟認住啲 API 金鑰。呢個設定唔會影響實際功能。",
     "LabelAppName": "APP 名稱",
     "LabelAllowHWTranscoding": "允許硬體轉碼",
-    "LabelAllowedRemoteAddressesMode": "遠端 IP 地址過濾模式",
-    "LabelAllowedRemoteAddresses": "遠端 IP 地址過濾",
+    "LabelAllowedRemoteAddressesMode": "遠端 IP 地址篩選模式",
+    "LabelAllowedRemoteAddresses": "遠端 IP 地址篩選",
     "LabelAlbumArtists": "專輯歌手",
     "LabelAlbum": "專輯",
     "LabelAirTime": "播出時間",
@@ -1903,5 +1903,6 @@
     "LabelProgressAndSpeed": "進度／速度",
     "LabelReasons": "原因",
     "LabelPlayerSizes": "播放器尺寸",
-    "LabelPlaybackQuality": "跌格／損壞"
+    "LabelPlaybackQuality": "跌格／損壞",
+    "OnFilesystem": "檔案系統位置：{0}"
 }
