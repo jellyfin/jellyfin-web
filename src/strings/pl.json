@@ -1903,5 +1903,6 @@
     "LabelProgressAndSpeed": "Postęp / prędkość",
     "LabelReasons": "Powody",
     "LabelPlayerSizes": "Rozmiary odtwarzacza",
-    "LabelPlaybackQuality": "Klatka utracona / uszkodzona"
+    "LabelPlaybackQuality": "Klatka utracona / uszkodzona",
+    "OnFilesystem": "W systemie plików: {0}"
 }
