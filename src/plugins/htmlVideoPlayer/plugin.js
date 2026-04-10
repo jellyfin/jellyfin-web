@@ -176,11 +176,25 @@ function getTextTrackUrl(track, item, format) {
 }
 
 function getSubtitleFileNameHint(track) {
-    if (!track?.Path) {
-        return undefined;
+    const candidates = [track?.Path, track?.DeliveryUrl];
+    for (const candidate of candidates) {
+        if (!candidate) {
+            continue;
+        }
+
+        const sanitized = candidate.split(/[?#]/)[0];
+        const fileName = sanitized.split(/[\\/]/).pop();
+        if (fileName) {
+            return fileName;
+        }
     }
 
-    return track.Path.split(/[\\/]/).pop();
+    const codec = (track?.Codec || '').toLowerCase();
+    if (codec === 'dvdsub' || codec === 'vobsub') {
+        return 'subtitle.mks';
+    }
+
+    return undefined;
 }
 
 function getDefaultProfile() {
@@ -238,7 +252,7 @@ export class HtmlVideoPlayer {
     /**
      * @type {any | null | undefined}
      */
-    #currentPgsRenderer;
+    #currentLibbitsubRenderer;
     /**
      * @type {number | undefined}
      */
@@ -670,9 +684,9 @@ export class HtmlVideoPlayer {
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
-        } else if (this.#currentPgsRenderer) {
+        } else if (this.#currentLibbitsubRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
-            this.#currentPgsRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+            this.#currentLibbitsubRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -1066,6 +1080,11 @@ export class HtmlVideoPlayer {
                     this.#currentAssRenderer.resize();
                     this.#currentAssRenderer.resetRenderAheadCache(false);
                 }
+
+                if (this.#currentLibbitsubRenderer) {
+                    this.#currentLibbitsubRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                    this.#currentLibbitsubRenderer.updateCanvasSize?.();
+                }
             });
 
             if (this._currentPlayOptions.fullscreen) {
@@ -1261,11 +1280,11 @@ export class HtmlVideoPlayer {
         }
         this.#currentAssRenderer = null;
 
-        const pgsRenderer = this.#currentPgsRenderer;
+        const pgsRenderer = this.#currentLibbitsubRenderer;
         if (pgsRenderer) {
             pgsRenderer.dispose();
         }
-        this.#currentPgsRenderer = null;
+        this.#currentLibbitsubRenderer = null;
     }
 
     /**
@@ -1418,8 +1437,28 @@ export class HtmlVideoPlayer {
      */
     renderPgs(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
         const options = this.createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex);
+        const onLoaded = options.onLoaded;
+        const onError = options.onError;
+        options.onLoaded = () => {
+            this.#currentLibbitsubRenderer?.updateCanvasSize?.();
+            onLoaded?.();
+        };
+        options.onError = (error) => {
+            console.error('[libbitsub] pgs error', error);
+            onError?.(error);
+        };
+        options.onEvent = (event) => {
+            if (event?.type === 'error' || event?.type === 'loaded' || event?.type === 'cue-change' || event?.type === 'renderer-change' || event?.type === 'worker-state') {
+                console.debug('[libbitsub] pgs', event);
+            }
+        };
         import('libbitsub').then((libbitsub) => {
-            this.#currentPgsRenderer = new libbitsub.PgsRenderer(options);
+            this.#currentLibbitsubRenderer = new libbitsub.PgsRenderer(options);
+            requestAnimationFrame(() => {
+                if (this.#currentLibbitsubRenderer) {
+                    this.#currentLibbitsubRenderer.updateCanvasSize?.();
+                }
+            });
         }).catch((error) => {
             this.endPendingSubtitleLoad(targetTextTrackIndex);
             console.error(error);
@@ -1435,14 +1474,30 @@ export class HtmlVideoPlayer {
             fileName: getSubtitleFileNameHint(track)
         };
         const onLoaded = options.onLoaded;
+        const onError = options.onError;
         options.onLoaded = () => {
-            this.#currentPgsRenderer?.setDebandEnabled?.(true);
-            this.#currentPgsRenderer?.setDebandThreshold?.(VOBSUB_DEBAND_THRESHOLD);
-            this.#currentPgsRenderer?.setDebandRange?.(VOBSUB_DEBAND_RANGE);
+            this.#currentLibbitsubRenderer?.setDebandEnabled?.(true);
+            this.#currentLibbitsubRenderer?.setDebandThreshold?.(VOBSUB_DEBAND_THRESHOLD);
+            this.#currentLibbitsubRenderer?.setDebandRange?.(VOBSUB_DEBAND_RANGE);
+            this.#currentLibbitsubRenderer?.updateCanvasSize?.();
             onLoaded?.();
         };
+        options.onError = (error) => {
+            console.error('[libbitsub] vobsub error', error);
+            onError?.(error);
+        };
+        options.onEvent = (event) => {
+            if (event?.type === 'error' || event?.type === 'loaded' || event?.type === 'cue-change' || event?.type === 'renderer-change' || event?.type === 'worker-state') {
+                console.debug('[libbitsub] vobsub', event);
+            }
+        };
         import('libbitsub').then((libbitsub) => {
-            this.#currentPgsRenderer = new libbitsub.VobSubRenderer(options);
+            this.#currentLibbitsubRenderer = new libbitsub.VobSubRenderer(options);
+            requestAnimationFrame(() => {
+                if (this.#currentLibbitsubRenderer) {
+                    this.#currentLibbitsubRenderer.updateCanvasSize?.();
+                }
+            });
         }).catch((error) => {
             this.endPendingSubtitleLoad(targetTextTrackIndex);
             console.error(error);
@@ -2170,8 +2225,8 @@ export class HtmlVideoPlayer {
             }
         }
 
-        if (this.#currentPgsRenderer) {
-            this.#currentPgsRenderer.updateCanvasSize?.();
+        if (this.#currentLibbitsubRenderer) {
+            this.#currentLibbitsubRenderer.updateCanvasSize?.();
         }
     }
 
