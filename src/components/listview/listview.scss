@@ -309,6 +309,25 @@
     margin-top: 0.2em;
 }
 
+.listItem-overview-clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.listItem-overview-toggle {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    margin-top: 0.25em;
+    display: none;
+}
+
 @media all and (max-width: 50em) {
     .listItem .endsAt,
     .listItem .criticRating,
