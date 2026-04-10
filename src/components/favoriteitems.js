@@ -1,6 +1,6 @@
+import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
-import { getBackdropShape, getPortraitShape, getSquareShape } from 'utils/card';
 import { getParameterByName } from 'utils/url';
 
 import cardBuilder from './cardbuilder/cardBuilder';

@@ -7,7 +7,7 @@ import { getItemTextLines } from './itemText';
 
 describe('getItemTextLines', () => {
     it('Should return undefined if item is invalid', () => {
-        let lines = getItemTextLines({});
+        let lines = getItemTextLines({} as ItemDto);
         expect(lines).toBeUndefined();
         lines = getItemTextLines(null);
         expect(lines).toBeUndefined();
@@ -16,9 +16,9 @@ describe('getItemTextLines', () => {
     });
 
     it('Should return the name and index number', () => {
-        const item: ItemDto = {
+        const item = {
             Name: 'Item Name'
-        };
+        } as ItemDto;
         let lines = getItemTextLines(item);
         expect(lines).toBeDefined();
         expect(lines).toHaveLength(1);
@@ -39,13 +39,13 @@ describe('getItemTextLines', () => {
     });
 
     it('Should add artist names', () => {
-        let item: ItemDto = {
+        let item = {
             Name: 'Item Name',
             ArtistItems: [
                 { Name: 'Artist 1' },
                 { Name: 'Artist 2' }
             ]
-        };
+        } as ItemDto;
         let lines = getItemTextLines(item);
         expect(lines).toBeDefined();
         expect(lines).toHaveLength(2);
@@ -58,7 +58,7 @@ describe('getItemTextLines', () => {
                 'Artist 1',
                 'Artist 2'
             ]
-        };
+        } as ItemDto;
         lines = getItemTextLines(item);
         expect(lines).toBeDefined();
         expect(lines).toHaveLength(2);
@@ -67,10 +67,10 @@ describe('getItemTextLines', () => {
     });
 
     it('Should add album or series name', () => {
-        let item: ItemDto = {
+        let item = {
             Name: 'Item Name',
             SeriesName: 'Series'
-        };
+        } as ItemDto;
         let lines = getItemTextLines(item);
         expect(lines).toBeDefined();
         expect(lines).toHaveLength(2);
@@ -80,7 +80,7 @@ describe('getItemTextLines', () => {
         item = {
             Name: 'Item Name',
             Album: 'Album'
-        };
+        } as ItemDto;
         lines = getItemTextLines(item);
         expect(lines).toBeDefined();
         expect(lines).toHaveLength(2);
@@ -92,7 +92,7 @@ describe('getItemTextLines', () => {
         const item = {
             Name: 'Item Name',
             ProductionYear: 2025
-        };
+        } as ItemDto;
         const lines = getItemTextLines(item);
         expect(lines).toBeDefined();
         expect(lines).toHaveLength(2);

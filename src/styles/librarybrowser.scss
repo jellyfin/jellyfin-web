@@ -501,6 +501,20 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
+
+    [dir="rtl"] & {
+        left: 25vw;
+        right: unset;
+    }
+
+    .layout-mobile &,
+    .layout-tv & {
+        display: none;
+    }
+
+    @media all and (max-width: 68.75em) {
+        display: none;
+    }
 }
 
 .criticReview:first-child {
@@ -584,39 +598,6 @@
 
     .layout-tv & {
         display: none;
-    }
-}
-
-.detailPageContent {
-    display: flex;
-    flex-direction: column;
-
-    .layout-desktop &,
-    .layout-tv & {
-        .emby-scroller {
-            [dir="ltr"] & {
-                margin-left: 0;
-            }
-
-            [dir="rtl"] & {
-                margin-right: 0;
-            }
-        }
-    }
-
-    [dir="ltr"] & {
-        padding-left: 32.45vw;
-        padding-right: 2%;
-    }
-
-    [dir="rtl"] & {
-        padding-right: 32.45vw;
-        padding-left: 2%;
-    }
-
-    .layout-mobile & {
-        padding-left: 5%;
-        padding-right: 5%;
     }
 }
 
@@ -777,7 +758,7 @@
     padding-left: 0; // Reset padding for focused button since 'margin-left' is 0
 }
 
-.detailPagePrimaryContainer {
+.detailRibbon {
     display: flex;
     align-items: center;
     align-content: center;
@@ -791,6 +772,8 @@
 
     .layout-desktop & {
         position: relative;
+        margin-top: -7.2em;
+        height: 7.2em;
     }
 
     .layout-tv & {
@@ -806,16 +789,6 @@
     .layout-tv [dir="ltr"] & {
         padding-left: 32.45vw;
     }
-}
-
-.layout-desktop .detailRibbon {
-    margin-top: -7.2em;
-    height: 7.2em;
-}
-
-.layout-tv .detailRibbon {
-    margin-top: 0;
-    height: inherit;
 }
 
 .infoWrapper {
@@ -843,6 +816,10 @@
     max-width: 100%;
 }
 
+.detailPagePrimaryContainer {
+    position: relative;
+}
+
 .detailPageSecondaryContainer {
     padding-top: 1.25em;
 
@@ -856,9 +833,8 @@
 }
 
 .detailImageContainer .card {
-    // important is needed here to override :focus setting
-    // the position to relative in the tv layout
-    position: absolute !important;
+    position: relative;
+    float: left;
     top: 20%;
     max-width: 25vw;
     max-height: 80vh;
@@ -868,15 +844,9 @@
         margin: 0;
     }
 
-    &.backdropCard {
-        top: 35%;
-    }
-
-    &.squareCard {
-        top: 40%;
-    }
-
     .layout-mobile & {
+        position: absolute;
+        top: auto;
         left: 5%;
         bottom: 1rem;
         max-width: 30vw;
@@ -887,16 +857,16 @@
             bottom: 0;
         }
 
-        &,
-        &.backdropCard,
-        &.squareCard {
-            top: auto;
+        &.backdropCard {
+            top: 1.6em;
         }
     }
 
     .layout-desktop & {
         left: 3.3%;
-        top: -80%;
+        // ribbon height (7.2em) * 1.8
+        top: -12.96em;
+        margin-bottom: -12.96em; // match top offset
         width: 25vw;
         // FIXME: the fixed width + max height cause the card to be cropped this needs a proper fix
         max-height: none;
@@ -904,13 +874,15 @@
 
     .layout-tv & {
         left: 5%;
-        top: 50%;
+        top: 0;
         width: 25vw;
-        transform: translateY(-50%);
+        // match the width
+        margin-right: -25vw;
     }
 
     [dir="rtl"] & {
         left: unset;
+        float: right;
 
         .layout-mobile &,
         .layout-tv & {
@@ -925,18 +897,25 @@
 
 .detailPagePrimaryContent {
     position: relative;
-}
+    padding-top: 1.25em;
 
-.layout-mobile,
-.layout-tv {
-    .detailLogo {
-        display: none;
+    [dir="ltr"] & {
+        padding-left: 32.45vw;
     }
-}
 
-@media all and (max-width: 68.75em) {
-    .detailLogo {
-        display: none;
+    [dir="rtl"] & {
+        padding-right: 32.45vw;
+    }
+
+    .layout-mobile & {
+        padding-left: 5% !important;
+        padding-right: 5% !important;
+    }
+
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
     }
 }
 
@@ -1003,16 +982,6 @@ div.itemDetailGalleryLink.defaultCardBackground {
     .lnkSibling {
         display: none !important;
     }
-}
-
-.emby-button.detailFloatingButton {
-    font-size: 1.4em;
-    margin-right: 0.5em !important;
-    color: rgba(255, 255, 255, 0.76);
-}
-
-.emby-button.detailFloatingButton .material-icons {
-    font-size: 3.5em;
 }
 
 @media all and (max-width: 62.5em) {
@@ -1522,4 +1491,9 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
 .currentTimeText {
     padding-left: 0.8em;
     padding-right: 0.8em;
+}
+
+.lyricsLineContainer {
+    margin: 0;
+    width: fit-content;
 }

@@ -512,7 +512,7 @@ function usePrimaryMediaInfo({
         showYearInfo,
         ProductionYear,
         Type,
-        Status,
+        Status as ItemStatus,
         EndDate,
         addMiscInfo
     );

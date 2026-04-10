@@ -7,10 +7,11 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import Loading from 'components/loading/LoadingComponent';
-import { MRT_ColumnDef, MRT_Table, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, MRT_Table, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/task-trigger-info';
 import globalize from '../../../../lib/globalize';
 import { useTask } from 'apps/dashboard/features/tasks/api/useTask';
@@ -26,6 +27,7 @@ export const Component = () => {
     const [ isAddTriggerDialogOpen, setIsAddTriggerDialogOpen ] = useState(false);
     const [ isRemoveConfirmOpen, setIsRemoveConfirmOpen ] = useState(false);
     const [ pendingDeleteTrigger, setPendingDeleteTrigger ] = useState<TaskTriggerInfo | null>(null);
+    const theme = useTheme();
 
     const onCloseRemoveConfirmDialog = useCallback(() => {
         setPendingDeleteTrigger(null);
@@ -80,7 +82,15 @@ export const Component = () => {
         }
     ], []);
 
+    // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
+    // https://github.com/KevinVandy/material-react-table/issues/1429
+    const mrtTheme = useMemo<Partial<MRT_Theme>>(() => ({
+        baseBackgroundColor: theme.palette.background.paper
+    }), [ theme ]);
+
     const table = useMaterialReactTable({
+        mrtTheme,
+
         columns,
         data: task?.Triggers || [],
 

@@ -1,13 +1,13 @@
 import escapeHtml from 'escape-html';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape, getPortraitShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import lazyLoader from 'components/lazyLoader/lazyLoaderIntersectionObserver';
 import loading from 'components/loading/loading';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
-import { getBackdropShape, getPortraitShape } from 'utils/card';
 
 import 'elements/emby-button/emby-button';
 

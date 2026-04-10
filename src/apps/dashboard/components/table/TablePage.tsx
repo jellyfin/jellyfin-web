@@ -1,18 +1,22 @@
 import Box from '@mui/material/Box/Box';
 import Stack from '@mui/material/Stack/Stack';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 import Typography from '@mui/material/Typography/Typography';
-import { type MRT_RowData, type MRT_TableInstance, MaterialReactTable } from 'material-react-table';
+import { type MRT_RowData, type MRT_TableInstance, type MRT_TableOptions, MaterialReactTable } from 'material-react-table';
 import React from 'react';
 
 import Page, { type PageProps } from 'components/Page';
+import Alert from '@mui/material/Alert';
 
 interface TablePageProps<T extends MRT_RowData> extends PageProps {
     title: string
     subtitle?: string
     table: MRT_TableInstance<T>
+    isError?: boolean
+    errorMessage?: string
 }
 
-export const DEFAULT_TABLE_OPTIONS = {
+export const DEFAULT_TABLE_OPTIONS: Partial<MRT_TableOptions<MRT_RowData>> = {
     // Enable custom features
     enableColumnPinning: true,
     enableColumnResizing: true,
@@ -31,6 +35,8 @@ const TablePage = <T extends MRT_RowData>({
     title,
     subtitle,
     table,
+    isError,
+    errorMessage,
     children,
     ...pageProps
 }: TablePageProps<T>) => {
@@ -47,22 +53,28 @@ const TablePage = <T extends MRT_RowData>({
                     height: '100%'
                 }}
             >
-                <Stack
-                    spacing={2}
-                    sx={{
-                        marginBottom: 1
-                    }}
-                >
-                    <Typography variant='h1'>
-                        {title}
-                    </Typography>
-                    {subtitle && (
-                        <Typography>
-                            {subtitle}
-                        </Typography>
-                    )}
-                </Stack>
-                <MaterialReactTable table={table} />
+                {isError ? (
+                    <Alert severity='error'>{errorMessage}</Alert>
+                ) : (
+                    <>
+                        <Stack
+                            spacing={2}
+                            sx={{
+                                marginBottom: 1
+                            }}
+                        >
+                            <Typography variant='h1'>
+                                {title}
+                            </Typography>
+                            {subtitle && (
+                                <Typography>
+                                    {subtitle}
+                                </Typography>
+                            )}
+                        </Stack>
+                        <MaterialReactTable table={table} />
+                    </>
+                )}
             </Box>
             {children}
         </Page>
