@@ -240,5 +240,21 @@ export const LibraryRoutes: LibraryRoute[] = [
                 view: LibraryTab.Folders
             }
         ]
+    },
+    {
+        path: '/playlists',
+        views: [
+            {
+                index: 0,
+                label: 'Playlists',
+                view: LibraryTab.Playlists,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            }
+        ]
     }
 ];

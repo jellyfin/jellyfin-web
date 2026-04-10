@@ -453,6 +453,10 @@ class AppRouter {
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Boxsets) {
                 return `#/boxsets?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
             }
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Playlists) {
+                return `#/playlists?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+            }
         }
 
         const itemTypes = ['Playlist', 'TvChannel', 'Program', 'BoxSet', 'MusicAlbum', 'MusicGenre', 'Person', 'Recording', 'MusicArtist'];
