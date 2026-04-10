@@ -57,7 +57,7 @@ export const getSuggestionSections = (): Section[] => {
             itemTypes: 'Book',
             type: SectionType.LatestBooks,
             parametersOptions: {
-                includeItemTypes: [BaseItemKind.Book]
+                includeItemTypes: [BaseItemKind.AudioBook, BaseItemKind.Book]
             },
             cardOptions: {
                 overlayPlayButton: true,

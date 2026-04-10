@@ -11,7 +11,7 @@ import { BookSuggestionsSectionsView } from 'types/sections';
 const booksTabContent: LibraryTabContent = {
     viewType: LibraryTab.Books,
     collectionType: CollectionType.Books,
-    itemType: [BaseItemKind.Book]
+    itemType: [BaseItemKind.AudioBook, BaseItemKind.Book]
 };
 
 const suggestionsTabContent: LibraryTabContent = {
@@ -23,13 +23,13 @@ const suggestionsTabContent: LibraryTabContent = {
 const genresTabContent: LibraryTabContent = {
     viewType: LibraryTab.Genres,
     collectionType: CollectionType.Books,
-    itemType: [BaseItemKind.Book]
+    itemType: [BaseItemKind.AudioBook, BaseItemKind.Book]
 };
 
 const favoritesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Favorites,
     collectionType: CollectionType.Books,
-    itemType: [BaseItemKind.Book]
+    itemType: [BaseItemKind.AudioBook, BaseItemKind.Book]
 };
 
 const booksTabMapping: LibraryTabMapping = {
