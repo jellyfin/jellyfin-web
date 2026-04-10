@@ -1903,5 +1903,6 @@
     "LabelProgressAndSpeed": "Průběh / rychlost",
     "LabelReasons": "Důvody",
     "LabelPlayerSizes": "Velikosti přehrávače",
-    "LabelPlaybackQuality": "Ztracený / poškozený snímek"
+    "LabelPlaybackQuality": "Ztracený / poškozený snímek",
+    "OnFilesystem": "V souborovém systému: {0}"
 }
