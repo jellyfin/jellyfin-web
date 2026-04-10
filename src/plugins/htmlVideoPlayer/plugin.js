@@ -188,6 +188,8 @@ function getDefaultProfile() {
 }
 
 const PRIMARY_TEXT_TRACK_INDEX = 0;
+const VOBSUB_DEBAND_THRESHOLD = 64;
+const VOBSUB_DEBAND_RANGE = 15;
 const SECONDARY_TEXT_TRACK_INDEX = 1;
 
 export class HtmlVideoPlayer {
@@ -1431,6 +1433,13 @@ export class HtmlVideoPlayer {
         const options = {
             ...this.createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex),
             fileName: getSubtitleFileNameHint(track)
+        };
+        const onLoaded = options.onLoaded;
+        options.onLoaded = () => {
+            this.#currentPgsRenderer?.setDebandEnabled?.(true);
+            this.#currentPgsRenderer?.setDebandThreshold?.(VOBSUB_DEBAND_THRESHOLD);
+            this.#currentPgsRenderer?.setDebandRange?.(VOBSUB_DEBAND_RANGE);
+            onLoaded?.();
         };
         import('libbitsub').then((libbitsub) => {
             this.#currentPgsRenderer = new libbitsub.VobSubRenderer(options);
