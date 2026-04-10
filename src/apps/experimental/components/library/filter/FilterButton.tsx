@@ -138,6 +138,7 @@ const FilterButton: FC<FilterButtonProps> = ({
             || viewType === LibraryTab.Episodes
             || viewType === LibraryTab.Books
             || viewType === LibraryTab.Collections
+            || viewType === LibraryTab.Playlists
         );
     };
 
