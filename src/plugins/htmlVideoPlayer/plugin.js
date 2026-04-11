@@ -197,6 +197,21 @@ function getSubtitleFileNameHint(track) {
     return undefined;
 }
 
+function getBitmapSubtitleDisplaySettings() {
+    const aspectMode = userSettings.getSubtitleAppearanceSettings()?.aspectMode;
+    const normalizedAspectMode = typeof aspectMode === 'string' ? aspectMode.toLowerCase() : 'stretch';
+
+    if (normalizedAspectMode === 'stretch' || normalizedAspectMode === 'contain' || normalizedAspectMode === 'cover') {
+        return {
+            aspectMode: normalizedAspectMode
+        };
+    }
+
+    return {
+        aspectMode: 'stretch'
+    };
+}
+
 function getDefaultProfile() {
     return profileBuilder({});
 }
@@ -417,6 +432,7 @@ export class HtmlVideoPlayer {
      */
     createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex) {
         const loadToken = Symbol(String(targetTextTrackIndex));
+        const displaySettings = getBitmapSubtitleDisplaySettings();
         this.endPendingSubtitleLoad(targetTextTrackIndex);
         this.#pendingSubtitleLoads.set(targetTextTrackIndex, {
             token: loadToken,
@@ -427,6 +443,7 @@ export class HtmlVideoPlayer {
             video: videoElement,
             subUrl: getTextTrackUrl(track, item),
             timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+            ...(displaySettings ? { displaySettings } : {}),
             onLoading: () => this.beginPendingSubtitleLoad(targetTextTrackIndex, loadToken),
             onLoaded: () => this.endPendingSubtitleLoad(targetTextTrackIndex, loadToken),
             onError: () => this.endPendingSubtitleLoad(targetTextTrackIndex, loadToken)
