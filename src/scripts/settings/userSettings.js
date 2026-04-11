@@ -509,7 +509,7 @@ export class UserSettings {
             return this.set('continueWatchingLimit', val.toString(), false);
         }
 
-        const continueWatchingLimit = parseInt(this.get('continueWatchingLimit', false), 10);
+        const continueWatchingLimit = Number.parseInt(this.get('continueWatchingLimit', false), 10);
         if (continueWatchingLimit === 0) {
             return 0;
         }
@@ -527,7 +527,7 @@ export class UserSettings {
             return this.set('nextUpLimit', val.toString(), false);
         }
 
-        const nextUpLimit = parseInt(this.get('nextUpLimit', false), 10);
+        const nextUpLimit = Number.parseInt(this.get('nextUpLimit', false), 10);
         if (nextUpLimit === 0) {
             return 0;
         }
@@ -545,7 +545,7 @@ export class UserSettings {
             return this.set('favoriteLimitDisplay', val.toString(), false);
         }
 
-        const favoriteLimitDisplay = parseInt(this.get('favoriteLimitDisplay', false), 10);
+        const favoriteLimitDisplay = Number.parseInt(this.get('favoriteLimitDisplay', false), 10);
         if (favoriteLimitDisplay === 0) {
             return 0;
         }
