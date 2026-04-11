@@ -161,7 +161,6 @@ const FilterButton: FC<FilterButtonProps> = ({
         );
     };
 
-
     const isFiltersSeriesStatusEnabled = () => {
         return viewType === LibraryTab.Series;
     };
