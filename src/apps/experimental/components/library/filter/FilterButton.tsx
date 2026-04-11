@@ -164,6 +164,7 @@ const FilterButton: FC<FilterButtonProps> = ({
     const isFiltersVideoTypesEnabled = () => {
         return (
             viewType === LibraryTab.Movies
+            || viewType === LibraryTab.Series
             || viewType === LibraryTab.Episodes
         );
     };
