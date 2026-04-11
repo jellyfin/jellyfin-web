@@ -1,5 +1,6 @@
 export interface DisplaySettingsValues {
     customCss: string;
+    continueWatchingLimit: number;
     dashboardTheme: string;
     dateTimeLocale: string;
     disableCustomCss: boolean;
@@ -12,10 +13,12 @@ export interface DisplaySettingsValues {
     enableLibraryThemeVideos: boolean;
     enableRewatchingInNextUp: boolean;
     episodeImagesInNextUp: boolean;
+    favoriteLimitDisplay: number;
     language: string;
     layout: string;
     libraryPageSize: number;
     maxDaysForNextUp: number;
+    nextUpLimit: number;
     screensaver: string;
     screensaverInterval: number;
     slideshowInterval: number;

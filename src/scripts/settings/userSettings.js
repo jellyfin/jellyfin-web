@@ -500,6 +500,64 @@ export class UserSettings {
     }
 
     /**
+     * Get or set continue watching limit.
+     * @param {number|undefined} [val] - Continue watching limit.
+     * @return {number} Continue watching limit.
+     */
+    continueWatchingLimit(val) {
+        if (val !== undefined) {
+            return this.set('continueWatchingLimit', val.toString(), false);
+        }
+
+        const continueWatchingLimit = parseInt(this.get('continueWatchingLimit', false), 10);
+        if (continueWatchingLimit === 0) {
+            return 0;
+        }
+
+        return continueWatchingLimit || 12;
+    }
+
+    /**
+     * Get or set next up limit.
+     * @param {number|undefined} [val] - Next up limit.
+     * @return {number} Next up limit.
+     */
+    nextUpLimit(val) {
+        if (val !== undefined) {
+            return this.set('nextUpLimit', val.toString(), false);
+        }
+
+        const nextUpLimit = parseInt(this.get('nextUpLimit', false), 10);
+        if (nextUpLimit === 0) {
+            return 0;
+        }
+
+        return nextUpLimit || 24;
+    }
+
+    /**
+     * Get or set favorite limit display.
+     * @param {number|undefined} [val] - Favorite limit display.
+     * @return {number} Favorite limit display.
+     */
+    favoriteLimitDisplay(val) {
+        if (val !== undefined) {
+            return this.set('favoriteLimitDisplay', val.toString(), false);
+        }
+
+        const favoriteLimitDisplay = parseInt(this.get('favoriteLimitDisplay', false), 10);
+        if (favoriteLimitDisplay === 0) {
+            return 0;
+        }
+
+        if (Number.isNaN(favoriteLimitDisplay)) {
+            return this.libraryPageSize();
+        }
+
+        return favoriteLimitDisplay || this.libraryPageSize();
+    }
+
+    /**
      * Get or set max days for next up list.
      * @param {number|undefined} [val] - Max days for next up.
      * @return {number} Max days for a show to stay in next up without being watched.
@@ -709,6 +767,9 @@ export const backdropScreensaverInterval = currentSettings.backdropScreensaverIn
 export const slideshowInterval = currentSettings.slideshowInterval.bind(currentSettings);
 export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
+export const continueWatchingLimit = currentSettings.continueWatchingLimit.bind(currentSettings);
+export const favoriteLimitDisplay = currentSettings.favoriteLimitDisplay.bind(currentSettings);
+export const nextUpLimit = currentSettings.nextUpLimit.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);

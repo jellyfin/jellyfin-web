@@ -46,6 +46,30 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
             </FormControl>
 
             <FormControl fullWidth>
+                <TextField
+                    aria-describedby='display-settings-favorite-limit-description'
+                    value={values.favoriteLimitDisplay}
+                    label={globalize.translate('LabelFavoriteLimitDisplay')}
+                    name='favoriteLimitDisplay'
+                    onChange={onChange}
+                    slotProps={{
+                        htmlInput: {
+                            type: 'number',
+                            inputMode: 'numeric',
+                            max: '1000',
+                            min: '0',
+                            pattern: '[0-9]',
+                            required: true,
+                            step: '1'
+                        }
+                    }}
+                />
+                <FormHelperText id='display-settings-favorite-limit-description'>
+                    {globalize.translate('LabelFavoriteLimitDisplayHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
                 <FormControlLabel
                     aria-describedby='display-settings-lib-backdrops-description'
                     control={

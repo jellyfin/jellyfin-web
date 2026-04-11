@@ -84,6 +84,7 @@ async function loadDisplaySettings({
     await settings.setUserInfo(userId, api);
 
     const displaySettings = {
+        continueWatchingLimit: settings.continueWatchingLimit(),
         customCss: settings.customCss() || '',
         dashboardTheme: settings.dashboardTheme() || defaultTheme?.id || FALLBACK_THEME_ID,
         dateTimeLocale: settings.dateTimeLocale() || 'auto',
@@ -97,10 +98,12 @@ async function loadDisplaySettings({
         enableLibraryThemeVideos: Boolean(settings.enableThemeVideos()),
         enableRewatchingInNextUp: Boolean(settings.enableRewatchingInNextUp()),
         episodeImagesInNextUp: Boolean(settings.useEpisodeImagesInNextUpAndResume()),
+        favoriteLimitDisplay: settings.favoriteLimitDisplay(),
         language: settings.language() || 'auto',
         layout: layoutManager.getSavedLayout() || 'auto',
         libraryPageSize: settings.libraryPageSize(),
         maxDaysForNextUp: settings.maxDaysForNextUp(),
+        nextUpLimit: settings.nextUpLimit(),
         screensaver: settings.screensaver() || 'none',
         screensaverInterval: settings.backdropScreensaverInterval(),
         slideshowInterval: settings.slideshowInterval(),
@@ -131,6 +134,7 @@ async function saveDisplaySettings({
     if (appHost.supports(AppFeature.DisplayLanguage)) {
         userSettings.language(normalizeValue(newDisplaySettings.language));
     }
+    userSettings.continueWatchingLimit(newDisplaySettings.continueWatchingLimit);
     userSettings.customCss(normalizeValue(newDisplaySettings.customCss));
     userSettings.dashboardTheme(newDisplaySettings.dashboardTheme);
     userSettings.dateTimeLocale(normalizeValue(newDisplaySettings.dateTimeLocale));
@@ -143,8 +147,10 @@ async function saveDisplaySettings({
     userSettings.enableThemeVideos(newDisplaySettings.enableLibraryThemeVideos);
     userSettings.enableRewatchingInNextUp(newDisplaySettings.enableRewatchingInNextUp);
     userSettings.useEpisodeImagesInNextUpAndResume(newDisplaySettings.episodeImagesInNextUp);
+    userSettings.favoriteLimitDisplay(newDisplaySettings.favoriteLimitDisplay);
     userSettings.libraryPageSize(newDisplaySettings.libraryPageSize);
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
+    userSettings.nextUpLimit(newDisplaySettings.nextUpLimit);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));
     userSettings.backdropScreensaverInterval(newDisplaySettings.screensaverInterval);
     userSettings.theme(newDisplaySettings.theme);

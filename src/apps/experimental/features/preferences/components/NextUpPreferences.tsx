@@ -23,6 +23,54 @@ export function NextUpPreferences({ onChange, values }: Readonly<NextUpPreferenc
 
             <FormControl fullWidth>
                 <TextField
+                    aria-describedby='display-settings-continue-watching-limit-description'
+                    value={values.continueWatchingLimit}
+                    label={globalize.translate('LabelContinueWatchingLimit')}
+                    name='continueWatchingLimit'
+                    onChange={onChange}
+                    slotProps={{
+                        htmlInput: {
+                            type: 'number',
+                            inputMode: 'numeric',
+                            max: '1000',
+                            min: '0',
+                            pattern: '[0-9]',
+                            required: true,
+                            step: '1'
+                        }
+                    }}
+                />
+                <FormHelperText id='display-settings-continue-watching-limit-description'>
+                    {globalize.translate('LabelContinueWatchingLimitHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <TextField
+                    aria-describedby='display-settings-next-up-limit-description'
+                    value={values.nextUpLimit}
+                    label={globalize.translate('LabelNextUpLimit')}
+                    name='nextUpLimit'
+                    onChange={onChange}
+                    slotProps={{
+                        htmlInput: {
+                            type: 'number',
+                            inputMode: 'numeric',
+                            max: '1000',
+                            min: '0',
+                            pattern: '[0-9]',
+                            required: true,
+                            step: '1'
+                        }
+                    }}
+                />
+                <FormHelperText id='display-settings-next-up-limit-description'>
+                    {globalize.translate('LabelNextUpLimitHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <TextField
                     aria-describedby='display-settings-max-days-next-up-description'
                     value={values.maxDaysForNextUp}
                     label={globalize.translate('LabelMaxDaysForNextUp')}

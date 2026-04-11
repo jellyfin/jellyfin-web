@@ -18,15 +18,16 @@ const dataMonitorHints: Record<string, string> = {
 function getItemsToResumeFn(
     mediaType: BaseItemKind,
     serverId: string,
+    userSettings: UserSettings,
     { enableOverflow }: SectionOptions
 ) {
     return function () {
         const apiClient = ServerConnections.getApiClient(serverId);
 
-        const limit = enableOverflow ? 12 : 5;
+        const limit = enableOverflow ? userSettings.continueWatchingLimit() : 5;
 
         const options = {
-            Limit: limit,
+            ...(limit > 0 ? { Limit: limit } : {}),
             Recursive: true,
             Fields: 'PrimaryImageAspectRatio',
             ImageTypeLimit: 1,
@@ -99,7 +100,7 @@ export function loadResume(
 
     const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
-    itemsContainer.fetchData = getItemsToResumeFn(mediaType, apiClient.serverId(), options);
+    itemsContainer.fetchData = getItemsToResumeFn(mediaType, apiClient.serverId(), userSettings, options);
     itemsContainer.getItemsHtml = getItemsToResumeHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), mediaType, options);
     itemsContainer.parentContainer = elem;
 }

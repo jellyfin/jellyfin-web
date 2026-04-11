@@ -20,8 +20,9 @@ function getNextUpFetchFn(
         const apiClient = ServerConnections.getApiClient(serverId);
         const oldestDateForNextUp = new Date();
         oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
-        return apiClient.getNextUpEpisodes({
-            Limit: enableOverflow ? 24 : 15,
+        const limit = enableOverflow ? userSettings.nextUpLimit() : 15;
+        const options = {
+            ...(limit > 0 ? { Limit: limit } : {}),
             Fields: 'PrimaryImageAspectRatio,DateCreated,Path,MediaSourceCount',
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
@@ -31,7 +32,9 @@ function getNextUpFetchFn(
             NextUpDateCutoff: oldestDateForNextUp.toISOString(),
             EnableResumable: false,
             EnableRewatching: userSettings.enableRewatchingInNextUp()
-        });
+        };
+
+        return apiClient.getNextUpEpisodes(options);
     };
 }
 

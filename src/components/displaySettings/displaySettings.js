@@ -132,8 +132,11 @@ function loadForm(context, user, userSettings) {
     context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
     context.querySelector('#txtLibraryPageSize').value = userSettings.libraryPageSize();
+    context.querySelector('#txtContinueWatchingLimit').value = userSettings.continueWatchingLimit();
+    context.querySelector('#txtFavoriteLimitDisplay').value = userSettings.favoriteLimitDisplay();
 
     context.querySelector('#txtMaxDaysForNextUp').value = userSettings.maxDaysForNextUp();
+    context.querySelector('#txtNextUpLimit').value = userSettings.nextUpLimit();
     context.querySelector('#chkRewatchingNextUp').checked = userSettings.enableRewatchingInNextUp();
     context.querySelector('#chkUseEpisodeImagesInNextUp').checked = userSettings.useEpisodeImagesInNextUpAndResume();
 
@@ -163,8 +166,11 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.screensaverTime(context.querySelector('#txtScreensaverTime').value);
 
     userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
+    userSettingsInstance.continueWatchingLimit(context.querySelector('#txtContinueWatchingLimit').value);
+    userSettingsInstance.favoriteLimitDisplay(context.querySelector('#txtFavoriteLimitDisplay').value);
 
     userSettingsInstance.maxDaysForNextUp(context.querySelector('#txtMaxDaysForNextUp').value);
+    userSettingsInstance.nextUpLimit(context.querySelector('#txtNextUpLimit').value);
     userSettingsInstance.enableRewatchingInNextUp(context.querySelector('#chkRewatchingNextUp').checked);
     userSettingsInstance.useEpisodeImagesInNextUpAndResume(context.querySelector('#chkUseEpisodeImagesInNextUp').checked);
 

@@ -9,6 +9,7 @@ import { appRouter } from 'components/router/appRouter';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import * as userSettings from 'scripts/settings/userSettings';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-scroller/emby-scroller';
@@ -186,7 +187,10 @@ function getFetchDataFn(section) {
             ExcludeLocationTypes: 'Virtual',
             EnableTotalRecordCount: false
         };
-        options.Limit = 20;
+        const favoriteLimit = userSettings.favoriteLimitDisplay();
+        if (favoriteLimit > 0) {
+            options.Limit = favoriteLimit;
+        }
         const userId = apiClient.getCurrentUserId();
 
         if (section.types === 'MusicArtist') {
@@ -350,4 +354,3 @@ class FavoritesTab {
 }
 
 export default FavoritesTab;
-
