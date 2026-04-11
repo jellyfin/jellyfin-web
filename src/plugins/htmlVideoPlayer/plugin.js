@@ -208,7 +208,7 @@ function getBitmapSubtitleDisplaySettings() {
     }
 
     return {
-        aspectMode: 'stretch'
+        aspectMode: 'contain'
     };
 }
 

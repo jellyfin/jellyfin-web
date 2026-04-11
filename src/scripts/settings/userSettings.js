@@ -39,7 +39,7 @@ function filterQuerySettings(query, allowedItems) {
 
 const defaultSubtitleAppearanceSettings = {
     verticalPosition: -3,
-    aspectMode: 'stretch'
+    aspectMode: 'contain'
 };
 
 const defaultComicsPlayerSettings = {
