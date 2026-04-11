@@ -643,6 +643,30 @@ function showPlaybackInfoErrorMessage(instance, errorCode) {
     });
 }
 
+function isExternalGraphicalSubtitleStream(stream) {
+    if (!stream || stream.Type !== 'Subtitle' || stream.DeliveryMethod !== 'External') {
+        return false;
+    }
+
+    if (typeof stream.IsTextSubtitleStream === 'boolean') {
+        return !stream.IsTextSubtitleStream;
+    }
+
+    const codec = (stream.Codec || '').toLowerCase();
+    return codec === 'pgssub' || codec === 'dvdsub' || codec === 'vobsub';
+}
+
+function hasSelectedExternalGraphicalSubtitle(mediaSource) {
+    const selectedSubtitleIndices = [mediaSource.DefaultSubtitleStreamIndex, mediaSource.DefaultSecondarySubtitleStreamIndex]
+        .filter(index => typeof index === 'number' && index >= 0);
+
+    if (selectedSubtitleIndices.length === 0) {
+        return false;
+    }
+
+    return (mediaSource.MediaStreams || []).some(stream => selectedSubtitleIndices.includes(stream.Index) && isExternalGraphicalSubtitleStream(stream));
+}
+
 function normalizePlayOptions(playOptions) {
     playOptions.fullscreen = playOptions.fullscreen !== false;
 }
@@ -2867,10 +2891,10 @@ export class PlaybackManager {
                         contentType = 'application/x-mpegURL';
                     } else {
                         contentType = getMimeType(type.toLowerCase(), mediaSource.TranscodingContainer);
+                    }
 
-                        if (mediaUrl.toLowerCase().indexOf('copytimestamps=true') === -1) {
-                            transcodingOffsetTicks = startPosition || 0;
-                        }
+                    if (!(mediaSource.TranscodingSubProtocol === 'hls' && hasSelectedExternalGraphicalSubtitle(mediaSource))) {
+                        transcodingOffsetTicks = startPosition || 0;
                     }
                 }
             } else {

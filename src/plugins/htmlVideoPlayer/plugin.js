@@ -719,6 +719,7 @@ export class HtmlVideoPlayer {
                 this.#currentTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue, PRIMARY_TEXT_TRACK_INDEX);
                 this.#currentSecondaryTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentSecondaryTrackEvents, offsetValue, SECONDARY_TEXT_TRACK_INDEX);
             } else {
+                this.updateCurrentTrackOffset(offsetValue);
                 console.debug('No available track, cannot apply offset: ', offsetValue);
             }
         }
