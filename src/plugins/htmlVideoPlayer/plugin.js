@@ -212,6 +212,10 @@ function getBitmapSubtitleDisplaySettings() {
     };
 }
 
+function getSubtitleTimeOffset(playOptions, subtitleOffset = 0) {
+    return ((playOptions?.transcodingOffsetTicks || 0) / 10000000) + subtitleOffset;
+}
+
 function getDefaultProfile() {
     return profileBuilder({});
 }
@@ -442,7 +446,7 @@ export class HtmlVideoPlayer {
         return {
             video: videoElement,
             subUrl: getTextTrackUrl(track, item),
-            timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+            timeOffset: getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset),
             ...(displaySettings ? { displaySettings } : {}),
             onLoading: () => this.beginPendingSubtitleLoad(targetTextTrackIndex, loadToken),
             onLoaded: () => this.endPendingSubtitleLoad(targetTextTrackIndex, loadToken),
@@ -700,10 +704,10 @@ export class HtmlVideoPlayer {
         // if .ass currently rendering
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
-            this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+            this.#currentAssRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, offsetValue);
         } else if (this.#currentLibbitsubRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
-            this.#currentLibbitsubRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+            this.#currentLibbitsubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, offsetValue);
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -1093,13 +1097,13 @@ export class HtmlVideoPlayer {
 
             seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                 if (this.#currentAssRenderer) {
-                    this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                    this.#currentAssRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
                     this.#currentAssRenderer.resize();
                     this.#currentAssRenderer.resetRenderAheadCache(false);
                 }
 
                 if (this.#currentLibbitsubRenderer) {
-                    this.#currentLibbitsubRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                    this.#currentLibbitsubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
                     this.#currentLibbitsubRenderer.updateCanvasSize?.();
                 }
             });
@@ -1457,7 +1461,10 @@ export class HtmlVideoPlayer {
         const onLoaded = options.onLoaded;
         const onError = options.onError;
         options.onLoaded = () => {
-            this.#currentLibbitsubRenderer?.updateCanvasSize?.();
+            if (this.#currentLibbitsubRenderer) {
+                this.#currentLibbitsubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
+                this.#currentLibbitsubRenderer.updateCanvasSize?.();
+            }
             onLoaded?.();
         };
         options.onError = (error) => {
@@ -1493,10 +1500,13 @@ export class HtmlVideoPlayer {
         const onLoaded = options.onLoaded;
         const onError = options.onError;
         options.onLoaded = () => {
-            this.#currentLibbitsubRenderer?.setDebandEnabled?.(true);
-            this.#currentLibbitsubRenderer?.setDebandThreshold?.(VOBSUB_DEBAND_THRESHOLD);
-            this.#currentLibbitsubRenderer?.setDebandRange?.(VOBSUB_DEBAND_RANGE);
-            this.#currentLibbitsubRenderer?.updateCanvasSize?.();
+            if (this.#currentLibbitsubRenderer) {
+                this.#currentLibbitsubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
+                this.#currentLibbitsubRenderer.setDebandEnabled?.(true);
+                this.#currentLibbitsubRenderer.setDebandThreshold?.(VOBSUB_DEBAND_THRESHOLD);
+                this.#currentLibbitsubRenderer.setDebandRange?.(VOBSUB_DEBAND_RANGE);
+                this.#currentLibbitsubRenderer.updateCanvasSize?.();
+            }
             onLoaded?.();
         };
         options.onError = (error) => {
