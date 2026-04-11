@@ -161,13 +161,6 @@ const FilterButton: FC<FilterButtonProps> = ({
         );
     };
 
-    const isFiltersVideoTypesEnabled = () => {
-        return (
-            viewType === LibraryTab.Movies
-            || viewType === LibraryTab.Series
-            || viewType === LibraryTab.Episodes
-        );
-    };
 
     const isFiltersSeriesStatusEnabled = () => {
         return viewType === LibraryTab.Series;
@@ -302,7 +295,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                     </Accordion>
                 )}
 
-                {isFiltersVideoTypesEnabled() && (
+                {isFiltersFeaturesEnabled() && (
                     <Accordion
                         expanded={expanded === 'filtersVideoTypes'}
                         onChange={handleChange('filtersVideoTypes')}
