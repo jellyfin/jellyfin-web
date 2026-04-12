@@ -8,12 +8,12 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
 import { MusicVideoSuggestionsSectionsView } from 'types/sections';
 
-const musicVideosTabContent: LibraryTabContent = {
-    viewType: LibraryTab.MusicVideos,
+const foldersTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Folders,
     collectionType: CollectionType.Musicvideos,
     isBtnPlayAllEnabled: true,
     isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.MusicVideo]
+    itemType: [BaseItemKind.Folder, BaseItemKind.MusicVideo]
 };
 
 const suggestionsTabContent: LibraryTabContent = {
@@ -22,18 +22,18 @@ const suggestionsTabContent: LibraryTabContent = {
     sectionsView: MusicVideoSuggestionsSectionsView
 };
 
-const foldersTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Folders,
+const musicVideosTabContent: LibraryTabContent = {
+    viewType: LibraryTab.MusicVideos,
     collectionType: CollectionType.Musicvideos,
-    isBtnPlayAllEnabled: false,
-    isBtnShuffleEnabled: false,
-    itemType: [BaseItemKind.Folder, BaseItemKind.MusicVideo]
+    isBtnPlayAllEnabled: true,
+    isBtnShuffleEnabled: true,
+    itemType: [BaseItemKind.MusicVideo]
 };
 
 const musicVideosTabMapping: LibraryTabMapping = {
-    0: musicVideosTabContent,
+    0: foldersTabContent,
     1: suggestionsTabContent,
-    2: foldersTabContent
+    2: musicVideosTabContent
 };
 
 const MusicVideos: FC = () => {
@@ -44,7 +44,7 @@ const MusicVideos: FC = () => {
         <Page
             id='musicvideos'
             className='mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs'
-            backDropType='video, photo'
+            backDropType='musicvideo'
         >
             <PageTabContent
                 key={`${currentTab.viewType} - ${libraryId}`}
