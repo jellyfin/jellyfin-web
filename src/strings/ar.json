@@ -1901,5 +1901,7 @@
     "LabelPlayerSizes": "أحجام المشغل",
     "LabelReasons": "أسباب",
     "LabelProgressAndSpeed": "التقدم / السرعة",
-    "LabelTargetCodecs": "المرمزات المستهدفة"
+    "LabelTargetCodecs": "المرمزات المستهدفة",
+    "LabelVideoAttributes": "صفات الفيديو",
+    "LabelAudioAttributes": "صفات الصوت"
 }
