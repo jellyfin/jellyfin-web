@@ -139,7 +139,7 @@ function setVisibility(context, options) {
         context.querySelector('.yearFilters').classList.remove('hide');
     }
 
-    if (options.mode === 'movies' || options.mode === 'episodes') {
+    if (options.mode === 'movies' || options.mode === 'series' || options.mode === 'episodes') {
         context.querySelector('.videoTypeFilters').classList.remove('hide');
     }
 

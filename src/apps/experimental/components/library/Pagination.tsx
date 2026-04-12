@@ -42,6 +42,7 @@ const Pagination: FC<PaginationProps> = ({
             ...prevState,
             StartIndex: newIndex
         }));
+        window.scrollTo(0, 0);
     }, [limit, setLibraryViewSettings, startIndex]);
 
     const onPreviousPageClick = useCallback(() => {
@@ -50,6 +51,7 @@ const Pagination: FC<PaginationProps> = ({
             ...prevState,
             StartIndex: newIndex
         }));
+        window.scrollTo(0, 0);
     }, [limit, setLibraryViewSettings, startIndex]);
 
     return (
