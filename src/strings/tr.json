@@ -1894,5 +1894,14 @@
     "HeaderLatestMusicVideos": "Son Eklenen Müzik Videoları",
     "Unwatch": "İzlenmedi olarak işaretle",
     "UsersEditPageError": "Kullanıcı düzenleme sayfası yüklenemedi",
-    "Watch": "İzle"
+    "Watch": "İzle",
+    "LabelVideoAttributes": "Vıdeo özellikleri",
+    "LabelVideoColors": "Video renkleri",
+    "LabelVideoBitDepth": "Video bit derinliği",
+    "LabelAudioAttributes": "Ses özellikleri",
+    "LabelTargetCodecs": "Hedef codec bileşenleri",
+    "LabelProgressAndSpeed": "İlerleme / hız",
+    "LabelReasons": "Sebepler",
+    "LabelPlayerSizes": "Oynatıcı dosya boyutları",
+    "LabelPlaybackQuality": "Kare düştü / bozuldu"
 }

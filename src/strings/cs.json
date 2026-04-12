@@ -1894,5 +1894,15 @@
     "ContinueReading": "Číst dál",
     "HeaderLatestBooks": "Nedávno přidané knihy",
     "UsersEditPageError": "Nepodařilo se načíst stránku pro úpravy uživatelů",
-    "HeaderLatestMusicVideos": "Nedávno přidaná hudební videa"
+    "HeaderLatestMusicVideos": "Nedávno přidaná hudební videa",
+    "LabelVideoAttributes": "Atributy videa",
+    "LabelVideoColors": "Barvy videa",
+    "LabelVideoBitDepth": "Bitová hloubka videa",
+    "LabelAudioAttributes": "Atributy zvuku",
+    "LabelTargetCodecs": "Cílové kodeky",
+    "LabelProgressAndSpeed": "Průběh / rychlost",
+    "LabelReasons": "Důvody",
+    "LabelPlayerSizes": "Velikosti přehrávače",
+    "LabelPlaybackQuality": "Ztracený / poškozený snímek",
+    "OnFilesystem": "V souborovém systému: {0}"
 }
