@@ -183,6 +183,22 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Videos
             }
         );
+    } else if (type === 'mixed') {
+        list.push(
+            {
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('HeaderMedia'),
+                value: LibraryTab.Mixed
+            }
+        );
     }
 
     return list;
@@ -249,11 +265,13 @@ function updateHomeSectionValues(context, userSettings) {
 }
 
 function getPerLibrarySettingsHtml(item, user, userSettings) {
+    const collectionType = (item.Type === 'CollectionFolder' && item.CollectionType == null) ? 'mixed' : item.CollectionType;
+
     let html = '';
 
     let isChecked;
 
-    if (item.Type === 'Channel' || item.CollectionType === 'boxsets' || item.CollectionType === 'playlists') {
+    if (item.Type === 'Channel' || collectionType === 'boxsets' || collectionType === 'playlists') {
         isChecked = !(user.Configuration.MyMediaExcludes || []).includes(item.Id);
         html += '<div>';
         html += '<label>';
@@ -264,7 +282,7 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
     }
 
     const excludeFromLatest = ['playlists', 'livetv', 'boxsets', 'channels'];
-    if (!excludeFromLatest.includes(item.CollectionType || '')) {
+    if (!excludeFromLatest.includes(collectionType || '')) {
         isChecked = !user.Configuration.LatestItemsExcludes.includes(item.Id);
         html += '<label class="fldIncludeInLatest">';
         html += `<input type="checkbox" is="emby-checkbox" class="chkIncludeInLatest" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
@@ -276,15 +294,15 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
         html = `<div class="checkboxListContainer">${html}</div>`;
     }
 
-    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos'];
-    if (landingScreenTypes.includes(item.CollectionType)) {
-        const idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
+    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos', 'mixed'];
+    if (landingScreenTypes.includes(collectionType)) {
+        const idForLanding = collectionType === 'livetv' ? collectionType : item.Id;
         html += '<div class="selectContainer">';
         html += `<select is="emby-select" class="selectLanding" data-folderid="${idForLanding}" label="${globalize.translate('LabelDefaultScreen')}">`;
 
         const userValue = userSettings.get(`landing-${idForLanding}`);
 
-        html += getLandingScreenOptionsHtml(item.CollectionType, userValue);
+        html += getLandingScreenOptionsHtml(collectionType, userValue);
 
         html += '</select>';
         html += '</div>';

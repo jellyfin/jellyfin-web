@@ -298,6 +298,10 @@ class AppRouter {
                 urlForList += '&IsNews=true';
             }
 
+            if (options.parentId) {
+                urlForList += '&parentId=' + options.parentId;
+            }
+
             return urlForList;
         }
 
@@ -449,6 +453,16 @@ class AppRouter {
                 if (options?.section === 'latest') {
                     url += '&tab=1';
                 }
+                return url;
+            }
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == null && item.Type === 'CollectionFolder') {
+                url = `#/mixed?topParentId=${item.Id}&collectionType=mixed`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+
                 return url;
             }
         }
