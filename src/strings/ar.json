@@ -1896,5 +1896,10 @@
     "LabelExternalServerUri": "URI خارجي",
     "LabelExternalServerUriHelp": "نشر URI الخادم للولوج الخارجي.",
     "LabelVideoColors": "ألوان الفيديو",
-    "LabelVideoBitDepth": "دقة عمق الفيديو"
+    "LabelVideoBitDepth": "دقة عمق الفيديو",
+    "LabelPlaybackQuality": "اطار مفقود / خرب",
+    "LabelPlayerSizes": "أحجام المشغل",
+    "LabelReasons": "أسباب",
+    "LabelProgressAndSpeed": "التقدم / السرعة",
+    "LabelTargetCodecs": "المرمزات المستهدفة"
 }
