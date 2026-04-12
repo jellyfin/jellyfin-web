@@ -1,6 +1,6 @@
 import React, { type FC } from 'react';
 import classNames from 'classnames';
-import { getDefaultBackgroundClass } from '../cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../utils/builder';
 import CardImageContainer from './CardImageContainer';
 
 import { useApi } from 'hooks/useApi';

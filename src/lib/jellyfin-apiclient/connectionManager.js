@@ -6,10 +6,10 @@ import { ApiClient } from 'jellyfin-apiclient';
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
 import { equalsIgnoreCase } from 'utils/string';
+import { compareVersions } from 'utils/versions';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
-import { compareVersions } from './utils/compareVersions';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
 

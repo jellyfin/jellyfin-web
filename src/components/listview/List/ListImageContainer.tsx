@@ -11,7 +11,7 @@ import type { ListOptions } from 'types/listOptions';
 
 import useIndicator from '../../indicators/useIndicator';
 import layoutManager from '../../layoutManager';
-import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../../cardbuilder/utils/builder';
 import {
     canResume,
     getChannelImageUrl,

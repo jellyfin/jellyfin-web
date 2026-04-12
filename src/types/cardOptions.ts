@@ -4,8 +4,8 @@ import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/
 import type { BaseItemDtoImageBlurHashes } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto-image-blur-hashes';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
-import { ItemAction } from 'constants/itemAction';
-import { CardShape } from 'utils/card';
+import type { CardShape } from 'components/cardbuilder/utils/shape';
+import type { ItemAction } from 'constants/itemAction';
 
 import type { NullableString } from './base/common/shared/types';
 import type { ItemDto } from './base/models/item-dto';
@@ -46,7 +46,7 @@ export interface CardOptions {
     showUnplayedIndicator?: boolean;
     showChildCountIndicator?: boolean;
     lines?: number;
-    context?: CollectionType;
+    context?: CollectionType | string;
     action?: ItemAction | null;
     indexBy?: string;
     parentId?: ParentId;

@@ -251,6 +251,7 @@ export const Component = () => {
                                     label={globalize.translate('LabelCertificatePassword')}
                                     helperText={globalize.translate('LabelCertificatePasswordHelp')}
                                     defaultValue={config.CertificatePassword}
+                                    type='password'
                                 />
                             </Stack>
 

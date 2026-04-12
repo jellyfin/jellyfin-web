@@ -1,4 +1,5 @@
 import type { FolderStorageDto } from '@jellyfin/sdk/lib/generated-client';
+import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -79,15 +80,29 @@ const StorageListItem: FC<StorageListItemProps> = ({
                             color={statusColor}
                             value={usedPercentage}
                         />
-                        <Typography
-                            variant='body2'
-                            color='textSecondary'
+                        <Box
                             sx={{
-                                textAlign: 'end'
+                                display: 'flex',
+                                flexWrap: 'wrap'
                             }}
                         >
-                            {`${readableUsedSpace} / ${readableTotalSpace}`}
-                        </Typography>
+                            <Typography
+                                variant='body2'
+                                color='textSecondary'
+                            >
+                                {globalize.translate('OnFilesystem', folder?.DeviceId || '?')}
+                            </Typography>
+                            <Typography
+                                variant='body2'
+                                color='textSecondary'
+                                sx={{
+                                    flexGrow: 1,
+                                    textAlign: 'end'
+                                }}
+                            >
+                                {`${readableUsedSpace} / ${readableTotalSpace}`}
+                            </Typography>
+                        </Box>
                     </>
                 }
                 slots={{

@@ -10,7 +10,7 @@ import {
     resolveCardCssClasses,
     resolveCardImageContainerCssClasses,
     resolveMixedShapeByAspectRatio
-} from './cardBuilderUtils';
+} from './builder';
 import { ItemAction } from 'constants/itemAction';
 
 describe('getDesiredAspect', () => {

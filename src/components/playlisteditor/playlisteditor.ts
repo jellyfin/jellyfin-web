@@ -189,7 +189,8 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
             userId: apiClient.getCurrentUserId(),
             includeItemTypes: [ BaseItemKind.Playlist ],
             sortBy: [ ItemSortBy.SortName ],
-            recursive: true
+            recursive: true,
+            enableUserData: false
         })
         .then(({ data }) => {
             return Promise.all((data.Items || []).map(item => {
