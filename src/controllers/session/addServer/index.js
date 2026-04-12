@@ -43,7 +43,7 @@ function submitServer(page) {
     // eslint-disable-next-line sonarjs/slow-regex
     const host = page.querySelector('#txtServerHost').value.replace(/\/+$/, '');
     ServerConnections.connectToAddress(host, {
-        enableAutoLogin: appSettings.enableAutoLogin()
+        enableAutoLogin: appSettings.enableRememberMe()
     }).then(function(result) {
         handleConnectionResult(page, result);
     }, function() {

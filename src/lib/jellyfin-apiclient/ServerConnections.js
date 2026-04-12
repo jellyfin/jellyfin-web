@@ -41,6 +41,7 @@ class ServerConnections extends ConnectionManager {
             setUserInfo(null, null);
             // Ensure the updated credentials are persisted to storage
             credentialProvider.credentials(credentialProvider.credentials());
+            localStorage.removeItem('enableRememberMe');
 
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedOut === 'function') {
                 window.NativeShell.onLocalUserSignedOut(logoutInfo);
@@ -51,6 +52,7 @@ class ServerConnections extends ConnectionManager {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
         });
+        this.shouldSaveCredentials = () => appSettings.enableRememberMe();
     }
 
     initApiClient(server) {
@@ -79,7 +81,7 @@ class ServerConnections extends ConnectionManager {
      */
     connect(options) {
         return super.connect({
-            enableAutoLogin: appSettings.enableAutoLogin(),
+            enableAutoLogin: appSettings.enableRememberMe(),
             ...options
         });
     }
