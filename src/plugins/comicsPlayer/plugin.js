@@ -408,7 +408,6 @@ class ArchiveSource {
         });
 
         for (const file of files) {
-            /* eslint-disable-next-line compat/compat */
             const url = URL.createObjectURL(file.file);
             this.urls.push(url);
         }
@@ -416,7 +415,6 @@ class ArchiveSource {
 
     release() {
         this.files = [];
-        /* eslint-disable-next-line compat/compat */
         this.urls.forEach(URL.revokeObjectURL);
         this.urls = [];
     }
