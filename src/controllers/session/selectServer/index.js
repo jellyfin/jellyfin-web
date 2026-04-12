@@ -8,7 +8,7 @@ import focusManager from '../../../components/focusManager';
 import globalize from '../../../lib/globalize';
 import actionSheet from '../../../components/actionSheet/actionSheet';
 import confirm from '../../../components/confirm/confirm';
-import dom from '../../../scripts/dom';
+import dom from '../../../utils/dom';
 import browser from '../../../scripts/browser';
 import 'material-design-icons-iconfont';
 import '../../../styles/flexstyles.scss';
@@ -17,10 +17,9 @@ import '../../../elements/emby-itemscontainer/emby-itemscontainer';
 import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../utils/dashboard';
-import ServerConnections from '../../../components/ServerConnections';
 import alert from '../../../components/alert';
-import { ConnectionState } from '../../../utils/jellyfin-apiclient/ConnectionState.ts';
-import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../../../components/cardbuilder/utils/builder';
+import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -115,12 +114,12 @@ export default function (view, params) {
             switch (result.State) {
                 case ConnectionState.SignedIn:
                     Dashboard.onServerChanged(apiClient.getCurrentUserId(), apiClient.accessToken(), apiClient);
-                    Dashboard.navigate('home.html');
+                    Dashboard.navigate('home');
                     break;
 
                 case ConnectionState.ServerSignIn:
                     Dashboard.onServerChanged(null, null, apiClient);
-                    Dashboard.navigate('login.html?serverid=' + result.Servers[0].Id);
+                    Dashboard.navigate('login?serverid=' + result.Servers[0].Id);
                     break;
 
                 case ConnectionState.ServerUpdateNeeded:
@@ -176,8 +175,9 @@ export default function (view, params) {
 
                 case 'delete':
                     deleteServer(server);
+                    break;
             }
-        });
+        }).catch(() => { /* no-op */ });
     }
 
     function onServersRetrieved(result) {
@@ -222,4 +222,3 @@ export default function (view, params) {
         }
     });
 }
-

@@ -1,9 +1,9 @@
 import * as userSettings from '../scripts/settings/userSettings';
-import loading from '../components/loading/loading';
 import focusManager from '../components/focusManager';
 import homeSections from '../components/homesections/homesections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../elements/emby-itemscontainer/emby-itemscontainer';
-import ServerConnections from '../components/ServerConnections';
 
 class HomeTab {
     constructor(view, params) {
@@ -24,7 +24,6 @@ class HomeTab {
             return Promise.resolve();
         }
 
-        loading.show();
         const view = this.view;
         const apiClient = this.apiClient;
         this.destroyHomeSections();
@@ -37,8 +36,6 @@ class HomeTab {
                 }
             }).catch(err => {
                 console.error(err);
-            }).finally(() => {
-                loading.hide();
             });
     }
     onPause() {

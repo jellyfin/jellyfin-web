@@ -1,16 +1,29 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
+import { AppFeature } from 'constants/appFeature';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
-import dom from '../scripts/dom';
+import dom from '../utils/dom';
 import globalize from '../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';
 import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
-import ServerConnections from './ServerConnections';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
+/** Item types that support downloading all children. */
+const DOWNLOAD_ALL_TYPES = [
+    BaseItemKind.BoxSet,
+    BaseItemKind.MusicAlbum,
+    BaseItemKind.Season,
+    BaseItemKind.Series
+];
 
 function getDeleteLabel(type) {
     switch (type) {
@@ -169,9 +182,9 @@ export async function getCommands(options) {
         });
     }
 
-    if (appHost.supports('filedownload')) {
+    if (appHost.supports(AppFeature.FileDownload)) {
         // CanDownload should probably be updated to return true for these items?
-        if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type == 'Series')) {
+        if (user.Policy.EnableContentDownloading && DOWNLOAD_ALL_TYPES.includes(item.Type)) {
             commands.push({
                 name: globalize.translate('DownloadAll'),
                 id: 'downloadall',
@@ -377,6 +390,7 @@ function executeCommand(item, id, options) {
     const itemId = item.Id;
     const serverId = item.ServerId;
     const apiClient = ServerConnections.getApiClient(serverId);
+    const api = toApi(apiClient);
 
     return new Promise(function (resolve, reject) {
         // eslint-disable-next-line sonarjs/max-switch-cases
@@ -401,9 +415,9 @@ function executeCommand(item, id, options) {
                 break;
             case 'download':
                 import('../scripts/fileDownloader').then((fileDownloader) => {
-                    const downloadHref = apiClient.getItemDownloadUrl(itemId);
+                    const url = getLibraryApi(api).getDownloadUrl({ itemId });
                     fileDownloader.download([{
-                        url: downloadHref,
+                        url,
                         item,
                         itemId,
                         serverId,
@@ -414,19 +428,21 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'downloadall': {
-                const downloadEpisodes = episodes => {
+                const downloadItems = items => {
                     import('../scripts/fileDownloader').then((fileDownloader) => {
-                        const downloads = episodes.map(episode => {
-                            const downloadHref = apiClient.getItemDownloadUrl(episode.Id);
-                            return {
-                                url: downloadHref,
-                                item: episode,
-                                itemId: episode.Id,
-                                serverId: serverId,
-                                title: episode.Name,
-                                filename: episode.Path.replace(/^.*[\\/]/, '')
-                            };
-                        });
+                        const downloads = items
+                            .filter(i => i.CanDownload)
+                            .map(i => {
+                                const url = getLibraryApi(api).getDownloadUrl({ itemId: i.Id });
+                                return {
+                                    url,
+                                    item: i,
+                                    itemId: i.Id,
+                                    serverId,
+                                    title: i.Name,
+                                    filename: i.Path.replace(/^.*[\\/]/, '')
+                                };
+                            });
 
                         fileDownloader.download(downloads);
                     });
@@ -440,24 +456,33 @@ function executeCommand(item, id, options) {
                         });
                     }
                     )).then(seasonData => {
-                        downloadEpisodes(seasonData.map(season => season.Items).flat());
+                        downloadItems(seasonData.map(season => season.Items).flat());
                     });
                 };
 
-                if (item.Type === 'Season') {
-                    downloadSeasons([item]);
-                } else if (item.Type === 'Series') {
-                    apiClient.getSeasons(item.Id, {
-                        userId: options.user.Id,
-                        Fields: 'ItemCounts'
-                    }).then(seasons => downloadSeasons(seasons.Items));
+                switch (item.Type) {
+                    case BaseItemKind.BoxSet:
+                    case BaseItemKind.MusicAlbum:
+                        apiClient.getItems(options.user.Id, {
+                            ParentId: item.Id,
+                            Fields: 'CanDownload,Path'
+                        }).then(({ Items }) => downloadItems(Items));
+                        break;
+                    case BaseItemKind.Season:
+                        downloadSeasons([item]);
+                        break;
+                    case BaseItemKind.Series:
+                        apiClient.getSeasons(item.Id, {
+                            userId: options.user.Id,
+                            Fields: 'ItemCounts'
+                        }).then(seasons => downloadSeasons(seasons.Items));
                 }
 
                 getResolveFunction(getResolveFunction(resolve, id), id)();
                 break;
             }
             case 'copy-stream': {
-                const downloadHref = apiClient.getItemDownloadUrl(itemId);
+                const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId });
                 copy(downloadHref).then(() => {
                     toast(globalize.translate('CopyStreamURLSuccess'));
                 }).catch(() => {
@@ -562,7 +587,7 @@ function executeCommand(item, id, options) {
                 navigator.share({
                     title: item.Name,
                     text: item.Overview,
-                    url: `${apiClient.serverAddress()}/web/index.html${appRouter.getRouteUrl(item)}`
+                    url: `${apiClient.serverAddress()}/web/${appRouter.getRouteUrl(item)}`
                 });
                 break;
             case 'album':

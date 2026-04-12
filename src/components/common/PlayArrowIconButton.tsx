@@ -1,11 +1,13 @@
 import React, { type FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+
+import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 
 interface PlayArrowIconButtonProps {
     className: string;
-    action: string;
+    action: ItemAction;
     title: string;
     iconClassName?: string;
 }

@@ -11,8 +11,12 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import type { PlayerState } from 'types/playbackStopInfo';
 import type { Event } from 'utils/events';
 
-/** The default image resolutions to provide to the media session */
-const DEFAULT_IMAGE_SIZES = [96, 128, 192, 256, 384, 512];
+/** The default image resolutions to provide to the media session.
+ *
+ * Highest-to-lowest order matters; Firefox on Linux seems to use the first
+ * image in the artwork array for its MPRIS interface. (#7630)
+ */
+const DEFAULT_IMAGE_SIZES = [512, 384, 256, 192, 128, 96];
 
 const hasNavigatorSession = 'mediaSession' in navigator;
 const hasNativeShell = !!window.NativeShell;
@@ -51,19 +55,20 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
     }
 
     private bindNavigatorSession() {
-        /* eslint-disable compat/compat */
-        navigator.mediaSession.setActionHandler('pause', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('play', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('stop', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('previoustrack', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('nexttrack', this.onMediaSessionAction.bind(this));
-        navigator.mediaSession.setActionHandler('seekto', this.onMediaSessionAction.bind(this));
+        const actions: MediaSessionAction[] = ['pause', 'play', 'previoustrack', 'nexttrack', 'stop', 'seekto'];
+
         // iOS will only show next/prev track controls or seek controls
-        if (!browser.iOS) {
-            navigator.mediaSession.setActionHandler('seekbackward', this.onMediaSessionAction.bind(this));
-            navigator.mediaSession.setActionHandler('seekforward', this.onMediaSessionAction.bind(this));
+        if (!browser.iOS) actions.push('seekbackward', 'seekforward');
+
+        for (const action of actions) {
+            try {
+                /* eslint-disable-next-line compat/compat */
+                navigator.mediaSession.setActionHandler(action, this.onMediaSessionAction.bind(this));
+            } catch (err) {
+                // NOTE: Some legacy (TV) browsers lack support for the stop and seekto actions
+                console.warn(`[MediaSessionSubscriber] Failed to add "${action}" action handler`, err);
+            }
         }
-        /* eslint-enable compat/compat */
     }
 
     private onMediaSessionAction(details: MediaSessionActionDetails) {
@@ -91,8 +96,14 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
 
     private onMediaSessionUpdate(
         { type: action }: Event,
-        state: PlayerState = this.playbackManager.getPlayerState(this.player)
+        stateOverride?: PlayerState
     ) {
+        if (!this.player) {
+            console.debug('[MediaSessionSubscriber] no active player; resetting media session');
+            return resetMediaSession();
+        }
+
+        const state: PlayerState = stateOverride || this.playbackManager.getPlayerState(this.player);
         const item = state.NowPlayingItem;
 
         if (!item) {

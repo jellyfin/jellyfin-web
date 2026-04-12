@@ -11,6 +11,7 @@ import { MovieSuggestionsSectionsView } from 'types/sections';
 const moviesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Movies,
     collectionType: CollectionType.Movies,
+    isBtnPlayAllEnabled: true,
     isBtnShuffleEnabled: true,
     itemType: [BaseItemKind.Movie]
 };
@@ -20,7 +21,6 @@ const collectionsTabContent: LibraryTabContent = {
     collectionType: CollectionType.Movies,
     isBtnFilterEnabled: false,
     isBtnNewCollectionEnabled: true,
-    isAlphabetPickerEnabled: false,
     itemType: [BaseItemKind.BoxSet],
     noItemsMessage: 'MessageNoCollectionsAvailable'
 };
@@ -29,12 +29,6 @@ const favoritesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Favorites,
     collectionType: CollectionType.Movies,
     itemType: [BaseItemKind.Movie]
-};
-
-const trailersTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Trailers,
-    itemType: [BaseItemKind.Trailer],
-    noItemsMessage: 'MessageNoTrailersFound'
 };
 
 const suggestionsTabContent: LibraryTabContent = {
@@ -52,10 +46,9 @@ const genresTabContent: LibraryTabContent = {
 const moviesTabMapping: LibraryTabMapping = {
     0: moviesTabContent,
     1: suggestionsTabContent,
-    2: trailersTabContent,
-    3: favoritesTabContent,
-    4: collectionsTabContent,
-    5: genresTabContent
+    2: favoritesTabContent,
+    3: collectionsTabContent,
+    4: genresTabContent
 };
 
 const Movies: FC = () => {

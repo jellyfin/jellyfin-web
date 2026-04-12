@@ -8,7 +8,7 @@ import escapeHtml from 'escape-html';
 import 'jquery';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../lib/globalize';
 import '../../elements/emby-button/emby-button';
@@ -23,6 +23,7 @@ import toast from '../toast/toast';
 import confirm from '../confirm/confirm';
 import template from './mediaLibraryEditor.template.html';
 
+// eslint-disable-next-line sonarjs/no-invariant-returns
 function onEditLibrary() {
     if (isCreating) {
         return false;
@@ -55,10 +56,10 @@ function onEditLibrary() {
     return false;
 }
 
-function addMediaLocation(page, path, networkSharePath) {
+function addMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     const refreshAfterChange = currentOptions.refresh;
-    ApiClient.addMediaPath(virtualFolder.Name, path, networkSharePath, refreshAfterChange).then(() => {
+    ApiClient.addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
     }, () => {
@@ -66,11 +67,10 @@ function addMediaLocation(page, path, networkSharePath) {
     });
 }
 
-function updateMediaLocation(page, path, networkSharePath) {
+function updateMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     ApiClient.updateMediaPath(virtualFolder.Name, {
-        Path: path,
-        NetworkPath: networkSharePath
+        Path: path
     }).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
@@ -114,7 +114,7 @@ function onListItemClick(e) {
             return;
         }
 
-        showDirectoryBrowser(dom.parentWithClass(listItem, 'dlg-libraryeditor'), originalPath, pathInfo.NetworkPath);
+        showDirectoryBrowser(dom.parentWithClass(listItem, 'dlg-libraryeditor'), originalPath);
     }
 }
 
@@ -173,19 +173,18 @@ function onAddButtonClick() {
     showDirectoryBrowser(dom.parentWithClass(this, 'dlg-libraryeditor'));
 }
 
-function showDirectoryBrowser(context, originalPath, networkPath) {
+function showDirectoryBrowser(context, originalPath) {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
             pathReadOnly: originalPath != null,
             path: originalPath,
-            networkSharePath: networkPath,
-            callback: function (path, networkSharePath) {
+            callback: function (path) {
                 if (path) {
                     if (originalPath) {
-                        updateMediaLocation(context, originalPath, networkSharePath);
+                        updateMediaLocation(context, originalPath);
                     } else {
-                        addMediaLocation(context, path, networkSharePath);
+                        addMediaLocation(context, path);
                     }
                 }
 

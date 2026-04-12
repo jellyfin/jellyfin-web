@@ -1,10 +1,10 @@
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
-import { getBackdropShape } from 'utils/card';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -45,7 +45,7 @@ function enableScrollX() {
 
 function renderUpcoming(elem, items) {
     const groups = [];
-    let currentGroupName = '';
+    let currentGroupName;
     let currentGroup = [];
 
     for (let i = 0, length = items.length; i < length; i++) {
@@ -61,20 +61,18 @@ function renderUpcoming(elem, items) {
                     day: 'numeric'
                 });
             } catch (err) {
-                console.error('error parsing timestamp for upcoming tv shows');
+                console.error('error parsing timestamp for upcoming tv shows', err);
             }
         }
 
         if (dateText != currentGroupName) {
-            if (currentGroup.length) {
-                groups.push({
-                    name: currentGroupName,
-                    items: currentGroup
-                });
-            }
-
             currentGroupName = dateText;
             currentGroup = [item];
+
+            groups.push({
+                name: currentGroupName,
+                items: currentGroup
+            });
         } else {
             currentGroup.push(item);
         }

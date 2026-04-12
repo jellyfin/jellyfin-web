@@ -1,8 +1,9 @@
 import { playbackManager } from '../../components/playback/playbackmanager';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
-import ServerConnections from '../../components/ServerConnections';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import isEqual from 'lodash-es/isEqual';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();
@@ -154,8 +155,8 @@ function processUpdatedSessions(instance, sessions, apiClient) {
     if (session) {
         normalizeImages(session, apiClient);
 
-        const eventNames = getChangedEvents(instance.lastPlayerData);
         updateCurrentQueue(instance, session);
+        const eventNames = getChangedEvents(instance.lastPlayerData, session);
 
         instance.lastPlayerData = session;
 
@@ -169,21 +170,63 @@ function processUpdatedSessions(instance, sessions, apiClient) {
     }
 }
 
-function getChangedEvents(state1) {
+function getBasicEvents(oldPlayerData, newPlayerData) {
     const names = [];
-
-    if (!state1) {
-        names.push('statechange');
+    if (oldPlayerData.PlayState.PositionTicks !== newPlayerData.PlayState.PositionTicks) {
         names.push('timeupdate');
-        names.push('pause');
+    }
+    if (oldPlayerData.PlayState.IsPaused !== newPlayerData.PlayState.IsPaused) {
+        names.push(newPlayerData.PlayState.IsPaused ? 'pause' : 'unpause');
+    }
+    if (oldPlayerData.PlayState.IsMuted !== newPlayerData.PlayState.IsMuted
+        || oldPlayerData.PlayState.VolumeLevel !== newPlayerData.PlayState.VolumeLevel) {
+        names.push('volumechange');
+    }
+    if (oldPlayerData.PlayState.RepeatMode !== newPlayerData.PlayState.RepeatMode) {
+        names.push('repeatmodechange');
+    }
+    return names;
+}
 
-        return names;
+function copyNewStateOfBasicEvents(oldPlayerData, newPlayerData) {
+    const prepareOldData = (oldObject, newObject, propertyName) => {
+        if (!Object.hasOwn(newObject, propertyName)) {
+            delete oldObject[propertyName];
+        } else {
+            oldObject[propertyName] = newObject[propertyName];
+        }
+    };
+
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'PositionTicks');
+    if (oldPlayerData.TranscodingInfo) {
+        // TranscodingInfo.CompletionPercentage and TranscodingInfo.Framerate change with time
+        // so it's enough if we only trigger 'timeupdate' event
+        prepareOldData(oldPlayerData.TranscodingInfo, newPlayerData.TranscodingInfo, 'CompletionPercentage');
+        prepareOldData(oldPlayerData.TranscodingInfo, newPlayerData.TranscodingInfo, 'Framerate');
+    }
+    prepareOldData(oldPlayerData, newPlayerData, 'LastActivityDate');
+    prepareOldData(oldPlayerData, newPlayerData, 'LastPlaybackCheckIn');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'IsPaused');
+    prepareOldData(oldPlayerData, newPlayerData, 'LastPausedDate');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'IsMuted');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'VolumeLevel');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'RepeatMode');
+    prepareOldData(oldPlayerData.PlayState, newPlayerData.PlayState, 'OrderMode');
+}
+
+function getChangedEvents(oldPlayerData, newPlayerData) {
+    if (!oldPlayerData?.PlayState || !newPlayerData?.PlayState
+        || (oldPlayerData.TranscodingInfo !== newPlayerData.TranscodingInfo && (!oldPlayerData.TranscodingInfo || !newPlayerData.TranscodingInfo))) {
+        return ['statechange'];
     }
 
-    // TODO: Trim these down to prevent the UI from over-refreshing
-    names.push('statechange');
-    names.push('timeupdate');
-    names.push('pause');
+    const names = getBasicEvents(oldPlayerData, newPlayerData);
+    // override the part of oldPlayerData, because it will be overwritten anyway, after this function
+    copyNewStateOfBasicEvents(oldPlayerData, newPlayerData);
+
+    if (!isEqual(oldPlayerData, newPlayerData)) {
+        return ['statechange'];
+    }
 
     return names;
 }

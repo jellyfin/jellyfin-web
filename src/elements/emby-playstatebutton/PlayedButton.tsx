@@ -1,9 +1,10 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { type FC, useCallback } from 'react';
+import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
-import { IconButton } from '@mui/material';
-import classNames from 'classnames';
+
+import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import { useTogglePlayedMutation } from 'hooks/useFetchItems';
 
@@ -58,22 +59,17 @@ const PlayedButton: FC<PlayedButtonProps> = ({
         }
     }, [itemId, togglePlayedMutation, isPlayed, queryClient, queryKey]);
 
-    const btnClass = classNames(
-        className,
-        { 'playstatebutton-played': isPlayed }
-    );
-
-    const iconClass = classNames(
-        { 'playstatebutton-icon-played': isPlayed }
-    );
     return (
         <IconButton
+            data-action={ItemAction.None}
             title={getTitle()}
-            className={btnClass}
+            className={className}
             size='small'
             onClick={onClick}
         >
-            <CheckIcon className={iconClass} />
+            <CheckIcon
+                color={isPlayed ? 'error' : undefined}
+            />
         </IconButton>
     );
 };

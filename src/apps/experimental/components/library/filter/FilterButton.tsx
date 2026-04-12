@@ -1,16 +1,17 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { FC, useCallback } from 'react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import Box from '@mui/material/Box';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterAlt from '@mui/icons-material/FilterAlt';
+import Clear from '@mui/icons-material/Clear';
+
+import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAccordionSummary, {
     AccordionSummaryProps
 } from '@mui/material/AccordionSummary';
-import IconButton from '@mui/material/IconButton';
-import { Badge } from '@mui/material';
+import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
@@ -35,9 +36,11 @@ const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion
         disableGutters
         elevation={0}
-        TransitionProps={{ unmountOnExit: true }}
         square
         {...props}
+        slotProps={{
+            transition: { unmountOnExit: true }
+        }}
     />
 ))(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
@@ -109,6 +112,16 @@ const FilterButton: FC<FilterButtonProps> = ({
         setAnchorEl(event.currentTarget);
     }, []);
 
+    const handleResetFiltersClick = useCallback(() => {
+        if (hasFilters) {
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {}
+            }));
+        }
+    }, [hasFilters, setLibraryViewSettings]);
+
     const handleClose = useCallback(() => {
         setAnchorEl(null);
     }, []);
@@ -122,6 +135,7 @@ const FilterButton: FC<FilterButtonProps> = ({
             || viewType === LibraryTab.Artists
             || viewType === LibraryTab.Songs
             || viewType === LibraryTab.Episodes
+            || viewType === LibraryTab.Books
         );
     };
 
@@ -129,6 +143,7 @@ const FilterButton: FC<FilterButtonProps> = ({
         return (
             viewType === LibraryTab.Movies
             || viewType === LibraryTab.Series
+            || viewType === LibraryTab.Books
         );
     };
 
@@ -156,18 +171,16 @@ const FilterButton: FC<FilterButtonProps> = ({
     };
 
     return (
-        <Box>
-            <IconButton
+        <>
+            <Button
                 title={globalize.translate('Filter')}
-                sx={{ ml: 2 }}
                 aria-describedby={id}
-                className='paper-icon-button-light btnFilter autoSize'
                 onClick={handleClick}
             >
                 <Badge color='info' variant='dot' invisible={!hasFilters}>
-                    <FilterListIcon />
+                    <FilterAlt />
                 </Badge>
-            </IconButton>
+            </Button>
             <Popover
                 id={id}
                 open={open}
@@ -181,10 +194,12 @@ const FilterButton: FC<FilterButtonProps> = ({
                     vertical: 'top',
                     horizontal: 'center'
                 }}
-                PaperProps={{
-                    style: {
-                        maxHeight: '50%',
-                        width: 250
+                slotProps={{
+                    paper: {
+                        style: {
+                            maxHeight: '50%',
+                            width: 250
+                        }
                     }
                 }}
             >
@@ -446,8 +461,21 @@ const FilterButton: FC<FilterButtonProps> = ({
                         </AccordionDetails>
                     </Accordion>
                 )}
+                <Button
+                    disabled={!hasFilters}
+                    title={globalize.translate('ResetFilters')}
+                    aria-describedby={id}
+                    onClick={handleResetFiltersClick}
+                    fullWidth={true}
+                    startIcon={<Clear />}
+                    sx={{
+                        justifyContent: 'right'
+                    }}
+                >
+                    {globalize.translate('ResetFilters')}
+                </Button>
             </Popover>
-        </Box>
+        </>
     );
 };
 

@@ -1,7 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 
-import ServerConnections from 'components/ServerConnections';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface ImageOptions {
@@ -47,7 +47,7 @@ export function getImageUrl(item: ItemDto, options: ImageOptions = {}) {
     const itemId = item.PrimaryImageItemId || item.Id;
 
     if (itemId && item.ImageTags?.[options.type]) {
-        options.tag = item.ImageTags[options.type];
+        options.tag = item.ImageTags[options.type] ?? undefined;
         return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(itemId, options);
     }
 

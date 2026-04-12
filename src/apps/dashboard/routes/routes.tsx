@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteObject } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 
 import ConnectionRequired from 'components/ConnectionRequired';
 import { ASYNC_ADMIN_ROUTES } from './_asyncRoutes';
@@ -17,7 +17,7 @@ export const DASHBOARD_APP_PATHS = {
 
 export const DASHBOARD_APP_ROUTES: RouteObject[] = [
     {
-        element: <ConnectionRequired isAdminRequired />,
+        element: <ConnectionRequired level='admin' />,
         children: [
             {
                 lazy: () => import('../AppLayout'),
@@ -26,7 +26,11 @@ export const DASHBOARD_APP_ROUTES: RouteObject[] = [
                         path: DASHBOARD_APP_PATHS.Dashboard,
                         children: [
                             ...ASYNC_ADMIN_ROUTES.map(toAsyncPageRoute),
-                            ...LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute)
+                            ...LEGACY_ADMIN_ROUTES.map(toViewManagerPageRoute),
+                            {
+                                path: 'plugins/catalog',
+                                element: <Navigate replace to='/dashboard/plugins' />
+                            }
                         ],
                         errorElement: <ErrorBoundary pageClasses={[ 'type-interior' ]} />
                     },

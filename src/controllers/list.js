@@ -8,9 +8,9 @@ import AlphaNumericShortcuts from '../scripts/alphanumericshortcuts';
 import libraryBrowser from '../scripts/libraryBrowser';
 import { playbackManager } from '../components/playback/playbackmanager';
 import AlphaPicker from '../components/alphaPicker/alphaPicker';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import '../elements/emby-itemscontainer/emby-itemscontainer';
 import '../elements/emby-scroller/emby-scroller';
-import ServerConnections from '../components/ServerConnections';
 import LibraryMenu from '../scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
@@ -323,14 +323,22 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
     }
 
-    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, {
+    const query = {
         StartIndex: startIndex,
         Limit: limit,
         Fields: 'PrimaryImageAspectRatio,SortName,Path,ChildCount,MediaSourceCount',
         ImageTypeLimit: 1,
         ParentId: item.Id,
         SortBy: sortBy
-    }));
+    };
+
+    if (sortBy === 'Random') {
+        instance.queryRecursive = true;
+        query.IncludeItemTypes = 'Video,Movie,Series,Music,MusicVideo';
+        query.Recursive = true;
+    }
+
+    return apiClient.getItems(apiClient.getCurrentUserId(), modifyQueryWithFilters(instance, query));
 }
 
 function getItem(params) {
@@ -881,8 +889,8 @@ class ItemsView {
                 if ((itemType === 'MusicGenre' || params.type !== 'Programs' && itemType !== 'Channel')
                     // Folder, Playlist views
                     && itemType !== 'UserView'
-                    // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
+                    // Only Photo (homevideos) and Music Video CollectionFolders are supported
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -894,8 +902,8 @@ class ItemsView {
                 if ((itemType === 'MusicGenre' || params.type !== 'Programs' && params.type !== 'nextup' && itemType !== 'Channel')
                     // Folder, Playlist views
                     && itemType !== 'UserView'
-                    // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
+                    // Only Photo (homevideos) and Music Video CollectionFolders are supported
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);

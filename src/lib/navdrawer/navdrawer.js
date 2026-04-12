@@ -4,7 +4,7 @@
  */
 
 import browser from '../../scripts/browser';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import './navdrawer.scss';
 import '../../styles/scrollstyles.scss';
 import globalize from '../globalize';

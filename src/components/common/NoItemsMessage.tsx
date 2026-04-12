@@ -15,7 +15,7 @@ const NoItemsMessage: FC<NoItemsMessageProps> = ({
             <Typography variant='h1'>
                 {globalize.translate('MessageNothingHere')}
             </Typography>
-            <Typography paragraph>
+            <Typography sx={{ marginBottom: '16px' }}>
                 {globalize.translate(message)}
             </Typography>
         </Box>

@@ -9,7 +9,22 @@ function toLocaleStringSupportsOptions() {
  * @returns {number} Randomly generated number.
  */
 export function randomInt(min: number, max: number): number {
+    // eslint-disable-next-line sonarjs/pseudo-random
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Gets the value of a number formatted as a string.
+ * @param {number} value The value as a number.
+ * @param {string} locale The locale to use for formatting (i.e. en-us).
+ * @returns {string} The value formatted as a string.
+ */
+export function toDecimalString(value: number, locale: string): string {
+    if (toLocaleStringSupportsOptions()) {
+        return value.toLocaleString(locale);
+    }
+
+    return value.toString();
 }
 
 /**
@@ -18,7 +33,7 @@ export function randomInt(min: number, max: number): number {
  * @param {string} locale The locale to use for formatting (i.e. en-us).
  * @returns {string} The value formatted as a percentage.
  */
-export function toPercent(value: number | null | undefined, locale: string): string {
+export function toPercentString(value: number | null | undefined, locale: string): string {
     if (value == null) {
         return '';
     }

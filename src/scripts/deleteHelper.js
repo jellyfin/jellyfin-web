@@ -1,10 +1,11 @@
 
-import globalize from 'lib/globalize';
-import alert from '../components/alert';
-import confirm from '../components/confirm/confirm';
-import { appRouter } from '../components/router/appRouter';
-import ServerConnections from '../components/ServerConnections';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
+import alert from 'components/alert';
+import confirm from 'components/confirm/confirm';
+import { appRouter } from 'components/router/appRouter';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 function alertText(options) {
     return alert(options);
@@ -17,6 +18,24 @@ function getDeletionConfirmContent(item) {
             title: globalize.translate('HeaderDeleteSeries'),
             text: globalize.translate('ConfirmDeleteSeries', totalEpisodes),
             confirmText: globalize.translate('DeleteEntireSeries', totalEpisodes),
+            primary: 'delete'
+        };
+    }
+
+    if (item.Type === BaseItemKind.BoxSet) {
+        return {
+            title: globalize.translate('HeaderDeleteCollection'),
+            text: globalize.translate('ConfirmDeleteCollection'),
+            confirmText: globalize.translate('Delete'),
+            primary: 'delete'
+        };
+    }
+
+    if (item.Type === BaseItemKind.Playlist) {
+        return {
+            title: globalize.translate('HeaderDeletePlaylist'),
+            text: globalize.translate('ConfirmDeletePlaylist'),
+            confirmText: globalize.translate('Delete'),
             primary: 'delete'
         };
     }

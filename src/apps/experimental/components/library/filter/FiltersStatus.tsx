@@ -1,13 +1,14 @@
+import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import React, { FC, useCallback } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+
 import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
-import { ItemFilter } from '@jellyfin/sdk/lib/generated-client';
 import { LibraryTab } from 'types/libraryTab';
 
-const statusFiltersOptions = [
+const defaultFiltersOptions = [
     { label: 'Played', value: ItemFilter.IsPlayed },
     { label: 'Unplayed', value: ItemFilter.IsUnplayed },
     { label: 'Favorite', value: ItemFilter.IsFavorite },
@@ -25,6 +26,14 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
+    let statusFiltersOptions = defaultFiltersOptions;
+
+    if (viewType === LibraryTab.Books) {
+        statusFiltersOptions = defaultFiltersOptions.map((option) => (
+            option.value === ItemFilter.IsResumable ? { ...option, label: 'ContinueReading' } : option
+        ));
+    }
+
     const onFiltersStatusChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();

@@ -247,6 +247,19 @@ class AppSettings {
         return toBoolean(this.get('alwaysRemuxMp3'), false);
     }
 
+    /**
+     * Get or set the preferred video aspect ratio.
+     * @param {string|undefined} val - The aspect ratio or undefined.
+     * @returns {string} The saved aspect ratio state.
+     */
+    aspectRatio(val) {
+        if (val !== undefined) {
+            return this.set('aspectRatio', val);
+        }
+
+        return this.get('aspectRatio') || '';
+    }
+
     set(name, value, userId) {
         const currentValue = this.get(name, userId);
         localStorage.setItem(this.#getKey(name, userId), value);

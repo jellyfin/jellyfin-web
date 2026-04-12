@@ -1,4 +1,4 @@
-import { ApiKeyApiRevokeKeyRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { ApiKeyApiRevokeKeyRequest } from '@jellyfin/sdk/lib/generated-client';
 import { getApiKeyApi } from '@jellyfin/sdk/lib/utils/api/api-key-api';
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
@@ -10,7 +10,6 @@ export const useRevokeKey = () => {
 
     return useMutation({
         mutationFn: (params: ApiKeyApiRevokeKeyRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getApiKeyApi(api!)
                 .revokeKey(params)
         ),

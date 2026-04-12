@@ -6,12 +6,7 @@ import type { AxiosRequestConfig } from 'axios';
 
 export const QUERY_KEY = 'Configuration';
 
-export const fetchConfiguration = async (api?: Api, options?: AxiosRequestConfig) => {
-    if (!api) {
-        console.error('[useLogOptions] No API instance available');
-        return;
-    }
-
+export const fetchConfiguration = async (api: Api, options?: AxiosRequestConfig) => {
     const response = await getConfigurationApi(api).getConfiguration(options);
 
     return response.data;
@@ -21,8 +16,8 @@ export const useConfiguration = () => {
     const { api } = useApi();
 
     return useQuery({
-        queryKey: [QUERY_KEY],
-        queryFn: ({ signal }) => fetchConfiguration(api, { signal }),
+        queryKey: [ QUERY_KEY ],
+        queryFn: ({ signal }) => fetchConfiguration(api!, { signal }),
         enabled: !!api
     });
 };

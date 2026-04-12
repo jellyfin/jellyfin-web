@@ -11,7 +11,6 @@ export const useEnablePlugin = () => {
     const { api } = useApi();
     return useMutation({
         mutationFn: (params: PluginsApiEnablePluginRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getPluginsApi(api!)
                 .enablePlugin(params)
         ),

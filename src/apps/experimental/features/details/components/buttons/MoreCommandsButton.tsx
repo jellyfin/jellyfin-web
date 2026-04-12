@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQueryClient } from '@tanstack/react-query';
+
 import { useApi } from 'hooks/useApi';
 import { useGetItemByType } from '../../hooks/api/useGetItemByType';
 import globalize from 'lib/globalize';
@@ -14,7 +15,7 @@ import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface PlayAllFromHereOptions {
-    item: ItemDto;
+    item?: ItemDto;
     items: ItemDto[];
     serverId: NullableString;
     queue?: boolean;
@@ -165,7 +166,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                             serverId: item?.ServerId
                         });
                         playAllFromHere({
-                            item: item || {},
+                            item: item,
                             items: items || [],
                             serverId: item?.ServerId
                         }).catch(err => {
@@ -173,7 +174,7 @@ const MoreCommandsButton: FC<MoreCommandsButtonProps> = ({
                         });
                     } else if (result.command === 'queueallfromhere') {
                         playAllFromHere({
-                            item: item || {},
+                            item: item,
                             items: items || [],
                             serverId: item?.ServerId,
                             queue: true

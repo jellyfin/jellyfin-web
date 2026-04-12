@@ -1,3 +1,6 @@
+import { AppFeature } from 'constants/appFeature';
+import { MediaError } from 'types/mediaError';
+
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
@@ -5,7 +8,6 @@ import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
-import { MediaError } from 'types/mediaError';
 
 function getDefaultProfile() {
     return profileBuilder({});
@@ -69,7 +71,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
 
     // issue head request to get content type
     return new Promise(function (resolve, reject) {
-        import('../../components/fetchhelper').then((fetchHelper) => {
+        import('../../utils/fetch').then((fetchHelper) => {
             fetchHelper.ajax({
                 url: url,
                 type: 'HEAD'
@@ -278,7 +280,7 @@ class HtmlAudioPlayer {
             }
 
             // TODO: Move volume control to PlaybackManager. Player should just be a wrapper that translates commands into API calls.
-            if (!appHost.supports('physicalvolumecontrol')) {
+            if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
                 elem.volume = htmlMediaHelper.getSavedVolume();
             }
 

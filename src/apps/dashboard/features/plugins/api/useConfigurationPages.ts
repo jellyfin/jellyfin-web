@@ -9,15 +9,10 @@ import { useApi } from 'hooks/useApi';
 import { QueryKey } from './queryKey';
 
 const fetchConfigurationPages = async (
-    api?: Api,
+    api: Api,
     params?: DashboardApiGetConfigurationPagesRequest,
     options?: AxiosRequestConfig
 ) => {
-    if (!api) {
-        console.warn('[fetchConfigurationPages] No API instance available');
-        return [];
-    }
-
     const response = await getDashboardApi(api)
         .getConfigurationPages(params, options);
     return response.data;
@@ -28,7 +23,7 @@ const getConfigurationPagesQuery = (
     params?: DashboardApiGetConfigurationPagesRequest
 ) => queryOptions({
     queryKey: [ QueryKey.ConfigurationPages, params?.enableInMainMenu ],
-    queryFn: ({ signal }) => fetchConfigurationPages(api, params, { signal }),
+    queryFn: ({ signal }) => fetchConfigurationPages(api!, params, { signal }),
     enabled: !!api
 });
 

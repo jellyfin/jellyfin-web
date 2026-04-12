@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import Avatar from '@mui/material/Avatar';
-import { useTheme } from '@mui/material/styles';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 
 import { useApi } from 'hooks/useApi';
 
@@ -11,7 +11,6 @@ interface UserAvatarProps {
 
 const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
     const { api } = useApi();
-    const theme = useTheme();
 
     return user ? (
         <Avatar
@@ -21,10 +20,13 @@ const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
                     `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}` :
                     undefined
             }
-            sx={{
-                bgcolor: theme.palette.primary.dark,
+            // eslint-disable-next-line react/jsx-no-bind
+            sx={(theme) => ({
+                bgcolor: api && user.Id && user.PrimaryImageTag ?
+                    theme.vars.palette.background.paper :
+                    theme.vars.palette.primary.dark,
                 color: 'inherit'
-            }}
+            })}
         />
     ) : null;
 };

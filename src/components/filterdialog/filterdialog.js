@@ -1,19 +1,21 @@
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import union from 'lodash-es/union';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
-import ServerConnections from '../ServerConnections';
 import template from './filterdialog.template.html';
 import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+import { getFilterStatus } from 'components/filterdialog/filterIndicator';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
         return resultItems;
     }
+    // eslint-disable-next-line sonarjs/no-alphabetical-sort
     return union(resultItems, queryItems.split(delimiter)).sort();
 }
 
@@ -52,7 +54,7 @@ function renderFilters(context, result, query) {
         const delimeter = '|';
         return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years, query.Years, ','), function (i) {
+    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years.map(String), query.Years, ','), function (i) {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });
@@ -114,6 +116,14 @@ function updateFilterControls(context, options) {
      */
 function triggerChange(instance) {
     stopMultiSelect();
+
+    const hasFilters = getFilterStatus(instance.options.query);
+    if (hasFilters) {
+        enableByClass(document, 'resetFilters');
+    } else {
+        disableByClass(document, 'resetFilters');
+    }
+
     Events.trigger(instance, 'filterchange');
 }
 
@@ -143,6 +153,22 @@ function setVisibility(context, options) {
 
     if (options.mode === 'episodes') {
         showByClass(context, 'episodeFilter');
+    }
+
+    if (!options.hasFilters) {
+        disableByClass(context, 'resetFilters');
+    }
+}
+
+function enableByClass(context, className) {
+    for (const elem of context.querySelectorAll(`.${className}`)) {
+        elem.disabled = false;
+    }
+}
+
+function disableByClass(context, className) {
+    for (const elem of context.querySelectorAll(`.${className}`)) {
+        elem.disabled = true;
     }
 }
 
@@ -253,6 +279,16 @@ class FilterDialog {
         for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
             elem.addEventListener('change', () => this.onVideoTypeFilterChange(elem));
         }
+
+        const resetFilters = context.querySelector('.resetFilters');
+        resetFilters.addEventListener('click', () => {
+            for (const elem of context.querySelectorAll('.filterDialogContent input[type="checkbox"]:checked')) {
+                elem.checked = false;
+            }
+            this.resetQuery(query);
+            triggerChange(this);
+        });
+
         const chk3DFilter = context.querySelector('.chk3DFilter');
         chk3DFilter.addEventListener('change', () => {
             query.StartIndex = 0;
@@ -350,7 +386,10 @@ class FilterDialog {
                 const filterName = chkGenreFilter.getAttribute('data-filter');
                 let filters = query.Genres || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkGenreFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -364,7 +403,10 @@ class FilterDialog {
                 const filterName = chkTagFilter.getAttribute('data-filter');
                 let filters = query.Tags || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkTagFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -378,7 +420,10 @@ class FilterDialog {
                 const filterName = chkYearFilter.getAttribute('data-filter');
                 let filters = query.Years || '';
                 const delimiter = ',';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);;
                 if (chkYearFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -392,7 +437,10 @@ class FilterDialog {
                 const filterName = chkOfficialRatingFilter.getAttribute('data-filter');
                 let filters = query.OfficialRatings || '';
                 const delimiter = '|';
-                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                filters = filters
+                    .split(delimiter)
+                    .filter((f) => f !== filterName)
+                    .join(delimiter);
                 if (chkOfficialRatingFilter.checked) {
                     filters = filters ? (filters + delimiter + filterName) : filterName;
                 }
@@ -401,6 +449,26 @@ class FilterDialog {
                 triggerChange(this);
             }
         });
+    }
+
+    resetQuery(query) {
+        query.IsFavorite = null;
+        query.IsHD = null;
+        query.Is3D = null;
+        query.Is4K = null;
+        query.Filters = '';
+        query.SeriesStatus = '';
+        query.OfficialRatings = '';
+        query.Genres = '';
+        query.VideoTypes = '';
+        query.StartIndex = 0;
+        query.HasSpecialFeature = null;
+        query.HasSubtitles = null;
+        query.HasThemeSong = null;
+        query.HasThemeVideo = null;
+        query.HasTrailer = null;
+        query.Tags = null;
+        query.Years = '';
     }
 
     show() {

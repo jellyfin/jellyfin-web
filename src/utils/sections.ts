@@ -4,8 +4,10 @@ import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filte
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
+
+import { CardShape } from 'components/cardbuilder/utils/shape';
+import { ItemAction } from 'constants/itemAction';
 import * as userSettings from 'scripts/settings/userSettings';
-import { CardShape } from 'utils/card';
 import { type Section, SectionType, SectionApiMethod } from 'types/sections';
 
 export const getSuggestionSections = (): Section[] => {
@@ -34,6 +36,32 @@ export const getSuggestionSections = (): Section[] => {
                 preferThumb: true,
                 shape: CardShape.BackdropOverflow,
                 showYear: true
+            }
+        },
+        {
+            name: 'HeaderContinueReading',
+            apiMethod: SectionApiMethod.ResumeItems,
+            itemTypes: 'Book',
+            type: SectionType.ContinueReading,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Book]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.PortraitOverflow
+            }
+        },
+        {
+            name: 'HeaderLatestBooks',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Book',
+            type: SectionType.LatestBooks,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Book]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.PortraitOverflow
             }
         },
         {
@@ -130,7 +158,7 @@ export const getSuggestionSections = (): Section[] => {
                 showUnplayedIndicator: false,
                 shape: CardShape.SquareOverflow,
                 showParentTitle: true,
-                action: 'instantmix',
+                action: ItemAction.InstantMix,
                 overlayMoreButton: true,
                 coverImage: true
             }
@@ -149,7 +177,59 @@ export const getSuggestionSections = (): Section[] => {
                 showUnplayedIndicator: false,
                 shape: CardShape.SquareOverflow,
                 showParentTitle: true,
-                action: 'instantmix',
+                action: ItemAction.InstantMix,
+                overlayMoreButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderLatestMusicVideos',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Video',
+            type: SectionType.LatestMusicVideos,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.MusicVideo]
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
+                overlayPlayButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderRecentlyPlayed',
+            itemTypes: 'Video',
+            type: SectionType.RecentlyPlayedMusicVideos,
+            parametersOptions: {
+                sortBy: [ItemSortBy.DatePlayed],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.MusicVideo],
+                ...parametersOptions
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
+                overlayMoreButton: true,
+                coverImage: true
+            }
+        },
+        {
+            name: 'HeaderFrequentlyPlayed',
+            itemTypes: 'Video',
+            type: SectionType.FrequentlyPlayedMusicVideos,
+            parametersOptions: {
+                sortBy: [ItemSortBy.PlayCount],
+                sortOrder: [SortOrder.Descending],
+                includeItemTypes: [BaseItemKind.MusicVideo],
+                ...parametersOptions
+            },
+            cardOptions: {
+                showUnplayedIndicator: false,
+                shape: CardShape.BackdropOverflow,
+                showParentTitle: true,
                 overlayMoreButton: true,
                 coverImage: true
             }
@@ -196,7 +276,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingEpisodes,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isMovie: false,
                 isSports: false,
@@ -221,7 +300,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingMovies,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isMovie: true
             },
@@ -242,7 +320,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingSports,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isSports: true
             },
@@ -263,7 +340,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingKids,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isKids: true
             },
@@ -284,7 +360,6 @@ export const getProgramSections = (): Section[] => {
             apiMethod: SectionApiMethod.LiveTvPrograms,
             type: SectionType.UpcomingNews,
             parametersOptions: {
-                isAiring: false,
                 hasAired: false,
                 isNews: true
             },

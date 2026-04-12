@@ -1,0 +1,52 @@
+/* Import the base theme with overrides */
+@use '../_base/theme' with (
+    // Theme options
+    $dark: true,
+
+    // Color palette
+    $background-default: #0f3562,
+    $background-defaultImage: linear-gradient(to bottom, #0f3562, #1162a4, #03215f),
+    $background-paper: #0c2450,
+    $text-primary: #eee,
+    $text-secondary: rgba(255, 255, 255, 0.9),
+    $action-focus: #00a4dc,
+    $action-hover: rgba(0, 164, 220, 0.2),
+
+    // Components
+    $appBar-defaultBg: #0c2450,
+    $appBar-transparentBg: rgba(12, 36, 80, 0.86),
+    $alert-infoFilledBg: #fff3a5,
+    $alert-infoFilledColor: #000,
+    $button-inheritContainedBg: #082845,
+    $button-inheritContainedHoverBg: #143451
+);
+
+/* Card background color variants */
+.defaultCardBackground1 {
+    background-color: #d2b019;
+}
+
+.defaultCardBackground2 {
+    background-color: #338abb;
+}
+
+.defaultCardBackground3 {
+    background-color: #6b689d;
+}
+
+.defaultCardBackground4 {
+    background-color: #dd452b;
+}
+
+.defaultCardBackground5 {
+    background-color: #5ccea9;
+}
+
+/* Detail ribbon on item details pages */
+.detailRibbon {
+    background-color: #081b3b;
+
+    .layout-tv & {
+        background: none;
+    }
+}

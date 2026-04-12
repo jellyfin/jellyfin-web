@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import Button from '@mui/material/Button';
+import PlayArrow from '@mui/icons-material/PlayArrow';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
@@ -10,14 +10,22 @@ import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface PlayAllButtonProps {
-    item: ItemDto | undefined;
-    items: ItemDto[];
-    viewType: LibraryTab;
-    hasFilters: boolean;
+    item: ItemDto | undefined
+    items: ItemDto[]
+    viewType: LibraryTab
+    hasFilters: boolean
+    isTextVisible: boolean
     libraryViewSettings: LibraryViewSettings
 }
 
-const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilters, libraryViewSettings }) => {
+const PlayAllButton: FC<PlayAllButtonProps> = ({
+    item,
+    items,
+    viewType,
+    hasFilters,
+    isTextVisible,
+    libraryViewSettings
+}) => {
     const play = useCallback(() => {
         if (item && !hasFilters) {
             playbackManager.play({
@@ -47,13 +55,17 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({ item, items, viewType, hasFilte
     }, [hasFilters, item, items, libraryViewSettings, viewType]);
 
     return (
-        <IconButton
+        <Button
             title={globalize.translate('HeaderPlayAll')}
-            className='paper-icon-button-light btnPlay autoSize'
+            startIcon={isTextVisible ? <PlayArrow /> : undefined}
             onClick={play}
         >
-            <PlayArrowIcon />
-        </IconButton>
+            {isTextVisible ? (
+                globalize.translate('HeaderPlayAll')
+            ) : (
+                <PlayArrow />
+            )}
+        </Button>
     );
 };
 

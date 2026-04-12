@@ -71,39 +71,4 @@ Jellyfin Web is the frontend used for most of the clients available for end user
    npm run build:development
    ```
 
-## Directory Structure
-
-> [!NOTE]
-> We are in the process of refactoring to a [new structure](https://forum.jellyfin.org/t-proposed-update-to-the-structure-of-jellyfin-web) based on [Bulletproof React](https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md) architecture guidelines.
-> Most new code should be organized under the appropriate app directory unless it is common/shared.
-
-```
-.
-└── src
-    ├── apps
-    │   ├── dashboard     # Admin dashboard app layout and routes
-    │   ├── experimental  # New experimental app layout and routes
-    │   └── stable        # Classic (stable) app layout and routes
-    ├── assets            # Static assets
-    ├── components        # Higher order visual components and React components
-    ├── constants         # Common constant values
-    ├── controllers       # Legacy page views and controllers 🧹 ❌
-    ├── elements          # Basic webcomponents and React equivalents 🧹
-    ├── hooks             # Custom React hooks
-    ├── lib               # Reusable libraries
-    │   ├── globalize     # Custom localization library
-    │   ├── legacy        # Polyfills for legacy browsers
-    │   ├── navdrawer     # Navigation drawer library for classic layout
-    │   └── scroller      # Content scrolling library
-    ├── plugins           # Client plugins
-    ├── scripts           # Random assortment of visual components and utilities 🐉 ❌
-    ├── strings           # Translation files (only commit changes to en-us.json)
-    ├── styles            # Common app Sass stylesheets
-    ├── themes            # CSS themes
-    ├── types             # Common TypeScript interfaces/types
-    └── utils             # Utility functions
-```
-
-- ❌ &mdash; Deprecated, do **not** create new files here
-- 🧹 &mdash; Needs cleanup
-- 🐉 &mdash; Serious mess (Here be dragons)
+Review the [Contributing Guide](./CONTRIBUTING.md) for more information on our process and tech stack.

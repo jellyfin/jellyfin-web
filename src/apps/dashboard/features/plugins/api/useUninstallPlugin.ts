@@ -11,7 +11,6 @@ export const useUninstallPlugin = () => {
     const { api } = useApi();
     return useMutation({
         mutationFn: (params: PluginsApiUninstallPluginByVersionRequest) => (
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getPluginsApi(api!)
                 .uninstallPluginByVersion(params)
         ),

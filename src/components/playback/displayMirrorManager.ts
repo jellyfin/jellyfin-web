@@ -1,5 +1,5 @@
-import ServerConnections from 'components/ServerConnections';
 import { getItemQuery } from 'hooks/useItem';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -17,8 +17,8 @@ async function mirrorIfEnabled(serverId: string, itemId: string) {
             try {
                 const item = await queryClient.fetchQuery(getItemQuery(
                     api,
-                    userId,
-                    itemId));
+                    itemId,
+                    userId));
 
                 playbackManager.displayContent({
                     ItemName: item.Name,

@@ -7,8 +7,9 @@ import 'webcomponents.js/webcomponents-lite';
 const EmbySelectPrototype = Object.create(HTMLSelectElement.prototype);
 
 function enableNativeMenu() {
+    // WebView 2 creates dropdown that doesn't work with controller.
     if (browser.edgeUwp || browser.xboxOne) {
-        return true;
+        return false;
     }
 
     // Doesn't seem to work at all
@@ -79,23 +80,10 @@ function onMouseDown(e) {
 }
 
 function onKeyDown(e) {
-    switch (e.keyCode) {
-        case 13:
-            if (!enableNativeMenu()) {
-                e.preventDefault();
-                showActionSheet(this);
-            }
-            return;
-        case 37:
-        case 38:
-        case 39:
-        case 40:
-            if (layoutManager.tv) {
-                e.preventDefault();
-            }
-            return;
-        default:
-            break;
+    // Xbox controller for UWP WebView2 uses keycode 195 to select.
+    if ((e.keyCode === 13 || e.keyCode === 195) && !enableNativeMenu()) {
+        e.preventDefault();
+        showActionSheet(this);
     }
 }
 

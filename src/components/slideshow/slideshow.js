@@ -2,19 +2,25 @@
  * Image viewer component
  * @module components/slideshow/slideshow
  */
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import screenfull from 'screenfull';
+
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { randomInt } from 'utils/number';
+
 import dialogHelper from '../dialogHelper/dialogHelper';
 import inputManager from '../../scripts/inputManager';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
+
 import './style.scss';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
-import ServerConnections from '../ServerConnections';
-import screenfull from 'screenfull';
-import { randomInt } from '../../utils/number.ts';
 
 /**
  * Name of transition event.
@@ -86,14 +92,15 @@ function getBackdropImageUrl(item, options, apiClient) {
  * @returns {string} URL of the item's image.
  */
 function getImgUrl(item, user) {
-    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    const apiClient = ServerConnections.getApiClient(item);
+    const api = toApi(apiClient);
     const imageOptions = {};
 
     if (item.BackdropImageTags?.length) {
         return getBackdropImageUrl(item, imageOptions, apiClient);
     } else {
         if (item.MediaType === 'Photo' && user?.Policy.EnableContentDownloading) {
-            return apiClient.getItemDownloadUrl(item.Id);
+            return getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
         }
         imageOptions.type = 'Primary';
         return getImageUrl(item, imageOptions, apiClient);
@@ -171,10 +178,10 @@ export default function (options) {
             if (actionButtonsOnTop) {
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true);
 
-                if (appHost.supports('filedownload') && slideshowOptions.user?.Policy.EnableContentDownloading) {
+                if (appHost.supports(AppFeature.FileDownload) && slideshowOptions.user?.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
-                if (appHost.supports('sharing')) {
+                if (appHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
                 if (screenfull.isEnabled) {
@@ -189,10 +196,10 @@ export default function (options) {
                 html += '<div class="slideshowBottomBar hide">';
 
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
-                if (appHost.supports('filedownload') && slideshowOptions?.user.Policy.EnableContentDownloading) {
+                if (appHost.supports(AppFeature.FileDownload) && slideshowOptions?.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
                 }
-                if (appHost.supports('sharing')) {
+                if (appHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
                 if (screenfull.isEnabled) {

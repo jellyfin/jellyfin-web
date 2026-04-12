@@ -7,10 +7,10 @@ export class LazyLoader {
     createObserver() {
         const callback = this.options.callback;
 
-        const observer = new IntersectionObserver(
-            (entries) => {
+        const newObserver = new IntersectionObserver(
+            (entries, observer) => {
                 entries.forEach(entry => {
-                    callback(entry);
+                    callback(entry, observer);
                 });
             },
             {
@@ -18,7 +18,7 @@ export class LazyLoader {
                 threshold: 0
             });
 
-        this.observer = observer;
+        this.observer = newObserver;
     }
 
     addElements(elements) {

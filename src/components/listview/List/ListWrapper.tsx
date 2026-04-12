@@ -2,13 +2,16 @@ import classNames from 'classnames';
 import React, { type FC, type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import layoutManager from '../../layoutManager';
+
+import { ItemAction } from 'constants/itemAction';
 import type { DataAttributes } from 'types/dataAttributes';
+
+import layoutManager from '../../layoutManager';
 
 interface ListWrapperProps {
     index: number | undefined;
     title?: string | null;
-    action?: string | null;
+    action?: ItemAction | null;
     dataAttributes?: DataAttributes;
     className?: string;
 }

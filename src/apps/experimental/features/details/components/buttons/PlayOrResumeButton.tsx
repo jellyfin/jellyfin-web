@@ -1,8 +1,10 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useQueryClient } from '@tanstack/react-query';
+
+import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { getChannelQuery } from 'hooks/api/liveTvHooks/useGetChannel';
 import globalize from 'lib/globalize';
@@ -75,7 +77,7 @@ const PlayOrResumeButton: FC<PlayOrResumeButtonProps> = ({
     return (
         <IconButton
             className='button-flat btnPlayOrResume'
-            data-action={isResumable ? 'resume' : 'play'}
+            data-action={isResumable ? ItemAction.Resume : ItemAction.Play}
             title={
                 isResumable ?
                     globalize.translate('ButtonResume') :

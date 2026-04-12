@@ -1,9 +1,11 @@
+import { AppFeature } from 'constants/appFeature';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import focusManager from '../focusManager';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import scrollHelper from '../../scripts/scrollHelper';
 import imageLoader from '../images/imageLoader';
 import browser from '../../scripts/browser';
@@ -13,7 +15,6 @@ import '../formdialog.scss';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-button/paper-icon-button-light';
 import './imageeditor.scss';
-import ServerConnections from '../ServerConnections';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
 import template from './imageeditor.template.html';
@@ -264,6 +265,8 @@ function showImageDownloader(page, imageType) {
         ).then(function () {
             hasChanges = true;
             reload(page);
+        }).catch(function () {
+            // image downloader closed
         });
     });
 }
@@ -337,7 +340,7 @@ function showActionSheet(context, imageCard) {
 
 function initEditor(context, options) {
     const uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
-    const isFileInputSupported = appHost.supports('fileinput');
+    const isFileInputSupported = appHost.supports(AppFeature.FileInput);
     for (let i = 0, length = uploadButtons.length; i < length; i++) {
         if (isFileInputSupported) {
             uploadButtons[i].classList.remove('hide');

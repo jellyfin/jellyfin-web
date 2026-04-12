@@ -4,5 +4,6 @@
 export enum AppType {
     Dashboard = 'dashboard',
     Experimental = 'experimental',
-    Stable = 'stable'
+    Stable = 'stable',
+    Wizard = 'wizard'
 }

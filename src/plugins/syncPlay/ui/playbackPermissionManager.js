@@ -1,4 +1,5 @@
-import { appHost } from '../../../components/apphost';
+import { appHost } from 'components/apphost';
+import { AppFeature } from 'constants/appFeature';
 
 /**
  * Creates an audio element that plays a silent sound.
@@ -35,7 +36,7 @@ class PlaybackPermissionManager {
      * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
      */
     check () {
-        if (appHost.supports('htmlaudioautoplay')) {
+        if (appHost.supports(AppFeature.HtmlAudioAutoplay)) {
             return Promise.resolve(true);
         }
 

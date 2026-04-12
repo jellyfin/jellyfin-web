@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
-import { IconButton } from '@mui/material';
-import QueueIcon from '@mui/icons-material/Queue';
+import Button from '@mui/material/Button';
+import Queue from '@mui/icons-material/Queue';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
@@ -8,11 +8,17 @@ import type { ItemDto } from 'types/base/models/item-dto';
 
 interface QueueButtonProps {
     item: ItemDto | undefined
-    items: ItemDto[];
-    hasFilters: boolean;
+    items: ItemDto[]
+    hasFilters: boolean
+    isTextVisible: boolean
 }
 
-const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters }) => {
+const QueueButton: FC<QueueButtonProps> = ({
+    item,
+    items,
+    hasFilters,
+    isTextVisible
+}) => {
     const queue = useCallback(() => {
         if (item && !hasFilters) {
             playbackManager.queue({
@@ -30,13 +36,17 @@ const QueueButton: FC<QueueButtonProps> = ({ item, items, hasFilters }) => {
     }, [hasFilters, item, items]);
 
     return (
-        <IconButton
+        <Button
             title={globalize.translate('AddToPlayQueue')}
-            className='paper-icon-button-light btnQueue autoSize'
+            startIcon={isTextVisible ? <Queue /> : undefined}
             onClick={queue}
         >
-            <QueueIcon />
-        </IconButton>
+            {isTextVisible ? (
+                globalize.translate('AddToPlayQueue')
+            ) : (
+                <Queue />
+            )}
+        </Button>
     );
 };
 

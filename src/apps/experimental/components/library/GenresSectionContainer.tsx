@@ -5,11 +5,13 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC } from 'react';
+
+import { CardShape } from 'components/cardbuilder/utils/shape';
+import { useApi } from 'hooks/useApi';
 import { useGetItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import SectionContainer from 'components/common/SectionContainer';
-import { CardShape } from 'utils/card';
 import type { ParentId } from 'types/library';
 import type { ItemDto } from 'types/base/models/item-dto';
 
@@ -26,6 +28,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
     itemType,
     genre
 }) => {
+    const { __legacyApiClient__ } = useApi();
     const getParametersOptions = () => {
         return {
             sortBy: [ItemSortBy.Random],
@@ -73,7 +76,8 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             cardLayout: false,
             shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
             showParentTitle: collectionType === CollectionType.Music,
-            showYear: collectionType !== CollectionType.Music
+            showYear: collectionType !== CollectionType.Music,
+            serverId: __legacyApiClient__?.serverId()
         }}
     />;
 };

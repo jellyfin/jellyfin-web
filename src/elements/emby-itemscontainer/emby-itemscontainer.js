@@ -1,17 +1,18 @@
+import 'webcomponents.js/webcomponents-lite';
+import Sortable from 'sortablejs';
+
 import itemShortcuts from '../../components/shortcuts';
 import inputManager from '../../scripts/inputManager';
 import { playbackManager } from '../../components/playback/playbackmanager';
 import imageLoader from '../../components/images/imageLoader';
 import layoutManager from '../../components/layoutManager';
 import browser from '../../scripts/browser';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import serverNotifications from '../../scripts/serverNotifications';
 import Events from '../../utils/events.ts';
-import 'webcomponents.js/webcomponents-lite';
-import ServerConnections from '../../components/ServerConnections';
-import Sortable from 'sortablejs';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 

@@ -1,0 +1,528 @@
+@use './palette' as palette;
+
+// Theme options
+$dark: true !default;
+
+// Color palette
+$common-white: palette.$common-white !default;
+$background-default: palette.$background-default !default;
+// NOTE: This is not part of the MUI theme but is used for the page background image in some themes
+$background-defaultImage: none !default;
+$background-paper: palette.$background-paper !default;
+$primary-main: palette.$primary-main !default;
+$primary-dark: palette.$primary-dark !default;
+$primary-light: palette.$primary-light !default;
+$primary-hover: palette.$primary-hover !default;
+$primary-contrastText: palette.$primary-contrastText !default;
+$error-main: palette.$error-main !default;
+$error-dark: palette.$error-dark !default;
+$error-light: palette.$error-light !default;
+$error-contrastText: palette.$error-contrastText !default;
+$text-primary: palette.$text-primary !default;
+$text-secondary: palette.$text-secondary !default;
+$action-focus: palette.$action-focus !default;
+$action-hover: palette.$action-hover !default;
+$divider: palette.$divider !default;
+
+// Components
+$appBar-defaultBg: #202020 !default;
+// NOTE: This color is not part of the MUI theme
+$appBar-transparentBg: rgba(0, 0, 0, 0.4) !default;
+$filledInput-bg: rgba(255, 255, 255, 0.09) !default;
+$alert-infoFilledBg: #0288d1 !default;
+$alert-infoFilledColor: #fff !default;
+$button-inheritContainedBg: #424242 !default;
+$button-inheritContainedHoverBg: #616161 !default;
+$snackbarContent-bg: #303030 !default;
+$snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
+
+// Assign custom css variables not part of the MUI theme palette
+:root {
+    --jf-palette-background-defaultImage: #{$background-defaultImage};
+    --jf-palette-AppBar-transparentBg: #{$appBar-transparentBg};
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #3b3b3b #202020;
+}
+
+.skinHeader,
+html {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
+.wizardStartForm,
+.ui-corner-all,
+.ui-shadow {
+    background-color: var(--jf-palette-background-default, $background-default);
+    background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.emby-collapsible-button {
+    border-color: var(--jf-palette-divider, $divider);
+}
+
+.skinHeader-withBackground {
+    background-color: var(--jf-palette-AppBar-defaultBg, $appBar-defaultBg);
+}
+
+.skinHeader.semiTransparent {
+    background-color: var(--jf-palette-AppBar-transparentBg, $appBar-transparentBg);
+    backdrop-filter: none !important;
+
+    .layout-tv & {
+        background: none;
+    }
+}
+
+.pageTitleWithDefaultLogo {
+    background-image:
+        if(
+            /* NOTE: Stylelint seems to lack support for if() syntax currently */
+            /* stylelint-disable-next-line @stylistic/function-whitespace-after */
+            sass($dark): url(@jellyfin/ux-web/banner-light.png);
+            /* stylelint-disable-next-line @stylistic/function-whitespace-after */
+            else: url(@jellyfin/ux-web/banner-dark.png);
+        );
+
+    .layout-tv & {
+        background-image: url(@jellyfin/ux-web/icon-transparent.png);
+    }
+}
+
+.backgroundContainer,
+.dialog,
+.nowPlayingPlaylist,
+.nowPlayingContextMenu,
+html {
+    background-color: var(--jf-palette-background-default, $background-default);
+    background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.backgroundContainer.withBackdrop {
+    opacity: 0.86;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: var(--jf-palette-primary-main, $primary-main);
+        background-color: $primary-hover;
+        background-color: rgba(var(--jf-palette-primary-mainChannel) / var(--jf-palette-action-selectedOpacity));
+    }
+}
+
+.paper-icon-button-light:active:not(:disabled) {
+    color: var(--jf-palette-primary-main, $primary-main);
+    background-color: $primary-hover;
+    background-color: rgba(var(--jf-palette-primary-mainChannel) / var(--jf-palette-action-selectedOpacity));
+}
+
+.paper-icon-button-light.show-focus:focus {
+    color: var(--jf-palette-primary-main, $primary-main);
+}
+
+a[data-role=button],
+.fab,
+.raised {
+    background: var(--jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
+    color: var(--jf-palette-text-secondary, $text-secondary);
+
+    &:focus,
+    &:hover {
+        background: var(--jf-palette-Button-inheritContainedHoverBg, $button-inheritContainedHoverBg);
+    }
+}
+
+.button-submit {
+    background: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+
+    &:focus,
+    &:hover {
+        background: var(--jf-palette-primary-dark, $primary-dark);
+    }
+}
+
+.button-delete {
+    background: var(--jf-palette-error-main, $error-main);
+    color: var(--jf-palette-error-contrastText, $error-contrastText);
+}
+
+.checkboxLabel {
+    color: inherit;
+}
+
+.checkboxListLabel,
+.inputLabel,
+.inputLabelUnfocused,
+.paperListLabel,
+.textareaLabelUnfocused {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
+.inputLabelFocused,
+.selectLabelFocused,
+.textareaLabelFocused {
+    color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.checkboxOutline {
+    border-color: currentColor;
+}
+
+.collapseContent,
+.formDialogFooter:not(.formDialogFooter-clear),
+.formDialogHeader:not(.formDialogHeader-clear),
+.paperList,
+.visualCardBox {
+    background-color: var(--jf-palette-background-paper, $background-paper);
+}
+
+.layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: transparent;
+}
+
+.cardText-secondary,
+.fieldDescription,
+.guide-programNameCaret,
+.listItem .secondary,
+.nowPlayingBarSecondaryText,
+.programSecondaryTitle,
+.secondaryText {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
+.actionsheetDivider {
+    background: var(--jf-palette-divider, $divider);
+}
+
+.cardFooter-vibrant .cardText-secondary {
+    color: inherit;
+    opacity: 0.5;
+}
+
+.toast {
+    background: var(--jf-palette-SnackbarContent-bg, $snackbarContent-bg);
+    color: var(--jf-palette-SnackbarContent-color, $snackbarContent-color);
+}
+
+.appfooter,
+.playlistSectionButton {
+    background: var(--jf-palette-background-paper, $background-paper);
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
+.itemSelectionPanel {
+    border-color: var(--jf-palette-primary-main, $primary-main);
+    border-width: 1px;
+    border-style: solid;
+}
+
+.selectionCommandsPanel {
+    background: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
+
+    .paper-icon-button-light:not(:disabled) {
+        color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+
+        &:hover,
+        &:focus {
+            background-color: var(--jf-palette-primary-dark, $primary-dark);
+        }
+    }
+}
+
+.upNextDialog-countdownText {
+    color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.alphaPickerButton {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+    background-color: transparent;
+
+    &-selected {
+        color: var(--jf-palette-text-primary, $text-primary);
+    }
+
+    &-tv:focus {
+        background-color: var(--jf-palette-primary-main, $primary-main);
+        color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+    }
+}
+
+.noBackdropTransparency .detailPageWrapperContainer {
+    background-color: var(--jf-palette-background-default, $background-default);
+    background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
+    background-attachment: fixed;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.listItem-border {
+    border-color: var(--jf-palette-divider, $divider);
+}
+
+.listItem:focus {
+    background-color: var(--jf-palette-action-focus, $action-focus);
+}
+
+.listItem:hover {
+    background-color: var(--jf-palette-action-hover, $action-hover);
+}
+
+.progressring-spiner {
+    border-color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.button-flat:hover {
+    color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.button-link {
+    color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.mediaInfoText {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.emby-input,
+.emby-textarea {
+    background: var(--jf-palette-FilledInput-bg, $filledInput-bg);
+    border-color: var(--jf-palette-FilledInput-bg, $filledInput-bg);
+    color: inherit;
+    border-width: 0.16em;
+    border-style: solid;
+    border-radius: 0.2em;
+
+    &:focus {
+        border-color: var(--jf-palette-primary-main, $primary-main);
+    }
+}
+
+.emby-select-withcolor {
+    // NOTE: This should use `FilledInput-bg` to match other form elements,
+    // but that will break the native dropdown styling
+    background: var(--jf-palette-background-paper, $background-paper);
+    border-color: var(--jf-palette-FilledInput-bg, $filledInput-bg);
+    color: inherit;
+    border-width: 0.16em;
+    border-style: solid;
+    border-radius: 0.2em;
+}
+
+.emby-select-withcolor > option {
+    background: var(--jf-palette-background-paper, $background-paper);
+    color: inherit;
+}
+
+.emby-select-withcolor:focus {
+    border-color: var(--jf-palette-primary-main, $primary-main) !important;
+}
+
+.emby-select-tv-withcolor:focus {
+    background-color: var(--jf-palette-primary-main, $primary-main) !important;
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
+}
+
+.emby-checkbox:checked + span + .checkboxOutline {
+    border-color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.emby-checkbox:focus + span + .checkboxOutline {
+    border-color: var(--jf-palette-common-white, $common-white);
+}
+
+.emby-checkbox:checked + span + .checkboxOutline,
+.itemProgressBarForeground {
+    background-color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
+    border-color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.itemProgressBarForeground-recording {
+    background-color: var(--jf-palette-error-light, $error-light);
+}
+
+.countIndicator,
+.fullSyncIndicator,
+.mediaSourceIndicator,
+.playedIndicator {
+    background: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.mainDrawer,
+.drawer-open {
+    background-color: var(--jf-palette-background-default, $background-default);
+}
+
+.navMenuOption:hover {
+    background: var(--jf-palette-action-hover, $action-hover);
+}
+
+.navMenuOption-selected {
+    background: var(--jf-palette-primary-main, $primary-main) !important;
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.emby-button.show-focus:focus {
+    background: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.emby-tab-button {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
+.emby-tab-button-active {
+    color: var(--jf-palette-text-primary, $text-primary);
+}
+
+.emby-tab-button.show-focus:focus,
+.emby-tab-button:hover {
+    color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.channelPrograms,
+.guide-channelHeaderCell,
+.programCell {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.programCell-sports {
+    background: #3949ab !important;
+}
+
+.programCell-movie {
+    background: #5e35b1 !important;
+}
+
+.programCell-kids {
+    background: #039be5 !important;
+}
+
+.programCell-news {
+    background: #43a047 !important;
+}
+
+.programCell-active {
+    background: #1e1e1e !important;
+}
+
+.guide-channelHeaderCell:focus,
+.programCell:focus {
+    background-color: var(--jf-palette-primary-main, $primary-main) !important;
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
+}
+
+.guide-programTextIcon {
+    color: #1e1e1e;
+    background: #555;
+}
+
+.guide-headerTimeslots {
+    color: inherit;
+}
+
+.guide-date-tab-button.emby-tab-button-active,
+.guide-date-tab-button:focus {
+    color: var(--jf-palette-primary-main, $primary-main);
+}
+
+.guide-date-tab-button.show-focus:focus {
+    background-color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+}
+
+.infoBanner {
+    background: var(--jf-palette-Alert-infoFilledBg, $alert-infoFilledBg);
+    color: var(--jf-palette-Alert-infoFilledColor, $alert-infoFilledColor);
+    padding: 1em;
+    border-radius: 0.25em;
+}
+
+.ratingbutton-icon-withrating,
+.playstatebutton-icon-played {
+    color: var(--jf-palette-error-light, $error-light);
+}
+
+.buttonActive {
+    color: var(--jf-palette-primary-main, $primary-main) !important;
+}
+
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable {
+    border-color: var(--jf-palette-primary-main, $primary-main) !important;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #3b3b3b;
+}
+
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
+    width: 0.4em;
+    height: 0.4em;
+}
+
+::-webkit-scrollbar-thumb:horizontal,
+::-webkit-scrollbar-thumb:vertical {
+    border-radius: 2px;
+    background: center no-repeat #888;
+}
+
+.timeslotHeaders-desktop::-webkit-scrollbar {
+    height: 0.7em;
+}
+
+.metadataSidebarIcon {
+    color: var(--jf-palette-primary-main, $primary-main);
+}
+
+#comicsPlayer,
+#bookPlayer,
+#pdfPlayer {
+    background-color: var(--jf-palette-background-default, $background-default);
+}
+
+#comicsPlayer .swiper-pagination {
+    background-color: var(--jf-palette-background-default, $background-default);
+    color: var(--jf-palette-text-primary, $text-primary);
+}
+
+#bookPlayer .topButtons,
+#comicsPlayer .actionButtonIcon,
+#pdfPlayer .actionButtonIcon {
+    color: var(--jf-palette-text-primary, $text-primary);
+}
+
+#dialogToc {
+    background-color: var(--jf-palette-background-default, $background-default);
+}
+
+#dialogToc .toc li a,
+#dialogToc .bookplayerButtonIcon {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+
+    &:active,
+    &:hover {
+        color: var(--jf-palette-primary-main, $primary-main);
+    }
+}

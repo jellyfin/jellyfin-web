@@ -1,5 +1,6 @@
-import ServerConnections from '../../components/ServerConnections';
-import { PluginType } from '../../types/plugin.ts';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import * as userSettings from '../../scripts/settings/userSettings';
+import { PluginType } from 'types/plugin.ts';
 
 export default class PhotoPlayer {
     constructor() {
@@ -24,7 +25,9 @@ export default class PhotoPlayer {
                         interval: 11000,
                         interactive: true,
                         // playbackManager.shuffle has no options. So treat 'shuffle' as a 'play' action
-                        autoplay: options.autoplay || options.shuffle,
+                        autoplay: {
+                            delay: userSettings.slideshowInterval() * 1000
+                        },
                         user: result
                     });
 

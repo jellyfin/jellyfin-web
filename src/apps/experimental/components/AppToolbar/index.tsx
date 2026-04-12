@@ -1,25 +1,21 @@
+import Stack from '@mui/material/Stack';
 import React, { type FC } from 'react';
 import { useLocation } from 'react-router-dom';
+
+import { appRouter, PUBLIC_PATHS } from 'components/router/appRouter';
 import AppToolbar from 'components/toolbar/AppToolbar';
-import AppTabs from '../tabs/AppTabs';
+import ServerButton from 'components/toolbar/ServerButton';
+
 import RemotePlayButton from './RemotePlayButton';
 import SyncPlayButton from './SyncPlayButton';
 import SearchButton from './SearchButton';
-import { isTabPath } from '../tabs/tabRoutes';
+import UserViewNav from './userViews/UserViewNav';
 
 interface AppToolbarProps {
     isDrawerAvailable: boolean
     isDrawerOpen: boolean
     onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
-
-const PUBLIC_PATHS = [
-    '/addserver.html',
-    '/selectserver.html',
-    '/login.html',
-    '/forgotpassword.html',
-    '/forgotpasswordpin.html'
-];
 
 const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     isDrawerAvailable,
@@ -31,7 +27,10 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     // The video osd does not show the standard toolbar
     if (location.pathname === '/video') return null;
 
-    const isTabsAvailable = isTabPath(location.pathname);
+    // Only show the back button in apps when appropriate
+    const isBackButtonAvailable = window.NativeShell && appRouter.canGoBack(location.pathname);
+
+    // Check if the current path is a public path to hide user content
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
 
     return (
@@ -40,15 +39,27 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
                 <>
                     <SyncPlayButton />
                     <RemotePlayButton />
-                    <SearchButton isTabsAvailable={isTabsAvailable} />
+                    <SearchButton />
                 </>
             )}
             isDrawerAvailable={isDrawerAvailable}
             isDrawerOpen={isDrawerOpen}
             onDrawerButtonClick={onDrawerButtonClick}
+            isBackButtonAvailable={isBackButtonAvailable}
             isUserMenuAvailable={!isPublicPath}
         >
-            {isTabsAvailable && (<AppTabs isDrawerOpen={isDrawerOpen} />)}
+            {!isDrawerAvailable && (
+                <Stack
+                    direction='row'
+                    spacing={0.5}
+                >
+                    <ServerButton />
+
+                    {!isPublicPath && (
+                        <UserViewNav />
+                    )}
+                </Stack>
+            )}
         </AppToolbar>
     );
 };
