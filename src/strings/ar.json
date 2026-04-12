@@ -1894,5 +1894,7 @@
     "Watch": "مشاهد",
     "TrickplayLoadError": "فشل تحميل إعدادات trickplay",
     "LabelExternalServerUri": "URI خارجي",
-    "LabelExternalServerUriHelp": "نشر URI الخادم للولوج الخارجي."
+    "LabelExternalServerUriHelp": "نشر URI الخادم للولوج الخارجي.",
+    "LabelVideoColors": "ألوان الفيديو",
+    "LabelVideoBitDepth": "دقة عمق الفيديو"
 }
