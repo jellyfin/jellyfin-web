@@ -971,7 +971,7 @@
     "OptionDvd": "DVD",
     "OptionBluray": "Blu-ray",
     "OptionAllowSyncTranscoding": "السماح بتنزيل الوسائط ومزامنتها التي تتطلب تحويل الشفرة",
-    "OptionAllowMediaPlaybackTranscodingHelp": "قد يؤدي تقييد الوصول إلى تحويل الشفرة إلى حدوث فشل في التشغيل في العملاء بسبب تنسيقات الوسائط غير المدعومة.",
+    "OptionAllowMediaPlaybackTranscodingHelp": "قد يؤدي تقييد الوصول إلى تحويل الشفرة إلى حدوث فشل في التشغيل مع العملاء بسبب تنسيقات الوسائط غير المدعومة.",
     "OptionAllowContentDownloadHelp": "يمكن للمستخدمين تنزيل الوسائط وتخزينها على أجهزتهم. هذه ليست نفس ميزة المزامنة. تتطلب مكتبات الكتب تمكين هذا لتعمل بشكل صحيح.",
     "OptionAllowContentDownload": "السماح بتنزيل الوسائط",
     "OnWakeFromSleep": "عند الاستيقاظ",
@@ -1903,5 +1903,6 @@
     "LabelProgressAndSpeed": "التقدم / السرعة",
     "LabelTargetCodecs": "المرمزات المستهدفة",
     "LabelVideoAttributes": "صفات الفيديو",
-    "LabelAudioAttributes": "صفات الصوت"
+    "LabelAudioAttributes": "صفات الصوت",
+    "OnFilesystem": "على نظام الملفات: {0}"
 }
