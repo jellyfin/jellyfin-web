@@ -130,7 +130,7 @@ function getQualitySecondaryText(player) {
     return text;
 }
 
-function showAspectRatioMenu(player, btn) {
+function showAspectRatioMenu(player, btn, options) {
     // each has a name and id
     const currentId = playbackManager.getAspectRatio(player);
     const menuItems = playbackManager.getSupportedAspectRatios(player)
@@ -146,6 +146,9 @@ function showAspectRatioMenu(player, btn) {
     }).then(function (id) {
         if (id) {
             playbackManager.setAspectRatio(id, player);
+            if (id === 'custom' && options?.onOption) {
+                options.onOption('aspectratiocustom');
+            }
             return Promise.resolve();
         }
 
@@ -267,7 +270,7 @@ function handleSelectedOption(id, options, player) {
         case 'quality':
             return showQualityMenu(player, options.positionTo);
         case 'aspectratio':
-            return showAspectRatioMenu(player, options.positionTo);
+            return showAspectRatioMenu(player, options.positionTo, options);
         case 'playbackrate':
             return showPlaybackRateMenu(player, options.positionTo);
         case 'repeatmode':
