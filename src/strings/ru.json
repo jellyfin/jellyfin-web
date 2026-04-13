@@ -1894,5 +1894,15 @@
     "Watch": "Отслеживать",
     "TrickplayLoadError": "Не удалось загрузить настройки Trickplay",
     "LabelExternalServerUri": "Внешний URI",
-    "LabelExternalServerUriHelp": "Публикуемый URI сервера для внешнего доступа."
+    "LabelExternalServerUriHelp": "Публикуемый URI сервера для внешнего доступа.",
+    "OnFilesystem": "На файловой системе: {0}",
+    "LabelVideoAttributes": "Атрибуты видео",
+    "LabelVideoColors": "Цвета видео",
+    "LabelVideoBitDepth": "Глубина цвета видео",
+    "LabelAudioAttributes": "Атрибуты аудио",
+    "LabelTargetCodecs": "Целевые кодеки",
+    "LabelProgressAndSpeed": "Прогресс / скорость",
+    "LabelReasons": "Причины",
+    "LabelPlayerSizes": "Размеры плеера",
+    "LabelPlaybackQuality": "Кадров пропущено / повреждено"
 }

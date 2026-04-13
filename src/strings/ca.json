@@ -1894,5 +1894,15 @@
     "LabelInternalServerUri": "URI intern",
     "TrickplayLoadError": "No s'han pogut carregar els paràmetres d'imatges de previsualització",
     "LabelInternalServerUriHelp": "URI publicat per a l'accés intern al servidor.",
-    "StreamingLoadError": "No s'han pogut carregar els paràmetres de la transmissió directa"
+    "StreamingLoadError": "No s'han pogut carregar els paràmetres de la transmissió directa",
+    "OnFilesystem": "Al sistema de fitxers: {0}",
+    "LabelVideoAttributes": "Atributs de vídeo",
+    "LabelVideoColors": "Colors de vídeo",
+    "LabelVideoBitDepth": "Profunditat de bits de vídeo",
+    "LabelAudioAttributes": "Atributs d'àudio",
+    "LabelTargetCodecs": "Còdecs de sortida",
+    "LabelProgressAndSpeed": "Progrés / velocitat",
+    "LabelReasons": "Motius",
+    "LabelPlayerSizes": "Mides del reproductor",
+    "LabelPlaybackQuality": "Fotogrames perduts / corruptes"
 }
