@@ -197,6 +197,12 @@ class HtmlAudioPlayer {
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
                     self._currentSrc = val;
 
+                    // Restore playback rate from session storage
+                    const playbackRateSpeed = sessionStorage.getItem('playbackRateSpeed');
+                    if (playbackRateSpeed !== null) {
+                        self.setPlaybackRate(playbackRateSpeed);
+                    }
+
                     return htmlMediaHelper.playWithPromise(elem, onError);
                 });
             });
@@ -515,6 +521,34 @@ class HtmlAudioPlayer {
             return mediaElement.playbackRate;
         }
         return null;
+    }
+
+    getSupportedPlaybackRates() {
+        return [{
+            name: '0.5x',
+            id: 0.5
+        }, {
+            name: '0.75x',
+            id: 0.75
+        }, {
+            name: '1x',
+            id: 1.0
+        }, {
+            name: '1.25x',
+            id: 1.25
+        }, {
+            name: '1.5x',
+            id: 1.5
+        }, {
+            name: '1.75x',
+            id: 1.75
+        }, {
+            name: '2x',
+            id: 2.0
+        }, {
+            name: '2.5x',
+            id: 2.5
+        }];
     }
 
     setVolume(val) {
