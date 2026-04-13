@@ -342,9 +342,6 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
 export function onEndedInternal(instance, elem, onErrorFn) {
     elem.removeEventListener('error', onErrorFn);
 
-    resetSrc(elem);
-
-    destroyHlsPlayer(instance);
     destroyFlvPlayer(instance);
     destroyCastPlayer(instance);
 
